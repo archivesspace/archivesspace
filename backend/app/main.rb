@@ -1,11 +1,7 @@
-require_relative 'bootstrap'
+require_relative 'lib/bootstrap'
 
 require 'sinatra/base'
 require 'json'
-
-
-class MissingParams < Exception
-end
 
 
 class ArchivesSpaceService < Sinatra::Base
@@ -25,7 +21,6 @@ class ArchivesSpaceService < Sinatra::Base
 
   # Load all controllers
   Dir.glob(File.join(File.dirname($0), "controllers", "*.rb")).each do |controller|
-    puts "Loading #{File.absolute_path(controller)}"
     load File.absolute_path(controller)
   end
 
@@ -40,9 +35,14 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  error MissingParams do
-    [400, {}, [request.env['sinatra.error'].message]]
+  error MissingParamsException do
+    json_response({:error => request.env['sinatra.error']}, 400)
   end
+
+  error ConflictException do
+    json_response({:error => request.env['sinatra.error']}, 409)
+  end
+
 
 
   helpers do
@@ -63,13 +63,13 @@ class ArchivesSpaceService < Sinatra::Base
           s += "  * #{param} -- #{required_params[param][:doc]}\n"
         end
 
-        raise MissingParams.new(s)
+        raise MissingParamsException.new(s)
       end
     end
 
 
-    def json_response(obj)
-      [200, {"Content-Type" => "application/json"}, JSON(obj)]
+    def json_response(obj, status = 200)
+      [status, {"Content-Type" => "application/json"}, JSON(obj)]
     end
   end
 
