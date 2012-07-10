@@ -27,7 +27,7 @@ class ArchivesSpaceService < Sinatra::Base
     ensure_params ["username" => {:doc => "Username for new account"},
                    "password" => {:doc => "Password for new account"}]
 
-    settings.db_auth.add_user(params[:username], params[:password])
+    settings.db_auth.set_password(params[:username], params[:password])
   end
 
 

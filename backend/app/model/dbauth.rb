@@ -4,18 +4,24 @@ class DBAuth
 
   include BCrypt
 
-  def add_user(username, password)
+  def set_password(username, password)
     pwhash = Password.create(password)
 
     DB.open do |db|
-      db[:auth_db].insert(:username => username,
-                          :pwhash => pwhash,
-                          :create_time => Time.now,
-                          :last_modified => Time.now)
-    end
-  rescue Sequel::DatabaseError => ex
-    if DB.is_integrity_violation(ex)
-      raise ConflictException.new("User '#{username}' already exists.")
+      begin
+        db[:auth_db].insert(:username => username,
+                            :pwhash => pwhash,
+                            :create_time => Time.now,
+                            :last_modified => Time.now)
+      rescue Sequel::DatabaseError => ex
+        if DB.is_integrity_violation(ex)
+          db[:auth_db].
+            filter(:username => username).
+            update(:username => username,
+                   :pwhash => pwhash,
+                   :last_modified => Time.now)
+        end
+      end
     end
   end
 
