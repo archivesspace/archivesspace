@@ -68,6 +68,12 @@ class ArchivesSpaceService < Sinatra::Base
     end
 
 
+    # Redispatch the current request to a different route handler.
+    def redirect_internal(url)
+      call! env.merge("PATH_INFO" => url)
+    end
+
+
     def json_response(obj, status = 200)
       [status, {"Content-Type" => "application/json"}, JSON(obj)]
     end
