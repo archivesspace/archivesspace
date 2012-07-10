@@ -2,8 +2,11 @@ GEM
   remote: http://rubygems.org/
   specs:
     backports (2.6.1)
+    bcrypt-ruby (3.0.1-java)
+    eventmachine (0.12.10)
     eventmachine (0.12.10-java)
     jdbc-mysql (5.1.13)
+    json (1.5.0)
     json (1.5.0-java)
     json-jruby (1.5.0-java)
       json (= 1.5.0)
@@ -35,6 +38,7 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  bcrypt-ruby (= 3.0.1)
   jdbc-mysql (= 5.1.13)
   json-jruby (= 1.5.0)
   rack-session-sequel (= 0.0.1)
