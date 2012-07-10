@@ -1,2 +1,4 @@
-lib
 .bootstrap
+/lib
+/build/*.jar
+/build/gems
