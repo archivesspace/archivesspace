@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<project name="ArchivesSpace" default="help">
+
+  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.6.7.2/jruby-complete-1.6.7.2.jar" />
+  <property name="jruby_file" value="jruby-complete-1.6.7.2.jar" />
+  <property name="gem_home" location="gems" />
+
+  <target name="help" description="This help">
+    <java classname="org.apache.tools.ant.Main">
+      <arg value="-projecthelp" />
+      <arg value="-buildfile" />
+      <arg value="${ant.file}" />
+    </java>
+  </target>
+
+  <target name="bootstrap" description="Download JRuby and install required gems">
+    <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="--1.9 -S gem install bundler" />
+    </java>
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="--1.9 gems/bin/bundle" />
+    </java>
+  </target>
+
+
+  <target name="devserver" description="Start an instance of the ArchivesSpace development server">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+          dir="..">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="--1.9 script/rails server" />
+    </java>
+  </target>
+
+</project>

@@ -1,6 +1,6 @@
 # Getting started
 
-If using RVM (https://rvm.io//)
+## If using RVM (https://rvm.io//)
   
   * Install jruby (~> 1.6.7)
          $ rvm install jruby-1.6.7
@@ -22,3 +22,15 @@ If using RVM (https://rvm.io//)
   * Run the Rails app
   
          $ rails server
+
+
+## Without RVM
+
+  * Grab jruby and the gem dependencies:
+
+         $ build/run bootstrap
+
+  * Run the Rails app:
+
+         $ build/run devserver
+
