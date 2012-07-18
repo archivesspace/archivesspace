@@ -1,0 +1,68 @@
+<div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="#">ArchiveSpace</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><%= link_to raw('<span class="icon-home icon-white"></span>'), :controller=>:welcome, :action=>:index %></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Digital Objects</a></li>
+                <li><a href="#">Names</a></li>
+                <li><a href="#">Subjects</a></li>
+                <li><a href="#">Accessions</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Accession</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Resource</a></li>
+                <li><a href="#">Digital Object</a></li>
+                <li><a href="#">Name</a></li>
+                <li><a href="#">Subject</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-search pull-left" action="">
+             <div class="input-append">
+               <input type="text" class="search-query span2" placeholder="Search">
+               <div class="btn-group">
+                <a class="btn btn-inverse" href="#"><span class=" icon-search icon-white"></span></a>
+                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                   <li><a href="#">All Records</a></li>
+                   <li class="divider"></li>
+                   <li><a href="#">Resources</a></li>
+                   <li><a href="#">Digital Objects</a></li>
+                   <li><a href="#">Names</a></li>
+                   <li><a href="#">Subjects</a></li>
+                   <li><a href="#">Accessions</a></li>
+                </ul>
+              </div>
+            </div>
+          </form>
+          <ul class="nav pull-right">
+              <li class="drop down">
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In</a>
+                <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                   <form class="login" action="TODO" method="post" accept-charset="UTF-8">
+                     <input id="user_username" type="text" name="user[username]" size="30" placeholder="Username" />
+                     <input id="user_password" type="password" name="user[password]" size="30" placeholder="Password" />
+                     <input class="btn btn-primary" type="submit" name="commit" value="Sign In" />
+                   </form>
+                </div>
+              </li>
+            </ul>
+        </div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+  </div>
