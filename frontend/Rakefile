@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-ArchiveSpace::Application.load_tasks
+ArchivesSpace::Application.load_tasks

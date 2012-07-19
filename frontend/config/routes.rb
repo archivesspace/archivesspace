@@ -1,4 +1,4 @@
-ArchiveSpace::Application.routes.draw do
+ArchivesSpace::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
