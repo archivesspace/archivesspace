@@ -21,7 +21,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   # Load all controllers
-  Dir.glob(File.join(File.dirname($0), "controllers", "*.rb")).each do |controller|
+  Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).each do |controller|
     load File.absolute_path(controller)
   end
 
