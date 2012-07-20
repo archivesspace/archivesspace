@@ -2,20 +2,26 @@ require 'spec_helper'
 
 describe 'Login controller' do
 
+  it "rejects an unknown username" do
+    post '/auth/user/notauserXXXXXX/login', params = { "password" => "wrongpwXXXXX"}
+    last_response.should_not be_ok
+    last_response.body.should match /"error"/
+  end
+
   it "expects a password" do
-    post '/auth/user/admin/login', params = {}
+    post '/auth/user/test1/login', params = {}
     last_response.should_not be_ok
     last_response.body.should match /"error"/
   end
 
-  it "reject a bad password" do
-    post '/auth/user/admin/login', params = { "password" => "wrongpwXXXXX"}
+  it "rejects a bad password" do
+    post '/auth/user/test1/login', params = { "password" => "wrongpwXXXXX"}
     last_response.should_not be_ok
     last_response.body.should match /"error"/
   end
 
-  it "return a session id if login is successful" do
-    post '/auth/user/admin/login', params = { "password" => "admin123"}
+  it "returns a session id if login is successful" do
+    post '/auth/user/test1/login', params = { "password" => "test1_123"}
     last_response.should be_ok
     last_response.body.should match /\{"session":".+"\}/
   end
