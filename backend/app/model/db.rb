@@ -1,10 +1,12 @@
 class DB
 
   def self.connect
-    @pool = Sequel.connect(AppConfig::DB_URL,
-                           :max_connections => AppConfig::DB_MAX_CONNECTIONS,
-                           # :loggers => [Logger.new($stderr)]
-                           )
+    if not @pool
+      @pool = Sequel.connect(AppConfig::DB_URL,
+                             :max_connections => AppConfig::DB_MAX_CONNECTIONS,
+                             # :loggers => [Logger.new($stderr)]
+                             )
+    end
   end
 
 

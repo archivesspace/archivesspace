@@ -1,5 +1,19 @@
-require File.join(File.dirname(__FILE__), '..', 'app', 'main.rb')
+require_relative File.join("..", "app", "model", "db")
 
+# Use an in-memory Derby DB for the test suite
+class DB
+  def self.connect
+    if not @pool
+      @pool = Sequel.connect("jdbc:derby:memory:fakedb;create=true",
+                             :max_connections => 10)
+
+      DBMigrator.setup_database(@pool)
+    end
+  end
+end
+
+
+require_relative File.join("..", "app", "main")
 require 'sinatra'
 require 'rack/test'
 
@@ -13,13 +27,11 @@ def app
   ArchivesSpaceService
 end
 
+
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-end
 
-DB.connect
-user_manager = UserManager.new
-unless (user_manager.get_user("test1"))
+  user_manager = UserManager.new
   puts "creating test1 user ..."
   user_manager.create_user("test1", "Tester", "1", "local")
   db_auth = DBAuth.new
