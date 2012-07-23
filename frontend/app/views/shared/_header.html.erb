@@ -49,19 +49,24 @@
                 </ul>
               </div>
             </div>
-          </form>
+          </form>         
           <ul class="nav pull-right">
-              <li class="drop down">
-                <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In</a>
-                <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-                   <form class="login" action="TODO" method="post" accept-charset="UTF-8">
-                     <input id="user_username" type="text" name="user[username]" size="30" placeholder="Username" />
-                     <input id="user_password" type="password" name="user[password]" size="30" placeholder="Password" />
-                     <input class="btn btn-primary" type="submit" name="commit" value="Sign In" />
-                   </form>
-                </div>
-              </li>
-            </ul>
+           <li class="repository-selector">
+              <div class="input-prepend input-append">
+                 <a class="btn btn-inverse" href="#"><span class=" icon-hdd icon-white"></span></a><span class="repository-label">Repository XYZ</span>
+              </div>
+           </li>
+           <li class="drop down">
+             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In</a>
+             <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                <form class="login" action="TODO" method="post" accept-charset="UTF-8">
+                  <input id="user_username" type="text" name="user[username]" size="30" placeholder="Username" />
+                  <input id="user_password" type="password" name="user[password]" size="30" placeholder="Password" />
+                  <input class="btn btn-primary" type="submit" name="commit" value="Sign In" />
+                </form>
+             </div>
+           </li>
+         </ul>
         </div><!-- /.nav-collapse -->
       </div>
     </div><!-- /navbar-inner -->
