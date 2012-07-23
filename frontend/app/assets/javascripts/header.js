@@ -27,8 +27,9 @@ $(function() {
       success: function(response, status, xhr) {
          if (response.hasOwnProperty("error")) {
             handleLoginError();
+         } else {
+             handleLoginSuccess();
          }
-         handleLoginSuccess();
       }, 
       error: function(obj, errorText, errorDesc) {         
          handleLoginError();
