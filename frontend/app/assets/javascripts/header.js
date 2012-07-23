@@ -39,11 +39,11 @@ $(function() {
    });
    
    // Repository Action Handling
-   $('.navbar .repository-container').on('click', '.select-repo', function(e) {
+   $('.navbar').on('click', '.select-repo', function(e) {
       e.preventDefault();      
       var repo_id = $(this).text();
-      $.post($(this).attr("href"), {"repo_id": repo_id}, function() {
-         document.location.reload(true);
+      $.post($(this).attr("href"), {"repo_id": repo_id}, function(html) {
+         $('.navbar .repository-container').replaceWith(html);
       });
    });
 })

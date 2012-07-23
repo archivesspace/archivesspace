@@ -29,7 +29,7 @@ $(function() {
       });
    }
    
-   $("[data-toggle=modal-ajax]").on("click", function(e) {
+   $("body").on("click", "[data-toggle=modal-ajax]", function(e) {
       e.preventDefault();
       openAjaxModal($(this).attr("href"));     
    });

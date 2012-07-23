@@ -10,6 +10,6 @@ class RepositoryController < ApplicationController
   
   def select
     session[:repo] = params[:repo_id]
-    render :text=>"Repository Selected"
+    render :partial=>'shared/header_repository'
   end
 end
