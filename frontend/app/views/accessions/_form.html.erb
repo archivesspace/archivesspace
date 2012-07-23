@@ -1,0 +1,76 @@
+<%= form_for :accession, :html=>{:class=>'form-horizontal'} do |f| %>
+   <fieldset>
+      <div class="control-group">
+         <%= label_tag :title, "Title", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_field_tag :title %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :publish, "Publish?", :class=>"control-label" %>
+        <div class="controls">
+           <label class="checkbox"><%= check_box_tag :publish %> Check this if you wish to publish this accession to the public.</label>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :restrictions, "Restrictions Apply?", :class=>"control-label" %>
+        <div class="controls">
+           <%= check_box_tag :restrictions %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :accession_date, "Accession Date", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_field_tag :accession_date %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :type, "Type of Resource", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_field_tag :type %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :retention_schedule_rule, "Retentions Schedule/Rule", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_field_tag :retention_schedule_rule %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :content_description, "Content Description", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_area_tag :content_description %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :condition_description, "Content Description", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_area_tag :condition_description %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :prevenance, "Prevenance/Custodial History", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_area_tag :prevenance %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :inventory, "Inventory Description", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_area_tag :inventory %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :disposition_note, "Disposition Note", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_area_tag :disposition_note %>
+        </div>
+      </div>
+      <div class="control-group">
+         <%= label_tag :repository_processing_note, "Repository Processing Note", :class=>"control-label" %>
+        <div class="controls">
+           <%= text_area_tag :repository_processing_note %>
+        </div>
+      </div>
+    </fieldset>
+<% end %>
