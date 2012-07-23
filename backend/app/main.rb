@@ -20,19 +20,27 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  # Load all controllers
-  Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).each do |controller|
-    load File.absolute_path(controller)
-  end
-
-
   configure do
+
+    require_relative "model/db"
+    DB.connect
+
+    # Load all models
+    Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).each do |model|
+      basename = File.basename(model, ".rb")
+      require_relative File.join("model", basename)
+    end
+
+    # Load all controllers
+    Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).each do |controller|
+      load File.absolute_path(controller)
+    end
+
+
     set :raise_errors, Proc.new { false }
     set :show_exceptions, false
 
     set :logging, true
-
-    DB.connect
   end
 
 

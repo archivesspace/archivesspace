@@ -22,6 +22,7 @@ class DB
         else
           return yield @pool
         end
+
       rescue Sequel::DatabaseDisconnectError => e
         # MySQL might have been restarted.
         last_err = e
@@ -30,10 +31,12 @@ class DB
       end
     end
 
-    Log.error("Failed to connect to the database")
-    Log.exception(last_err)
+    if last_err
+      Log.error("Failed to connect to the database")
+      Log.exception(last_err)
 
-    raise "Failed to connect to the database: #{last_err}"
+      raise "Failed to connect to the database: #{last_err}"
+    end
   end
 
 

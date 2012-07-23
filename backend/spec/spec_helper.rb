@@ -1,11 +1,15 @@
 require_relative File.join("..", "app", "model", "db")
 
+
 # Use an in-memory Derby DB for the test suite
 class DB
   def self.connect
     if not @pool
+      require_relative File.join("..", "app", "model", "db_migrator")
       @pool = Sequel.connect("jdbc:derby:memory:fakedb;create=true",
-                             :max_connections => 10)
+                             :max_connections => 10,
+                             # :loggers => [Logger.new($stderr)]
+                             )
 
       DBMigrator.setup_database(@pool)
     end
@@ -36,4 +40,13 @@ RSpec.configure do |config|
   user_manager.create_user("test1", "Tester", "1", "local")
   db_auth = DBAuth.new
   db_auth.set_password("test1", "test1_123")
+
+
+  # Roll back the database after each test
+  config.around(:each) do |example|
+    DB.open(true) do
+      example.run
+      raise Sequel::Rollback
+    end
+  end
 end

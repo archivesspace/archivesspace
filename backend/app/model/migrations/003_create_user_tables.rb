@@ -45,20 +45,6 @@ Sequel.migration do
       add_foreign_key([:username], :users, :key => :username)
       add_foreign_key([:group_id], :groups, :key => :group_id)
     end
-
-
-    DB.connect
-    puts "Creating default admin account (username: 'admin'; password: 'admin123')"
-    user_manager = UserManager.new
-    DB.open do |db|
-      user_manager.create_user("admin", "Admin", "User", "local")
-      user_manager.create_group("admins", "Administrators")
-      user_manager.assign_user_to_group("admin", "admins")
-
-      db_auth = DBAuth.new
-      db_auth.set_password("admin", "admin123")
-    end
-
   end
 
   down do
