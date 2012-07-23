@@ -6,6 +6,8 @@ $(function() {
       }, 0);
    });
    
+   
+   // Login Form Handling
    var handleLoginError = function() {
       $('form.login .control-group').addClass("error");
       $("#login").removeAttr("disabled");
@@ -34,5 +36,14 @@ $(function() {
       error: function(obj, errorText, errorDesc) {         
          handleLoginError();
       }
-   }); 
+   });
+   
+   // Repository Action Handling
+   $('.navbar .repository-container').on('click', '.select-repo', function(e) {
+      e.preventDefault();      
+      var repo_id = $(this).text();
+      $.post($(this).attr("href"), {"repo_id": repo_id}, function() {
+         document.location.reload(true);
+      });
+   });
 })

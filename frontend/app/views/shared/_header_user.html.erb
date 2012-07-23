@@ -1,0 +1,25 @@
+<% if session[:user] %>
+  <li class="dropdown user-container">
+     <div class="input-append">
+        <span class="user-label"><span class="icon-user icon-white"></span> <%= session[:user] %></span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Logout", :controller=>"session",:action=>"logout"%></li>
+          </ul>
+     </div>
+  </li>
+<% else %>
+  <li class="dropdown">
+    <a class="session-actions dropdown-toggle" href="#" data-toggle="dropdown">Sign In</a>
+    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+       <%= form_tag({:controller=>"session",:action=>"login"}, :method=>"post", :class=>"login") do %>
+         <div class="control-group">
+            <p class="help-inline login-message">Login attempt failed</p>
+            <p class="alert alert-success">Login Successful. Redirecting...</p>
+            <input id="user_username" type="text" name="username" size="30" placeholder="Username" />
+            <input id="user_password" type="password" name="password" size="30" placeholder="Password" />
+         </div>
+         <input class="btn btn-primary" type="submit" name="commit" value="Sign In" id="login" />
+       <% end %>
+    </div>
+  </li>
+<% end %>

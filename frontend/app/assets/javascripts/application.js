@@ -14,3 +14,23 @@
 //= require jquery_ujs
 //= require_tree .
 //= require twitter/bootstrap
+
+// initialise ajax modal
+$(function() {
+   var openAjaxModal = function(href) {
+      $("body").append('<div class="modal hide" id="tempAjaxModal"></div>');
+      $(tempAjaxModal).load(href, function() {
+         $(tempAjaxModal).on("shown",function() {
+            $(this).find("input[type!=hidden]:first").focus();
+         }).on("hidden", function() {
+            $(this).remove();
+         }).modal('show');
+         
+      });
+   }
+   
+   $("[data-toggle=modal-ajax]").on("click", function(e) {
+      e.preventDefault();
+      openAjaxModal($(this).attr("href"));     
+   });
+});

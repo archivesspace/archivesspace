@@ -13,3 +13,9 @@
  *= require twitter/bootstrap
  *= require twitter/bootstrap-responsive
  */
+
+
+/* Form overrides */
+.modal > form {
+   margin: 0;
+}
