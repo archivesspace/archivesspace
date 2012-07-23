@@ -1,15 +1,5 @@
 class Repository < Sequel::Model(:repositories)
-
-  def before_create
-    self.create_time = Time.now
-    self.last_modified = Time.now
-  end
-
-
-  def before_update
-    self.last_modified = Time.now
-  end
-
+  include ASModel
 
   def create_accession(opts)
     fields = opts.merge(:repo_id => self.repo_id)

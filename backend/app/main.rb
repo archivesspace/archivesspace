@@ -26,6 +26,7 @@ class ArchivesSpaceService < Sinatra::Base
     DB.connect
 
     # Load all models
+    require_relative "model/ASModel"
     Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).each do |model|
       basename = File.basename(model, ".rb")
       require_relative File.join("model", basename)
