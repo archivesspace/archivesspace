@@ -1,4 +1,4 @@
-require "bootstrap"
+require_relative File.join("..", "..", "app", "main")
 
 Sequel.connect(AppConfig::DB_URL,
                :max_connections => AppConfig::DB_MAX_CONNECTIONS) do |db|

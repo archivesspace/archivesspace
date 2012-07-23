@@ -37,7 +37,6 @@ class ArchivesSpaceService < Sinatra::Base
       load File.absolute_path(controller)
     end
 
-
     set :raise_errors, Proc.new { false }
     set :show_exceptions, false
 
@@ -54,8 +53,28 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  class DBWrappingMiddleware
+    def initialize(app)
+      @app = app
+    end
+
+    # Wrap every call in our DB connection management code.  This should
+    # transparently deal with database restarts, and gives us a spot to hang any
+    # DB connection logic.
+    #
+    def call(env)
+      DB.open do
+        @app.call(env)
+      end
+    end
+  end
+
+
+  use DBWrappingMiddleware
+
 
   helpers do
+
     def ensure_params(required_params)
       required_params = required_params[0]
 
@@ -87,6 +106,7 @@ class ArchivesSpaceService < Sinatra::Base
     def json_response(obj, status = 200)
       [status, {"Content-Type" => "application/json"}, JSON(obj)]
     end
+
   end
 
 
