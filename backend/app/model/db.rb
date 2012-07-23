@@ -19,6 +19,10 @@ class DB
           @pool.transaction do
             return yield @pool
           end
+
+          # Sometimes we'll make it to here.  That means we threw a
+          # Sequel::Rollback which has been quietly caught.
+          return
         else
           return yield @pool
         end
