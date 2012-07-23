@@ -20,6 +20,7 @@ ArchivesSpace::Application.routes.draw do
   end
   match 'repository/select/:id' => 'repository#select', :via => [:post]
   
+  resources :accessions
   # Sample resource route with options:
   #   resources :products do
   #     member do
