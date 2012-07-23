@@ -5,7 +5,7 @@
 @import "twitter/bootstrap/mixins";
 
 // support input appended to navbar search field
-.navbar-search .input-append, 
+.navbar .input-append, 
 .navbar .input-prepend {
    margin-bottom: 0;
 }
@@ -14,15 +14,22 @@
    float: left;
 }
 
-.navbar-search .input-append .btn-group {
+.navbar .input-append .btn-group {
    display: inline-block;
    padding: 0;
 }
 
-.navbar-search .input-append .btn-group .btn {
-   margin-left: -1px;
-   border-top-left-radius: 0;
-   border-bottom-left-radius: 0;
+.navbar .input-append .btn {
+   margin-left: -1px !important;
+   .border-radius(0px) !important;
+}
+
+.navbar .input-append .btn.last {
+   .border-radius(0 3px 3px 0) !important;
+}
+
+.navbar .input-prepend .btn {
+   margin-right: -1px;
 }
 
 // Login Form
@@ -31,17 +38,41 @@
    margin-left: 0;
 }
 
-// repository selector
+.login-message {
+   display: none !important;
+}
+
+.error .login-message {
+   display: block !important;
+}
+
+.login .alert-success {
+   display: none;
+}
+
+// user logged in, repository container
+.user-container,
+.repository-container {
+   margin-left: 10px;
+}
+.user-label > span,
+.repository > span {
+   margin-right: 5px;
+}
+.user-container .dropdown-menu {
+   min-width: 80px;
+}
+.user-label,
 .repository-label {
- .navbarVerticalAlign(22);
- padding: 0 10px;
- display: inline-block;
- line-height: 25px;
- vertical-align: middle;
- float: none !important;
- margin: 0 !important;
- .box-shadow(~"inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15)");
- border-top: 1px solid @navbarSearchBorder;
- border-bottom: 1px solid @navbarSearchBorder;
- .border-radius(0 4px 4px 0);
+   .navbarVerticalAlign(22);
+   padding: 0 10px 0 5px;
+   line-height: 25px;
+   display: inline-block;
+   vertical-align: middle;
+   margin: 0 !important;
+   .box-shadow(~"inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15)");
+   border-top: 1px solid @navbarSearchBorder;
+   border-bottom: 1px solid @navbarSearchBorder;
+   .border-radius(4px 0 0 4px);
+   font-size: 12px;
 }

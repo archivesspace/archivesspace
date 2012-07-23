@@ -20,6 +20,7 @@
                 <li><a href="#">Accessions</a></li>
               </ul>
             </li>
+            <% if session[:user] %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -31,13 +32,14 @@
                 <li><a href="#">Subject</a></li>
               </ul>
             </li>
+          <% end %>
           </ul>
           <form class="navbar-search pull-left" action="">
              <div class="input-append">
                <input type="text" class="search-query span2" placeholder="Search">
                <div class="btn-group">
                 <a class="btn btn-inverse" href="#"><span class=" icon-search icon-white"></span></a>
-                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                <a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
                    <li><a href="#">All Records</a></li>
                    <li class="divider"></li>
@@ -51,21 +53,39 @@
             </div>
           </form>         
           <ul class="nav pull-right">
-           <li class="repository-selector">
-              <div class="input-prepend input-append">
-                 <a class="btn btn-inverse" href="#"><span class=" icon-hdd icon-white"></span></a><span class="repository-label">Repository XYZ</span>
+           <li class="dropdown repository-container">
+              <div class="input-append">
+                 <span class="user-label"><span class=" icon-hdd icon-white"></span> Repository XYZ</span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                   <ul class="dropdown-menu">
+                     <li><a href="#">Edit</a></li>
+                   </ul>                 
               </div>
            </li>
-           <li class="drop down">
-             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In</a>
-             <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-                <form class="login" action="TODO" method="post" accept-charset="UTF-8">
-                  <input id="user_username" type="text" name="user[username]" size="30" placeholder="Username" />
-                  <input id="user_password" type="password" name="user[password]" size="30" placeholder="Password" />
-                  <input class="btn btn-primary" type="submit" name="commit" value="Sign In" />
-                </form>
-             </div>
-           </li>
+           <% if session[:user] %>
+              <li class="dropdown user-container">
+                 <div class="input-append">
+                    <span class="user-label"><span class="icon-user icon-white"></span> <%= session[:user] %></span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><%= link_to "Logout", :controller=>"session",:action=>"logout"%></li>
+                      </ul>
+                 </div>
+              </li>
+           <% else %>
+              <li class="dropdown">
+                <a class="session-actions dropdown-toggle" href="#" data-toggle="dropdown">Sign In</a>
+                <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                   <%= form_tag({:controller=>"session",:action=>"login"}, :method=>"post", :class=>"login") do %>
+                     <div class="control-group">
+                        <p class="help-inline login-message">Login attempt failed</p>
+                        <p class="alert alert-success">Login Successful. Redirecting...</p>
+                        <input id="user_username" type="text" name="username" size="30" placeholder="Username" />
+                        <input id="user_password" type="password" name="password" size="30" placeholder="Password" />
+                     </div>
+                     <input class="btn btn-primary" type="submit" name="commit" value="Sign In" id="login" />
+                   <% end %>
+                </div>
+              </li>
+           <% end %>
          </ul>
         </div><!-- /.nav-collapse -->
       </div>
