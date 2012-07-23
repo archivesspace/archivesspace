@@ -17,7 +17,7 @@ describe 'Session model' do
   it "handles multiple sessions" do
     session_data = {}
 
-    100.times do |i|
+    10.times do |i|
       s = Session.new
       s["data"] = "Session data #{i}"
       session_data[s.id] = "Session data #{i}"
