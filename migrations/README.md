@@ -3,13 +3,13 @@
 ## If using RVM (https://rvm.io//)
   
   * Install ruby (~> 1.9.3) 
+
          $ rvm install 1.9.3
 				 $ rvm use 1.9.3
 
   * Create a new gemset
 
          $ rvm gemset create archivesspace-migrations
-         
          $ rvm gemset use archivesspace-migrations
 
   * Install nokogiri, json
