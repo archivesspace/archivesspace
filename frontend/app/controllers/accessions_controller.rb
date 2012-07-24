@@ -17,10 +17,10 @@ class AccessionsController < ApplicationController
   end
 
   def create
-    @accession = Accession.new(params['accession'])
+    @accession = Accession.from_hash(params['accession'])
 
     if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id
+      redirect_to :controller=>:accessions, :action=>:show
     else
       render action: "new"
     end
@@ -30,7 +30,7 @@ class AccessionsController < ApplicationController
     @accession = Accession.find(params[:id], session[:repo])
 
     if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id
+      redirect_to :controller=>:accessions, :action=>:show
     else
       render action: "edit"
     end

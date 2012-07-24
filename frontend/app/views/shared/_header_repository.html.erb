@@ -7,7 +7,7 @@
             <%#><li><a href="#">Edit</a></li>
             <li class="divider"></li>%>
          <% end %>
-         <% if repos.length > 1 %>
+         <% if repos.length >= 1 %>
             <% for repo in repos %>
                <% if session[:repo] === repo["id"] %>
                   <li><span class="icon-ok-circle"></span> <%= repo["id"] %></li>
