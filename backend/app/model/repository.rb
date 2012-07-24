@@ -10,7 +10,7 @@ class Repository < Sequel::Model(:repositories)
 
 
   def find_accession(id_parts)
-    query = Hash[*[:accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3].zip(id_parts).flatten]
+    query = Hash[*[:accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3].zip(id_parts + [''] * 3).flatten]
     query = query.merge({:repo_id => self.repo_id})
 
     Accession[query]

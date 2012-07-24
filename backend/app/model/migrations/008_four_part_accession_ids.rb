@@ -2,10 +2,10 @@ Sequel.migration do
   up do
     alter_table(:accessions) do
 
-      add_column :accession_id_0, String, :null => false, :default => "0"
-      add_column :accession_id_1, String, :null => false, :default => "1"
-      add_column :accession_id_2, String, :null => false, :default => "2"
-      add_column :accession_id_3, String, :null => false, :default => "3"
+      add_column :accession_id_0, String, :null => false, :default => ""
+      add_column :accession_id_1, String, :null => false, :default => ""
+      add_column :accession_id_2, String, :null => false, :default => ""
+      add_column :accession_id_3, String, :null => false, :default => ""
 
       drop_column :accession_id
 

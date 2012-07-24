@@ -32,4 +32,32 @@ describe 'Accession controller' do
     acc["title"].should eq("The accession title")
   end
 
+
+  it "works with partial IDs" do
+    post '/repo', params = {
+      "id" => "ARCHIVESSPACE",
+      "description" => "A new ArchivesSpace repository"
+    }
+
+
+    post '/repo/ARCHIVESSPACE/accession', params = {
+      :accession => JSONModel(:accession).from_hash({
+                                                      "accession_id_0" => "1234",
+                                                      "title" => "The accession title",
+                                                      "content_description" => "The accession description",
+                                                      "condition_description" => "The condition description",
+                                                      "accession_date" => "2012-05-03",
+                                                    }).to_json
+    }
+
+    last_response.should be_ok
+
+
+    get '/repo/ARCHIVESSPACE/accession/1234'
+
+    acc = JSON(last_response.body)
+
+    acc["title"].should eq("The accession title")
+  end
+
 end
