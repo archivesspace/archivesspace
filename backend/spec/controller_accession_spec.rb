@@ -11,18 +11,21 @@ describe 'Accession controller' do
 
     post '/repo/ARCHIVESSPACE/accession', params = {
       :accession => JSON({
-                           "accession_id" => "1234-5678-9876-5432",
+                           "accession_id_0" => "1234",
+                           "accession_id_1" => "5678",
+                           "accession_id_2" => "9876",
+                           "accession_id_3" => "5432",
                            "title" => "The accession title",
                            "content_description" => "The accession description",
                            "condition_description" => "The condition description",
-                           "accession_date" => "2012-05-03 13:51:34",
+                           "accession_date" => "2012-05-03",
                          })
     }
 
     last_response.should be_ok
 
 
-    get '/repo/ARCHIVESSPACE/accession/1234-5678-9876-5432'
+    get '/repo/ARCHIVESSPACE/accession/1234/5678/9876/5432'
 
     acc = JSON(last_response.body)
 

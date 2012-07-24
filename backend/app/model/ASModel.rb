@@ -1,4 +1,6 @@
 module ASModel
+  include JSONModel
+
   def before_create
     self.create_time = Time.now
     self.last_modified = Time.now

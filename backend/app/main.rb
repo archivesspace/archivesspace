@@ -6,6 +6,8 @@ require 'json'
 
 class ArchivesSpaceService < Sinatra::Base
 
+  include JSONModel
+
   configure :development do |config|
 
     # This is very possibly a dumb thing to do, but the reloader was having

@@ -48,13 +48,19 @@ describe 'Repository model' do
     repo = Repository.create(:repo_id => "TESTREPO",
                              :description => "My new test repository")
 
-    accession = repo.create_accession(:accession_id => "1234-5678-9876-5432",
-                                      :title => "Papers of Mark Triggs",
-                                      :accession_date => Time.now,
-                                      :content_description => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
-                                      :condition_description => "Most letters smeared with jam")
+    accession = repo.create_accession(JSONModel(:accession).
+                                      from_hash({
+                                                  "accession_id_0" => "1234",
+                                                  "accession_id_1" => "5678",
+                                                  "accession_id_2" => "9876",
+                                                  "accession_id_3" => "5432",
+                                                  "title" => "Papers of Mark Triggs",
+                                                  "accession_date" => Time.now,
+                                                  "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
+                                                  "condition_description" => "Most letters smeared with jam"
+                                                }))
 
-    acc = repo.find_accession(:accession_id => accession.accession_id)
+    acc = repo.find_accession(["1234", "5678", "9876", "5432"])
 
     acc.title.should eq("Papers of Mark Triggs")
   end

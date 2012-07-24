@@ -1,3 +1,5 @@
+require 'json-schema'
+
 module JSONModel
 
   # Load all JSON schemas from the schemas subdirectory
@@ -6,7 +8,12 @@ module JSONModel
                      "schemas",
                      "*.rb")).each do |schema|
     schema_name = File.basename(schema, ".rb")
+
+    old_verbose = $VERBOSE
+    $VERBOSE = nil
     $schema[:"#{schema_name}"] = eval(File.open(schema).read)
+    $VERBOSE = old_verbose
+
   end
 
 
@@ -47,8 +54,13 @@ module JSONModel
       end
 
 
+      def to_hash
+        self.class.drop_extra_properties(@data, @@schema)
+      end
+
+
       def to_json
-        JSON(self.class.drop_extra_properties(@data, @@schema))
+        JSON(self.to_hash)
       end
 
 
@@ -56,6 +68,8 @@ module JSONModel
         result = {}
 
         params.each do |k, v|
+          k = k.to_s
+
           if schema["properties"].has_key?(k)
             if schema["properties"][k]["type"] == "object"
               result[k] = self.drop_extra_properties(v, schema["properties"][k])

@@ -20,6 +20,7 @@ end
 require_relative File.join("..", "app", "main")
 require 'sinatra'
 require 'rack/test'
+include JSONModel
 
 # setup test environment
 set :environment, :test
