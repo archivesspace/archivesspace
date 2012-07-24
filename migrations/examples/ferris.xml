@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ead xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns="urn:isbn:1-931666-22-9">    <eadheader findaidstatus="In_process" repositoryencoding="iso15511" countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b">
+        <eadid>ferris</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>Guide to the Isaac Ferris Papers
+                    <num>MC 76</num>
+                </titleproper>
+                <author>Finding aid prepared by University Archives staff. Electronic version prepared by Jackie Rider.</author>
+            </titlestmt>
+            <publicationstmt>
+                <publisher>New York University Archives</publisher>
+                <address>
+                    <addressline>Elmer Holmes Bobst Library</addressline>
+                    <addressline>70 Washington Square South</addressline>
+                    <addressline>New York, NY, 10012</addressline>
+                    <addressline>(212) 998-2641</addressline>
+                    <addressline>university.archives@library.nyu.edu</addressline>
+                </address>
+                <date>2-3-2011</date>
+            </publicationstmt>
+        </filedesc>
+        <profiledesc>
+            <creation>This finding aid was produced using the Archivists' Toolkit
+                <date>2011-02-07T13:11-0500</date>
+            </creation>
+            <langusage>English</langusage>
+            <descrules>Describing Archives: A Content Standard</descrules>
+        </profiledesc>
+    </eadheader>
+    <archdesc level="collection">
+        <did>
+            <unittitle>Isaac Ferris Papers</unittitle>
+            <unitid>MC 76</unitid>
+            <repository>
+                <corpname>New York University Archives</corpname>
+            </repository>
+            <langmaterial>
+                <language langcode="eng"/>
+            </langmaterial>
+            <physdesc>
+                <extent>0.4 linear feet</extent>
+            </physdesc>
+            <unitdate normal="1816/1871" type="bulk">Bulk, 1816-1871</unitdate>
+            <unitdate normal="1816/1931" type="inclusive">1816-1931</unitdate>
+        </did>
+        <bioghist id="ref22">
+            <head>Biography</head>
+            <p>Isaac Ferris, 1798-1873, was a clergyman in the Reformed Dutch Church of America and a University administrator. He served the Second Church at Albany, N.Y. (1824-1836), and the Market Street Church in New York City (1836-1853) before assuming the chancellorship of New York University (then the University of the City of New York) in 1853, a position he held until 1870. Ferris was also founder of the Rutgers Female Institute in New York (1839), member of the American Bible Society (1840-1873), founder of the New York YMCA (1852), and corresponding secretary for the Board of Foreign Missions of the Reformed Dutch Church.</p>
+        </bioghist>
+        <scopecontent id="ref1">
+            <head>Scope and Contents</head>
+            <p>This collection includes manuscripts, letters, memorabilia, and printed material pertaining to Isaac Ferris, the third chancellor of New York University.</p>
+        </scopecontent>
+        <arrangement id="ref23">
+            <head>Arrangement</head>
+            <p>The collection consists of a single series, in which items are arranged chronologically.</p>
+        </arrangement>
+        <accessrestrict id="ref24">
+            <head>Conditions Governing Access</head>
+            <p>Open for research without restrictions.</p>
+        </accessrestrict>
+        <acqinfo id="ref25">
+            <head>Source of Acquisition</head>
+            <p>This collection was donated to the University Archives by Mrs. Morris P. Ferris and Mrs. J. Stewart McNally.</p>
+        </acqinfo>
+        <controlaccess>
+            <corpname source="naf">American Bible Society.</corpname>
+            <corpname source="naf">American Board of Commissioners for Foreign Missions.</corpname>
+            <corpname source="naf">Collegiate Dutch Church (New York, N.Y.).</corpname>
+            <corpname source="naf">Columbia College (New York, N.Y.).</corpname>
+            <persname source="naf">Ferris, Isaac, 1798-1873</persname>
+            <corpname source="naf">New York Opthalmic Hospital.</corpname>
+            <corpname rules="dacs" source="local">New York University. Chancellors.</corpname>
+            <corpname source="naf">Reformed Dutch Church in the City of New York.</corpname>
+            <corpname source="naf">Rutgers Female Institute (New York, N.Y.).</corpname>
+            <corpname source="naf">University of the City of New York.</corpname>
+            <corpname source="naf">Young Men’s Christian Association of the City of New York.</corpname>
+            <genreform source="aat">Clippings (information artifacts)</genreform>
+            <genreform source="aat">Correspondence.</genreform>
+            <genreform source="aat">Invitations.</genreform>
+            <geogname source="lcsh">New York (N.Y.) |x History.</geogname>
+            <genreform source="aat">poems.</genreform>
+            <subject source="lcsh">Religion |x History |y 19th century.</subject>
+            <genreform source="aat">Sermons.</genreform>
+            <genreform source="aat">speeches.</genreform>
+        </controlaccess>
+        <dsc>
+            <c id="ref26" level="series">
+                <did>
+                    <unittitle>Speeches and Addresses</unittitle>
+                    <langmaterial>
+                        <language langcode="eng"/>
+                    </langmaterial>
+                    <unitdate normal="1816/1931" type="inclusive">1816-1931</unitdate>
+                </did>
+                <c id="ref2" level="file">
+                    <did>
+                        <unittitle>List of printed sermons and speeches</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623001" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623001" type="Folder">1</container>
+                        <unitdate normal="1975/1975">1975</unitdate>
+                    </did>
+                </c>
+                <c id="ref3" level="file">
+                    <did>
+                        <unittitle>Commencement Address at Columbia College</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623002" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623002" type="Folder">2</container>
+                        <unitdate normal="1816/1816">1816</unitdate>
+                    </did>
+                </c>
+                <c id="ref6" level="file">
+                    <did>
+                        <unittitle>Address at the Opening of the Rutgers Female Institute</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623003" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623003" type="Folder">3</container>
+                        <unitdate normal="1829/1829">1829</unitdate>
+                    </did>
+                </c>
+                <c id="ref7" level="file">
+                    <did>
+                        <unittitle>Christmas Day poem</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623004" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623004" type="Folder">4</container>
+                        <unitdate normal="1839/1839">1839</unitdate>
+                    </did>
+                </c>
+                <c id="ref8" level="file">
+                    <did>
+                        <unittitle>"Ecclesiastical Characteristics: A Plain Statement of the Characteristics of the Protestant Dutch Church"; Discourse before the American Board of Commissioners for Foreign Missions</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623005" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623005" type="Folder">5</container>
+                        <unitdate normal="1848/1848">1848</unitdate>
+                    </did>
+                </c>
+                <c id="ref9" level="file">
+                    <did>
+                        <unittitle>Address delivered on the formation of the YMCA of New York</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623006" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623006" type="Folder">6</container>
+                        <unitdate normal="1852/1852">1852</unitdate>
+                    </did>
+                </c>
+                <c id="ref10" level="file">
+                    <did>
+                        <unittitle>Anniversary address delivered at the New York Opthalmic Hospital</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623007" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623007" type="Folder">7</container>
+                        <unitdate normal="1857/1857">1857</unitdate>
+                    </did>
+                </c>
+                <c id="ref11" level="file">
+                    <did>
+                        <unittitle>Address delivered at the opening of the Law Department</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623008" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623008" type="Folder">8</container>
+                        <unitdate normal="1858/1858">1858</unitdate>
+                    </did>
+                </c>
+                <c id="ref12" level="file">
+                    <did>
+                        <unittitle>"The Duties of the Times": preached on the National Thanksgiving</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623009" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623009" type="Folder">9</container>
+                        <unitdate normal="1863/1863">1863</unitdate>
+                    </did>
+                </c>
+                <c id="ref13" level="file">
+                    <did>
+                        <unittitle>Jubilee Memorial of the American Bible Society: 1816-1866</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623010" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623010" type="Folder">10</container>
+                        <unitdate normal="1867/1867">1867</unitdate>
+                    </did>
+                </c>
+                <c id="ref14" level="file">
+                    <did>
+                        <unittitle>Semi-Centennial Memorial Discourse of the New York Sunday School Union</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623011" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623011" type="Folder">11</container>
+                        <unitdate normal="1866/1866">1866</unitdate>
+                    </did>
+                </c>
+                <c id="ref15" level="file">
+                    <did>
+                        <unittitle>Address delivered at the Centennial Proceedings at the North Dutch Church, 1769-1869</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623012" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623012" type="Folder">12</container>
+                        <unitdate normal="1869/1869">1869</unitdate>
+                    </did>
+                </c>
+                <c id="ref16" level="file">
+                    <did>
+                        <unittitle>Alumni notes to Ferris on his retirement</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623013" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623013" type="Folder">13</container>
+                        <unitdate normal="1870/1870">1870</unitdate>
+                    </did>
+                </c>
+                <c id="ref17" level="file">
+                    <did>
+                        <unittitle>"Memorial Discourse; or, Fifty Years Ministry in the Reformed Church of America"</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623014" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623014" type="Folder">14</container>
+                        <unitdate normal="1871/1871">1871</unitdate>
+                    </did>
+                </c>
+                <c id="ref18" level="file">
+                    <did>
+                        <unittitle>Receipt, Alumnae Association, Rutgers Institute</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623015" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623015" type="Folder">15</container>
+                        <unitdate normal="1908/1908">1908</unitdate>
+                    </did>
+                </c>
+                <c id="ref19" level="file">
+                    <did>
+                        <unittitle>Lecture outline and notes, invitation to attend anniversary meeting of Philomathean &amp; Eucleian Societies, correspondence, clippings</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623016" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623016" type="Folder">16</container>
+                        <unitdate>undated</unitdate>
+                    </did>
+                </c>
+                <c id="ref20" level="file">
+                    <did>
+                        <unittitle>Correspondence of Mrs. Morris P. Ferris</unittitle>
+                        <langmaterial>
+                            <language langcode="eng"/>
+                        </langmaterial>
+                        <container id="cid10623017" type="Box" label="Mixed materials">1</container>
+                        <container parent="cid10623017" type="Folder">17</container>
+                        <unitdate normal="1927/1931" type="inclusive">1927-1931</unitdate>
+                    </did>
+                </c>
+            </c>
+        </dsc>
+    </archdesc>
+</ead>
