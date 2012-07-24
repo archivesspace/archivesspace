@@ -17,7 +17,7 @@
                 <li><a href="#">Digital Objects</a></li>
                 <li><a href="#">Names</a></li>
                 <li><a href="#">Subjects</a></li>
-                <li><a href="#">Accessions</a></li>
+                <li><%= link_to "Accessions", :controller=>:accessions, :action=>:index %></li>
               </ul>
             </li>
             <% if session[:user] %>
