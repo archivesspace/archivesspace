@@ -27,6 +27,8 @@ gem 'jquery-rails'
 
 gem 'formtastic'
 
+gem 'json-schema'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

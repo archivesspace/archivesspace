@@ -67,7 +67,9 @@ GEM
       thor (~> 0.14)
     jruby-openssl (0.7.7)
       bouncy-castle-java (>= 1.5.0146.1)
+    json (1.7.3)
     json (1.7.3-java)
+    json-schema (1.0.8)
     less (2.2.1)
       commonjs (~> 0.2.6)
     less-rails (2.2.3)
@@ -134,6 +136,7 @@ DEPENDENCIES
   formtastic
   jquery-rails
   jruby-openssl
+  json-schema
   rails (= 3.2.6)
   sass-rails (~> 3.2.3)
   therubyrhino
