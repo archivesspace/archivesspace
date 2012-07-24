@@ -13,12 +13,8 @@ module JSONModel
   def JSONModel(source)
     cls = Class.new do
 
-      def self.set_schema(type, schema)
-        @@type = type
-        @@schema = schema
-
-        # Define accessors
-        @@schema['properties'].keys.each do |attribute|
+      def self.define_accessors(attributes)
+        attributes.each do |attribute|
 
           define_method "#{attribute}" do
             @data[attribute]
@@ -27,13 +23,22 @@ module JSONModel
           define_method "#{attribute}=" do |value|
             @data[attribute] = value
           end
-
         end
+      end
+
+      def self.set_schema(type, schema)
+        @@type = type
+        @@schema = schema
+
+        # Define accessors
+        self.define_accessors(@@schema['properties'].keys)
       end
 
 
       def initialize(params)
         @data = params
+
+        self.class.define_accessors(@data.keys)
       end
 
 
@@ -43,7 +48,7 @@ module JSONModel
 
 
       def to_json
-        JSON(@data)
+        JSON(self.class.drop_extra_properties(@data, @@schema))
       end
 
 
@@ -71,7 +76,10 @@ module JSONModel
                                                 :errors_as_objects => true)
 
         if errors.empty?
-          self.new(cleaned)
+          # Note that I don't use the cleaned version here.  We want to keep
+          # around the original extra stuff (and provide accessors for then
+          # too), but just want to strip them out when converting back to JSON
+          self.new(params)
         else
           raise Exception.new("Validation error.  Do something clever here!: #{errors.inspect}")
         end
