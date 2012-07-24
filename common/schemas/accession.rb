@@ -9,14 +9,6 @@
     "content_description" => {"type" => "string", "required" => true},
     "condition_description" => {"type" => "string", "required" => true},
 
-    "nested" => {
-      "type" => "object",
-      "required" => true,
-      "additionalProperties" => false,
-      "properties" => {
-        "hello" => {"type" => "string", "required" => true},
-      }},
-
     "accession_date" => {type => "string", "format" => "date", "required" => true}
   },
 
