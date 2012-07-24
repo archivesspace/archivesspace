@@ -1,5 +1,5 @@
 class Accession < FormtasticFauxModel
-  attr_accessor :id, :repo_id, :title, :accession_id, :accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3, :content_description, :condition_description, :accession_date, :create_time, :last_modified
+  attr_accessor :id, :repo_id, :title, :accession_id, :accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3, :content_description, :condition_description, :accession_date, :create_time, :last_modified, :resource_link
   
   def initialize(attributes = {})
     @data = attributes
@@ -11,13 +11,14 @@ class Accession < FormtasticFauxModel
   end
 
   def save(repo)
-    return {:error=>"Required: a repository"} if repo.blank?    
+    return false if repo.blank?    
     
     data_to_send = @data.clone;
     data_to_send.delete('accession_id_0')
     data_to_send.delete('accession_id_1')
     data_to_send.delete('accession_id_2')
     data_to_send.delete('accession_id_3')
+    data_to_send.delete('resource_link')
 
     uri = URI("#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession")
     response = Net::HTTP.post_form(uri, {:accession=>data_to_send.to_json})
@@ -30,5 +31,14 @@ class Accession < FormtasticFauxModel
     response = Net::HTTP.get(uri)
     self.new(JSON.parse(response))
   end
+  
+  def resource_link
+    if @resource_link.blank? then
+      @resource_link = "defer"
+    end
+    @resource_link
+  end
+  
+
   
 end

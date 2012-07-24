@@ -7,7 +7,7 @@
    </div>
    <div class="control-group">
       <%= f.label :accession_id_0, "Identifier", :class=>"control-label" %>
-     <div class="controls archivespace-identifier-fields">
+     <div class="controls identifier-fields">
         <%= f.text_field :accession_id_0, :size=>10 %>
         <%= f.text_field :accession_id_1, :size=>10 %>
         <%= f.text_field :accession_id_2, :size=>10 %>
@@ -80,4 +80,50 @@
         <%= text_area_tag :repository_processing_note %>
      </div>
    </div>-->
+   
+    <hr />
+    
+    <div class="control-group">
+       <%= f.label :resource_link, "Link to a Resource", :class=>"control-label" %>
+      <div class="controls">
+      <div class="accordion controls-accordion" id="resource_link">
+         <div class="accordion-group">
+            <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_defer">
+               <%= f.radio_button :resource_link, "defer" %> Defer linking to a Resource
+            </label>
+           <div id="resource_link_defer" class="accordion-body collapse">
+             <div class="accordion-inner">
+                <div class="alert alert-info">
+                  Create this Accession without a Resource.  You can create that link later.
+                </div>
+             </div>
+           </div>
+         </div>
+         <div class="accordion-group">
+             <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_existing">
+                <%= f.radio_button :resource_link, "existing" %> Existing Resource
+             </label>
+           <div id="resource_link_existing" class="accordion-body collapse">
+             <div class="accordion-inner">
+                <div class="alert alert-error">
+                  TODO!
+                </div>
+             </div>
+           </div>
+         </div>
+         <div class="accordion-group">
+             <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_create">
+                <%= f.radio_button :resource_link, "create" %> Create a new Resource
+             </label>
+           <div id="resource_link_create" class="accordion-body collapse">
+             <div class="accordion-inner">
+                <div class="alert alert-info">
+                   Create this Accession and Continue to Create a new Resource.
+                </div>
+             </div>
+           </div>
+         </div>
+       </div>
+    </div>
+   </div>
  </fieldset>

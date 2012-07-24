@@ -34,3 +34,17 @@ $(function() {
       openAjaxModal($(this).attr("href"));     
    });
 });
+
+
+// custom controls-accordion for radio driven accordion
+$(function() {
+   // ensure accordion is expanded for checked radios
+   $(".controls-accordion input:checked").each(function() {
+      $($(this).parents("label:first").attr("href")).addClass("in");
+   });
+   
+   // ensure radio is checked for expanding accordion
+   $(".controls-accordion label.radio").on("click", function() {
+      $("input", this).attr("checked","checked");
+   })
+});
