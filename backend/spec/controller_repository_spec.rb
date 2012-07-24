@@ -41,4 +41,21 @@ describe 'Repository controller' do
     repos.any? { |repo| repo["id"] == "TEST" }.should be_true
   end
 
+
+  it "lets you create a repository with spaces" do
+    post '/repo', params = {
+      "id" => "REPO WITH SPACES",
+      "description" => "A new ArchivesSpace repository"
+    }
+
+    last_response.should be_ok
+
+    get '/repo'
+
+    last_response.should be_ok
+    repos = JSON(last_response.body)
+
+    repos.any? { |repo| repo["id"] == "REPO WITH SPACES" }.should be_true
+  end
+
 end
