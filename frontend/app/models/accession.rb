@@ -17,17 +17,8 @@ class Accession < JSONModel(:accession)
     response.body === "Created"
   end
   
-  def self.find(repo, id_0, id_1, id_2, id_3)
-    uri_str = "#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession/#{id_0}"
-    unless id_1.blank? then
-      uri_str += "/#{id_1}"
-      unless id_1.blank? then
-        uri_str += "/#{id_2}"
-        unless id_1.blank? then
-          uri_str += "/#{id_3}"
-        end
-      end              
-    end
+  def self.find(repo, id)
+    uri_str = "#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession/#{id}"
     response = Net::HTTP.get(URI(uri_str))
     self.from_json(response)
   end

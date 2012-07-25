@@ -5,7 +5,7 @@ class AccessionsController < ApplicationController
   end
 
   def show
-    @accession = Accession.find(session[:repo],params[:id_0],params[:id_1],params[:id_2],params[:id_3])
+    @accession = Accession.find(session[:repo],params[:id])
   end
 
   def new
@@ -13,7 +13,7 @@ class AccessionsController < ApplicationController
   end
 
   def edit
-    @accession = Accession.find(session[:repo],params[:id_0],params[:id_1],params[:id_2],params[:id_3])
+    @accession = Accession.find(session[:repo],params[:id])
   end
 
   def create
@@ -27,7 +27,7 @@ class AccessionsController < ApplicationController
     end
 
     if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id_0=>@accession.accession_id_0, :id_1=>@accession.accession_id_1, :id_2=>@accession.accession_id_2, :id_3=>@accession.accession_id_3
+      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id
     else
       render action: "new"
     end
