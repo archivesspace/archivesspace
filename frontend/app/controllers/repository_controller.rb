@@ -1,6 +1,7 @@
 class RepositoryController < ApplicationController
 
   def new
+    @repository = Repository.new({})
     render :layout=>nil
   end
   
@@ -15,7 +16,7 @@ class RepositoryController < ApplicationController
     
     response = @repository.save
 
-    if result[:status] === "Created"
+    if response[:status] === "Created"
       redirect_to :root
     else
       return render action: "new", :layout=>nil

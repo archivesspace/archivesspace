@@ -10,9 +10,9 @@
          <% if repos.length >= 1 %>
             <% for repo in repos %>
                <% if session[:repo] === repo["id"] %>
-                  <li><span class="icon-ok-circle"></span> <%= repo["id"] %></li>
+                  <li><span class="icon-ok-circle"></span> <%= repo["repo_id"] %></li>
                <% else %>
-                  <li><%= link_to repo["id"], {:controller=>:repository, :action=>:select, :id=>repo["id"]}, :class=>"select-repo" %></li>
+                  <li><%= link_to repo["repo_id"], {:controller=>:repository, :action=>:select, :id=>repo["id"]}, :class=>"select-repo" %></li>
                <% end %>
             <% end %>
             <li class="divider"></li>
