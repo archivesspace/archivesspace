@@ -23,6 +23,7 @@ module JSONModel
   # Load all JSON schemas from the schemas subdirectory
   $schema = {}
   $hooks = {}
+  $extra_properties = {}
 
   Dir.glob(File.join(File.dirname(__FILE__),
                      "schemas",
@@ -35,6 +36,7 @@ module JSONModel
     $VERBOSE = old_verbose
 
     $schema[:"#{schema_name}"] = entry[:schema]
+    $extra_properties[:"#{schema_name}"] = entry[:extra_properties]
     $hooks[:"#{schema_name}"] = entry[:hooks]
   end
 
@@ -89,6 +91,10 @@ module JSONModel
 
         # Define accessors
         self.define_accessors(@@schema['properties'].keys)
+
+        if $extra_properties[@@type]
+          self.define_accessors($extra_properties[@@type])
+        end
       end
 
 
@@ -132,7 +138,14 @@ module JSONModel
 
 
       def to_hash
-        self.class.drop_extra_properties(@data, @@schema)
+        if $hooks[@@type] and $hooks[@@type][:to_hash]
+          @data = $hooks[@@type][:to_hash].call(params)
+        end
+
+        cleaned = self.class.drop_unknown_properties(@data, @@schema)
+        self.class.validate(cleaned)
+
+        cleaned
       end
 
 
@@ -141,7 +154,7 @@ module JSONModel
       end
 
 
-      def self.drop_extra_properties(params, schema)
+      def self.drop_unknown_properties(params, schema)
         result = {}
 
         params.each do |k, v|
@@ -149,7 +162,7 @@ module JSONModel
 
           if schema["properties"].has_key?(k)
             if schema["properties"][k]["type"] == "object"
-              result[k] = self.drop_extra_properties(v, schema["properties"][k])
+              result[k] = self.drop_unknown_properties(v, schema["properties"][k])
             else
               result[k] = v
             end
@@ -160,25 +173,30 @@ module JSONModel
       end
 
 
-      def self.from_hash(params)
-        if $hooks[@@type] and $hooks[@@type][:from_hash]
-          params = $hooks[@@type][:from_hash].call(params)
-        end
-
-        cleaned = self.drop_extra_properties(params, @@schema)
-
-        errors = JSON::Validator.fully_validate(@@schema, cleaned,
+      def self.validate(hash)
+        errors = JSON::Validator.fully_validate(@@schema, hash,
                                                 :errors_as_objects => true)
 
-        if errors.empty?
-          # Note that I don't use the cleaned version here.  We want to keep
-          # around the original extra stuff (and provide accessors for then
-          # too), but just want to strip them out when converting back to JSON
-          self.new(params)
-        else
-          raise JSONValidationException.new(:invalid_object => self.new(params),
+        if not errors.empty?
+          raise JSONValidationException.new(:invalid_object => self.new(hash),
                                             :errors => errors)
         end
+
+        nil
+      end
+
+
+      def self.from_hash(hash)
+        if $hooks[@@type] and $hooks[@@type][:from_hash]
+          hash = $hooks[@@type][:from_hash].call(hash)
+        end
+
+        validate(self.drop_unknown_properties(hash, @@schema))
+
+        # Note that I don't use the cleaned version here.  We want to keep
+        # around the original extra stuff (and provide accessors for then
+        # too), but just want to strip them out when converting back to JSON
+        self.new(hash)
       end
 
 

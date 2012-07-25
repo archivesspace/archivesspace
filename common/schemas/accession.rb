@@ -13,6 +13,9 @@
     "additionalProperties" => false,
   },
 
+  :extra_properties => ["accession_id_0", "accession_id_1",
+                        "accession_id_2", "accession_id_3"],
+
   :hooks => {
     :from_hash => Proc.new do |hash|
       if hash.has_key?("accession_id_0")
