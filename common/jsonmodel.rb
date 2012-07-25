@@ -34,12 +34,29 @@ module JSONModel
   end
 
 
+  class JSONValidationException < StandardError
+    attr_accessor :invalid_object
+    attr_accessor :errors
+
+    def initialize(opts)
+      @invalid_object = opts[:invalid_object]
+      @errors = opts[:errors]
+    end
+  end
+
+
   def JSONModel(source)
     cls = Class.new do
 
-      include ActiveModel::Validations
-      include ActiveModel::Conversion
-      extend  ActiveModel::Naming
+      begin
+        include ActiveModel::Validations
+        include ActiveModel::Conversion
+        extend  ActiveModel::Naming
+      rescue NameError
+        # This is normal when loading this library outside of a Rails
+        # environment, and we don't need this extra stuff for non-Rails uses
+        # anyway.
+      end
 
       class << self
         attr_accessor :types
@@ -150,7 +167,8 @@ module JSONModel
           # too), but just want to strip them out when converting back to JSON
           self.new(params)
         else
-          raise Exception.new("Validation error.  Do something clever here!: #{errors.inspect}")
+          raise JSONValidationException.new(:invalid_object => self.new(params),
+                                            :errors => errors)
         end
       end
 
