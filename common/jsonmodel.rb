@@ -44,6 +44,10 @@ module JSONModel
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
     end
+
+    def to_s
+      "#<:JSONModel::JSONValidationException: #{@errors.inspect}"
+    end
   end
 
   class FauxColumnInfo
