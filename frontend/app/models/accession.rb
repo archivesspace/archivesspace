@@ -1,20 +1,17 @@
 require 'net/http'
 
 class Accession < JSONModel(:accession)
-
-  def update(attributes={})
-    attributes.each do |name, value|  
-      send("#{name}=", value)
-    end
-  end
-
-  def save(repo)
-    return false if repo.blank?    
-
-    uri = URI("#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession")    
-    response = Net::HTTP.post_form(uri, {:accession=>self.to_json})
+  attr_accessor :resource_link
     
-    response.body === "Created"
+  def save(repo)
+    return false if repo.blank?
+    
+    uri = "#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession"
+    uri += "/#{id}" unless id.blank?
+
+    response = Net::HTTP.post_form(URI(uri), {:accession=>self.to_json})
+    
+    JSON.parse(response.body)
   end
   
   def self.find(repo, id)
@@ -39,7 +36,12 @@ class Accession < JSONModel(:accession)
   end
   
   def accession_id
-    "#{accession_id_0} #{accession_id_1} #{accession_id_2} #{accession_id_3}"
+    # display string
+    str = accession_id_0
+    str += "-#{accession_id_1}" unless accession_id_1.blank?
+    str += "-#{accession_id_2}" unless accession_id_2.blank?
+    str += "-#{accession_id_3}" unless accession_id_3.blank?
+    str
   end
   
   

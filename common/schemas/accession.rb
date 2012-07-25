@@ -3,11 +3,11 @@
     "type" => "object",
     "properties" => {
       "accession_id" => {"type" => "string", "required" => true, "minLength" => 1, "pattern" => "^[a-zA-Z0-9_]*$"},
-      "title" => {"type" => "string", "required" => true},
+      "title" => {"type" => "string", "minLength" => 1, "required" => true},
       "content_description" => {"type" => "string", "required" => true},
       "condition_description" => {"type" => "string", "required" => true},
 
-      "accession_date" => {type => "string", "required" => true}
+      "accession_date" => {type => "string", "minLength" => 1, "required" => true}
     },
 
     "additionalProperties" => false,

@@ -1,5 +1,20 @@
 class ArchivesSpaceService < Sinatra::Base
 
+  post '/repo/:repo_id/accession/*' do
+    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession"},
+                   "splat" => {:doc => "The accession ID"},
+                   "accession" => {:doc => "The accession data to update (JSON)"}]
+
+    acc_id = params[:splat][0].split("/", 4)
+    
+    repo = Repository[:repo_id => params[:repo_id]]
+    
+    acc = repo.find_accession(acc_id)
+    acc.update(JSONModel(:accession).from_json(params[:accession]).to_hash)
+
+    "Updated"
+  end
+
   post '/repo/:repo_id/accession' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession"},
                    "accession" => {:doc => "The accession to create (JSON)"}]

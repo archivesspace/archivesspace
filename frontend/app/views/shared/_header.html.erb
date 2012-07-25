@@ -10,11 +10,11 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Resources</a></li>
+                <li><%= link_to "Accessions", :controller=>:accessions, :action=>:index %></li>
+                <li><%= link_to "Resources", :controller=>:resources, :action=>:index %></li>
                 <li><a href="#">Digital Objects</a></li>
                 <li><a href="#">Names</a></li>
-                <li><a href="#">Subjects</a></li>
-                <li><%= link_to "Accessions", :controller=>:accessions, :action=>:index %></li>
+                <li><a href="#">Subjects</a></li>                
               </ul>
             </li>
             <% if session[:user] %>
@@ -23,7 +23,7 @@
               <ul class="dropdown-menu">
                 <li><%= link_to "Accession", :controller=>:accessions, :action=>:new %></li>
                 <li class="divider"></li>
-                <li><a href="#">Resource</a></li>
+                <li><%= link_to "Resource", :controller=>:resources, :action=>:new %></li>
                 <li><a href="#">Digital Object</a></li>
                 <li><a href="#">Name</a></li>
                 <li><a href="#">Subject</a></li>

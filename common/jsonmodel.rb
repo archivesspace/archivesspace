@@ -131,6 +131,10 @@ module JSONModel
         end
       end
 
+      def update(params)
+        self.class.validate(@data.merge(params))
+        @data = @data.merge(params)
+      end
 
       def to_s
         "#<:#{@@type} record>"

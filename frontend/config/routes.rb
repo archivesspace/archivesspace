@@ -21,10 +21,6 @@ ArchivesSpace::Application.routes.draw do
   match 'repository/select/:id' => 'repository#select', :via => [:post]
   
   resources :accessions
-  match 'accessions/edit/:id_0(/:id_1(/:id_2(/:id_3)))' => 'accessions#edit'
-  match 'accessions/update/:id_0(/:id_1(/:id_2(/:id_3)))' => 'accessions#update'
-  match 'accessions/:id_0(/:id_1(/:id_2(/:id_3)))' => 'accessions#show'
-
   resources :resources
     
   # Sample resource route with options:

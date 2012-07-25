@@ -7,7 +7,7 @@
    </div>
    <div class="span9">
       <h2>Edit Accession "<%= @accession.title%>"</h2>
-      <%= semantic_form_for @accession, :url=>{:action=>:update, :id_0=>@accession.accession_id_0, :id_1=>@accession.accession_id_1, :id_2=>@accession.accession_id_2, :id_3=>@accession.accession_id_3}, :html=>{:class=>'form-horizontal'} do |f| %>
+      <%= semantic_form_for @accession, :url=>{:action=>:update, :id=>@accession.id}, :html=>{:class=>'form-horizontal'} do |f| %>
          <%= render :partial=>"accessions/form", :locals=>{:f=>f} %>
          <div class="form-actions">            
             <button type="submit" class="btn btn-primary">Save Accession</button>

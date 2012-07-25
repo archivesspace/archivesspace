@@ -17,7 +17,7 @@
 .jstree-default .jstree-clicked { background:#beebff; border:1px solid #99defd; padding:0 2px 0 1px; }
 .jstree-default a .jstree-themeicon { background-position:-56px -19px; }
 
-.jstree-default.jstree-focused { background:#ffffee; }
+/*.jstree-default.jstree-focused { background:#ffffee; }*/
 
 .jstree-default .jstree-no-dots li, 
 .jstree-default .jstree-no-dots .jstree-leaf > .jstree-ocl { background:transparent; }

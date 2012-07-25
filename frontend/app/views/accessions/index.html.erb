@@ -28,8 +28,8 @@
                <td>TODO</td>
                <td>
                   <div class="btn-group" style="float: right">
-                    <%= link_to "View", {:controller=>:accessions, :action=>:show, :id_0=>accession.accession_id_0, :id_1=>accession.accession_id_1, :id_2=>accession.accession_id_2, :id_3=>accession.accession_id_3}, :class=>"btn btn-mini" %>
-                    <%= link_to "Edit", {:controller=>:accessions, :action=>:edit, :id_0=>accession.accession_id_0, :id_1=>accession.accession_id_1, :id_2=>accession.accession_id_2, :id_3=>accession.accession_id_3}, :class=>"btn btn-mini" %>
+                    <%= link_to "View", {:controller=>:accessions, :action=>:show, :id=>accession.id}, :class=>"btn btn-mini" %>
+                    <%= link_to "Edit", {:controller=>:accessions, :action=>:edit, :id=>accession.id}, :class=>"btn btn-mini" %>
                   </div>
                </td>
              </tr>
