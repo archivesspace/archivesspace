@@ -16,6 +16,9 @@ class Repository < Sequel::Model(:repositories)
     Accession[query]
   end
 
+  def all_accessions
+    Accession.filter({:repo_id => self.repo_id})
+  end
 
   def create_resource(opts)
     fields = opts.merge(:repo_id => self.repo_id)

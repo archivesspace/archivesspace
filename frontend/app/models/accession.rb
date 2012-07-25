@@ -5,7 +5,7 @@ class Accession < FormtasticFauxModel
     @data = attributes
     # parse accession_id
     if (attributes.has_key?('accession_id_0') || attributes.has_key?('accession_id_1') || attributes.has_key?('accession_id_2') || attributes.has_key?('accession_id_3'))
-      attributes['accession_id'] = "#{attributes['accession_id_0']}#{attributes['accession_id_1']}#{attributes['accession_id_2']}#{attributes['accession_id_3']}"
+      attributes['accession_id'] = "#{attributes['accession_id_0']} #{attributes['accession_id_1']} #{attributes['accession_id_2']} #{attributes['accession_id_3']}"
     end
     super(attributes)        
   end
@@ -39,6 +39,11 @@ class Accession < FormtasticFauxModel
     @resource_link
   end
   
-
+  def self.all(repo)
+    uri = URI("#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accessions")
+    response = Net::HTTP.get(uri)
+    accessions = JSON.parse(response)
+    accessions.collect {|acc| self.new(acc)}
+  end
   
 end

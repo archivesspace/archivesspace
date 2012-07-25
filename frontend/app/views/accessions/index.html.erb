@@ -1,4 +1,4 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:current=>"Browse Accessions"} %>
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>["Browse Accessions"]} %>
 <div class="row-fluid">
    <div class="span3">
       <div class="well">The facets/search filters will go here</div>
@@ -10,25 +10,31 @@
         <button class="btn">Another Thing</button>
       </div>
       <h2>Accessions</h2>
-      <table class="table table-striped table-bordered table-condensed">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Identifier</th>
-            <th>Linked Resource</th>
-            <th>Modified</th>
-            <th>Created</th>
-          </tr>
-        </thead>
-        <tbody>
-           <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>          
-        </tbody>
-      </table>
+      <% if @accessions.length > 0 %>
+         <table class="table table-striped table-bordered table-condensed">
+           <thead>
+             <tr>
+               <th>Title</th>
+               <th>Identifier</th>
+               <th>Accession Date</th>
+               <th>Linked Resource</th>
+             </tr>
+           </thead>
+           <tbody>
+              <% @accessions.each do |accession| %>
+              <tr>
+               <td><%= accession.title %></td>
+               <td><%= accession.accession_id %></td>
+               <td><%= Date.strptime(accession.accession_date, "%Y-%m-%d") %></td>
+               <td>TODO</td>
+             </tr>
+             <% end %>
+           </tbody>
+         </table>
+      <% else %>
+         <p class="alert alert-info">
+            There are currently no accessions in the <strong><%= session[:repo] %></strong> repository.
+         </p>
+      <% end %>
    </div>
 </div>

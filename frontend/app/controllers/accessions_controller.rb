@@ -1,7 +1,7 @@
 class AccessionsController < ApplicationController
 
   def index
-    #@accessions = Accession.all
+    @accessions = Accession.all(session[:repo])
   end
 
   def show

@@ -18,7 +18,7 @@
             <li class="divider"></li>
          <% end %>
          <% if session[:user] %>
-            <li><%= link_to "Create", {:controller=>:repository, :action=>:new}, "data-toggle"=>"modal-ajax" %></li>
+            <li><%= link_to "Create a Respository", {:controller=>:repository, :action=>:new}, "data-toggle"=>"modal-ajax" %></li>
          <% end %>
        </ul>                 
   </div>

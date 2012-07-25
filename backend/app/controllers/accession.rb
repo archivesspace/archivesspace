@@ -12,6 +12,13 @@ class ArchivesSpaceService < Sinatra::Base
     "Created"
   end
 
+  get '/repo/:repo_id/accessions' do
+    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession"}]
+
+    repo = Repository[:repo_id => params[:repo_id]]
+
+    repo.all_accessions.collect {|acc| acc.values}.to_json
+  end
 
   get '/repo/:repo_id/accession/*' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession"},
