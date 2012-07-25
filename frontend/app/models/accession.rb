@@ -3,32 +3,30 @@ class Accession < FormtasticFauxModel
   
   def initialize(attributes = {})
     @data = attributes
-    # parse accession_id
-    if (attributes.has_key?('accession_id_0') || attributes.has_key?('accession_id_1') || attributes.has_key?('accession_id_2') || attributes.has_key?('accession_id_3'))
-      attributes['accession_id'] = "#{attributes['accession_id_0']} #{attributes['accession_id_1']} #{attributes['accession_id_2']} #{attributes['accession_id_3']}"
-    end
     super(attributes)        
   end
 
   def save(repo)
     return false if repo.blank?    
-    
-    data_to_send = @data.clone;
-    data_to_send.delete('accession_id_0')
-    data_to_send.delete('accession_id_1')
-    data_to_send.delete('accession_id_2')
-    data_to_send.delete('accession_id_3')
-    data_to_send.delete('resource_link')
 
     uri = URI("#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession")
-    response = Net::HTTP.post_form(uri, {:accession=>data_to_send.to_json})
+    response = Net::HTTP.post_form(uri, {:accession=>@data.to_json})
     
     response.body === "Created"
   end
   
-  def self.find(accession_id, repo)
-    uri = URI("#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession/#{accession_id}")
-    response = Net::HTTP.get(uri)
+  def self.find(repo, id_0, id_1, id_2, id_3)
+    uri_str = "#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession/#{id_0}"
+    unless id_1.blank? then
+      uri_str += "/#{id_1}"
+      unless id_1.blank? then
+        uri_str += "/#{id_2}"
+        unless id_1.blank? then
+          uri_str += "/#{id_3}"
+        end
+      end              
+    end
+    response = Net::HTTP.get(URI(uri_str))
     self.new(JSON.parse(response))
   end
   
@@ -44,6 +42,24 @@ class Accession < FormtasticFauxModel
     response = Net::HTTP.get(uri)
     accessions = JSON.parse(response)
     accessions.collect {|acc| self.new(acc)}
+  end
+  
+  def accession_id
+    "#{accession_id_0} #{accession_id_1} #{accession_id_2} #{accession_id_3}"
+  end
+  
+  def accession_id_for_url
+    url = accession_id_0
+    unless accession_id_1.blank?
+      url += "/#{accession_id_1}"
+      unless accession_id_2.blank?
+        url += "/#{accession_id_2}"
+        unless accession_id_3.blank?
+          url += "/#{accession_id_3}"
+        end
+      end
+    end
+    url
   end
   
 end

@@ -5,7 +5,7 @@ class AccessionsController < ApplicationController
   end
 
   def show
-    @accession = Accession.find(params[:id], session[:repo])
+    @accession = Accession.find(session[:repo],params[:id_0],params[:id_1],params[:id_2],params[:id_3])
   end
 
   def new
