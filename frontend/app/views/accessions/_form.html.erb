@@ -1,4 +1,12 @@
 <fieldset>
+   <% if @errors %>
+      <div class="alert alert-error">
+         <% @errors.each do |error| %>
+            <div class="error"><%= error[:message] %></div>
+         <% end %>
+      </div>
+   <% end %>
+
    <div class="control-group">
       <%= f.label :title, "Title", :class=>"control-label" %>
      <div class="controls">
@@ -29,7 +37,7 @@
    <div class="control-group">
       <%= f.label :accession_date, "Accession Date", :class=>"control-label" %>
      <div class="controls">
-        <%= f.text_field :accession_date, :placeholder=>"YYYY-MM-DD" %>
+        <%= f.text_field :accession_date, :placeholder=>"YYYY-MM-DD", :value=>(@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d")) %>
      </div>
    </div>
    <!-- <div class="control-group">

@@ -46,13 +46,22 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  error NotFoundException do
+    json_response({:error => request.env['sinatra.error']}, 404)
+  end
+
   error MissingParamsException do
+    json_response({:error => request.env['sinatra.error']}, 400)
+  end
+
+  error JSONValidationException do
     json_response({:error => request.env['sinatra.error']}, 400)
   end
 
   error ConflictException do
     json_response({:error => request.env['sinatra.error']}, 409)
   end
+
 
 
   class DBWrappingMiddleware
@@ -81,17 +90,32 @@ class ArchivesSpaceService < Sinatra::Base
       required_params = required_params[0]
 
       missing = []
+      bad_type = []
       required_params.each do |parameter, opts|
         if not params[parameter]
           missing << parameter
+        else
+
+          if opts[:type]
+            begin
+              params[parameter] = (opts[:type] == Integer) ? Integer(params[parameter]) : params[parameter]
+            rescue ArgumentError
+              bad_type << parameter
+            end
+          end
+
         end
       end
 
-      if not missing.empty?
-        s = "Your request was missing the following required parameters:\n\n"
+      if not (missing.empty? and bad_type.empty?)
+        s = "Your request had some invalid parameters:\n\n"
 
-        missing.each do |param|
-          s += "  * #{param} -- #{required_params[param][:doc]}\n"
+        (missing + bad_type).each do |param|
+          s += "  * #{param} -- #{required_params[param][:doc]}"
+          if required_params[param].has_key?(:type)
+            s = " (type: #{required_params[param][:type]})"
+          end
+          s += "\n"
         end
 
         raise MissingParamsException.new(s)

@@ -1,1 +1,45 @@
-TODO
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>["Browse Accessions"]} %>
+<div class="row-fluid">
+   <div class="span3">
+      <div class="well">The facets/search filters will go here</div>
+   </div>
+   <div class="span9">
+      <div class="btn-group" style="float: right">
+        <%= link_to "Create Accession", {:controller=>:accessions, :action=>:new}, :class=>"btn" %>
+      </div>
+      <h2>Accessions</h2>
+      <% if @accessions.length > 0 %>
+         <table class="table table-striped table-bordered table-condensed">
+           <thead>
+             <tr>
+               <th>Title</th>
+               <th>Identifier</th>
+               <th>Accession Date</th>
+               <th>Linked Resource</th>
+               <th width="70px"><!-- actions --></th>
+             </tr>
+           </thead>
+           <tbody>
+              <% @accessions.each do |accession| %>
+              <tr>
+               <td><%= accession.title %></td>
+               <td><%= accession.accession_id %></td>
+               <td><%= Date.strptime(accession.accession_date, "%Y-%m-%d") %></td>
+               <td>TODO</td>
+               <td>
+                  <div class="btn-group" style="float: right">
+                    <%= link_to "View", {:controller=>:accessions, :action=>:show, :id=>accession.id}, :class=>"btn btn-mini" %>
+                    <%= link_to "Edit", {:controller=>:accessions, :action=>:edit, :id=>accession.id}, :class=>"btn btn-mini" %>
+                  </div>
+               </td>
+             </tr>
+             <% end %>
+           </tbody>
+         </table>
+      <% else %>
+         <p class="alert alert-info">
+            There are currently no accessions in the <strong><%= session[:repo] %></strong> repository.
+         </p>
+      <% end %>
+   </div>
+</div>

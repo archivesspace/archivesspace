@@ -1,18 +1,18 @@
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Accessions", :controller=>:accessions, :action=>:index),"Create an Accession"]} %>
 <div class="row-fluid">
    <div class="span3">
       <div class="well">
          <p>This is where the tree will go. Perhaps not for a new Accession.  But when editing it will be here.</p>
       </div>
    </div>
-   <div class="span6">
+   <div class="span9">
       <h2>Create an Accession</h2>
       <%= semantic_form_for @accession, :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
          <%= render :partial=>"accessions/form", :locals=>{:f=>f} %>
-         <div class="form-actions">
-            <button class="btn">Cancel</button>
+         <div class="form-actions">            
             <button type="submit" class="btn btn-primary">Create Accession</button>
+            <%= link_to "Cancel", :back, :class=>"btn" %>
          </div>
       <% end %>
    </div>
-   <div class="span3"></div>
 </div>

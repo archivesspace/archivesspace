@@ -1,11 +1,11 @@
 class AccessionsController < ApplicationController
 
   def index
-    @accessions = Accession.all
+    @accessions = Accession.all(session[:repo])
   end
 
   def show
-    @accession = Accession.find(params[:id], session[:repo])
+    @accession = Accession.find(session[:repo], params[:id])
   end
 
   def new
@@ -13,31 +13,52 @@ class AccessionsController < ApplicationController
   end
 
   def edit
-    @accession = Accession.find(params[:id], session[:repo])
+    @accession = Accession.find(session[:repo], params[:id])
   end
 
   def create
-    @accession = Accession.new(params['accession'])
+    
+    begin
+      @accession = Accession.from_hash(params['accession'])
+    rescue JSONModel::JSONValidationException => e
+      @accession = e.invalid_object
+      @errors = e.errors      
+      return render action: "new"      
+    end
 
-    if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id
+    result = @accession.save(session[:repo])
+
+    if result[:status] === "Created"
+      redirect_to :controller=>:accessions, :action=>:show, :id=>result[:id]
     else
-      render action: "new"
+      render action: "new", :notice=>"Update failed: #{result[:status]}"
     end
   end
 
   def update
-    @accession = Accession.find(params[:id], session[:repo])
 
-    if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id
-    else
-      render action: "edit"
+    @accession = Accession.find(session[:repo],params[:id])
+    
+    begin
+      @accession.update(params['accession'])
+    rescue JSONModel::JSONValidationException => e
+      @accession = e.invalid_object
+      @errors = e.errors      
+      return render action: "new"      
+    end
+    
+    result = @accession.save(session[:repo])
+    
+    if result[:status] === "Updated"
+      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.id
+    else    
+      render action: "edit", :notice=>"Update failed: #{result[:status]}"
     end
   end
 
   def destroy
-    @accession = Accession.find(params[:id], session[:repo])
+    
+    @accession = Accession.find(session[:repo],params[:id])
     @accession.destroy
     
     redirect_to  :controller=>:accessions, :action=>:index
