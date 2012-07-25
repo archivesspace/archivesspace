@@ -40,7 +40,7 @@
         if (response === "Success") {
           document.location.reload(true);
         } else {
-          $('form#new_repository').html(response);
+          $('form#new_repository').replaceWith(response);
         }        
      }, 
      error: function(obj, errorText, errorDesc) {
