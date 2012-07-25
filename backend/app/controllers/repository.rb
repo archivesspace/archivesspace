@@ -10,8 +10,8 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   get '/repo/:id' do
-    repo = Repository[:id => params[:id]]
-    repo.to_json
+    repo = Repository[params[:id]]
+    JSONModel(:repository).from_sequel(repo).to_json
   end
   
   get '/repo' do

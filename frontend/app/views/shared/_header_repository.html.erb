@@ -1,6 +1,6 @@
 <li class="dropdown repository-container">  
   <div class="input-append">
-     <span class="repository-label"><span class=" icon-hdd icon-white"></span> <span class="current-repository-id"><%= session[:repo] %></span></span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+     <span class="repository-label"><span class=" icon-hdd icon-white"></span> <span class="current-repository-id"><%= session[:repo].repo_id %></span></span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
        <ul class="dropdown-menu">
          <% repos = Repository.all %>
          <% if session[:repo] %>

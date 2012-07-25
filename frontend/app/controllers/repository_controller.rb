@@ -24,7 +24,7 @@ class RepositoryController < ApplicationController
   end
   
   def select    
-    session[:repo] = params[:id]
+    session[:repo] = Repository.find(params[:id])
     render :partial=>'shared/header_repository'
   end
   
