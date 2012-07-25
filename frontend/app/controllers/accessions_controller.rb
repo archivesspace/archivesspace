@@ -20,7 +20,7 @@ class AccessionsController < ApplicationController
     @accession = Accession.new(params['accession'])
 
     if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id
+      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id_for_url
     else
       render action: "new"
     end
@@ -30,7 +30,7 @@ class AccessionsController < ApplicationController
     @accession = Accession.find(params[:id], session[:repo])
 
     if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id
+      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id_for_url
     else
       render action: "edit"
     end
