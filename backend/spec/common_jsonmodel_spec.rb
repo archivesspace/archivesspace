@@ -74,7 +74,7 @@ describe 'JSON model' do
     exception.invalid_object.elt_0.should eq("/!$")
 
     # And you can get a list of its problems too
-    puts exception.errors[0][:failed_attribute].should eq("Pattern")
+    exception.errors[0][:failed_attribute].should eq("Pattern")
   end
 
 

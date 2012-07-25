@@ -2,16 +2,21 @@ require 'spec_helper'
 
 describe 'Accession controller' do
 
-  it "lets you create an accession and get it back" do
-    post '/repo', params = {
-      "id" => "ARCHIVESSPACE",
+  before(:each) do
+    test_repo = {
+      "repo_id" => "ARCHIVESSPACE",
       "description" => "A new ArchivesSpace repository"
     }
 
+    post '/repo', params = { "repository" => JSONModel(:repository).from_hash(test_repo).to_json }
+    @repo = JSON(last_response.body)["id"]
+  end
 
-    post '/repo/ARCHIVESSPACE/accession', params = {
+
+  it "lets you create an accession and get it back" do
+    post "/repo/#{@repo}/accession", params = {
       :accession => JSON({
-                           "accession_id" => IDUtils.a_to_s(["1234", "5678", "9876", "5432"]),
+                           "accession_id_0" => "1234",
                            "title" => "The accession title",
                            "content_description" => "The accession description",
                            "condition_description" => "The condition description",
@@ -20,9 +25,9 @@ describe 'Accession controller' do
     }
 
     last_response.should be_ok
+    created = JSON(last_response.body)
 
-
-    get '/repo/ARCHIVESSPACE/accession/1234_5678_9876_5432'
+    get "/repo/#{@repo}/accession/#{created["id"]}"
 
     acc = JSON(last_response.body)
 
@@ -31,15 +36,9 @@ describe 'Accession controller' do
 
 
   it "works with partial IDs" do
-    post '/repo', params = {
-      "id" => "ARCHIVESSPACE",
-      "description" => "A new ArchivesSpace repository"
-    }
-
-
-    post '/repo/ARCHIVESSPACE/accession', params = {
+    post "/repo/#{@repo}/accession", params = {
       :accession => JSONModel(:accession).from_hash({
-                                                      "accession_id" => IDUtils.a_to_s(["1234"]),
+                                                      "accession_id_0" => "1234",
                                                       "title" => "The accession title",
                                                       "content_description" => "The accession description",
                                                       "condition_description" => "The condition description",
@@ -48,9 +47,9 @@ describe 'Accession controller' do
     }
 
     last_response.should be_ok
+    created = JSON(last_response.body)
 
-
-    get '/repo/ARCHIVESSPACE/accession/1234'
+    get "/repo/#{@repo}/accession/#{created['id']}"
 
     acc = JSON(last_response.body)
 

@@ -4,17 +4,23 @@ describe 'Repository controller' do
 
   it "lets you create a repository" do
     post '/repo', params = {
-      "id" => "ARCHIVESSPACE",
-      "description" => "A new ArchivesSpace repository"
+      :repository => JSONModel(:repository).
+                     from_hash({
+                                 "repo_id" => "ARCHIVESSPACE",
+                                 "description" => "A new ArchivesSpace repository"
+                               }).to_json
     }
 
     last_response.should be_ok
+    JSON(last_response.body)["id"].should be_a_kind_of Integer
   end
 
 
   it "requires an ID when creating a repository" do
     post '/repo', params = {
-      "description" => "A new ArchivesSpace repository"
+      :repository => JSON({
+                            "description" => "A new ArchivesSpace repository"
+                          })
     }
 
     last_response.status.should eq(400)
@@ -23,14 +29,21 @@ describe 'Repository controller' do
 
   it "gives a list of all repositories" do
     post '/repo', params = {
-      "id" => "ARCHIVESSPACE",
-      "description" => "A new ArchivesSpace repository"
+      :repository => JSONModel(:repository).
+                     from_hash({
+                                 "repo_id" => "ARCHIVESSPACE",
+                                 "description" => "A new ArchivesSpace repository"
+                               }).to_json
     }
 
     post '/repo', params = {
-      "id" => "TEST",
-      "description" => "A test repository"
+      :repository => JSONModel(:repository).
+                     from_hash({
+                                 "repo_id" => "TEST",
+                                 "description" => "A new ArchivesSpace repository"
+                               }).to_json
     }
+
 
     get '/repo'
 
@@ -39,23 +52,6 @@ describe 'Repository controller' do
 
     repos.any? { |repo| repo["id"] == "ARCHIVESSPACE" }.should be_true
     repos.any? { |repo| repo["id"] == "TEST" }.should be_true
-  end
-
-
-  it "lets you create a repository with spaces" do
-    post '/repo', params = {
-      "id" => "REPO WITH SPACES",
-      "description" => "A new ArchivesSpace repository"
-    }
-
-    last_response.should be_ok
-
-    get '/repo'
-
-    last_response.should be_ok
-    repos = JSON(last_response.body)
-
-    repos.any? { |repo| repo["id"] == "REPO WITH SPACES" }.should be_true
   end
 
 end

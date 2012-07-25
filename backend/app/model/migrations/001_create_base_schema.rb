@@ -82,7 +82,11 @@ Sequel.migration do
 
       String :repo_id, :null => false
 
-      String :accession_id, :null => false, :unique => true
+      String :accession_id_0, :null => false
+      String :accession_id_1, :null => true
+      String :accession_id_2, :null => true
+      String :accession_id_3, :null => true
+
       String :title, :null => false
       String :content_description, :null => false
       String :condition_description, :null => false
@@ -95,7 +99,15 @@ Sequel.migration do
 
     alter_table(:accessions) do
       add_foreign_key([:repo_id], :repositories, :key => :repo_id)
+
+      add_index [:accession_id_0,
+                 :accession_id_1,
+                 :accession_id_2,
+                 :accession_id_3],
+      :unique => true,
+      :name => "unique_acc_id"
     end
+
 
     create_table(:resources) do
       primary_key :id

@@ -16,14 +16,11 @@
 # -------------------------------------------------------------------------------
 
 require 'json-schema'
-require_relative 'idutils'
 
 module JSONModel
 
   # Load all JSON schemas from the schemas subdirectory
   $schema = {}
-  $hooks = {}
-  $extra_properties = {}
 
   Dir.glob(File.join(File.dirname(__FILE__),
                      "schemas",
@@ -36,8 +33,6 @@ module JSONModel
     $VERBOSE = old_verbose
 
     $schema[:"#{schema_name}"] = entry[:schema]
-    $extra_properties[:"#{schema_name}"] = entry[:extra_properties]
-    $hooks[:"#{schema_name}"] = entry[:hooks]
   end
 
 
@@ -91,10 +86,6 @@ module JSONModel
 
         # Define accessors
         self.define_accessors(@@schema['properties'].keys)
-
-        if $extra_properties[@@type]
-          self.define_accessors($extra_properties[@@type])
-        end
       end
 
 
@@ -142,10 +133,6 @@ module JSONModel
 
 
       def to_hash
-        if $hooks[@@type] and $hooks[@@type][:to_hash]
-          @data = $hooks[@@type][:to_hash].call(params)
-        end
-
         cleaned = self.class.drop_unknown_properties(@data, @@schema)
         self.class.validate(cleaned)
 
@@ -191,16 +178,17 @@ module JSONModel
 
 
       def self.from_hash(hash)
-        if $hooks[@@type] and $hooks[@@type][:from_hash]
-          hash = $hooks[@@type][:from_hash].call(hash)
-        end
-
         validate(self.drop_unknown_properties(hash, @@schema))
 
         # Note that I don't use the cleaned version here.  We want to keep
         # around the original extra stuff (and provide accessors for then
         # too), but just want to strip them out when converting back to JSON
         self.new(hash)
+      end
+
+
+      def self.from_sequel(obj)
+        self.from_hash(obj.values.reject {|k, v| v.nil?})
       end
 
 

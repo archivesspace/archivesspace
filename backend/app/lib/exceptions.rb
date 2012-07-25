@@ -1,5 +1,8 @@
-class MissingParamsException < Exception
+class MissingParamsException < StandardError
 end
 
-class ConflictException < Exception
+class ConflictException < StandardError
+end
+
+class NotFoundException < StandardError
 end

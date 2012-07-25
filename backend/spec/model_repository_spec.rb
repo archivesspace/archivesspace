@@ -60,9 +60,7 @@ describe 'Repository model' do
                                                   "condition_description" => "Most letters smeared with jam"
                                                 }))
 
-    acc = repo.find_accession(IDUtils.a_to_s(["1234", "5678", "9876", "5432"]))
-
-    acc.title.should eq("Papers of Mark Triggs")
+    Accession[accession].title.should eq("Papers of Mark Triggs")
   end
 
 

@@ -16,34 +16,39 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   post '/repo/:repo_id/accession' do
-    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession"},
+    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer},
                    "accession" => {:doc => "The accession to create (JSON)"}]
 
     accession = JSONModel(:accession).from_json(params[:accession])
 
-    repo = Repository[:repo_id => params[:repo_id]]
-    acc = repo.create_accession(accession)
+    repo = Repository[:id => params[:repo_id]]
+    id = repo.create_accession(accession)
 
-    "Created"
+    json_response({:status => "Created", :id => id})
   end
+
 
   get '/repo/:repo_id/accessions' do
-    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession"}]
+    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer}]
 
-    repo = Repository[:repo_id => params[:repo_id]]
+    repo = Repository[:id => params[:repo_id]]
 
-    repo.all_accessions.collect {|acc| acc.values}.to_json
+    Accession.all.collect {|acc| acc.values}.to_json
   end
+
 
   get '/repo/:repo_id/accession/:accession_id' do
-    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession"},
-                   "accession_id" => {:doc => "The accession ID"}]
+    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer},
+                   "accession_id" => {:doc => "The accession ID", :type => Integer}]
 
-    repo = Repository[:repo_id => params[:repo_id]]
+    repo = Repository[:id => params[:repo_id]]
 
-    acc = repo.find_accession(params[:accession_id])
+    acc = Accession[params[:accession_id]]
 
-    JSONModel(:accession).from_hash(acc.values).to_json
+    if acc
+      JSONModel(:accession).from_sequel(acc).to_json
+    else
+      raise NotFoundException.new("Accession not found")
+    end
   end
-
 end
