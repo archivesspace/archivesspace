@@ -17,7 +17,14 @@ class AccessionsController < ApplicationController
   end
 
   def create
-    @accession = Accession.from_hash(params['accession'])
+    begin
+      @accession = Accession.from_hash(params['accession'])
+    rescue JSONModel::JSONValidationException => e
+      @accession = e.invalid_object
+      @errors = e.errors      
+      render action: "new"
+      return
+    end
 
     if @accession.save(session[:repo])
       redirect_to :controller=>:accessions, :action=>:show, :id_0=>@accession.accession_id_0, :id_1=>@accession.accession_id_1, :id_2=>@accession.accession_id_2, :id_3=>@accession.accession_id_3

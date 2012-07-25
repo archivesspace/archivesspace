@@ -1,3 +1,5 @@
+require 'net/http'
+
 class Accession < JSONModel(:accession)
 
   def update(attributes={})

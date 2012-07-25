@@ -1,0 +1,20 @@
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Resources", :controller=>:resources, :action=>:index), "Test Resource"]} %>
+<div class="row-fluid">
+   <div class="span3">
+      <div class="well">
+         <p>This is where the tree will go.</p>
+      </div>
+   </div>
+   <div class="span9">
+      <div class="btn-group" style="float: right">
+        <button class="btn">Edit Resource</button>
+        <button class="btn">Delete</button>
+      </div>
+      <h2>Test Resource <span class="label label-info">Resource</span></h2>
+      
+      <div class="row-fluid label-and-value">
+         <div class="span3">Identifier</div>
+         <div class="span9">ABCD 1234 XYZP 5678</div>
+      </div>
+   </div>
+</div>
