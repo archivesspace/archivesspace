@@ -16,11 +16,14 @@
 # -------------------------------------------------------------------------------
 
 require 'json-schema'
+require_relative 'idutils'
 
 module JSONModel
 
   # Load all JSON schemas from the schemas subdirectory
   $schema = {}
+  $hooks = {}
+
   Dir.glob(File.join(File.dirname(__FILE__),
                      "schemas",
                      "*.rb")).each do |schema|
@@ -28,9 +31,11 @@ module JSONModel
 
     old_verbose = $VERBOSE
     $VERBOSE = nil
-    $schema[:"#{schema_name}"] = eval(File.open(schema).read)
+    entry = eval(File.open(schema).read)
     $VERBOSE = old_verbose
 
+    $schema[:"#{schema_name}"] = entry[:schema]
+    $hooks[:"#{schema_name}"] = entry[:hooks]
   end
 
 
@@ -156,6 +161,10 @@ module JSONModel
 
 
       def self.from_hash(params)
+        if $hooks[@@type] and $hooks[@@type][:from_hash]
+          params = $hooks[@@type][:from_hash].call(params)
+        end
+
         cleaned = self.drop_extra_properties(params, @@schema)
 
         errors = JSON::Validator.fully_validate(@@schema, cleaned,

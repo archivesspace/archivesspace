@@ -20,15 +20,13 @@ class ArchivesSpaceService < Sinatra::Base
     repo.all_accessions.collect {|acc| acc.values}.to_json
   end
 
-  get '/repo/:repo_id/accession/*' do
+  get '/repo/:repo_id/accession/:accession_id' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession"},
-                   "splat" => {:doc => "The accession ID"}]
-
-    acc_id = params[:splat][0].split("/", 4)
+                   "accession_id" => {:doc => "The accession ID"}]
 
     repo = Repository[:repo_id => params[:repo_id]]
 
-    acc = repo.find_accession(acc_id)
+    acc = repo.find_accession(params[:accession_id])
 
     JSONModel(:accession).from_hash(acc.values).to_json
   end

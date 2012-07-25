@@ -11,10 +11,7 @@ describe 'Accession controller' do
 
     post '/repo/ARCHIVESSPACE/accession', params = {
       :accession => JSON({
-                           "accession_id_0" => "1234",
-                           "accession_id_1" => "5678",
-                           "accession_id_2" => "9876",
-                           "accession_id_3" => "5432",
+                           "accession_id" => IDUtils.a_to_s(["1234", "5678", "9876", "5432"]),
                            "title" => "The accession title",
                            "content_description" => "The accession description",
                            "condition_description" => "The condition description",
@@ -25,7 +22,7 @@ describe 'Accession controller' do
     last_response.should be_ok
 
 
-    get '/repo/ARCHIVESSPACE/accession/1234/5678/9876/5432'
+    get '/repo/ARCHIVESSPACE/accession/1234_5678_9876_5432'
 
     acc = JSON(last_response.body)
 
@@ -42,7 +39,7 @@ describe 'Accession controller' do
 
     post '/repo/ARCHIVESSPACE/accession', params = {
       :accession => JSONModel(:accession).from_hash({
-                                                      "accession_id_0" => "1234",
+                                                      "accession_id" => IDUtils.a_to_s(["1234"]),
                                                       "title" => "The accession title",
                                                       "content_description" => "The accession description",
                                                       "condition_description" => "The condition description",
