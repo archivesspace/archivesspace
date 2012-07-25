@@ -12,7 +12,7 @@
       "content_description" => {"type" => "string", "required" => true},
       "condition_description" => {"type" => "string", "required" => true},
 
-      "accession_date" => {type => "string", "minLength" => 1, "required" => true}
+      "accession_date" => {"type" => "date", "minLength" => 1, "required" => true}
     },
 
     "additionalProperties" => false,

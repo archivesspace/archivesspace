@@ -44,6 +44,26 @@ module JSONModel
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
     end
+
+    def to_s
+      "#<:JSONModel::JSONValidationException: #{@errors.inspect}"
+    end
+  end
+
+  class FauxColumnInfo
+    attr_accessor :type, :limit
+
+    def initialize(type_info)
+      type_info ||= :string
+      case
+      when  type_info.instance_of?(Hash), type_info.instance_of?(OpenStruct)
+        self.type = type_info[:type].to_sym
+        self.limit = type_info[:limit]
+      else
+        self.type = type_info.to_sym
+        self.limit = nil
+      end
+    end
   end
 
 
@@ -106,21 +126,7 @@ module JSONModel
       end
 
 
-      class FauxColumnInfo
-        attr_accessor :type, :limit
 
-        def initialize(type_info)
-          type_info ||= :string
-          case
-          when  type_info.instance_of?(Hash), type_info.instance_of?(OpenStruct)
-            self.type = type_info[:type].to_sym
-            self.limit = type_info[:limit]
-          else
-            self.type = type_info.to_sym
-            self.limit = nil
-          end
-        end
-      end
 
       def update(params)
         self.class.validate(@data.merge(params))
