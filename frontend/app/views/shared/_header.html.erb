@@ -1,15 +1,12 @@
 <div class="navbar">
     <div class="navbar-inner">
       <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <a class="brand" href="#">ArchivesSpace</a>
+        <%= link_to "ArchivesSpace", {:controller=>:welcome, :action=>:index}, :class=>"brand" %>
         <div class="nav-collapse">
           <ul class="nav">
-            <li class="active"><%= link_to raw('<span class="icon-home icon-white"></span>'), :controller=>:welcome, :action=>:index %></li>
+            <li <% if controller_name === "welcome" %>class="active"<% end %>>
+               <%= link_to raw('<span class="icon-home icon-white"></span>'), :controller=>:welcome, :action=>:index %>
+            </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
               <ul class="dropdown-menu">
