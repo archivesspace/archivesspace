@@ -2,6 +2,7 @@
 
 require 'nokogiri'
 require 'json'
+require_relative File.join("..", "..", "common", "jsonmodel")
 
 class ASpaceRecordPoster
   def post_json(record_type, json_record)
@@ -37,6 +38,7 @@ class Collection < ASpaceRecord
 end
 
 class ArchivalObject < ASpaceRecord
+  include JSONModel
   def initialize()
     @wrapped_objects = Array.new
   end
@@ -58,6 +60,15 @@ class ArchivalObject < ASpaceRecord
   def to_s
     puts "#{@id}: #{@title}"
   end 
+  def to_json #TODO: Move this up to the ASpaceRecordClass 
+       hash = {}
+       self.instance_variables.each do |var|
+           hash[var[1..-1]] = self.instance_variable_get var
+       end
+       obj = JSONModel(:archival_object).from_hash(hash)
+       puts "Created JSON Object for #{obj.title}" if $DEBUG
+       obj.to_json
+   end
 end
 
 
