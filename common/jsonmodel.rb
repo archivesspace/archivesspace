@@ -46,6 +46,22 @@ module JSONModel
     end
   end
 
+  class FauxColumnInfo
+    attr_accessor :type, :limit
+
+    def initialize(type_info)
+      type_info ||= :string
+      case
+      when  type_info.instance_of?(Hash), type_info.instance_of?(OpenStruct)
+        self.type = type_info[:type].to_sym
+        self.limit = type_info[:limit]
+      else
+        self.type = type_info.to_sym
+        self.limit = nil
+      end
+    end
+  end
+
 
   def JSONModel(source)
     cls = Class.new do
@@ -106,21 +122,7 @@ module JSONModel
       end
 
 
-      class FauxColumnInfo
-        attr_accessor :type, :limit
 
-        def initialize(type_info)
-          type_info ||= :string
-          case
-          when  type_info.instance_of?(Hash), type_info.instance_of?(OpenStruct)
-            self.type = type_info[:type].to_sym
-            self.limit = type_info[:limit]
-          else
-            self.type = type_info.to_sym
-            self.limit = nil
-          end
-        end
-      end
 
       def update(params)
         self.class.validate(@data.merge(params))
