@@ -13,31 +13,31 @@ class AccessionsController < ApplicationController
   end
 
   def edit
-    @accession = Accession.find(params[:id], session[:repo])
+    @accession = Accession.find(session[:repo],params[:id_0],params[:id_1],params[:id_2],params[:id_3])
   end
 
   def create
     @accession = Accession.new(params['accession'])
 
     if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id_for_url
+      redirect_to :controller=>:accessions, :action=>:show, :id_0=>@accession.accession_id_0, :id_1=>@accession.accession_id_1, :id_2=>@accession.accession_id_2, :id_3=>@accession.accession_id_3
     else
       render action: "new"
     end
   end
 
   def update
-    @accession = Accession.find(params[:id], session[:repo])
-
-    if @accession.save(session[:repo])
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id_for_url
-    else
+    @accession = Accession.find(session[:repo],params[:id_0],params[:id_1],params[:id_2],params[:id_3])
+    @accession.update(params['accession'])
+    #if @accession.save(session[:repo])
+    #  redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.accession_id_for_url
+    #else
       render action: "edit"
-    end
+    #end
   end
 
   def destroy
-    @accession = Accession.find(params[:id], session[:repo])
+    @accession = Accession.find(session[:repo],params[:id_0],params[:id_1],params[:id_2],params[:id_3])
     @accession.destroy
     
     redirect_to  :controller=>:accessions, :action=>:index

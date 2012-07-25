@@ -2,15 +2,20 @@ class Accession < FormtasticFauxModel
   attr_accessor :id, :repo_id, :title, :accession_id, :accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3, :content_description, :condition_description, :accession_date, :create_time, :last_modified, :resource_link
   
   def initialize(attributes = {})
-    @data = attributes
     super(attributes)        
+  end
+
+  def update(attributes={})
+    attributes.each do |name, value|  
+      send("#{name}=", value)
+    end
   end
 
   def save(repo)
     return false if repo.blank?    
 
-    uri = URI("#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession")
-    response = Net::HTTP.post_form(uri, {:accession=>@data.to_json})
+    uri = URI("#{BACKEND_SERVICE_URL}/repo/#{URI.escape(repo)}/accession")    
+    response = Net::HTTP.post_form(uri, {:accession=>self.to_json})
     
     response.body === "Created"
   end

@@ -29,7 +29,7 @@
    <div class="control-group">
       <%= f.label :accession_date, "Accession Date", :class=>"control-label" %>
      <div class="controls">
-        <%= f.text_field :accession_date, :placeholder=>"YYYY-MM-DD" %>
+        <%= f.text_field :accession_date, :placeholder=>"YYYY-MM-DD", :value=>Date.strptime(@accession.accession_date, "%Y-%m-%d") %>
      </div>
    </div>
    <!-- <div class="control-group">

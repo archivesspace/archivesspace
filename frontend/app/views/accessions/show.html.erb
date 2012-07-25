@@ -5,7 +5,11 @@
          <p>This is where the tree will go.</p>
       </div>
    </div>
-   <div class="span6">
+   <div class="span9">
+      <div class="btn-group" style="float: right">
+        <%= link_to "Edit Accession", {:controller=>:accessions, :action=>:edit, :id_0=>@accession.accession_id_0, :id_1=>@accession.accession_id_1, :id_2=>@accession.accession_id_2, :id_3=>@accession.accession_id_3}, :class=>"btn" %>
+        <button class="btn">Delete</button>
+      </div>
       <h2><%= @accession.title %> <span class="label label-info">Accession</span></h2>
       
       <div class="row-fluid label-and-value">
@@ -14,7 +18,7 @@
       </div>
       <div class="row-fluid label-and-value">
          <div class="span3">Accession Date</div>
-         <div class="span9"><%= @accession.accession_date %></div>
+         <div class="span9"><%= Date.strptime(@accession.accession_date, "%Y-%m-%d") %></div>
       </div>
       <div class="row-fluid label-and-value">
          <div class="span3">Content Description</div>
@@ -33,5 +37,4 @@
          <div class="span9"></div>
       </div>
    </div>
-   <div class="span3"></div>
 </div>
