@@ -35,7 +35,7 @@ describe 'Accession controller' do
   end
 
 
-  it "works with partial IDs" do
+  it "supports updates" do
     post "/repo/#{@repo}/accession", params = {
       :accession => JSONModel(:accession).from_hash({
                                                       "accession_id_0" => "1234",
@@ -49,11 +49,26 @@ describe 'Accession controller' do
     last_response.should be_ok
     created = JSON(last_response.body)
 
+
+    # Update it
+    post "/repo/#{@repo}/accession/#{created['id']}", params = {
+      :accession => JSONModel(:accession).from_hash({
+                                                      "accession_id_0" => "1234",
+                                                      "accession_id_1" => "5678",
+                                                      "accession_id_2" => "1234",
+                                                      "title" => "The accession title",
+                                                      "content_description" => "The accession description",
+                                                      "condition_description" => "The condition description",
+                                                      "accession_date" => "2012-05-03",
+                                                    }).to_json
+    }
+
+
     get "/repo/#{@repo}/accession/#{created['id']}"
 
     acc = JSON(last_response.body)
 
-    acc["title"].should eq("The accession title")
+    acc["accession_id_1"].should eq("5678")
   end
 
 end

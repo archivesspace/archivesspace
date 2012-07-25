@@ -50,8 +50,8 @@ describe 'Repository controller' do
     last_response.should be_ok
     repos = JSON(last_response.body)
 
-    repos.any? { |repo| repo["id"] == "ARCHIVESSPACE" }.should be_true
-    repos.any? { |repo| repo["id"] == "TEST" }.should be_true
+    repos.any? { |repo| repo["repo_id"] == "ARCHIVESSPACE" }.should be_true
+    repos.any? { |repo| repo["repo_id"] == "TEST" }.should be_true
   end
 
 end
