@@ -1,9 +1,4 @@
-class Accession < FormtasticFauxModel
-  attr_accessor :id, :repo_id, :title, :accession_id, :accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3, :content_description, :condition_description, :accession_date, :create_time, :last_modified, :resource_link
-  
-  def initialize(attributes = {})
-    super(attributes)        
-  end
+class Accession < JSONModel(:accession)
 
   def update(attributes={})
     attributes.each do |name, value|  
@@ -32,9 +27,10 @@ class Accession < FormtasticFauxModel
       end              
     end
     response = Net::HTTP.get(URI(uri_str))
-    self.new(JSON.parse(response))
+    self.from_json(response)
   end
-  
+
+
   def resource_link
     if @resource_link.blank? then
       @resource_link = "defer"
@@ -53,18 +49,5 @@ class Accession < FormtasticFauxModel
     "#{accession_id_0} #{accession_id_1} #{accession_id_2} #{accession_id_3}"
   end
   
-  def accession_id_for_url
-    url = accession_id_0
-    unless accession_id_1.blank?
-      url += "/#{accession_id_1}"
-      unless accession_id_2.blank?
-        url += "/#{accession_id_2}"
-        unless accession_id_3.blank?
-          url += "/#{accession_id_3}"
-        end
-      end
-    end
-    url
-  end
   
 end
