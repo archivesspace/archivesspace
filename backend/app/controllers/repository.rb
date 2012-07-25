@@ -9,7 +9,11 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:status => "Created", :id => created[:id]})
   end
 
-
+  get '/repo/:id' do
+    repo = Repository[:id => params[:id]]
+    repo.to_json
+  end
+  
   get '/repo' do
     result = []
 

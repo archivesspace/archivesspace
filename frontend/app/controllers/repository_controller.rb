@@ -16,14 +16,14 @@ class RepositoryController < ApplicationController
     
     response = @repository.save
 
-    if response[:status] === "Created"
-      redirect_to :root
+    if response['status'] === "Created"
+      render :text=>"Success"
     else
       return render action: "new", :layout=>nil
     end
   end
   
-  def select
+  def select    
     session[:repo] = params[:id]
     render :partial=>'shared/header_repository'
   end

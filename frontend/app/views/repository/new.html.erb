@@ -4,6 +4,13 @@
     <h3>Create Repository</h3>
    </div>
    <div class="modal-body">
+     <% if @errors %>
+        <div class="alert alert-error">
+           <% @errors.each do |error| %>
+              <div class="error"><%= error[:message] %></div>
+           <% end %>
+        </div>
+     <% end %>
       <fieldset>
        <div class="control-group">
           <label class="control-label" for="repo_id">Repository Id</label>
@@ -24,3 +31,20 @@
       <input class="btn btn-primary" type="submit" name="commit" value="Create Repository" />
    </div>
 <% end %>
+<script>
+  $('form#new_repository').ajaxForm({
+     beforeSubmit: function() {
+        $(".btn-primary", 'form#new_repository').attr("disabled","disabled");
+     },
+     success: function(response, status, xhr) {
+        if (response === "Success") {
+          document.location.reload(true);
+        } else {
+          $('form#new_repository').html(response);
+        }        
+     }, 
+     error: function(obj, errorText, errorDesc) {
+        $(".btn-primary", 'form#new_repository').removeAttr("disabled");
+     }
+  });
+</script>

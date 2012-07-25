@@ -15,5 +15,10 @@ class Repository < JSONModel(:repository)
     response = Net::HTTP.get(uri)
     JSON.parse(response)
   end
-  
+
+  def self.find(id)
+    uri = URI("#{BACKEND_SERVICE_URL}/repo/#{id}")
+    response = Net::HTTP.get(uri)
+    self.from_json(response)
+  end  
 end
