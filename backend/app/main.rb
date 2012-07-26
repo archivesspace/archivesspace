@@ -67,7 +67,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   error Sequel::DatabaseError do
-    json_response({:error => {:primary_key => ["Database integrity constraint conflict"]}}, 409)
+    json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 409)
   end
 
 
