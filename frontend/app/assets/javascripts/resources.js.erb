@@ -2,35 +2,48 @@
 
 
 $(function() {
-   var foo = 0;
    
    // init the archives tree
    var $tree = $(".archives-tree").jstree({
-       "plugins": [ "themes", "html_data", "ui", "crrm" ],
+       
        "themes": {
           "theme": "default",
           "url": "<%= asset_path('jstree-theme/style.css') %>"
        },
-       "ui": {
-          "initially_select": ["root"]
-       }
+       "dnd": {
+          "drop_target" : false,
+          "drag_target" : false
+       },
+       "crrm" : {
+          "move" : {
+              "check_move" : function (m) {
+                  
+                  return true;
+              }
+          }
+      },
+      "plugins": [ "themes", "html_data", "crrm" , "dnd"]
+                  
    });
    
+   var id_counter = 0;
+   
    $(".add-container-action").on("click", function() {
-      var new_id = "new_id_"+foo;
+      var new_id = "new_id_"+id_counter;
       $tree.jstree("deselect_all");
-      $tree.jstree("create_node", $("#root"), {"title": "New Container", "li_attr": {"id":new_id}});
+      $tree.jstree("create_node", $("#root"), "last", {"attr":{"id":new_id}, "data": {"title": "New Container"}});
       $tree.jstree("select_node", "#"+new_id);
-      foo++;
+      $("#"+new_id, $tree).addClass("container").attr("rel", "container");
+      id_counter=id_counter+1;
    });
    
    $(".add-resource-action").on("click", function() {
-      var new_id = "new_id_"+foo;
+      var new_id = "new_id_"+id_counter;
       $tree.jstree("deselect_all");
-      $tree.jstree("create_node", $("#root"), {"title": "New Resource", "li_attr": {"id":new_id}});
-      $tree.jstree("select_node", "#"+new_id);
-      $("#"+new_id, $tree).addClass("resource");
-      foo++;
+      $tree.jstree("create_node", $("#root"), "last", {"attr":{"id":new_id}, "data": {"title": "New Resource"}});
+      $tree.jstree("select_node", "#"+new_id);    
+      $("#"+new_id, $tree).addClass("resource").attr("rel", "resource");
+      id_counter=id_counter+1;
    });
    
 });
