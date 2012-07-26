@@ -12,14 +12,14 @@
          $ rvm gemset create archivesspace-migrations
          $ rvm gemset use archivesspace-migrations
 
-  * Install nokogiri, json
+  * Install nokogiri, json-schema
 
          $ gem install nokogiri
-         $ gem install json
+         $ gem install json-schema
 
-  * Run ead_import.rb like so
+  * Run import.rb like so
   
-         $ ruby ead_import.rb {path/to/your/ead.xml}
+         $ import.rb [-n ] (DRY RUN) -i {importer-name} {path/to/your/data/file.ext}
 
 
 ## Without RVM
