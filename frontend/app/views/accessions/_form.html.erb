@@ -1,12 +1,5 @@
+<%= render "shared/errors"%>
 <fieldset>
-   <% if @errors %>
-      <div class="alert alert-error">
-         <% @errors.each do |error| %>
-            <div class="error"><%= error[:message] %></div>
-         <% end %>
-      </div>
-   <% end %>
-
    <div class="control-group">
       <%= f.label :title, "Title", :class=>"control-label" %>
      <div class="controls">

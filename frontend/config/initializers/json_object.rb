@@ -1,0 +1,2 @@
+require "jsonmodel"
+include JSONModel

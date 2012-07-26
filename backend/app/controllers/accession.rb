@@ -1,12 +1,9 @@
 class ArchivesSpaceService < Sinatra::Base
 
 
-  post '/repo/:repo_id/accession/:accession_id' do
-    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer},
-                   "accession_id" => {:doc => "The accession ID to update", :type => Integer},
+  post '/accession/:accession_id' do
+    ensure_params ["accession_id" => {:doc => "The accession ID to update", :type => Integer},
                    "accession" => {:doc => "The accession data to update (JSON)"}]
-
-    repo = Repository[params[:repo_id]]
 
     acc = Accession[params[:accession_id]]
 
@@ -16,11 +13,11 @@ class ArchivesSpaceService < Sinatra::Base
       raise NotFoundException.new("Accession not found")
     end
 
-    "Updated"
+    json_response({:status => "Updated", :id => acc[:id]})
   end
 
 
-  post '/repo/:repo_id/accession' do
+  post '/accession' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer},
                    "accession" => {:doc => "The accession to create (JSON)"}]
 
@@ -33,7 +30,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/repo/:repo_id/accessions' do
+  get '/accession' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer}]
 
     repo = Repository[params[:repo_id]]
@@ -42,11 +39,8 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/repo/:repo_id/accession/:accession_id' do
-    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer},
-                   "accession_id" => {:doc => "The accession ID", :type => Integer}]
-
-    repo = Repository[params[:repo_id]]
+  get '/accession/:accession_id' do
+    ensure_params ["accession_id" => {:doc => "The accession ID", :type => Integer}]
 
     acc = Accession[params[:accession_id]]
 

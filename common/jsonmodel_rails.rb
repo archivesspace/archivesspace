@@ -42,6 +42,11 @@ module JSONModel
 
   module Rails
 
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
+
+
     class << self
       attr_accessor :types
     end
@@ -58,23 +63,17 @@ module JSONModel
       JSONModel::FauxColumnInfo.new(self.class.types[attr])
     end
 
-    def save
-      properties = self.to_hash
 
-      type = self._record_type
+    def save(opts = {})
+      type = self.class.record_type
 
-      if @my_uri
-        # Update
-        raise Exception.new("Not implemented yet")
-      else
-        # Create
-        uri = "#{BACKEND_SERVICE_URL}/#{type}"
-      end
-
-      response = Net::HTTP.post_form(URI(uri), {type => self.to_json})
+      response = Net::HTTP.post_form(self.class.my_url(self.id),
+                                     opts.merge({type => self.to_json}))
 
       if response.code == '200'
-        JSON.parse(response.body)
+        response = JSON.parse(response.body)
+
+        return response["id"]
       elsif response.code == '409'
         # A conflict exception
         err = JSON.parse(response.body)
@@ -84,7 +83,64 @@ module JSONModel
       else
         raise Exception.new("Unknown response: #{response}")
       end
+    end
+
+
+    def id=(id)
+      @id = id
+    end
+
+
+    def id
+      @id
+    end
+
+
+
+    module ClassMethods
+
+      def my_url(id = nil)
+        uri = "#{BACKEND_SERVICE_URL}/#{self.record_type}"
+
+        if id
+          uri += "/#{id}"
+        end
+
+        URI(uri)
+      end
+
+
+      def find(id)
+        response = Net::HTTP.get_response(my_url(id))
+
+        if response.code == '200'
+          obj = self.from_json(response.body)
+          obj.id = id
+
+          obj
+        else
+          nil
+        end
+      end
+
+
+      def all(opts = {})
+        uri = my_url
+
+        uri.query = URI.encode_www_form(opts)
+
+        response = Net::HTTP.get_response(uri)
+
+        if response.code == '200'
+          json_list = JSON(response.body)
+
+          json_list.map {|h| self.from_hash(h)}
+        else
+          nil
+        end
+      end
 
     end
+
   end
 end

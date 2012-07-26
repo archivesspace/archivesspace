@@ -37,4 +37,14 @@
     </java>
   </target>
 
+
+  <target name="console" description="Run the rails console">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+          dir="..">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="--1.9 script/rails console" />
+    </java>
+  </target>
+
+
 </project>

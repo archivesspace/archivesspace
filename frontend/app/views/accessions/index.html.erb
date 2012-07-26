@@ -23,7 +23,7 @@
               <% @accessions.each do |accession| %>
               <tr>
                <td><%= accession.title %></td>
-               <td><%= accession.accession_id %></td>
+               <td><%= accession.id %></td>
                <td><%= Date.strptime(accession.accession_date, "%Y-%m-%d") %></td>
                <td>TODO</td>
                <td>

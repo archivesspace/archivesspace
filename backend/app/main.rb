@@ -120,7 +120,7 @@ class ArchivesSpaceService < Sinatra::Base
         (missing + bad_type).each do |param|
           s += "  * #{param} -- #{required_params[param][:doc]}"
           if required_params[param].has_key?(:type)
-            s = " (type: #{required_params[param][:type]})"
+            s += " (type: #{required_params[param][:type]})"
           end
           s += "\n"
         end

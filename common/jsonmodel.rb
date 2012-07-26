@@ -3,21 +3,9 @@ require 'json-schema'
 
 module JSONModel
 
-  # Load all JSON schemas from the schemas subdirectory
   $schema = {}
-
-  Dir.glob(File.join(File.dirname(__FILE__),
-                     "schemas",
-                     "*.rb")).each do |schema|
-    schema_name = File.basename(schema, ".rb")
-
-    old_verbose = $VERBOSE
-    $VERBOSE = nil
-    entry = eval(File.open(schema).read)
-    $VERBOSE = old_verbose
-
-    $schema[:"#{schema_name}"] = entry[:schema]
-  end
+  $types = {}
+  $models = {}
 
 
   class ValidationException < StandardError
@@ -30,12 +18,18 @@ module JSONModel
     end
 
     def to_s
-      "#<:ValidationException: #{@errors.inspect}"
+      "#<:ValidationException: #{@errors.inspect}>"
     end
   end
 
 
   def JSONModel(source)
+    $models[source.to_s]
+  end
+
+
+  def self.create_model_for(type, schema)
+
     cls = Class.new do
 
       if Module.const_defined?(:Rails)
@@ -62,15 +56,6 @@ module JSONModel
       end
 
 
-      def self.set_schema(type, schema)
-        @@type = type
-        @@schema = schema
-
-        # Define accessors
-        self.define_accessors(@@schema['properties'].keys)
-      end
-
-
       def initialize(params)
         @data = params
 
@@ -78,8 +63,8 @@ module JSONModel
       end
 
 
-      def _record_type
-        @@type
+      def self.record_type
+        self.lookup($types)
       end
 
 
@@ -90,12 +75,12 @@ module JSONModel
 
 
       def to_s
-        "#<:#{@@type} record>"
+        "#<:#{self.class.record_type} record>"
       end
 
 
       def to_hash
-        cleaned = self.class.drop_unknown_properties(@data, @@schema)
+        cleaned = self.class.drop_unknown_properties(@data)
         self.class.validate(cleaned)
 
         cleaned
@@ -107,7 +92,20 @@ module JSONModel
       end
 
 
-      def self.drop_unknown_properties(params, schema)
+      def self.lookup(hash)
+        my_true_self = self.ancestors.find {|cls| hash[cls]}
+
+        if my_true_self
+          return hash[my_true_self]
+        end
+
+        return nil
+      end
+
+
+      def self.drop_unknown_properties(params)
+        schema = self.lookup($schema)
+
         result = {}
 
         params.each do |k, v|
@@ -134,16 +132,25 @@ module JSONModel
           if (error[:failed_attribute] == 'Properties' and
               error[:message] =~ /.*did not contain a required property of '(.*?)'.*/)
 
-            property = $1
-            result[property] = ["Property is required but was missing"]
+            result[$1] = ["Property is required but was missing"]
 
           elsif (error[:failed_attribute] == 'Pattern' and
                  error[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
 
             result[$1] = ["Did not match regular expression: #{$2}"]
 
+          elsif (error[:failed_attribute] == 'MinLength' and
+                 error[:message] =~ /The property '#\/(.*?)' was not of a minimum string length of ([0-9]+) in schema/)
+
+            result[$1] = ["Must be at least #{$2} characters"]
+
+          elsif (error[:failed_attribute] == 'Type' and
+                 error[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
+
+            result[$1] = ["Must be a #{$3} (you provided a #{$2})"]
+
           else
-            Log.warn("Failed to find a matching parse rule for: #{error}")
+            puts "Failed to find a matching parse rule for: #{error}"
           end
 
         end
@@ -153,7 +160,8 @@ module JSONModel
 
 
       def self.validate(hash)
-        errors = JSON::Validator.fully_validate(@@schema, hash,
+        errors = JSON::Validator.fully_validate(self.lookup($schema),
+                                                self.drop_unknown_properties(hash),
                                                 :errors_as_objects => true)
 
         if not errors.empty?
@@ -166,7 +174,7 @@ module JSONModel
 
 
       def self.from_hash(hash)
-        validate(self.drop_unknown_properties(hash, @@schema))
+        validate(hash)
 
         # Note that I don't use the cleaned version here.  We want to keep
         # around the original extra stuff (and provide accessors for then
@@ -187,13 +195,28 @@ module JSONModel
     end
 
 
-    if not $schema[source]
-      raise Exception.new("Unknown data type: #{source}")
-    end
+    cls.define_accessors(schema['properties'].keys)
 
-    cls.set_schema(source, $schema[source])
-    cls
+    $types[cls] = type
+    $schema[cls] = schema
+    $models[type] = cls
   end
 
+
+
+  # Load all JSON schemas from the schemas subdirectory
+  # Create a model class for each one.
+  Dir.glob(File.join(File.dirname(__FILE__),
+                     "schemas",
+                     "*.rb")).each do |schema|
+    schema_name = File.basename(schema, ".rb")
+
+    old_verbose = $VERBOSE
+    $VERBOSE = nil
+    entry = eval(File.open(schema).read)
+    $VERBOSE = old_verbose
+
+    self.create_model_for(schema_name, entry[:schema])
+  end
 
 end
