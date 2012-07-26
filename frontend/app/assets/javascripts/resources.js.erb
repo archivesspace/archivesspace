@@ -1,0 +1,36 @@
+//= require plugins/jstree
+
+
+$(function() {
+   var foo = 0;
+   
+   // init the archives tree
+   var $tree = $(".archives-tree").jstree({
+       "plugins": [ "themes", "html_data", "ui", "crrm" ],
+       "themes": {
+          "theme": "default",
+          "url": "<%= asset_path('jstree-theme/style.css') %>"
+       },
+       "ui": {
+          "initially_select": ["root"]
+       }
+   });
+   
+   $(".add-container-action").on("click", function() {
+      var new_id = "new_id_"+foo;
+      $tree.jstree("deselect_all");
+      $tree.jstree("create_node", $("#root"), {"title": "New Container", "li_attr": {"id":new_id}});
+      $tree.jstree("select_node", "#"+new_id);
+      foo++;
+   });
+   
+   $(".add-resource-action").on("click", function() {
+      var new_id = "new_id_"+foo;
+      $tree.jstree("deselect_all");
+      $tree.jstree("create_node", $("#root"), {"title": "New Resource", "li_attr": {"id":new_id}});
+      $tree.jstree("select_node", "#"+new_id);
+      $("#"+new_id, $tree).addClass("resource");
+      foo++;
+   });
+   
+});
