@@ -8,7 +8,7 @@ describe 'Accession controller' do
       "description" => "A new ArchivesSpace repository"
     }
 
-    post '/repo', params = { "repository" => JSONModel(:repository).from_hash(test_repo).to_json }
+    post '/repository', params = { "repository" => JSONModel(:repository).from_hash(test_repo).to_json }
     @repo = JSON(last_response.body)["id"]
   end
 

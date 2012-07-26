@@ -8,7 +8,7 @@ class RepositoryController < ApplicationController
   def create
     begin
       @repository = Repository.from_hash(params['repository'])
-    rescue JSONModel::JSONValidationException => e
+    rescue JSONModel::ValidationException => e
       @repository = e.invalid_object
       @errors = e.errors      
       return render action: "new", :layout=>nil

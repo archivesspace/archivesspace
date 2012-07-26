@@ -54,14 +54,21 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => request.env['sinatra.error']}, 400)
   end
 
-  error JSONValidationException do
+  error ValidationException do
     json_response({:error => request.env['sinatra.error']}, 400)
   end
 
   error ConflictException do
-    json_response({:error => request.env['sinatra.error']}, 409)
+    json_response({:error => request.env['sinatra.error'].conflicts}, 409)
   end
 
+  error Sequel::ValidationFailed do
+    json_response({:error => request.env['sinatra.error'].errors}, 409)
+  end
+
+  error Sequel::DatabaseError do
+    json_response({:error => {:primary_key => ["Database integrity constraint conflict"]}}, 409)
+  end
 
 
   class DBWrappingMiddleware

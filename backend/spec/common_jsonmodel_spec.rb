@@ -31,7 +31,7 @@ describe 'JSON model' do
   it "Flags errors on invalid values" do
     lambda {
       JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
-    }.should raise_error(JSONValidationException)
+    }.should raise_error(ValidationException)
   end
 
 
@@ -64,7 +64,7 @@ describe 'JSON model' do
     exception = false
     begin
       JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
-    rescue JSONValidationException => e
+    rescue ValidationException => e
       exception = e
     end
 
@@ -74,7 +74,7 @@ describe 'JSON model' do
     exception.invalid_object.elt_0.should eq("/!$")
 
     # And you can get a list of its problems too
-    exception.errors[0][:failed_attribute].should eq("Pattern")
+    exception.errors["elt_0"][0].should eq "Did not match regular expression: ^[a-zA-Z0-9 ]*$"
   end
 
 

@@ -20,7 +20,7 @@ class AccessionsController < ApplicationController
     
     begin
       @accession = Accession.from_hash(params['accession'])
-    rescue JSONModel::JSONValidationException => e
+    rescue JSONModel::ValidationException => e
       @accession = e.invalid_object
       @errors = e.errors      
       return render action: "new"      
@@ -41,7 +41,7 @@ class AccessionsController < ApplicationController
     
     begin
       @accession.update(params['accession'])
-    rescue JSONModel::JSONValidationException => e
+    rescue JSONModel::ValidationException => e
       @accession = e.invalid_object
       @errors = e.errors      
       return render action: "new"      

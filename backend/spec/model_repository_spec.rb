@@ -23,6 +23,8 @@ describe 'Repository model' do
       if DB.is_integrity_violation(ex)
         got_exception = true
       end
+    rescue Sequel::ValidationFailed
+      got_exception = true
     end
 
     got_exception.should be_true
@@ -38,6 +40,8 @@ describe 'Repository model' do
       if DB.is_integrity_violation(ex)
         got_exception = true
       end
+    rescue Sequel::ValidationFailed
+      got_exception = true
     end
 
     got_exception.should be_true

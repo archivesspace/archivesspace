@@ -1,21 +1,5 @@
-# -------------------------------------------------------------------------------
-# Parts of this file are borrowed from Dondoh's Faux model object.
-#
-#  Created: by dondoh
-#  Website: http://dondoh.tumblr.com/post/4142258573/formtastic-without-activerecord
-#  Licence: Under the following conditions:
-#
-#            * Attribution -- you must attribute the work to me (a comment in
-#              the code is sufficient, although I would also accept a role in
-#              the movie adaptation)
-#
-#            * Share alike -- if you alter, transform, or build upon this work,
-#              you may distribute the work only under the same or similar
-#              license to this one.
-#
-# -------------------------------------------------------------------------------
-
 require 'json-schema'
+
 
 module JSONModel
 
@@ -36,7 +20,7 @@ module JSONModel
   end
 
 
-  class JSONValidationException < StandardError
+  class ValidationException < StandardError
     attr_accessor :invalid_object
     attr_accessor :errors
 
@@ -46,23 +30,7 @@ module JSONModel
     end
 
     def to_s
-      "#<:JSONModel::JSONValidationException: #{@errors.inspect}"
-    end
-  end
-
-  class FauxColumnInfo
-    attr_accessor :type, :limit
-
-    def initialize(type_info)
-      type_info ||= :string
-      case
-      when  type_info.instance_of?(Hash), type_info.instance_of?(OpenStruct)
-        self.type = type_info[:type].to_sym
-        self.limit = type_info[:limit]
-      else
-        self.type = type_info.to_sym
-        self.limit = nil
-      end
+      "#<:ValidationException: #{@errors.inspect}"
     end
   end
 
@@ -70,20 +38,14 @@ module JSONModel
   def JSONModel(source)
     cls = Class.new do
 
-      begin
+      if Module.const_defined?(:Rails)
+        require_relative 'jsonmodel_rails'
+
         include ActiveModel::Validations
         include ActiveModel::Conversion
-        extend  ActiveModel::Naming
-      rescue NameError
-        # This is normal when loading this library outside of a Rails
-        # environment, and we don't need this extra stuff for non-Rails uses
-        # anyway.
+        include JSONModel::Rails
+        extend ActiveModel::Naming
       end
-
-      class << self
-        attr_accessor :types
-      end
-      self.types = {}
 
 
       def self.define_accessors(attributes)
@@ -116,22 +78,16 @@ module JSONModel
       end
 
 
-      def persisted?
-        false
+      def _record_type
+        @@type
       end
-
-
-      def column_for_attribute(attr)
-        FauxColumnInfo.new(self.class.types[attr])
-      end
-
-
 
 
       def update(params)
         self.class.validate(@data.merge(params))
         @data = @data.merge(params)
       end
+
 
       def to_s
         "#<:#{@@type} record>"
@@ -170,13 +126,39 @@ module JSONModel
       end
 
 
+      def self.parse_schema_errors(errors)
+        result = {}
+
+        errors.each do |error|
+
+          if (error[:failed_attribute] == 'Properties' and
+              error[:message] =~ /.*did not contain a required property of '(.*?)'.*/)
+
+            property = $1
+            result[property] = ["Property is required but was missing"]
+
+          elsif (error[:failed_attribute] == 'Pattern' and
+                 error[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
+
+            result[$1] = ["Did not match regular expression: #{$2}"]
+
+          else
+            Log.warn("Failed to find a matching parse rule for: #{error}")
+          end
+
+        end
+
+        result
+      end
+
+
       def self.validate(hash)
         errors = JSON::Validator.fully_validate(@@schema, hash,
                                                 :errors_as_objects => true)
 
         if not errors.empty?
-          raise JSONValidationException.new(:invalid_object => self.new(hash),
-                                            :errors => errors)
+          raise ValidationException.new(:invalid_object => self.new(hash),
+                                        :errors => self.parse_schema_errors(errors))
         end
 
         nil
