@@ -1,7 +1,40 @@
+@import "twitter/bootstrap/variables";
+@import "twitter/bootstrap/mixins";
+
+// Set the correct sprite paths
+@iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
+@iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
+
 .archives-tree-toolbar {
   margin-top: 10px;
 }
 
 .archives-tree .resource .jstree-themeicon {
   background-image: none;
+}
+
+.archives-tree {
+  a > .jstree-icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    .ie7-restore-right-whitespace();
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url(@iconSpritePath) !important;
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+  }
+  
+  a > .jstree-icon {
+    background-position: -384px -120px !important;
+  }
+  
+  .jstree-open > a > .jstree-icon {
+    background-position: -408px -120px !important;
+  }
+  
+  .resource > a > .jstree-icon {
+    background-position: -24px  -24px !important;
+  }
 }
