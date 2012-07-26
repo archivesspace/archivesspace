@@ -7,7 +7,11 @@
      <% if @errors %>
         <div class="alert alert-error">
            <% @errors.each do |error| %>
-              <div class="error"><%= error[:message] %></div>
+              <% if error.kind_of?(Hash) %>
+                <div class="error"><%= error[:message] %></div>
+              <% else %>
+                <div class="error"><%= error[1].first %></div>
+              <% end %>
            <% end %>
         </div>
      <% end %>

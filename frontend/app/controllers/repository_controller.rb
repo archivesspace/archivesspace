@@ -19,6 +19,7 @@ class RepositoryController < ApplicationController
     if response['status'] === "Created"
       render :text=>"Success"
     else
+      @errors = response['errors']
       return render action: "new", :layout=>nil
     end
   end
