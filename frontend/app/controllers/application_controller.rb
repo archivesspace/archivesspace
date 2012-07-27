@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   def load_repository_list
     @repositories = JSONModel(:repository).all
 
-    if not session.has_key?(:repo) and @repositories
+    if not session.has_key?(:repo) and not @repositories.empty?
       session[:repo] = @repositories.first.id.to_s
       session[:repo_id] = @repositories.first.repo_id
     end
