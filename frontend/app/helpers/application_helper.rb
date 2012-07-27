@@ -6,5 +6,5 @@ module ApplicationHelper
   def include_controller_css
    stylesheet_link_tag "#{controller.controller_name}" if File.exists?("#{Rails.root}/app/assets/stylesheets/#{controller_name}.css") ||  File.exists?("#{Rails.root}/app/assets/stylesheets/#{controller_name}.css.less")
   end
-  
+
 end
