@@ -24,6 +24,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  post '/auth/local/user/:username/password' do
+    ensure_params ["username" => {:doc => "Username for account"},
+                   "password" => {:doc => "Password to set for account"}]
+
+    settings.db_auth.set_password(params[:username], params[:password])
+    json_response({:status => "Updated"})
+  end
+
+
   post '/auth/local/user/:username' do
     ensure_params ["username" => {:doc => "Username for new account"},
                    "password" => {:doc => "Password for new account"}]

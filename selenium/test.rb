@@ -28,7 +28,11 @@ driver.find_element(:css => "form#new_repository input[type='submit']").click
 wait.until { driver.find_element(:css, '.repository-container .btn') }
 
 driver.find_element(:css, '.repository-container .btn').click
+
+wait.until { driver.find_element(:link, test_repo_name).displayed? }
 driver.find_element(:link, test_repo_name).click
+
+sleep(1)
 
 driver.find_element(:link, "Create").click
 driver.find_element(:link, "Accession").click
