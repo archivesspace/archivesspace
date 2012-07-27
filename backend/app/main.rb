@@ -93,8 +93,6 @@ class ArchivesSpaceService < Sinatra::Base
       session = nil
 
       if session_token
-        puts "TOKEN: #{session_token}"
-
         session = Session.find(session_token)
         Log.debug("Got session: #{session}")
       end
