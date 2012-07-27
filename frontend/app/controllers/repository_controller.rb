@@ -19,8 +19,8 @@ class RepositoryController < ApplicationController
   
   def select    
     session[:repo] = params[:id]
-    session[:repo_id] = JSONModel(:repository).find(params[:id]).repo_id
-    render :partial=>'shared/header_repository'
+    session[:repo_id] = @repositories.find {|r| r.id.to_s == params[:id]}.repo_id
+    render :partial=>'shared/header_repository', :locals => {:repositories => @repositories}
   end
   
 end

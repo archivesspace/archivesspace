@@ -2,13 +2,12 @@
   <div class="input-append">
      <span class="repository-label"><span class=" icon-hdd icon-white"></span> <span class="current-repository-id"><% if session[:repo] %><%= session[:repo_id] %><% end %></span></span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
        <ul class="dropdown-menu">
-         <% repos = JSONModel(:repository).all %>
          <% if session[:repo] %>
             <%#><li><a href="#">Edit</a></li>
             <li class="divider"></li>%>
          <% end %>
-         <% if repos.length >= 1 %>
-            <% for repo in repos %>
+         <% if repositories.length >= 1 %>
+            <% for repo in repositories %>
                <% if session[:repo] === repo.id %>
                   <li><span class="icon-ok-circle"></span> <%= repo.repo_id %></li>
                <% else %>
