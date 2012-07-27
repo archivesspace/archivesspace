@@ -27,6 +27,9 @@ class ArchivesSpaceService < Sinatra::Base
     require_relative "model/db"
     DB.connect
 
+    # We'll handle these ourselves
+    disable :sessions
+
     # Load all models
     require_relative "model/ASModel"
     Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).each do |model|
@@ -71,7 +74,11 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  class DBWrappingMiddleware
+  def session
+    @session
+  end
+
+  class RequestWrappingMiddleware
     def initialize(app)
       @app = app
     end
@@ -81,6 +88,21 @@ class ArchivesSpaceService < Sinatra::Base
     # DB connection logic.
     #
     def call(env)
+      session_token = env["HTTP_X_ARCHIVESSPACE_SESSION"]
+
+      session = nil
+
+      if session_token
+        puts "TOKEN: #{session_token}"
+
+        session = Session.find(session_token)
+        Log.debug("Got session: #{session}")
+      end
+
+      @app.instance_eval {
+        @session = session
+      }
+
       DB.open do
         @app.call(env)
       end
@@ -88,7 +110,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  use DBWrappingMiddleware
+  use RequestWrappingMiddleware
 
 
   helpers do
@@ -144,9 +166,6 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   get '/' do
-    session = Session.new()
-    session.save
-
     "Hello, ArchivesSpace!"
   end
 

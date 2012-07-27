@@ -1,7 +1,16 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  # Note: This should be first!
+  before_filter :store_user_session
+
   before_filter :load_repository_list
+
+
+  def store_user_session
+    Thread.current[:backend_session] = session[:session]
+  end
+
 
   def load_repository_list
     @repositories = JSONModel(:repository).all

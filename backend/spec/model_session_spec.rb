@@ -9,7 +9,7 @@ describe 'Session model' do
     mysession["hello"] = "world"
     mysession.save
 
-    samesession = Session.new(id)
+    samesession = Session.find(id)
     samesession["hello"].should eq("world")
   end
 
@@ -25,7 +25,7 @@ describe 'Session model' do
     end
 
     session_data.each do |session_id, stored_data|
-      s = Session.new(session_id)
+      s = Session.find(session_id)
       s["data"].should eq stored_data
     end
   end

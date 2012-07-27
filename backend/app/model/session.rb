@@ -7,10 +7,11 @@ class Session
   attr_reader :id
 
 
-  def initialize(sid = nil)
-    DB.open do |db|
+  def initialize(sid = nil, store = nil)
+    if not sid
+      # Create a new session in the DB
+      DB.open do |db|
 
-      if not sid
         while true
           sid = SecureRandom.hex(SESSION_ID_LENGTH)
 
@@ -27,13 +28,26 @@ class Session
             # Otherwise, retry with a different session ID.
           end
         end
+
+        @id = sid
+        @store = {}
       end
-
-
+    else
       @id = sid
+      @store = store
+    end
+  end
 
+
+  def self.find(sid)
+    DB.open do |db|
       session_data = db[:sessions].filter(:session_id => sid).get(:session_data)
-      @store = Marshal.load(session_data.unpack("m*").first)
+
+      if session_data
+        Session.new(sid, Marshal.load(session_data.unpack("m*").first))
+      else
+        nil
+      end
     end
   end
 

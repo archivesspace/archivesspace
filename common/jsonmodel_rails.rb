@@ -67,8 +67,8 @@ module JSONModel
     def save(opts = {})
       type = self.class.record_type
 
-      response = Net::HTTP.post_form(self.class.my_url(self.id),
-                                     opts.merge({type => self.to_json}))
+      response = self.class._post_form(self.class.my_url(self.id),
+                                       opts.merge({type => self.to_json}))
 
       if response.code == '200'
         response = JSON.parse(response.body)
@@ -110,8 +110,38 @@ module JSONModel
       end
 
 
+      def _current_backend_session
+        # Set by the ApplicationController
+        Thread.current[:backend_session]
+      end
+
+      def _post_form(url, params)
+        req = Net::HTTP::Post.new(url)
+        req.set_form_data(params)
+
+        # Set by the ApplicationController
+        req['X-ArchivesSpace-Session'] = _current_backend_session
+
+        Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(req)
+        end
+      end
+
+
+      def _get_response(url)
+        req = Net::HTTP::Get.new(url.request_uri)
+
+        # Set by the ApplicationController
+        req['X-ArchivesSpace-Session'] = _current_backend_session
+
+        Net::HTTP.start(url.host, url.port) do |http|
+          http.request(req)
+        end
+      end
+
+
       def find(id)
-        response = Net::HTTP.get_response(my_url(id))
+        response = self._get_response(my_url(id))
 
         if response.code == '200'
           obj = self.from_json(response.body)
@@ -129,7 +159,7 @@ module JSONModel
 
         uri.query = URI.encode_www_form(opts)
 
-        response = Net::HTTP.get_response(uri)
+        response = self._get_response(uri)
 
         if response.code == '200'
           json_list = JSON(response.body)
