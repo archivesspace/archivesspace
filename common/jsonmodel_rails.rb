@@ -115,28 +115,28 @@ module JSONModel
         Thread.current[:backend_session]
       end
 
-      def _post_form(url, params)
-        req = Net::HTTP::Post.new(url)
-        req.set_form_data(params)
 
-        # Set by the ApplicationController
+      def _do_http_request(url, req)
         req['X-ArchivesSpace-Session'] = _current_backend_session
 
-        Net::HTTP.start(uri.hostname, uri.port) do |http|
+        Net::HTTP.start(url.host, url.port) do |http|
           http.request(req)
         end
+      end
+
+
+      def _post_form(url, params)
+        req = Net::HTTP::Post.new(url.request_uri)
+        req.set_form_data(params)
+
+        _do_http_request(url, req)
       end
 
 
       def _get_response(url)
         req = Net::HTTP::Get.new(url.request_uri)
 
-        # Set by the ApplicationController
-        req['X-ArchivesSpace-Session'] = _current_backend_session
-
-        Net::HTTP.start(url.host, url.port) do |http|
-          http.request(req)
-        end
+        _do_http_request(url, req)
       end
 
 
