@@ -17,6 +17,11 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  post '/accession', :operation => :delete do
+    "Deleting: #{params.inspect}"
+  end
+
+
   post '/accession' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer},
                    "accession" => {:doc => "The accession to create (JSON)"}]

@@ -8,6 +8,16 @@ class ArchivesSpaceService < Sinatra::Base
 
   include JSONModel
 
+
+  register do
+    def operation(type)
+      condition do
+        params[:operation] == type.to_s
+      end
+    end
+  end
+
+
   configure :development do |config|
 
     # This is very possibly a dumb thing to do, but the reloader was having
@@ -47,6 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     set :logging, true
   end
+
 
 
   error NotFoundException do
