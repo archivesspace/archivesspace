@@ -26,4 +26,10 @@ describe 'Login controller' do
     last_response.body.should match /\{"session":".+"\}/
   end
 
+  it "Treats the username as case insensitive" do
+    post '/auth/user/TEST1/login', params = { "password" => "test1_123"}
+    last_response.should be_ok
+    last_response.body.should match /\{"session":".+"\}/
+  end
+
 end

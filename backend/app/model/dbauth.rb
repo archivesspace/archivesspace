@@ -6,6 +6,7 @@ class DBAuth
 
   def set_password(username, password)
     pwhash = Password.create(password)
+    username = username.downcase
 
     DB.open do |db|
       begin
@@ -27,6 +28,8 @@ class DBAuth
 
 
   def login(username, password)
+    username = username.downcase
+
     DB.open do |db|
       pwhash = db[:auth_db].filter(:username => username).get(:pwhash)
 

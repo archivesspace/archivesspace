@@ -11,7 +11,7 @@ class UserManager
 
 
   def get_user(username)
-    User[:username => username]
+    User[:username => username.downcase]
   end
 
 
