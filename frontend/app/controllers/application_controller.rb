@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :store_user_session
 
   before_filter :load_repository_list
-
+  before_filter :load_theme
 
   def store_user_session
     Thread.current[:backend_session] = session[:session]
@@ -19,6 +19,13 @@ class ApplicationController < ActionController::Base
       session[:repo] = @repositories.first.id.to_s
       session[:repo_id] = @repositories.first.repo_id
     end
+  end
+  
+  def load_theme
+    session[:theme] = params[:theme] if params.has_key?(:theme)
+    if not session.has_key?(:theme)
+      session[:theme] = "default"
+    end    
   end
 
 end
