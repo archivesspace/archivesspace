@@ -28,6 +28,27 @@ set :run, false
 set :raise_errors, true
 set :logging, false
 
+class ArchivesSpaceService
+  class ExceptionPrintingMiddleware
+    def initialize(app)
+      @app = app
+    end
+
+    def call(env)
+      out = @app.call(env)
+
+      if out[0] == 500
+        raise env['sinatra.error']
+      end
+
+      out
+    end
+  end
+
+  use ExceptionPrintingMiddleware
+end
+
+
 def app
   ArchivesSpaceService
 end
