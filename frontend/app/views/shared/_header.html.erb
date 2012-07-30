@@ -16,8 +16,9 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to "Accessions", :controller=>:accessions, :action=>:index %></li>
+                <li><%= link_to "Collections", :controller=>:collections, :action=>:index %></li>
+                <li class="divider"></li>
                 <li><%= link_to "Archival Objects", :controller=>:archival_objects, :action=>:index %></li>
-                <li><a href="#">Digital Objects</a></li>
                 <li><a href="#">Names</a></li>
                 <li><a href="#">Subjects</a></li>                
               </ul>
@@ -27,9 +28,9 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to "Accession", :controller=>:accessions, :action=>:new %></li>
+                <li><%= link_to "Collection", :controller=>:collections, :action=>:new %></li>
                 <li class="divider"></li>
                 <li><%= link_to "Archival Object", :controller=>:archival_objects, :action=>:new %></li>
-                <li><a href="#">Digital Object</a></li>
                 <li><a href="#">Name</a></li>
                 <li><a href="#">Subject</a></li>
               </ul>
@@ -45,11 +46,12 @@
                 <ul class="dropdown-menu">
                    <li><a href="#">All Records</a></li>
                    <li class="divider"></li>
-                   <li><a href="#">Archival Objects</a></li>
-                   <li><a href="#">Digital Objects</a></li>
-                   <li><a href="#">Names</a></li>
-                   <li><a href="#">Subjects</a></li>
                    <li><a href="#">Accessions</a></li>
+                   <li><a href="#">Collections</a></li>
+                   <li class="divider"></li>
+                   <li><a href="#">Archival Objects</a></li>
+                   <li><a href="#">Names</a></li>
+                   <li><a href="#">Subjects</a></li>                   
                 </ul>
               </div>
             </div>

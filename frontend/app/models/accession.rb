@@ -3,10 +3,10 @@ require 'net/http'
 class Accession < JSONModel(:accession)
   attr_accessor :resource_link
 
-  def resource_link
-    if @resource_link.blank? then
-      @resource_link = "defer"
+  def collection_link
+    if @collection_link.blank? then
+      @collection_link = "defer"
     end
-    @resource_link
+    @collection_link
   end
 end

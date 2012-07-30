@@ -1,21 +1,11 @@
 <%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Archival Objects", :controller=>:archival_objects, :action=>:index),"New Archival Object"]} %>
 <div class="row-fluid">
    <div class="span3">
-     <div class="well">      
-      <%= render "archival_objects/hierarchy" %>      
+     <div class="archives-tree-container well">
+      <!-- <div class="archives-tree-title">Container Hierarchy</div> -->
+      <%= render "archival_objects/hierarchy" %>
       <div class="btn-toolbar archives-tree-toolbar">         
-        <div class="btn-group dropup">
-          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-            Add
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="add-analog-action" href="javascript:void(0);"><span class="icon-file"></span> Analog Object</a></li>
-            <li><a class="add-digital-action" href="javascript:void(0);"><span class="icon-barcode"></span> Digital Object</a></li>
-            <li><a class="add-logical-action" href="javascript:void(0);"><span class="icon-folder-close"></span> Logical Object</a></li>
-          </ul>
-        </div> <!-- btn-group dropup -->
-        <div class="btn-group"><a class="btn btn-mini" href="#">Link</a></div>
+        <div class="btn-group"><a class="btn btn-mini" href="#">Link to a Collection</a></div>
       </div> <!-- btn-toolbar archives-tree-toolbar -->
     </div> <!-- well -->
    </div> <!-- span3 -->

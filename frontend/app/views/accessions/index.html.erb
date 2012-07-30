@@ -15,7 +15,7 @@
                <th>Title</th>
                <th>Identifier</th>
                <th>Accession Date</th>
-               <th>Linked Resource</th>
+               <th>Linked Collection(s)</th>
                <th width="70px"><!-- actions --></th>
              </tr>
            </thead>
@@ -38,7 +38,7 @@
          </table>
       <% else %>
          <p class="alert alert-info">
-            There are currently no accessions in the <strong><%= session[:repo] %></strong> repository.
+            There are currently no accessions in this, <strong><%= session[:repo_id] %></strong>, repository.
          </p>
       <% end %>
    </div>
