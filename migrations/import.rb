@@ -36,12 +36,6 @@ optparse.parse!
 if options[:importer]
   i = ASpaceImporter.create_importer(options[:importer].to_sym)
   i.run
-  $types.each do |k, v|
-    puts "#{k} #{v}"
-  end
-  $models.each do |k|
-    puts "#{k}"
-  end
 end
 
 
