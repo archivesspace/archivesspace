@@ -7,7 +7,7 @@
    </div>
    <div class="span9">
       <h2>Create an Accession</h2>
-      <%= semantic_form_for @accession, :as => "accession", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
+      <%= form_for @accession, :as => "accession", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
          <%= render :partial=>"accessions/form", :locals=>{:f=>f} %>
          <div class="form-actions">            
             <button type="submit" class="btn btn-primary">Create Accession</button>
