@@ -1,0 +1,69 @@
+//= require plugins/jstree
+
+
+$(function() {
+   
+   // init the archives tree
+   var $tree = $(".archives-tree").jstree({
+       
+       "themes": {
+          "theme": "default",
+          "url": "<%= asset_path('jstree/style.css') %>"
+       },
+       "dnd": {
+          "drop_target" : false,
+          "drag_target" : false
+       },
+       "ui": {
+         "initially_select" : [ "root" ]
+       },
+       "crrm" : {
+          "move" : {
+              "check_move" : function (m) {
+                  // can't move root archival object
+                  if (m.o[0].id === "root") {
+                    return false;
+                  }
+                  // can't move to above the root archival object
+                  if ($(m.np[0]).hasClass("archives-tree")) {
+                    return false;
+                  }
+                  return true;
+              }
+          }
+      },
+      "plugins": [ "themes", "html_data", "ui", "crrm" , "dnd"]
+                  
+   });
+   
+   var id_counter = 0;
+   
+   var getSelectedOrRoot = function() {
+     var selected = $tree.jstree("get_selected");
+     if (selected && selected.length > 0) {
+       return selected;
+     }
+     return $("#root", $tree);
+   }
+   
+   $(".add-container-action").on("click", function() {
+      var new_id = "new_id_"+id_counter;
+      var selected = getSelectedOrRoot();
+      $tree.jstree("create_node", $("#root"), "last", {"attr":{"id":new_id}, "data": {"title": "New Container"}});
+      $tree.jstree("open_node", selected);
+      //$tree.jstree("select_node", "#"+new_id);
+      $("#"+new_id, $tree).addClass("container").attr("rel", "container");
+      id_counter=id_counter+1;
+   });
+   
+   $(".add-resource-action").on("click", function() {
+      var new_id = "new_id_"+id_counter;
+      var selected = getSelectedOrRoot();    
+      $tree.jstree("create_node", selected, "last", {"attr":{"id":new_id}, "data": {"title": "New Resource"}});
+      $tree.jstree("open_node", selected);
+      //$tree.jstree("select_node", "#"+new_id);    
+      $("#"+new_id, $tree).addClass("resource").attr("rel", "resource");
+      id_counter=id_counter+1;
+   });
+   
+});

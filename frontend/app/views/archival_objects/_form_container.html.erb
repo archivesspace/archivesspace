@@ -1,0 +1,38 @@
+<div class="btn-group" style="float: right">
+  <button class="btn btn-small">Add Sub-Record</button>
+  <button class="btn btn-small">Do something else</button>
+  <button class="btn btn-small">Do something else</button>
+  <button class="btn btn-small">Do something else</button>
+</div>
+<h2>New Resource</h2>
+<br/>
+<div class="tabbable tabs-left">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
+    <li><a href="#finding-aid" data-toggle="tab">Finding Aid</a></li>
+    <li><a href="#dates" data-toggle="tab">Dates</a></li>
+    <li><a href="#names" data-toggle="tab">Names</a></li>
+    <li><a href="#subjects" data-toggle="tab">Subjects</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="basic-information">
+      <div class="well">Basic Information form here...</div>
+    </div>
+    <div class="tab-pane" id="finding-aid">
+      <div class="well">Finding Aid form here...</div>
+    </div>
+    <div class="tab-pane" id="dates">
+      <div class="well">Dates form here...</div>
+    </div>
+    <div class="tab-pane" id="names">
+      <div class="well">Names form here...</div>
+    </div>
+    <div class="tab-pane" id="subjects">
+      <div class="well">Subjects form here...</div>
+    </div>
+  </div>
+</div>
+<div class="form-actions">            
+   <button type="submit" class="btn btn-primary">Save Resource</button>
+   <%= link_to "Cancel", :back, :class=>"btn" %>
+</div>

@@ -21,7 +21,7 @@ ArchivesSpace::Application.routes.draw do
   match 'repository/select/:id' => 'repository#select', :via => [:post]
   
   resources :accessions
-  resources :resources
+  resources :archival_objects
     
   # Sample resource route with options:
   #   resources :products do

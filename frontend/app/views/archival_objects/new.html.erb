@@ -1,0 +1,27 @@
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Resources", :controller=>:archival_objects, :action=>:index),"Create a Resource"]} %>
+<div class="row-fluid">
+   <div class="span3">
+     <div class="well">
+      <div class="archives-tree">
+        <ul class="jstree-classic">
+      		<li  id="root" class="resource" rel="resource"><a href="#">New Resource</a></li> 			    
+      	</ul>
+      </div>
+      <div class="btn-group archives-tree-toolbar" rel>
+        <div class="btn-group dropup">
+          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+              Add
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="add-container-action" href="javascript:void(0);">Add a Container</a></li>
+              <li><a class="add-resource-action" href="javascript:void(0);">Add a Resource</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+   </div>
+   <div class="span9" id="archival_object_container">
+      <%= render :partial=>"archival_objects/form_container" %>
+   </div>
+</div>
