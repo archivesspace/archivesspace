@@ -3,9 +3,9 @@ require 'json-schema'
 
 module JSONModel
 
-  $schema = {}
-  $types = {}
-  $models = {}
+  @@schema = {}
+  @@types = {}
+  @@models = {}
 
 
   class ValidationException < StandardError
@@ -24,7 +24,13 @@ module JSONModel
 
 
   def JSONModel(source)
-    $models[source.to_s]
+    # Checks if a model exists first; returns the model class 
+    # if it exists; returns false if it doesn't exist.
+    if @@models.has_key?(source.to_s)
+      @@models[source.to_s]
+    else
+      false
+    end
   end
 
 
@@ -64,7 +70,7 @@ module JSONModel
 
 
       def self.record_type
-        self.lookup($types)
+        self.lookup(@@types)
       end
 
 
@@ -104,7 +110,7 @@ module JSONModel
 
 
       def self.drop_unknown_properties(params)
-        schema = self.lookup($schema)
+        schema = self.lookup(@@schema)
 
         result = {}
 
@@ -160,7 +166,7 @@ module JSONModel
 
 
       def self.validate(hash)
-        errors = JSON::Validator.fully_validate(self.lookup($schema),
+        errors = JSON::Validator.fully_validate(self.lookup(@@schema),
                                                 self.drop_unknown_properties(hash),
                                                 :errors_as_objects => true)
 
@@ -197,9 +203,9 @@ module JSONModel
 
     cls.define_accessors(schema['properties'].keys)
 
-    $types[cls] = type
-    $schema[cls] = schema
-    $models[type] = cls
+    @@types[cls] = type
+    @@schema[cls] = schema
+    @@models[type] = cls
   end
 
 
