@@ -1,14 +1,11 @@
-# written for Ruby 1.9.3
-
 require 'nokogiri'
-#require_relative File.join("..", "..", "common", "jsonmodel")
 
-
-class Importer
-  include JSONModel
-  def read(input_file)
-    @asrp = ASpaceRecordPoster.new()
-
+ASpaceImporter.importer :ead do
+  def self.profile
+    "Default EAD importer. Takes 1 argument: EADFILE"
+  end
+  def run
+    input_file = ARGV[0]
     reader = Nokogiri::XML::Reader(IO.read(input_file))
     
     @open_objects = Array.new 
@@ -27,17 +24,14 @@ class Importer
         node.read until node.name == 'unittitle'
     
         @coll_hsh["title"] = node.inner_xml
-        #Post the collection
-        co = JSONModel(:collection).from_hash(@coll_hsh)
-        @asrp.post_json('collection', co.to_json)
+        #Import the collection
+        import :collection, @coll_hsh
       end
   
       #Container List
       if node.node_type == 1 and node.name == 'dsc'
         puts "Reading <dsc>" if $DEBUG
       end
-
-
 
       if node.node_type == 1 and node.name == 'c'
         depth = node.depth()
@@ -65,12 +59,9 @@ class Importer
         puts "Depth #{depth}" if $DEBUG
         # Close the arch object
         @open_objects[depth].delete_if { |k, v| v.empty? }
-        puts @open_objects[depth].inspect
-        ao = JSONModel(:archival_object).from_hash(@open_objects[depth])
+        puts @open_objects[depth].inspect if $DEBUG
+        import :archival_object, @open_objects[depth]
         puts "Created a JSON record object for #{ao.title}" if $DEBUG
-        
-        @asrp.post_json('archival object', ao.to_json)
-
         #Close an Object
       end
     end

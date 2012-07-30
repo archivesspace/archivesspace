@@ -1,7 +1,7 @@
 
 ASpaceImporter.importer :foo do
-  def display
-    puts "Here is Foo: a simple importer"
+  def self.profile
+    "A test importer that takes 0 arguments"
   end
   def run
     test_accession = {  

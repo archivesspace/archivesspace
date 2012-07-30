@@ -7,15 +7,14 @@ options = {}
 
 =begin
 Possible params to add:
-  - flag for continuing if a single import fails
-  - padd -h to the importer so it can declare what params it wants
+  - pass -h to the importer so it can declare what params it wants
 =end
 
 ::ALLOWFAILURES = false
 optparse = OptionParser.new do|opts|
   opts.banner = "Usage: ead_import.rb [options] ead_file"
   options[:dry_run] = false
-  opts.on( '-n', '--dry_run', 'Do a dry run' ) do
+  opts.on( '-n', '--dry-run', 'Do a dry run' ) do
     options[:dry_run] = true
   end
   opts.on( '-i', '--importer NAME', 'Choose an importer' ) do|name|
@@ -25,12 +24,20 @@ optparse = OptionParser.new do|opts|
     puts opts
     exit
   end
-  opts.on( '-a', '--allow_failures', 'Do not stop because an import fails') do
+  opts.on( '-a', '--allow-failures', 'Do not stop because an import fails') do
     ::ALLOWFAILURES = true
+  end
+  opts.on( '-l', '--list-importers', 'List available importers') do
+    options[:list] = true
   end
 end
 
 optparse.parse!
+
+if options[:list]
+  ASpaceImporter.list
+  exit
+end
 
 
 if options[:importer]

@@ -21,6 +21,13 @@ class ASpaceImporter
     Object.const_set("#{name.to_s.capitalize}ASpaceImporter", c)
   end
   
+  def self.list
+    puts "The following importers are available"
+    @@importers.each do |i, klass|
+      puts "#{i} -- #{klass.name} -- #{klass.profile}"
+    end
+  end
+    
   def import(type, hsh)
     #Make sure the type is importable, i.e., that it has a class
     puts type
