@@ -22,7 +22,6 @@ class ASpaceImporter
   end
   
   def import(type, hsh)
-    #Run the code in the importer
     #Make sure the type is importable, i.e., that it has a class
     puts type
     puts ALLOWFAILURES

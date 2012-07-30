@@ -1,8 +1,8 @@
 # written for Ruby 1.9.3
 
 require 'nokogiri'
-require_relative File.join("..", "..", "common", "jsonmodel")
-require_relative File.join("..", "lib", "aspace")
+#require_relative File.join("..", "..", "common", "jsonmodel")
+
 
 class Importer
   include JSONModel
