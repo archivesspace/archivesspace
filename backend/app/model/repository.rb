@@ -9,20 +9,28 @@ class Repository < Sequel::Model(:repositories)
   end
 
 
-  def create_accession(accession)
-    fields = accession.to_hash
+  def create(thing, jsonobject)
+    fields = jsonobject.to_hash
     fields = fields.merge(:repo_id => self.repo_id)
 
-    created = Accession.create(fields)
+    created = thing.create(fields)
 
     created[:id]
   end
 
 
-  def create_resource(opts)
-    fields = opts.merge(:repo_id => self.repo_id)
+  def create_accession(accession)
+    create(Accession, accession)
+  end
 
-    Resource.create(fields)
+
+  def create_collection(collection)
+    create(Collection, collection)
+  end
+
+
+  def create_archival_object(ao)
+    create(ArchivalObject, ao)
   end
 
 
