@@ -38,4 +38,21 @@ class ArchivesSpaceService < Sinatra::Base
     JSON(collection.tree)
   end
 
+
+  post '/collection/:collection_id/tree' do
+    ensure_params ["collection_id" => {:doc => "The ID of the collection to retrieve", :type => Integer},
+                   "tree" => {:doc => "A JSON tree representing the modified hierarchy"}]
+
+    collection = Collection[params[:collection_id]]
+
+    if not collection
+      raise NotFoundException.new("Couldn't find collection")
+    end
+
+    tree = JSON(params[:tree])
+
+    collection.update_tree(tree)
+  end
+
+
 end

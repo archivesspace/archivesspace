@@ -33,7 +33,7 @@ describe 'Collections controller' do
   end
 
 
-  it "lets you query the record hierarchy" do
+  it "lets you manipulate the record hierarchy" do
     post "/collection", params = {
       :collection => JSON({
                             "id_0" => "1234",
@@ -91,5 +91,36 @@ describe 'Collections controller' do
                                     }
                                    ]
                    })
+
+
+    # Now turn it on its head
+    changed = {
+      "id" => ids[2],
+      "title" => "archival object: canberra",
+      "children" => [
+                     {
+                       "id" => ids[1],
+                       "title" => "archival object: australia",
+                       "children" => [
+                                      {
+                                        "id" => ids[0],
+                                        "title" => "archival object: earth",
+                                        "children" => []
+                                      }
+                                     ]
+                     }
+                    ]
+    }
+
+    post "/collection/#{collection['id']}/tree", params = {
+      :tree => JSON(changed)
+    }
+    last_response.should be_ok
+
+    get "/collection/#{collection['id']}/tree"
+    last_response.should be_ok
+    tree = JSON(last_response.body)
+
+    tree.should eq(changed)
   end
 end

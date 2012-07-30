@@ -57,4 +57,22 @@ class Collection < Sequel::Model(:collections)
   end
 
 
+  def update_tree(tree)
+    Collection.db[:collection_tree].
+               filter(:collection_id => self.id).
+               delete
+
+    nodes = [tree]
+    while not nodes.empty?
+      parent = nodes.pop
+
+      parent["children"].each do |child|
+        self.link(:parent => parent["id"],
+                  :child => child["id"])
+
+        nodes.push(child)
+      end
+    end
+  end
+
 end
