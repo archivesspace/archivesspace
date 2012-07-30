@@ -3,13 +3,8 @@
    <div class="span3">
      <div class="well">
       <div class="archives-tree">
-      <ul class="jstree-classic">
-      		<li id="root" class="jstree-open" rel="root">
-      			<a href="#">Container</a>
-      			<ul>
-      			  <li class="resource" rel="resource"><a href="#">New Resource</a></li>
-      			</ul>     			    
-      		</li>
+        <ul class="jstree-classic">
+      		<li  id="root" class="resource" rel="resource"><a href="#">New Resource</a></li> 			    
       	</ul>
       </div>
       <div class="btn-group archives-tree-toolbar" rel>
@@ -26,40 +21,7 @@
       </div>
     </div>
    </div>
-   <div class="span9">
-      <div class="btn-group" style="float: right">
-        <button class="btn btn-small">Add Sub-Record</button>
-        <button class="btn btn-small">Do something else</button>
-        <button class="btn btn-small">Do something else</button>
-        <button class="btn btn-small">Do something else</button>
-      </div>
-      <h2>Create a Resource</h2>
-      <br/>
-      <div class="tabbable tabs-left">
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
-          <li><a href="#finding-aid" data-toggle="tab">Finding Aid</a></li>
-          <li><a href="#dates" data-toggle="tab">Dates</a></li>
-          <li><a href="#names" data-toggle="tab">Names</a></li>
-          <li><a href="#subjects" data-toggle="tab">Subjects</a></li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane active" id="basic-information">
-            <div class="well">Basic Information form here...</div>
-          </div>
-          <div class="tab-pane" id="finding-aid">
-            <div class="well">Finding Aid form here...</div>
-          </div>
-          <div class="tab-pane" id="dates">
-            <div class="well">Dates form here...</div>
-          </div>
-          <div class="tab-pane" id="names">
-            <div class="well">Names form here...</div>
-          </div>
-          <div class="tab-pane" id="subjects">
-            <div class="well">Subjects form here...</div>
-          </div>
-        </div>
-      </div>
+   <div class="span9" id="archival_object_container">
+      <%= render :partial=>"archival_objects/form_container" %>
    </div>
 </div>
