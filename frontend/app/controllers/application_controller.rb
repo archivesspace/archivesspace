@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  
+  helper :all
 
   # Note: This should be first!
   before_filter :store_user_session

@@ -36,6 +36,21 @@ describe 'Accession controller' do
   end
 
 
+  it "warns about missing properties" do
+    post "/accession", params = {
+      :accession => JSON({}),
+      :repo_id => @repo
+    }
+
+    last_response.should be_ok
+    created = JSON(last_response.body)
+
+    known_warnings = ["accession_date", "accession_id_0", "condition_description", "content_description", "title"]
+
+    (known_warnings - created["warnings"].keys).should eq([])
+  end
+
+
   it "supports updates" do
     post "/accession", params = {
       :accession => JSONModel(:accession).from_hash({

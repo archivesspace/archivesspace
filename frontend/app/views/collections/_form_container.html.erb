@@ -2,7 +2,7 @@
   <button class="btn btn-small">Do something</button>
   <button class="btn btn-small">Do something else</button>
 </div>
-<h2>New Archival Object</h2>
+<h2>New Collection</h2>
 <br/>
 <div class="tabbable tabs-left">
   <ul class="nav nav-tabs">
@@ -11,23 +11,30 @@
     <li><a href="#dates" data-toggle="tab">Dates</a></li>
     <li><a href="#names" data-toggle="tab">Names</a></li>
     <li><a href="#subjects" data-toggle="tab">Subjects</a></li>
+    <li><a href="#accessions" data-toggle="tab">Accessions</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="basic-information">
       <div class="well">Basic Information form here...</div>
     </div>
+    <div class="tab-pane" id="finding-aid">
+      <div class="well">Finding Aid form here...</div>
+    </div>
     <div class="tab-pane" id="dates">
-      <div class="well">Dates form here...</div>
+      <div class="well">Dates form/list here...</div>
     </div>
     <div class="tab-pane" id="names">
-      <div class="well">Names form here...</div>
+      <div class="well">Names selector/list here...</div>
     </div>
     <div class="tab-pane" id="subjects">
-      <div class="well">Subjects form here...</div>
+      <div class="well">Subjects selector/list here...</div>
+    </div>
+    <div class="tab-pane" id="accessions">
+      <div class="well">Accessions selector/list here...</div>
     </div>
   </div>
 </div>
 <div class="form-actions">            
-   <button type="submit" class="btn btn-primary">Save Archival Object</button>
+   <button type="submit" class="btn btn-primary">Save Collection</button>
    <%= link_to "Cancel", :back, :class=>"btn" %>
 </div>

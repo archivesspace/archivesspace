@@ -16,17 +16,6 @@ describe 'Repository controller' do
   end
 
 
-  it "requires an ID when creating a repository" do
-    post '/repository', params = {
-      :repository => JSON({
-                            "description" => "A new ArchivesSpace repository"
-                          })
-    }
-
-    last_response.status.should eq(400)
-  end
-
-
   it "gives a list of all repositories" do
     post '/repository', params = {
       :repository => JSONModel(:repository).

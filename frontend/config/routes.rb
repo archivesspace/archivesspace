@@ -22,6 +22,7 @@ ArchivesSpace::Application.routes.draw do
   
   resources :accessions
   resources :archival_objects
+  resources :collections
     
   # Sample resource route with options:
   #   resources :products do

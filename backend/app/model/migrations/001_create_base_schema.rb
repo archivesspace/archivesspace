@@ -82,16 +82,16 @@ Sequel.migration do
 
       String :repo_id, :null => false
 
-      String :accession_id_0, :null => false
+      String :accession_id_0, :null => true
       String :accession_id_1, :null => true
       String :accession_id_2, :null => true
       String :accession_id_3, :null => true
 
-      String :title, :null => false
-      String :content_description, :null => false
-      String :condition_description, :null => false
+      String :title, :null => true
+      String :content_description, :null => true
+      String :condition_description, :null => true
 
-      DateTime :accession_date, :null => false
+      DateTime :accession_date, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -109,24 +109,65 @@ Sequel.migration do
     end
 
 
-    create_table(:resources) do
+    create_table(:collections) do
       primary_key :id
 
       String :repo_id, :null => false
-
-      String :resource_id, :null => false, :unique => true
       String :title, :null => false
-      String :level, :null => false
-      String :language, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
-
-    alter_table(:resources) do
+    alter_table(:collections) do
       add_foreign_key([:repo_id], :repositories, :key => :repo_id)
     end
+
+
+    create_table(:archival_objects) do
+      primary_key :id
+
+      String :repo_id, :null => false
+
+      String :id_0, :null => true
+      String :id_1, :null => true
+      String :id_2, :null => true
+      String :id_3, :null => true
+
+      String :title, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:archival_objects) do
+      add_foreign_key([:repo_id], :repositories, :key => :repo_id)
+
+      add_index [:id_0, :id_1, :id_2, :id_3],
+      :unique => true,
+      :name => "unique_ao_id"
+
+
+    end
+
+
+    create_table(:collection_tree) do
+      primary_key :id
+
+      Integer :collection_id, :null => false
+      Integer :parent_id, :null => false
+      Integer :child_id, :null => false
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:collection_tree) do
+      add_foreign_key([:collection_id], :collections, :key => :id)
+      add_foreign_key([:parent_id], :archival_objects, :key => :id)
+      add_foreign_key([:child_id], :archival_objects, :key => :id)
+    end
+
   end
 
   down do
@@ -140,6 +181,8 @@ Sequel.migration do
     drop_table(:repositories)
     drop_table(:accessions)
 
-    drop_table(:resources)
+    drop_table(:archival_objects)
+    drop_table(:collections)
+    drop_table(:collection_parent_child)
   end
 end

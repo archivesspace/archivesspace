@@ -12,28 +12,58 @@
   background-image: none;
 }
 
-.archives-tree {
-  a > .jstree-icon {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    .ie7-restore-right-whitespace();
-    line-height: 14px;
-    vertical-align: text-top;
-    background-image: url(@iconSpritePath) !important;
-    background-position: 14px 14px;
-    background-repeat: no-repeat;
-  }
+.archives-tree-container {
+   padding: 0;
+   
+   > .archives-tree-title {
+      background-color: #eee;
+      background-color: rgba(0,0,0,.025);
+      padding: 5px;
+      margin: 0;
+      font-weight: bold;
+   }
+   
+   .archives-tree {
+     margin: 10px 0;
+     overflow: auto;
+    
+     a > .jstree-icon {
+       display: inline-block;
+       width: 14px;
+       height: 14px;
+       .ie7-restore-right-whitespace();
+       line-height: 14px;
+       vertical-align: text-top;
+       background-image: url(@iconSpritePath) !important;
+       background-position: 14px 14px;
+       background-repeat: no-repeat;
+     }
   
-  a > .jstree-icon {
-    background-position: -384px -120px !important;
-  }
+     a > .jstree-icon {
+       background-position: -384px -120px !important;
+     }
   
-  .jstree-open > a > .jstree-icon {
-    background-position: -408px -120px !important;
-  } 
+     .jstree-open > a > .jstree-icon {
+       background-position: -408px -120px !important;
+     } 
   
-  .resource > a > .jstree-icon {
-    background-position: -24px  -24px !important;
-  }
+     .analog > a > .jstree-icon {
+       background-position: -24px  -24px !important;
+     }
+  
+     .digital > a > .jstree-icon {
+       background-position: -456px -24px !important;
+     }
+  
+     .collection > a > .jstree-icon {
+       background-position: -264px -24px !important;
+     }
+   }
+   
+   > .btn-toolbar {
+     padding: 5px 5px 0;
+     margin: 0;
+     background-color: #eee;
+     background-color: rgba(0,0,0,.025);
+   }
 }

@@ -124,19 +124,25 @@ class ArchivesSpaceService < Sinatra::Base
 
   helpers do
 
-    def ensure_params(required_params)
-      required_params = required_params[0]
+    def ensure_params(declared_params)
+      declared_params = declared_params[0]
 
       missing = []
       bad_type = []
-      required_params.each do |parameter, opts|
-        if not params[parameter]
+      declared_params.each do |parameter, opts|
+        if not params[parameter] and not declared_params[parameter][:optional]
           missing << parameter
         else
 
-          if opts[:type]
+          if opts[:type] and params[parameter]
             begin
-              params[parameter] = (opts[:type] == Integer) ? Integer(params[parameter]) : params[parameter]
+              params[parameter] = if opts[:type] == Integer
+                                    Integer(params[parameter])
+                                  elsif opts[:type].respond_to? :from_json
+                                    opts[:type].from_json(params[parameter])
+                                  else
+                                    params[parameter]
+                                  end
             rescue ArgumentError
               bad_type << parameter
             end
@@ -149,9 +155,9 @@ class ArchivesSpaceService < Sinatra::Base
         s = "Your request had some invalid parameters:\n\n"
 
         (missing + bad_type).each do |param|
-          s += "  * #{param} -- #{required_params[param][:doc]}"
-          if required_params[param].has_key?(:type)
-            s += " (type: #{required_params[param][:type]})"
+          s += "  * #{param} -- #{declared_params[param][:doc]}"
+          if declared_params[param].has_key?(:type)
+            s += " (type: #{declared_params[param][:type]})"
           end
           s += "\n"
         end
@@ -169,6 +175,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     def json_response(obj, status = 200)
       [status, {"Content-Type" => "application/json"}, JSON(obj)]
+    end
+
+
+    def created_response(id, warnings = {})
+      json_response({:status => "Created", :id => id, :warnings => warnings})
     end
 
   end

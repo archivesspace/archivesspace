@@ -1,110 +1,37 @@
-<%= render "shared/errors"%>
+<%= render "shared/errors", :object => @accession, :errors => @errors, :warnings => @warnings %>
+
 <fieldset>
-   <div class="control-group">
-      <%= f.label :title, "Title", :class=>"control-label" %>
-     <div class="controls">
-        <%= f.text_field :title %>
-     </div>
-   </div>
-   <div class="control-group">
-      <%= f.label :accession_id_0, "Identifier", :class=>"control-label" %>
-     <div class="controls identifier-fields">
-        <%= f.text_field :accession_id_0, :size=>10 %>
-        <%= f.text_field :accession_id_1, :size=>10 %>
-        <%= f.text_field :accession_id_2, :size=>10 %>
-        <%= f.text_field :accession_id_3, :size=>10 %>
-     </div>
-   </div>
-   <!--<div class="control-group">
-      <%= label_tag :publish, "Publish?", :class=>"control-label" %>
-     <div class="controls">
-        <label class="checkbox"><%= check_box_tag :publish %> Check this if you wish to publish this accession to the public.</label>
-     </div>
-   </div>
-   <div class="control-group">
-      <%= label_tag :restrictions, "Restrictions Apply?", :class=>"control-label" %>
-     <div class="controls">
-        <%= check_box_tag :restrictions %>
-     </div>
-   </div>-->
-   <div class="control-group">
-      <%= f.label :accession_date, "Accession Date", :class=>"control-label" %>
-     <div class="controls">
-        <%= f.text_field :accession_date, :placeholder=>"YYYY-MM-DD", :value=>(@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d")) %>
-     </div>
-   </div>
-   <!-- <div class="control-group">
-      <%= label_tag :type, "Type of Resource", :class=>"control-label" %>
-     <div class="controls">
-        <%= text_field_tag :type %>
-     </div>
-   </div>
-   <div class="control-group">
-      <%= label_tag :retention_schedule_rule, "Retentions Schedule/Rule", :class=>"control-label" %>
-     <div class="controls">
-        <%= text_field_tag :retention_schedule_rule %>
-     </div>
-   </div> -->
-   <div class="control-group">
-      <%= f.label :content_description, "Content Description", :class=>"control-label" %>
-     <div class="controls">
-        <%= f.text_area :content_description, :rows=>3 %>
-     </div>
-   </div>
-   <div class="control-group">
-      <%= f.label :condition_description, "Condition Description", :class=>"control-label" %>
-     <div class="controls">
-        <%= f.text_area :condition_description, :rows=>3 %>
-     </div>
-   </div>
-   <!-- <div class="control-group">
-      <%= label_tag :prevenance, "Prevenance/Custodial History", :class=>"control-label" %>
-     <div class="controls">
-        <%= text_area_tag :prevenance %>
-     </div>
-   </div>
-   <div class="control-group">
-      <%= label_tag :inventory, "Inventory Description", :class=>"control-label" %>
-     <div class="controls">
-        <%= text_area_tag :inventory %>
-     </div>
-   </div>
-   <div class="control-group">
-      <%= label_tag :disposition_note, "Disposition Note", :class=>"control-label" %>
-     <div class="controls">
-        <%= text_area_tag :disposition_note %>
-     </div>
-   </div>
-   <div class="control-group">
-      <%= label_tag :repository_processing_note, "Repository Processing Note", :class=>"control-label" %>
-     <div class="controls">
-        <%= text_area_tag :repository_processing_note %>
-     </div>
-   </div>-->
+   <%= f.label_field_pair :title, f.text_field(:title), {:errors=>@errors, :warnings=>@warnings} %>
+   <%= f.label_field_pair :accession_id_0, f.text_field(:accession_id_0, :size=>10)+f.text_field(:accession_id_1, :size=>10)+f.text_field(:accession_id_2, :size=>10)+f.text_field(:accession_id_3, :size=>10), {:control_class=>"identifier-fields", :show_errors_for=>[:accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3], :errors=>@errors, :warnings=>@warnings} %>
+   <%# f.label_field_pair :publish, "<label class='checkbox'>#{f.check_box :publish} #{I18n.t(:"accession.publish_help")}</label>" %>
+   <%# f.label_field_pair :restrictions, "<label class='checkbox'>#{f.check_box :restrictions}</label>" %>
+   <%= f.label_field_pair :accession_date, f.text_field(:accession_date, :placeholder=>"YYYY-MM-DD", :value=>(@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))), {:errors=>@errors, :warnings=>@warnings} %>
+   <%= f.label_field_pair :content_description, f.text_area(:content_description, :rows=>3), {:errors=>@errors, :warnings=>@warnings} %>
+   <%= f.label_field_pair :condition_description, f.text_area(:condition_description, :rows=>3), {:errors=>@errors, :warnings=>@warnings} %>
    
     <hr />
     
     <div class="control-group">
-       <%= f.label :resource_link, "Link to a Resource", :class=>"control-label" %>
+       <%= f.label :collection_link, "Link to a Collection", :class=>"control-label" %>
       <div class="controls">
-      <div class="accordion controls-accordion" id="resource_link">
+      <div class="accordion controls-accordion" id="collection_link">
          <div class="accordion-group">
-            <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_defer">
-               <%= f.radio_button :resource_link, "defer" %> Defer linking to a Resource
+            <label class="radio" data-toggle="collapse" data-parent="#collection_link" href="#collection_link_defer">
+               <%= f.radio_button :collection_link, "defer" %> Defer linking to a Collection
             </label>
-           <div id="resource_link_defer" class="accordion-body collapse">
+           <div id="collection_link_defer" class="accordion-body collapse">
              <div class="accordion-inner">
                 <div class="alert alert-info">
-                  Create this Accession without a Resource.  You can create that link later.
+                  Create this Accession without a Collecion.  You can create that link later.
                 </div>
              </div>
            </div>
          </div>
          <div class="accordion-group">
-             <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_existing">
-                <%= f.radio_button :resource_link, "existing" %> Existing Resource
+             <label class="radio" data-toggle="collapse" data-parent="#collection_link" href="#collection_link_existing">
+                <%= f.radio_button :collection_link, "existing" %> Existing Collection
              </label>
-           <div id="resource_link_existing" class="accordion-body collapse">
+           <div id="collection_link_existing" class="accordion-body collapse">
              <div class="accordion-inner">
                 <div class="alert alert-error">
                   TODO!
@@ -113,13 +40,13 @@
            </div>
          </div>
          <div class="accordion-group">
-             <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_create">
-                <%= f.radio_button :resource_link, "create" %> Create a new Resource
+             <label class="radio" data-toggle="collapse" data-parent="#collection_link" href="#collection_link_create">
+                <%= f.radio_button :collection_link, "create" %> Create a new Collection
              </label>
-           <div id="resource_link_create" class="accordion-body collapse">
+           <div id="collection_link_create" class="accordion-body collapse">
              <div class="accordion-inner">
                 <div class="alert alert-info">
-                   Create this Accession and Continue to Create a new Resource.
+                   Create this Accession and Continue to Create a new Collection.
                 </div>
              </div>
            </div>
@@ -127,4 +54,4 @@
        </div>
     </div>
    </div>
- </fieldset>
+</fieldset>

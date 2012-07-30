@@ -1,9 +1,20 @@
-<% if @errors %>
+<% if errors %>
    <div class="alert alert-error">
-      <% @errors.each do |attr, messages| %>
+      <% errors.each do |attr, messages| %>
            <div class="errors-for_attr">
              <% messages.each do |msg| %>
-               <div class="error"><%= attr %> - <%= msg %></div>
+               <div class="error"><%= I18n.t(:"#{object.class.record_type}.#{attr}") %> - <%= msg %></div>
+             <% end %>
+           </div>
+      <% end %>
+   </div>
+<% end %>
+<% if warnings %>
+   <div class="alert alert-warning">
+      <% warnings.each do |attr, messages| %>
+           <div class="errors-for_attr">
+             <% messages.each do |msg| %>
+               <div class="warning"><%= I18n.t(:"#{object.class.record_type}.#{attr}") %> - <%= msg %></div>
              <% end %>
            </div>
       <% end %>

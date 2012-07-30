@@ -1,4 +1,4 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Resources", :controller=>:archival_objects, :action=>:index), "Test Resource"]} %>
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Archival Objects", :controller=>:archival_objects, :action=>:index), "New Archival Object"]} %>
 <div class="row-fluid">
    <div class="span3">
       <div class="well">
@@ -7,10 +7,10 @@
    </div>
    <div class="span9">
       <div class="btn-group" style="float: right">
-        <button class="btn">Edit Resource</button>
+        <button class="btn">Edit Archival Object</button>
         <button class="btn">Delete</button>
       </div>
-      <h2>Test Resource <span class="label label-info">Resource</span></h2>
+      <h2>Test Archival Object <span class="label label-info">Archival Object</span></h2>
       
       <div class="row-fluid label-and-value">
          <div class="span3">Identifier</div>

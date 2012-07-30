@@ -62,10 +62,16 @@ module JSONModel
       end
 
 
-      def initialize(params)
+      def initialize(params, warnings = [])
         @data = params
+        @warnings = warnings
 
         self.class.define_accessors(@data.keys)
+      end
+
+
+      def _warnings
+        self.class.validate(@data)
       end
 
 
@@ -130,52 +136,60 @@ module JSONModel
       end
 
 
-      def self.parse_schema_errors(errors)
-        result = {}
+      def self.parse_schema_messages(messages)
+        errors = {}
+        warnings = {}
 
-        errors.each do |error|
+        messages.each do |message|
 
-          if (error[:failed_attribute] == 'Properties' and
-              error[:message] =~ /.*did not contain a required property of '(.*?)'.*/)
+          if (message[:failed_attribute] == 'Properties' and
+              message[:message] =~ /.*did not contain a required property of '(.*?)'.*/)
 
-            result[$1] = ["Property is required but was missing"]
+            warnings[$1] = ["Property is required but was missing"]
 
-          elsif (error[:failed_attribute] == 'Pattern' and
-                 error[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
+          elsif (message[:failed_attribute] == 'Pattern' and
+                 message[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
 
-            result[$1] = ["Did not match regular expression: #{$2}"]
+            errors[$1] = ["Did not match regular expression: #{$2}"]
 
-          elsif (error[:failed_attribute] == 'MinLength' and
-                 error[:message] =~ /The property '#\/(.*?)' was not of a minimum string length of ([0-9]+) in schema/)
+          elsif (message[:failed_attribute] == 'MinLength' and
+                 message[:message] =~ /The property '#\/(.*?)' was not of a minimum string length of ([0-9]+) in schema/)
 
-            result[$1] = ["Must be at least #{$2} characters"]
+            errors[$1] = ["Must be at least #{$2} characters"]
 
-          elsif (error[:failed_attribute] == 'Type' and
-                 error[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
+          elsif (message[:failed_attribute] == 'Type' and
+                 message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
 
-            result[$1] = ["Must be a #{$3} (you provided a #{$2})"]
+            errors[$1] = ["Must be a #{$3} (you provided a #{$2})"]
 
           else
-            puts "Failed to find a matching parse rule for: #{error}"
+            puts "Failed to find a matching parse rule for: #{message}"
+            errors[:unknown] = ["Failed to find a matching parse rule for: #{message}"]
           end
 
         end
 
-        result
+        {
+          :errors => errors,
+          :warnings => warnings,
+        }
       end
 
 
       def self.validate(hash)
-        errors = JSON::Validator.fully_validate(self.lookup(@@schema),
-                                                self.drop_unknown_properties(hash),
-                                                :errors_as_objects => true)
+        messages = JSON::Validator.fully_validate(self.lookup(@@schema),
+                                                  self.drop_unknown_properties(hash),
+                                                  :errors_as_objects => true)
 
-        if not errors.empty?
+        exceptions = self.parse_schema_messages(messages)
+
+        if not exceptions[:errors].empty?
           raise ValidationException.new(:invalid_object => self.new(hash),
-                                        :errors => self.parse_schema_errors(errors))
+                                        :warnings => exceptions[:warnings],
+                                        :errors => exceptions[:errors])
         end
 
-        nil
+        exceptions[:warnings]
       end
 
 
