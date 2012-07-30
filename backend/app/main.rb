@@ -136,7 +136,13 @@ class ArchivesSpaceService < Sinatra::Base
 
           if opts[:type] and params[parameter]
             begin
-              params[parameter] = (opts[:type] == Integer) ? Integer(params[parameter]) : params[parameter]
+              params[parameter] = if opts[:type] == Integer
+                                    Integer(params[parameter])
+                                  elsif opts[:type].respond_to? :from_json
+                                    opts[:type].from_json(params[parameter])
+                                  else
+                                    params[parameter]
+                                  end
             rescue ArgumentError
               bad_type << parameter
             end
@@ -169,6 +175,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     def json_response(obj, status = 200)
       [status, {"Content-Type" => "application/json"}, JSON(obj)]
+    end
+
+
+    def created_response(id, warnings = {})
+      json_response({:status => "Created", :id => id, :warnings => warnings})
     end
 
   end

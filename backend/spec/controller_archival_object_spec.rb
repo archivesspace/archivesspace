@@ -79,4 +79,20 @@ describe 'Archival Object controller' do
 
 
 
+  it "warns about missing properties" do
+    post "/archivalobject", params = {
+      :archivalobject => JSON({}),
+      :repo_id => @repo
+    }
+
+    last_response.should be_ok
+    created = JSON(last_response.body)
+
+    known_warnings = ["id_0", "title"]
+
+    (known_warnings - created["warnings"].keys).should eq([])
+  end
+
+
+
 end

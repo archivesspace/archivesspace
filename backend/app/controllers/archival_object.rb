@@ -3,14 +3,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   post '/archivalobject' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer},
-                   "archivalobject" => {:doc => "The archivalobject to create (JSON)"},
+                   "archivalobject" => {:doc => "The archivalobject to create (JSON)", :type => JSONModel(:archival_object)},
                    "collection" => {:doc => "The collection containing this archivalobject", :type => Integer, :optional => true},
                    "parent" => {:doc => "The archivalobject that is parent of this one", :type => Integer, :optional => true}]
 
-    archival_object = JSONModel(:archival_object).from_json(params[:archivalobject])
-
     repo = Repository[params[:repo_id]]
-    id = repo.create_archival_object(archival_object)
+    id = repo.create_archival_object(params[:archivalobject])
 
     if params["parent"] and params["collection"]
       collection = Collection[params["collection"]]
@@ -23,7 +21,7 @@ class ArchivesSpaceService < Sinatra::Base
                       :child => id)
     end
 
-    json_response({:status => "Created", :id => id})
+    created_response(id, params[:archivalobject]._warnings)
   end
 
 

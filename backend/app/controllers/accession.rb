@@ -3,12 +3,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   post '/accession/:accession_id' do
     ensure_params ["accession_id" => {:doc => "The accession ID to update", :type => Integer},
-                   "accession" => {:doc => "The accession data to update (JSON)"}]
+                   "accession" => {:doc => "The accession data to update (JSON)", :type => JSONModel(:accession)}]
 
     acc = Accession[params[:accession_id]]
 
     if acc
-      acc.update(JSONModel(:accession).from_json(params[:accession]).to_hash)
+      acc.update(params[:accession].to_hash)
     else
       raise NotFoundException.new("Accession not found")
     end
@@ -24,14 +24,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   post '/accession' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer},
-                   "accession" => {:doc => "The accession to create (JSON)"}]
-
-    accession = JSONModel(:accession).from_json(params[:accession])
+                   "accession" => {:doc => "The accession to create (JSON)", :type => JSONModel(:accession)}]
 
     repo = Repository[params[:repo_id]]
-    id = repo.create_accession(accession)
+    id = repo.create_accession(params[:accession])
 
-    json_response({:status => "Created", :id => id})
+    created_response(id, params[:accession]._warnings)
   end
 
 

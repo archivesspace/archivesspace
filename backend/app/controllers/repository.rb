@@ -1,14 +1,12 @@
 class ArchivesSpaceService < Sinatra::Base
 
   post '/repository' do
-    ensure_params ["repository" => {:doc => "The repository to create (JSON)"}]
+    ensure_params ["repository" => {:doc => "The repository to create (JSON)", :type => JSONModel(:repository)}]
 
-    repository = JSONModel(:repository).from_json(params[:repository])
-
-    db_repo = Repository.new(repository.to_hash)
+    db_repo = Repository.new(params[:repository].to_hash)
 
     created = db_repo.save
-    json_response({:status => "Created", :id => created[:id]})
+    created_response(created[:id])
   end
 
 

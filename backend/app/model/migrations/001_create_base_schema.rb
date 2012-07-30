@@ -82,16 +82,16 @@ Sequel.migration do
 
       String :repo_id, :null => false
 
-      String :accession_id_0, :null => false
+      String :accession_id_0, :null => true
       String :accession_id_1, :null => true
       String :accession_id_2, :null => true
       String :accession_id_3, :null => true
 
-      String :title, :null => false
-      String :content_description, :null => false
-      String :condition_description, :null => false
+      String :title, :null => true
+      String :content_description, :null => true
+      String :condition_description, :null => true
 
-      DateTime :accession_date, :null => false
+      DateTime :accession_date, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -129,12 +129,12 @@ Sequel.migration do
 
       String :repo_id, :null => false
 
-      String :id_0, :null => false
+      String :id_0, :null => true
       String :id_1, :null => true
       String :id_2, :null => true
       String :id_3, :null => true
 
-      String :title, :null => false
+      String :title, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
