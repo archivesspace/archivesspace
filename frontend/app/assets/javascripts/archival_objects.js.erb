@@ -14,9 +14,6 @@ $(function() {
           "drop_target" : false,
           "drag_target" : false
        },
-       "ui": {
-         "initially_select" : [ "root" ]
-       },
        "crrm" : {
           "move" : {
               "check_move" : function (m) {
@@ -31,9 +28,11 @@ $(function() {
                   return true;
               }
           }
-      },
+      },      
       "plugins": [ "themes", "html_data", "ui", "crrm" , "dnd"]
                   
+   }).bind("loaded.jstree", function (event, data) { 
+      $tree.jstree("select_node", $(".selected", $tree));
    });
    
    var id_counter = 0;
@@ -46,23 +45,31 @@ $(function() {
      return $("#root", $tree);
    }
    
-   $(".add-container-action").on("click", function() {
-      var new_id = "new_id_"+id_counter;
-      var selected = getSelectedOrRoot();
-      $tree.jstree("create_node", $("#root"), "last", {"attr":{"id":new_id}, "data": {"title": "New Container"}});
-      $tree.jstree("open_node", selected);
-      //$tree.jstree("select_node", "#"+new_id);
-      $("#"+new_id, $tree).addClass("container").attr("rel", "container");
-      id_counter=id_counter+1;
-   });
-   
-   $(".add-resource-action").on("click", function() {
+   $(".add-analog-action").on("click", function() {
       var new_id = "new_id_"+id_counter;
       var selected = getSelectedOrRoot();    
-      $tree.jstree("create_node", selected, "last", {"attr":{"id":new_id}, "data": {"title": "New Resource"}});
+      $tree.jstree("create_node", selected, "last", {"attr":{"id":new_id}, "data": {"title": "New Analog Object"}});
       $tree.jstree("open_node", selected);
       //$tree.jstree("select_node", "#"+new_id);    
-      $("#"+new_id, $tree).addClass("resource").attr("rel", "resource");
+      $("#"+new_id, $tree).addClass("analog").attr("rel", "analog");
+      id_counter=id_counter+1;
+   });
+   $(".add-digital-action").on("click", function() {
+      var new_id = "new_id_"+id_counter;
+      var selected = getSelectedOrRoot();    
+      $tree.jstree("create_node", selected, "last", {"attr":{"id":new_id}, "data": {"title": "New Digital Object"}});
+      $tree.jstree("open_node", selected);
+      //$tree.jstree("select_node", "#"+new_id);    
+      $("#"+new_id, $tree).addClass("digital").attr("rel", "digital");
+      id_counter=id_counter+1;
+   });
+   $(".add-logical-action").on("click", function() {
+      var new_id = "new_id_"+id_counter;
+      var selected = getSelectedOrRoot();    
+      $tree.jstree("create_node", selected, "last", {"attr":{"id":new_id}, "data": {"title": "New Logical Object"}});
+      $tree.jstree("open_node", selected);
+      //$tree.jstree("select_node", "#"+new_id);    
+      $("#"+new_id, $tree).addClass("logical").attr("rel", "logical");
       id_counter=id_counter+1;
    });
    
