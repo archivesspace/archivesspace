@@ -1,0 +1,42 @@
+<% if @collection_tree %>
+   <%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to(@collection_tree['title'], :controller=>:collections, :action=>controller.action_name, :id=>@collection_tree['collection_id']), @archival_object.title]} %>
+<% else %>
+   <%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Archival Objects", :controller=>:archival_objects, :action=>:index), @archival_object.title]} %>
+<% end %>
+
+<div class="row-fluid">
+   <div class="span3">
+     <div class="archives-tree-container well">
+      <!-- <div class="archives-tree-title">Container Hierarchy</div> -->
+      <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>@archival_object.id} %>
+      <% if @collection_tree %>
+         <div class="btn-toolbar archives-tree-toolbar">
+           <div class="btn-group dropup">
+             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+               Add Child
+               <span class="caret"></span>
+             </a>
+             <ul class="dropdown-menu">
+               <li><%= link_to "<span class='icon-file'></span> Analog Object".html_safe, :controller=>:archival_objects, :action=>:new, :collection_id=>@collection_tree['collection_id'], :parent_id=>@archival_object.id %></li>
+             </ul>
+           </div> <!-- btn-group dropup -->
+           <% if @parent_id %>
+             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+               Add Sibling
+               <span class="caret"></span>
+             </a>
+             <ul class="dropdown-menu">
+               <li><%= link_to "<span class='icon-file'></span> Analog Object".html_safe, :controller=>:archival_objects, :action=>:new, :collection_id=>@collection_tree['id'], :parent_id=>@parent_id %></li>
+             </ul>
+           </div> <!-- btn-group dropup -->
+           <% end %>
+        <% end %>
+      </div> <!-- btn-toolbar archives-tree-toolbar -->
+    </div> <!-- well -->
+   </div> <!-- span3 -->
+   <div class="span9" id="archival_object_container">
+      <%= form_for @archival_object, :as => "archival_object", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
+         <%= render :partial=>"archival_objects/form_container", :locals=>{:f => f} %>
+      <% end %>
+   </div>
+</div>

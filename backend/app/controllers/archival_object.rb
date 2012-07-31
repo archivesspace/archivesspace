@@ -2,8 +2,6 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   post '/archival_object' do
-    puts "REQUEST: #{params}"
-
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer},
                    "archival_object" => {:doc => "The archival_object to create (JSON)", :type => JSONModel(:archival_object)},
                    "collection" => {:doc => "The collection containing this archival_object", :type => Integer, :optional => true},

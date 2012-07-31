@@ -20,14 +20,29 @@ class ArchivalObjectsController < ApplicationController
         uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
         response = Net::HTTP.get(uri)
         @collection_tree = JSON.parse(response)
+
         if params[:parent_id] then
            # insert new node below specified parent
-        else
-           # insert as last child of collection
+           @parent_id = params[:parent_id]
+           find_tree_node(@collection_tree['children'], @parent_id.to_i)['children'].push({
+             "id" => "new",
+             "title" => @archival_object.title,
+             "children" => []
+           })
+        elsif @collection_tree['children'].empty?
+           # Add top AO
            @collection_tree['children'].push({
               "id" => "new",
               "title" => @archival_object.title,
               "children" => []              
+           })
+        else
+           # Add child of top AO
+           @parent_id = @collection_tree['children'][0]['id']
+           @collection_tree['children'][0]['children'].push({
+              "id" => "new",
+              "title" => @archival_object.title,
+              "children" => []
            })
         end
      end
@@ -35,11 +50,12 @@ class ArchivalObjectsController < ApplicationController
 
   def edit
      @archival_object = JSONModel(:archival_object).find(params[:id])
-     
-     # get the hierarchy
-     #uri = URI("#{BACKEND_SERVICE_URL}/collection/#{@collection.id}/tree")
-     #response = Net::HTTP.get(uri)
-     #@collection_tree = JSON.parse(response)
+     if params[:collection_id]
+        # get the hierarchy
+        uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
+        response = Net::HTTP.get(uri)
+        @collection_tree = JSON.parse(response)        
+     end
   end
   
   def edit_inline
@@ -97,6 +113,17 @@ class ArchivalObjectsController < ApplicationController
       @errors = e.errors
       render action: "edit", :notice=>"Update failed: #{result[:status]}"
     end
+  end
+  
+  
+  private
+  
+  def find_tree_node(children, id)
+     children.each do |child|
+        return child if child['id'] === id
+        result = find_tree_node(child['children'], id)
+        return result if result.kind_of? Hash
+     end
   end
 
 end

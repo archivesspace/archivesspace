@@ -11,8 +11,10 @@
    </div>
    <div class="span9">
       <div class="btn-group" style="float: right">
-        <button class="btn">Edit Archival Object</button>
-        <button class="btn">Delete</button>
+        <% if @collection_tree %>
+           <%= link_to "Edit", {:controller=>:archival_objects, :action=>:edit, :id=>@archival_object.id, :collection_id=>@collection_tree["collection_id"]}, :class=>"btn btn-small" %>
+        <% end %>
+        <a href="#" class="btn btn-small">Delete</a>
       </div>
       <h2><%= @archival_object.title %> <span class="label label-info">Archival Object</span></h2>
       

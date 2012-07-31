@@ -1,6 +1,7 @@
-<%= hidden_field_tag "parent_id", @parent_id %>
-<%= hidden_field_tag "collection_id", @collection_tree['collection_id'] %>
-
+<% if @collection_tree %>
+   <%= hidden_field_tag "parent_id", @parent_id %>
+   <%= hidden_field_tag "collection_id", @collection_tree['collection_id'] %>
+<% end %>
 <h2><%= @archival_object.title %></h2>
 <br/>
 <%= render "shared/errors", :object => @archival_object, :errors => @errors, :warnings => @warnings %>

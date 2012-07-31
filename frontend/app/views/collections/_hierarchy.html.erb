@@ -1,13 +1,15 @@
-<% if @collection_tree.empty? %>
+<% if @collection_tree.blank? %>
    <div class="alert alert-info" style="margin: 10px">This collection is empty.</div>
-<% else %>
+<% else 
+   target_action = controller.action_name != "new" ? controller.action_name : "edit"
+%>
    <div class="archives-tree">
          <ul class="jstree-classic">
-            <li id="<%= @collection_tree.has_key?('collection_id') ? @collection_tree['collection_id'] : "root" %>" class="collection" rel="collection">
+            <li id="<%= @collection_tree.has_key?('collection_id') ? @collection_tree['collection_id'] : "root" %>" class="collection <% if selected === "collection" %>selected<% end %>" rel="collection">
                <% if @collection_tree.blank? %>
                   <a href="#"><%= "New Collection" %></a>
                <% else %>
-                  <%= link_to @collection_tree['title'], :controller=>:collections, :action=>controller.action_name, :id=>@collection_tree['collection_id'] %>
+                  <%= link_to @collection_tree['title'], :controller=>:collections, :action=>target_action, :id=>@collection_tree['collection_id'] %>
                   <%= render :partial=>"collections/hierarchy_children", :locals=>{:children=>@collection_tree['children'], :collection_id=>@collection_tree['collection_id'], :selected=>selected} %>
                <% end %>         
             </li>
