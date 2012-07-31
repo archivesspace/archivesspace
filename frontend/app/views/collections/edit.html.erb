@@ -1,9 +1,9 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Collections", :controller=>:collections, :action=>:index),"New Collection"]} %>
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Collections", :controller=>:collections, :action=>:index), @collection.title]} %>
 <div class="row-fluid">
    <div class="span3">
      <div class="archives-tree-container well">
       <!-- <div class="archives-tree-title">Container Hierarchy</div> -->
-      <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>"root"} %>
+      <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>@collection.id} %>
       <div class="btn-toolbar archives-tree-toolbar">         
         <div class="btn-group dropup">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
@@ -16,12 +16,12 @@
             <li><a class="add-logical-action" href="javascript:void(0);"><span class="icon-folder-close"></span> Logical Object</a></li>
           </ul>
         </div> <!-- btn-group dropup -->
-        <!-- <div class="btn-group"><a class="btn btn-mini" href="#">Link to Archival Object</a></div>-->
+        <!-- <div class="btn-group"><a class="btn btn-mini" href="#">Link to Archival Object</a></div> -->
       </div> <!-- btn-toolbar archives-tree-toolbar -->
     </div> <!-- well -->
    </div> <!-- span3 -->
    <div class="span9" id="archival_object_container">
-      <%= form_for @collection, :as => "collection", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
+      <%= form_for @collection, :as => "collection", :url=>{:action=>:update}, :html=>{:class=>'form-horizontal'} do |f| %>
          <%= render :partial=>"collections/form_container", :locals=>{:f => f} %>
       <% end %>
    </div>

@@ -1,0 +1,46 @@
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Collections", :controller=>:collections, :action=>:index), @collection.title]} %>
+<div class="row-fluid">
+   <div class="span3">
+     <div class="archives-tree-container well">
+      <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>@collection.id} %>
+    </div> <!-- well -->
+   </div> <!-- span3 -->
+   <div class="span9" id="archival_object_container">
+      <div class="btn-group" style="float: right">
+        <button class="btn btn-small">Do something</button>
+        <button class="btn btn-small">Do something else</button>
+      </div>
+      <h2><%= @collection.title %> <span class="label label-info">Collection</span></h2>
+      
+      <br/>
+      <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
+          <!-- <li><a href="#finding-aid" data-toggle="tab">Finding Aid</a></li>
+          <li><a href="#dates" data-toggle="tab">Dates</a></li>
+          <li><a href="#names" data-toggle="tab">Names</a></li>
+          <li><a href="#subjects" data-toggle="tab">Subjects</a></li> -->
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="basic-information">
+             <div class="row-fluid label-and-value">
+                <div class="span3">Title</div>
+                <div class="span9"><%= @collection.title %></div>
+             </div>
+          </div>
+          <!-- <div class="tab-pane" id="finding-aid">
+            <div class="well">Finding Aid form here...</div>
+          </div>
+          <div class="tab-pane" id="dates">
+            <div class="well">Dates form/list here...</div>
+          </div>
+          <div class="tab-pane" id="names">
+            <div class="well">Names selector/list here...</div>
+          </div>
+          <div class="tab-pane" id="subjects">
+            <div class="well">Subjects selector/list here...</div>
+          </div> -->
+        </div>
+      </div>
+   </div>
+</div>

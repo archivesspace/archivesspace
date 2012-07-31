@@ -127,11 +127,14 @@ class ArchivesSpaceService < Sinatra::Base
     def ensure_params(declared_params)
       declared_params = declared_params[0]
 
-      missing = []
-      bad_type = []
+      errors = {
+        :missing => [],
+        :bad_type => []
+      }
+
       declared_params.each do |parameter, opts|
         if not params[parameter] and not declared_params[parameter][:optional]
-          missing << parameter
+          errors[:missing] << parameter
         else
 
           if opts[:type] and params[parameter]
@@ -144,22 +147,22 @@ class ArchivesSpaceService < Sinatra::Base
                                     params[parameter]
                                   end
             rescue ArgumentError
-              bad_type << parameter
+              errors[:bad_type] << parameter
             end
           end
 
         end
       end
 
-      if not (missing.empty? and bad_type.empty?)
-        s = "Your request had some invalid parameters:\n\n"
+      if not errors.values.flatten.empty?
+        s = "Your request parameters weren't quite right:\n\n"
 
-        (missing + bad_type).each do |param|
-          s += "  * #{param} -- #{declared_params[param][:doc]}"
-          if declared_params[param].has_key?(:type)
-            s += " (type: #{declared_params[param][:type]})"
-          end
-          s += "\n"
+        errors[:missing].each do |param|
+          s += "  * Missing value for '#{param}' -- #{declared_params[param][:doc]}\n"
+        end
+
+        errors[:bad_type].each do |param|
+          s += "  * Invalid type for '#{param}' -- Wanted type #{declared_params[param][:type]} but got '#{params[param]}'\n"
         end
 
         raise MissingParamsException.new(s)

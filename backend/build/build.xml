@@ -38,6 +38,15 @@
   </target>
 
 
+  <target name="db:nuke" description="Run migrations against the database configured in config/config.rb">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+          dir="..">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb nuke" />
+    </java>
+  </target>
+
+
   <target name="test" description="Run the test suite">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
           failonerror="true"

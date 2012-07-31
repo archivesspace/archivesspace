@@ -14,8 +14,8 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object and get it back" do
-    post "/archivalobject", params = {
-      :archivalobject => JSON({
+    post "/archival_object", params = {
+      :archival_object => JSON({
                                  "id_0" => "1234",
                                  "title" => "The archival object title",
                                }),
@@ -25,7 +25,7 @@ describe 'Archival Object controller' do
     last_response.should be_ok
     created = JSON(last_response.body)
 
-    get "/archivalobject/#{created["id"]}"
+    get "/archival_object/#{created["id"]}"
 
     ao = JSON(last_response.body)
 
@@ -45,8 +45,8 @@ describe 'Archival Object controller' do
     last_response.should be_ok
     collection = JSON(last_response.body)
 
-    post "/archivalobject", params = {
-      :archivalobject => JSON({
+    post "/archival_object", params = {
+      :archival_object => JSON({
                                  "id_0" => "1234",
                                  "title" => "parent archival object",
                                }),
@@ -57,8 +57,8 @@ describe 'Archival Object controller' do
     created = JSON(last_response.body)
 
 
-    post "/archivalobject", params = {
-      :archivalobject => JSON({
+    post "/archival_object", params = {
+      :archival_object => JSON({
                                 "id_0" => "5678",
                                 "title" => "child archival object",
                               }),
@@ -70,7 +70,7 @@ describe 'Archival Object controller' do
     last_response.should be_ok
 
 
-    get "/archivalobject/#{created["id"]}/children"
+    get "/archival_object/#{created["id"]}/children"
     last_response.should be_ok
 
     children = JSON(last_response.body)
@@ -80,8 +80,8 @@ describe 'Archival Object controller' do
 
 
   it "warns about missing properties" do
-    post "/archivalobject", params = {
-      :archivalobject => JSON({}),
+    post "/archival_object", params = {
+      :archival_object => JSON({}),
       :repo_id => @repo
     }
 

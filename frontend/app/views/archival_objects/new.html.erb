@@ -5,11 +5,13 @@
       <!-- <div class="archives-tree-title">Container Hierarchy</div> -->
       <%= render "archival_objects/hierarchy" %>
       <div class="btn-toolbar archives-tree-toolbar">         
-        <div class="btn-group"><a class="btn btn-mini" href="#">Link to a Collection</a></div>
+        <!-- <div class="btn-group"><a class="btn btn-mini" href="#">Link to a Collection</a></div>-->
       </div> <!-- btn-toolbar archives-tree-toolbar -->
     </div> <!-- well -->
    </div> <!-- span3 -->
    <div class="span9" id="archival_object_container">
-      <%= render :partial=>"archival_objects/form_container" %>
+      <%= form_for @archival_object, :as => "archival_object", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
+         <%= render :partial=>"archival_objects/form_container", :locals=>{:f => f} %>
+      <% end %>
    </div>
 </div>

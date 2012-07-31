@@ -2,22 +2,25 @@
   <button class="btn btn-small">Do something</button>
   <button class="btn btn-small">Do something else</button>
 </div>
-<h2>New Collection</h2>
+<h2>
+   <%= @collection.title.blank? ? "New Collection" : @collection.title %>
+</h2>
 <br/>
+<%= render "shared/errors", :object => @accession, :errors => @errors, :warnings => @warnings %>
 <div class="tabbable tabs-left">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
-    <li><a href="#finding-aid" data-toggle="tab">Finding Aid</a></li>
+    <!-- <li><a href="#finding-aid" data-toggle="tab">Finding Aid</a></li>
     <li><a href="#dates" data-toggle="tab">Dates</a></li>
     <li><a href="#names" data-toggle="tab">Names</a></li>
-    <li><a href="#subjects" data-toggle="tab">Subjects</a></li>
+    <li><a href="#subjects" data-toggle="tab">Subjects</a></li> -->
     <li><a href="#accessions" data-toggle="tab">Accessions</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="basic-information">
-      <div class="well">Basic Information form here...</div>
+      <%= render :partial=>"collections/forms/basic_information", :locals=>{:f => f} %>
     </div>
-    <div class="tab-pane" id="finding-aid">
+    <!-- <div class="tab-pane" id="finding-aid">
       <div class="well">Finding Aid form here...</div>
     </div>
     <div class="tab-pane" id="dates">
@@ -28,9 +31,9 @@
     </div>
     <div class="tab-pane" id="subjects">
       <div class="well">Subjects selector/list here...</div>
-    </div>
+    </div> -->
     <div class="tab-pane" id="accessions">
-      <div class="well">Accessions selector/list here...</div>
+      <div class="well">Accessions selector/list here... TODO</div>
     </div>
   </div>
 </div>

@@ -33,9 +33,14 @@ class Collection < Sequel::Model(:collections)
 
     Collection.db[:collection_tree].
                filter(:collection_id => self.id).each do |row|
-      links[row[:parent_id]] ||= []
-      links[row[:parent_id]] << row[:child_id]
+      if row[:parent_id]
+        links[row[:parent_id]] ||= []
+        links[row[:parent_id]] << row[:child_id]
+      end
     end
+
+    # Check for empty tree
+    return {} if links.empty?
 
     # The root node is the only one appearing in the parent set but not the
     # child set.
@@ -53,7 +58,11 @@ class Collection < Sequel::Model(:collections)
       properties[row[:id]] = row
     end
 
-    assemble_tree(root_node[0], links, properties)
+    {
+      :collection_id => self.id,
+      :title => self.title,
+      :children => [assemble_tree(root_node[0], links, properties)]
+    }
   end
 
 
@@ -62,7 +71,7 @@ class Collection < Sequel::Model(:collections)
                filter(:collection_id => self.id).
                delete
 
-    nodes = [tree]
+    nodes = tree["children"]
     while not nodes.empty?
       parent = nodes.pop
 

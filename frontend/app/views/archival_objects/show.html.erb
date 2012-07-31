@@ -1,8 +1,12 @@
 <%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Archival Objects", :controller=>:archival_objects, :action=>:index), "New Archival Object"]} %>
 <div class="row-fluid">
    <div class="span3">
-      <div class="well">
-         <p>This is where the tree will go.</p>
+      <div class="well archives-tree-container">
+      <% if @collection_tree %>
+         <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>@archival_object.id} %>
+      <% else %>
+         <p>Collection for Archival Object not specified.</p>
+      <% end %>
       </div>
    </div>
    <div class="span9">
@@ -10,11 +14,11 @@
         <button class="btn">Edit Archival Object</button>
         <button class="btn">Delete</button>
       </div>
-      <h2>Test Archival Object <span class="label label-info">Archival Object</span></h2>
+      <h2><%= @archival_object.title %> <span class="label label-info">Archival Object</span></h2>
       
       <div class="row-fluid label-and-value">
          <div class="span3">Identifier</div>
-         <div class="span9">ABCD 1234 XYZP 5678</div>
+         <div class="span9"><%= @archival_object.id_0 %> <%= @archival_object.id_1 %> <%= @archival_object.id_2 %> <%= @archival_object.id_3 %></div>
       </div>
    </div>
 </div>

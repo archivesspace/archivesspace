@@ -9,6 +9,11 @@ en:
       publish_help: Check this if you wish to publish this accession to the public.
       restrictions: Restrictions?
       title: Title
+   archival_object:
+      title: Title
+      id_0: Identifier
+   collection:
+      title: Title
    repository:
       repo_id: Repository Id
       description: Description

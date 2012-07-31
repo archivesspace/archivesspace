@@ -155,7 +155,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :collection_id, :null => false
-      Integer :parent_id, :null => false
+      Integer :parent_id, :null => true
       Integer :child_id, :null => false
 
       DateTime :create_time, :null => false
@@ -171,18 +171,18 @@ Sequel.migration do
   end
 
   down do
-    drop_table(:sessions)
-    drop_table(:auth_db)
+    drop_table?(:sessions)
+    drop_table?(:auth_db)
 
-    drop_table(:users)
-    drop_table(:groups)
-    drop_table(:groups_users)
+    drop_table?(:groups_users)
+    drop_table?(:users)
+    drop_table?(:groups)
 
-    drop_table(:repositories)
-    drop_table(:accessions)
+    drop_table?(:accessions)
 
-    drop_table(:archival_objects)
-    drop_table(:collections)
-    drop_table(:collection_parent_child)
+    drop_table?(:collection_tree)
+    drop_table?(:archival_objects)
+    drop_table?(:collections)
+    drop_table?(:repositories)
   end
 end
