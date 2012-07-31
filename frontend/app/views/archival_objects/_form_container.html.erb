@@ -1,9 +1,9 @@
-<div class="btn-group" style="float: right">
-  <button class="btn btn-small">Do something</button>
-  <button class="btn btn-small">Do something else</button>
-</div>
-<h2>New Archival Object</h2>
+<%= hidden_field_tag "parent_id", @parent_id %>
+<%= hidden_field_tag "collection_id", @collection_tree['collection_id'] %>
+
+<h2><%= @archival_object.title %></h2>
 <br/>
+<%= render "shared/errors", :object => @archival_object, :errors => @errors, :warnings => @warnings %>
 <div class="tabbable tabs-left">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>

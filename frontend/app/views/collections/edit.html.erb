@@ -3,7 +3,7 @@
    <div class="span3">
      <div class="archives-tree-container well">
       <!-- <div class="archives-tree-title">Container Hierarchy</div> -->
-      <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>@collection.id} %>
+      <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>"root"} %>
       <div class="btn-toolbar archives-tree-toolbar">         
         <div class="btn-group dropup">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
@@ -11,9 +11,7 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="add-analog-action" href="javascript:void(0);"><span class="icon-file"></span> Analog Object</a></li>
-            <li><a class="add-digital-action" href="javascript:void(0);"><span class="icon-barcode"></span> Digital Object</a></li>
-            <li><a class="add-logical-action" href="javascript:void(0);"><span class="icon-folder-close"></span> Logical Object</a></li>
+            <li><%= link_to "<span class='icon-file'></span> Analog Object".html_safe, :controller=>:archival_objects, :action=>:new, :collection_id=>@collection.id %></li>
           </ul>
         </div> <!-- btn-group dropup -->
         <!-- <div class="btn-group"><a class="btn btn-mini" href="#">Link to Archival Object</a></div> -->

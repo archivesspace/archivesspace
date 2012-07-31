@@ -31,7 +31,7 @@ class CollectionsController < ApplicationController
      begin
        @collection = JSONModel(:collection).new(params[:collection])
        id = @collection.save(:repo_id => session[:repo])
-       redirect_to :controller=>:collections, :action=>:edit, :id=>id
+       redirect_to :controller=>:collections, :action=>:show, :id=>id
      rescue JSONModel::ValidationException => e
        @collection = e.invalid_object
        @errors = e.errors

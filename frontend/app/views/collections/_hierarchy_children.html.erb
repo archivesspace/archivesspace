@@ -1,8 +1,12 @@
 <% if not children.blank? %>
    <ul>
       <% children.each do |child| %>
-         <li class="analog <% if selected.to_i === child['id'].to_i %>selected<% end %>" rel="analog" id="<%= child['id'] %>">            
-            <%= link_to child['title'], :controller=>:archival_objects, :action=>controller.action_name, :id=>child['id'], :collection_id=>collection_id %>
+         <li class="analog <% if selected.to_s === child['id'].to_s %>selected<% end %>" rel="analog" id="<%= child['id'] %>">
+            <% if child['id'].to_s === "new" %>
+               <a href="#"><%= child['title'] %></a>
+            <% else %>
+               <%= link_to child['title'], :controller=>:archival_objects, :action=>controller.action_name, :id=>child['id'], :collection_id=>collection_id %>
+            <% end %>
             <%= render :partial=>"collections/hierarchy_children", :locals=>{:children=>child['children'], :collection_id=>collection_id, :selected=>selected} %>
          </li>        
       <% end %>

@@ -15,6 +15,22 @@ class ArchivalObjectsController < ApplicationController
 
   def new
      @archival_object = JSONModel(:archival_object).new({:title=>"New Archival Object"})
+     if params[:collection_id]
+        # get the hierarchy
+        uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
+        response = Net::HTTP.get(uri)
+        @collection_tree = JSON.parse(response)
+        if params[:parent_id] then
+           # insert new node below specified parent
+        else
+           # insert as last child of collection
+           @collection_tree['children'].push({
+              "id" => "new",
+              "title" => @archival_object.title,
+              "children" => []              
+           })
+        end
+     end
   end
 
   def edit
@@ -32,11 +48,37 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def create
+     params[:parent_id] = nil if params[:parent_id].blank?
+     params[:collection_id] = nil if params[:collection_id].blank?
+          
      begin
        @archival_object = JSONModel(:archival_object).new(params[:archival_object])
-       id = @archival_object.save(:repo_id => session[:repo])
-       redirect_to :controller=>:archival_object, :action=>:show, :id=>id
+       
+       save_params = {
+          :repo_id => session[:repo]
+       }
+       save_params[:collection] = params[:collection_id] if not params[:collection_id].blank?
+       save_params[:parent] = params[:parent_id] if not params[:parent_id].blank?
+
+       id = @archival_object.save(save_params)
+       redirect_to :controller=>:archival_objects, :action=>:show, :id=>id, :collection_id => params["collection_id"]
      rescue JSONModel::ValidationException => e
+        if params[:collection_id]
+           # get the hierarchy
+           uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
+           response = Net::HTTP.get(uri)
+           @collection_tree = JSON.parse(response)
+           if params[:parent_id] then
+              # insert new node below specified parent
+           else
+              # insert as last child of collection
+              @collection_tree['children'].push({
+                 "id" => "new",
+                 "title" => @archival_object.title,
+                 "children" => []              
+              })
+           end
+        end
        @archival_object = e.invalid_object
        @errors = e.errors
        return render action: "new"

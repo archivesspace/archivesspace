@@ -40,7 +40,7 @@ class Collection < Sequel::Model(:collections)
     end
 
     # Check for empty tree
-    return {} if links.empty?
+    return { :collection_id => self.id,:title => self.title, :children => [] } if links.empty?
 
     # The root node is the only one appearing in the parent set but not the
     # child set.
