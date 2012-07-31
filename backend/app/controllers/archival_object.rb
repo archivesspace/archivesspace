@@ -38,7 +38,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/archival_object/:archivalobject_id/children' do
+  get '/archival_object/:archival_object_id/children' do
     ensure_params ["archival_object_id" => {:doc => "The archival object ID", :type => Integer}]
 
     ao = ArchivalObject[params[:archival_object_id]]
