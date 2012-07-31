@@ -1,18 +1,69 @@
-<% if @collection_tree.blank? %>
-   <div class="alert alert-info" style="margin: 10px">This collection is empty.</div>
-<% else 
-   target_action = controller.action_name != "new" ? controller.action_name : "edit"
-%>
-   <div class="archives-tree">
-         <ul class="jstree-classic">
-            <li id="<%= @collection_tree.has_key?('collection_id') ? @collection_tree['collection_id'] : "root" %>" class="collection <% if selected === "collection" %>selected<% end %>" rel="collection">
-               <% if @collection_tree.blank? %>
-                  <a href="#"><%= "New Collection" %></a>
-               <% else %>
-                  <%= link_to @collection_tree['title'], :controller=>:collections, :action=>target_action, :id=>@collection_tree['collection_id'] %>
-                  <%= render :partial=>"collections/hierarchy_children", :locals=>{:children=>@collection_tree['children'], :collection_id=>@collection_tree['collection_id'], :selected=>selected} %>
-               <% end %>         
+<div id="archives_tree" class="archives-tree"></div>
+
+<script>
+   var collection_tree_data = <%= @collection_tree.to_json.html_safe %>;
+</script>
+
+<div id="tree_template"><!--
+   {macro render_children(nodes)}
+      {if nodes.length > 0}
+      <ul>
+         {for node in nodes}
+            <li id="${node.id}" class="analog" rel="archival_object">
+               <a href="javascript:void(0)">${node.title}</a>
+               ${render_children(node.children)}
             </li>
-         </ul>
+         {/for}
+      </ul>
+      {/if}
+   {/macro}
+   
+   {macro render_collection(node)}
+      <li id="${node.collection_id}" class="collection" rel="collection">
+         <a href="javascript:void(0)">${node.title}</a>
+         ${render_children(tree.children)}
+      </li>
+   {/macro}
+   
+   <ul class="jstree-classic">
+      ${render_collection(tree)}
+   </ul>
+--></div>
+
+<div id="tree_toolbar_template"><!--
+   <div class="btn-toolbar archives-tree-toolbar">         
+     
    </div>
-<% end %>
+--></div>
+
+<div id="tree_toolbar_addchild_template"><!--
+   <div class="btn-group dropup">
+    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+      Add Child
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+         <a href="javascript:void(0);">
+            <span class='icon-file'></span> Analog Object
+         </a>         
+      </li>
+    </ul>
+  </div>
+--></div>
+
+<div id="tree_toolbar_addsibling_template"><!--
+    <div class="btn-group dropup">
+     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+       Add Sibling
+       <span class="caret"></span>
+     </a>
+     <ul class="dropdown-menu">
+       <li>
+          <a href="javascript:void(0);">
+             <span class='icon-file'></span> Analog Object
+          </a>         
+       </li>
+     </ul>
+   </div>
+--></div>

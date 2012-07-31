@@ -1,7 +1,32 @@
 //= require plugins/jstree
 
 $(function() {
-   var node_id_for_page;
+   
+   var renderTree = function() {
+      $("#archives_tree").html(AS.renderTemplate("tree_template", {tree: collection_tree_data}));
+   }
+   
+   var loadPaneForNode = function(nodeEl) {
+      if (nodeEl.attr("rel") === "archival_object") {
+         $.ajax({
+            url: "/archival_objects/"+nodeEl.attr("id")+"?inline=true",
+            success: function(html) {
+               $("#object_container").html(html);
+            }
+         });  
+      } else if (nodeEl.attr("rel") === "collection") {         
+         $.ajax({
+            url: "/collections/"+nodeEl.attr("id")+"?inline=true",
+            success: function(html) {
+               $("#object_container").html(html);
+            }
+         });
+      }
+   };
+   
+   
+   renderTree();
+   
    // init the archives tree
    var $tree = $(".archives-tree").jstree({
        
@@ -33,12 +58,24 @@ $(function() {
           }
       },
       "plugins": [ "themes", "html_data", "ui", "crrm"]
-   }).bind("loaded.jstree", function (event, data) { 
+   }).bind("loaded.jstree", function (event, data) {
+      if ($(".selected", $tree).length === 0) {
+         $("li:first", $tree).addClass("selected");
+      }
       $tree.jstree("open_node", $(".selected", $tree));
       node_id_for_page = $(".selected", $tree).attr("id");
       $tree.jstree("select_node", $(".selected", $tree));
    }).bind("select_node.jstree", function (event, data) {
-     
+      var selectedNode = $(data.rslt.obj);
+      
+      if (selectedNode.hasClass("selected")) {
+         return;
+      }
+      
+      $(".selected", $tree).removeClass("selected");
+      selectedNode.addClass("selected");
+      $tree.jstree("open_node", selectedNode);
+      loadPaneForNode(selectedNode);
    });
    
    $("a", $tree).live("click", function() {

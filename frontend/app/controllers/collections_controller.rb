@@ -7,6 +7,10 @@ class CollectionsController < ApplicationController
   def show
      @collection = JSONModel(:collection).find(params[:id])
      
+      if params[:inline]
+       return render :partial=>"collections/show_inline"
+      end
+     
      # get the hierarchy
      uri = URI("#{BACKEND_SERVICE_URL}/collection/#{@collection.id}/tree")
      response = Net::HTTP.get(uri)

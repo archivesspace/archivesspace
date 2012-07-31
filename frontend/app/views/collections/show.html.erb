@@ -5,7 +5,7 @@
       <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>"collection"} %>
     </div> <!-- well -->
    </div> <!-- span3 -->
-   <div class="span9" id="archival_object_container">
+   <div class="span9" id="object_container">
       <div class="btn-group" style="float: right">
         <%= link_to "Edit", {:controller=>:collections, :action=>:edit, :id=>@collection.id}, :class=>"btn btn-small" %>
         <a href="#" class="btn btn-small">Delete</a>

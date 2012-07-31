@@ -6,6 +6,11 @@ class ArchivalObjectsController < ApplicationController
 
   def show
      @archival_object = JSONModel(:archival_object).find(params[:id])
+     
+     if params[:inline]
+        return render :partial=>"archival_objects/show_inline"
+     end
+     
      if params.has_key?(:collection_id) 
         uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
         response = Net::HTTP.get(uri)
