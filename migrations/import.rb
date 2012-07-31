@@ -5,19 +5,18 @@ require_relative File.join("lib", "bootstrap")
 
 options = {}
 
-=begin
-Possible params to add:
-  - pass -h to the importer so it can declare what params it wants
-=end
-
+# Perhaps it is better to pass these all into the importer class
+# as an options array. 
 ::ALLOWFAILURES = false
+::VERBOSEIMPORT = false
+::DRYRUN = false
+
 optparse = OptionParser.new do|opts|
   opts.banner = "Usage: ead_import.rb [options] ead_file"
-  options[:dry_run] = false
   opts.on( '-n', '--dry-run', 'Do a dry run' ) do
-    options[:dry_run] = true
+    ::DRYRUN = true
   end
-  opts.on( '-i', '--importer NAME', 'Choose an importer' ) do|name|
+  opts.on( '-i', '--importer NAME', 'Use importer NAME' ) do|name|
     options[:importer] = name
   end
   opts.on( '-h', '--help', 'Display this screen' ) do
@@ -29,6 +28,9 @@ optparse = OptionParser.new do|opts|
   end
   opts.on( '-l', '--list-importers', 'List available importers') do
     options[:list] = true
+  end
+  opts.on( '-v', '--verbose', 'Exude verbosity') do
+    ::VERBOSEIMPORT = true
   end
 end
 
