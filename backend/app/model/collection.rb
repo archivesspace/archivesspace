@@ -31,29 +31,24 @@ class Collection < Sequel::Model(:collections)
   def tree
     links = {}
 
+    root_node = nil
     Collection.db[:collection_tree].
                filter(:collection_id => self.id).each do |row|
       if row[:parent_id]
         links[row[:parent_id]] ||= []
         links[row[:parent_id]] << row[:child_id]
+      else
+        root_node = row[:child_id]
       end
     end
 
     # Check for empty tree
-    return { :collection_id => self.id,:title => self.title, :children => [] } if links.empty?
-
-    # The root node is the only one appearing in the parent set but not the
-    # child set.
-    root_node = links.keys - links.values.flatten
-
-    if root_node.count != 1
-      raise "Couldn't fetch tree for collection #{self.id}.  Root nodes: #{root_node.inspect}"
-    end
+    return { :collection_id => self.id,:title => self.title, :children => [] } if root_node.nil?
 
     properties = {}
 
     Collection.db[:archival_objects].
-               filter(:id => links.keys + links.values.flatten).
+               filter(:id => ([root_node] + links.keys + links.values.flatten)).
                select(:id, :title).each do |row|
       properties[row[:id]] = row
     end
@@ -61,7 +56,7 @@ class Collection < Sequel::Model(:collections)
     {
       :collection_id => self.id,
       :title => self.title,
-      :children => [assemble_tree(root_node[0], links, properties)]
+      :children => [assemble_tree(root_node, links, properties)]
     }
   end
 
