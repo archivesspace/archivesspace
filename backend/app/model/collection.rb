@@ -58,7 +58,11 @@ class Collection < Sequel::Model(:collections)
       properties[row[:id]] = row
     end
 
-    assemble_tree(root_node[0], links, properties)
+    {
+      :collection_id => self.id,
+      :title => self.title,
+      :children => [assemble_tree(root_node[0], links, properties)]
+    }
   end
 
 
@@ -67,7 +71,7 @@ class Collection < Sequel::Model(:collections)
                filter(:collection_id => self.id).
                delete
 
-    nodes = [tree]
+    nodes = tree["children"]
     while not nodes.empty?
       parent = nodes.pop
 
