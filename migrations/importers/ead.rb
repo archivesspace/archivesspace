@@ -5,7 +5,12 @@ ASpaceImporter.importer :ead do
     "Default EAD importer. Takes 1 argument: EADFILE"
   end
   def run
+    if ARGV[0] == nil
+      raise ArgumentError.new("Need FILE argument (a path to a file)")
+      # TODO - make sure it's really a file
+    end
     input_file = ARGV[0]
+
     reader = Nokogiri::XML::Reader(IO.read(input_file))
     
     @open_objects = Array.new 
