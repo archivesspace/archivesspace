@@ -155,7 +155,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :collection_id, :null => false
-      Integer :parent_id, :null => false
+      Integer :parent_id, :null => true
       Integer :child_id, :null => false
 
       DateTime :create_time, :null => false

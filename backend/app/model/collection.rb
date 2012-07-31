@@ -33,8 +33,10 @@ class Collection < Sequel::Model(:collections)
 
     Collection.db[:collection_tree].
                filter(:collection_id => self.id).each do |row|
-      links[row[:parent_id]] ||= []
-      links[row[:parent_id]] << row[:child_id]
+      if row[:parent_id]
+        links[row[:parent_id]] ||= []
+        links[row[:parent_id]] << row[:child_id]
+      end
     end
 
     # Check for empty tree

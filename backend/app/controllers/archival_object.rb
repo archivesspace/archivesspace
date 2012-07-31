@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
     repo = Repository[params[:repo_id]]
     id = repo.create_archival_object(params[:archival_object])
 
-    if params["parent"] and params["collection"]
+    if params["parent"] or params["collection"]
       collection = Collection[params["collection"]]
 
       if not collection
