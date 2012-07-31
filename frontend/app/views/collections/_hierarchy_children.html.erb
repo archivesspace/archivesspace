@@ -1,0 +1,10 @@
+<% if not children.blank? %>
+   <ul>
+      <% children.each do |child| %>
+         <li class="analog" rel="analog" id="<%= child['id'] %>">
+            <a href="#"><%= child['title'] %></a>
+            <%= render :partial=>"collections/hierarchy_children", :locals=>{:children=>child['children']} %>
+         </li>
+      <% end %>
+   </ul>
+<% end %>

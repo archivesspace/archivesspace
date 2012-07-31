@@ -37,6 +37,9 @@ class Collection < Sequel::Model(:collections)
       links[row[:parent_id]] << row[:child_id]
     end
 
+    # Check for empty tree
+    return {} if links.empty?
+
     # The root node is the only one appearing in the parent set but not the
     # child set.
     root_node = links.keys - links.values.flatten

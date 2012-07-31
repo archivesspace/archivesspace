@@ -9,12 +9,28 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def new
-    @resource = ArchivalObject.new
+     @archival_object = JSONModel(:archival_object).new({:title=>"New Archival Object"})
+  end
+
+  def edit
+     @archival_object = JSONModel(:archival_object).find(params[:id])
+     
+     # get the hierarchy
+     #uri = URI("#{BACKEND_SERVICE_URL}/collection/#{@collection.id}/tree")
+     #response = Net::HTTP.get(uri)
+     #@collection_tree = JSON.parse(response)
   end
 
   def create
-    @resource = ArchivalObject.from_hash(params['accession'])
-    render action: "new"
+     begin
+       @archival_object = JSONModel(:archival_object).new(params[:archival_object])
+       id = @archival_object.save(:repo_id => session[:repo])
+       redirect_to :controller=>:archival_object, :action=>:show, :id=>id
+     rescue JSONModel::ValidationException => e
+       @archival_object = e.invalid_object
+       @errors = e.errors
+       return render action: "new"
+     end
   end
 
 end

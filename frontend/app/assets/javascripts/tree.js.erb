@@ -29,9 +29,10 @@ $(function() {
               }
           }
       },      
-      "plugins": [ "themes", "html_data", "ui", "crrm" , "dnd"]
+      "plugins": [ "themes", "html_data", "ui", "crrm"] 
                   
    }).bind("loaded.jstree", function (event, data) { 
+      $tree.jstree("open_node", $(".selected", $tree));
       $tree.jstree("select_node", $(".selected", $tree));
    });
    

@@ -1,7 +1,12 @@
 <div class="archives-tree">
-<ul class="jstree-classic">
-   <li id="root" class="collection" rel="collection">
-      <a href="#">New Collection</a>
-   </li>
-</ul>
+   <ul class="jstree-classic">      
+      <li id="<%= @collection.id.blank? ? "root" : @collection.id %>" class="collection selected" rel="collection">
+         <% if @collection_tree.blank? %>
+            <a href="#"><%= @collection.title.blank? ? "New Collection" : @collection.title %></a>
+         <% else %>
+            <a href="#" rel="<%= @collection_tree['id'] %>"><%= @collection_tree['title'] %></a>
+            <%= render :partial=>"collections/hierarchy_children", :locals=>{:children=>@collection_tree['children']} %>
+         <% end %>         
+      </li>
+   </ul>
 </div>

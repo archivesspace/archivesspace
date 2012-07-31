@@ -52,5 +52,8 @@ class ArchivesSpaceService < Sinatra::Base
     collection.update_tree(tree)
   end
 
+  get '/collection' do
+    Collection.all.collect {|acc| acc.values}.to_json    
+  end
 
 end
