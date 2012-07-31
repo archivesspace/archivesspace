@@ -15,4 +15,11 @@ class DBMigrator
     Sequel::Migrator.run(db, migrations_dir)
   end
 
+
+  def self.nuke_database(db)
+    migrations_dir = File.join(File.dirname(__FILE__), "migrations")
+
+    Sequel::Migrator.run(db, migrations_dir, :target => 0)
+  end
+
 end
