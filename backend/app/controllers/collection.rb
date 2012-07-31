@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer},
                    "collection" => {:doc => "The collection to create (JSON)", :type => JSONModel(:collection)}]
 
-    repo = Repository[params[:repo_id]]
+    
     id = repo.create_collection(params[:collection])
 
     created_response(id, params[:collection]._warnings)
@@ -53,7 +53,9 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   get '/collection' do
-    Collection.all.collect {|acc| acc.values}.to_json    
+    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer}]
+    repo = Repository[params[:repo_id]]
+    Collection.filter({:repo_id =>repo.repo_id}).collect {|acc| acc.values}.to_json
   end
 
 end

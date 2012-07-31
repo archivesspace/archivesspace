@@ -48,7 +48,7 @@ describe 'Collections controller' do
     ids = []
     ["earth", "australia", "canberra"].each do |name|
       opts = {
-        :archivalobject => JSON({
+        :archival_object => JSON({
                                   "id_0" => name,
                                   "title" => "archival object: #{name}",
                                 }),
@@ -62,7 +62,7 @@ describe 'Collections controller' do
                           })
       end
 
-      post "/archivalobject", params = opts
+      post "/archival_object", params = opts
       last_response.should be_ok
       created = JSON(last_response.body)
 

@@ -2,7 +2,7 @@
 
 
 $(function() {
-   
+   var node_id_for_page;
    // init the archives tree
    var $tree = $(".archives-tree").jstree({
        
@@ -13,6 +13,10 @@ $(function() {
        "dnd": {
           "drop_target" : false,
           "drag_target" : false
+       },
+       "ui": {
+         "selected_parent_close": false,
+         "selected_parent_open": true
        },
        "crrm" : {
           "move" : {
@@ -28,13 +32,21 @@ $(function() {
                   return true;
               }
           }
-      },      
-      "plugins": [ "themes", "html_data", "ui", "crrm"] 
-                  
+      },
+      "plugins": [ "themes", "html_data", "ui", "crrm"]
    }).bind("loaded.jstree", function (event, data) { 
       $tree.jstree("open_node", $(".selected", $tree));
+      node_id_for_page = $(".selected", $tree).attr("id");
       $tree.jstree("select_node", $(".selected", $tree));
+   }).bind("select_node.jstree", function (event, data) {
+     
    });
+   
+   $("a", $tree).live("click", function() {
+      if ($(this).parent().attr("id") != node_id_for_page) {
+        document.location = $(this).attr("href");
+      }
+   })
    
    var id_counter = 0;
    
