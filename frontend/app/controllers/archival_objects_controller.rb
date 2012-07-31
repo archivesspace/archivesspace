@@ -24,7 +24,7 @@ class ArchivalObjectsController < ApplicationController
         if params[:parent_id] then
            # insert new node below specified parent
            @parent_id = params[:parent_id]
-           find_tree_node(@collection_tree['children'], @parent_id.to_i)['children'].push({
+           find_node(@collection_tree['children'], @parent_id.to_i)['children'].push({
              "id" => "new",
              "title" => @archival_object.title,
              "children" => []
@@ -55,6 +55,7 @@ class ArchivalObjectsController < ApplicationController
         uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
         response = Net::HTTP.get(uri)
         @collection_tree = JSON.parse(response)        
+        @parent_id = find_parent_node(@collection_tree, @archival_object.id.to_s)
      end
   end
   
@@ -118,12 +119,22 @@ class ArchivalObjectsController < ApplicationController
   
   private
   
-  def find_tree_node(children, id)
+  def find_node(children, id)
      children.each do |child|
         return child if child['id'] === id
-        result = find_tree_node(child['children'], id)
+        result = find_node(child['children'], id)
         return result if result.kind_of? Hash
      end
+  end
+
+  def find_parent_node(tree, id)
+     tree['children'].each do |child|
+        return tree['id'] if child['id'].to_s === id.to_s
+        
+        result = find_parent_node(child, id)
+        return result if not result.blank?
+     end
+     nil
   end
 
 end
