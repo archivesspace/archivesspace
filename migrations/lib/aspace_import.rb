@@ -50,7 +50,6 @@ class ASpaceImporter
     @response = nil
     begin
       if JSONModel(type) 
-        puts "Preparing to import a #{type}" if @verbose
       else
         raise ArgumentError.new("Don't know how to import a #{type}")
       end
@@ -62,6 +61,7 @@ class ASpaceImporter
       jo = JSONModel(type).from_hash(hsh)
       if @dry
         puts "(Not) Posting to #{ASpaceImportConfig::ASPACE_HOST}:#{ASpaceImportConfig::ASPACE_PORT} #{jo.to_json}"
+        @goodimports += 1
         {'id' => 999}
       else
         # Post data to ASpace
@@ -78,8 +78,9 @@ class ASpaceImporter
           puts "Posting a Resource" if @verbose
         when :archival_object
           puts "Posting an Archival Object" if @verbose
-          opts = {:body => params.merge('archivalobject' => jo.to_json)}
-          @response = ASpaceParty.post('/archivalobject', opts)
+          opts = {:body => params.merge('archival_object' => jo.to_json)}
+          @response = ASpaceParty.post('/archival_object', opts)
+          puts @response.insepect if $DEBUG
         else
           puts "This error should never happen, type = #{type}"
         end 
