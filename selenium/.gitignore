@@ -1,0 +1,3 @@
+build/gems
+build/jruby-complete-1.6.7.2.jar
+*.log
