@@ -34,6 +34,16 @@ $(function() {
    })
 });
 
+// add form change detection
+$(function() {
+   var onFormElementChange = function(event) {
+       $("#object_container").addClass("changed");
+   }
+   
+   $("#object_container form :input").live("change", onFormElementChange);
+   $("#object_container form :radio, .object-container form :checkbox").live("click", onFormElementChange)
+});
+
 var AS = {};
 AS.templateCache = [];
 AS.renderTemplate = function(templateId, data) {

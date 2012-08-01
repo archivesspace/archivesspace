@@ -55,6 +55,11 @@ class ArchivalObjectsController < ApplicationController
 
   def edit
      @archival_object = JSONModel(:archival_object).find(params[:id])
+     
+     if params[:inline]
+        return render :partial=>"archival_objects/edit_inline"
+     end
+     
      if params[:collection_id]
         # get the hierarchy
         uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")

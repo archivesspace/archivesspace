@@ -36,8 +36,6 @@
     </div> <!-- well -->
    </div> <!-- span3 -->
    <div class="span9" id="archival_object_container">
-      <%= form_for @archival_object, :as => "archival_object", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
-         <%= render :partial=>"archival_objects/form_container", :locals=>{:f => f} %>
-      <% end %>
+      <%= render :partial=>"archival_objects/edit_inline" %>
    </div>
 </div>
