@@ -77,9 +77,11 @@ describe 'JSON model' do
 
 
   it "Warns on missing properties instead of erroring" do
+    JSONModel::strict_mode(false)
     model = JSONModel(:testschema).from_hash({})
 
     model._warnings.keys.should eq(["elt_0"])
+    JSONModel::strict_mode(true)
   end
 
 

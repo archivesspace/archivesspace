@@ -22,6 +22,8 @@ require 'sinatra'
 require 'rack/test'
 include JSONModel
 
+JSONModel::strict_mode(true)
+
 # setup test environment
 set :environment, :test
 set :run, false

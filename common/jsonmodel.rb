@@ -7,24 +7,32 @@ module JSONModel
   @@types = {}
   @@models = {}
 
+  @@strict_mode = false
+
+  def strict_mode(val)
+    @@strict_mode = val
+  end
+
 
   class ValidationException < StandardError
     attr_accessor :invalid_object
     attr_accessor :errors
+    attr_accessor :warnings
 
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
+      @warnings = opts[:warnings]
     end
 
     def to_s
-      "#<:ValidationException: #{@errors.inspect}>"
+      "#<:ValidationException: #{{:errors => @errors, :warnings => @warnings}.inspect}>"
     end
   end
 
 
   def JSONModel(source)
-    # Checks if a model exists first; returns the model class 
+    # Checks if a model exists first; returns the model class
     # if it exists; returns false if it doesn't exist.
     if @@models.has_key?(source.to_s)
       @@models[source.to_s]
@@ -193,7 +201,7 @@ module JSONModel
 
         exceptions = self.parse_schema_messages(messages)
 
-        if not exceptions[:errors].empty?
+        if not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
           raise ValidationException.new(:invalid_object => self.new(hash),
                                         :warnings => exceptions[:warnings],
                                         :errors => exceptions[:errors])

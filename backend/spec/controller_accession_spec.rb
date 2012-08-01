@@ -36,7 +36,15 @@ describe 'Accession controller' do
 
 
   it "fails when you try to update an accession that doesn't exist" do
-    post "/accessions/99999", params = JSON({"repository" => @repo_ref})
+    post "/accessions/99999", params = JSONModel(:accession).
+      from_hash({
+                  "accession_id_0" => "1234",
+                  "repository" => @repo_ref,
+                  "title" => "The accession title",
+                  "content_description" => "The accession description",
+                  "condition_description" => "The condition description",
+                  "accession_date" => "2012-05-03",
+                }).to_json
 
     last_response.status.should eq(404)
     JSON(last_response.body)["error"].should eq("Accession not found")
@@ -44,7 +52,9 @@ describe 'Accession controller' do
 
 
   it "warns about missing properties" do
+    JSONModel::strict_mode(false)
     post "/accessions", params = JSON({"repository" => @repo_ref})
+    JSONModel::strict_mode(true)
 
     last_response.should be_ok
     created = JSON(last_response.body)

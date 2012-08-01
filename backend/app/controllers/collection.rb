@@ -16,8 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
   get '/collections/:collection_id' do
     ensure_params ["collection_id" => {:doc => "The ID of the collection to retrieve", :type => Integer}]
 
-    collection = Collection.get_or_die(params[:collection_id])
-    JSONModel(:collection).from_sequel(collection).to_json
+    Collection.to_jsonmodel(params[:collection_id], :collection).to_json
   end
 
 

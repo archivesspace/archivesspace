@@ -46,7 +46,6 @@ class ArchivesSpaceService < Sinatra::Base
   get '/accessions/:accession_id' do
     ensure_params ["accession_id" => {:doc => "The accession ID", :type => Integer}]
 
-    acc = Accession.get_or_die(params[:accession_id])
-    JSONModel(:accession).from_sequel(acc).to_json
+    Accession.to_jsonmodel(params[:accession_id], :accession).to_json
   end
 end

@@ -41,8 +41,7 @@ class ArchivesSpaceService < Sinatra::Base
   get '/archival_objects/:archival_object_id' do
     ensure_params ["archival_object_id" => {:doc => "The archival object ID", :type => Integer}]
 
-    ao = ArchivalObject.get_or_die(params[:archival_object_id])
-    JSONModel(:archival_object).from_sequel(ao).to_json
+    ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object).to_json
   end
 
 
@@ -50,7 +49,7 @@ class ArchivesSpaceService < Sinatra::Base
     ensure_params ["archival_object_id" => {:doc => "The archival object ID", :type => Integer}]
 
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
-    JSON(ao.children.map {|child| JSONModel(:archival_object).from_sequel(child).to_hash})
+    JSON(ao.children.map {|child| ArchivalObject.to_jsonmodel(child, :archival_object).to_hash})
   end
 
 
