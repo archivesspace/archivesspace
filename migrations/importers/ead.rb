@@ -22,15 +22,17 @@ ASpaceImporter.importer :ead do
         puts "Reading <eadheader>" if $DEBUG
         
         node.read until node.name == 'eadid'
-        @coll_hsh["id"] = node.inner_xml
+        @coll_hsh[:id_0] = node.inner_xml
       end
       if node.node_type == 1 and node.name == 'archdesc'
         puts "Reading <archdesc>" if $DEBUG
         node.read until node.name == 'unittitle'
     
-        @coll_hsh["title"] = node.inner_xml
+        @coll_hsh[:title] = node.inner_xml
         #Import the collection
-        import :collection, @coll_hsh
+        params = {:repo_id => nil} # use the default 
+        res = import :collection, @coll_hsh, params
+        @coll_hsh[:id] = res[:id]
       end
   
       #Container List
@@ -45,14 +47,17 @@ ASpaceImporter.importer :ead do
       
         #ao = ArchivalObject.new
         ao_hsh = Hash.new
-        ao_hsh["wraps"] = Array.new
-        ao_hsh["id"], ao_hsh["level"] = node.attribute_at(0), node.attribute_at(1)
+        @ao_params = Hash.new
+        @ao_params[:collection] = @coll_hsh[:id]
+#        ao_hsh["wraps"] = Array.new
+        ao_hsh[:id_0], ao_hsh[:level] = node.attribute_at(0), node.attribute_at(1)
         node.read until node.name == 'unittitle'
-        ao_hsh["title"] = node.inner_xml
+        ao_hsh[:title] = node.inner_xml
         #Wrap if this object has a parent
-        if defined? @open_objects[depth-1]["id"]
-          puts @open_objects[depth-1]["title"]
-          @open_objects[depth-1]["wraps"].push(ao_hsh["id"])
+        if @open_objects[depth-1] && @open_objects[depth-1].has_key?(:id)
+          puts @open_objects[depth-1].inspect
+#          @open_objects[depth-1]["wraps"].push(ao_hsh["id"])   # revist if/when shema includes children
+          @ao_params[:parent] = @open_objects[depth-1][:id].to_i
         end
         @open_objects[depth] = ao_hsh
 
@@ -64,9 +69,10 @@ ASpaceImporter.importer :ead do
         puts "Depth #{depth}" if $DEBUG
         # Close the arch object
         @open_objects[depth].delete_if { |k, v| v.empty? }
-        puts @open_objects[depth].inspect if $DEBUG
-        import :archival_object, @open_objects[depth]
-        puts "Created a JSON record object for #{ao.title}" if $DEBUG
+        puts @open_objects[depth].inspect
+        puts @ao_params.inspect
+        res = import :archival_object, @open_objects[depth], @ao_params
+        @open_objects[depth][:id] = res[:id]
         #Close an Object
       end
     end
