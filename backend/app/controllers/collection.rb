@@ -1,6 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  post '/collection' do
+  post '/collections' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer},
                    "collection" => {:doc => "The collection to create (JSON)", :type => JSONModel(:collection)}]
 
@@ -11,7 +11,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/collection/:collection_id' do
+  get '/collections/:collection_id' do
     ensure_params ["collection_id" => {:doc => "The ID of the collection to retrieve", :type => Integer}]
 
     collection = Collection[params[:collection_id]]
@@ -24,7 +24,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/collection/:collection_id/tree' do
+  get '/collections/:collection_id/tree' do
     ensure_params ["collection_id" => {:doc => "The ID of the collection to retrieve", :type => Integer}]
 
     collection = Collection[params[:collection_id]]
@@ -37,7 +37,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  post '/collection/:collection_id/tree' do
+  post '/collections/:collection_id/tree' do
     ensure_params ["collection_id" => {:doc => "The ID of the collection to retrieve", :type => Integer},
                    "tree" => {:doc => "A JSON tree representing the modified hierarchy"}]
 
@@ -52,8 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
     collection.update_tree(tree)
   end
 
-
-  get '/collection' do
+  get '/collections' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer}]
     repo = Repository[params[:repo_id]]
     Collection.filter({:repo_id =>repo.repo_id}).collect {|acc| acc.values}.to_json

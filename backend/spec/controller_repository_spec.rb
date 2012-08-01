@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Repository controller' do
 
   it "lets you create a repository" do
-    post '/repository', params = {
+    post '/repositories', params = {
       :repository => JSONModel(:repository).
                      from_hash({
                                  "repo_id" => "ARCHIVESSPACE",
@@ -17,7 +17,7 @@ describe 'Repository controller' do
 
 
   it "gives a list of all repositories" do
-    post '/repository', params = {
+    post '/repositories', params = {
       :repository => JSONModel(:repository).
                      from_hash({
                                  "repo_id" => "ARCHIVESSPACE",
@@ -25,7 +25,7 @@ describe 'Repository controller' do
                                }).to_json
     }
 
-    post '/repository', params = {
+    post '/repositories', params = {
       :repository => JSONModel(:repository).
                      from_hash({
                                  "repo_id" => "TEST",
@@ -34,7 +34,7 @@ describe 'Repository controller' do
     }
 
 
-    get '/repository'
+    get '/repositories'
 
     last_response.should be_ok
     repos = JSON(last_response.body)

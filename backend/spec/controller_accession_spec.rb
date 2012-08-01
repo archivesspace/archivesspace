@@ -8,13 +8,13 @@ describe 'Accession controller' do
       "description" => "A new ArchivesSpace repository"
     }
 
-    post '/repository', params = { "repository" => JSONModel(:repository).from_hash(test_repo).to_json }
+    post '/repositories', params = { "repository" => JSONModel(:repository).from_hash(test_repo).to_json }
     @repo = JSON(last_response.body)["id"]
   end
 
 
   it "lets you create an accession and get it back" do
-    post "/accession", params = {
+    post "/accessions", params = {
       :accession => JSON({
                            "accession_id_0" => "1234",
                            "title" => "The accession title",
@@ -28,7 +28,7 @@ describe 'Accession controller' do
     last_response.should be_ok
     created = JSON(last_response.body)
 
-    get "/accession/#{created["id"]}"
+    get "/accessions/#{created["id"]}"
 
     acc = JSON(last_response.body)
 
@@ -37,7 +37,7 @@ describe 'Accession controller' do
 
 
   it "warns about missing properties" do
-    post "/accession", params = {
+    post "/accessions", params = {
       :accession => JSON({}),
       :repo_id => @repo
     }
@@ -52,7 +52,7 @@ describe 'Accession controller' do
 
 
   it "supports updates" do
-    post "/accession", params = {
+    post "/accessions", params = {
       :accession => JSONModel(:accession).from_hash({
                                                       "accession_id_0" => "1234",
                                                       "title" => "The accession title",
@@ -68,7 +68,7 @@ describe 'Accession controller' do
 
 
     # Update it
-    post "/accession/#{created['id']}", params = {
+    post "/accessions/#{created['id']}", params = {
       :accession => JSONModel(:accession).from_hash({
                                                       "accession_id_0" => "1234",
                                                       "accession_id_1" => "5678",
@@ -82,7 +82,7 @@ describe 'Accession controller' do
     }
 
 
-    get "/accession/#{created['id']}"
+    get "/accessions/#{created['id']}"
 
     acc = JSON(last_response.body)
 

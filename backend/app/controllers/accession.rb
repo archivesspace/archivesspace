@@ -1,7 +1,7 @@
 class ArchivesSpaceService < Sinatra::Base
 
 
-  post '/accession/:accession_id' do
+  post '/accessions/:accession_id' do
     ensure_params ["accession_id" => {:doc => "The accession ID to update", :type => Integer},
                    "accession" => {:doc => "The accession data to update (JSON)", :type => JSONModel(:accession)}]
 
@@ -17,12 +17,12 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  post '/accession', :operation => :delete do
+  post '/accessions', :operation => :delete do
     "Deleting: #{params.inspect}"
   end
 
 
-  post '/accession' do
+  post '/accessions' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer},
                    "accession" => {:doc => "The accession to create (JSON)", :type => JSONModel(:accession)}]
 
@@ -33,7 +33,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/accession' do
+  get '/accessions' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the accession", :type => Integer}]
 
     repo = Repository[params[:repo_id]]
@@ -42,7 +42,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/accession/:accession_id' do
+  get '/accessions/:accession_id' do
     ensure_params ["accession_id" => {:doc => "The accession ID", :type => Integer}]
 
     acc = Accession[params[:accession_id]]

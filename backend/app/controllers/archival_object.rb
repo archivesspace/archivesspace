@@ -1,7 +1,7 @@
 class ArchivesSpaceService < Sinatra::Base
 
 
-  post '/archival_object' do
+  post '/archival_objects' do
     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer},
                    "archival_object" => {:doc => "The archival_object to create (JSON)", :type => JSONModel(:archival_object)},
                    "collection" => {:doc => "The collection containing this archival_object", :type => Integer, :optional => true},
@@ -39,7 +39,7 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:status => "Updated", :id => ao[:id]})
   end
 
-  get '/archival_object/:archival_object_id' do
+  get '/archival_objects/:archival_object_id' do
     ensure_params ["archival_object_id" => {:doc => "The archival object ID", :type => Integer}]
 
     ao = ArchivalObject[params[:archival_object_id]]
@@ -52,7 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/archival_object/:archival_object_id/children' do
+  get '/archival_objects/:archival_object_id/children' do
     ensure_params ["archival_object_id" => {:doc => "The archival object ID", :type => Integer}]
 
     ao = ArchivalObject[params[:archival_object_id]]
@@ -64,7 +64,7 @@ class ArchivesSpaceService < Sinatra::Base
     JSON(ao.children.map {|child| JSONModel(:archival_object).from_sequel(child).to_hash})
   end
   
-  get '/archival_object' do
+  get '/archival_objects' do
      ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer}]
      repo = Repository[params[:repo_id]]
      ArchivalObject.filter({:repo_id => repo.repo_id}).collect {|ao| ao.values}.to_json

@@ -8,13 +8,13 @@ describe 'Collections controller' do
       "description" => "A new ArchivesSpace repository"
     }
 
-    post '/repository', params = { "repository" => JSONModel(:repository).from_hash(test_repo).to_json }
+    post '/repositories', params = { "repository" => JSONModel(:repository).from_hash(test_repo).to_json }
     @repo = JSON(last_response.body)["id"]
   end
 
 
   it "lets you create a collection and get it back" do
-    post "/collection", params = {
+    post "/collections", params = {
       :collection => JSON({
                             "id_0" => "1234",
                             "title" => "a collection",
@@ -25,7 +25,7 @@ describe 'Collections controller' do
     last_response.should be_ok
     created = JSON(last_response.body)
 
-    get "/collection/#{created["id"]}"
+    get "/collections/#{created["id"]}"
 
     collection = JSON(last_response.body)
 
@@ -34,7 +34,7 @@ describe 'Collections controller' do
 
 
   it "lets you manipulate the record hierarchy" do
-    post "/collection", params = {
+    post "/collections", params = {
       :collection => JSON({
                             "id_0" => "1234",
                             "title" => "a collection",
@@ -62,7 +62,7 @@ describe 'Collections controller' do
                           })
       end
 
-      post "/archival_object", params = opts
+      post "/archival_objects", params = opts
       last_response.should be_ok
       created = JSON(last_response.body)
 
@@ -70,7 +70,7 @@ describe 'Collections controller' do
     end
 
 
-    get "/collection/#{collection['id']}/tree"
+    get "/collections/#{collection['id']}/tree"
     last_response.should be_ok
     tree = JSON(last_response.body)
 
@@ -120,12 +120,12 @@ describe 'Collections controller' do
                      }]
     }
 
-    post "/collection/#{collection['id']}/tree", params = {
+    post "/collections/#{collection['id']}/tree", params = {
       :tree => JSON(changed)
     }
     last_response.should be_ok
 
-    get "/collection/#{collection['id']}/tree"
+    get "/collections/#{collection['id']}/tree"
     last_response.should be_ok
     tree = JSON(last_response.body)
 
