@@ -10,17 +10,16 @@ describe 'Collections controller' do
 
     post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
     @repo = JSON(last_response.body)["id"]
+    @repo_ref = "/repositories/#{@repo}"
   end
 
 
   it "lets you create a collection and get it back" do
-    post "/collections", params = {
-      :collection => JSON({
-                            "id_0" => "1234",
-                            "title" => "a collection",
-                          }),
-      :repo_id => @repo,
-    }
+    post "/collections", params = JSONModel(:collection).
+      from_hash({
+                  "title" => "a collection",
+                  "repository" => @repo_ref
+                }).to_json
 
     last_response.should be_ok
     created = JSON(last_response.body)
@@ -34,35 +33,31 @@ describe 'Collections controller' do
 
 
   it "lets you manipulate the record hierarchy" do
-    post "/collections", params = {
-      :collection => JSON({
-                            "id_0" => "1234",
-                            "title" => "a collection",
-                          }),
-      :repo_id => @repo,
-    }
+    post "/collections", params = JSONModel(:collection).
+      from_hash({
+                  "id_0" => "1234",
+                  "title" => "a collection",
+                  "repository" => @repo_ref
+                }).to_json
+
     last_response.should be_ok
     collection = JSON(last_response.body)
 
 
     ids = []
     ["earth", "australia", "canberra"].each do |name|
-      opts = {
-        :archival_object => JSON({
-                                  "id_0" => name,
-                                  "title" => "archival object: #{name}",
-                                }),
-        :repo_id => @repo
-      }
-
-      if ids
-        opts = opts.merge({
-                            :parent => ids.last,
-                            :collection => collection["id"]
-                          })
+      ao = JSONModel(:archival_object).from_hash({
+                                                   "id_0" => name,
+                                                   "title" => "archival object: #{name}",
+                                                   "repository" => @repo_ref
+                                                 })
+      if not ids.empty?
+        ao.parent = "/archival_objects/#{ids.last}"
+        ao.collection = "/collections/#{collection['id']}"
       end
 
-      post "/archival_objects", params = opts
+      post "/archival_objects", params = ao.to_json
+      puts last_response.body
       last_response.should be_ok
       created = JSON(last_response.body)
 

@@ -1,25 +1,22 @@
 class ArchivesSpaceService < Sinatra::Base
 
   post '/collections' do
-    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer},
-                   "collection" => {:doc => "The collection to create (JSON)", :type => JSONModel(:collection)}]
+    ensure_params ["collection" => {
+                     :doc => "The collection to create (JSON)",
+                     :type => JSONModel(:collection),
+                     :body => true
+                   }]
 
-    repo = Repository[params[:repo_id]]
-    id = repo.create_collection(params[:collection])
+    collection = Collection.create_from_json(params[:collection])
 
-    created_response(id, params[:collection]._warnings)
+    created_response(collection[:id], params[:collection]._warnings)
   end
 
 
   get '/collections/:collection_id' do
     ensure_params ["collection_id" => {:doc => "The ID of the collection to retrieve", :type => Integer}]
 
-    collection = Collection[params[:collection_id]]
-
-    if not collection
-      raise NotFoundException.new("Couldn't find collection")
-    end
-
+    collection = Collection.get_or_die(params[:collection_id])
     JSONModel(:collection).from_sequel(collection).to_json
   end
 
@@ -27,12 +24,7 @@ class ArchivesSpaceService < Sinatra::Base
   get '/collections/:collection_id/tree' do
     ensure_params ["collection_id" => {:doc => "The ID of the collection to retrieve", :type => Integer}]
 
-    collection = Collection[params[:collection_id]]
-
-    if not collection
-      raise NotFoundException.new("Couldn't find collection")
-    end
-
+    collection = Collection.get_or_die(params[:collection_id])
     JSON(collection.tree)
   end
 
@@ -41,12 +33,7 @@ class ArchivesSpaceService < Sinatra::Base
     ensure_params ["collection_id" => {:doc => "The ID of the collection to retrieve", :type => Integer},
                    "tree" => {:doc => "A JSON tree representing the modified hierarchy"}]
 
-    collection = Collection[params[:collection_id]]
-
-    if not collection
-      raise NotFoundException.new("Couldn't find collection")
-    end
-
+    collection = Collection.get_or_die(params[:collection_id])
     tree = JSON(params[:tree])
 
     collection.update_tree(tree)

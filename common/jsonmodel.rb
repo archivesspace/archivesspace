@@ -80,6 +80,16 @@ module JSONModel
       end
 
 
+      # For a reference like "/collections/123", return 123.
+      def get_reference_id(reference)
+        if @data[reference] =~ /\/([0-9]+)$/
+          return $1.to_i
+        else
+          return nil
+        end
+      end
+
+
       def update(params)
         self.class.validate(@data.merge(params))
         @data = @data.merge(params)

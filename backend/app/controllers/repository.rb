@@ -7,10 +7,8 @@ class ArchivesSpaceService < Sinatra::Base
                      :body => true
                    }]
 
-    db_repo = Repository.new(params[:repository].to_hash)
-
-    created = db_repo.save
-    created_response(created[:id])
+    repo = Repository.create(params[:repository].to_hash)
+    created_response(repo[:id])
   end
 
 

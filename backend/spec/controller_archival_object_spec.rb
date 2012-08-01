@@ -10,17 +10,17 @@ describe 'Archival Object controller' do
 
     post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
     @repo = JSON(last_response.body)["id"]
+    @repo_ref = "/repositories/#{@repo}"
   end
 
 
   it "lets you create an archival object and get it back" do
-    post "/archival_objects", params = {
-      :archival_object => JSON({
-                                 "id_0" => "1234",
-                                 "title" => "The archival object title",
-                               }),
-      :repo_id => @repo,
-    }
+    post "/archival_objects", params = JSONModel(:archival_object).
+      from_hash({
+                  "id_0" => "1234",
+                  "title" => "The archival object title",
+                  "repository" => @repo_ref,
+                }).to_json
 
     last_response.should be_ok
     created = JSON(last_response.body)
@@ -34,38 +34,38 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object with a parent" do
-    post "/collections", params = {
-      :collection => JSON({
-                            "id_0" => "1234",
-                            "title" => "a collection",
-                          }),
-      :repo_id => @repo,
-    }
+    post "/collections", params = JSONModel(:collection).
+      from_hash({
+                  "title" => "a collection",
+                  "repository" => @repo_ref
+                }).to_json
 
     last_response.should be_ok
     collection = JSON(last_response.body)
 
-    post "/archival_objects", params = {
-      :archival_object => JSON({
-                                 "id_0" => "1234",
-                                 "title" => "parent archival object",
-                               }),
-      :repo_id => @repo,
-    }
+    collection_ref = "/collections/#{collection['id']}"
+
+    post "/archival_objects", params = JSONModel(:archival_object).
+      from_hash({
+                  "id_0" => "1234",
+                  "title" => "parent archival object",
+                  "repository" => @repo_ref,
+                  "collection" => collection_ref,
+                }).to_json
 
     last_response.should be_ok
     created = JSON(last_response.body)
 
 
-    post "/archival_objects", params = {
-      :archival_object => JSON({
-                                "id_0" => "5678",
-                                "title" => "child archival object",
-                              }),
-      :repo_id => @repo,
-      :parent => created["id"],
-      :collection => collection["id"]
-    }
+    post "/archival_objects", params = JSONModel(:archival_object).
+      from_hash({
+                  "id_0" => "5678",
+                  "title" => "child archival object",
+                  "repository" => @repo_ref,
+                  "collection" => collection_ref,
+                  "parent" => "/archival_objects/#{created['id']}"
+                }).to_json
+
 
     last_response.should be_ok
 
@@ -80,10 +80,11 @@ describe 'Archival Object controller' do
 
 
   it "warns about missing properties" do
-    post "/archival_objects", params = {
-      :archival_object => JSON({}),
-      :repo_id => @repo
-    }
+    post "/archival_objects", params = JSONModel(:archival_object).
+      from_hash({
+                  "repository" => @repo_ref,
+                }).to_json
+
 
     last_response.should be_ok
     created = JSON(last_response.body)

@@ -80,7 +80,7 @@ Sequel.migration do
     create_table(:accessions) do
       primary_key :id
 
-      String :repo_id, :null => false
+      Integer :repo_id, :null => false
 
       String :accession_id_0, :null => true
       String :accession_id_1, :null => true
@@ -98,7 +98,7 @@ Sequel.migration do
     end
 
     alter_table(:accessions) do
-      add_foreign_key([:repo_id], :repositories, :key => :repo_id)
+      add_foreign_key([:repo_id], :repositories, :key => :id)
 
       add_index [:accession_id_0,
                  :accession_id_1,
@@ -112,7 +112,7 @@ Sequel.migration do
     create_table(:collections) do
       primary_key :id
 
-      String :repo_id, :null => false
+      Integer :repo_id, :null => false
       String :title, :null => false
 
       DateTime :create_time, :null => false
@@ -120,14 +120,14 @@ Sequel.migration do
     end
 
     alter_table(:collections) do
-      add_foreign_key([:repo_id], :repositories, :key => :repo_id)
+      add_foreign_key([:repo_id], :repositories, :key => :id)
     end
 
 
     create_table(:archival_objects) do
       primary_key :id
 
-      String :repo_id, :null => false
+      Integer :repo_id, :null => false
 
       String :id_0, :null => true
       String :id_1, :null => true
@@ -141,7 +141,7 @@ Sequel.migration do
     end
 
     alter_table(:archival_objects) do
-      add_foreign_key([:repo_id], :repositories, :key => :repo_id)
+      add_foreign_key([:repo_id], :repositories, :key => :id)
 
       add_index [:id_0, :id_1, :id_2, :id_3],
       :unique => true,
