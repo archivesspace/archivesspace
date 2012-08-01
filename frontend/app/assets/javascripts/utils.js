@@ -2,8 +2,8 @@
 $(function() {
    var openAjaxModal = function(href) {
       $("body").append('<div class="modal hide" id="tempAjaxModal"></div>');
-      $(tempAjaxModal).load(href, function() {
-         $(tempAjaxModal).on("shown",function() {
+      $("#tempAjaxModal").load(href, function() {
+         $("#tempAjaxModal").on("shown",function() {
             $(this).find("input[type!=hidden]:first").focus();
          }).on("hidden", function() {
             $(this).remove();
