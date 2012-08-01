@@ -13,10 +13,10 @@ class ASpaceImporter
   def self.register_importer name
     @@importers[name] = self
   end
-  def self.create_importer name
-    i = @@importers[name]
+  def self.create_importer options
+    i = @@importers[options[:importer].to_sym]
     if i
-      i.new
+      i.new options
     else
       puts "Bad importer type or importer not found for: #{name}"
     end
@@ -34,53 +34,67 @@ class ASpaceImporter
       puts "#{i} -- #{klass.name} -- #{klass.profile}"
     end
   end
-    
-  def import(type, hsh)
-    puts type
+  
+  def initialize opts
+    @relaxed, @verbose, @dry, @repo = opts[:relaxed], opts[:verbose], opts[:dry], opts[:repo]
+    @goodimports = 0
+    @badimports = 0   
+  end
+  
+  def report
+    puts "#{@goodimports} records successfully imported"
+    puts "#{@badimports} records failed to import"
+  end
+       
+  def import(type, hsh, params = { })
+    @response = nil
     begin
-      # Make sure the type is importable, i.e., that it has a model loaded
       if JSONModel(type) 
-        puts "Preparing to import a #{JSONModel(type).name}" if VERBOSEIMPORT
+        puts "Preparing to import a #{type}" if @verbose
       else
         raise ArgumentError.new("Don't know how to import a #{type}")
       end
-      # Make sure hsh is really a Hash
       if hsh.is_a?(Hash)
       else
         raise ArgumentError.new("Expected a Hash got #{hsh}")
       end    
-      puts "Importing #{hsh.to_json}" if VERBOSEIMPORT
+      puts "Importing #{hsh.to_json}" if @verbose
       jo = JSONModel(type).from_hash(hsh)
-      if DRYRUN
+      if @dry
         puts "(Not) Posting to #{ASpaceImportConfig::ASPACE_HOST}:#{ASpaceImportConfig::ASPACE_PORT} #{jo.to_json}"
+        {'id' => 999}
       else
-        # Do the real post
+        # Post data to ASpace
         case type
         when :repository
-          puts "Posting a Repository"
+          puts "Posting a Repository" if @verbose
           opts = {:body => {'repository' => jo.to_json } }
-#          opts = {:body => {'repository' => '{"repo_id": "dfgdfg", "description": "a new repository"}'} }
-          res = ASpaceParty.post('/repository', opts)
-          puts res.body
-          puts res.headers.inspect
+          @response = ASpaceParty.post('/repository', opts)
+        when :collection
+          puts "Posting a Collection" if @verbose
+          opts = {:body => params.merge('collection' => jo.to_json)}
+          @response = ASpaceParty.post('/collection', opts)
         when :resource
-          puts "Posting a Resource"
+          puts "Posting a Resource" if @verbose
         when :archival_object
-          puts "Posting an Archival Object"
+          puts "Posting an Archival Object" if @verbose
+          opts = {:body => params.merge('archivalobject' => jo.to_json)}
+          @response = ASpaceParty.post('/archivalobject', opts)
         else
           puts "This error should never happen, type = #{type}"
         end 
-
-#        as = Net::HTTP.new(ASpaceImportConfig::ASPACE_HOST, ASpaceImportConfig::ASPACE_PORT)
-#        as_url = "/#{type}"
-#        @params = {"repo_id" => 1, "collection" => 1, "{type.gsub!(/_//)}" => "#{jo.to_json}"}
-#        response = as.post_form(as_url, @params)
-#        puts "Response from ASpace: #{response}"
-
+        if defined? @response.parsed_response['id']
+          @goodimports += 1
+          {:id => @response.parsed_response['id']}
+        else
+          @badimports += 1
+          raise Exception.new("Can't identify the ID returned by ASpace")
+        end        
       end
     rescue ArgumentError => e
-      if ALLOWFAILURES
+      if @relaxed
         puts "Warning: #{e.message}"
+        @badimports += 1
       else
         raise e
       end
