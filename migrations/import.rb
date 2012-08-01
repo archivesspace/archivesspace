@@ -3,18 +3,12 @@
 require 'optparse'
 require_relative File.join("lib", "bootstrap")
 
-options = {}
-
-# Perhaps it is better to pass these all into the importer class
-# as an options array. 
-::ALLOWFAILURES = false
-::VERBOSEIMPORT = false
-::DRYRUN = false
+options = {:dry => false, :relaxed => false, :verbose => false, :repo => ASpaceImportConfig::DEFAULT_REPO_ID}
 
 optparse = OptionParser.new do|opts|
   opts.banner = "Usage: ead_import.rb [options] ead_file"
   opts.on( '-n', '--dry-run', 'Do a dry run' ) do
-    ::DRYRUN = true
+    options[:dry] = true
   end
   opts.on( '-i', '--importer NAME', 'Use importer NAME' ) do|name|
     options[:importer] = name
@@ -24,13 +18,17 @@ optparse = OptionParser.new do|opts|
     exit
   end
   opts.on( '-a', '--allow-failures', 'Do not stop because an import fails') do
-    ::ALLOWFAILURES = true
+    options[:relaxed] = true
   end
   opts.on( '-l', '--list-importers', 'List available importers') do
     options[:list] = true
   end
   opts.on( '-v', '--verbose', 'Exude verbosity') do
-    ::VERBOSEIMPORT = true
+    options[:verbose] = true
+  end
+  opts.on( '-r', '--repository REPO-CODE', 'Override default repository code / id') do|repo|
+    options[:repo] = repo
+    # TODO 
   end
 end
 
@@ -43,8 +41,10 @@ end
 
 
 if options[:importer]
-  i = ASpaceImporter.create_importer(options[:importer].to_sym)
+#  i = ASpaceImporter.create_importer(options[:importer].to_sym)
+  i = ASpaceImporter.create_importer(options)
   i.run
+  i.report
 end
 
 
