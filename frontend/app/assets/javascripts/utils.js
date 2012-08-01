@@ -37,7 +37,7 @@ $(function() {
 // add form change detection
 $(function() {
    var onFormElementChange = function(event) {
-       $("#object_container").addClass("changed");
+       $("#object_container form").triggerHandler("form-changed");
    }
    
    $("#object_container form :input").live("change", onFormElementChange);
@@ -45,6 +45,7 @@ $(function() {
 });
 
 var AS = {};
+
 AS.templateCache = [];
 AS.renderTemplate = function(templateId, data) {
    if (!AS.templateCache[templateId]) {

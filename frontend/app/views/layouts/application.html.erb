@@ -7,6 +7,9 @@
   <%= javascript_include_tag "application" %>
   <%= include_controller_js %>
   <%= csrf_meta_tags %>
+  <script>
+    var APP_PATH = "<%= root_path %>";
+  </script>
 </head>
 <body>
 

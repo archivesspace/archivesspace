@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require plugins/jquery.form
+//= require jquery.form
 //= require utils
 //= require header
+
+AS.tree_data = {};

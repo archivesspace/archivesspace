@@ -55,4 +55,38 @@ class CollectionsController < ApplicationController
      
   end
   
+  def add_archival_object
+    begin
+      @archival_object = JSONModel(:archival_object).new({:title=>"New Archival Object"})
+
+      save_params = {
+         :repo_id => session[:repo]
+      }
+    
+      save_params[:collection] = params[:id]
+      save_params[:parent] = params[:parent] if not params[:parent].blank?
+
+      id = @archival_object.save(save_params)
+         
+      uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:id]}/tree")
+      response = Net::HTTP.get(uri)
+      @collection_tree = JSON.parse(response)
+
+      result = {
+       :id => id,
+       :tree => @collection_tree
+      }
+
+      render :text=>result.to_json
+    rescue JSONModel::ValidationException => e
+      render :text=>e.to_json
+    end
+  end
+  
+  def tree
+    uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:id]}/tree")
+    response = Net::HTTP.get(uri)
+    render :text=>response
+  end
+  
 end

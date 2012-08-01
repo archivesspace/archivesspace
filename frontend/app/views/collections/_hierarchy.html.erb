@@ -1,8 +1,8 @@
-<div id="archives_tree" class="archives-tree"></div>
+<div id="archives_tree" class="archives-tree" data-collection-id="<%= @collection_tree['collection_id'] %>"></div>
 <div id="archives_tree_toolbar"></div>
 
 <script>
-   var collection_tree_data = <%= @collection_tree.to_json.html_safe %>;
+   AS.tree_data["collection-id-<%= @collection_tree['collection_id'] %>"] = <%= @collection_tree.to_json.html_safe %>;
 </script>
 
 <div id="tree_template"><!--
@@ -45,7 +45,7 @@
     </a>
     <ul class="dropdown-menu">
       <li>
-         <a href="javascript:void(0);">
+         <a href="javascript:void(0);" class="add-child-archival-object-analog">
             <span class='icon-file'></span> Analog Object
          </a>         
       </li>

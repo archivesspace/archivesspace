@@ -24,6 +24,20 @@ class ArchivesSpaceService < Sinatra::Base
     created_response(id, params[:archival_object]._warnings)
   end
 
+  post '/archival_object/:archival_object_id' do
+    ensure_params ["archival_object_id" => {:doc => "The archival object ID to update", :type => Integer},
+                   "archival_object" => {:doc => "The archival object data to update (JSON)", :type => JSONModel(:accession)}]
+
+    ao = ArchivalObject[params[:archival_object_id]]
+
+    if ao
+      ao.update(params[:archival_object].to_hash)
+    else
+      raise NotFoundException.new("Archival Object not found")
+    end
+
+    json_response({:status => "Updated", :id => ao[:id]})
+  end
 
   get '/archival_object/:archival_object_id' do
     ensure_params ["archival_object_id" => {:doc => "The archival object ID", :type => Integer}]

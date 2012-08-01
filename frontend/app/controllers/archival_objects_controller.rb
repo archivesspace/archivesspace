@@ -115,14 +115,21 @@ class ArchivalObjectsController < ApplicationController
   def update
     @archival_object = JSONModel(:archival_object).find(params[:id])
     begin
-      @accession.update(params['archival_object'])
-      result = @accession.save
-      render :text=>"Saved" if params["inline"]
-      redirect_to :controller=>:archival_object, :action=>:show, :id=>@accession.id
+      @archival_object.update(params['archival_object'])
+      result = @archival_object.save
+      if params["inline"]
+        render :partial=>"edit_inline"
+      else
+        redirect_to :controller=>:archival_object, :action=>:show, :id=>@archival_object.id
+      end
     rescue JSONModel::ValidationException => e
       @archival_object = e.invalid_object
       @errors = e.errors
-      render action: "edit", :notice=>"Update failed: #{result[:status]}"
+      if params["inline"]
+        render :partial=>"edit_inline"
+      else
+        render :action=>"edit", :notice=>"Update failed: #{result[:status]}" 
+      end      
     end
   end
   

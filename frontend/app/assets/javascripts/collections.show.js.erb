@@ -1,6 +1,8 @@
-//= require plugins/jstree
+//= require jstree
 
 $(function() {
+   
+   var collection_tree_data = AS.tree_data["collection-id-"+$(".archives-tree").data("collection-id")];
    
    var renderTree = function() {
       $("#archives_tree").html(AS.renderTemplate("tree_template", {tree: collection_tree_data}));
@@ -9,14 +11,14 @@ $(function() {
    var loadPaneForNode = function(nodeEl) {
       if (nodeEl.attr("rel") === "archival_object") {
          $.ajax({
-            url: "/archival_objects/"+nodeEl.attr("id")+"?inline=true",
+            url: APP_PATH+"archival_objects/"+nodeEl.attr("id")+"?inline=true",
             success: function(html) {
                $("#object_container").html(html);
             }
          });  
       } else if (nodeEl.attr("rel") === "collection") {         
          $.ajax({
-            url: "/collections/"+nodeEl.attr("id")+"?inline=true",
+            url: APP_PATH+"collections/"+nodeEl.attr("id")+"?inline=true",
             success: function(html) {
                $("#object_container").html(html);
             }
@@ -57,14 +59,17 @@ $(function() {
               }
           }
       },
+      "core": {
+        "animation": 100 
+      },
       "plugins": [ "themes", "html_data", "ui", "crrm"]
    }).bind("loaded.jstree", function (event, data) {
       if ($(".selected", $tree).length === 0) {
          $("li:first", $tree).addClass("selected");
       }
-      $tree.jstree("open_node", $(".selected", $tree));
+      $tree.jstree("open_node", $(".selected", $tree), null, true);
       node_id_for_page = $(".selected", $tree).attr("id");
-      $tree.jstree("select_node", $(".selected", $tree));
+      $tree.jstree("select_node", $(".selected", $tree), null, true);
    }).bind("select_node.jstree", function (event, data) {
       var selectedNode = $(data.rslt.obj);
       
@@ -76,50 +81,6 @@ $(function() {
       selectedNode.addClass("selected");
       $tree.jstree("open_node", selectedNode);
       loadPaneForNode(selectedNode);
-   });
-   
-   $("a", $tree).live("click", function() {
-      if ($(this).parent().attr("id") != node_id_for_page) {
-        document.location = $(this).attr("href");
-      }
-   })
-   
-   var id_counter = 0;
-   
-   var getSelectedOrRoot = function() {
-     var selected = $tree.jstree("get_selected");
-     if (selected && selected.length > 0) {
-       return selected;
-     }
-     return $("#root", $tree);
-   }
-   
-   $(".add-analog-action").on("click", function() {
-      var new_id = "new_id_"+id_counter;
-      var selected = getSelectedOrRoot();    
-      $tree.jstree("create_node", selected, "last", {"attr":{"id":new_id}, "data": {"title": "New Analog Object"}});
-      $tree.jstree("open_node", selected);
-      //$tree.jstree("select_node", "#"+new_id);    
-      $("#"+new_id, $tree).addClass("analog").attr("rel", "analog");
-      id_counter=id_counter+1;
-   });
-   $(".add-digital-action").on("click", function() {
-      var new_id = "new_id_"+id_counter;
-      var selected = getSelectedOrRoot();    
-      $tree.jstree("create_node", selected, "last", {"attr":{"id":new_id}, "data": {"title": "New Digital Object"}});
-      $tree.jstree("open_node", selected);
-      //$tree.jstree("select_node", "#"+new_id);    
-      $("#"+new_id, $tree).addClass("digital").attr("rel", "digital");
-      id_counter=id_counter+1;
-   });
-   $(".add-logical-action").on("click", function() {
-      var new_id = "new_id_"+id_counter;
-      var selected = getSelectedOrRoot();    
-      $tree.jstree("create_node", selected, "last", {"attr":{"id":new_id}, "data": {"title": "New Logical Object"}});
-      $tree.jstree("open_node", selected);
-      //$tree.jstree("select_node", "#"+new_id);    
-      $("#"+new_id, $tree).addClass("logical").attr("rel", "logical");
-      id_counter=id_counter+1;
    });
    
 });
