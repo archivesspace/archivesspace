@@ -2,7 +2,7 @@
    <%= @collection.title.blank? ? "New Collection" : @collection.title %>
 </h2>
 <br/>
-<%= render "shared/errors", :object => @accession, :errors => @errors, :warnings => @warnings %>
+<%= render "shared/form_messages", :object => @accession, :errors => @errors, :warnings => @warnings %>
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
@@ -34,6 +34,6 @@
   </div>
 </div>
 <div class="form-actions">            
-   <button type="submit" class="btn btn-primary">Save Collection</button>
-   <%= link_to "Cancel", :back, :class=>"btn" %>
+   <button type="submit" class="btn btn-primary">Save Collection</button>   
+   <%= link_to "Cancel", :back, :class=>"btn btn-cancel" %>
 </div>

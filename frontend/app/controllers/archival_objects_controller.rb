@@ -116,8 +116,10 @@ class ArchivalObjectsController < ApplicationController
     @archival_object = JSONModel(:archival_object).find(params[:id])
     begin
       @archival_object.update(params['archival_object'])
+      puts @archival_object.inspect
       result = @archival_object.save
       if params["inline"]
+        flash[:success] = "Archival Object Saved"
         render :partial=>"edit_inline"
       else
         redirect_to :controller=>:archival_object, :action=>:show, :id=>@archival_object.id

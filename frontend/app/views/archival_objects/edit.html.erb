@@ -8,7 +8,7 @@
    <div class="span3">
      <div class="archives-tree-container well">
       <!-- <div class="archives-tree-title">Container Hierarchy</div> -->
-      <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>@archival_object.id} %>
+      <%= render :partial=>"collections/tree", :locals=>{:selected=>@archival_object.id} %>
       <% if @collection_tree %>
          <div class="btn-toolbar archives-tree-toolbar">
            <div class="btn-group dropup">

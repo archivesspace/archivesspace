@@ -3,12 +3,8 @@
    <div class="span3">
      <div class="archives-tree-container well">
       <!-- <div class="archives-tree-title">Container Hierarchy</div> -->
-      <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>"collection"} %>      
+      <%= render :partial=>"collections/tree", :locals=>{:selected=>"collection"} %>      
     </div> <!-- well -->
    </div> <!-- span3 -->
-   <div class="span9" id="object_container">
-      <%= form_for @collection, :as => "collection", :url=>{:action=>:update}, :html=>{:class=>'form-horizontal'} do |f| %>
-         <%= render :partial=>"collections/form_container", :locals=>{:f => f} %>
-      <% end %>
-   </div>
+   <div class="span9" id="object_container"></div>
 </div>

@@ -4,7 +4,7 @@
     <h3>Create Repository</h3>
    </div>
    <div class="modal-body">     
-      <%= render "shared/errors", :object => @repository, :errors => @errors, :warnings => @warnings %>
+      <%= render "shared/form_messages", :object => @repository, :errors => @errors, :warnings => @warnings %>
       
       <fieldset>
         <%= f.label_field_pair :repo_id, f.text_field(:repo_id, :size=>10), {:errors=>@errors, :warnings=>@warnings} %>

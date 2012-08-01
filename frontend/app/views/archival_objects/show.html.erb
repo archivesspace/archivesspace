@@ -3,7 +3,7 @@
    <div class="span3">
       <div class="well archives-tree-container">
       <% if @collection_tree %>
-         <%= render :partial=>"collections/hierarchy", :locals=>{:selected=>@archival_object.id} %>
+         <%= render :partial=>"collections/tree", :locals=>{:selected=>@archival_object.id} %>
       <% else %>
          <p>Collection for Archival Object not specified.</p>
       <% end %>
