@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Accession model' do
 
   it "Allows accessions to be created" do
-    repo = Repository.create(:repo_id => "TESTREPO",
+    repo = Repository.create(:repo_code => "TESTREPO",
                              :description => "My new test repository")
 
     accession = Accession.create_from_json(JSONModel(:accession).
@@ -24,7 +24,7 @@ describe 'Accession model' do
 
 
   it "Enforces ID uniqueness" do
-    repo = Repository.create(:repo_id => "TESTREPO",
+    repo = Repository.create(:repo_code => "TESTREPO",
                              :description => "My new test repository")
 
     lambda {

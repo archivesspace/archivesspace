@@ -21,7 +21,7 @@ class ArchivesSpaceService < Sinatra::Base
     result = []
 
     Repository.each do |r|
-      result << {:id => r.id, :repo_id => r.repo_id, :description => r.description}
+      result << {:id => r.id, :repo_code => r.repo_code, :description => r.description}
     end
 
     json_response(result)

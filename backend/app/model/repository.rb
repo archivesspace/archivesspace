@@ -5,6 +5,6 @@ class Repository < Sequel::Model(:repositories)
 
   def validate
     super
-    validates_unique(:repo_id, :message=>"Repository Id already in use")
+    validates_unique(:repo_code, :message=>"repo_code already in use")
   end
 end

@@ -4,7 +4,7 @@ describe 'Collections controller' do
 
   before(:each) do
     test_repo = {
-      "repo_id" => "ARCHIVESSPACE",
+      "repo_code" => "ARCHIVESSPACE",
       "description" => "A new ArchivesSpace repository"
     }
 
@@ -57,7 +57,6 @@ describe 'Collections controller' do
       end
 
       post "/archival_objects", params = ao.to_json
-      puts last_response.body
       last_response.should be_ok
       created = JSON(last_response.body)
 

@@ -4,7 +4,7 @@ describe 'Accession controller' do
 
   before(:each) do
     test_repo = {
-      "repo_id" => "ARCHIVESSPACE",
+      "repo_code" => "ARCHIVESSPACE",
       "description" => "A new ArchivesSpace repository"
     }
 

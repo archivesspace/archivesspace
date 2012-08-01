@@ -5,7 +5,7 @@ describe 'Repository controller' do
   it "lets you create a repository" do
     post '/repositories', params = JSONModel(:repository).
       from_hash({
-                  "repo_id" => "ARCHIVESSPACE",
+                  "repo_code" => "ARCHIVESSPACE",
                   "description" => "A new ArchivesSpace repository"
                 }).to_json
 
@@ -17,13 +17,13 @@ describe 'Repository controller' do
   it "gives a list of all repositories" do
     post '/repositories', params = JSONModel(:repository).
       from_hash({
-                  "repo_id" => "ARCHIVESSPACE",
+                  "repo_code" => "ARCHIVESSPACE",
                   "description" => "A new ArchivesSpace repository"
                 }).to_json
 
     post '/repositories', params = JSONModel(:repository).
     from_hash({
-                "repo_id" => "TEST",
+                "repo_code" => "TEST",
                 "description" => "A new ArchivesSpace repository"
               }).to_json
 
@@ -33,8 +33,8 @@ describe 'Repository controller' do
     last_response.should be_ok
     repos = JSON(last_response.body)
 
-    repos.any? { |repo| repo["repo_id"] == "ARCHIVESSPACE" }.should be_true
-    repos.any? { |repo| repo["repo_id"] == "TEST" }.should be_true
+    repos.any? { |repo| repo["repo_code"] == "ARCHIVESSPACE" }.should be_true
+    repos.any? { |repo| repo["repo_code"] == "TEST" }.should be_true
   end
 
 end
