@@ -127,6 +127,12 @@ class ArchivesSpaceService < Sinatra::Base
     def ensure_params(declared_params)
       declared_params = declared_params[0]
 
+      body_param = declared_params.find {|param, opts| opts[:body]}
+
+      if body_param
+        params[body_param[0]] = request.body.read
+      end
+
       errors = {
         :missing => [],
         :bad_type => []

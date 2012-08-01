@@ -8,7 +8,7 @@ describe 'Collections controller' do
       "description" => "A new ArchivesSpace repository"
     }
 
-    post '/repositories', params = { "repository" => JSONModel(:repository).from_hash(test_repo).to_json }
+    post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
     @repo = JSON(last_response.body)["id"]
   end
 
