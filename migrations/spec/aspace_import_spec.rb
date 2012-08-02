@@ -19,10 +19,10 @@ describe ASpaceImporter do
     expect { ASpaceImporter.importer :tschusie do "Hallo" end }.to_not raise_error
     expect { ASpaceImporter.importer :tschusie do "HiHi" end }.to raise_error
   end
-  it "should not be able to instantiate an unusable importer class" do
+  it "should not be able to instantiate an importer class that is clearly unusable" do
     expect { ASpaceImporter.create_importer( {:importer => :yo} ) }.to raise_error
   end
-  it "should be able to instantiate a usable importer class" do
+  it "should be able to instantiate an importer class that appears to be usable" do
     ASpaceImporter.importer :hey do 
       def self.profile; "blah"; end
       def run; "blech"; end
