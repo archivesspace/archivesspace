@@ -1,15 +1,18 @@
 class ASpaceImporter
   include JSONModel
   @@importers = { }
+  
   def self.importer_count
     @@importers.length
   end
+  
   def self.list
     puts "The following importers are available"
     @@importers.each do |i, klass|
       puts "#{i} -- #{klass.name} -- #{klass.profile}"
     end
   end
+  
   def self.create_importer options
     i = @@importers[options[:importer].to_sym]
     if i.usable
@@ -18,6 +21,7 @@ class ASpaceImporter
       raise StandardError.new("Unusable importer or importer not found for: #{name}")
     end
   end
+  
   def self.importer name, superclass=ASpaceImporter, &block
     if @@importers.has_key? name
       raise StandardError.new("Attempted to register #{name} a second time")
@@ -38,8 +42,8 @@ class ASpaceImporter
       return true
     end
   end
+  
   def initialize opts={ } 
-#    @relaxed, @verbose, @dry, @repo = opts[:relaxed], opts[:verbose], opts[:dry], opts[:repo]
     opts.each do |k,v|
       instance_variable_set("@#{k}", v)
     end
@@ -98,7 +102,7 @@ class ASpaceImporter
           puts "This error should never happen, type = #{type}"
         end 
         if @response.parsed_response['id']
-          puts "RETURNED ID = #{@response.parsed_response['id']}"
+          puts "RETURNED ID = #{@response.parsed_response['id']}" if @verbose
           @goodimports += 1
           {:id => @response.parsed_response['id']}
         else
@@ -114,12 +118,7 @@ class ASpaceImporter
         raise e
       end
     end
-
-    
   end
-  
-
-
 end
 
 
