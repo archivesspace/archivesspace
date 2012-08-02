@@ -29,7 +29,6 @@ optparse = OptionParser.new do|opts|
   end
   opts.on( '-r', '--repository REPO-CODE', 'Override default repository code / id') do|repo|
     options[:repo] = repo
-    # TODO 
   end
 end
 
@@ -42,18 +41,11 @@ end
 
 
 if options[:importer]
-#  i = ASpaceImporter.create_importer(options[:importer].to_sym)
+
   i = ASpaceImporter.create_importer(options)
   i.run
   i.report
 end
 
 
-#input_file = ARGV[0]
-#importer_file = File.join("importers", options[:importer])
-#require_relative(importer_file)
 
-#if File.exists? input_file
-#  i = Importer.new # is it a bad idea to have a library of files that all define the 'Importer' class?
-#  i.read(input_file)
-#end
