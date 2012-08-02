@@ -25,6 +25,9 @@ driver.find_element(:id => "repository_description").send_keys "Nothing much to 
 
 driver.find_element(:css => "form#new_repository input[type='submit']").click
 
+# without this sleep sometimes the new repo would not yet be in the list -jj
+sleep(1)
+
 wait.until { driver.find_element(:css, '.repository-container .btn') }
 
 driver.find_element(:css, '.repository-container .btn').click
@@ -41,5 +44,14 @@ driver.find_element(:id => "accession_title").send_keys "Accession title"
 driver.find_element(:id => "accession_accession_id_0").send_keys Digest::MD5.hexdigest("#{Time.now}")
 
 driver.find_element(:css => "button[type='submit']").click
+
+wait.until { driver.find_element(:link, 'Edit Accession').displayed? }
+driver.find_element(:link, 'Edit Accession').click
+
+driver.find_element(:id => 'accession_content_description').send_keys "Here is a description of this accession."
+driver.find_element(:id => 'accession_condition_description').send_keys "Here we note the condition of this accession."
+
+# note - the form is called 'new_accession' even though this is an edit form -jj
+driver.find_element(:css => "form#new_accession button[type='submit']").click
 
 #driver.quit
