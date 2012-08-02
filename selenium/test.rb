@@ -45,6 +45,7 @@ driver.find_element(:id => "accession_accession_id_0").send_keys Digest::MD5.hex
 
 driver.find_element(:css => "button[type='submit']").click
 
+# edit the accession
 wait.until { driver.find_element(:link, 'Edit Accession').displayed? }
 driver.find_element(:link, 'Edit Accession').click
 
@@ -53,5 +54,26 @@ driver.find_element(:id => 'accession_condition_description').send_keys "Here we
 
 # note - the form is called 'new_accession' even though this is an edit form -jj
 driver.find_element(:css => "form#new_accession button[type='submit']").click
+
+# first step towards making assertions ... do we want to rspec this?
+if driver.find_element(:xpath => '//body').text =~ /Here is a description of this accession/
+  puts "saved accession successfully"
+else
+  puts "accesion save failed"
+end
+
+# edit but cancel
+wait.until { driver.find_element(:link, 'Edit Accession').displayed? }
+driver.find_element(:link, 'Edit Accession').click
+
+driver.find_element(:id => 'accession_content_description').send_keys " moo"
+
+driver.find_element(:link, "Cancel").click
+
+if driver.find_element(:xpath => '//body').text =~ /Here is a description of this accession. moo/
+  puts "failed to cancel accession edit"
+else
+  puts "accesion edit cancelled successfully"
+end
 
 #driver.quit
