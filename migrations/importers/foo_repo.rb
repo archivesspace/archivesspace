@@ -5,8 +5,8 @@ ASpaceImporter.importer :foo_repo do
   end
   def run
     test_repo = {  
-                "repo_id" => "#{(0...8).map{ ('a'..'z').to_a[rand(26)] }.join}", 
-                "description" => "Hudson Mongogolo Ptty LTD"
+                :repo_id => "#{(0...8).map{ ('a'..'z').to_a[rand(26)] }.join}", 
+                :description => "Hudson Moonglow Ptty LTD"
                       }  
     #Good import:
     import :repository, test_repo
