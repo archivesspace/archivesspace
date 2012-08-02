@@ -1,12 +1,13 @@
 //= require jstree
 
 $(function() {
-   
+
+   var $tree;
    var collection_tree_data = AS.tree_data["collection-id-"+$(".archives-tree").data("collection-id")];
    
    var renderTree = function() {
       $("#archives_tree").html(AS.renderTemplate("tree_template", {tree: collection_tree_data}));
-   }
+   };
    
    var loadPaneForNode = function(nodeEl) {
       if (nodeEl.attr("rel") === "archival_object") {
@@ -26,61 +27,86 @@ $(function() {
       }
    };
    
+   var addEventBindings = function() {
+       $(".expand-tree", ".archives-tree-container").on("click", function() {
+           $(".archives-tree-container").addClass("expanded");
+           $(".archives-tree-container").animate({
+               width: 500
+           }, 500, function() {
+               $(".expand-tree", ".archives-tree-container").hide();
+               $(".retract-tree", ".archives-tree-container").show();
+           });
+       });
+
+       $(".retract-tree", ".archives-tree-container").on("click", function() {
+           $(".archives-tree-container").animate({
+               width: $(".archives-tree-container").parent().width()
+           }, 500, function() {
+               $(".archives-tree-container").removeClass("expanded");
+               $(".archives-tree-container").css("width", "auto");
+               $(".retract-tree", ".archives-tree-container").hide();
+               $(".expand-tree", ".archives-tree-container").show();
+           });
+       });  
+   };
+   
+   var initTree = function() {
+       // init the archives tree
+       $tree = $(".archives-tree").jstree({
+
+           "themes": {
+              "theme": "default",
+              "url": "<%= asset_path('jstree/style.css') %>"
+           },
+           "dnd": {
+              "drop_target" : false,
+              "drag_target" : false
+           },
+           "ui": {
+             "selected_parent_close": false,
+             "selected_parent_open": true
+           },
+           "crrm" : {
+              "move" : {
+                  "check_move" : function (m) {
+                      // can't move root archival object
+                      if (m.o[0].id === "root") {
+                        return false;
+                      }
+                      // can't move to above the root archival object
+                      if ($(m.np[0]).hasClass("archives-tree")) {
+                        return false;
+                      }
+                      return true;
+                  }
+              }
+          },
+          "core": {
+            "animation": 100 
+          },
+          "plugins": [ "themes", "html_data", "ui", "crrm"]
+       }).bind("loaded.jstree", function (event, data) {
+          if ($(".selected", $tree).length === 0) {
+             $("li:first", $tree).addClass("selected");
+          }
+          $tree.jstree("open_node", $(".selected", $tree), null, true);
+          node_id_for_page = $(".selected", $tree).attr("id");
+          $tree.jstree("select_node", $(".selected", $tree), null, true);
+       }).bind("select_node.jstree", function (event, data) {
+          var selectedNode = $(data.rslt.obj);
+
+          if (selectedNode.hasClass("selected")) {
+             return;
+          }
+
+          $(".selected", $tree).removeClass("selected");
+          selectedNode.addClass("selected");
+          $tree.jstree("open_node", selectedNode);
+          loadPaneForNode(selectedNode);
+       });  
+   };
    
    renderTree();
-   
-   // init the archives tree
-   var $tree = $(".archives-tree").jstree({
-       
-       "themes": {
-          "theme": "default",
-          "url": "<%= asset_path('jstree/style.css') %>"
-       },
-       "dnd": {
-          "drop_target" : false,
-          "drag_target" : false
-       },
-       "ui": {
-         "selected_parent_close": false,
-         "selected_parent_open": true
-       },
-       "crrm" : {
-          "move" : {
-              "check_move" : function (m) {
-                  // can't move root archival object
-                  if (m.o[0].id === "root") {
-                    return false;
-                  }
-                  // can't move to above the root archival object
-                  if ($(m.np[0]).hasClass("archives-tree")) {
-                    return false;
-                  }
-                  return true;
-              }
-          }
-      },
-      "core": {
-        "animation": 100 
-      },
-      "plugins": [ "themes", "html_data", "ui", "crrm"]
-   }).bind("loaded.jstree", function (event, data) {
-      if ($(".selected", $tree).length === 0) {
-         $("li:first", $tree).addClass("selected");
-      }
-      $tree.jstree("open_node", $(".selected", $tree), null, true);
-      node_id_for_page = $(".selected", $tree).attr("id");
-      $tree.jstree("select_node", $(".selected", $tree), null, true);
-   }).bind("select_node.jstree", function (event, data) {
-      var selectedNode = $(data.rslt.obj);
-      
-      if (selectedNode.hasClass("selected")) {
-         return;
-      }
-      
-      $(".selected", $tree).removeClass("selected");
-      selectedNode.addClass("selected");
-      $tree.jstree("open_node", selectedNode);
-      loadPaneForNode(selectedNode);
-   });
-   
+   initTree();   
+   addEventBindings();
 });

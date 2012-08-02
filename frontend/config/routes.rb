@@ -27,6 +27,7 @@ ArchivesSpace::Application.routes.draw do
   resources :collections
   match 'collections/:id/add_archival_object' => 'collections#add_archival_object', :via => [:post]
   match 'collections/:id/tree' => 'collections#tree', :via => [:get]
+  match 'collections/:id' => 'collections#update', :via => [:post]
     
   # Sample resource route with options:
   #   resources :products do

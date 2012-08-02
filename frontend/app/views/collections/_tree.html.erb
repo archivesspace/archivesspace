@@ -1,3 +1,5 @@
+<a href="javascript:void(0)" class="expand-tree btn btn-mini"><span class="icon-resize-full"></span></a>
+<a href="javascript:void(0)" class="retract-tree btn btn-mini"><span class="icon-resize-small"></span></a>
 <div id="archives_tree" class="archives-tree" data-collection-id="<%= @collection_tree['collection_id'] %>"></div>
 <div id="archives_tree_toolbar"></div>
 
@@ -11,7 +13,7 @@
       <ul>
          {for node in nodes}
             <li id="${node.id}" class="analog" rel="archival_object">
-               <a href="javascript:void(0)">${node.title}</a>
+               <a href="javascript:void(0)" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
                ${render_children(node.children)}
             </li>
          {/for}
@@ -21,7 +23,7 @@
    
    {macro render_collection(node)}
       <li id="${node.collection_id}" class="collection" rel="collection">
-         <a href="javascript:void(0)">${node.title}</a>
+         <a href="javascript:void(0)" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
          ${render_children(tree.children)}
       </li>
    {/macro}

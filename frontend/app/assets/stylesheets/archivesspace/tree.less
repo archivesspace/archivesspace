@@ -14,6 +14,7 @@
 
 .archives-tree-container {
    padding: 0;
+   position: relative;
    
    > .archives-tree-title {
       background-color: #eee;
@@ -22,7 +23,24 @@
       margin: 0;
       font-weight: bold;
    }
-   
+
+    .expand-tree,
+    .retract-tree {
+     position: absolute;
+     right: 5px;
+     top: 5px;
+     .opacity(50);
+    }
+    
+    .expand-tree:hover,
+    .retract-tree:hover {
+     .opacity(100);
+    }
+
+   .retract-tree {
+     display: none;
+   }
+
    .archives-tree {
      margin: 10px 0;
      overflow: auto;
@@ -66,4 +84,10 @@
      background-color: #eee;
      background-color: rgba(0,0,0,.025);
    }
+}
+
+.archives-tree-container.expanded {
+     .box-shadow(0 3px 7px rgba(0,0,0,0.3));
+     .opacity(95);
+     z-index: 1000;
 }

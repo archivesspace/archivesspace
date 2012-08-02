@@ -48,7 +48,25 @@ class CollectionsController < ApplicationController
   end
 
   def update
-
+     @collection = JSONModel(:collection).find(params[:id])
+     begin
+       @collection.update(params['collection'])
+       result = @collection.save
+       if params["inline"]
+         flash[:success] = "Collection Saved"
+         render :partial=>"edit_inline"
+       else
+         redirect_to :controller=>:collection, :action=>:show, :id=>@collection.id
+       end
+     rescue JSONModel::ValidationException => e
+       @collection = e.invalid_object
+       @errors = e.errors
+       if params["inline"]
+         render :partial=>"edit_inline"
+       else
+         render :action=>"edit", :notice=>"Update failed: #{result[:status]}" 
+       end      
+     end
   end
 
   def destroy

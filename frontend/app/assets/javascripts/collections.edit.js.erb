@@ -40,7 +40,7 @@ $(function() {
             var $form = $('form',"#object_container");
 
             $(".btn-cancel", $form).html("Revert Changes");
-            $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + "'>Finish Editing</a>")
+            $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + "'>Finish Editing</a>");
             
             $form.bind("form-changed", function() {
                 form_changed = true;
@@ -97,6 +97,7 @@ $(function() {
    };
 
    var addEventBindings = function() {
+
       $(".archives-tree-container").on("click", ".add-child-archival-object-analog", function() {
          var $selected = $(".selected", $tree);
          if ($selected.length === 0) {
@@ -188,9 +189,30 @@ $(function() {
             
          });
       });
-      
+ 
       $("#object_container").on("click", ".btn-cancel", function() {
          loadPaneForNode($(".selected", $tree));
+      });
+
+      $(".expand-tree", ".archives-tree-container").on("click", function() {
+          $(".archives-tree-container").addClass("expanded");
+          $(".archives-tree-container").animate({
+              width: 500
+          }, 500, function() {
+              $(".expand-tree", ".archives-tree-container").hide();
+              $(".retract-tree", ".archives-tree-container").show();
+          });
+      });
+      
+      $(".retract-tree", ".archives-tree-container").on("click", function() {
+          $(".archives-tree-container").animate({
+              width: $(".archives-tree-container").parent().width()
+          }, 500, function() {
+              $(".archives-tree-container").removeClass("expanded");
+              $(".archives-tree-container").css("width", "auto");
+              $(".retract-tree", ".archives-tree-container").hide();
+              $(".expand-tree", ".archives-tree-container").show();
+          });
       });
    };
    
