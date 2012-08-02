@@ -2,6 +2,7 @@
 
 require 'optparse'
 require_relative File.join("lib", "bootstrap")
+Dir.glob(File.dirname(__FILE__) + '/importers/*', &method(:require))
 
 options = {:dry => false, :relaxed => false, :verbose => false, :repo => ASpaceImportConfig::DEFAULT_REPO_ID}
 
