@@ -66,7 +66,7 @@ class Collection < Sequel::Model(:collections)
                filter(:collection_id => self.id).
                delete
 
-    nodes = tree["children"]
+    nodes = [{"id" => nil ,"children" => tree["children"]}]
     while not nodes.empty?
       parent = nodes.pop
 
