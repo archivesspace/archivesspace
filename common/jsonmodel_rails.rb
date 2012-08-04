@@ -98,16 +98,21 @@ module JSONModel
 
     module ClassMethods
 
-      def my_url(id = nil)
-        uri = "#{BACKEND_SERVICE_URL}#{self.schema['uri']}"
+      def uri_for(id = nil)
+        uri = self.schema['uri']
 
-        uri = uri.gsub(':repo_id', Thread.current[:selected_repo_id].to_s)
-
-        if id
+        if not id.nil?
           uri += "/#{id}"
         end
 
-        URI(uri)
+        uri = uri.gsub(':repo_id', Thread.current[:selected_repo_id].to_s)
+      end
+
+
+      def my_url(id = nil)
+        url = "#{BACKEND_SERVICE_URL}#{self.uri_for(id)}"
+
+        URI(url)
       end
 
 

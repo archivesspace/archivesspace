@@ -13,7 +13,7 @@ class CollectionsController < ApplicationController
      
      # get the hierarchy
      # FIXME: this should be using JSONModel
-     uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:collection_id]}/tree")
+     uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:id]}/tree")
      response = Net::HTTP.get(uri)
      @collection_tree = JSON.parse(response)
   end
@@ -32,7 +32,7 @@ class CollectionsController < ApplicationController
      
      # get the hierarchy
      # FIXME: this should be using JSONModel
-     uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:collection_id]}/tree")
+     uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:id]}/tree")
      response = Net::HTTP.get(uri)
      @collection_tree = JSON.parse(response)
   end
@@ -79,16 +79,15 @@ class CollectionsController < ApplicationController
     begin
       @archival_object = JSONModel(:archival_object).new({:title=>"New Archival Object"})
 
-      save_params = {
-         :repo_id => session[:repo]
-      }
-    
-      save_params[:collection] = params[:id]
-      save_params[:parent] = params[:parent] if not params[:parent].blank?
+      @archival_object.collection = JSONModel(:collection).uri_for(params[:id])
 
-      id = @archival_object.save(save_params)
-         
-      uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:id]}/tree")
+      if not params[:parent].blank?
+        @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent])
+      end
+
+      id = @archival_object.save
+
+      uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:id]}/tree")
       response = Net::HTTP.get(uri)
       @collection_tree = JSON.parse(response)
 
@@ -104,7 +103,7 @@ class CollectionsController < ApplicationController
   end
   
   def tree
-    uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:id]}/tree")
+    uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:id]}/tree")
     response = Net::HTTP.get(uri)
     render :text=>response
   end
