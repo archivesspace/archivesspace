@@ -123,4 +123,29 @@ describe 'Collections controller' do
 
     tree.should eq(changed)
   end
+
+
+
+  it "lets you update a collection" do
+    collection = JSONModel(:collection).from_hash({
+                                                    "title" => "a collection",
+                                                  })
+
+    post "/repositories/#{@repo}/collections", params = collection.to_json
+
+    last_response.should be_ok
+    created = JSON(last_response.body)
+
+    collection.title = "an updated collection"
+
+    post "/repositories/#{@repo}/collections/#{created['id']}", params = collection.to_json
+
+    get "/repositories/#{@repo}/collections/#{created["id"]}"
+
+    collection = JSON(last_response.body)
+
+    collection["title"].should eq("an updated collection")
+  end
+
+
 end

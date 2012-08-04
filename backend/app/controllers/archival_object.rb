@@ -28,9 +28,15 @@ class ArchivesSpaceService < Sinatra::Base
     created_response(ao[:id], params[:archival_object]._warnings)
   end
 
-  post '/archival_object/:archival_object_id' do
-    ensure_params ["archival_object_id" => {:doc => "The archival object ID to update", :type => Integer},
-                   "archival_object" => {:doc => "The archival object data to update (JSON)", :type => JSONModel(:accession)}]
+
+  post '/repositories/:repo_id/archival_objects/:archival_object_id' do
+    ensure_params ["archival_object_id" => {
+                     :doc => "The archival object ID to update",
+                     :type => Integer},
+                   "archival_object" => {
+                     :doc => "The archival object data to update (JSON)",
+                     :type => JSONModel(:archival_object),
+                     :body => true}]
 
     ao = ArchivalObject[params[:archival_object_id]]
 
@@ -42,6 +48,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response({:status => "Updated", :id => ao[:id]})
   end
+
 
   get '/repositories/:repo_id/archival_objects/:archival_object_id' do
     ensure_params ["archival_object_id" => {

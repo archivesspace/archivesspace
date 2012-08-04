@@ -88,4 +88,28 @@ describe 'Archival Object controller' do
     (known_warnings - created["warnings"].keys).should eq([])
   end
 
+
+  it "handles updates for an existing archival object" do
+    ao = JSONModel(:archival_object).
+      from_hash({
+                  "id_0" => "1234",
+                  "title" => "The archival object title",
+                })
+
+    post "/repositories/#{@repo}/archival_objects", params = ao.to_json
+
+    last_response.should be_ok
+    created = JSON(last_response.body)
+
+    ao.title = "A brand new title"
+
+    post "/repositories/#{@repo}/archival_objects/#{created['id']}", params = ao.to_json
+
+    get "/repositories/#{@repo}/archival_objects/#{created["id"]}"
+    ao = JSON(last_response.body)
+
+    ao["title"].should eq("A brand new title")
+  end
+
+
 end

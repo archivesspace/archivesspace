@@ -46,6 +46,28 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  post '/repositories/:repo_id/collections/:collection_id' do
+    ensure_params ["collection_id" => {
+                     :doc => "The ID of the collection to retrieve",
+                     :type => Integer
+                   },
+                   "collection" => {
+                     :doc => "The collection to create (JSON)",
+                     :type => JSONModel(:collection),
+                     :body => true
+                   },
+                   "repo_id" => {
+                     :doc => "The repository ID",
+                     :type => Integer,
+                   }]
+
+    collection = Collection.get_or_die(params[:collection_id])
+    collection.update_from_json(params[:collection])
+
+    json_response({:status => "Updated", :id => collection[:id]})
+  end
+
+
   post '/repositories/:repo_id/collections/:collection_id/tree' do
     ensure_params ["collection_id" => {
                      :doc => "The ID of the collection to retrieve",
