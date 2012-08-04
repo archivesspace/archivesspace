@@ -49,8 +49,10 @@ describe 'Collections controller' do
                                                  })
       if not ids.empty?
         ao.parent = "/repositories/#{@repo}/archival_objects/#{ids.last}"
-        ao.collection = "/repositories/#{@repo}/collections/#{collection['id']}"
       end
+
+      ao.collection = "/repositories/#{@repo}/collections/#{collection['id']}"
+
 
       post "/repositories/#{@repo}/archival_objects", params = ao.to_json
       last_response.should be_ok
