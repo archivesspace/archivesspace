@@ -1,7 +1,7 @@
 class CollectionsController < ApplicationController
 
   def index
-     @collections = JSONModel(:collection).all(:repo_id => session[:repo])
+     @collections = JSONModel(:collection).all
   end
 
   def show
@@ -12,7 +12,8 @@ class CollectionsController < ApplicationController
       end
      
      # get the hierarchy
-     uri = URI("#{BACKEND_SERVICE_URL}/collection/#{@collection.id}/tree")
+     # FIXME: this should be using JSONModel
+     uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:collection_id]}/tree")
      response = Net::HTTP.get(uri)
      @collection_tree = JSON.parse(response)
   end
@@ -30,7 +31,8 @@ class CollectionsController < ApplicationController
      end
      
      # get the hierarchy
-     uri = URI("#{BACKEND_SERVICE_URL}/collection/#{@collection.id}/tree")
+     # FIXME: this should be using JSONModel
+     uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:collection_id]}/tree")
      response = Net::HTTP.get(uri)
      @collection_tree = JSON.parse(response)
   end
@@ -38,7 +40,7 @@ class CollectionsController < ApplicationController
   def create
      begin
        @collection = JSONModel(:collection).new(params[:collection])
-       id = @collection.save(:repo_id => session[:repo])
+       id = @collection.save
        redirect_to :controller=>:collections, :action=>:show, :id=>id
      rescue JSONModel::ValidationException => e
        @collection = e.invalid_object

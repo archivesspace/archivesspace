@@ -15,5 +15,5 @@ en:
    collection:
       title: Title
    repository:
-      repo_id: Repository Id
+      repo_code: Repository code
       description: Description

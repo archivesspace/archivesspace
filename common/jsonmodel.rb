@@ -122,6 +122,11 @@ module JSONModel
       end
 
 
+      def self.schema
+        self.lookup(@@schema)
+      end
+
+
       def self.lookup(hash)
         my_true_self = self.ancestors.find {|cls| hash[cls]}
 
@@ -134,7 +139,7 @@ module JSONModel
 
 
       def self.drop_unknown_properties(params)
-        schema = self.lookup(@@schema)
+        schema = self.schema
 
         result = {}
 
@@ -195,7 +200,7 @@ module JSONModel
 
 
       def self.validate(hash)
-        messages = JSON::Validator.fully_validate(self.lookup(@@schema),
+        messages = JSON::Validator.fully_validate(self.schema,
                                                   self.drop_unknown_properties(hash),
                                                   :errors_as_objects => true)
 

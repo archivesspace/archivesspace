@@ -18,8 +18,9 @@ class RepositoryController < ApplicationController
   end
   
   def select    
-    session[:repo] = params[:id]
-    session[:repo_id] = @repositories.find {|r| r.id.to_s == params[:id]}.repo_id
+    selected = @repositories.find {|r| r.id.to_s == params[:id]}
+    session[:repo] = selected.repo_code
+    session[:repo_id] = selected.id
     render :partial=>'shared/header_repository', :locals => {:repositories => @repositories}
   end
   

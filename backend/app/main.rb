@@ -145,13 +145,13 @@ class ArchivesSpaceService < Sinatra::Base
 
           if opts[:type] and params[parameter]
             begin
-              params[parameter] = if opts[:type] == Integer
-                                    Integer(params[parameter])
-                                  elsif opts[:type].respond_to? :from_json
-                                    opts[:type].from_json(params[parameter])
-                                  else
-                                    params[parameter]
-                                  end
+              params[parameter.intern] = if opts[:type] == Integer
+                                           Integer(params[parameter])
+                                         elsif opts[:type].respond_to? :from_json
+                                           opts[:type].from_json(params[parameter])
+                                         else
+                                           params[parameter]
+                                         end
             rescue ArgumentError
               errors[:bad_type] << parameter
             end

@@ -67,8 +67,7 @@ module JSONModel
     def save(opts = {})
       type = self.class.record_type
 
-      response = self.class._post_form(self.class.my_url(self.id),
-                                       opts.merge({type => self.to_json}))
+      response = self.class._post_json(self.class.my_url(self.id), self.to_json)
 
       if response.code == '200'
         response = JSON.parse(response.body)
@@ -100,7 +99,9 @@ module JSONModel
     module ClassMethods
 
       def my_url(id = nil)
-        uri = "#{BACKEND_SERVICE_URL}/#{self.record_type}"
+        uri = "#{BACKEND_SERVICE_URL}#{self.schema['uri']}"
+
+        uri = uri.gsub(':repo_id', Thread.current[:selected_repo_id].to_s)
 
         if id
           uri += "/#{id}"
@@ -125,9 +126,9 @@ module JSONModel
       end
 
 
-      def _post_form(url, params)
+      def _post_json(url, json)
         req = Net::HTTP::Post.new(url.request_uri)
-        req.set_form_data(params)
+        req.body = json
 
         _do_http_request(url, req)
       end

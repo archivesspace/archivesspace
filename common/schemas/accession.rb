@@ -1,6 +1,7 @@
 {
   :schema => {
     "type" => "object",
+    "uri" => "/repositories/:repo_id/accessions",
     "properties" => {
       "title" => {"type" => "string", "minLength" => 1, "required" => true},
 

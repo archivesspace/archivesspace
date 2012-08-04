@@ -14,6 +14,7 @@ module ASModel
 
   def self.included(base)
     base.extend(ClassMethods)
+    base.extend(JSONModel)
   end
 
 

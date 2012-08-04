@@ -77,8 +77,8 @@ class ArchivesSpaceService < Sinatra::Base
                      :doc => "The ID of the repository containing the archival object",
                      :type => Integer
                    }]
-     repo = Repository[params[:repo_id]]
-     ArchivalObject.filter({:repo_id => repo.repo_id}).collect {|ao| ao.values}.to_json
+     JSON(ArchivalObject.filter({:repo_id => params[:repo_id]}).
+                         collect {|ao| ArchivalObject.to_jsonmodel(ao, :archival_object).to_hash})
   end
 
 end

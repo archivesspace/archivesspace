@@ -1,7 +1,7 @@
 class ArchivalObjectsController < ApplicationController
 
   def index
-     @archival_objects = JSONModel(:archival_object).all(:repo_id => session[:repo])
+     @archival_objects = JSONModel(:archival_object).all
   end
 
   def show
@@ -12,7 +12,8 @@ class ArchivalObjectsController < ApplicationController
      end
      
      if params.has_key?(:collection_id) 
-        uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
+        # FIXME: this should be using JSONModel
+        uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:collection_id]}/tree")
         response = Net::HTTP.get(uri)
         @collection_tree = JSON.parse(response)
      end
@@ -80,7 +81,6 @@ class ArchivalObjectsController < ApplicationController
           
      begin
        @archival_object = JSONModel(:archival_object).new(params[:archival_object])
-       
        save_params = {
           :repo_id => session[:repo]
        }

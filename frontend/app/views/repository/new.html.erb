@@ -7,7 +7,7 @@
       <%= render "shared/form_messages", :object => @repository, :errors => @errors, :warnings => @warnings %>
       
       <fieldset>
-        <%= f.label_field_pair :repo_id, f.text_field(:repo_id, :size=>10), {:errors=>@errors, :warnings=>@warnings} %>
+        <%= f.label_field_pair :repo_code, f.text_field(:repo_code, :size=>10), {:errors=>@errors, :warnings=>@warnings} %>
         <%= f.label_field_pair :description, f.text_area(:description, :rows=>3), {:errors=>@errors, :warnings=>@warnings} %>
       </fieldset>
    </div>
