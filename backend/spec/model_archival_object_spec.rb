@@ -8,8 +8,8 @@ describe 'ArchivalObject model' do
 
     ao = ArchivalObject.create_from_json(JSONModel(:archival_object).
                                          from_hash({ "id_0" => "abcd",
-                                                     "title" => "A new archival object",
-                                                     "repository" => "/repositories/#{repo[:id]}"}))
+                                                     "title" => "A new archival object"}),
+                                         :repo_id => repo[:id])
 
     ArchivalObject[ao[:id]].title.should eq("A new archival object")
   end

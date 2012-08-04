@@ -12,12 +12,12 @@ describe 'Accession model' do
                                                        "accession_id_1" => "5678",
                                                        "accession_id_2" => "9876",
                                                        "accession_id_3" => "5432",
-                                                       "repository" => "/repositories/#{repo[:id]}",
                                                        "title" => "Papers of Mark Triggs",
                                                        "accession_date" => Time.now,
                                                        "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
                                                        "condition_description" => "Most letters smeared with jam"
-                                                     }))
+                                                     }),
+                                           :repo_id => repo[:id])
 
     Accession[accession[:id]].title.should eq("Papers of Mark Triggs")
   end
@@ -35,12 +35,12 @@ describe 'Accession model' do
                                                "accession_id_1" => "5678",
                                                "accession_id_2" => "9876",
                                                "accession_id_3" => "5432",
-                                               "repository" => "/repositories/#{repo[:id]}",
                                                "title" => "Papers of Mark Triggs",
                                                "accession_date" => Time.now,
                                                "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
                                                "condition_description" => "Most letters smeared with jam"
-                                             }))
+                                             }),
+                                   :repo_id => repo[:id])
       end
     }.should raise_error(Sequel::ValidationFailed)
   end

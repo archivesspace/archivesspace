@@ -9,8 +9,8 @@ describe 'Collection model' do
     collection = Collection.create_from_json(JSONModel(:collection).
                                              from_hash({
                                                          "title" => "A new collection",
-                                                         "repository" => "/repositories/#{repo[:id]}"
-                                                       }))
+                                                       }),
+                                             :repo_id => repo[:id])
 
     Collection[collection[:id]].title.should eq("A new collection")
   end

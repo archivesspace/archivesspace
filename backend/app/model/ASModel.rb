@@ -85,8 +85,8 @@ module ASModel
     end
 
 
-    def create_from_json(json)
-      self.create(references_to_ids(json))
+    def create_from_json(json, extra_values = {})
+      self.create(references_to_ids(json).merge(extra_values))
     end
 
 

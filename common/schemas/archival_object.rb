@@ -9,8 +9,6 @@
 
       "title" => {"type" => "string", "minLength" => 1, "required" => true},
 
-      "repository" => {"type" => "string", "required" => true, "pattern" => "/repositories/[0-9]+$"},
-
       "parent" => {"type" => "string", "required" => false, "pattern" => "/archival_objects/[0-9]+$"},
       "collection" => {"type" => "string", "required" => false, "pattern" => "/collections/[0-9]+$"},
     },

@@ -1,7 +1,7 @@
 class ArchivesSpaceService < Sinatra::Base
 
 
-  post '/accessions/:accession_id' do
+  post '/repositories/:repo_id/accessions/:accession_id' do
     ensure_params ["accession_id" => {
                      :doc => "The accession ID to update",
                      :type => Integer
@@ -10,6 +10,10 @@ class ArchivesSpaceService < Sinatra::Base
                      :doc => "The accession data to update (JSON)",
                      :type => JSONModel(:accession),
                      :body => true
+                   },
+                   "repo_id" => {
+                     :doc => "The repository ID",
+                     :type => Integer,
                    }]
 
     acc = Accession.get_or_die(params[:accession_id])
@@ -20,31 +24,39 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  post '/accessions', :operation => :delete do
-    "Deleting: #{params.inspect}"
-  end
-
-
-  post '/accessions' do
+  post '/repositories/:repo_id/accessions' do
     ensure_params ["accession" => {
                      :doc => "The accession to create (JSON)",
                      :type => JSONModel(:accession),
                      :body => true
+                   },
+                   "repo_id" => {
+                     :doc => "The repository ID",
+                     :type => Integer,
                    }]
 
-    accession = Accession.create_from_json(params[:accession])
-
+    accession = Accession.create_from_json(params[:accession],
+                                           :repo_id => params[:repo_id])
     created_response(accession[:id], params[:accession]._warnings)
   end
 
 
-  get '/accessions' do
-    Accession.all.collect {|acc| acc.values}.to_json
+  get '/repositories/:repo_id/accessions' do
+    ensure_params ["repo_id" => {
+                     :doc => "The repository ID",
+                     :type => Integer,
+                   }]
+
+    Accession.find(:repo_id => params[:repo_id]).collect {|acc| acc.values}.to_json
   end
 
 
-  get '/accessions/:accession_id' do
-    ensure_params ["accession_id" => {:doc => "The accession ID", :type => Integer}]
+  get '/repositories/:repo_id/accessions/:accession_id' do
+    ensure_params ["accession_id" => {:doc => "The accession ID", :type => Integer},
+                   "repo_id" => {
+                     :doc => "The repository ID",
+                     :type => Integer,
+                   }]
 
     Accession.to_jsonmodel(params[:accession_id], :accession).to_json
   end
