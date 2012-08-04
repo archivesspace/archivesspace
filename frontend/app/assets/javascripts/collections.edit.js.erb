@@ -197,7 +197,7 @@ $(function() {
       $(".expand-tree", ".archives-tree-container").on("click", function() {
           $(".archives-tree-container").addClass("expanded");
           $(".archives-tree-container").animate({
-              width: 500
+              width: $(".archives-tree-container").parents(".container:first").width()-5
           }, 500, function() {
               $(".expand-tree", ".archives-tree-container").hide();
               $(".retract-tree", ".archives-tree-container").show();
