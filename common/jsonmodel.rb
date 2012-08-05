@@ -241,11 +241,6 @@ module JSONModel
       end
 
 
-      def self.from_sequel(obj)
-        self.from_hash(obj.values.reject {|k, v| v.nil?})
-      end
-
-
       def self.from_json(s)
         self.from_hash(JSON(s))
       end
