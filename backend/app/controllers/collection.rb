@@ -74,7 +74,8 @@ class ArchivesSpaceService < Sinatra::Base
                      :type => Integer
                    },
                    "tree" => {
-                     :doc => "A JSON tree representing the modified hierarchy"
+                     :doc => "A JSON tree representing the modified hierarchy",
+                     :type => JSONModel(:collection_tree)
                    },
                    "repo_id" => {
                      :doc => "The repository ID",
@@ -82,9 +83,7 @@ class ArchivesSpaceService < Sinatra::Base
                    }]
 
     collection = Collection.get_or_die(params[:collection_id])
-    tree = JSON(params[:tree])
-
-    collection.update_tree(tree)
+    collection.update_tree(params[:tree])
   end
 
 

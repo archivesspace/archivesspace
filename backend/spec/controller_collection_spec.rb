@@ -66,50 +66,43 @@ describe 'Collections controller' do
     last_response.should be_ok
     tree = JSON(last_response.body)
 
+    archival_objects = "#{@repo}/archival_objects/"
     tree.should eq({
-                     "collection_id" => collection['id'],
-                     "title" => "a collection",
-                     "children" => [{
-                                      "id" => ids[0],
-                                      "title" => "archival object: earth",
+                     "archival_object" => "#{archival_objects}#{ids[0]}",
+                     "title" => "archival object: earth",
+                     "children" => [
+                                    {
+                                      "archival_object" => "#{archival_objects}#{ids[1]}",
+                                      "title" => "archival object: australia",
                                       "children" => [
                                                      {
-                                                       "id" => ids[1],
-                                                       "title" => "archival object: australia",
-                                                       "children" => [
-                                                                      {
-                                                                        "id" => ids[2],
-                                                                        "title" => "archival object: canberra",
-                                                                        "children" => []
-                                                                      }
-                                                                     ]
+                                                       "archival_object" => "#{archival_objects}#{ids[2]}",
+                                                       "title" => "archival object: canberra",
+                                                       "children" => []
                                                      }
                                                     ]
-                                    }]
+                                    }
+                                   ]
                    })
 
 
     # Now turn it on its head
     changed = {
-      "collection_id" => collection['id'],
-      "title" => "a collection",
-      "children" => [{
-                       "id" => ids[2],
-                       "title" => "archival object: canberra",
+      "archival_object" => "#{archival_objects}#{ids[2]}",
+      "title" => "archival object: canberra",
+      "children" => [
+                     {
+                       "archival_object" => "#{archival_objects}#{ids[1]}",
+                       "title" => "archival object: australia",
                        "children" => [
                                       {
-                                        "id" => ids[1],
-                                        "title" => "archival object: australia",
-                                        "children" => [
-                                                       {
-                                                         "id" => ids[0],
-                                                         "title" => "archival object: earth",
-                                                         "children" => []
-                                                       }
-                                                      ]
+                                        "archival_object" => "#{archival_objects}#{ids[0]}",
+                                        "title" => "archival object: earth",
+                                        "children" => []
                                       }
                                      ]
-                     }]
+                     }
+                    ]
     }
 
     post "#{@repo}/collections/#{collection['id']}/tree", params = {

@@ -68,6 +68,11 @@ module JSONModel
       end
 
 
+      def [](key)
+        @data[key.to_s]
+      end
+
+
       def initialize(params, warnings = [])
         @data = params
         @warnings = warnings
@@ -260,13 +265,7 @@ module JSONModel
       end
 
 
-      def self.uri_for(id = nil, opts = {})
-        uri = self.schema['uri']
-
-        if not id.nil?
-          uri += "/#{id}"
-        end
-
+      def self.substitute_parameters(uri, opts = {})
         if self.respond_to? :get_globals
           # Used by the jsonmodel_client to pass through implicit parameters
           opts = opts.merge(self.get_globals)
@@ -277,6 +276,28 @@ module JSONModel
         end
 
         uri
+      end
+
+
+      def self.uri_for(id = nil, opts = {})
+        uri = self.schema['uri']
+
+        if not id.nil?
+          uri += "/#{id}"
+        end
+
+        self.substitute_parameters(uri, opts)
+      end
+
+
+      def self.id_for(uri, opts = {})
+        root = self.substitute_parameters(self.schema['uri'], opts)
+
+        if uri =~ /#{root}\/([0-9]+)$/
+          return $1.to_i
+        else
+          raise "Couldn't make an ID out of URI: #{uri}"
+        end
       end
 
     end

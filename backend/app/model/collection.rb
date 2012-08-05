@@ -16,6 +16,10 @@ class Collection < Sequel::Model(:collections)
   def assemble_tree(node, links, properties)
     result = properties[node]
 
+    result[:archival_object] = JSONModel(:archival_object).uri_for(result[:id],
+                                                                   :repo_id => self.repo_id)
+    result.delete(:id)
+
     if links[node]
       result[:children] = links[node].map do |child_id|
         assemble_tree(child_id, links, properties)
@@ -43,7 +47,7 @@ class Collection < Sequel::Model(:collections)
     end
 
     # Check for empty tree
-    return { :collection_id => self.id,:title => self.title, :children => [] } if root_node.nil?
+    return [] if root_node.nil?
 
     properties = {}
 
@@ -53,11 +57,7 @@ class Collection < Sequel::Model(:collections)
       properties[row[:id]] = row
     end
 
-    {
-      :collection_id => self.id,
-      :title => self.title,
-      :children => [assemble_tree(root_node, links, properties)]
-    }
+    assemble_tree(root_node, links, properties)
   end
 
 
@@ -66,14 +66,23 @@ class Collection < Sequel::Model(:collections)
                filter(:collection_id => self.id).
                delete
 
-    nodes = [{"id" => nil ,"children" => tree["children"]}]
+    # The root node has a null parent
+    self.link(:parent => nil,
+              :child => JSONModel("archival_object").id_for(tree["archival_object"],
+                                                            :repo_id => self.repo_id))
+
+    nodes = [tree]
     while not nodes.empty?
       parent = nodes.pop
 
-      parent["children"].each do |child|
-        self.link(:parent => parent["id"],
-                  :child => child["id"])
+      parent_id = JSONModel("archival_object").id_for(parent["archival_object"],
+                                                      :repo_id => self.repo_id)
 
+      parent["children"].each do |child|
+        child_id = JSONModel("archival_object").id_for(child["archival_object"],
+                                                       :repo_id => self.repo_id)
+
+        self.link(:parent => parent_id, :child => child_id)
         nodes.push(child)
       end
     end
