@@ -5,7 +5,7 @@ require 'json'
 module JSONModel
 
 
-  module Rails
+  module Client
 
     def self.included(base)
       base.extend(ClassMethods)

@@ -47,12 +47,8 @@ module JSONModel
     cls = Class.new do
 
       if Module.const_defined?(:Rails)
-        require_relative 'jsonmodel_rails'
-
-        include ActiveModel::Validations
-        include ActiveModel::Conversion
-        include JSONModel::Rails
-        extend ActiveModel::Naming
+        require_relative 'jsonmodel_client'
+        include JSONModel::Client
       end
 
 
