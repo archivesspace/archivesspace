@@ -143,27 +143,9 @@ module JSONModel
       end
 
 
-      def self.hash_keys_to_strings(hash)
-        result = {}
-
-        hash.each do |k, v|
-          result[k.to_s] = if v.is_a? Hash
-                             self.hash_keys_to_strings(v)
-                           elsif v.is_a? Array
-                             v.map {|elt| self.hash_keys_to_strings(elt)}
-                           else
-                             v
-                           end
-        end
-
-        result
-      end
-
-
       def self.drop_unknown_properties(hash, schema = nil)
         if schema.nil?
-          self.drop_unknown_properties(self.hash_keys_to_strings(hash),
-                                       self.schema)
+          self.drop_unknown_properties(hash, self.schema)
         else
 
           result = {}
@@ -174,6 +156,8 @@ module JSONModel
           end
 
           hash.each do |k, v|
+            k = k.to_s
+
             if schema["properties"].has_key?(k)
               if schema["properties"][k]["type"] == "object"
                 result[k] = self.drop_unknown_properties(v, schema["properties"][k])
