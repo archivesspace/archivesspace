@@ -8,6 +8,8 @@ module JSONModel
   @@models = {}
 
   @@strict_mode = false
+  @@client_mode = false
+
 
   def strict_mode(val)
     @@strict_mode = val
@@ -46,7 +48,7 @@ module JSONModel
 
     cls = Class.new do
 
-      if Module.const_defined?(:Rails)
+      if @@client_mode
         require_relative 'jsonmodel_client'
         include JSONModel::Client
       end
@@ -243,19 +245,26 @@ module JSONModel
 
 
 
-  # Load all JSON schemas from the schemas subdirectory
-  # Create a model class for each one.
-  Dir.glob(File.join(File.dirname(__FILE__),
-                     "schemas",
-                     "*.rb")).each do |schema|
-    schema_name = File.basename(schema, ".rb")
+  def self.init(opts = {})
 
-    old_verbose = $VERBOSE
-    $VERBOSE = nil
-    entry = eval(File.open(schema).read)
-    $VERBOSE = old_verbose
+    if opts.has_key?(:client_mode)
+      @@client_mode = true
+    end
 
-    self.create_model_for(schema_name, entry[:schema])
+    # Load all JSON schemas from the schemas subdirectory
+    # Create a model class for each one.
+    Dir.glob(File.join(File.dirname(__FILE__),
+                       "schemas",
+                       "*.rb")).each do |schema|
+      schema_name = File.basename(schema, ".rb")
+
+      old_verbose = $VERBOSE
+      $VERBOSE = nil
+      entry = eval(File.open(schema).read)
+      $VERBOSE = old_verbose
+
+      self.create_model_for(schema_name, entry[:schema])
+    end
   end
 
 end
