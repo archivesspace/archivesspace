@@ -9,12 +9,12 @@ describe 'Collections controller' do
     }
 
     post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
-    @repo = JSON(last_response.body)["id"]
+    @repo = "/repositories/#{JSON(last_response.body)["id"]}"
   end
 
 
   it "lets you create a collection and get it back" do
-    post "/repositories/#{@repo}/collections", params = JSONModel(:collection).
+    post "#{@repo}/collections", params = JSONModel(:collection).
       from_hash({
                   "title" => "a collection",
                 }).to_json
@@ -22,7 +22,7 @@ describe 'Collections controller' do
     last_response.should be_ok
     created = JSON(last_response.body)
 
-    get "/repositories/#{@repo}/collections/#{created["id"]}"
+    get "#{@repo}/collections/#{created["id"]}"
 
     collection = JSON(last_response.body)
 
@@ -31,7 +31,7 @@ describe 'Collections controller' do
 
 
   it "lets you manipulate the record hierarchy" do
-    post "/repositories/#{@repo}/collections", params = JSONModel(:collection).
+    post "#{@repo}/collections", params = JSONModel(:collection).
       from_hash({
                   "id_0" => "1234",
                   "title" => "a collection",
@@ -48,13 +48,13 @@ describe 'Collections controller' do
                                                    "title" => "archival object: #{name}",
                                                  })
       if not ids.empty?
-        ao.parent = "/repositories/#{@repo}/archival_objects/#{ids.last}"
+        ao.parent = "#{@repo}/archival_objects/#{ids.last}"
       end
 
-      ao.collection = "/repositories/#{@repo}/collections/#{collection['id']}"
+      ao.collection = "#{@repo}/collections/#{collection['id']}"
 
 
-      post "/repositories/#{@repo}/archival_objects", params = ao.to_json
+      post "#{@repo}/archival_objects", params = ao.to_json
       last_response.should be_ok
       created = JSON(last_response.body)
 
@@ -62,7 +62,7 @@ describe 'Collections controller' do
     end
 
 
-    get "/repositories/#{@repo}/collections/#{collection['id']}/tree"
+    get "#{@repo}/collections/#{collection['id']}/tree"
     last_response.should be_ok
     tree = JSON(last_response.body)
 
@@ -112,12 +112,12 @@ describe 'Collections controller' do
                      }]
     }
 
-    post "/repositories/#{@repo}/collections/#{collection['id']}/tree", params = {
+    post "#{@repo}/collections/#{collection['id']}/tree", params = {
       :tree => JSON(changed)
     }
     last_response.should be_ok
 
-    get "/repositories/#{@repo}/collections/#{collection['id']}/tree"
+    get "#{@repo}/collections/#{collection['id']}/tree"
     last_response.should be_ok
     tree = JSON(last_response.body)
 
@@ -131,16 +131,16 @@ describe 'Collections controller' do
                                                     "title" => "a collection",
                                                   })
 
-    post "/repositories/#{@repo}/collections", params = collection.to_json
+    post "#{@repo}/collections", params = collection.to_json
 
     last_response.should be_ok
     created = JSON(last_response.body)
 
     collection.title = "an updated collection"
 
-    post "/repositories/#{@repo}/collections/#{created['id']}", params = collection.to_json
+    post "#{@repo}/collections/#{created['id']}", params = collection.to_json
 
-    get "/repositories/#{@repo}/collections/#{created["id"]}"
+    get "#{@repo}/collections/#{created["id"]}"
 
     collection = JSON(last_response.body)
 
