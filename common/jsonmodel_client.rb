@@ -12,18 +12,6 @@ module JSONModel
     end
 
 
-    # class << self
-    #   attr_accessor :types
-    # end
-
-    # self.types = {}
-
-
-    # def persisted?
-    #   false
-    # end
-
-
     def save(opts = {})
       type = self.class.record_type
 
@@ -64,7 +52,14 @@ module JSONModel
 
 
       def my_url(id = nil, opts = {})
-        url = "#{BACKEND_SERVICE_URL}#{self.uri_for(id, opts)}"
+
+        if Module.const_defined?(:BACKEND_SERVICE_URL)
+          backend = BACKEND_SERVICE_URL
+        else
+          backend = JSONModel::init_args[:url]
+        end
+
+        url = "#{backend}#{self.uri_for(id, opts)}"
 
         URI(url)
       end

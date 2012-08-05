@@ -268,7 +268,7 @@ module JSONModel
       def self.substitute_parameters(uri, opts = {})
         if self.respond_to? :get_globals
           # Used by the jsonmodel_client to pass through implicit parameters
-          opts = opts.merge(self.get_globals)
+          opts = self.get_globals.merge(opts)
         end
 
         opts.each do |k, v|
@@ -316,11 +316,18 @@ module JSONModel
 
 
 
+  def self.init_args
+    @@init_args
+  end
+
+
   def self.init(opts = {})
 
     if opts.has_key?(:client_mode)
       @@client_mode = true
     end
+
+    @@init_args = opts
 
     # Load all JSON schemas from the schemas subdirectory
     # Create a model class for each one.
