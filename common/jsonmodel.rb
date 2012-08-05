@@ -136,24 +136,50 @@ module JSONModel
       end
 
 
-      def self.drop_unknown_properties(params)
-        schema = self.schema
-
+      def self.hash_keys_to_strings(hash)
         result = {}
 
-        params.each do |k, v|
-          k = k.to_s
-
-          if schema["properties"].has_key?(k)
-            if schema["properties"][k]["type"] == "object"
-              result[k] = self.drop_unknown_properties(v, schema["properties"][k])
-            else
-              result[k] = v
-            end
-          end
+        hash.each do |k, v|
+          result[k.to_s] = if v.is_a? Hash
+                             self.hash_keys_to_strings(v)
+                           elsif v.is_a? Array
+                             v.map {|elt| self.hash_keys_to_strings(elt)}
+                           else
+                             v
+                           end
         end
 
         result
+      end
+
+
+      def self.drop_unknown_properties(hash, schema = nil)
+        if schema.nil?
+          self.drop_unknown_properties(self.hash_keys_to_strings(hash),
+                                       self.schema)
+        else
+
+          result = {}
+
+          if schema["$ref"] == "#"
+            # A recursive schema.  Back to the beginning.
+            schema = self.schema
+          end
+
+          hash.each do |k, v|
+            if schema["properties"].has_key?(k)
+              if schema["properties"][k]["type"] == "object"
+                result[k] = self.drop_unknown_properties(v, schema["properties"][k])
+              elsif schema["properties"][k]["type"] == "array"
+                result[k] = v.collect {|elt| self.drop_unknown_properties(elt, schema["properties"][k]["items"])}
+              else
+                result[k] = v
+              end
+            end
+          end
+
+          result
+        end
       end
 
 
