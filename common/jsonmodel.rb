@@ -259,6 +259,26 @@ module JSONModel
         self.from_hash(JSON(s))
       end
 
+
+      def self.uri_for(id = nil, opts = {})
+        uri = self.schema['uri']
+
+        if not id.nil?
+          uri += "/#{id}"
+        end
+
+        if self.respond_to? :get_globals
+          # Used by the jsonmodel_client to pass through implicit parameters
+          opts = opts.merge(self.get_globals)
+        end
+
+        opts.each do |k, v|
+          uri = uri.gsub(":#{k}", v.to_s)
+        end
+
+        uri
+      end
+
     end
 
 

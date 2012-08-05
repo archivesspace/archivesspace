@@ -58,14 +58,8 @@ module JSONModel
 
     module ClassMethods
 
-      def uri_for(id = nil)
-        uri = self.schema['uri']
-
-        if not id.nil?
-          uri += "/#{id}"
-        end
-
-        uri = uri.gsub(':repo_id', Thread.current[:selected_repo_id].to_s)
+      def get_globals
+        {:repo_id => Thread.current[:selected_repo_id]}
       end
 
 
