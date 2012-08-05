@@ -42,7 +42,14 @@ class ArchivesSpaceService < Sinatra::Base
                    }]
 
     collection = Collection.get_or_die(params[:collection_id])
-    JSON(collection.tree)
+
+    tree = collection.tree
+
+    if tree
+      JSON(collection.tree)
+    else
+      raise NotFoundException.new("Tree doesn't exist")
+    end
   end
 
 
@@ -75,7 +82,8 @@ class ArchivesSpaceService < Sinatra::Base
                    },
                    "tree" => {
                      :doc => "A JSON tree representing the modified hierarchy",
-                     :type => JSONModel(:collection_tree)
+                     :type => JSONModel(:collection_tree),
+                     :body => true
                    },
                    "repo_id" => {
                      :doc => "The repository ID",
@@ -84,6 +92,8 @@ class ArchivesSpaceService < Sinatra::Base
 
     collection = Collection.get_or_die(params[:collection_id])
     collection.update_tree(params[:tree])
+
+    json_response({:status => "Updated", :id => collection[:id]})
   end
 
 

@@ -27,7 +27,7 @@ module JSONModel
     def save(opts = {})
       type = self.class.record_type
 
-      response = self.class._post_json(self.class.my_url(self.id), self.to_json)
+      response = self.class._post_json(self.class.my_url(self.id, opts), self.to_json)
 
       if response.code == '200'
         response = JSON.parse(response.body)
@@ -63,8 +63,8 @@ module JSONModel
       end
 
 
-      def my_url(id = nil)
-        url = "#{BACKEND_SERVICE_URL}#{self.uri_for(id)}"
+      def my_url(id = nil, opts = {})
+        url = "#{BACKEND_SERVICE_URL}#{self.uri_for(id, opts)}"
 
         URI(url)
       end
@@ -100,8 +100,8 @@ module JSONModel
       end
 
 
-      def find(id)
-        response = self._get_response(my_url(id))
+      def find(id, opts = {})
+        response = self._get_response(my_url(id, opts))
 
         if response.code == '200'
           obj = self.from_json(response.body)

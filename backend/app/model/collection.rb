@@ -47,7 +47,7 @@ class Collection < Sequel::Model(:collections)
     end
 
     # Check for empty tree
-    return [] if root_node.nil?
+    return nil if root_node.nil?
 
     properties = {}
 

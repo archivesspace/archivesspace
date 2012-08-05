@@ -4,18 +4,35 @@ class CollectionsController < ApplicationController
      @collections = JSONModel(:collection).all
   end
 
+  def convert_refs_to_ids(tree)
+    tree["id"] = JSONModel(:archival_object).id_for(tree["archival_object"])
+
+    tree["children"].each do |child|
+      convert_refs_to_ids(child)
+    end
+
+    tree
+  end
+
+
+  def fetch_collection_tree(collection)
+    tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
+
+    @collection_tree = {
+      "collection_id" => collection.id,
+      "title" => collection.title,
+      "children" => tree ? [convert_refs_to_ids(tree.to_hash)] : []
+    }
+  end
+
   def show
      @collection = JSONModel(:collection).find(params[:id])
      
       if params[:inline]
        return render :partial=>"collections/show_inline"
       end
-     
-     # get the hierarchy
-     # FIXME: this should be using JSONModel
-     uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:id]}/tree")
-     response = Net::HTTP.get(uri)
-     @collection_tree = JSON.parse(response)
+
+     fetch_collection_tree(@collection)
   end
 
   def new
@@ -30,11 +47,7 @@ class CollectionsController < ApplicationController
       return render :partial=>"collections/edit_inline"
      end
      
-     # get the hierarchy
-     # FIXME: this should be using JSONModel
-     uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:id]}/tree")
-     response = Net::HTTP.get(uri)
-     @collection_tree = JSON.parse(response)
+     fetch_collection_tree(@collection)
   end
 
   def create
@@ -87,9 +100,7 @@ class CollectionsController < ApplicationController
 
       id = @archival_object.save
 
-      uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:id]}/tree")
-      response = Net::HTTP.get(uri)
-      @collection_tree = JSON.parse(response)
+      fetch_collection_tree(JSONModel(:collection).find(params[:id]))
 
       result = {
        :id => id,
@@ -101,11 +112,11 @@ class CollectionsController < ApplicationController
       render :text=>e.to_json
     end
   end
-  
+
+
   def tree
-    uri = URI("#{BACKEND_SERVICE_URL}/repositories/#{session[:repo_id]}/collections/#{params[:id]}/tree")
-    response = Net::HTTP.get(uri)
-    render :text=>response
+    fetch_collection_tree(JSONModel(:collection).find(params[:id]))
+    render :text => JSON(@collection_tree)
   end
   
 end

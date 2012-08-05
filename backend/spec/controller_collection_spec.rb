@@ -105,9 +105,7 @@ describe 'Collections controller' do
                     ]
     }
 
-    post "#{@repo}/collections/#{collection['id']}/tree", params = {
-      :tree => JSON(changed)
-    }
+    post "#{@repo}/collections/#{collection['id']}/tree", JSON(changed)
     last_response.should be_ok
 
     get "#{@repo}/collections/#{collection['id']}/tree"

@@ -286,6 +286,10 @@ module JSONModel
           uri += "/#{id}"
         end
 
+        if id
+          opts["id"] = id
+        end
+
         self.substitute_parameters(uri, opts)
       end
 
