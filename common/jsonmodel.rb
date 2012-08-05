@@ -132,6 +132,7 @@ module JSONModel
       end
 
 
+      # Find the current class's entry in the supplied hash.
       def self.lookup(hash)
         my_true_self = self.ancestors.find {|cls| hash[cls]}
 
@@ -235,7 +236,7 @@ module JSONModel
         validate(hash)
 
         # Note that I don't use the cleaned version here.  We want to keep
-        # around the original extra stuff (and provide accessors for then
+        # around the original extra stuff (and provide accessors for them
         # too), but just want to strip them out when converting back to JSON
         self.new(hash)
       end
