@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
                      :body => true
                    }]
 
-    repo = Repository.create(params[:repository].to_hash)
+    repo = Repository.create_from_json(params[:repository])
     created_response(repo[:id])
   end
 
