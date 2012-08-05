@@ -47,7 +47,8 @@ class ArchivesSpaceService < Sinatra::Base
                      :type => Integer,
                    }]
 
-    Accession.filter(:repo_id => params[:repo_id]).collect {|acc| acc.values}.to_json
+    JSON(Accession.filter(:repo_id => params[:repo_id]).collect {|acc|
+           Accession.to_jsonmodel(acc, :accession).to_hash})
   end
 
 
