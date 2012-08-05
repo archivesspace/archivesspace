@@ -44,6 +44,18 @@ module JSONModel
   end
 
 
+  def self.parse_reference(reference, opts = {})
+    @@models.each do |type, model|
+      id = model.id_for(reference, opts, true)
+      if id
+        return {:id => id, :type => type}
+      end
+    end
+
+    nil
+  end
+
+
   def self.create_model_for(type, schema)
 
     cls = Class.new do
@@ -88,16 +100,6 @@ module JSONModel
 
       def self.record_type
         self.lookup(@@types)
-      end
-
-
-      # For a reference like "/collections/123", return 123.
-      def get_reference_id(reference)
-        if @data[reference] =~ /\/([0-9]+)$/
-          return $1.to_i
-        else
-          return nil
-        end
       end
 
 
@@ -294,13 +296,17 @@ module JSONModel
       end
 
 
-      def self.id_for(uri, opts = {})
+      def self.id_for(uri, opts = {}, noerror = false)
         root = self.substitute_parameters(self.schema['uri'], opts)
 
         if uri =~ /#{root}\/([0-9]+)$/
           return $1.to_i
         else
-          raise "Couldn't make an ID out of URI: #{uri}"
+          if noerror
+            nil
+          else
+            raise "Couldn't make an ID out of URI: #{uri}"
+          end
         end
       end
 

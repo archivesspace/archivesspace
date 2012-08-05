@@ -15,13 +15,17 @@ class ArchivesSpaceService < Sinatra::Base
     ao = ArchivalObject.create_from_json(params[:archival_object],
                                          :repo_id => params[:repo_id])
 
-    parent_id = params[:archival_object].get_reference_id("parent")
-    collection_id = params[:archival_object].get_reference_id("collection")
+    parent_id = JSONModel::parse_reference(params[:archival_object].parent,
+                                           :repo_id => params[:repo_id])
 
-    if parent_id or collection_id
-      collection = Collection.get_or_die(collection_id)
+    collection_id = JSONModel::parse_reference(params[:archival_object].collection,
+                                               :repo_id => params[:repo_id])
 
-      collection.link(:parent => parent_id,
+
+    if collection_id
+      collection = Collection.get_or_die(collection_id[:id])
+
+      collection.link(:parent => parent_id ? parent_id[:id] : nil,
                       :child => ao[:id])
     end
 
