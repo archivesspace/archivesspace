@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint
     .method(:post)
     .uri('/repositories/:repo_id/collections')
-    .params(["collection", JSONModel(:collection), "The collection to create (JSON)", :body => true],
+    .params(["collection", JSONModel(:collection), "The collection to create", :body => true],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
   do
@@ -47,7 +47,7 @@ class ArchivesSpaceService < Sinatra::Base
     .method(:post)
     .uri('/repositories/:repo_id/collections/:collection_id')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
-            ["collection", JSONModel(:collection), "The collection to create (JSON)", :body => true],
+            ["collection", JSONModel(:collection), "The collection to create", :body => true],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
   do

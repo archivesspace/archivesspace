@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint
     .method(:post)
     .uri('/repositories/:repo_id/archival_objects')
-    .params(["archival_object", JSONModel(:archival_object), "The archival_object to create (JSON)", :body => true],
+    .params(["archival_object", JSONModel(:archival_object), "The archival_object to create", :body => true],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
   do
@@ -32,7 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
     .method(:post)
     .uri('/repositories/:repo_id/archival_objects/:archival_object_id')
     .params(["archival_object_id", Integer, "The archival object ID to update"],
-            ["archival_object", JSONModel(:archival_object), "The archival object data to update (JSON)", :body => true])
+            ["archival_object", JSONModel(:archival_object), "The archival object data to update", :body => true])
     .returns([200, "OK"]) \
   do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
