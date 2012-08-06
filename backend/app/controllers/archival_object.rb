@@ -1,17 +1,12 @@
 class ArchivesSpaceService < Sinatra::Base
 
-
-  post '/repositories/:repo_id/archival_objects' do
-    ensure_params ["archival_object" => {
-                     :doc => "The archival_object to create (JSON)",
-                     :type => JSONModel(:archival_object),
-                     :body => true
-                   },
-                   "repo_id" => {
-                     :doc => "The repository ID",
-                     :type => Integer,
-                   }]
-
+  Endpoint
+    .method(:post)
+    .uri('/repositories/:repo_id/archival_objects')
+    .params(["archival_object", JSONModel(:archival_object), "The archival_object to create (JSON)", :body => true],
+            ["repo_id", Integer, "The repository ID"])
+    .returns([200, "OK"]) \
+  do
     ao = ArchivalObject.create_from_json(params[:archival_object],
                                          :repo_id => params[:repo_id])
 
@@ -33,15 +28,13 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  post '/repositories/:repo_id/archival_objects/:archival_object_id' do
-    ensure_params ["archival_object_id" => {
-                     :doc => "The archival object ID to update",
-                     :type => Integer},
-                   "archival_object" => {
-                     :doc => "The archival object data to update (JSON)",
-                     :type => JSONModel(:archival_object),
-                     :body => true}]
-
+  Endpoint
+    .method(:post)
+    .uri('/repositories/:repo_id/archival_objects/:archival_object_id')
+    .params(["archival_object_id", Integer, "The archival object ID to update"],
+            ["archival_object", JSONModel(:archival_object), "The archival object data to update (JSON)", :body => true])
+    .returns([200, "OK"]) \
+  do
     ao = ArchivalObject[params[:archival_object_id]]
 
     if ao
@@ -54,40 +47,35 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  get '/repositories/:repo_id/archival_objects/:archival_object_id' do
-    ensure_params ["archival_object_id" => {
-                     :doc => "The archival object ID",
-                     :type => Integer
-                   },
-                   "repo_id" => {
-                     :doc => "The repository ID",
-                     :type => Integer,
-                   }]
-
+  Endpoint
+    .method(:get)
+    .uri('/repositories/:repo_id/archival_objects/:archival_object_id')
+    .params(["archival_object_id", Integer, "The archival object ID"],
+            ["repo_id", Integer, "The repository ID"])
+    .returns([200, "OK"]) \
+  do
     ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object).to_json
   end
 
 
-  get '/repositories/:repo_id/archival_objects/:archival_object_id/children' do
-    ensure_params ["archival_object_id" => {
-                     :doc => "The archival object ID",
-                     :type => Integer
-                   },
-                   "repo_id" => {
-                     :doc => "The repository ID",
-                     :type => Integer,
-                   }]
-
+  Endpoint
+    .method(:get)
+    .uri('/repositories/:repo_id/archival_objects/:archival_object_id/children')
+    .params(["archival_object_id", Integer, "The archival object ID"],
+            ["repo_id", Integer, "The repository ID"])
+    .returns([200, "OK"]) \
+  do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     JSON(ao.children.map {|child| ArchivalObject.to_jsonmodel(child, :archival_object).to_hash})
   end
 
 
-  get '/repositories/:repo_id/archival_objects' do
-    ensure_params ["repo_id" => {
-                     :doc => "The ID of the repository containing the archival object",
-                     :type => Integer
-                   }]
+  Endpoint
+    .method(:get)
+    .uri('/repositories/:repo_id/archival_objects')
+    .params(["repo_id", Integer, "The ID of the repository containing the archival object"])
+    .returns([200, "OK"]) \
+  do
      JSON(ArchivalObject.filter({:repo_id => params[:repo_id]}).
                          collect {|ao| ArchivalObject.to_jsonmodel(ao, :archival_object).to_hash})
   end

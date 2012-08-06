@@ -1,9 +1,12 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  post '/auth/user/:username/login' do
-    ensure_params ["username" => {:doc => "Your username"},
-                   "password" => {:doc => "Your password"}]
-
+  Endpoint
+    .method(:post)
+    .uri('/auth/user/:username/login')
+    .params(["username", nil, "Your username"],
+            ["password", nil, "Your password"])
+    .returns([200, "OK"]) \
+  do
     user_manager = UserManager.new
 
     user = user_manager.get_user(params[:username])

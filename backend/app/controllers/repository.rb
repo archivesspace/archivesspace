@@ -1,24 +1,32 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  post '/repositories' do
-    ensure_params ["repository" => {
-                     :doc => "The repository to create",
-                     :type => JSONModel(:repository),
-                     :body => true
-                   }]
-
+  Endpoint
+    .method(:post)
+    .uri('/repositories')
+    .params(["repository", JSONModel(:repository), "The repository to create", :body => true])
+    .returns([200, "OK"]) \
+  do
     repo = Repository.create_from_json(params[:repository])
     created_response(repo[:id])
   end
 
 
-  get '/repositories/:id' do
+  Endpoint
+    .method(:get)
+    .uri('/repositories/:id')
+    .params(["id", Integer, "The repository to fetch"])
+    .returns([200, "OK"]) \
+  do
     Repository.to_jsonmodel(Repository.get_or_die(params[:id]),
                             :repository).to_json
   end
 
 
-  get '/repositories' do
+  Endpoint
+    .method(:get)
+    .uri('/repositories')
+    .returns([200, "A JSON list of repositories"]) \
+  do
     result = []
 
     Repository.each do |r|
