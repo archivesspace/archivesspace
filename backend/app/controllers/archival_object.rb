@@ -36,12 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "OK"]) \
   do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
-
-    if ao
-      ao.update_from_json(params[:archival_object])
-    else
-      raise NotFoundException.new("Archival Object not found")
-    end
+    ao.update_from_json(params[:archival_object])
 
     json_response({:status => "Updated", :id => ao[:id]})
   end
