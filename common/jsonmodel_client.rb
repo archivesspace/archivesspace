@@ -15,12 +15,18 @@ module JSONModel
     # Validate this JSONModel instance, produce a JSON string, and send an
     # update to the backend.
     def save(opts = {})
-      type = self.class.record_type
 
+      if @saved_as
+        raise "Object #{self} has already been saved as ID #{@saved_as}."
+      end
+
+      type = self.class.record_type
       response = self.class._post_json(self.class.my_url(self.id, opts), self.to_json)
 
       if response.code == '200'
         response = JSON.parse(response.body)
+
+        @saved_as = response["id"]
 
         return response["id"]
       elsif response.code == '409'
@@ -74,10 +80,10 @@ module JSONModel
 
       # Return all instances of the current JSONModel's record type.
       # FIXME: This will need some sort of pagination support.
-      def all(opts = {})
-        uri = my_url
+      def all(params = {}, opts = {})
+        uri = my_url(nil, opts)
 
-        uri.query = URI.encode_www_form(opts)
+        uri.query = URI.encode_www_form(params)
 
         response = self._get_response(uri)
 

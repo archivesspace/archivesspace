@@ -300,7 +300,7 @@ module JSONModel
 
 
 
-      def initialize(params, warnings = [])
+      def initialize(params = {}, warnings = [])
         @data = params
         @warnings = warnings
 
@@ -329,7 +329,7 @@ module JSONModel
 
 
       def to_s
-        "#<:#{self.class.record_type} record>"
+        "#<JSONModel(:#{self.class.record_type}) #{@data.inspect}>"
       end
 
 
@@ -400,7 +400,10 @@ module JSONModel
       $VERBOSE = old_verbose
 
       self.create_model_for(schema_name, entry[:schema])
+
     end
+
+    true
   end
 
 end
