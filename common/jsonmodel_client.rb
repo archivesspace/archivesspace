@@ -5,6 +5,11 @@ require 'json'
 module JSONModel
 
 
+  def self.set_repository(id)
+    Thread.current[:selected_repo_id] = id
+  end
+
+
   module Client
 
     def self.included(base)
@@ -72,8 +77,10 @@ module JSONModel
 
         if response.code == '200'
           self.from_json(response.body)
-        else
+        elsif response.code == '404'
           nil
+        else
+          raise response.body
         end
       end
 
@@ -92,7 +99,7 @@ module JSONModel
 
           json_list.map {|h| self.from_hash(h)}
         else
-          nil
+          raise response.body
         end
       end
 
