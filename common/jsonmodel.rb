@@ -80,6 +80,11 @@ module JSONModel
       end
 
 
+      def self.to_s
+        "JSONModel(:#{self.record_type})"
+      end
+
+
       def [](key)
         @data[key.to_s]
       end

@@ -12,6 +12,19 @@ module RESTHelpers
       @returns = []
     end
 
+    def self.all
+      @@endpoints.map do |e|
+        e.instance_eval do
+          {
+            :uri => @uri,
+            :method => @method,
+            :params => @required_params,
+            :returns => @returns
+          }
+        end
+      end
+    end
+
     def self.method(method); Endpoint.new(method); end
 
     def uri(uri); @uri = uri; self; end
