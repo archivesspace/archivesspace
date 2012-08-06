@@ -25,6 +25,8 @@ module RESTHelpers
       end
     end
 
+    def self.get(uri); self.method(:get).uri(uri); end
+    def self.post(uri); self.method(:post).uri(uri); end
     def self.method(method); Endpoint.new(method); end
 
     def uri(uri); @uri = uri; self; end

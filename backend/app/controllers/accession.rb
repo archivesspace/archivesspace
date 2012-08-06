@@ -1,8 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint
-    .method(:post)
-    .uri('/repositories/:repo_id/accessions/:accession_id')
+  Endpoint.post('/repositories/:repo_id/accessions/:accession_id')
     .params(["accession_id", Integer, "The accession ID to update"],
             ["accession", JSONModel(:accession), "The accession data to update", :body => true],
             ["repo_id", Integer, "The repository ID"])
@@ -14,9 +12,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:post)
-    .uri('/repositories/:repo_id/accessions')
+  Endpoint.post('/repositories/:repo_id/accessions')
     .params(["accession", JSONModel(:accession), "The accession to create", :body => true],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
@@ -28,9 +24,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:repo_id/accessions')
+  Endpoint.get('/repositories/:repo_id/accessions')
     .params(["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
   do
@@ -40,9 +34,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:repo_id/accessions/:accession_id')
+  Endpoint.get('/repositories/:repo_id/accessions/:accession_id')
     .params(["accession_id", Integer, "The accession ID"],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \

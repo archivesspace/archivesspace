@@ -1,8 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint
-    .method(:post)
-    .uri('/repositories')
+  Endpoint.post('/repositories')
     .params(["repository", JSONModel(:repository), "The repository to create", :body => true])
     .returns([200, "OK"]) \
   do
@@ -11,9 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:id')
+  Endpoint.get('/repositories/:id')
     .params(["id", Integer, "The repository to fetch"])
     .returns([200, "OK"]) \
   do
@@ -22,10 +18,8 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories')
-    .returns([200, "A JSON list of repositories"]) \
+  Endpoint.get('/repositories')
+    .returns([200, "A JSON liste of repositories"]) \
   do
     result = []
 

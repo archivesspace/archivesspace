@@ -1,8 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint
-    .method(:post)
-    .uri('/repositories/:repo_id/collections')
+  Endpoint.post('/repositories/:repo_id/collections')
     .params(["collection", JSONModel(:collection), "The collection to create", :body => true],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
@@ -13,9 +11,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:repo_id/collections/:collection_id')
+  Endpoint.get('/repositories/:repo_id/collections/:collection_id')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
@@ -24,9 +20,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:repo_id/collections/:collection_id/tree')
+  Endpoint.get('/repositories/:repo_id/collections/:collection_id/tree')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
@@ -43,9 +37,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:post)
-    .uri('/repositories/:repo_id/collections/:collection_id')
+  Endpoint.post('/repositories/:repo_id/collections/:collection_id')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
             ["collection", JSONModel(:collection), "The collection to create", :body => true],
             ["repo_id", Integer, "The repository ID"])
@@ -58,9 +50,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:post)
-    .uri('/repositories/:repo_id/collections/:collection_id/tree')
+  Endpoint.post('/repositories/:repo_id/collections/:collection_id/tree')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
             ["tree", JSONModel(:collection_tree), "A JSON tree representing the modified hierarchy", :body => true],
             ["repo_id", Integer, "The repository ID"])
@@ -73,9 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:repo_id/collections')
+  Endpoint.get('/repositories/:repo_id/collections')
     .params(["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
   do

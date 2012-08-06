@@ -1,8 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint
-    .method(:post)
-    .uri('/repositories/:repo_id/archival_objects')
+  Endpoint.post('/repositories/:repo_id/archival_objects')
     .params(["archival_object", JSONModel(:archival_object), "The archival_object to create", :body => true],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
@@ -28,9 +26,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:post)
-    .uri('/repositories/:repo_id/archival_objects/:archival_object_id')
+  Endpoint.post('/repositories/:repo_id/archival_objects/:archival_object_id')
     .params(["archival_object_id", Integer, "The archival object ID to update"],
             ["archival_object", JSONModel(:archival_object), "The archival object data to update", :body => true])
     .returns([200, "OK"]) \
@@ -42,9 +38,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:repo_id/archival_objects/:archival_object_id')
+  Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id')
     .params(["archival_object_id", Integer, "The archival object ID"],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
@@ -53,9 +47,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:repo_id/archival_objects/:archival_object_id/children')
+  Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id/children')
     .params(["archival_object_id", Integer, "The archival object ID"],
             ["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
@@ -66,9 +58,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:get)
-    .uri('/repositories/:repo_id/archival_objects')
+  Endpoint.get('/repositories/:repo_id/archival_objects')
     .params(["repo_id", Integer, "The ID of the repository containing the archival object"])
     .returns([200, "OK"]) \
   do

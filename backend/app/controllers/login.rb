@@ -1,8 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint
-    .method(:post)
-    .uri('/auth/user/:username/login')
+  Endpoint.post('/auth/user/:username/login')
     .params(["username", nil, "Your username"],
             ["password", nil, "Your password"])
     .returns([200, "OK"]) \

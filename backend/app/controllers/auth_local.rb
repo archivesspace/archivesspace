@@ -10,9 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:post)
-    .uri('/auth/local/user/:username/login')
+  Endpoint.post('/auth/local/user/:username/login')
     .params(["username", nil, "Your username"],
             ["password", nil, "Your password"])
     .returns([200, "OK"]) \
@@ -27,9 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:post)
-    .uri('/auth/local/user/:username/password')
+  Endpoint.post('/auth/local/user/:username/password')
     .params(["username", nil, "Username for account"],
             ["password", nil, "Password to set for account"])
     .returns([200, "OK"]) \
@@ -39,9 +35,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint
-    .method(:post)
-    .uri('/auth/local/user/:username')
+  Endpoint.post('/auth/local/user/:username')
     .params(["username", nil, "Username for new account"],
             ["password", nil, "Password for new account"])
     .returns([200, "OK"]) \
