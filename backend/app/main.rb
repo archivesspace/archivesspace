@@ -19,15 +19,10 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   configure :development do |config|
-
-    # This is very possibly a dumb thing to do, but the reloader was having
-    # trouble replacing the routes from the dynamically loaded controllers.
-    self.instance_eval { @routes = {} }
-
     require 'sinatra/reloader'
     register Sinatra::Reloader
-    config.also_reload File.join("**", "*.rb")
-    config.dont_reload File.join("**", "lib", "rest.rb")
+    config.also_reload File.join("app", "**", "*.rb")
+    config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "migrations", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
   end
