@@ -34,6 +34,7 @@ module JSONModel
 
 
   def JSONModel(source)
+
     # Checks if a model exists first; returns the model class
     # if it exists; returns false if it doesn't exist.
     if @@models.has_key?(source.to_s)
@@ -44,6 +45,8 @@ module JSONModel
   end
 
 
+  # Parse a URI reference like /repositories/123/archival_objects/500 into
+  # {:id => 500, :type => :archival_object}
   def self.parse_reference(reference, opts = {})
     @@models.each do |type, model|
       id = model.id_for(reference, opts, true)
@@ -56,16 +59,21 @@ module JSONModel
   end
 
 
+  # Create and return a new JSONModel class called 'type', based on the
+  # JSONSchema 'schema'
   def self.create_model_for(type, schema)
 
     cls = Class.new do
 
+      # In client mode, mix in some extra convenience methods for querying the
+      # ArchivesSpace backend service via HTTP.
       if @@client_mode
         require_relative 'jsonmodel_client'
         include JSONModel::Client
       end
 
 
+      # Define accessors for all variable names listed in 'attributes'
       def self.define_accessors(attributes)
         attributes.each do |attribute|
 
@@ -85,70 +93,20 @@ module JSONModel
       end
 
 
-      def [](key)
-        @data[key.to_s]
-      end
-
-
-      def initialize(params, warnings = [])
-        @data = params
-        @warnings = warnings
-
-        self.class.define_accessors(@data.keys)
-      end
-
-
-      def _warnings
-        self.class.validate(@data)
-      end
-
-
+      # Return the type of this JSONModel class (a keyword like
+      # :archival_object)
       def self.record_type
         self.lookup(@@types)
       end
 
 
-      def update(params)
-        self.class.validate(@data.merge(params))
-        @data = @data.merge(params)
-      end
-
-
-      def to_s
-        "#<:#{self.class.record_type} record>"
-      end
-
-
-      def to_hash
-        cleaned = self.class.drop_unknown_properties(@data)
-        self.class.validate(cleaned)
-
-        cleaned
-      end
-
-
-      def to_json
-        JSON(self.to_hash)
-      end
-
-
+      # Return the JSON schema that defines this JSONModel class
       def self.schema
         self.lookup(@@schema)
       end
 
 
-      def id
-        ref = JSONModel::parse_reference(self.uri)
-
-        if ref
-          ref[:id]
-        else
-          nil
-        end
-      end
-
-
-      # Find the current class's entry in the supplied hash.
+      # Find the entry for this JSONModel class in the supplied 'hash'.
       def self.lookup(hash)
         my_true_self = self.ancestors.find {|cls| hash[cls]}
 
@@ -160,6 +118,8 @@ module JSONModel
       end
 
 
+      # Given a (potentially nested) 'hash', remove any properties that don't
+      # appear in the JSON schema defining this JSONModel.
       def self.drop_unknown_properties(hash, schema = nil)
         if schema.nil?
           self.drop_unknown_properties(hash, self.schema)
@@ -191,6 +151,13 @@ module JSONModel
       end
 
 
+      # Given a list of error messages produced by JSON schema validation, parse
+      # them into a structured format like:
+      #
+      # {
+      #   :errors => {:attr1 => "(What was wrong with attr1)"},
+      #   :warnings => {:attr2 => "(attr2 not quite right either)"}
+      # }
       def self.parse_schema_messages(messages)
         errors = {}
         warnings = {}
@@ -231,6 +198,9 @@ module JSONModel
       end
 
 
+      # Validate the supplied hash using the JSON schema for this model.  Raise
+      # a ValidationException if there are any fatal validation problems, or if
+      # strict mode is enabled and warnings were produced.
       def self.validate(hash)
         messages = JSON::Validator.fully_validate(self.schema,
                                                   self.drop_unknown_properties(hash),
@@ -248,6 +218,7 @@ module JSONModel
       end
 
 
+      # Create an instance of this JSONModel from the data contained in 'hash'.
       def self.from_hash(hash)
         validate(hash)
 
@@ -258,11 +229,19 @@ module JSONModel
       end
 
 
+      # Create an instance of this JSONModel from a JSON string.
       def self.from_json(s)
         self.from_hash(JSON(s))
       end
 
 
+      # Given a URI like /repositories/:repo_id/something/:somevar, and a hash
+      # containing keys and replacement strings, return a URI with the values
+      # substituted in for their placeholders.
+      #
+      # This looks for a 'get_globals' defined on the current class for
+      # additional key/value pairs to substitute, allowing mix ins to add their
+      # own.
       def self.substitute_parameters(uri, opts = {})
         if self.respond_to? :get_globals
           # Used by the jsonmodel_client to pass through implicit parameters
@@ -277,6 +256,13 @@ module JSONModel
       end
 
 
+      # Given a numeric internal ID and additional options produce a URI reference.
+      # For example:
+      #
+      #     JSONModel(:archival_object).uri_for(500, :repo_id => 123)
+      #
+      #  might yield "/repositories/123/archival_objects/500"
+      #
       def self.uri_for(id = nil, opts = {})
         uri = self.schema['uri']
 
@@ -292,6 +278,12 @@ module JSONModel
       end
 
 
+      # The inverse of uri_for:
+      #
+      #     JSONModel(:archival_object).id_for("/repositories/123/archival_objects/500", :repo_id => 123)
+      #
+      #  might yield 500
+      #
       def self.id_for(uri, opts = {}, noerror = false)
         root = self.substitute_parameters(self.schema['uri'], opts)
 
@@ -306,7 +298,71 @@ module JSONModel
         end
       end
 
+
+
+      def initialize(params, warnings = [])
+        @data = params
+        @warnings = warnings
+
+        self.class.define_accessors(@data.keys)
+      end
+
+
+      def [](key)
+        @data[key.to_s]
+      end
+
+
+      # Validate the current JSONModel instance and return a list of warnings
+      # produced.
+      def _warnings
+        self.class.validate(@data)
+      end
+
+
+      # Update the values of the current JSONModel instance with the contents of
+      # 'params', validating before accepting the update.
+      def update(params)
+        self.class.validate(@data.merge(params))
+        @data = @data.merge(params)
+      end
+
+
+      def to_s
+        "#<:#{self.class.record_type} record>"
+      end
+
+
+      # Produce a (possibly nested) hash from the values of this JSONModel.  Any
+      # values that don't appear in the JSON schema will not appear in the
+      # result.
+      def to_hash
+        cleaned = self.class.drop_unknown_properties(@data)
+        self.class.validate(cleaned)
+
+        cleaned
+      end
+
+
+      # Produce a JSON string from the values of this JSONModel.  Any values
+      # that don't appear in the JSON schema will not appear in the result.
+      def to_json
+        JSON(self.to_hash)
+      end
+
+
+      # Return the internal ID of this JSONModel.
+      def id
+        ref = JSONModel::parse_reference(self.uri)
+
+        if ref
+          ref[:id]
+        else
+          nil
+        end
+      end
     end
+
 
 
     cls.define_accessors(schema['properties'].keys)

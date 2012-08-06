@@ -12,6 +12,8 @@ module JSONModel
     end
 
 
+    # Validate this JSONModel instance, produce a JSON string, and send an
+    # update to the backend.
     def save(opts = {})
       type = self.class.record_type
 
@@ -35,11 +37,14 @@ module JSONModel
 
     module ClassMethods
 
+      # Extra parameters used by the JSONModel URI substitution.
       def get_globals
         {:repo_id => Thread.current[:selected_repo_id]}
       end
 
 
+      # Given the ID of a JSONModel instance, return its full URL (including the
+      # URL of the backend)
       def my_url(id = nil, opts = {})
 
         if Module.const_defined?(:BACKEND_SERVICE_URL)
@@ -54,6 +59,40 @@ module JSONModel
       end
 
 
+      # Given an ID, retrieve an instance of the current JSONModel from the
+      # backend.
+      def find(id, opts = {})
+        response = self._get_response(my_url(id, opts))
+
+        if response.code == '200'
+          self.from_json(response.body)
+        else
+          nil
+        end
+      end
+
+
+      # Return all instances of the current JSONModel's record type.
+      # FIXME: This will need some sort of pagination support.
+      def all(opts = {})
+        uri = my_url
+
+        uri.query = URI.encode_www_form(opts)
+
+        response = self._get_response(uri)
+
+        if response.code == '200'
+          json_list = JSON(response.body)
+
+          json_list.map {|h| self.from_hash(h)}
+        else
+          nil
+        end
+      end
+
+
+      # Returns the session token to be sent to the backend when making
+      # requests.
       def _current_backend_session
         # Set by the ApplicationController
         Thread.current[:backend_session]
@@ -81,34 +120,6 @@ module JSONModel
         req = Net::HTTP::Get.new(url.request_uri)
 
         _do_http_request(url, req)
-      end
-
-
-      def find(id, opts = {})
-        response = self._get_response(my_url(id, opts))
-
-        if response.code == '200'
-          self.from_json(response.body)
-        else
-          nil
-        end
-      end
-
-
-      def all(opts = {})
-        uri = my_url
-
-        uri.query = URI.encode_www_form(opts)
-
-        response = self._get_response(uri)
-
-        if response.code == '200'
-          json_list = JSON(response.body)
-
-          json_list.map {|h| self.from_hash(h)}
-        else
-          nil
-        end
       end
 
     end
