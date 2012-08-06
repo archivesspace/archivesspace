@@ -56,6 +56,17 @@ def app
 end
 
 
+def make_test_repo(code = "ARCHIVESSPACE")
+  test_repo = {
+    "repo_code" => code,
+    "description" => "A new ArchivesSpace repository"
+  }
+
+  post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
+  @repo = "/repositories/#{JSON(last_response.body)["id"]}"
+end
+
+
 RSpec.configure do |config|
   config.include Rack::Test::Methods
 

@@ -3,21 +3,13 @@ require 'spec_helper'
 describe 'Collections controller' do
 
   before(:each) do
-    test_repo = {
-      "repo_code" => "ARCHIVESSPACE",
-      "description" => "A new ArchivesSpace repository"
-    }
-
-    post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
-    @repo = "/repositories/#{JSON(last_response.body)["id"]}"
+    @repo = make_test_repo
   end
 
 
   it "lets you create a collection and get it back" do
     post "#{@repo}/collections", params = JSONModel(:collection).
-      from_hash({
-                  "title" => "a collection",
-                }).to_json
+      from_hash({"title" => "a collection"}).to_json
 
     last_response.should be_ok
     created = JSON(last_response.body)

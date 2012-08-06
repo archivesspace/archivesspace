@@ -3,25 +3,24 @@ require 'spec_helper'
 describe 'Archival Object controller' do
 
   before(:each) do
-    test_repo = {
-      "repo_code" => "ARCHIVESSPACE",
-      "description" => "A new ArchivesSpace repository"
-    }
-
-    post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
-    @repo = "/repositories/#{JSON(last_response.body)["id"]}"
+    @repo = make_test_repo
   end
 
 
-  it "lets you create an archival object and get it back" do
+  def create_archival_object(opts = {})
     post "#{@repo}/archival_objects", params = JSONModel(:archival_object).
       from_hash({
                   "id_0" => "1234",
                   "title" => "The archival object title",
-                }).to_json
+                }.merge(opts)).to_json
 
     last_response.should be_ok
-    created = JSON(last_response.body)
+    JSON(last_response.body)
+  end
+
+
+  it "lets you create an archival object and get it back" do
+    created = create_archival_object
 
     get "#{@repo}/archival_objects/#{created["id"]}"
 
@@ -33,36 +32,19 @@ describe 'Archival Object controller' do
 
   it "lets you create an archival object with a parent" do
     post "#{@repo}/collections", params = JSONModel(:collection).
-      from_hash({
-                  "title" => "a collection",
-                }).to_json
+      from_hash({"title" => "a collection"}).to_json
 
     last_response.should be_ok
     collection = JSON(last_response.body)
 
     collection_ref = "#{@repo}/collections/#{collection['id']}"
 
-    post "#{@repo}/archival_objects", params = JSONModel(:archival_object).
-      from_hash({
-                  "id_0" => "1234",
-                  "title" => "parent archival object",
-                  "collection" => collection_ref,
-                }).to_json
+    created = create_archival_object("collection" => collection_ref)
 
-    last_response.should be_ok
-    created = JSON(last_response.body)
-
-
-    post "#{@repo}/archival_objects", params = JSONModel(:archival_object).
-      from_hash({
-                  "id_0" => "5678",
-                  "title" => "child archival object",
-                  "collection" => collection_ref,
-                  "parent" => "#{@repo}/archival_objects/#{created['id']}"
-                }).to_json
-
-
-    last_response.should be_ok
+    create_archival_object("id_0" => "4567",
+                           "collection" => collection_ref,
+                           "title" => "child archival object",
+                           "parent" => "#{@repo}/archival_objects/#{created['id']}")
 
 
     get "#{@repo}/archival_objects/#{created["id"]}/children"
@@ -90,17 +72,10 @@ describe 'Archival Object controller' do
 
 
   it "handles updates for an existing archival object" do
-    ao = JSONModel(:archival_object).
-      from_hash({
-                  "id_0" => "1234",
-                  "title" => "The archival object title",
-                })
+    created = create_archival_object
 
-    post "#{@repo}/archival_objects", params = ao.to_json
-
-    last_response.should be_ok
-    created = JSON(last_response.body)
-
+    get "#{@repo}/archival_objects/#{created["id"]}"
+    ao = JSONModel(:archival_object).from_json(last_response.body)
     ao.title = "A brand new title"
 
     post "#{@repo}/archival_objects/#{created['id']}", params = ao.to_json

@@ -3,32 +3,29 @@ require 'spec_helper'
 describe 'Accession controller' do
 
   before(:each) do
-    test_repo = {
-      "repo_code" => "ARCHIVESSPACE",
-      "description" => "A new ArchivesSpace repository"
-    }
+    @repo = make_test_repo
+  end
 
-    post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
-    @repo = "/repositories/#{JSON(last_response.body)["id"]}"
+
+  def create_accession
+    post "#{@repo}/accessions", params = JSON({
+                                                "accession_id_0" => "1234",
+                                                "title" => "The accession title",
+                                                "content_description" => "The accession description",
+                                                "condition_description" => "The condition description",
+                                                "accession_date" => "2012-05-03",
+                                              })
+
+    last_response.should be_ok
+
+    JSON(last_response.body)
   end
 
 
   it "lets you create an accession and get it back" do
-    post "#{@repo}/accessions", params = JSON({
-                                        "accession_id_0" => "1234",
-                                        "title" => "The accession title",
-                                        "content_description" => "The accession description",
-                                        "condition_description" => "The condition description",
-                                        "accession_date" => "2012-05-03",
-                                      })
-
-    last_response.should be_ok
-    created = JSON(last_response.body)
-
+    created = create_accession
     get "#{@repo}/accessions/#{created["id"]}"
-
     acc = JSON(last_response.body)
-
     acc["title"].should eq("The accession title")
   end
 
@@ -63,18 +60,7 @@ describe 'Accession controller' do
 
 
   it "supports updates" do
-    post "#{@repo}/accessions", params = JSONModel(:accession).
-      from_hash({
-                  "accession_id_0" => "1234",
-                  "title" => "The accession title",
-                  "content_description" => "The accession description",
-                  "condition_description" => "The condition description",
-                  "accession_date" => "2012-05-03",
-                }).to_json
-
-    last_response.should be_ok
-    created = JSON(last_response.body)
-
+    created = create_accession
 
     # Update it
     post "#{@repo}/accessions/#{created['id']}", params = JSONModel(:accession).
@@ -90,10 +76,18 @@ describe 'Accession controller' do
 
 
     get "#{@repo}/accessions/#{created['id']}"
-
     acc = JSON(last_response.body)
 
     acc["accession_id_1"].should eq("5678")
+  end
+
+
+  it "knows its own URI" do
+    created = create_accession
+    get "#{@repo}/accessions/#{created['id']}"
+    acc = JSON(last_response.body)
+
+    acc["uri"].should eq("#{@repo}/accessions/#{created['id']}")
   end
 
 end
