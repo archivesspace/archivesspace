@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  
+
   helper :all
 
   # Note: This should be first!
@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   def store_user_session
     Thread.current[:backend_session] = session[:session]
+    Thread.current[:selected_repo_id] = session[:repo_id]
   end
 
 
@@ -18,11 +19,12 @@ class ApplicationController < ActionController::Base
     @repositories = JSONModel(:repository).all
 
     if not session.has_key?(:repo) and not @repositories.empty?
-      session[:repo] = @repositories.first.id.to_s
-      session[:repo_id] = @repositories.first.repo_id
+      session[:repo] = @repositories.first.repo_code.to_s
+      session[:repo_id] = @repositories.first.id
     end
+
   end
-  
+
   def load_theme
     session[:theme] = params[:theme] if params.has_key?(:theme)
     if not session.has_key?(:theme)

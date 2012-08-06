@@ -1,59 +1,69 @@
 class ArchivesSpaceService < Sinatra::Base
 
+  Endpoint.post('/repositories/:repo_id/archival_objects')
+    .params(["archival_object", JSONModel(:archival_object), "The archival_object to create", :body => true],
+            ["repo_id", Integer, "The repository ID"])
+    .returns([200, "OK"]) \
+  do
+    ao = ArchivalObject.create_from_json(params[:archival_object],
+                                         :repo_id => params[:repo_id])
 
-  post '/archival_object' do
-    ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer},
-                   "archival_object" => {:doc => "The archival_object to create (JSON)", :type => JSONModel(:archival_object)},
-                   "collection" => {:doc => "The collection containing this archival_object", :type => Integer, :optional => true},
-                   "parent" => {:doc => "The archival_object that is parent of this one", :type => Integer, :optional => true}]
+    parent_id = JSONModel::parse_reference(params[:archival_object].parent,
+                                           :repo_id => params[:repo_id])
 
-    repo = Repository[params[:repo_id]]
-    id = repo.create_archival_object(params[:archival_object])
+    collection_id = JSONModel::parse_reference(params[:archival_object].collection,
+                                               :repo_id => params[:repo_id])
 
-    if params["parent"] or params["collection"]
-      collection = Collection[params["collection"]]
 
-      if not collection
-        raise NotFoundException("Collection not found")
-      end
+    if collection_id
+      collection = Collection.get_or_die(collection_id[:id])
 
-      collection.link(:parent => params["parent"],
-                      :child => id)
+      collection.link(:parent => parent_id ? parent_id[:id] : nil,
+                      :child => ao[:id])
     end
 
-    created_response(id, params[:archival_object]._warnings)
+    created_response(ao[:id], params[:archival_object]._warnings)
   end
 
 
-  get '/archival_object/:archival_object_id' do
-    ensure_params ["archival_object_id" => {:doc => "The archival object ID", :type => Integer}]
+  Endpoint.post('/repositories/:repo_id/archival_objects/:archival_object_id')
+    .params(["archival_object_id", Integer, "The archival object ID to update"],
+            ["archival_object", JSONModel(:archival_object), "The archival object data to update", :body => true])
+    .returns([200, "OK"]) \
+  do
+    ao = ArchivalObject.get_or_die(params[:archival_object_id])
+    ao.update_from_json(params[:archival_object])
 
-    ao = ArchivalObject[params[:archival_object_id]]
-
-    if ao
-      JSONModel(:archival_object).from_sequel(ao).to_json
-    else
-      raise NotFoundException.new("Archival Object not found")
-    end
+    json_response({:status => "Updated", :id => ao[:id]})
   end
 
 
-  get '/archival_object/:archival_object_id/children' do
-    ensure_params ["archival_object_id" => {:doc => "The archival object ID", :type => Integer}]
-
-    ao = ArchivalObject[params[:archival_object_id]]
-
-    if not ao
-      raise NotFoundException.new("Archival Object not found")
-    end
-
-    JSON(ao.children.map {|child| JSONModel(:archival_object).from_sequel(child).to_hash})
+  Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id')
+    .params(["archival_object_id", Integer, "The archival object ID"],
+            ["repo_id", Integer, "The repository ID"])
+    .returns([200, "OK"]) \
+  do
+    ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object).to_json
   end
-  
-  get '/archival_object' do
-     ensure_params ["repo_id" => {:doc => "The ID of the repository containing the archival object", :type => Integer}]
-     repo = Repository[params[:repo_id]]
-     ArchivalObject.filter({:repo_id => repo.repo_id}).collect {|ao| ao.values}.to_json
+
+
+  Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id/children')
+    .params(["archival_object_id", Integer, "The archival object ID"],
+            ["repo_id", Integer, "The repository ID"])
+    .returns([200, "OK"]) \
+  do
+    ao = ArchivalObject.get_or_die(params[:archival_object_id])
+    json_response(ao.children.map {|child|
+                    ArchivalObject.to_jsonmodel(child, :archival_object).to_hash})
+  end
+
+
+  Endpoint.get('/repositories/:repo_id/archival_objects')
+    .params(["repo_id", Integer, "The ID of the repository containing the archival object"])
+    .returns([200, "OK"]) \
+  do
+    json_response(ArchivalObject.filter({:repo_id => params[:repo_id]}).
+                                 collect {|ao| ArchivalObject.to_jsonmodel(ao, :archival_object).to_hash})
   end
 
 end

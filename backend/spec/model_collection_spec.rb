@@ -3,13 +3,16 @@ require 'spec_helper'
 describe 'Collection model' do
 
   it "Allows collections to be created" do
-    repo = Repository.create(:repo_id => "TESTREPO",
+    repo = Repository.create(:repo_code => "TESTREPO",
                              :description => "My new test repository")
 
-    collection = repo.create_collection(JSONModel(:collection).
-                                        from_hash({ "title" => "A new collection" }))
+    collection = Collection.create_from_json(JSONModel(:collection).
+                                             from_hash({
+                                                         "title" => "A new collection",
+                                                       }),
+                                             :repo_id => repo[:id])
 
-    Collection[collection].title.should eq("A new collection")
+    Collection[collection[:id]].title.should eq("A new collection")
   end
 
 end

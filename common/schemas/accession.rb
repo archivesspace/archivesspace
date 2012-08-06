@@ -1,7 +1,10 @@
 {
   :schema => {
     "type" => "object",
+    "uri" => "/repositories/:repo_id/accessions",
     "properties" => {
+      "uri" => {"type" => "string", "required" => false},
+
       "title" => {"type" => "string", "minLength" => 1, "required" => true},
 
       "accession_id_0" => {"type" => "string", "required" => true, "minLength" => 1, "pattern" => "^[a-zA-Z0-9]*$"},

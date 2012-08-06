@@ -1,10 +1,11 @@
-<div class="btn-group" style="float: right">
-  <button class="btn btn-small">Do something</button>
-  <button class="btn btn-small">Do something else</button>
-</div>
-<h2>New Archival Object</h2>
+<% if @collection_tree %>
+   <%= hidden_field_tag "parent_id", @parent_id %>
+   <%= hidden_field_tag "collection_id", @collection_tree['collection_id'] %>
+<% end %>
+<h2><%= @archival_object.title %></h2>
 <br/>
-<div class="tabbable tabs-left">
+<%= render "shared/form_messages", :object => @archival_object, :errors => @errors, :warnings => @warnings %>
+<div class="tabbable">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
     <!-- <li><a href="#finding-aid" data-toggle="tab">Finding Aid</a></li>
@@ -32,5 +33,5 @@
 </div>
 <div class="form-actions">            
    <button type="submit" class="btn btn-primary">Save Archival Object</button>
-   <%= link_to "Cancel", :back, :class=>"btn" %>
+   <%= link_to "Cancel", :back, :class=>"btn btn-cancel" %>
 </div>

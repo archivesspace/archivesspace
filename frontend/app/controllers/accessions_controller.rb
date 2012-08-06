@@ -1,7 +1,7 @@
 class AccessionsController < ApplicationController
 
   def index
-    @accessions = Accession.all(:repo_id => session[:repo])
+    @accessions = Accession.all
   end
 
   def show
@@ -21,7 +21,7 @@ class AccessionsController < ApplicationController
     begin
       @accession = Accession.from_hash(params['accession'])
 
-      id = @accession.save(:repo_id => session[:repo])
+      id = @accession.save
       redirect_to :controller=>:accessions, :action=>:show, :id=>id
     rescue JSONModel::ValidationException => e
       @accession = e.invalid_object
@@ -47,8 +47,8 @@ class AccessionsController < ApplicationController
 
   def destroy
     
-    @accession = Accession.find(session[:repo],params[:id])
-    @accession.destroy
+    # @accession = Accession.find(params[:id])
+    # @accession.destroy
     
     redirect_to  :controller=>:accessions, :action=>:index
   end

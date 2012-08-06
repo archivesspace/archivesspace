@@ -16,6 +16,10 @@ class Collection < Sequel::Model(:collections)
   def assemble_tree(node, links, properties)
     result = properties[node]
 
+    result[:archival_object] = JSONModel(:archival_object).uri_for(result[:id],
+                                                                   :repo_id => self.repo_id)
+    result.delete(:id)
+
     if links[node]
       result[:children] = links[node].map do |child_id|
         assemble_tree(child_id, links, properties)
@@ -31,38 +35,29 @@ class Collection < Sequel::Model(:collections)
   def tree
     links = {}
 
+    root_node = nil
     Collection.db[:collection_tree].
                filter(:collection_id => self.id).each do |row|
       if row[:parent_id]
         links[row[:parent_id]] ||= []
         links[row[:parent_id]] << row[:child_id]
+      else
+        root_node = row[:child_id]
       end
     end
 
     # Check for empty tree
-    return {} if links.empty?
-
-    # The root node is the only one appearing in the parent set but not the
-    # child set.
-    root_node = links.keys - links.values.flatten
-
-    if root_node.count != 1
-      raise "Couldn't fetch tree for collection #{self.id}.  Root nodes: #{root_node.inspect}"
-    end
+    return nil if root_node.nil?
 
     properties = {}
 
     Collection.db[:archival_objects].
-               filter(:id => links.keys + links.values.flatten).
+               filter(:id => ([root_node] + links.keys + links.values.flatten)).
                select(:id, :title).each do |row|
       properties[row[:id]] = row
     end
 
-    {
-      :collection_id => self.id,
-      :title => self.title,
-      :children => [assemble_tree(root_node[0], links, properties)]
-    }
+    assemble_tree(root_node, links, properties)
   end
 
 
@@ -71,14 +66,23 @@ class Collection < Sequel::Model(:collections)
                filter(:collection_id => self.id).
                delete
 
-    nodes = tree["children"]
+    # The root node has a null parent
+    self.link(:parent => nil,
+              :child => JSONModel("archival_object").id_for(tree["archival_object"],
+                                                            :repo_id => self.repo_id))
+
+    nodes = [tree]
     while not nodes.empty?
       parent = nodes.pop
 
-      parent["children"].each do |child|
-        self.link(:parent => parent["id"],
-                  :child => child["id"])
+      parent_id = JSONModel("archival_object").id_for(parent["archival_object"],
+                                                      :repo_id => self.repo_id)
 
+      parent["children"].each do |child|
+        child_id = JSONModel("archival_object").id_for(child["archival_object"],
+                                                       :repo_id => self.repo_id)
+
+        self.link(:parent => parent_id, :child => child_id)
         nodes.push(child)
       end
     end

@@ -1,6 +1,6 @@
 <li class="dropdown repository-container">  
   <div class="input-append">
-     <span class="repository-label"><span class=" icon-hdd icon-white"></span> <span class="current-repository-id"><% if session[:repo] %><%= session[:repo_id] %><% end %></span></span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+     <span class="repository-label"><span class=" icon-hdd icon-white"></span> <span class="current-repository-id"><% if session[:repo] %><%= session[:repo] %><% end %></span></span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
        <ul class="dropdown-menu">
          <% if session[:repo] %>
             <%#><li><a href="#">Edit</a></li>
@@ -8,10 +8,10 @@
          <% end %>
          <% if repositories.length >= 1 %>
             <% for repo in repositories %>
-               <% if session[:repo] === repo.id %>
-                  <li><span class="icon-ok-circle"></span> <%= repo.repo_id %></li>
+               <% if session[:repo_id] === repo.id %>
+                  <li><span class="icon-ok-circle"></span> <%= repo.repo_code %></li>
                <% else %>
-                  <li><%= link_to repo.repo_id, {:controller=>:repository, :action=>:select, :id=>repo.id}, :class=>"select-repo" %></li>
+                  <li><%= link_to repo.repo_code, {:controller=>:repository, :action=>:select, :id=>repo.id}, :class=>"select-repo" %></li>
                <% end %>
             <% end %>
             <li class="divider"></li>

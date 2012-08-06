@@ -1,4 +1,5 @@
 require_relative 'lib/bootstrap'
+require_relative 'lib/rest'
 
 require 'sinatra/base'
 require 'json'
@@ -6,8 +7,7 @@ require 'json'
 
 class ArchivesSpaceService < Sinatra::Base
 
-  include JSONModel
-
+  include RESTHelpers
 
   register do
     def operation(type)
@@ -19,14 +19,10 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   configure :development do |config|
-
-    # This is very possibly a dumb thing to do, but the reloader was having
-    # trouble replacing the routes from the dynamically loaded controllers.
-    self.instance_eval { @routes = {} }
-
     require 'sinatra/reloader'
     register Sinatra::Reloader
-    config.also_reload File.join("**", "*.rb")
+    config.also_reload File.join("app", "**", "*.rb")
+    config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "migrations", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
   end
@@ -124,52 +120,6 @@ class ArchivesSpaceService < Sinatra::Base
 
   helpers do
 
-    def ensure_params(declared_params)
-      declared_params = declared_params[0]
-
-      errors = {
-        :missing => [],
-        :bad_type => []
-      }
-
-      declared_params.each do |parameter, opts|
-        if not params[parameter] and not declared_params[parameter][:optional]
-          errors[:missing] << parameter
-        else
-
-          if opts[:type] and params[parameter]
-            begin
-              params[parameter] = if opts[:type] == Integer
-                                    Integer(params[parameter])
-                                  elsif opts[:type].respond_to? :from_json
-                                    opts[:type].from_json(params[parameter])
-                                  else
-                                    params[parameter]
-                                  end
-            rescue ArgumentError
-              errors[:bad_type] << parameter
-            end
-          end
-
-        end
-      end
-
-      if not errors.values.flatten.empty?
-        s = "Your request parameters weren't quite right:\n\n"
-
-        errors[:missing].each do |param|
-          s += "  * Missing value for '#{param}' -- #{declared_params[param][:doc]}\n"
-        end
-
-        errors[:bad_type].each do |param|
-          s += "  * Invalid type for '#{param}' -- Wanted type #{declared_params[param][:type]} but got '#{params[param]}'\n"
-        end
-
-        raise MissingParamsException.new(s)
-      end
-    end
-
-
     # Redispatch the current request to a different route handler.
     def redirect_internal(url)
       call! env.merge("PATH_INFO" => url)
@@ -191,6 +141,7 @@ class ArchivesSpaceService < Sinatra::Base
   get '/' do
     "Hello, ArchivesSpace!"
   end
+
 
 end
 

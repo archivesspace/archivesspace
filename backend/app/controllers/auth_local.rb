@@ -10,10 +10,11 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  post '/auth/local/user/:username/login' do
-    ensure_params ["username" => {:doc => "Your username"},
-                   "password" => {:doc => "Your password"}]
-
+  Endpoint.post('/auth/local/user/:username/login')
+    .params(["username", nil, "Your username"],
+            ["password", nil, "Your password"])
+    .returns([200, "OK"]) \
+  do
     if settings.db_auth.login(params[:username], params[:password])
       session = create_session_for(params[:username])
       json_response({:session => session.id})
@@ -24,19 +25,21 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  post '/auth/local/user/:username/password' do
-    ensure_params ["username" => {:doc => "Username for account"},
-                   "password" => {:doc => "Password to set for account"}]
-
+  Endpoint.post('/auth/local/user/:username/password')
+    .params(["username", nil, "Username for account"],
+            ["password", nil, "Password to set for account"])
+    .returns([200, "OK"]) \
+  do
     settings.db_auth.set_password(params[:username], params[:password])
     json_response({:status => "Updated"})
   end
 
 
-  post '/auth/local/user/:username' do
-    ensure_params ["username" => {:doc => "Username for new account"},
-                   "password" => {:doc => "Password for new account"}]
-
+  Endpoint.post('/auth/local/user/:username')
+    .params(["username", nil, "Username for new account"],
+            ["password", nil, "Password for new account"])
+    .returns([200, "OK"]) \
+  do
     begin
       settings.user_manager.create_user(params[:username], "First", "Last", "local")
       settings.db_auth.set_password(params[:username], params[:password])
@@ -47,8 +50,4 @@ class ArchivesSpaceService < Sinatra::Base
     end
   end
 
-
-  get '/auth/local/user/:username' do
-    "Hello, #{params[:username]}"
-  end
 end

@@ -5,13 +5,12 @@ $(function() {
          $this.parent().find("input[name=username]").focus();
       }, 0);
    });
-   
-   
+
    // Login Form Handling
    var handleLoginError = function() {
       $('form.login .control-group').addClass("error");
       $("#login").removeAttr("disabled");
-   }
+   };
    
    var handleLoginSuccess = function() {
       $('form.login .control-group').removeClass("error");
@@ -19,8 +18,8 @@ $(function() {
       setTimeout(function() {
          document.location.reload(true);
       }, 500);
-   }
-   
+   };
+
    $('form.login').ajaxForm({
       dataType: "json",
       beforeSubmit: function() {
@@ -37,7 +36,7 @@ $(function() {
          handleLoginError();
       }
    });
-   
+
    // Repository Action Handling
    $('.navbar').on('click', '.select-repo', function(e) {
       e.preventDefault();      
@@ -47,4 +46,4 @@ $(function() {
       });
    });
 
-})
+});

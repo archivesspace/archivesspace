@@ -1,0 +1,296 @@
+//= require jstree
+
+$(function() {
+
+    var form_changed = false,
+        $tree, // will be set upon initTree()
+        collection_tree_data = AS.tree_data["collection-id-" + $(".archives-tree").data("collection-id")];
+
+    var renderTree = function() {
+        $("#archives_tree").html(AS.renderTemplate("tree_template", {tree: collection_tree_data}));
+    };
+
+    var rerenderTree = function() {
+        var open_node_ids = [];
+        $(".jstree-open", $tree).map(function() {
+            open_node_ids.push($(this).attr("id"));
+        });
+
+        var selected_node_id = $(".selected", $tree).attr("id");
+
+        $.getJSON(APP_PATH + "collections/" + collection_tree_data.collection_id + "/tree", function(json) {
+            collection_tree_data = json;
+
+            renderTree();
+
+            $("#"+selected_node_id, $tree).addClass("selected");
+
+            for (var i=0; i<open_node_ids.length; i++) {
+            $("#"+open_node_ids[i], $tree).addClass("jstree-open");
+            }
+
+            initTree();
+        });
+    };
+   
+   var loadPaneForNode = function(nodeEl) {
+       var initForm = function(html) {
+            $("#object_container").html(html);         
+
+            var $form = $('form',"#object_container");
+
+            $(".btn-cancel", $form).html("Revert Changes");
+            $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + "'>Finish Editing</a>");
+            
+            $form.bind("form-changed", function() {
+                form_changed = true;
+            });
+
+            $form.ajaxForm({
+                data: {
+                   inline: true
+                },
+                beforeSubmit: function() {
+                  $(".btn-primary", $form).attr("disabled","disabled");
+                },
+                success: function(response, status, xhr) {
+                   initForm(response);
+                   if ($("#object_container").find(".alert-error:first").length) {
+  
+                   } else {
+                      form_changed = false;
+                      rerenderTree();
+                   }
+                }, 
+                error: function(obj, errorText, errorDesc) {
+                  $(".btn-primary", $form).removeAttr("disabled");
+                }
+             });
+        };
+
+        if (nodeEl.attr("rel") === "archival_object") {
+            $.ajax({
+                url: APP_PATH+"archival_objects/"+nodeEl.attr("id")+"/edit?inline=true",
+                success: function(html) {
+                    initForm(html);
+                }
+            });
+        } else if (nodeEl.attr("rel") === "collection") {         
+             $.ajax({
+                url: APP_PATH+"collections/"+nodeEl.attr("id")+"/edit?inline=true",
+                success: function(html) {
+                    initForm(html);
+                }
+            });
+        }
+   };
+
+   var loadTreeActionsForNode = function(nodeEl) {
+      $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
+      if (nodeEl.hasClass("collection") && nodeEl.find("> ul > li").length>0) {
+         return;
+      }
+      $(".btn-toolbar", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addchild_template"));
+      if (!nodeEl.hasClass("collection") && !nodeEl.parents("li:first").hasClass("collection")) {
+         $(".btn-toolbar", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addsibling_template"));
+      }      
+   };
+
+   var addEventBindings = function() {
+
+      $(".archives-tree-container").on("click", ".add-child-archival-object-analog", function() {
+         var $selected = $(".selected", $tree);
+         if ($selected.length === 0) {
+            // no root node selected
+            // TODO pick a node
+            return;
+         }
+         
+         var data = {};
+         
+         if ($selected.attr("rel") === "archival_object") {
+            data.parent = $selected.attr("id");
+         }
+         
+         var open_nodes = [];
+         $(".jstree-open", $tree).map(function() {
+            open_nodes.push($(this).attr("id"));
+         });
+         
+         $.ajax({
+            url: APP_PATH + "collections/"+collection_tree_data.collection_id + "/add_archival_object",
+            data: data,
+            type: "POST",
+            dataType: "json",
+            success: function(json) {
+               collection_tree_data = json.tree;
+               renderTree();
+               
+               var $new_node = $("#"+json.id, $tree);
+               $new_node.addClass("selected");
+               
+               for (var i=0; i<open_nodes.length; i++) {
+                  $("#"+open_nodes[i], $tree).addClass("jstree-open");
+               }
+               
+               initTree();
+               
+               loadPaneForNode($new_node);     
+            }, 
+            error: function() {
+               console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
+            }
+            
+         });
+      });
+      
+      $(".archives-tree-container").on("click", ".add-sibling-archival-object-analog", function() {
+         var $selected = $(".selected", $tree);
+         if ($selected.length === 0) {
+            // no root node selected
+            // TODO pick a node
+            return;
+         }
+         
+         var data = {};
+         
+         if ($selected.attr("rel") === "archival_object") {
+            data.parent = $selected.parents("li:first").attr("id");
+         }
+         
+         var open_nodes = [];
+         $(".jstree-open", $tree).map(function() {
+            open_nodes.push($(this).attr("id"));
+         });
+         
+         $.ajax({
+            url: APP_PATH + "collections/"+collection_tree_data.collection_id + "/add_archival_object",
+            data: data,
+            type: "POST",
+            dataType: "json",
+            success: function(json) {
+               collection_tree_data = json.tree;
+               renderTree();
+               
+               var $new_node = $("#"+json.id, $tree);
+               $new_node.addClass("selected");
+               
+               for (var i=0; i<open_nodes.length; i++) {
+                  $("#"+open_nodes[i], $tree).addClass("jstree-open");
+               }
+               
+               initTree();
+               
+               loadPaneForNode($new_node);     
+            }, 
+            error: function() {
+               console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
+            }
+            
+         });
+      });
+ 
+      $("#object_container").on("click", ".btn-cancel", function() {
+         loadPaneForNode($(".selected", $tree));
+      });
+
+      $(".expand-tree", ".archives-tree-container").on("click", function() {
+          $(".archives-tree-container").addClass("expanded");
+          $(".archives-tree-container").animate({
+              width: $(".archives-tree-container").parents(".container:first").width()-5
+          }, 500, function() {
+              $(".expand-tree", ".archives-tree-container").hide();
+              $(".retract-tree", ".archives-tree-container").show();
+          });
+      });
+      
+      $(".retract-tree", ".archives-tree-container").on("click", function() {
+          $(".archives-tree-container").animate({
+              width: $(".archives-tree-container").parent().width()
+          }, 500, function() {
+              $(".archives-tree-container").removeClass("expanded");
+              $(".archives-tree-container").css("width", "auto");
+              $(".retract-tree", ".archives-tree-container").hide();
+              $(".expand-tree", ".archives-tree-container").show();
+          });
+      });
+   };
+   
+   var initTree = function(onTreeLoadCallback) {
+      $tree = $(".archives-tree").jstree({
+
+          "themes": {
+             "theme": "default",
+             "url": "<%= asset_path('jstree/style.css') %>"
+          },
+          "dnd": {
+             "drop_target" : false,
+             "drag_target" : false
+          },
+          "ui": {
+            "selected_parent_close": false,
+            "selected_parent_open": true
+          },
+          "crrm" : {
+             "move" : {
+                 "check_move" : function (m) {
+                     // can't move root archival object
+                     if (m.o[0].id === "root") {
+                       return false;
+                     }
+                     // can't move to above the root archival object
+                     if ($(m.np[0]).hasClass("archives-tree")) {
+                       return false;
+                     }
+                     return true;
+                 }
+             }
+         },
+         "core": {
+           "animation": 0 
+         },         
+         "plugins": [ "themes", "html_data", "ui", "crrm", "dnd"]
+      }).bind("loaded.jstree", function (event, data) {
+         if ($(".selected", $tree).length === 0) {
+            $("li:first", $tree).addClass("selected");
+         }
+         $tree.jstree("open_node", $(".selected", $tree));
+         node_id_for_page = $(".selected", $tree).attr("id");
+         $tree.jstree("select_node", $(".selected", $tree));
+
+         loadTreeActionsForNode($(".selected", $tree));
+         
+         if (onTreeLoadCallback) onTreeLoadCallback();
+      }).bind("before.jstree", function (event, data) {
+         // check current form
+         if (form_changed && data.func === "select_node") {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            alert("Changes! Please save...");
+            return false;
+         }
+      }).bind("select_node.jstree", function (event, data) {      
+         var $current = $(".selected", $tree);
+         var $selected = $(data.rslt.obj);
+         
+         if ($selected.hasClass("selected")) {
+            return;
+         }
+
+         $current.removeClass("selected");
+         $selected.addClass("selected");
+         $tree.jstree("open_node", $selected);
+
+         loadPaneForNode($selected);
+         loadTreeActionsForNode($selected);
+      });
+   };
+   
+   
+   renderTree();
+   initTree(function() {
+       loadPaneForNode($(".selected", $tree));
+   });   
+   addEventBindings();
+   
+});

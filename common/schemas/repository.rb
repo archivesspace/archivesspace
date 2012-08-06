@@ -1,8 +1,11 @@
 {
   :schema => {
     "type" => "object",
+    "uri" => "/repositories",
     "properties" => {
-      "repo_id" => {"type" => "string", "required" => true, "minLength" => 1},
+      "uri" => {"type" => "string", "required" => false},
+
+      "repo_code" => {"type" => "string", "required" => true, "minLength" => 1},
       "description" => {"type" => "string", "required" => true, "default" => ""},
     },
 

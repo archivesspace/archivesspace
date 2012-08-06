@@ -1,4 +1,4 @@
-<%= render "shared/errors", :object => @accession, :errors => @errors, :warnings => @warnings %>
+<%= render "shared/form_messages", :object => @accession, :errors => @errors, :warnings => @warnings %>
 
 <fieldset>
    <%= f.label_field_pair :title, f.text_field(:title), {:errors=>@errors, :warnings=>@warnings} %>
