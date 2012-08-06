@@ -132,6 +132,17 @@ module JSONModel
       end
 
 
+      def id
+        ref = JSONModel::parse_reference(self.uri)
+
+        if ref
+          ref[:id]
+        else
+          nil
+        end
+      end
+
+
       # Find the current class's entry in the supplied hash.
       def self.lookup(hash)
         my_true_self = self.ancestors.find {|cls| hash[cls]}

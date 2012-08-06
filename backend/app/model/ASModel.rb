@@ -40,6 +40,7 @@ module ASModel
       {
         "repository" => :repo_id,
         "collection" => nil,
+        "uri" => nil,
         "parent" => nil
       }
     end
@@ -104,7 +105,11 @@ module ASModel
       end
 
       mapped = ids_to_references(obj.values)
-      JSONModel(model).from_hash(mapped.reject {|k, v| v.nil? })
+      json = JSONModel(model).from_hash(mapped.reject {|k, v| v.nil? })
+
+      json.uri = json.class.uri_for(obj.id, {:repo_id => obj.repo_id})
+
+      json
     end
   end
 end

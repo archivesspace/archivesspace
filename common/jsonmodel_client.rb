@@ -33,17 +33,6 @@ module JSONModel
     end
 
 
-    def id=(id)
-      @id = id
-    end
-
-
-    def id
-      @id
-    end
-
-
-
     module ClassMethods
 
       def get_globals
@@ -99,10 +88,7 @@ module JSONModel
         response = self._get_response(my_url(id, opts))
 
         if response.code == '200'
-          obj = self.from_json(response.body)
-          obj.id = id
-
-          obj
+          self.from_json(response.body)
         else
           nil
         end
