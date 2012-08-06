@@ -285,9 +285,10 @@ module JSONModel
       #  might yield 500
       #
       def self.id_for(uri, opts = {}, noerror = false)
-        root = self.substitute_parameters(self.schema['uri'], opts)
+        pattern = self.schema['uri'];
+        pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
 
-        if uri =~ /#{root}\/([0-9]+)$/
+        if uri =~ /#{pattern}\/([0-9]+)$/
           return $1.to_i
         else
           if noerror
