@@ -107,7 +107,7 @@ module ASModel
       mapped = ids_to_references(obj.values)
       json = JSONModel(model).from_hash(mapped.reject {|k, v| v.nil? })
 
-      json.uri = json.class.uri_for(obj.id, {:repo_id => obj.repo_id})
+      json.uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})
 
       json
     end

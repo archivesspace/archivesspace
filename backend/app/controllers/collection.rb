@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
     tree = collection.tree
 
     if tree
-      JSON(collection.tree)
+      json_response(collection.tree)
     else
       raise NotFoundException.new("Tree doesn't exist")
     end
@@ -79,8 +79,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
   do
-    JSON(Collection.filter({:repo_id => params[:repo_id]}).collect {|coll|
-           Collection.to_jsonmodel(coll, :collection).to_hash})
+    json_response(Collection.filter({:repo_id => params[:repo_id]}).collect {|coll|
+                    Collection.to_jsonmodel(coll, :collection).to_hash})
   end
 
 end

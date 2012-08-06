@@ -34,9 +34,9 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", Integer, "The repository ID"])
     .returns([200, "OK"]) \
   do
-    JSON(Accession.filter(:repo_id => params[:repo_id]).collect {|acc|
-           Accession.to_jsonmodel(acc, :accession).to_hash
-         })
+    json_response(Accession.filter(:repo_id => params[:repo_id]).collect {|acc|
+                    Accession.to_jsonmodel(acc, :accession).to_hash
+                  })
   end
 
 
