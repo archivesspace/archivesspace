@@ -21,6 +21,11 @@ class AccessionsController < ApplicationController
     begin
       @accession = Accession.from_hash(params['accession'])
 
+      if not params.has_key?(:ignorewarnings) and not @accession._warnings.empty?
+         @warnings = @accession._warnings
+         return render action: "new"
+      end
+      
       id = @accession.save
       redirect_to :controller=>:accessions, :action=>:show, :id=>id
     rescue JSONModel::ValidationException => e
@@ -36,7 +41,13 @@ class AccessionsController < ApplicationController
 
     begin
       @accession.update(params['accession'])
-      result = @accession.save
+      
+      if not params.has_key?(:ignorewarnings) and not @accession._warnings.empty?
+         @warnings = @accession._warnings
+         return render action: "edit"
+      end
+            
+      result = @accession.save            
       redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.id
     rescue JSONModel::ValidationException => e
       @accession = e.invalid_object

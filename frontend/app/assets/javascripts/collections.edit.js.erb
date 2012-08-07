@@ -1,3 +1,4 @@
+//= require jquery.cookie
 //= require jstree
 
 $(function() {
@@ -43,7 +44,7 @@ $(function() {
             $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + "'>Finish Editing</a>");
             
             $form.bind("form-changed", function() {
-                form_changed = true;
+                form_changed = true;                
             });
 
             $form.ajaxForm({
@@ -248,8 +249,11 @@ $(function() {
          },
          "core": {
            "animation": 0 
-         },         
-         "plugins": [ "themes", "html_data", "ui", "crrm", "dnd"]
+         },
+         "cookies": {
+             "save_selected": false
+         },
+         "plugins": [ "themes", "html_data", "ui", "crrm", "dnd", "cookies"]
       }).bind("loaded.jstree", function (event, data) {
          if ($(".selected", $tree).length === 0) {
             $("li:first", $tree).addClass("selected");

@@ -1,3 +1,4 @@
+//= require jquery.cookie
 //= require jstree
 
 $(function() {
@@ -84,7 +85,10 @@ $(function() {
           "core": {
             "animation": 100 
           },
-          "plugins": [ "themes", "html_data", "ui", "crrm"]
+          "cookies": {
+              "save_selected": false
+          },
+          "plugins": [ "themes", "html_data", "ui", "crrm", "cookies"]
        }).bind("loaded.jstree", function (event, data) {
           if ($(".selected", $tree).length === 0) {
              $("li:first", $tree).addClass("selected");

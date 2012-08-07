@@ -2,7 +2,7 @@
    <%= @collection.title.blank? ? "New Collection" : @collection.title %>
 </h2>
 <br/>
-<%= render "shared/form_messages", :object => @accession, :errors => @errors, :warnings => @warnings %>
+<%= render "shared/form_messages", :object => @collection, :errors => @errors, :warnings => @warnings %>
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>

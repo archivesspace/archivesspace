@@ -53,7 +53,13 @@ class CollectionsController < ApplicationController
   def create
      begin
        @collection = JSONModel(:collection).new(params[:collection])
-       id = @collection.save
+
+       if not params.has_key?(:ignorewarnings) and not @collection._warnings.empty?
+          @warnings = @collection._warnings
+          return render action: "new"
+       end
+
+       id = @collection.save       
        redirect_to :controller=>:collections, :action=>:show, :id=>id
      rescue JSONModel::ValidationException => e
        @collection = e.invalid_object
@@ -66,6 +72,12 @@ class CollectionsController < ApplicationController
      @collection = JSONModel(:collection).find(params[:id])
      begin
        @collection.update(params['collection'])
+       
+       if not params.has_key?(:ignorewarnings) and not @collection._warnings.empty?
+          @warnings = @collection._warnings
+          return render action: "edit"
+       end
+       
        result = @collection.save
        if params["inline"]
          flash[:success] = "Collection Saved"

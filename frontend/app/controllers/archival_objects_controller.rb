@@ -87,6 +87,11 @@ class ArchivalObjectsController < ApplicationController
        save_params[:collection] = params[:collection_id] if not params[:collection_id].blank?
        save_params[:parent] = params[:parent_id] if not params[:parent_id].blank?
 
+       if not params.has_key?(:ignorewarnings) and not @archival_object._warnings.empty?
+          @warnings = @archival_object._warnings
+          return render action: "new"
+       end
+
        id = @archival_object.save(save_params)
        redirect_to :controller=>:archival_objects, :action=>:show, :id=>id, :collection_id => params["collection_id"]
      rescue JSONModel::ValidationException => e
