@@ -1,7 +1,3 @@
-<% if @collection_tree %>
-   <%= hidden_field_tag "parent_id", @parent_id %>
-   <%= hidden_field_tag "collection_id", @collection_tree['collection_id'] %>
-<% end %>
 <h2><%= @archival_object.title %></h2>
 <br/>
 <%= render "shared/form_messages", :object => @archival_object, :errors => @errors, :warnings => @warnings %>
@@ -15,7 +11,7 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="basic-information">
-      <%= render :partial=>"collections/forms/basic_information", :locals=>{:f => f} %>
+      <%= render :partial=>"archival_objects/forms/basic_information", :locals=>{:f => f} %>
     </div>
     <!-- <div class="tab-pane" id="finding-aid">
       <div class="well">Finding Aid form here...</div>
@@ -31,6 +27,10 @@
     </div> -->
   </div>
 </div>
+<%= f.hidden_field :parent %>
+<%= f.hidden_field :collection %>
+<%= hidden_field_tag "ao_id", @archival_object.id %>
+
 <div class="form-actions">            
    <button type="submit" class="btn btn-primary">Save Archival Object</button>
    <%= link_to "Cancel", :back, :class=>"btn btn-cancel" %>

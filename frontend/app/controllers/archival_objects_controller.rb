@@ -20,100 +20,35 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def new
-     @archival_object = JSONModel(:archival_object).new({:title=>"New Archival Object"})
-     if params[:collection_id]
-        # get the hierarchy
-        uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
-        response = Net::HTTP.get(uri)
-        @collection_tree = JSON.parse(response)
-
-        if params[:parent_id] then
-           # insert new node below specified parent
-           @parent_id = params[:parent_id]
-           find_node(@collection_tree['children'], @parent_id.to_i)['children'].push({
-             "id" => "new",
-             "title" => @archival_object.title,
-             "children" => []
-           })
-        elsif @collection_tree['children'].empty?
-           # Add top AO
-           @collection_tree['children'].push({
-              "id" => "new",
-              "title" => @archival_object.title,
-              "children" => []              
-           })
-        else
-           # Add child of top AO
-           @parent_id = @collection_tree['children'][0]['id']
-           @collection_tree['children'][0]['children'].push({
-              "id" => "new",
-              "title" => @archival_object.title,
-              "children" => []
-           })
-        end
-     end
+     @isNew = true
+     
+     @archival_object = JSONModel(:archival_object).new
+     @archival_object.title = "New Archival Object"
+     @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent]) if params.has_key?(:parent)
+     @archival_object.collection = JSONModel(:collection).uri_for(params[:collection]) if params.has_key?(:collection)
+     
+     render :partial=>"archival_objects/new_inline"
   end
 
   def edit
      @archival_object = JSONModel(:archival_object).find(params[:id])
      
-     if params[:inline]
-        return render :partial=>"archival_objects/edit_inline"
-     end
-     
-     if params[:collection_id]
-        # get the hierarchy
-        uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
-        response = Net::HTTP.get(uri)
-        @collection_tree = JSON.parse(response)        
-        @parent_id = find_parent_node(@collection_tree, @archival_object.id.to_s)
-     end
-  end
-  
-  def edit_inline
-     @archival_object = JSONModel(:archival_object).find(params[:id])
-     render action=>"edit_inline", :layout=>nil
+     return render :partial=>"archival_objects/edit_inline" 
   end
 
   def create
-     params[:parent_id] = nil if params[:parent_id].blank?
-     params[:collection_id] = nil if params[:collection_id].blank?
-          
      begin
        @archival_object = JSONModel(:archival_object).new(params[:archival_object])
-       save_params = {
-          :repo_id => session[:repo]
-       }
-       save_params[:collection] = params[:collection_id] if not params[:collection_id].blank?
-       save_params[:parent] = params[:parent_id] if not params[:parent_id].blank?
 
-       if not params.has_key?(:ignorewarnings) and not @archival_object._warnings.empty?
-          @warnings = @archival_object._warnings
-          return render action: "new"
+       if not params.has_key?(:ignorewarnings) and not @archival_object._exceptions.empty?
+          return render :partial=>"new_inline"
        end
 
-       id = @archival_object.save(save_params)
-       redirect_to :controller=>:archival_objects, :action=>:show, :id=>id, :collection_id => params["collection_id"]
+       id = @archival_object.save
+       render :partial=>"archival_objects/edit_inline"
      rescue JSONModel::ValidationException => e
-        if params[:collection_id]
-           # get the hierarchy
-           uri = URI("#{BACKEND_SERVICE_URL}/collection/#{params[:collection_id]}/tree")
-           response = Net::HTTP.get(uri)
-           @collection_tree = JSON.parse(response)
-           if params[:parent_id] then
-              # insert new node below specified parent
-           else
-              # insert as last child of collection
-              @collection_tree['children'].push({
-                 "id" => "new",
-                 "title" => @archival_object.title,
-                 "children" => []              
-              })
-           end
-        end
        @archival_object = e.invalid_object
-       @errors = e.errors
-       return render action: "new"
+       return :partial=>"archival_objects/new_inline"
      end
   end
   
