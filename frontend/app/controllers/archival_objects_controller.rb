@@ -32,7 +32,7 @@ class ArchivalObjectsController < ApplicationController
 
   def edit
      @archival_object = JSONModel(:archival_object).find(params[:id])
-     
+     @isFresh = true
      return render :partial=>"archival_objects/edit_inline" 
   end
 
@@ -51,7 +51,7 @@ class ArchivalObjectsController < ApplicationController
        render :partial=>"archival_objects/edit_inline"
      rescue JSONModel::ValidationException => e
        @archival_object = e.invalid_object
-       return :partial=>"archival_objects/new_inline"
+       render :partial=>"archival_objects/new_inline"
      end
   end
   
@@ -63,7 +63,7 @@ class ArchivalObjectsController < ApplicationController
       if not params.has_key?(:ignorewarnings) and not @archival_object._exceptions.empty?
          return render :partial=>"edit_inline"
       end
-      
+
       result = @archival_object.save
       
       @isFresh = true

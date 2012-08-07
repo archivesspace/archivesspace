@@ -1,4 +1,5 @@
 //= require jquery.cookie
+//= require jquery.ba-hashchange
 //= require jstree
 
 $(function() {
@@ -58,10 +59,10 @@ $(function() {
 
              if ($container.find(".alert-error:first, .alert-warning:first").length) {
                 $container.triggerHandler("submit.error");
-             } else {
-                $container.triggerHandler("submit.success");
+             } else {                
                 form_changed = false;
                 rerenderTree();
+                $container.triggerHandler("submit.success");
              }
           }, 
           error: function(obj, errorText, errorDesc) {
@@ -194,6 +195,16 @@ $(function() {
               $(".expand-tree", ".archives-tree-container").show();
           });
       });
+      
+      $(window).hashchange(function(){
+         var $selected = $(location.hash);
+         $(".selected", $tree).removeClass("selected");
+         $selected.addClass("selected");
+         $tree.jstree("open_node", $selected);
+
+         loadPaneForNode($selected);
+         loadTreeActionsForNode($selected);
+      });
    };
    
    var initTree = function(onTreeLoadCallback) {
@@ -214,14 +225,23 @@ $(function() {
           "crrm" : {
              "move" : {
                  "check_move" : function (m) {
-                     // can't move root archival object
-                     if (m.o[0].id === "root") {
+                     // can't move collection
+                     if ($(m.o[0]).hasClass("collection")) {
                        return false;
+                     }                     
+                     // can't into collection
+                     if ($(m.np[0]).hasClass("collection")) {
+                        return false
                      }
+                     
                      // can't move to above the root archival object
                      if ($(m.np[0]).hasClass("archives-tree")) {
                        return false;
                      }
+                     
+                     // TODO
+                     // AJAX POST TO UPDATE TREE GOES HERE
+                     
                      return true;
                  }
              }
@@ -234,6 +254,10 @@ $(function() {
          },
          "plugins": [ "themes", "html_data", "ui", "crrm", "dnd", "cookies"]
       }).bind("loaded.jstree", function (event, data) {
+         if (location.hash) {
+            $(location.hash).addClass("selected");
+         }
+
          if ($(".selected", $tree).length === 0) {
             $("li:first", $tree).addClass("selected");
          }
@@ -281,20 +305,9 @@ $(function() {
             
             return false;
          }
-      }).bind("select_node.jstree", function (event, data) {      
-         var $current = $(".selected", $tree);
-         var $selected = $(data.rslt.obj);
-         
-         if ($selected.hasClass("selected")) {
-            return;
-         }
-
-         $current.removeClass("selected");
-         $selected.addClass("selected");
-         $tree.jstree("open_node", $selected);
-
-         loadPaneForNode($selected);
-         loadTreeActionsForNode($selected);
+      }).bind("select_node.jstree", function (event, data) {
+         location.hash = $(data.rslt.obj).find("a").attr("href");
+         $(window).hashchange();
       });
    };
    

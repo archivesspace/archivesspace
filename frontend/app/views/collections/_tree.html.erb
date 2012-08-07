@@ -13,7 +13,7 @@
       <ul>
          {for node in nodes}
             <li id="archival_object_${node.id}" class="analog" rel="archival_object" data-id="${node.id}">
-               <a href="javascript:void(0)" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+               <a href="#archival_object_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
                ${render_children(node.children)}
             </li>
          {/for}
@@ -22,8 +22,8 @@
    {/macro}
    
    {macro render_collection(node)}
-      <li id="colletion_id_${node.collection_id}" class="collection" rel="collection" data-id="${node.collection_id}">
-         <a href="javascript:void(0)" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+      <li id="collection_${node.collection_id}" class="collection" rel="collection" data-id="${node.collection_id}">
+         <a href="#collection_${node.collection_id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
          ${render_children(tree.children)}
       </li>
    {/macro}

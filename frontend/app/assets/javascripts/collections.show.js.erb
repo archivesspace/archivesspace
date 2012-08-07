@@ -1,4 +1,5 @@
 //= require jquery.cookie
+//= require jquery.ba-hashchange
 //= require jstree
 
 $(function() {
@@ -48,7 +49,15 @@ $(function() {
                $(".retract-tree", ".archives-tree-container").hide();
                $(".expand-tree", ".archives-tree-container").show();
            });
-       });  
+       });
+
+       $(window).hashchange(function(){
+           var selectedNode = $(location.hash);
+           $(".selected", $tree).removeClass("selected");
+           selectedNode.addClass("selected");
+           $tree.jstree("open_node", selectedNode);
+           loadPaneForNode(selectedNode);
+       });
    };
    
    var initTree = function() {
@@ -90,22 +99,17 @@ $(function() {
           },
           "plugins": [ "themes", "html_data", "ui", "crrm", "cookies"]
        }).bind("loaded.jstree", function (event, data) {
+          if (location.hash) {
+             $(location.hash).addClass("selected");
+          }
           if ($(".selected", $tree).length === 0) {
              $("li:first", $tree).addClass("selected");
           }
           $tree.jstree("open_node", $(".selected", $tree), null, true);
           $tree.jstree("select_node", $(".selected", $tree), null, true);
        }).bind("select_node.jstree", function (event, data) {
-          var selectedNode = $(data.rslt.obj);
-
-          if (selectedNode.hasClass("selected")) {
-             return;
-          }
-
-          $(".selected", $tree).removeClass("selected");
-          selectedNode.addClass("selected");
-          $tree.jstree("open_node", selectedNode);
-          loadPaneForNode(selectedNode);
+          location.hash = $(data.rslt.obj).find("a").attr("href");
+          $(window).hashchange();
        });  
    };
    
