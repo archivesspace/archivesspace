@@ -58,6 +58,12 @@ module RESTHelpers
 
       ArchivesSpaceService.send(@method, @uri, {}) do
         ensure_params(rp)
+
+        if self.class.development?
+          Log.debug("#{method.to_s.upcase} #{uri}")
+          Log.debug("Request parameters: #{params.inspect}")
+        end
+
         self.instance_eval &block
       end
     end
