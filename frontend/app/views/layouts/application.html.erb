@@ -13,14 +13,14 @@
 </head>
 <body>
 
-   <body>
-     <header>
-        <%= render "shared/header" %>
-     </header>
-     <div class="container">
-       <%= yield %>
-     </div>
-   </body>
+   <header>
+     <%= render "shared/header" %>
+   </header>
 
+   <div class="container">
+    <%= yield %>
+   </div>
+     
+   <%= render "shared/templates" %>
 </body>
 </html>

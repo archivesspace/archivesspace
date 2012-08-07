@@ -71,7 +71,7 @@ class CollectionsController < ApplicationController
   def update
      @collection = JSONModel(:collection).find(params[:id])
      begin
-       @collection.update(params['collection'])
+       @collection.replace(params['collection'])
        
        if not params.has_key?(:ignorewarnings) and not @collection._warnings.empty?
           @warnings = @collection._warnings
@@ -99,32 +99,6 @@ class CollectionsController < ApplicationController
   def destroy
      
   end
-  
-  def add_archival_object
-    begin
-      @archival_object = JSONModel(:archival_object).new({:title=>"New Archival Object"})
-
-      @archival_object.collection = JSONModel(:collection).uri_for(params[:id])
-
-      if not params[:parent].blank?
-        @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent])
-      end
-
-      id = @archival_object.save
-
-      fetch_collection_tree(JSONModel(:collection).find(params[:id]))
-
-      result = {
-       :id => id,
-       :tree => @collection_tree
-      }
-
-      render :text=>result.to_json
-    rescue JSONModel::ValidationException => e
-      render :text=>e.to_json
-    end
-  end
-
 
   def tree
     fetch_collection_tree(JSONModel(:collection).find(params[:id]))

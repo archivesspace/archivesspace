@@ -40,7 +40,7 @@ class AccessionsController < ApplicationController
     @accession = Accession.find(params[:id])
 
     begin
-      @accession.update(params['accession'])
+      @accession.replace(params['accession'])
       
       if not params.has_key?(:ignorewarnings) and not @accession._warnings.empty?
          @warnings = @accession._warnings

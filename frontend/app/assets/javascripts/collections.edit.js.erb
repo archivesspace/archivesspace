@@ -5,6 +5,7 @@ $(function() {
 
     var form_changed = false,
         $tree, // will be set upon initTree()
+        $container = $("#object_container"),
         collection_tree_data = AS.tree_data["collection-id-" + $(".archives-tree").data("collection-id")];
 
     var renderTree = function() {
@@ -16,7 +17,7 @@ $(function() {
         var selected_node_id = $(".selected", $tree).attr("id");
         
         if (selected_node_id === "newAO") {
-           selected_node_id = "archival_object_" + $("#ao_id", "#object_container").val();
+           selected_node_id = "archival_object_" + $("#ao_id", $container).val();
         }
 
         $.getJSON(APP_PATH + "collections/" + collection_tree_data.collection_id + "/tree", function(json) {
@@ -31,15 +32,18 @@ $(function() {
     };
    
     var initForm = function(html) {
-      $("#object_container").html(html);         
+      $container.html(html);         
 
-      var $form = $("form", "#object_container");
+      var $form = $("form", $container);
 
-      $(".btn-cancel", $form).html("Revert Changes");
+      $(".btn-primary", $form).attr("disabled", "disabled");
+      $(".btn-cancel", $form).html("Revert Changes").attr("disabled", "disabled");
       $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + "'>Finish Editing</a>");
       
       $form.bind("form-changed", function() {
-          form_changed = true;                
+          form_changed = true;
+          $(".btn-primary", $form).removeAttr("disabled");
+          $(".btn-cancel", $form).removeAttr("disabled");
       });
 
       $form.ajaxForm({
@@ -51,14 +55,17 @@ $(function() {
           },
           success: function(response, status, xhr) {
              initForm(response);
-             if ($("#object_container").find(".alert-error:first").length) {
 
+             if ($container.find(".alert-error:first, .alert-warning:first").length) {
+                $container.triggerHandler("submit.error");
              } else {
+                $container.triggerHandler("submit.success");
                 form_changed = false;
                 rerenderTree();
              }
           }, 
           error: function(obj, errorText, errorDesc) {
+            $form.triggerHandler("submit.error");
             $(".btn-primary", $form).removeAttr("disabled");
           }
        });
@@ -84,7 +91,7 @@ $(function() {
 
    var loadTreeActionsForNode = function(nodeEl) {
       $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
-      if (nodeEl.hasClass("collection") && nodeEl.find("> ul > li").length>0) {
+      if ((nodeEl.hasClass("collection") && nodeEl.find("> ul > li").length>0) || nodeEl.attr("id") === "newAO") {
          return;
       }
       $(".btn-toolbar", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addchild_template"));
@@ -116,10 +123,11 @@ $(function() {
             success: function(html) {
                initForm(html);
                $tree.jstree("create_node", $selected, "last", {"attr":{"id": "newAO"}, "data": {"title": "New Analog Object"}});
+               $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
                $tree.jstree("open_node", $selected);
                $tree.jstree("deselect_all");
-               $tree.jstree("select_node", "#newAO");
-               $("form", "#object_container").triggerHandler("formchanged");
+               $tree.jstree("select_node", "#newAO");               
+               $("form", $container).triggerHandler("form-changed");
             }, 
             error: function() {
                console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
@@ -149,10 +157,11 @@ $(function() {
             success: function(html) {
                initForm(html);
                $tree.jstree("create_node", $selected.parents("li:first"), "last", {"attr":{"id": "newAO"}, "data": {"title": "New Analog Object"}});
+               $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
                $tree.jstree("open_node", $selected.parents("li:first"));
                $tree.jstree("deselect_all");
                $tree.jstree("select_node", "#newAO");
-               $("form", "#object_container").triggerHandler("formchanged");    
+               $("form", $container).triggerHandler("form-changed");    
             }, 
             error: function() {
                console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
@@ -161,7 +170,7 @@ $(function() {
          });
       });
  
-      $("#object_container").on("click", ".btn-cancel", function() {
+      $container.on("click", ".btn-cancel", function() {
          loadPaneForNode($(".selected", $tree));
       });
 
@@ -236,10 +245,40 @@ $(function() {
          if (onTreeLoadCallback) onTreeLoadCallback();
       }).bind("before.jstree", function (event, data) {
          // check current form
-         if (form_changed && data.func === "select_node") {
+         if (form_changed && data.func === "select_node") {                     
             event.preventDefault();
             event.stopImmediatePropagation();
-            alert("Changes! Please save...");
+
+            var $target_node = $(data.args[0]).parent(); // get the <li> node above the <a>
+            
+            // open save your changes modal
+            AS.openCustomModal("saveYourChangesModal", "Save Your Changes", AS.renderTemplate("save_changes_modal_template"));
+            
+            $("#saveChangesButton", "#saveYourChangesModal").on("click", function() {
+               $("form", $container).triggerHandler("submit");
+               
+               var onSubmitSuccess = function() {
+                  form_changed = false
+                  $tree.jstree("deselect_all");
+                  $tree.jstree("select_node", $target_node);
+                  $("#saveYourChangesModal").modal("hide"); 
+               };
+               
+               var onSubmitError = function() {
+                  $("#saveYourChangesModal").modal("hide"); 
+               };
+               
+               $container.bind("submit.success", onSubmitSuccess);
+               $container.bind("submit.error", onSubmitError);              
+            });
+
+            $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
+               form_changed = false;
+               $tree.jstree("deselect_all");
+               $tree.jstree("select_node", $target_node);
+               $("#saveYourChangesModal").modal("hide");               
+            });
+            
             return false;
          }
       }).bind("select_node.jstree", function (event, data) {      

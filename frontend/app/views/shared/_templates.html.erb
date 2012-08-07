@@ -1,12 +1,20 @@
-<div id="modal_template">
+<div id="modal_custom_template"><!--
    <div class="modal hide" id="${id}">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>${header}</h3>
+        <h3>${title}</h3>
       </div>
-      <div class="modal-body">
-         ${content}
-      </div>
-      <div class="modal-footer"></div>
+      ${content}
    </div>
-</div>
+--></div>
+
+<div id="save_changes_modal_template"><!--
+   <div class="modal-body">
+      You have some outstanding changes.  Please save or dismiss these changes to continue.
+   </div>
+   <div class="modal-footer">
+      <button id="saveChangesButton" class="btn btn-primary">Save Changes</button>
+      <button id="dismissChangesButton" class="btn">Dismiss Changes</button>
+      <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+   </div>
+--></div>

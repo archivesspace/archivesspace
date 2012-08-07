@@ -20,7 +20,7 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def new
-     @isNew = true
+     @isFresh = true
      
      @archival_object = JSONModel(:archival_object).new
      @archival_object.title = "New Archival Object"
@@ -45,6 +45,9 @@ class ArchivalObjectsController < ApplicationController
        end
 
        id = @archival_object.save
+       
+       @isFresh = true
+       
        render :partial=>"archival_objects/edit_inline"
      rescue JSONModel::ValidationException => e
        @archival_object = e.invalid_object
@@ -55,23 +58,21 @@ class ArchivalObjectsController < ApplicationController
   def update
     @archival_object = JSONModel(:archival_object).find(params[:id])
     begin
-      @archival_object.update(params['archival_object'])
-      puts @archival_object.inspect
-      result = @archival_object.save
-      if params["inline"]
-        flash[:success] = "Archival Object Saved"
-        render :partial=>"edit_inline"
-      else
-        redirect_to :controller=>:archival_object, :action=>:show, :id=>@archival_object.id
+      @archival_object.replace(params['archival_object'])
+      
+      if not params.has_key?(:ignorewarnings) and not @archival_object._exceptions.empty?
+         return render :partial=>"edit_inline"
       end
+      
+      result = @archival_object.save
+      
+      @isFresh = true
+      
+      flash[:success] = "Archival Object Saved"
+      render :partial=>"edit_inline"
     rescue JSONModel::ValidationException => e
       @archival_object = e.invalid_object
-      @errors = e.errors
-      if params["inline"]
-        render :partial=>"edit_inline"
-      else
-        render :action=>"edit", :notice=>"Update failed: #{result[:status]}" 
-      end      
+      render :partial=>"edit_inline"
     end
   end
   

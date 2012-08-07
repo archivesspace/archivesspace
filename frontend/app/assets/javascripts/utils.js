@@ -39,8 +39,8 @@ $(function() {
    var onFormElementChange = function(event) {
        $("#object_container form").triggerHandler("form-changed");
    };
-   
-   $("#object_container form :input").live("change", onFormElementChange);
+
+   $("#object_container form :input").live("change keyup", onFormElementChange);
    $("#object_container form :radio, .object-container form :checkbox").live("click", onFormElementChange);
 });
 
@@ -71,3 +71,9 @@ AS.encodeForAttribute = function(string) {
    }
    return string.replace(/"/g, "&quot;")
 }
+AS.openCustomModal = function(id, title, contents) {
+   $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: ""}));
+   $("#"+id).append(AS.renderTemplate("save_changes_modal_template")).on("hidden", function() {
+      $(this).remove();
+   }).modal('show');;
+};
