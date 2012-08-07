@@ -30,6 +30,8 @@ set :run, false
 set :raise_errors, true
 set :logging, false
 
+Log.quiet_please
+
 class ArchivesSpaceService
   class ExceptionPrintingMiddleware
     def initialize(app)

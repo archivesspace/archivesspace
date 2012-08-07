@@ -59,13 +59,13 @@ describe 'Archival Object controller' do
   it "warns about missing properties" do
     JSONModel::strict_mode(false)
     post "#{@repo}/archival_objects", params = JSONModel(:archival_object).
-      from_hash({}).to_json
+      from_hash({"id_0" => "abc"}).to_json
     JSONModel::strict_mode(true)
 
     last_response.should be_ok
     created = JSON(last_response.body)
 
-    known_warnings = ["id_0", "title"]
+    known_warnings = ["title"]
 
     (known_warnings - created["warnings"].keys).should eq([])
   end
