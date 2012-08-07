@@ -47,8 +47,11 @@ class ASpaceImporter
     opts.each do |k,v|
       instance_variable_set("@#{k}", v)
     end
+    @import_keys = []
     @goodimports = 0
-    @badimports = 0   
+    @badimports = 0
+    @last_succeeded = false
+    @current = { }
   end
   
   def report
@@ -59,58 +62,93 @@ class ASpaceImporter
   def run
     raise StandardError.new("Unexpected error: run method must be defined by a subclass")
   end
-       
-  def import(type, hsh, params = { })
-    @response = nil
-    if params[:repo_id] == nil
-      params[:repo_id] = @repo
+  
+  # If the import user does nothing, the repository will be the most recently opened repository. TODO - the initialize
+  # procedure should use an optional run time argument to find and open the default repository
+
+  def get_import_opts
+    opts = { }
+    if @current[:repository]
+      opts.merge!( { :repo_id => @current[:repository] } )
     end
+    return opts
+  end
+  
+  def contextualize (type, hsh)
+    # TODO - Can JSONModel tell me if a context element is relevant for my type?
+    if type == :archival_object and !hsh.has_key?(:collection) and @current[:collection]
+      # TODO - Can JSONModel return this URL if I give it the Collection Key?
+      hsh.merge!( { :collection => "/repositories/#{ @current[:repository] }/collections/#{ @current[:collection] }" } )
+    end
+    if type == :archival_object and !hsh.has_key?(:parent) and @current[:archival_object]
+      # TODO - Ditto
+      hsh.merge!( { :parent => "/repositories/#{ @current[:repository] }/archival_objects/#{ @current[:archival_object] }"})
+    end
+    return hsh
+  end
+  
+  # Switch contexts
+  
+  def open (type, key)
+    # TODO - This needs to be validated against the backend or a 
+    # list of successful imports
+    @current[type] = key
+  end
+  
+  # Add something to ASpace, but don't add it to the context
+    
+  def add_new (type, hsh)
+    opts = get_import_opts
+    hsh = contextualize(type, hsh)
+    key = _import(type, hsh, opts)
+    return key
+  end
+  
+  # Add something to ASpace, and 'open' it
+  
+  def open_new (type, hsh)
+    key = add_new(type, hsh)
+    unless key.nil?
+      @current[type] = key
+    end
+    return key
+  end
+  
+  def current (type)
+    return @current[type]
+  end
+  
+  def last_succeeded?
+    return true if @last_succeeded == true
+    return false if @last_succeeded == false
+  end
+       
+  def _import(type, hsh, opts = {})
     begin
-      if JSONModel(type) 
-      else
-        raise ArgumentError.new("Don't know how to import a #{type}, mate!")
-      end
-      if hsh.is_a?(Hash)
-      else
-        raise ArgumentError.new("Expected a Hash got #{hsh}")
-      end    
+      raise ArgumentError.new("Don't know how to import a #{type}, mate!") unless JSONModel(type)
+      raise ArgumentError.new("Expected a Hash got #{hsh}") unless hsh.is_a?(Hash)
       puts "Importing #{hsh.to_json}" if @verbose
+      strict_mode(true)
       jo = JSONModel(type).from_hash(hsh)
-      if @dry
-        puts "(Not) Posting to #{ASpaceImportConfig::ASPACE_HOST}:#{ASpaceImportConfig::ASPACE_PORT} #{jo.to_json}"
+      saved_key = jo.save( opts )
+      if saved_key != nil and saved_key != 0
         @goodimports += 1
-        {'id' => 999}
+        @last_succeeded = true
+        return saved_key
       else
-        # Post data to ASpace
-        case type
-        when :repository
-          puts "Posting a Repository" if @verbose
-          opts = {:body => {'repository' => jo.to_json } }
-          @response = ASpaceParty.post('/repository', opts)
-        when :collection
-          puts "Posting a Collection" if @verbose
-          opts = {:body => params.merge('collection' => jo.to_json)}
-          @response = ASpaceParty.post('/collection', opts)
-        when :resource
-          puts "Posting a Resource" if @verbose
-        when :archival_object
-          puts "Posting an Archival Object" if @verbose
-          opts = {:body => params.merge('archival_object' => jo.to_json)}
-          @response = ASpaceParty.post('/archival_object', opts)
-          puts @response.inspect if $DEBUG
-        else
-          puts "This error should never happen, type = #{type}"
-        end 
-        if @response.parsed_response['id']
-          puts "RETURNED ID = #{@response.parsed_response['id']}" if @verbose
-          @goodimports += 1
-          {:id => @response.parsed_response['id']}
-        else
-          @badimports += 1
-          raise Exception.new("Can't identify the ID returned by ASpace")
-        end        
+        @badimports += 1
+        @last_succeeded = false
+        return nil
       end
     rescue ArgumentError => e
+      if @relaxed
+        puts "Warning: #{e.message}"
+        @badimports += 1
+      else
+        raise e
+      end
+      
+    rescue Exception => e
       if @relaxed
         puts "Warning: #{e.message}"
         @badimports += 1
@@ -120,6 +158,3 @@ class ASpaceImporter
     end
   end
 end
-
-
-

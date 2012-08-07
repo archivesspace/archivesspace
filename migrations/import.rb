@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-require_relative File.join("lib", "bootstrap")
+require File.join(File.dirname(__FILE__), "lib", "bootstrap")
 Dir.glob(File.dirname(__FILE__) + '/importers/*', &method(:require))
 
-options = {:dry => false, :relaxed => false, :verbose => false, :repo => ASpaceImportConfig::DEFAULT_REPO_ID}
+options = {:dry => false, :relaxed => false, :verbose => false, :repo_key => ASpaceImportConfig::DEFAULT_REPO_KEY}
 
 optparse = OptionParser.new do|opts|
   opts.banner = "Usage: import.rb [options] IMPORTER_ARGS"
@@ -27,8 +27,8 @@ optparse = OptionParser.new do|opts|
   opts.on( '-v', '--verbose', 'Exude verbosity') do
     options[:verbose] = true
   end
-  opts.on( '-r', '--repository REPO-CODE', 'Override default repository code / id') do|repo|
-    options[:repo] = repo
+  opts.on( '-r', '--repository REPO-CODE', 'Override default repository code / id') do|repo_key|
+    options[:repo_key] = repo_key
   end
 end
 

@@ -30,8 +30,7 @@ ASpaceImporter.importer :ead do
     
         @coll_hsh[:title] = node.inner_xml
         #Import the collection
-        params = {:repo_id => nil} # use the default 
-        res = import :collection, @coll_hsh, params
+        res = import :collection, @coll_hsh
         @coll_hsh[:id] = res[:id]
       end
   
@@ -45,11 +44,9 @@ ASpaceImporter.importer :ead do
         puts "Reading <c>" if $DEBUG
         puts "Depth #{depth}" if $DEBUG
       
-        #ao = ArchivalObject.new
         ao_hsh = Hash.new
         @ao_params = Hash.new
         @ao_params[:collection] = @coll_hsh[:id]
-#        ao_hsh["wraps"] = Array.new
         ao_hsh[:id_0], ao_hsh[:level] = node.attribute_at(0), node.attribute_at(1)
         node.read until node.name == 'unittitle'
         ao_hsh[:title] = node.inner_xml
