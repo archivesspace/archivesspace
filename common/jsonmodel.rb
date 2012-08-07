@@ -8,6 +8,8 @@ module JSONModel
   @@models = {}
   @@required_fields = {}
 
+  @@protected_fields = []
+
   @@strict_mode = false
   @@client_mode = false
 
@@ -370,14 +372,17 @@ module JSONModel
       # Update the values of the current JSONModel instance with the contents of
       # 'params', validating before accepting the update.
       def update(params)
-        self.class.validate(@data.merge(params))
-        @data = @data.merge(params)
+        replace(@data.merge(params))
       end
 
 
       # Replace the values of the current JSONModel instance with the contents
       # of 'params', validating before accepting the replacement.
       def replace(params)
+        @@protected_fields.each do |field|
+          params[field] = @data[field]
+        end
+
         self.class.validate(params)
         @data = params
       end

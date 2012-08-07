@@ -21,6 +21,8 @@ module JSONModel
   end
 
 
+  @@protected_fields << "uri"
+
 
   module Client
 
