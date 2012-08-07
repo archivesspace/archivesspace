@@ -6,6 +6,7 @@ module JSONModel
   @@schema = {}
   @@types = {}
   @@models = {}
+  @@required_fields = {}
 
   @@strict_mode = false
   @@client_mode = false
@@ -59,9 +60,36 @@ module JSONModel
   end
 
 
+  # Preprocess the schema to support ArchivesSpace extensions
+  def self.preprocess_schema(type, schema, path = [])
+    @@required_fields[type] ||= {}
+
+    if schema["type"] == "object"
+      schema["properties"].each do |property, defn|
+        if defn.has_key?("ifmissing")
+          if ["error", "warn"].include?(defn["ifmissing"])
+            defn["required"] = true
+
+            path_s = "#/" + path.join("/")
+            @@required_fields[type][path_s] ||= {}
+
+            @@required_fields[type][path_s][property] = defn["ifmissing"]
+          else
+            defn["required"] = false
+          end
+        end
+
+        self.preprocess_schema(type, defn, path + [property])
+      end
+    end
+  end
+
+
   # Create and return a new JSONModel class called 'type', based on the
   # JSONSchema 'schema'
   def self.create_model_for(type, schema)
+
+    preprocess_schema(type, schema)
 
     cls = Class.new do
 
@@ -165,9 +193,17 @@ module JSONModel
         messages.each do |message|
 
           if (message[:failed_attribute] == 'Properties' and
-              message[:message] =~ /.*did not contain a required property of '(.*?)'.*/)
+              message[:message] =~ /The property '(.*?)' did not contain a required property of '(.*?)'.*/)
 
-            warnings[$1] = ["Property is required but was missing"]
+            (path, property) = [$1, $2]
+
+            exception_type = @@required_fields[self.record_type].fetch(path, {})[property]
+
+            if exception_type == "error"
+              errors[property] = ["Property is required but was missing"]
+            else
+              warnings[property] = ["Property is required but was missing"]
+            end
 
           elsif (message[:failed_attribute] == 'Pattern' and
                  message[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
@@ -201,26 +237,26 @@ module JSONModel
       # Validate the supplied hash using the JSON schema for this model.  Raise
       # a ValidationException if there are any fatal validation problems, or if
       # strict mode is enabled and warnings were produced.
-      def self.validate(hash)
+      def self.validate(hash, raise_errors = true)
         messages = JSON::Validator.fully_validate(self.schema,
                                                   self.drop_unknown_properties(hash),
                                                   :errors_as_objects => true)
 
         exceptions = self.parse_schema_messages(messages)
 
-        if not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
+        if raise_errors and not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
           raise ValidationException.new(:invalid_object => self.new(hash),
                                         :warnings => exceptions[:warnings],
                                         :errors => exceptions[:errors])
         end
 
-        exceptions[:warnings]
+        exceptions
       end
 
 
       # Create an instance of this JSONModel from the data contained in 'hash'.
-      def self.from_hash(hash)
-        validate(hash)
+      def self.from_hash(hash, raise_errors = true)
+        validate(hash, raise_errors)
 
         # Note that I don't use the cleaned version here.  We want to keep
         # around the original extra stuff (and provide accessors for them
@@ -230,8 +266,8 @@ module JSONModel
 
 
       # Create an instance of this JSONModel from a JSON string.
-      def self.from_json(s)
-        self.from_hash(JSON(s))
+      def self.from_json(s, raise_errors = true)
+        self.from_hash(JSON(s), raise_errors)
       end
 
 
@@ -314,10 +350,15 @@ module JSONModel
       end
 
 
-      # Validate the current JSONModel instance and return a list of warnings
+      # Validate the current JSONModel instance and return a list of exceptions
       # produced.
+      def _exceptions
+        self.class.validate(@data, false).reject{|k, v| v.empty?}
+      end
+
+
       def _warnings
-        self.class.validate(@data)
+        self.class.validate(@data)[:warnings]
       end
 
 
