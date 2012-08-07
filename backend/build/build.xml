@@ -52,7 +52,7 @@
           failonerror="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
-      <arg line="--1.9 build/gems/bin/rspec -P '*_spec.rb' spec" />
+      <arg line="--1.9 build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
   </target>
 

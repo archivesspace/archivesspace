@@ -18,6 +18,10 @@ describe 'JSON model' do
                                })
   end
 
+  after(:all) do
+    JSONModel.destroy_model(:testschema)
+  end
+
   it "Accepts a simple record" do
     JSONModel(:testschema).from_hash({
       "elt_0" => "helloworld",

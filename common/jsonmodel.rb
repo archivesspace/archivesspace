@@ -374,6 +374,19 @@ module JSONModel
   end
 
 
+  def self.destroy_model(type)
+    type = type.to_s
+
+    cls = @@models[type]
+
+    if cls
+      @@types.delete(cls)
+      @@schema.delete(cls)
+      @@models.delete(type)
+    end
+  end
+
+
 
   def self.init_args
     @@init_args
