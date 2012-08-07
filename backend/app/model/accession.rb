@@ -4,7 +4,8 @@ class Accession < Sequel::Model(:accessions)
 
   def validate
     super
-    validates_unique([:accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3],
+    validates_unique([:id_0, :id_1, :id_2, :id_3],
                      :only_if_modified => true)
+    validates_presence(:id_0, :message => "You must provide an accession ID")
   end
 end

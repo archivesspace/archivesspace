@@ -41,7 +41,7 @@ driver.find_element(:link, "Create").click
 driver.find_element(:link, "Accession").click
 
 driver.find_element(:id => "accession_title").send_keys "Accession title"
-driver.find_element(:id => "accession_accession_id_0").send_keys Digest::MD5.hexdigest("#{Time.now}")
+driver.find_element(:id => "accession_id_0").send_keys Digest::MD5.hexdigest("#{Time.now}")
 
 driver.find_element(:css => "button[type='submit']").click
 

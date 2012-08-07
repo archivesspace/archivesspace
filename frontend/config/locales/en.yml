@@ -2,7 +2,7 @@ en:
    accession:
       accession_date: Accession Date
       accession_id: Identifier
-      accession_id_0: Identifier
+      id_0: Identifier
       content_description: Content Description
       condition_description: Condition Description
       publish: Publish?

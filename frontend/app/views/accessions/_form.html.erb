@@ -2,7 +2,7 @@
 
 <fieldset>
    <%= f.label_field_pair :title, f.text_field(:title), {:errors=>@errors, :warnings=>@warnings} %>
-   <%= f.label_field_pair :accession_id_0, f.text_field(:accession_id_0, :size=>10)+f.text_field(:accession_id_1, :size=>10)+f.text_field(:accession_id_2, :size=>10)+f.text_field(:accession_id_3, :size=>10), {:control_class=>"identifier-fields", :show_errors_for=>[:accession_id_0, :accession_id_1, :accession_id_2, :accession_id_3], :errors=>@errors, :warnings=>@warnings} %>
+   <%= f.label_field_pair :id_0, f.text_field(:id_0, :size=>10)+f.text_field(:id_1, :size=>10)+f.text_field(:id_2, :size=>10)+f.text_field(:id_3, :size=>10), {:control_class=>"identifier-fields", :show_errors_for=>[:id_0, :id_1, :id_2, :id_3], :errors=>@errors, :warnings=>@warnings} %>
    <%# f.label_field_pair :publish, "<label class='checkbox'>#{f.check_box :publish} #{I18n.t(:"accession.publish_help")}</label>" %>
    <%# f.label_field_pair :restrictions, "<label class='checkbox'>#{f.check_box :restrictions}</label>" %>
    <%= f.label_field_pair :accession_date, f.text_field(:accession_date, :placeholder=>"YYYY-MM-DD", :value=>(@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))), {:errors=>@errors, :warnings=>@warnings} %>

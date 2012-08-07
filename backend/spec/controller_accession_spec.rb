@@ -9,7 +9,7 @@ describe 'Accession controller' do
 
   def create_accession
     post "#{@repo}/accessions", params = JSON({
-                                                "accession_id_0" => "1234",
+                                                "id_0" => "1234",
                                                 "title" => "The accession title",
                                                 "content_description" => "The accession description",
                                                 "condition_description" => "The condition description",
@@ -33,7 +33,7 @@ describe 'Accession controller' do
   it "fails when you try to update an accession that doesn't exist" do
     post "#{@repo}/accessions/99999", params = JSONModel(:accession).
       from_hash({
-                  "accession_id_0" => "1234",
+                  "id_0" => "1234",
                   "title" => "The accession title",
                   "content_description" => "The accession description",
                   "condition_description" => "The condition description",
@@ -47,13 +47,13 @@ describe 'Accession controller' do
 
   it "warns about missing properties" do
     JSONModel::strict_mode(false)
-    post "#{@repo}/accessions", params = JSON({})
+    post "#{@repo}/accessions", params = JSON({"id_0" => "abcdef"})
     JSONModel::strict_mode(true)
 
     last_response.should be_ok
     created = JSON(last_response.body)
 
-    known_warnings = ["accession_date", "accession_id_0", "condition_description", "content_description", "title"]
+    known_warnings = ["accession_date", "condition_description", "content_description", "title"]
 
     (known_warnings - created["warnings"].keys).should eq([])
   end
@@ -65,9 +65,9 @@ describe 'Accession controller' do
     # Update it
     post "#{@repo}/accessions/#{created['id']}", params = JSONModel(:accession).
       from_hash({
-                  "accession_id_0" => "1234",
-                  "accession_id_1" => "5678",
-                  "accession_id_2" => "1234",
+                  "id_0" => "1234",
+                  "id_1" => "5678",
+                  "id_2" => "1234",
                   "title" => "The accession title",
                   "content_description" => "The accession description",
                   "condition_description" => "The condition description",
@@ -78,7 +78,7 @@ describe 'Accession controller' do
     get "#{@repo}/accessions/#{created['id']}"
     acc = JSON(last_response.body)
 
-    acc["accession_id_1"].should eq("5678")
+    acc["id_1"].should eq("5678")
   end
 
 
