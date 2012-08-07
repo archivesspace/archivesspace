@@ -12,39 +12,18 @@ describe 'Repository model' do
 
 
   it "Enforces ID uniqueness" do
-    Repository.create(:repo_code => "TESTREPO",
-                      :description => "My new test repository")
+    expect { Repository.create(:repo_code => "TESTREPO",
+                      :description => "My new test repository") }.to_not raise_error
 
-    got_exception = false
-    begin
-      Repository.create(:repo_code => "TESTREPO",
-                        :description => "Another description")
-    rescue Sequel::DatabaseError => ex
-      if DB.is_integrity_violation(ex)
-        got_exception = true
-      end
-    rescue Sequel::ValidationFailed
-      got_exception = true
-    end
-
-    got_exception.should be_true
+    expect { Repository.create(:repo_code => "TESTREPO",
+                        :description => "Another description") }.to raise_error
   end
 
 
   it "Enforces required fields" do
-    got_exception = false
 
-    begin
-      Repository.create(:description => "My new test repository")
-    rescue Sequel::DatabaseError => ex
-      if DB.is_integrity_violation(ex)
-        got_exception = true
-      end
-    rescue Sequel::ValidationFailed
-      got_exception = true
-    end
+    expect { Repository.create(:description => "My new test repository") }.to raise_error
 
-    got_exception.should be_true
   end
 
 end
