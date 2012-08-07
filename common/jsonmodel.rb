@@ -370,6 +370,14 @@ module JSONModel
       end
 
 
+      # Replace the values of the current JSONModel instance with the contents
+      # of 'params', validating before accepting the replacement.
+      def replace(params)
+        self.class.validate(params)
+        @data = params
+      end
+
+
       def to_s
         "#<JSONModel(:#{self.class.record_type}) #{@data.inspect}>"
       end
