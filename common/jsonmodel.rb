@@ -105,12 +105,17 @@ module JSONModel
       def self.define_accessors(attributes)
         attributes.each do |attribute|
 
-          define_method "#{attribute}" do
-            @data[attribute]
+          if not method_defined? "#{attribute}"
+            define_method "#{attribute}" do
+              @data[attribute]
+            end
           end
 
-          define_method "#{attribute}=" do |value|
-            @data[attribute] = value
+
+          if not method_defined? "#{attribute}="
+            define_method "#{attribute}=" do |value|
+              @data[attribute] = value
+            end
           end
         end
       end
