@@ -14,5 +14,17 @@ describe 'Repository controller' do
     repos.any? { |repo| repo["repo_code"] == "ARCHIVESSPACE" }.should be_true
     repos.any? { |repo| repo["repo_code"] == "TEST" }.should be_true
   end
+  
+  it "should create a repository when given a post request" do
+    post "/repositories", params = JSONModel(:repository).from_hash( {
+      :repo_code => "ghghghgh",
+      :description => "this repository"
+      
+    }).to_json
+    
+    last_response.should be_ok
+    response = JSON(last_response.body)
+    response["status"].should eq "Created"
+  end
 
 end
