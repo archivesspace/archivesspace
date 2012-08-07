@@ -4,8 +4,34 @@
     <h3>Create Repository</h3>
    </div>
    <div class="modal-body">     
-      <%= render "shared/form_messages", :object => @repository, :errors => @errors, :warnings => @warnings %>
-      
+     <% if not @isFresh %>
+        <% if @repository._exceptions.has_key?(:errors) %>
+           <div class="alert alert-error">
+              <% @repository._exceptions[:errors].each do |attr, messages| %>
+                   <div class="errors-for_attr">
+                     <% messages.each do |msg| %>
+                       <div class="error"><%= I18n.t(:"#{@repository.class.record_type}.#{attr}") %> - <%= msg %></div>
+                     <% end %>
+                   </div>
+              <% end %>
+           </div>
+        <% end %>
+        <% if @repository._exceptions.has_key?(:warnings) %>
+           <div class="alert alert-warning">
+              <% @repository._exceptions[:warnings].each do |attr, messages| %>
+                   <div class="errors-for_attr">
+                     <% messages.each do |msg| %>
+                       <div class="warning"><%= I18n.t(:"#{@repository.class.record_type}.#{attr}") %> - <%= msg %></div>
+                     <% end %>
+                   </div>
+              <% end %>
+              <% if not @repository._exceptions.has_key?(:errors) %>
+                 <br/>
+                 <input type="submit" name="ignorewarnings" class="btn btn-warning" value="Save Anyway" />
+              <% end %>
+           </div>
+        <% end %>
+     <% end %>
       <fieldset>
         <%= f.label_field_pair :repo_code, f.text_field(:repo_code, :size=>10), {:errors=>@errors, :warnings=>@warnings} %>
         <%= f.label_field_pair :description, f.text_area(:description, :rows=>3), {:errors=>@errors, :warnings=>@warnings} %>
