@@ -4,10 +4,22 @@ require 'json'
 
 module JSONModel
 
-
+  # Set the repository that subsequent operations will apply to.
   def self.set_repository(id)
     Thread.current[:selected_repo_id] = id
   end
+
+
+  def self.with_repository(id)
+    old_repo = Thread.current[:selected_repo_id]
+    begin
+      self.set_repository(id)
+      yield
+    ensure
+      self.set_repository(old_repo)
+    end
+  end
+
 
 
   module Client
@@ -21,17 +33,13 @@ module JSONModel
     # update to the backend.
     def save(opts = {})
 
-      if @saved_as
-        raise "Object #{self} has already been saved as ID #{@saved_as}."
-      end
-
       type = self.class.record_type
       response = self.class._post_json(self.class.my_url(self.id, opts), self.to_json)
 
       if response.code == '200'
         response = JSON.parse(response.body)
 
-        @saved_as = response["id"]
+        self.uri = self.class.uri_for(response["id"], opts)
 
         return response["id"]
       elsif response.code == '409'
