@@ -14,14 +14,24 @@ $(function() {
    var loadPaneForNode = function(nodeEl) {
       if (nodeEl.attr("rel") === "archival_object") {
          $.ajax({
-            url: APP_PATH+"archival_objects/"+nodeEl.data("id")+"?inline=true",
+            url: APP_PATH+"archival_objects/"+nodeEl.data("id"),
+            type: 'GET',
+            data: {
+               inline: true,
+               collection_id: collection_tree_data.collection_id
+            },
             success: function(html) {
                $("#object_container").html(html);
             }
          });  
       } else if (nodeEl.attr("rel") === "collection") {         
          $.ajax({
-            url: APP_PATH+"collections/"+nodeEl.data("id")+"?inline=true",
+            url: APP_PATH+"collections/"+nodeEl.data("id"),
+            type: 'GET',
+            data: {
+               inline: true,
+               collection_id: collection_tree_data.collection_id
+            },
             success: function(html) {
                $("#object_container").html(html);
             }

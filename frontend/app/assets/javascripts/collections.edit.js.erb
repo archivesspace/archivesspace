@@ -39,7 +39,7 @@ $(function() {
 
       $(".btn-primary", $form).attr("disabled", "disabled");
       $(".btn-cancel", $form).html("Revert Changes").attr("disabled", "disabled");
-      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + "'>Finish Editing</a>");
+      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + "#" + $(".selected", $tree).attr("id") + "'>Finish Editing</a>");
       
       $form.bind("form-changed", function() {
           form_changed = true;
