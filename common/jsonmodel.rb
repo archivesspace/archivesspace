@@ -386,6 +386,10 @@ module JSONModel
       @@client_mode = true
     end
 
+    if opts.has_key?(:strict_mode)
+      @@strict_mode = true
+    end
+
     @@init_args = opts
 
     # Load all JSON schemas from the schemas subdirectory
