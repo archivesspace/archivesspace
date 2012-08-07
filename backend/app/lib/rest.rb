@@ -113,6 +113,8 @@ module RESTHelpers
                                       else
                                         params[name]
                                       end
+                params.delete(name)
+
               rescue ArgumentError
                 errors[:bad_type] << {:name => name, :doc => doc, :type => type}
               end
