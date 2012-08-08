@@ -8,6 +8,7 @@
         </button>
         <%= link_to "ArchivesSpace", {:controller=>:welcome, :action=>:index}, :class=>"brand" %>
         <div class="nav-collapse">
+          <% if session[:user] and session[:repo_id] %>
           <ul class="nav">
             <li <% if controller_name === "welcome" %>class="active"<% end %>>
                <%= link_to raw('<span class="icon-home icon-white"></span>'), :controller=>:welcome, :action=>:index %>
@@ -23,7 +24,6 @@
                 <li><a href="#">Subjects</a></li>                
               </ul>
             </li>
-            <% if session[:user] %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -35,7 +35,6 @@
                 <li><a href="#">Subject</a></li>
               </ul>
             </li>
-          <% end %>
           </ul>
           <form class="navbar-search pull-left" action="">
              <div class="input-append">
@@ -56,6 +55,7 @@
               </div>
             </div>
           </form>         
+          <% end %>
           <ul class="nav pull-right">
            <%= render "shared/header_repository", :repositories => @repositories %>
            <%= render "shared/header_user" %>
