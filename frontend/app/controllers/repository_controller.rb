@@ -1,8 +1,7 @@
 class RepositoryController < ApplicationController
 
   def new
-    @isFresh = true
-    @repository = JSONModel(:repository).new({})
+    @repository = JSONModel(:repository).new._always_valid!
     render :layout=>nil
   end
 

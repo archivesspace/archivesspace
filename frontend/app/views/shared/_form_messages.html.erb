@@ -1,4 +1,4 @@
-<% if not @isFresh and not object._exceptions.empty? %>
+<% if not object._exceptions.empty? %>
    <% if object._exceptions.has_key?(:errors) %>
       <div class="alert alert-error">
          <% object._exceptions[:errors].each do |attr, messages| %>
