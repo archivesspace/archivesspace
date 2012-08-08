@@ -192,6 +192,11 @@ $(function() {
       });
  
       $container.on("click", ".btn-cancel", function() {
+         event.preventDefault();
+         event.stopImmediatePropagation();
+         if ($(this).attr("disabled")) {
+            return;
+         }
          loadPaneForNode($(".selected", $tree));
       });
 
