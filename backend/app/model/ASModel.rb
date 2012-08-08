@@ -4,11 +4,13 @@ module ASModel
   def before_create
     self.create_time = Time.now
     self.last_modified = Time.now
+    super
   end
 
 
   def before_update
     self.last_modified = Time.now
+    super
   end
 
 
