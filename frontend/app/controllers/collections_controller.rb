@@ -72,6 +72,16 @@ class CollectionsController < ApplicationController
       fetch_collection_tree(JSONModel(:collection).find(params[:id]))
       render :text => JSON(@collection_tree)
    end
+   
+   def update_tree
+      begin
+         tree = JSONModel(:collection_tree).from_json(params[:tree])
+         tree.save(:collection_id=>params[:id])
+         render :text=>"Success"
+      rescue JSONModel::ValidationException => e
+         render :text=>"Error"
+      end
+   end
 
    
    private 

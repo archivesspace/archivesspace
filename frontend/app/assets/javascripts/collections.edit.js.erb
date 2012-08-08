@@ -247,6 +247,7 @@ $(function() {
           "crrm" : {
              "move" : {
                  "check_move" : function (m) {
+
                      // can't move collection
                      if ($(m.o[0]).hasClass("collection")) {
                        return false;
@@ -259,10 +260,7 @@ $(function() {
                      // can't move to above the root archival object
                      if ($(m.np[0]).hasClass("archives-tree")) {
                        return false;
-                     }
-                     
-                     // TODO
-                     // AJAX POST TO UPDATE TREE GOES HERE
+                     }                                          
                      
                      return true;
                  }
@@ -328,7 +326,7 @@ $(function() {
                   form_changed = false;
                   $tree.jstree("deselect_all");
                   $tree.jstree("select_node", $target_node);
-                  $("#saveYourChangesModal").modal("hide");               
+                  $("#saveYourChangesModal").modal("hide");
                });
 
                return false;
@@ -343,7 +341,37 @@ $(function() {
             } else {
                location.hash = $nodeToSelect.find("a").attr("href");
             }
-         });;
+         }).bind("move_node.jstree", function(data) {
+             
+             var parseTree = function(nodeEl) {
+                var result = {
+                   archival_object: nodeEl.data("archival_object")
+                };
+                
+                var children = [];
+                nodeEl.find("> ul > li").each(function() {
+                   children.push(parseTree($(this)));
+                });
+                
+                result.children = children;
+                
+                return result;
+             };
+             
+             $.ajax({
+                url: APP_PATH+"collections/"+collection_tree_data.collection_id+"/update_tree",
+                type: "POST",
+                data: {
+                   tree: JSON.stringify(parseTree($tree.find("li[rel=archival_object]:first")))
+                },
+                success: function() {
+                   //alert("holla");
+                },
+                errors: function() {
+                   //alert("balls");                           
+                }
+             });
+         });
    };
    
    

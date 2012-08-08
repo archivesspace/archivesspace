@@ -40,7 +40,7 @@ class ArchivalObjectsController < ApplicationController
        render :partial=>"archival_objects/new_inline"
      end
   end
-  
+
   def update
     @archival_object = JSONModel(:archival_object).find(params[:id])
     begin
@@ -51,17 +51,17 @@ class ArchivalObjectsController < ApplicationController
       end
 
       result = @archival_object.save
-      
+
       flash[:success] = "Archival Object Saved"
       render :partial=>"edit_inline"
     rescue JSONModel::ValidationException => e
       render :partial=>"edit_inline"
     end
   end
-  
-  
+
+
   private
-  
+
   def find_node(children, id)
      children.each do |child|
         return child if child['id'] === id
