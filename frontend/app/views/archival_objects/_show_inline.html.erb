@@ -5,8 +5,15 @@
 </div>
 
 <h2><%= @archival_object.title %> <span class="label label-info">Archival Object</span></h2>
+<br/>
 
-<div class="row-fluid label-and-value">
-   <div class="span3">Identifier</div>
-   <div class="span9"><%= @archival_object.id_0 %> <%= @archival_object.id_1 %> <%= @archival_object.id_2 %> <%= @archival_object.id_3 %></div>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="basic-information">
+      <%= render :partial=>"archival_objects/display/basic_information" %>
+    </div>
+  </div>
 </div>
