@@ -14,7 +14,7 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def new
-     @archival_object = JSONModel(:archival_object).new
+     @archival_object = JSONModel(:archival_object).new._always_valid!
      @archival_object.title = "New Archival Object"
      @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent]) if params.has_key?(:parent)
      @archival_object.collection = JSONModel(:collection).uri_for(params[:collection]) if params.has_key?(:collection)

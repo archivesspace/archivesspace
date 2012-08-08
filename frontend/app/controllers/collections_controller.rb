@@ -36,7 +36,7 @@ class CollectionsController < ApplicationController
   end
 
   def new
-     @collection = JSONModel(:collection).new({:title=>"New Collection"})
+     @collection = JSONModel(:collection).new({:title=>"New Collection"})._always_valid!
      @collection_tree = {}
   end
 
