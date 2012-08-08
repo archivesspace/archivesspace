@@ -39,13 +39,13 @@ class ArchivesSpaceService < Sinatra::Base
     # Load all models
     require_relative "model/ASModel"
     require_relative "model/identifiers"
-    Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).each do |model|
+    Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
       basename = File.basename(model, ".rb")
       require_relative File.join("model", basename)
     end
 
     # Load all controllers
-    Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).each do |controller|
+    Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).sort.each do |controller|
       load File.absolute_path(controller)
     end
 

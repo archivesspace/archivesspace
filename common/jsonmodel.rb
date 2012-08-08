@@ -492,7 +492,7 @@ module JSONModel
     # Create a model class for each one.
     Dir.glob(File.join(File.dirname(__FILE__),
                        "schemas",
-                       "*.rb")).each do |schema|
+                       "*.rb")).sort.each do |schema|
       schema_name = File.basename(schema, ".rb")
 
       old_verbose = $VERBOSE
@@ -501,7 +501,6 @@ module JSONModel
       $VERBOSE = old_verbose
 
       self.create_model_for(schema_name, entry[:schema])
-
     end
 
     true
