@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eac-cpf xmlns="urn:isbn:1-931666-33-4"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd">
+    <control>
+        <recordId>RU007004</recordId>
+        <otherRecordId>SIA RU007004</otherRecordId>
+        <maintenanceStatus>revised</maintenanceStatus>
+        <publicationStatus>approved</publicationStatus>
+        <maintenanceAgency>
+            <agencyCode>DSI-SIA</agencyCode>
+            <otherAgencyCode localType="">SIA</otherAgencyCode>
+            <agencyName>Smithsonian Institution Archives</agencyName>
+        </maintenanceAgency>
+        <languageDeclaration>
+            <language languageCode="eng">Eng</language>
+            <script scriptCode="Latn">Latin Alphabet</script>
+        </languageDeclaration>
+        <maintenanceHistory>
+            <maintenanceEvent>
+                <eventType>created</eventType>
+                <eventDateTime standardDateTime="2012-07-11">2012-07-11</eventDateTime>
+                <agentType>human</agentType>
+                <agent>Tammy Peters</agent>
+                <eventDescription>Record Created</eventDescription>
+            </maintenanceEvent>            
+        </maintenanceHistory>       
+        <sources>
+            <source xlink:href="siarchives.si.edu/collections/siris_arc_217204" xlink:type="simple"
+                xmlns:xlink="http://www.w3.org/1999/xlink"/>
+        </sources>
+    </control>
+
+<cpfDescription>
+    <identity>
+        <entityId>auto gen number</entityId>
+        <entityType>person</entityType>
+        <nameEntry scriptCode="Latn" xml:lang="eng">
+            <part>Walcott, Charles D. (Charles Doolittle), 1850-1927</part>
+            <authorizedForm>LCNAF</authorizedForm>
+        </nameEntry>
+        <nameEntry>
+            <part localType="sirname">Walcott</part>
+            <part localType="forename">Charles D.</part>
+            <part localType="dates">1850-1927</part>
+        </nameEntry>
+        <nameEntry>
+            <part>Walcott, Charles D.</part>
+        </nameEntry>
+        <nameEntry>
+            <part>Walcott, Charles Doolittle</part>
+        </nameEntry>
+        <nameEntry>
+            <part>Walcott, C. D.</part>
+        </nameEntry>
+    </identity>
+    <description>
+        <existDates>
+            <dateRange>
+                <fromDate standardDate="1850">1850</fromDate>
+                <toDate standardDate="1927">1927</toDate>
+            </dateRange>
+        </existDates>
+        <occupations>
+            <occupation>
+                <term>Paleontologist</term>
+            </occupation>
+            <occupation>
+                <term>Geologist</term>
+            </occupation>
+            <occupation>
+                <term>Acting Secretary in Charge of the United States National Museum</term>
+            </occupation>
+            <occupation>
+                <term>Secretary, Smithsonian Institution</term>
+            </occupation>
+        </occupations>
+      <places>
+        <place>
+          <placeRole>Birthplace</placeRole>
+          <placeEntry>New York Mills (N. Y.)</placeEntry>
+        </place>
+        <place>
+          <placeRole>Fieldwork</placeRole>
+          <placeEntry>Burgess Shale (B.C.)</placeEntry>
+        </place>
+        <place>
+          <placeRole>Fieldwork</placeRole>
+          <placeEntry>Canadian Rockies (B.C. and Alta.)</placeEntry>
+        </place>
+        <place>
+          <placeRole>Workplace</placeRole>
+          <placeEntry>Washington (D.C.)</placeEntry>
+        </place>
+        <place>
+          <placeRole>Deathplace</placeRole>
+          <placeEntry>Washington (D.C.)</placeEntry>
+        </place>
+      </places>
+      <localDescription localType="subject"><term>Geology</term></localDescription>
+      <localDescription localType="subject"><term>Paleontology</term></localDescription>
+      <localDescription localType="subject"><term>Museums--Administration</term></localDescription>
+        <biogHist>
+            <p>Charles D. Walcott (1850-1927) was born in New York Mills, New York, and attended the Utica public schools and Utica Academy, but never graduated. He demonstrated an 
+                early interest in natural history by collecting birds' eggs and minerals; and, while employed as a farm hand, he began collecting trilobites. These he later sold to Louis 
+                Agassiz at Harvard's Museum of Comparative Zoology. Walcott began his professional scientific career in November 1876 when he was appointed as an assistant to James Hall, 
+                New York's state geologist. On July 21, 1879, Walcott joined the United States Geological Survey (USGS) as an assistant geologist. Shortly after arriving in Washington, D. 
+                C., he was sent to southwestern Utah to make stratigraphic sections. His later field work with the Survey included expeditions to the Appalachians, New England, New York, 
+                eastern Canada, and several Middle Atlantic states, as well as other parts of southwestern and western United States. From 1882 to 1893 he worked with the Survey's invertebrate 
+                Paleozoic paleontological collections, and in 1893 he was appointed Geologist in charge of Geology and Paleontology. He also served as an honorary curator of invertebrate 
+                Paleozoic fossils at the United States National Museum (USNM) from 1892 to 1907, and as Acting Assistant Secretary of the Smithsonian Institution in charge of the USNM from 
+                1897 to 1898. His fieldwork from this period resulted in several major publications, including <span localType="title" style="font-style:italic">The Paleontology of the Eureka District</span> (1884), a study of fossils in 
+                Nevada; <span localType="title" style="font-style:italic">The Fauna of the Olenellus Zone</span> (1888) concerning early North American Cambrian fossils; <span localType="title" style="font-style:italic">Correlation Papers on the Cambrian</span> (1890); and <span localType="title" style="font-style:italic">Fossil Medusae</span> 
+                (1898). In 1894 Walcott was appointed Director of the USGS. Serving until 1907, he greatly expanded the functions of the agency and was successful in increasing federal appropriations. 
+                In 1891 Congress had given the President the authority to establish public forests, but it was not until 1897 that the administration of the forest reserves was placed under 
+                the USGS. Walcott was instrumental in having legislation passed to enforce the preservation of forest reserves and to add additional land to the reserve program. His predecessor 
+                at the USGS initiated an arid land reclamation program in 1888 which Walcott continued as part of his forest reserve program. In 1902 he established the Hydrographic Branch 
+                to administer the program; but four years later the Branch, since renamed the Reclamation Service, became a separate federal agency. He also created the Division of Mineral 
+                Resources to experiment with coal combustion. In 1907 it was renamed the Bureau of Mines. At the request of President Theodore Roosevelt in 1903, Walcott served as chairman 
+                of a committee to study the scientific work being conducted by the federal government.</p> 
+            <p>Walcott was appointed Secretary of the Smithsonian Institution on January 31, 1907, and resigned from the USGS in April 1907. His administration at the Smithsonian was 
+                marked by numerous accomplishments, including the completion of the National Museum Building (now the National Museum of Natural History) in 1911. He was also successful in 
+                convincing Detroit industrialist Charles Lang Freer to donate his extensive Oriental art collection and money for a building during his lifetime rather than after Freer's 
+                death, as was originally intended. Walcott also set up the National Gallery of Art (predecessor to the National Museum of American Art) as a separate administrative entity 
+                in 1920. To administer Frederick G. Cottrell's gift of patent rights to his electrical precipitator, the Research Corporation was formed in 1912, with revenue from this patent, 
+                as well as future ones, to be used to advance scientific research at the Smithsonian and other educational institutions. Walcott served on the Corporation's Board of Directors 
+                for several years. To further increase the Smithsonian's endowment, Walcott was planning a major fundraising effort; but this was not pursued following his death an February 
+                9, 1927. In 1922, he and his wife established a fund in their names at the Smithsonian to support paleontological research.</p> 
+            <p>Despite his many administrative responsibilities as Secretary, Walcott was able to find time to continue his research and collecting of fossils from the Cambrian and Ordovician 
+                periods, with primary focus on the Canadian Rockies. In 1909 he located Cambrian fossils near Burgess Pass above Field, British Columbia. The following season he discovered 
+                the Burgess shale fauna, which proved to be his greatest paleontological discovery. Most of this research was published in various volumes of the <span localType="title" style="font-style:italic">Smithsonian Miscellaneous 
+                    Collections</span> from 1908-1931. His one major publication during this period was <span localType="title" style="font-style:italic">Cambrian Brachiopoda</span>, published in 1912. Walcott continued to return to the Canadian 
+                Rockies for most seasons through 1925, when he made his last field expedition. As one of the foremost scientific figures in Washington, Walcott helped to establish several 
+                organizations with international renown and restructure existing national organizations. In 1902, Walcott, along with several other prominent individuals, met with Andrew 
+                Carnegie to establish the Carnegie Institution of Washington as a center for advanced research and training in the sciences. Walcott served the Institution in several administrative 
+                capacities. He was also instrumental in convincing Carnegie that the Institution should have laboratories built for scientists rather than use his gift solely for research 
+                grants.</p> 
+            <p>Elected to the National Academy of Sciences in 1896, Walcott played a role in having the Academy become more actively involved in national science policy by serving in 
+                many official capacities. In addition to serving on innumerable committees, he held the offices of treasurer, vice president, president, and council member. He was also appointed 
+                to two presidential committees--Timber Utilization and Outdoor Recreation--in 1924 and was reappointed to both in 1926. He was the Academy's first recipient of the Mary Clark 
+                Thompson Medal. Following his death, his wife established the Charles Doolittle Walcott Fund for achievements in Cambrian research.</p> 
+            <p>In 1916 the Academy, at the request of President Woodrow Wilson, created the National Research Council within the Academy to assist the federal government in the interest 
+                of national preparedness. Walcott, as one who met with Wilson, became actively involved in the organization of the Council by sitting on many of its committees, including 
+                one which planned for the present headquarters of the Council and the Academy. Walcott contributed significantly to the development of American aviation. He pressed for the 
+                establishment of the National Advisory Committee for Aviation, which was a predecessor of the National Aeronautics and Space Administration. He was instrumental in establishing 
+                air mail service, organizing the Committee on Aerial Photographic Surveying and Mapping, and writing the Air Commerce Act of 1926. Besides his scientific activities, Walcott 
+                lent his influence to other groups, such as the George Washington Memorial Association. That group attempted to create a memorial to Washington by forming an institution to 
+                promote science, literature, and the arts, just as Washington had proposed should be done.</p> 
+            <p>Walcott was married three times - to Lura Ann Rust (d. 1876), to Helena Breese Stevens (d. 1911), and to Mary Morris Vaux (d. 1940). By his second wife he had four children: 
+                Charles Doolittle, Sidney Stevens, Helen Breese, and Benjamin Stuart. Charles died while a student at Yale, and Benjamin was killed in action in France while flying for the 
+                Lafayette Flying Corps. In 1914 Walcott married Mary Morris Vaux, who, while accompanying him on his field trips, studied and painted North American wildflowers. Her work 
+                was published in five volumes by the Smithsonian in 1925.</p> 
+            <p>Although Walcott never received an academic degree, he was the recipient of numerous honorary degrees from colleges and universities in the United States and Europe. His 
+                colleagues recognized his contribution to paleontology by awarding him the Bigsby and Wollaston Medals from the Geological Society of London; the Gaudry Medal of the Geological 
+                Society of France; and the Hayden Medal from the Academy of Natural Sciences of Philadelphia. He also served as a founder and president, 1899-1910, of the Washington Academy 
+                of Sciences; president of the Cosmos Club, 1898; president, 1915-1917, of the Washington Branch of the Archeological Institute of America; and president, 1925-1927, of the 
+                American Philosophical Society.</p>
+        </biogHist>
+        <biogHist>
+         <chronList>
+          <chronItem>
+            <date>March 31, 1850</date>
+            <event>Born in New York Mills, New York</event> 
+          </chronItem>
+          <chronItem>
+            <date>1858-1868</date>
+            <event>Attended public schools in Utica, New York, and Utica Academy</event> 
+          </chronItem>
+          <chronItem>
+            <date>1863</date>
+            <event>Began collecting natural history specimens</event> 
+          </chronItem>
+          <chronItem>
+            <date>1871</date>
+            <event>Moved to Trenton Falls, New York, to work on William P. Rust's farm and began collecting trilobites</event> 
+          </chronItem>
+          <chronItem>
+            <date>January 9, 1872</date>
+            <event>Married Lura Ann Rust</event> 
+          </chronItem>
+          <chronItem>
+            <date>1873</date>
+            <event>Sold collection of fossils to Louis Agassiz at Harvard's Museum of Comparative Zoology</event> 
+          </chronItem>
+          <chronItem>
+            <date>January 23,1876</date>
+            <event>Lura Ann Walcott died</event> 
+          </chronItem>
+          <chronItem>
+            <date>November 1876</date>
+            <event>Appointed assistant to Janes Hall, state geologist of New York</event> 
+          </chronItem>
+          <chronItem>
+            <date>1876</date>
+            <event>Joined American Association for the Advancement of Science</event> 
+          </chronItem>
+          <chronItem>
+            <date>July 21, 1879</date>
+            <event>Appointed Assistant Geologist, United States Geological Survey (USGS)</event> 
+          </chronItem>
+          <chronItem>
+            <date>1879</date>
+            <event>Assisted Clarence Edward Dutton in Grand Canyon region in south-central Utah and the Eureka district in Nevada</event> 
+          </chronItem>
+          <chronItem>
+            <date>July 1, 1882</date>
+            <event>Placed in charge of Division of Invertebrate Paleozoic Paleontology at USGS</event> 
+          </chronItem>
+          <chronItem>
+            <date>1882</date>
+            <event>Elected Fellow of American Association for the Advancement of Science</event> 
+          </chronItem>
+          <chronItem>
+            <date> </date>
+            <event>Field work in Nevada and Grand Canyon</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1883</date>
+            <event>Promoted to Paleontologist, USGS</event> 
+          </chronItem>
+          <chronItem>
+            <date> </date>
+            <event>Field work in Grand Canyon and Cambrian studies in Adirondacks and northwestern Vermont</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1884</date>
+              <event>Field work in Cambrian fossils in western Vermont; coal deposits in central Arizona; and Lower Paleozoic of Texas' central mineral region; Published first major paper, The Paleontology of the Eureka District (USGS Monograph 8)</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1885</date>
+            <event>Field work on Cambrians in Highland Range of central Nevada; Permian fossils of southwestern Utah; and Cambrian fossils in Wasatch Mountains near Salt Lake City</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1886</date>
+            <event>Published "Classification of the Cambrian System in North America"</event> 
+          </chronItem>
+          <chronItem>
+            <date> </date>
+            <event>Cambrian field work in northern New York and western Vermont</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1887</date>
+            <event>Cambrian field work in New York, western Massachusetts, and southwestern Vermont</event> 
+          </chronItem>
+          <chronItem>
+            <date>1888</date>
+            <event>Married Helena Breese Stevens; Attended International Geological Congress in London; Placed in charge of all invertebrate paleontology at USGS; Published The Fauna of the Olenellus Zone which discusses Cambrian fossils in North America; Field work in Wales and on Canadian-Vermont border</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>May 17, 1889</date>
+            <event>Son Charles Doolittle born</event> 
+          </chronItem>
+          <chronItem>
+            <date>1889</date>
+            <event>Cambrian field work in North Carolina, Tennessee, Mohawk Valley of New York, Vermont, and Quebec</event> 
+          </chronItem>
+          <chronItem>
+            <date>1890</date>
+            <event>Published Correlation Papers on the Cambrian; Cambrian strata field work in New York and Vermont and Ordovician strata field work in Colorado Springs, Colorado</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1891</date>
+            <event>Field work in New York, Colorado, and Appalachians from Virginia to Alabama</event> 
+          </chronItem>
+          <chronItem>
+            <date>October 2, 1892</date>
+            <event>son Sidney Stevens born</event> 
+          </chronItem>
+          <chronItem>
+            <date>1892</date>
+            <event>Placed in charge of all paleontological work at USGS; Field work in southern Pennsylvania and western Maryland</event> 
+          </chronItem>
+          <chronItem>
+            <date>1892-1907</date>
+            <event>Honorary curator of invertebrate Paleozoic fossils at United States National Museum (USNM)</event> 
+          </chronItem>
+          <chronItem>
+            <date>January 1, 1893</date>
+            <event>Appointed Geologist in charge of Geology and Paleontology, USGS</event> 
+          </chronItem>
+          <chronItem>
+            <date>1893</date>
+            <event>Vice President, Section E (Geology and Geography), American Association for the Advancement of Science; Examined Lower Paleozoic rocks in New Jersey, Pennsylvania, and Tennessee; Prepared paleontological exhibition for Chicago's Columbian Exposition</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>August 20, 1894</date>
+            <event>Daughter Helen Breese born</event> 
+          </chronItem>
+          <chronItem>
+            <date>1894</date>
+            <event>Placed in charge of all paleontological collections at USNM; Appointed Director, USGS; Field work in central Colorado and White Mountain Range in California and Nevada</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1895</date>
+            <event>Cambrian field work in Montana, Idaho, and Massachusetts</event> 
+          </chronItem>
+          <chronItem>
+            <date>July 8, 1896</date>
+            <event>Son Benjamin Stuart born</event> 
+          </chronItem>
+          <chronItem>
+            <date>1896</date>
+            <event>Joined National Academy of Sciences (NAS); Field work in eastern California and western Nevada and Franklin Mountains near El Paso, Texas</event> 
+          </chronItem>
+          <chronItem>
+            <date>January 27, 1897</date>
+            <event>Appointed Acting Secretary in Charge of the USNM</event> 
+          </chronItem>
+          <chronItem>
+            <date>1897</date>
+            <event>Conducted examination of forest reserves and national parks in Black Hills, Big Horn Mountains, and Inyo Mountains</event> 
+          </chronItem>
+          <chronItem>
+            <date>June 30, 1898</date>
+            <event>Resigned as Acting Assistant Secretary in Charge of the USNM</event> 
+          </chronItem>
+          <chronItem>
+            <date>1898</date>
+              <event>Field work in Lexington, Virginia; Teton Forest Reserve, Wyoming; Belt Mountains near Helena, Montana; and Idaho; President of the Cosmos Club, Washington, D.C.; Published Fossil Medusae (USGS Monograph 30)</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1899</date>
+            <event>Field work in Newfoundland, New Brunswick, and Quebec; One of the founders of the Washington Academy of Sciences</event> 
+          </chronItem>
+          <chronItem>
+            <date>1899-1911</date>
+            <event>President of the Washington Academy of Sciences</event> 
+          </chronItem>
+          <chronItem>
+            <date>1900</date>
+            <event>Field work in Montana and Rhode Island</event> 
+          </chronItem>
+          <chronItem>
+            <date>1901</date>
+            <event>Field work in Pennsylvania</event> 
+          </chronItem>
+          <chronItem>
+            <date>January 4, 1902</date>
+            <event>One of the founders of the Carnegie Institution of Washington (CIW) and Secretary of the Board of Incorporators</event> 
+          </chronItem>
+          <chronItem>
+            <date>1902</date>
+            <event>Member of the Advisory Committee on Geology and Advisory Committee on Geophysics of CIW</event> 
+          </chronItem>
+          <chronItem>
+            <date>1902-1905</date>
+            <event>Secretary of Board of Trustees and of Executive Committee of CIW</event> 
+          </chronItem>
+          <chronItem>
+            <date>1902-1922</date>
+            <event>Member, Executive Committee of Board of Trustees of CTW</event> 
+          </chronItem>
+          <chronItem>
+            <date>1902-1923</date>
+            <event>Member of Council of NAS</event> 
+          </chronItem>
+          <chronItem>
+            <date>1902-1927</date>
+            <event>Member, Board of Trustees, CIW</event> 
+          </chronItem>
+          <chronItem>
+            <date>1903</date>
+            <event>Head of Board of Scientific Surveys, CIW; Field work in Uinta Mountains, Utah; House Range of western Utah; Snake River Range of eastern Nevada; Chairman of committee to study scientific work conducted by federal government</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1904-1913</date>
+            <event>Honorary Curator, Department of Mineral Technology, USNM</event> 
+          </chronItem>
+          <chronItem>
+            <date>1905</date>
+            <event>Field work in Montana's Rocky Mountains and Cambrian fossils of Utah's House Range</event> 
+          </chronItem>
+          <chronItem>
+            <date>January 31, 1907</date>
+            <event>Appointed Secretary of the Smithsonian Institution</event> 
+          </chronItem>
+          <chronItem>
+            <date>April 1907</date>
+            <event>Resigned as Director of the USGS</event> 
+          </chronItem>
+          <chronItem>
+            <date>1907</date>
+            <event>Field work at Mount Stephen, Castle Mountains, Lake Louise, and Mount Bosworth in British Columbia</event> 
+          </chronItem>
+          <chronItem>
+            <date>1907-1917</date>
+            <event>Vice President of NAS</event> 
+          </chronItem>
+          <chronItem>
+            <date>1908</date>
+            <event>Field work in Montana, British Columbia, and Alberta</event> 
+          </chronItem>
+          <chronItem>
+            <date>1909</date>
+            <event>Found Cambrian fossils near Burgess Pass above Field, British Columbia</event> 
+          </chronItem>
+          <chronItem>
+            <date>1910</date>
+            <event>Found Burgess shale fauna</event> 
+          </chronItem>
+          <chronItem>
+            <date>June 20, 1911</date>
+            <event>National Museum Building (now the National Museum of Natural History) completed</event> 
+          </chronItem>
+          <chronItem>
+            <date>July 11, 1911</date>
+            <event>Wife Helena died in train accident in Bridgeport, Connecticut</event> 
+          </chronItem>
+          <chronItem>
+            <date>1911</date>
+            <event>Field work in British Columbia</event> 
+          </chronItem>
+          <chronItem>
+            <date>1912</date>
+              <event>Field work in Alberta and British Columbia; Published Cambrian Brachiopoda (USGS Monograph 51)</event> 
+          </chronItem>
+          <chronItem>
+            <date>April 7, 1913</date>
+            <event>Son Charles Doolittle died</event> 
+          </chronItem>
+          <chronItem>
+            <date>1913</date>
+            <event>Burgess shale work in Robson Park district, British Columbia, and in Jasper Park, Alberta</event> 
+          </chronItem>
+          <chronItem>
+            <date>June 30, 1914</date>
+            <event>Married Mary Morris Vaux</event> 
+          </chronItem>
+          <chronItem>
+            <date>1914</date>
+            <event>Field work in Glacier, British Columbia, and White Sulphur Springs and Deep Creek Canyon, Montana</event> 
+          </chronItem>
+          <chronItem>
+            <date>1914-1927</date>
+            <event>Vice Chairman, Board of Trustees, CIW</event> 
+          </chronItem>
+          <chronItem>
+            <date>1915</date>
+            <event>Living algae field work in Yellowstone National Park and West Gallatin River; fossil field work in Arizona 1915-1917; President, Washington Branch of the Archeological Institute of America</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1915-1919</date>
+            <event>Chairman, Executive Committee of National Advisory Committee for Aeronautics</event> 
+          </chronItem>
+          <chronItem>
+            <date>June 30, 1916</date>
+            <event>Elected member of National Research Council (NRC) </event> 
+          </chronItem>
+          <chronItem>
+            <date>October 1916</date>
+            <event>Freer Gallery of Art building construction begun</event> 
+          </chronItem>
+          <chronItem>
+            <date>1916</date>
+            <event>Field work in British Columbia and Alberta</event> 
+          </chronItem>
+          <chronItem>
+            <date>1916-1923</date>
+            <event>First Vice Chairman, NRC</event> 
+          </chronItem>
+          <chronItem>
+            <date>December 12, 1917</date>
+            <event>Son Benjamin Stuart died in military action in France</event> 
+          </chronItem>
+          <chronItem>
+            <date>1917</date>
+            <event>Appointed member of NRC's Executive Committee, Aeronautics Committee, and Geology and Paleontology Committee; Chairman, NRC's Military Committee; Burgess shale field work around Lake MacArthur and in Vermilion River Valley</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1917-1922</date>
+            <event>Chairman, Executive Committee, CIW</event> 
+          </chronItem>
+          <chronItem>
+            <date>1917-1923</date>
+            <event>President, NAS</event> 
+          </chronItem>
+          <chronItem>
+            <date>June 1918</date>
+            <event>Helped organize National Parks Educational Committee (became National Parks Association in 1919)</event> 
+          </chronItem>
+          <chronItem>
+            <date>1918</date>
+            <event>Field work in Alberta; Member, NRC's Interim Committee; Chairman, NRC's Military Division and Section on Aeronautics</event> 
+          </chronItem>
+          <chronItem>
+            <date>1918-1919</date>
+            <event>Chairman, National Parks Educational Committee</event> 
+          </chronItem>
+          <chronItem>
+            <date>1919</date>
+            <event>Field work in Alberta; Chairman, NRC's Committee on Scientific Men as Reserve officers in Reorganized Army; Chairman, NRC's Committee on Removal of Offices of National Research Council; Chairman, NRC's Committee on Representation of United States at International Meetings to be held at Brussels</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1919-1920</date>
+            <event>Member, NRC's Committee on General Policy and Solicitation of Funds; Chairman, NRC's Government Division</event> 
+          </chronItem>
+          <chronItem>
+            <date>1919-1922</date>
+            <event>Member, NRC's Committee on Federal Grants for Research; Chairman, NRC's Committee on Publication of "The Inquiry" Results</event> 
+          </chronItem>
+          <chronItem>
+            <date>1919-1924</date>
+            <event>Member, NRC's Research Information Service</event> 
+          </chronItem>
+          <chronItem>
+            <date>1919-1925</date>
+            <event>Member, NRC's Executive Board</event> 
+          </chronItem>
+          <chronItem>
+            <date>1919-1926</date>
+            <event>Member, National Parks Association's Executive Committee</event> 
+          </chronItem>
+          <chronItem>
+            <date>1919-1927</date>
+            <event>Chairman, National Advisory Committee for Aeronautics</event> 
+          </chronItem>
+          <chronItem>
+            <date> </date>
+            <event>Chairman, NRC's Division of Federal Relations; Member, NRC's Executive Committee of Division of Federal Relations</event> 
+          </chronItem>
+     
+          <chronItem>
+            <date>1920</date>
+            <event>Field work in Alberta</event> 
+          </chronItem>
+          <chronItem>
+            <date>1920-1921</date>
+            <event>Member, NAS's Federal Relations Committee</event> 
+          </chronItem>
+          <chronItem>
+            <date>1920-1922</date>
+            <event>Chairman, Committee on Budget (jointly with NAS and NRC); Member, NRC's Committee on Building Stone and Committee on Building Plans</event> 
+          </chronItem>
+          <chronItem>
+            <date>1921</date>
+            <event>Field work in Alberta</event> 
+          </chronItem>
+          <chronItem>
+            <date>1921</date>
+            <event>Freer Gallery of Art building completed; Received first Mary Clark Thompson Medal from NAS</event> 
+          </chronItem>
+          <chronItem>
+            <date>1921-1924</date>
+            <event>President, National Parks Association</event> 
+          </chronItem>
+          <chronItem>
+            <date>1921-1927</date>
+            <event>Chairman, NRC's Executive Committee of Division of Federal Regulations</event> 
+          </chronItem>
+          <chronItem>
+            <date>1922</date>
+            <event>Field work in Alberta and British Columbia; Established Charles D. and Mary Vaux Walcott Fund at Smithsonian</event> 
+          </chronItem>
+          <chronItem>
+            <date>1922-1923</date>
+            <event>Member, NRC's Committee on Stabilization of Permanent Foundations; Chairman, Committee on Finance (jointly with NAS and NRC)</event> 
+          </chronItem>
+          <chronItem>
+            <date>1922-1925</date>
+            <event>Member, NRC's Committee on Building; Member, NRC's Committee on Policies</event> 
+          </chronItem>
+          <chronItem>
+            <date>1923</date>
+            <event>Field work in Alberta and British Columbia; President, American Association for the Advancement of Science; Freer Gallery of Art opened</event> 
+          </chronItem>
+          <chronItem>
+            <date>1923-1924</date>
+            <event>Chairman, Committee on Dedication of the New Building (jointly with NAS and NRC)</event> 
+          </chronItem>
+          <chronItem>
+            <date>1923-1925</date>
+            <event>Member, NRC's Interim Committee; Member, Executive Committee, Committee on Exhibits in the New Building (jointly with NAS and NRC)</event> 
+          </chronItem>
+          <chronItem>
+            <date>1923-1927</date>
+            <event>Second Vice Chairman, NRC</event> 
+          </chronItem>
+          <chronItem>
+            <date>1924</date>
+            <event>Field work in Alberta and British Columbia</event> 
+          </chronItem>
+          <chronItem>
+            <date>1924-1925</date>
+            <event>Member, Committee on Exhibits (jointly with NAS and NRC)</event> 
+          </chronItem>
+          <chronItem>
+            <date>1925</date>
+            <event>Field work in Alberta; Life Member, American Association for the Advancement of Science</event> 
+          </chronItem>
+          <chronItem>
+            <date>1925-1927</date>
+            <event>President, American Philosophical Society</event> 
+          </chronItem>
+          <chronItem>
+            <date>1926</date>
+            <event>Helped draft Air Commerce Act of 1926</event> 
+          </chronItem>
+          <chronItem>
+            <date>1926-1927</date>
+            <event>Board of Trustees, National Parks Association</event> 
+          </chronItem>
+          <chronItem>
+            <date>February 9, 1927</date>
+            <event>Died in Washington, D. C.</event> 
+          </chronItem>
+         </chronList>
+        </biogHist>        
+    </description>
+    <relations>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Walcott, Lura Ann Rust, d. 1876</relationEntry>
+            <descriptiveNote>
+                <p>Wife</p>
+            </descriptiveNote>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Agassiz, Louis, 1807-1873</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Hall, Janes</relationEntry>
+            <descriptiveNote>
+                <p>State Geologist of New York</p>
+            </descriptiveNote>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Dutton, Clarence E. (Clarence Edward), 1841-1912</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Walcott, Helena Breese Stevens, d. 1911</relationEntry>
+            <descriptiveNote>
+                <p>Wife</p>
+            </descriptiveNote>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Walcott, Charles Doolittle, Jr., 1889-1913</relationEntry>
+            <descriptiveNote>
+                <p>Son</p>
+            </descriptiveNote>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Walcott, Sidney Stevens, 1892-</relationEntry>
+            <descriptiveNote>
+                <p>Son</p>
+            </descriptiveNote>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Walcott, Helen Breese, 1894- </relationEntry>
+            <descriptiveNote>
+                <p>Daughter</p>
+            </descriptiveNote>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Walcott, Benjamin Stuart, 1896-1917</relationEntry>
+            <descriptiveNote>
+                <p>Son</p>
+            </descriptiveNote>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person"
+            xlink:type="simple">
+            <relationEntry>Walcott, Mary Vaux, 1860-1940</relationEntry>
+            <descriptiveNote>
+                <p>Wife</p>
+            </descriptiveNote>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>American Association for the Advancement of Science</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>Geological Survey (U.S.)</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>United States National Museum</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>National Academy of Sciences (U.S.)</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>Washington Academy of Sciences (Washington, D.C.)</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>Carnegie Institution of Washington</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>Smithsonian Institution</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>United States, National Advisory Committee for Aeronautics</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>National Research Council (U.S.)</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>National Parks Association (U.S.)</relationEntry>
+        </cpfRelation>
+        <cpfRelation xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xlink:arcrole="associatedWith"
+            xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody"
+            xlink:type="simple">
+            <relationEntry>American Philosophical Society</relationEntry>
+        </cpfRelation>
+    </relations>
+</cpfDescription>
+</eac-cpf>

@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eac-cpf xmlns="urn:isbn:1-931666-33-4" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd">
+    <control>
+        <recordId>beinecke.j0zpcks</recordId>
+        <otherRecordId localType="url">http://hdl.handle.net/10079/j0zpcks</otherRecordId>
+        <maintenanceStatus>new</maintenanceStatus>
+        <maintenanceAgency>
+            <agencyCode>US-CtY-BR</agencyCode>
+            <agencyName>Beinecke Rare Book and Manuscript Library, Yale University</agencyName>
+        </maintenanceAgency>
+        <languageDeclaration>
+            <language languageCode="eng">English</language>
+            <script scriptCode="Latn">Latin</script>
+        </languageDeclaration>
+        <conventionDeclaration>
+            <abbreviation>aat</abbreviation>
+            <citation>Art &amp; Architecture Thesaurus</citation>
+        </conventionDeclaration>
+        <conventionDeclaration>
+            <abbreviation>dacs</abbreviation>
+            <citation>Describing Archives: A Content Standard</citation>
+            <descriptiveNote>
+                <p>Records were created following DACS conventions.</p>
+            </descriptiveNote>
+        </conventionDeclaration>
+        <conventionDeclaration>
+            <abbreviation>lcnaf</abbreviation>
+            <citation>Library of Congress Name Authority File</citation>
+        </conventionDeclaration>
+        <conventionDeclaration>
+            <abbreviation>lcsh</abbreviation>
+            <citation>Library of Congress Subject Headings</citation>
+        </conventionDeclaration>
+        <maintenanceHistory>
+            <maintenanceEvent>
+                <eventType>created</eventType>
+                <eventDateTime standardDateTime="2012-05-24"> 2012 May 24</eventDateTime>
+                <agentType>human</agentType>
+                <agent>M.K.K. Yearl</agent>
+            </maintenanceEvent>
+        </maintenanceHistory>
+        <sources>
+            <source xlink:actuate="onRequest" xlink:show="new" xlink:type="simple"
+                xlink:href="http://lccn.loc.gov/n88007820">
+                <sourceEntry>Library of Congress Control Number: n 88007820</sourceEntry>
+            </source>
+            <source xlink:actuate="onRequest" xlink:show="new" xlink:type="simple"
+                xlink:href="http://www.oxforddnb.com/view/article/4302">
+                <sourceEntry>Oxford Dictionary of National Biography</sourceEntry>
+            </source>
+        </sources>
+    </control>
+    <cpfDescription>
+        <identity>
+            <entityType>person</entityType>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="100a">Cadell, T., </part>
+                <part localType="100q">(Thomas), </part>
+                <part localType="100d">1742-1802 </part>
+                <authorizedForm>lcnaf</authorizedForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Cadell, Thomas. </part>
+                <part localType="400d">1742-1802 </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Cadel, T. </part>
+                <part localType="400q">(Thomas), </part>
+                <part localType="400d">1742-1802 </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng" localType="directOrder">
+                <part>Thomas Cadell </part>
+            </nameEntry>
+        </identity>
+        <description>
+            <existDates>
+                <dateRange>
+                    <fromDate standardDate="1742-11-12">1742 November 12</fromDate>
+                    <toDate standardDate="1802-12-27">1802 December 27</toDate>
+                </dateRange>
+            </existDates>
+            <places>
+                <place>
+                    <placeRole>birth</placeRole>
+                    <placeEntry vocabularySource="lcsh">Bristol (England)</placeEntry>
+                    <date standardDate="1742">1742</date>
+                </place>
+                <place>
+                    <placeRole>residence</placeRole>
+                    <placeEntry vocabularySource="lcsh">London (England)</placeEntry>
+                    <dateRange>
+                        <fromDate notAfter="1758">1758</fromDate>
+                        <toDate standardDate="1802">1802</toDate>
+                    </dateRange>
+                </place>
+            </places>
+            <localDescription localType="sex">
+                <term>male</term>
+            </localDescription>
+            <languageUsed>
+                <language languageCode="eng">English</language>
+                <script scriptCode="Latn">Latin</script>
+            </languageUsed>
+            <occupations>
+                <occupation>
+                    <term vocabularySource="aat">booksellers</term>
+                </occupation>
+                <occupation>
+                    <term vocabularySource="aat">publishers</term>
+                </occupation>
+                <occupation>
+                    <term vocabularySource="aat">stationers</term>
+                </occupation>
+            </occupations>
+            <biogHist>
+                <abstract>Thomas Cadell was born in Bristol on 12 November 1742, but spent most of
+                    his life in London. When Cadell was fifteen, his father sent him to be an
+                    apprentice to Andrew Millar (1707-1768), a well-regarded publisher and
+                    bookseller who had supported the publication of Samuel Johnson's <span
+                        localType="title" style="font-style:italic">Dictionary</span>. After seven
+                    years, Cadell became a partner in the business and finally took it over when
+                    Millar retired in 1767. His clients and friends were among the most influential
+                    literary and intellectual figures of the eighteenth century and included Fanny
+                    Burney (1752-1840), Robert Burns (1759-1796), David Hume (1711-1776), Samuel
+                    Johnson (1709-1784), Hannah More (1745-1833), Adam Smith (1723-1790), and Tobias
+                    Smollett (1721-1771). When Cadell retired in 1793, he gave his business to his
+                    son, Thomas Cadell (1773-1836) and his former assistant, William Davies (d.
+                    1820). Before his death from an asthma attack in 1802, he enjoyed an active
+                    retirement, fulfilling many charitable and public positions, including governor
+                    of the Foundling Hospital and sheriff in the Walbrook ward of London.</abstract>
+                <chronList>
+                    <chronItem>
+                        <date standardDate="1742-11-12">1742 November 12</date>
+                        <event>Born in Bristol.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1758-03-07">1758 March 7</date>
+                        <event>Apprenticed to bookseller and publisher Andrew Millar.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1765-04">1765 April</date>
+                        <event>Became business partner to Andrew Millar.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1767">1767</date>
+                        <event>Took over publishing and bookselling business upon Millar's
+                            retirement.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1769-04-01">1769 April 1</date>
+                        <event>Married the daughter of the Reverend Thomas Jones.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1786-01">1786 January</date>
+                        <event>Death of Cadell's wife.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1793">1793</date>
+                        <event>Retired; left business to be run jointly by his son, Thomas Cadell,
+                            and his assistant, William Davies.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1795">1795</date>
+                        <event>Became a governor of the Foundling Hospital in London.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1798-03-30">1798 March 30</date>
+                        <event>Elected alderman of Walbrook ward, City of London.</event>
+                    </chronItem>
+                    <chronItem>
+                        <dateRange>
+                            <fromDate standardDate="1798">1798</fromDate>
+                            <toDate standardDate="1799">1799</toDate>
+                        </dateRange>
+                        <event>Master of the Stationers' Company.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1800">1800</date>
+                        <event>Stockkeeper of the Stationers' Company.</event>
+                    </chronItem>
+                    <chronItem>
+                        <dateRange>
+                            <fromDate standardDate="1800">1800</fromDate>
+                            <toDate standardDate="1801">1801></toDate>
+                        </dateRange>
+                        <event>Served in the office of the sheriff, Walbrook ward, City of
+                            London.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1802-12-27">1802 December 27</date>
+                        <event>Died from an asthma attack at home in Bloomsbury Place.</event>
+                    </chronItem>
+                </chronList>
+                <p>Thomas Cadell was born in Bristol on 12 November 1742 to William and Mary Cadell.
+                    At the age of fifteen, he became an apprentice to the eminent London bookseller
+                    and publisher Andrew Millar. In London, he rose to prominence as the publisher
+                    of some of the most successful works of the eighteenth century, including many
+                    by Samuel Johson, Edward Gibbon, and Fanny Burney.</p>
+                <p>At the age of twenty-one, Cadell became Millar's partner; two years later, he
+                    took over the business when Millar retired. Cadell maintained the business in
+                    the same location in the Strand and is said also to have carried on Millar's
+                    inclination towards generous payments to authors. Where Millar had given
+                    financial support to Johnson's <span localType="title" style="font-style:italic"
+                        >A Dictionary of the English Language</span>, Cadell gave Mrs. Piozzi five
+                    hundred for her <span localType="title" style="font-style:italic">Letters to
+                        Samuel Johnson</span>. On occasion, he partnered with other emininent
+                    booksellers, including William and (later) Andrew Strahan.</p>
+                <p>The list of clients Cadell served amounts to a summary of influential authors of
+                    the time. In 1770, he issued David Hume's <span localType="title"
+                        style="font-style:italic">Essays and Treatises on Several Subjects</span>;
+                    from 1776-1788, he published Edward Gibbon's multi-volume <span
+                        localType="title" style="font-style:italic">History of the Decline and Fall
+                        of the Roman Empire</span>. From 1787 on, he published the poetry of Robert
+                    Burns. He was also a friend of Samuel Johnson and published several of his
+                    works, including <span localType="title" style="font-style:italic">The Works of
+                        English Poets</span>. Other authors who published with Cadell included Fanny
+                    Burney, Hannah More, Hester Piozzi, Adam Smith, and Tobias Smollett.</p>
+                <p>It was the comfort of his position as a publisher that allowed Cadell to marry
+                    the daughter of the Reverend Thomas Jones on 1 April 1769. They had two
+                    children: a daughter who married the chaplain to King George III, Dr. Charles
+                    Lucas Eldridge, and a son, Thomas Cadell the younger. It was to his son as well
+                    as his assistant, William Davies, that Cadell turned over his business upon his
+                    retirement in 1793. Even in retirement, Cadell remained an active member of
+                    society: he was a governor of the Foundling Hospital, treasurer of the Asylum,
+                    master of the Stationers' Company, and alderman and sheriff for the ward of
+                    Walbrook in the City of London. Cadell died of an asthma attack on 27 December
+                    1802.</p>
+            </biogHist>
+            <biogHist>
+                <p>Highlights of Cadell's publishing career:</p>
+                <chronList>
+                    <chronItem>
+                        <date standardDate="1770">1770</date>
+                        <event>David Hume's "Essays and Treatises on Several Subjects."</event>
+                    </chronItem>
+                    <chronItem>
+                        <dateRange>
+                            <fromDate standardDate="1770">circa 1770</fromDate>
+                            <toDate standardDate="1780">circa 1780</toDate>
+                        </dateRange>
+                        <event>1770s: Samuel Johnson's political tracts.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1771">1771</date>
+                        <event>Henry Mackenzie's "The Man of Feeling."</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1775">1775</date>
+                        <event>Samuel Johnson's "Journey to the Western Islands of
+                            Scotland."</event>
+                    </chronItem>
+                    <chronItem>
+                        <dateRange>
+                            <fromDate standardDate="1776">1776</fromDate>
+                            <toDate standardDate="1788">1788</toDate>
+                        </dateRange>
+                        <event>Edward Gibbon's "Decline and Fall of the Roman Empire."</event>
+                    </chronItem>
+                    <chronItem>
+                        <dateRange>
+                            <fromDate standardDate="1779">1779</fromDate>
+                            <toDate standardDate="1781">1781</toDate>
+                        </dateRange>
+                        <event>Samuel Johnson's "The Works of English Poets."</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1785">1785</date>
+                        <event>Samuel Johnson's posthumous "Prayers and Meditations."</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1786">1786</date>
+                        <event>Hester Piozzi's "Anecdotes of the Late Samuel Johnson."</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1787">1787</date>
+                        <event>Began publishing the poetry of Robert Burns.</event>
+                    </chronItem>
+                    <chronItem>
+                        <date standardDate="1788">1788</date>
+                        <event>Hester Piozzi's "Letters to Samuel Johnson."</event>
+                    </chronItem>
+                </chronList>
+            </biogHist>
+        </description>
+        <relations>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://nrs.harvard.edu/urn-3:FHCL.HOUGH:8822110">
+                <relationEntry>Burney, Fanny, 1752-1840</relationEntry>
+                <descriptiveNote>
+                    <p>Published her works.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://nrs.harvard.edu/urn-3:FHCL.HOUGH:8822135">
+                <relationEntry>Cadell &amp; Davies</relationEntry>
+                <descriptiveNote>
+                    <p>Firm began when Cadell bequeathed his business his son, Thomas Cadell the
+                        younger (1773-1836) and assistant, William Davies (d. 1820).</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://nrs.harvard.edu/urn-3:FHCL.HOUGH:8822139">
+                <relationEntry>Gibbon, Edward, 1737-1794</relationEntry>
+                <descriptiveNote>
+                    <p>Published Gibbon's <span localType="title" style="font-style:italic">Decline
+                            and Fall of the Roman Empire</span> giving him nearly two-thirds of
+                        profits from sales.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://nrs.harvard.edu/urn-3:FHCL.HOUGH:8822136">
+                <relationEntry>Johnson, Samuel, 1709-1784</relationEntry>
+                <descriptiveNote>
+                    <p>Friend and publisher of Johnson.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://nrs.harvard.edu/urn-3:FHCL.HOUGH:8822141">
+                <relationEntry>Millar, Andrew, 1707-1768</relationEntry>
+                <descriptiveNote>
+                    <p>First an apprentice to and later a business partner to Millar; named an
+                        executor when Millar died in 1768.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://hdl.handle.net/10079/tb2rc0k">
+                <relationEntry>More, Hannah, 1745-1833</relationEntry>
+                <descriptiveNote>
+                    <p>Published her works.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://hdl.handle.net/10079/5tb2rp7">
+                <relationEntry>Smollett, T. (Tobias), 1721-1771</relationEntry>
+                <descriptiveNote>
+                    <p>Published his works.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://hdl.handle.net/10079/2280gnr">
+                <relationEntry>Strahan, William, 1715-1785</relationEntry>
+                <descriptiveNote>
+                    <p>Occasional partner with Strahan.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://nrs.harvard.edu/urn-3:FHCL.Hough:hou01430">
+                <relationEntry>Autograph File: G.</relationEntry>
+                <descriptiveNote>
+                    <p>Contains: Receipt for the profits from the first and second editions of
+                        Edward Gibbon's <span localType="title" style="font-style:italic">History of
+                            the Decline and Fall of the Roman Empire</span>; also signed by Thomas
+                        Cadell.</p>
+                </descriptiveNote>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.d98">
+                <relationEntry>Autographs of English literati</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.booktrad">
+                <relationEntry>Book trade collection</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.burnfam">
+                <relationEntry>Burney family collection</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.cadell">
+                <relationEntry>Cadell &amp; Davies records</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.genmisc">
+                <relationEntry>General Collection manuscript miscellany</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.hilles">
+                <relationEntry>Frederick W. Hilles manuscript collection</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.liebert">
+                <relationEntry>Herman W. Liebert manuscript collection</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.osbmss">
+                <relationEntry>Manuscripts Bound in Printed Books in the Osborn
+                    Collection</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.piozzi">
+                <relationEntry>Hester Lynch Piozzi collection, 1776-1930</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.osbfile">
+                <relationEntry>Osborn Manuscript Files</relationEntry>
+            </resourceRelation>
+        </relations>
+    </cpfDescription>
+</eac-cpf>

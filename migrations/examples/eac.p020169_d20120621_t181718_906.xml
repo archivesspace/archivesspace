@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eac-cpf xmlns="urn:isbn:1-931666-33-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd">
+  <control>
+    <recordId>DE-1a-173930</recordId>
+    <otherRecordId localType="028a">118540238, 134580168, 130927333, 13095957X</otherRecordId>
+    <otherRecordId localType="028c">4021455-2</otherRecordId>
+    <maintenanceStatus>revised</maintenanceStatus>
+    <maintenanceAgency>
+      <agencyCode>DE-1a</agencyCode>
+      <agencyName>Staatsbibliothek zu Berlin - Preußischer Kulturbesitz / Handschriftenabteilung</agencyName>
+    </maintenanceAgency>
+    <languageDeclaration>
+      <language languageCode="ger">Deutsch</language>
+      <script scriptCode="Latn">Latin Alphabet</script>
+    </languageDeclaration>
+    <conventionDeclaration>
+      <citation>16.5p,15.1p
+     </citation>
+    </conventionDeclaration>
+    <maintenanceHistory>
+      <maintenanceEvent>
+        <eventType>created</eventType>
+        <eventDateTime standardDateTime="1997-02-05"/>
+        <agentType>machine</agentType>
+        <agent>ZKA</agent>
+      </maintenanceEvent>
+      <maintenanceEvent>
+        <eventType>revised</eventType>
+        <eventDateTime standardDateTime="2011-11-16"/>
+        <agentType>machine</agentType>
+        <agent>ZKA</agent>
+      </maintenanceEvent>
+    </maintenanceHistory>
+    <sources>
+      <source>
+        <sourceEntry>M; B 1986; LCAuth; Kosch Lit.; DbA, DBA (WBIS)</sourceEntry>
+      </source>
+    </sources>
+  </control>
+  <cpfDescription>
+    <identity>
+      <entityType>person</entityType>
+      <nameEntry>
+        <part>Goethe, Johann Wolfgang von</part>
+      </nameEntry>
+      <nameEntryParallel>
+        <nameEntry>
+          <part>Goethe, Joh. Wolfg. v.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Johann Wolfgang v.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Johann Wolfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Johann W. von</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Johann W.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, J. Wolfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, J. W. von</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, J. W.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Ioannes W.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Iohan Wolphgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Jan Wolfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Jean Wolfgang von</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, João Wolfgang von</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Johan Wolfgang von</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Juan W.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Juan Wolfgang von</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Volfango</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Volfgango</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Wolfango</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Wolfgango</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Wolfgang von</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Wolfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethius, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Göte, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Göte, Iogann V.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gede, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Iogann W.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gëte, Iogann Vol'fgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Iohan Volfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Johan Volfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Jogann Vol'fgang fon</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Yôhân Wôlfgang fôn</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gête, Yôhan Wolfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gêtê, Y. W.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gkaite, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gkaite, Giochan Bolphnkannk phon</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gkaite, Giochan B. phon</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gót, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>G'ote, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>G'ote, Jochan Volfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gutih, Yuhan Vulfgang fun</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gyot'e, Yohan Wolfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Hëte, Ëhan Vol'fhanh</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Hete, Johann-Vol'fhanh</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Koet'e, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Koet'e, Yohan Polp'ugang p'on</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Guta, Yuhan Wulfgang fun</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Geteh, Yohan Volfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Goethe, Joao Wolfgang von</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Iogann Volfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Jogann Volfgang fon</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Yohan Wolfgang fon</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Yohan Wolfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gete, Y. W.</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Got, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gote, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gote, Jochan Volfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Gyote, Yohan Wolfgang</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Hete, Ehan Volfhanh</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Hete, Johann Volfhanh</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Koete, ...</part>
+        </nameEntry>
+        <nameEntry>
+          <part>Koete, Yohan Polpugang pon</part>
+        </nameEntry>
+      </nameEntryParallel>
+    </identity>
+    <description>
+      <existDates>
+        <dateRange>
+          <fromDate standardDate="1749">1749</fromDate>
+          <toDate standardDate="1832">1832</toDate>
+        </dateRange>
+        <descriptiveNote>
+          <p>28.08.1749-22.03.1832</p>
+        </descriptiveNote>
+      </existDates>
+      <localDescription localType="sex">
+        <term>Male</term>
+      </localDescription>
+      <places>
+        <place>
+          <placeRole>Place of Birth</placeRole>
+          <placeEntry>Frankfurt &lt;Main&gt;</placeEntry>
+        </place>
+        <place>
+          <placeRole>Place of Death</placeRole>
+          <placeEntry>Weimar</placeEntry>
+        </place>
+        <place>
+          <placeRole>Place of Activity</placeRole>
+          <placeEntry>Weimar, Weimar</placeEntry>
+        </place>
+        <place>
+          <placeRole>Nationality</placeRole>
+          <placeEntry countryCode="DE">Deutschland</placeEntry>
+        </place>
+      </places>
+      <occupations>
+        <occupation>
+          <term>Schriftsteller</term>
+        </occupation>
+        <occupation>
+          <term>Politiker</term>
+        </occupation>
+        <occupation>
+          <term>Jurist</term>
+        </occupation>
+        <occupation>
+          <term>Naturwissenschaftler</term>
+        </occupation>
+        <occupation>
+          <term>Maler</term>
+        </occupation>
+        <occupation>
+          <term>Zeichner</term>
+        </occupation>
+        <occupation>
+          <term>Dichter</term>
+        </occupation>
+        <occupation>
+          <term>Staatsmann</term>
+        </occupation>
+        <occupation>
+          <term>Naturforscher</term>
+        </occupation>
+        <occupation>
+          <term>Naturphilosoph</term>
+        </occupation>
+        <occupation>
+          <term>Geheimrat</term>
+        </occupation>
+      </occupations>
+    </description>
+    <relations>
+      <functionRelation/>
+      <functionRelation>
+        <descriptiveNote>
+          <p/>
+        </descriptiveNote>
+      </functionRelation>
+    </relations>
+  </cpfDescription>
+</eac-cpf>

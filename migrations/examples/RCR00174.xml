@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export>
+<eac-cpf xmlns="urn:isbn:1-931666-33-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd">
+  <control>
+    <recordId>RCR00174</recordId>
+        <maintenanceStatus>new</maintenanceStatus>
+        <maintenanceAgency>
+      <agencyCode>MMeT-C</agencyCode>
+      <agencyName>Tufts University Digital Collections and Archives</agencyName>
+    </maintenanceAgency>
+    <languageDeclaration>
+      <language languageCode="eng">English</language>
+      <script scriptCode="Latn">Latin</script>
+    </languageDeclaration>
+    <conventionDeclaration>
+      <abbreviation>DACS</abbreviation>
+      <citation>Describing Archives: a Content Standard, Society of American Archivists. 2004</citation>
+      <descriptiveNote><p>Locally using rules from chapter 10 and 11.</p></descriptiveNote>
+    </conventionDeclaration>
+    <conventionDeclaration>
+      <abbreviation>AACR2R</abbreviation>
+      <citation>Anglo-American Cataloging Rules, Revised.</citation>
+      <descriptiveNote><p>Locally used for their definition of a corporate body.</p></descriptiveNote>
+    </conventionDeclaration>
+    <maintenanceHistory>
+                <maintenanceEvent>
+        	<eventType>created</eventType>
+		<eventDateTime standardDateTime="2010-02-09">2010-02-09</eventDateTime>
+	<agentType>human</agentType>
+	<agent>Ferrante, Krista</agent>
+      </maintenanceEvent>
+                      <maintenanceEvent>
+        	<eventType>revised</eventType>
+		<eventDateTime standardDateTime="2011-09-30">2011-09-30</eventDateTime>
+	<agentType>human</agentType>
+	<agent>Rubinstein, Aaron</agent>
+      </maintenanceEvent>
+                      <maintenanceEvent>
+        	<eventType>revised</eventType>
+		<eventDateTime standardDateTime="2012-01-27">2012-01-27</eventDateTime>
+	<agentType>human</agentType>
+	<agent>Rubinstein, Aaron</agent>
+      </maintenanceEvent>
+                        </maintenanceHistory>
+    <sources>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1972-1973, Vol. LXXII, no. 4. Medford, MA: Tufts College, 1972.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1976-1977. Medford, MA: Tufts College, 1976.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1979-1980. Medford, MA: Tufts College, 1979.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1981-1982. Medford, MA: Tufts College, 1981.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1983-1984. Medford, MA: Tufts College, 1983.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1985-1986. Medford, MA: Tufts College, 1985.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1990-1991. Medford, MA: Tufts College, 1990.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1991-1992. Medford, MA: Tufts College, 1991.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1993-1994. Medford, MA: Tufts College, 1993.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1994-1995. Medford, MA: Tufts College, 1994.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 1998-1999/1999-2000. Medford, MA: Tufts College, 1998.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 2000-2001. Medford, MA: Tufts College, 2000.</sourceEntry>
+      </source>
+              <source>
+        <sourceEntry>Trustees of Tufts College. Bulletin of Tufts University, 2005-2006. Medford, MA: Tufts College, 2005.</sourceEntry>
+      </source>
+        </sources>
+  </control>
+  
+  <cpfDescription>
+
+    <identity>
+      <entityType>corporateBody</entityType>
+      <nameEntry>
+        <part>Department of Romance Languages</part>
+	<authorizedForm>local</authorizedForm>
+      </nameEntry>
+          </identity>
+    
+    <description>
+
+      <existDates>
+        <dateRange>
+	  <fromDate>1972</fromDate>
+	  	  <toDate>present</toDate>
+	          </dateRange>
+      </existDates>
+
+            
+      <biogHist>
+        <abstract><p>In 1972, the Department of French and Other Romance Languages became the Department of Romance Languages. It offers majors in French and Spanish, and a major in Italian Studies was added in 2005. In addition to courses in French, Spanish, Italian, and some English-language courses on literature and philosophy, courses in Portuguese were offered during the 1980s and early 1990s. The department sponsors the residences French House and Spanish House, and has provided students with study-abroad opportunities in France, Spain, and Latin America.</p></abstract>
+            <p>In 1972, the Department of French and Other Romance Languages became the Department of Romance Languages. Courses are devoted to the study of Latin-derived languages and the various cultures of the people who speak them. The constants in the curriculum are French, Spanish and Italian. Portuguese courses were offered from the academic year 1981-1982 until 1993-1994. Since the inception of the department, undergraduates have been able to major in French or Spanish. Since 1993-1994, students have been able to minor in Italian. Since 1998-1999, there has been a special minor for engineering students. Since 2005-2006, there has been a major in Italian studies. The department also offers courses in linguistics and the teaching of modern language, and English-language courses on French, Spanish, and Italian literature and philosophy.</p><p>The Department provides students with opportunities to hone their language skills outside the classroom. Students can live in "French House" or "Spanish House" dormitories (Spanish House was called Latin-American House for a brief period in the 1970s, and then reverted to its original name). A number of study-abroad programs have been offered to students who wish to spend a semester or an academic year abroad. The Tufts-in-Paris program began in 1968-1969. The Tufts-in-Barcelona program ran from 1979-1980 through 1984-1985, and was followed by the Tufts-in-Madrid program, which began in 1985-1986. The Tufts-in-Chile program began in 2000-2001. In 1991-1992, the Tufts University European Center began offering summer study programs in Tailloires, in the French Alps.</p>
+            </biogHist>
+      
+          </description>	  
+      
+    <relations>
+              	  	  	  	  	    	  	    	  	    	  	    	  	    	  	    	  	  	    	  	  	              	              	              	              	              	              	              	  	    	  	    	  	  	  <cpfRelation cpfRelationType="hierarchical" xlink:type="simple" xlink:role="http://dca.lib.tufts.edu/ontology/rcr#corporateBody" xlink:arcrole="http://dca.lib.tufts.edu/ontology/rcr#isPartOf">
+	    <relationEntry xml:id="RCR00001">Tufts University</relationEntry>
+	    <dateRange>
+	      <fromDate standardDate="1955">1955</fromDate>
+	      	      <toDate>present</toDate>
+	                  </dateRange>
+	  	 </cpfRelation>
+		  	  	  	  	    	  	    	  	    	  	    	  	    	  	    	  	  	    	  	  	              	              	              	              	              	              	              	  	    	  	    	  	  	  <cpfRelation cpfRelationType="hierarchical" xlink:type="simple" xlink:role="http://dca.lib.tufts.edu/ontology/rcr#corporateBody" xlink:arcrole="http://dca.lib.tufts.edu/ontology/rcr#reportsTo">
+	    <relationEntry xml:id="RCR00119">School of Arts and Sciences</relationEntry>
+	    <dateRange>
+	      <fromDate standardDate="1972">1972</fromDate>
+	      	      <toDate>present</toDate>
+	                  </dateRange>
+	  	 </cpfRelation>
+		  	  	  	  	    	  	    	  	    	  	    	  	    	  	    	  	  	    	  	  	              	              	              	              	              	              	              	  	    	  	    	  	  	  <cpfRelation cpfRelationType="temporal" xlink:type="simple" xlink:role="http://dca.lib.tufts.edu/ontology/rcr#corporateBody" xlink:arcrole="http://dca.lib.tufts.edu/ontology/rcr#isPrecededBy">
+	    <relationEntry xml:id="RCR00722">Department of French and other Romance Languages</relationEntry>
+	    <dateRange>
+	      <fromDate standardDate="1939">1939</fromDate>
+	      	      <toDate standardDate="1972">1972</toDate>
+	                  </dateRange>
+	  	 </cpfRelation>
+		  	  	  	  	    	  	    	  	    	  	    	  	    	  	    	  	  	    	  	  	              	              	              	              	              	              	              	  	    	  	    	  	  	  <cpfRelation cpfRelationType="temporal" xlink:type="simple" xlink:role="http://dca.lib.tufts.edu/ontology/rcr#corporateBody" xlink:arcrole="http://dca.lib.tufts.edu/ontology/rcr#isPrecededBy">
+	    <relationEntry xml:id="RCR00720">Department of French</relationEntry>
+	    <dateRange>
+	      <fromDate standardDate="1893">1893</fromDate>
+	      	      <toDate standardDate="1939">1939</toDate>
+	                  </dateRange>
+	  	 </cpfRelation>
+		  	  	  	  	    	  	    	  	    	  	    	  	    	  	    	  	  	    	  	  	              	              	              	              	              	              	              	  	    	  	    	  	  	  <cpfRelation cpfRelationType="temporal" xlink:type="simple" xlink:role="http://dca.lib.tufts.edu/ontology/rcr#corporateBody" xlink:arcrole="http://dca.lib.tufts.edu/ontology/rcr#isPrecededBy">
+	    <relationEntry xml:id="RCR00721">Department of Italian</relationEntry>
+	    <dateRange>
+	      <fromDate standardDate="1926">1926</fromDate>
+	      	      <toDate standardDate="1939">1939</toDate>
+	                  </dateRange>
+	  	 </cpfRelation>
+	            
+              <resourceRelation resourceRelationType="creatorOf" xml:id="UA013">
+	  <relationEntry>Department of Romance Languages records</relationEntry>
+	  <objectXMLWrap>
+	    <ead xmlns="urn:isbn:1-93166-22-9">
+	      <archdesc level="collection">
+	        <did>
+		  <unittitle>Department of Romance Languages records</unittitle>
+		  <unitid>UA013</unitid>
+		</did>
+              </archdesc>
+	    </ead>
+          </objectXMLWrap>
+        </resourceRelation>
+             </relations>
+  </cpfDescription>
+</eac-cpf>
+</export>
