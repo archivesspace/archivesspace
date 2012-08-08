@@ -360,12 +360,31 @@ module JSONModel
       # Validate the current JSONModel instance and return a list of exceptions
       # produced.
       def _exceptions
-        self.class.validate(@data, false).reject{|k, v| v.empty?}
+        if not @always_valid
+          self.class.validate(@data, false).reject{|k, v| v.empty?}
+        else
+          {}
+        end
       end
 
 
       def _warnings
-        self.class.validate(@data)[:warnings]
+        exceptions = self._exceptions
+
+        if exceptions.has_key?(:warnings)
+          exceptions[:warnings]
+        else
+          []
+        end
+      end
+
+
+      # Set this object instance to always pass validation.  Used so the
+      # frontend can create intentionally incomplete objects that will be filled
+      # out by the user.
+      def _always_valid!
+        @always_valid = true
+        self
       end
 
 
