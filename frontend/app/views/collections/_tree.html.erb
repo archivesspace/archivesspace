@@ -72,10 +72,20 @@
 --></div>
 
 <div id="tree_nodenavigation_toolbar_template"><!--
-   <div class="tree-navigation btn-toolbar">         
-     <div class="btn-group">
-      {if defined(previous)}<a href="${previous}" class="btn btn-small"><span class="icon-arrow-left"></span></a>{/if}
-      {if defined(next)}<a href="${next}" class="btn btn-small"><span class="icon-arrow-right"></span></a>{/if}
-     </div>
+   <div class="tree-navigation btn-toolbar">
+      <div class="btn-group">
+         {if defined('previous')}
+            <a href="#${previous}" class="btn btn-small"><span class="icon-arrow-left"></span></a>
+         {else}
+            <a disabled="disabled" class="btn btn-small"><span class="icon-arrow-left"></span></a>
+         {/if}
+      </div>
+      <div class="btn-group">
+         {if defined('next')}
+            <a href="#${next}" class="btn btn-small"><span class="icon-arrow-right"></span></a>
+         {else}
+            <a disabled="disabled" class="btn btn-small"><span class="icon-arrow-right"></span></a>
+         {/if}
+      </div>
    </div>
 --></div>
