@@ -306,7 +306,12 @@ $(function() {
             return false;
          }
       }).bind("select_node.jstree", function (event, data) {
-         location.hash = $(data.rslt.obj).find("a").attr("href");
+         var $nodeToSelect = $(data.rslt.obj);
+         if ($nodeToSelect.attr("id") === "newAO") {
+            location.hash = "#newAO";
+         } else {
+            location.hash = $nodeToSelect.find("a").attr("href");
+         }
          $(window).hashchange();
       });
    };
