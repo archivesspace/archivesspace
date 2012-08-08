@@ -4,11 +4,12 @@
 
 $(function() {
 
-   var $tree;
-   var collection_tree_data = AS.tree_data["collection-id-"+$(".archives-tree").data("collection-id")];
+   var $tree = $("#archives_tree"),
+       $container =$("#object_container"),
+       collection_tree_data = AS.tree_data["collection-id-"+$(".archives-tree").data("collection-id")];
    
    var renderTree = function() {
-      $("#archives_tree").html(AS.renderTemplate("tree_template", {tree: collection_tree_data}));
+      $tree.html(AS.renderTemplate("tree_template", {tree: collection_tree_data}));
    };
    
    var loadPaneForNode = function(nodeEl) {
@@ -21,7 +22,8 @@ $(function() {
                collection_id: collection_tree_data.collection_id
             },
             success: function(html) {
-               $("#object_container").html(html);
+               $container.html(html);
+               renderTreeToolbar();
             }
          });  
       } else if (nodeEl.attr("rel") === "collection") {         
@@ -33,12 +35,29 @@ $(function() {
                collection_id: collection_tree_data.collection_id
             },
             success: function(html) {
-               $("#object_container").html(html);
+               $container.html(html);
+               renderTreeToolbar();
             }
          });
       }
    };
-   
+
+   var renderTreeToolbar = function() {
+      var nodeEl = $(location.hash);
+      // render tree navigation
+      $container.find(".tree-navigation").remove();
+      var allNodes = $tree.find("li");
+      var indexOfCurrentNode = allNodes.index(nodeEl);
+      var data = {};
+      if (indexOfCurrentNode !== 0) {
+         data.previous = allNodes.get(indexOfCurrentNode-1).id;
+      }
+      if (indexOfCurrentNode+1 < allNodes.length) {
+         data.next = allNodes.get(indexOfCurrentNode+1).id;
+      }
+      $container.prepend(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
+   };
+
    var addEventBindings = function() {
        $(".expand-tree", ".archives-tree-container").on("click", function() {
            $(".archives-tree-container").addClass("expanded");
@@ -78,36 +97,17 @@ $(function() {
               "theme": "default",
               "url": "<%= asset_path('jstree/style.css') %>"
            },
-           "dnd": {
-              "drop_target" : false,
-              "drag_target" : false
-           },
            "ui": {
              "selected_parent_close": false,
              "selected_parent_open": true
            },
-           "crrm" : {
-              "move" : {
-                  "check_move" : function (m) {
-                      // can't move root archival object
-                      if (m.o[0].id === "root") {
-                        return false;
-                      }
-                      // can't move to above the root archival object
-                      if ($(m.np[0]).hasClass("archives-tree")) {
-                        return false;
-                      }
-                      return true;
-                  }
-              }
-          },
           "core": {
             "animation": 100 
           },
           "cookies": {
               "save_selected": false
           },
-          "plugins": [ "themes", "html_data", "ui", "crrm", "cookies"]
+          "plugins": [ "themes", "html_data", "ui", "cookies"]
        }).bind("loaded.jstree", function (event, data) {
           if (location.hash) {
              $(location.hash).addClass("selected");
@@ -120,7 +120,7 @@ $(function() {
        }).bind("select_node.jstree", function (event, data) {
           location.hash = $(data.rslt.obj).find("a").attr("href");
           $(window).hashchange();
-       });  
+       });
    };
    
    renderTree();
