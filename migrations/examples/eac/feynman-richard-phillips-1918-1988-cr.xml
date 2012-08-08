@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?><eac-cpf xmlns="urn:isbn:1-931666-33-4" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink"><control><recordId>OAC.caltech_feynmanr.c</recordId><otherRecordId localType="mergedCPF">OAC.caltech_dubridgl.r016</otherRecordId><otherRecordId localType="mergedCPF">OAC.stanford_mss_m1090.r391</otherRecordId><otherRecordId localType="mergedCPF">OAC.caltech_leightor.r002</otherRecordId><otherRecordId localType="mergedCPF">OAC.caltech_bacherr.r008</otherRecordId><otherRecordId localType="mergedCPF">NWDA.OSULA_OREpauling.r073</otherRecordId><otherRecordId localType="VIAFId">VIAFId:44298691</otherRecordId><maintenanceStatus>new</maintenanceStatus><maintenanceAgency>
+                     <agencyName>SNAC</agencyName>
+                </maintenanceAgency><languageDeclaration>
+                <language languageCode="eng">English</language>
+                <script scriptCode="Latn">Latin Alphabet</script>
+                </languageDeclaration><conventionDeclaration><citation>VIAF</citation></conventionDeclaration><maintenanceHistory>
+                <maintenanceEvent>
+                <eventType>revised</eventType>
+                <eventDateTime>2011-08-15</eventDateTime> 
+                <agentType>machine</agentType>
+                <agent>CPF merge program</agent>
+                <eventDescription>Merge v1.2</eventDescription>
+                </maintenanceEvent>
+                </maintenanceHistory><sources>
+         <source xlink:href="OAC:caltech/feynmanr.xml" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+      
+         <source xlink:href="OAC:caltech/dubridgl.xml" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+      
+         <source xlink:href="OAC:stanford/mss/m1090.xml" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+      
+         <source xlink:href="OAC:caltech/leightor.xml" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+      
+         <source xlink:href="OAC:caltech/bacherr.xml" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+      
+         <source xlink:href="NWDA:OSULA/OREpauling.xml" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+      <source xlink:href="VIAF:44298691" xlink:type="simple"/></sources></control><cpfDescription><identity><entityType>person</entityType><nameEntry scriptCode="Latn" xml:lang="eng">
+            <part>Feynman, Richard Phillips, 1918-1988.</part>
+            <authorizedForm>OAC</authorizedForm>
+         </nameEntry><nameEntry scriptCode="Latn" xml:lang="eng">
+            <part>Feynman, Richard Phillips, 1918-1988.</part>
+            <authorizedForm>OAC</authorizedForm>
+         </nameEntry><nameEntry scriptCode="Latn" xml:lang="eng">
+            <part>Feynman, Richard Phillips.</part>
+            <authorizedForm>OAC</authorizedForm>
+         </nameEntry><nameEntry scriptCode="Latn" xml:lang="eng">
+            <part>Feynman, Richard Phillips.</part>
+            <authorizedForm>OAC</authorizedForm>
+         </nameEntry><nameEntry scriptCode="Latn" xml:lang="eng">
+            <part>Feynman, Richard Phillips.</part>
+            <authorizedForm>OAC</authorizedForm>
+         </nameEntry><nameEntry scriptCode="Latn" xml:lang="eng">
+            <part>Feynman, Richard P.</part>
+            <authorizedForm>NWDA</authorizedForm>
+         </nameEntry><nameEntry localType="VIAF:MainHeading"><part>Feynman, Richard Phillips, 1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:MainHeading"><part>פינמן, ריצ'רד פ., 1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:MainHeading"><part>Feynman, Richard P., 1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:MainHeading"><part>Feynman, Richard Phillips</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:MainHeading"><part>فاينمان، ريتشارد فيليبس</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, Richard P.(Richard Phillips),1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Fejnman, R. P.1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>رتشارد فاينمان</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Phillips Feynman, Richard1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feĭnman, Richard P.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Fejnman, Ričard.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, Richard P.(Richard Phillips)</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، ر. ف.(ريتشارد فيليبس)</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>פינמן, ריצ'רד פיליפס. ‬</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, Richard</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, Richard Philips</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، رتشارد ف.(رتشارد فيليبس)</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, R. P.(Richard Phillips)</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Fejnman, R.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Fejnman, R. P.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Fejnman, R.,1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، ريتشارد ف.(ريتشارد فيليبس)</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feinman, Richard P.,1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>رتشارد فيليبس فاينمان</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، ر. ف.(رتشارد فيليبس)</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، رتشارد</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>ريتشارد فاينمان</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>ريتشارد فيليبس فاينمان</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, R. P.1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feinman, Richard P.1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, Richard.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، ريتشارد ف.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Fejnman, R.1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, Richard P.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, ...1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, Richard1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، رتشارد فيليبس</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, Richard P.1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، رتشارد ف.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>فاينمان، ريتشارد</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Phillips Feynman, Richard.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Fejnman.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, R. P.</part><alternativeForm>VIAF</alternativeForm></nameEntry><nameEntry localType="VIAF:x400"><part>Feynman, R. P.(Richard Phillips),1918-1988</part><alternativeForm>VIAF</alternativeForm></nameEntry></identity><description><existDates><dateRange><fromDate>1918</fromDate><toDate>1988</toDate></dateRange></existDates>
+            <localDescription localType="subject">
+               <term>Computers</term>
+            </localDescription>
+            <localDescription localType="subject">
+               <term>Gravitation--Research</term>
+            </localDescription>
+            <localDescription localType="subject">
+               <term>Particles (Nuclear physics)</term>
+            </localDescription>
+            <localDescription localType="subject">
+               <term>Physics--Study and teaching</term>
+            </localDescription>
+            <localDescription localType="subject">
+               <term>Quantum chromodynamics</term>
+            </localDescription>
+            <localDescription localType="subject">
+               <term>Quantum electrodynamics</term>
+            </localDescription>
+            <localDescription localType="subject">
+               <term>Quantum theory</term>
+            </localDescription>
+            <localDescription localType="subject">
+               <term>Space shuttles--Accidents--Investigation--United States</term>
+            </localDescription>
+            <localDescription localType="subject">
+               <term>Challenger (Space shuttle)</term>
+            </localDescription>
+         <localDescription localType="VIAF:nationality"><placeEntry countryCode="US"/></localDescription><languageUsed><language languageCode="eng"/></languageUsed><biogHist>
+            <p>Physicist Richard Feynman won his scientific renown through the development of quantum
+				electrodynamics, or QED, a theory describing the interaction of particles and atoms in radiation
+				fields. As a part of this work he invented what came to be known as &quot;Feynman Diagrams,&quot; visual
+				representations of space-time particle interactions. For this work he was awarded the Nobel
+				Prize in physics, together with J. Schwinger and S. I. Tomonaga, in 1965. Later in his life
+				Feynman became a prominent public figure through his association with the investigation of the
+				space shuttle Challenger explosion and the publication of two best-selling books of personal
+				recollections.</p>
+            <p>Feynman was born in the borough of Queens in New York City on May 11, 1918. He grew up and
+				attended high school in Far Rockaway, New York. In 1939, he received his BS degree in physics
+				from the Massachusetts Institute of Technology. He then attended Princeton University as a
+				Proctor Fellow from 1940 to 1942, where he began his investigation of quantum electrodynamics
+				under the supervision of J. A. Wheeler. He was awarded his PhD in 1942 for his thesis on the
+				least action principle.</p>
+            <p>While still at Princeton, Feynman was recruited for the atomic bomb project. He was
+				transferred to Los Alamos in 1942, where he headed a team undertaking complicated calculations
+				using very primitive computers. While at Los Alamos, Feynman became good friends with Hans
+				Bethe, who at the end of the war secured a position for Feynman as an associate professor of
+				physics at Cornell. Feynman remained at Cornell from 1945 to 1951. During this time he
+				formalized his theory of quantum electrodynamics and began to publish his results. He also
+				participated in the Shelter Island Conference of 1947, which helped to determine the course of
+				American physics in the atomic age. At this conference he introduced his theory of QED to the
+				leading American physicists.</p>
+            <p>In 1951, Feynman accepted an offer to become the Richard Chace Tolman Professor of Theoretical
+				Physics at the California Institute of Technology, a position he filled until his death. While
+				at Caltech Feynman continued his work at the leading edge of theoretical physics, making
+				important contributions to the study of liquid helium, particle physics, and later quantum
+				chromodynamics. He also began his distinguished career as a teacher and lecturer. In 1961 and
+				1962 he delivered to Caltech's freshmen the introductory lectures that were later published as
+					<span localType="ead/title" style="font-style:italic">The Feynman Lectures on Physics</span>.</p>
+            <p>In 1986, Feynman was asked to serve on the Presidential Commission investigating the space
+				shuttle Challenger accident. In a dramatic fashion, Feynman publicly demonstrated the
+				inelasticity of the shuttle's O-rings at near freezing temperatures, a leading cause of the
+				disaster. He also contributed an extended appendix to the Committee's report, highlighting the
+				technical and administrative deficiencies of the National Aeronautics and Space Administration's
+				space program.</p>
+            <p>Feynman's many interests outside of science, such as his fondness for codes and safecracking,
+				his bongo drums, his theatrical appearances, his artwork, plus his experiments in out-of-body
+				experiences, are well documented in his autobiographies, as well as in his papers at
+				Caltech.</p>
+            <p>Feynman continued his scientific work and his lecturing activities up until his death on
+				February 15, 1988, after a long battle with a rare form of cancer.</p>
+            <citation>From the finding aid for Richard Phillips Feynman papers,  1933-1988 (California Institute of Technology. Archives. )</citation>
+         </biogHist></description><relations><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Bethe, Hans Albrecht, 1906-</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_feynmanr.r001</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Bohr, Niels Henrik David, 1885-1962.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_feynmanr.r002</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/CorporateBody" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>California Institute of Technology.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_feynmanr.r003</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Fermi, Enrico, 1901-1954.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_feynmanr.r004</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Hawking, Stephen W., 1942-</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_feynmanr.r005</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Heisenberg, Werner, 1901-1976.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_feynmanr.r006</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Oppenheimer, J. Robert, 1904-1967.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_feynmanr.r007</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>DuBridge, Lee A., 1901-1994.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_dubridgl.c</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Fuller, R. Buckminster (Richard Buckminster), 1895-1983.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.stanford_mss_m1090.c</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Leighton, Robert B., 1919-1997.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_leightor.c</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Bacher, Robert F. (Robert Fox).</relationEntry>
+            <descriptiveNote>
+               <p>recordId: OAC.caltech_bacherr.c</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Pauling, Ava Helen.</relationEntry>
+            <descriptiveNote>
+               <p>recordId: NWDA.OSULA_OREpauling.c1</p>
+            </descriptiveNote>
+         </cpfRelation><cpfRelation xlink:arcrole="associatedWith" xlink:role="http://RDVocab.info/uri/schema/FRBRentitiesRDA/Person" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Pauling, Linus Carl, 1901-</relationEntry>
+            <descriptiveNote>
+               <p>recordId: NWDA.OSULA_OREpauling.c2</p>
+            </descriptiveNote>
+         </cpfRelation><resourceRelation xlink:arcrole="creatorOf" xlink:href="http://www.oac.cdlib.org/findaid/ark:/13030/kt5n39p6k0" xlink:role="archivalRecords" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Richard Phillips Feynman papers, 1933-1988</relationEntry>
+            <objectXMLWrap>
+               <did id="did-1.7.1" xmlns="urn:isbn:1-931666-22-9">
+                  <head>Descriptive Summary</head>
+                  <unittitle label="Title">Richard Phillips Feynman papers, </unittitle>
+                  <unitdate calendar="gregorian" era="ce" type="inclusive">1933-1988</unitdate>
+                  <unitid countrycode="US" label="Collection number" repositorycode="CIT">Consult
+				repository</unitid>
+                  <origination label="Creator">
+                     <persname source="aacr2">Feynman, Richard Phillips, 1918-1988</persname>
+                  </origination>
+                  <physdesc label="Extent">
+                     <extent>39 linear feet</extent>
+                  </physdesc>
+                  <repository label="Repository">
+                     <corpname>California Institute of Technology. Archives. </corpname>
+                     <address>
+                        <addressline>Pasadena, California 91125</addressline>
+                     </address>
+                  </repository>
+                  <abstract label="Abstract">This collection documents the career of Nobel Prize winner Richard
+				Phillips Feynman (1918-1988). It contains correspondence, biographical materials, course and
+				lecture notes, speeches, manuscripts, publications, and technical notes relating to his work in
+				quantum electrodynamics. Feynman served as Richard Chace Tolman Professor of Theoretical Physics
+				at the California Institute of Technology from 1951 until his death.</abstract>
+                  <langmaterial label="Language">
+                     <language langcode="eng">English.</language>
+                  </langmaterial>
+               </did>
+            </objectXMLWrap>
+         </resourceRelation><resourceRelation xlink:arcrole="referencedIn" xlink:href="http://www.oac.cdlib.org/findaid/ark:/13030/kt8w1014rz" xlink:role="archivalRecords" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Lee A. DuBridge papers, 1932-1986</relationEntry>
+            <objectXMLWrap>
+               <did id="did-1.7.1" xmlns="urn:isbn:1-931666-22-9">
+                  <head>Descriptive Summary</head>
+                  <unittitle label="Title">Lee A. DuBridge papers, </unittitle>
+                  <unitdate calendar="gregorian" era="ce" type="inclusive">1932-1986</unitdate>
+                  <unitid countrycode="US" label="Collection number" repositorycode="CIT">Consult repository</unitid>
+                  <origination label="Creator">
+                     <persname source="aacr2">DuBridge, Lee A., 1901-1994</persname>
+                  </origination>
+                  <physdesc label="Extent">
+                     <extent>102 linear feet</extent>
+                  </physdesc>
+                  <repository label="Repository">
+                     <corpname>California Institute of Technology. Archives.
+</corpname>
+                     <address>
+                        <addressline>Pasadena, California 91125</addressline>
+                     </address>
+                  </repository>
+                  <abstract label="Abstract">The Papers of Lee A. DuBridge span the years 1932 to 1986 and contain
+correspondence, documents, reports, speeches, and memorabilia which reflect his tenure as chairman of
+the department of physics, University of Rochester; head of the Massachusetts Institute of Technology's
+Radiation Laboratory; president of the California Institute of Technology; and his active participation in
+scores of professional, governmental and civic organizations.</abstract>
+                  <langmaterial label="Language">
+                     <language langcode="eng">English.</language>
+                  </langmaterial>
+               </did>
+            </objectXMLWrap>
+         </resourceRelation><resourceRelation xlink:arcrole="referencedIn" xlink:href="http://www.oac.cdlib.org/findaid/ark:/13030/tf109n9832" xlink:role="archivalRecords" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>R. Buckminster Fuller papers ca. 1920-1983</relationEntry>
+            <objectXMLWrap>
+               <did id="did-1.3.1" xmlns="urn:isbn:1-931666-22-9">
+                  <head>Descriptive Summary</head>
+                  <unittitle label="Title">R. Buckminster Fuller papers</unittitle>
+                  <unitdate label="Dates" normal="1920/1983" type="inclusive">ca. 1920-1983</unitdate>
+                  <unitid countrycode="US" label="Collection number" repositorycode="CSt">M1090</unitid>
+                  <origination label="Creator">
+                     <persname rules="aacr2" source="lcnaf">Fuller, R. Buckminster (Richard Buckminster), 1895-1983</persname>
+                  </origination>
+                  <physdesc label="Collection Size">
+                     <extent>1200 linear ft.</extent>
+                  </physdesc>
+                  <repository label="Repository">
+                     <corpname>Stanford University. Libraries. Dept. of Special Collections and University Archives.</corpname>
+                  </repository>
+                  <abstract label="Abstract">The papers of this 20th century polymath contain his personal archive the Dymaxion Chronofile, manuscripts, drawings and audio-visual materials relating to his career as an architect, mathematician, inventor and social critic.</abstract>
+                  <langmaterial label="Languages">
+Languages represented in the collection: 
+<language langcode="eng">English</language>
+                  </langmaterial>
+               </did>
+            </objectXMLWrap>
+         </resourceRelation><resourceRelation xlink:arcrole="referencedIn" xlink:href="http://www.oac.cdlib.org/findaid/ark:/13030/kt4z09p5zv" xlink:role="archivalRecords" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Robert B. Leighton papers, 1938-1988</relationEntry>
+            <objectXMLWrap>
+               <did id="did-1.7.1" xmlns="urn:isbn:1-931666-22-9">
+                  <head>Descriptive Summary</head>
+                  <unittitle label="Title">Robert B. Leighton papers, </unittitle>
+                  <unitdate calendar="gregorian" era="ce" type="inclusive">1938-1988</unitdate>
+                  <unitid countrycode="US" label="Collection number" repositorycode="CIT">Consult repository</unitid>
+                  <origination label="Creator">
+                     <persname source="aacr2">Leighton, Robert B., 1919-1997</persname>
+                  </origination>
+                  <physdesc label="Extent">
+                     <extent>7 linear feet.</extent>
+                  </physdesc>
+                  <repository label="Repository">
+                     <corpname>California Institute of Technology. Archives.
+</corpname>
+                     <address>
+                        <addressline>Pasadena, California 91125</addressline>
+                     </address>
+                  </repository>
+                  <abstract label="Abstract">This collection documents the career of Robert B. Leighton, who served as a member of the physics faculty at the California Institute of Technology from 1949 until 1986. The materials relating to the California Institute of Technology include research proposals for funding on design projects for NASA, radio and optical telescope dish designs (Owens Valley Radio Observatory and Keck Telescope), and radio astronomy, and other observational data. The papers also contain lecture notes to courses led by Richard Feynman and Murray Gell-Mann, as well as publication files on Feynman's <emph render="italic">Lectures on Physics</emph>.
+</abstract>
+                  <langmaterial label="Language">
+                     <language langcode="eng">English.</language>
+                  </langmaterial>
+               </did>
+            </objectXMLWrap>
+         </resourceRelation><resourceRelation xlink:arcrole="referencedIn" xlink:href="http://www.oac.cdlib.org/findaid/ark:/13030/kt3489q4fh" xlink:role="archivalRecords" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Robert F. Bacher Papers, 1924-1994</relationEntry>
+            <objectXMLWrap>
+               <did id="did-1.2.1" xmlns="urn:isbn:1-931666-22-9">
+                  <head>Descriptive Summary</head>
+                  <unittitle label="Title">Robert F. Bacher Papers,</unittitle>
+                  <unitdate normal="1924/1994" type="inclusive">1924-1994</unitdate>
+                  <unitid countrycode="US" label="Collection number" repositorycode="CIT">10105-MS</unitid>
+                  <origination label="Creator">
+                     <persname source="lcnaf">Bacher, Robert F. (Robert Fox) 1905-2004</persname>
+                  </origination>
+                  <physdesc label="Extent">
+                     <extent>40 linear feet</extent>
+                  </physdesc>
+                  <repository label="Repository">
+                     <corpname source="lcnaf">California Institute of Technology. <subarea>Caltech Archives</subarea>
+                     </corpname>
+                     <address>
+                        <addressline>Pasadena, California 91125</addressline>
+                     </address>
+                  </repository>
+                  <abstract label="Abstract">The working papers, correspondence, publications, photos and biographical materials of Robert F. Bacher (1905-2004) form the collection known as the Papers of Robert F. Bacher in the Archives of the California Institute of Technology. Bacher was a nuclear physicist who during World War II worked on radar at the MIT Radiation Laboratory and then from 1943 at Los Alamos on the atomic bomb. He was one of the first members of the US Atomic Energy Commission (1946-49). He served on the faculty and in the administration of the California Institute of Technology from 1949 until his retirement in 1976.</abstract>
+                  <physloc label="Physical location">California Institute of Technology, Caltech Archives </physloc>
+                  <langmaterial>
+                     <unittitle label="Languages represented in the collection"/>
+                     <language langcode="eng">English</language>
+                     <language langcode="rus">Russian</language>
+                     <language langcode="ger">German</language>
+                  </langmaterial>
+               </did>
+            </objectXMLWrap>
+         </resourceRelation><resourceRelation xlink:arcrole="referencedIn" xlink:href="http://nwda-db.wsulibs.wsu.edu/findaid/ark:/80444/xv42415" xlink:role="archivalRecords" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <relationEntry>Ava Helen and Linus Pauling Papers 1910-1994 (bulk
+				1922-1991)</relationEntry>
+            <objectXMLWrap>
+               <did id="a1" xmlns="urn:isbn:1-931666-22-9">
+                  <head>Overview of the Collection</head>
+                  <repository encodinganalog="852">
+                     <corpname encodinganalog="852$a">Oregon State University <subarea encodinganalog="852$b">The
+						Valley Library, Special Collections</subarea>
+                     </corpname>
+                     <address>
+                        <addressline>121 The Valley Library</addressline>
+                        <addressline>Oregon State University</addressline>
+                        <addressline>Corvallis, OR 97331</addressline>
+                        <addressline>Phone: 541-737-2075</addressline>
+                        <addressline>Email: special.collections@oregonstate.edu</addressline>
+                        <addressline>Web: http://osulibrary.oregonstate.edu/specialcollections</addressline>
+                     </address>
+                  </repository>
+                  <unitid countrycode="us" encodinganalog="099" repositorycode="orcs">Consult repository.</unitid>
+                  <origination>
+                     <persname encodinganalog="100">Pauling, Linus Carl, 1901-</persname>
+                     <persname encodinganalog="100">Pauling, Ava Helen</persname>
+                  </origination>
+                  <unittitle encodinganalog="245" type="collection">Ava Helen and Linus Pauling Papers</unittitle>
+                  <unitdate calendar="gregorian" encodinganalog="245$f" era="ce" normal="1910/1994" type="inclusive">1910-1994 (bulk
+				1922-1991)</unitdate>
+                  <physdesc>
+                     <extent encodinganalog="300$a">4437 linear feet</extent>
+                     <extent encodinganalog="300$a">1800 boxes</extent>
+                  </physdesc>
+                  <unitid countrycode="us" encodinganalog="099" repositorycode="orcs">pauling</unitid>
+                  <abstract encodinganalog="520$a">Linus Pauling (1901-1994), a 1923 OSU graduate and the only
+				recipient of two unshared Nobel Prizes, (Chemistry, 1954; Peace, 1962) undertook a wide range of
+				studies during his seventy-year career as a scientist, humanitarian and peace activist. The
+				collection, comprised of over five hundred thousand items, contains all of Pauling's personal
+				and scientific papers, research materials, correspondence, photographs, awards, and memorabilia.
+				Not only does the Pauling archive reflect Linus Pauling's long and varied scientific career, the
+				presence of Ava Helen Pauling's (1903-1981) papers also indicates their mutual devotion to world
+				peace and to each other.</abstract>
+                  <langmaterial>Materials in <language encodinganalog="546" langcode="eng">English</language>.</langmaterial>
+               </did>
+            </objectXMLWrap>
+         </resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The Feynman lectures on physics</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman-Vorlesungen über Physik</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Le Cours de physique de Feynman</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The Feynman lectures on physics</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The character of physical law</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Vorlesungen über Physik</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&quot;What do YOU care what other people think?&quot; further adventures of a curious character</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&quot;Sie belieben wohl zu scherzen, Mr. Feynman!&quot; Abenteuer eines neugierigen Physikers</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The Feynman</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynmanove prednášky z fyziky.</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&quot;Surely you're joking, Mr. Feynman!&quot; : adventures of a curious character</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The pleasure of finding things out : the best short works of Richard P. Feynman</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Six not-so-easy pieces : Einstein's relativity, symmetry, and space-time</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The theory of fundamental processes; a lecture note volume.</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Statistical mechanics a set of lectures</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Six easy pieces</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Quantum mechanics and path integrals</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>QED die seltsame Theorie des Lichts und der Materie</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>QED : the strange theory of light and matter</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Photon-hadron interactions</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman lectures on gravitation</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Elementary particles and the laws of physics the 1986 Dirac memorial lectures</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The meaning of it all : thoughts of a citizen scientist</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Six easy pieces : essentials of physics, explained by its most brilliant teacher</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Sechs physikalische Fingerübungen</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Quantum electrodynamics; a lecture note and reprint volume.</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman's thesis a new approach to quantum theory</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman's lost lecture the motion of planets around the sun</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Don't you have time to think?</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&lt;&quot;&gt;Nem sempre a brincar, Sr. Feynman!&quot; novos elementos para o retrato de um físico enquanto homem</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>6 easy pieces</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>What do you care what other people think?</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Was soll das alles? Gedanken eines Physikers</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Vous voulez rire, Monsieur Feynman ! entretiens avec Ralph Leighton</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Vom Wesen physikalischer Gesetze</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Snad ti nedělají starosti cizí názory</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Quantum electrodynamics</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>QED &lt;a &gt;estranha teoria da luz e da matéria</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Perfectly reasonable deviations from the beaten track the letters of Richard P. Feynman</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>O povaze fyzikálních zákonů : sedmkrát o rytmech přírodních jevů</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>New approach to quantum theory</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Motion of planets around the sun</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman lectures on computation</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman and computation exploring the limits of computers</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>El carácter de la ley física</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Character of physical law.</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>התיאוריה המוזרה של אור וחומר</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>התאוריה המוזרה של אור וחמר</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The Feynman Feynman-Vorlesungen über Physik</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The theory of fundamental processes</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The pleasure of finding things out the best short works of Richard P. Feynman</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Vous y comprenez quelque chose, Monsieur Feynman ?</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Today's answers to Newton's queries about light</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The principle of least action in quantum mechanics.</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The meaning of it all</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The art of Richard P. Feynman : images by a curious character</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The Pleasure of finding things out</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Surely you're joking, Mr. Feynman!.</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Stochastic analysis and mathematical physics (SAMP/ANESTOC 2002) : proceedings of the Mathematical legacy of R.P. Feynman, Lisbon, Portugal, 3-7 June 2002 : proceedings of the Open Systems and Quantum Statistical Mechanics, Santiago, Chile, 7-11 January 2002</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Sir Douglas Robb Lectures</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Selected papers of Richard Feynman with commentary</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>SAMP/ANESTOC 2002</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Quantum mechanics</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Quantenmechanik</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Quantenelektrodynamik eine Vorlesungsmitschrift</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>QED in NZ</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>QED : a play</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>QED</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Přednášky z fyziky</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Proceedings.</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Physikalische Fingerübungen für Fortgeschrittene</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>No ordinary genius : the illustrated Richard Feynman</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Nem sempre a brincar, Senhor Feynman!</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Motion of the planets around the sun</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Most of the good stuff : memories of Richard Feynman</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Leçons sur la physique</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Leçons sur la gravitation</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynmans verschollene Vorlesung</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman's tips on physics a problem-solving supplement to The Feynman lectures on physics</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman on fundamentals, energy and motion</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman on electricity and magnetism</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman lectures</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Está a brincar, Sr. Feynman! retrato de um físico enquanto homem</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Está a brincar, Sr. Feynman! retrado de um físico enquanto homem</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Es ist so einfach vom Vergnügen, Dinge zu entdecken</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Classic Feynman : all the adventures of a curious character</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Absolut vernünftige Abweichungen vom ausgetretenen Pfad Briefe eines Lebens</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&lt;The &gt;Feynman lectures on physics mainly mechanics, radiation and heat</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&lt;O &gt;significado de tudo reflexões de um cidadão-cientista</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&lt;O &gt;que é uma lei física</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&lt;&quot;&gt;Está a brincar, Senhor Feynman!&quot;</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&quot;Sie belieben wohl zu scherzen, Mr. Feynman!&quot; Abenteuer e. neugierigen Physikers</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>&quot;Kümmert Sie, was andere Leute denken?&quot; Neue Abenteuer eines neugierigen Physikers</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>عجائب الضوء و المادة تجريبا و تأويلا</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>¿Está Vd. de broma, Sr. Feynman?  : aventuras de un curioso personaje tal como le fueron referidas a Ralph Leighton</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>La Nature des lois physiques , une vision claire et actuelle des structures de l'univers. [The Character of physical law. Traduit par Hélène Isaac et Jean-Marc Lévy-Leblond.]</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>The development of the space-time view of quantum electrodynamics : Nobel lecture December 11, 1965</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Seis lições sobre os fundamentos da física</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Radost z poznání</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Photons : Corpuscles of light</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Mutʻat iktishāf al-ashyāʼ</relationEntry></resourceRelation><resourceRelation xlink:arcrole="creatorOf" xlink:role="resource" xlink:type="simple"><relationEntry>Feynman on mechanics</relationEntry></resourceRelation></relations></cpfDescription></eac-cpf>
