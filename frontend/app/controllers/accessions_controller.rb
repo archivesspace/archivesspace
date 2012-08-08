@@ -9,7 +9,7 @@ class AccessionsController < ApplicationController
   end
 
   def new
-    @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})
+    @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
   end
 
   def edit
