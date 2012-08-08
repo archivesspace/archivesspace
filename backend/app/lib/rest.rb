@@ -42,17 +42,19 @@ module RESTHelpers
       uri = @uri
       method = @method
 
-      # Undefine any pre-existing routes (sinatra reloader seems to have trouble
-      # with this for our instances)
-      ArchivesSpaceService.instance_eval {
-        new_route = compile(uri)
+      if ArchivesSpaceService.development?
+        # Undefine any pre-existing routes (sinatra reloader seems to have trouble
+        # with this for our instances)
+        ArchivesSpaceService.instance_eval {
+          new_route = compile(uri)
 
-        if @routes[method.to_s.upcase]
-          @routes[method.to_s.upcase].reject! do |route|
-            route[0..1] == new_route
+          if @routes[method.to_s.upcase]
+            @routes[method.to_s.upcase].reject! do |route|
+              route[0..1] == new_route
+            end
           end
-        end
-      }
+        }
+      end
 
       ArchivesSpaceService.send(@method, @uri, {}) do
         ensure_params(rp)

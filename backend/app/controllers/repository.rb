@@ -19,10 +19,8 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories')
-    .returns([200, "A JSON liste of repositories"]) \
+    .returns([200, "A JSON list of repositories"]) \
   do
-    result = []
-
     json_response(Repository.collect {|repo|
                     Repository.to_jsonmodel(repo, :repository).to_hash
                   })
