@@ -14,8 +14,6 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def new
-     @isFresh = true
-     
      @archival_object = JSONModel(:archival_object).new
      @archival_object.title = "New Archival Object"
      @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent]) if params.has_key?(:parent)
@@ -26,7 +24,6 @@ class ArchivalObjectsController < ApplicationController
 
   def edit
      @archival_object = JSONModel(:archival_object).find(params[:id])
-     @isFresh = true
      return render :partial=>"archival_objects/edit_inline" 
   end
 
@@ -39,8 +36,6 @@ class ArchivalObjectsController < ApplicationController
        end
 
        id = @archival_object.save
-       
-       @isFresh = true
        
        render :partial=>"archival_objects/edit_inline"
      rescue JSONModel::ValidationException => e
@@ -59,8 +54,6 @@ class ArchivalObjectsController < ApplicationController
       end
 
       result = @archival_object.save
-      
-      @isFresh = true
       
       flash[:success] = "Archival Object Saved"
       render :partial=>"edit_inline"
