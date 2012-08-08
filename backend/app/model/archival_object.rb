@@ -13,7 +13,8 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
   def validate
     super
-    validates_unique([:id_0, :id_1, :id_2, :id_3], :only_if_modified => true)
+    validates_unique([:id_0, :id_1, :id_2, :id_3],
+                     :message => "That ID is already in use")
     validates_presence(:id_0, :message => "You must provide an archival object ID")
   end
 end

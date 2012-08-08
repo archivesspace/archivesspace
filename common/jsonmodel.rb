@@ -360,11 +360,16 @@ module JSONModel
       # Validate the current JSONModel instance and return a list of exceptions
       # produced.
       def _exceptions
+        exceptions = {}
         if not @always_valid
-          self.class.validate(@data, false).reject{|k, v| v.empty?}
-        else
-          {}
+          exceptions = self.class.validate(@data, false).reject{|k, v| v.empty?}
         end
+
+        if @errors
+          exceptions[:errors] = (exceptions[:errors] or {}).merge(@errors)
+        end
+
+        exceptions
       end
 
 

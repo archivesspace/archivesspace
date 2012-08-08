@@ -39,7 +39,6 @@ class ArchivalObjectsController < ApplicationController
        
        render :partial=>"archival_objects/edit_inline"
      rescue JSONModel::ValidationException => e
-       @archival_object = e.invalid_object
        render :partial=>"archival_objects/new_inline"
      end
   end

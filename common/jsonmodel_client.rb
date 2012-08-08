@@ -35,6 +35,8 @@ module JSONModel
     # update to the backend.
     def save(opts = {})
 
+      @errors = nil
+
       type = self.class.record_type
       response = self.class._post_json(self.class.my_url(self.id, opts), self.to_json)
 
@@ -47,6 +49,8 @@ module JSONModel
       elsif response.code == '409'
         # A conflict exception
         err = JSON.parse(response.body)
+
+        @errors = err["error"]
 
         raise ValidationException.new(:invalid_object => self,
                                       :errors => err["error"])
