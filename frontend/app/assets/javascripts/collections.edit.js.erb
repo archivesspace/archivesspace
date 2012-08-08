@@ -38,7 +38,7 @@ $(function() {
 
       $(".btn-primary", $form).attr("disabled", "disabled");
       $(".btn-cancel", $form).html("Revert Changes").attr("disabled", "disabled");
-      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + "#" + $(".selected", $tree).attr("id") + "'>Finish Editing</a>");
+      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + location.hash + "'>Finish Editing</a>");
       
       $form.bind("form-changed", function() {
           form_changed = true;
@@ -54,17 +54,18 @@ $(function() {
             $(".btn-primary", $form).attr("disabled","disabled");
           },
           success: function(response, status, xhr) {
+              if (location.hash === "#newAO") {
+                 $(window).off("hashchange");
+                 location.hash = "#archival_object_" + $(response).find("#ao_id").val();
+                 $(window).on("hashchange", onHashChange);
+              }
+             
              initForm(response);
 
              if ($container.find(".alert-error:first, .alert-warning:first").length) {
                 $container.triggerHandler("submit.error");
              } else {
                 form_changed = false;
-                if (location.hash === "#newAO") {
-                   $(window).off("hashchange");
-                   location.hash = "#archival_object_" + $("#ao_id", $container).val();
-                   $(window).on("hashchange", onHashChange);
-                }
                 rerenderTree();
                 $container.triggerHandler("submit.success");
              }
@@ -95,6 +96,10 @@ $(function() {
    };
 
    var loadTreeActionsForNode = function(nodeEl) {
+      // render tree navigation
+      //$container.prepend(AS.renderTemplate("tree_nodenavigation_toolbar_template", {}));
+      
+      // render tree toolbar
       $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
       if ((nodeEl.hasClass("collection") && nodeEl.find("> ul > li").length>0) || nodeEl.attr("id") === "newAO") {
          return;
@@ -102,7 +107,7 @@ $(function() {
       $(".btn-toolbar", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addchild_template"));
       if (!nodeEl.hasClass("collection") && !nodeEl.parents("li:first").hasClass("collection")) {
          $(".btn-toolbar", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addsibling_template"));
-      }      
+      }
    };
 
    var onHashChange = function(){

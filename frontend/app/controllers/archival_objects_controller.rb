@@ -8,9 +8,7 @@ class ArchivalObjectsController < ApplicationController
      @archival_object = JSONModel(:archival_object).find(params[:id])
      @collection_id = params[:collection_id] if params.has_key?(:collection_id)
      
-     if params[:inline]
-        return render :partial=>"archival_objects/show_inline"
-     end
+     render :partial=>"archival_objects/show_inline"
   end
 
   def new
@@ -24,7 +22,7 @@ class ArchivalObjectsController < ApplicationController
 
   def edit
      @archival_object = JSONModel(:archival_object).find(params[:id])
-     return render :partial=>"archival_objects/edit_inline" 
+     render :partial=>"archival_objects/edit_inline" 
   end
 
   def create
@@ -57,7 +55,6 @@ class ArchivalObjectsController < ApplicationController
       flash[:success] = "Archival Object Saved"
       render :partial=>"edit_inline"
     rescue JSONModel::ValidationException => e
-      @archival_object = e.invalid_object
       render :partial=>"edit_inline"
     end
   end
