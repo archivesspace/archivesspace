@@ -10,69 +10,55 @@ ASpaceImporter.importer :ead do
       # TODO - make sure it's really a file
     end
     input_file = ARGV[0]
-
     reader = Nokogiri::XML::Reader(IO.read(input_file))
-    
-    @collections = Array.new
-    @archival_objects = Array.new 
-    @coll_hsh = Hash.new
-    
-    
     
     reader.each do |node|
       #TODO - Error handling - missing tags
       if node.node_type == 1 and node.name == 'eadheader'
         puts "Reading <eadheader>" if $DEBUG
-        
         node.read until node.name == 'eadid'
-        @coll_hsh[:eadid] = node.inner_xml
+        stash :eadid, node.inner_xml
       end
       if node.node_type == 1 and node.name == 'archdesc'
         puts "Reading <archdesc>" if $DEBUG
         node.read until node.name == 'unittitle'
-    
-        @coll_hsh[:title] = node.inner_xml
-        #Import the collection
-        open_new :collection, 
+        stash :title, node.inner_xml
+        open_new :collection, { :eadid => grab(:eadid), :title => grab(:title) }
+        puts "Created collection #{ current :collection }." if $DEBUG
       end
   
-      #Container List
+      # Container List
+      # ASpace data model requires a root archival object to wrap the collection
       if node.node_type == 1 and node.name == 'dsc'
         puts "Reading <dsc>" if $DEBUG
+        open_new :archival_object, { 
+                                    :id_0 => 'dsc', 
+                                    :title => 'Root Archival Object',
+                                    :level => 'dsc'
+                                    }
       end
 
       if node.node_type == 1 and node.name == 'c'
-        depth = node.depth()
-        puts "Reading <c>" if $DEBUG
-        puts "Depth #{depth}" if $DEBUG
+        puts "Reading <c>: Depth #{node.depth()}" if $DEBUG
       
         ao_hsh = Hash.new
-        @ao_params = Hash.new
-        @ao_params[:collection] = @coll_hsh[:id]
-        ao_hsh[:id_0], ao_hsh[:level] = node.attribute_at(0), node.attribute_at(1)
+        stash :id_0, node.attribute_at(0)
+        stash :level, node.attribute_at(1)
         node.read until node.name == 'unittitle'
-        ao_hsh[:title] = node.inner_xml
-        #Wrap if this object has a parent
-        if @open_objects[depth-1] && @open_objects[depth-1].has_key?(:id)
-          puts @open_objects[depth-1].inspect
-#          @open_objects[depth-1]["wraps"].push(ao_hsh["id"])   # revist if/when shema includes children
-          @ao_params[:parent] = @open_objects[depth-1][:id].to_i
-        end
-        @open_objects[depth] = ao_hsh
+        stash :title, node.inner_xml
+        open_new :archival_object, { 
+                                    :id_0 => grab(:id_0),
+                                    :title => grab(:title),
+                                    :level => grab(:level)
+                                    }
+
 
 
       end
+      
       if node.node_type != 1 and node.name == 'c'
-        depth = node.depth()
-        puts "Read </c>" if $DEBUG
-        puts "Depth #{depth}" if $DEBUG
-        # Close the arch object
-        @open_objects[depth].delete_if { |k, v| v.empty? }
-        puts @open_objects[depth].inspect
-        puts @ao_params.inspect
-        res = import :archival_object, @open_objects[depth], @ao_params
-        @open_objects[depth][:id] = res[:id]
-        #Close an Object
+        puts "Read </c>: Depth #{node.depth()}" if $DEBUG
+        close :archival_object
       end
     end
   end
