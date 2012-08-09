@@ -30,4 +30,20 @@ describe 'ArchivalObject model' do
   end
 
 
+  it "Allows archival objects to be created with a subject" do
+     subject = Subject.create_from_json(JSONModel(:subject).
+                                            from_hash({
+                                                        "term" => "1981 Heroes",
+                                                        "term_type" => "Cultural context"
+                                                      }))
+     subject_ref = "/subjects/#{subject[:id]}"
+     ao =  ArchivalObject.create_from_json(JSONModel(:archival_object).
+                                   from_hash({ "id_0" => "abcd",
+                                               "title" => "A new archival object",
+                                               "subjects" => [subject_ref]}),
+                                   :repo_id => @repo)
+
+      ArchivalObject[ao[:id]].subjects[0].should eq(subject_ref)
+  end
+
 end

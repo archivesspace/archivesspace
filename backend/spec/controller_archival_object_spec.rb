@@ -103,4 +103,27 @@ describe 'Archival Object controller' do
 
   end
 
+
+  it "lets you create an archival object with a subject" do
+    post "/subjects", params = JSONModel(:subject).
+      from_hash({"term" => "a test subject", "term_type" => "Cultural context"}).to_json
+
+    last_response.should be_ok
+    subject = JSON(last_response.body)
+
+    subject_ref = "/subjects/#{subject['id']}"
+    
+    created = create_archival_object("id_0" => "4567",
+                           "subjects" => [subject_ref],
+                           "title" => "child archival object")
+
+
+    get "#{@repo}/archival_objects/#{created["id"]}"
+    last_response.should be_ok
+
+    ao = JSON(last_response.body)
+    puts last_response.body
+    ao["subjects"][0].should eql(subject_ref)
+  end
+
 end
