@@ -96,6 +96,7 @@ class ArchivesSpaceService < Sinatra::Base
     # DB connection logic.
     #
     def call(env)
+      start_time = Time.now
       session_token = env["HTTP_X_ARCHIVESSPACE_SESSION"]
 
       session = nil
@@ -109,9 +110,18 @@ class ArchivesSpaceService < Sinatra::Base
         @session = session
       }
 
+      result = nil
       DB.open do
-        @app.call(env)
+        result = @app.call(env)
       end
+
+      end_time = Time.now
+
+      if ArchivesSpaceService.development?
+        Log.debug("Request time: #{(end_time - start_time) * 1000}ms")
+      end
+
+      result
     end
   end
 
