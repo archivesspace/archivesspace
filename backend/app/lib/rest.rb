@@ -2,6 +2,26 @@ module RESTHelpers
 
   include JSONModel
 
+
+  def resolve_references(json, resolve)
+    hash = json.to_hash
+
+    (resolve or []).each do |property|
+      if hash[property]
+        if hash[property].is_a? Array
+          hash[property] = hash[property].map do |uri|
+            JSON(redirect_internal(uri)[2].join(""))
+          end
+        else
+          hash[property] = JSON(redirect_internal(hash[property])[2].join(""))
+        end
+      end
+    end
+
+    hash
+  end
+
+
   class Endpoint
 
     @@endpoints = []
@@ -84,6 +104,23 @@ module RESTHelpers
       end
 
 
+      def coerce_type(value, type)
+        if type == Integer
+          Integer(value)
+        elsif type.respond_to? :from_json
+          type.from_json(value)
+        elsif type.is_a? Array
+          if value.is_a? Array
+            value.map {|elt| coerce_type(elt, type[0])}
+          else
+            raise ArgumentError.new("Not an array")
+          end
+        else
+          value
+        end
+      end
+
+
       def ensure_params(declared_params)
 
         errors = {
@@ -106,13 +143,7 @@ module RESTHelpers
 
             if type and params[name]
               begin
-                params[name.intern] = if type == Integer
-                                        Integer(params[name])
-                                      elsif type.respond_to? :from_json
-                                        type.from_json(params[name])
-                                      else
-                                        params[name]
-                                      end
+                params[name.intern] = coerce_type(params[name], type)
                 params.delete(name)
 
               rescue ArgumentError

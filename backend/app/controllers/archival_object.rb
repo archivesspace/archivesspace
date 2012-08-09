@@ -26,10 +26,14 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id')
     .params(["archival_object_id", Integer, "The archival object ID"],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", Integer, "The repository ID"],
+            ["resolve", [String], "A list of references to resolve and embed in the response",
+             :optional => true])
     .returns([200, "OK"]) \
   do
-    ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object).to_json
+    json = ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object)
+
+    json_response(resolve_references(json, params[:resolve]))
   end
 
 

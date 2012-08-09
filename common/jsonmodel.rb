@@ -375,6 +375,11 @@ module JSONModel
       end
 
 
+      def []=(key, val)
+        @data[key.to_s] = val
+      end
+
+
       # Validate the current JSONModel instance and return a list of exceptions
       # produced.
       def _exceptions
