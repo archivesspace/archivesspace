@@ -407,7 +407,6 @@ module JSONModel
           params[field] = @data[field]
         end
 
-        self.class.validate(params)
         @data = params
       end
 
