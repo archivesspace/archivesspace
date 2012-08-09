@@ -30,6 +30,10 @@ optparse = OptionParser.new do|opts|
   opts.on( '-r', '--repository REPO-CODE', 'Override default repository code / id') do|repo_key|
     options[:repo_key] = repo_key
   end
+  opts.on( '-d', '--debug', 'Run in debug mode') do
+    $DEBUG = true
+  end
+  
 end
 
 optparse.parse!
