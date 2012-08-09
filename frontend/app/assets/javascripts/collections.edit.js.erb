@@ -53,16 +53,15 @@ $(function() {
           beforeSubmit: function() {
             $(".btn-primary", $form).attr("disabled","disabled");
           },
-          success: function(response, status, xhr) {
-              if (location.hash === "#newAO") {
-                 changeHashSilently("#archival_object_" + $(response).find("#ao_id").val());
-              }
-             
+          success: function(response, status, xhr) {             
              initForm(response);
 
              if ($container.find(".alert-error:first, .alert-warning:first").length) {
                 $container.triggerHandler("submit.error");
              } else {
+                if (location.hash === "#newAO") {
+                   changeHashSilently("#archival_object_" + $(response).find("#ao_id").val());
+                }
                 form_changed = false;
                 rerenderTree();
                 $container.triggerHandler("submit.success");
@@ -78,7 +77,30 @@ $(function() {
   };
    
    var loadPaneForNode = function(nodeEl) {
-        if (nodeEl.attr("rel") === "archival_object") {
+         if (nodeEl.attr("id") === "newAO") {
+            
+            var data = {
+               collection: collection_tree_data.collection_id
+            };
+
+            var $parentNodeEl = nodeEl.parents("li:first");
+            if ($parentNodeEl.attr("rel") === "archival_object") {
+               data.parent = $parentNodeEl.data("id");
+            }
+            
+            $.ajax({
+               url: APP_PATH + "archival_objects/new",
+               data: data,
+               type: "GET",
+               success: function(html) {
+                  initForm(html);              
+                  $("form", $container).triggerHandler("form-changed");
+               },
+               error: function() {
+                  console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
+               }
+            })
+         } else if (nodeEl.attr("rel") === "archival_object") {
             $.ajax({
                 url: APP_PATH+"archival_objects/"+nodeEl.data("id")+"/edit?inline=true",
                 success: function(html) {
@@ -137,11 +159,7 @@ $(function() {
          changeHashSilently("#"+$(".selected", $tree).attr("id"));
          return;
       }
-      
-      if (location.hash === "#newAO") {
-         return;
-      }
-      
+
       var $selected = $(location.hash);
       $(".selected", $tree).removeClass("selected");
       $selected.addClass("selected");
@@ -160,33 +178,10 @@ $(function() {
          if ($selected.length === 0) {
             return;
          }
-         
-         var data = {
-            collection: collection_tree_data.collection_id
-         };
-         
-         if ($selected.attr("rel") === "archival_object") {
-            data.parent = $selected.data("id");
-         }
-         
-         $.ajax({
-            url: APP_PATH + "archival_objects/new",
-            data: data,
-            type: "GET",
-            success: function(html) {
-               initForm(html);
-               $tree.jstree("create_node", $selected, "last", {"attr":{"id": "newAO"}, "data": {"title": "New Analog Object"}});
-               $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
-               $tree.jstree("open_node", $selected);
-               $tree.jstree("deselect_all");
-               $tree.jstree("select_node", "#newAO");               
-               $("form", $container).triggerHandler("form-changed");
-            },
-            error: function() {
-               console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
-            }
-            
-         });
+
+         $tree.jstree("create_node", $selected, "last", {"attr":{"id": "newAO"}, "data": {"title": "New Analog Object"}});
+         $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
+         location.hash = "#newAO";
       });
       
       $(".archives-tree-container").on("click", ".add-sibling-archival-object-analog", function() {
@@ -195,32 +190,9 @@ $(function() {
             return;
          }
          
-         var data = {
-            collection: collection_tree_data.collection_id
-         };
-         
-         if ($selected.attr("rel") === "archival_object") {
-            data.parent = $selected.parents("li:first").data("id");
-         }
-         
-         $.ajax({
-            url: APP_PATH + "archival_objects/new",
-            data: data,
-            type: "GET",
-            success: function(html) {
-               initForm(html);
-               $tree.jstree("create_node", $selected.parents("li:first"), "last", {"attr":{"id": "newAO"}, "data": {"title": "New Analog Object"}});
-               $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
-               $tree.jstree("open_node", $selected.parents("li:first"));
-               $tree.jstree("deselect_all");
-               $tree.jstree("select_node", "#newAO");
-               $("form", $container).triggerHandler("form-changed");    
-            }, 
-            error: function() {
-               console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
-            }
-            
-         });
+         $tree.jstree("create_node", $selected.parents("li:first"), "last", {"attr":{"id": "newAO"}, "data": {"title": "New Analog Object"}});
+         $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
+         location.hash = "#newAO";
       });
  
       $container.on("click", ".btn-cancel", function() {
@@ -284,6 +256,7 @@ $(function() {
 
       $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
          form_changed = false;
+         $tree.jstree("delete_node", $('#newAO', $tree));
          location.hash = targetNodeEl.attr("id");
          $("#saveYourChangesModal").modal("hide");
       });
