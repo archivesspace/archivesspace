@@ -21,7 +21,17 @@ module ASModel
 
 
   def update_from_json(json)
-    self.update(self.class.references_to_ids(json))
+    old = JSONModel(json.class.record_type).from_hash(self.values).to_hash
+    changes = self.class.references_to_ids(json)
+
+    old.each do |k, v|
+      if not changes.has_key?(k)
+        changes[k] = nil
+      end
+    end
+
+    self.update(changes)
+    self.save
   end
 
 

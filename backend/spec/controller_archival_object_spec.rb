@@ -11,6 +11,7 @@ describe 'Archival Object controller' do
     post "#{@repo}/archival_objects", params = JSONModel(:archival_object).
       from_hash({
                   "id_0" => "1234",
+                  "id_1" => "5678",
                   "title" => "The archival object title",
                 }.merge(opts)).to_json
 
@@ -86,5 +87,20 @@ describe 'Archival Object controller' do
     ao["title"].should eq("A brand new title")
   end
 
+
+  it "treats updates as being replaces, not additions" do
+    created = create_archival_object
+
+    get "#{@repo}/archival_objects/#{created["id"]}"
+    ao = JSONModel(:archival_object).from_json(last_response.body)
+    ao.id_1 = nil
+    post "#{@repo}/archival_objects/#{created['id']}", params = ao.to_json
+
+    get "#{@repo}/archival_objects/#{created["id"]}"
+    ao = JSON(last_response.body)
+
+    ao.has_key?("id_1").should be_false
+
+  end
 
 end
