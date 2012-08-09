@@ -12,8 +12,8 @@ module FormHelper
          extra_args.reject! {|k,v| v.blank?}
          
          control_group_classes = "control-group"
-         control_group_classes << " warning" if extra_args.has_key?(:warnings) && extra_args[:warnings].has_key?(method.to_s)
-         control_group_classes << " error" if extra_args.has_key?(:errors) && extra_args[:errors].has_key?(method.to_s)
+         control_group_classes << " warning" if @object._exceptions.has_key?(:warnings) && @object._exceptions[:warnings].has_key?(method.to_s)
+         control_group_classes << " error" if @object._exceptions.has_key?(:errors) && @object._exceptions[:errors].has_key?(method.to_s)
                   
          control_classes = "controls"
          control_classes << " #{extra_args[:control_class]}" if extra_args.has_key? :control_class
