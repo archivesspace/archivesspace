@@ -13,8 +13,11 @@ ASpaceImporter.importer :ead do
 
     reader = Nokogiri::XML::Reader(IO.read(input_file))
     
-    @open_objects = Array.new 
+    @collections = Array.new
+    @archival_objects = Array.new 
     @coll_hsh = Hash.new
+    
+    
     
     reader.each do |node|
       #TODO - Error handling - missing tags
@@ -22,7 +25,7 @@ ASpaceImporter.importer :ead do
         puts "Reading <eadheader>" if $DEBUG
         
         node.read until node.name == 'eadid'
-        @coll_hsh[:id_0] = node.inner_xml
+        @coll_hsh[:eadid] = node.inner_xml
       end
       if node.node_type == 1 and node.name == 'archdesc'
         puts "Reading <archdesc>" if $DEBUG
@@ -30,8 +33,7 @@ ASpaceImporter.importer :ead do
     
         @coll_hsh[:title] = node.inner_xml
         #Import the collection
-        res = import :collection, @coll_hsh
-        @coll_hsh[:id] = res[:id]
+        open_new :collection, 
       end
   
       #Container List

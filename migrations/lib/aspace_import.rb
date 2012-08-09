@@ -63,14 +63,15 @@ class ASpaceImporter
     raise StandardError.new("Unexpected error: run method must be defined by a subclass")
   end
   
-  # If the import user does nothing, the repository will be the most recently opened repository. TODO - the initialize
-  # procedure should use an optional run time argument to find and open the default repository
+  # If the import user does nothing, the repository will be the most recently opened repository, or else the repository set when the importer was initialized 
 
   def get_import_opts
     opts = { }
     if @current[:repository]
       opts.merge!( { :repo_id => @current[:repository] } )
-    end
+    elsif @repo_key
+      # TODO - change the @repo_key option to @repo_code and do a lookup
+      opts.merge!( { :repo_id => @repo_key })
     return opts
   end
   
