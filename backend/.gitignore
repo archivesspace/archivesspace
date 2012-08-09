@@ -3,3 +3,4 @@
 /build/*.jar
 /build/gems
 derby.log
+/backend.war
