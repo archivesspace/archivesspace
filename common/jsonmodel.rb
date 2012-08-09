@@ -6,6 +6,7 @@ module JSONModel
   @@schema = {}
   @@types = {}
   @@models = {}
+  @@custom_validations = {}
   @@required_fields = {}
 
   @@protected_fields = []
@@ -241,6 +242,16 @@ module JSONModel
       end
 
 
+      # Add a custom validation to this model type.
+      #
+      # The validation is a block that takes a hash of properties and an
+      # errors/warnings hash and adds any errors or warnings it finds.
+      def self.add_validation(&block)
+        @@custom_validations[self] ||= []
+        @@custom_validations[self] << block
+      end
+
+
       # Validate the supplied hash using the JSON schema for this model.  Raise
       # a ValidationException if there are any fatal validation problems, or if
       # strict mode is enabled and warnings were produced.
@@ -250,6 +261,10 @@ module JSONModel
                                                   :errors_as_objects => true)
 
         exceptions = self.parse_schema_messages(messages)
+
+        @@custom_validations[self].to_a.each do |validation|
+          validation.call(hash, exceptions)
+        end
 
         if raise_errors and not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
           raise ValidationException.new(:invalid_object => self.new(hash),
@@ -464,6 +479,7 @@ module JSONModel
     if cls
       @@types.delete(cls)
       @@schema.delete(cls)
+      @@custom_validations.delete(cls)
       @@models.delete(type)
     end
   end
@@ -501,6 +517,8 @@ module JSONModel
 
       self.create_model_for(schema_name, entry[:schema])
     end
+
+    require_relative "validations"
 
     true
   end
