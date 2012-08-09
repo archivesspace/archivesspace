@@ -25,7 +25,7 @@ class AccessionsController < ApplicationController
          @warnings = @accession._warnings
          return render action: "new"
       end
-      
+
       id = @accession.save
       redirect_to :controller=>:accessions, :action=>:show, :id=>id
     rescue JSONModel::ValidationException => e

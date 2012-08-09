@@ -66,7 +66,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   error ValidationException do
-    json_response({:error => request.env['sinatra.error']}, 400)
+    json_response({:error => request.env['sinatra.error'].errors}, 400)
   end
 
   error ConflictException do

@@ -5,7 +5,8 @@ module JSONModel::Validations
   def self.check_identifier(hash, exceptions)
     ids = (0...4).map {|i| hash["id_#{i}"]}
 
-    if ids.reverse.drop_while {|elt| elt.nil?}.include?(nil)
+
+    if ids.reverse.drop_while {|elt| elt.to_s.empty?}.any?{|elt| elt.to_s.empty?}
       exceptions[:errors][:identifier] ||= []
       exceptions[:errors][:identifier] << "must not contain blank entries"
     end

@@ -46,8 +46,7 @@ module JSONModel
         self.uri = self.class.uri_for(response["id"], opts)
 
         return response["id"]
-      elsif response.code == '409'
-        # A conflict exception
+      elsif response.code =~ /^4/
         err = JSON.parse(response.body)
 
         @errors = err["error"]
