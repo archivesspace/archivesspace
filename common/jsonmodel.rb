@@ -160,6 +160,9 @@ module JSONModel
         if schema.nil?
           self.drop_unknown_properties(hash, self.schema)
         else
+          if not hash.is_a?(Hash)
+            return hash
+          end
 
           result = {}
 

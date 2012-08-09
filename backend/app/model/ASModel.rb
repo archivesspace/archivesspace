@@ -30,6 +30,7 @@ module ASModel
       end
     end
 
+    self.class.strict_param_setting = false
     self.update(changes)
     self.save
   end
@@ -51,9 +52,6 @@ module ASModel
     def reference_to_id_map
       {
         "repository" => :repo_id,
-        "collection" => nil,
-        "uri" => nil,
-        "parent" => nil
       }
     end
 
@@ -100,6 +98,7 @@ module ASModel
 
 
     def create_from_json(json, extra_values = {})
+      self.strict_param_setting = false
       self.create(references_to_ids(json).merge(extra_values))
     end
 

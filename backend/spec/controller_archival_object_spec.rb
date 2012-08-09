@@ -122,7 +122,7 @@ describe 'Archival Object controller' do
     last_response.should be_ok
 
     ao = JSON(last_response.body)
-    puts last_response.body
+
     ao["subjects"][0].should eql(subject_ref)
   end
 
