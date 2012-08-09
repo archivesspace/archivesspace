@@ -77,5 +77,4 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
     json
   end
-
 end
