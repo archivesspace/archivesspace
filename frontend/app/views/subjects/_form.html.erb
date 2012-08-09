@@ -1,0 +1,9 @@
+<%= render "shared/form_messages", :object => @subject %>
+<fieldset>
+   <%= f.label_field_pair :term, f.text_field(:term) %>
+   <%= f.label_field_pair :term_type, f.text_field(:term_type) %>
+</fieldset>
+<div class="form-actions">            
+   <button type="submit" class="btn btn-primary">Save Subject</button>   
+   <%= link_to "Cancel", :back, :class=>"btn btn-cancel" %>
+</div>

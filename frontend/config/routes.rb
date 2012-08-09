@@ -28,7 +28,10 @@ ArchivesSpace::Application.routes.draw do
   match 'collections/:id/update_tree' => 'collections#update_tree', :via => [:post]
   match 'collections/:id/tree' => 'collections#tree', :via => [:get]
   match 'collections/:id' => 'collections#update', :via => [:post]
-    
+
+  resources :subjects
+  match 'subjects/:id' => 'subjects#update', :via => [:post]
+
   # Sample resource route with options:
   #   resources :products do
   #     member do

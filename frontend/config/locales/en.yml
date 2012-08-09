@@ -19,3 +19,6 @@ en:
    repository:
       repo_code: Repository code
       description: Description
+   subject:
+      term: Term
+      term_type: Type

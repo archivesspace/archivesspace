@@ -21,7 +21,7 @@
                 <li class="divider"></li>
                 <li><%= link_to "Archival Objects", :controller=>:archival_objects, :action=>:index %></li>
                 <li><a href="#">Names</a></li>
-                <li><a href="#">Subjects</a></li>                
+                <li><%= link_to "Subjects", :controller=>:subjects, :action=>:index %></li>                
               </ul>
             </li>
             <li class="dropdown">
@@ -32,7 +32,7 @@
                 <li class="divider"></li>
                 <li><%= link_to "Archival Object", :controller=>:archival_objects, :action=>:new %></li>
                 <li><a href="#">Name</a></li>
-                <li><a href="#">Subject</a></li>
+                <li><%= link_to "Subject", :controller=>:subjects, :action=>:new %></li>
               </ul>
             </li>
           </ul>
