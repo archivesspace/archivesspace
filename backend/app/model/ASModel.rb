@@ -38,6 +38,7 @@ module ASModel
 
   module ClassMethods
 
+
     def create_from_json(json, extra_values = {})
       self.strict_param_setting = false
       self.create(json.to_hash.merge(extra_values))
