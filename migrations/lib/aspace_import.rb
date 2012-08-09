@@ -2,9 +2,12 @@ class ASpaceImporter
   include JSONModel
   @@importers = { }
   
+  # @return [Fixnum] the number of importers that have been loaded
+
   def self.importer_count
     @@importers.length
   end
+  
   
   def self.list
     puts "The following importers are available"
@@ -12,6 +15,10 @@ class ASpaceImporter
       puts "#{i} -- #{klass.name} -- #{klass.profile}"
     end
   end
+  
+  # @param options [Hash] runtime options passed into the importer
+  # @return [Object] an instance of the selected importer
+  # @raise [StandardError] if the class of the selected importer doesn't pass the usability test
   
   def self.create_importer options
     i = @@importers[options[:importer].to_sym]
@@ -22,6 +29,11 @@ class ASpaceImporter
     end
   end
   
+  # @param name [Symbol] the key declared by importer being loaded
+  # @param superclass [Const] a superfluous param in all likelihood
+  # @param block [Block] the data-processing and self-describing methods defined by the importer, the meat of the importer
+  # @return [Boolean]
+  
   def self.importer name, superclass=ASpaceImporter, &block
     if @@importers.has_key? name
       raise StandardError.new("Attempted to register #{name} a second time")
@@ -29,9 +41,11 @@ class ASpaceImporter
       c = Class.new(superclass, &block)
       Object.const_set("#{name.to_s.capitalize}ASpaceImporter", c)
       @@importers[name] = c
-      true
+      return true
     end
   end
+  
+  # @return [Boolean]
   
   def self.usable
     if !defined? self.profile
@@ -59,6 +73,8 @@ class ASpaceImporter
     puts "#{@badimports} records failed to import"
   end
   
+  # 
+  
   def run
     raise StandardError.new("Unexpected error: run method must be defined by a subclass")
   end
@@ -74,6 +90,11 @@ class ASpaceImporter
       opts.merge!( { :repo_id => @repo_key })
     return opts
   end
+  
+  # @!method contextualize( type, hash )
+  #   Makes inferences and adjustments to a Hash before it gets converted to a JSONModel object
+  #   @param type [Symbol] the schema type
+  #   @param hsh [Hash] the hash sent by the importer via an open_new or add_new directive
   
   def contextualize (type, hsh)
     # TODO - Can JSONModel tell me if a context element is relevant for my type?
