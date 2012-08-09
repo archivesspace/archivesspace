@@ -13,6 +13,7 @@ en:
       title: Title
       id_0: Identifier
       "[:id_0, :id_1, :id_2, :id_3]": Identifier
+      identifier: Identifier
    collection:
       title: Title
    repository:

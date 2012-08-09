@@ -36,10 +36,14 @@ $(function() {
 
       var $form = $("form", $container);
 
-      $(".btn-primary", $form).attr("disabled", "disabled");
-      $(".btn-cancel", $form).html("Revert Changes").attr("disabled", "disabled");
+      $(".btn-cancel", $form).html("Revert Changes")
       $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "collections/" + collection_tree_data.collection_id + location.hash + "'>Finish Editing</a>");
-      
+
+      if (location.hash !== "#newAO") {
+         $(".btn-primary", $form).attr("disabled", "disabled");
+         $(".btn-cancel", $form).attr("disabled", "disabled");
+      }
+
       $form.bind("form-changed", function() {
           form_changed = true;
           $(".btn-primary", $form).removeAttr("disabled");
@@ -201,8 +205,12 @@ $(function() {
          if ($(this).attr("disabled")) {
             return;
          }
-         form_changes = false;
-         loadPaneForNode($(".selected", $tree));
+         
+         if ($(".selected", $tree).attr("id") === "newAO") {
+            location.hash = $(".selected", $tree).parents("li:first").attr("id");
+         } else {
+            loadPaneForNode($(".selected", $tree));
+         }
       });
 
       $(".expand-tree", ".archives-tree-container").on("click", function() {

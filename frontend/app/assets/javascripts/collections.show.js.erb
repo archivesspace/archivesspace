@@ -81,11 +81,14 @@ $(function() {
        });
 
        $(window).hashchange(function(){
-           var selectedNode = $(location.hash);
+           var $selected = $(location.hash);
            $(".selected", $tree).removeClass("selected");
-           selectedNode.addClass("selected");
-           $tree.jstree("open_node", selectedNode);
-           loadPaneForNode(selectedNode);
+           $selected.addClass("selected");
+           $tree.jstree("deselect_all");
+           $tree.jstree("open_node", $selected);
+           $tree.jstree("select_node", $selected);
+
+           loadPaneForNode($selected);
        });
    };
    
@@ -118,6 +121,11 @@ $(function() {
           $tree.jstree("open_node", $(".selected", $tree), null, true);
           $tree.jstree("select_node", $(".selected", $tree), null, true);
        }).bind("select_node.jstree", function (event, data) {
+          var $nodeToSelect = $(data.rslt.obj);
+          if ($nodeToSelect.find("a").attr("href") === location.hash) {
+             return;
+          }
+
           location.hash = $(data.rslt.obj).find("a").attr("href");
           $(window).hashchange();
        });
