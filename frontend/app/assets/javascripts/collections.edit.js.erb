@@ -123,7 +123,7 @@ $(function() {
 
    var loadTreeActionsForNode = function(nodeEl) {
       // render tree navigation
-      $container.one("form.loaded", function() {
+      $container.bind("form.loaded", function() {
          $container.find(".tree-navigation").remove();
          var allNodes = $tree.find("li");
          var indexOfCurrentNode = allNodes.index(nodeEl);
