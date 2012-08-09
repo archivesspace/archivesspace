@@ -29,5 +29,14 @@ module FormHelper
          end         
          mab.to_s.html_safe
       end
+      
+      def label_and_fourpartid(method, extra_args  = {})
+         extra_args[:control_class] = "identifier-fields"
+         field_html =  @template.text_field(@object_name, :id_0, :class=> "id_0", :size=>10)
+         field_html << @template.text_field(@object_name, :id_1, :class=> "id_1", :size=>10, :disabled=>@object[:id_0].blank? && @object[:id_1].blank?)
+         field_html << @template.text_field(@object_name, :id_2, :class=> "id_2", :size=>10, :disabled=>@object[:id_1].blank? && @object[:id_2].blank?)
+         field_html << @template.text_field(@object_name, :id_3, :class=> "id_3", :size=>10, :disabled=>@object[:id_2].blank? && @object[:id_3].blank?)
+         label_field_pair(method, field_html, extra_args)
+      end
    end
 end
