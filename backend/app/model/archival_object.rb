@@ -3,6 +3,8 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   include ASModel
   include Identifiers
 
+  many_to_many :subjects
+
   def children
     ArchivalObject.db[:collection_tree].
                    filter(:parent_id => self.id).
