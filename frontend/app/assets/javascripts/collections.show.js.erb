@@ -118,20 +118,21 @@ $(function() {
           if ($(".selected", $tree).length === 0) {
              $("li:first", $tree).addClass("selected");
           }
+
           $tree.jstree("open_node", $(".selected", $tree), null, true);
           $tree.jstree("select_node", $(".selected", $tree), null, true);
+          $(window).hashchange();
        }).bind("select_node.jstree", function (event, data) {
           var $nodeToSelect = $(data.rslt.obj);
           if ($nodeToSelect.find("a").attr("href") === location.hash) {
              return;
           }
 
-          location.hash = $(data.rslt.obj).find("a").attr("href");
-          $(window).hashchange();
+          location.hash = $(data.rslt.obj).find("a").attr("href");          
        });
    };
    
    renderTree();
-   initTree();   
    addEventBindings();
+   initTree();
 });
