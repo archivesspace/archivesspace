@@ -96,14 +96,6 @@ module JSONModel
 
     cls = Class.new do
 
-      # In client mode, mix in some extra convenience methods for querying the
-      # ArchivesSpace backend service via HTTP.
-      if @@client_mode
-        require_relative 'jsonmodel_client'
-        include JSONModel::Client
-      end
-
-
       # Define accessors for all variable names listed in 'attributes'
       def self.define_accessors(attributes)
         attributes.each do |attribute|
@@ -299,16 +291,7 @@ module JSONModel
       # Given a URI like /repositories/:repo_id/something/:somevar, and a hash
       # containing keys and replacement strings, return a URI with the values
       # substituted in for their placeholders.
-      #
-      # This looks for a 'get_globals' defined on the current class for
-      # additional key/value pairs to substitute, allowing mix ins to add their
-      # own.
       def self.substitute_parameters(uri, opts = {})
-        if self.respond_to? :get_globals
-          # Used by the jsonmodel_client to pass through implicit parameters
-          opts = self.get_globals.merge(opts)
-        end
-
         opts.each do |k, v|
           uri = uri.gsub(":#{k}", v.to_s)
         end
@@ -467,6 +450,14 @@ module JSONModel
           nil
         end
       end
+
+
+      # In client mode, mix in some extra convenience methods for querying the
+      # ArchivesSpace backend service via HTTP.
+      if @@client_mode
+        require_relative 'jsonmodel_client'
+        include JSONModel::Client
+      end
     end
 
 
@@ -502,7 +493,7 @@ module JSONModel
   def self.init(opts = {})
 
     if opts.has_key?(:client_mode)
-      @@client_mode = true
+      @@client_mode = opts[:client_mode]
     end
 
     if opts.has_key?(:strict_mode)

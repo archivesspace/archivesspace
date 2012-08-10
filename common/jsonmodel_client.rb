@@ -61,9 +61,15 @@ module JSONModel
 
     module ClassMethods
 
-      # Extra parameters used by the JSONModel URI substitution.
-      def get_globals
-        {:repo_id => Thread.current[:selected_repo_id]}
+      def self.extended(base)
+        class << base
+          alias :_substitute_parameters :substitute_parameters
+
+          def substitute_parameters(uri, opts = {})
+            opts = opts.merge(:repo_id => Thread.current[:selected_repo_id])
+            _substitute_parameters(uri, opts)
+          end
+        end
       end
 
 
