@@ -3,72 +3,48 @@ require 'spec_helper'
 describe 'Collections controller' do
 
   before(:each) do
-    @repo = make_test_repo
+    make_test_repo
   end
 
 
   it "lets you create a collection and get it back" do
-    post "#{@repo}/collections", params = JSONModel(:collection).
-      from_hash({"title" => "a collection"}).to_json
+    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    id = collection.save
 
-    last_response.should be_ok
-    created = JSON(last_response.body)
-
-    get "#{@repo}/collections/#{created["id"]}"
-
-    collection = JSON(last_response.body)
-
-    collection["title"].should eq("a collection")
+    JSONModel(:collection).find(id).title.should eq("a collection")
   end
 
 
   it "lets you manipulate the record hierarchy" do
-    post "#{@repo}/collections", params = JSONModel(:collection).
-      from_hash({
-                  "id_0" => "1234",
-                  "title" => "a collection",
-                }).to_json
 
-    last_response.should be_ok
-    collection = JSON(last_response.body)
+    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    id = collection.save
 
-
-    ids = []
+    aos = []
     ["earth", "australia", "canberra"].each do |name|
-      ao = JSONModel(:archival_object).from_hash({
-                                                   "id_0" => name,
-                                                   "title" => "archival object: #{name}",
-                                                 })
-      if not ids.empty?
-        ao.parent = "#{@repo}/archival_objects/#{ids.last}"
+      ao = JSONModel(:archival_object).from_hash("id_0" => name,
+                                                 "title" => "archival object: #{name}")
+      if not aos.empty?
+        ao.parent = aos.last.uri
       end
 
-      ao.collection = "#{@repo}/collections/#{collection['id']}"
-
-
-      post "#{@repo}/archival_objects", params = ao.to_json
-      last_response.should be_ok
-      created = JSON(last_response.body)
-
-      ids << created["id"]
+      ao.collection = collection.uri
+      ao.save
+      aos << ao
     end
 
+    tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
 
-    get "#{@repo}/collections/#{collection['id']}/tree"
-    last_response.should be_ok
-    tree = JSON(last_response.body)
-
-    archival_objects = "#{@repo}/archival_objects/"
-    tree.should eq({
-                     "archival_object" => "#{archival_objects}#{ids[0]}",
+    tree.to_hash.should eq({
+                     "archival_object" => aos[0].uri,
                      "title" => "archival object: earth",
                      "children" => [
                                     {
-                                      "archival_object" => "#{archival_objects}#{ids[1]}",
+                                      "archival_object" => aos[1].uri,
                                       "title" => "archival object: australia",
                                       "children" => [
                                                      {
-                                                       "archival_object" => "#{archival_objects}#{ids[2]}",
+                                                       "archival_object" => aos[2].uri,
                                                        "title" => "archival object: canberra",
                                                        "children" => []
                                                      }
@@ -80,15 +56,15 @@ describe 'Collections controller' do
 
     # Now turn it on its head
     changed = {
-      "archival_object" => "#{archival_objects}#{ids[2]}",
+      "archival_object" => aos[2].uri,
       "title" => "archival object: canberra",
       "children" => [
                      {
-                       "archival_object" => "#{archival_objects}#{ids[1]}",
+                       "archival_object" => aos[1].uri,
                        "title" => "archival object: australia",
                        "children" => [
                                       {
-                                        "archival_object" => "#{archival_objects}#{ids[0]}",
+                                        "archival_object" => aos[0].uri,
                                         "title" => "archival object: earth",
                                         "children" => []
                                       }
@@ -97,37 +73,24 @@ describe 'Collections controller' do
                     ]
     }
 
-    post "#{@repo}/collections/#{collection['id']}/tree", JSON(changed)
-    last_response.should be_ok
+    JSONModel(:collection_tree).from_hash(changed).save(:collection_id => collection.id)
+    changed.delete("uri")
 
-    get "#{@repo}/collections/#{collection['id']}/tree"
-    last_response.should be_ok
-    tree = JSON(last_response.body)
+    tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
 
-    tree.should eq(changed)
+    tree.to_hash.should eq(changed)
   end
 
 
 
   it "lets you update a collection" do
-    collection = JSONModel(:collection).from_hash({
-                                                    "title" => "a collection",
-                                                  })
-
-    post "#{@repo}/collections", params = collection.to_json
-
-    last_response.should be_ok
-    created = JSON(last_response.body)
+    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    id = collection.save
 
     collection.title = "an updated collection"
+    collection.save
 
-    post "#{@repo}/collections/#{created['id']}", params = collection.to_json
-
-    get "#{@repo}/collections/#{created["id"]}"
-
-    collection = JSON(last_response.body)
-
-    collection["title"].should eq("an updated collection")
+    JSONModel(:collection).find(id).title.should eq("an updated collection")
   end
 
 

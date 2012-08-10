@@ -3,52 +3,37 @@ require 'spec_helper'
 describe 'Archival Object controller' do
 
   before(:each) do
-    @repo = make_test_repo
+    make_test_repo
   end
 
 
   def create_archival_object(opts = {})
-    post "#{@repo}/archival_objects", params = JSONModel(:archival_object).
-      from_hash({
-                  "id_0" => "1234",
-                  "id_1" => "5678",
-                  "title" => "The archival object title",
-                }.merge(opts)).to_json
-
-    last_response.should be_ok
-    JSON(last_response.body)
+    ao = JSONModel(:archival_object).from_hash("id_0" => "1234",
+                                               "id_1" => "5678",
+                                               "title" => "The archival object title")
+    ao.update(opts)
+    ao.save
   end
 
 
   it "lets you create an archival object and get it back" do
     created = create_archival_object
-
-    get "#{@repo}/archival_objects/#{created["id"]}"
-
-    ao = JSON(last_response.body)
-
-    ao["title"].should eq("The archival object title")
+    JSONModel(:archival_object).find(created).title.should eq("The archival object title")
   end
 
 
   it "lets you create an archival object with a parent" do
-    post "#{@repo}/collections", params = JSONModel(:collection).
-      from_hash({"title" => "a collection"}).to_json
+    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    collection.save
 
-    last_response.should be_ok
-    collection = JSON(last_response.body)
-
-    collection_ref = "#{@repo}/collections/#{collection['id']}"
-
-    created = create_archival_object("collection" => collection_ref)
+    created = create_archival_object("collection" => collection.uri)
 
     create_archival_object("id_0" => "4567",
-                           "collection" => collection_ref,
+                           "collection" => collection.uri,
                            "title" => "child archival object",
-                           "parent" => "#{@repo}/archival_objects/#{created['id']}")
+                           "parent" => "#{@repo}/archival_objects/#{created}")
 
-
-    get "#{@repo}/archival_objects/#{created["id"]}/children"
+    get "#{@repo}/archival_objects/#{created}/children"
     last_response.should be_ok
 
     children = JSON(last_response.body)
@@ -56,92 +41,67 @@ describe 'Archival Object controller' do
   end
 
 
-
   it "warns about missing properties" do
     JSONModel::strict_mode(false)
-    post "#{@repo}/archival_objects", params = JSONModel(:archival_object).
-      from_hash({"id_0" => "abc"}).to_json
-    JSONModel::strict_mode(true)
-
-    last_response.should be_ok
-    created = JSON(last_response.body)
+    ao = JSONModel(:archival_object).from_hash("id_0" => "abc")
+    ao.save
 
     known_warnings = ["title"]
 
-    (known_warnings - created["warnings"].keys).should eq([])
+    (known_warnings - ao._exceptions[:warnings].keys).should eq([])
+    JSONModel::strict_mode(true)
   end
 
 
   it "handles updates for an existing archival object" do
     created = create_archival_object
 
-    get "#{@repo}/archival_objects/#{created["id"]}"
-    ao = JSONModel(:archival_object).from_json(last_response.body)
+    ao = JSONModel(:archival_object).find(created)
     ao.title = "A brand new title"
+    ao.save
 
-    post "#{@repo}/archival_objects/#{created['id']}", params = ao.to_json
-
-    get "#{@repo}/archival_objects/#{created["id"]}"
-    ao = JSON(last_response.body)
-
-    ao["title"].should eq("A brand new title")
+    JSONModel(:archival_object).find(created).title.should eq("A brand new title")
   end
 
 
   it "treats updates as being replaces, not additions" do
     created = create_archival_object
 
-    get "#{@repo}/archival_objects/#{created["id"]}"
-    ao = JSONModel(:archival_object).from_json(last_response.body)
+    ao = JSONModel(:archival_object).find(created)
     ao.id_1 = nil
-    post "#{@repo}/archival_objects/#{created['id']}", params = ao.to_json
+    ao.save
 
-    get "#{@repo}/archival_objects/#{created["id"]}"
-    ao = JSON(last_response.body)
-
-    ao.has_key?("id_1").should be_false
+    JSONModel(:archival_object).find(created).id_1.should be_nil
 
   end
 
 
   it "lets you create an archival object with a subject" do
-    post "/subjects", params = JSONModel(:subject).
-      from_hash({"term" => "a test subject", "term_type" => "Cultural context"}).to_json
+    subject = JSONModel(:subject).from_hash("term" => "a test subject",
+                                            "term_type" => "Cultural context")
+    subject.save
 
-    last_response.should be_ok
-    subject = JSON(last_response.body)
-
-    subject_ref = "/subjects/#{subject['id']}"
-    
     created = create_archival_object("id_0" => "4567",
-                           "subjects" => [subject_ref],
-                           "title" => "child archival object")
+                                     "subjects" => [subject.uri],
+                                     "title" => "child archival object")
 
-
-    get "#{@repo}/archival_objects/#{created["id"]}"
-    last_response.should be_ok
-
-    ao = JSON(last_response.body)
-
-    ao["subjects"][0].should eql(subject_ref)
+    JSONModel(:archival_object).find(created).subjects[0].should eq(subject.uri)
   end
 
 
   it "can resolve subjects for you" do
-    post "/subjects", params = JSONModel(:subject).
-      from_hash({"term" => "a test subject", "term_type" => "Cultural context"}).to_json
-
-    last_response.should be_ok
-    subject = JSON(last_response.body)
-
-    subject_ref = "/subjects/#{subject['id']}"
+    subject = JSONModel(:subject).from_hash("term" => "a test subject",
+                                            "term_type" => "Cultural context")
+    subject.save
 
     created = create_archival_object("id_0" => "4567",
-                           "subjects" => [subject_ref],
-                           "title" => "child archival object")
+                                     "subjects" => [subject.uri],
+                                     "title" => "child archival object")
 
 
-    get "#{@repo}/archival_objects/#{created["id"]}?resolve[]=subjects"
+    # TODO: can't currently express this using the JSONModel client, but we
+    # should enhance it to support query parameters on .find calls.
+    get "#{@repo}/archival_objects/#{created}?resolve[]=subjects"
     last_response.should be_ok
 
     ao = JSON(last_response.body)

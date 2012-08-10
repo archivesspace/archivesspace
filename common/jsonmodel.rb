@@ -49,6 +49,11 @@ module JSONModel
   end
 
 
+  def models
+    @@models
+  end
+
+
   # Parse a URI reference like /repositories/123/archival_objects/500 into
   # {:id => 500, :type => :archival_object}
   def self.parse_reference(reference, opts = {})

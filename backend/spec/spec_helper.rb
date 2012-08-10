@@ -20,9 +20,26 @@ end
 require_relative File.join("..", "app", "main")
 require 'sinatra'
 require 'rack/test'
+
+JSONModel::init(:client_mode => true, :strict_mode => true,
+                :url => 'http://example.com')
 include JSONModel
 
-JSONModel::strict_mode(true)
+JSONModel::models.each do |type, cls|
+  class << cls
+    include Rack::Test::Methods
+
+    def _do_http_request(url, req)
+      send(req.method.downcase.intern, req.path, params = req.body)
+
+      last_response.instance_eval do
+        def code; status.to_s; end
+      end
+
+      last_response
+    end
+  end
+end
 
 # setup test environment
 set :environment, :test
@@ -59,13 +76,11 @@ end
 
 
 def make_test_repo(code = "ARCHIVESSPACE")
-  test_repo = {
-    "repo_code" => code,
-    "description" => "A new ArchivesSpace repository"
-  }
-
-  post '/repositories', params = JSONModel(:repository).from_hash(test_repo).to_json
-  @repo = "/repositories/#{JSON(last_response.body)["id"]}"
+  repo = JSONModel(:repository).from_hash("repo_code" => code,
+                                          "description" => "A new ArchivesSpace repository")
+  repo.save
+  @repo = repo.uri
+  JSONModel::set_repository(JSONModel(:repository).id_for(@repo))
 end
 
 
