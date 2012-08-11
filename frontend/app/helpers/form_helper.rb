@@ -8,7 +8,7 @@ module FormHelper
    end
 
    module FormBuilderMethods   
-      def label_field_pair(method, field_html, extra_args  = {})
+      def label_field_pair(method, field_html=nil, extra_args  = {})
          extra_args.reject! {|k,v| v.blank?}
          
          control_group_classes = "control-group"
@@ -19,6 +19,8 @@ module FormHelper
          control_classes << " #{extra_args[:control_class]}" if extra_args.has_key? :control_class
          
          label_html = @template.label @object_name, method, I18n.t("#{@object_name}.#{method}"), :class=> "control-label"
+         
+         field_html = jsonmodel_field(method) if field_html.blank?
          
          mab = Markaby::Builder.new
          mab.div :class=>control_group_classes do           
@@ -37,6 +39,19 @@ module FormHelper
          field_html << @template.text_field(@object_name, :id_2, :class=> "id_2", :size=>10, :disabled=>@object[:id_1].blank? && @object[:id_2].blank?)
          field_html << @template.text_field(@object_name, :id_3, :class=> "id_3", :size=>10, :disabled=>@object[:id_2].blank? && @object[:id_3].blank?)
          label_field_pair(method, field_html, extra_args)
+      end
+      
+      def jsonmodel_field(method)
+         schema = @object.class.schema
+         if not schema["properties"].has_key?(method.to_s)
+            return "PROBLEM: #{object_name} does not define #{method} in it's schema"
+         end
+         attr_definition = schema["properties"][method.to_s]
+         if attr_definition.has_key?("enum")
+            @template.select(@object_name, method, attr_definition["enum"])
+         else
+            @template.text_field(@object_name, method)
+         end
       end
    end
 end
