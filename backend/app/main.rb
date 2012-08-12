@@ -56,6 +56,24 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  def handle_exception!(boom)
+    @env['sinatra.error'] = boom
+    status boom.respond_to?(:code) ? Integer(boom.code) : 500
+
+    if not_found?
+      headers['X-Cascade'] = 'pass'
+      body '<h1>Not Found</h1>'
+    end
+
+    res = error_block!(boom.class, boom) || error_block!(status, boom)
+
+    if res
+      DB.rollback_and_return(res)
+    else
+      raise boom
+    end
+  end
+
 
   error NotFoundException do
     json_response({:error => request.env['sinatra.error']}, 404)
@@ -110,9 +128,8 @@ class ArchivesSpaceService < Sinatra::Base
         @session = session
       }
 
-      result = nil
-      DB.open do
-        result = @app.call(env)
+      result = DB.open do
+        @app.call(env)
       end
 
       end_time = Time.now
@@ -138,7 +155,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
     def json_response(obj, status = 200)
-      [status, {"Content-Type" => "application/json"}, JSON(obj)]
+      [status, {"Content-Type" => "application/json"}, [JSON(obj)]]
     end
 
 

@@ -10,14 +10,32 @@ class DB
   end
 
 
+  class RollbackWithResponse < StandardError
+    attr_reader :response
+
+    def initialize(response)
+      @response = response
+    end
+  end
+
+
+  def self.rollback_and_return(response)
+    raise RollbackWithResponse.new(response)
+  end
+
+
   def self.open(transaction = true)
     last_err = false
 
     5.times do
       begin
         if transaction
-          @pool.transaction do
-            return yield @pool
+          begin
+            @pool.transaction do
+              return yield @pool
+            end
+          rescue RollbackWithResponse => e
+            return e.response
           end
 
           # Sometimes we'll make it to here.  That means we threw a
