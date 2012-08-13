@@ -176,5 +176,5 @@ end
 
 if $0 == __FILE__
   Log.info("Dev server starting up...")
-  ArchivesSpaceService.run!
+  ArchivesSpaceService.run!(:port => (ARGV[0] or 4567))
 end
