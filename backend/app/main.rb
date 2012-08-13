@@ -100,6 +100,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 409)
   end
 
+  error JSON::ParserError do
+    json_response({:error => "Had some trouble parsing your request: #{request.env['sinatra.error']}"}, 400)
+  end
+
 
   def session
     @session
