@@ -20,7 +20,7 @@ module ASModel
   end
 
 
-  def update_from_json(json)
+  def update_from_json(json, opts = {})
     old = JSONModel(json.class.record_type).from_hash(self.values).to_hash
     changes = json.to_hash
 

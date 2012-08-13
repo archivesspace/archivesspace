@@ -2,14 +2,11 @@ class Collection < Sequel::Model(:collections)
   plugin :validation_helpers
   include ASModel
 
+
   def link(opts)
-    now = Time.now
-    Collection.db[:collection_tree].
-               insert(:parent_id => opts[:parent],
-                      :child_id => opts[:child],
-                      :collection_id => self.id,
-                      :create_time => now,
-                      :last_modified => now)
+    child = ArchivalObject.get_or_die(opts[:child])
+    child.parent_id = opts[:parent]
+    child.save
   end
 
 
@@ -34,37 +31,31 @@ class Collection < Sequel::Model(:collections)
 
   def tree
     links = {}
+    properties = {}
 
     root_node = nil
-    Collection.db[:collection_tree].
-               filter(:collection_id => self.id).each do |row|
-      if row[:parent_id]
-        links[row[:parent_id]] ||= []
-        links[row[:parent_id]] << row[:child_id]
+    ArchivalObject.filter(:collection_id => self.id).each do |ao|
+      if ao.parent_id
+        links[ao.parent_id] ||= []
+        links[ao.parent_id] << ao.id
       else
-        root_node = row[:child_id]
+        root_node = ao.id
       end
+
+      properties[ao.id] = {:title => ao.title, :id => ao.id}
     end
 
     # Check for empty tree
     return nil if root_node.nil?
-
-    properties = {}
-
-    Collection.db[:archival_objects].
-               filter(:id => ([root_node] + links.keys + links.values.flatten)).
-               select(:id, :title).each do |row|
-      properties[row[:id]] = row
-    end
 
     assemble_tree(root_node, links, properties)
   end
 
 
   def update_tree(tree)
-    Collection.db[:collection_tree].
+    Collection.db[:archival_objects].
                filter(:collection_id => self.id).
-               delete
+               update(:parent_id => nil)
 
     # The root node has a null parent
     self.link(:parent => nil,

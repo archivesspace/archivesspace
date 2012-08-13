@@ -6,11 +6,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   many_to_many :subjects
 
   def children
-    ArchivalObject.db[:collection_tree].
-                   filter(:parent_id => self.id).
-                   select(:child_id).map do |child_id|
-      ArchivalObject[child_id[:child_id]]
-    end
+    ArchivalObject.filter(:parent_id => self.id)
   end
 
 
@@ -30,36 +26,32 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   end
 
 
-  def self.set_collection(ao, json, opts)
-    parent_id = JSONModel::parse_reference(json.parent, opts)
-    collection_id = JSONModel::parse_reference(json.collection, opts)
+  def self.set_collection(json, opts)
+    opts["collection_id"] = nil
+    opts["parent_id"] = nil
 
-    if collection_id
-      collection = Collection.get_or_die(collection_id[:id])
+    if json.collection
+      opts["collection_id"] = JSONModel::parse_reference(json.collection, opts)[:id]
 
-      collection.link(:parent => parent_id ? parent_id[:id] : nil,
-                      :child => ao[:id])
+      if json.parent
+        opts["parent_id"] = JSONModel::parse_reference(json.parent, opts)[:id]
+      end
     end
   end
 
 
-  ## Hook into the JSON model manipulations to set up references to other
-  ## records.
-
   def self.create_from_json(json, opts = {})
-    obj = super
+    set_collection(json, opts)
+    obj = super(json, opts)
     apply_subjects(obj, json, opts)
-    set_collection(obj, json, opts)
-
     obj
   end
 
 
-  def update_from_json(json)
-    obj = super
+  def update_from_json(json, opts = {})
+    self.class.set_collection(json, opts)
+    obj = super(json, opts)
     self.class.apply_subjects(obj, json, {})
-    self.class.set_collection(obj, json, {})
-
     obj
   end
 

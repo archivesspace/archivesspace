@@ -94,4 +94,14 @@ describe 'Collections controller' do
   end
 
 
+  it "can handle asking for the tree of an empty collection" do
+    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    id = collection.save
+
+    tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
+
+    tree.should eq(nil)
+  end
+
+
 end

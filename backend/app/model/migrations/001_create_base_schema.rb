@@ -117,6 +117,9 @@ Sequel.migration do
       primary_key :id
 
       Integer :repo_id, :null => false
+      Integer :collection_id, :null => true
+
+      Integer :parent_id, :null => true
 
       String :identifier, :null => false, :unique => true
 
@@ -128,24 +131,8 @@ Sequel.migration do
 
     alter_table(:archival_objects) do
       add_foreign_key([:repo_id], :repositories, :key => :id)
-    end
-
-
-    create_table(:collection_tree) do
-      primary_key :id
-
-      Integer :collection_id, :null => false
-      Integer :parent_id, :null => true
-      Integer :child_id, :null => false
-
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
-    end
-
-    alter_table(:collection_tree) do
       add_foreign_key([:collection_id], :collections, :key => :id)
       add_foreign_key([:parent_id], :archival_objects, :key => :id)
-      add_foreign_key([:child_id], :archival_objects, :key => :id)
     end
 
 
@@ -176,7 +163,6 @@ Sequel.migration do
     drop_table?(:archival_objects_subjects)
 
     drop_table?(:subjects)
-    drop_table?(:collection_tree)
     drop_table?(:archival_objects)
     drop_table?(:collections)
     drop_table?(:repositories)
