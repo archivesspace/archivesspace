@@ -81,7 +81,8 @@ end
 
 
 def main
-  system("cd ../; build/run devserver -Daspace.port=#{$port} -Daspace_integration_test=1 >/dev/null 2>&1 &")
+
+  system("cd ../; build/run devserver -Daspace.port=#{$port} -Daspace_integration_test=1 >/dev/null &")
 
   while true
     begin

@@ -3,7 +3,13 @@ require 'sequel'
 
 require_relative 'exceptions'
 require_relative 'logging'
-require_relative File.join("..", "..", "config", "config")
+
+if File.exists?(File.join("..", "..", "config", "config.rb"))
+  require_relative File.join("..", "..", "config", "config")
+else
+  require_relative File.join("..", "..", "config", "config-distribution")
+end
+
 require_relative File.join("..", "..", "..", "common", "jsonmodel")
 JSONModel::init
 
