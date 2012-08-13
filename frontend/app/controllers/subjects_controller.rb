@@ -4,6 +4,16 @@ class SubjectsController < ApplicationController
       @subjects = JSONModel(:subject).all
    end
 
+   def list
+      @subjects = JSONModel(:subject).all
+
+      respond_to do |format|
+          format.json {
+             render :json => @subjects
+          }
+        end
+   end
+
    def show
      @subject = JSONModel(:subject).find(params[:id])
    end

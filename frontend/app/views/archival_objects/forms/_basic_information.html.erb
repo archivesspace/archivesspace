@@ -1,2 +1,11 @@
 <%= f.label_field_pair :title %>
 <%= f.label_and_fourpartid :id_0 %>
+
+<hr/>
+
+<div class="control-group">
+   <label class="control-label">Subjects</label>
+   <div class="controls">
+      <div class="linker" data-class="subject" data-owner_class="archival_object" data-owner_attribute="subjects" data-multiplicity="many" data-url="<%= url_for :controller=>:subjects, :action=>:list, :format=>:json %>" data-format="${term} (${term_type})" data-name="Subject" data-name_plural="Subjects" data-selected='<%= @archival_object.subjects.blank? ? "[]" : @archival_object.subjects.to_json %>'></div>
+   </div>
+</div>

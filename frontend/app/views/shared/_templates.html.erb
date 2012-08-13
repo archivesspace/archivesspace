@@ -18,3 +18,49 @@
       <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
    </div>
 --></div>
+
+<div id="linker_modal_template"><!--
+   <div class="modal-body linker-container">
+      <div class="linker-list"></div>
+   </div>
+   <div class="modal-footer">
+      <button id="addSelectedButton" class="btn btn-primary">Add Selected</button>
+      <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+   </div>
+--></div>
+
+<div id="linker_list_template"><!--
+   <ul>
+      {for item in items} 
+         <li>
+            <label>
+               <input 
+                  type="checkbox" 
+                  name="linker-item" 
+                  value="${item.uri}" 
+                  data-object='${JSON.stringify(item)}'
+                  {if $.inArray(item.uri, selected) >= 0} checked="checked"{/if}
+               />
+               <span>${AS.quickTemplate(config.format, item)}</span>
+            </label>
+         </li>
+      {/for}
+   </ul>
+--></div>
+<div id="linker_selected_template"><!--
+   {if config.multiplicity === "many" || (config.multiplicity === "one" && items.length === 0)}
+      <button type="button" class="btn btn-mini linker-add-button">Add ${config.name}</button>
+   {/if}
+   {if items.length > 0}
+      <ul>
+         {for item in items} 
+            <li>
+               <input type="hidden" name="${config.owner_class}[${config.owner_attribute}][]" value="${item}" />
+               ${item}
+            </li>
+         {/for}
+      </ul>
+   {else}
+      
+   {/if}
+--></div>

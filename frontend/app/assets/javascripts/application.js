@@ -16,5 +16,6 @@
 //= require jquery.form
 //= require utils
 //= require header
+//= require linker
 
 AS.tree_data = {};

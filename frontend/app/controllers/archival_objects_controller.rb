@@ -50,6 +50,8 @@ class ArchivalObjectsController < ApplicationController
          return render :partial=>"edit_inline"
       end
 
+      puts params['archival_object']
+
       result = @archival_object.save
 
       flash[:success] = "Archival Object Saved"

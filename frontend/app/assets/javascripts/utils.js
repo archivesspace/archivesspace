@@ -79,6 +79,10 @@ AS.renderTemplate = function(templateId, data) {
    }
    return $(AS.templateCache[templateId].process(data));
 };
+AS.quickTemplate = function(templateHTML, data) {
+    return TrimPath.parseTemplate(templateHTML).process(data);
+};
+
 AS.encodeForAttribute = function(string) {
    if (string === null || string === undefined) {
       return "";
@@ -87,7 +91,7 @@ AS.encodeForAttribute = function(string) {
 }
 AS.openCustomModal = function(id, title, contents) {
    $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: ""}));
-   $("#"+id).append(AS.renderTemplate("save_changes_modal_template")).on("hidden", function() {
+   $("#"+id).append(contents).on("hidden", function() {
       $(this).remove();
-   }).modal('show');;
+   }).modal('show');
 };
