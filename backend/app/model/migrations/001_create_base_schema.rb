@@ -134,7 +134,8 @@ Sequel.migration do
       add_foreign_key([:collection_id], :collections, :key => :id)
       add_foreign_key([:parent_id], :archival_objects, :key => :id)
     end
-    
+
+
     create_table(:vocabularies) do
       primary_key :id
       
@@ -147,6 +148,7 @@ Sequel.migration do
 
     self[:vocabularies].insert(:name => "global", :ref_id => "global", 
       :create_time => Time.now, :last_modified => Time.now)
+
 
     create_table(:subjects) do
       primary_key :id
