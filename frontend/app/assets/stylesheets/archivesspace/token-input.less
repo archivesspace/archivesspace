@@ -1,0 +1,140 @@
+@import "variables";
+
+ul.token-input-list {
+    overflow: hidden; 
+    height: auto !important; 
+    height: 1%;
+    width: 400px;
+    cursor: text;
+    font-size: 12px;
+    font-family: Verdana, sans-serif;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    
+    background-color: @inputBackground;
+    border: 1px solid @inputBorder;
+   .border-radius(@inputBorderRadius);
+   .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+   @transition: border linear .2s, box-shadow linear .2s;
+   .transition(@transition);
+
+   // Focus state
+   &:focus {
+     border-color: rgba(82,168,236,.8);
+     outline: 0;
+     outline: thin dotted \9; /* IE6-9 */
+     .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6)");
+   }
+}
+
+ul.token-input-list li {
+    list-style-type: none;
+}
+
+ul.token-input-list li input {
+    border: 0;
+    width: 350px;
+    padding: 3px 8px;
+    background-color: white;
+    -webkit-appearance: caret;
+}
+
+ul.token-input-disabled,
+ul.token-input-disabled li input {
+  background-color: #E8E8E8;
+}
+
+ul.token-input-disabled li.token-input-token {
+  background-color: #D9E3CA;
+  color: #7D7D7D
+}
+
+ul.token-input-disabled li.token-input-token span {
+  color: #CFCFCF;
+  cursor: default;
+}
+
+li.token-input-token {
+    overflow: hidden; 
+    height: auto !important; 
+    height: 1%;
+    margin: 3px;
+    background: #BEEBFF;
+    border: 1px solid #99DEFD;
+    padding: 2px;
+    color: #555;
+    display: block;
+    .border-radius(@inputBorderRadius);
+}
+
+li.token-input-token p {
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+
+li.token-input-token span {
+    float: right;
+    color: #777;
+    cursor: pointer;
+}
+
+li.token-input-selected-token {
+    background: #BEEBFF;
+    font-weight: bold;
+}
+
+li.token-input-selected-token span {
+    color: #bbb;
+}
+
+div.token-input-dropdown {
+    position: absolute;
+    width: 400px;
+    background-color: #fff;
+    overflow: hidden;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    cursor: default;
+    font-size: 12px;
+    font-family: Verdana, sans-serif;
+    z-index: 1;
+}
+
+div.token-input-dropdown p {
+    margin: 0;
+    padding: 5px;
+    font-weight: bold;
+    color: #777;
+}
+
+div.token-input-dropdown ul {
+    margin: 0;
+    padding: 0;
+}
+
+div.token-input-dropdown ul li {
+    background-color: #fff;
+    padding: 3px;
+    list-style-type: none;
+}
+
+div.token-input-dropdown ul li.token-input-dropdown-item {
+    background-color: #fafafa;
+}
+
+div.token-input-dropdown ul li.token-input-dropdown-item2 {
+    background-color: #fff;
+}
+
+div.token-input-dropdown ul li em {
+    font-weight: bold;
+    font-style: normal;
+}
+
+div.token-input-dropdown ul li.token-input-selected-dropdown-item {
+    background: #BEEBFF;
+}

@@ -7,6 +7,10 @@ class SubjectsController < ApplicationController
    def list
       @subjects = JSONModel(:subject).all
 
+      if params[:q]
+         @subjects = @subjects.select {|s| s.term.downcase.include?(params[:q].downcase) || s.term_type.downcase.include?(params[:q].downcase) }
+      end
+
       respond_to do |format|
           format.json {
              render :json => @subjects
