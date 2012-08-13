@@ -1,6 +1,9 @@
 require_relative File.join("..", "app", "model", "db")
 
 
+Thread.current[:test_mode] = true
+
+
 # Use an in-memory Derby DB for the test suite
 class DB
   def self.connect
