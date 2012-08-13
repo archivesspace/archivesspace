@@ -63,6 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
     if not_found?
       headers['X-Cascade'] = 'pass'
       body '<h1>Not Found</h1>'
+      return
     end
 
     res = error_block!(boom.class, boom) || error_block!(status, boom)

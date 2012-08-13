@@ -4,3 +4,5 @@
 /build/gems
 derby.log
 /backend.war
+/config/config.rb
+/db
