@@ -34,13 +34,20 @@ describe 'Accession controller' do
   end
 
 
-  it "warns about missing properties" do
+  it "Fails on missing properties" do
     JSONModel::strict_mode(false)
-    acc = JSONModel(:accession).from_hash("id_0" => "abcdef")
-    acc.save
 
-    known_warnings = ["accession_date", "condition_description", "content_description", "title"]
-    (known_warnings - acc._exceptions[:warnings].keys).should eq([])
+    begin
+      acc = JSONModel(:accession).from_hash("id_0" => "abcdef")
+      acc.save
+    rescue JSONModel::ValidationException => e
+      errors = ["title", "accession_date"]
+      warnings = ["content_description", "condition_description"]
+
+      (e.errors.keys - errors).should eq([])
+      (e.warnings.keys - warnings).should eq([])
+    end
+
     JSONModel::strict_mode(true)
   end
 
