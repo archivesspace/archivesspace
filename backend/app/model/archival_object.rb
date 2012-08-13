@@ -17,8 +17,15 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   def self.apply_subjects(ao, json, opts)
     ao.remove_all_subjects
 
-    (json.subjects or []).each do |subject|
-      ao.add_subject(Subject[JSONModel(:subject).id_for(subject)])
+    (json.subjects or []).each do |uri|
+      subject = Subject[JSONModel(:subject).id_for(uri)]
+      if subject.nil?
+        raise JSONModel::ValidationException.new(:errors => {
+                                                   :subjects => ["No subject found for #{uri}"]
+                                                 })
+      else
+        ao.add_subject(subject)
+      end
     end
   end
 
