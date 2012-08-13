@@ -6,8 +6,7 @@
     <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
     <!-- <li><a href="#finding-aid" data-toggle="tab">Finding Aid</a></li>
     <li><a href="#dates" data-toggle="tab">Dates</a></li>
-    <li><a href="#names" data-toggle="tab">Names</a></li>
-    <li><a href="#subjects" data-toggle="tab">Subjects</a></li> -->
+    <li><a href="#names" data-toggle="tab">Names</a></li>-->
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="basic-information">
@@ -21,10 +20,10 @@
     </div>
     <div class="tab-pane" id="names">
       <div class="well">Names selector/list here...</div>
-    </div>
-    <div class="tab-pane" id="subjects">
-      <div class="well">Subjects selector/list here...</div>
     </div> -->
+    <div class="tab-pane" id="subjects">
+       <%= render :partial=>"archival_objects/forms/subjects", :locals=>{:f => f} %>
+    </div>
   </div>
 </div>
 <%= f.hidden_field :parent %>
