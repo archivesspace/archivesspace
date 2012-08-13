@@ -37,7 +37,7 @@ ASpaceImporter.importer :foo do
     
     # Create a new Archival Object (AO1)
     open_new :archival_object, {
-                :id_0 => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
+                :ref_id => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
                 :title => "AO1 - Thing(s) #{('A'..'Z').to_a[rand(26)]} - #{('A'..'Z').to_a[rand(26)]}"
                 }
                 
@@ -45,26 +45,26 @@ ASpaceImporter.importer :foo do
     
     # Add a new child without opening it
     add_new :archival_object, {
-                :id_0 => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
+                :ref_id => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
                 :title => "AO2 - Thing(s) #{('A'..'Z').to_a[rand(26)]} - #{('A'..'Z').to_a[rand(26)]}"
                 }
 
     # Add a second child and open it
     open_new :archival_object, {
-                :id_0 => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
+                :ref_id => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
                 :title => "AO3 - Thing(s) #{('A'..'Z').to_a[rand(26)]} - #{('A'..'Z').to_a[rand(26)]}"
                 }  
       
     # Add a child for AO3
     add_new :archival_object, {
-                :id_0 => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
+                :ref_id => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
                 :title => "AO4 - Thing(s) #{('A'..'Z').to_a[rand(26)]} - #{('A'..'Z').to_a[rand(26)]}"
                 }
 
     # Add a third child for AO1
     open :archival_object, key_for_ao1
     add_new :archival_object, {
-                :id_0 => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
+                :ref_id => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}", 
                 :title => "AO5 - Thing(s) #{('A'..'Z').to_a[rand(26)]} - #{('A'..'Z').to_a[rand(26)]}"
                 }
 

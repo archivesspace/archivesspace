@@ -32,7 +32,7 @@ ASpaceImporter.importer :ead do
       if node.node_type == 1 and node.name == 'dsc'
         puts "Reading <dsc>" if $DEBUG
         open_new :archival_object, { 
-                                    :id_0 => 'dsc', 
+                                    :ref_id => 'dsc', 
                                     :title => 'Root Archival Object',
                                     :level => 'dsc'
                                     }
@@ -41,13 +41,12 @@ ASpaceImporter.importer :ead do
       if node.node_type == 1 and node.name == 'c'
         puts "Reading <c>: Depth #{node.depth()}" if $DEBUG
       
-        ao_hsh = Hash.new
-        stash :id_0, node.attribute_at(0)
+        stash :ref_id, node.attribute_at(0)
         stash :level, node.attribute_at(1)
         node.read until node.name == 'unittitle'
         stash :title, node.inner_xml
         open_new :archival_object, { 
-                                    :id_0 => grab(:id_0),
+                                    :ref_id => grab(:ref_id),
                                     :title => grab(:title),
                                     :level => grab(:level)
                                     }

@@ -1,7 +1,6 @@
 class ArchivalObject < Sequel::Model(:archival_objects)
   plugin :validation_helpers
   include ASModel
-  include Identifiers
 
   many_to_many :subjects
 
@@ -77,4 +76,13 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
     json
   end
+
+
+  def validate
+    validates_unique([:collection_id, :ref_id],
+                     :message => "An Archival Object Ref ID must be unique to its collection")
+    super
+  end
+
+
 end

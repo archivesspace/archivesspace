@@ -121,9 +121,11 @@ Sequel.migration do
 
       Integer :parent_id, :null => true
 
-      String :identifier, :null => false, :unique => true
+      String :ref_id, :null => false, :unique => false
+      String :component_id, :null => true
 
       String :title, :null => true
+      String :level, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -133,6 +135,7 @@ Sequel.migration do
       add_foreign_key([:repo_id], :repositories, :key => :id)
       add_foreign_key([:collection_id], :collections, :key => :id)
       add_foreign_key([:parent_id], :archival_objects, :key => :id)
+      add_index([:collection_id, :ref_id], :unique => true)
     end
 
 

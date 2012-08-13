@@ -8,12 +8,14 @@ describe 'Archival Object controller' do
 
 
   def create_archival_object(opts = {})
-    ao = JSONModel(:archival_object).from_hash("id_0" => "1234",
-                                               "id_1" => "5678",
+
+    ao = JSONModel(:archival_object).from_hash("ref_id" => "1234",
+                                               "level" => "series",
                                                "title" => "The archival object title")
     ao.update(opts)
     ao.save
   end
+
 
 
   it "lets you create an archival object and get it back" do
@@ -28,7 +30,7 @@ describe 'Archival Object controller' do
 
     created = create_archival_object("collection" => collection.uri)
 
-    create_archival_object("id_0" => "4567",
+    create_archival_object("ref_id" => "4567",
                            "collection" => collection.uri,
                            "title" => "child archival object",
                            "parent" => "#{@repo}/archival_objects/#{created}")
@@ -41,9 +43,25 @@ describe 'Archival Object controller' do
   end
 
 
+  it "warns when two archival objects in the same collection having the same ref_id" do
+    collectionA = JSONModel(:collection).from_hash("title" => "a collection A")
+    collectionA.save
+
+    collectionB = JSONModel(:collection).from_hash("title" => "a collection B")
+    collectionB.save
+
+    create_archival_object("collection" => collectionA.uri, "ref_id" => "xyz")
+    create_archival_object("collection" => collectionB.uri, "ref_id" => "xyz")
+
+    expect {
+      create_archival_object("collection" => collectionA.uri, "ref_id" => "xyz")
+    }.to raise_error
+  end
+
+
   it "warns about missing properties" do
     JSONModel::strict_mode(false)
-    ao = JSONModel(:archival_object).from_hash("id_0" => "abc")
+    ao = JSONModel(:archival_object).from_hash("ref_id" => "abc")
     ao.save
 
     known_warnings = ["title"]
@@ -68,10 +86,10 @@ describe 'Archival Object controller' do
     created = create_archival_object
 
     ao = JSONModel(:archival_object).find(created)
-    ao.id_1 = nil
+    ao.level = "series"
     ao.save
 
-    JSONModel(:archival_object).find(created).id_1.should be_nil
+    JSONModel(:archival_object).find(created).level.should eq("series")
 
   end
 
@@ -88,7 +106,7 @@ describe 'Archival Object controller' do
                                             )
     subject.save
 
-    created = create_archival_object("id_0" => "4567",
+    created = create_archival_object("ref_id" => "4567",
                                      "subjects" => [subject.uri],
                                      "title" => "child archival object")
 
@@ -108,7 +126,7 @@ describe 'Archival Object controller' do
                                             )
     subject.save
 
-    created = create_archival_object("id_0" => "4567",
+    created = create_archival_object("ref_id" => "4567",
                                      "subjects" => [subject.uri],
                                      "title" => "child archival object")
 
@@ -117,7 +135,4 @@ describe 'Archival Object controller' do
 
     ao.subjects[0]["term"].should eq("a test subject")
   end
-
-
-
 end

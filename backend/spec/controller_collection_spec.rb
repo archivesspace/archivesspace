@@ -22,7 +22,7 @@ describe 'Collections controller' do
 
     aos = []
     ["earth", "australia", "canberra"].each do |name|
-      ao = JSONModel(:archival_object).from_hash("id_0" => name,
+      ao = JSONModel(:archival_object).from_hash("ref_id" => name,
                                                  "title" => "archival object: #{name}")
       if not aos.empty?
         ao.parent = aos.last.uri
