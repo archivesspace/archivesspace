@@ -24,11 +24,15 @@ $(function() {
 
          var formatResults = function(results) {
             var formattedResults = [];
+            var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id});
             $.each(results, function(index, obj) {
-               formattedResults.push({
-                  name: AS.quickTemplate(config.format, obj),
-                  id: obj.uri
-               });
+               // only allow selection of unselected items
+               if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
+                  formattedResults.push({
+                     name: AS.quickTemplate(config.format, obj),
+                     id: obj.uri
+                  });
+               }
             })
             return formattedResults;
          }
