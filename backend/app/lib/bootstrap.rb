@@ -4,7 +4,7 @@ require 'sequel'
 require_relative 'exceptions'
 require_relative 'logging'
 
-if File.exists?(File.join("..", "..", "config", "config.rb"))
+if File.file?(File.join("config", "config.rb"))
   require_relative File.join("..", "..", "config", "config")
 else
   require_relative File.join("..", "..", "config", "config-distribution")
