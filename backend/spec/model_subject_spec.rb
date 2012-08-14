@@ -24,7 +24,7 @@ describe 'Subject model' do
                                                "term_type" => "Cultural context"
                                              }))
       end
-    }.should raise_error(Sequel::DatabaseError)
+    }.should raise_error
   end
 
 end
