@@ -44,5 +44,23 @@ describe 'Vocabulary controller' do
 
     JSONModel(:vocabulary).find(id).uri.should eq("/vocabularies/#{id}")
   end
+  
+  it "can return a vocabular record based on a ref_id" do
+    v1 = JSONModel(:vocabulary).from_hash("name" => "ABC",
+                                          "ref_id" => "abc"
+                                          )
+
+    v1.save
+    
+    v2 = JSONModel(:vocabulary).from_hash("name" => "XYZ",
+                                          "ref_id" => "xyz"
+                                          )
+    v2.save
+    
+    set = JSONModel(:vocabulary).all({:ref_id => "xyz"})
+    set.count.should eq 1
+    
+    
+  end
 
 end

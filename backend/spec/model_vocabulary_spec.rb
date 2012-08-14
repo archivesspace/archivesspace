@@ -37,5 +37,22 @@ describe 'Vocabulary model' do
       end
     }.should raise_error(Sequel::DatabaseError)
   end
+  
+  it "Can lookup a vocabulary by refid" do
+    Vocabulary.create_from_json(JSONModel(:vocabulary).
+                                   from_hash({
+                                               "name" => "Bill and Ted's Excellent Ontology",
+                                               "ref_id" => "excellent"
+                                             }))
+   Vocabulary.create_from_json(JSONModel(:vocabulary).
+                                  from_hash({
+                                              "name" => "Wayne's Taxonomy",
+                                              "ref_id" => "schwing"
+                                            }))
+    vocab = Vocabulary.set({:ref_id => "schwing"})
+    vocab.count.should eq 1
+    vocab.first.name.should eq("Wayne's Taxonomy")
+                                             
+  end
 
 end
