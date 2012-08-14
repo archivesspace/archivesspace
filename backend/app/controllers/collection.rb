@@ -30,7 +30,7 @@ class ArchivesSpaceService < Sinatra::Base
     tree = collection.tree
 
     if tree
-      json_response(collection.tree)
+      json_response(tree)
     else
       raise NotFoundException.new("Tree doesn't exist")
     end

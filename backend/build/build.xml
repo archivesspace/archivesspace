@@ -5,6 +5,7 @@
   <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.6.7.2/jruby-complete-1.6.7.2.jar" />
   <property name="jruby_file" value="jruby-complete-1.6.7.2.jar" />
   <property name="gem_home" location="gems" />
+  <property name="aspace.port" value="4567" />
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
@@ -57,6 +58,16 @@
   </target>
 
 
+  <target name="integration" description="Run the integration test suite">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="..">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="--1.9 tests/integration.rb" />
+    </java>
+  </target>
+
+
   <target name="war" description="Deploy the application as a .war file">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
@@ -70,7 +81,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
-      <arg line="--1.9 app/main.rb" />
+      <arg line="--1.9 app/main.rb ${aspace.port}" />
     </java>
   </target>
 

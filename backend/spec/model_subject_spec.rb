@@ -33,7 +33,7 @@ describe 'Subject model' do
                                                "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                              }))
       end
-    }.should raise_error(Sequel::DatabaseError)
+    }.should raise_error
   end
 
 end

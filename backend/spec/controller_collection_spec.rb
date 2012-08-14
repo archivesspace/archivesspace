@@ -94,4 +94,33 @@ describe 'Collections controller' do
   end
 
 
+  it "can handle asking for the tree of an empty collection" do
+    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    id = collection.save
+
+    tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
+
+    tree.should eq(nil)
+  end
+
+
+  it "adds an archival object to a collection when it's added to the tree" do
+    ao = JSONModel(:archival_object).from_hash("id_0" => "testing123",
+                                               "title" => "archival object")
+    ao_id = ao.save
+
+
+    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    coll_id = collection.save
+
+
+    tree = JSONModel(:collection_tree).from_hash(:archival_object => ao.uri,
+                                                 :children => [])
+
+    tree.save(:collection_id => coll_id)
+
+    JSONModel(:archival_object).find(ao_id).collection == "#{@repo}/collections/#{coll_id}"
+  end
+
+
 end

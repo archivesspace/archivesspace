@@ -63,6 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
     if not_found?
       headers['X-Cascade'] = 'pass'
       body '<h1>Not Found</h1>'
+      return
     end
 
     res = error_block!(boom.class, boom) || error_block!(status, boom)
@@ -97,6 +98,10 @@ class ArchivesSpaceService < Sinatra::Base
 
   error Sequel::DatabaseError do
     json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 409)
+  end
+
+  error JSON::ParserError do
+    json_response({:error => "Had some trouble parsing your request: #{request.env['sinatra.error']}"}, 400)
   end
 
 
@@ -176,5 +181,5 @@ end
 
 if $0 == __FILE__
   Log.info("Dev server starting up...")
-  ArchivesSpaceService.run!
+  ArchivesSpaceService.run!(:port => (ARGV[0] or 4567))
 end
