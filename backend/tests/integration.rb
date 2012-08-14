@@ -142,7 +142,7 @@ def main
     status = 1
   end
 
-  system("pkill -f 'aspace_integration_test'");
+  system("ps | grep aspace_integration_test | grep -v grep | awk '{ print $1 }' | xargs -L 2 kill")
 
   exit(status)
 end
