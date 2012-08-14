@@ -46,7 +46,7 @@ end
 
 def run_tests
 
-  ## Create a repository
+  puts "Create a repository"
   r = do_post(JSON(:repo_code => "test#{$me}",
                    :description => "integration test repository"),
               url("/repositories"))
@@ -54,7 +54,7 @@ def run_tests
   repo_id = r[:body]["id"] or fail("Repository creation", r)
 
 
-  ## Create an accession
+  puts "Create an accession"
   r = do_post(JSON(:id_0 => "test#{$me}",
                    :title => "integration test accession",
                    :accession_date => "2011-01-01"),
@@ -63,18 +63,56 @@ def run_tests
   acc_id = r[:body]["id"] or fail("Accession creation", r)
 
 
-  ## Request the accession
+  puts "Request the accession"
   r = do_get(url("/repositories/#{repo_id}/accessions/#{acc_id}"));
 
   r[:body]["title"] =~ /integration test accession/ or
     fail("Accession fetch", r)
 
 
-  ## Create a collection
+  puts "Create a collection"
   r = do_post(JSON(:title => "integration test collection"),
               url("/repositories/#{repo_id}/collections"))
 
   coll_id = r[:body]["id"] or fail("Collection creation", r)
+
+
+  puts "Create a subject"
+  r = do_post(JSON(:term => "Some term #{$me}",
+                   :term_type => "Function"),
+              url("/subjects"))
+
+  subject_id = r[:body]["id"] or fail("Subject creation", r)
+
+
+  puts "Create an archival object"
+  r = do_post(JSON(:id_0 => "test#{$me}",
+                   :title => "integration test archival object",
+                   :subjects => ["/subjects/#{subject_id}"]),
+              url("/repositories/#{repo_id}/archival_objects"));
+
+  ao_id = r[:body]["id"] or fail("Archival Object creation", r)
+
+
+  puts "Retrieve the archival object with subjects resolved"
+  r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}?resolve[]=subjects"))
+  r[:body]["subjects"][0]["term"] == "Some term #{$me}" or
+    fail("Archival object fetch", r)
+
+
+  puts "Add the archival object to a collection"
+  # Note: you could also do this by updating the AO directly
+  r = do_post(JSON(:archival_object => "/repositories/#{repo_id}/archival_objects/#{ao_id}",
+                   :children => []),
+              url("/repositories/#{repo_id}/collections/#{coll_id}/tree"));
+
+  r[:body]["status"] == "Updated" or fail("Add archival object to collection", r)
+
+
+  puts "Verify that the archival object is now in the collection"
+  r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}"))
+  r[:body]["collection"] == "/repositories/#{repo_id}/collections/#{coll_id}" or
+    fail("Archival object in collection", r)
 
 end
 
