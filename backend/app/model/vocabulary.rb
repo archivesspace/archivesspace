@@ -1,6 +1,6 @@
-class Subject < Sequel::Model(:subjects)
+class Vocabulary < Sequel::Model(:vocabularies)
   plugin :validation_helpers
   include ASModel
 
-  many_to_many :archival_objects
+  one_to_many :subjects
 end

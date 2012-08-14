@@ -30,7 +30,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/vocabulary/:vocab_id')
+  Endpoint.get('/vocabularies/:vocab_id')
     .params(["vocab_id", Integer, "The vocabulary ID"])
     .returns([200, "OK"]) \
   do

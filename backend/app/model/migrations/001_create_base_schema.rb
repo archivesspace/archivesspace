@@ -147,10 +147,21 @@ Sequel.migration do
       add_foreign_key([:parent_id], :archival_objects, :key => :id)
       add_foreign_key([:child_id], :archival_objects, :key => :id)
     end
-
+    
+    create_table(:vocabularies) do
+      primary_key :id
+      
+      String :name, :null => false, :unique => true
+      
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
 
     create_table(:subjects) do
       primary_key :id
+
+      Integer :vocab_id, :null => false
+      Integer :parent_id, :null => true
 
       String :term, :null => false, :unique => true
       String :term_type, :null => false
@@ -158,8 +169,15 @@ Sequel.migration do
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
+    
+    alter_table(:subjects) do
+      add_foreign_key([:vocab_id],  :vocabularies, :key => :id)
+      add_foreign_key([:parent_id], :subjects, :key => :id)
+    end
 
     create_join_table(:subject_id=>:subjects, :archival_object_id=>:archival_objects)
+    
+   
 
   end
 
