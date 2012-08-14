@@ -1,5 +1,6 @@
 {
   :schema => {
+    "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
     "uri" => "/subjects",
     "properties" => {

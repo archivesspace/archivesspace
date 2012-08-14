@@ -93,6 +93,55 @@ module JSONModel
   end
 
 
+  class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
+    extend JSONModel
+
+    def self.validate(current_schema, data, fragments, validator, options = {})
+
+      types = current_schema.schema['type']
+
+      if types.is_a? String and types =~ /JSONModel\(:([a-zA-Z_\-]+)\) (.*)/
+        model = $1.intern
+        qualifier = $2
+
+        begin
+          if qualifier == 'uri'
+            raise if JSONModel(model).id_for(data, {}, true).nil?
+
+          elsif qualifier == 'uri_or_object'
+            if data.is_a? String
+              raise if JSONModel(model).id_for(data, {}, true).nil?
+            elsif data.is_a? Hash
+              exceptions = JSONModel(model).from_hash(data, false)._exceptions
+              raise if exceptions[:errors]
+            else
+              raise
+            end
+          end
+
+        rescue
+          message = "The property '#{build_fragment(fragments)}' of type #{data.class} did not match the following type: #{types}"
+          validation_error(message, fragments, current_schema, self, options[:record_errors])
+        end
+      else
+        super
+      end
+    end
+  end
+
+
+  class ArchivesSpaceSchema < JSON::Schema::Validator
+    def initialize
+      super
+      extend_schema_definition("http://json-schema.org/draft-03/schema#")
+      @attributes["type"] = ArchivesSpaceTypeAttribute
+      @uri = URI.parse("http://www.archivesspace.org/archivesspace.json")
+    end
+
+    JSON::Validator.register_validator(self.new)
+  end
+
+
   # Create and return a new JSONModel class called 'type', based on the
   # JSONSchema 'schema'
   def self.create_model_for(type, schema)
@@ -157,7 +206,7 @@ module JSONModel
         if schema.nil?
           self.drop_unknown_properties(hash, self.schema)
         else
-          if not hash.is_a?(Hash)
+          if not hash.is_a?(Hash) or not schema.has_key?("properties")
             return hash
           end
 
@@ -223,7 +272,7 @@ module JSONModel
 
             errors[$1] = ["Must be at least #{$2} characters"]
 
-          elsif (message[:failed_attribute] == 'Type' and
+          elsif ((message[:failed_attribute] == 'Type' or message[:failed_attribute] == 'ArchivesSpaceType') and
                  message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
 
             errors[$1] = ["Must be a #{$3} (you provided a #{$2})"]
@@ -296,9 +345,23 @@ module JSONModel
       # Given a URI like /repositories/:repo_id/something/:somevar, and a hash
       # containing keys and replacement strings, return a URI with the values
       # substituted in for their placeholders.
+      #
+      # As a side effect, removes any keys from 'opts' that were successfully
+      # substituted.
       def self.substitute_parameters(uri, opts = {})
+        matched = []
         opts.each do |k, v|
+          old = uri
           uri = uri.gsub(":#{k}", v.to_s)
+
+          if old != uri
+            # Matched on this parameter.  Remove it from the passed in hash
+            matched << k
+          end
+        end
+
+        matched.each do |k|
+          opts.delete(k)
         end
 
         uri
@@ -317,10 +380,6 @@ module JSONModel
 
         if not id.nil?
           uri += "/#{id}"
-        end
-
-        if id
-          opts["id"] = id
         end
 
         self.substitute_parameters(uri, opts)
