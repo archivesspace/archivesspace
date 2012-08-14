@@ -15,7 +15,7 @@
       "parent" => {"type" => "string", "required" => false, "pattern" => "/repositories/[0-9]+/archival_objects/[0-9]+$"},
       "collection" => {"type" => "string", "required" => false, "pattern" => "/repositories/[0-9]+/collections/[0-9]+$"},
 
-      "subjects" => {"type" => "array", "items" => { "type" => "string", "pattern" => "/subjects/[0-9]+$" } },
+      "subjects" => {"type" => "array"},
     },
 
     "additionalProperties" => false,

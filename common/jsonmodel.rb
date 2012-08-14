@@ -157,7 +157,7 @@ module JSONModel
         if schema.nil?
           self.drop_unknown_properties(hash, self.schema)
         else
-          if not hash.is_a?(Hash)
+          if not hash.is_a?(Hash) or not schema.has_key?("properties")
             return hash
           end
 
@@ -296,9 +296,23 @@ module JSONModel
       # Given a URI like /repositories/:repo_id/something/:somevar, and a hash
       # containing keys and replacement strings, return a URI with the values
       # substituted in for their placeholders.
+      #
+      # As a side effect, removes any keys from 'opts' that were successfully
+      # substituted.
       def self.substitute_parameters(uri, opts = {})
+        matched = []
         opts.each do |k, v|
+          old = uri
           uri = uri.gsub(":#{k}", v.to_s)
+
+          if old != uri
+            # Matched on this parameter.  Remove it from the passed in hash
+            matched << k
+          end
+        end
+
+        matched.each do |k|
+          opts.delete(k)
         end
 
         uri
@@ -317,10 +331,6 @@ module JSONModel
 
         if not id.nil?
           uri += "/#{id}"
-        end
-
-        if id
-          opts["id"] = id
         end
 
         self.substitute_parameters(uri, opts)

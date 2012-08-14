@@ -66,7 +66,10 @@ module JSONModel
           alias :_substitute_parameters :substitute_parameters
 
           def substitute_parameters(uri, opts = {})
-            opts = {:repo_id => Thread.current[:selected_repo_id]}.merge(opts)
+            if not opts.has_key?(:repo_id)
+              opts[:repo_id] = Thread.current[:selected_repo_id]
+            end
+
             _substitute_parameters(uri, opts)
           end
         end
@@ -83,9 +86,19 @@ module JSONModel
           backend = JSONModel::init_args[:url]
         end
 
-        url = "#{backend}#{self.uri_for(id, opts)}"
+        url = URI("#{backend}#{self.uri_for(id, opts)}")
 
-        URI(url)
+        # Don't need to pass this as a URL parameter if it wasn't picked up by
+        # the URI template substitution.
+        opts.delete(:repo_id)
+
+        if not opts.empty?
+          url.query = URI.encode_www_form(opts)
+        end
+
+        puts url.inspect
+
+        url
       end
 
 

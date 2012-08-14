@@ -99,14 +99,9 @@ describe 'Archival Object controller' do
                                      "title" => "child archival object")
 
 
-    # TODO: can't currently express this using the JSONModel client, but we
-    # should enhance it to support query parameters on .find calls.
-    get "#{@repo}/archival_objects/#{created}?resolve[]=subjects"
-    last_response.should be_ok
+    ao = JSONModel(:archival_object).find(created, "resolve[]" => "subjects")
 
-    ao = JSON(last_response.body)
-
-    ao["subjects"][0]["term"].should eq("a test subject")
+    ao.subjects[0]["term"].should eq("a test subject")
   end
 
 
