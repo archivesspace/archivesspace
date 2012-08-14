@@ -21,12 +21,18 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/vocabularies')
-    .params()
+    .params(["ref_id", String, "An alternate, externally-created ID for the vocabulary", :optional => true])
     .returns([200, "OK"]) \
   do
-    json_response(Vocabulary.all.collect {|vocabulary|
-                    Vocabulary.to_jsonmodel(vocabulary, :vocabulary).to_hash
-                  })
+    if params[:ref_id]
+      json_response(Vocabulary.set({:ref_id => params[:ref_id] }).collect { |vocabulary|
+                      Vocabulary.to_jsonmodel(vocabulary, :vocabulary).to_hash
+                    })
+    else
+      json_response(Vocabulary.all.collect {|vocabulary|
+                      Vocabulary.to_jsonmodel(vocabulary, :vocabulary).to_hash
+                    })
+    end
   end
 
 
