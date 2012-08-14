@@ -49,18 +49,48 @@ $(function() {
          };
 
          var renderCreateFormForObject = function() {
+            var $modal = $("#"+config.modal_id);
+
+            var initCreateForm = function(formEl) {
+               $(".linker-container", $modal).html(formEl);
+               $("#createAndLinkButton", $modal).removeAttr("disabled");
+               $("form", $modal).ajaxForm({
+                   data: {
+                      inline: true
+                   },
+                   beforeSubmit: function() {
+                     $("#createAndLinkButton", $modal).attr("disabled","disabled");
+                   },
+                   success: function(response, status, xhr) {             
+                      if ($(response).is("form")) {                         
+                         initCreateForm(response);
+                      } else {
+                         $this.tokenInput("add", {
+                            id: response.uri,
+                            name: AS.quickTemplate(config.format, response)
+                         });
+                         $this.parents("form:first").triggerHandler("form-changed");
+                         $modal.modal("hide");
+                      }
+                   }, 
+                   error: function(obj, errorText, errorDesc) {
+                     $("#createAndLinkButton", $modal).removeAttr("disabled");
+                   }
+                });
+            };
+            
             $.ajax({
                url: APP_PATH+config.controller+"/new?inline=true",
-               success: function(html) {
-                  $(".linker-container", "#"+config.modal_id).html(html);
-               }
+               success: initCreateForm
+            });
+            $("#createAndLinkButton", $modal).click(function() {
+               $("form", $modal).triggerHandler("submit");
             })
          };
 
          var showLinkerCreateModal = function() {
             AS.openCustomModal(config.modal_id, "Create "+ config.name, AS.renderTemplate("linker_createmodal_template", config));
             renderCreateFormForObject();
-            $("#"+config.modal_id).on("click","#createAndLinkButton", createAndLink);
          };
 
          var addSelected = function() {

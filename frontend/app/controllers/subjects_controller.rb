@@ -24,6 +24,7 @@ class SubjectsController < ApplicationController
 
    def new
       @subject = JSONModel(:subject).new._always_valid!
+      render :partial=>"subjects/new" if inline?
    end
 
    def edit
@@ -35,10 +36,14 @@ class SubjectsController < ApplicationController
          @subject = JSONModel(:subject).new(params[:subject])
 
          if not params.has_key?(:ignorewarnings) and not @subject._exceptions.empty?
-          return render :action => :new
+            return render :partial=>"subjects/new" if inline?
+            return render :action => :new
          end
 
          id = @subject.save
+
+         return render :json => @subject.to_hash if inline?
+
          redirect_to :controller=>:subjects, :action=>:show, :id=>id
       rescue JSONModel::ValidationException => e
         render :action => :new
