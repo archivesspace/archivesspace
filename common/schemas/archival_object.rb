@@ -1,5 +1,6 @@
 {
   :schema => {
+    "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
     "uri" => "/repositories/:repo_id/archival_objects",
     "properties" => {
@@ -12,10 +13,10 @@
 
       "title" => {"type" => "string", "minLength" => 1, "required" => true},
 
-      "parent" => {"type" => "string", "required" => false, "pattern" => "/repositories/[0-9]+/archival_objects/[0-9]+$"},
-      "collection" => {"type" => "string", "required" => false, "pattern" => "/repositories/[0-9]+/collections/[0-9]+$"},
+      "parent" => {"type" => "JSONModel(:archival_object) uri", "required" => false},
+      "collection" => {"type" => "JSONModel(:collection) uri", "required" => false},
 
-      "subjects" => {"type" => "array"},
+      "subjects" => {"type" => "array", "items" => {"type" => "JSONModel(:subject) uri_or_object"}},
     },
 
     "additionalProperties" => false,
