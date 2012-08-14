@@ -96,8 +96,6 @@ module JSONModel
           url.query = URI.encode_www_form(opts)
         end
 
-        puts url.inspect
-
         url
       end
 
