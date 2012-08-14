@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   # Note: This should be first!
   before_filter :store_user_session
-
+  before_filter :check_for_inline_content
   before_filter :load_repository_list
   before_filter :load_theme
 
@@ -29,7 +29,13 @@ class ApplicationController < ActionController::Base
     session[:theme] = params[:theme] if params.has_key?(:theme)
     if not session.has_key?(:theme)
       session[:theme] = "default"
-    end    
+    end
+  end
+  
+  def check_for_inline_content
+     if params[:inline]
+        layout = nil
+     end
   end
 
 end

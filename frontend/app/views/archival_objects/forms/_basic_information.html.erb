@@ -8,6 +8,15 @@
    <div class="controls">
       <!-- <div class="linker" data-class="subject" data-owner_class="archival_object" data-owner_attribute="subjects" data-multiplicity="many"  data-format="${term} (${term_type})" data-name="Subject" data-name_plural="Subjects" >
        </div>-->
-       <input type="text" class="linker" data-owner_class="archival_object" data-owner_attribute="subjects" data-url="<%= url_for :controller=>:subjects, :action=>:list, :format=>:json %>" data-selected='<%= @archival_object.subjects.blank? ? "[]" : @archival_object.subjects.to_json %>' data-format="${term} (${term_type})" />
+       <div class="input-append linker-wrapper">
+          <input type="text" class="linker" data-class="subject" data-controller="subjects" data-name="Subject" data-name_plural="Subjects" data-owner_class="archival_object" data-owner_attribute="subjects" data-url="<%= url_for :controller=>:subjects, :action=>:list, :format=>:json %>" data-selected='<%= @archival_object.subjects.blank? ? "[]" : @archival_object.subjects.to_json %>' data-format="${term} (${term_type})" />
+          <div class="btn-group">
+             <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                 <li><a href="javascript:void(0);" class="linker-browse-btn">Browse</a></li>
+                 <!-- <li><a href="javascript:void(0);" class="linker-create-btn">Create</a></li>-->
+              </ul>
+          </div>
+       </div>
    </div>
 </div>

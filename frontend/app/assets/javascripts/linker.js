@@ -4,7 +4,8 @@ $(function() {
    $.fn.linker = function() {
       $(this).each(function() {
          var $this = $(this);
-
+         var $linkerWrapper = $this.parents(".linker-wrapper:first");
+         
          if ($this.hasClass("initialised")) {
             return;
          }
@@ -15,12 +16,68 @@ $(function() {
              url: $this.data("url"),
              format: $this.data("format"),
              class: $this.data("class"),
+             controller: $this.data("controller"),
              owner_class: $this.data("owner_class"),
              owner_attribute: $this.data("owner_attribute"),
              multiplicity: $this.data("multiplicity"),
              name: $this.data("name"),
-             name_plural: $this.data("name_plural")
+             name_plural: $this.data("name_plural"),
+             modal_id: "linkerModalFor_"+$this.data("class")
          };
+
+         var addEventBindings = function() {
+            $(".linker-browse-btn", $linkerWrapper).on("click", showLinkerBrowseModal);
+            $(".linker-create-btn", $linkerWrapper).on("click", showLinkerCreateModal);
+         }
+
+         var renderItemsInModal = function() {
+            var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id});
+            $.ajax({
+               url: config.url,
+               type: "GET",
+               dataType: "json",
+               success: function(json) {
+                  $("#"+config.modal_id).find(".linker-list").html(AS.renderTemplate("linker_browse_template", {items: json, config: config, selected: currentlySelectedIds}));
+               }
+            })
+         };
+
+         var showLinkerBrowseModal = function() {
+            AS.openCustomModal(config.modal_id, "Browse "+ config.name_plural, AS.renderTemplate("linker_browsemodal_template",config));
+            renderItemsInModal();
+            $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
+         };
+
+         var renderCreateFormForObject = function() {
+            $.ajax({
+               url: APP_PATH+config.controller+"/new?inline=true",
+               success: function(html) {
+                  $(".linker-container", "#"+config.modal_id).html(html);
+               }
+            })
+         };
+
+         var showLinkerCreateModal = function() {
+            AS.openCustomModal(config.modal_id, "Create "+ config.name, AS.renderTemplate("linker_createmodal_template", config));
+            renderCreateFormForObject();
+            $("#"+config.modal_id).on("click","#createAndLinkButton", createAndLink);
+         };
+
+         var addSelected = function() {
+             selectedItems  = [];
+             $(".token-input-delete-token", $linkerWrapper).each(function() {
+                $(this).triggerHandler("click");
+             });
+             $(".linker-list :input:checked", "#"+config.modal_id).each(function() {
+                 var item = $(this).data("object");
+                 $this.tokenInput("add", {
+                    id: item.uri,
+                    name: AS.quickTemplate(config.format, item)
+                 });
+             });
+             $("#"+config.modal_id).modal('hide');
+             $this.parents("form:first").triggerHandler("form-changed");
+         }
 
          var formatResults = function(results) {
             var formattedResults = [];
@@ -52,6 +109,7 @@ $(function() {
                    name: s
                 }})
              });
+             addEventBindings();
          }
 
          init();
