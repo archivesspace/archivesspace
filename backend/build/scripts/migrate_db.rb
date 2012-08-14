@@ -1,7 +1,7 @@
 require_relative File.join("..", "..", "app", "main")
 
-Sequel.connect(AppConfig::DB_URL,
-               :max_connections => AppConfig::DB_MAX_CONNECTIONS,
+Sequel.connect(AppConfig[:db_url],
+               :max_connections => AppConfig[:db_max_connections],
                # :loggers => [Logger.new($stderr)]
                ) do |db|
   if ARGV.length > 0 and ARGV[0] == "nuke"
