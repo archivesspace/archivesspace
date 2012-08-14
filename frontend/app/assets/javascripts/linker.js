@@ -137,7 +137,13 @@ $(function() {
                 prePopulate: $this.data("selected").map(function(item) {return {
                    id: item.uri,
                    name: AS.quickTemplate(config.format, item)
-                }})
+                }}),
+                onDelete: function() {
+                   $this.parents("form:first").triggerHandler("form-changed");
+                },
+                onAdd:  function() {
+                    $this.parents("form:first").triggerHandler("form-changed");
+                 }
              });
              addEventBindings();
          }

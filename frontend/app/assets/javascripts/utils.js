@@ -40,7 +40,11 @@ $(function() {
        $("#object_container form").triggerHandler("form-changed");
    };
 
-   $("#object_container form :input").live("change keyup", onFormElementChange);
+   $("#object_container form :input").live("change keyup", function() {
+      if ($(this).data("original_value") && ($(this).data("original_value") !== $(this).val())) {
+         onFormElementChange();
+      }
+   });
    $("#object_container form :radio, .object-container form :checkbox").live("click", onFormElementChange);
 });
 
