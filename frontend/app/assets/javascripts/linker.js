@@ -134,9 +134,9 @@ $(function() {
                 tokenFormatter: function(item) {                   
                    return AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config});
                 },
-                prePopulate: $this.data("selected").map(function(s) {return {
-                   id: s,
-                   name: s
+                prePopulate: $this.data("selected").map(function(item) {return {
+                   id: item.uri,
+                   name: AS.quickTemplate(config.format, item)
                 }})
              });
              addEventBindings();

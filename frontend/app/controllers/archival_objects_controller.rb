@@ -21,7 +21,7 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def edit
-     @archival_object = JSONModel(:archival_object).find(params[:id])
+     @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => "subjects")
      render :partial=>"archival_objects/edit_inline" 
   end
 
@@ -51,6 +51,8 @@ class ArchivalObjectsController < ApplicationController
       end
 
       result = @archival_object.save
+
+       @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => "subjects")
 
       flash[:success] = "Archival Object Saved"
       render :partial=>"edit_inline"
