@@ -50,7 +50,7 @@ module FormHelper
          if attr_definition.has_key?("enum")
             @template.select(@object_name, method, attr_definition["enum"])
          else
-            @template.text_field(@object_name, method)
+            @template.text_field(@object_name, method, "data-original_value"=>@object[method])
          end
       end
    end
