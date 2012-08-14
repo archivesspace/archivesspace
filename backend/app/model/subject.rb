@@ -30,13 +30,11 @@ class Subject < Sequel::Model(:subjects)
   end
   
   def update_from_json(json, opts = {})
-    puts "UPDATE FROM JSON #{json.inspect}"
     self.class.set_vocabulary(json, opts)
     super(json, opts)
   end
   
   def self.to_jsonmodel(obj, type)
-    puts "UNSUPER JSON MODEL #{obj.inspect}"
     if obj.is_a? Integer
       # An ID.  Get the Sequel row for it.
       obj = get_or_die(obj)
