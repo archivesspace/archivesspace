@@ -1,4 +1,4 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Collections", :controller=>:collections, :action=>:index), @collection.title]} %>
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Collections", :controller=>:collections, :action=>:index), link_to(@collection.title, :controller=>:collections, :action=>:show, :id=>@collection.id), "Edit"]} %>
 <div class="row-fluid">
    <div class="span3">
      <div class="archives-tree-container well">

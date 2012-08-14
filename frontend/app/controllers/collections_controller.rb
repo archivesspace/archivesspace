@@ -16,7 +16,6 @@ class CollectionsController < ApplicationController
 
    def new
       @collection = JSONModel(:collection).new({:title=>"New Collection"})._always_valid!
-      @collection_tree = {}
    end
 
    def edit
@@ -39,9 +38,9 @@ class CollectionsController < ApplicationController
          end
 
          id = @collection.save       
-         redirect_to :controller=>:collections, :action=>:show, :id=>id
+         redirect_to :controller=>:collections, :action=>:edit, :id=>id
       rescue JSONModel::ValidationException => e
-        render action: "new"
+        render :action => :new
       end
    end
 

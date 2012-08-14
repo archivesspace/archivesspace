@@ -1,3 +1,7 @@
 <%= form_for @archival_object, :as => "archival_object", :url=>{:action=>:update, :id=>@archival_object.id}, :html=>{:class=>'form-horizontal'} do |f| %>
    <%= render :partial=>"archival_objects/form_container", :locals=>{:f => f} %>
+   <div class="form-actions">            
+      <button type="submit" class="btn btn-primary">Save Archival Object</button>
+      <%= link_to "Cancel", :back, :class=>"btn btn-cancel" %>
+   </div>
 <% end %>

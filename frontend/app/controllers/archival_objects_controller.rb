@@ -16,13 +16,16 @@ class ArchivalObjectsController < ApplicationController
      @archival_object.title = "New Archival Object"
      @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent]) if params.has_key?(:parent)
      @archival_object.collection = JSONModel(:collection).uri_for(params[:collection]) if params.has_key?(:collection)
+
+     return render :partial=>"archival_objects/new_inline" if inline?
+
+     # render the full AO form
      
-     render :partial=>"archival_objects/new_inline"
   end
 
   def edit
      @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => "subjects")
-     render :partial=>"archival_objects/edit_inline" 
+     render :partial=>"archival_objects/edit_inline" if inline?
   end
 
   def create
