@@ -34,7 +34,9 @@ class ArchivalObjectsController < ApplicationController
        end
 
        id = @archival_object.save
-       
+
+       @archival_object = JSONModel(:archival_object).find(id, "resolve[]" => "subjects")
+
        render :partial=>"archival_objects/edit_inline"
      rescue JSONModel::ValidationException => e
        render :partial=>"archival_objects/new_inline"
@@ -50,9 +52,9 @@ class ArchivalObjectsController < ApplicationController
          return render :partial=>"edit_inline"
       end
 
-      result = @archival_object.save
+      id = @archival_object.save
 
-       @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => "subjects")
+       @archival_object = JSONModel(:archival_object).find(id, "resolve[]" => "subjects")
 
       flash[:success] = "Archival Object Saved"
       render :partial=>"edit_inline"
