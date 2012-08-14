@@ -135,10 +135,11 @@ Sequel.migration do
       add_foreign_key([:parent_id], :archival_objects, :key => :id)
     end
     
-    create_table(:nocabuaries) do
+    create_table(:vocabularies) do
       primary_key :id
       
       String :name, :null => false, :unique => true
+      String :ref_id, :null => false, :unique => true
       
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -158,7 +159,7 @@ Sequel.migration do
     end
     
     alter_table(:subjects) do
-      add_foreign_key([:vocab_id], :nocabuaries, :key => :id)
+      add_foreign_key([:vocab_id], :vocabularies, :key => :id)
       add_foreign_key([:parent_id], :subjects, :key => :id)
     end
 
@@ -182,7 +183,7 @@ Sequel.migration do
 
     drop_table?(:subjects)
     drop_table?(:archival_objects)
-    drop_table?(:nocabuaries)
+    drop_table?(:vocabularies)
     drop_table?(:collections)
     drop_table?(:repositories)
   end
