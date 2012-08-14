@@ -8,3 +8,16 @@
       <span class="identifier-display-part"><%= @archival_object.id_0 %></span><span class="identifier-display-part"><%= @archival_object.id_1 %></span><span class="identifier-display-part"><%= @archival_object.id_2 %></span><span class="identifier-display-part"><%= @archival_object.id_3 %></span>
    </div>
 </div>
+<% if @archival_object.subjects %>
+<hr/>
+<div class="row-fluid label-and-value">
+   <div class="span3">Subjects</div>
+   <div class="span9">
+      <% @archival_object.subjects.each do | subject | %>
+         <div class="subject-token">
+            <%= subject %>
+         </div>
+      <% end %>
+   </div>
+</div>
+<% end %>
