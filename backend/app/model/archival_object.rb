@@ -64,6 +64,17 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
     json = super(obj, type)
     json.subjects = obj.subjects.map {|subject| JSONModel(:subject).uri_for(subject.id)}
+
+    if obj.collection_id
+      json.collection = JSONModel(:collection).uri_for(obj.collection_id,
+                                                       {:repo_id => obj.repo_id})
+
+      if obj.parent_id
+        json.parent = JSONModel(:archival_object).uri_for(obj.parent_id,
+                                                          {:repo_id => obj.repo_id})
+      end
+    end
+
     json
   end
 

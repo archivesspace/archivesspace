@@ -5,6 +5,7 @@ class Collection < Sequel::Model(:collections)
 
   def link(opts)
     child = ArchivalObject.get_or_die(opts[:child])
+    child.collection_id = self.id
     child.parent_id = opts[:parent]
     child.save
   end
