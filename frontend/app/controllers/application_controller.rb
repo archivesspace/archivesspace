@@ -5,9 +5,17 @@ class ApplicationController < ActionController::Base
 
   # Note: This should be first!
   before_filter :store_user_session
-  before_filter :check_for_inline_content
+
   before_filter :load_repository_list
   before_filter :load_theme
+
+  protected
+
+  def inline?
+     params[:inline] === "true"
+  end
+
+  private
 
   def store_user_session
     Thread.current[:backend_session] = session[:session]
@@ -31,10 +39,12 @@ class ApplicationController < ActionController::Base
       session[:theme] = "default"
     end
   end
-  
-  def check_for_inline_content
-     if params[:inline]
-        layout = nil
+
+  def choose_layout
+     if inline?
+        nil
+     else
+        'application'
      end
   end
 
