@@ -7,6 +7,7 @@ describe 'Vocabulary model' do
     vocabulary = Vocabulary.create_from_json(JSONModel(:vocabulary).
                                            from_hash({
                                                        "name" => "ABC",
+                                                       "ref_id" => "123"
                                                      }))
 
     Vocabulary[vocabulary[:id]].name.should eq("ABC")
@@ -18,7 +19,20 @@ describe 'Vocabulary model' do
       2.times do
         Vocabulary.create_from_json(JSONModel(:vocabulary).
                                    from_hash({
-                                               "name" => "ABC"
+                                               "name" => "ABC",
+                                               "ref_id" => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}"
+                                             }))
+      end
+    }.should raise_error(Sequel::DatabaseError)
+  end
+  
+  it "Enforces ref_id uniqueness" do
+    lambda {
+      2.times do
+        Vocabulary.create_from_json(JSONModel(:vocabulary).
+                                   from_hash({
+                                               "name" => "#{(0...8).map{ ('a'..'z').to_a[rand(26)] }.join}",
+                                               "ref_id" => "aabb"
                                              }))
       end
     }.should raise_error(Sequel::DatabaseError)

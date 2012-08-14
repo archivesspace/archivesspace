@@ -3,7 +3,9 @@ require 'spec_helper'
 describe 'Vocabulary controller' do
 
   def create_vocabulary
-    vocabulary = JSONModel(:vocabulary).from_hash("name" => "ABC")
+    vocabulary = JSONModel(:vocabulary).from_hash("name" => "ABC",
+                                                  "ref_id" => "abc"
+                                                  )
 
     vocabulary.save
   end
@@ -16,7 +18,9 @@ describe 'Vocabulary controller' do
 
 
   it "fails when you try to update a vocabulary that doesn't exist" do
-    vocabulary = JSONModel(:vocabulary).from_hash("name" => "ABC")
+    vocabulary = JSONModel(:vocabulary).from_hash("name" => "ABC",
+                                                  "ref_id" => "abc"
+                                                  )
 
     vocabulary.uri = "/vocabularies/999999"
 

@@ -77,7 +77,9 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object with a subject" do
-    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab")
+    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab", 
+                                             "ref_id" => "abc"
+                                            )
     vocab.save
     
     subject = JSONModel(:subject).from_hash("term" => "a test subject",
@@ -95,7 +97,9 @@ describe 'Archival Object controller' do
 
 
   it "can resolve subjects for you" do
-    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab")
+    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab",
+                                             "ref_id" => "abc"
+                                            )
     vocab.save
     
     subject = JSONModel(:subject).from_hash("term" => "a test subject",

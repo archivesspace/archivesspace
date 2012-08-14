@@ -3,7 +3,9 @@ require 'spec_helper'
 describe 'Subject model' do
   
   before(:each) do
-    vocab = JSONModel(:vocabulary).from_hash("name" => "Cool Vocab")
+    vocab = JSONModel(:vocabulary).from_hash("name" => "Cool Vocab",
+                                             "ref_id" => "cool"
+                                             )
     vocab.save
     @vocab_id = vocab.id
   end
