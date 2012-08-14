@@ -1,4 +1,4 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Subjects", :controller=>:subjects, :action=>:index),"New Subject"]} %>
+<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Subjects", :controller=>:subjects, :action=>:index), link_to(@subject.term, :controller=>:subjects,:action=>:show, :id=>@subject.id), "Edit"]} %>
 <div class="row-fluid">
    <div class="span3">
       <div class="well"></div>

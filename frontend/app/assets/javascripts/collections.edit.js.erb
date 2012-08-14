@@ -76,7 +76,9 @@ $(function() {
             $(".btn-primary", $form).removeAttr("disabled");
           }
        });
-       
+
+       $form.find(":input:not(:hidden):first").focus()
+
        $container.triggerHandler("form.loaded");
   };
    
