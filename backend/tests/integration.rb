@@ -133,14 +133,18 @@ def main
     end
   end
 
+  status = 0
   begin
     run_tests
     puts "ALL OK"
   rescue
     puts "TEST FAILED: #{$!}"
+    status = 1
   end
 
   system("pkill -f 'aspace_integration_test'");
+
+  exit(status)
 end
 
 
