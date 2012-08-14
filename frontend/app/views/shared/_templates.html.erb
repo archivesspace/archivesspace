@@ -19,17 +19,24 @@
    </div>
 --></div>
 
-<div id="linker_modal_template"><!--
+<div id="linker_browsemodal_template"><!--
    <div class="modal-body linker-container">
       <div class="linker-list"></div>
    </div>
    <div class="modal-footer">
-      <button id="addSelectedButton" class="btn btn-primary">Add Selected</button>
+      <button id="addSelectedButton" class="btn btn-primary">Link to ${name_plural}</button>
       <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
    </div>
 --></div>
-
-<div id="linker_list_template"><!--
+<div id="linker_createmodal_template"><!--
+   <div class="modal-body linker-container">
+   </div>
+   <div class="modal-footer">
+      <button id="createAndLinkButton" class="btn btn-primary">Create and Link to ${name}</button>
+      <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+   </div>
+--></div>
+<div id="linker_browse_template"><!--
    <ul>
       {for item in items} 
          <li>

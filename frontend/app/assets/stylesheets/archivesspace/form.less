@@ -1,3 +1,5 @@
+@import "variables";
+
 /* custom controls-accordion for radio driven accordion */
 .controls-accordion .accordion-group {
    border: none;
@@ -38,4 +40,16 @@
 }
 .linker-list label:hover {
    background-color: #F1f1f1;
+}
+.linker-wrapper.input-append {
+      width: 428px;
+      .token-input-list {
+         float: left;
+      }
+      .btn-group {
+         float:left;
+         .btn {
+            .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
+         }
+      }
 }

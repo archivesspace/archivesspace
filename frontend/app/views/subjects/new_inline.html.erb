@@ -1,0 +1,8 @@
+<%= form_for @subject, :as => "subject", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
+   <%= hidden_input_tag "inline", "true" %>
+   <%= render :partial=>"subjects/form", :locals=>{:f => f} %>
+   <div class="form-actions">            
+      <button type="submit" class="btn btn-primary">Save Subject</button>   
+      <%= link_to "Cancel", :back, :class=>"btn btn-cancel" %>
+   </div>
+<% end %>

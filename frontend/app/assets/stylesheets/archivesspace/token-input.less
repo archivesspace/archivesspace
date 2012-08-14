@@ -15,7 +15,7 @@ ul.token-input-list {
     
     background-color: @inputBackground;
     border: 1px solid @inputBorder;
-   .border-radius(@inputBorderRadius);
+   .border-radius(@inputBorderRadius 0 0 @inputBorderRadius);
    .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
    @transition: border linear .2s, box-shadow linear .2s;
    .transition(@transition);
@@ -137,4 +137,8 @@ div.token-input-dropdown ul li em {
 
 div.token-input-dropdown ul li.token-input-selected-dropdown-item {
     background: #BEEBFF;
+}
+
+li.token-input-input-token {
+   min-height: 26px;
 }
