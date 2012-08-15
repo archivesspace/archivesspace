@@ -42,7 +42,9 @@ class ApplicationController < ActionController::Base
   end
 
   def load_default_vocabulary
-     session[:vocabulary] = JSONModel(:vocabulary).all.first.to_hash
+     if not session.has_key?(:vocabulary)
+        session[:vocabulary] = JSONModel(:vocabulary).all.first.to_hash
+     end
   end
 
   def choose_layout
