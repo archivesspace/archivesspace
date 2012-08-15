@@ -43,6 +43,7 @@ class ArchivesSpaceService < Sinatra::Base
     begin
       settings.user_manager.create_user(params[:username], "First", "Last", "local")
       settings.db_auth.set_password(params[:username], params[:password])
+      "OK"
     rescue Sequel::DatabaseError => ex
       if DB.is_integrity_violation(ex)
         raise ConflictException.new("That username is already in use")
