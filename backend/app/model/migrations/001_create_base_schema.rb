@@ -104,12 +104,15 @@ Sequel.migration do
       Integer :repo_id, :null => false
       String :title, :null => false
 
+      String :identifier, :null => false
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
     alter_table(:collections) do
       add_foreign_key([:repo_id], :repositories, :key => :id)
+      add_index([:repo_id, :identifier], :unique => true)
     end
 
 

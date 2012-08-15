@@ -25,7 +25,7 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object with a parent" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
     collection.save
 
     created = create_archival_object("collection" => collection.uri)
@@ -44,10 +44,10 @@ describe 'Archival Object controller' do
 
 
   it "warns when two archival objects in the same collection having the same ref_id" do
-    collectionA = JSONModel(:collection).from_hash("title" => "a collection A")
+    collectionA = JSONModel(:collection).from_hash("title" => "a collection A", "id_0" => "abc123")
     collectionA.save
 
-    collectionB = JSONModel(:collection).from_hash("title" => "a collection B")
+    collectionB = JSONModel(:collection).from_hash("title" => "a collection B", "id_0" => "xyz456")
     collectionB.save
 
     create_archival_object("collection" => collectionA.uri, "ref_id" => "xyz")

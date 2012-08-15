@@ -1,6 +1,7 @@
 class Collection < Sequel::Model(:collections)
   plugin :validation_helpers
   include ASModel
+  include Identifiers
 
 
   def link(opts)
@@ -79,5 +80,6 @@ class Collection < Sequel::Model(:collections)
       end
     end
   end
+
 
 end

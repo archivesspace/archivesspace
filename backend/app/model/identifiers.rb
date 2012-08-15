@@ -40,7 +40,7 @@ module Identifiers
 
 
   def validate
-    validates_unique(:identifier, :message => "That ID is already in use")
+    validates_unique([:repo_id, :identifier], :message => "That ID is already in use")
     super
   end
 

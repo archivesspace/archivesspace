@@ -8,7 +8,7 @@ describe 'Collections controller' do
 
 
   it "lets you create a collection and get it back" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
     id = collection.save
 
     JSONModel(:collection).find(id).title.should eq("a collection")
@@ -17,7 +17,7 @@ describe 'Collections controller' do
 
   it "lets you manipulate the record hierarchy" do
 
-    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
     id = collection.save
 
     aos = []
@@ -84,7 +84,7 @@ describe 'Collections controller' do
 
 
   it "lets you update a collection" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
     id = collection.save
 
     collection.title = "an updated collection"
@@ -95,7 +95,7 @@ describe 'Collections controller' do
 
 
   it "can handle asking for the tree of an empty collection" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
     id = collection.save
 
     tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
@@ -110,7 +110,7 @@ describe 'Collections controller' do
     ao_id = ao.save
 
 
-    collection = JSONModel(:collection).from_hash("title" => "a collection")
+    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
     coll_id = collection.save
 
 

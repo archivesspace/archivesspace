@@ -15,6 +15,10 @@ en:
       "[:collection_id, :ref_id]": Ref ID
    collection:
       title: Title
+      id_0: Identifier
+      "[:id_0, :id_1, :id_2, :id_3]": Identifier
+      "[:repo_id, :identifier]": Identifier
+      identifier: Identifier
    repository:
       repo_code: Repository code
       description: Description

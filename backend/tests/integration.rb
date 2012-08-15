@@ -71,7 +71,7 @@ def run_tests
 
 
   puts "Create a collection"
-  r = do_post(JSON(:title => "integration test collection"),
+  r = do_post(JSON(:title => "integration test collection", :id_0 => "abc123"),
               url("/repositories/#{repo_id}/collections"))
 
   coll_id = r[:body]["id"] or fail("Collection creation", r)
