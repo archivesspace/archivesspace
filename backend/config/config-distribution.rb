@@ -1,3 +1,5 @@
+require 'tmpdir'
+
 class AppConfig
   @@parameters = {}
 
@@ -13,6 +15,5 @@ end
 
 
 ## Application defaults
-AppConfig[:basedir] = Dir.getwd
-AppConfig[:db_url] = "jdbc:derby:#{File.join(AppConfig[:basedir], "db")};create=true;aspacedemo=true"
+AppConfig[:db_url] = "jdbc:derby:#{File.join(Dir.tmpdir, "archivesspace_demo_db")};create=true;aspacedemo=true"
 AppConfig[:db_max_connections] = 10

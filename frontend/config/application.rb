@@ -2,6 +2,8 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+require 'java'
+
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
@@ -62,4 +64,10 @@ module ArchivesSpace
     # ArchivesSpace Configuration
     config.backend_url = 'http://localhost:4567'
   end
+
+
+  if java.lang.System.get_property("ARCHIVESSPACE_BACKEND")
+    Application.config.backend_url = java.lang.System.get_property("ARCHIVESSPACE_BACKEND")
+  end
 end
+

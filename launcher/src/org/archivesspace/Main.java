@@ -24,6 +24,9 @@ public class Main
 
         connector.setPort(port);
 
+        System.setProperty("ARCHIVESSPACE_BACKEND", "http://localhost:"
+                           + port + "/backend");
+
         server.addConnector(connector);
         server.setSendDateHeader(true);
 
@@ -47,10 +50,10 @@ public class Main
 
         Thread.sleep(3000);
 
-        System.out.println("\n************************************************************");
-        System.out.println(" Welcome to ArchivesSpace\n");
-        System.out.println(" You can now point your browser to http://localhost:" + port + "/");
-        System.out.println("************************************************************\n");
+        System.out.println("\n ************************************************************");
+        System.out.println("  Welcome to ArchivesSpace!\n");
+        System.out.println("  You can now point your browser to http://localhost:" + port + "/");
+        System.out.println(" ************************************************************\n");
 
         server.join();
     }
