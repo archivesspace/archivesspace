@@ -21,8 +21,8 @@ module ASModel
 
 
   def update_from_json(json, opts = {})
-    old = JSONModel(json.class.record_type).from_hash(self.values).to_hash
-    changes = json.to_hash
+    old = JSONModel(json.class.record_type).from_hash(json.to_hash.merge(self.values)).to_hash
+    changes = json.to_hash.merge(opts)
 
     old.each do |k, v|
       if not changes.has_key?(k)
@@ -34,7 +34,6 @@ module ASModel
     self.update(changes)
     self.save
   end
-
 
   module ClassMethods
 
@@ -56,7 +55,6 @@ module ASModel
         # An ID.  Get the Sequel row for it.
         obj = get_or_die(obj)
       end
-
       json = JSONModel(model).from_hash(obj.values.reject {|k, v| v.nil? })
 
       json.uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})

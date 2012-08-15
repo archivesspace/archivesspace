@@ -120,7 +120,11 @@ end
 
 def main
 
-  system("cd ../; build/run devserver -Daspace.port=#{$port} -Daspace_integration_test=1 >/dev/null &")
+  # start the backend
+  server = Process.spawn("../build/run", "devserver:silent",
+                         "-Daspace.port=#{$port}",
+                         "-Daspace_integration_test=1")
+
 
   while true
     begin
@@ -142,7 +146,12 @@ def main
     status = 1
   end
 
-  system("ps | grep aspace_integration_test | grep -v grep | awk '{ print $1 }' | xargs -L 2 kill")
+  Process.kill(15, server)
+  begin
+    Process.waitpid(server)
+  rescue
+    # Already dead.
+  end
 
   exit(status)
 end
