@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_filter :store_user_session
 
   before_filter :load_repository_list
+  before_filter :load_default_vocabulary
   before_filter :load_theme
 
   protected
@@ -38,6 +39,10 @@ class ApplicationController < ActionController::Base
     if not session.has_key?(:theme)
       session[:theme] = "default"
     end
+  end
+
+  def load_default_vocabulary
+     session[:vocabulary] = JSONModel(:vocabulary).all.first.to_hash
   end
 
   def choose_layout

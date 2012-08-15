@@ -145,6 +145,9 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
+    self[:vocabularies].insert(:name => "global", :ref_id => "global", 
+      :create_time => Time.now, :last_modified => Time.now)
+
     create_table(:subjects) do
       primary_key :id
 

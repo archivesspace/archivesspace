@@ -15,7 +15,7 @@
    <div class="span9">
       <% @archival_object.subjects.each do | subject | %>
          <div class="subject-token">
-            <%= subject %>
+            <%= subject['term'] %>
          </div>
       <% end %>
    </div>

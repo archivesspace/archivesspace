@@ -1,5 +1,6 @@
 <%= render "shared/form_messages", :object => @subject %>
 <fieldset>
+   <%= f.hidden_field :vocabulary, :value => session[:vocabulary]['uri'] %>
    <%= f.label_field_pair :term %>
    <%= f.label_field_pair :term_type %>
 </fieldset>
