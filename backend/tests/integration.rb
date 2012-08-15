@@ -87,7 +87,7 @@ def run_tests
 
 
   puts "Create an archival object"
-  r = do_post(JSON(:id_0 => "test#{$me}",
+  r = do_post(JSON(:ref_id => "test#{$me}",
                    :title => "integration test archival object",
                    :subjects => ["/subjects/#{subject_id}"]),
               url("/repositories/#{repo_id}/archival_objects"));
