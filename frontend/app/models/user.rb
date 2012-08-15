@@ -7,7 +7,7 @@ class User
   end
   
   def self.login(username, password)
-      login_uri = URI("#{BACKEND_SERVICE_URL}/auth/user/#{username}/login")
+      login_uri = URI("#{ArchivesSpace::Application.config.backend_url}/auth/user/#{username}/login")
       response = Net::HTTP.post_form(login_uri, :password=>password)
       JSON.parse(response.body)
   end   

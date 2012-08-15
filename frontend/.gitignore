@@ -16,3 +16,5 @@
 
 /build/*.jar
 /build/gems
+
+/frontend.war

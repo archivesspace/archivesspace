@@ -34,7 +34,4 @@ ArchivesSpace::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
-  
-  # ArchivesSpace Configuration
-  BACKEND_SERVICE_URL = 'http://localhost:4567'
 end
