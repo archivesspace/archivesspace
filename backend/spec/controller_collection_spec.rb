@@ -105,7 +105,7 @@ describe 'Collections controller' do
 
 
   it "adds an archival object to a collection when it's added to the tree" do
-    ao = JSONModel(:archival_object).from_hash("id_0" => "testing123",
+    ao = JSONModel(:archival_object).from_hash("ref_id" => "testing123",
                                                "title" => "archival object")
     ao_id = ao.save
 
