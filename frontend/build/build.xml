@@ -46,7 +46,7 @@
     </java>
   </target>
 
-  <target name="war" description="Deploy the application as a .war file">
+  <target name="war" depends="bootstrap" description="Deploy the application as a .war file">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
