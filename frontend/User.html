@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: User
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (U)</a> &raquo;
+    
+    
+    <span class="title">User</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: User
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">User</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">app/models/user.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#login-class_method" title="login (class method)">+ (Object) <strong>login</strong>(username, password) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (User) <strong>initialize</strong>(json) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of User.
+</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="User (class)">User</a></span></tt>) <strong>initialize</strong>(json) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of User
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+5
+6
+7</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/user.rb', line 5</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_@data ivar id'>@data</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="login-class_method">
+  
+    + (<tt>Object</tt>) <strong>login</strong>(username, password) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/user.rb', line 9</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_login identifier id'>login</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
+    <span class='rubyid_login_uri identifier id'>login_uri</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{ArchivesSpace::Application.config.backend_url}/auth/user/#{username}/login&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_form identifier id'>post_form</span><span class='lparen token'>(</span><span class='rubyid_login_uri identifier id'>login_uri</span><span class='comma token'>,</span> <span class='symbol val'>:password=</span><span class='gt op'>&gt;</span><span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
+    <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Wed Aug 15 15:06:07 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>
