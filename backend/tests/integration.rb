@@ -79,7 +79,8 @@ def run_tests
 
   puts "Create a subject"
   r = do_post(JSON(:term => "Some term #{$me}",
-                   :term_type => "Function"),
+                   :term_type => "Function",
+                   :vocabulary => "/vocabularies/1"),
               url("/subjects"))
 
   subject_id = r[:body]["id"] or fail("Subject creation", r)
@@ -121,7 +122,7 @@ end
 def main
 
   # start the backend
-  server = Process.spawn("../build/run", "devserver:silent",
+  server = Process.spawn("../build/run", "devserver:integration",
                          "-Daspace.port=#{$port}",
                          "-Daspace_integration_test=1")
 

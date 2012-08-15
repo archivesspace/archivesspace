@@ -81,6 +81,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <arg line="--1.9 app/main.rb ${aspace.port}" />
     </java>
   </target>

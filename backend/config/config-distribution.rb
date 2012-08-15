@@ -13,6 +13,6 @@ end
 
 
 ## Application defaults
-AppConfig[:basedir] = File.join(File.dirname(__FILE__), "..")
+AppConfig[:basedir] = Dir.getwd
 AppConfig[:db_url] = "jdbc:derby:#{File.join(AppConfig[:basedir], "db")};create=true;aspacedemo=true"
 AppConfig[:db_max_connections] = 10

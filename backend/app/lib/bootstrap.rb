@@ -15,6 +15,10 @@ JSONModel::init
 
 require_relative File.join("..", "model", "db_migrator")
 
+if ENV["ASPACE_INTEGRATION"] == "true"
+  AppConfig[:db_url] = "jdbc:derby:memory:integrationdb;create=true;aspacedemo=true"
+end
+
 if not Thread.current[:test_mode]
   if AppConfig[:db_url] =~ /aspacedemo=true/
     puts "Running database migrations for demo database"
