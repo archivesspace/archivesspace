@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd "`dirname $0`"
+
+(cd ../../backend; build/run war)
+(cd ../../frontend; build/run war)
+
+java -cp "ant/*" org.apache.tools.ant.launch.Launcher ${1+"$@"}
