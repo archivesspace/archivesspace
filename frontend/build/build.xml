@@ -50,13 +50,13 @@
 
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
-    <!-- <delete dir="../tmp" /> -->
+    <delete dir="../tmp" />
 
-    <!-- <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" -->
-    <!--       dir=".."> -->
-    <!--   <env key="GEM_HOME" value="${gem_home}" /> -->
-    <!--   <arg line="- -1.9 -S rake assets:precompile" /> -->
-    <!-- </java> -->
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+          dir="..">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="--1.9 -S rake assets:precompile" />
+    </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
