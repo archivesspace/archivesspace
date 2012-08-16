@@ -18,7 +18,7 @@ This page is maintained by the Hudson Molonglo development team and only provide
      
 Visit the code [repository](https://github.com/hudmol/archivesspace/).
 
-The application is divided into 2 parts. The [backend](doc/backend/) application provides a RESTful API to the data layer. The [frontend](doc/frontend/) application provides a user interface built on the Rails framework.
+The application is divided into 2 parts. The [backend](doc/backend/) application provides a RESTful API to the data layer. The [frontend](doc/frontend/) application provides a user interface built on the Rails framework. Both parts rely upon a [common](doc/common) toolset for working with JSON representations of ASpace data.
     
 ## Simple Install
 
