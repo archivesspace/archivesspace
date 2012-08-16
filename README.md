@@ -1,7 +1,3 @@
----
-layout: page
-title: ArchivesSpace Global README
----
 
 # Getting started
 
