@@ -8,29 +8,49 @@ tagline: The final frontier
 
 ## Overview
 
-For more information about the ArchivesSpace project, vist [ArchivesSpace.org](http://www.archivesspace.org/about/).
-This page is hosted by the Hudson Molonglo development team.
+ArchivesSpace is a next-generation archives management tool currently under development.  
+
+For more information about the ArchivesSpace project, vist [ArchivesSpace.org](http://www.archivesspace.org/about/).  
+
+This page is maintained by the Hudson Molonglo development team and only provides information about the development application.
+
+## Source Code and Documentation
      
 Visit the code [repository](http://hudmol.github.com/archivesspace/archive.html).
+
+The application is divided into 2 parts. The [backend](doc/backend/) application provides a RESTful API to the data layer. The [frontend](doc/frontend/) application provides a user interface built on the Rails framework.
     
-## Sample Posts
+## Simple Install
 
-This blog contains sample posts which help stage pages and blog data.
-When you don't need the samples anymore just delete the `_posts/core-samples` folder.
+If you have the Java 1.6.0 SDK (or above) you can build and run a demo
+server with the following commands:
 
-    $ rm -rf _posts/core-samples
+     git clone git://github.com/hudmol/archivesspace.git
 
-Here's a sample "posts list".
+     cd archivesspace
 
-<ul class="posts">
-  {% for post in site.posts %}
-    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
+     launcher/build/run dist
 
-## To-Do
+     java -jar launcher/archivesspace.jar
 
-This theme is still unfinished. If you'd like to be added as a contributor, [please fork](http://github.com/plusjade/jekyll-bootstrap)!
-We need to clean up the themes, make theme usage guides with theme-specific markup examples.
+This will start the ArchivesSpace application running on:
+
+  http://localhost:8080/
+
+and the backend web service running on:
+
+  http://localhost:8089/
+
+If you'd like to use different ports, you can run:
+
+    java -jar launcher/archivesspace.jar [frontend port] [backend port]
+
+To create a test account and log in, you'll currently need to use
+curl:
+
+    username=$USER
+    curl -v -F password=testuser "http://localhost:8089/auth/local/user/$username"
+
+
 
 

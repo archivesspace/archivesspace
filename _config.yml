@@ -9,7 +9,7 @@ pygments: true
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : ArchivesSpace 
+title : ArchivesSpace Development Project
 tagline: The final frontier
 author :
   name : Brian Hoffman
@@ -79,7 +79,7 @@ JB :
   comments :
     provider : disqus
     disqus :
-      short_name : jekyllbootstrap
+      short_name : archivesspace devel
     livefyre :
       site_id : 123
     intensedebate :
