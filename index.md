@@ -11,15 +11,7 @@ tagline: The final frontier
 For more information about the ArchivesSpace project, vist [ArchivesSpace.org](http://www.archivesspace.org/about/).
 This page is hosted by the Hudson Molonglo development team.
      
-    title : My Blog =)
-    
-    author :
-      name : Name Lastname
-      email : blah@email.test
-      github : username
-      twitter : username
-
-The theme should reference these variables whenever needed.
+Visit the code [repository](http://hudmol.github.com/archivesspace/archive.html).
     
 ## Sample Posts
 
