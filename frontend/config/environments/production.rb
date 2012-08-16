@@ -65,3 +65,10 @@ ArchivesSpace::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 end
+
+
+# https://aaronblohowiak.telegr.am/blog_posts/precompiling-assets-under-jruby
+if defined?(ExecJS) && system('which node >/dev/null 2>/dev/null')
+  puts "Using Node ExecJS runtime"
+  ExecJS.runtime = ExecJS::Runtimes::Node
+end
