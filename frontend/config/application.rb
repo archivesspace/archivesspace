@@ -61,6 +61,9 @@ module ArchivesSpace
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    config.assets.precompile += %w( *.js )
+
+
     # ArchivesSpace Configuration
     config.backend_url = 'http://localhost:4567'
   end
