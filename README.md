@@ -21,7 +21,7 @@ and the backend web service running on:
 
 If you'd like to use different ports, you can run:
 
-    launcher/build/run dist [frontend port] [backend port]
+    java -jar launcher/archivesspace.jar [frontend port] [backend port]
 
 To create a test account and log in, you'll currently need to use
 curl:
