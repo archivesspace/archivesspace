@@ -109,6 +109,27 @@ class ArchivesSpaceService < Sinatra::Base
     @session
   end
 
+
+  helpers do
+
+    # Redispatch the current request to a different route handler.
+    def redirect_internal(url)
+      call! env.merge("PATH_INFO" => url)
+    end
+
+
+    def json_response(obj, status = 200)
+      [status, {"Content-Type" => "application/json"}, [JSON(obj)]]
+    end
+
+
+    def created_response(id, warnings = {})
+      json_response({:status => "Created", :id => id, :warnings => warnings})
+    end
+
+  end
+
+
   class RequestWrappingMiddleware
     def initialize(app)
       @app = app
@@ -126,7 +147,15 @@ class ArchivesSpaceService < Sinatra::Base
 
       if session_token
         session = Session.find(session_token)
-        Log.debug("Got session: #{session}")
+
+        if session.nil?
+          return [412,
+                  {"Content-Type" => "application/json"},
+                  [JSON({
+                          :code => "SESSION_GONE",
+                          :error => "No session found for #{session_token}"
+                        })]]
+        end
       end
 
       @app.instance_eval {
@@ -149,26 +178,6 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   use RequestWrappingMiddleware
-
-
-  helpers do
-
-    # Redispatch the current request to a different route handler.
-    def redirect_internal(url)
-      call! env.merge("PATH_INFO" => url)
-    end
-
-
-    def json_response(obj, status = 200)
-      [status, {"Content-Type" => "application/json"}, [JSON(obj)]]
-    end
-
-
-    def created_response(id, warnings = {})
-      json_response({:status => "Created", :id => id, :warnings => warnings})
-    end
-
-  end
 
 
   get '/' do

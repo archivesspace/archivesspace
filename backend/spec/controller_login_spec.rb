@@ -32,4 +32,12 @@ describe 'Login controller' do
     last_response.body.should match /\{"session":".+"\}/
   end
 
+  it "Rejects an invalid session" do
+    get '/', params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => "rubbish"}
+
+    last_response.status.should eq(412)
+    JSON(last_response.body)["code"].should eq ('SESSION_GONE')
+  end
+
+
 end

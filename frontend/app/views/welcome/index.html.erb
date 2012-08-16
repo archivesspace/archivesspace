@@ -1,4 +1,10 @@
 <div class="row-fluid">
+   <% if flash[:error] %>
+      <div class="alert alert-error">
+         <%= flash[:error] %>
+      </div>
+   <% end %>
+
    <div class="span12">
       <h1>Welcome to ArchivesSpace</h1>
       <p>This is where something will go.</p>

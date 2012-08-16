@@ -72,5 +72,9 @@ module ArchivesSpace
   if java.lang.System.get_property("ARCHIVESSPACE_BACKEND")
     Application.config.backend_url = java.lang.System.get_property("ARCHIVESSPACE_BACKEND")
   end
+
+  class SessionGone < StandardError
+  end
+
 end
 

@@ -21,6 +21,18 @@ module JSONModel
   end
 
 
+  @@error_handlers = []
+
+  def self.add_error_handler(&block)
+    @@error_handlers << block
+  end
+
+  def self.handle_error(err)
+    @@error_handlers.each do |handler|
+      handler.call(err)
+    end
+  end
+
   @@protected_fields << "uri"
 
 
@@ -146,7 +158,13 @@ module JSONModel
         req['X-ArchivesSpace-Session'] = _current_backend_session
 
         Net::HTTP.start(url.host, url.port) do |http|
-          http.request(req)
+          response = http.request(req)
+
+          if response.code =~ /^4/
+            JSONModel::handle_error(JSON.parse(response.body))
+          end
+
+          response
         end
       end
 
