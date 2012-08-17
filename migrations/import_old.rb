@@ -2,6 +2,7 @@
 
 require 'optparse'
 require File.join(File.dirname(__FILE__), "lib", "bootstrap")
+Dir.glob(File.dirname(__FILE__) + '/importers/*', &method(:require))
 
 options = {:dry => false, :relaxed => false, :verbose => false, :repo_key => ASpaceImportConfig::DEFAULT_REPO_KEY}
 
@@ -10,11 +11,8 @@ optparse = OptionParser.new do|opts|
   opts.on( '-n', '--dry-run', 'Do a dry run' ) do
     options[:dry] = true
   end
-  opts.on( '-x', '--crosswalk NAME', 'Use crosswalk NAME' ) do|name|
+  opts.on( '-i', '--importer NAME', 'Use importer NAME' ) do|name|
     options[:importer] = name
-  end
-  opts.on( '-f', '--file NAME', 'Import frm file NAME' ) do|name|
-    options[:input_file] = name
   end
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts
@@ -23,7 +21,7 @@ optparse = OptionParser.new do|opts|
   opts.on( '-a', '--allow-failures', 'Do not stop because an import fails') do
     options[:relaxed] = true
   end
-  opts.on( '-l', '--list-crosswalks', 'List available crosswalks') do
+  opts.on( '-l', '--list-importers', 'List available importers') do
     options[:list] = true
   end
   opts.on( '-v', '--verbose', 'Exude verbosity') do
@@ -41,7 +39,7 @@ end
 optparse.parse!
 
 if options[:list]
-  ASpaceWalker.list
+  ASpaceImporter.list
   exit
 end
 
