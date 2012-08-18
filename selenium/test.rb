@@ -69,7 +69,7 @@ def run(user, driver)
   test_repo_name = "A test repository - #{Time.now}"
 
   driver.find_element(:css, '.repository-container .btn').click
-  driver.find_element(:link, "Create a Respository").click   # typo :)
+  driver.find_element(:link, "Create a Repository").click
   driver.find_element(:id => "repository_repo_code").send_keys test_repo_code
   driver.find_element(:id => "repository_description").send_keys test_repo_name
   driver.find_element(:css => "form#new_repository input[type='submit']").click
