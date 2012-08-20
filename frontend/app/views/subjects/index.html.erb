@@ -12,20 +12,17 @@
          <table class="table table-striped table-bordered table-condensed">
            <thead>
              <tr>
-               <th>Term</th>
-               <th>Type</th>
+               <th>Subject</th>
                <th width="70px"><!-- actions --></th>
              </tr>
            </thead>
            <tbody>
             <% @subjects.each do |subject| %>
                <tr>
-                <td><%= subject.term %></td>
-                <td><%= subject.term_type %></td>
+                <td><%= subject.display_string %></td>
                 <td>
                    <div class="btn-group" style="float: right">
                      <%= link_to "View", {:controller=>:subjects, :action=>:show, :id=>subject.id}, :class=>"btn btn-mini" %>
-                     <%= link_to "Edit", {:controller=>:subjects, :action=>:edit, :id=>subject.id}, :class=>"btn btn-mini" %>
                    </div>
                 </td>
               </tr>

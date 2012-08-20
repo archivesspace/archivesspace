@@ -15,7 +15,7 @@ $(function() {
          var config = {
              url: $this.data("url"),
              format: $this.data("format"),
-             class: $this.data("class"),
+             object_class: $this.data("object_class"),
              controller: $this.data("controller"),
              owner_class: $this.data("owner_class"),
              owner_attribute: $this.data("owner_attribute"),
@@ -25,13 +25,9 @@ $(function() {
              modal_id: "linkerModalFor_"+$this.data("class")
          };
 
-         var addEventBindings = function() {
-            $(".linker-browse-btn", $linkerWrapper).on("click", showLinkerBrowseModal);
-            $(".linker-create-btn", $linkerWrapper).on("click", showLinkerCreateModal);
-         }
 
          var renderItemsInModal = function() {
-            var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id});
+            var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
             $.ajax({
                url: config.url,
                type: "GET",
@@ -39,14 +35,9 @@ $(function() {
                success: function(json) {
                   $("#"+config.modal_id).find(".linker-list").html(AS.renderTemplate("linker_browse_template", {items: json, config: config, selected: currentlySelectedIds}));
                }
-            })
+            });
          };
 
-         var showLinkerBrowseModal = function() {
-            AS.openCustomModal(config.modal_id, "Browse "+ config.name_plural, AS.renderTemplate("linker_browsemodal_template",config));
-            renderItemsInModal();
-            $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
-         };
 
          var renderCreateFormForObject = function() {
             var $modal = $("#"+config.modal_id);
@@ -85,13 +76,15 @@ $(function() {
             });
             $("#createAndLinkButton", $modal).click(function() {
                $("form", $modal).triggerHandler("submit");
-            })
+            });
          };
+
 
          var showLinkerCreateModal = function() {
             AS.openCustomModal(config.modal_id, "Create "+ config.name, AS.renderTemplate("linker_createmodal_template", config));
             renderCreateFormForObject();
          };
+
 
          var addSelected = function() {
              selectedItems  = [];
@@ -107,11 +100,19 @@ $(function() {
              });
              $("#"+config.modal_id).modal('hide');
              $this.parents("form:first").triggerHandler("form-changed");
-         }
+         };
+
+
+         var showLinkerBrowseModal = function() {
+            AS.openCustomModal(config.modal_id, "Browse "+ config.name_plural, AS.renderTemplate("linker_browsemodal_template",config));
+            renderItemsInModal();
+            $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
+         };
+
 
          var formatResults = function(results) {
             var formattedResults = [];
-            var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id});
+            var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
             $.each(results, function(index, obj) {
                // only allow selection of unselected items
                if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
@@ -120,9 +121,31 @@ $(function() {
                      id: obj.uri
                   });
                }
-            })
+            });
             return formattedResults;
-         }
+         };
+
+
+         var addEventBindings = function() {
+            $(".linker-browse-btn", $linkerWrapper).on("click", showLinkerBrowseModal);
+            $(".linker-create-btn", $linkerWrapper).on("click", showLinkerCreateModal);
+            $this.on("tokeninput.enter", showLinkerCreateModal);
+         };
+
+
+         var tokensForPrepopulation = function() {
+            if ($this.data("selected").length === 0) {
+               return [];
+            }
+            
+            return $this.data("selected").map(function(item) {
+                return {
+                   id: item.uri,
+                   name: AS.quickTemplate(config.format, item)
+                };
+             });
+         };
+
 
          var init = function() {
              $this.tokenInput(config.url, {
@@ -134,10 +157,7 @@ $(function() {
                 tokenFormatter: function(item) {                   
                    return AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config});
                 },
-                prePopulate: $this.data("selected").map(function(item) {return {
-                   id: item.uri,
-                   name: AS.quickTemplate(config.format, item)
-                }}),
+                prePopulate: tokensForPrepopulation(),
                 onDelete: function() {
                    $this.parents("form:first").triggerHandler("form-changed");
                 },
@@ -146,7 +166,8 @@ $(function() {
                  }
              });
              addEventBindings();
-         }
+         };
+
 
          init();
       });
@@ -156,7 +177,7 @@ $(function() {
 $(document).ready(function() {
    $(".dynamic-content").ajaxComplete(function() {
       $(".linker:not(.initialised)").linker();
-   })
+   });
    
    $(".linker:not(.initialised)").linker();
 });

@@ -1,6 +1,44 @@
 <%= render "shared/form_messages", :object => @subject %>
 <fieldset>
    <%= f.hidden_field :vocabulary, :value => session[:vocabulary]['uri'] %>
-   <%= f.label_field_pair :term %>
-   <%= f.label_field_pair :term_type %>
+   <div class="row-fluid">
+      <div class="span5">Term</div>
+      <div class="span5">Type</div>
+      <div class="span2"></div>
+   </div>
+   <div class="terms-container" data-terms="<%= @subject.terms.to_json %>"></div>
 </fieldset>
+
+<hr/>
+
+
+<div class="well">
+   <div class="subject-preview"><em>Subject Preview</em></div>
+</div>
+
+<div id="subjects_term_template"><!--
+   <div class="row-fluid inputs-fill-it-up">
+      <div class="span5"><input type="text" name="subject[terms][][term]" data-provide="typeahead" data-source="<%= @subject.available_terms.collect{|t| t['term']}.to_json %>" autocomplete="off" /></div>
+      <div class="span5">
+         <select name="subject[terms][][term_type]">
+            <% JSONModel(:term).schema["properties"]["term_type"]["enum"].each do |option| %>
+               <option value="<%= option %>"><%= option %></option>
+            <% end %>
+         </select>
+      </div>
+      <div class="span2">
+         <div class="btn-group">
+            <button type="button" class="btn btn-small add-term-btn">Add</button>
+            <button type="button" class="btn btn-small remove-term-btn"><span class="icon-remove-sign"></span></button>
+         </div>
+         <input type="hidden" name="subject[terms][][vocabulary]" value="<%= session[:vocabulary]['uri'] %>"/>
+      </div>
+   </div>
+--></div>
+
+<div id="subjects_preview_template"><!--
+  {for t in terms}
+   <span class="term">${t.term}</span>
+   {if t_index < terms.length-1}<span class="term-separator">--</span>{/if}
+  {/for}
+--></div>

@@ -1,5 +1,3 @@
-require 'net/http'
-
 class Accession < JSONModel(:accession)
   attr_accessor :resource_link
 

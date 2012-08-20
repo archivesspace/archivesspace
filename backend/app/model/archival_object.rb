@@ -55,12 +55,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   end
 
 
-  def self.to_jsonmodel(obj, type)
-    if obj.is_a? Integer
-      # An ID.  Get the Sequel row for it.
-      obj = get_or_die(obj)
-    end
-
+  def self.sequel_to_jsonmodel(obj, type)
     json = super(obj, type)
     json.subjects = obj.subjects.map {|subject| JSONModel(:subject).uri_for(subject.id)}
 

@@ -100,8 +100,7 @@ describe 'Archival Object controller' do
                                             )
     vocab.save
     
-    subject = JSONModel(:subject).from_hash("term" => "a test subject",
-                                            "term_type" => "Cultural context",
+    subject = JSONModel(:subject).from_hash("terms"=>[{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)}],
                                             "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)
                                             )
     subject.save
@@ -120,8 +119,7 @@ describe 'Archival Object controller' do
                                             )
     vocab.save
     
-    subject = JSONModel(:subject).from_hash("term" => "a test subject",
-                                            "term_type" => "Cultural context",
+    subject = JSONModel(:subject).from_hash("terms"=>[{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)}],
                                             "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)
                                             )
     subject.save
@@ -133,6 +131,6 @@ describe 'Archival Object controller' do
 
     ao = JSONModel(:archival_object).find(created, "resolve[]" => "subjects")
 
-    ao.subjects[0]["term"].should eq("a test subject")
+    ao.subjects[0]["terms"][0]["term"].should eq("a test subject")
   end
 end

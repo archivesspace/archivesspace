@@ -1,14 +1,14 @@
 class SubjectsController < ApplicationController
 
    def index
-      @subjects = JSONModel(:subject).all
+      @subjects = Subject.all
    end
 
    def list
-      @subjects = JSONModel(:subject).all
+      @subjects = Subject.all
 
       if params[:q]
-         @subjects = @subjects.select {|s| s.term.downcase.include?(params[:q].downcase) || s.term_type.downcase.include?(params[:q].downcase) }
+         @subjects = @subjects.select {|s| s.display_string.downcase.include?(params[:q].downcase)}
       end
 
       respond_to do |format|
@@ -19,21 +19,21 @@ class SubjectsController < ApplicationController
    end
 
    def show
-     @subject = JSONModel(:subject).find(params[:id])
+     @subject = Subject.find(params[:id])
    end
 
    def new
-      @subject = JSONModel(:subject).new._always_valid!
+      @subject = Subject.new({:vocab_id => JSONModel(:vocabulary).id_for(session[:vocabulary]["uri"])})._always_valid!
       render :partial=>"subjects/new" if inline?
    end
 
    def edit
-      @subject = JSONModel(:subject).find(params[:id])
+      @subject = Subject.find(params[:id])
    end
 
    def create
       begin
-         @subject = JSONModel(:subject).new(params[:subject])
+         @subject = Subject.new(params[:subject])
 
          if not params.has_key?(:ignorewarnings) and not @subject._exceptions.empty?
             return render :partial=>"subjects/new" if inline?

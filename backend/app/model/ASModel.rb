@@ -50,16 +50,23 @@ module ASModel
     end
 
 
-    def to_jsonmodel(obj, model)
-      if obj.is_a? Integer
-        # An ID.  Get the Sequel row for it.
-        obj = get_or_die(obj)
-      end
-      json = JSONModel(model).from_hash(obj.values.reject {|k, v| v.nil? })
+    def sequel_to_jsonmodel(obj, model)
+      json = JSONModel(model).new(obj.values.reject {|k, v| v.nil? })
 
       json.uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})
 
       json
     end
+
+
+    def to_jsonmodel(obj, model)
+      if obj.is_a? Integer
+        # An ID.  Get the Sequel row for it.
+        obj = get_or_die(obj)
+      end
+
+      sequel_to_jsonmodel(obj, model)
+    end
+
   end
 end
