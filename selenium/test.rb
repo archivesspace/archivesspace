@@ -255,11 +255,11 @@ end
 def main
 
   # start the backend
-  backend = Process.spawn("../backend/build/run", "backend:devserver:integration",
+  backend = Process.spawn("../build/run", "backend:devserver:integration",
                           "-Daspace.backend.port=#{$backend_port}",
                           "-Daspace_integration_test=1")
 
-  frontend = Process.spawn("../frontend/build/run", "frontend:devserver",
+  frontend = Process.spawn("../build/run", "frontend:devserver",
                           "-Daspace.frontend.port=#{$frontend_port}")
 
 

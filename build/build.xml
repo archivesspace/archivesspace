@@ -146,7 +146,7 @@
 
   <target name="selenium:test" description="Run the Selenium tests">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
-          dir="../selenium">
+          dir="../selenium" failonerror="true">
       <env key="GEM_HOME" value="${gem_home}" />
       <arg line="--1.9 test.rb" />
     </java>
