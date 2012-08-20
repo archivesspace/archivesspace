@@ -33,7 +33,7 @@ http://localhost:4567/
          mysql> grant all on archivesspace.* to 'as'@'localhost' identified by 'as123';
          Query OK, 0 rows affected (0.21 sec)
 
-  * Copy `backend/config/config-example.rb` to `backend/config/config.rb` and edit the `:db_url` configuration entry to match the details of your database.
+  * Copy `config/config-example.rb` to `config/config.rb` and edit the `:db_url` configuration entry to match the details of your database.
 
   * Run database migrations to create the initial schema:
 

@@ -3,7 +3,7 @@ require "selenium-webdriver"
 require "digest"
 
 
-$backend_port = 4567
+$backend_port = 3636
 $frontend_port = 3535
 $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
@@ -268,7 +268,7 @@ def main
                           "-Daspace.backend.port=#{$backend_port}",
                           "-Daspace_integration_test=1")
 
-  frontend = Process.spawn({:JAVA_OPTS => "-Xmx128M -XX:MaxPermSize=96M"},
+  frontend = Process.spawn({:JAVA_OPTS => "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{$backend}"},
                            "../build/run", "frontend:devserver",
                           "-Daspace.frontend.port=#{$frontend_port}")
 
