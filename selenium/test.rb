@@ -68,6 +68,7 @@ end
 
 def logout
    ## Complete the logout process
+   @driver.find_element(:css, '.user-container .btn').click
    @driver.find_element(:link, "Logout").click
    @driver.find_element(:link, "Sign In")
 end
@@ -87,6 +88,21 @@ def run_tests
   @driver.find_element(:id => "repository_repo_code").send_keys test_repo_code
   @driver.find_element(:id => "repository_description").send_keys test_repo_name
   @driver.find_element(:css => "form#new_repository input[type='submit']").click
+
+
+  ## Create a second repository
+  test_repo_code = "test#{Time.now.to_i}"
+  test_repo_name = "A test repository - #{Time.now}"
+
+  @driver.find_element(:css, '.repository-container .btn').click
+  @driver.find_element(:link, "Create a Repository").click
+  @driver.find_element(:id => "repository_repo_code").send_keys test_repo_code
+  @driver.find_element(:id => "repository_description").send_keys test_repo_name
+  @driver.find_element(:css => "form#new_repository input[type='submit']").click
+
+  ## Select the second repository
+  @driver.find_element(:css, '.repository-container .btn').click
+  @driver.find_element(:link_text => test_repo_code).click
 
 
   ## Create an accession
@@ -136,6 +152,10 @@ def run_tests
   end
 
 
+  # Browse Acquisitions and link through to accession above
+  
+
+
   ## Create a collection
   @driver.find_element(:link, "Create").click
   @driver.find_element(:link, "Collection").click
@@ -180,6 +200,7 @@ def run_tests
   # save manually first.
   @driver.find_element(:css => "form#new_archival_object button[type='submit']").click
   # @driver.find_element(:id => "save_and_finish_editing").click
+
 
   logout
 
