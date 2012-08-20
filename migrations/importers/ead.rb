@@ -2,7 +2,7 @@ require 'nokogiri'
 
 ASpaceImporter.importer :ead do
   def self.profile
-    "Default EAD importer. Takes 1 argument: EADFILE"
+    "Development EAD importer. No longer in use"
   end
   def run
     if ARGV[0] == nil

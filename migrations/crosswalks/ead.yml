@@ -1,19 +1,21 @@
 # Maps the cross walk between EAD and ASpace objects.
 # Inherits some ideas from Qubit
 #   http://code.google.com/p/qubit-toolkit/source/browse/trunk/apps/qubit/modules/object/config/import/ead.yml
-source_format: "EAD"
-
-aspace:
-  archival_object:
-    xpath: "//c | //c01 | //c02 | //c03 | //c04 | //c05 | //c06 | //c07 | //c08 | //c09 | //c10 | //c11 | //c12"
+source:
+  format: "xml"
+  schema: "ead"
+entities:
+  collection: 
+    instance: ["ead"]
     properties:
-      ref_id: "@id"
-      level: "@level"
-      title: "unittitle"  
-
-  collection:
-    xpath: ""
-    properties: 
-      title: "title"
-      
+      id_0: ["unitid"]
+      title: ["unittitle"]
+  archival_object: 
+    instance: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
+    properties:
+      title: ["unittitle"]
+      ref_id: ["@id"]
+      parent: ["parent::c"]
+      subject: ["child::subject"]
+#  subject: ["//subject"]
 

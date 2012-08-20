@@ -12,7 +12,7 @@ class ASpaceImporter
   def self.list
     puts "The following importers are available"
     @@importers.each do |i, klass|
-      puts "#{i} -- #{klass.name} -- #{klass.profile}"
+      puts "\t #{klass.name} \t #{klass.profile}"
     end
   end
   
@@ -67,6 +67,7 @@ class ASpaceImporter
     @last_succeeded = false
     @current = { }
     @stashed = { }
+    @json_queue = JSONQueue.new
   end
   
   def report
@@ -123,30 +124,18 @@ class ASpaceImporter
   
   # Add something to ASpace, but don't add it to the context
     
-  def add_new (type, hsh)
-    opts = get_import_opts
+  def add_new (type, property, value)
+    @json_queue.last
     hsh = contextualize(type, hsh)
     key = _import(type, hsh, opts)
     return key
   end
   
-  # Add something to ASpace, and 'open' it
+
   
-  def open_new (type, hsh)
-    key = add_new(type, hsh)
-    puts "KEY #{key}" if $DEBUG
-    unless key.nil?
-      @current[type] = Array.new unless @current[type].respond_to?('push')
-      @current[type].push(key)
-      puts "LAST: #{@current[type].last}" if $DEBUG
-    end
-    return key
-  end
+
   
-  # Close the currently open X
-  def close (type)
-    @current[type].pop
-  end
+
   
   def current (type)
     return @current[type].last
@@ -210,3 +199,55 @@ class ASpaceImporter
     end
   end
 end
+
+class JSONQueue < Array
+  include JSONModel
+  
+  # Get a new JSON object and push it into the queue
+  
+  def push (type)
+    if (type)
+      jo = JSONModel(type).new
+      super(jo)
+    end
+  end
+
+  # Add a property
+  
+  def set_property(property, value)
+    if self.length > 0 and property
+      puts self.last.to_s
+      if self.last.respond_to?(property)
+        unless self.last.send("#{property}") # don't set the property more than once
+          self.last.send("#{property}=", value)
+        end
+      else
+        raise StandardError.new("Can't set #{property} on #{@self.last.to_s}")
+      end
+    end
+  end
+
+  # Close the currently open X
+  def pop  
+    # to do - do something with type? (sanity check)
+    # actually save the json object, catch errors, etc.
+    if self.length > 0
+      strict_mode(true)
+
+      self.last.class.schema['properties'].each do |sp|
+        if sp[1]['type'].match(/^JSONModel/)
+          unless self.last.send(sp[0])
+            puts "Attempting to fill in #{sp[0]}"
+          end
+        end
+      end
+
+      puts "Saving #{self.last.to_s}"
+      #saved_key = @json_queue.last.save({:repo_id => '1'})
+      #puts "Saved #{saved_key}"
+      super
+    end
+  end
+
+  
+end  
