@@ -20,6 +20,8 @@ end
 
 
 class Selenium::WebDriver::Driver
+  RETRIES = 20
+
   def wait_for_ajax
     while (self.execute_script("return document.readyState") != "complete" or
            not self.execute_script("return window.$ == undefined || $.active == 0"))
@@ -36,7 +38,7 @@ class Selenium::WebDriver::Driver
       begin
         return find_element_orig(*selectors)
       rescue Selenium::WebDriver::Error::NoSuchElementError => e
-        if try < 20 
+        if try < RETRIES
           try += 1
           sleep 0.5
         else
@@ -56,12 +58,18 @@ class Selenium::WebDriver::Driver
 
 
   def find_element_with_text(xpath, pattern, noError = false)
-     matches = self.find_elements(:xpath => xpath)
-     matches.each do | match |
+    RETRIES.times do
+
+      matches = self.find_elements(:xpath => xpath)
+      matches.each do | match |
         return match if match.text =~ pattern
-     end
-     return nil if noError
-     raise Selenium::WebDriver::Error::NoSuchElementError.new("Could not find element for xpath: #{xpath} pattern: #{pattern}")
+      end
+
+      sleep 0.5
+    end
+
+    return nil if noError
+    raise Selenium::WebDriver::Error::NoSuchElementError.new("Could not find element for xpath: #{xpath} pattern: #{pattern}")
   end
 
 end
