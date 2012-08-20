@@ -62,7 +62,7 @@ module RESTHelpers
 
     def returns(*returns, &block)
 
-      returns.map { |r| r[1] = @@return_types[r[1]] or r[1] }
+      returns.map { |r| r[1] = @@return_types[r[1]] || r[1] }
       @returns = returns
 
       @@endpoints << self
