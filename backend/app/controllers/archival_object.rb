@@ -1,9 +1,10 @@
 class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/archival_objects')
+    .description("Create an Archival Object")
     .params(["archival_object", JSONModel(:archival_object), "The archival_object to create", :body => true],
             ["repo_id", Integer, "The repository ID"])
-    .returns([200, "OK"]) \
+    .returns([200, :created]) \
   do
     ao = ArchivalObject.create_from_json(params[:archival_object],
                                          :repo_id => params[:repo_id])
@@ -25,11 +26,12 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id')
+    .description("Get an Archival Object by ID")
     .params(["archival_object_id", Integer, "The archival object ID"],
             ["repo_id", Integer, "The repository ID"],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
-    .returns([200, "OK"]) \
+    .returns([200, JSONModel(:archival_object)]) \
   do
     json = ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object)
 
