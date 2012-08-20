@@ -187,6 +187,12 @@ def run_tests
   end
 
   # Prompted to dismiss changes when clicking away
+  while @driver.find_element(:id, "archival_object_title").attribute(:value) != "New Archival Object"
+    sleep 0.2
+  end
+
+  @driver.find_element(:id, "archival_object_title").clear
+  @driver.find_element(:id, "archival_object_title").send_keys("unimportant change")
   @driver.find_element(:css, "a[title='December']").click
   @driver.find_element(:id, "dismissChangesButton").click
 
