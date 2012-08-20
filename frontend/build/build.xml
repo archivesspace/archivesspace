@@ -63,6 +63,10 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <arg line="--1.9 build/gems/bin/warble war" />
     </java>
+
+    <delete dir="../public/assets" />
+    <mkdir dir="../public/assets" />
+    <mkdir dir="../public/assets/00-do-not-put-things-here" />
   </target>
 
 
