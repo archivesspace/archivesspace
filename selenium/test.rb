@@ -54,6 +54,16 @@ class Selenium::WebDriver::Driver
     end
   end
 
+
+  def find_element_with_text(xpath, pattern, noError = false)
+     matches = self.find_elements(:xpath => xpath)
+     matches.each do | match |
+        return match if match.text =~ pattern
+     end
+     return nil if noError
+     raise Selenium::WebDriver::Error::NoSuchElementError.new("Could not find element for xpath: #{xpath} pattern: #{pattern}")
+  end
+
 end
 
 
@@ -80,29 +90,29 @@ def run_tests
   login
 
   ## Create a test repository
-  test_repo_code = "test#{Time.now.to_i}"
-  test_repo_name = "A test repository - #{Time.now}"
+  test_repo_code_1 = "test#{Time.now.to_i}"
+  test_repo_name_1 = "A test repository - #{Time.now}"
 
   @driver.find_element(:css, '.repository-container .btn').click
   @driver.find_element(:link, "Create a Repository").click
-  @driver.find_element(:id => "repository_repo_code").send_keys test_repo_code
-  @driver.find_element(:id => "repository_description").send_keys test_repo_name
+  @driver.find_element(:id => "repository_repo_code").send_keys test_repo_code_1
+  @driver.find_element(:id => "repository_description").send_keys test_repo_name_1
   @driver.find_element(:css => "form#new_repository input[type='submit']").click
 
 
   ## Create a second repository
-  test_repo_code = "test#{Time.now.to_i}"
-  test_repo_name = "A test repository - #{Time.now}"
+  test_repo_code_2 = "test#{Time.now.to_i}"
+  test_repo_name_2 = "A test repository - #{Time.now}"
 
   @driver.find_element(:css, '.repository-container .btn').click
   @driver.find_element(:link, "Create a Repository").click
-  @driver.find_element(:id => "repository_repo_code").send_keys test_repo_code
-  @driver.find_element(:id => "repository_description").send_keys test_repo_name
+  @driver.find_element(:id => "repository_repo_code").send_keys test_repo_code_2
+  @driver.find_element(:id => "repository_description").send_keys test_repo_name_2
   @driver.find_element(:css => "form#new_repository input[type='submit']").click
 
   ## Select the second repository
   @driver.find_element(:css, '.repository-container .btn').click
-  @driver.find_element(:link_text => test_repo_code).click
+  @driver.find_element(:link_text => test_repo_code_2).click
 
 
   ## Create an accession
@@ -152,15 +162,13 @@ def run_tests
   end
 
 
-  # Browse Acquisitions and link through to accession above
-  
-
-
   ## Create a collection
   @driver.find_element(:link, "Create").click
   @driver.find_element(:link, "Collection").click
 
-  @driver.find_element(:id, "collection_title").send_keys "Pony Express"
+  collection_title = "Pony Express"
+
+  @driver.find_element(:id, "collection_title").send_keys collection_title
   @driver.complete_4part_id("collection_id_%d")
   @driver.find_element(:css => "form#new_collection button[type='submit']").click
 
@@ -206,6 +214,25 @@ def run_tests
   # save manually first.
   @driver.find_element(:css => "form#new_archival_object button[type='submit']").click
   # @driver.find_element(:id => "save_and_finish_editing").click
+
+
+  ## Check browse list for collections
+  @driver.find_element(:link, "Browse").click
+  @driver.find_element(:link, "Collections").click
+  @driver.find_element_with_text('//td', /#{collection_title}/)
+
+
+  ## Change repository
+  @driver.find_element(:css, '.repository-container .btn').click
+  @driver.find_element(:link_text => test_repo_code_1).click
+
+
+  ## Check browse list for collections
+  @driver.find_element(:link, "Browse").click
+  @driver.find_element(:link, "Collections").click
+  if @driver.find_element_with_text('//td', /#{collection_title}/, true) != nil
+     puts "ERROR: #{collection_title} should not exist in collection Browse list!"
+  end
 
 
   logout

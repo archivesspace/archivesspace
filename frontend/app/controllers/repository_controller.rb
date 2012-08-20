@@ -21,7 +21,7 @@ class RepositoryController < ApplicationController
     selected = @repositories.find {|r| r.id.to_s == params[:id]}
     session[:repo] = selected.repo_code
     session[:repo_id] = selected.id
-    render :partial=>'shared/header_repository', :locals => {:repositories => @repositories}
+    render :text => "Success"
   end
   
 end
