@@ -51,7 +51,7 @@ $(function() {
       });
 
       $("#createPlusOne", $form).click(function() {
-         var createPlusOne = function(data) {
+         var createPlusOne = function(event, data) {
             if (data.success) {
                // if parent is a collection add +1 as a child
                if ($(".selected", $tree).parents("li:first").hasClass("collection")) {
@@ -275,7 +275,7 @@ $(function() {
             $("#saveYourChangesModal").modal("hide");
          };
 
-         $container.one("submitted", function(data) {
+         $container.one("submitted", function(event, data) {
             if (data.success) {
                onSubmitSuccess();
             } else {
