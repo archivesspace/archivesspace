@@ -3,8 +3,11 @@ require "selenium-webdriver"
 require "digest"
 
 
-$backend = "http://localhost:4567"
-$frontend = "http://localhost:3000"
+$backend_port = 4567
+$frontend_port = 3535
+$backend = "http://localhost:#{$backend_port}"
+$frontend = "http://localhost:#{$frontend_port}"
+
 
 def create_test_user
   user = "testuser#{Time.now.to_i}"
@@ -70,7 +73,7 @@ def logout
 end
 
 
-def run
+def run_tests
   @driver.navigate.to $frontend
 
   login
@@ -183,6 +186,59 @@ def run
 end
 
 
-@user = create_test_user
-@driver = Selenium::WebDriver.for :firefox
-run
+def kill(pid)
+  Process.kill(15, pid)
+
+  begin
+    Process.waitpid(pid)
+  rescue
+    # Already dead.
+  end
+end
+
+
+
+def main
+
+  # start the backend
+  backend = Process.spawn("../backend/build/run", "devserver:integration",
+                          "-Daspace.port=#{$backend_port}",
+                          "-Daspace_integration_test=1")
+
+  frontend = Process.spawn("../frontend/build/run", "devserver",
+                          "-Daspace.port=#{$frontend_port}")
+
+
+  while true
+    begin
+      Net::HTTP.get(URI($frontend))
+      break
+    rescue
+      # Keep trying
+      puts "Waiting for frontend (#{$!.inspect})"
+      sleep(5)
+    end
+  end
+
+
+  @user = create_test_user
+  @driver = Selenium::WebDriver.for :firefox
+
+
+  status = 0
+  begin
+    run_tests
+    puts "ALL OK"
+  rescue
+    puts "TEST FAILED: #{$!}"
+    status = 1
+  end
+
+  kill(backend)
+  kill(frontend)
+
+  exit(status)
+end
+
+
+main

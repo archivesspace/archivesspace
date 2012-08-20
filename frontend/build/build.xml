@@ -5,6 +5,8 @@
   <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.6.7.2/jruby-complete-1.6.7.2.jar" />
   <property name="jruby_file" value="jruby-complete-1.6.7.2.jar" />
   <property name="gem_home" location="gems" />
+  <property name="aspace.port" value="3000" />
+
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
@@ -33,7 +35,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
-      <arg line="--1.9 script/rails server" />
+      <arg line="--1.9 script/rails server --port=${aspace.port}" />
     </java>
   </target>
 
