@@ -1,4 +1,4 @@
-require_relative File.join("..", "..", "app", "main")
+require_relative File.join("..", "..", "backend", "app", "main")
 
 Sequel.connect(AppConfig[:db_url],
                :max_connections => AppConfig[:db_max_connections],

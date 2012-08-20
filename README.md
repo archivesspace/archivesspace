@@ -1,4 +1,3 @@
-
 # Getting started
 
 If you have the Java 1.6.0 SDK (or above) you can build and run a demo
@@ -8,9 +7,9 @@ server with the following commands:
 
      cd archivesspace
 
-     launcher/build/run dist
+     build/run dist
 
-     java -jar launcher/archivesspace.jar
+     java -jar archivesspace.jar
 
 This will start the ArchivesSpace application running on:
 

@@ -14,7 +14,7 @@ MySQL server.
 
 Simply run:
 
-         $ build/run devserver
+         $ build/run backend:devserver
 
 To start the backend.  An Apache Derby database will be automatically
 created for you.  You can connect to the dev server on
@@ -33,7 +33,7 @@ http://localhost:4567/
          mysql> grant all on archivesspace.* to 'as'@'localhost' identified by 'as123';
          Query OK, 0 rows affected (0.21 sec)
 
-  * Copy `config/config-example.rb` to `config/config.rb` and edit the `:db_url` configuration entry to match the details of your database.
+  * Copy `backend/config/config-example.rb` to `backend/config/config.rb` and edit the `:db_url` configuration entry to match the details of your database.
 
   * Run database migrations to create the initial schema:
 
@@ -41,4 +41,4 @@ http://localhost:4567/
 
   * Start the dev server and connect to http://localhost:4567/
 
-         $ build/run devserver
+         $ build/run backend:devserver
