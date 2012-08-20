@@ -36,7 +36,7 @@ class Selenium::WebDriver::Driver
       begin
         return find_element_orig(*selectors)
       rescue Selenium::WebDriver::Error::NoSuchElementError => e
-        if try < 5
+        if try < 20 
           try += 1
           sleep 0.5
         else
