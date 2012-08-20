@@ -26,8 +26,14 @@ module RESTHelpers
 
     @@endpoints = []
 
+    @@return_types = {
+      :created => '{:status => "Created", :id => [id of created object]}'
+    }
+
     def initialize(method)
       @method = method
+      @uri = ""
+      @description = "-- No description provided --"
       @required_params = []
       @returns = []
     end
@@ -37,6 +43,7 @@ module RESTHelpers
         e.instance_eval do
           {
             :uri => @uri,
+            :description => @description,
             :method => @method,
             :params => @required_params,
             :returns => @returns
@@ -50,13 +57,15 @@ module RESTHelpers
     def self.method(method); Endpoint.new(method); end
 
     def uri(uri); @uri = uri; self; end
+    def description(description); @description = description; self; end
     def params(*params); @required_params = params; self; end
 
     def returns(*returns, &block)
-      @returns = returns;
+
+      returns.map { |r| r[1] = @@return_types[r[1]] or r[1] }
+      @returns = returns
 
       @@endpoints << self
-
 
       rp = @required_params
       uri = @uri
