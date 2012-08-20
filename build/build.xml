@@ -7,7 +7,8 @@
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
-
+  <property environment="env"/>
+  <property name="env.JAVA_OPTS" value="" />
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
@@ -95,6 +96,7 @@
   <target name="backend:devserver" description="Start an instance of the ArchivesSpace backend development server">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../backend">
+      <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <arg line="--1.9 app/main.rb ${aspace.backend.port}" />
@@ -106,6 +108,7 @@
   <target name="frontend:devserver" description="Start an instance of the ArchivesSpace frontend development server">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
+      <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <arg line="--1.9 script/rails server --port=${aspace.frontend.port}" />
     </java>

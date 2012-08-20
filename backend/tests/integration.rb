@@ -122,7 +122,8 @@ end
 def main
 
   # start the backend
-  server = Process.spawn("../../build/run", "backend:devserver:integration",
+  server = Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
+                         "../../build/run", "backend:devserver:integration",
                          "-Daspace.backend.port=#{$port}",
                          "-Daspace_integration_test=1")
 

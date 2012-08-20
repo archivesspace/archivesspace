@@ -263,11 +263,13 @@ end
 def main
 
   # start the backend
-  backend = Process.spawn("../build/run", "backend:devserver:integration",
+  backend = Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
+                          "../build/run", "backend:devserver:integration",
                           "-Daspace.backend.port=#{$backend_port}",
                           "-Daspace_integration_test=1")
 
-  frontend = Process.spawn("../build/run", "frontend:devserver",
+  frontend = Process.spawn({:JAVA_OPTS => "-Xmx96M -XX:MaxPermSize=64M"},
+                           "../build/run", "frontend:devserver",
                           "-Daspace.frontend.port=#{$frontend_port}")
 
 
