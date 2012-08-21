@@ -49,6 +49,22 @@ class Selenium::WebDriver::Driver
   end
 
 
+  def click_and_wait_until_gone(*selector)
+    element = self.find_element(*selector)
+    element.click
+
+    try = 0
+    while self.find_element(*selector).equal? element
+      if try < RETRIES
+        try += 1
+        sleep 0.5
+      else
+        raise Selenium::WebDriver::Error::NoSuchElementError.new(selector.inspect)
+      end
+    end
+  end
+
+
   def complete_4part_id(pattern)
     accession_id = Digest::MD5.hexdigest("#{Time.now}").scan(/.{6}/)[0...4]
     accession_id.each_with_index do |elt, i|
@@ -185,26 +201,18 @@ def run_tests
   @driver.find_element(:id, "archival_object_title").clear
   @driver.find_element(:id, "archival_object_title").send_keys("Lost mail")
   @driver.find_element(:id, "archival_object_ref_id").send_keys(Digest::MD5.hexdigest("#{Time.now}"))
-  @driver.find_element(:id => "createPlusOne").click
+  @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
   ["January", "February", "March", "April", "May",
    "June", "July", "August", "September", "October",
    "November", "December"]. each do |month|
 
-    # Wait for the form to be refreshed
-    while @driver.find_element(:id, "archival_object_title").attribute(:value) != "New Archival Object"
-      sleep 0.2
-    end
-
     @driver.find_element(:id, "archival_object_title").clear
     @driver.find_element(:id, "archival_object_title").send_keys(month)
     @driver.find_element(:id, "archival_object_ref_id").send_keys(Digest::MD5.hexdigest("#{month}#{Time.now}"))
-    @driver.find_element(:id => "createPlusOne").click
-  end
 
-  # Prompted to dismiss changes when clicking away
-  while @driver.find_element(:id, "archival_object_title").attribute(:value) != "New Archival Object"
-    sleep 0.2
+    old_element = @driver.find_element(:id, "archival_object_title")
+    @driver.click_and_wait_until_gone(:id => "createPlusOne")
   end
 
   @driver.find_element(:id, "archival_object_title").clear
