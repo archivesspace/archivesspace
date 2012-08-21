@@ -42,7 +42,7 @@ $(function() {
       e.preventDefault();      
       var repo_id = $(this).text();
       $.post($(this).attr("href"), {"repo_id": repo_id}, function(html) {
-         $('.navbar .repository-container').replaceWith(html);
+         document.location = APP_PATH;
       });
    });
 

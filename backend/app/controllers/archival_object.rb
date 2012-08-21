@@ -1,9 +1,12 @@
 class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/archival_objects')
-    .params(["archival_object", JSONModel(:archival_object), "The archival_object to create", :body => true],
-            ["repo_id", Integer, "The repository ID"])
-    .returns([200, "OK"]) \
+    .description("Create an Archival Object")
+    .params(["archival_object", JSONModel(:archival_object), "The Archival Object to create", :body => true],
+            ["repo_id", Integer, "The Repository ID"])
+    .returns([200, :created],
+             [400, :error],
+             [409, '{"error":{"[:collection_id, :ref_id]":["An Archival Object Ref ID must be unique to its collection"]}}']) \
   do
     ao = ArchivalObject.create_from_json(params[:archival_object],
                                          :repo_id => params[:repo_id])
@@ -13,9 +16,13 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/archival_objects/:archival_object_id')
-    .params(["archival_object_id", Integer, "The archival object ID to update"],
-            ["archival_object", JSONModel(:archival_object), "The archival object data to update", :body => true])
-    .returns([200, "OK"]) \
+    .description("Update an Archival Object")
+    .params(["archival_object_id", Integer, "The Archival Object ID to update"],
+            ["archival_object", JSONModel(:archival_object), "The Archival Object data to update", :body => true],
+            ["repo_id", Integer, "The Repository ID"])
+    .returns([200, :updated],
+             [400, :error],
+             [409, '{"error":{"[:collection_id, :ref_id]":["An Archival Object Ref ID must be unique to its collection"]}}']) \
   do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     ao.update_from_json(params[:archival_object])
@@ -25,11 +32,13 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id')
-    .params(["archival_object_id", Integer, "The archival object ID"],
-            ["repo_id", Integer, "The repository ID"],
+    .description("Get an Archival Object by ID")
+    .params(["archival_object_id", Integer, "The Archival Object ID"],
+            ["repo_id", Integer, "The Repository ID"],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
-    .returns([200, "OK"]) \
+    .returns([200, "(:archival_object)"],
+             [404, '{"error":"ArchivalObject not found"}']) \
   do
     json = ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object)
 
@@ -38,9 +47,11 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id/children')
-    .params(["archival_object_id", Integer, "The archival object ID"],
-            ["repo_id", Integer, "The repository ID"])
-    .returns([200, "OK"]) \
+    .description("Get the children of an Archival Object")
+    .params(["archival_object_id", Integer, "The Archival Object ID"],
+            ["repo_id", Integer, "The Repository ID"])
+    .returns([200, "[(:archival_object)]"],
+             [404, '{"error":"ArchivalObject not found"}']) \
   do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     json_response(ao.children.map {|child|
@@ -49,8 +60,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/archival_objects')
-    .params(["repo_id", Integer, "The ID of the repository containing the archival object"])
-    .returns([200, "OK"]) \
+    .description("Get a list of Archival Objects for a Repository")
+    .params(["repo_id", Integer, "The Repository ID"])
+    .returns([200, "[(:archival_object)]"]) \
   do
     json_response(ArchivalObject.filter({:repo_id => params[:repo_id]}).
                                  collect {|ao| ArchivalObject.to_jsonmodel(ao, :archival_object).to_hash})

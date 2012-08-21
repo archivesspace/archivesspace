@@ -326,6 +326,7 @@ $.TokenList = function (input, url_or_data, settings) {
                     break;
 
                 case KEY.TAB:
+                  return true;
                 case KEY.ENTER:
                   event.stopPropagation();
                   event.preventDefault();

@@ -47,17 +47,21 @@ end
 def run_tests
 
   puts "Create a repository"
-  r = do_post(JSON(:repo_code => "test#{$me}",
-                   :description => "integration test repository"),
+  r = do_post({
+                :repo_code => "test#{$me}",
+                :description => "integration test repository"
+              }.to_json,
               url("/repositories"))
 
   repo_id = r[:body]["id"] or fail("Repository creation", r)
 
 
   puts "Create an accession"
-  r = do_post(JSON(:id_0 => "test#{$me}",
-                   :title => "integration test accession",
-                   :accession_date => "2011-01-01"),
+  r = do_post({
+                :id_0 => "test#{$me}",
+                :title => "integration test accession",
+                :accession_date => "2011-01-01"
+              }.to_json,
               url("/repositories/#{repo_id}/accessions"));
 
   acc_id = r[:body]["id"] or fail("Accession creation", r)
@@ -71,25 +75,29 @@ def run_tests
 
 
   puts "Create a collection"
-  r = do_post(JSON(:title => "integration test collection", :id_0 => "abc123"),
+  r = do_post({:title => "integration test collection", :id_0 => "abc123"}.to_json,
               url("/repositories/#{repo_id}/collections"))
 
   coll_id = r[:body]["id"] or fail("Collection creation", r)
 
 
   puts "Create a subject"
-  r = do_post(JSON(:term => "Some term #{$me}",
-                   :term_type => "Function",
-                   :vocabulary => "/vocabularies/1"),
+  r = do_post({
+                :term => "Some term #{$me}",
+                :term_type => "Function",
+                :vocabulary => "/vocabularies/1"
+              }.to_json,
               url("/subjects"))
 
   subject_id = r[:body]["id"] or fail("Subject creation", r)
 
 
   puts "Create an archival object"
-  r = do_post(JSON(:ref_id => "test#{$me}",
-                   :title => "integration test archival object",
-                   :subjects => ["/subjects/#{subject_id}"]),
+  r = do_post({
+                :ref_id => "test#{$me}",
+                :title => "integration test archival object",
+                :subjects => ["/subjects/#{subject_id}"]
+              }.to_json,
               url("/repositories/#{repo_id}/archival_objects"));
 
   ao_id = r[:body]["id"] or fail("Archival Object creation", r)
@@ -103,8 +111,10 @@ def run_tests
 
   puts "Add the archival object to a collection"
   # Note: you could also do this by updating the AO directly
-  r = do_post(JSON(:archival_object => "/repositories/#{repo_id}/archival_objects/#{ao_id}",
-                   :children => []),
+  r = do_post({
+                :archival_object => "/repositories/#{repo_id}/archival_objects/#{ao_id}",
+                :children => []
+              }.to_json,
               url("/repositories/#{repo_id}/collections/#{coll_id}/tree"));
 
   r[:body]["status"] == "Updated" or fail("Add archival object to collection", r)
@@ -122,8 +132,9 @@ end
 def main
 
   # start the backend
-  server = Process.spawn("../build/run", "devserver:integration",
-                         "-Daspace.port=#{$port}",
+  server = Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
+                         "../../build/run", "backend:devserver:integration",
+                         "-Daspace.backend.port=#{$port}",
                          "-Daspace_integration_test=1")
 
 

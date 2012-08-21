@@ -32,5 +32,5 @@
 
   * Run the Rails app:
 
-         $ build/run devserver
+         $ build/run frontend:devserver
 

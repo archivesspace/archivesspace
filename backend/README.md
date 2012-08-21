@@ -14,7 +14,7 @@ MySQL server.
 
 Simply run:
 
-         $ build/run devserver
+         $ build/run backend:devserver
 
 To start the backend.  An Apache Derby database will be automatically
 created for you.  You can connect to the dev server on
@@ -41,4 +41,4 @@ http://localhost:4567/
 
   * Start the dev server and connect to http://localhost:4567/
 
-         $ build/run devserver
+         $ build/run backend:devserver

@@ -9,4 +9,4 @@
 
   * Run the tests
 
-         $ build/run test
+         $ build/run selenium:test

@@ -119,7 +119,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
     def json_response(obj, status = 200)
-      [status, {"Content-Type" => "application/json"}, [JSON(obj)]]
+      [status, {"Content-Type" => "application/json"}, [obj.to_json]]
     end
 
 
@@ -151,10 +151,10 @@ class ArchivesSpaceService < Sinatra::Base
         if session.nil?
           return [412,
                   {"Content-Type" => "application/json"},
-                  [JSON({
-                          :code => "SESSION_GONE",
-                          :error => "No session found for #{session_token}"
-                        })]]
+                  [{
+                     :code => "SESSION_GONE",
+                     :error => "No session found for #{session_token}"
+                   }.to_json]]
         end
       end
 

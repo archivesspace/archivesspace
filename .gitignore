@@ -1,4 +1,8 @@
+build/*.jar
+build/gems
 derby.log
 frontend/doc
 backend/doc
 doc
+config/config.rb
+*.swp
