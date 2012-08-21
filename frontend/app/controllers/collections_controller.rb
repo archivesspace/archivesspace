@@ -69,7 +69,7 @@ class CollectionsController < ApplicationController
 
    def tree
       fetch_collection_tree(JSONModel(:collection).find(params[:id]))
-      render :text => JSON(@collection_tree)
+      render :text => @collection_tree.to_json
    end
    
    def update_tree
