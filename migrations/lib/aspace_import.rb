@@ -203,6 +203,9 @@ end
 class JSONQueue < Array
   include JSONModel
   
+  def initialize
+    @shadow_queue = []
+  end
   # Get a new JSON object and push it into the queue
   
   def push (type)
@@ -233,18 +236,32 @@ class JSONQueue < Array
     # actually save the json object, catch errors, etc.
     if self.length > 0
       strict_mode(true)
-
-      self.last.class.schema['properties'].each do |sp|
-        if sp[1]['type'].match(/^JSONModel/)
-          unless self.last.send(sp[0])
-            puts "Attempting to fill in #{sp[0]}"
+      # are any of the properties other JSON objects? 
+      # if so, stash it in the shadow queue
+      shadow = false
+      self.last.class.schema['properties'].each do |a|
+        if self.last.send(a[0]).class.to_s.match(/^JSONModel/) #ugly
+          shadow = true
+        end
+      end
+      if shadow
+        @shadow_queue.push(self.last)
+      else
+        puts "Saving #{self.last.to_s}"
+        saved_key = @json_queue.last.save({:repo_id => '1'})
+        puts "Saved #{saved_key}"
+        #saved_key = rand(26)
+        
+        
+        # Go through the shadow queue and save anything that can be saved
+        @shadow_queue.each do |jo|
+          jo.last.class.schema['properties'].each do |a|
+            if jo.send(a[0]).class.to_s.match(/^SJONModel/)
+              puts "REference #{jo.send(a[0]).to_s}"
+            end
           end
         end
       end
-
-      puts "Saving #{self.last.to_s}"
-      #saved_key = @json_queue.last.save({:repo_id => '1'})
-      #puts "Saved #{saved_key}"
       super
     end
   end
