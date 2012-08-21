@@ -14,9 +14,10 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/archival_objects/:archival_object_id')
+    .description("Update an Archival Object")
     .params(["archival_object_id", Integer, "The archival object ID to update"],
             ["archival_object", JSONModel(:archival_object), "The archival object data to update", :body => true])
-    .returns([200, "OK"]) \
+    .returns([200, :updated]) \
   do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     ao.update_from_json(params[:archival_object])
@@ -31,7 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", Integer, "The repository ID"],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
-    .returns([200, JSONModel(:archival_object)]) \
+    .returns([200, "(:archival_object)"]) \
   do
     json = ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object)
 
@@ -40,9 +41,10 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id/children')
+    .description("Get the children of an Archival Object")
     .params(["archival_object_id", Integer, "The archival object ID"],
             ["repo_id", Integer, "The repository ID"])
-    .returns([200, "OK"]) \
+    .returns([200, "[(:archival_object)]"]) \
   do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     json_response(ao.children.map {|child|

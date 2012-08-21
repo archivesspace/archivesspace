@@ -27,7 +27,9 @@ module RESTHelpers
     @@endpoints = []
 
     @@return_types = {
-      :created => '{:status => "Created", :id => [id of created object]}'
+      :created => '{:status => "Created", :id => (id of created object), :warnings => {(warnings)}}',
+      :updated => '{:status => "Updated", :id => (id of updated object)}',
+      :error => '{:error => (description of error)}'
     }
 
     def initialize(method)
