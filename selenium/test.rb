@@ -245,6 +245,8 @@ def run_tests
 
   logout
 
+  @driver.quit
+
 end
 
 
@@ -295,6 +297,8 @@ def main
     puts "ALL OK"
   rescue
     puts "TEST FAILED: #{$!}"
+    puts e.backtrace.join("\n")
+
     status = 1
   end
 
