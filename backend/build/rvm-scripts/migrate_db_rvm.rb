@@ -7,4 +7,6 @@ export JRUBY_OPTS
 
 export RUBYLIB=$base/../app/lib:$RUBYLIB
 
-jruby $base/../app/main.rb
+echo $1
+
+jruby $base/../scripts/migrate_db.rb $1
