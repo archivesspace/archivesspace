@@ -297,7 +297,7 @@ def main
     puts "ALL OK"
   rescue
     puts "TEST FAILED: #{$!}"
-    puts e.backtrace.join("\n")
+    puts $!.backtrace.join("\n")
 
     status = 1
   end
