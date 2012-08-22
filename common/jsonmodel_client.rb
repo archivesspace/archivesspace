@@ -50,7 +50,7 @@ module JSONModel
       @errors = nil
 
       type = self.class.record_type
-      response = self.class._post_json(self.class.my_url(self.id, opts), self.to_json)
+      response = self.class._post_json(self.class.my_url(self.id, opts.clone), self.to_json)
 
       if response.code == '200'
         response = JSON.parse(response.body)
