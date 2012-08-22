@@ -9,16 +9,6 @@ $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 
 
-def create_test_user
-  user = "testuser#{Time.now.to_i}"
-
-  Net::HTTP::post_form(URI("#{$backend}/auth/local/user/#{user}"),
-                       :password => "testuser")
-
-  user
-end
-
-
 class Selenium::WebDriver::Driver
   RETRIES = 20
 
@@ -42,6 +32,7 @@ class Selenium::WebDriver::Driver
           try += 1
           sleep 0.5
         else
+          puts "Failed to find #{selectors}"
           raise e
         end
       end
@@ -91,12 +82,28 @@ class Selenium::WebDriver::Driver
 end
 
 
+def create_user
+   @driver.find_element(:link, "Sign In").click
+   @driver.find_element(:link, "Register now").click
+
+   @driver.find_element(:id, "createuser_username").send_keys @user
+   @driver.find_element(:id, "createuser_name").send_keys @user
+   @driver.find_element(:id, "createuser_password").send_keys "testuser"
+   @driver.find_element(:id, "createuser_confirm_password").send_keys "testuser"
+
+   @driver.find_element(:id, 'create_account').click
+
+   @driver.find_element(:xpath => "//span[@class='user-label']").text =~ /#{@user}/
+end
+
+
 def login
    ## Complete the login process
    @driver.find_element(:link, "Sign In").click
    @driver.find_element(:id, 'user_username').send_keys @user
    @driver.find_element(:id, 'user_password').send_keys "testuser"
-   @driver.find_element(:id, 'login').click  
+
+   @driver.find_element(:id, 'login').click
 end
 
 
@@ -110,6 +117,10 @@ end
 
 def run_tests
   @driver.navigate.to $frontend
+
+  create_user
+
+  logout
 
   login
 
@@ -307,7 +318,7 @@ def main
   end
 
 
-  @user = create_test_user
+  @user = "testuser#{Time.now.to_i}"
   @driver = Selenium::WebDriver.for :firefox
 
 

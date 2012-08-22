@@ -1,14 +1,23 @@
 require 'net/http'
 require 'json'
 
-class User
-  def initialize(json)
-    @data = JSON.parse(json)
+class User < JSONModel(:user)
+
+  def self.establish_session(session, backend_session, username)
+    session[:session] = backend_session
+    session[:user] = username
   end
-  
+
+
   def self.login(username, password)
-      login_uri = URI("#{ArchivesSpace::Application.config.backend_url}/auth/user/#{username}/login")
-      response = Net::HTTP.post_form(login_uri, :password=>password)
-      JSON.parse(response.body)
-  end   
+    uri = JSONModel(:user).uri_for(username)
+
+    response = self.post_form("#{uri}/login", :password => password)
+
+    if response.code == '200'
+      JSON.parse(response.body)["session"]
+    else
+      nil
+    end
+  end
 end

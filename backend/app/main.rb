@@ -79,8 +79,8 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => request.env['sinatra.error']}, 404)
   end
 
-  error MissingParamsException do
-    json_response({:error => request.env['sinatra.error']}, 400)
+  error BadParamsException do
+    json_response({:error => request.env['sinatra.error'].params}, 400)
   end
 
   error ValidationException do

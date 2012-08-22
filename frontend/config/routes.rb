@@ -19,7 +19,9 @@ ArchivesSpace::Application.routes.draw do
     post 'create'
   end
   match 'repository/select/:id' => 'repository#select', :via => [:post]
-  
+
+  resources :users
+
   resources :accessions
   resources :archival_objects
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]

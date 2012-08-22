@@ -25,3 +25,9 @@ en:
    subject:
       term: Term
       term_type: Type
+   createuser:
+      username: Username
+      name: Your full name
+      password: Password
+      confirm_password: Confirm your password
+      passwords: Passwords

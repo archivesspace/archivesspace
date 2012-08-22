@@ -1,4 +1,9 @@
-class MissingParamsException < StandardError
+class BadParamsException < StandardError
+  attr_accessor :params
+
+  def initialize(params)
+    @params = params
+  end
 end
 
 class ConflictException < StandardError

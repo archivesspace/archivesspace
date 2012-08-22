@@ -26,12 +26,12 @@ $(function() {
          $("#login").attr("disabled","disabled");
       },
       success: function(response, status, xhr) {
-         if (response.hasOwnProperty("error")) {
-            handleLoginError();
+         if (response["session"]) {
+            handleLoginSuccess();
          } else {
-             handleLoginSuccess();
+            handleLoginError();
          }
-      }, 
+      },
       error: function(obj, errorText, errorDesc) {         
          handleLoginError();
       }

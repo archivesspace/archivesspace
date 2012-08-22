@@ -71,6 +71,13 @@ module JSONModel
     end
 
 
+    def add_error(field, message)
+      @errors ||= {}
+      @errors[field.to_s] ||= []
+      @errors[field.to_s] << message
+    end
+
+
     module ClassMethods
 
       def self.extended(base)
@@ -88,17 +95,19 @@ module JSONModel
       end
 
 
+      def backend_url
+        if Module.const_defined?(:BACKEND_SERVICE_URL)
+          BACKEND_SERVICE_URL
+        else
+          JSONModel::init_args[:url]
+        end
+      end
+
       # Given the ID of a JSONModel instance, return its full URL (including the
       # URL of the backend)
       def my_url(id = nil, opts = {})
 
-        if Module.const_defined?(:BACKEND_SERVICE_URL)
-          backend = BACKEND_SERVICE_URL
-        else
-          backend = JSONModel::init_args[:url]
-        end
-
-        url = URI("#{backend}#{self.uri_for(id, opts)}")
+        url = URI("#{backend_url}#{self.uri_for(id, opts)}")
 
         # Don't need to pass this as a URL parameter if it wasn't picked up by
         # the URI template substitution.
@@ -143,6 +152,12 @@ module JSONModel
         else
           raise response.body
         end
+      end
+
+
+      # Perform a HTTP POST request against the backend with form parameters
+      def post_form(uri, params = {})
+        Net::HTTP.post_form(URI("#{backend_url}#{uri}"), params)
       end
 
 
