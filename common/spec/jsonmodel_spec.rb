@@ -82,8 +82,7 @@ describe JSONModel do
     File.stub(:basename){ 'stub' }
     File.stub_chain("open.read") { schema }
     # File.stub(:open).with('stub'){'stub'}
-    Dir.stub_chain(:glob, :sort => 'stub') 
-
+    
 
     Net::HTTP.stub(:start){ StubHTTP.new }
     
