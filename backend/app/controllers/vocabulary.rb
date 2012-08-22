@@ -36,6 +36,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/vocabularies/:vocab_id/terms')
+    .params(["vocab_id", Integer, "The vocabulary ID"])
+    .returns([200, "OK"]) \
+  do
+     json_response(Term.filter({:vocab_id => params[:vocab_id]}).collect {|t|
+                      Term.to_jsonmodel(t, :term).to_hash})
+  end
+
+
   Endpoint.get('/vocabularies/:vocab_id')
     .params(["vocab_id", Integer, "The vocabulary ID"])
     .returns([200, "OK"]) \

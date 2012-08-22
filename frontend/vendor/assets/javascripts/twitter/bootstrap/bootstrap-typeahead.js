@@ -197,9 +197,10 @@
         default:
           this.lookup()
       }
-
-      e.stopPropagation()
-      e.preventDefault()
+      // ASPACE Customisation
+      // Allow propagation of native event
+      //e.stopPropagation()
+      //e.preventDefault()
   }
 
   , keypress: function (e) {

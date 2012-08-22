@@ -224,12 +224,24 @@ def run_tests
   @driver.find_element(:link, "Analog Object").click
   @driver.find_element(:id, "archival_object_title").clear
   @driver.find_element(:id, "archival_object_title").send_keys("Christmas cards")
-  @driver.find_element(:id, "archival_object_ref_id").send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+  @driver.find_element(:id, "archival_object_ref_id").send_keys(Digest::MD5.hexdigest("#{Time.now}"))  
 
-  # TODO: This actually reveals a bug: the last edit gets lost unless I click
-  # save manually first.
-  @driver.find_element(:css => "form#new_archival_object button[type='submit']").click
-  # @driver.find_element(:id => "save_and_finish_editing").click
+  # Create a subject on the fly
+  @driver.find_element(:css, ".linker-wrapper a.btn").click
+  @driver.find_element(:css, "a.linker-create-btn").click
+  @driver.find_element(:css, "form#new_subject .row-fluid:first-child input").send_keys("TestTerm123")
+  @driver.find_element(:css, "form#new_subject .row-fluid:first-child .add-term-btn").click
+  @driver.find_element(:css, "form#new_subject .row-fluid:last-child input").send_keys("FooTerm456")
+  @driver.find_element(:id, "createAndLinkButton").click
+  
+  # remove the subject
+  @driver.find_element(:css, ".token-input-delete-token").click
+
+  # search for the created subject
+  @driver.find_element(:id, "token-input-").send_keys("Foo")
+  @driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+  @driver.find_element(:css, "form#new_archival_object button[type='submit']").click
 
 
   ## Check browse list for collections
