@@ -6,7 +6,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri_or_object"}},
+      "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri_or_object"}, "ifmissing" => "error", "minItems" => 1},
 
       "vocabulary" => {"type" => "JSONModel(:vocabulary) uri", "required" => true},
      },

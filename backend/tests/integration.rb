@@ -81,10 +81,22 @@ def run_tests
   coll_id = r[:body]["id"] or fail("Collection creation", r)
 
 
+  puts "Create a subject with no terms"
+  r = do_post({
+                :terms => [],
+                :vocabulary => "/vocabularies/1"
+              }.to_json,
+              url("/subjects"))
+  r[:status] === "400" or fail("Invalid subject check", r)
+
+
   puts "Create a subject"
   r = do_post({
-                :term => "Some term #{$me}",
-                :term_type => "Function",
+                :terms => [
+                  :term => "Some term #{$me}",
+                  :term_type => "Function",
+                  :vocabulary => "/vocabularies/1"
+                ],
                 :vocabulary => "/vocabularies/1"
               }.to_json,
               url("/subjects"))
@@ -105,7 +117,7 @@ def run_tests
 
   puts "Retrieve the archival object with subjects resolved"
   r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}?resolve[]=subjects"))
-  r[:body]["subjects"][0]["term"] == "Some term #{$me}" or
+  r[:body]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
     fail("Archival object fetch", r)
 
 
