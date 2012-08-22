@@ -51,8 +51,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     set :raise_errors, Proc.new { false }
     set :show_exceptions, false
-
-    set :logging, true
+    set :logging, false
   end
 
 
@@ -111,6 +110,19 @@ class ArchivesSpaceService < Sinatra::Base
 
   def session
     @session
+  end
+
+
+  def filter_passwords(params)
+    params = params.clone
+
+    ["password", :password].each do|param|
+      if params[param]
+        params[param] = "[FILTERED]"
+      end
+    end
+
+    params
   end
 
 
@@ -173,7 +185,7 @@ class ArchivesSpaceService < Sinatra::Base
       end_time = Time.now
 
       if ArchivesSpaceService.development?
-        Log.debug("Request time: #{(end_time - start_time) * 1000}ms")
+        Log.debug("Responded with #{result} in #{(end_time - start_time) * 1000}ms")
       end
 
       result

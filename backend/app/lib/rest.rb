@@ -92,7 +92,7 @@ module RESTHelpers
 
         if self.class.development?
           Log.debug("#{method.to_s.upcase} #{uri}")
-          Log.debug("Request parameters: #{params.inspect}")
+          Log.debug("Request parameters: #{filter_passwords(params).inspect}")
         end
 
         self.instance_eval &block
