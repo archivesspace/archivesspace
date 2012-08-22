@@ -1,6 +1,7 @@
 Sequel.migration do
   up do
     DB_TYPE = self.database_type
+
     create_table(:sessions) do
       primary_key :id
       String :session_id, :unique => true, :null => false
@@ -193,21 +194,14 @@ Sequel.migration do
   end
 
   down do
-    drop_table?(:sessions)
-    drop_table?(:auth_db)
 
-    drop_table?(:groups_users)
-    drop_table?(:users)
-    drop_table?(:groups)
+    [:subjects_terms, :archival_objects_subjects, :subjects, :terms, :sessions,
+     :auth_db, :groups_users, :users, :groups, :accessions,
+     :archival_objects, :vocabularies,
+     :collections, :repositories].each do |table|
+      puts "Dropping #{table}"
+      drop_table?(table)
+    end
 
-    drop_table?(:accessions)
-
-    drop_table?(:archival_objects_subjects)
-
-    drop_table?(:subjects)
-    drop_table?(:archival_objects)
-    drop_table?(:vocabularies)
-    drop_table?(:collections)
-    drop_table?(:repositories)
   end
 end
