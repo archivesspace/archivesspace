@@ -12,6 +12,8 @@
       "id_3" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
 
       "title" => {"type" => "string", "minLength" => 1, "required" => true},
+
+      "subjects" => {"type" => "array", "items" => {"type" => "JSONModel(:subject) uri_or_object"}},
     },
 
     "additionalProperties" => false,

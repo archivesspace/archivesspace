@@ -19,7 +19,7 @@ class CollectionsController < ApplicationController
    end
 
    def edit
-      @collection = JSONModel(:collection).find(params[:id])
+      @collection = JSONModel(:collection).find(params[:id], "resolve[]" => "subjects")
 
       if params[:inline]
          return render :partial=>"collections/edit_inline"
@@ -45,7 +45,7 @@ class CollectionsController < ApplicationController
    end
 
    def update
-     @collection = JSONModel(:collection).find(params[:id])
+     @collection = JSONModel(:collection).find(params[:id], "resolve[]" => "subjects")
      begin
          @collection.replace(params['collection'])
 

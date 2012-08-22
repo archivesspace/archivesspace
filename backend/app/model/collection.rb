@@ -2,6 +2,7 @@ class Collection < Sequel::Model(:collections)
   plugin :validation_helpers
   include ASModel
   include Identifiers
+  include Subjects
 
 
   def link(opts)

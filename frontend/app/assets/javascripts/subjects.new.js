@@ -68,7 +68,7 @@ $(function() {
    };
    
    $(document).ready(function() {
-      $(".dynamic-content").ajaxComplete(function() {
+      $(document).ajaxComplete(function() {
          $("#new_subject:not(.initialised)").init_subject_form();
       });
 
