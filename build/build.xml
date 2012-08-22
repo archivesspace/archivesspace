@@ -69,6 +69,17 @@
   </target>
 
 
+  <!-- Common -->
+  <target name="common:test" description="Run the unit test suite for common">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../common">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
+    </java>
+  </target>
+
+
   <!-- Backend -->
   <target name="backend:test" description="Run the unit test suite">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
