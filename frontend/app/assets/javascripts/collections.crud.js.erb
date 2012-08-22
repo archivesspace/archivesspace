@@ -1,7 +1,7 @@
 //= require jquery.cookie
 //= require jquery.ba-hashchange
 //= require jstree
-//= require subjects.new
+//= require subjects.crud
 
 $(function() {
 
@@ -404,12 +404,13 @@ $(function() {
              });
          });
    };
-   
-   
-   renderTree();
-   initTree(function() {
-       loadPaneForNode($(".selected", $tree));
-   });   
-   addEventBindings();
-   
+
+   if ($tree.length) {
+      renderTree();
+      initTree(function() {
+          loadPaneForNode($(".selected", $tree));
+      });   
+      addEventBindings();
+   }
+
 });
