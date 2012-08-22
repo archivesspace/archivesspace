@@ -24,21 +24,25 @@
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S gem install bundler" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../backend/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../frontend/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium/Gemfile'" />
     </java>
   </target>
@@ -49,6 +53,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb" />
     </java>
   </target>
@@ -58,6 +63,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb nuke" />
     </java>
   </target>
@@ -69,6 +75,7 @@
           failonerror="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
   </target>
@@ -79,6 +86,7 @@
           failonerror="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 tests/integration.rb" />
     </java>
   </target>
@@ -88,6 +96,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
   </target>
@@ -98,6 +107,7 @@
           dir="../backend">
       <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <arg line="--1.9 app/main.rb ${aspace.backend.port}" />
     </java>
@@ -110,6 +120,7 @@
           dir="../frontend">
       <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 script/rails server --port=${aspace.frontend.port}" />
     </java>
   </target>
@@ -119,6 +130,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 script/rails console" />
     </java>
   </target>
@@ -132,12 +144,14 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S rake assets:precompile" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
 
@@ -151,6 +165,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../selenium" failonerror="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 test.rb" />
     </java>
   </target>
