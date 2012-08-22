@@ -75,11 +75,15 @@ describe JSONModel do
 
 
 
-    File.stub(:dirname){ 'stub' }
-    File.stub(:join){ 'stub' }
+    # File.stub(:dirname){ 'stub' }
+    # File.stub(:join){ 'stub' }
+    # File.stub(:join).with("schemas", "*.rb") { 'stub' }
     Dir.stub(:glob){ ['stub'] }
     File.stub(:basename){ 'stub' }
-    File.stub(:open).with('stub'){'stub'}
+    File.stub_chain("open.read") { schema }
+    # File.stub(:open).with('stub'){'stub'}
+    Dir.stub_chain(:glob, :sort => 'stub') 
+
 
     Net::HTTP.stub(:start){ StubHTTP.new }
     
