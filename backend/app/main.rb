@@ -206,5 +206,9 @@ end
 
 if $0 == __FILE__
   Log.info("Dev server starting up...")
-  ArchivesSpaceService.run!(:port => (ARGV[0] or 4567))
+  ArchivesSpaceService.run!(:port => (ARGV[0] or 4567)) do |server|
+    server.instance_eval do
+      @config[:AccessLog] = []
+    end
+  end
 end
