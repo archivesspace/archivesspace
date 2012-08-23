@@ -284,8 +284,31 @@ end
 
 def main
 
-  backend = TestUtils::start_backend($backend_port)
-  frontend = TestUtils::start_frontend($frontend_port, $backend)
+  standalone = true
+
+  if ENV["ASPACE_BACKEND_URL"] and ENV["ASPACE_FRONTEND_URL"]
+    $backend = ENV["ASPACE_BACKEND_URL"]
+    $frontend = ENV["ASPACE_FRONTEND_URL"]
+    standalone = false
+  end
+
+  (backend, frontend) = [false, false]
+  if standalone
+    backend = TestUtils::start_backend($backend_port)
+    frontend = TestUtils::start_frontend($frontend_port, $backend)
+  end
+
+
+  while true
+    begin
+      Net::HTTP.get(URI($frontend))
+      break
+    rescue
+      # Keep trying
+      puts "Waiting for frontend (#{$!.inspect})"
+      sleep(5)
+    end
+  end
 
   TestUtils::wait_for_url(URI($frontend))
   TestUtils::wait_for_url(URI($backend))
@@ -305,8 +328,8 @@ def main
     status = 1
   end
 
-  TestUtils::kill(backend)
-  TestUtils::kill(frontend)
+  TestUtils::kill(backend) if backend
+  TestUtils::kill(frontend) if frontend
 
   exit(status)
 end
