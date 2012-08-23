@@ -143,22 +143,31 @@ $(function() {
         }
    };
 
-   var loadTreeActionsForNode = function(nodeEl) {
-      // render tree navigation
-      $container.bind("form.loaded", function() {
-         $container.find(".tree-navigation").remove();
-         var allNodes = $tree.find("li");
-         var indexOfCurrentNode = allNodes.index(nodeEl);
-         var data = {};
-         if (indexOfCurrentNode !== 0) {
-            data.previous = allNodes.get(indexOfCurrentNode-1).id;
-         }
-         if (indexOfCurrentNode+1 < allNodes.length) {
-            data.next = allNodes.get(indexOfCurrentNode+1).id;
-         }
-         $container.prepend(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
-      });
-      
+   var renderTreeNodeNavigation = function(event) {
+      // only continue if target is the $container
+      if (this !== $container[0]) {
+         return;
+      }
+      var currentNodeEl = $(".selected", $tree);
+      if (currentNodeEl.length === 0) {
+         return;
+      }
+
+      $container.find(".tree-navigation").remove();
+      var allNodes = $tree.find("li");
+      var indexOfCurrentNode = allNodes.index(currentNodeEl);
+      var data = {};
+      if (indexOfCurrentNode !== 0) {
+         data.previous = allNodes.get(indexOfCurrentNode-1).id;
+      }
+      if (indexOfCurrentNode+1 < allNodes.length) {
+         data.next = allNodes.get(indexOfCurrentNode+1).id;
+      }
+      $container.prepend(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
+   };
+   $container.ajaxComplete(renderTreeNodeNavigation);
+
+   var loadTreeActionsForNode = function(nodeEl) {      
       // render tree toolbar
       $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
       if ((nodeEl.hasClass("collection") && nodeEl.find("> ul > li").length>0) || nodeEl.attr("id") === "newAO") {
