@@ -92,7 +92,7 @@ module RESTHelpers
 
         if self.class.development?
           Log.debug("#{method.to_s.upcase} #{uri}")
-          Log.debug("Request parameters: #{params.inspect}")
+          Log.debug("Request parameters: #{filter_passwords(params).inspect}")
         end
 
         self.instance_eval &block
@@ -166,17 +166,17 @@ module RESTHelpers
         end
 
         if not errors.values.flatten.empty?
-          s = "Your request parameters weren't quite right:\n\n"
+          result = {}
 
           errors[:missing].each do |missing|
-            s += "  * Missing value for '#{missing[:name]}' -- #{missing[:doc]}\n"
+            result[missing[:name]] = ["Parameter required but no value provided"]
           end
 
           errors[:bad_type].each do |bad|
-            s += "  * Invalid type for '#{bad[:name]}' -- Wanted type #{bad[:type]} but got '#{params[bad[:name]]}'\n"
+            result[bad[:name]] = ["Wanted type #{bad[:type]} but got '#{params[bad[:name]]}'"]
           end
 
-          raise MissingParamsException.new(s)
+          raise BadParamsException.new(result)
         end
       end
     end

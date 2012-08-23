@@ -259,7 +259,7 @@ module JSONModel
             if exception_type == "error"
               errors[property] = ["Property is required but was missing"]
             else
-              warnings[property] = ["Property is required but was missing"]
+              warnings[property] = ["Property was missing"]
             end
 
           elsif (message[:failed_attribute] == 'Pattern' and

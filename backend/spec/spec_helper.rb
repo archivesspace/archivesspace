@@ -90,12 +90,6 @@ end
 RSpec.configure do |config|
   config.include Rack::Test::Methods
 
-  user_manager = UserManager.new
-  user_manager.create_user("test1", "Tester", "1", "local")
-  db_auth = DBAuth.new
-  db_auth.set_password("test1", "test1_123")
-
-
   # Roll back the database after each test
   config.around(:each) do |example|
     DB.open(true) do

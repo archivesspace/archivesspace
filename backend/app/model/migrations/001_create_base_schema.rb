@@ -27,15 +27,8 @@ Sequel.migration do
       primary_key :id
 
       String :username, :null => false, :unique => true
-      String :first_name, :null => false
-      String :last_name, :null => false
-      String :auth_source, :null => false
-      String :email, :null => true
-      String :phone, :null => true
-      String :title, :null => true
-      String :department, :null => true
-      String :contact, :null => true
-      String :notes, :null => true
+      String :name, :null => false
+      String :source, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
