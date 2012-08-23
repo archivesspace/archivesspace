@@ -182,6 +182,7 @@ Sequel.migration do
 
     create_join_table(:subject_id=>:subjects, :term_id=>:terms)
     create_join_table(:subject_id=>:subjects, :archival_object_id=>:archival_objects)
+    create_join_table(:subject_id=>:subjects, :collection_id=>:collections)
 
 
   end

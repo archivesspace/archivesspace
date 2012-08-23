@@ -1,7 +1,7 @@
 <% if session[:user] %>
   <li class="dropdown user-container">
      <div class="input-append">
-        <span class="user-label"><span class="icon-user icon-white"></span> <%= session[:user] %></span><a class="btn btn-inverse dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <span class="user-label"><span class="icon-user"></span> <%= session[:user] %></span><a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><%= link_to "Logout", :controller=>"session",:action=>"logout"%></li>
           </ul>

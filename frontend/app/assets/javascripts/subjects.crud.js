@@ -19,8 +19,31 @@ $(function() {
                $row.find("select").val(term.term_type);
             }
             $(".terms-container", $this).append($row);
+            
+            var typeahead_data = $(".terms-container .row-fluid:last :text:first", $this).data("source");
+            var typeahead_source= typeahead_data.length === 0?[]:typeahead_data.map(function(item) {return item.term;});
+            
             $(".terms-container .row-fluid:last :text:first", $this)
-               .typeahead($(".terms-container .row-fluid:last :text:first", $this).data())
+               .typeahead({
+                  source: function(query, process) {
+                      return typeahead_data;
+                  },
+                  matcher: function(item) {
+                     return item.term && item.term.toLowerCase().indexOf(this.query.toLowerCase()) >= 0
+                  },
+                  sorter: function(items) {
+                     return items.sort(function(a, b) {
+                        return a.term > b.term;
+                     });
+                  },
+                  highlighter: function(item) {
+                     return $.proxy(this.__proto__.highlighter, this)(item.term);
+                  },
+                  updater: function(item) {
+                     $("select", this.$element.parents(".row-fluid:first")).val(item.term_type);
+                     return item.term;
+                  }
+               })
                .focus();
             $(".terms-container .row-fluid:last .add-term-btn", $this).show();
          };
@@ -68,7 +91,7 @@ $(function() {
    };
    
    $(document).ready(function() {
-      $(".dynamic-content").ajaxComplete(function() {
+      $(document).ajaxComplete(function() {
          $("#new_subject:not(.initialised)").init_subject_form();
       });
 

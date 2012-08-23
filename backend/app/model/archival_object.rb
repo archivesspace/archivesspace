@@ -1,27 +1,11 @@
 class ArchivalObject < Sequel::Model(:archival_objects)
   plugin :validation_helpers
   include ASModel
+  include Subjects
 
-  many_to_many :subjects
 
   def children
     ArchivalObject.filter(:parent_id => self.id)
-  end
-
-
-  def self.apply_subjects(ao, json, opts)
-    ao.remove_all_subjects
-
-    (json.subjects or []).each do |uri|
-      subject = Subject[JSONModel(:subject).id_for(uri)]
-      if subject.nil?
-        raise JSONModel::ValidationException.new(:errors => {
-                                                   :subjects => ["No subject found for #{uri}"]
-                                                 })
-      else
-        ao.add_subject(subject)
-      end
-    end
   end
 
 

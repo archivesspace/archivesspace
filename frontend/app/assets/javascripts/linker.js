@@ -175,7 +175,7 @@ $(function() {
 });
 
 $(document).ready(function() {
-   $(".dynamic-content").ajaxComplete(function() {
+   $(document).ajaxComplete(function() {
       $(".linker:not(.initialised)").linker();
    });
    

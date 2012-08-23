@@ -11,7 +11,7 @@
           <% if session[:user] and session[:repo_id] %>
           <ul class="nav">
             <li <% if controller_name === "welcome" %>class="active"<% end %>>
-               <%= link_to raw('<span class="icon-home icon-white"></span>'), :controller=>:welcome, :action=>:index %>
+               <%= link_to raw('<span class="icon-home"></span>'), :controller=>:welcome, :action=>:index %>
             </li>
             <li class="dropdown browse-container">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>

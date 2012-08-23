@@ -13,10 +13,14 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/collections/:collection_id')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", Integer, "The repository ID"],
+            ["resolve", [String], "A list of references to resolve and embed in the response",
+             :optional => true])
     .returns([200, "OK"]) \
   do
-    Collection.to_jsonmodel(params[:collection_id], :collection).to_json
+     json = Collection.to_jsonmodel(params[:collection_id], :collection)
+
+     json_response(resolve_references(json, params[:resolve]))
   end
 
 

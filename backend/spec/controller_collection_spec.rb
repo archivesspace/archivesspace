@@ -123,4 +123,25 @@ describe 'Collections controller' do
   end
 
 
+  it "lets you create a collection with a subject" do
+    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab", 
+                                             "ref_id" => "abc"
+                                            )
+    vocab.save
+    vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
+    subject = JSONModel(:subject).from_hash("terms"=>[{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => vocab_uri}],
+                                            "vocabulary" => vocab_uri
+                                            )
+    subject.save
+
+    collection = JSONModel(:collection).from_hash("title" => "a collection", 
+                                                  "id_0" => "abc123",
+                                                  "subjects" => [subject.uri]
+                                                 )
+    coll_id = collection.save
+
+    JSONModel(:collection).find(coll_id).subjects[0].should eq(subject.uri)
+  end
+
+
 end
