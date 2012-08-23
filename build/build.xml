@@ -126,7 +126,12 @@
 
 
   <!-- Frontend -->
-  <target name="frontend:devserver" description="Start an instance of the ArchivesSpace frontend development server">
+  <target name="frontend:clean" description="Delete the Rails tmp directory">
+    <delete dir="../frontend/tmp" />
+  </target>
+        
+
+  <target name="frontend:devserver" depends="frontend:clean" description="Start an instance of the ArchivesSpace frontend development server">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <jvmarg line="${env.JAVA_OPTS}"/>
@@ -147,7 +152,7 @@
   </target>
 
 
-  <target name="frontend:war" depends="bootstrap" description="Deploy the frontend application as a .war file">
+  <target name="frontend:war" depends="frontend:clean, bootstrap" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
     <delete dir="../frontend/tmp" />
