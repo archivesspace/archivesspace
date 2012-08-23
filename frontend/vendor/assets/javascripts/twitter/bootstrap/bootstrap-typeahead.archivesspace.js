@@ -21,6 +21,7 @@
  * Customisations for Archives Space include:
  * - in render, store item as data on the dropdown option to support
  *   objects as items
+ * - allow native events to propagate on keyup
  * ============================================================ */
 
 !function($){
@@ -242,9 +243,10 @@
         default:
           this.lookup()
       }
-
-      e.stopPropagation()
-      e.preventDefault()
+      // ArchivesSpace customisations: allow all native events to
+      // still propagate.
+      //e.stopPropagation()
+      //e.preventDefault()
   }
 
   , blur: function (e) {
