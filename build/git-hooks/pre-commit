@@ -1,0 +1,18 @@
+#!/bin/bash
+
+warn_expressions="^\+\s*(puts|console\.log|debugger|print)"
+
+git diff --cached | egrep "$warn_expressions" >/dev/null 2>&1
+
+if [ "$?" == "0" ]; then
+    echo "WARNING: Found some slightly strange looking lines in this commit:"
+    echo
+    git diff --cached | egrep "$warn_expressions"
+    echo
+    echo "You can ignore this message if they look OK."
+    echo
+    echo "If you didn't mean to include these lines, you can remove them now"
+    echo "and then 'git add' and 'git commit --amend' to correct your commit"
+    echo "prior to pushing it."
+    echo
+fi
