@@ -26,6 +26,12 @@ module RESTHelpers
 
     @@endpoints = []
 
+    @@param_types = {
+      :repo_id => [Integer,
+                   "The Repository ID",
+                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}]
+    }
+
     @@return_types = {
       :created => '{:status => "Created", :id => (id of created object), :warnings => {(warnings)}}',
       :updated => '{:status => "Updated", :id => (id of updated object)}',
@@ -60,12 +66,16 @@ module RESTHelpers
 
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
-    def params(*params); @required_params = params; self; end
+
+    def params(*params)
+      @required_params = params.map do |p|
+        @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
+      end
+      self
+    end
 
     def returns(*returns, &block)
-
-      returns.map { |r| r[1] = @@return_types[r[1]] || r[1] }
-      @returns = returns
+      @returns = returns.map { |r| r[1] = @@return_types[r[1]] || r[1]; r }
 
       @@endpoints << self
 
@@ -136,7 +146,8 @@ module RESTHelpers
 
         errors = {
           :missing => [],
-          :bad_type => []
+          :bad_type => [],
+          :failed_validation => []
         }
 
         declared_params.each do |definition|
@@ -161,6 +172,12 @@ module RESTHelpers
                 errors[:bad_type] << {:name => name, :doc => doc, :type => type}
               end
             end
+            
+            if opts[:validation]
+              if not opts[:validation][1].call(params[name.intern])
+                errors[:failed_validation] << {:name => name, :doc => doc, :type => type, :validation => opts[:validation][0]}
+              end
+            end
 
           end
         end
@@ -174,6 +191,10 @@ module RESTHelpers
 
           errors[:bad_type].each do |bad|
             result[bad[:name]] = ["Wanted type #{bad[:type]} but got '#{params[bad[:name]]}'"]
+          end
+
+          errors[:failed_validation].each do |failed|
+            result[failed[:name]] = ["Failed validation -- #{failed[:validation]}'"]
           end
 
           raise BadParamsException.new(result)

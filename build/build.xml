@@ -125,6 +125,18 @@
   </target>
 
 
+  <target name="backend:doc" description="Generate documentation for endpoints">
+    <property name="match" value=""/>
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          dir="../backend">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 -Iapp scripts/endpoint_doc.rb"/>
+      <arg value="${match}"/>
+    </java>
+  </target>
+
+
   <!-- Frontend -->
   <target name="frontend:devserver" description="Start an instance of the ArchivesSpace frontend development server">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"

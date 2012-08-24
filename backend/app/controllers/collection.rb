@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/collections')
     .params(["collection", JSONModel(:collection), "The collection to create", :body => true],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     collection = Collection.create_from_json(params[:collection], :repo_id => params[:repo_id])
@@ -13,7 +13,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/collections/:collection_id')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
-            ["repo_id", Integer, "The repository ID"],
+            ["repo_id", :repo_id],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
     .returns([200, "OK"]) \
@@ -26,7 +26,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/collections/:collection_id/tree')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     collection = Collection.get_or_die(params[:collection_id])
@@ -44,7 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/collections/:collection_id')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
             ["collection", JSONModel(:collection), "The collection to create", :body => true],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     collection = Collection.get_or_die(params[:collection_id])
@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/collections/:collection_id/tree')
     .params(["collection_id", Integer, "The ID of the collection to retrieve"],
             ["tree", JSONModel(:collection_tree), "A JSON tree representing the modified hierarchy", :body => true],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     collection = Collection.get_or_die(params[:collection_id])
@@ -68,7 +68,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/collections')
-    .params(["repo_id", Integer, "The repository ID"])
+    .params(["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     json_response(Collection.filter({:repo_id => params[:repo_id]}).collect {|coll|
