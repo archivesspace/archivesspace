@@ -34,7 +34,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/archival_objects/:archival_object_id')
     .description("Get an Archival Object by ID")
     .params(["archival_object_id", Integer, "The Archival Object ID"],
-            ["repo_id", Integer, "The Repository ID"],
+            ["repo_id", :repo_id],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
     .returns([200, "(:archival_object)"],

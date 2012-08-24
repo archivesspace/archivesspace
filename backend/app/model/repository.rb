@@ -9,4 +9,9 @@ class Repository < Sequel::Model(:repositories)
     validates_presence(:repo_code, :message=>"You must supply a repository code")
     validates_presence(:description, :message=>"You must give your repository a description")
   end
+
+  def self.exists?(id)
+    not Repository[id].nil?
+  end
+
 end

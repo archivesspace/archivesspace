@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/accessions/:accession_id')
     .params(["accession_id", Integer, "The accession ID to update"],
             ["accession", JSONModel(:accession), "The accession data to update", :body => true],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     acc = Accession.get_or_die(params[:accession_id])
@@ -14,7 +14,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/accessions')
     .params(["accession", JSONModel(:accession), "The accession to create", :body => true],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     accession = Accession.create_from_json(params[:accession],
@@ -25,7 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/accessions')
-    .params(["repo_id", Integer, "The repository ID"])
+    .params(["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     json_response(Accession.filter(:repo_id => params[:repo_id]).collect {|acc|
@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/accessions/:accession_id')
     .params(["accession_id", Integer, "The accession ID"],
-            ["repo_id", Integer, "The repository ID"])
+            ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
     Accession.to_jsonmodel(params[:accession_id], :accession).to_json
