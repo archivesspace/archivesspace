@@ -1,6 +1,7 @@
 require "net/http"
 require "selenium-webdriver"
 require "digest"
+require_relative '../common/test_utils'
 
 
 $backend_port = 3636
@@ -281,42 +282,13 @@ def run_tests
 end
 
 
-def kill(pid)
-  Process.kill(15, pid)
-
-  begin
-    Process.waitpid(pid)
-  rescue
-    # Already dead.
-  end
-end
-
-
-
 def main
 
-  # start the backend
-  backend = Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
-                          "../build/run", "backend:devserver:integration",
-                          "-Daspace.backend.port=#{$backend_port}",
-                          "-Daspace_integration_test=1")
+  backend = TestUtils::start_backend($backend_port)
+  frontend = TestUtils::start_frontend($frontend_port, $backend)
 
-  frontend = Process.spawn({:JAVA_OPTS => "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{$backend}"},
-                           "../build/run", "frontend:devserver",
-                          "-Daspace.frontend.port=#{$frontend_port}")
-
-
-  while true
-    begin
-      Net::HTTP.get(URI($frontend))
-      break
-    rescue
-      # Keep trying
-      puts "Waiting for frontend (#{$!.inspect})"
-      sleep(5)
-    end
-  end
-
+  TestUtils::wait_for_url(URI($frontend))
+  TestUtils::wait_for_url(URI($backend))
 
   @user = "testuser#{Time.now.to_i}"
   @driver = Selenium::WebDriver.for :firefox
@@ -333,8 +305,8 @@ def main
     status = 1
   end
 
-  kill(backend)
-  kill(frontend)
+  TestUtils::kill(backend)
+  TestUtils::kill(frontend)
 
   exit(status)
 end

@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'json'
 require 'net/http'
+require_relative '../../common/test_utils'
 
 Dir.chdir(File.dirname(__FILE__))
 
@@ -154,10 +155,7 @@ end
 def main
 
   # start the backend
-  server = Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
-                         "../../build/run", "backend:devserver:integration",
-                         "-Daspace.backend.port=#{$port}",
-                         "-Daspace_integration_test=1")
+  server = TestUtils::start_backend($port)
 
 
   while true
@@ -180,12 +178,7 @@ def main
     status = 1
   end
 
-  Process.kill(15, server)
-  begin
-    Process.waitpid(server)
-  rescue
-    # Already dead.
-  end
+  TestUtils::kill(server)
 
   exit(status)
 end
