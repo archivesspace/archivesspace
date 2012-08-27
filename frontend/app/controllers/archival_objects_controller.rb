@@ -36,6 +36,10 @@ class ArchivalObjectsController < ApplicationController
           return render :partial=>"new_inline"
        end
 
+       if params["archival_object"].has_key?("resolved") && params["archival_object"]["resolved"].has_key?("subjects")
+         params["archival_object"]["resolved"]["subjects"] = params["archival_object"]["resolved"]["subjects"].collect {|json| JSON(json)}
+       end
+
        id = @archival_object.save
 
        @archival_object = JSONModel(:archival_object).find(id, "resolve[]" => "subjects")
@@ -47,10 +51,14 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def update
-    @archival_object = JSONModel(:archival_object).find(params[:id])
+    @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => "subjects")
     begin
+      if params["archival_object"].has_key?("resolved") && params["archival_object"]["resolved"].has_key?("subjects")
+        params["archival_object"]["resolved"]["subjects"] = params["archival_object"]["resolved"]["subjects"].collect {|json| JSON(json)}
+      end
+
       @archival_object.replace(params['archival_object'])
-      
+
       if not params.has_key?(:ignorewarnings) and not @archival_object._exceptions.empty?
          return render :partial=>"edit_inline"
       end

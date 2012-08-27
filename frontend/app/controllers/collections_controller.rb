@@ -32,6 +32,10 @@ class CollectionsController < ApplicationController
       begin
          @collection = JSONModel(:collection).new(params[:collection])
 
+         if params["collection"].has_key?("resolved") && params["collection"]["resolved"].has_key?("subjects")
+           params["collection"]["resolved"]["subjects"] = params["collection"]["resolved"]["subjects"].collect {|json| JSON(json)}
+         end
+
          if not params.has_key?(:ignorewarnings) and not @collection._warnings.empty?
           @warnings = @collection._warnings
           return render action: "new"
@@ -48,6 +52,10 @@ class CollectionsController < ApplicationController
      @collection = JSONModel(:collection).find(params[:id], "resolve[]" => "subjects")
      begin
          @collection.replace(params['collection'])
+
+         if params["collection"].has_key?("resolved") && params["collection"]["resolved"].has_key?("subjects")
+           params["collection"]["resolved"]["subjects"] = params["collection"]["resolved"]["subjects"].collect {|json| JSON(json)}
+         end
 
          if not params.has_key?(:ignorewarnings) and not @collection._warnings.empty?
             @warnings = @collection._warnings
