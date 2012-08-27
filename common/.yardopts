@@ -1,0 +1,5 @@
+--markup-provider=redcarpet
+--markup=markdown
+'*.rb'
+'schemas/*.rb'
+-
