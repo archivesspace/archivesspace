@@ -16,12 +16,19 @@
 
    <header>
      <%= render "shared/header" %>
+     <%= render "site/branding" %>
    </header>
 
-   <div class="container">
-    <%= yield %>
+   <div class="content-pane container">
+      <div class="container">
+       <%= yield %>
+      </div>
    </div>
-     
+
+   <footer>
+      <%= render "site/footer" %>
+   </footer>
+
    <%= render "shared/templates" %>
 </body>
 </html>

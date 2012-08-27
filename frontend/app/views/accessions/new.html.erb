@@ -5,7 +5,7 @@
          <p>This is where the tree will go. Perhaps not for a new Accession.  But when editing it will be here.</p>
       </div>
    </div>
-   <div class="span9">
+   <div class="span9 record-pane">
       <h2>New Accession</h2>
       <%= form_for @accession, :as => "accession", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
          <%= render :partial=>"accessions/form", :locals=>{:f=>f} %>
