@@ -59,5 +59,6 @@ AppConfig[:db_max_connections] = 10
 AppConfig[:backend_url] = "http://localhost:4567"
 AppConfig[:frontend_url] = "http://localhost:3000"
 
+AppConfig[:frontend_theme] = "default"
 
 AppConfig.load_user_config

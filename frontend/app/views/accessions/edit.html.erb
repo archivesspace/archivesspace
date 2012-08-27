@@ -5,7 +5,7 @@
          <p>This is where the tree will go. Perhaps not for a editing an Accession.</p>
       </div>
    </div>
-   <div class="span9">
+   <div class="span9 record-pane">
       <h2>Edit Accession "<%= @accession.title%>"</h2>
       <%= form_for @accession, :as => "accession", :url=>{:action=>:update, :id=>@accession.id}, :html=>{:class=>'form-horizontal'} do |f| %>
          <input type="hidden" name="_method" value="put" />

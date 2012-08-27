@@ -3,8 +3,8 @@
    <div class="span3">
       <div class="well">The facets/search filters will go here</div>
    </div>
-   <div class="span9">
-      <div class="btn-group" style="float: right">
+   <div class="span9 record-pane">
+      <div class="btn-group">
         <%= link_to "Create Collection", {:controller=>:collections, :action=>:new}, :class=>"btn" %>
       </div>
       <% if not @collections.blank? %>

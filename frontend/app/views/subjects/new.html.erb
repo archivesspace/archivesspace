@@ -3,7 +3,7 @@
    <div class="span3">
       <div class="well"></div>
    </div>
-   <div class="span9">
+   <div class="span9 record-pane">
       <h2><%= "New Subject" %>  <span class="label label-info">Subject</span></h2>
       <br/>
       <%= form_for @subject, :as => "subject", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
