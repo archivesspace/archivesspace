@@ -34,7 +34,7 @@ module TestUtils
     base = File.dirname(__FILE__)
 
     Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
-                  "#{base}/../build/run", "backend:devserver",
+                  "#{base}/../build/run", "backend:devserver:integration",
                   "-Daspace.backend.port=#{port}",
                   "-Daspace_integration_test=1")
   end
