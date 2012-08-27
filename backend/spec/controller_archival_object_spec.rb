@@ -131,6 +131,6 @@ describe 'Archival Object controller' do
 
     ao = JSONModel(:archival_object).find(created, "resolve[]" => "subjects")
 
-    ao.subjects[0]["terms"][0]["term"].should eq("a test subject")
+    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq("a test subject")
   end
 end

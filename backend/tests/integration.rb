@@ -111,7 +111,7 @@ def run_tests
 
   puts "Retrieve the collection with subjects resolved"
   r = do_get(url("/repositories/#{repo_id}/collections/#{coll_id}?resolve[]=subjects"))
-  r[:body]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
+  r[:body]["resolved"]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
     fail("Collection fetch", r)
 
 
@@ -128,7 +128,7 @@ def run_tests
 
   puts "Retrieve the archival object with subjects resolved"
   r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}?resolve[]=subjects"))
-  r[:body]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
+  r[:body]["resolved"]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
     fail("Archival object fetch", r)
 
 

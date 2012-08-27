@@ -6,14 +6,16 @@ module RESTHelpers
   def resolve_references(json, resolve)
     hash = json.to_hash
 
+    hash['resolved'] ||= {}
+
     (resolve or []).each do |property|
       if hash[property]
         if hash[property].is_a? Array
-          hash[property] = hash[property].map do |uri|
+          hash['resolved'][property] = hash[property].map do |uri|
             JSON(redirect_internal(uri)[2].join(""))
           end
         else
-          hash[property] = JSON(redirect_internal(hash[property])[2].join(""))
+          hash['resolved'][property] = JSON(redirect_internal(hash[property])[2].join(""))
         end
       end
     end

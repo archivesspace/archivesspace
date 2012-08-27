@@ -9,7 +9,17 @@
       <!-- <div class="linker" data-class="subject" data-owner_class="archival_object" data-owner_attribute="subjects" data-multiplicity="many"  data-format="${term} (${term_type})" data-name="Subject" data-name_plural="Subjects" >
        </div>-->
        <div class="input-append linker-wrapper">
-          <input type="text" class="linker" data-object_class="subject" data-controller="subjects" data-name="Subject" data-name_plural="Subjects" data-owner_class="archival_object" data-owner_attribute="subjects" data-url="<%= url_for :controller=>:subjects, :action=>:list, :format=>:json %>" data-selected='<%= @archival_object.subjects.blank? ? "[]" : @archival_object.subjects.collect {|s| Subject.from_hash(s)}.to_json %>' data-format="${display_string}" />
+          <input type="text" class="linker" 
+            data-object_class="subject" 
+            data-controller="subjects" 
+            data-name="Subject" 
+            data-name_plural="Subjects" 
+            data-owner_class="archival_object" 
+            data-owner_attribute="subjects" 
+            data-url="<%= url_for :controller=>:subjects, :action=>:list, :format=>:json %>" 
+            data-selected='<%= @archival_object['subjects'].blank? ? "[]" : @archival_object['resolved']['subjects'].collect {|s| Subject.from_hash(s)}.to_json %>' 
+            data-format="${display_string}" 
+          />
           <div class="btn-group">
              <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
               <ul class="dropdown-menu">
