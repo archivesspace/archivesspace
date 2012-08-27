@@ -154,9 +154,19 @@ end
 
 def main
 
-  # start the backend
-  server = TestUtils::start_backend($port)
+  standalone = true
 
+  if ENV["ASPACE_BACKEND_URL"]
+    $url = ENV["ASPACE_BACKEND_URL"]
+    standalone = false
+  end
+
+  server = nil
+
+  if standalone
+    # start the backend
+    server = TestUtils::start_backend($port)
+  end
 
   while true
     begin
@@ -178,7 +188,14 @@ def main
     status = 1
   end
 
-  TestUtils::kill(server)
+  if server
+    TestUtils::kill(server)
+    begin
+      Process.waitpid(server)
+    rescue
+      # Already dead.
+    end
+  end
 
   exit(status)
 end
