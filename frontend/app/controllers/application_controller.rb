@@ -11,7 +11,6 @@ class ApplicationController < ActionController::Base
 
   before_filter :load_repository_list
   before_filter :load_default_vocabulary
-  before_filter :load_theme
 
   protected
 
@@ -46,13 +45,6 @@ class ApplicationController < ActionController::Base
       session[:repo_id] = @repositories.first.id
     end
 
-  end
-
-  def load_theme
-    session[:theme] = params[:theme] if params.has_key?(:theme)
-    if not session.has_key?(:theme)
-      session[:theme] = "default"
-    end
   end
 
   def load_default_vocabulary
