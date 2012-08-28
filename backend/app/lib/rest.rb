@@ -118,14 +118,6 @@ module RESTHelpers
     base.extend(JSONModel)
 
     base.helpers do
-      def base.endpoint
-        endpoint = Endpoint.new
-
-        @@endpoints << endpoint
-
-        endpoint
-      end
-
 
       def coerce_type(value, type)
         if type == Integer

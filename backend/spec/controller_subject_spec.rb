@@ -27,9 +27,14 @@ describe 'Subject controller' do
   end
 
 
+  it "lets you list all subjects" do
+    id = create_subject
+    JSONModel(:subject).all.count.should eq(1)
+  end
+
+
   it "knows its own URI" do
     id = create_subject
-  
     JSONModel(:subject).find(id).uri.should eq("/subjects/#{id}")
   end
 
