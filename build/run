@@ -2,7 +2,7 @@
 
 cd "`dirname $0`"
 
-orig="`echo $1 | sed 's/:integration$//'`"
+orig="`echo $1 | sed 's/devserver:integration$/devserver/'`"
 
 if [ "$orig" != "$1" ]; then
     shift
