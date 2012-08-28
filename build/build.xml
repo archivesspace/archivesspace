@@ -145,6 +145,9 @@
   <!-- Frontend -->
   <target name="frontend:clean" description="Delete the Rails tmp directory">
     <delete dir="../frontend/tmp" />
+    <delete dir="../frontend/public/assets" />
+    <mkdir dir="../frontend/public/assets" />
+    <mkdir dir="../frontend/public/assets/00-do-not-put-things-here" />
   </target>
         
 
@@ -187,14 +190,10 @@
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
-
-    <delete dir="../frontend/public/assets" />
-    <mkdir dir="../frontend/public/assets" />
-    <mkdir dir="../frontend/public/assets/00-do-not-put-things-here" />
   </target>
 
 
-  <target name="selenium:test" description="Run the Selenium tests">
+  <target name="selenium:test" depends="frontend:clean" description="Run the Selenium tests">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../selenium">
