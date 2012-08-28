@@ -373,7 +373,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id, "token-input-").send_keys("Foo")
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
-    @driver.find_element(:css, "form#new_archival_object button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css, "form#new_archival_object button[type='submit']")
 
     # Verify that the change stuck
     @driver.navigate.refresh
