@@ -116,14 +116,39 @@ def logout
 end
 
 
+def fail_login
+  @driver.find_element(:link, "Sign In").click
+  @driver.find_element(:id, 'user_username').send_keys "oopsie"
+  @driver.find_element(:id, 'user_password').send_keys "daisies"
+
+  @driver.find_element(:id, 'login').click
+
+  @driver.find_element(:xpath => "//p[@class='help-inline login-message']").text == 'Login attempt failed'
+
+  @driver.find_element(:link, "Sign In").click
+end
+
+
 def run_tests
   @driver.navigate.to $frontend
+
+  fail_login
 
   create_user
 
   logout
 
   login
+
+  ## Create a repository with errors
+  @driver.find_element(:css, '.repository-container .btn').click
+  @driver.find_element(:link, "Create a Repository").click
+  @driver.find_element(:id => "repository_description").send_keys "missing repo code"
+  @driver.find_element(:css => "form#new_repository input[type='submit']").click
+
+  @driver.find_element(:css => "div.alert.alert-error").text == "Repository code - Property is required but was missing"
+  @driver.find_element(:css => "div.modal-footer button.btn").click
+
 
   ## Create a test repository
   test_repo_code_1 = "test#{Time.now.to_i}"
@@ -149,6 +174,22 @@ def run_tests
   ## Select the second repository
   @driver.find_element(:css, '.repository-container .btn').click
   @driver.find_element(:link_text => test_repo_code_2).click
+
+
+  ## Create an accession with warnings, but ignore the warnings
+  @driver.find_element(:link, "Create").click
+  @driver.find_element(:link, "Accession").click
+
+  @driver.find_element(:id => "accession_title").send_keys "Accession title"
+
+  @driver.complete_4part_id("accession_id_%d")
+  @driver.find_element(:id => "accession_accession_date").send_keys "2012-01-01"
+  @driver.find_element(:css => "form#new_accession button[type='submit']").click
+
+  @driver.find_element(:css => "div.alert-warning").text == "Content Description - Property was missing\nCondition Description - Property was missing"
+
+  # Save anyway
+  @driver.find_element(:css => "div.alert-warning .btn-warning").click
 
 
   ## Create an accession
@@ -198,6 +239,17 @@ def run_tests
   end
 
 
+  ## Create a collection with an error and warning
+  @driver.find_element(:link, "Create").click
+  @driver.find_element(:link, "Collection").click
+
+  @driver.find_element(:css => "form#new_collection button[type='submit']").click
+
+  @driver.find_element(:css, "div.alert.alert-error").text == "Identifier - Property is required but was missing"
+  @driver.find_element(:css, "div.alert.alert-warning").text == "Title - Property was missing"
+
+  @driver.find_element(:css, "a.btn.btn-cancel").click
+
   ## Create a collection
   @driver.find_element(:link, "Create").click
   @driver.find_element(:link, "Collection").click
@@ -208,16 +260,23 @@ def run_tests
   @driver.complete_4part_id("collection_id_%d")
   @driver.find_element(:css => "form#new_collection button[type='submit']").click
 
+  # The new collection shows up on the tree to the left
+  @driver.find_element(:css => "a.jstree-clicked").text.strip == "Pony Express"
+
   @driver.find_element(:link, "Add Child").click
   @driver.find_element(:link, "Analog Object").click
+
+  # False start: create an object without filling it out
+  @driver.click_and_wait_until_gone(:id => "createPlusOne")
+  @driver.find_element(:css, "div.alert.alert-error").text == "Ref ID - Property is required but was missing"
+
+  # Fix it up
   @driver.find_element(:id, "archival_object_title").clear
   @driver.find_element(:id, "archival_object_title").send_keys("Lost mail")
   @driver.find_element(:id, "archival_object_ref_id").send_keys(Digest::MD5.hexdigest("#{Time.now}"))
   @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
-  ["January", "February", "March", "April", "May",
-   "June", "July", "August", "September", "October",
-   "November", "December"]. each do |month|
+  ["January", "February", "December"]. each do |month|
 
     @driver.find_element(:id, "archival_object_title").clear
     @driver.find_element(:id, "archival_object_title").send_keys(month)
@@ -231,6 +290,9 @@ def run_tests
   @driver.find_element(:id, "archival_object_title").send_keys("unimportant change")
   @driver.find_element(:css, "a[title='December']").click
   @driver.find_element(:id, "dismissChangesButton").click
+
+  # Last added node now selected
+  @driver.find_element(:css => "a.jstree-clicked").text.strip == "December"
 
   @driver.find_element(:link, "Add Child").click
   @driver.find_element(:link, "Analog Object").click
@@ -254,6 +316,11 @@ def run_tests
   @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
   @driver.find_element(:css, "form#new_archival_object button[type='submit']").click
+
+  # Verify that the change stuck
+  @driver.navigate.refresh
+
+  @driver.find_element(:css, "ul.token-input-list").text =~ /FooTerm456/
 
 
   ## Check browse list for collections
