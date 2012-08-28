@@ -1,9 +1,5 @@
 @import "variables";
 
-.archives-tree-toolbar {
-  margin-top: 10px;
-}
-
 .archives-tree.jstree-default.jstree-focused {
   background-color: transparent;
 }
@@ -13,9 +9,9 @@
 }
 
 .archives-tree-container {
-   padding: 0;
+   padding: 0 0 10px;
    position: relative;
-   
+
    > .archives-tree-title {
       background-color: #eee;
       background-color: rgba(0,0,0,.025);
@@ -24,14 +20,6 @@
       font-weight: bold;
    }
 
-    .expand-tree,
-    .retract-tree {
-     position: absolute;
-     right: 5px;
-     top: 5px;
-     .opacity(50);
-    }
-    
     .expand-tree:hover,
     .retract-tree:hover {
      .opacity(100);
@@ -77,19 +65,13 @@
        background-position: -264px -24px !important;
      }
    }
-   
-   .btn-toolbar {
-     padding: 5px 5px 0;
-     margin: 0;
-     background-color: #eee;
-     background-color: rgba(0,0,0,.025);
-   }
 }
 
 .archives-tree-container.expanded {
-     .box-shadow(0 3px 7px rgba(0,0,0,0.3));
+     .box-shadow(1px 1px 5px rgba(0, 0, 0, 0.4));
      .opacity(95);
      z-index: 1000;
+     background-color: #f9f9f9;
 }
 
 .tree-navigation {

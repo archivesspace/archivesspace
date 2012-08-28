@@ -1,7 +1,7 @@
 <%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Archival Objects", :controller=>:archival_objects, :action=>:index), "New Archival Object"]} %>
 <div class="row-fluid">
    <div class="span3">
-      <div class="well archives-tree-container">
+      <div class="archives-tree-container">
       <% if @collection_tree %>
          <%= render :partial=>"collections/tree", :locals=>{:selected=>@archival_object.id} %>
       <% else %>

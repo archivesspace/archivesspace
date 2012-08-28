@@ -44,8 +44,8 @@ $(function() {
 
    var renderTreeToolbar = function() {
       var nodeEl = $(location.hash);
+      $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
       // render tree navigation
-      $container.find(".tree-navigation").remove();
       var allNodes = $tree.find("li");
       var indexOfCurrentNode = allNodes.index(nodeEl);
       var data = {};
@@ -55,7 +55,7 @@ $(function() {
       if (indexOfCurrentNode+1 < allNodes.length) {
          data.next = allNodes.get(indexOfCurrentNode+1).id;
       }
-      $container.prepend(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
+      $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
    };
 
    var addEventBindings = function() {

@@ -11,7 +11,7 @@
 <div class="row-fluid label-and-value">
    <div class="span3">Subjects</div>
    <div class="span9">
-      <% @archival_object.resolved.subjects.each do | subject | %>
+      <% @archival_object["resolved"]["subjects"].each do | subject | %>
          <div class="subject-token">
             <%= subject['term'] %>
          </div>

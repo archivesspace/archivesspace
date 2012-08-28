@@ -1,9 +1,7 @@
 <%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Collections", :controller=>:collections, :action=>:index),"New Collection"]} %>
 <div class="row-fluid">
    <div class="span3">
-     <div class="well">
-         Save your Collection to then begin modifying its hierarchy.
-    </div> <!-- well -->
+      Save your Collection to then begin modifying its hierarchy.
    </div> <!-- span3 -->
    <div class="span9 record-pane" id="archival_object_container">
       <%= form_for @collection, :as => "collection", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
