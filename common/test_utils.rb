@@ -1,9 +1,8 @@
 module TestUtils
 
   def self.kill(pid)
-    Process.kill(15, pid)
-
     begin
+      Process.kill(15, pid)
       Process.waitpid(pid)
     rescue
       # Already dead.
