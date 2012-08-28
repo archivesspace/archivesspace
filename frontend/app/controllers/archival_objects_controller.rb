@@ -28,50 +28,22 @@ class ArchivalObjectsController < ApplicationController
      render :partial=>"archival_objects/edit_inline" if inline?
   end
 
+
   def create
-     begin
-       @archival_object = JSONModel(:archival_object).new(params[:archival_object])
-
-       if not params.has_key?(:ignorewarnings) and not @archival_object._exceptions.empty?
-          return render :partial=>"new_inline"
-       end
-
-       if params["archival_object"].has_key?("resolved") && params["archival_object"]["resolved"].has_key?("subjects")
-         params["archival_object"]["resolved"]["subjects"] = params["archival_object"]["resolved"]["subjects"].collect {|json| JSON(json)}
-       end
-
-       id = @archival_object.save
-
-       @archival_object = JSONModel(:archival_object).find(id, "resolve[]" => "subjects")
-
-       render :partial=>"archival_objects/edit_inline"
-     rescue JSONModel::ValidationException => e
-       render :partial=>"archival_objects/new_inline"
-     end
+    handle_crud(:instance => :archival_object,
+                :on_invalid => ->(){ render :partial=>"new_inline" },
+                :on_valid => ->(id){ render :partial=>"archival_objects/edit_inline" })
   end
 
   def update
-    @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => "subjects")
-    begin
-      if params["archival_object"].has_key?("resolved") && params["archival_object"]["resolved"].has_key?("subjects")
-        params["archival_object"]["resolved"]["subjects"] = params["archival_object"]["resolved"]["subjects"].collect {|json| JSON(json)}
-      end
-
-      @archival_object.replace(params['archival_object'])
-
-      if not params.has_key?(:ignorewarnings) and not @archival_object._exceptions.empty?
-         return render :partial=>"edit_inline"
-      end
-
-      id = @archival_object.save
-
-       @archival_object = JSONModel(:archival_object).find(id, "resolve[]" => "subjects")
-
-      flash[:success] = "Archival Object Saved"
-      render :partial=>"edit_inline"
-    rescue JSONModel::ValidationException => e
-      render :partial=>"edit_inline"
-    end
+     handle_crud(:instance => :archival_object,
+                 :obj => JSONModel(:archival_object).find(params[:id],
+                                                     "resolve[]" => "subjects"),
+                 :on_invalid => ->(){ return render :partial=>"edit_inline" },
+                 :on_valid => ->(id){
+                   flash[:success] = "Archival Object Saved"
+                   render :partial=>"edit_inline"
+                 })
   end
 
 

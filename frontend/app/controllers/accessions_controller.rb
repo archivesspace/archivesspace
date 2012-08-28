@@ -16,44 +16,26 @@ class AccessionsController < ApplicationController
     @accession = Accession.find(params[:id])
   end
 
+
   def create
-
-    begin
-      @accession = Accession.from_hash(params['accession'])
-
-      if not params.has_key?(:ignorewarnings) and not @accession._warnings.empty?
-         @warnings = @accession._warnings
-         return render action: "new"
-      end
-
-      id = @accession.save
-      redirect_to :controller=>:accessions, :action=>:show, :id=>id
-    rescue JSONModel::ValidationException => e
-      @accession = e.invalid_object
-      @errors = e.errors
-      return render action: "new"
-    end
+     handle_crud(:instance => :accession,
+                 :model => Accession,
+                 :on_invalid => ->(){ render action: "new" },
+                 :on_valid => ->(id){ redirect_to(:controller => :accessions,
+                                                  :action => :show,
+                                                  :id => id) })
   end
 
   def update
-
-    @accession = Accession.find(params[:id])
-
-    begin
-      @accession.replace(params['accession'])
-      
-      if not params.has_key?(:ignorewarnings) and not @accession._warnings.empty?
-         @warnings = @accession._warnings
-         return render action: "edit"
-      end
-            
-      result = @accession.save            
-      redirect_to :controller=>:accessions, :action=>:show, :id=>@accession.id
-    rescue JSONModel::ValidationException => e
-      @accession = e.invalid_object
-      @errors = e.errors
-      render action: "edit", :notice=>"Update failed: #{result[:status]}"
-    end
+    handle_crud(:instance => :accession,
+                :model => Accession,
+                :obj => JSONModel(:accession).find(params[:id]),
+                :on_invalid => ->(){
+                  return render action: "edit"
+                },
+                :on_valid => ->(id){
+                  redirect_to :controller=>:accessions, :action=>:show, :id=>id
+                })
   end
 
   def destroy

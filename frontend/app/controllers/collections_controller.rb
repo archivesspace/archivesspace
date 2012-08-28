@@ -28,48 +28,29 @@ class CollectionsController < ApplicationController
      fetch_collection_tree(@collection)
    end
 
+
    def create
-      begin
-         @collection = JSONModel(:collection).new(params[:collection])
-
-         if params["collection"].has_key?("resolved") && params["collection"]["resolved"].has_key?("subjects")
-           params["collection"]["resolved"]["subjects"] = params["collection"]["resolved"]["subjects"].collect {|json| JSON(json)}
-         end
-
-         if not params.has_key?(:ignorewarnings) and not @collection._warnings.empty?
-          @warnings = @collection._warnings
-          return render action: "new"
-         end
-
-         id = @collection.save       
-         redirect_to :controller=>:collections, :action=>:edit, :id=>id
-      rescue JSONModel::ValidationException => e
-        render :action => :new
-      end
+     handle_crud(:instance => :collection,
+                 :on_invalid => ->(){ render action: "new" },
+                 :on_valid => ->(id){ redirect_to(:controller => :collections,
+                                                  :action => :edit,
+                                                  :id => id) })
    end
+
 
    def update
-     @collection = JSONModel(:collection).find(params[:id], "resolve[]" => "subjects")
-     begin
-         @collection.replace(params['collection'])
-
-         if params["collection"].has_key?("resolved") && params["collection"]["resolved"].has_key?("subjects")
-           params["collection"]["resolved"]["subjects"] = params["collection"]["resolved"]["subjects"].collect {|json| JSON(json)}
-         end
-
-         if not params.has_key?(:ignorewarnings) and not @collection._warnings.empty?
-            @warnings = @collection._warnings
-            return render action: "edit"
-         end
-    
-         result = @collection.save
-
-         flash[:success] = "Collection Saved"         
-         render :partial=>"edit_inline"      
-     rescue JSONModel::ValidationException => e
-         render :partial=>"edit_inline"      
-     end
+     handle_crud(:instance => :collection,
+                 :obj => JSONModel(:collection).find(params[:id],
+                                                     "resolve[]" => "subjects"),
+                 :on_invalid => ->(){
+                   render :partial => "edit_inline"
+                 },
+                 :on_valid => ->(id){
+                   flash[:success] = "Collection Saved"
+                   render :partial => "edit_inline"
+                 })
    end
+
 
    def destroy
   
