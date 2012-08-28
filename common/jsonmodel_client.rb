@@ -161,6 +161,20 @@ module JSONModel
       end
 
 
+      def get_json(uri, params = {})
+        uri = URI("#{backend_url}#{uri}")
+        uri.query = URI.encode_www_form(params)
+
+        response = Net::HTTP.get_response(uri)
+
+        if response.is_a?(Net::HTTPSuccess)
+          JSON(response.body)
+        else
+          nil
+        end
+      end
+
+
       # Returns the session token to be sent to the backend when making
       # requests.
       def _current_backend_session

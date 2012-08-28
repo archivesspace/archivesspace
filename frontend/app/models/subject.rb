@@ -13,19 +13,17 @@ class Subject < JSONModel(:subject)
 
 
    def available_terms
-      return @available_terms if @available_terms
-      terms_uri = URI("#{ArchivesSpace::Application.config.backend_url}/vocabularies/#{vocab_id}/terms")
-      response = Net::HTTP.get(terms_uri)
-      @available_terms = JSON.parse(response)
-      @available_terms
+     @available_terms ||= self.class.get_json("#{JSONModel(:vocabulary).uri_for(vocab_id)}/terms")
+
+     @available_terms
    end
 
 
-    def to_hash     
-       hash = super
-       hash["display_string"] = display_string
-       hash
-    end
+   def to_hash
+     hash = super
+     hash["display_string"] = display_string
+     hash
+   end
 
 
 end
