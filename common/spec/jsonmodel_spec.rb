@@ -2,54 +2,29 @@ require_relative "../jsonmodel"
 require 'net/http'
 require 'json'
 
-class String
-  def read
-    '{
-      :schema => {
-        "$schema" => "http://www.archivesspace.org/archivesspace.json",
-        "type" => "object",
-        "uri" => "/repositories/:repo_id/stubs",
-        "properties" => {
-          "uri" => {"type" => "string", "required" => false},
-          "ref_id" => {"type" => "string", "ifmissing" => "error", "minLength" => 1, "pattern" => "^[a-zA-Z0-9]*$"},
-          "component_id" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
-          "title" => {"type" => "string", "minLength" => 1, "required" => true},
-
-          "level" => {"type" => "string", "minLength" => 1, "required" => false},
-          "parent" => {"type" => "JSONModel(:archival_object) uri", "required" => false},
-          "collection" => {"type" => "JSONModel(:collection) uri", "required" => false},
-
-          "subjects" => {"type" => "array", "items" => {"type" => "JSONModel(:subject) uri_or_object"}},
-        },
-
-        "additionalProperties" => false,
-      },
-    }'
-  end
-end
-
-
-class StubHTTP
-  def request (req)
-    StubResponse.new
-  end
-  def code
-    "200"
-  end
-  def body
-    { 'id' => '999' }.to_json
-  end
-end
-
-class Klass
-  include JSONModel
-end
-
-
 describe JSONModel do
-  before(:each) do
+  
+  before(:all) do
     
     BACKEND_SERVICE_URL = 'http://example.com'
+
+    class StubHTTP
+      def request (req)
+        StubResponse.new
+      end
+      def code
+        "200"
+      end
+      def body
+        { 'id' => '999' }.to_json
+      end
+    end
+
+    class Klass
+      include JSONModel
+    end
+  end
+  before(:each) do
     
     schema = '{
       :schema => {
