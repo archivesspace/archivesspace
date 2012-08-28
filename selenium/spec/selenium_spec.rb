@@ -28,7 +28,13 @@ class Selenium::WebDriver::Driver
     try = 0
     while true
       begin
-        return find_element_orig(*selectors)
+        elt = find_element_orig(*selectors)
+
+        if not elt.displayed?
+          raise Selenium::WebDriver::Error::NoSuchElementError.new("Not visible (yet?)")
+        end
+
+        return elt
       rescue Selenium::WebDriver::Error::NoSuchElementError => e
         if try < RETRIES
           try += 1
