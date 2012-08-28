@@ -1,4 +1,4 @@
-require_relative File.join("..", "jsonmodel")
+require_relative "../jsonmodel"
 require 'net/http'
 require 'json'
 

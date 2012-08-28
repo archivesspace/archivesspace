@@ -3,13 +3,13 @@ require 'sequel'
 
 require_relative 'exceptions'
 require_relative 'logging'
-require_relative File.join("..", "..", "..", "config", "config-distribution")
+require_relative "../../../config/config-distribution"
+require_relative "../../../common/jsonmodel"
+require_relative "../model/db_migrator"
 
-
-require_relative File.join("..", "..", "..", "common", "jsonmodel")
 JSONModel::init
 
-require_relative File.join("..", "model", "db_migrator")
+
 
 if ENV["ASPACE_INTEGRATION"] == "true"
   AppConfig[:db_url] = "jdbc:derby:memory:integrationdb;create=true;aspacedemo=true"
