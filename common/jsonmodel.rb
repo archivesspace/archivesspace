@@ -408,9 +408,19 @@ module JSONModel
       end
 
 
+      def self.keys_as_strings(hash)
+        result = {}
+
+        hash.each do |key, value|
+          result[key.to_s] = value
+        end
+
+        result
+      end
+
 
       def initialize(params = {}, warnings = [])
-        @data = params
+        @data = self.class.keys_as_strings(params)
         @warnings = warnings
 
         self.class.define_accessors(@data.keys)

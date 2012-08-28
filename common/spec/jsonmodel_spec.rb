@@ -116,8 +116,6 @@ describe JSONModel do
     jo.to_hash.has_key?('uri').should be_true
   end
   
-  # These tests are known to fail; not 100% sure if they should be made to pass or not
-    
   it "should create an instance when given a hash using symbols for keys" do
   
     jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title=> "Stub Object"})
