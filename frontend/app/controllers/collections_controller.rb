@@ -5,7 +5,7 @@ class CollectionsController < ApplicationController
    end
 
    def show
-     @collection = JSONModel(:collection).find(params[:id])
+     @collection = JSONModel(:collection).find(params[:id], "resolve[]" => "subjects")
   
       if params[:inline]
          return render :partial=>"collections/show_inline"

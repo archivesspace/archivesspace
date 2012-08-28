@@ -21,6 +21,20 @@
              <span class="identifier-display-part"><%= @collection.id_0 %></span><span class="identifier-display-part"><%= @collection.id_1 %></span><span class="identifier-display-part"><%= @collection.id_2 %></span><span class="identifier-display-part"><%= @collection.id_3 %></span>
           </div>
        </div>
+       <% if @collection.subjects %>
+       <hr/>
+       <div class="row-fluid label-and-value">
+          <div class="span3">Subjects</div>
+          <div class="span9">
+             <% puts @collection.inspect %>
+             <% @collection["resolved"]["subjects"].each do | subject | %>
+                <div class="token">
+                   <%= Subject.from_hash(subject).display_string %>
+                </div>
+             <% end %>
+          </div>
+       </div>
+       <% end %>
     </div>
   </div>
 </div>

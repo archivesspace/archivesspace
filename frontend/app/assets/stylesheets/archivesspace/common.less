@@ -12,7 +12,7 @@ h2 > .label {
 
 .breadcrumb {
    margin-top: -@baseLineHeight;
-	.box-shadow(~"inset 0 -1px 0 rgba(0,0,0,.05), 0 1px 10px rgba(0,0,0,.05)");
+   .box-shadow(~"inset 0 -1px 0 rgba(0,0,0,.05), 0 1px 10px rgba(0,0,0,.05)");
 }
 
 .navbar .brand {
@@ -67,6 +67,12 @@ h2 > .label {
     border-top-right-radius: 4px;
     -moz-border-radius-bottomright: 4px;
     -moz-border-radius-topright: 4px;    
+}
+
+.btn.btn-mini {
+  [class^="icon-"], [class*=" icon-"] {
+    margin-top: -1px;
+  }
 }
 
 #object_container {

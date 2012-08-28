@@ -1,9 +1,7 @@
 <%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Accessions", :controller=>:accessions, :action=>:index),"Edit Accession \"#{@accession.title}\""]} %>
 <div class="row-fluid">
    <div class="span3">
-      <div class="well">
-         <p>This is where the tree will go. Perhaps not for a editing an Accession.</p>
-      </div>
+      <p>This is where the tree will go. Perhaps not for a editing an Accession.</p>
    </div>
    <div class="span9 record-pane">
       <h2>Edit Accession "<%= @accession.title%>"</h2>
