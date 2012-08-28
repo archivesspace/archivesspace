@@ -6,7 +6,7 @@ class ArchivalObjectsController < ApplicationController
 
   def show
      @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => "subjects")
-     @collection_id = params[:collection_id] if params.has_key?(:collection_id)
+     @resource_id = params[:resource_id] if params.has_key?(:resource_id)
      
      render :partial=>"archival_objects/show_inline"
   end
@@ -15,7 +15,7 @@ class ArchivalObjectsController < ApplicationController
      @archival_object = JSONModel(:archival_object).new._always_valid!
      @archival_object.title = "New Archival Object"
      @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent]) if params.has_key?(:parent)
-     @archival_object.collection = JSONModel(:collection).uri_for(params[:collection]) if params.has_key?(:collection)
+     @archival_object.resource = JSONModel(:resource).uri_for(params[:resource]) if params.has_key?(:resource)
 
      return render :partial=>"archival_objects/new_inline" if inline?
 

@@ -102,9 +102,9 @@ class ASpaceImporter
   def contextualize (type, hsh)
     # TODO - Can JSONModel tell me if a context element is relevant for my type?
     puts @current.inspect if $DEBUG
-    if type == :archival_object and !hsh.has_key?(:collection) and @current[:collection]
-      # TODO - Can JSONModel return this URL if I give it the Collection Key?
-      hsh.merge!( { :collection => "/repositories/#{ @current[:repository].last }/collections/#{ @current[:collection].last }" } )
+    if type == :archival_object and !hsh.has_key?(:resource) and @current[:resource]
+      # TODO - Can JSONModel return this URL if I give it the Resource Key?
+      hsh.merge!( { :resource => "/repositories/#{ @current[:repository].last }/resources/#{ @current[:resource].last }" } )
     end
     if type == :archival_object and !hsh.has_key?(:parent) and @current[:archival_object].respond_to?('length') and @current[:archival_object].length > 0
       # TODO - Ditto

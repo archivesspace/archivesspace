@@ -1,24 +1,24 @@
 require 'spec_helper'
 
-describe 'Collections controller' do
+describe 'Resources controller' do
 
   before(:each) do
     make_test_repo
   end
 
 
-  it "lets you create a collection and get it back" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
-    id = collection.save
+  it "lets you create a resource and get it back" do
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    id = resource.save
 
-    JSONModel(:collection).find(id).title.should eq("a collection")
+    JSONModel(:resource).find(id).title.should eq("a resource")
   end
 
 
   it "lets you manipulate the record hierarchy" do
 
-    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
-    id = collection.save
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    id = resource.save
 
     aos = []
     ["earth", "australia", "canberra"].each do |name|
@@ -28,12 +28,12 @@ describe 'Collections controller' do
         ao.parent = aos.last.uri
       end
 
-      ao.collection = collection.uri
+      ao.resource = resource.uri
       ao.save
       aos << ao
     end
 
-    tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
     tree.to_hash.should eq({
                      "archival_object" => aos[0].uri,
@@ -73,57 +73,57 @@ describe 'Collections controller' do
                     ]
     }
 
-    JSONModel(:collection_tree).from_hash(changed).save(:collection_id => collection.id)
+    JSONModel(:resource_tree).from_hash(changed).save(:resource_id => resource.id)
     changed.delete("uri")
 
-    tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
     tree.to_hash.should eq(changed)
   end
 
 
 
-  it "lets you update a collection" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
-    id = collection.save
+  it "lets you update a resource" do
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    id = resource.save
 
-    collection.title = "an updated collection"
-    collection.save
+    resource.title = "an updated resource"
+    resource.save
 
-    JSONModel(:collection).find(id).title.should eq("an updated collection")
+    JSONModel(:resource).find(id).title.should eq("an updated resource")
   end
 
 
-  it "can handle asking for the tree of an empty collection" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
-    id = collection.save
+  it "can handle asking for the tree of an empty resource" do
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    id = resource.save
 
-    tree = JSONModel(:collection_tree).find(nil, :collection_id => collection.id)
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
     tree.should eq(nil)
   end
 
 
-  it "adds an archival object to a collection when it's added to the tree" do
+  it "adds an archival object to a resource when it's added to the tree" do
     ao = JSONModel(:archival_object).from_hash("ref_id" => "testing123",
                                                "title" => "archival object")
     ao_id = ao.save
 
 
-    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
-    coll_id = collection.save
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    coll_id = resource.save
 
 
-    tree = JSONModel(:collection_tree).from_hash(:archival_object => ao.uri,
+    tree = JSONModel(:resource_tree).from_hash(:archival_object => ao.uri,
                                                  :children => [])
 
-    tree.save(:collection_id => coll_id)
+    tree.save(:resource_id => coll_id)
 
-    JSONModel(:archival_object).find(ao_id).collection == "#{@repo}/collections/#{coll_id}"
+    JSONModel(:archival_object).find(ao_id).resource == "#{@repo}/resources/#{coll_id}"
   end
 
 
-  it "lets you create a collection with a subject" do
+  it "lets you create a resource with a subject" do
     vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab", 
                                              "ref_id" => "abc"
                                             )
@@ -134,13 +134,13 @@ describe 'Collections controller' do
                                             )
     subject.save
 
-    collection = JSONModel(:collection).from_hash("title" => "a collection", 
+    resource = JSONModel(:resource).from_hash("title" => "a resource", 
                                                   "id_0" => "abc123",
                                                   "subjects" => [subject.uri]
                                                  )
-    coll_id = collection.save
+    coll_id = resource.save
 
-    JSONModel(:collection).find(coll_id).subjects[0].should eq(subject.uri)
+    JSONModel(:resource).find(coll_id).subjects[0].should eq(subject.uri)
   end
 
 

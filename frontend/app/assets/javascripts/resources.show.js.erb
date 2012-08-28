@@ -6,10 +6,10 @@ $(function() {
 
    var $tree = $("#archives_tree"),
        $container =$("#object_container"),
-       collection_tree_data = AS.tree_data["collection-id-"+$(".archives-tree").data("collection-id")];
+       resource_tree_data = AS.tree_data["resource-id-"+$(".archives-tree").data("resource-id")];
    
    var renderTree = function() {
-      $tree.html(AS.renderTemplate("tree_template", {tree: collection_tree_data}));
+      $tree.html(AS.renderTemplate("tree_template", {tree: resource_tree_data}));
    };
    
    var loadPaneForNode = function(nodeEl) {
@@ -19,20 +19,20 @@ $(function() {
             type: 'GET',
             data: {
                inline: true,
-               collection_id: collection_tree_data.collection_id
+               resource_id: resource_tree_data.resource_id
             },
             success: function(html) {
                $container.html(html);
                renderTreeToolbar();
             }
          });  
-      } else if (nodeEl.attr("rel") === "collection") {         
+      } else if (nodeEl.attr("rel") === "resource") {         
          $.ajax({
-            url: APP_PATH+"collections/"+nodeEl.data("id"),
+            url: APP_PATH+"resources/"+nodeEl.data("id"),
             type: 'GET',
             data: {
                inline: true,
-               collection_id: collection_tree_data.collection_id
+               resource_id: resource_tree_data.resource_id
             },
             success: function(html) {
                $container.html(html);

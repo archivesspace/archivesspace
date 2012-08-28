@@ -12,8 +12,8 @@ en:
    archival_object:
       title: Title
       ref_id: Ref ID
-      "[:collection_id, :ref_id]": Ref ID
-   collection:
+      "[:resource_id, :ref_id]": Ref ID
+   resource:
       title: Title
       id_0: Identifier
       "[:id_0, :id_1, :id_2, :id_3]": Identifier

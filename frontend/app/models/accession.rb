@@ -1,10 +1,10 @@
 class Accession < JSONModel(:accession)
   attr_accessor :resource_link
 
-  def collection_link
-    if @collection_link.blank? then
-      @collection_link = "defer"
+  def resource_link
+    if @resource_link.blank? then
+      @resource_link = "defer"
     end
-    @collection_link
+    @resource_link
   end
 end

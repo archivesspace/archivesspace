@@ -1,32 +1,32 @@
 require 'spec_helper'
 
-describe 'Collection model' do
+describe 'Resource model' do
 
    before(:each) do
      @repo = Repository.create(:repo_code => "TESTREPO",
                                :description => "My new test repository").id
    end
 
-   def create_collection
-      Collection.create_from_json(JSONModel(:collection).
+   def create_resource
+      Resource.create_from_json(JSONModel(:resource).
                                                 from_hash({
-                                                            "title" => "A new collection",
+                                                            "title" => "A new resource",
                                                             "id_0" => "abc123"
                                                           }),
                                             :repo_id => @repo)
    end
 
 
-  it "Allows collections to be created" do
-    collection = create_collection
+  it "Allows resources to be created" do
+    resource = create_resource
 
-    Collection[collection[:id]].title.should eq("A new collection")
+    Resource[resource[:id]].title.should eq("A new resource")
   end
 
 
   it "Prevents duplicate IDs " do
-      create_collection
+      create_resource
 
-      expect { create_collection }.to raise_error
+      expect { create_resource }.to raise_error
   end
 end

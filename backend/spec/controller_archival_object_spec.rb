@@ -31,13 +31,13 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object with a parent" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
-    collection.save
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    resource.save
 
-    created = create_archival_object("collection" => collection.uri)
+    created = create_archival_object("resource" => resource.uri)
 
     create_archival_object("ref_id" => "4567",
-                           "collection" => collection.uri,
+                           "resource" => resource.uri,
                            "title" => "child archival object",
                            "parent" => "#{@repo}/archival_objects/#{created}")
 
@@ -49,18 +49,18 @@ describe 'Archival Object controller' do
   end
 
 
-  it "warns when two archival objects in the same collection having the same ref_id" do
-    collectionA = JSONModel(:collection).from_hash("title" => "a collection A", "id_0" => "abc123")
-    collectionA.save
+  it "warns when two archival objects in the same resource having the same ref_id" do
+    resourceA = JSONModel(:resource).from_hash("title" => "a resource A", "id_0" => "abc123")
+    resourceA.save
 
-    collectionB = JSONModel(:collection).from_hash("title" => "a collection B", "id_0" => "xyz456")
-    collectionB.save
+    resourceB = JSONModel(:resource).from_hash("title" => "a resource B", "id_0" => "xyz456")
+    resourceB.save
 
-    create_archival_object("collection" => collectionA.uri, "ref_id" => "xyz")
-    create_archival_object("collection" => collectionB.uri, "ref_id" => "xyz")
+    create_archival_object("resource" => resourceA.uri, "ref_id" => "xyz")
+    create_archival_object("resource" => resourceB.uri, "ref_id" => "xyz")
 
     expect {
-      create_archival_object("collection" => collectionA.uri, "ref_id" => "xyz")
+      create_archival_object("resource" => resourceA.uri, "ref_id" => "xyz")
     }.to raise_error
   end
 

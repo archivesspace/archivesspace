@@ -1,4 +1,4 @@
-class Collection < Sequel::Model(:collections)
+class Resource < Sequel::Model(:resources)
   plugin :validation_helpers
   include ASModel
   include Identifiers
@@ -7,7 +7,7 @@ class Collection < Sequel::Model(:collections)
 
   def link(opts)
     child = ArchivalObject.get_or_die(opts[:child])
-    child.collection_id = self.id
+    child.resource_id = self.id
     child.parent_id = opts[:parent]
     child.save
   end
@@ -37,7 +37,7 @@ class Collection < Sequel::Model(:collections)
     properties = {}
 
     root_node = nil
-    ArchivalObject.filter(:collection_id => self.id).each do |ao|
+    ArchivalObject.filter(:resource_id => self.id).each do |ao|
       if ao.parent_id
         links[ao.parent_id] ||= []
         links[ao.parent_id] << ao.id
@@ -56,8 +56,8 @@ class Collection < Sequel::Model(:collections)
 
 
   def update_tree(tree)
-    Collection.db[:archival_objects].
-               filter(:collection_id => self.id).
+    Resource.db[:archival_objects].
+               filter(:resource_id => self.id).
                update(:parent_id => nil)
 
     # The root node has a null parent

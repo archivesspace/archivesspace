@@ -98,21 +98,21 @@ def run_tests
     subject_id = r[:body]["id"] or fail("Subject creation", r)
 
 
-  puts "Create a collection"
+  puts "Create a resource"
   r = do_post({
-                  :title => "integration test collection", 
+                  :title => "integration test resource", 
                   :id_0 => "abc123", 
                   :subjects => ["/subjects/#{subject_id}"]
                }.to_json,
-               url("/repositories/#{repo_id}/collections"))
+               url("/repositories/#{repo_id}/resources"))
 
-  coll_id = r[:body]["id"] or fail("Collection creation", r)
+  coll_id = r[:body]["id"] or fail("Resource creation", r)
 
 
-  puts "Retrieve the collection with subjects resolved"
-  r = do_get(url("/repositories/#{repo_id}/collections/#{coll_id}?resolve[]=subjects"))
+  puts "Retrieve the resource with subjects resolved"
+  r = do_get(url("/repositories/#{repo_id}/resources/#{coll_id}?resolve[]=subjects"))
   r[:body]["resolved"]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
-    fail("Collection fetch", r)
+    fail("Resource fetch", r)
 
 
   puts "Create an archival object"
@@ -132,21 +132,21 @@ def run_tests
     fail("Archival object fetch", r)
 
 
-  puts "Add the archival object to a collection"
+  puts "Add the archival object to a resource"
   # Note: you could also do this by updating the AO directly
   r = do_post({
                 :archival_object => "/repositories/#{repo_id}/archival_objects/#{ao_id}",
                 :children => []
               }.to_json,
-              url("/repositories/#{repo_id}/collections/#{coll_id}/tree"));
+              url("/repositories/#{repo_id}/resources/#{coll_id}/tree"));
 
-  r[:body]["status"] == "Updated" or fail("Add archival object to collection", r)
+  r[:body]["status"] == "Updated" or fail("Add archival object to resource", r)
 
 
-  puts "Verify that the archival object is now in the collection"
+  puts "Verify that the archival object is now in the resource"
   r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}"))
-  r[:body]["collection"] == "/repositories/#{repo_id}/collections/#{coll_id}" or
-    fail("Archival object in collection", r)
+  r[:body]["resource"] == "/repositories/#{repo_id}/resources/#{coll_id}" or
+    fail("Archival object in resource", r)
 
 end
 

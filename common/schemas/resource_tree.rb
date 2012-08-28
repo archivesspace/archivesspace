@@ -2,7 +2,7 @@
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
-    "uri" => "/repositories/:repo_id/collections/:collection_id/tree",
+    "uri" => "/repositories/:repo_id/resources/:resource_id/tree",
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
       "archival_object" => {"type" => "JSONModel(:archival_object) uri", "required" => false},

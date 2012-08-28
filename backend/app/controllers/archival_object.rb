@@ -6,7 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", Integer, "The Repository ID"])
     .returns([200, :created],
              [400, :error],
-             [409, '{"error":{"[:collection_id, :ref_id]":["An Archival Object Ref ID must be unique to its collection"]}}']) \
+             [409, '{"error":{"[:resource_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}']) \
   do
     ao = ArchivalObject.create_from_json(params[:archival_object],
                                          :repo_id => params[:repo_id])
@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", Integer, "The Repository ID"])
     .returns([200, :updated],
              [400, :error],
-             [409, '{"error":{"[:collection_id, :ref_id]":["An Archival Object Ref ID must be unique to its collection"]}}']) \
+             [409, '{"error":{"[:resource_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}']) \
   do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     ao.update_from_json(params[:archival_object])

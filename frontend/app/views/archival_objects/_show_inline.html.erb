@@ -1,6 +1,6 @@
 <div class="btn-group" style="float: right">
-   <% if @collection_id %>
-      <%= link_to "Edit", {:controller=>:collections, :action=>:edit, :id=>@collection_id, :anchor=>"archival_object_#{@archival_object.id}"}, :class=>"btn btn-small" %>
+   <% if @resource_id %>
+      <%= link_to "Edit", {:controller=>:resources, :action=>:edit, :id=>@resource_id, :anchor=>"archival_object_#{@archival_object.id}"}, :class=>"btn btn-small" %>
    <% end %>
 </div>
 
