@@ -2,9 +2,11 @@
 
 cd "`dirname $0`"
 
-if [ "$1" = "backend:devserver:integration" ]; then
+orig="`echo $1 | sed 's/:integration$//'`"
+
+if [ "$orig" != "$1" ]; then
     shift
-    exec java -cp "ant/*" org.apache.tools.ant.launch.Launcher backend:devserver -Daspace.integration=true ${1+"$@"} >/dev/null 2>&1
+    exec java -cp "ant/*" org.apache.tools.ant.launch.Launcher $orig -Daspace.integration=true ${1+"$@"} >/dev/null 2>&1
 else
     exec java -cp "ant/*" org.apache.tools.ant.launch.Launcher ${1+"$@"}
 fi

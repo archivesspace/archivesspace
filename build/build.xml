@@ -190,11 +190,12 @@
 
 
   <target name="selenium:test" description="Run the Selenium tests">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
-          dir="../selenium" failonerror="true">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../selenium">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 test.rb" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d spec" />
     </java>
   </target>
 

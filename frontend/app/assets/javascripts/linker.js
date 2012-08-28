@@ -58,7 +58,8 @@ $(function() {
                       } else {
                          $this.tokenInput("add", {
                             id: response.uri,
-                            name: AS.quickTemplate(config.format, response)
+                            name: AS.quickTemplate(config.format, response),
+                            json: response
                          });
                          $this.parents("form:first").triggerHandler("form-changed");
                          $modal.modal("hide");
@@ -118,7 +119,8 @@ $(function() {
                if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
                   formattedResults.push({
                      name: AS.quickTemplate(config.format, obj),
-                     id: obj.uri
+                     id: obj.uri,
+                     json: obj
                   });
                }
             });
@@ -141,7 +143,8 @@ $(function() {
             return $this.data("selected").map(function(item) {
                 return {
                    id: item.uri,
-                   name: AS.quickTemplate(config.format, item)
+                   name: AS.quickTemplate(config.format, item),
+                   json: item
                 };
              });
          };
@@ -154,14 +157,16 @@ $(function() {
                 allowFreeTagging: false,
                 onCachedResult: formatResults,
                 onResult: formatResults,
-                tokenFormatter: function(item) {                   
-                   return AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config});
+                tokenFormatter: function(item) {
+                   var tokenEl = AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config});
+                   $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
+                   return tokenEl;
                 },
                 prePopulate: tokensForPrepopulation(),
                 onDelete: function() {
                    $this.parents("form:first").triggerHandler("form-changed");
                 },
-                onAdd:  function() {
+                onAdd:  function(item) {
                     $this.parents("form:first").triggerHandler("form-changed");
                  }
              });

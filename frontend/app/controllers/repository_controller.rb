@@ -6,17 +6,11 @@ class RepositoryController < ApplicationController
   end
 
   def create
-    begin
-      @repository = JSONModel(:repository).from_hash(params['repository'])
-      @repository.save
-      render :text=>"Success"
-    rescue JSONModel::ValidationException => e
-      @repository = e.invalid_object
-      @errors = e.errors
-      return render action: "new", :layout=>nil
-    end
+    handle_crud(:instance => :repository,
+                :on_invalid => ->(){ render action: "new", :layout=>nil },
+                :on_valid => ->(id){ render :text=>"Success" })
   end
-  
+
   def select    
     selected = @repositories.find {|r| r.id.to_s == params[:id]}
     session[:repo] = selected.repo_code
