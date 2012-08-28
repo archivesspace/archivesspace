@@ -1,3 +1,17 @@
+if ENV['COVERAGE_REPORTS']
+  require 'tmpdir'
+  require 'pp'
+  require 'simplecov'
+
+  SimpleCov.start do
+    # Not useful to include these since the test suite deliberately doesn't load
+    # most of these files.
+    add_filter "lib/bootstrap.rb"
+    add_filter "lib/logging.rb"
+    add_filter "model/db.rb"    # Overriden below
+  end
+end
+
 require_relative File.join("..", "app", "model", "db")
 
 
@@ -14,6 +28,7 @@ class DB
                              # :loggers => [Logger.new($stderr)]
                              )
 
+      DBMigrator.nuke_database(@pool)
       DBMigrator.setup_database(@pool)
     end
   end
@@ -81,9 +96,12 @@ end
 def make_test_repo(code = "ARCHIVESSPACE")
   repo = JSONModel(:repository).from_hash("repo_code" => code,
                                           "description" => "A new ArchivesSpace repository")
-  repo.save
+  id = repo.save
   @repo = repo.uri
-  JSONModel::set_repository(JSONModel(:repository).id_for(@repo))
+
+  JSONModel::set_repository(id)
+
+  id
 end
 
 

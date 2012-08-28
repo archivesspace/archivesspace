@@ -4,6 +4,11 @@
 
   <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.6.7.2/jruby-complete-1.6.7.2.jar" />
   <property name="jruby_file" value="jruby-complete-1.6.7.2.jar" />
+
+  <!-- We need a different version of JRuby for coverage reports until JRUBY-6106 gets merged -->
+  <property name="coverage.jruby_url" value="http://aspace.hudmol.com/packages/jruby-trunk.jar" />
+  <property name="coverage.jruby_file" value="jruby-coverage.jar" />
+
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
@@ -229,5 +234,22 @@
       </manifest>
     </jar>
   </target>
+
+
+  <target name="bootstrap:coverage">
+    <get src="${coverage.jruby_url}" dest="${coverage.jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+  </target>
+
+  <target name="backend:coverage" depends="bootstrap:coverage" description="Generate coverage reports for the backend">
+    <java classpath="${coverage.jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../backend">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="COVERAGE_REPORTS" value="true" />
+      <arg line="--1.9 --debug ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
+    </java>
+  </target>
+
 
 </project>
