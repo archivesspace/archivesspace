@@ -26,9 +26,10 @@
        <div class="row-fluid label-and-value">
           <div class="span3">Subjects</div>
           <div class="span9">
+             <% puts @collection.inspect %>
              <% @collection["resolved"]["subjects"].each do | subject | %>
-                <div class="subject-token">
-                   <%= subject['term'] %>
+                <div class="token">
+                   <%= Subject.from_hash(subject).display_string %>
                 </div>
              <% end %>
           </div>
