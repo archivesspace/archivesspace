@@ -6,7 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
-    acc = Accession.get_or_die(params[:accession_id])
+    acc = Accession.get_or_die(params[:accession_id], params[:repo_id])
     acc.update_from_json(params[:accession])
     json_response({:status => "Updated", :id => acc[:id]})
   end
@@ -39,6 +39,6 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
-    Accession.to_jsonmodel(params[:accession_id], :accession).to_json
+    Accession.to_jsonmodel(params[:accession_id], :accession, params[:repo_id]).to_json
   end
 end
