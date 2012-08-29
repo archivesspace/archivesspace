@@ -194,6 +194,10 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  get '/doc' do
+    erb :endpoint_doc
+  end
+
 end
 
 
