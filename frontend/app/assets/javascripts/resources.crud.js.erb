@@ -219,6 +219,7 @@ $(function() {
 
       $tree.jstree("create_node", $selected, "last", {"attr":{"id": "newAO"}, "data": {"title": "New Archival Object"}});
       $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
+      $("#newAO", $tree).find("a").attr("href", "#newAO");
       location.hash = "#newAO";
     });
 
@@ -230,6 +231,7 @@ $(function() {
 
       $tree.jstree("create_node", $selected.parents("li:first"), "last", {"attr":{"id": "newAO"}, "data": {"title": "New Archival Object"}});
       $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
+      $("#newAO", $tree).find("a").attr("href", "#newAO");
       location.hash = "#newAO";
     });
 
@@ -372,6 +374,11 @@ $(function() {
       if (form_changed && data.func === "select_node") {
         event.preventDefault();
         event.stopImmediatePropagation();
+
+        // don't do anything if node hasn't changed
+        if ($(data.args[0]).attr("href") === location.hash) {
+          return;
+        }
 
         confirmChanges($(data.args[0]).parent());
         return false;
