@@ -38,11 +38,4 @@ class AccessionsController < ApplicationController
                 })
   end
 
-  def destroy
-
-    # @accession = Accession.find(params[:id])
-    # @accession.destroy
-
-    redirect_to  :controller => :accessions, :action => :index
-  end
 end

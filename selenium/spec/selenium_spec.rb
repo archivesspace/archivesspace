@@ -156,11 +156,21 @@ RSpec.configure do |c|
   c.fail_fast = true
 end
 
+
 def cleanup
   @driver.quit if @driver
 
+  if ENV["COVERAGE_REPORTS"] == 'true'
+    begin
+      TestUtils::get(URI("#{$frontend}/test/shutdown"))
+    rescue
+      # Expected to throw an error here, but that's fine.
+    end
+  else
+    TestUtils::kill($frontend_pid) if $frontend_pid
+  end
+
   TestUtils::kill($backend_pid) if $backend_pid
-  TestUtils::kill($frontend_pid) if $frontend_pid
 end
 
 

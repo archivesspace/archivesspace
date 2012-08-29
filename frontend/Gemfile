@@ -47,3 +47,4 @@ gem 'warbler'
 # gem 'debugger'
 
 gem 'atomic'
+gem 'simplecov'

@@ -49,6 +49,9 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/:type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
 
+  match 'test/shutdown' => 'tests#shutdown', :via => [:get]
+
+
   # Sample resource route with options:
   #   resources :products do
   #     member do

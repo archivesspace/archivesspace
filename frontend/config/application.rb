@@ -77,3 +77,14 @@ module ArchivesSpace
 
 end
 
+
+
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'tmpdir'
+  require 'pp'
+  require 'simplecov'
+
+  SimpleCov.command_name 'Frontend tests'
+  SimpleCov.start 'rails'
+end
+

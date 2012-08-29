@@ -24,6 +24,26 @@
   </target>
 
 
+  
+  <!-- Configure our classpath.  Use our custom jar for JRuby if running code coverage tests. -->
+  <target name="set-classpath" description="Set JRuby classpath">
+    <condition property="jruby_classpath" value="${coverage.jruby_file}">
+      <matches pattern=".*:coverage" string="${ant.project.invoked-targets}" />
+    </condition>
+
+    <condition property="jruby_classpath" value="${coverage.jruby_file}">
+      <matches pattern="true" string="${env.COVERAGE_REPORTS}" />
+    </condition>
+
+    <condition property="COVERAGE_REPORTS" value="true">
+      <matches pattern=".*:coverage" string="${ant.project.invoked-targets}" />
+    </condition>
+
+    <property name="jruby_classpath" value="${jruby_file}" />
+    <property name="COVERAGE_REPORTS" value="false" />
+  </target>
+
+
   <target name="bootstrap" description="Download JRuby and install all required gems">
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
 
@@ -66,8 +86,8 @@
 
 
   <!-- Database -->
-  <target name="db:migrate" description="Run migrations against the database configured in config/config.rb">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+  <target name="db:migrate" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -76,8 +96,8 @@
   </target>
 
 
-  <target name="db:nuke" description="Run migrations against the database configured in config/config.rb">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+  <target name="db:nuke" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -87,8 +107,8 @@
 
 
   <!-- Common -->
-  <target name="common:test" description="Run the unit test suite for common">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+  <target name="common:test" depends="set-classpath" description="Run the unit test suite for common">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../common">
       <env key="GEM_HOME" value="${gem_home}" />
@@ -98,19 +118,20 @@
 
 
   <!-- Backend -->
-  <target name="backend:test" description="Run the unit test suite">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+  <target name="backend:test" depends="set-classpath" description="Run the unit test suite">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="--1.9 -X-C ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
   </target>
 
 
-  <target name="backend:integration" description="Run the integration test suite">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+  <target name="backend:integration" depends="set-classpath" description="Run the integration test suite">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
@@ -120,8 +141,8 @@
   </target>
 
 
-  <target name="backend:war" depends="bootstrap" description="Deploy the backend application as a .war file">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+  <target name="backend:war" depends="set-classpath, bootstrap" description="Deploy the backend application as a .war file">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -130,8 +151,8 @@
   </target>
 
 
-  <target name="backend:devserver" description="Start an instance of the ArchivesSpace backend development server">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+  <target name="backend:devserver" depends="set-classpath" description="Start an instance of the ArchivesSpace backend development server">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           dir="../backend">
       <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -142,9 +163,9 @@
   </target>
 
 
-  <target name="backend:doc" description="Generate documentation for endpoints">
+  <target name="backend:doc" depends="set-classpath" description="Generate documentation for endpoints">
     <property name="match" value=""/>
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -163,8 +184,8 @@
   </target>
         
 
-  <target name="frontend:devserver" depends="frontend:clean" description="Start an instance of the ArchivesSpace frontend development server">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+  <target name="frontend:devserver" depends="set-classpath, frontend:clean" description="Start an instance of the ArchivesSpace frontend development server">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -174,8 +195,8 @@
   </target>
 
 
-  <target name="frontend:console" description="Run the rails console">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+  <target name="frontend:console" depends="set-classpath" description="Run the rails console">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -184,12 +205,12 @@
   </target>
 
 
-  <target name="frontend:war" depends="frontend:clean, bootstrap" description="Deploy the frontend application as a .war file">
+  <target name="frontend:war" depends="set-classpath, frontend:clean, bootstrap" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
     <delete dir="../frontend/tmp" />
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <jvmarg line="${env.JAVA_OPTS}" />
       <env key="GEM_HOME" value="${gem_home}" />
@@ -197,7 +218,7 @@
       <arg line="--1.9 -S rake assets:precompile" />
     </java>
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -239,12 +260,13 @@
 
 
   <!-- Selenium -->
-  <target name="selenium:test" depends="frontend:clean" description="Run the Selenium tests">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+  <target name="selenium:test" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../selenium">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d spec" />
     </java>
   </target>
@@ -301,15 +323,12 @@
     <get src="${coverage.jruby_url}" dest="${coverage.jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
   </target>
 
-  <target name="backend:coverage" depends="bootstrap:coverage" description="Generate coverage reports for the backend">
-    <java classpath="${coverage.jruby_file}" classname="org.jruby.Main" fork="true" 
-          failonerror="true"
-          dir="../backend">
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="COVERAGE_REPORTS" value="true" />
-      <arg line="--1.9 --debug ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
-    </java>
+  <target name="backend:coverage" depends="set-classpath, bootstrap:coverage, backend:test" description="Generate coverage reports for the backend">
+  </target>
+
+
+  <target name="frontend:coverage" depends="set-classpath, bootstrap:coverage, frontend:clean, selenium:test"
+          description="Generate coverage reports for the frontend">
   </target>
 
 
