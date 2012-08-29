@@ -36,22 +36,22 @@ describe 'Resources controller' do
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
     tree.to_hash.should eq({
-                     "archival_object" => aos[0].uri,
-                     "title" => "archival object: earth",
-                     "children" => [
-                                    {
-                                      "archival_object" => aos[1].uri,
-                                      "title" => "archival object: australia",
-                                      "children" => [
-                                                     {
-                                                       "archival_object" => aos[2].uri,
-                                                       "title" => "archival object: canberra",
-                                                       "children" => []
-                                                     }
-                                                    ]
-                                    }
-                                   ]
-                   })
+                             "archival_object" => aos[0].uri,
+                             "title" => "archival object: earth",
+                             "children" => [
+                                            {
+                                              "archival_object" => aos[1].uri,
+                                              "title" => "archival object: australia",
+                                              "children" => [
+                                                             {
+                                                               "archival_object" => aos[2].uri,
+                                                               "title" => "archival object: canberra",
+                                                               "children" => []
+                                                             }
+                                                            ]
+                                            }
+                                           ]
+                           })
 
 
     # Now turn it on its head
@@ -115,7 +115,7 @@ describe 'Resources controller' do
 
 
     tree = JSONModel(:resource_tree).from_hash(:archival_object => ao.uri,
-                                                 :children => [])
+                                               :children => [])
 
     tree.save(:resource_id => coll_id)
 
@@ -124,20 +124,20 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource with a subject" do
-    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab", 
+    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab",
                                              "ref_id" => "abc"
-                                            )
+                                             )
     vocab.save
     vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
-    subject = JSONModel(:subject).from_hash("terms"=>[{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => vocab_uri}],
+    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => vocab_uri}],
                                             "vocabulary" => vocab_uri
                                             )
     subject.save
 
-    resource = JSONModel(:resource).from_hash("title" => "a resource", 
-                                                  "id_0" => "abc123",
-                                                  "subjects" => [subject.uri]
-                                                 )
+    resource = JSONModel(:resource).from_hash("title" => "a resource",
+                                              "id_0" => "abc123",
+                                              "subjects" => [subject.uri]
+                                              )
     coll_id = resource.save
 
     JSONModel(:resource).find(coll_id).subjects[0].should eq(subject.uri)

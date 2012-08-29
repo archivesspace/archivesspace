@@ -11,8 +11,8 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.post('/vocabularies')
-     .params(["vocabulary", JSONModel(:vocabulary), "The vocabulary data to create", :body => true])
-     .returns([200, "OK"]) \
+    .params(["vocabulary", JSONModel(:vocabulary), "The vocabulary data to create", :body => true])
+    .returns([200, "OK"]) \
   do
     vocabulary = Vocabulary.create_from_json(params[:vocabulary])
 
@@ -40,8 +40,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["vocab_id", Integer, "The vocabulary ID"])
     .returns([200, "OK"]) \
   do
-     json_response(Term.filter({:vocab_id => params[:vocab_id]}).collect {|t|
-                      Term.to_jsonmodel(t, :term).to_hash})
+    json_response(Term.filter({:vocab_id => params[:vocab_id]}).collect {|t|
+                    Term.to_jsonmodel(t, :term).to_hash})
   end
 
 

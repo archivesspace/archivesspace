@@ -75,36 +75,36 @@ def run_tests
     fail("Accession fetch", r)
 
 
-    puts "Create a subject with no terms"
-    r = do_post({
-                  :terms => [],
-                  :vocabulary => "/vocabularies/1"
-                }.to_json,
-                url("/subjects"))
-    r[:status] === "400" or fail("Invalid subject check", r)
+  puts "Create a subject with no terms"
+  r = do_post({
+                :terms => [],
+                :vocabulary => "/vocabularies/1"
+              }.to_json,
+              url("/subjects"))
+  r[:status] === "400" or fail("Invalid subject check", r)
 
 
-    puts "Create a subject"
-    r = do_post({
-                  :terms => [
-                    :term => "Some term #{$me}",
-                    :term_type => "Function",
-                    :vocabulary => "/vocabularies/1"
-                  ],
-                  :vocabulary => "/vocabularies/1"
-                }.to_json,
-                url("/subjects"))
+  puts "Create a subject"
+  r = do_post({
+                :terms => [
+                           :term => "Some term #{$me}",
+                           :term_type => "Function",
+                           :vocabulary => "/vocabularies/1"
+                          ],
+                :vocabulary => "/vocabularies/1"
+              }.to_json,
+              url("/subjects"))
 
-    subject_id = r[:body]["id"] or fail("Subject creation", r)
+  subject_id = r[:body]["id"] or fail("Subject creation", r)
 
 
   puts "Create a resource"
   r = do_post({
-                  :title => "integration test resource", 
-                  :id_0 => "abc123", 
-                  :subjects => ["/subjects/#{subject_id}"]
-               }.to_json,
-               url("/repositories/#{repo_id}/resources"))
+                :title => "integration test resource",
+                :id_0 => "abc123",
+                :subjects => ["/subjects/#{subject_id}"]
+              }.to_json,
+              url("/repositories/#{repo_id}/resources"))
 
   coll_id = r[:body]["id"] or fail("Resource creation", r)
 

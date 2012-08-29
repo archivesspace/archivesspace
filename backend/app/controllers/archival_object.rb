@@ -65,7 +65,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:archival_object)]"]) \
   do
     json_response(ArchivalObject.filter({:repo_id => params[:repo_id]}).
-                                 collect {|ao| ArchivalObject.to_jsonmodel(ao, :archival_object).to_hash})
+                  collect {|ao| ArchivalObject.to_jsonmodel(ao, :archival_object).to_hash})
   end
 
 end

@@ -57,8 +57,8 @@ class Resource < Sequel::Model(:resources)
 
   def update_tree(tree)
     Resource.db[:archival_objects].
-               filter(:resource_id => self.id).
-               update(:parent_id => nil)
+             filter(:resource_id => self.id).
+             update(:parent_id => nil)
 
     # The root node has a null parent
     self.link(:parent => nil,

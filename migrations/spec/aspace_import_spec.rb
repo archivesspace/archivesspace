@@ -23,7 +23,7 @@ describe ASpaceImporter do
     expect { ASpaceImporter.create_importer( {:importer => :yo} ) }.to raise_error
   end
   it "should be able to instantiate an importer class that appears to be usable" do
-    ASpaceImporter.importer :hey do 
+    ASpaceImporter.importer :hey do
       def self.profile; "blah"; end
       def run; "blech"; end
     end

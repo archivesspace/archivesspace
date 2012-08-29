@@ -166,7 +166,7 @@ module RESTHelpers
                 errors[:bad_type] << {:name => name, :doc => doc, :type => type}
               end
             end
-            
+
             if opts[:validation]
               if not opts[:validation][1].call(params[name.intern])
                 errors[:failed_validation] << {:name => name, :doc => doc, :type => type, :validation => opts[:validation][0]}

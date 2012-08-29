@@ -100,10 +100,10 @@ end
 
 
 def logout(driver)
-   ## Complete the logout process
-   driver.find_element(:css, '.user-container .btn').click
-   driver.find_element(:link, "Logout").click
-   driver.find_element(:link, "Sign In")
+  ## Complete the logout process
+  driver.find_element(:css, '.user-container .btn').click
+  driver.find_element(:link, "Logout").click
+  driver.find_element(:link, "Sign In")
 end
 
 

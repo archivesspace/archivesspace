@@ -15,7 +15,7 @@ RESTHelpers::Endpoint.all.keep_if { |e| e[:uri] =~ /#{fltr}/ }.each do |e|
 
   e[:params].each do |param|
     opts = (param[3] or {})
-    
+
     vs = opts[:validation] ? " -- #{opts[:validation][0]}" : ""
 
     if opts[:body]
@@ -25,7 +25,7 @@ RESTHelpers::Endpoint.all.keep_if { |e| e[:uri] =~ /#{fltr}/ }.each do |e|
     end
   end
 
-#  puts "  Returns: #{e[:returns].inspect}"
+  #  puts "  Returns: #{e[:returns].inspect}"
   puts "  Returns:"
   e[:returns].each do |ret|
     puts "    #{ret[0]} -- #{ret[1]}"

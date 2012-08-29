@@ -101,12 +101,12 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object with a subject" do
-    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab", 
+    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab",
                                              "ref_id" => "abc"
-                                            )
+                                             )
     vocab.save
-    
-    subject = JSONModel(:subject).from_hash("terms"=>[{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)}],
+
+    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)}],
                                             "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)
                                             )
     subject.save
@@ -122,10 +122,10 @@ describe 'Archival Object controller' do
   it "can resolve subjects for you" do
     vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab",
                                              "ref_id" => "abc"
-                                            )
+                                             )
     vocab.save
-    
-    subject = JSONModel(:subject).from_hash("terms"=>[{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)}],
+
+    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)}],
                                             "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)
                                             )
     subject.save

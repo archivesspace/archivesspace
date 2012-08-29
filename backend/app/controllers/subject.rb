@@ -2,8 +2,8 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/subjects')
-     .params(["subject", JSONModel(:subject), "The subject data to create", :body => true])
-     .returns([200, "OK"]) \
+    .params(["subject", JSONModel(:subject), "The subject data to create", :body => true])
+    .returns([200, "OK"]) \
   do
     subject = Subject.create_from_json(params[:subject])
 

@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def inline?
-     params[:inline] === "true"
+    params[:inline] === "true"
   end
 
 
@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
     reset_session
 
     flash[:error] = "Your backend session was not found"
-    redirect_to :controller=>:welcome, :action=>:index
+    redirect_to :controller => :welcome, :action => :index
   end
 
 
@@ -89,17 +89,17 @@ class ApplicationController < ActionController::Base
   end
 
   def load_default_vocabulary
-     if not session.has_key?(:vocabulary)
-        session[:vocabulary] = JSONModel(:vocabulary).all.first.to_hash
-     end
+    if not session.has_key?(:vocabulary)
+      session[:vocabulary] = JSONModel(:vocabulary).all.first.to_hash
+    end
   end
 
   def choose_layout
-     if inline?
-        nil
-     else
-        'application'
-     end
+    if inline?
+      nil
+    else
+      'application'
+    end
   end
 
 end

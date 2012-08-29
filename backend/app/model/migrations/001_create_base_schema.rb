@@ -138,16 +138,16 @@ Sequel.migration do
 
     create_table(:vocabularies) do
       primary_key :id
-      
+
       String :name, :null => false, :unique => true
       String :ref_id, :null => false, :unique => true
-      
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
-    self[:vocabularies].insert(:name => "global", :ref_id => "global", 
-      :create_time => Time.now, :last_modified => Time.now)
+    self[:vocabularies].insert(:name => "global", :ref_id => "global",
+                               :create_time => Time.now, :last_modified => Time.now)
 
 
     create_table(:subjects) do
@@ -172,17 +172,17 @@ Sequel.migration do
       String :term_type, :null => false
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false      
-    end    
+      DateTime :last_modified, :null => false
+    end
 
     alter_table(:terms) do
       add_foreign_key([:vocab_id], :vocabularies, :key => :id)
       add_index([:vocab_id, :term, :term_type], :unique => true)
     end
 
-    create_join_table(:subject_id=>:subjects, :term_id=>:terms)
-    create_join_table(:subject_id=>:subjects, :archival_object_id=>:archival_objects)
-    create_join_table(:subject_id=>:subjects, :resource_id=>:resources)
+    create_join_table(:subject_id => :subjects, :term_id => :terms)
+    create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
+    create_join_table(:subject_id => :subjects, :resource_id => :resources)
 
 
   end

@@ -7,5 +7,5 @@ class Vocabulary < Sequel::Model(:vocabularies)
   def self.set(params)
     self.where(params)
   end
-  
+
 end

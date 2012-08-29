@@ -10,7 +10,7 @@
       "term_type" => {"type" => "string", "minLength" => 1, "required" => true, "enum" => ["Cultural context", "Function", "Geographic", "Genre / form", "Occupation", "Style / period", "Technique", "Temporal", "Topical", "Uniform title"]},
 
       "vocabulary" => {"type" => "JSONModel(:vocabulary) uri", "required" => true}
-     },
+    },
 
     "additionalProperties" => false,
   },

@@ -6,19 +6,19 @@ class Term < Sequel::Model(:terms)
 
   def validate
     super
-    validates_unique([:vocab_id, :term, :term_type], :message=>"Term must be unique")
+    validates_unique([:vocab_id, :term, :term_type], :message => "Term must be unique")
   end
 
   def self.set_vocabulary(json, opts)
     opts["vocab_id"] = nil
-    
+
     if json["vocabulary"]
       opts["vocab_id"] = JSONModel::parse_reference(json["vocabulary"], opts)[:id]
     end
   end
 
   def self.create_from_json(json, opts = {})
-    set_vocabulary(json, opts)    
+    set_vocabulary(json, opts)
     super(json, opts)
   end
 
