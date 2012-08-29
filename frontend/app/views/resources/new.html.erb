@@ -1,14 +1,14 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Resources", :controller=>:resources, :action=>:index),"New Resource"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Resources", :controller => :resources, :action => :index),"New Resource"]} %>
 <div class="row-fluid">
    <div class="span3">
       Save your Resource to then begin modifying its hierarchy.
    </div> <!-- span3 -->
    <div class="span9 record-pane" id="archival_object_container">
-      <%= form_for @resource, :as => "resource", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
-         <%= render :partial=>"resources/form_container", :locals=>{:f => f} %>
+      <%= form_for @resource, :as => "resource", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+         <%= render :partial => "resources/form_container", :locals => {:f => f} %>
          <div class="form-actions">            
             <button type="submit" class="btn btn-primary">Create Resource</button>   
-            <%= link_to "Cancel", :back, :class=>"btn btn-cancel" %>
+            <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
          </div>
       <% end %>
    </div>

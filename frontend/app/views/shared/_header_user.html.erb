@@ -3,7 +3,7 @@
      <div class="input-append">
         <span class="user-label"><span class="icon-user"></span> <%= session[:user] %></span><a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to "Logout", :controller=>"session",:action=>"logout"%></li>
+            <li><%= link_to "Logout", :controller => "session",:action => "logout"%></li>
           </ul>
      </div>
   </li>
@@ -11,7 +11,7 @@
   <li class="dropdown">
     <a class="session-actions dropdown-toggle" href="#" data-toggle="dropdown">Sign In</a>
     <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-       <%= form_tag({:controller=>"session",:action=>"login"}, :method=>"post", :class=>"login") do %>
+       <%= form_tag({:controller => "session",:action => "login"}, :method => "post", :class => "login") do %>
          <div class="control-group">
             <p class="help-inline login-message">Login attempt failed</p>
             <p class="alert alert-success">Login Successful. Redirecting...</p>
@@ -20,7 +20,7 @@
          </div>
          <input class="btn btn-primary" type="submit" name="commit" value="Sign In" id="login" />
        <% end %>
-       <p>Need an account?  <%= link_to "Register now", {:controller=>"users"}, :class => "boring-link" %></p>
+       <p>Need an account?  <%= link_to "Register now", {:controller => "users"}, :class => "boring-link" %></p>
     </div>
   </li>
 <% end %>

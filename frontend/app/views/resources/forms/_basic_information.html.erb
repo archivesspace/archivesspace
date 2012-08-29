@@ -12,7 +12,7 @@
                data-name_plural="Subjects" 
                data-owner_class="resource" 
                data-owner_attribute="subjects" 
-               data-url="<%= url_for :controller=>:subjects, :action=>:list, :format=>:json %>" 
+               data-url="<%= url_for :controller => :subjects, :action => :list, :format => :json %>" 
                data-selected='<%= @resource['subjects'].blank? ? "[]" : @resource['resolved']['subjects'].collect {|s| Subject.from_hash(s)}.to_json %>' 
                data-format="${display_string}" 
           />

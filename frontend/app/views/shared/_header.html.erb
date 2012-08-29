@@ -6,29 +6,29 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <%= link_to "ArchivesSpace", {:controller=>:welcome, :action=>:index}, :class=>"brand" %>
+        <%= link_to "ArchivesSpace", {:controller => :welcome, :action => :index}, :class => "brand" %>
         <div class="nav-collapse">
           <% if session[:user] and session[:repo_id] %>
           <ul class="nav">
             <li <% if controller_name === "welcome" %>class="active"<% end %>>
-               <%= link_to raw('<span class="icon-home"></span>'), :controller=>:welcome, :action=>:index %>
+               <%= link_to raw('<span class="icon-home"></span>'), :controller => :welcome, :action => :index %>
             </li>
             <li class="dropdown browse-container">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><%= link_to "Accessions", :controller=>:accessions, :action=>:index %></li>
-                <li><%= link_to "Resources", :controller=>:resources, :action=>:index %></li>
+                <li><%= link_to "Accessions", :controller => :accessions, :action => :index %></li>
+                <li><%= link_to "Resources", :controller => :resources, :action => :index %></li>
                 <li class="divider"></li>
-                <li><%= link_to "Subjects", :controller=>:subjects, :action=>:index %></li>                
+                <li><%= link_to "Subjects", :controller => :subjects, :action => :index %></li>                
               </ul>
             </li>
             <li class="dropdown create-container">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><%= link_to "Accession", :controller=>:accessions, :action=>:new %></li>
-                <li><%= link_to "Resource", :controller=>:resources, :action=>:new %></li>
+                <li><%= link_to "Accession", :controller => :accessions, :action => :new %></li>
+                <li><%= link_to "Resource", :controller => :resources, :action => :new %></li>
                 <li class="divider"></li>
-                <li><%= link_to "Subject", :controller=>:subjects, :action=>:new %></li>
+                <li><%= link_to "Subject", :controller => :subjects, :action => :new %></li>
               </ul>
             </li>
           </ul>         

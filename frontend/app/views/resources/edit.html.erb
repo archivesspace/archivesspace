@@ -1,8 +1,8 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Resources", :controller=>:resources, :action=>:index), link_to(@resource.title, :controller=>:resources, :action=>:show, :id=>@resource.id), "Edit"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Resources", :controller => :resources, :action => :index), link_to(@resource.title, :controller => :resources, :action => :show, :id => @resource.id), "Edit"]} %>
 <div class="row-fluid">
    <div class="span3">
      <div class="archives-tree-container">
-      <%= render :partial=>"resources/tree", :locals=>{:selected=>"resource"} %>      
+      <%= render :partial => "resources/tree", :locals => {:selected => "resource"} %>      
     </div> <!-- well -->
    </div> <!-- span3 -->
    <div class="span9 record-pane">
