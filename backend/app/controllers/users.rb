@@ -22,6 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/users/:username/login')
+    .description("Log in")
     .params(["username", nil, "Your username"],
             ["password", nil, "Your password"])
     .returns([200, "Login accepted"],
