@@ -44,9 +44,11 @@ module ASModel
     end
 
 
-    def get_or_die(id)
+    def get_or_die(id, repo_id = nil)
       # For a minute there I lost myself...
-      self[id] or raise NotFoundException.new("#{self} not found")
+      obj = repo_id.nil? ? self[id] : self[:id => id, :repo_id => repo_id]
+
+      obj or raise NotFoundException.new("#{self} not found")
     end
 
 
@@ -59,10 +61,10 @@ module ASModel
     end
 
 
-    def to_jsonmodel(obj, model)
+    def to_jsonmodel(obj, model, repo_id = nil)
       if obj.is_a? Integer
         # An ID.  Get the Sequel row for it.
-        obj = get_or_die(obj)
+        obj = get_or_die(obj, repo_id)
       end
 
       sequel_to_jsonmodel(obj, model)
