@@ -57,6 +57,11 @@
       File List
     </a>
   
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schemas
+    </a>
+  
 </div>
       <div class="clear"></div>
     </div>
@@ -278,14 +283,14 @@
       <pre class="lines">
 
 
+27
 28
 29
 30
-31
-32</pre>
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='ivar'>@invalid_object</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:invalid_object</span><span class='rbracket'>]</span>
@@ -329,12 +334,12 @@
       <pre class="lines">
 
 
+24
 25
-26
-27</pre>
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_errors'>errors</span>
   <span class='ivar'>@errors</span>
@@ -371,12 +376,12 @@
       <pre class="lines">
 
 
+23
 24
-25
-26</pre>
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_invalid_object'>invalid_object</span>
   <span class='ivar'>@invalid_object</span>
@@ -413,12 +418,12 @@
       <pre class="lines">
 
 
+25
 26
-27
-28</pre>
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_warnings'>warnings</span>
   <span class='ivar'>@warnings</span>
@@ -450,12 +455,12 @@
       <pre class="lines">
 
 
+33
 34
-35
-36</pre>
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'jsonmodel.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;:ValidationException: </span><span class='embexpr_beg'>#{</span><span class='lbrace'>{</span><span class='symbol'>:errors</span> <span class='op'>=&gt;</span> <span class='ivar'>@errors</span><span class='comma'>,</span> <span class='symbol'>:warnings</span> <span class='op'>=&gt;</span> <span class='ivar'>@warnings</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
@@ -470,7 +475,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 16 18:03:42 2012 by
+  Generated on Wed Aug 29 21:37:17 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>
