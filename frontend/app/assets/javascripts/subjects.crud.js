@@ -23,13 +23,17 @@ $(function() {
 
         var typeahead_data = $(".terms-container .row-fluid:last :text:first", $this).data("source");
 
+        var itemDisplayString = function(item) {
+          return  item.term + " ["+item.term_type+"]"
+        }
+
         $(".terms-container .row-fluid:last :text:first", $this)
         .typeahead({
           source: function(query, process) {
             return typeahead_data;
           },
           matcher: function(item) {
-            return item.term && item.term.toLowerCase().indexOf(this.query.toLowerCase()) >= 0;
+            return item.term && itemDisplayString(item).toLowerCase().indexOf(this.query.toLowerCase()) >= 0;
           },
           sorter: function(items) {
             return items.sort(function(a, b) {
@@ -37,7 +41,7 @@ $(function() {
             });
           },
           highlighter: function(item) {
-            return $.proxy(Object.getPrototypeOf(this).highlighter, this)(item.term);
+            return $.proxy(Object.getPrototypeOf(this).highlighter, this)(itemDisplayString(item));
           },
           updater: function(item) {
             $("select", this.$element.parents(".row-fluid:first")).val(item.term_type);
