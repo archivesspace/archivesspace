@@ -23,6 +23,16 @@ describe 'Archival Object controller' do
     JSONModel(:archival_object).find(created).title.should eq("The archival object title")
   end
 
+  it "returns an error if the archival object is not in this repository" do
+    created = create_archival_object
+
+    repo = JSONModel(:repository).from_hash("repo_code" => "OTHERREPO",
+                                            "description" => "A new repository that doesn't contain our archival object")
+    repo.save
+    @repo = repo.uri
+    JSONModel::set_repository(JSONModel(:repository).id_for(@repo))
+    JSONModel(:archival_object).find(created).should eq nil
+  end
 
   it "lets you list all archival objects" do
     id = create_archival_object
