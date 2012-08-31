@@ -1,11 +1,11 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>["Browse Subjects"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["Browse Subjects"]} %>
 <div class="row-fluid">
    <div class="span3">
       The facets/search filters will go here.
    </div>
    <div class="span9 record-pane">
       <div class="btn-group">
-        <%= link_to "Create Subject", {:controller=>:subjects, :action=>:new}, :class=>"btn" %>
+        <%= link_to "Create Subject", {:controller => :subjects, :action => :new}, :class => "btn" %>
       </div>
       <% if not @subjects.blank? %>
          <h2>Subjects</h2>
@@ -22,7 +22,7 @@
                 <td><%= subject.display_string %></td>
                 <td>
                    <div class="btn-group" style="float: right">
-                     <%= link_to "View", {:controller=>:subjects, :action=>:show, :id=>subject.id}, :class=>"btn btn-mini" %>
+                     <%= link_to "View", {:controller => :subjects, :action => :show, :id => subject.id}, :class => "btn btn-mini" %>
                    </div>
                 </td>
               </tr>

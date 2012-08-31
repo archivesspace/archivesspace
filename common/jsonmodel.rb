@@ -441,7 +441,7 @@ module JSONModel
 
           if schema["$ref"] == "#"
             # A recursive schema.  Back to the beginning.
-                                 schema = self.schema
+            schema = self.schema
           end
 
           hash.each do |k, v|

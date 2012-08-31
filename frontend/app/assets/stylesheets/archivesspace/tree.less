@@ -9,80 +9,80 @@
 }
 
 .archives-tree-container {
-   padding: 0 0 10px;
-   position: relative;
+  padding: 0 0 10px;
+  position: relative;
 
-   > .archives-tree-title {
-      background-color: #eee;
-      background-color: rgba(0,0,0,.025);
-      padding: 5px;
-      margin: 0;
-      font-weight: bold;
-   }
+  > .archives-tree-title {
+    background-color: #eee;
+    background-color: rgba(0,0,0,.025);
+    padding: 5px;
+    margin: 0;
+    font-weight: bold;
+  }
 
-    .expand-tree:hover,
-    .retract-tree:hover {
-     .opacity(100);
-    }
+  .expand-tree:hover,
+  .retract-tree:hover {
+    .opacity(100);
+  }
 
-   .retract-tree {
-     display: none;
-   }
+  .retract-tree {
+    display: none;
+  }
 
-   .archives-tree {
-     margin: 10px 0;
-     overflow: auto;
+  .archives-tree {
+    margin: 10px 0;
+    overflow: auto;
     
-     a > .jstree-icon {
-       display: inline-block;
-       width: 14px;
-       height: 14px;
-       .ie7-restore-right-whitespace();
-       line-height: 14px;
-       vertical-align: text-top;
-       background-image: url(@iconSpritePath) !important;
-       background-position: 14px 14px;
-       background-repeat: no-repeat;
-     }
-  
-     a > .jstree-icon {
-       background-position: -384px -120px !important;
-     }
-  
-     .jstree-open > a > .jstree-icon {
-       background-position: -408px -120px !important;
-     } 
-  
-     .analog > a > .jstree-icon {
-       background-position: -24px  -24px !important;
-     }
-  
-     .digital > a > .jstree-icon {
-       background-position: -456px -24px !important;
-     }
-  
-     .collection > a > .jstree-icon {
-       background-position: -264px -24px !important;
-     }
-   }
+    a > .jstree-icon {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      .ie7-restore-right-whitespace();
+      line-height: 14px;
+      vertical-align: text-top;
+      background-image: url(@iconSpritePath) !important;
+      background-position: 14px 14px;
+      background-repeat: no-repeat;
+    }
+    
+    a > .jstree-icon {
+      background-position: -384px -120px !important;
+    }
+    
+    .jstree-open > a > .jstree-icon {
+      background-position: -408px -120px !important;
+    } 
+    
+    .analog > a > .jstree-icon {
+      background-position: -24px  -24px !important;
+    }
+    
+    .digital > a > .jstree-icon {
+      background-position: -456px -24px !important;
+    }
+    
+    .resource > a > .jstree-icon {
+      background-position: -264px -24px !important;
+    }
+  }
 }
 
 .archives-tree-container.expanded {
-     .box-shadow(1px 1px 5px rgba(0, 0, 0, 0.4));
-     .opacity(95);
-     z-index: 1000;
-     background-color: #f9f9f9;
+  .box-shadow(1px 1px 5px rgba(0, 0, 0, 0.4));
+  .opacity(95);
+  z-index: 1000;
+  background-color: #f9f9f9;
 
-     .expand-tree {
-       display:none;
-     }
+  .expand-tree {
+    display:none;
+  }
 
-     .retract-tree {
-       display: inline;
-     }
+  .retract-tree {
+    display: inline;
+  }
 }
 
 .tree-navigation {
-   float: right;
-   margin: 0 0 0 4px;
+  float: right;
+  margin: 0 0 0 4px;
 }

@@ -13,10 +13,10 @@ describe 'Repository model' do
 
   it "Enforces ID uniqueness" do
     expect { Repository.create(:repo_code => "TESTREPO",
-                      :description => "My new test repository") }.to_not raise_error
+                               :description => "My new test repository") }.to_not raise_error
 
     expect { Repository.create(:repo_code => "TESTREPO",
-                        :description => "Another description") }.to raise_error
+                               :description => "Another description") }.to raise_error
   end
 
 

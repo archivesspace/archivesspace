@@ -10,7 +10,7 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="basic-information">
-      <%= render :partial=>"archival_objects/forms/basic_information", :locals=>{:f => f} %>
+      <%= render :partial => "archival_objects/forms/basic_information", :locals => {:f => f} %>
     </div>
     <!-- <div class="tab-pane" id="finding-aid">
       <div class="well">Finding Aid form here...</div>
@@ -22,10 +22,10 @@
       <div class="well">Names selector/list here...</div>
     </div> -->
     <div class="tab-pane" id="subjects">
-       <%= render :partial=>"archival_objects/forms/subjects", :locals=>{:f => f} %>
+       <%= render :partial => "archival_objects/forms/subjects", :locals => {:f => f} %>
     </div>
   </div>
 </div>
 <%= f.hidden_field :parent %>
-<%= f.hidden_field :collection %>
+<%= f.hidden_field :resource %>
 <%= hidden_field_tag "ao_id", @archival_object.id %>

@@ -9,12 +9,12 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   end
 
 
-  def self.set_collection(json, opts)
-    opts["collection_id"] = nil
+  def self.set_resource(json, opts)
+    opts["resource_id"] = nil
     opts["parent_id"] = nil
 
-    if json.collection
-      opts["collection_id"] = JSONModel::parse_reference(json.collection, opts)[:id]
+    if json.resource
+      opts["resource_id"] = JSONModel::parse_reference(json.resource, opts)[:id]
 
       if json.parent
         opts["parent_id"] = JSONModel::parse_reference(json.parent, opts)[:id]
@@ -24,7 +24,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
 
   def self.create_from_json(json, opts = {})
-    set_collection(json, opts)
+    set_resource(json, opts)
     obj = super(json, opts)
     apply_subjects(obj, json, opts)
     obj
@@ -32,7 +32,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
 
   def update_from_json(json, opts = {})
-    self.class.set_collection(json, opts)
+    self.class.set_resource(json, opts)
     obj = super(json, opts)
     self.class.apply_subjects(obj, json, {})
     obj
@@ -43,9 +43,9 @@ class ArchivalObject < Sequel::Model(:archival_objects)
     json = super(obj, type)
     json.subjects = obj.subjects.map {|subject| JSONModel(:subject).uri_for(subject.id)}
 
-    if obj.collection_id
-      json.collection = JSONModel(:collection).uri_for(obj.collection_id,
-                                                       {:repo_id => obj.repo_id})
+    if obj.resource_id
+      json.resource = JSONModel(:resource).uri_for(obj.resource_id,
+                                                   {:repo_id => obj.repo_id})
 
       if obj.parent_id
         json.parent = JSONModel(:archival_object).uri_for(obj.parent_id,
@@ -58,8 +58,8 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
 
   def validate
-    validates_unique([:collection_id, :ref_id],
-                     :message => "An Archival Object Ref ID must be unique to its collection")
+    validates_unique([:resource_id, :ref_id],
+                     :message => "An Archival Object Ref ID must be unique to its resource")
     super
   end
 

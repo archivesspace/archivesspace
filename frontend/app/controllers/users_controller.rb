@@ -32,12 +32,12 @@ class UsersController < ApplicationController
 
     User.establish_session(session, backend_session, params['createuser']['username'])
 
-    redirect_to :controller=>:welcome, :action=>:index
+    redirect_to :controller => :welcome, :action => :index
 
   rescue JSONModel::ValidationException => e
     @user = e.invalid_object
 
-    render action: "new", :notice=>"There was a problem creating your account"
+    render action: "new", :notice => "There was a problem creating your account"
   end
 
 end

@@ -92,7 +92,7 @@ Sequel.migration do
       add_foreign_key([:repo_id], :repositories, :key => :id)
     end
 
-    create_table(:collections) do
+    create_table(:resources) do
       primary_key :id
 
       Integer :repo_id, :null => false
@@ -104,7 +104,7 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:collections) do
+    alter_table(:resources) do
       add_foreign_key([:repo_id], :repositories, :key => :id)
       add_index([:repo_id, :identifier], :unique => true)
     end
@@ -114,7 +114,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :repo_id, :null => false
-      Integer :collection_id, :null => true
+      Integer :resource_id, :null => true
 
       Integer :parent_id, :null => true
 
@@ -130,24 +130,24 @@ Sequel.migration do
 
     alter_table(:archival_objects) do
       add_foreign_key([:repo_id], :repositories, :key => :id)
-      add_foreign_key([:collection_id], :collections, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
       add_foreign_key([:parent_id], :archival_objects, :key => :id)
-      add_index([:collection_id, :ref_id], :unique => true)
+      add_index([:resource_id, :ref_id], :unique => true)
     end
 
 
     create_table(:vocabularies) do
       primary_key :id
-      
+
       String :name, :null => false, :unique => true
       String :ref_id, :null => false, :unique => true
-      
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
-    self[:vocabularies].insert(:name => "global", :ref_id => "global", 
-      :create_time => Time.now, :last_modified => Time.now)
+    self[:vocabularies].insert(:name => "global", :ref_id => "global",
+                               :create_time => Time.now, :last_modified => Time.now)
 
 
     create_table(:subjects) do
@@ -172,17 +172,17 @@ Sequel.migration do
       String :term_type, :null => false
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false      
-    end    
+      DateTime :last_modified, :null => false
+    end
 
     alter_table(:terms) do
       add_foreign_key([:vocab_id], :vocabularies, :key => :id)
       add_index([:vocab_id, :term, :term_type], :unique => true)
     end
 
-    create_join_table(:subject_id=>:subjects, :term_id=>:terms)
-    create_join_table(:subject_id=>:subjects, :archival_object_id=>:archival_objects)
-    create_join_table(:subject_id=>:subjects, :collection_id=>:collections)
+    create_join_table(:subject_id => :subjects, :term_id => :terms)
+    create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
+    create_join_table(:subject_id => :subjects, :resource_id => :resources)
 
 
   end
@@ -192,7 +192,7 @@ Sequel.migration do
     [:subjects_terms, :archival_objects_subjects, :subjects, :terms, :sessions,
      :auth_db, :groups_users, :users, :groups, :accessions,
      :archival_objects, :vocabularies,
-     :collections, :repositories].each do |table|
+     :resources, :repositories].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)
     end

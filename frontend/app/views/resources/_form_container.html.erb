@@ -1,8 +1,8 @@
 <h2>
-   <%= @collection.title.blank? ? "New Collection" : @collection.title %>  <span class="label label-info">Collection</span>
+   <%= @resource.title.blank? ? "New Resource" : @resource.title %>  <span class="label label-info">Resource</span>
 </h2>
 <br/>
-<%= render "shared/form_messages", :object => @collection %>
+<%= render "shared/form_messages", :object => @resource %>
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
@@ -14,7 +14,7 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="basic-information">
-      <%= render :partial=>"collections/forms/basic_information", :locals=>{:f => f} %>
+      <%= render :partial => "resources/forms/basic_information", :locals => {:f => f} %>
     </div>
     <!-- <div class="tab-pane" id="finding-aid">
       <div class="well">Finding Aid form here...</div>

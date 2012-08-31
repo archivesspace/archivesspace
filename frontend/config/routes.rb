@@ -5,8 +5,8 @@ ArchivesSpace::Application.routes.draw do
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
-  match 'login' => "session#login", :via=>:post
-  match 'logout' => "session#logout", :via=>:get
+  match 'login' => "session#login", :via => :post
+  match 'logout' => "session#logout", :via => :get
 
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
@@ -26,10 +26,10 @@ ArchivesSpace::Application.routes.draw do
   resources :archival_objects
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
 
-  resources :collections
-  match 'collections/:id/update_tree' => 'collections#update_tree', :via => [:post]
-  match 'collections/:id/tree' => 'collections#tree', :via => [:get]
-  match 'collections/:id' => 'collections#update', :via => [:post]
+  resources :resources
+  match 'resources/:id/update_tree' => 'resources#update_tree', :via => [:post]
+  match 'resources/:id/tree' => 'resources#tree', :via => [:get]
+  match 'resources/:id' => 'resources#update', :via => [:post]
 
   match 'subjects/list' => 'subjects#list', :via => [:get]
   resources :subjects
@@ -42,7 +42,7 @@ ArchivesSpace::Application.routes.draw do
   #       post 'toggle'
   #     end
   #
-  #     collection do
+  #     resource do
   #       get 'sold'
   #     end
   #   end
@@ -57,7 +57,7 @@ ArchivesSpace::Application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get 'recent', :on => :collection
+  #       get 'recent', :on => :resource
   #     end
   #   end
 

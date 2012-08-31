@@ -33,7 +33,7 @@ optparse = OptionParser.new do|opts|
   opts.on( '-d', '--debug', 'Run in debug mode') do
     $DEBUG = true
   end
-  
+
 end
 
 optparse.parse!

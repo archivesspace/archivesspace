@@ -1,20 +1,20 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Archival Objects", :controller=>:archival_objects, :action=>:index),"New Archival Object"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Archival Objects", :controller => :archival_objects, :action => :index),"New Archival Object"]} %>
 <div class="row-fluid">
    <div class="span3">
      <div class="archives-tree-container">
       <!-- <div class="archives-tree-title">Container Hierarchy</div> -->
-      <%# render :partial=>"collections/tree", :locals=>{:selected=>"new"} %>
+      <%# render :partial => "resources/tree", :locals => {:selected => "new"} %>
       <div class="btn-toolbar archives-tree-toolbar">         
-        <!-- <div class="btn-group"><a class="btn btn-mini" href="#">Link to a Collection</a></div>-->
+        <!-- <div class="btn-group"><a class="btn btn-mini" href="#">Link to a Resource</a></div>-->
       </div> <!-- btn-toolbar archives-tree-toolbar -->
     </div> <!-- well -->
    </div> <!-- span3 -->
    <div class="span9 record-pane" id="archival_object_container">
-      <%= form_for @archival_object, :as => "archival_object", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
-         <%= render :partial=>"archival_objects/form_container", :locals=>{:f => f} %>
+      <%= form_for @archival_object, :as => "archival_object", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+         <%= render :partial => "archival_objects/form_container", :locals => {:f => f} %>
          <div class="form-actions">            
             <button type="submit" class="btn btn-primary">Save Archival Object</button>
-            <%= link_to "Cancel", :back, :class=>"btn btn-cancel" %>
+            <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
          </div>
       <% end %>
    </div>

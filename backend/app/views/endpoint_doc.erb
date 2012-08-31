@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<style>
+  .endpoints {
+    list-style: none;
+    padding: 0;
+  }
+  .endpoints h3 {
+    margin: 0;
+    background-color: #FAFAFA;
+    padding: 10px;
+    border-bottom: 1px solid #EEE;
+  }
+  .endpoints li {
+    border: 1px solid #DDD;
+    margin-bottom: 20px;
+  }
+  .endpoints .method {
+    text-transform: uppercase;
+  }
+  .endpoints .details {
+    padding: 10px;
+    margin-left: 60px;
+  }
+</style>
+
+<h1>Endpoint Documentation</h1>
+
+<ul class="endpoints">
+<% ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}.each do | e | %>
+  <li>
+    <h3><span class="method"><%= e[:method] %></span> <span class="uri"><%= e[:uri] %></span></h3>
+    <div class="details">
+      <strong>Description:</strong>
+      <blockquote><%= e[:description] %></blockquote>
+
+      <b>Parameters:</b>
+      <blockquote>
+      <% e[:params].each do |param| 
+        opts = (param[3] or {})
+        vs = opts[:validation] ? " -- #{opts[:validation][0]}" : ""
+      %>
+        <p>
+          <% if opts[:body] %>
+            <%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
+          <% else %>
+            <%= "#{param[1]} #{param[0]} -- #{param[2]}#{vs}" %>
+          <% end %>
+        </p>
+      <% end %>
+      </blockquote>
+
+      <b>Returns:</b>
+      <blockquote>
+      <% e[:returns].each do |ret| %>
+        <p><%= "#{ret[0]} -- #{ret[1]}" %></p>
+      <% end %>
+      </blockquote>
+    </div>
+  </li>
+<% end %>
+</ul>
+</html>

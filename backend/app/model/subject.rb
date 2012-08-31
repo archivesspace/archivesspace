@@ -4,7 +4,7 @@ class Subject < Sequel::Model(:subjects)
 
   def validate
     super
-    validates_unique([:vocab_id, :terms], :message=>"Subject must be unique")
+    validates_unique([:vocab_id, :terms], :message => "Subject must be unique")
   end
 
   many_to_many :terms
@@ -12,7 +12,7 @@ class Subject < Sequel::Model(:subjects)
 
   def self.set_vocabulary(json, opts)
     opts["vocab_id"] = nil
-    
+
     if json.vocabulary
       opts["vocab_id"] = JSONModel::parse_reference(json.vocabulary, opts)[:id]
     end

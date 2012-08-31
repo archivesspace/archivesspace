@@ -13,7 +13,7 @@ describe 'Subject controller' do
 
   def create_subject
     vocab_uri = JSONModel(:vocabulary).uri_for(@vocab_id)
-    subject = JSONModel(:subject).from_hash("terms"=>[{"term" => "1981 Heroes", "term_type" => "Cultural context", "vocabulary" => vocab_uri}],
+    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "1981 Heroes", "term_type" => "Cultural context", "vocabulary" => vocab_uri}],
                                             "vocabulary" => vocab_uri
                                             )
 

@@ -100,10 +100,10 @@ end
 
 
 def logout(driver)
-   ## Complete the logout process
-   driver.find_element(:css, '.user-container .btn').click
-   driver.find_element(:link, "Logout").click
-   driver.find_element(:link, "Sign In")
+  ## Complete the logout process
+  driver.find_element(:css, '.user-container .btn').click
+  driver.find_element(:link, "Logout").click
+  driver.find_element(:link, "Sign In")
 end
 
 
@@ -294,13 +294,13 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  it "Notifies of errors and warnings when creating an invalid collection" do
+  it "Notifies of errors and warnings when creating an invalid resource" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Collection").click
+    @driver.find_element(:link, "Resource").click
 
-    @driver.find_element(:id, "collection_title").clear
+    @driver.find_element(:id, "resource_title").clear
 
-    @driver.find_element(:css => "form#new_collection button[type='submit']").click
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     @driver.find_element(:css, "div.alert.alert-error").text.should eq('Identifier - Property is required but was missing')
     @driver.find_element(:css, "div.alert.alert-warning").text.should eq('Title - Property was missing')
@@ -309,22 +309,22 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  collection_title = "Pony Express"
+  resource_title = "Pony Express"
 
-  it "Can successfully create a collection" do
+  it "Can successfully create a resource" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Collection").click
+    @driver.find_element(:link, "Resource").click
 
-    @driver.find_element(:id, "collection_title").clear_and_send_keys(collection_title)
-    @driver.complete_4part_id("collection_id_%d")
-    @driver.find_element(:css => "form#new_collection button[type='submit']").click
+    @driver.find_element(:id, "resource_title").clear_and_send_keys(resource_title)
+    @driver.complete_4part_id("resource_id_%d")
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
-    # The new collection shows up on the tree to the left
-    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(collection_title)
+    # The new resource shows up on the tree to the left
+    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(resource_title)
   end
 
 
-  it "Gets errors if adding an empty child to a collection" do
+  it "Gets errors if adding an empty child to a resource" do
     @driver.find_element(:link, "Add Child").click
     @driver.find_element(:link, "Analog Object").click
 
@@ -392,22 +392,22 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  it "Can see our newly added collection in the browse list" do
+  it "Can see our newly added resource in the browse list" do
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Collections").click
-    @driver.find_element_with_text('//td', /#{collection_title}/)
+    @driver.find_element(:link, "Resources").click
+    @driver.find_element_with_text('//td', /#{resource_title}/)
   end
 
-  it "Can't see the collection in the browse list of a different repository" do
+  it "Can't see the resource in the browse list of a different repository" do
     ## Change repository
     @driver.find_element(:css, '.repository-container .btn').click
     @driver.find_element(:link_text => test_repo_code_1).click
 
-    ## Check browse list for collections
+    ## Check browse list for resources
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Collections").click
-    if @driver.find_element_with_text('//td', /#{collection_title}/, true) != nil
-      puts "ERROR: #{collection_title} should not exist in collection Browse list!"
+    @driver.find_element(:link, "Resources").click
+    if @driver.find_element_with_text('//td', /#{resource_title}/, true) != nil
+      puts "ERROR: #{resource_title} should not exist in resource Browse list!"
     end
   end
 

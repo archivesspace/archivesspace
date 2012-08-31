@@ -1,18 +1,18 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Archival Objects", :controller=>:archival_objects, :action=>:index), "New Archival Object"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Archival Objects", :controller => :archival_objects, :action => :index), "New Archival Object"]} %>
 <div class="row-fluid">
    <div class="span3">
       <div class="archives-tree-container">
-      <% if @collection_tree %>
-         <%= render :partial=>"collections/tree", :locals=>{:selected=>@archival_object.id} %>
+      <% if @resource_tree %>
+         <%= render :partial => "resources/tree", :locals => {:selected => @archival_object.id} %>
       <% else %>
-         <p>Collection for Archival Object not specified.</p>
+         <p>Resource for Archival Object not specified.</p>
       <% end %>
       </div>
    </div>
    <div class="span9 record-pane">
       <div class="btn-group" style="float: right">
-        <% if @collection_tree %>
-           <%= link_to "Edit", {:controller=>:archival_objects, :action=>:edit, :id=>@archival_object.id, :collection_id=>@collection_tree["collection_id"]}, :class=>"btn btn-small" %>
+        <% if @resource_tree %>
+           <%= link_to "Edit", {:controller => :archival_objects, :action => :edit, :id => @archival_object.id, :resource_id => @resource_tree["resource_id"]}, :class => "btn btn-small" %>
         <% end %>
         <a href="#" class="btn btn-small">Delete</a>
       </div>
