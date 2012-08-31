@@ -228,9 +228,24 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:shorty] = "meep"
-    ts._exceptions[:errors].keys.should eq ([:unknown])
+    begin
+      real_stdout = $stdout
+      $stdout = StringIO.new
+      ts._exceptions[:errors].keys.should eq ([:unknown])
+    ensure
+      $stdout = real_stdout
+    end
 
   end
 
+  it "can give a string representation of a validation exception" do
+
+    begin
+      JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
+    rescue ValidationException => ve
+      ve.to_s.should match /^\#<:ValidationException: /
+    end
+
+  end
 
 end
