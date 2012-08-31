@@ -10,7 +10,7 @@
       {if nodes.length > 0}
       <ul>
          {for node in nodes}
-            <li id="archival_object_${node.id}" class="analog" rel="archival_object" data-id="${node.id}" data-archival_object="${node.archival_object}">
+            <li id="archival_object_${node.id}" class="analog archival_object" rel="archival_object" data-id="${node.id}" data-archival_object="${node.archival_object}">
                <a href="#archival_object_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
                ${render_children(node.children)}
             </li>

@@ -171,7 +171,7 @@ $(function() {
     // render tree toolbar
     $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
     renderTreeNodeNavigation();
-    if ((nodeEl.hasClass("resource") && nodeEl.find("> ul > li").length === 0) || nodeEl.attr("id") != "newAO") {
+    if ((nodeEl.hasClass("resource") && nodeEl.find("> ul > li").length === 0) || (nodeEl.hasClass("archival_object") && nodeEl.attr("id") != "newAO")) {
       $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addchild_template"));
       if (!nodeEl.hasClass("resource") && !nodeEl.parents("li:first").hasClass("resource")) {
         $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addsibling_template"));
