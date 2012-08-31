@@ -3,3 +3,4 @@ frontend
 migrations
 common
 _site
+rakefile.rb

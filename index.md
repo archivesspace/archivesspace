@@ -1,7 +1,7 @@
 ---
 layout: page
 title: ArchivesSpace
-tagline: The final frontier
+tagline: Version 0.1.0 / 0.2.x dev
 ---
 {% include JB/setup %}
 
@@ -18,7 +18,9 @@ This page is maintained by the Hudson Molonglo development team and only provide
      
 Visit the code [repository](https://github.com/hudmol/archivesspace/).
 
-The application is divided into 2 parts. The [backend](doc/backend/) application provides a RESTful API to the data layer. The [frontend](doc/frontend/) application provides a user interface built on the Rails framework. Both parts rely upon a [common](doc/common) toolset for working with JSON representations of ASpace data.
+See the code [documentation](doc/)
+
+The application is divided into 2 parts. The backend application provides a RESTful API to the data layer. The frontend application provides a user interface built on the Rails framework. Both parts rely upon a common toolset for working with JSON representations of ASpace data.
     
 ## Simple Install
 
