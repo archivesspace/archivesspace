@@ -1,12 +1,12 @@
 --markup-provider=kramdown
 --markup=markdown
 -e ./_yard/yard-aspace.rb
-#'*.rb'
-#'**/spec/*_spec.rb'
+'*.rb'
+'**/spec/*_spec.rb'
 'backend/app/*.rb'
 'backend/app/controllers/*.rb'
 'backend/app/**/*.rb'
-#'frontend/app/**/*.rb'
-#'common/*.rb'
-#'common/schemas/*.rb'
+'frontend/app/**/*.rb'
+'common/*.rb'
+'common/schemas/*.rb'
 -

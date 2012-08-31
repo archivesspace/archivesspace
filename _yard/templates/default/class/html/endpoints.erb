@@ -8,9 +8,17 @@
     	<h3><%= e[:name] %></h3>
 			<dl>
 				<dt>Endpoint</dt>
-				<dd><%= e[:method] %>&#160;<%= e[:uri] %></dd>
+				<dd><%= e[:meth] %>&#160;<%= e[:uri] %></dd>
 				<dt>Description</dt>
 				<dd><%= e[:description] %></dd>
+				<dt>Parameters</dt>
+				<% for p in e[:params] %>
+				<dd><%= p %></dd>
+				<% end %>
+				<dt>Returns</dt>
+				<% for r in e[:returns] %>
+				<dt><%= r %></dt>
+				<% end %>					
 			</dl>
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 

@@ -6,3 +6,4 @@ backend/doc
 doc
 config/config.rb
 *.swp
+rakefile.rb
