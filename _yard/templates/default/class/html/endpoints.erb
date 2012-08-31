@@ -1,0 +1,36 @@
+<% if @endpoints %>
+<div class="class_method_details">
+  <h2>Endpoints</h2>
+
+	<% index = 0 %>
+  <% for e in @endpoints %>
+  <div class="method_details<%= index == 0 ? 'first' : '' %>">
+    	<h3><%= e[:name] %></h3>
+			<dl>
+				<dt>Endpoint</dt>
+				<dd><%= e[:method] %>&#160;<%= e[:uri] %></dd>
+				<dt>Description</dt>
+				<dd><%= e[:description] %></dd>
+			</dl>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+<%= e[:source].split("\n").size.times.to_a.map {|i| e[:line] + i }.join("\n") %></pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File '<%= e[:file] %>', line <%= e[:line] %></span>
+
+<%= html_syntax_highlight format_source(e[:source]) %></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+		<%index += 1 %>
+ <% end %>
+</div>
+<% end %>
