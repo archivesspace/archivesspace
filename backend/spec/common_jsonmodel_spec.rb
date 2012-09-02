@@ -6,6 +6,7 @@ describe 'JSON model' do
 
     JSONModel.create_model_for("testschema",
                                {
+                                 "$schema" => "http://www.archivesspace.org/archivesspace.json",
                                  "type" => "object",
                                  "uri" => "/testthings",
                                  "properties" => {
@@ -17,6 +18,7 @@ describe 'JSON model' do
                                    "no_shorty" => {"type" => "string", "required" => false, "default" => "", "minLength" => 6},
                                    "shorty" => {"type" => "string", "required" => false, "default" => "", "maxLength" => 2},
                                    "wants_integer" => {"type" => "integer", "required" => false},
+                                   "wants_uri_or_object" => {"type" => "JSONModel(:testschema) uri_or_object"},
                                  },
 
                                  "additionalProperties" => false
@@ -245,6 +247,32 @@ describe 'JSON model' do
     rescue ValidationException => ve
       ve.to_s.should match /^\#<:ValidationException: /
     end
+
+  end
+
+
+  it "fails validation on a uri_or_object property whose value is neither a string nor a hash" do
+
+    ts = JSONModel(:testschema).from_hash({
+                                            "elt_0" => "helloworld",
+                                            "elt_1" => "thisisatest"
+                                          })
+    ts[:wants_uri_or_object] = ["not", "a", "string", "or", "a", "hash"]
+    ts._exceptions[:errors].keys.should eq(["wants_uri_or_object"])
+
+  end
+
+
+  it "doesn't lose existing errors when validating" do
+
+    ts = JSONModel(:testschema).from_hash({
+                                            "elt_0" => "helloworld",
+                                            "elt_1" => "thisisatest"
+                                          })
+
+    # it's not clear to me how @errors would legitimately be set
+    ts.instance_variable_set(:@errors, {"a_terrible_thing" => "happened earlier"})
+    ts._exceptions[:errors].keys.should eq(["a_terrible_thing"])
 
   end
 
