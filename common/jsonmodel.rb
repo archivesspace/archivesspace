@@ -629,8 +629,7 @@ module JSONModel
             end
 
           else
-            puts "Failed to find a matching parse rule for: #{message}"
-            errors[:unknown] = ["Failed to find a matching parse rule for: #{message}"]
+            errors[:unknown] = [message]
           end
 
         end
