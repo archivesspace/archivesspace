@@ -510,16 +510,20 @@ module JSONModel
         if schema.nil?
           self.drop_unknown_properties(hash, self.schema)
         else
-          if not hash.is_a?(Hash) or not schema.has_key?("properties")
+          if not hash.is_a?(Hash)
             return hash
           end
-
-          result = {}
 
           if schema["$ref"] == "#"
             # A recursive schema.  Back to the beginning.
             schema = self.schema
           end
+
+          if not schema.has_key?("properties")
+            return hash
+          end
+
+          result = {}
 
           hash.each do |k, v|
             k = k.to_s
