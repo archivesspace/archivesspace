@@ -1,35 +1,35 @@
-<%= render "shared/form_messages", :object => @accession, :errors => @errors, :warnings => @warnings %>
+<%= render "shared/form_messages", :object => @accession %>
 
 <fieldset>
    <%= f.label_field_pair :title %>
    <%= f.label_and_fourpartid :id_0 %>
-   <%= f.label_field_pair :accession_date, f.text_field(:accession_date, :placeholder=>"YYYY-MM-DD", :value=>(@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))) %>
-   <%= f.label_field_pair :content_description, f.text_area(:content_description, :rows=>3) %>
-   <%= f.label_field_pair :condition_description, f.text_area(:condition_description, :rows=>3) %>
+   <%= f.label_field_pair :accession_date, f.text_field(:accession_date, :placeholder => "YYYY-MM-DD", :value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))) %>
+   <%= f.label_field_pair :content_description, f.text_area(:content_description, :rows => 3) %>
+   <%= f.label_field_pair :condition_description, f.text_area(:condition_description, :rows => 3) %>
    
     <hr />
     
     <div class="control-group">
-       <%= f.label :collection_link, "Link to a Collection", :class=>"control-label" %>
+       <%= f.label :resource_link, "Link to a Resource", :class => "control-label" %>
       <div class="controls">
-      <div class="accordion controls-accordion" id="collection_link">
+      <div class="accordion controls-accordion" id="resource_link">
          <div class="accordion-group">
-            <label class="radio" data-toggle="collapse" data-parent="#collection_link" href="#collection_link_defer">
-               <%= f.radio_button :collection_link, "defer" %> Defer linking to a Collection
+            <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_defer">
+               <%= f.radio_button :resource_link, "defer" %> Defer linking to a Resource
             </label>
-           <div id="collection_link_defer" class="accordion-body collapse">
+           <div id="resource_link_defer" class="accordion-body collapse">
              <div class="accordion-inner">
                 <div class="alert alert-info">
-                  Create this Accession without a Collecion.  You can create that link later.
+                  Create this Accession without a Resource.  You can create that link later.
                 </div>
              </div>
            </div>
          </div>
          <div class="accordion-group">
-             <label class="radio" data-toggle="collapse" data-parent="#collection_link" href="#collection_link_existing">
-                <%= f.radio_button :collection_link, "existing" %> Existing Collection
+             <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_existing">
+                <%= f.radio_button :resource_link, "existing" %> Existing Resource
              </label>
-           <div id="collection_link_existing" class="accordion-body collapse">
+           <div id="resource_link_existing" class="accordion-body collapse">
              <div class="accordion-inner">
                 <div class="alert alert-error">
                   TODO!
@@ -38,13 +38,13 @@
            </div>
          </div>
          <div class="accordion-group">
-             <label class="radio" data-toggle="collapse" data-parent="#collection_link" href="#collection_link_create">
-                <%= f.radio_button :collection_link, "create" %> Create a new Collection
+             <label class="radio" data-toggle="collapse" data-parent="#resource_link" href="#resource_link_create">
+                <%= f.radio_button :resource_link, "create" %> Create a new Resource
              </label>
-           <div id="collection_link_create" class="accordion-body collapse">
+           <div id="resource_link_create" class="accordion-body collapse">
              <div class="accordion-inner">
                 <div class="alert alert-info">
-                   Create this Accession and Continue to Create a new Collection.
+                   Create this Accession and Continue to Create a new Resource.
                 </div>
              </div>
            </div>

@@ -29,8 +29,7 @@
    </div>
 --></div>
 <div id="linker_createmodal_template"><!--
-   <div class="modal-body linker-container">
-   </div>
+   <div class="modal-body linker-container"></div>
    <div class="modal-footer">
       <button id="createAndLinkButton" class="btn btn-primary">Create and Link to ${name}</button>
       <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
@@ -73,6 +72,7 @@
 --></div>
 <div id="linker_selectedtoken_template"><!--
    <li>
+      <input type="hidden" name="${config.owner_class}[resolved][${config.owner_attribute}][]" />
       <input type="hidden" name="${config.owner_class}[${config.owner_attribute}][]" value="${item.id}" />
       ${item.name}
    </li>

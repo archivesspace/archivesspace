@@ -167,7 +167,7 @@ var methods = {
         $(this).data("settings", $.extend({}, $(this).data("settings"), options || {}));
         return this;
     }
-}
+};
 
 // Expose the .tokenInput function to jQuery as a plugin
 $.fn.tokenInput = function (method) {
@@ -268,7 +268,9 @@ $.TokenList = function (input, url_or_data, settings) {
 
             switch(event.keyCode) {
                 case KEY.LEFT:
+                  return true;
                 case KEY.RIGHT:
+                  return true;
                 case KEY.UP:
                 case KEY.DOWN:
                     if(!$(this).val()) {
@@ -303,7 +305,6 @@ $.TokenList = function (input, url_or_data, settings) {
                         }
                     }
                     return false;
-                    break;
 
                 case KEY.BACKSPACE:
                     previous_token = input_token.prev();
@@ -328,8 +329,15 @@ $.TokenList = function (input, url_or_data, settings) {
                 case KEY.TAB:
                   return true;
                 case KEY.ENTER:
+                  if(selected_dropdown_item) {
+                     add_token($(selected_dropdown_item).data("tokeninput"));
+                     hidden_input.change();
+                  } else {
+                     $(input).trigger("tokeninput.enter");
+                  }
                   event.stopPropagation();
                   event.preventDefault();
+                  break;
                 case KEY.NUMPAD_ENTER:
                 case KEY.COMMA:
                   if(selected_dropdown_item) {
@@ -464,11 +472,11 @@ $.TokenList = function (input, url_or_data, settings) {
                 delete_token($(this));
             }
         });
-    }
+    };
 
     this.add = function(item) {
         add_token(item);
-    }
+    };
 
     this.remove = function(item) {
         token_list.children("li").each(function() {
@@ -486,15 +494,15 @@ $.TokenList = function (input, url_or_data, settings) {
                 }
             }
         });
-    }
+    };
 
     this.getTokens = function() {
         return saved_tokens;
-    }
+    };
 
     this.toggleDisabled = function(disable) {
         toggleDisabled(disable);
-    }
+    };
 
     //
     // Private functions
@@ -508,7 +516,7 @@ $.TokenList = function (input, url_or_data, settings) {
     // to the [disable] parameter.
     function toggleDisabled(disable) {
         if (typeof disable === 'boolean') {
-            $(input).data("settings").disabled = disable
+            $(input).data("settings").disabled = disable;
         } else {
             $(input).data("settings").disabled = !$(input).data("settings").disabled;
         }
@@ -631,7 +639,7 @@ $.TokenList = function (input, url_or_data, settings) {
         }
 
         // Insert the new tokens
-        if($(input).data("settings").tokenLimit == null || token_count < $(input).data("settings").tokenLimit) {
+        if($(input).data("settings").tokenLimit === null || token_count < $(input).data("settings").tokenLimit) {
             insert_token(item);
             checkTokenLimit();
         }

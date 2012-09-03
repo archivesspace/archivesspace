@@ -2,17 +2,17 @@
 
 /* custom controls-accordion for radio driven accordion */
 .controls-accordion .accordion-group {
-   border: none;
+  border: none;
 }
 
 .controls-accordion .accordion-group:first-child {
-   margin-top: 5px;
+  margin-top: 5px;
 }
 
 /* identifier fields */
 .identifier-fields input {
-   width: auto;
-   margin-right: 4px;
+  width: auto;
+  margin-right: 4px;
 }
 
 .form-horizontal .form-actions {
@@ -24,7 +24,7 @@
 }
 
 .form-actions .btn-submit-group {
-   float: left;
+  float: left;
 }
 
 #save_and_finish_editing {
@@ -32,28 +32,43 @@
   float: right;
 }
 
+.linker-list {
+  max-height: 240px;
+}
+
 .linker-list ul {
-   margin: 0;
-   list-style: none;
+  margin: 0;
+  list-style: none;
 }
 .linker-list li {
-   padding:0;
+  padding:0;
 }
 .linker-list label {
-   padding: 5px;
+  padding: 5px;
 }
 .linker-list label:hover {
-   background-color: #F1f1f1;
+  background-color: #F1f1f1;
 }
 .linker-wrapper.input-append {
-      width: 428px;
-      .token-input-list {
-         float: left;
-      }
-      .btn-group {
-         float:left;
-         .btn {
-            .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
-         }
-      }
+  float: left;
+  width: 420px;
+  .token-input-list {
+    float: left;
+  }
+  .btn-group {
+    float: left;
+    left: -1px;
+    .btn {
+      .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
+    }
+  }
+}
+
+#new_subject .terms-container .row-fluid {
+  margin-bottom: 5px;
+}
+
+.inputs-fill-it-up input,
+.inputs-fill-it-up select {
+  width: 100%;
 }

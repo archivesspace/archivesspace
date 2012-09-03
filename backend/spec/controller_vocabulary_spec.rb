@@ -17,6 +17,12 @@ describe 'Vocabulary controller' do
   end
 
 
+  it "lets you list all vocabularies" do
+    id = create_vocabulary
+    JSONModel(:vocabulary).all.count.should eq(2)
+  end
+
+
   it "fails when you try to update a vocabulary that doesn't exist" do
     vocabulary = JSONModel(:vocabulary).from_hash("name" => "ABC",
                                                   "ref_id" => "abc"
@@ -44,23 +50,39 @@ describe 'Vocabulary controller' do
 
     JSONModel(:vocabulary).find(id).uri.should eq("/vocabularies/#{id}")
   end
-  
-  it "can return a vocabular record based on a ref_id" do
+
+  it "can return a vocabulary record based on a ref_id" do
     v1 = JSONModel(:vocabulary).from_hash("name" => "ABC",
                                           "ref_id" => "abc"
                                           )
 
     v1.save
-    
+
     v2 = JSONModel(:vocabulary).from_hash("name" => "XYZ",
                                           "ref_id" => "xyz"
                                           )
     v2.save
-    
+
     set = JSONModel(:vocabulary).all({:ref_id => "xyz"})
     set.count.should eq 1
-    
-    
+  end
+
+
+  it "lets you list all terms" do
+    id = create_vocabulary
+    vocab_uri = JSONModel(:vocabulary).uri_for(id)
+
+    subject = JSONModel(:subject).from_hash("terms" => [{
+                                                          "term" => "1981 Heroes",
+                                                          "term_type" => "Cultural context",
+                                                          "vocabulary" => vocab_uri
+                                                        }],
+                                            "vocabulary" => vocab_uri)
+
+    subject.save
+
+    response = get "#{vocab_uri}/terms"
+    JSON(response.body).length.should eq(1)
   end
 
 end

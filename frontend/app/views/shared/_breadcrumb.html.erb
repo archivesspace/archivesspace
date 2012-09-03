@@ -2,7 +2,7 @@
    <div class="span12">
       <ul class="breadcrumb">
          <li>
-            <%= link_to "Home", :controller=>:welcome, :action=>:index %><span class="divider">/</span>
+            <%= link_to "Home", :controller => :welcome, :action => :index %><span class="divider">/</span>
          </li>
          <% trail.each_with_index do |crumb, i| %>
             <% if i < trail.length - 1%>         

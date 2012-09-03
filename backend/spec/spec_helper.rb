@@ -1,4 +1,25 @@
-require_relative File.join("..", "app", "model", "db")
+if ENV['COVERAGE_REPORTS']
+  require 'tmpdir'
+  require 'pp'
+  require 'simplecov'
+
+  SimpleCov.root(File.join(File.dirname(__FILE__), "../../"))
+  SimpleCov.coverage_dir("backend/coverage")
+
+  SimpleCov.start do
+    # Not useful to include these since the test suite deliberately doesn't load
+    # most of these files.
+    add_filter "lib/bootstrap.rb"
+    add_filter "lib/logging.rb"
+    add_filter "config/"
+    add_filter "model/db.rb"    # Overriden below
+
+    # Leave gems out too
+    add_filter "build/gems"
+  end
+end
+
+require_relative "../app/model/db"
 
 
 Thread.current[:test_mode] = true
@@ -8,19 +29,20 @@ Thread.current[:test_mode] = true
 class DB
   def self.connect
     if not @pool
-      require_relative File.join("..", "app", "model", "db_migrator")
+      require_relative "../app/model/db_migrator"
       @pool = Sequel.connect("jdbc:derby:memory:fakedb;create=true",
                              :max_connections => 10,
                              # :loggers => [Logger.new($stderr)]
                              )
 
+      DBMigrator.nuke_database(@pool)
       DBMigrator.setup_database(@pool)
     end
   end
 end
 
 
-require_relative File.join("..", "app", "main")
+require_relative "../app/main"
 require 'sinatra'
 require 'rack/test'
 
@@ -81,20 +103,17 @@ end
 def make_test_repo(code = "ARCHIVESSPACE")
   repo = JSONModel(:repository).from_hash("repo_code" => code,
                                           "description" => "A new ArchivesSpace repository")
-  repo.save
+  id = repo.save
   @repo = repo.uri
-  JSONModel::set_repository(JSONModel(:repository).id_for(@repo))
+
+  JSONModel::set_repository(id)
+
+  id
 end
 
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-
-  user_manager = UserManager.new
-  user_manager.create_user("test1", "Tester", "1", "local")
-  db_auth = DBAuth.new
-  db_auth.set_password("test1", "test1_123")
-
 
   # Roll back the database after each test
   config.around(:each) do |example|

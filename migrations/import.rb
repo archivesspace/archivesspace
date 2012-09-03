@@ -38,9 +38,6 @@ optparse = OptionParser.new do|opts|
   opts.on( '-x', '--crosswalk NAME', 'Use crosswalk NAME' ) do|name|
     options[:crosswalk] = name
   end
-
-
-  
 end
 
 optparse.parse!

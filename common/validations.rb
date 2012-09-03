@@ -14,8 +14,10 @@ module JSONModel::Validations
 
 
   [:archival_object, :accession].each do |type|
-    JSONModel(type).add_validation do |hash, exceptions|
-      check_identifier(hash, exceptions)
+    if JSONModel(type)
+      JSONModel(type).add_validation do |hash, exceptions|
+        check_identifier(hash, exceptions)
+      end
     end
   end
 

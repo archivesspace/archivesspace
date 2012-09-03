@@ -9,14 +9,6 @@ class ArchivesSpaceService < Sinatra::Base
 
   include RESTHelpers
 
-  register do
-    def operation(type)
-      condition do
-        params[:operation] == type.to_s
-      end
-    end
-  end
-
 
   configure :development do |config|
     require 'sinatra/reloader'
@@ -39,6 +31,7 @@ class ArchivesSpaceService < Sinatra::Base
     # Load all models
     require_relative "model/ASModel"
     require_relative "model/identifiers"
+    require_relative "model/subjects"
     Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
       basename = File.basename(model, ".rb")
       require_relative File.join("model", basename)
@@ -51,8 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     set :raise_errors, Proc.new { false }
     set :show_exceptions, false
-
-    set :logging, true
+    set :logging, false
   end
 
 
@@ -80,12 +72,16 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => request.env['sinatra.error']}, 404)
   end
 
-  error MissingParamsException do
-    json_response({:error => request.env['sinatra.error']}, 400)
+  error BadParamsException do
+    json_response({:error => request.env['sinatra.error'].params}, 400)
   end
 
   error ValidationException do
-    json_response({:error => request.env['sinatra.error'].errors}, 400)
+    json_response({
+                    :error => request.env['sinatra.error'].errors,
+                    :warning => request.env['sinatra.error'].warnings,
+                    :invalid_object => request.env['sinatra.error'].invalid_object.inspect
+                  }, 400)
   end
 
   error ConflictException do
@@ -107,6 +103,19 @@ class ArchivesSpaceService < Sinatra::Base
 
   def session
     @session
+  end
+
+
+  def filter_passwords(params)
+    params = params.clone
+
+    ["password", :password].each do|param|
+      if params[param]
+        params[param] = "[FILTERED]"
+      end
+    end
+
+    params
   end
 
 
@@ -169,7 +178,7 @@ class ArchivesSpaceService < Sinatra::Base
       end_time = Time.now
 
       if ArchivesSpaceService.development?
-        Log.debug("Request time: #{(end_time - start_time) * 1000}ms")
+        Log.debug("Responded with #{result} in #{(end_time - start_time) * 1000}ms")
       end
 
       result
@@ -185,10 +194,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  get '/doc' do
+    erb :endpoint_doc
+  end
+
 end
 
 
 if $0 == __FILE__
   Log.info("Dev server starting up...")
-  ArchivesSpaceService.run!(:port => (ARGV[0] or 4567))
+  ArchivesSpaceService.run!(:port => (ARGV[0] or 4567)) do |server|
+    server.instance_eval do
+      @config[:AccessLog] = []
+    end
+  end
 end

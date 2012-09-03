@@ -3,13 +3,9 @@ class Vocabulary < Sequel::Model(:vocabularies)
   include ASModel
 
   one_to_many :subjects
-  
+
   def self.set(params)
-    if params.is_a?(Hash)
-      self.where(params)
-    else
-      self.all
-    end
+    self.where(params)
   end
-  
+
 end

@@ -8,7 +8,6 @@ module JSONModel
   @@models = {}
   @@custom_validations = {}
   @@required_fields = {}
-
   @@protected_fields = []
 
   @@strict_mode = false
@@ -49,6 +48,7 @@ module JSONModel
   end
 
 
+  # Yield all known JSONModel classes
   def models
     @@models
   end
@@ -66,6 +66,56 @@ module JSONModel
 
     nil
   end
+
+
+  def self.destroy_model(type)
+    type = type.to_s
+
+    cls = @@models[type]
+
+    if cls
+      @@types.delete(cls)
+      @@schema.delete(cls)
+      @@custom_validations.delete(cls)
+      @@models.delete(type)
+    end
+  end
+
+
+  def self.init(opts = {})
+
+    if opts.has_key?(:client_mode)
+      @@client_mode = opts[:client_mode]
+    end
+
+    if opts.has_key?(:strict_mode)
+      @@strict_mode = true
+    end
+
+    @@init_args = opts
+
+    # Load all JSON schemas from the schemas subdirectory
+    # Create a model class for each one.
+    Dir.glob(File.join(File.dirname(__FILE__),
+                       "schemas",
+                       "*.rb")).sort.each do |schema|
+      schema_name = File.basename(schema, ".rb")
+
+      old_verbose = $VERBOSE
+      $VERBOSE = nil
+      entry = eval(File.open(schema).read)
+      $VERBOSE = old_verbose
+
+      self.create_model_for(schema_name, entry[:schema])
+    end
+
+    require_relative "validations"
+
+    true
+  end
+
+
+  protected
 
 
   # Preprocess the schema to support ArchivesSpace extensions
@@ -182,115 +232,6 @@ module JSONModel
       end
 
 
-      # Return the JSON schema that defines this JSONModel class
-      def self.schema
-        self.lookup(@@schema)
-      end
-
-
-      # Find the entry for this JSONModel class in the supplied 'hash'.
-      def self.lookup(hash)
-        my_true_self = self.ancestors.find {|cls| hash[cls]}
-
-        if my_true_self
-          return hash[my_true_self]
-        end
-
-        return nil
-      end
-
-
-      # Given a (potentially nested) 'hash', remove any properties that don't
-      # appear in the JSON schema defining this JSONModel.
-      def self.drop_unknown_properties(hash, schema = nil)
-        if schema.nil?
-          self.drop_unknown_properties(hash, self.schema)
-        else
-          if not hash.is_a?(Hash) or not schema.has_key?("properties")
-            return hash
-          end
-
-          result = {}
-
-          if schema["$ref"] == "#"
-            # A recursive schema.  Back to the beginning.
-            schema = self.schema
-          end
-
-          hash.each do |k, v|
-            k = k.to_s
-
-            if schema["properties"].has_key?(k)
-              if schema["properties"][k]["type"] == "object"
-                result[k] = self.drop_unknown_properties(v, schema["properties"][k])
-              elsif schema["properties"][k]["type"] == "array"
-                result[k] = v.collect {|elt| self.drop_unknown_properties(elt, schema["properties"][k]["items"])}
-              elsif v and v != ""
-                result[k] = v
-              end
-            end
-          end
-
-          result
-        end
-      end
-
-
-      # Given a list of error messages produced by JSON schema validation, parse
-      # them into a structured format like:
-      #
-      # {
-      #   :errors => {:attr1 => "(What was wrong with attr1)"},
-      #   :warnings => {:attr2 => "(attr2 not quite right either)"}
-      # }
-      def self.parse_schema_messages(messages)
-        errors = {}
-        warnings = {}
-
-        messages.each do |message|
-
-          if (message[:failed_attribute] == 'Properties' and
-              message[:message] =~ /The property '(.*?)' did not contain a required property of '(.*?)'.*/)
-
-            (path, property) = [$1, $2]
-
-            exception_type = @@required_fields[self.record_type].fetch(path, {})[property]
-
-            if exception_type == "error"
-              errors[property] = ["Property is required but was missing"]
-            else
-              warnings[property] = ["Property is required but was missing"]
-            end
-
-          elsif (message[:failed_attribute] == 'Pattern' and
-                 message[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
-
-            errors[$1] = ["Did not match regular expression: #{$2}"]
-
-          elsif (message[:failed_attribute] == 'MinLength' and
-                 message[:message] =~ /The property '#\/(.*?)' was not of a minimum string length of ([0-9]+) in schema/)
-
-            errors[$1] = ["Must be at least #{$2} characters"]
-
-          elsif ((message[:failed_attribute] == 'Type' or message[:failed_attribute] == 'ArchivesSpaceType') and
-                 message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
-
-            errors[$1] = ["Must be a #{$3} (you provided a #{$2})"]
-
-          else
-            puts "Failed to find a matching parse rule for: #{message}"
-            errors[:unknown] = ["Failed to find a matching parse rule for: #{message}"]
-          end
-
-        end
-
-        {
-          :errors => errors,
-          :warnings => warnings,
-        }
-      end
-
-
       # Add a custom validation to this model type.
       #
       # The validation is a block that takes a hash of properties and an
@@ -298,30 +239,6 @@ module JSONModel
       def self.add_validation(&block)
         @@custom_validations[self] ||= []
         @@custom_validations[self] << block
-      end
-
-
-      # Validate the supplied hash using the JSON schema for this model.  Raise
-      # a ValidationException if there are any fatal validation problems, or if
-      # strict mode is enabled and warnings were produced.
-      def self.validate(hash, raise_errors = true)
-        messages = JSON::Validator.fully_validate(self.schema,
-                                                  self.drop_unknown_properties(hash),
-                                                  :errors_as_objects => true)
-
-        exceptions = self.parse_schema_messages(messages)
-
-        @@custom_validations[self].to_a.each do |validation|
-          validation.call(hash, exceptions)
-        end
-
-        if raise_errors and not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
-          raise ValidationException.new(:invalid_object => self.new(hash),
-                                        :warnings => exceptions[:warnings],
-                                        :errors => exceptions[:errors])
-        end
-
-        exceptions
       end
 
 
@@ -339,32 +256,6 @@ module JSONModel
       # Create an instance of this JSONModel from a JSON string.
       def self.from_json(s, raise_errors = true)
         self.from_hash(JSON(s), raise_errors)
-      end
-
-
-      # Given a URI like /repositories/:repo_id/something/:somevar, and a hash
-      # containing keys and replacement strings, return a URI with the values
-      # substituted in for their placeholders.
-      #
-      # As a side effect, removes any keys from 'opts' that were successfully
-      # substituted.
-      def self.substitute_parameters(uri, opts = {})
-        matched = []
-        opts.each do |k, v|
-          old = uri
-          uri = uri.gsub(":#{k}", v.to_s)
-
-          if old != uri
-            # Matched on this parameter.  Remove it from the passed in hash
-            matched << k
-          end
-        end
-
-        matched.each do |k|
-          opts.delete(k)
-        end
-
-        uri
       end
 
 
@@ -408,9 +299,8 @@ module JSONModel
       end
 
 
-
       def initialize(params = {}, warnings = [])
-        @data = params
+        @data = self.class.keys_as_strings(params)
         @warnings = warnings
 
         self.class.define_accessors(@data.keys)
@@ -516,6 +406,182 @@ module JSONModel
       end
 
 
+      ## Supporting methods following from here
+      protected
+
+      # Return the JSON schema that defines this JSONModel class
+      def self.schema
+        self.lookup(@@schema)
+      end
+
+
+      # Find the entry for this JSONModel class in the supplied 'hash'.
+      def self.lookup(hash)
+        my_true_self = self.ancestors.find {|cls| hash[cls]}
+
+        if my_true_self
+          return hash[my_true_self]
+        end
+
+        return nil
+      end
+
+
+      # Given a (potentially nested) 'hash', remove any properties that don't
+      # appear in the JSON schema defining this JSONModel.
+      def self.drop_unknown_properties(hash, schema = nil)
+        if schema.nil?
+          self.drop_unknown_properties(hash, self.schema)
+        else
+          if not hash.is_a?(Hash) or not schema.has_key?("properties")
+            return hash
+          end
+
+          result = {}
+
+          if schema["$ref"] == "#"
+            # A recursive schema.  Back to the beginning.
+            schema = self.schema
+          end
+
+          hash.each do |k, v|
+            k = k.to_s
+
+            if schema["properties"].has_key?(k)
+              if schema["properties"][k]["type"] == "object"
+                result[k] = self.drop_unknown_properties(v, schema["properties"][k])
+              elsif schema["properties"][k]["type"] == "array"
+                result[k] = v.collect {|elt| self.drop_unknown_properties(elt, schema["properties"][k]["items"])}
+              elsif v and v != ""
+                result[k] = v
+              end
+            end
+          end
+
+          result
+        end
+      end
+
+
+      # Given a list of error messages produced by JSON schema validation, parse
+      # them into a structured format like:
+      #
+      # {
+      #   :errors => {:attr1 => "(What was wrong with attr1)"},
+      #   :warnings => {:attr2 => "(attr2 not quite right either)"}
+      # }
+      def self.parse_schema_messages(messages)
+        errors = {}
+        warnings = {}
+
+        messages.each do |message|
+
+          if (message[:failed_attribute] == 'Properties' and
+              message[:message] =~ /The property '(.*?)' did not contain a required property of '(.*?)'.*/)
+
+            (path, property) = [$1, $2]
+
+            exception_type = @@required_fields[self.record_type].fetch(path, {})[property]
+
+            if exception_type == "error"
+              errors[property] = ["Property is required but was missing"]
+            else
+              warnings[property] = ["Property was missing"]
+            end
+
+          elsif (message[:failed_attribute] == 'Pattern' and
+                 message[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
+
+            errors[$1] = ["Did not match regular expression: #{$2}"]
+
+          elsif (message[:failed_attribute] == 'MinLength' and
+                 message[:message] =~ /The property '#\/(.*?)' was not of a minimum string length of ([0-9]+) in schema/)
+
+            errors[$1] = ["Must be at least #{$2} characters"]
+
+          elsif ((message[:failed_attribute] == 'Type' or message[:failed_attribute] == 'ArchivesSpaceType') and
+                 message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
+
+            errors[$1] = ["Must be a #{$3} (you provided a #{$2})"]
+
+          else
+            puts "Failed to find a matching parse rule for: #{message}"
+            errors[:unknown] = ["Failed to find a matching parse rule for: #{message}"]
+          end
+
+        end
+
+        {
+          :errors => errors,
+          :warnings => warnings,
+        }
+      end
+
+
+      # Validate the supplied hash using the JSON schema for this model.  Raise
+      # a ValidationException if there are any fatal validation problems, or if
+      # strict mode is enabled and warnings were produced.
+      def self.validate(hash, raise_errors = true)
+        messages = JSON::Validator.fully_validate(self.schema,
+                                                  self.drop_unknown_properties(hash),
+                                                  :errors_as_objects => true)
+
+        exceptions = self.parse_schema_messages(messages)
+
+        @@custom_validations[self].to_a.each do |validation|
+          validation.call(hash, exceptions)
+        end
+
+        if raise_errors and not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
+          raise ValidationException.new(:invalid_object => self.new(hash),
+                                        :warnings => exceptions[:warnings],
+                                        :errors => exceptions[:errors])
+        end
+
+        exceptions
+      end
+
+
+      # Given a URI like /repositories/:repo_id/something/:somevar, and a hash
+      # containing keys and replacement strings, return a URI with the values
+      # substituted in for their placeholders.
+      #
+      # As a side effect, removes any keys from 'opts' that were successfully
+      # substituted.
+      def self.substitute_parameters(uri, opts = {})
+        matched = []
+        opts.each do |k, v|
+          old = uri
+          uri = uri.gsub(":#{k}", v.to_s)
+
+          if old != uri
+            # Matched on this parameter.  Remove it from the passed in hash
+            matched << k
+          end
+        end
+
+        matched.each do |k|
+          opts.delete(k)
+        end
+
+        uri
+      end
+
+
+      def self.keys_as_strings(hash)
+        result = {}
+
+        hash.each do |key, value|
+          result[key.to_s] = value
+        end
+
+        result
+      end
+
+
+
+
+
       # In client mode, mix in some extra convenience methods for querying the
       # ArchivesSpace backend service via HTTP.
       if @@client_mode
@@ -534,56 +600,9 @@ module JSONModel
   end
 
 
-  def self.destroy_model(type)
-    type = type.to_s
-
-    cls = @@models[type]
-
-    if cls
-      @@types.delete(cls)
-      @@schema.delete(cls)
-      @@custom_validations.delete(cls)
-      @@models.delete(type)
-    end
-  end
-
-
-
   def self.init_args
     @@init_args
   end
 
-
-  def self.init(opts = {})
-
-    if opts.has_key?(:client_mode)
-      @@client_mode = opts[:client_mode]
-    end
-
-    if opts.has_key?(:strict_mode)
-      @@strict_mode = true
-    end
-
-    @@init_args = opts
-
-    # Load all JSON schemas from the schemas subdirectory
-    # Create a model class for each one.
-    Dir.glob(File.join(File.dirname(__FILE__),
-                       "schemas",
-                       "*.rb")).sort.each do |schema|
-      schema_name = File.basename(schema, ".rb")
-
-      old_verbose = $VERBOSE
-      $VERBOSE = nil
-      entry = eval(File.open(schema).read)
-      $VERBOSE = old_verbose
-
-      self.create_model_for(schema_name, entry[:schema])
-    end
-
-    require_relative "validations"
-
-    true
-  end
 
 end

@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'json'
 require 'net/http'
+require_relative '../../common/test_utils'
 
 Dir.chdir(File.dirname(__FILE__))
 
@@ -74,22 +75,44 @@ def run_tests
     fail("Accession fetch", r)
 
 
-  puts "Create a collection"
-  r = do_post({:title => "integration test collection", :id_0 => "abc123"}.to_json,
-              url("/repositories/#{repo_id}/collections"))
-
-  coll_id = r[:body]["id"] or fail("Collection creation", r)
+  puts "Create a subject with no terms"
+  r = do_post({
+                :terms => [],
+                :vocabulary => "/vocabularies/1"
+              }.to_json,
+              url("/subjects"))
+  r[:status] === "400" or fail("Invalid subject check", r)
 
 
   puts "Create a subject"
   r = do_post({
-                :term => "Some term #{$me}",
-                :term_type => "Function",
+                :terms => [
+                           :term => "Some term #{$me}",
+                           :term_type => "Function",
+                           :vocabulary => "/vocabularies/1"
+                          ],
                 :vocabulary => "/vocabularies/1"
               }.to_json,
               url("/subjects"))
 
   subject_id = r[:body]["id"] or fail("Subject creation", r)
+
+
+  puts "Create a resource"
+  r = do_post({
+                :title => "integration test resource",
+                :id_0 => "abc123",
+                :subjects => ["/subjects/#{subject_id}"]
+              }.to_json,
+              url("/repositories/#{repo_id}/resources"))
+
+  coll_id = r[:body]["id"] or fail("Resource creation", r)
+
+
+  puts "Retrieve the resource with subjects resolved"
+  r = do_get(url("/repositories/#{repo_id}/resources/#{coll_id}?resolve[]=subjects"))
+  r[:body]["resolved"]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
+    fail("Resource fetch", r)
 
 
   puts "Create an archival object"
@@ -105,25 +128,25 @@ def run_tests
 
   puts "Retrieve the archival object with subjects resolved"
   r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}?resolve[]=subjects"))
-  r[:body]["subjects"][0]["term"] == "Some term #{$me}" or
+  r[:body]["resolved"]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
     fail("Archival object fetch", r)
 
 
-  puts "Add the archival object to a collection"
+  puts "Add the archival object to a resource"
   # Note: you could also do this by updating the AO directly
   r = do_post({
                 :archival_object => "/repositories/#{repo_id}/archival_objects/#{ao_id}",
                 :children => []
               }.to_json,
-              url("/repositories/#{repo_id}/collections/#{coll_id}/tree"));
+              url("/repositories/#{repo_id}/resources/#{coll_id}/tree"));
 
-  r[:body]["status"] == "Updated" or fail("Add archival object to collection", r)
+  r[:body]["status"] == "Updated" or fail("Add archival object to resource", r)
 
 
-  puts "Verify that the archival object is now in the collection"
+  puts "Verify that the archival object is now in the resource"
   r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}"))
-  r[:body]["collection"] == "/repositories/#{repo_id}/collections/#{coll_id}" or
-    fail("Archival object in collection", r)
+  r[:body]["resource"] == "/repositories/#{repo_id}/resources/#{coll_id}" or
+    fail("Archival object in resource", r)
 
 end
 
@@ -131,12 +154,19 @@ end
 
 def main
 
-  # start the backend
-  server = Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
-                         "../../build/run", "backend:devserver:integration",
-                         "-Daspace.backend.port=#{$port}",
-                         "-Daspace_integration_test=1")
+  standalone = true
 
+  if ENV["ASPACE_BACKEND_URL"]
+    $url = ENV["ASPACE_BACKEND_URL"]
+    standalone = false
+  end
+
+  server = nil
+
+  if standalone
+    # start the backend
+    server = TestUtils::start_backend($port)
+  end
 
   while true
     begin
@@ -158,11 +188,13 @@ def main
     status = 1
   end
 
-  Process.kill(15, server)
-  begin
-    Process.waitpid(server)
-  rescue
-    # Already dead.
+  if server
+    TestUtils::kill(server)
+    begin
+      Process.waitpid(server)
+    rescue
+      # Already dead.
+    end
   end
 
   exit(status)

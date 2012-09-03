@@ -4,7 +4,7 @@ require 'rails/all'
 
 require 'java'
 
-require_relative File.join("..", "..", "config", "config-distribution")
+require_relative "../../config/config-distribution"
 
 
 if defined?(Bundler)

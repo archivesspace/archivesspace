@@ -23,15 +23,31 @@ describe 'Archival Object controller' do
     JSONModel(:archival_object).find(created).title.should eq("The archival object title")
   end
 
+  it "returns an error if the archival object is not in this repository" do
+    created = create_archival_object
+
+    repo = JSONModel(:repository).from_hash("repo_code" => "OTHERREPO",
+                                            "description" => "A new repository that doesn't contain our archival object")
+    repo.save
+    @repo = repo.uri
+    JSONModel::set_repository(JSONModel(:repository).id_for(@repo))
+    JSONModel(:archival_object).find(created).should eq nil
+  end
+
+  it "lets you list all archival objects" do
+    id = create_archival_object
+    JSONModel(:archival_object).all.count.should eq(1)
+  end
+
 
   it "lets you create an archival object with a parent" do
-    collection = JSONModel(:collection).from_hash("title" => "a collection", "id_0" => "abc123")
-    collection.save
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    resource.save
 
-    created = create_archival_object("collection" => collection.uri)
+    created = create_archival_object("resource" => resource.uri)
 
     create_archival_object("ref_id" => "4567",
-                           "collection" => collection.uri,
+                           "resource" => resource.uri,
                            "title" => "child archival object",
                            "parent" => "#{@repo}/archival_objects/#{created}")
 
@@ -43,18 +59,18 @@ describe 'Archival Object controller' do
   end
 
 
-  it "warns when two archival objects in the same collection having the same ref_id" do
-    collectionA = JSONModel(:collection).from_hash("title" => "a collection A", "id_0" => "abc123")
-    collectionA.save
+  it "warns when two archival objects in the same resource having the same ref_id" do
+    resourceA = JSONModel(:resource).from_hash("title" => "a resource A", "id_0" => "abc123")
+    resourceA.save
 
-    collectionB = JSONModel(:collection).from_hash("title" => "a collection B", "id_0" => "xyz456")
-    collectionB.save
+    resourceB = JSONModel(:resource).from_hash("title" => "a resource B", "id_0" => "xyz456")
+    resourceB.save
 
-    create_archival_object("collection" => collectionA.uri, "ref_id" => "xyz")
-    create_archival_object("collection" => collectionB.uri, "ref_id" => "xyz")
+    create_archival_object("resource" => resourceA.uri, "ref_id" => "xyz")
+    create_archival_object("resource" => resourceB.uri, "ref_id" => "xyz")
 
     expect {
-      create_archival_object("collection" => collectionA.uri, "ref_id" => "xyz")
+      create_archival_object("resource" => resourceA.uri, "ref_id" => "xyz")
     }.to raise_error
   end
 
@@ -95,13 +111,12 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object with a subject" do
-    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab", 
+    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab",
                                              "ref_id" => "abc"
-                                            )
+                                             )
     vocab.save
-    
-    subject = JSONModel(:subject).from_hash("term" => "a test subject",
-                                            "term_type" => "Cultural context",
+
+    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)}],
                                             "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)
                                             )
     subject.save
@@ -117,11 +132,10 @@ describe 'Archival Object controller' do
   it "can resolve subjects for you" do
     vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab",
                                              "ref_id" => "abc"
-                                            )
+                                             )
     vocab.save
-    
-    subject = JSONModel(:subject).from_hash("term" => "a test subject",
-                                            "term_type" => "Cultural context",
+
+    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)}],
                                             "vocabulary" => JSONModel(:vocabulary).uri_for(vocab.id)
                                             )
     subject.save
@@ -133,6 +147,6 @@ describe 'Archival Object controller' do
 
     ao = JSONModel(:archival_object).find(created, "resolve[]" => "subjects")
 
-    ao.subjects[0]["term"].should eq("a test subject")
+    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq("a test subject")
   end
 end

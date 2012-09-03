@@ -25,9 +25,9 @@ describe 'JSON model' do
 
   it "Accepts a simple record" do
     JSONModel(:testschema).from_hash({
-      "elt_0" => "helloworld",
-      "elt_1" => "thisisatest"
-    })
+                                       "elt_0" => "helloworld",
+                                       "elt_1" => "thisisatest"
+                                     })
   end
 
 

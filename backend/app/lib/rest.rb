@@ -6,14 +6,16 @@ module RESTHelpers
   def resolve_references(json, resolve)
     hash = json.to_hash
 
+    hash['resolved'] ||= {}
+
     (resolve or []).each do |property|
       if hash[property]
         if hash[property].is_a? Array
-          hash[property] = hash[property].map do |uri|
+          hash['resolved'][property] = hash[property].map do |uri|
             JSON(redirect_internal(uri)[2].join(""))
           end
         else
-          hash[property] = JSON(redirect_internal(hash[property])[2].join(""))
+          hash['resolved'][property] = JSON(redirect_internal(hash[property])[2].join(""))
         end
       end
     end
@@ -25,6 +27,12 @@ module RESTHelpers
   class Endpoint
 
     @@endpoints = []
+
+    @@param_types = {
+      :repo_id => [Integer,
+                   "The Repository ID",
+                   {:validation => ["The Repository must exist", ->(v){Repository.exists?(v)}]}]
+    }
 
     @@return_types = {
       :created => '{:status => "Created", :id => (id of created object), :warnings => {(warnings)}}',
@@ -60,12 +68,16 @@ module RESTHelpers
 
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
-    def params(*params); @required_params = params; self; end
+
+    def params(*params)
+      @required_params = params.map do |p|
+        @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
+      end
+      self
+    end
 
     def returns(*returns, &block)
-
-      returns.map { |r| r[1] = @@return_types[r[1]] || r[1] }
-      @returns = returns
+      @returns = returns.map { |r| r[1] = @@return_types[r[1]] || r[1]; r }
 
       @@endpoints << self
 
@@ -92,7 +104,7 @@ module RESTHelpers
 
         if self.class.development?
           Log.debug("#{method.to_s.upcase} #{uri}")
-          Log.debug("Request parameters: #{params.inspect}")
+          Log.debug("Request parameters: #{filter_passwords(params).inspect}")
         end
 
         self.instance_eval &block
@@ -106,14 +118,6 @@ module RESTHelpers
     base.extend(JSONModel)
 
     base.helpers do
-      def base.endpoint
-        endpoint = Endpoint.new
-
-        @@endpoints << endpoint
-
-        endpoint
-      end
-
 
       def coerce_type(value, type)
         if type == Integer
@@ -136,7 +140,8 @@ module RESTHelpers
 
         errors = {
           :missing => [],
-          :bad_type => []
+          :bad_type => [],
+          :failed_validation => []
         }
 
         declared_params.each do |definition|
@@ -162,21 +167,31 @@ module RESTHelpers
               end
             end
 
+            if opts[:validation]
+              if not opts[:validation][1].call(params[name.intern])
+                errors[:failed_validation] << {:name => name, :doc => doc, :type => type, :validation => opts[:validation][0]}
+              end
+            end
+
           end
         end
 
         if not errors.values.flatten.empty?
-          s = "Your request parameters weren't quite right:\n\n"
+          result = {}
 
           errors[:missing].each do |missing|
-            s += "  * Missing value for '#{missing[:name]}' -- #{missing[:doc]}\n"
+            result[missing[:name]] = ["Parameter required but no value provided"]
           end
 
           errors[:bad_type].each do |bad|
-            s += "  * Invalid type for '#{bad[:name]}' -- Wanted type #{bad[:type]} but got '#{params[bad[:name]]}'\n"
+            result[bad[:name]] = ["Wanted type #{bad[:type]} but got '#{params[bad[:name]]}'"]
           end
 
-          raise MissingParamsException.new(s)
+          errors[:failed_validation].each do |failed|
+            result[failed[:name]] = ["Failed validation -- #{failed[:validation]}'"]
+          end
+
+          raise BadParamsException.new(result)
         end
       end
     end

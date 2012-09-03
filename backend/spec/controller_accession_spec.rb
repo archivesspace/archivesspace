@@ -22,6 +22,12 @@ describe 'Accession controller' do
   end
 
 
+  it "lets you list all accessions" do
+    id = create_accession
+    JSONModel(:accession).all.count.should eq(1)
+  end
+
+
   it "fails when you try to update an accession that doesn't exist" do
     acc = JSONModel(:accession).from_hash("id_0" => "1234",
                                           "title" => "The accession title",

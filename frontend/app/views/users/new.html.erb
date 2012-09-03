@@ -1,0 +1,20 @@
+<div class="row-fluid">
+   <div class="span12">
+      <h2>New Account</h2>
+      <%= form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+         <%= render "shared/form_messages", :object => @user, :form => f %>
+         <fieldset>
+           <%= f.label_field_pair :username %>
+           <%= f.label_field_pair :name, f.text_field(:name, :size => 30, :class => "input-xxlarge") %>
+
+           <%= f.label_field_pair :password, f.password_field(:password, :size => 30, :class => "input-large") %>
+           <%= f.label_field_pair :confirm_password, f.password_field(:confirm_password, :size => 30, :class => "input-large") %>
+         </fieldset>
+
+         <div class="form-actions">
+            <button id="create_account" type="submit" class="btn btn-primary">Create account</button>
+            <%= link_to "Cancel", {:controller => :welcome}, :class => "btn" %>
+         </div>
+      <% end %>
+   </div>
+</div>

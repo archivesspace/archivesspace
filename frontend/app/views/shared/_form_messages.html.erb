@@ -1,10 +1,11 @@
 <% if not object._exceptions.empty? %>
+   <% type = ((defined? form and form.options[:as]) or object.class.record_type) %>
    <% if object._exceptions.has_key?(:errors) %>
       <div class="alert alert-error">
          <% object._exceptions[:errors].each do |attr, messages| %>
               <div class="errors-for_attr">
                 <% messages.each do |msg| %>
-                  <div class="error"><%= I18n.t(:"#{object.class.record_type}.#{attr}") %> - <%= msg %></div>
+                  <div class="error"><%= I18n.t(:"#{type}.#{attr}") %> - <%= msg %></div>
                 <% end %>
               </div>
          <% end %>
@@ -15,7 +16,7 @@
          <% object._exceptions[:warnings].each do |attr, messages| %>
               <div class="errors-for_attr">
                 <% messages.each do |msg| %>
-                  <div class="warning"><%= I18n.t(:"#{object.class.record_type}.#{attr}") %> - <%= msg %></div>
+                  <div class="warning"><%= I18n.t(:"#{type}.#{attr}") %> - <%= msg %></div>
                 <% end %>
               </div>
          <% end %>

@@ -4,7 +4,7 @@ class DBAuth
 
   include BCrypt
 
-  def set_password(username, password)
+  def self.set_password(username, password)
     pwhash = Password.create(password)
     username = username.downcase
 
@@ -27,7 +27,7 @@ class DBAuth
   end
 
 
-  def login(username, password)
+  def self.login(username, password)
     username = username.downcase
 
     DB.open do |db|

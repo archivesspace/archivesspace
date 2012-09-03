@@ -4,6 +4,11 @@
 
   <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.6.7.2/jruby-complete-1.6.7.2.jar" />
   <property name="jruby_file" value="jruby-complete-1.6.7.2.jar" />
+
+  <!-- We need a different version of JRuby for coverage reports until JRUBY-6106 gets merged -->
+  <property name="coverage.jruby_url" value="http://aspace.hudmol.com/packages/jruby-trunk.jar" />
+  <property name="coverage.jruby_file" value="jruby-coverage.jar" />
+
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
@@ -24,21 +29,25 @@
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S gem install bundler" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../backend/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../frontend/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium/Gemfile'" />
     </java>
   </target>
@@ -49,6 +58,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb" />
     </java>
   </target>
@@ -58,7 +68,19 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb nuke" />
+    </java>
+  </target>
+
+
+  <!-- Common -->
+  <target name="common:test" description="Run the unit test suite for common">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../common">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
   </target>
 
@@ -69,6 +91,7 @@
           failonerror="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
   </target>
@@ -79,6 +102,7 @@
           failonerror="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 tests/integration.rb" />
     </java>
   </target>
@@ -88,6 +112,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
   </target>
@@ -98,18 +123,40 @@
           dir="../backend">
       <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <arg line="--1.9 app/main.rb ${aspace.backend.port}" />
     </java>
   </target>
 
 
+  <target name="backend:doc" description="Generate documentation for endpoints">
+    <property name="match" value=""/>
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          dir="../backend">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 -Iapp scripts/endpoint_doc.rb"/>
+      <arg value="${match}"/>
+    </java>
+  </target>
+
+
   <!-- Frontend -->
-  <target name="frontend:devserver" description="Start an instance of the ArchivesSpace frontend development server">
+  <target name="frontend:clean" description="Delete the Rails tmp directory">
+    <delete dir="../frontend/tmp" />
+    <delete dir="../frontend/public/assets" />
+    <mkdir dir="../frontend/public/assets" />
+    <mkdir dir="../frontend/public/assets/00-do-not-put-things-here" />
+  </target>
+        
+
+  <target name="frontend:devserver" depends="frontend:clean" description="Start an instance of the ArchivesSpace frontend development server">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 script/rails server --port=${aspace.frontend.port}" />
     </java>
   </target>
@@ -119,12 +166,13 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 script/rails console" />
     </java>
   </target>
 
 
-  <target name="frontend:war" depends="bootstrap" description="Deploy the frontend application as a .war file">
+  <target name="frontend:war" depends="frontend:clean, bootstrap" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
     <delete dir="../frontend/tmp" />
@@ -132,26 +180,26 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S rake assets:precompile" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
-
-    <delete dir="../frontend/public/assets" />
-    <mkdir dir="../frontend/public/assets" />
-    <mkdir dir="../frontend/public/assets/00-do-not-put-things-here" />
   </target>
 
 
-  <target name="selenium:test" description="Run the Selenium tests">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
-          dir="../selenium" failonerror="true">
+  <target name="selenium:test" depends="frontend:clean" description="Run the Selenium tests">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../selenium">
       <env key="GEM_HOME" value="${gem_home}" />
-      <arg line="--1.9 test.rb" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d spec" />
     </java>
   </target>
 
@@ -185,5 +233,22 @@
       </manifest>
     </jar>
   </target>
+
+
+  <target name="bootstrap:coverage">
+    <get src="${coverage.jruby_url}" dest="${coverage.jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+  </target>
+
+  <target name="backend:coverage" depends="bootstrap:coverage" description="Generate coverage reports for the backend">
+    <java classpath="${coverage.jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../backend">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="COVERAGE_REPORTS" value="true" />
+      <arg line="--1.9 --debug ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
+    </java>
+  </target>
+
 
 </project>

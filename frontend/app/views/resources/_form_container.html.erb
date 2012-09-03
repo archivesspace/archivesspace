@@ -1,0 +1,35 @@
+<h2>
+   <%= @resource.title.blank? ? "New Resource" : @resource.title %>  <span class="label label-info">Resource</span>
+</h2>
+<br/>
+<%= render "shared/form_messages", :object => @resource %>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
+    <!-- <li><a href="#finding-aid" data-toggle="tab">Finding Aid</a></li>
+    <li><a href="#dates" data-toggle="tab">Dates</a></li>
+    <li><a href="#names" data-toggle="tab">Names</a></li>
+    <li><a href="#subjects" data-toggle="tab">Subjects</a></li>
+    <li><a href="#accessions" data-toggle="tab">Accessions</a></li> -->
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="basic-information">
+      <%= render :partial => "resources/forms/basic_information", :locals => {:f => f} %>
+    </div>
+    <!-- <div class="tab-pane" id="finding-aid">
+      <div class="well">Finding Aid form here...</div>
+    </div>
+    <div class="tab-pane" id="dates">
+      <div class="well">Dates form/list here...</div>
+    </div>
+    <div class="tab-pane" id="names">
+      <div class="well">Names selector/list here...</div>
+    </div>
+    <div class="tab-pane" id="subjects">
+      <div class="well">Subjects selector/list here...</div>
+    </div>
+    <div class="tab-pane" id="accessions">
+      <div class="well">Accessions selector/list here... TODO</div>
+    </div> -->
+  </div>
+</div>

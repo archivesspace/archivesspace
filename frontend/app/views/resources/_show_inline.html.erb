@@ -1,0 +1,39 @@
+<div class="btn-group" style="float: right">
+  <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource.id, :anchor => "resource_#{@resource.id}"}, :class => "btn btn-small" %>
+</div>
+
+<h2><%= @resource.title %> <span class="label label-info">Resource</span></h2>
+
+<br/>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="basic-information">
+       <div class="row-fluid label-and-value">
+          <div class="span3">Title</div>
+          <div class="span9"><%= @resource.title %></div>
+       </div>
+       <div class="row-fluid label-and-value">
+          <div class="span3">Identifier</div>
+          <div class="span9 identifier-display">
+             <span class="identifier-display-part"><%= @resource.id_0 %></span><span class="identifier-display-part"><%= @resource.id_1 %></span><span class="identifier-display-part"><%= @resource.id_2 %></span><span class="identifier-display-part"><%= @resource.id_3 %></span>
+          </div>
+       </div>
+       <% if @resource.subjects %>
+       <hr/>
+       <div class="row-fluid label-and-value">
+          <div class="span3">Subjects</div>
+          <div class="span9">
+             <% @resource["resolved"]["subjects"].each do | subject | %>
+                <div class="token">
+                   <%= Subject.from_hash(subject).display_string %>
+                </div>
+             <% end %>
+          </div>
+       </div>
+       <% end %>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,0 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Collections", :controller=>:collections, :action=>:index), @collection.title]} %>
-<div class="row-fluid">
-   <div class="span3">
-     <div class="archives-tree-container well">
-      <%= render :partial=>"collections/tree", :locals=>{:selected=>"collection"} %>
-    </div> <!-- well -->
-   </div> <!-- span3 -->
-   <div class="span9" id="object_container"></div>
-</div>

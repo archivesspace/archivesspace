@@ -1,21 +1,20 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Subjects", :controller=>:subjects, :action=>:index), @subject.term]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Subjects", :controller => :subjects, :action => :index), @subject.display_string]} %>
 <div class="row-fluid">
    <div class="span3">
-      <div class="well">List all subjects here for quick access.</div>
+      List all subjects here for quick access.
    </div>
-   <div class="span9">
-      <div class="btn-group" style="float: right">
-        <%= link_to "Edit", {:controller=>:subjects, :action=>:edit, :id=>@subject.id}, :class=>"btn btn-small" %>
-      </div>
-      <h2><%= @subject.term %>  <span class="label label-info">Subject</span></h2>
+   <div class="span9 record-pane">
+      <h2><%= @subject.display_string %>  <span class="label label-info">Subject</span></h2>
       <br/>
-      <div class="row-fluid label-and-value">
-          <div class="span3">Term</div>
-          <div class="span9"><%= @subject.term %></div>
+      <div class="row-fluid">
+          <div class="span6"><strong>Term</strong></div>
+          <div class="span6"><strong>Type</strong></div>
       </div>
-      <div class="row-fluid label-and-value">
-          <div class="span3">Type</div>
-          <div class="span9"><%= @subject.term_type %></div>
-      </div>
+      <% @subject.terms.each do | term | %>
+         <div class="row-fluid">
+             <div class="span6"><%= term["term"] %></div>
+             <div class="span6"><%= term["term_type"] %></div>
+         </div>
+      <% end %>
    </div>
 </div>

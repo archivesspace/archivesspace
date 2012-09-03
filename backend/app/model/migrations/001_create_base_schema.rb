@@ -1,6 +1,7 @@
 Sequel.migration do
   up do
     DB_TYPE = self.database_type
+
     create_table(:sessions) do
       primary_key :id
       String :session_id, :unique => true, :null => false
@@ -26,15 +27,8 @@ Sequel.migration do
       primary_key :id
 
       String :username, :null => false, :unique => true
-      String :first_name, :null => false
-      String :last_name, :null => false
-      String :auth_source, :null => false
-      String :email, :null => true
-      String :phone, :null => true
-      String :title, :null => true
-      String :department, :null => true
-      String :contact, :null => true
-      String :notes, :null => true
+      String :name, :null => false
+      String :source, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -98,7 +92,7 @@ Sequel.migration do
       add_foreign_key([:repo_id], :repositories, :key => :id)
     end
 
-    create_table(:collections) do
+    create_table(:resources) do
       primary_key :id
 
       Integer :repo_id, :null => false
@@ -110,7 +104,7 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:collections) do
+    alter_table(:resources) do
       add_foreign_key([:repo_id], :repositories, :key => :id)
       add_index([:repo_id, :identifier], :unique => true)
     end
@@ -120,7 +114,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :repo_id, :null => false
-      Integer :collection_id, :null => true
+      Integer :resource_id, :null => true
 
       Integer :parent_id, :null => true
 
@@ -136,66 +130,72 @@ Sequel.migration do
 
     alter_table(:archival_objects) do
       add_foreign_key([:repo_id], :repositories, :key => :id)
-      add_foreign_key([:collection_id], :collections, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
       add_foreign_key([:parent_id], :archival_objects, :key => :id)
-      add_index([:collection_id, :ref_id], :unique => true)
+      add_index([:resource_id, :ref_id], :unique => true)
     end
 
 
     create_table(:vocabularies) do
       primary_key :id
-      
+
       String :name, :null => false, :unique => true
       String :ref_id, :null => false, :unique => true
-      
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
-    self[:vocabularies].insert(:name => "global", :ref_id => "global", 
-      :create_time => Time.now, :last_modified => Time.now)
+    self[:vocabularies].insert(:name => "global", :ref_id => "global",
+                               :create_time => Time.now, :last_modified => Time.now)
 
 
     create_table(:subjects) do
       primary_key :id
 
       Integer :vocab_id, :null => false
-      Integer :parent_id, :null => true
 
-      String :term, :null => false, :unique => true
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:subjects) do
+      add_foreign_key([:vocab_id], :vocabularies, :key => :id)
+    end
+
+    create_table(:terms) do
+      primary_key :id
+
+      Integer :vocab_id, :null => false
+
+      String :term, :null => false
       String :term_type, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
-    
-    alter_table(:subjects) do
+
+    alter_table(:terms) do
       add_foreign_key([:vocab_id], :vocabularies, :key => :id)
-      add_foreign_key([:parent_id], :subjects, :key => :id)
+      add_index([:vocab_id, :term, :term_type], :unique => true)
     end
 
-    create_join_table(:subject_id=>:subjects, :archival_object_id=>:archival_objects)
-    
-   
+    create_join_table(:subject_id => :subjects, :term_id => :terms)
+    create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
+    create_join_table(:subject_id => :subjects, :resource_id => :resources)
+
 
   end
 
   down do
-    drop_table?(:sessions)
-    drop_table?(:auth_db)
 
-    drop_table?(:groups_users)
-    drop_table?(:users)
-    drop_table?(:groups)
+    [:subjects_terms, :archival_objects_subjects, :subjects, :terms, :sessions,
+     :auth_db, :groups_users, :users, :groups, :accessions,
+     :archival_objects, :vocabularies,
+     :resources, :repositories].each do |table|
+      puts "Dropping #{table}"
+      drop_table?(table)
+    end
 
-    drop_table?(:accessions)
-
-    drop_table?(:archival_objects_subjects)
-
-    drop_table?(:subjects)
-    drop_table?(:archival_objects)
-    drop_table?(:vocabularies)
-    drop_table?(:collections)
-    drop_table?(:repositories)
   end
 end

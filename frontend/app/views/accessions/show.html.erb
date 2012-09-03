@@ -1,13 +1,11 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Accessions", :controller=>:accessions, :action=>:index), @accession.title]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index), @accession.title]} %>
 <div class="row-fluid">
    <div class="span3">
-      <div class="well">
-         <p>This is where the tree will go.</p>
-      </div>
+      <p>This is where the tree will go.</p>
    </div>
-   <div class="span9">
+   <div class="span9 record-pane">
       <div class="btn-group" style="float: right">
-        <%= link_to "Edit Accession", {:controller=>:accessions, :action=>:edit, :id=>@accession.id}, :class=>"btn" %>
+        <%= link_to "Edit Accession", {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn" %>
         <button class="btn">Delete</button>
       </div>
       <h2><%= @accession.title %> <span class="label label-info">Accession</span></h2>

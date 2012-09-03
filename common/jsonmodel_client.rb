@@ -50,7 +50,7 @@ module JSONModel
       @errors = nil
 
       type = self.class.record_type
-      response = self.class._post_json(self.class.my_url(self.id, opts), self.to_json)
+      response = self.class._post_json(self.class.my_url(self.id, opts.clone), self.to_json)
 
       if response.code == '200'
         response = JSON.parse(response.body)
@@ -71,6 +71,13 @@ module JSONModel
     end
 
 
+    def add_error(field, message)
+      @errors ||= {}
+      @errors[field.to_s] ||= []
+      @errors[field.to_s] << message
+    end
+
+
     module ClassMethods
 
       def self.extended(base)
@@ -88,17 +95,19 @@ module JSONModel
       end
 
 
+      def backend_url
+        if Module.const_defined?(:BACKEND_SERVICE_URL)
+          BACKEND_SERVICE_URL
+        else
+          JSONModel::init_args[:url]
+        end
+      end
+
       # Given the ID of a JSONModel instance, return its full URL (including the
       # URL of the backend)
       def my_url(id = nil, opts = {})
 
-        if Module.const_defined?(:BACKEND_SERVICE_URL)
-          backend = BACKEND_SERVICE_URL
-        else
-          backend = JSONModel::init_args[:url]
-        end
-
-        url = URI("#{backend}#{self.uri_for(id, opts)}")
+        url = URI("#{backend_url}#{self.uri_for(id, opts)}")
 
         # Don't need to pass this as a URL parameter if it wasn't picked up by
         # the URI template substitution.
@@ -142,6 +151,26 @@ module JSONModel
           json_list.map {|h| self.from_hash(h)}
         else
           raise response.body
+        end
+      end
+
+
+      # Perform a HTTP POST request against the backend with form parameters
+      def post_form(uri, params = {})
+        Net::HTTP.post_form(URI("#{backend_url}#{uri}"), params)
+      end
+
+
+      def get_json(uri, params = {})
+        uri = URI("#{backend_url}#{uri}")
+        uri.query = URI.encode_www_form(params)
+
+        response = Net::HTTP.get_response(uri)
+
+        if response.is_a?(Net::HTTPSuccess)
+          JSON(response.body)
+        else
+          nil
         end
       end
 

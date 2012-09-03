@@ -12,4 +12,11 @@ describe 'Repository controller' do
     repos.any? { |repo| repo.repo_code == "TEST" }.should be_true
   end
 
+  it "can get back a single repository" do
+    id = make_test_repo("ARCHIVESSPACE")
+
+    JSONModel(:repository).find(id).repo_code.should eq("ARCHIVESSPACE")
+  end
+
+
 end

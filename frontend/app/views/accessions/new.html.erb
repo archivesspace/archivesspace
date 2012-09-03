@@ -1,17 +1,15 @@
-<%= render :partial=>"shared/breadcrumb", :locals=>{:trail=>[link_to("Browse Accessions", :controller=>:accessions, :action=>:index),"New Accession"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index),"New Accession"]} %>
 <div class="row-fluid">
    <div class="span3">
-      <div class="well">
-         <p>This is where the tree will go. Perhaps not for a new Accession.  But when editing it will be here.</p>
-      </div>
+      <p>This is where the tree will go. Perhaps not for a new Accession.  But when editing it will be here.</p>
    </div>
-   <div class="span9">
+   <div class="span9 record-pane">
       <h2>New Accession</h2>
-      <%= form_for @accession, :as => "accession", :url=>{:action=>:create}, :html=>{:class=>'form-horizontal'} do |f| %>
-         <%= render :partial=>"accessions/form", :locals=>{:f=>f} %>
+      <%= form_for @accession, :as => "accession", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+         <%= render :partial => "accessions/form", :locals => {:f => f} %>
          <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save Accession</button>
-            <%= link_to "Cancel", :back, :class=>"btn" %>
+            <%= link_to "Cancel", :back, :class => "btn" %>
          </div>
       <% end %>
    </div>

@@ -11,7 +11,7 @@ ASpaceImporter.importer :ead do
     end
     input_file = ARGV[0]
     reader = Nokogiri::XML::Reader(IO.read(input_file))
-    
+
     reader.each do |node|
       #TODO - Error handling - missing tags
       if node.node_type == 1 and node.name == 'eadheader'
@@ -26,35 +26,35 @@ ASpaceImporter.importer :ead do
         open_new :collection, { :eadid => grab(:eadid), :title => grab(:title) }
         puts "Created collection #{ current :collection }." if $DEBUG
       end
-  
+
       # Container List
       # ASpace data model requires a root archival object to wrap the collection
       if node.node_type == 1 and node.name == 'dsc'
         puts "Reading <dsc>" if $DEBUG
-        open_new :archival_object, { 
-                                    :ref_id => 'dsc', 
-                                    :title => 'Root Archival Object',
-                                    :level => 'dsc'
-                                    }
+        open_new :archival_object, {
+          :ref_id => 'dsc',
+          :title => 'Root Archival Object',
+          :level => 'dsc'
+        }
       end
 
       if node.node_type == 1 and node.name == 'c'
         puts "Reading <c>: Depth #{node.depth()}" if $DEBUG
-      
+
         stash :ref_id, node.attribute_at(0)
         stash :level, node.attribute_at(1)
         node.read until node.name == 'unittitle'
         stash :title, node.inner_xml
-        open_new :archival_object, { 
-                                    :ref_id => grab(:ref_id),
-                                    :title => grab(:title),
-                                    :level => grab(:level)
-                                    }
+        open_new :archival_object, {
+          :ref_id => grab(:ref_id),
+          :title => grab(:title),
+          :level => grab(:level)
+        }
 
 
 
       end
-      
+
       if node.node_type != 1 and node.name == 'c'
         puts "Read </c>: Depth #{node.depth()}" if $DEBUG
         close :archival_object

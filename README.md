@@ -28,3 +28,7 @@ curl:
 
     username=$USER
     curl -v -F password=testuser "http://localhost:8089/auth/local/user/$username"
+
+# Documentation
+
+Latest documentation is published at [http://hudmol.github.com/archivesspace/](http://hudmol.github.com/archivesspace/)
