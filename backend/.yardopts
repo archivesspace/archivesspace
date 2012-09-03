@@ -1,7 +1,0 @@
---markup-provider=kramdown
---markup=markdown
-'*.rb'
-'app/*.rb'
-'app/**/*.rb'
-'spec/*.rb'
--

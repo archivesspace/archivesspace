@@ -1,7 +1,0 @@
---markup-provider=redcarpet
---markup=markdown
--e ../yard/yard-aspace.rb
-'*.rb'
-'schemas/*.rb'
-'spec/*.rb'
--
