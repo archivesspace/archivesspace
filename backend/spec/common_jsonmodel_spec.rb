@@ -31,6 +31,7 @@ describe 'JSON model' do
 
     JSONModel.destroy_model(:testschema)
     JSONModel.destroy_model(:strictschema)
+    JSONModel.destroy_model(:treeschema)
 
   end
 
@@ -267,6 +268,43 @@ describe 'JSON model' do
     # it's not clear to me how @errors would legitimately be set
     ts.instance_variable_set(:@errors, {"a_terrible_thing" => "happened earlier"})
     ts._exceptions[:errors].keys.should eq(["a_terrible_thing"])
+
+  end
+
+
+  it "handles recursively nested models" do
+
+    JSONModel.create_model_for("treeschema",
+                               {
+                                 "$schema" => "http://www.archivesspace.org/archivesspace.json",
+                                 "type" => "object",
+                                 "uri" => "/treethings",
+                                 "properties" => {
+                                   "name" => {"type" => "string", "required" => true, "minLength" => 1},
+                                   "children" => {"type" => "array", "additionalItems" => false, "items" => { "$ref" => "#" }},
+                                 },
+
+                                 "additionalProperties" => true
+                               })
+
+    child = JSONModel(:treeschema).from_hash({
+                                               "name" => "a nested child",
+                                               "moo" => "rubbish"
+                                             })
+
+    tsh = JSONModel(:treeschema).from_hash({
+                                             "name" => "a parent with a nest",
+                                             "foo" => "trash",
+                                             "children" => [child.to_hash,
+                                                            {"name" => "hash baby", "goo" => "junk"}]
+                                           }).to_hash
+
+    tsh.keys.should include("name")
+    tsh.keys.should_not include("foo")
+    tsh["children"][0].keys.should include("name")
+    tsh["children"][0].keys.should_not include("moo")
+    tsh["children"][1].keys.should include("name")
+    tsh["children"][1].keys.should_not include("goo")
 
   end
 
