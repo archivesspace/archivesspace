@@ -171,7 +171,7 @@ $(function() {
     // render tree toolbar
     $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
     renderTreeNodeNavigation();
-    if ((nodeEl.hasClass("resource") && nodeEl.find("> ul > li").length === 0) || nodeEl.attr("id") != "newAO") {
+    if ((nodeEl.hasClass("resource") && nodeEl.find("> ul > li").length === 0) || (nodeEl.hasClass("archival_object") && nodeEl.attr("id") != "newAO")) {
       $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addchild_template"));
       if (!nodeEl.hasClass("resource") && !nodeEl.parents("li:first").hasClass("resource")) {
         $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addsibling_template"));
@@ -207,6 +207,15 @@ $(function() {
     loadPaneForNode($selected);
     loadTreeActionsForNode($selected);
   };
+  
+
+
+  var addNewAONode = function(parentNode) {
+    $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "newAO"}, "data": {"title": "New Archival Object"}});
+    $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
+    $("#newAO", $tree).find("a").attr("href", "#newAO");
+    location.hash = "#newAO";
+  };
 
 
   var addEventBindings = function() {
@@ -217,10 +226,7 @@ $(function() {
         return;
       }
 
-      $tree.jstree("create_node", $selected, "last", {"attr":{"id": "newAO"}, "data": {"title": "New Archival Object"}});
-      $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
-      $("#newAO", $tree).find("a").attr("href", "#newAO");
-      location.hash = "#newAO";
+      addNewAONode($selected);
     });
 
     $(".archives-tree-container").on("click", ".add-sibling-archival-object-analog", function() {
@@ -229,10 +235,7 @@ $(function() {
         return;
       }
 
-      $tree.jstree("create_node", $selected.parents("li:first"), "last", {"attr":{"id": "newAO"}, "data": {"title": "New Archival Object"}});
-      $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
-      $("#newAO", $tree).find("a").attr("href", "#newAO");
-      location.hash = "#newAO";
+      addNewAONode($selected.parents("li:first"));
     });
 
     $container.on("click", ".btn-cancel", function() {
@@ -275,6 +278,11 @@ $(function() {
 
 
   var confirmChanges = function(targetNodeEl) {
+    var parentIdForNewAO;
+    if (targetNodeEl.attr("id") === "newAO") {
+      parentIdForNewAO = targetNodeEl.parents("li:first").attr("id");
+    }
+
     // open save your changes modal
     AS.openCustomModal("saveYourChangesModal", "Save Your Changes", AS.renderTemplate("save_changes_modal_template"));
 
@@ -283,7 +291,11 @@ $(function() {
 
       var onSubmitSuccess = function() {
         form_changed = false;
-        location.hash = targetNodeEl.attr("id");
+        if (targetNodeEl.attr("id") === "newAO") {
+          addNewAONode($("#"+parentIdForNewAO));
+        } else {
+          location.hash = targetNodeEl.attr("id");
+        }
         $("#saveYourChangesModal").modal("hide");
       };
 
@@ -302,7 +314,9 @@ $(function() {
 
     $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
       form_changed = false;
-      $tree.jstree("delete_node", $('#newAO', $tree));
+      if (targetNodeEl.attr("id") != "newAO") {
+        $tree.jstree("delete_node", $('#newAO', $tree));
+      }
       location.hash = targetNodeEl.attr("id");
       $("#saveYourChangesModal").modal("hide");
     });
