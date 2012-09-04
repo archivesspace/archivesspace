@@ -27,7 +27,7 @@ To create a test account and log in, you'll currently need to use
 curl:
 
     username=$USER
-    curl -v -F password=testuser "http://localhost:8089/auth/local/user/$username"
+    curl -d '{"username":"$username","name":"Test User"}' 'http://localhost:4567/users?password=testuser'
 
 # Documentation
 
