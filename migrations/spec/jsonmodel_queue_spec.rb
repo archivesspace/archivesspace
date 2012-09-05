@@ -103,7 +103,7 @@ describe JSONModel do
     parent.try_save({:repo_id => '1'})
     parent.after_save    
     child.parent.should eq(parent.uri)
-    child.save.should_not be_false
+    child.try_save({:repo_id => '1'}).should_not be_false
   end
     
 end
