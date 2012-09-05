@@ -144,4 +144,18 @@ describe 'Resources controller' do
   end
 
 
+  it "can give a list of all resources" do
+
+    JSONModel(:resource).from_hash("title" => "coal", "id_0" => "1").save
+    JSONModel(:resource).from_hash("title" => "wind", "id_0" => "2").save
+    JSONModel(:resource).from_hash("title" => "love", "id_0" => "3").save
+
+    resources = JSONModel(:resource).all
+
+    resources.any? { |res| res.title == "coal" }.should be_true
+    resources.any? { |res| res.title == "wind" }.should be_true
+    resources.any? { |res| res.title == "love" }.should be_true
+
+  end
+
 end
