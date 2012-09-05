@@ -1,9 +1,8 @@
 require 'psych'
 
-class ASpaceWalk
-  include JSONModel
+module ASpaceImport
+  class Crosswalk
 
-  
     def initialize(yaml)
       # load in the YAML
       # create a class represeting the crosswalk
@@ -12,7 +11,7 @@ class ASpaceWalk
     end
     
     def to_s
-      "ASpaceWalk from #{@@walk['source']['schema']}"
+      "Crosswalk from #{@@walk['source']['schema']}"
     end
       
     def lookup_entity_for(node)
@@ -46,5 +45,5 @@ class ASpaceWalk
         properties.pop
       end
     end
-    
+  end 
 end

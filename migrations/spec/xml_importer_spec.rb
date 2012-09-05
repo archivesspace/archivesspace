@@ -1,5 +1,5 @@
 require "../lib/bootstrap.rb"
-require "../importers/xmlpull.rb"
+require "../importers/xml.rb"
 require 'psych'
 require 'nokogiri'
 
@@ -13,7 +13,7 @@ require 'nokogiri'
 
 
 
-describe ASpaceImporter do
+describe ASpaceImport::Importer::XmlImporter do
   before(:each) do
    
     @crosswalk_file = Psych.dump({
@@ -47,15 +47,15 @@ describe ASpaceImporter do
      IO.stub(:read).with('crosswalk.yml'){ @crosswalk_file }
      IO.stub(:read).with('input.xml'){ @input_file }
      
-     opts = {:crosswalk => 'crosswalk.yml', :input_file => 'input.xml', :importer => 'xmlpull'}
+     opts = {:crosswalk => 'crosswalk.yml', :input_file => 'input.xml', :importer => 'xml'}
      
-     @i = ASpaceImporter.create_importer(opts)
+     @i = ASpaceImport::Importer.create_importer(opts)
      
   end
   
   
-  it "should create a class for pulling and XML file through a YAML crosswalk" do      
-    @i.class.name.should eq('XmlpullASpaceImporter')
+  it "should create a class for pulling an XML file through a YAML crosswalk" do      
+    @i.class.name.should eq('XmlImporter')
   end  
   
   it "should return the name of an entity when given an xpath" do

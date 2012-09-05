@@ -1,58 +1,70 @@
 require 'psych'
 require 'nokogiri'
 
-ASpaceImporter.importer :xmlpull do
+ASpaceImport::Importer.importer :xml do
 
   def initialize(opts)
     # load in the YAML
     # TODO - die if not given a crosswalk and an input file
-    # TODO - require gems at run time? (so it can be listed without giving and error)
+    # TODO - require gems at run time? (so it can be listed without giving an error)
     @walk = Psych.load(IO.read(opts[:crosswalk]))
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     super
   end
-    
+
+
   def self.profile
     "XML pull parser for use with a YAML crosswalk"
   end
-  
+
+
   def run
     @reader.each do |node|
+      #open tag
       if node.node_type == 1
-        if @json_queue.push(lookup_entity_for(node.name))
-          type = @json_queue.last.class.record_type #TODO - add method for this
-          node.attributes.each do |att|            
-            @json_queue.set_property(lookup_property_for(type, att[0]), att[1])
+        if (jo = JSONModel(lookup_entity_for(node.name)).new)
+          node.attributes.each do |att|
+            property = lookup_property_for(jo.class.record_type, att[0])    
+            if jo.respond_to?(property)
+              unless jo.send("#{property}") # don't set the property more than once
+                jo.send("#{property}=", att[1])
+              end
+            else
+              raise StandardError.new("Can't set #{property} on #{@jo.class.to_s}")
+            end
           end
-
-        elsif @json_queue.length > 0
-            type = @json_queue.last.class.record_type
-            @json_queue.set_property(lookup_property_for(type, node.name), node.inner_xml)
+          # We queue once we are finished with an opening tag
+          jo.queue
+        elsif (jo = JSONModel::Client.queue.last)
+            jo.send("#{lookup_property_for(jo.class.record_type, node.name)}=", node.inner_xml)
         end
-      end
-      if node.node_type != 1
-        type = lookup_entity_for(node.name)
+      #close tag
+      elsif node.node_type != 1 
+        if (jo = JSONModel::Client.queue[-1])
+          type = lookup_entity_for(node.name)
+          raise StandardError.new("type mismatch") unless jo.class.record_type == type           
         #is there an ancestor or parent dependency?
-        if type
           @walk['entities'][type]['properties'].each do |prop, xpaths|
             xpaths.each do |xp|
               if xp.match(/^parent::([a-z]*)$/)
                 parent_type = lookup_entity_for($1)
                 # if the current node calls for something on the parent axis, 
                 # that should be the last-1 item in the queue
-                if @json_queue[-2].class.record_type == parent_type
-                  @json_queue.set_property(prop, @json_queue[-2])
+                if (pjo = JSONModel::Client.queue[-2])
+                  raise StandardError.new("type mismatch") unless pjo.class.record_type == parent_type 
+                  pjo.add_save_hook(Proc.new { jo.send("#{prop}=", pjo.uri) })
+                  jo.add_reference(pjo)
                 end
-              end
+              end  
             end
           end
-          @json_queue.pop
+          jo.dequeue #Save or 
         end
       end
     end
   end
   
-      
+  # TODO - move these methods to the Crosswalk class.
   def lookup_entity_for(xpath)
     types = []
     @walk['entities'].each do |k, v|
@@ -68,7 +80,8 @@ ASpaceImporter.importer :xmlpull do
       types.pop
     end
   end
-    
+
+
   def lookup_property_for(type, xpath)
     return nil unless @walk['entities'][type]
     properties = []
@@ -85,5 +98,5 @@ ASpaceImporter.importer :xmlpull do
       properties.pop
     end
   end
-    
+
 end

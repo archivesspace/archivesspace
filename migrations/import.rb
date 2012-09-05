@@ -43,19 +43,12 @@ end
 optparse.parse!
 
 if options[:list]
-  ASpaceImporter.list
+  ASpaceImport::Importer.list
   exit
 end
 
-# if options[:crosswalk] and options[:input_file]
-#   reader = Nokogiri::XML::Reader(IO.read(options[:input_file]))
-#   walker = ASpaceWalk.new(IO.read(options[:crosswalk]))
-#   i = ASpaceImporter.new(reader, walker)
-#   i.run
-#   i.report
-
 if options[:importer]
-  i = ASpaceImporter.create_importer(options)
+  i = ASpaceImport::Importer.create_importer(options)
   i.run
   i.report
 end
