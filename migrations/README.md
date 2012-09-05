@@ -1,34 +1,10 @@
-# @markup markdown
-# @title ASpace Import / Export LTD.
-# @author Brian Hoffman
-
 # Getting started
 
-## If using RVM (https://rvm.io//)
-  
-  * Install ruby (~> 1.9.3) 
-
-         $ rvm install 1.9.3
-				 $ rvm use 1.9.3
-
-  * Create a new gemset
-
-         $ rvm gemset create archivesspace-migrations
-         $ rvm gemset use archivesspace-migrations
-
-  * Install nokogiri, json-schema
-
-         $ gem install nokogiri
-         $ gem install json-schema
+  * Install nokogiri, json-schema, psych
 
   * Run import.rb like so
   
-         $ import.rb [-n ] (DRY RUN) -i {importer-name} {path/to/your/data/file.ext}
-
-
-## Without RVM
-
-  * This should work as long as you are using Ruby 1.9; Please report on any problems you have in your environment
+         $ import.rb [-n ] (DRY RUN) -i {importer-name} [-s {path/to/your/data/file.ext}] [-x {path/to/your/crosswalk/file.yaml}]
 
 # Using the import tool
 
