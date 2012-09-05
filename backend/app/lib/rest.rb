@@ -28,6 +28,7 @@ module RESTHelpers
 
     @@endpoints = []
 
+
     @@param_types = {
       :repo_id => [Integer,
                    "The Repository ID",
@@ -46,6 +47,12 @@ module RESTHelpers
       @description = "-- No description provided --"
       @required_params = []
       @returns = []
+    end
+    
+    def [](key)
+      if instance_variable_defined?("@#{key}")
+        instance_variable_get("@#{key}")
+      end
     end
 
     def self.all
