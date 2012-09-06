@@ -184,12 +184,37 @@ Sequel.migration do
     create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
     create_join_table(:subject_id => :subjects, :resource_id => :resources)
 
+    create_table(:agent_types) do
+      primary_key :id
+
+      String :label, :null => false
+    end
+
+    self[:agent_types].insert(:label => "Person")
+    self[:agent_types].insert(:label => "Family")
+    self[:agent_types].insert(:label => "Corporate Entity")
+    self[:agent_types].insert(:label => "Software")
+
+    create_table(:agents) do
+      primary_key :id
+
+      Integer :type_id, :null => false
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:agents) do
+      add_foreign_key([:type_id], :agent_types, :key => :id)
+    end
 
   end
 
+
   down do
 
-    [:subjects_terms, :archival_objects_subjects, :subjects, :terms, :sessions,
+    [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
+     :agents, :agent_types, :sessions,
      :auth_db, :groups_users, :users, :groups, :accessions,
      :archival_objects, :vocabularies,
      :resources, :repositories].each do |table|
