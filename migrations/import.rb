@@ -3,7 +3,7 @@ require 'optparse'
 require File.join(File.dirname(__FILE__), "lib", "bootstrap")
 Dir.glob(File.dirname(__FILE__) + '/importers/*', &method(:require))
 
-options = {:dry => false, :relaxed => false, :verbose => false, :repo_key => ASpaceImportConfig::DEFAULT_REPO_KEY}
+options = {:dry => false, :relaxed => false, :verbose => false, :repo_id => ASpaceImportConfig::DEFAULT_REPO_KEY}
 
 optparse = OptionParser.new do|opts|
   opts.banner = "Usage: import.rb [options] IMPORTER_ARGS"
@@ -26,17 +26,17 @@ optparse = OptionParser.new do|opts|
   opts.on( '-n', '--dry-run', 'Do a dry run' ) do
     options[:dry] = true
   end
-  opts.on( '-r', '--repository REPO-CODE', 'Override default repository code / id') do|repo_key|
-    options[:repo_key] = repo_key
+  opts.on( '-r', '--repository REPO-ID', 'Override default repository id') do|repo_id|
+    options[:repo_id] = repo_id
   end
-  opts.on( '-s', '--source-file NAME', 'Import from file NAME' ) do|name|
-    options[:input_file] = name
+  opts.on( '-s', '--source-file PATH', 'Import from file at PATH' ) do|path|
+    options[:input_file] = path
   end
   opts.on( '-v', '--verbose', 'Exude verbosity') do
     options[:verbose] = true
   end
-  opts.on( '-x', '--crosswalk NAME', 'Use crosswalk NAME' ) do|name|
-    options[:crosswalk] = name
+  opts.on( '-x', '--crosswalk PATH', 'Use crosswalk at PATH' ) do|path|
+    options[:crosswalk] = path
   end
 end
 
@@ -48,6 +48,7 @@ if options[:list]
 end
 
 if options[:importer]
+  puts "IMPORTER OPTS #{options.inspect}"
   i = ASpaceImport::Importer.create_importer(options)
   i.run
   i.report

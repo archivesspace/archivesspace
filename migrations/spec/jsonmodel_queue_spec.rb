@@ -1,66 +1,28 @@
 require_relative "../../common/jsonmodel"
 require_relative "../lib/jsonmodel_queue"
+require_relative "spec_helper"
 require 'net/http'
 require 'json'
 
 
-describe JSONModel do
+describe JSONModel::Client do
   
-  
-  before(:all) do
-
-    BACKEND_SERVICE_URL = 'http://example.com'
-
-    class StubHTTP
-      def request (req)
-        StubResponse.new
-      end
-      def code
-        "200"
-      end
-      def body
-        { 'id' => '999' }.to_json
-      end
-    end
-
-    class Klass
-      include JSONModel
-    end
-  end
-
   before(:each) do
 
-    schema = '{
-      :schema => {
-        "$schema" => "http://www.archivesspace.org/archivesspace.json",
-        "type" => "object",
-        "uri" => "/repositories/:repo_id/stubs",
-        "properties" => {
-          "uri" => {"type" => "string", "required" => false},
-          "ref_id" => {"type" => "string", "ifmissing" => "error", "minLength" => 1, "pattern" => "^[a-zA-Z0-9]*$"},
-          "component_id" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
-          "title" => {"type" => "string", "minLength" => 1, "required" => true},
-
-          "level" => {"type" => "string", "minLength" => 1, "required" => false},
-          "parent" => {"type" => "JSONModel(:stub) uri", "required" => false},
-          "collection" => {"type" => "JSONModel(:stub) uri", "required" => false},
-
-          "subjects" => {"type" => "array", "items" => {"type" => "JSONModel(:stub) uri_or_object"}},
-        },
-
-        "additionalProperties" => false,
-      },
-    }'
+    schema = make_test_schema
 
     Dir.stub(:glob){ ['stub'] }
     File.stub(:basename){ 'stub' }
     File.stub_chain("open.read") { schema }
 
     Net::HTTP.stub(:start){ StubHTTP.new }
+    Net::HTTP::Post
 
     JSONModel::init( { :client_mode => true, :url => "http://example.com", :strict_mode => false } )
 
     @klass = Klass.new
+    @opts = {:repo_id => '1'}
+    @queue = JSONModel::Client.queue
   end
   
 
@@ -88,22 +50,37 @@ describe JSONModel do
   end
   
   it "should save a dequeued object if the object has no references" do
-    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title  => "Stub Object"})
+    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title  => "Stub Object"}) 
     jo.enqueue
-    jo.dequeue
+    @queue.pop
     jo.uri.should eq('/repositories/1/stubs/999')
   end
-    
-  it "should support after-save hooks and reference requirements" do
+  
+  it "should not save a dequeued object until objects it is waiting for are saved" do
+    alpha = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub 1"})
+    beta = @klass.JSONModel(:stub).from_hash({:ref_id => "def", :title => "Stub 2"})
+
+    beta.wait_for(alpha)
+    beta.enqueue
+    @queue.pop
+    beta.uri.should be_nil
+    alpha.enqueue
+    @queue.pop
+    beta.uri.should eq('/repositories/1/stubs/999')
+  end
+      
+  it "should support after-save hooks and a waiting queue" do
     parent = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Parent Stub"})
     child = @klass.JSONModel(:stub).from_hash({:ref_id => "def", :title => "Stub"})
     parent.add_after_save_hook(Proc.new { child.send("parent=", parent.uri) })
-    child.add_reference(parent)
-    child.try_save({:repo_id => '1'}).should be_false
-    parent.try_save({:repo_id => '1'})
-    parent.after_save    
+    child.wait_for(parent)
+    child.enqueue
+    @queue.pop
+    child.uri.should be_nil
+    parent.enqueue
+    @queue.pop
     child.parent.should eq(parent.uri)
-    child.try_save({:repo_id => '1'}).should_not be_false
+    child.uri.should_not be_nil
   end
     
 end

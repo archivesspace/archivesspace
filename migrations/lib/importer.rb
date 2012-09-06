@@ -86,17 +86,17 @@ module ASpaceImport
     # If the import user does nothing, the repository will be the most recently opened repository, 
     # or else the repository set when the importer was initialized
 
-    def get_import_opts
-      opts = { }
-      if @current[:repository]
-        opts.merge!({ :repo_id => @current[:repository].last })
-      elsif @repo_key
-        # TODO - change the @repo_key option to @repo_code and do a lookup
-        opts.merge!({ :repo_id => @repo_key })
-        @current[:repository]= [@repo_key]
-      end
-      opts
-    end
+    # def get_import_opts
+    #   opts = { }
+    #   if @current[:repository]
+    #     opts.merge!({ :repo_id => @current[:repository].last })
+    #   elsif @repo_key
+    #     # TODO - change the @repo_key option to @repo_code and do a lookup
+    #     opts.merge!({ :repo_id => @repo_key })
+    #     @current[:repository]= [@repo_key]
+    #   end
+    #   opts
+    # end
 
     # # Makes inferences and adjustments to a Hash before it gets converted to a JSONModel object
     #  # @param type [Symbol] the schema type

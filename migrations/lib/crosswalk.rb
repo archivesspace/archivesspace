@@ -4,22 +4,26 @@ module ASpaceImport
   class Crosswalk
 
     def initialize(yaml)
-      # load in the YAML
-      # create a class represeting the crosswalk
-  
-      @@walk = Psych.load(yaml)
+      @walk = Psych.load(yaml)
     end
     
     def to_s
       "Crosswalk from #{@@walk['source']['schema']}"
     end
+    
+    def properties(type)
+      return nil unless @walk['entities'][type]
+      @walk['entities'][type]['properties'].each do |property, xpaths|
+        yield property, xpaths
+      end
+    end
       
-    def lookup_entity_for(node)
+    def lookup_entity_for(xpath)
       types = []
-      @@walk['entities'].each do |type, xpaths|
-        xpaths.each do |xp|
-          if xp.match(/(\/)*#{node}$/)
-            types.push(type)
+      @walk['entities'].each do |k, v|
+        v['instance'].each do |xp|
+          if xp.match(/(\/)*#{xpath}$/)
+            types.push(k)
           end
         end
       end
@@ -30,11 +34,12 @@ module ASpaceImport
       end
     end
     
-    def lookup_property_for(string)
+    def lookup_property_for(type, xpath)
+      return nil unless @walk['entities'][type]
       properties = []
-      @@walk['properties'].each do |property, xpaths|
+      @walk['entities'][type]['properties'].each do |property, xpaths|
         xpaths.each do |xp|
-          if xp.match(/^(\/)*(@)?#{string}$/)
+          if xp.match(/^(\/)*(@)?#{xpath}$/)
             properties.push(property)
           end
         end

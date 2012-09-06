@@ -1,10 +1,26 @@
 module JSONModel
   module Client
 
-    @@queue = Array.new # JSON objects waiting for all their properties
-    @@aux_queue = Array.new # JSON objects waiting for another JSON object to be saved
+    class ParseQueue < Array
+      @repo_id = '1'
+      def pop
+        if self.length > 0
+          self.last.save_or_wait({:repo_id => @repo_id})        
+          super
+        end
+      end
+      
+      def init(opts)
+        @repo_id = opts[:repo_id] if opts[:repo_id]
+      end
+    end
+
+    @@queue = ParseQueue.new # JSON objects waiting for all their data to stream
+    @@wait_queue = Array.new # JSON objects waiting for another JSON object to be saved
+
     
-    def self.queue
+    def self.queue(opts)
+      @@queue.init(opts)
       @@queue
     end
     
@@ -13,39 +29,15 @@ module JSONModel
       @after_save_hooks.push(proc)
     end
     
-    def after_save
-      @after_save_hooks.each { |proc| proc.call } if @after_save_hooks    
+  
+    # Wait until another object is saved
+    # before allowing itself to be saved.
+    
+    def wait_for(json_obj)
+      @waiting_for ||= Array.new
+      @waiting_for.push(json_obj)
     end
-    
-    # Add a reference to a json_object that will
-    # need to be saved before self can be saved.
-    # A referenced object should have an after_save
-    # hook to update this reference.
-    
-    def add_reference(json_obj)
-      @required_references ||= Array.new
-      @required_references.push(json_obj)
-    end
-    
-    
-    def references
-      @required_references ||= Array.new
-      @required_references
-    end
-
-    
-    def try_save(opts)
-      can_save = true
-      self.references.each do |ref|
-        can_save = false unless ref.uri 
-      end    
-      if can_save 
-        self.save(opts) 
-      else
-        can_save
-      end
-    end  
-    
+  
     
     def enqueue
       @@queue.push(self)
@@ -55,33 +47,48 @@ module JSONModel
     # of related objects if it works, then remove it from the 
     # main queue.
     
+
     # TODO - get repo_id from the opts
-    def dequeue
-      # save_now = true
-      # self.class.schema['properties'].each do |a|
-      #   
-      #   # check if it has a property that depends on another JSON object
-      #   # if it does, then it must be saved later.
-      #   # TODO - it could be set already, so the value should actually be checked
-      #   if self.send(a[0]).class.to_s.match(/^JSONModel/) #ugly
-      #     save_now = false 
-      #   end
-      # end
-      
-      # if save_now
-      if self.try_save({:repo_id => '1'})
-        self.after_save
-        @@aux_queue.each_index do |i|        
-          if @@aux_queue[i].try_save
-            @@aux_queue[i] = nil
-          end
+    def save_or_wait(opts = {:repo_id => '1'})
+      repo_id = opts[:repo_id]
+      if self.try_save(opts)
+        @@wait_queue.each_index do |i|        
+          @@wait_queue[i] = nil if @@wait_queue[i].try_save({:repo_id => repo_id})
         end
-        @@aux_queue.compact!
+        @@wait_queue.compact!
       else
-        @@aux_queue.push(self)
-      end  
-      @@queue.pop
+        @@wait_queue.push(self)
+      end
     end
+
+ 
+    # Protected methods
+    protected
+     
+    def try_save(opts = {:repo_id => '1'})
+      can_save = true
+      self.waiting_for.each do |w|
+        can_save = false unless w.uri 
+      end    
+      if can_save 
+        r = self.save(opts)
+        self.after_save
+        return r
+      else
+        can_save
+      end
+    end
+
+    
+    def after_save
+      @after_save_hooks.each { |proc| proc.call } if @after_save_hooks    
+    end
+    
+    
+    def waiting_for
+      @waiting_for || Array.new
+    end
+    
   end
 end
 
@@ -105,7 +112,6 @@ end
 # 
 #     def set_property(property, value)
 #       if self.length > 0 and property
-#         puts self.last.to_s
 #         if self.last.respond_to?(property)
 #           unless self.last.send("#{property}") # don't set the property more than once
 #             self.last.send("#{property}=", value)
@@ -133,9 +139,7 @@ end
 #         if shadow
 #           @shadow_queue.push(self.last)
 #         else
-#           puts "Saving #{self.last.to_s}"
 #           saved_key = @json_queue.last.save({:repo_id => '1'})
-#           puts "Saved #{saved_key}"
 #           #saved_key = rand(26)
 #         
 #         
@@ -143,7 +147,6 @@ end
 #           @shadow_queue.each do |jo|
 #             jo.last.class.schema['properties'].each do |a|
 #               if jo.send(a[0]).class.to_s.match(/^SJONModel/)
-#                 puts "REference #{jo.send(a[0]).to_s}"
 #               end
 #             end
 #           end

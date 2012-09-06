@@ -1,5 +1,6 @@
 require "../lib/bootstrap.rb"
 require "../importers/xml.rb"
+require_relative "spec_helper.rb"
 require 'psych'
 require 'nokogiri'
 
@@ -12,47 +13,34 @@ require 'nokogiri'
 # Some nodes should do both?
 
 
-
 describe ASpaceImport::Importer::XmlImporter do
   before(:each) do
    
-    @crosswalk_file = Psych.dump({
-                        'source' => {
-                          'format' => 'xml',
-                          'schema' => 'greek'
-                        },
-                        'entities' => {
-                          'a' => {
-                            'instance' => ['//alpha'],
-                            'properties' => {'r' => ['rho']}
-                          },
-                          'b' => {
-                            'instance' => ['beta', 'gamma']
-                          },  
-                          'g' => {
-                            'instance' => ['gamma']
-                          }
-                        },
-                      })
-     builder = Nokogiri::XML::Builder.new do |xml|
-       xml.root {
-         xml.pdq {
-           xml.goop = "TEST"
-         }
-       }
-     end
-     @input_file = builder.to_xml
+    @crosswalk_file = make_test_crosswalk
+
+    @input_file = make_test_xml
      
+    IO.stub(:read).with('crosswalk.yml'){ @crosswalk_file }
+    IO.stub(:read).with('input.xml'){ @input_file }
+
+    opts = {:crosswalk => 'crosswalk.yml', :input_file => 'input.xml', :importer => 'xml'}
      
-     IO.stub(:read).with('crosswalk.yml'){ @crosswalk_file }
-     IO.stub(:read).with('input.xml'){ @input_file }
-     
-     opts = {:crosswalk => 'crosswalk.yml', :input_file => 'input.xml', :importer => 'xml'}
-     
-     @i = ASpaceImport::Importer.create_importer(opts)
+    @i = ASpaceImport::Importer.create_importer(opts)
+
+    Dir.stub(:glob){ ['stub'] }
+    File.stub(:basename){ 'body_part' }
+    File.stub_chain("open.read") { make_body_part_schema }
+
+    Net::HTTP.stub(:start){ StubHTTP.new }
+
+    JSONModel::init( { :client_mode => true, :url => "http://example.com", :strict_mode => false } )
+
+    @klass = Klass.new
+    @opts = {:repo_id => '1'}
+    @queue = JSONModel::Client.queue
+    
      
   end
-  
   
   it "should create a class for pulling an XML file through a YAML crosswalk" do      
     @i.class.name.should eq('XmlImporter')
@@ -60,18 +48,18 @@ describe ASpaceImport::Importer::XmlImporter do
   
   it "should return the name of an entity when given an xpath" do
 
-    @i.lookup_entity_for('alpha').should eq('a')
-    expect { @i.lookup_entity_for('gamma') }.to raise_error
-    @i.lookup_entity_for('chi').should be_nil
-    
+    @i.get_entity('muscle').should eq('body_part')
+    @i.get_entity('book').should be_nil   
   end
   
   it "should return the name of a property when given a type and an xpath" do
   
-    @i.lookup_property_for('a', 'rho').should eq('r')
-  
+    @i.get_property('body_part', 'parent::limb').should eq('location')
   end
-    
+  
+  it "should run the import" do
+    @i.run
+  end  
 
   
   
