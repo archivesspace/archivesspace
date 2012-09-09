@@ -7,11 +7,11 @@ ASpaceImport::Importer.importer :xml do
     # load in the YAML
     # TODO - die if not given a crosswalk and an input file
     # TODO - require gems at run time? (so it can be listed without giving an error)
-    @xwalk = ASpaceImport::Crosswalk.new(IO.read(opts[:crosswalk]))
+    @xw = ASpaceImport::Crosswalk.new(IO.read(opts[:crosswalk]))
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     # TODO - create a separate module for the parse queue
     #     since it doesn't have much to do with JSONModel (?)
-    @parse_queue = JSONModel::Client.queue(opts)
+    @parse_queue = ASpaceImport::ParseQueue.new(opts)
     super
   end
 
@@ -23,38 +23,34 @@ ASpaceImport::Importer.importer :xml do
 
   def run
     @reader.each do |node|
+      spawns_a_record = false #(not really using this yet - may not need it)
       if node.node_type == 1
-        if (entity_type = get_entity(node.name))
-          # TODO - error handling in case there isn't a schema to match
-          jo = JSONModel(entity_type).new                  
-          # Go through the attributes and look for properties
+        @xw.set_schema(node.name) do |s|
+          jo = JSONModel(s).new
           node.attributes.each do |a|
-            if (property = get_property(entity_type, "@#{a[0]}"))              
-              jo.send("#{property}=", a[1]) if jo.respond_to?(property)
+            @xw.get_property(s, "@#{a[0]}") do |p|
+              jo.send("#{p}=", a[1]) unless jo.send("#{p}")
             end
           end
-          # See if the parent node is referenced by a property
-          @xwalk.properties(entity_type) {|prop, xpaths|
-            xpaths.each do |xp|
-              if xp.match(/^parent::([a-z]*)$/)
-                parent_type = get_entity($1)
-                # if the current node calls for something on the parent axis, 
-                # that should be the last item in the queue
-                if (po = validate(@parse_queue[-1], parent_type))
-                  po.add_after_save_hook(Proc.new { jo.send("#{prop}=", po.uri) })
-                  jo.wait_for(po)
-                end
-              end  
+          # See what ancestor nodes are relationship endpoints for this node's entity
+          @xw.ancestor_relationships do |ancestor_schema, r|
+            if (ao = @parse_queue.reverse.find {|ao| validate(ao, ancestor_schema)})
+              ao.add_after_save_hook(Proc.new { jo.send("#{r}=", ao.uri) })
+              jo.wait_for(ao)
             end
-          }
+          end      
+          
           # We queue once we are finished with an opening tag
-          jo.enqueue
-        # Does the XML <node> create a property for the last entity in the queue?
-        elsif (jo = @parse_queue[-1])
-          if (property = get_property(jo.class.record_type, node.name))
-            @parse_queue[-1].send("#{property}=", node.inner_xml)
+          @parse_queue.push(jo)
+        end #end processing the node into a schema
+        # Does the XML <node> create a property for an entity in the queue?
+        @parse_queue.reverse.each do |jo|
+          @xw.get_property(jo.class.record_type, node.name) do |p|
+            jo.send("#{p}=", node.inner_xml) unless jo.send("#{p}") #Don't re-set a property
           end
-        end
+          # if needed: check for ancestor records that need attributes from here
+        end       
+
       # Does the XML </node> match an entity?
       elsif node.node_type != 1 and (entity_type = get_entity(node.name))
         @parse_queue.pop if validate(@parse_queue[-1], entity_type) #Save or send to waiting area
@@ -63,21 +59,21 @@ ASpaceImport::Importer.importer :xml do
   end
   
   def validate(jo, et)
-    if jo and jo.class.record_type
+    if jo and jo.class.record_type == et
       jo
     else
       nil
     end
   end
   
-  # TODO - move these methods to the Crosswalk class.
+  # TODO - get rid of these methods
   def get_entity(xpath)
-    @xwalk.lookup_entity_for(xpath)
+    @xw.lookup_entity_for(xpath)
   end
 
 
   def get_property(type, xpath)
-    @xwalk.lookup_property_for(type, xpath)
+    @xw.lookup_property_for(type, xpath)
 
   end
 
