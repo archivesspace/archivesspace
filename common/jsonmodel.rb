@@ -519,6 +519,11 @@ module JSONModel
 
             errors[$1] = ["Must be at least #{$2} characters"]
 
+          elsif (message[:failed_attribute] == 'MinItems' and
+                 message[:message] =~ /The property '#\/(.*?)' did not contain a minimum number of items ([0-9]+) in schema/)
+
+            errors[$1] = ["The '#{$1}' array needs at least #{$2} elements"]
+
           elsif ((message[:failed_attribute] == 'Type' or message[:failed_attribute] == 'ArchivesSpaceType') and
                  message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
 
