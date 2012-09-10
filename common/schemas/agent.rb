@@ -6,7 +6,10 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "type" => {"type" => "JSONModel(:agent_type) uri", "required" => true},
+      "agent_type" => {"type" => "JSONModel(:agent_type) uri", "required" => true},
+
+      "name_forms" => {"type" => "array", "items" => {"type" => "JSONModel(:name_form) uri_or_object"},
+        "ifmissing" => "error", "minItems" => 1},
     },
 
     "additionalProperties" => false,
