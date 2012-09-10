@@ -82,6 +82,32 @@ module JSONModel
   end
 
 
+  def self.load_schema(schema_name)
+    if not @@schema[schema_name]
+      schema = File.join(File.dirname(__FILE__),
+                         "schemas",
+                         "#{schema_name}.rb")
+
+      old_verbose = $VERBOSE
+      $VERBOSE = nil
+      entry = eval(File.open(schema).read)
+      $VERBOSE = old_verbose
+
+      parent = entry[:schema]["parent"]
+      if parent
+        load_schema(parent)
+
+        base = @@models[parent].schema["properties"].clone
+        properties = base.merge(entry[:schema]["properties"])
+
+        entry[:schema]["properties"] = properties
+      end
+
+      self.create_model_for(schema_name, entry[:schema])
+    end
+  end
+
+
   def self.init(opts = {})
 
     if opts.has_key?(:client_mode)
@@ -100,13 +126,7 @@ module JSONModel
                        "schemas",
                        "*.rb")).sort.each do |schema|
       schema_name = File.basename(schema, ".rb")
-
-      old_verbose = $VERBOSE
-      $VERBOSE = nil
-      entry = eval(File.open(schema).read)
-      $VERBOSE = old_verbose
-
-      self.create_model_for(schema_name, entry[:schema])
+      load_schema(schema_name)
     end
 
     require_relative "validations"
