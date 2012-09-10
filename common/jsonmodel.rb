@@ -304,7 +304,15 @@ module JSONModel
       #  might yield 500
       #
       def self.id_for(uri, opts = {}, noerror = false)
-        pattern = self.schema['uri'];
+        if not self.schema['uri']
+          if noerror
+            return nil
+          else
+            raise "Missing a URI definition for class #{self.class}"
+          end
+        end
+
+        pattern = self.schema['uri']
         pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
 
         if uri =~ /#{pattern}\/([0-9]+)$/
