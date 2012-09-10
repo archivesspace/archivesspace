@@ -232,12 +232,41 @@ Sequel.migration do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
     end
 
+
+    create_table(:agent_contact) do
+      primary_key :id
+
+      Integer :agent_person_id, :null => true
+
+      String :name, :null => false
+      String :salutation, :null => true
+      String :address_1, :null => true
+      String :address_2, :null => true
+      String :address_3, :null => true
+      String :city, :null => true
+      String :region, :null => true
+      String :country, :null => true
+      String :post_code, :null => true
+      String :telephone, :null => true
+      String :telephone_ext, :null => true
+      String :fax, :null => true
+      String :email, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:agent_contact) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+    end
+
+
   end
 
   down do
 
     [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
-     :name_person, :agent_person,
+     :name_person, :agent_person, :agent_contact_details,
      :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
      :archival_objects, :vocabularies,
      :resources, :repositories].each do |table|
