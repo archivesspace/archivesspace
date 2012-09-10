@@ -1,6 +1,4 @@
-class AgentType < Sequel::Model(:agent_types)
+class NamePerson < Sequel::Model(:name_person)
   include ASModel
-
   plugin :validation_helpers
-
 end

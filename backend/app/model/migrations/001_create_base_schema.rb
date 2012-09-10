@@ -184,105 +184,60 @@ Sequel.migration do
     create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
     create_join_table(:subject_id => :subjects, :resource_id => :resources)
 
-    create_table(:agent_types) do
+
+    create_table(:agent_person) do
       primary_key :id
-
-      String :model_name, :null => false
-      String :label, :null => false
-    end
-
-    self[:agent_types].insert(:model_name => "PersonName", :label => "Person")
-    self[:agent_types].insert(:model_name => "FamilyName", :label => "Family")
-    self[:agent_types].insert(:model_name => "CorporateEntityName", :label => "Corporate Entity")
-    self[:agent_types].insert(:model_name => "SoftwareName", :label => "Software")
-
-    create_table(:agents) do
-      primary_key :id
-
-      Integer :agent_type_id, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:agents) do
-      add_foreign_key([:agent_type_id], :agent_types, :key => :id)
+
+    class Sequel::Schema::CreateTableGenerator
+      def apply_name_columns
+        String :authority_id, :null => false
+        String :dates, :null => true
+        String :description_type, :null => true
+        String :description_note, :null => true
+        String :description_citation, :null => true
+        String :qualifier, :null => true
+        String :source, :null => true
+        String :rules, :null => true
+        String :sort_name, :null => true
+      end
     end
 
-    create_table(:name_forms) do
+    create_table(:name_person) do
       primary_key :id
 
-      Integer :agent_id, :null => false
-      String :kind, :null => false
+      Integer :agent_person_id, :null => false
 
-      String :sort_name, :null => false
+      String :primary_name, :null => false
+
+      String :title, :null => true
+      String :prefix, :null => true
+      String :rest_of_name, :null => true
+      String :suffix, :null => true
+      String :fuller_form, :null => true
+      String :number, :null => true
+
+      apply_name_columns
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:name_forms) do
-      add_foreign_key([:agent_id], :agents, :key => :id)
+
+    alter_table(:name_person) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
     end
-
-    create_table(:person_names) do
- #     primary_key :id
-
- #     Integer :name_form_id, :null => false
-     Integer :id, :null => false
-
-      String :primary_name, :null => false
-    end
-
-    alter_table(:person_names) do
- #     add_foreign_key([:name_form_id], :name_forms, :key => :id)
-     add_foreign_key([:id], :name_forms, :key => :id)
-    end
-
-    create_table(:family_names) do
-      primary_key :id
-
-      Integer :name_form_id, :null => false
-
-      String :family_name, :null => false
-    end
-
-    alter_table(:family_names) do
-      add_foreign_key([:name_form_id], :name_forms, :key => :id)
-    end
-
-    create_table(:corporate_entity_names) do
-      primary_key :id
-
-      Integer :name_form_id, :null => false
-
-      String :primary_name, :null => false
-    end
-
-    alter_table(:corporate_entity_names) do
-      add_foreign_key([:name_form_id], :name_forms, :key => :id)
-    end
-
-    create_table(:software_names) do
-      primary_key :id
-
-      Integer :name_form_id, :null => false
-
-      String :software_name, :null => false
-    end
-
-    alter_table(:software_names) do
-      add_foreign_key([:name_form_id], :name_forms, :key => :id)
-    end
-
 
   end
 
   down do
 
     [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
-     :person_names, :family_names, :corporate_entity_names, :software_names,
-     :name_forms, :agents, :agent_types,
+     :name_person, :agent_person,
      :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
      :archival_objects, :vocabularies,
      :resources, :repositories].each do |table|
