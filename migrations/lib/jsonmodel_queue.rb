@@ -3,7 +3,8 @@ module JSONModel
     
     # Chaining methods to allows an instance 
     # of a json model to provide info about 
-    # its properties
+    # its properties: TO DO - Move this to 
+    # Crosswalk Class
     
     def properties
       properties_hash = self.class.schema['properties']
@@ -56,7 +57,7 @@ module JSONModel
           @@wait_queue.each_index do |i|        
             @@wait_queue[i] = nil if @@wait_queue[i].try_save(opts)
           end
-          @@wait_queue.compact!
+          break if @@wait_queue.compact! == nil
         end
       else
         @@wait_queue.push(self)

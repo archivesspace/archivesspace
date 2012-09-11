@@ -45,21 +45,37 @@ describe "JSONModel::Client" do
       
   it "should support after-save hooks and a waiting queue" do
     parent = JSONModel(:archival_object).from_hash({:ref_id => "abc", :title => "Parent Object"})
-    child =  JSONModel(:archival_object).from_hash({:ref_id => "def", :title => "Child Object"})
+    child = JSONModel(:archival_object).from_hash({:ref_id => "def", :title => "Child Object"})
+    grandchild = JSONModel(:archival_object).from_hash({:ref_id => "ghi", :title => "Grand Child Object"})
     
-    parent.add_after_save_hook(Proc.new { child.send("parent=", parent.uri) })
+    parent.add_after_save_hook(Proc.new { child.send("parent=", parent.uri) })    
+    child.add_after_save_hook(Proc.new { grandchild.send("parent=", child.uri) })
+
     
     child.wait_for(parent)
+
+    grandchild.wait_for(child)
+
+
+    grandchild.save_or_wait
+
+    grandchild.uri.should be_nil
+
 
     child.save_or_wait
 
     child.uri.should be_nil
 
+
     parent.save_or_wait
 
+    grandchild.parent.uri.should eq(child.uri)
+    grandchild.uri.should match(/\/repositories\/[0-9]*\/archival_objects\/[0-9]*/)
     child.parent.should eq(parent.uri)
     child.uri.should match(/\/repositories\/[0-9]*\/archival_objects\/[0-9]*/)
   end
+  
+
     
 end
 
