@@ -48,7 +48,7 @@ module FormHelper
       end
       attr_definition = schema["properties"][method.to_s]
       if attr_definition.has_key?("enum")
-        @template.select(@object_name, method, attr_definition["enum"])
+        @template.select(@object_name, method, attr_definition["enum"].collect {|option| [I18n.t("#{@object_name}.#{option}"), option]})
       else
         @template.text_field(@object_name, method, "data-original_value" => @object[method])
       end

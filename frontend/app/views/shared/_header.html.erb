@@ -29,6 +29,12 @@
                 <li><%= link_to "Resource", :controller => :resources, :action => :new %></li>
                 <li class="divider"></li>
                 <li><%= link_to "Subject", :controller => :subjects, :action => :new %></li>
+                <li class="dropdown-submenu">
+                  <a href="javascript:void(0);">Agent</a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to "Person", :controller => :agents, :action => :new, :type => :agent_person %></li>
+                  </ul>
+                </li>
               </ul>
             </li>
           </ul>         

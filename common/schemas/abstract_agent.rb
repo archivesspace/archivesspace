@@ -8,7 +8,7 @@
       "agent_type" => {
         "type" => "string",
         "required" => false,
-        "enum" => ["Person", "Corporation", "Software", "Family"]
+        "enum" => ["agent_person", "agent_corporation", "agent_software", "agent_family"]
       },
 
       "agent_contacts" => {

@@ -1,0 +1,14 @@
+<%= render "shared/form_messages", :object => @agent %>
+<fieldset>
+  <section id="agent_details">
+    <h3>Agent Details</h3>
+    <%= f.label_field_pair :type %>
+  </section>
+
+  <section id="primary_name">
+    <h3>Primary Name</h3>
+    <%= fields_for :name, @agent.names.first do | primary_name_fields | %>
+      <%= render :partial => "agents/name_forms/#{@agent[:type]}", :locals => {:f => primary_name_fields} %>
+    <% end %>
+  </section>
+</fieldset>

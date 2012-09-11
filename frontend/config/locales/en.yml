@@ -1,33 +1,42 @@
 en:
-   accession:
-      accession_date: Accession Date
-      accession_id: Identifier
-      id_0: Identifier
-      content_description: Content Description
-      condition_description: Condition Description
-      publish: Publish?
-      publish_help: Check this if you wish to publish this accession to the public.
-      restrictions: Restrictions?
-      title: Title
-   archival_object:
-      title: Title
-      ref_id: Ref ID
-      "[:resource_id, :ref_id]": Ref ID
-   resource:
-      title: Title
-      id_0: Identifier
-      "[:id_0, :id_1, :id_2, :id_3]": Identifier
-      "[:repo_id, :identifier]": Identifier
-      identifier: Identifier
-   repository:
-      repo_code: Repository code
-      description: Description
-   subject:
-      term: Term
-      term_type: Type
-   createuser:
-      username: Username
-      name: Your full name
-      password: Password
-      confirm_password: Confirm your password
-      passwords: Passwords
+  accession:
+    accession_date: Accession Date
+    accession_id: Identifier
+    id_0: Identifier
+    content_description: Content Description
+    condition_description: Condition Description
+    publish: Publish?
+    publish_help: Check this if you wish to publish this accession to the public.
+    restrictions: Restrictions?
+    title: Title
+  agent:
+    type: Agent Type
+    agent_person: Person
+    agent_corporation: Corporate Body
+    agent_family: Family
+    agent_software: Software
+  archival_object:
+    title: Title
+    ref_id: Ref ID
+    "[:resource_id, :ref_id]": Ref ID
+  resource:
+    title: Title
+    id_0: Identifier
+    "[:id_0, :id_1, :id_2, :id_3]": Identifier
+    "[:repo_id, :identifier]": Identifier
+    identifier: Identifier
+  repository:
+    repo_code: Repository code
+    description: Description
+  subject:
+    term: Term
+    term_type: Type
+  createuser:
+    username: Username
+    name: Your full name
+    password: Password
+    confirm_password: Confirm your password
+    passwords: Passwords
+  name:
+    authority_id: Authority ID
+    primary_name: Primary Name

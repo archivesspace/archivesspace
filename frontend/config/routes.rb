@@ -35,6 +35,11 @@ ArchivesSpace::Application.routes.draw do
   resources :subjects
   match 'subjects/:id' => 'subjects#update', :via => [:post]
 
+  match 'agents/:type/create' => 'agents#create', :via => [:post]
+  match 'agents/:type/new' => 'agents#new', :via => [:get]
+  match 'agents/:type/:id' => 'agents#show', :via => [:get]
+  match 'agents' => 'agents#index', :via => [:get]
+
   # Sample resource route with options:
   #   resources :products do
   #     member do
