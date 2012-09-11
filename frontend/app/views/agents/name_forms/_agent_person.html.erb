@@ -1,2 +1,30 @@
-<%= f.label_field_pair :authority_id %>
-<%= f.label_field_pair :primary_name %>
+<%# f.label_field_pair :authority_id %>
+<%# f.label_field_pair :prefix %>
+<%# f.label_field_pair :title %>
+<%# f.label_field_pair :primary_name %>
+<%# f.label_field_pair :rest_of_name %>
+<%# f.label_field_pair :suffix %>
+<%# f.label_field_pair :fuller_form %>
+<%# f.label_field_pair :number %>
+<%# f.label_field_pair :dates %>
+<!-- <hr/> -->
+<%# f.label_field_pair :qualifier %>
+<%# f.label_field_pair :sort_name %>
+<!-- <hr/> -->
+<%# f.label_field_pair :description_type %>
+<%# f.label_field_pair :description_note %>
+<%# f.label_field_pair :description_citation %>
+
+<div class="control-group">
+   <label class="control-label">Authority ID</label>
+   <div class="controls label-only">
+      <input type="text" name="agent[names][][authority_id]">
+   </div>
+</div>
+
+<div class="control-group">
+   <label class="control-label">Primary Name</label>
+   <div class="controls label-only">
+      <input type="text" name="agent[names][][primary_name]">
+   </div>
+</div>

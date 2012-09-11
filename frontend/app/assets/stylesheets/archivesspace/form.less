@@ -9,6 +9,10 @@
   margin-top: 5px;
 }
 
+.control-group .controls.label-only {
+  line-height: 30px;
+}
+
 /* identifier fields */
 .identifier-fields input {
   width: auto;
@@ -82,7 +86,7 @@ fieldset h3 {
 /* Form sidebar navigation */
 
 .as-nav-list {
-  width: 258px;
+  width: 228px;
   margin: 0;
   padding: 0;
   background-color: #fff;
@@ -158,8 +162,6 @@ fieldset h3 {
 ------------------------- */
 @media (max-width: 980px) {
   .as-nav-list {
-    top: 0;
-    margin-top: 30px;
     margin-right: 0;
   }
 }
@@ -170,10 +172,6 @@ fieldset h3 {
   /* Adjust sidenav width */
   .as-nav-list {
     width: 166px;
-    margin-top: 20px;
-  }
-  .as-nav-listx {
-    top: 0;
   }
 }
 
@@ -188,5 +186,26 @@ fieldset h3 {
     position: static;
     width: auto;
     top: 0;
+  }
+}
+
+
+/* AGENT NAME Form styles */
+.subform {
+  border: 1px solid #DDD;
+  .border-radius(4px);
+  margin-bottom: 10px;
+
+  h4 {
+    background-color: #FAFAFA;
+    line-height: 1.4em;
+    min-height: 1.4em;
+    margin: 0;
+    border-bottom: 1px solid #DDD;
+    .border-radius(4px 4px 0 0);
+  }
+
+  .subform-container {
+    margin-top: 10px;
   }
 }

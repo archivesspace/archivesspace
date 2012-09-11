@@ -28,6 +28,7 @@ class ApplicationController < ActionController::Base
   #  * Otherwise, throw the form back with warnings/errors
   #
   def handle_crud(opts)
+    puts opts.inspect
     begin
       # The UI may pass JSON blobs for linked resources for the purposes of displaying its form.
       # Deserialise these so the corresponding objects are stored on the JSONModel.

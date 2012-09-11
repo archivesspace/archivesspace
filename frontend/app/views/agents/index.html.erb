@@ -1,14 +1,14 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["Browse Subjects"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["Browse Agents"]} %>
 <div class="row-fluid">
    <div class="span3">
       The facets/search filters will go here.
    </div>
    <div class="span9 record-pane">
       <div class="btn-group">
-        <%= link_to "Create Subject", {:controller => :subjects, :action => :new}, :class => "btn" %>
+        
       </div>
       <% if not @subjects.blank? %>
-         <h2>Subjects</h2>
+         <h2>Agents</h2>
          <table class="table table-striped table-bordered table-condensed">
            <thead>
              <tr>
@@ -17,12 +17,12 @@
              </tr>
            </thead>
            <tbody>
-            <% @subjects.each do |subject| %>
+            <% @agents.each do |agent| %>
                <tr>
-                <td><%= subject.display_string %></td>
+                <td>></td>
                 <td>
                    <div class="btn-group" style="float: right">
-                     <%= link_to "View", {:controller => :subjects, :action => :show, :id => subject.id}, :class => "btn btn-mini" %>
+                     <%= link_to "View", {:controller => :agents, :action => :show, :id => agent.id}, :class => "btn btn-mini" %>
                    </div>
                 </td>
               </tr>
@@ -31,7 +31,7 @@
          </table>
       <% else %>
          <p class="alert alert-info">
-            No Subjects.
+            No Agents.
          </p>
       <% end %>
    </div>

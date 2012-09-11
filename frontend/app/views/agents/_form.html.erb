@@ -1,14 +1,60 @@
 <%= render "shared/form_messages", :object => @agent %>
+
 <fieldset>
   <section id="agent_details">
     <h3>Agent Details</h3>
-    <%= f.label_field_pair :type %>
+    <%# f.label_field_pair :type %>
+    <div class="control-group">
+       <label class="control-label">Type</label>
+       <div class="controls label-only">
+          <%= f.hidden_field :agent_type %>
+          <strong><%= I18n.t("agent.#{@agent.agent_type}") %></strong>
+       </div>
+    </div>
+    <div class="control-group">
+       <label class="control-label">Something</label>
+       <div class="controls label-only">
+          Goes here
+       </div>
+    </div>
+    <div class="control-group">
+       <label class="control-label">Something</label>
+       <div class="controls label-only">
+          Else
+       </div>
+    </div>
   </section>
 
   <section id="primary_name">
     <h3>Primary Name</h3>
-    <%= fields_for :name, @agent.names.first do | primary_name_fields | %>
-      <%= render :partial => "agents/name_forms/#{@agent[:type]}", :locals => {:f => primary_name_fields} %>
+    <%= f.fields_for :names, @agent.names[0] do | primary_name_fields | %>
+      <%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => primary_name_fields} %>
     <% end %>
   </section>
+
+  <section id="secondary_names">
+    <h3>
+      Secondary Name(s)
+      <input type="button" class="btn btn-small pull-right" value="Add Secondary Name"/>
+    </h3>
+    <div id="secondary_names_container">
+      <p class="alert alert-info">Click 'Add Secondary Name' to add further name records.</p>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <h3>
+      Contact Details
+      <input type="button" class="btn btn-small pull-right" value="Add Contact Details"/>
+    </h3>
+    <div id="contacts_container">
+      <p class="alert alert-info">Click 'Add Contact Details' to add contact detail records.</p>
+    </div>
+  </section>
+
+  <section id="relationships">
+    <h3>Relationships</h3>
+    <p class="alert alert-info">TODO</p>
+  </section>
+
 </fieldset>

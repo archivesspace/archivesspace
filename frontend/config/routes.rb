@@ -35,6 +35,8 @@ ArchivesSpace::Application.routes.draw do
   resources :subjects
   match 'subjects/:id' => 'subjects#update', :via => [:post]
 
+  match 'agents/contact_form' => 'agents#contact_form', :via => [:get]
+  match 'agents/:type/name_form' => 'agents#name_form', :via => [:get]
   match 'agents/:type/create' => 'agents#create', :via => [:post]
   match 'agents/:type/new' => 'agents#new', :via => [:get]
   match 'agents/:type/:id' => 'agents#show', :via => [:get]

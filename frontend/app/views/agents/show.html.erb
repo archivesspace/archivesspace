@@ -1,20 +1,12 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Subjects", :controller => :subjects, :action => :index), @subject.display_string]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), @agent]} %>
 <div class="row-fluid">
    <div class="span3">
-      List all subjects here for quick access.
+      
    </div>
    <div class="span9 record-pane">
-      <h2><%= @subject.display_string %>  <span class="label label-info">Subject</span></h2>
+      <h2><%= @agent %>  <span class="label label-info">Agent</span></h2>
       <br/>
       <div class="row-fluid">
-          <div class="span6"><strong>Term</strong></div>
-          <div class="span6"><strong>Type</strong></div>
+          <p class="alert alert-info">TODO</p>
       </div>
-      <% @subject.terms.each do | term | %>
-         <div class="row-fluid">
-             <div class="span6"><%= term["term"] %></div>
-             <div class="span6"><%= term["term_type"] %></div>
-         </div>
-      <% end %>
-   </div>
 </div>
