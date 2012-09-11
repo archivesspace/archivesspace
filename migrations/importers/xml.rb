@@ -23,15 +23,17 @@ ASpaceImport::Importer.importer :xml do
 
   def run
     @reader.each do |node|
-      spawns_a_record = false #(not really using this yet - may not need it)
       if node.node_type == 1
+
         @xw.set_schema(node.name) do |s|
           jo = JSONModel(s).new
+
           node.attributes.each do |a|
             @xw.get_property(s, "@#{a[0]}") do |p|
               jo.send("#{p}=", a[1]) unless jo.send("#{p}")
             end
           end
+
           # See what ancestor nodes are relationship endpoints for this node's entity
           @xw.ancestor_relationships do |ancestor_schema, r|
             if (ao = @parse_queue.reverse.find {|ao| validate(ao, ancestor_schema)})
@@ -43,6 +45,8 @@ ASpaceImport::Importer.importer :xml do
           # We queue once we are finished with an opening tag
           @parse_queue.push(jo)
         end #end processing the node into a schema
+        
+                
         # Does the XML <node> create a property for an entity in the queue?
         @parse_queue.reverse.each do |jo|
           @xw.get_property(jo.class.record_type, node.name) do |p|
@@ -50,13 +54,15 @@ ASpaceImport::Importer.importer :xml do
           end
           # if needed: check for ancestor records that need attributes from here
         end       
-
       # Does the XML </node> match an entity?
       elsif node.node_type != 1 and (entity_type = get_entity(node.name))
+        # TODO - Fill in missing values; add supporting records etc.
         @parse_queue.pop if validate(@parse_queue[-1], entity_type) #Save or send to waiting area
+        
       end
     end
   end
+  
   
   def validate(jo, et)
     if jo and jo.class.record_type == et
@@ -65,6 +71,7 @@ ASpaceImport::Importer.importer :xml do
       nil
     end
   end
+  
   
   # TODO - get rid of these methods
   def get_entity(xpath)
