@@ -1,10 +1,8 @@
-require_relative 'agent'
 require_relative 'name_person'
 
 class AgentPerson < Sequel::Model(:agent_person)
 
   include ASModel
-  extend Agent
 
   one_to_many :name_person
   one_to_many :agent_contacts
