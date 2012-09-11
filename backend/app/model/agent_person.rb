@@ -7,15 +7,16 @@ class AgentPerson < Sequel::Model(:agent_person)
   one_to_many :name_person
   one_to_many :agent_contacts
 
-  link_association_to_jsonmodel(:association => :name_person,
-                                :jsonmodel => :name_person,
-                                :json_property => :names,
-                                :always_resolve => true)
+  jsonmodel_hint(:the_property => :names,
+                 :contains_records_of_type => :name_person,
+                 :corresponding_to_association => :name_person,
+                 :always_resolve => true)
 
-  link_association_to_jsonmodel(:association => :agent_contacts,
-                                :jsonmodel => :agent_contact,
-                                :json_property => :agent_contacts,
-                                :always_resolve => true)
+  jsonmodel_hint(:the_property => :agent_contacts,
+                 :contains_records_of_type => :agent_contact,
+                 :corresponding_to_association => :agent_contacts,
+                 :always_resolve => true)
+
 
   def self.sequel_to_jsonmodel(obj, type)
     json = super(obj, type)

@@ -65,10 +65,10 @@ module ASModel
     #
     # For example, this definition from subject.rb:
     #
-    #   link_association_to_jsonmodel(:association => :terms,
-    #                                 :jsonmodel => :term,
-    #                                 :json_property => :terms,
-    #                                 :always_resolve => true)
+    #   jsonmodel_hint(:the_property => :terms,
+    #                  :contains_records_of_type => :term,
+    #                  :corresponding_to_association  => :terms,
+    #                  :always_resolve => true)
     #
     # Causes an incoming JSONModel(:subject) to have each of the objects in its
     # "terms" array to be coerced into a Sequel model (based on the :terms
@@ -82,8 +82,10 @@ module ASModel
     # indicates that we want the actual JSON objects to be included in the
     # response, not just their URI references.
 
-    def link_association_to_jsonmodel(opts)
-      opts[:association] = self.association_reflection(opts[:association])
+    def jsonmodel_hint(opts)
+      opts[:association] = self.association_reflection(opts[:corresponding_to_association])
+      opts[:jsonmodel] = opts[:contains_records_of_type]
+      opts[:json_property] = opts[:the_property]
 
       ASModel.linked_records[self] ||= []
       ASModel.linked_records[self] << opts

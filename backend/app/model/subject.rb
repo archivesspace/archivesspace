@@ -7,10 +7,10 @@ class Subject < Sequel::Model(:subjects)
   many_to_many :terms
   many_to_many :archival_objects
 
-  link_association_to_jsonmodel(:association => :terms,
-                                :jsonmodel => :term,
-                                :json_property => :terms,
-                                :always_resolve => true)
+  jsonmodel_hint(:the_property => :terms,
+                 :contains_records_of_type => :term,
+                 :corresponding_to_association  => :terms,
+                 :always_resolve => true)
 
 
   def validate
