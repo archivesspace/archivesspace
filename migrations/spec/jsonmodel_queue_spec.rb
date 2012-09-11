@@ -69,7 +69,7 @@ describe "JSONModel::Client" do
 
     parent.save_or_wait
 
-    grandchild.parent.uri.should eq(child.uri)
+    grandchild.parent.should eq(child.uri)
     grandchild.uri.should match(/\/repositories\/[0-9]*\/archival_objects\/[0-9]*/)
     child.parent.should eq(parent.uri)
     child.uri.should match(/\/repositories\/[0-9]*\/archival_objects\/[0-9]*/)
