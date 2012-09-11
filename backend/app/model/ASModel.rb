@@ -105,10 +105,22 @@ module ASModel
     # If the :foreign_key option is given, any created subrecords will have
     # their column by that name set to the ID of the referring primary object.
     #
+    # If the :delete_when_unassociating option is given, associated subrecords
+    # being replaced will be fully deleted from the database.  This only makes
+    # sense for a one-to-one or one-to-many relationship, where we want to
+    # delete the object once it becomes unreferenced.
+    #
     def apply_linked_database_records(obj, json, opts)
       (ASModel.linked_records[self] or []).each do |linked_record|
+
         # Remove the existing linked records
-        obj.send("remove_all_#{linked_record[:plural_type]}".intern)
+        if linked_record[:delete_when_unassociating]
+          # Delete the objects from the other table
+          obj.send("#{linked_record[:plural_type]}_dataset").delete
+        else
+          # Just remove the links
+          obj.send("remove_all_#{linked_record[:plural_type]}".intern)
+        end
 
         # Read the subrecords from our JSON blob and fetch or create
         # the corresponding subrecord from the database.

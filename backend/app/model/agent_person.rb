@@ -21,6 +21,7 @@ class AgentPerson < Sequel::Model(:agent_person)
                        :plural_type => :names,
                        :class => NamePerson,
                        :always_inline => true,
+                       :delete_when_unassociating => true,
                        :foreign_key => :agent_person_id)
 
 
@@ -28,6 +29,7 @@ class AgentPerson < Sequel::Model(:agent_person)
                        :plural_type => :agent_contacts,
                        :class => AgentContact,
                        :always_inline => true,
+                       :delete_when_unassociating => true,
                        :foreign_key => :agent_person_id)
 
 

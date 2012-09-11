@@ -11,6 +11,20 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/agents/people/:agent_id')
+    .description("Update a person agent")
+    .params(["agent_id", Integer, "The ID of the agent to update"],
+            ["agent", JSONModel(:agent_person), "The person to create", :body => true])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    agent = AgentPerson.get_or_die(params[:agent_id])
+    agent.update_from_json(params[:agent])
+
+    json_response({:status => "Updated", :id => agent[:id]})
+  end
+
+
   Endpoint.get('/agents/people/:id')
     .description("Get a person by ID")
     .params(["id", Integer, "ID of the person agent"])
