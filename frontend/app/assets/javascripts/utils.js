@@ -66,6 +66,23 @@ $(function() {
 });
 
 
+// sidebar action
+$(function() {
+  $("#archivesSpaceSidebar").on("click", ".nav a", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    var $target_item = $(this);
+    $($target_item.attr("href")).ScrollTo({
+      callback: function() {
+          $(".active", "#archivesSpaceSidebar").removeClass("active");
+          $target_item.parents("li:first").addClass("active");
+      }
+    });
+  });
+});
+
+
 var AS = {};
 
 
