@@ -27,6 +27,7 @@ ASpaceImport::Importer.importer :xml do
 
         @xw.set_schema(node.name) do |s|
           jo = JSONModel(s).new
+          jo.add_after_save_hook(Proc.new { @goodimports += 1 } )
 
           node.attributes.each do |a|
             @xw.get_property(s, "@#{a[0]}") do |p|

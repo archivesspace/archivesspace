@@ -39,6 +39,7 @@ describe 'ASpaceImport::Importer::XmlImporter' do
   
   it "should run the import" do
     @i.run
+    @i.report
   end  
 
   
