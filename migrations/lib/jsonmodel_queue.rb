@@ -50,13 +50,11 @@ module JSONModel
     # main queue.
     
 
-    # TODO - get repo_id from the opts
-    def save_or_wait(opts = {:repo_id => '1'})
-      repo_id = opts[:repo_id]
-      if self.try_save({:repo_id => '1'})
+    def save_or_wait(opts = {})
+      if self.try_save(opts)
         while @@wait_queue.length > 0 do
           @@wait_queue.each_index do |i|        
-            @@wait_queue[i] = nil if @@wait_queue[i].try_save({:repo_id => '1'})
+            @@wait_queue[i] = nil if @@wait_queue[i].try_save(opts)
           end
           @@wait_queue.compact!
         end
@@ -71,13 +69,13 @@ module JSONModel
     # Protected methods
     protected
      
-    def try_save(opts = {:repo_id => '1'})
+    def try_save(opts = {})
       can_save = true
       self.waiting_for.each do |w|
         can_save = false unless w.uri 
       end    
       if can_save
-        r = self.save({:repo_id => '1'})
+        r = self.save(opts)
         self.after_save
         return r
       else

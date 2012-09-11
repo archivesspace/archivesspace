@@ -1,7 +1,7 @@
 module ASpaceImport
   class Importer
     include JSONModel
-    @@importers = { }
+    @@importers = {}
 
     # @return [Fixnum] the number of importers that have been loaded
 
@@ -29,6 +29,10 @@ module ASpaceImport
         raise StandardError.new("Unusable importer or importer not found for: #{name}")
       end
     end
+    
+    def self.destroy_importers
+      @@importers = {}
+    end
 
     # @param name [Symbol] the key declared by importer being loaded
     # @param superclass [Const] a superfluous param in all likelihood
@@ -49,13 +53,7 @@ module ASpaceImport
     # @return [Boolean]
 
     def self.usable
-      if !defined? self.profile
-        return false
-      elsif !method_defined? :run
-        return false
-      else
-        return true
-      end
+      true
     end
 
 
@@ -66,10 +64,8 @@ module ASpaceImport
       @import_keys = []
       @goodimports = 0
       @badimports = 0
-      @last_succeeded = false
       @current = { }
       @stashed = { }
-      # @json_queue = JSONQueue.new
     end
 
 

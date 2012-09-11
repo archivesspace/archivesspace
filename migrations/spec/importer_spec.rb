@@ -1,27 +1,39 @@
-require "../lib/bootstrap.rb"
+require_relative "spec_helper"
+require_relative "../lib/bootstrap"
 
-# TODO - Consider writing tests for import method
 
-describe ASpaceImport::Importer do
+
+describe "ASpaceImport::Importer" do
+
+  before(:each) do
+    ASpaceImport::Importer.destroy_importers
+  end
+
   it "should initially have 0 registered importer subclasses" do
     ASpaceImport::Importer.importer_count.should == 0
   end
+
+
   it "should be able to create and register an importer sub-class" do
     ASpaceImport::Importer.importer :foo do
       def greet; puts "bar"; end
     end
   end
-  # Note: perhaps this state is unreliable if tests are concatenated?
-  it "should have 1 registered importer at this point in the present test" do
-    ASpaceImport::Importer.importer_count.should == 1
+
+
+  it "should have two registered importers after registering two" do
+    ASpaceImport::Importer.importer :abc do "Imports stuff" end
+    ASpaceImport::Importer.importer :def do "Imports stuff" end
+    ASpaceImport::Importer.importer_count.should == 2
   end
+  
+
   it "should not let two importers be registered  under the same key" do
-    expect { ASpaceImport::Importer.importer :tschusie do "Byebye" end }.to_not raise_error
-    expect { ASpaceImport::Importer.importer :tschusie do "Ciao" end }.to raise_error
+    expect { ASpaceImport::Importer.importer :sgml do "Imports stuff" end }.to_not raise_error
+    expect { ASpaceImport::Importer.importer :sgml do "Imports other stuff" end }.to raise_error
   end
-  it "should not be able to instantiate an importer class that is clearly unusable" do
-    expect { ASpaceImport::Importer.create_importer({:importer => :yo}) }.to raise_error
-  end
+  
+  
   it "should be able to instantiate an importer class that appears to be usable" do
     ASpaceImport::Importer.importer :hey do
       def self.profile; "blah"; end
