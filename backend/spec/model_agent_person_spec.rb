@@ -37,7 +37,7 @@ describe 'Agent model' do
                                                                    "sort_name" => "Magoo, Mr M"
                                                                  }
                                                                ],
-                                                    "contact_details" => [
+                                                    "agent_contacts" => [
                                                                     {
                                                                       "name" => "Business hours contact",
                                                                       "telephone" => "0011 1234 1234"
@@ -45,8 +45,8 @@ describe 'Agent model' do
                                                                   ]
                                                 }))
 
-    AgentPerson[agent[:id]].contact_details.length.should eq(1)
-    AgentPerson[agent[:id]].contact_details[0][:name].should eq("Business hours contact")
+    AgentPerson[agent[:id]].agent_contacts.length.should eq(1)
+    AgentPerson[agent[:id]].agent_contacts[0][:name].should eq("Business hours contact")
   end
 
 end

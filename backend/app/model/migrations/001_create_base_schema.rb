@@ -233,7 +233,7 @@ Sequel.migration do
     end
 
 
-    create_table(:agent_contact) do
+    create_table(:agent_contacts) do
       primary_key :id
 
       Integer :agent_person_id, :null => true
@@ -256,7 +256,7 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:agent_contact) do
+    alter_table(:agent_contacts) do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
     end
 
@@ -266,7 +266,7 @@ Sequel.migration do
   down do
 
     [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
-     :name_person, :agent_person, :agent_contact_details,
+     :name_person, :agent_person, :agent_contacts,
      :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
      :archival_objects, :vocabularies,
      :resources, :repositories].each do |table|

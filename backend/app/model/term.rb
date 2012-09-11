@@ -30,7 +30,7 @@ class Term < Sequel::Model(:terms)
   end
 
 
-  def self.ensure_exists(json)
+  def self.ensure_exists(json, referrer)
     begin
       self.create_from_json(json).id
     rescue Sequel::ValidationFailed

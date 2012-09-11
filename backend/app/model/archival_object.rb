@@ -25,23 +25,18 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
   def self.create_from_json(json, opts = {})
     set_resource(json, opts)
-    obj = super(json, opts)
-    apply_subjects(obj, json, opts)
-    obj
+    super(json, opts)
   end
 
 
   def update_from_json(json, opts = {})
     self.class.set_resource(json, opts)
-    obj = super(json, opts)
-    self.class.apply_subjects(obj, json, {})
-    obj
+    super(json, opts)
   end
 
 
   def self.sequel_to_jsonmodel(obj, type)
     json = super(obj, type)
-    json.subjects = obj.subjects.map {|subject| JSONModel(:subject).uri_for(subject.id)}
 
     if obj.resource_id
       json.resource = JSONModel(:resource).uri_for(obj.resource_id,

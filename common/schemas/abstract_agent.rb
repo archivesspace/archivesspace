@@ -11,7 +11,7 @@
         "enum" => ["Person", "Corporation", "Software", "Family"]
       },
 
-      "contact_details" => {
+      "agent_contacts" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:agent_contact) uri_or_object"},
         "ifmissing" => "warn",

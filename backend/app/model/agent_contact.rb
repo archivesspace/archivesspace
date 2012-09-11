@@ -1,4 +1,4 @@
-class AgentContact < Sequel::Model(:agent_contact)
+class AgentContact < Sequel::Model(:agent_contacts)
   include ASModel
   plugin :validation_helpers
 
