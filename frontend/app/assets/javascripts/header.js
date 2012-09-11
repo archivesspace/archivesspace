@@ -50,4 +50,25 @@ $(function() {
     });
   });
 
+
+  // Keyboard handling for dropdown submenus
+  $('.nav a').on("focus", function() {
+    if ($(this).parents("li.dropdown-submenu").length) {
+      $('.dropdown-menu', $(this).parent()).show();
+    } else {
+      $(".dropdown-submenu .dropdown-menu", $(this).parents(".nav")).hide();
+    }
+  });
+  $('.dropdown-submenu > a').on("keyup", function(event) {
+    // right arrow focuses submenu
+    if (event.keyCode === 39) {
+      $('.dropdown-menu a:first', $(this).parent()).focus()
+    }
+  });
+  $('.dropdown-submenu > .dropdown-menu > li > a').on("keyup", function() {
+    // left arrow focuses parent menu
+    if (event.keyCode === 37) {
+      $("> a", $(this).parents(".dropdown-submenu:first")).focus();
+    }
+  });
 });

@@ -8,6 +8,9 @@
   <script>
     var APP_PATH = "<%= root_path %>";
   </script>
+
+  <%= javascript_include_tag "application" %>
+  <%= include_controller_js %>
 </head>
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20">
 
@@ -25,9 +28,6 @@
    <footer>
       <%= render "site/footer" %>
    </footer>
-
-   <%= javascript_include_tag "application" %>
-   <%= include_controller_js %>
 
    <%= render "shared/templates" %>
 </body>
