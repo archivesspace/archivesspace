@@ -5,7 +5,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "type" => {
+      "agent_type" => {
         "type" => "string",
         "required" => false,
         "enum" => ["Person", "Corporation", "Software", "Family"]

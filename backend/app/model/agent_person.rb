@@ -21,7 +21,7 @@ class AgentPerson < Sequel::Model(:agent_person)
 
   def self.sequel_to_jsonmodel(obj, type)
     json = super(obj, type)
-    json.type = "Person"
+    json.agent_type = "Person"
     json
   end
 
