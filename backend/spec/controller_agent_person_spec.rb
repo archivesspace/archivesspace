@@ -6,7 +6,12 @@ describe 'Person agent controller' do
     JSONModel(:agent_person).from_hash(:names => [{
                                                     :authority_id => 'authid',
                                                     :primary_name => 'Magus Magoo'
-                                                  }]).save
+                                                  }],
+                                       :contact_details => [{
+                                                              "name" => "Business hours contact",
+                                                              "telephone" => "0011 1234 1234"
+                                                            }]
+                                       ).save
   end
 
 

@@ -6,10 +6,16 @@ class AgentPerson < Sequel::Model(:agent_person)
   include ASModel
   extend Agent
 
-  one_to_many_names(:table => :name_person,
-                    :class => NamePerson)
+  one_to_many_relationship(:table => :name_person,
+                           :class => NamePerson,
+                           :type => :name,
+                           :plural_type => :names)
 
-  one_to_many_contact_details
+  one_to_many_relationship(:table => :agent_contact,
+                           :class => AgentContact,
+                           :type => :contact_details,
+                           :plural_type => :contact_details)
+
 
   def self.create_from_json(json, opts = {})
     obj = super(json, opts)
@@ -29,7 +35,7 @@ class AgentPerson < Sequel::Model(:agent_person)
 
   def self.apply_names(agent, json, opts = {})
     opts[:agent_person_id] = agent.id
-    link_names(agent, json, NamePerson, JSONModel(:name_person), opts)   
+    link_names(agent, json, NamePerson, JSONModel(:name_person), opts)
   end
 
 

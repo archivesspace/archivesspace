@@ -39,21 +39,12 @@ module Agent
   end
 
 
-  def one_to_many_names(opts)
+  def one_to_many_relationship(opts)
     one_to_many opts[:table], :class => opts[:class]
 
-    alias_method :names, opts[:table]
-    alias_method :remove_all_names, :"remove_all_#{opts[:table]}"
-    alias_method :add_name, :"add_#{opts[:table]}"
-  end
-
-
-  def one_to_many_contact_details
-    one_to_many :agent_contact
-
-    alias_method :contact_details, :agent_contact
-    alias_method :remove_all_contact_details, :"remove_all_agent_contact"
-    alias_method :add_contact_details, :add_agent_contact
+    alias_method opts[:plural_type], opts[:table]
+    alias_method :"remove_all_#{opts[:plural_type]}", :"remove_all_#{opts[:table]}"
+    alias_method :"add_#{opts[:type]}", :"add_#{opts[:table]}"
   end
 
 end
