@@ -1,6 +1,9 @@
 module ASModel
   include JSONModel
 
+  Sequel.extension :inflector
+
+
   @@linked_records = {}
 
   def self.linked_records
@@ -48,7 +51,7 @@ module ASModel
 
   module ClassMethods
 
-    # Define a linkage between two record types.
+    # Match a JSONModel object to an existing database association.
     #
     # This linkage manages records that contain subrecords:
     #
@@ -60,25 +63,28 @@ module ASModel
     #    associated database records should be pulled back and included in the
     #    JSON returned.
     #
-    #  For example, a definition like this one in the subject.rb model:
+    # For example, this definition from subject.rb:
     #
-    #   define_linked_record(:type => :term,
-    #                        :plural_type => :terms,
-    #                        :class => Term,
-    #                        :always_inline => true)
+    #   link_association_to_jsonmodel(:association => :terms,
+    #                                 :jsonmodel => :term,
+    #                                 :json_property => :terms,
+    #                                 :always_resolve => true)
     #
     # Causes an incoming JSONModel(:subject) to have each of the objects in its
-    # "terms" array to be coerced into a Sequel model of type Term and stored in
-    # the database.  The provided list of terms are associated with the subject
-    # as it is stored, and these replace any previous terms.
+    # "terms" array to be coerced into a Sequel model (based on the :terms
+    # association) and stored in the database.  The provided list of terms are
+    # associated with the subject as it is stored, and these replace any
+    # previous terms.
     #
     # The definition also causes Subject.to_jsonmodel(obj, :subject) to
     # automatically pull back the list of terms associated with the object and
-    # include them in the response.  Here, the :always_inline parameter
+    # include them in the response.  Here, the :always_resolve parameter
     # indicates that we want the actual JSON objects to be included in the
     # response, not just their URI references.
-    #
-    def define_linked_record(opts)
+
+    def link_association_to_jsonmodel(opts)
+      opts[:association] = self.association_reflection(opts[:association])
+
       ASModel.linked_records[self] ||= []
       ASModel.linked_records[self] << opts
     end
@@ -114,45 +120,45 @@ module ASModel
       (ASModel.linked_records[self] or []).each do |linked_record|
 
         # Remove the existing linked records
-        if linked_record[:delete_when_unassociating]
+        if [:one_to_one, :one_to_many].include?(linked_record[:association][:type])
           # Delete the objects from the other table
-          obj.send("#{linked_record[:plural_type]}_dataset").delete
+          obj.send("#{linked_record[:association][:name]}_dataset").delete
         else
           # Just remove the links
-          obj.send("remove_all_#{linked_record[:plural_type]}".intern)
+          obj.send("remove_all_#{linked_record[:association][:name]}".intern)
         end
 
         # Read the subrecords from our JSON blob and fetch or create
         # the corresponding subrecord from the database.
-        model = linked_record[:class]
+        model = Kernel.const_get(linked_record[:association][:class_name])
+        add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
 
-        records = (json.send(linked_record[:plural_type]) or []).map do |json_or_uri|
+        (json[linked_record[:json_property]] or []).each do |json_or_uri|
+
+          db_record = nil
 
           if json_or_uri.kind_of? String
-            # A URI.  Just grab its database ID.
-            JSONModel(linked_record[:type]).id_for(json_or_uri)
+            # A URI.  Just grab its database ID and look it up.
+            db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
           else
             # Create a database record for the JSON blob and return its ID
-            subrecord_json = JSONModel(linked_record[:type]).from_hash(json_or_uri)
+            subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri)
 
             if model.respond_to? :ensure_exists
               # Give our classes an opportunity to provide their own logic here
-              model.ensure_exists(subrecord_json, obj)
+              db_record = model.ensure_exists(subrecord_json, obj)
             else
               extra_opts = {}
 
-              if linked_record[:foreign_key]
-                extra_opts[linked_record[:foreign_key]] = obj.id
+              if linked_record[:association][:key]
+                extra_opts[linked_record[:association][:key]] = obj.id
               end
 
-              model.create_from_json(subrecord_json, extra_opts).id
+              db_record = model.create_from_json(subrecord_json, extra_opts)
             end
           end
 
-        end
-
-        records.each do |record_id|
-          obj.send("add_#{linked_record[:type]}", model[record_id])
+          obj.send(add_record_method, db_record) if db_record
         end
       end
     end
@@ -175,16 +181,18 @@ module ASModel
       # If there are linked records for this class, grab their URI references too
       (ASModel.linked_records[self] or []).each do |linked_record|
 
-        records = obj.send(linked_record[:plural_type]).map {|linked_obj|
-          if linked_record[:always_inline]
-            linked_record[:class].to_jsonmodel(linked_obj, linked_record[:type]).to_hash
+        model = Kernel.const_get(linked_record[:association][:class_name])
+
+        records = obj.send(linked_record[:association][:name]).map {|linked_obj|
+          if linked_record[:always_resolve]
+            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel]).to_hash
           else
-            JSONModel(linked_record[:type]).uri_for(linked_obj.id) or
+            JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id) or
               raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
           end
         }
 
-        json.send("#{linked_record[:plural_type]}=".intern, records)
+        json[linked_record[:json_property]] = records
       end
 
       json

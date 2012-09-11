@@ -6,33 +6,18 @@ class AgentPerson < Sequel::Model(:agent_person)
   include ASModel
   extend Agent
 
-  one_to_many_relationship(:table => :name_person,
-                           :class => NamePerson,
-                           :type => :name,
-                           :plural_type => :names)
+  one_to_many :name_person
+  one_to_many :agent_contacts
 
-  one_to_many_relationship(:table => :agent_contacts,
-                           :class => AgentContact,
-                           :type => :agent_contact,
-                           :plural_type => :agent_contacts)
+  link_association_to_jsonmodel(:association => :name_person,
+                                :jsonmodel => :name_person,
+                                :json_property => :names,
+                                :always_resolve => true)
 
-
-  define_linked_record(:type => :name_person,
-                       :plural_type => :names,
-                       :class => NamePerson,
-                       :always_inline => true,
-                       :delete_when_unassociating => true,
-                       :foreign_key => :agent_person_id)
-
-
-  define_linked_record(:type => :agent_contact,
-                       :plural_type => :agent_contacts,
-                       :class => AgentContact,
-                       :always_inline => true,
-                       :delete_when_unassociating => true,
-                       :foreign_key => :agent_person_id)
-
-
+  link_association_to_jsonmodel(:association => :agent_contacts,
+                                :jsonmodel => :agent_contact,
+                                :json_property => :agent_contacts,
+                                :always_resolve => true)
 
   def self.sequel_to_jsonmodel(obj, type)
     json = super(obj, type)

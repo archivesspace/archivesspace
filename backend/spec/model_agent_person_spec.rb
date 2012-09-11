@@ -21,7 +21,7 @@ describe 'Agent model' do
                                                                    ]
                                                       }))
 
-    AgentPerson[agent[:id]].names.length.should eq(2)
+    AgentPerson[agent[:id]].name_person.length.should eq(2)
   end
 
 

@@ -6,10 +6,12 @@ class Subject < Sequel::Model(:subjects)
 
   many_to_many :terms
   many_to_many :archival_objects
-  define_linked_record(:type => :term,
-                       :plural_type => :terms,
-                       :class => Term,
-                       :always_inline => true)
+
+  link_association_to_jsonmodel(:association => :terms,
+                                :jsonmodel => :term,
+                                :json_property => :terms,
+                                :always_resolve => true)
+
 
   def validate
     super
