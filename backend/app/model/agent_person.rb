@@ -37,6 +37,9 @@ class AgentPerson < Sequel::Model(:agent_person)
     json = super(obj, type)
 
     json.type = "Person"
+    json.names = obj.names.map {|name|
+      NamePerson.to_jsonmodel(name, :name_person).to_hash
+    }
 
     json
   end

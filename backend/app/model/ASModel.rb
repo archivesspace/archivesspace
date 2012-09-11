@@ -55,7 +55,8 @@ module ASModel
     def sequel_to_jsonmodel(obj, model)
       json = JSONModel(model).new(obj.values.reject {|k, v| v.nil? })
 
-      json.uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})
+      uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})
+      json.uri = uri if uri
 
       json
     end

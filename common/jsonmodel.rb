@@ -287,6 +287,13 @@ module JSONModel
       #  might yield "/repositories/123/archival_objects/500"
       #
       def self.uri_for(id = nil, opts = {})
+
+        # Some schemas (like name schemas) don't have a URI because they don't
+        # need endpoints.  That's fine.
+        if not self.schema['uri']
+          return nil
+        end
+
         uri = self.schema['uri']
 
         if not id.nil?

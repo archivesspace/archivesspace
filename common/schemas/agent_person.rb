@@ -3,6 +3,7 @@
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
     "parent" => "abstract_agent",
+    "uri" => "/agents/people",
     "properties" => {
       "names" => {
         "type" => "array",
