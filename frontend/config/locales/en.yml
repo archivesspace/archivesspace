@@ -30,7 +30,7 @@ en:
       description_type: Description Type
       description_note: Description Note
       description_citation: Description Citation
-    contacts:
+    agent_contacts:
         name: Contact Description
         salutation: Salutation
         address_1: Address Line 1

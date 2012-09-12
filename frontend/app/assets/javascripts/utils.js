@@ -51,16 +51,6 @@ $(function() {
 });
 
 
-// add control-group :input focus/blur behaviour
-$(function() {
-  $(".control-group :input").on("focus", function() {
-    $(this).parents(".control-group:first").addClass("active");
-  }).on("blur", function() {
-    $(this).parents(".control-group:first").removeClass("active");
-  });
-});
-
-
 // add four part indentifier behaviour
 $(function() {
   $("form").live("keyup", ".identifier-fields :input", function(event) {
@@ -136,3 +126,18 @@ AS.openCustomModal = function(id, title, contents) {
     $(this).remove();
   }).modal('show');
 };
+
+AS.addControlGroupHighlighting = function(parent) {
+  $(".control-group :input", parent).on("focus", function() {
+    $(this).parents(".control-group:first").addClass("active");
+  }).on("blur", function() {
+    $(this).parents(".control-group:first").removeClass("active");
+  });
+};
+
+// add control-group :input focus/blur behaviour
+$(function() {
+  $(document).ready(function() {
+    AS.addControlGroupHighlighting($(document.body))
+  });
+});

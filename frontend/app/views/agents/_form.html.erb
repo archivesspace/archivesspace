@@ -58,7 +58,15 @@
       <input type="button" class="btn btn-small pull-right" value="Add Contact Details"/>
     </h3>
     <div id="contacts_container">
-      <p class="alert alert-info">Click 'Add Contact Details' to add contact detail records.</p>
+      <% if @agent.agent_contacts && @agent.agent_contacts.length > 0 %>
+        <% @agent.agent_contacts.each do | contact | %>
+          <%= f.fields_for "agent_contacts", contact do | contact_fields | %>
+            <%= render :partial => "agents/contact_details", :locals => {:f => contact_fields} %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="alert alert-info">Click 'Add Contact Details' to add contact detail records.</p>
+      <% end %>
     </div>
   </section>
 
@@ -70,7 +78,7 @@
 </fieldset>
 
 <div id="agent_contact_form_template"><!--
-  <%= f.fields_for "contacts", JSONModel(:agent_contact).new._always_valid!, :child_index => "${index}" do | contact_fields | %>
+  <%= f.fields_for "agent_contacts", JSONModel(:agent_contact).new._always_valid!, :child_index => "${index}" do | contact_fields | %>
     <%= render :partial => "agents/contact_details", :locals => {:f => contact_fields} %>
   <% end %>
 --></div>
