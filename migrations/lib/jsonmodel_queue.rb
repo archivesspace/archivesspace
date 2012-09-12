@@ -4,7 +4,7 @@ module JSONModel
     # Chaining methods to allows an instance 
     # of a json model to provide info about 
     # its properties: TO DO - Move this to 
-    # Crosswalk Class
+    # Crosswalk Class 
     
     def properties
       properties_hash = self.class.schema['properties']

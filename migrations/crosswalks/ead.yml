@@ -3,24 +3,59 @@
 #   http://code.google.com/p/qubit-toolkit/source/browse/trunk/apps/qubit/modules/object/config/import/ead.yml
 source:
   format: "xml"
-  schema: "ead"
+  schema: "http://www.loc.gov/ead/ead.xsd"
 entities:
   resource: 
-    instance: ["ead"]
+    xpath: ["ead"]
     properties:
-      id_0: ["unitid"]
-      title: ["unittitle"]
-    relationships:
-      subjects: ["child::subject"] 
+      id_0: 
+        xpath: ["unitid"]
+
+      title: 
+        xpath: ["unittitle"]
+        
+      subjects: 
+        xpath: ["child::subject"] 
+        
   archival_object: 
-    instance: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
+    xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
     properties:
-      title: ["unittitle"]
-      ref_id: ["@id"]
-    relationships:
-      parent: ["parent::c"]
-      resource: ["ancestor::ead"]
-      subjects: ["child::subject"]
+      title: 
+        xpath: ["unittitle"]
+
+      ref_id: 
+        xpath: ["@id"]
+        
+      parent: 
+        xpath: ["parent::c"]
+
+      resource: 
+        xpath: ["ancestor::ead"]
+        
+      subjects: 
+        xpath: ["child::subject"]
+      
+# source:
+#   format: "xml"
+#   schema: "ead"
+# entities:
+#   resource: 
+#     instance: ["ead"]
+#     properties:
+#       id_0: ["unitid"]
+#       title: ["unittitle"]
+#     relationships:
+#       subjects: ["child::subject"] 
+#   archival_object: 
+#     instance: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
+#     properties:
+#       title: ["unittitle"]
+#       ref_id: ["@id"]
+#     relationships:
+#       parent: ["parent::c"]
+#       resource: ["ancestor::ead"]
+#       subjects: ["child::subject"]      
+      
   # vocabulary:
   #   properties: 
   #     ref_id: 

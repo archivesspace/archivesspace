@@ -32,8 +32,8 @@ describe 'ASpaceImport::Importer::XmlImporter' do
   
   it "should return the name of an entity when given an xpath" do
 
-    @i.get_entity('c').should eq('archival_object')
-    @i.get_entity('bloop').should be_nil   
+    @i.get_entities('c').pop.should eq('archival_object')
+    @i.get_entities('bloop').should be_nil   
   end
   
   

@@ -25,48 +25,70 @@ ASpaceImport::Importer.importer :xml do
     @reader.each do |node|
       if node.node_type == 1
 
-        @xw.set_schema(node.name) do |s|
-          jo = JSONModel(s).new
+        @xw.models(:xpath => node.name) do |jo|
+          
+          record_type = jo.class.record_type
+          
+          # It would be nice to take care of this in importer.rb
           jo.add_after_save_hook(Proc.new { @goodimports += 1 } )
 
+          # For Debugging
+          jo.add_after_save_hook(Proc.new { puts "Saved: #{jo.to_s}" } )
+
+
           node.attributes.each do |a|
-            @xw.get_property(s, "@#{a[0]}") do |p|
+            
+            @xw.properties(:type => record_type, :xpath => "@#{a[0]}") do |p|
+              
               jo.send("#{p}=", a[1]) unless jo.send("#{p}")
             end
           end
 
-          # See what ancestor nodes are relationship endpoints for this node's entity
-          @xw.ancestor_relationships do |ancestor_schema, r|
-            if (ao = @parse_queue.reverse.find {|ao| validate(ao, ancestor_schema)})
-              ao.add_after_save_hook(Proc.new { jo.send("#{r}=", ao.uri) })
+          # See what ancestor nodes are relationship 
+          # endpoints for this node's entity
+          @xw.ancestor_relationships(:type => record_type) do |types, property|
+
+            if (ao = @parse_queue.reverse.find {|ao| check_type(ao, types)})
+              ao.add_after_save_hook(Proc.new { jo.send("#{property}=", ao.uri) })
               jo.wait_for(ao)
             end
           end      
           
-          # We queue once we are finished with an opening tag
+          # We queue once we are finished with an
+          # opening tag
           @parse_queue.push(jo)
-        end #end processing the node into a schema
+        end
         
                 
-        # Does the XML <node> create a property for an entity in the queue?
+        # Does the XML <node> create a property 
+        # for an entity in the queue?
         @parse_queue.reverse.each do |jo|
           @xw.get_property(jo.class.record_type, node.name) do |p|
             jo.send("#{p}=", node.inner_xml) unless jo.send("#{p}") #Don't re-set a property
           end
           # if needed: check for ancestor records that need attributes from here
-        end       
-      # Does the XML </node> match an entity?
-      elsif node.node_type != 1 and (entity_type = get_entity(node.name))
+        end
+        
+            
+      # Does the XML </node> match the [-1]
+      # object in the parse queue ?
+      elsif node.node_type != 1 and @xw.models(
+                                          :xpath => node.name, 
+                                          :type => @parse_queue[-1].class.record_type
+                                          )
+                                          
         # TODO - Fill in missing values; add supporting records etc.
-        @parse_queue.pop if validate(@parse_queue[-1], entity_type) #Save or send to waiting area
+
+        # Save or send to waiting area
+        @parse_queue.pop    
         
       end
     end
   end
   
   
-  def validate(jo, et)
-    if jo and jo.class.record_type == et
+  def check_type(jo, types)
+    if jo and types.include?(jo.class.record_type)
       jo
     else
       nil
@@ -75,8 +97,8 @@ ASpaceImport::Importer.importer :xml do
   
   
   # TODO - get rid of these methods
-  def get_entity(xpath)
-    @xw.lookup_entity_for(xpath)
+  def get_entities(xpath)
+    @xw.lookup_entities_for(:xpath => xpath)
   end
 
 
