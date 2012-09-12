@@ -56,7 +56,7 @@ $(function() {
     if ($(this).parents("li.dropdown-submenu").length) {
       $('.dropdown-menu', $(this).parent()).show();
     } else {
-      $(".dropdown-submenu .dropdown-menu", $(this).parents(".nav")).hide();
+      $(".dropdown-submenu .dropdown-menu", $(this).parents(".nav")).css("display", "");
     }
   });
   $('.dropdown-submenu > a').on("keyup", function(event) {
