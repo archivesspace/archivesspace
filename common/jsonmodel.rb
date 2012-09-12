@@ -174,24 +174,40 @@ module JSONModel
         model = $1.intern
         qualifier = $2
 
-        begin
-          if qualifier == 'uri'
-            raise if JSONModel(model).id_for(data, {}, true).nil?
-
-          elsif qualifier == 'uri_or_object'
-            if data.is_a? String
-              raise if JSONModel(model).id_for(data, {}, true).nil?
-            elsif data.is_a? Hash
-              exceptions = JSONModel(model).from_hash(data, false)._exceptions
-              raise if exceptions[:errors]
-            else
-              raise
-            end
+        if qualifier == 'uri'
+          if JSONModel(model).id_for(data, {}, true).nil?
+            validation_error("The property '#{build_fragment(fragments)}' of type " +
+                             "#{data.class} wasn't a URI of type: #{types}")
           end
+        elsif qualifier == 'uri_or_object'
+          if data.is_a? String
+            if JSONModel(model).id_for(data, {}, true).nil?
+              validation_error("The property '#{build_fragment(fragments)}' of type " +
+                               "#{data.class} wasn't a URI of type: #{types}")
+            end
+          elsif data.is_a? Hash
 
-        rescue
-          message = "The property '#{build_fragment(fragments)}' of type #{data.class} did not match the following type: #{types}"
-          validation_error(message, fragments, current_schema, self, options[:record_errors])
+            top_errors = validation_errors
+            ::JSON::Validator.clear_errors
+
+            JSONModel(model).from_hash(data, false)
+
+            nested_errors = validation_errors
+
+            nested_errors.each do |validation_error|
+              # Add the fragment path to each nested exception to make them
+              # findable from the root of the top-level json document.
+              validation_error.fragments = fragments + validation_error.fragments
+            end
+
+            # Push them all back
+            (top_errors + nested_errors).each do |error|
+              ::JSON::Validator.validation_error(error)
+            end
+
+          else
+            raise "Invalid type for: #{types}: #{data.inspect}"
+          end
         end
       else
         super
@@ -498,6 +514,17 @@ module JSONModel
       end
 
 
+      def self.fragment_join(fragment, property = nil)
+        fragment = fragment.gsub(/^#\//, "")
+
+        if property and fragment != "" and fragment !~ /\/$/
+          fragment = "#{fragment}/"
+        end
+
+        "#{fragment}#{property}"
+      end
+
+
       # Given a list of error messages produced by JSON schema validation, parse
       # them into a structured format like:
       #
@@ -514,35 +541,35 @@ module JSONModel
           if (message[:failed_attribute] == 'Properties' and
               message[:message] =~ /The property '(.*?)' did not contain a required property of '(.*?)'.*/)
 
-            (path, property) = [$1, $2]
+            (path, property) = [message[:fragment], $2]
 
             exception_type = @@required_fields[self.record_type].fetch(path, {})[property]
 
             if exception_type == "error"
-              errors[property] = ["Property is required but was missing"]
+              errors[fragment_join(message[:fragment], property)] = ["Property is required but was missing"]
             else
-              warnings[property] = ["Property was missing"]
+              warnings[fragment_join(message[:fragment], property)] = ["Property was missing"]
             end
 
           elsif (message[:failed_attribute] == 'Pattern' and
                  message[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
 
-            errors[$1] = ["Did not match regular expression: #{$2}"]
+            errors[fragment_join(message[:fragment])] = ["Did not match regular expression: #{$2}"]
 
           elsif (message[:failed_attribute] == 'MinLength' and
                  message[:message] =~ /The property '#\/(.*?)' was not of a minimum string length of ([0-9]+) in schema/)
 
-            errors[$1] = ["Must be at least #{$2} characters"]
+            errors[fragment_join(message[:fragment])] = ["Must be at least #{$2} characters"]
 
           elsif (message[:failed_attribute] == 'MinItems' and
                  message[:message] =~ /The property '#\/(.*?)' did not contain a minimum number of items ([0-9]+) in schema/)
 
-            errors[$1] = ["The '#{$1}' array needs at least #{$2} elements"]
+            errors[fragment_join(message[:fragment])] = ["The '#{$1}' array needs at least #{$2} elements"]
 
           elsif ((message[:failed_attribute] == 'Type' or message[:failed_attribute] == 'ArchivesSpaceType') and
                  message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
 
-            errors[$1] = ["Must be a #{$3} (you provided a #{$2})"]
+            errors[fragment_join(message[:fragment])] = ["Must be a #{$3} (you provided a #{$2})"]
 
           else
             puts "Failed to find a matching parse rule for: #{message}"

@@ -31,19 +31,19 @@ en:
       description_note: Description Note
       description_citation: Description Citation
     agent_contacts:
-        name: Contact Description
-        salutation: Salutation
-        address_1: Address Line 1
-        address_2: Address Line 2
-        address_3: Address Line 3
-        city: City
-        region: Region
-        country: Country
-        post_code: Mail Code
-        telephone: Telephone Number
-        telephone_ext: Telephone Ext.
-        fax: Fax Number
-        email: Email Address
+      name: Contact Description
+      salutation: Salutation
+      address_1: Address Line 1
+      address_2: Address Line 2
+      address_3: Address Line 3
+      city: City
+      region: Region
+      country: Country
+      post_code: Mail Code
+      telephone: Telephone Number
+      telephone_ext: Telephone Ext.
+      fax: Fax Number
+      email: Email Address
   archival_object:
     title: Title
     ref_id: Ref ID
