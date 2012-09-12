@@ -33,7 +33,7 @@ ASpaceImport::Importer.importer :xml do
           jo.add_after_save_hook(Proc.new { @goodimports += 1 } )
 
           # For Debugging
-          jo.add_after_save_hook(Proc.new { puts "Saved: #{jo.to_s}" } )
+          jo.add_after_save_hook(Proc.new { puts "\nSaved: #{jo.to_s}" } )
 
 
           node.attributes.each do |a|
@@ -46,9 +46,9 @@ ASpaceImport::Importer.importer :xml do
 
           # See what ancestor nodes are relationship 
           # endpoints for this node's entity
-          @xw.ancestor_relationships(:type => record_type) do |types, property|
+          @xw.ancestor_relationships(:type => record_type) do |record_types, property|
 
-            if (ao = @parse_queue.reverse.find {|ao| check_type(ao, types)})
+            if (ao = @parse_queue.reverse.find {|ao| check_type(ao, record_types)})
               ao.add_after_save_hook(Proc.new { jo.send("#{property}=", ao.uri) })
               jo.wait_for(ao)
             end
