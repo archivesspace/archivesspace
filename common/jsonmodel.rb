@@ -628,15 +628,22 @@ module JSONModel
         require_relative 'jsonmodel_client'
         include JSONModel::Client
       end
+
     end
-
-
 
     cls.define_accessors(schema['properties'].keys)
 
     @@types[cls] = type
     @@schema[cls] = schema
     @@models[type] = cls
+
+    cls.instance_eval do
+      (@@init_args[:mixins] or []).each do |mixin|
+        include(mixin)
+      end
+    end
+
+
   end
 
 
