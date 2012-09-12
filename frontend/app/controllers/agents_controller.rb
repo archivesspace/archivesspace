@@ -29,12 +29,4 @@ class AgentsController < ApplicationController
                 })
   end
 
-  def name_form
-    render :partial => "agents/name_forms/secondary_name_form", :locals=>{:agent_type => params[:type]}
-  end
-
-  def contact_form
-    render :partial => "agents/contact_details"
-  end
-
 end

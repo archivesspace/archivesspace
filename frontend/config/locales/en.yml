@@ -15,21 +15,35 @@ en:
     agent_corporation: Corporate Body
     agent_family: Family
     agent_software: Software
-  name_person:
-    authority_id: Authority ID
-    primary_name: Primary Name
-    prefix: Prefix
-    title: Title
-    rest_of_name: Rest of Name
-    suffix: Suffix
-    fuller_form: Fuller Form      
-    number: Number
-    dates: Dates
-    qualifier: Qualifier
-    sort_name: Sort Name
-    description_type: Description Type
-    description_note: Description Note
-    description_citation: Description Citation
+    names:
+      authority_id: Authority ID
+      primary_name: Primary Name
+      prefix: Prefix
+      title: Title
+      rest_of_name: Rest of Name
+      suffix: Suffix
+      fuller_form: Fuller Form      
+      number: Number
+      dates: Dates
+      qualifier: Qualifier
+      sort_name: Sort Name
+      description_type: Description Type
+      description_note: Description Note
+      description_citation: Description Citation
+    contacts:
+        name: Contact Description
+        salutation: Salutation
+        address_1: Address Line 1
+        address_2: Address Line 2
+        address_3: Address Line 3
+        city: City
+        region: Region
+        country: Country
+        post_code: Mail Code
+        telephone: Telephone Number
+        telephone_ext: Telephone Ext.
+        fax: Fax Number
+        email: Email Address
   archival_object:
     title: Title
     ref_id: Ref ID

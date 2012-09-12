@@ -8,17 +8,14 @@ $(function() {
         return;
       }
 
+      var form_index =  $(".agent-name-fields", $this).length;
+
       $this.addClass("initialised");
 
       var addSecondaryNameForm = function() {
         $("#secondary_names_container .alert-info", $this).hide();
-        /*$.ajax({
-          url: APP_PATH+"agents/agent_person/name_form",
-          success: function(html) {
-            $("#secondary_names_container", $this).append(html);
-          }
-        });*/        
-        $("#secondary_names_container", $this).append(AS.renderTemplate("agent_secondary_name_form_template", {index: $(".agent-name-fields", $this).length}));
+        form_index ++;
+        $("#secondary_names_container", $this).append(AS.renderTemplate("agent_secondary_name_form_template", {index: form_index}));
       };
       $("#secondary_names h3 input[type=button]").click(addSecondaryNameForm);
 
@@ -33,12 +30,8 @@ $(function() {
 
       var addContactDetailsForm = function() {
         $("#contacts_container .alert-info", $this).hide();
-        $.ajax({
-          url: APP_PATH+"agents/contact_form",
-          success: function(html) {
-            $("#contacts_container", $this).append(html);
-          }
-        });
+          form_index ++;
+          $("#contacts_container", $this).append(AS.renderTemplate("agent_contact_form_template", {index: form_index}))
       };
       $("#contacts h3 input[type=button]").click(addContactDetailsForm);
 

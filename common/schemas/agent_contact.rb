@@ -12,7 +12,6 @@
       "city" => {"type" => "string"},
       "region" => {"type" => "string"},
       "country" => {"type" => "string"},
-      "region" => {"type" => "string"},
       "post_code" => {"type" => "string"},
       "telephone" => {"type" => "string"},
       "telephone_ext" => {"type" => "string"},

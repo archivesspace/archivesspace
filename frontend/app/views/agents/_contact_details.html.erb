@@ -1,42 +1,21 @@
-<div class="subform">
+<div class="subform agent-contact-fields">
   <h4>
     <span class="subform-title"></span>
     <a href="javascript:void(0)" class="btn btn-mini pull-right subform-remove"><span class='icon-remove'></span></a>
   </h4>
   <div class="subform-container">
-
-    <div class="control-group">
-       <label class="control-label">Name</label>
-       <div class="controls label-only">
-          <input type="text" name="agent[agent_contacts][][name]">
-       </div>
-    </div>
-
-    <div class="control-group">
-       <label class="control-label">Address 1</label>
-       <div class="controls label-only">
-          <input type="text" name="agent[agent_contacts][][address_1]">
-       </div>
-    </div>
-       <div class="control-group">
-          <label class="control-label">Address 2</label>
-          <div class="controls label-only">
-             <input type="text" name="agent[agent_contacts][][address_2]">
-          </div>
-       </div>
-          <div class="control-group">
-             <label class="control-label">Address 3</label>
-             <div class="controls label-only">
-                <input type="text" name="agent[agent_contacts][][address_3]">
-             </div>
-          </div>
-
-    <div class="control-group">
-       <label class="control-label">Email Address</label>
-       <div class="controls label-only">
-          <input type="email" name="agent[agent_contacts][][email]">
-       </div>
-    </div>
-
+    <%= f.jsonmodel_label_and_field :name %>
+    <%= f.jsonmodel_label_and_field :salutation %>
+    <%= f.jsonmodel_label_and_field :address_1 %>
+    <%= f.jsonmodel_label_and_field :address_2 %>
+    <%= f.jsonmodel_label_and_field :address_3 %>
+    <%= f.jsonmodel_label_and_field :city %>
+    <%= f.jsonmodel_label_and_field :region %>
+    <%= f.jsonmodel_label_and_field :country %>
+    <%= f.jsonmodel_label_and_field :post_code %>
+    <%= f.jsonmodel_label_and_field :telephone %>
+    <%= f.jsonmodel_label_and_field :telephone_ext %>
+    <%= f.jsonmodel_label_and_field :fax %>
+    <%= f.jsonmodel_label_and_field :email %>
   </div>
 </div>

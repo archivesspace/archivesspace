@@ -27,7 +27,9 @@
 
   <section id="primary_name">
     <h3>Primary Name</h3>
-    <%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:name => @agent.names[0]} %>
+    <%= f.fields_for "names", @agent.names[0] do | name_fields | %>
+      <%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => name_fields} %>
+    <% end %>
   </section>
 
   <section id="secondary_names">
@@ -36,7 +38,17 @@
       <input type="button" class="btn btn-small pull-right" value="Add Secondary Name"/>
     </h3>
     <div id="secondary_names_container">
-      <p class="alert alert-info">Click 'Add Secondary Name' to add further name records.</p>
+      <% if @agent.names.length > 1 %>
+        <% @agent.names.each_with_index do | name , index | %>
+          <% if index > 0 %>
+            <%= f.fields_for "names", name, :child_index => "${index}" do | name_fields | %>
+              <%= render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => name_fields, :agent_type => @agent.agent_type} %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="alert alert-info">Click 'Add Secondary Name' to add further name records.</p>
+      <% end %>
     </div>
   </section>
 
@@ -57,6 +69,14 @@
 
 </fieldset>
 
-<div id="agent_secondary_name_form_template"><!--
+<div id="agent_contact_form_template"><!--
+  <%= f.fields_for "contacts", JSONModel(:agent_contact).new._always_valid!, :child_index => "${index}" do | contact_fields | %>
+    <%= render :partial => "agents/contact_details", :locals => {:f => contact_fields} %>
+  <% end %>
+--></div>
 
+<div id="agent_secondary_name_form_template"><!--
+  <%= f.fields_for "names", JSONModel(:name_person).new._always_valid!, :child_index => "${index}" do | name_fields | %>
+    <%= render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => name_fields, :agent_type => @agent.agent_type} %>
+  <% end %>
 --></div>

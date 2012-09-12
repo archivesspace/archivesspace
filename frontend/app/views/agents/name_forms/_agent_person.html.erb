@@ -1,3 +1,18 @@
 <div class="agent-name-fields">
-  <%= jsonmodel_label_and_field name, :authority_id, "agent[names][]" %>
+  <%= f.jsonmodel_label_and_field :authority_id %>
+  <%= f.jsonmodel_label_and_field :prefix %>
+  <%= f.jsonmodel_label_and_field :title %>
+  <%= f.jsonmodel_label_and_field :primary_name %>
+  <%= f.jsonmodel_label_and_field :rest_of_name %>
+  <%= f.jsonmodel_label_and_field :suffix %>
+  <%= f.jsonmodel_label_and_field :fuller_form %>
+  <%= f.jsonmodel_label_and_field :number %>
+  <%= f.jsonmodel_label_and_field :dates %>
+  <hr/>
+  <%= f.jsonmodel_label_and_field :qualifier %>
+  <%= f.jsonmodel_label_and_field :sort_name %>
+  <hr/>
+  <%= f.jsonmodel_label_and_field :description_type %>
+  <%= f.jsonmodel_label_and_field :description_note %>
+  <%= f.jsonmodel_label_and_field :description_citation %>
 </div>
