@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   before_filter :load_repository_list
   before_filter :load_default_vocabulary
 
+  before_filter :sanitize_params
+
   protected
 
   def inline?
@@ -101,6 +103,18 @@ class ApplicationController < ActionController::Base
     else
       'application'
     end
+  end
+
+  def sanitize_param(hash)
+    hash.clone.each do |k,v|
+      hash[k.sub("_attributes","")] = v if k.end_with?("_attributes")
+      sanitize_param(v) if v.kind_of? Hash
+    end
+  end
+
+  def sanitize_params
+    sanitize_param(params)
+    puts params.inspect
   end
 
 end

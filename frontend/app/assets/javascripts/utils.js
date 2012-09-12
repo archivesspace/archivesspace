@@ -51,6 +51,16 @@ $(function() {
 });
 
 
+// add control-group :input focus/blur behaviour
+$(function() {
+  $(".control-group :input").on("focus", function() {
+    $(this).parents(".control-group:first").addClass("active");
+  }).on("blur", function() {
+    $(this).parents(".control-group:first").removeClass("active");
+  });
+});
+
+
 // add four part indentifier behaviour
 $(function() {
   $("form").live("keyup", ".identifier-fields :input", function(event) {

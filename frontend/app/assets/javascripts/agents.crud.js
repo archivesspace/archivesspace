@@ -12,12 +12,13 @@ $(function() {
 
       var addSecondaryNameForm = function() {
         $("#secondary_names_container .alert-info", $this).hide();
-        $.ajax({
+        /*$.ajax({
           url: APP_PATH+"agents/agent_person/name_form",
           success: function(html) {
             $("#secondary_names_container", $this).append(html);
           }
-        });
+        });*/        
+        $("#secondary_names_container", $this).append(AS.renderTemplate("agent_secondary_name_form_template", {index: $(".agent-name-fields", $this).length}));
       };
       $("#secondary_names h3 input[type=button]").click(addSecondaryNameForm);
 

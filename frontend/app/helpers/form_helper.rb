@@ -8,6 +8,13 @@ module FormHelper
   end
 
   module FormBuilderMethods
+    def i18n_key_for(method)
+      key = @object_name.clone
+      key.sub!(/\[\d+\]/,"")
+      key.sub!(/\[(.*?)\]/,'.\1')
+      key
+    end
+
     def label_field_pair(method, field_html=nil, extra_args  = {})
       extra_args.reject! {|k,v| v.blank?}
 
@@ -18,7 +25,7 @@ module FormHelper
       control_classes = "controls"
       control_classes << " #{extra_args[:control_class]}" if extra_args.has_key? :control_class
 
-      label_html = @template.label @object_name, method, I18n.t("#{@object_name}.#{method}"), :class=> "control-label"
+      label_html = @template.label @object_name, method, I18n.t("#{i18n_key_for(@object_name)}.#{method}"), :class=> "control-label"
 
       field_html = jsonmodel_field(method) if field_html.blank?
 
@@ -48,7 +55,7 @@ module FormHelper
       end
       attr_definition = schema["properties"][method.to_s]
       if attr_definition.has_key?("enum")
-        @template.select(@object_name, method, attr_definition["enum"].collect {|option| [I18n.t("#{@object_name}.#{option}"), option]})
+        @template.select(@object_name, method, attr_definition["enum"].collect {|option| [I18n.t("#{i18n_key_for(@object_name)}.#{option}"), option]})
       else
         @template.text_field(@object_name, method, "data-original_value" => @object[method])
       end

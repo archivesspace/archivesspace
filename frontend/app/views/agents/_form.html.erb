@@ -27,9 +27,7 @@
 
   <section id="primary_name">
     <h3>Primary Name</h3>
-    <%= f.fields_for :names, @agent.names[0] do | primary_name_fields | %>
-      <%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => primary_name_fields} %>
-    <% end %>
+    <%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:name => @agent.names[0]} %>
   </section>
 
   <section id="secondary_names">
@@ -58,3 +56,7 @@
   </section>
 
 </fieldset>
+
+<div id="agent_secondary_name_form_template"><!--
+
+--></div>
