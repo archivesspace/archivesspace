@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/agents/families/:agent_id')
     .description("Update a family agent")
     .params(["agent_id", Integer, "The ID of the agent to update"],
-            ["agent", JSONModel(:agent_person), "The family to create", :body => true])
+            ["agent", JSONModel(:agent_family), "The family to create", :body => true])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -33,7 +33,7 @@ class ArchivesSpaceService < Sinatra::Base
              [404, '{"error":"Agent not found"}']) \
   do
     AgentFamily.to_jsonmodel(AgentFamily.get_or_die(params[:id]),
-                       :agent_person).to_json
+                       :agent_family).to_json
   end
 
 end
