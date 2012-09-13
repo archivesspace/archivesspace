@@ -5,7 +5,7 @@
     "type" => "object",
 
     "properties" => {
-      "primary_name" => {"type" => "string", "ifmissing" => "error", "minLength" => 100},
+      "primary_name" => {"type" => "string", "ifmissing" => "error"},
       "title" => {"type" => "string", "ifmissing" => "error"},
       "prefix" => {"type" => "string"},
       "rest_of_name" => {"type" => "string"},

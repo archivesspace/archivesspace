@@ -1,12 +1,13 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), @agent]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), @agent.names[0]['primary_name']]} %>
 <div class="row-fluid">
    <div class="span3">
       
    </div>
    <div class="span9 record-pane">
-      <h2><%= @agent %>  <span class="label label-info">Agent</span></h2>
+      <h2><%= @agent.names[0]['primary_name'] %>  <span class="label label-info">Agent</span></h2>
       <br/>
       <div class="row-fluid">
           <p class="alert alert-info">TODO</p>
       </div>
+    </div>
 </div>

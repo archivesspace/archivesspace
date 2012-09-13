@@ -13,9 +13,7 @@
 
       "agent_contacts" => {
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_contact) uri_or_object"},
-        "ifmissing" => "warn",
-        "minItems" => 1
+        "items" => {"type" => "JSONModel(:agent_contact) uri_or_object"}
       },
 
     },

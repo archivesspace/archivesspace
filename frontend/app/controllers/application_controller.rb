@@ -114,7 +114,6 @@ class ApplicationController < ActionController::Base
 
   def sanitize_params
     sanitize_param(params)
-    puts params.inspect
   end
 
 end
