@@ -47,10 +47,10 @@ $(function() {
       var handleSortNameType = function() {
         var sortNameInput = $(":input[name='agent[names][][sort_name]']", $(this).parents(".controls:first"));
         if ($(this).is(":checked")) {          
-          sortNameInput.attr("disabled","disabled");
+          sortNameInput.attr("readonly","readonly");
           $.proxy(updateAutomaticSortName, this);
         } else {
-          sortNameInput.removeAttr("disabled");
+          sortNameInput.removeAttr("readonly");
         }
       };
       $this.on("click", ".sort-name-generation-type", handleSortNameType);

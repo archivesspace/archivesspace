@@ -13,7 +13,7 @@
   <div class="control-group">
     <%= f.jsonmodel_label :sort_name %>
     <div class="controls">
-      <%= f.jsonmodel_field :sort_name, :disabled => true %>
+      <%= f.jsonmodel_field :sort_name, :readonly => "readonly" %>
       <label><%= check_box_tag "#{f.current_name(:sort_name_type)}", "automatic", true, :class => "sort-name-generation-type", :force_id => f.current_name(:sort_name_type, true) %> <small>Automatically generate?</small></label>
     </div>
   </div>
