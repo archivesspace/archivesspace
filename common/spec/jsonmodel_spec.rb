@@ -40,6 +40,11 @@ describe JSONModel do
           "component_id" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
           "title" => {"type" => "string", "minLength" => 1, "required" => true},
 
+          "names" => {
+            "type" => "array",
+            "items" => {"type" => "JSONModel(:stub) uri_or_object"},
+          },
+
           "level" => {"type" => "string", "minLength" => 1, "required" => false},
           "parent" => {"type" => "JSONModel(:stub) uri", "required" => false},
           "collection" => {"type" => "JSONModel(:stub) uri", "required" => false},
@@ -130,6 +135,10 @@ describe JSONModel do
     child_jo.to_hash.has_key?('childproperty').should be_true
     child_jo.to_hash.has_key?('uri').should be_true
     child_jo.to_hash.has_key?('ignoredproperty').should be_false
+  end
+
+  it "can query its schema for the types of things" do
+    @klass.JSONModel(:stub).type_of("names/items").should eq @klass.JSONModel(:stub)
   end
 
 end

@@ -32,8 +32,12 @@ module FormHelper
 
       @json_index ||= -1
 
+      if model.is_a? Symbol
+        model = JSONModel(model)
+      end
+
       if obj.is_a? Hash
-        obj = JSONModel(model).new(obj)
+        obj = model.new(obj)
       end
 
       @json_index += 1

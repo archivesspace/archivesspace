@@ -35,8 +35,7 @@ module JSONModel
   end
 
 
-  def JSONModel(source)
-
+  def self.JSONModel(source)
     # Checks if a model exists first; returns the model class
     # if it exists; returns false if it doesn't exist.
     if @@models.has_key?(source.to_s)
@@ -44,6 +43,10 @@ module JSONModel
     else
       false
     end
+  end
+
+  def JSONModel(source)
+    JSONModel.JSONModel(source)
   end
 
 
@@ -134,6 +137,15 @@ module JSONModel
   end
 
 
+  def self.parse_jsonmodel_ref(ref)
+    if ref.is_a? String and ref =~ /JSONModel\(:([a-zA-Z_\-]+)\) (.*)/
+      [$1.intern, $2]
+    else
+      nil
+    end
+  end
+
+
   protected
 
 
@@ -158,9 +170,8 @@ module JSONModel
 
       types = current_schema.schema['type']
 
-      if types.is_a? String and types =~ /JSONModel\(:([a-zA-Z_\-]+)\) (.*)/
-        model = $1.intern
-        qualifier = $2
+      if JSONModel.parse_jsonmodel_ref(types)
+        (model, qualifier) = JSONModel.parse_jsonmodel_ref(types)
 
         if qualifier == 'uri'
           if JSONModel(model).id_for(data, {}, true).nil?
@@ -335,6 +346,22 @@ module JSONModel
           else
             raise "Couldn't make an ID out of URI: #{uri}"
           end
+        end
+      end
+
+
+      # Return the type of the schema property defined by 'path'
+      #
+      # For example, type_of("names/items/type") might return a JSONModel class
+      def self.type_of(path)
+        type = self.schema_path_lookup(self.schema, path)["type"]
+
+        ref = JSONModel.parse_jsonmodel_ref(type)
+
+        if ref
+          JSONModel.JSONModel(ref.first)
+        else
+          Kernel.const_get(type.capitalize)
         end
       end
 
@@ -525,11 +552,15 @@ module JSONModel
           return self.schema_path_lookup(schema, path.split("/"))
         end
 
+        if schema.has_key?('properties')
+          schema = schema['properties']
+        end
+
         if path.length == 1
-          schema['properties'][path.first]
+          schema[path.first]
         else
-          if schema['properties'][path.first]
-            self.schema_path_lookup(schema['properties'][path.first], path.drop(1))
+          if schema[path.first]
+            self.schema_path_lookup(schema[path.first], path.drop(1))
           else
             nil
           end

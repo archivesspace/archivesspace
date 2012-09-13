@@ -11,7 +11,7 @@ class AgentsController < ApplicationController
 
   def new
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
-    @agent.names = [JSONModel(@name_type).new._always_valid!]
+    @agent.names = [@name_type.new._always_valid!]
   end
 
   def edit
@@ -43,10 +43,7 @@ class AgentsController < ApplicationController
   private
 
     def name_type_for_agent_type(agent_type)
-      agent_schema = JSONModel(agent_type).schema
-      name_type = agent_schema['properties']['names']['items']['type']
-      name_type =~ /JSONModel\(:([a-zA-Z_\-]+)\)/
-      :"#{$1}"
+      JSONModel(agent_type).type_of("names/items")
     end
 
     def assign_types
