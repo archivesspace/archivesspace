@@ -9,19 +9,21 @@ entities:
     xpath: ["ead"]
     properties:
       id_0: 
-        xpath: ["unitid"]
+        xpath: ["descendant::unitid"]
 
       title: 
-        xpath: ["unittitle"]
+        xpath: ["descendant::unittitle"]
         
       subjects: 
-        xpath: ["child::subject"] 
+        xpath: ["descendant::subject"]
+        # temporary hack:
+        procedure: "|value| value = nil unless value.include?('/'); value"
         
   archival_object: 
     xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
     properties:
       title: 
-        xpath: ["unittitle"]
+        xpath: ["descendant::unittitle"]
 
       ref_id: 
         xpath: ["@id"]
@@ -34,6 +36,15 @@ entities:
         
       subjects: 
         xpath: ["child::subject"]
+      
+  subject:
+    xpath: ["subject"]
+    properties:
+      terms: 
+        xpath: ["self"]
+        procedure: "|value| {'term' => value, 
+                             'term_type' => 'Cultural context', 
+                             'vocabulary' => @default_vocab}"
       
 # source:
 #   format: "xml"

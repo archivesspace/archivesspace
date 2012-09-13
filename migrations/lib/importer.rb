@@ -1,6 +1,6 @@
 module ASpaceImport
   class Importer
-    include JSONModel
+
     @@importers = {}
 
     # @return [Fixnum] the number of importers that have been loaded

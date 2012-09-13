@@ -5,8 +5,12 @@ module ASpaceImport
     include JSONModel
 
 
-    def initialize(yaml)
-      @walk = Psych.load(yaml)
+    def initialize(opts)
+      @walk = Psych.load(IO.read(opts[:crosswalk]))
+      
+      opts.each do |k,v|
+        instance_variable_set("@#{k}", v)
+      end
     end
     
     
@@ -39,6 +43,58 @@ module ASpaceImport
     end
     
     
+    
+    #opts = {:object, :xpath, :value}
+    # Use the :xpath to look up any properties
+    # on the :object that can be set using :value
+    
+    def set_properties(opts)
+
+      jo = opts[:object]
+      schema_properties = jo.class.schema['properties']  
+          
+      return nil unless @walk['entities'][jo.class.record_type]
+      
+      @walk['entities'][jo.class.record_type]['properties'].each do |property, hsh|
+ 
+        # Allows the crosswalk to override the default
+        # behavior, which is direct value assignment
+        if hsh['procedure']
+          proc = eval "lambda { #{hsh['procedure']} }"
+          value = proc.call(opts[:value])
+        else
+          value = opts[:value]
+        end
+        
+        next if value == nil
+        
+        if hsh['xpath'].find { |xp| xp.match(opts[:xpath]) }
+          
+          if (type = schema_properties[property]['type'])
+
+            if type == 'string'
+
+              jo.send("#{property}=", value) unless jo.send("#{property}")
+            elsif type == 'array' #and schema_properties[property]['items']['type'] == 'string'
+              
+              if jo.send("#{property}")
+
+                new_arr = jo.send("#{property}")
+                new_arr.push(value)
+                jo.send("#{property}=", new_arr)
+              else
+                jo.send("#{property}=", [value])
+              end
+
+            end
+          end
+        end
+      end
+    end  
+    
+    
+    # Deprecated -see set_properties
+    
     def properties(opts)
       
       # TODO - filter out properties that won't be
@@ -58,7 +114,7 @@ module ASpaceImport
         end
       end
       
-      
+       
       if properties.empty?
         false
       else
@@ -84,8 +140,6 @@ module ASpaceImport
             yield lookup_entities_for(:xpath => $1), property
         end
       end
-
-
     end
     
     

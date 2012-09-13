@@ -7,7 +7,7 @@ ASpaceImport::Importer.importer :xml do
     # load in the YAML
     # TODO - die if not given a crosswalk and an input file
     # TODO - require gems at run time? (so it can be listed without giving an error)
-    @xw = ASpaceImport::Crosswalk.new(IO.read(opts[:crosswalk]))
+    @xw = ASpaceImport::Crosswalk.new(opts)
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     # TODO - create a separate module for the parse queue
     #     since it doesn't have much to do with JSONModel (?)
@@ -24,49 +24,104 @@ ASpaceImport::Importer.importer :xml do
   def run
     @reader.each do |node|
       if node.node_type == 1
-
-        @xw.models(:xpath => node.name) do |jo|
+        
+        @xw.models(:xpath => node.name, :depth => node.depth) do |jo|
           
           record_type = jo.class.record_type
           
-          # It would be nice to take care of this in importer.rb
+          eval("def jo.depth; #{node.depth}; end")
+          
           jo.add_after_save_hook(Proc.new { @goodimports += 1 } )
 
-          # For Debugging
+          # For Debugging / Testing
           jo.add_after_save_hook(Proc.new { puts "\nSaved: #{jo.to_s}" } )
+          
+          # Set any properties that take 'self'
+          @xw.set_properties( :object => jo,
+                              :xpath => "self",
+                              :value => node.inner_xml
+                            )
 
-
+  
           node.attributes.each do |a|
             
-            @xw.properties(:type => record_type, :xpath => "@#{a[0]}") do |p|
-              
-              jo.send("#{p}=", a[1]) unless jo.send("#{p}")
-            end
+
+            @xw.set_properties( :object => jo,
+                                :xpath => "@#{a[0]}",
+                                :value => a[1] )
+
           end
 
-          # See what ancestor nodes are relationship 
-          # endpoints for this node's entity
+          # Does this object need something in the parse
+          # queue to set one of it's (the current object) 
+          # properties?
+          
           @xw.ancestor_relationships(:type => record_type) do |record_types, property|
 
             if (ao = @parse_queue.reverse.find {|ao| check_type(ao, record_types)})
               ao.add_after_save_hook(Proc.new { jo.send("#{property}=", ao.uri) })
               jo.wait_for(ao)
             end
-          end      
+          end
+          
+          # Does this object satisfy a property of
+          # somethign in the queue?
+
+          @parse_queue.reverse.each do |ao|
+
+            xpath = node.name
+            if node.depth - ao.depth == 1
+              xpath.insert(0, 'child::')
+            elsif node.depth - ao.depth > 1
+              xpath.insert(0, 'descendant::')
+            else
+              next 
+            end
+            
+            # This needs revision.
+            # Won't work if the child object ends 
+            # up waiting on something else            
+            jo.add_after_save_hook(Proc.new {
+                                            @xw.set_properties( :object => ao,
+                                                                :xpath => xpath,
+                                                                :value => jo.uri)
+                                            })
+
+          end
+          
+          
           
           # We queue once we are finished with an
           # opening tag
+          
           @parse_queue.push(jo)
         end
         
                 
         # Does the XML <node> create a property 
         # for an entity in the queue?
+        
+        
         @parse_queue.reverse.each do |jo|
-          @xw.get_property(jo.class.record_type, node.name) do |p|
-            jo.send("#{p}=", node.inner_xml) unless jo.send("#{p}") #Don't re-set a property
+
+          xpath = node.name
+          if node.depth - jo.depth == 1
+            xpath.insert(0, 'child::')
+          elsif node.depth - jo.depth > 1
+            xpath.insert(0, 'descendant::')
+          else
+            next 
           end
-          # if needed: check for ancestor records that need attributes from here
+     
+          @xw.set_properties( :object => jo,
+                              :xpath => xpath,
+                              :value => node.inner_xml )
+
+
+          
+          
+        # TODO (if needed): check for ancestor records 
+        # that need attributes from the present node
         end
         
             
@@ -77,7 +132,15 @@ ASpaceImport::Importer.importer :xml do
                                           :type => @parse_queue[-1].class.record_type
                                           )
                                           
-        # TODO - Fill in missing values; add supporting records etc.
+        # Fill in missing values; add supporting records etc.
+        # Hardcoded property sets should be abstracted or the
+        # data model should be re-examined
+        
+        # For instance:
+        if ['subject'].include?(@parse_queue[-1].class.record_type)
+          @parse_queue[-1].vocabulary = @default_vocab
+        end
+
 
         # Save or send to waiting area
         @parse_queue.pop    
@@ -96,16 +159,6 @@ ASpaceImport::Importer.importer :xml do
   end
   
   
-  # TODO - get rid of these methods
-  def get_entities(xpath)
-    @xw.lookup_entities_for(:xpath => xpath)
-  end
-
-
-  def get_property(type, xpath)
-    @xw.lookup_property_for(type, xpath)
-
-  end
 
 end
 

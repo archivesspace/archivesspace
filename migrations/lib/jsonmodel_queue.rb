@@ -1,31 +1,6 @@
 module JSONModel
   module Client
     
-    # Chaining methods to allows an instance 
-    # of a json model to provide info about 
-    # its properties: TO DO - Move this to 
-    # Crosswalk Class 
-    
-    def properties
-      properties_hash = self.class.schema['properties']
-      cls = Class.new do
-        @selected_property
-        
-        properties_hash.each do |prop_name, prop_defn|
-          define_method prop_name do
-            @selected_property = properties_hash["#{prop_name}"]
-            return self
-          end
-        end
-        
-        def type 
-          @selected_property['type']
-        end
-      end
-      cls.new
-        
-    end
-    
     # Methods to support queuing of objects that can't
     # be saved until a related object has been saved
     # and assigned a URI
@@ -39,6 +14,8 @@ module JSONModel
   
     # Wait until another object is saved
     # before allowing itself to be saved.
+    # TODO - raise an error before a deadlock
+    # occurs
     
     def wait_for(json_obj)
       @waiting_for ||= Array.new
@@ -63,7 +40,6 @@ module JSONModel
         @@wait_queue.push(self)
       end
     end
-
 
 
  
