@@ -193,6 +193,14 @@ Sequel.migration do
     end
 
 
+    create_table(:agent_family) do
+      primary_key :id
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
     class Sequel::Schema::CreateTableGenerator
       def apply_name_columns
         String :authority_id, :null => false
@@ -233,10 +241,30 @@ Sequel.migration do
     end
 
 
+    create_table(:name_family) do
+      primary_key :id
+
+      Integer :agent_family_id, :null => false
+
+      String :family_name, :null => false
+
+      apply_name_columns
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:name_family) do
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+    end
+
+
     create_table(:agent_contacts) do
       primary_key :id
 
       Integer :agent_person_id, :null => true
+      Integer :agent_family_id, :null => true
 
       String :name, :null => false
       String :salutation, :null => true
@@ -258,6 +286,7 @@ Sequel.migration do
 
     alter_table(:agent_contacts) do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
     end
 
 
