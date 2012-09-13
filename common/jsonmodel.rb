@@ -7,7 +7,6 @@ module JSONModel
   @@types = {}
   @@models = {}
   @@custom_validations = {}
-  @@required_fields = {}
   @@protected_fields = []
 
   @@strict_mode = false
@@ -140,21 +139,10 @@ module JSONModel
 
   # Preprocess the schema to support ArchivesSpace extensions
   def self.preprocess_schema(type, schema, path = [])
-    @@required_fields[type] ||= {}
-
     if schema["type"] == "object"
       schema["properties"].each do |property, defn|
         if defn.has_key?("ifmissing")
-          if ["error", "warn"].include?(defn["ifmissing"])
-            defn["required"] = true
-
-            path_s = "#/" + path.join("/")
-            @@required_fields[type][path_s] ||= {}
-
-            @@required_fields[type][path_s][property] = defn["ifmissing"]
-          else
-            defn["required"] = false
-          end
+          defn["required"] = ["error", "warn"].include?(defn["ifmissing"])
         end
 
         self.preprocess_schema(type, defn, path + [property])
@@ -525,6 +513,23 @@ module JSONModel
       end
 
 
+      def self.schema_path_lookup(schema, path)
+        if path.is_a? String
+          return self.schema_path_lookup(schema, path.split("/"))
+        end
+
+        if path.length == 1
+          schema['properties'][path.first]
+        else
+          if schema['properties'][path.first]
+            self.schema_path_lookup(schema['properties'][path.first], path.drop(1))
+          else
+            nil
+          end
+        end
+      end
+
+
       # Given a list of error messages produced by JSON schema validation, parse
       # them into a structured format like:
       #
@@ -532,7 +537,7 @@ module JSONModel
       #   :errors => {:attr1 => "(What was wrong with attr1)"},
       #   :warnings => {:attr2 => "(attr2 not quite right either)"}
       # }
-      def self.parse_schema_messages(messages)
+      def self.parse_schema_messages(messages, validator)
         errors = {}
         warnings = {}
 
@@ -543,9 +548,10 @@ module JSONModel
 
             (path, property) = [message[:fragment], $2]
 
-            exception_type = @@required_fields[self.record_type].fetch(path, {})[property]
+            schema = ::JSON::Validator.schemas[message[:schema].to_s].schema
 
-            if exception_type == "error"
+            attribute = schema_path_lookup(schema, fragment_join(path, property))
+            if attribute and attribute['ifmissing'] == "error"
               errors[fragment_join(message[:fragment], property)] = ["Property is required but was missing"]
             else
               warnings[fragment_join(message[:fragment], property)] = ["Property was missing"]
@@ -566,10 +572,19 @@ module JSONModel
 
             errors[fragment_join(message[:fragment])] = ["The '#{$1}' array needs at least #{$2} elements"]
 
+          elsif (message[:failed_attribute] == 'Enum' and
+                 message[:message] =~ /The property '#\/(.*?)' value "(.*?)" .*values: (.*) in schema/)
+
+            errors[fragment_join(message[:fragment])] = ["Invalid value '#{$2}'.  Must be one of: #{$3}"]
+
           elsif ((message[:failed_attribute] == 'Type' or message[:failed_attribute] == 'ArchivesSpaceType') and
                  message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
 
-            errors[fragment_join(message[:fragment])] = ["Must be a #{$3} (you provided a #{$2})"]
+            if $3 !~ /JSONModel/
+              # We'll skip JSONModels because the specific problem with the
+              # document will have already been listed separately.
+              errors[fragment_join(message[:fragment])] = ["Must be a #{$3} (you provided a #{$2})"]
+            end
 
           else
             puts "Failed to find a matching parse rule for: #{message}"
@@ -589,11 +604,17 @@ module JSONModel
       # a ValidationException if there are any fatal validation problems, or if
       # strict mode is enabled and warnings were produced.
       def self.validate(hash, raise_errors = true)
-        messages = JSON::Validator.fully_validate(self.schema,
-                                                  self.drop_unknown_properties(hash),
-                                                  :errors_as_objects => true)
 
-        exceptions = self.parse_schema_messages(messages)
+        JSON::Validator.cache_schemas = true
+
+        validator = JSON::Validator.new(self.schema,
+                                        self.drop_unknown_properties(hash),
+                                        :errors_as_objects => true,
+                                        :record_errors => true)
+
+        messages = validator.validate
+
+        exceptions = self.parse_schema_messages(messages, validator)
 
         @@custom_validations[self].to_a.each do |validation|
           validation.call(hash, exceptions)

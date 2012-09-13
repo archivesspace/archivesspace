@@ -109,7 +109,7 @@ describe 'JSON model' do
 
     model = JSONModel(:strictschema).from_hash({:container => {}}, false)
 
-    model._exceptions[:errors].keys.should eq(["strict"])
+    model._exceptions[:errors].keys.should eq(["container/strict"])
     JSONModel::strict_mode(true)
   end
 

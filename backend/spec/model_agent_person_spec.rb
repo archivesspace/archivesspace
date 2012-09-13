@@ -6,14 +6,16 @@ describe 'Agent model' do
 
     agent = AgentPerson.create_from_json(JSONModel(:agent_person)
                                            .from_hash({
-                                                        "agent_type" => "Person",
+                                                        "agent_type" => "agent_person",
                                                         "names" => [
                                                                     {
+                                                                      "title" => "Mr",
                                                                       "authority_id" => "something",
                                                                       "primary_name" => "Magus Magoo",
                                                                       "sort_name" => "Magoo, Mr M"
                                                                     },
                                                                     {
+                                                                      "title" => "Mr",
                                                                       "authority_id" => "else",
                                                                       "primary_name" => "Magus McGoo",
                                                                       "sort_name" => "McGoo, M"
@@ -29,20 +31,21 @@ describe 'Agent model' do
 
     agent = AgentPerson.create_from_json(JSONModel(:agent_person)
                                      .from_hash({
-                                                  "agent_type" => "Person",
+                                                  "agent_type" => "agent_person",
                                                    "names" => [
-                                                                 {
-                                                                   "authority_id" => "something",
-                                                                   "primary_name" => "Magus Magoo",
-                                                                   "sort_name" => "Magoo, Mr M"
-                                                                 }
+                                                               {
+                                                                 "title" => "Mr",
+                                                                 "authority_id" => "something",
+                                                                 "primary_name" => "Magus Magoo",
+                                                                 "sort_name" => "Magoo, Mr M"
+                                                               }
                                                                ],
                                                     "agent_contacts" => [
-                                                                    {
-                                                                      "name" => "Business hours contact",
-                                                                      "telephone" => "0011 1234 1234"
-                                                                    }
-                                                                  ]
+                                                                         {
+                                                                           "name" => "Business hours contact",
+                                                                           "telephone" => "0011 1234 1234"
+                                                                         }
+                                                                        ]
                                                 }))
 
     AgentPerson[agent[:id]].agent_contacts.length.should eq(1)

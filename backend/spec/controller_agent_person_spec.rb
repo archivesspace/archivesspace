@@ -4,6 +4,7 @@ describe 'Person agent controller' do
 
   def create_person
     JSONModel(:agent_person).from_hash(:names => [{
+                                                    :title => 'Mr',
                                                     :authority_id => 'authid',
                                                     :primary_name => 'Magus Magoo'
                                                   }],
