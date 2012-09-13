@@ -295,7 +295,7 @@ Sequel.migration do
   down do
 
     [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
-     :name_person, :agent_person, :agent_contacts,
+     :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
      :archival_objects, :vocabularies,
      :resources, :repositories].each do |table|
