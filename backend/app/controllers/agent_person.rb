@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error]) \
   do
     agent = AgentPerson.create_from_json(params[:agent])
-    created_response(agent[:id])
+    created_response(agent)
   end
 
 

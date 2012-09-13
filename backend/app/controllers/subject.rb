@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     subject = Subject.create_from_json(params[:subject])
 
-    created_response(subject[:id], params[:subject]._warnings)
+    created_response(subject, params[:subject]._warnings)
   end
 
 

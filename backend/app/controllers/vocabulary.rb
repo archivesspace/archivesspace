@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     vocabulary = Vocabulary.create_from_json(params[:vocabulary])
 
-    created_response(vocabulary[:id], params[:vocabulary]._warnings)
+    created_response(vocabulary, params[:vocabulary]._warnings)
   end
 
 
