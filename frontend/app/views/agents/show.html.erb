@@ -4,6 +4,10 @@
       
    </div>
    <div class="span9 record-pane">
+     <div class="btn-group" style="float: right">
+       <%= link_to "Edit", {:controller => :agents, :action => :edit, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
+     </div>
+
       <h2><%= @agent.names[0]['primary_name'] %>  <span class="label label-info">Agent</span></h2>
       <br/>
       <div class="row-fluid">
