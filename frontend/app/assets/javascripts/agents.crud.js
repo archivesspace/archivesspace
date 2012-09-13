@@ -65,7 +65,8 @@ $(function() {
             var method = tmp[tmp.length-1].slice(0,-1);
             template_data[method] = $(this).val();
           });
-          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(AS.renderTemplate("agent_name_person_sort_name_template", template_data));
+          var agent_type = $("#agent_agent_type", $this).val();
+          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(AS.renderTemplate(agent_type+"_sort_name_template", template_data));
         }
       };
       $this.on("change", ".agent-name-fields :input:not([name~='sort_name'])", updateAutomaticSortName);
