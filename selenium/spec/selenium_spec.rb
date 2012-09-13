@@ -176,10 +176,10 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Sign In").click
     @driver.find_element(:link, "Register now").click
 
-    @driver.find_element(:id, "createuser_username").clear_and_send_keys @user
-    @driver.find_element(:id, "createuser_name").clear_and_send_keys @user
-    @driver.find_element(:id, "createuser_password").clear_and_send_keys "testuser"
-    @driver.find_element(:id, "createuser_confirm_password").clear_and_send_keys "testuser"
+    @driver.find_element(:id, "createuser[username]").clear_and_send_keys @user
+    @driver.find_element(:id, "createuser[name]").clear_and_send_keys @user
+    @driver.find_element(:id, "createuser[password]").clear_and_send_keys "testuser"
+    @driver.find_element(:id, "createuser[confirm_password]").clear_and_send_keys "testuser"
 
     @driver.find_element(:id, 'create_account').click
 
@@ -243,10 +243,10 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Accession").click
 
-    @driver.find_element(:id => "accession_title").clear_and_send_keys "Accession title"
+    @driver.find_element(:id => "accession[title]").clear_and_send_keys "Accession title"
 
-    @driver.complete_4part_id("accession_id_%d")
-    @driver.find_element(:id => "accession_accession_date").clear_and_send_keys "2012-01-01"
+    @driver.complete_4part_id("accession[id_%d]")
+    @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
     @driver.find_element(:css => "form#new_accession button[type='submit']").click
 
     @driver.find_element(:css => "div.alert-warning").text.should eq("Content Description - Property was missing\nCondition Description - Property was missing")
@@ -260,13 +260,13 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Accession").click
 
-    @driver.find_element(:id => "accession_title").clear_and_send_keys "Accession title"
+    @driver.find_element(:id => "accession[title]").clear_and_send_keys "Accession title"
 
-    @driver.complete_4part_id("accession_id_%d")
+    @driver.complete_4part_id("accession[id_%d]")
 
-    @driver.find_element(:id => "accession_accession_date").clear_and_send_keys "2012-01-01"
-    @driver.find_element(:id => "accession_content_description").clear_and_send_keys "A box containing our own universe"
-    @driver.find_element(:id => "accession_condition_description").clear_and_send_keys "Slightly squashed"
+    @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
+    @driver.find_element(:id => "accession[content_description]").clear_and_send_keys "A box containing our own universe"
+    @driver.find_element(:id => "accession[condition_description]").clear_and_send_keys "Slightly squashed"
 
     @driver.find_element(:css => "form#new_accession button[type='submit']").click
   end
@@ -275,8 +275,8 @@ describe "ArchivesSpace user interface" do
   it "Can edit an accession once created" do
     @driver.find_element(:link, 'Edit Accession').click
 
-    @driver.find_element(:id => 'accession_content_description').clear_and_send_keys "Here is a description of this accession."
-    @driver.find_element(:id => 'accession_condition_description').clear_and_send_keys "Here we note the condition of this accession."
+    @driver.find_element(:id => 'accession[content_description]').clear_and_send_keys "Here is a description of this accession."
+    @driver.find_element(:id => 'accession[condition_description]').clear_and_send_keys "Here we note the condition of this accession."
 
     # note - the form is called 'new_accession' even though this is an edit form -jj
     @driver.find_element(:css => "form#new_accession button[type='submit']").click
@@ -287,7 +287,7 @@ describe "ArchivesSpace user interface" do
 
   it "Can edit an accession but cancel the edit" do
     @driver.find_element(:link, 'Edit Accession').click
-    @driver.find_element(:id => 'accession_content_description').clear_and_send_keys " moo"
+    @driver.find_element(:id => 'accession[content_description]').clear_and_send_keys " moo"
     @driver.find_element(:link, "Cancel").click
 
     @driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/)
@@ -298,7 +298,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Resource").click
 
-    @driver.find_element(:id, "resource_title").clear
+    @driver.find_element(:id, "resource[title]").clear
 
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
@@ -315,8 +315,8 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Resource").click
 
-    @driver.find_element(:id, "resource_title").clear_and_send_keys(resource_title)
-    @driver.complete_4part_id("resource_id_%d")
+    @driver.find_element(:id, "resource[title]").clear_and_send_keys(resource_title)
+    @driver.complete_4part_id("resource[id_%d]")
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     # The new resource shows up on the tree to the left
@@ -335,23 +335,23 @@ describe "ArchivesSpace user interface" do
 
 
   it "Can populate the archival object tree" do
-    @driver.find_element(:id, "archival_object_title").clear_and_send_keys("Lost mail")
-    @driver.find_element(:id, "archival_object_ref_id").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    @driver.find_element(:id, "archival_object[title]").clear_and_send_keys("Lost mail")
+    @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
     ["January", "February", "December"]. each do |month|
 
-      @driver.find_element(:id, "archival_object_title").clear_and_send_keys(month)
-      @driver.find_element(:id, "archival_object_ref_id").clear_and_send_keys(Digest::MD5.hexdigest("#{month}#{Time.now}"))
+      @driver.find_element(:id, "archival_object[title]").clear_and_send_keys(month)
+      @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{month}#{Time.now}"))
 
-      old_element = @driver.find_element(:id, "archival_object_title")
+      old_element = @driver.find_element(:id, "archival_object[title]")
       @driver.click_and_wait_until_gone(:id => "createPlusOne")
     end
   end
 
 
   it "Can cancel edits to archival object records" do
-    @driver.find_element(:id, "archival_object_title").clear_and_send_keys("unimportant change")
+    @driver.find_element(:id, "archival_object[title]").clear_and_send_keys("unimportant change")
     @driver.find_element(:css, "a[title='December']").click
     @driver.find_element(:id, "dismissChangesButton").click
 
@@ -363,8 +363,8 @@ describe "ArchivesSpace user interface" do
   it "Can add a child to an existing node and assign a subject" do
     @driver.find_element(:link, "Add Child").click
     @driver.find_element(:link, "Analog Object").click
-    @driver.find_element(:id, "archival_object_title").clear_and_send_keys("Christmas cards")
-    @driver.find_element(:id, "archival_object_ref_id").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    @driver.find_element(:id, "archival_object[title]").clear_and_send_keys("Christmas cards")
+    @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
 
     @driver.find_element(:css, ".linker-wrapper a.btn").click
     @driver.find_element(:css, "a.linker-create-btn").click

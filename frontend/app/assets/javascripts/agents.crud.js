@@ -43,6 +43,33 @@ $(function() {
       };
       $("#contacts").on("click", ".subform-remove", removeContactDetailsForm);
 
+
+      var handleSortNameType = function() {
+        var sortNameInput = $(":input[name='agent[names][][sort_name]']", $(this).parents(".controls:first"));
+        if ($(this).is(":checked")) {          
+          sortNameInput.attr("disabled","disabled");
+          $.proxy(updateAutomaticSortName, this);
+        } else {
+          sortNameInput.removeAttr("disabled");
+        }
+      };
+      $this.on("click", ".sort-name-generation-type", handleSortNameType);
+
+      var updateAutomaticSortName = function() {
+        var agentFieldsContainer = $(this).parents(".agent-name-fields:first");
+        if ($(":input[name$=\"[sort_name_type]\"]",agentFieldsContainer).is(":checked")) {
+          var agentFields = $(":input", agentFieldsContainer);
+          var template_data = {};
+          agentFields.each(function() {
+            var tmp = $(this).attr("name").split("[");
+            var method = tmp[tmp.length-1].slice(0,-1);
+            template_data[method] = $(this).val();
+          });
+          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(AS.renderTemplate("agent_name_person_sort_name_template", template_data));
+        }
+      };
+      $this.on("change", ".agent-name-fields :input:not([name~='sort_name'])", updateAutomaticSortName);
+
     });
   };
 

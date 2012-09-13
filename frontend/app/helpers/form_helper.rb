@@ -121,8 +121,7 @@ module FormHelper
       control_classes = "controls"
       control_classes << " #{extra_args[:control_class]}" if extra_args.has_key? :control_class
 
-      label_html = "<label for=\"#{current_name(method, true)}\" class=\"control-label\">#{I18n.t(i18n_name(current_name(method)))}</label>"
-      # label_html = @template.label @object_name, method, I18n.t(i18n_name(current_name(method))), :class=> "control-label"
+      label_html = jsonmodel_label(method)
 
       field_html = jsonmodel_field(method) if field_html.blank?
 
@@ -139,15 +138,20 @@ module FormHelper
 
     def label_and_fourpartid(method, extra_args  = {})
       extra_args[:control_class] = "identifier-fields"
-      field_html =  @template.text_field(@object_name, :id_0, :class=> "id_0", :size => 10)
-      field_html << @template.text_field(@object_name, :id_1, :class=> "id_1", :size => 10, :disabled => current[:id_0].blank? && current[:id_1].blank?)
-      field_html << @template.text_field(@object_name, :id_2, :class=> "id_2", :size => 10, :disabled => current[:id_1].blank? && current[:id_2].blank?)
-      field_html << @template.text_field(@object_name, :id_3, :class=> "id_3", :size => 10, :disabled => current[:id_2].blank? && current[:id_3].blank?)
+      field_html =  jsonmodel_text_field(:id_0, :class=> "id_0", :size => 10)
+      field_html << jsonmodel_text_field(:id_1, :class=> "id_1", :size => 10, :disabled => current[:id_0].blank? && current[:id_1].blank?)
+      field_html << jsonmodel_text_field(:id_2, :class=> "id_2", :size => 10, :disabled => current[:id_1].blank? && current[:id_2].blank?)
+      field_html << jsonmodel_text_field(:id_3, :class=> "id_3", :size => 10, :disabled => current[:id_2].blank? && current[:id_3].blank?)
       label_field_pair(method, field_html, extra_args)
     end
 
 
-    def jsonmodel_field(method)
+    def jsonmodel_label(method)
+      "<label for=\"#{current_name(method, true)}\" class=\"control-label\">#{I18n.t(i18n_name(current_name(method)))}</label>".html_safe
+    end
+
+
+    def jsonmodel_field(method, opts = {})
       schema = current.class.schema
 
       if not schema["properties"].has_key?(method.to_s)
@@ -159,11 +163,28 @@ module FormHelper
         @template.select(@object_name, method, attr_definition["enum"].collect {|option| [I18n.t("#{@object_name}.#{option}"), option]},
                          :object => current)
       else
-        @template.text_field(@object_name, method, "data-original_value" => current[method],
-                             :object => current,
-                             :force_name => current_name(method),
-                             :force_id => current_name(method, true))
+        jsonmodel_text_field(method, opts)
       end
     end
+
+
+    def jsonmodel_text_field(method, opts)
+      @template.text_field(@object_name, method, {
+                             "data-original_value" => current[method],
+                             :object => current,
+                             :force_name => current_name(method),
+                             :force_id => current_name(method, true)
+                           }.merge(opts))
+    end
+
+    def jsonmodel_text_area(method, opts)
+      @template.text_area(@object_name, method, {
+                             "data-original_value" => current[method],
+                             :object => current,
+                             :force_name => current_name(method),
+                             :id => current_name(method, true)
+                           }.merge(opts))
+    end
+
   end
 end

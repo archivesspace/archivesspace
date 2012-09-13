@@ -10,7 +10,13 @@
   <%= f.label_field_pair :dates %>
   <hr/>
   <%= f.label_field_pair :qualifier %>
-  <%= f.label_field_pair :sort_name %>
+  <div class="control-group">
+    <%= f.jsonmodel_label :sort_name %>
+    <div class="controls">
+      <%= f.jsonmodel_field :sort_name, :disabled => true %>
+      <label><%= check_box_tag "#{f.current_name(:sort_name_type)}", "automatic", true, :class => "sort-name-generation-type", :force_id => f.current_name(:sort_name_type, true) %> <small>Automatically generate?</small></label>
+    </div>
+  </div>
   <hr/>
   <%= f.label_field_pair :description_type %>
   <%= f.label_field_pair :description_note %>

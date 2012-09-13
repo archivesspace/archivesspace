@@ -103,7 +103,7 @@ AS.renderTemplate = function(templateId, data) {
       AS.templateCache[templateId] = TrimPath.parseTemplate(template, templateId);
     }
   }
-  return $(AS.templateCache[templateId].process(data));
+  return AS.templateCache[templateId].process(data);
 };
 
 
@@ -126,6 +126,25 @@ AS.openCustomModal = function(id, title, contents) {
     $(this).remove();
   }).modal('show');
 };
+
+
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
 
 AS.addControlGroupHighlighting = function(parent) {
   $(".control-group :input", parent).on("focus", function() {
