@@ -10,6 +10,15 @@ module JSONModel
   end
 
 
+  # Grab an array of JSON objects from 'uri' and use the 'type_descriptor'
+  # property of each object to cast it into a JSONModel.
+  def self.all(uri, type_descriptor)
+    JSONModel::Client::ClassMethods::get_json(uri).map do |obj|
+      JSONModel(obj[type_descriptor.to_s]).from_hash(obj)
+    end
+  end
+
+
   def self.with_repository(id)
     old_repo = Thread.current[:selected_repo_id]
     begin
@@ -103,6 +112,9 @@ module JSONModel
         end
       end
 
+      module_function :backend_url
+
+
       # Given the ID of a JSONModel instance, return its full URL (including the
       # URL of the backend)
       def my_url(id = nil, opts = {})
@@ -173,6 +185,9 @@ module JSONModel
           nil
         end
       end
+
+      module_function :get_json
+
 
 
       # Returns the session token to be sent to the backend when making
