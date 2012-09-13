@@ -132,8 +132,15 @@ class ArchivesSpaceService < Sinatra::Base
     end
 
 
-    def created_response(obj, warnings = {})
-      json_response({:status => "Created", :id => obj[:id], :warnings => warnings})
+    def created_response(obj, jsonmodel = nil)
+      response = {:status => "Created", :id => obj[:id]}
+
+      if jsonmodel
+        response[:uri] = jsonmodel.class.uri_for(obj[:id])
+        response[:warnings] = jsonmodel._warnings
+      end
+
+      json_response(response)
     end
 
   end

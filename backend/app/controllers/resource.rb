@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     resource = Resource.create_from_json(params[:resource], :repo_id => params[:repo_id])
 
-    created_response(resource, params[:resource]._warnings)
+    created_response(resource, params[:resource])
   end
 
 

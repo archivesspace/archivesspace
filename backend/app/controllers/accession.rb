@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
     accession = Accession.create_from_json(params[:accession],
                                            :repo_id => params[:repo_id])
 
-    created_response(accession, params[:accession]._warnings)
+    created_response(accession, params[:accession])
   end
 
 

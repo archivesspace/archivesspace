@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error]) \
   do
     repo = Repository.create_from_json(params[:repository])
-    created_response(repo)
+    created_response(repo, params[:repository])
   end
 
 
