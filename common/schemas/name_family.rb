@@ -6,6 +6,7 @@
 
     "properties" => {
       "family_name" => {"type" => "string", "ifmissing" => "error"},
+      "prefix" => {"type" => "string"},
     },
 
     "additionalProperties" => false,

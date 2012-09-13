@@ -30,6 +30,7 @@ en:
       description_type: Description Type
       description_note: Description Note
       description_citation: Description Citation
+      family_name: Family Name
     agent_contacts:
       name: Contact Description
       salutation: Salutation

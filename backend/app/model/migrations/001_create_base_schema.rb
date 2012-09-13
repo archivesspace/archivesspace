@@ -248,6 +248,8 @@ Sequel.migration do
 
       String :family_name, :null => false
 
+      String :prefix, :null => true
+
       apply_name_columns
 
       DateTime :create_time, :null => false
