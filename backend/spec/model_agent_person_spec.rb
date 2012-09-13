@@ -12,13 +12,15 @@ describe 'Agent model' do
                                                                       "title" => "Mr",
                                                                       "authority_id" => "something",
                                                                       "primary_name" => "Magus Magoo",
-                                                                      "sort_name" => "Magoo, Mr M"
+                                                                      "sort_name" => "Magoo, Mr M",
+                                                                      "direct_order" => "standard"
                                                                     },
                                                                     {
                                                                       "title" => "Mr",
                                                                       "authority_id" => "else",
                                                                       "primary_name" => "Magus McGoo",
-                                                                      "sort_name" => "McGoo, M"
+                                                                      "sort_name" => "McGoo, M",
+                                                                      "direct_order" => "standard"
                                                                     }
                                                                    ]
                                                       }))
@@ -37,7 +39,8 @@ describe 'Agent model' do
                                                                  "title" => "Mr",
                                                                  "authority_id" => "something",
                                                                  "primary_name" => "Magus Magoo",
-                                                                 "sort_name" => "Magoo, Mr M"
+                                                                 "sort_name" => "Magoo, Mr M",
+                                                                 "direct_order" => "standard"
                                                                }
                                                                ],
                                                     "agent_contacts" => [

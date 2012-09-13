@@ -164,8 +164,21 @@ module FormHelper
       attr_definition = schema["properties"][method.to_s]
 
       if attr_definition.has_key?("enum")
-        @template.select(@object_name, method, attr_definition["enum"].collect {|option| [I18n.t("#{@object_name}.#{option}"), option]},
-                         :object => current)
+        options_array = attr_definition["enum"].collect {|option| [I18n.t(i18n_name(current_name(option))), option]}
+        puts current.inspect
+        puts "***"
+        puts @object.inspect
+        @template.select(@object_name, method, 
+                         options_array, 
+                         {
+                           :selected => current[method] || options_array.first
+                         },
+                         {
+                           "data-original_value" => current[method],
+                           :object => current,
+                           :force_name => current_name(method),
+                           :force_id => current_name(method, true)
+                         })
       else
         jsonmodel_text_field(method, opts)
       end

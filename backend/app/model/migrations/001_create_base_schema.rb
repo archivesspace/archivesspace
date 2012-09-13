@@ -221,6 +221,7 @@ Sequel.migration do
       Integer :agent_person_id, :null => false
 
       String :primary_name, :null => false
+      String :direct_order, :null => false
 
       String :title, :null => true
       String :prefix, :null => true

@@ -7,6 +7,11 @@
     "properties" => {
       "primary_name" => {"type" => "string", "ifmissing" => "error"},
       "title" => {"type" => "string", "ifmissing" => "error"},
+      "direct_order" => {
+        "type" => "string",
+        "required" => false,
+        "enum" => ["standard", "inverted"]
+      },
       "prefix" => {"type" => "string"},
       "rest_of_name" => {"type" => "string"},
       "suffix" => {"type" => "string"},

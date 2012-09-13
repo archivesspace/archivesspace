@@ -6,7 +6,8 @@ describe 'Person agent controller' do
     JSONModel(:agent_person).from_hash(:names => [{
                                                     :title => 'Mr',
                                                     :authority_id => 'authid',
-                                                    :primary_name => 'Magus Magoo'
+                                                    :primary_name => 'Magus Magoo',
+                                                    :direct_order => "standard"
                                                   }],
                                        :agent_contacts => [{
                                                               "name" => "Business hours contact",
