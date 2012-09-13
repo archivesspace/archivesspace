@@ -43,7 +43,7 @@
         <% @agent.names.each_with_index do | name , index | %>
           <% if index > 0 %>
             <% f.with_jsonmodel("names[]", name, @name_type) do %>
-              <%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => f} %>
+              <%= render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
             <% end %>
           <% end %>
         <% end %>
