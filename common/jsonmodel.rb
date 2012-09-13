@@ -237,6 +237,7 @@ module JSONModel
 
           if not method_defined? "#{attribute}="
             define_method "#{attribute}=" do |value|
+              @validated = false
               @data[attribute] = value
             end
           end
@@ -352,6 +353,7 @@ module JSONModel
 
 
       def []=(key, val)
+        @validated = false
         @data[key.to_s] = val
       end
 
@@ -359,6 +361,8 @@ module JSONModel
       # Validate the current JSONModel instance and return a list of exceptions
       # produced.
       def _exceptions
+        return @validated if @validated
+
         exceptions = {}
         if not @always_valid
           exceptions = self.class.validate(@data, false).reject{|k, v| v.empty?}
@@ -368,6 +372,7 @@ module JSONModel
           exceptions[:errors] = (exceptions[:errors] or {}).merge(@errors)
         end
 
+        @validated = exceptions
         exceptions
       end
 
@@ -395,6 +400,7 @@ module JSONModel
       # Update the values of the current JSONModel instance with the contents of
       # 'params', validating before accepting the update.
       def update(params)
+        @validated = false
         replace(@data.merge(params))
       end
 
@@ -402,6 +408,7 @@ module JSONModel
       # Replace the values of the current JSONModel instance with the contents
       # of 'params', validating before accepting the replacement.
       def replace(params)
+        @validated = false
         @@protected_fields.each do |field|
           params[field] = @data[field]
         end
