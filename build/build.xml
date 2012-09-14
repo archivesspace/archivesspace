@@ -200,6 +200,26 @@
 
 
   <!-- Migrations -->
+  <target name="migrations:import:help" description="Show help for import in the migrations module">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../migrations">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ./import.rb --help" />
+    </java>
+  </target>
+
+  <target name="migrations:import:list" description="List available importers in the migrations module">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../migrations">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ./import.rb --list-importers" />
+    </java>
+  </target>
+
   <target name="migrations:test" description="Run the migrations tests">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
