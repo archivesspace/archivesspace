@@ -11,13 +11,11 @@ en:
     title: Title
   agent:
     type: Agent Type
-    agent_person: Person
-    agent_corporation: Corporate Body
-    agent_family: Family
-    agent_software: Software
     agent_type:
       agent_family: Family
       agent_person: Person
+      agent_corporate_entity: Corporate Entity
+      agent_software: Software
     names:
       authority_id: Authority ID
       primary_name: Primary Name
@@ -37,6 +35,11 @@ en:
       direct_order: Direct Order
       standard: Primary Name, Rest of Name
       inverted: Rest of Name _ Primary Name
+      subordinate_name_1: Subordinate Name 1
+      subordinate_name_2: Subordinate Name 2
+      software_name: Software Name
+      version: Version
+      manufacturer: Manufacturer
     agent_contacts:
       name: Contact Description
       salutation: Salutation

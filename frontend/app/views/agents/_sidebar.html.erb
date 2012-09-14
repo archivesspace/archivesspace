@@ -17,7 +17,7 @@
 
     <% if not controller.action_name === "show" %>
       <li class="form-actions">
-        <button type="submit" class="btn btn-primary">Save <%= I18n.t("agent.#{@agent.agent_type}") %></button>
+        <button type="submit" class="btn btn-primary">Save <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
       </li>
     <% end %>
   </ul>

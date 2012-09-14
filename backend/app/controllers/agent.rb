@@ -5,7 +5,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:agent)]"]) \
   do
     agents = [[AgentPerson, :agent_person],
-              [AgentFamily, :agent_family]].map do |model, type|
+              [AgentFamily, :agent_family],
+              [AgentCorporateEntity, :agent_corporate_entity],
+              [AgentSoftware, :agent_software]].map do |model, type|
 
       model.all.collect {|agent| model.to_jsonmodel(agent, type).to_hash}
     end

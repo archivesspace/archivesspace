@@ -201,6 +201,22 @@ Sequel.migration do
     end
 
 
+    create_table(:agent_corporate_entity) do
+      primary_key :id
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    create_table(:agent_software) do
+      primary_key :id
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
     class Sequel::Schema::CreateTableGenerator
       def apply_name_columns
         String :authority_id, :null => false
@@ -263,11 +279,58 @@ Sequel.migration do
     end
 
 
+    create_table(:name_corporate_entity) do
+      primary_key :id
+
+      Integer :agent_corporate_entity_id, :null => false
+
+      String :primary_name, :null => false
+
+      String :subordinate_name_1, :null => true
+      String :subordinate_name_2, :null => true
+      String :number, :null => true
+
+      apply_name_columns
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:name_corporate_entity) do
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+    end
+
+
+    create_table(:name_software) do
+      primary_key :id
+
+      Integer :agent_software_id, :null => false
+
+      String :software_name, :null => false
+
+      String :version, :null => true
+      String :manufacturer, :null => true
+
+      apply_name_columns
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:name_software) do
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+    end
+
+
     create_table(:agent_contacts) do
       primary_key :id
 
       Integer :agent_person_id, :null => true
       Integer :agent_family_id, :null => true
+      Integer :agent_corporate_entity_id, :null => true
+      Integer :agent_software_id, :null => true
 
       String :name, :null => false
       String :salutation, :null => true
@@ -290,6 +353,8 @@ Sequel.migration do
     alter_table(:agent_contacts) do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
     end
 
 
@@ -299,6 +364,7 @@ Sequel.migration do
 
     [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
+     :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
      :archival_objects, :vocabularies,
      :resources, :repositories].each do |table|
