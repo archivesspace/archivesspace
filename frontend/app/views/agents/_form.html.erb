@@ -8,7 +8,7 @@
        <label class="control-label">Type</label>
        <div class="controls label-only">
           <%= f.hidden_field :agent_type %>
-          <strong><%= I18n.t("agent.#{@agent.agent_type}") %></strong>
+          <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
        </div>
     </div>
   </section>
@@ -106,5 +106,23 @@
 {if defined('family_name') && family_name.length > 0}${family_name}{/if}
 {if defined('prefix') && prefix.length > 0}, ${prefix}{/if}
 {if defined('dates') && dates.length > 0}, ${dates}{/if}
+{if defined('qualifier') && qualifier.length > 0}, (${qualifier}){/if}
+--></div>
+
+<div id="agent_corporate_entity_sort_name_template"><!--
+{if defined('primary_name') && primary_name.length > 0}${primary_name}. {/if}
+{if defined('subordinate_name_1') && subordinate_name_1.length > 0} ${subordinate_name_1}. {/if}
+{if defined('subordinate_name_2') && subordinate_name_2.length > 0} ${subordinate_name_2}. {/if}
+{if defined('number') && number.length > 0 && defined('dates') && dates.length > 0} (${number} : ${dates})
+{elseif defined('number') && number.length > 0} (${number})
+{elseif defined('dates') && dates.length > 0} (${dates})
+{/if}
+{if defined('qualifier') && qualifier.length > 0}, (${qualifier}){/if}
+--></div>
+
+<div id="agent_software_sort_name_template"><!--
+{if defined('manufacturer') && manufacturer.length > 0}${manufacturer} {/if}
+{if defined('software_name') && software_name.length > 0} ${software_name}{/if}
+{if defined('version') && version.length > 0} ${version}{/if}
 {if defined('qualifier') && qualifier.length > 0}, (${qualifier}){/if}
 --></div>

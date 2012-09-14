@@ -72,7 +72,7 @@ $(function() {
             sort_name_template += "_"+template_data["direct_order"];
           }
           sort_name_template += "_template";
-          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(AS.renderTemplate(sort_name_template, template_data));
+          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val($.trim(AS.renderTemplate(sort_name_template, template_data)));
         }
       };
       $this.on("change", ".agent-name-fields :input:not([name~='sort_name'])", updateAutomaticSortName);
