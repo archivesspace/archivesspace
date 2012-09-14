@@ -44,7 +44,7 @@ module ASpaceImport
     
     
     
-    #opts = {:object, :xpath, :value}
+    # opts = {:object, :xpath, :value}
     # Use the :xpath to look up any properties
     # on the :object that can be set using :value
     
