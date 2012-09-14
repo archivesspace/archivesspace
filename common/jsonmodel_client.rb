@@ -173,7 +173,7 @@ module JSONModel
       end
 
 
-      def get_json(uri, params = {})
+      def self.get_json(uri, params = {})
         uri = URI("#{backend_url}#{uri}")
         uri.query = URI.encode_www_form(params)
 
@@ -186,8 +186,10 @@ module JSONModel
         end
       end
 
-      module_function :get_json
 
+      def get_json(*opts)
+        JSONModel::Client::ClassMethods.get_json(*opts)
+      end
 
 
       # Returns the session token to be sent to the backend when making
