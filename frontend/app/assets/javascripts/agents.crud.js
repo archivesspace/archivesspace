@@ -66,7 +66,13 @@ $(function() {
             template_data[method] = $(this).val();
           });
           var agent_type = $("#agent_agent_type", $this).val();
-          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(AS.renderTemplate(agent_type+"_sort_name_template", template_data));
+
+          var sort_name_template = agent_type+"_sort_name";
+          if (agent_type === "agent_person") {
+            sort_name_template += "_"+template_data["direct_order"];
+          }
+          sort_name_template += "_template";
+          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(AS.renderTemplate(sort_name_template, template_data));
         }
       };
       $this.on("change", ".agent-name-fields :input:not([name~='sort_name'])", updateAutomaticSortName);

@@ -1,4 +1,4 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), link_to(@agent.names[0]["primary_name"], :controller => :agents, :action => :show, :type => @agent.agent_type), "Edit"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), link_to(@agent.names[0]["sort_name"], :controller => :agents, :action => :show, :type => @agent.agent_type), "Edit"]} %>
 <div class="row-fluid">
   <div class="span3" id="archivesSpaceSidebar">
     <ul class="nav nav-list affix as-nav-list" data-spy="affix">

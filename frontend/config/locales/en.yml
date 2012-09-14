@@ -36,7 +36,7 @@ en:
       family_name: Family Name
       direct_order: Direct Order
       standard: Primary Name, Rest of Name
-      inverted: Rest of Name, Primary Name
+      inverted: Rest of Name _ Primary Name
     agent_contacts:
       name: Contact Description
       salutation: Salutation
