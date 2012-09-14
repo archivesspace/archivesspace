@@ -4,10 +4,13 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get all agent records")
     .returns([200, "[(:agent)]"]) \
   do
-    all_people = AgentPerson.all.collect {|agent| AgentPerson.to_jsonmodel(agent, :agent_person).to_hash}
-    all_families = AgentFamily.all.collect {|agent| AgentFamily.to_jsonmodel(agent, :agent_family).to_hash}
+    agents = [[AgentPerson, :agent_person],
+              [AgentFamily, :agent_family]].map do |model, type|
 
-    json_response(all_people.concat(all_families))
+      model.all.collect {|agent| model.to_jsonmodel(agent, type).to_hash}
+    end
+
+    json_response(agents.flatten)
   end
 
 end
