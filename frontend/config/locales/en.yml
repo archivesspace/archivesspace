@@ -31,6 +31,9 @@ en:
       description_note: Description Note
       description_citation: Description Citation
       family_name: Family Name
+      direct_order: Direct Order
+      standard: Primary Name, Rest of Name
+      inverted: Rest of Name, Primary Name
     agent_contacts:
       name: Contact Description
       salutation: Salutation
