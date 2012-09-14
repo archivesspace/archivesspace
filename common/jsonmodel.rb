@@ -448,6 +448,10 @@ module JSONModel
         "#<JSONModel(:#{self.class.record_type}) #{@data.inspect}>"
       end
 
+      def inspect
+        self.to_s
+      end
+
 
       # Produce a (possibly nested) hash from the values of this JSONModel.  Any
       # values that don't appear in the JSON schema will not appear in the
