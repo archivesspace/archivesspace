@@ -9,7 +9,7 @@ en:
     publish_help: Check this if you wish to publish this accession to the public.
     restrictions: Restrictions?
     title: Title
-  agent:
+  agent: &agent_attributes
     type: Agent Type
     agent_type:
       agent_family: Family
@@ -54,6 +54,14 @@ en:
       telephone_ext: Telephone Ext.
       fax: Fax Number
       email: Email Address
+  agent_person:
+    <<: *agent_attributes
+  agent_family:
+    <<: *agent_attributes
+  agent_corporate_entity:
+    <<: *agent_attributes
+  agent_software:
+    <<: *agent_attributes
   archival_object:
     title: Title
     ref_id: Ref ID
