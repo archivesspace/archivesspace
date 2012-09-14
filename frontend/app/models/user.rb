@@ -12,7 +12,7 @@ class User < JSONModel(:user)
   def self.login(username, password)
     uri = JSONModel(:user).uri_for(username)
 
-    response = self.post_form("#{uri}/login", :password => password)
+    response = JSONModel::HTTP.post_form("#{uri}/login", :password => password)
 
     if response.code == '200'
       JSON.parse(response.body)["session"]

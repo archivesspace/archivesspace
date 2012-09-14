@@ -13,7 +13,7 @@ class Subject < JSONModel(:subject)
 
 
   def available_terms
-    @available_terms ||= self.class.get_json("#{JSONModel(:vocabulary).uri_for(vocab_id)}/terms")
+    @available_terms ||= JSONModel::HTTP.get_json("#{JSONModel(:vocabulary).uri_for(vocab_id)}/terms")
 
     @available_terms
   end

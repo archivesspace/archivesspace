@@ -50,11 +50,13 @@ JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com')
 include JSONModel
 
-JSONModel::models.each do |type, cls|
-  class << cls
-    include Rack::Test::Methods
 
-    def _do_http_request(url, req)
+module JSONModel
+  module HTTP
+
+    extend Rack::Test::Methods
+
+    def self.do_http_request(url, req)
       send(req.method.downcase.intern, req.path, params = req.body)
 
       last_response.instance_eval do
@@ -65,6 +67,7 @@ JSONModel::models.each do |type, cls|
     end
   end
 end
+
 
 # setup test environment
 set :environment, :test
