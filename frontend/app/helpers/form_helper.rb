@@ -110,11 +110,6 @@ module FormHelper
     end
 
 
-    def i18n_name(name)
-      name.gsub(/\[\]/, "").gsub("]", "").gsub("[", ".")
-    end
-
-
     def label_field_pair(method, field_html=nil, extra_args  = {})
       extra_args.reject! {|k,v| v.blank?}
 
@@ -151,7 +146,7 @@ module FormHelper
 
 
     def jsonmodel_label(method)
-      "<label for=\"#{current_name(method, true)}\" class=\"control-label\">#{I18n.t(i18n_name(current_name(method)))}</label>".html_safe
+      "<label for=\"#{current_name(method, true)}\" class=\"control-label\">#{I18n.t(current_name(method))}</label>".html_safe
     end
 
 
@@ -164,7 +159,7 @@ module FormHelper
       attr_definition = schema["properties"][method.to_s]
 
       if attr_definition.has_key?("enum")
-        options_array = attr_definition["enum"].collect {|option| [I18n.t(i18n_name(current_name(option))), option]}
+        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_name(option)), option]}
 
         @template.select(current, method, 
                          options_array, 
