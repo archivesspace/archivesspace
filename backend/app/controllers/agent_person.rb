@@ -35,14 +35,4 @@ class ArchivesSpaceService < Sinatra::Base
                        :agent_person).to_json
   end
 
-
-  # Endpoint.get('/agents')
-  #   .description("Get a list of Agents")
-  #   .returns([200, "[(:agent)]"]) \
-  # do
-  #   json_response(Agent.collect {|agent|
-  #                   Agent.to_jsonmodel(agent, :agent).to_hash
-  #                 })
-  # end
-
 end
