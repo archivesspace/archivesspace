@@ -32,14 +32,21 @@ class AppConfig
 
 
   def self.load_user_config
-    config = File.join(File.dirname(__FILE__), "config.rb")
 
-    if java.lang.System.getProperty("aspace.config")
-      config = java.lang.System.getProperty("aspace.config")
+    possible_locations = [
+                          java.lang.System.getProperty("aspace.config"),
+                          File.join(File.dirname(__FILE__), "config.rb"),
+                         ]
+
+    if java.lang.System.getProperty("catalina.home")
+      possible_locations << File.join(java.lang.System.getProperty("catalina.home"), "conf", "config.rb")
     end
 
-    if File.exists?(config)
-      require config
+    possible_locations.each do |config|
+      if config and File.exists?(config)
+        require config
+        break
+      end
     end
 
     self.load_overrides_from_properties
