@@ -176,13 +176,15 @@ module JSONModel
         if qualifier == 'uri'
           if JSONModel(model).id_for(data, {}, true).nil?
             validation_error("The property '#{build_fragment(fragments)}' of type " +
-                             "#{data.class} wasn't a URI of type: #{types}")
+                             "#{data.class} did not match the following type: #{types} in schema",
+                             fragments, current_schema, self, options[:record_errors])
           end
         elsif qualifier == 'uri_or_object'
           if data.is_a? String
             if JSONModel(model).id_for(data, {}, true).nil?
-              validation_error("The property '#{build_fragment(fragments)}' of type " +
-                               "#{data.class} wasn't a URI of type: #{types}")
+            validation_error("The property '#{build_fragment(fragments)}' of type " +
+                             "#{data.class} did not match the following type: #{types} in schema",
+                             fragments, current_schema, self, options[:record_errors])
             end
           elsif data.is_a? Hash
 
@@ -205,7 +207,9 @@ module JSONModel
             end
 
           else
-            raise "Invalid type for: #{types}: #{data.inspect}"
+            validation_error("The property '#{build_fragment(fragments)}' of type " +
+                             "#{data.class} did not match the following type: #{types} in schema",
+                             fragments, current_schema, self, options[:record_errors])
           end
         end
       else
@@ -626,7 +630,7 @@ module JSONModel
           elsif ((message[:failed_attribute] == 'Type' or message[:failed_attribute] == 'ArchivesSpaceType') and
                  message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
 
-            if $3 !~ /JSONModel/
+            if $3 !~ /JSONModel/ || message[:failed_attribute] == 'ArchivesSpaceType'
               # We'll skip JSONModels because the specific problem with the
               # document will have already been listed separately.
               errors[fragment_join(message[:fragment])] = ["Must be a #{$3} (you provided a #{$2})"]
