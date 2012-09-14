@@ -1,7 +1,7 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), @agent.names[0]['sort_name']]} %>
 <div class="row-fluid">
    <div class="span3">
-      
+      <%= render :partial => "agents/sidebar" %>
    </div>
    <div class="span9 record-pane">
      <div class="btn-group" style="float: right">
