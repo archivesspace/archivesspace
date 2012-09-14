@@ -15,6 +15,9 @@ en:
     agent_corporation: Corporate Body
     agent_family: Family
     agent_software: Software
+    agent_type:
+      agent_family: Family
+      agent_person: Person
     names:
       authority_id: Authority ID
       primary_name: Primary Name
