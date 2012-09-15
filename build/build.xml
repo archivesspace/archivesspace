@@ -204,7 +204,7 @@
   </target>
 
 
-  <target name="dist" description="Build a standalone distribution jar of frontend, backend and all components">
+  <target name="dist" depends="backend:war, frontend:war" description="Build a standalone distribution jar of frontend, backend and all components">
 
     <mkdir dir="target" />
 
