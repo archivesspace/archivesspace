@@ -9,17 +9,20 @@ Sequel.extension :migration
 
 class DBMigrator
 
-  def self.setup_database(db)
-    migrations_dir = File.join(File.dirname(__FILE__), "migrations")
+  MIGRATIONS_DIR = File.join(File.dirname(__FILE__), "migrations")
 
-    Sequel::Migrator.run(db, migrations_dir)
+
+  def self.setup_database(db)
+    Sequel::Migrator.run(db, MIGRATIONS_DIR)
   end
 
 
   def self.nuke_database(db)
-    migrations_dir = File.join(File.dirname(__FILE__), "migrations")
+    Sequel::Migrator.run(db, MIGRATIONS_DIR, :target => 0)
+  end
 
-    Sequel::Migrator.run(db, migrations_dir, :target => 0)
+  def self.needs_updating?(db)
+    not Sequel::Migrator.is_current?(db, MIGRATIONS_DIR)
   end
 
 end

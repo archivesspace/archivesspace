@@ -1,3 +1,5 @@
+require 'sinatra'
+
 if ENV['COVERAGE_REPORTS']
   require 'tmpdir'
   require 'pp'
@@ -43,7 +45,6 @@ end
 
 
 require_relative "../app/main"
-require 'sinatra'
 require 'rack/test'
 
 JSONModel::init(:client_mode => true, :strict_mode => true,
@@ -68,12 +69,6 @@ module JSONModel
   end
 end
 
-
-# setup test environment
-set :environment, :test
-set :run, false
-set :raise_errors, true
-set :logging, false
 
 Log.quiet_please
 

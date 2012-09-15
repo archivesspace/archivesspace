@@ -23,23 +23,42 @@ class ArchivesSpaceService < Sinatra::Base
   configure do
 
     require_relative "model/db"
+
     DB.connect
+
+    unless DB.connected?
+      puts "\n============================================\n"
+      puts "DATABASE CONNECTION FAILED"
+      puts ""
+      puts "This system isn't going to do very much until its database turns up."
+      puts ""
+      puts "You will need to specify your database in:\n\n"
+      puts "  #{AppConfig.find_user_config}"
+      puts "\nor point your browser to the '/setup' URL on the backend (e.g. http://localhost:4567/setup)"
+      puts "\n============================================\n"
+    end
 
     # We'll handle these ourselves
     disable :sessions
 
-    # Load all models
-    require_relative "model/ASModel"
-    require_relative "model/identifiers"
-    require_relative "model/subjects"
-    Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
-      basename = File.basename(model, ".rb")
-      require_relative File.join("model", basename)
-    end
+    if DB.connected?
+      # Load all models
+      require_relative "model/ASModel"
+      require_relative "model/identifiers"
+      require_relative "model/subjects"
+      Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
+        basename = File.basename(model, ".rb")
+        require_relative File.join("model", basename)
+      end
 
-    # Load all controllers
-    Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).sort.each do |controller|
-      load File.absolute_path(controller)
+      # Load all controllers
+      Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).sort.each do |controller|
+        load File.absolute_path(controller)
+      end
+
+    else
+      # Just load the setup controller
+      load File.absolute_path(File.join(File.dirname(__FILE__), "controllers", "setup.rb"))
     end
 
     set :raise_errors, Proc.new { false }
@@ -178,8 +197,12 @@ class ArchivesSpaceService < Sinatra::Base
         @session = session
       }
 
-      result = DB.open do
-        @app.call(env)
+      if DB.connected?
+        result = DB.open do
+          @app.call(env)
+        end
+      else
+        result = @app.call(env)
       end
 
       end_time = Time.now
