@@ -204,17 +204,11 @@
   </target>
 
 
-  <target name="dist" depends="backend:war, frontend:war" description="Build a standalone distribution jar of frontend, backend and all components">
+  <target name="dist" description="Build a standalone distribution jar of frontend, backend and all components">
 
     <mkdir dir="target" />
 
-    <exec executable="javac" failonerror="true">
-      <arg value="-d" />
-      <arg value="target" />
-      <arg value="-cp" />
-      <arg value="../launcher/libs/*" />
-      <arg value="../launcher/src/org/archivesspace/Main.java" />
-    </exec>
+    <javac includeAntRuntime="false" fork="true" destdir="target" srcdir="../launcher/src" failonerror="true" classpath="../launcher/libs/*" />
 
     <jar jarfile="deps.jar">
       <zipgroupfileset dir="../launcher/libs" includes="*.jar" />
