@@ -43,6 +43,6 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, "(:accession)"]) \
   do
-    Accession.to_jsonmodel(params[:accession_id], :accession, params[:repo_id]).to_json
+    json_response(Accession.to_jsonmodel(params[:accession_id], :accession, params[:repo_id]))
   end
 end

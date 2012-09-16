@@ -17,8 +17,8 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:repository)"],
              [404, '{"error":"Repository not found"}']) \
   do
-    Repository.to_jsonmodel(Repository.get_or_die(params[:id]),
-                            :repository).to_json
+    json_response(Repository.to_jsonmodel(Repository.get_or_die(params[:id]),
+                                          :repository))
   end
 
 
