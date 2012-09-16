@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     vocabulary = Vocabulary.get_or_die(params[:vocab_id])
     vocabulary.update_from_json(params[:vocabulary])
-    json_response({:status => "Updated", :id => vocabulary[:id]})
+    updated_response(vocabulary, params[:vocabulary])
   end
 
   Endpoint.post('/vocabularies')
@@ -54,6 +54,6 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["vocab_id", Integer, "The vocabulary ID"])
     .returns([200, "OK"]) \
   do
-    Vocabulary.to_jsonmodel(params[:vocab_id], :vocabulary).to_json
+    json_response(Vocabulary.to_jsonmodel(params[:vocab_id], :vocabulary))
   end
 end

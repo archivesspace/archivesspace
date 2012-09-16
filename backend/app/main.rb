@@ -147,12 +147,12 @@ class ArchivesSpaceService < Sinatra::Base
 
 
     def json_response(obj, status = 200)
-      [status, {"Content-Type" => "application/json"}, [obj.to_json]]
+      [status, {"Content-Type" => "application/json"}, [obj.to_json + "\n"]]
     end
 
 
-    def created_response(obj, jsonmodel = nil)
-      response = {:status => "Created", :id => obj[:id]}
+    def modified_response(type, obj, jsonmodel = nil)
+      response = {:status => type, :id => obj[:id]}
 
       if jsonmodel
         response[:uri] = jsonmodel.class.uri_for(obj[:id])
@@ -160,6 +160,16 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
       json_response(response)
+    end
+
+
+    def created_response(*opts)
+      modified_response('Created', *opts)
+    end
+
+
+    def updated_response(*opts)
+      modified_response('Updated', *opts)
     end
 
   end

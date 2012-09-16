@@ -21,7 +21,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentCorporateEntity.get_or_die(params[:agent_id])
     agent.update_from_json(params[:agent])
 
-    json_response({:status => "Updated", :id => agent[:id]})
+    updated_response(agent, params[:agent])
   end
 
 
@@ -31,8 +31,8 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:agent)"],
              [404, '{"error":"Agent not found"}']) \
   do
-    AgentCorporateEntity.to_jsonmodel(AgentCorporateEntity.get_or_die(params[:id]),
-                       :agent_corporate_entity).to_json
+    json_response(AgentCorporateEntity.to_jsonmodel(AgentCorporateEntity.get_or_die(params[:id]),
+                                                    :agent_corporate_entity))
   end
 
 end
