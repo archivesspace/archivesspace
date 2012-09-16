@@ -3,6 +3,12 @@
 
 
 if Config::CONFIG['host_os'] =~ /mswin/
+
+  $rake_cmd = ["java",
+                   "-cp", File.join(Rails.root, "..", "build", "jruby*.jar"),
+                   "org.jruby.Main", "--1.9", "-S", "rake"]
+
+
   namespace :assets do
     def ruby_rake_task(task, fork = true)
       env    = ENV['RAILS_ENV'] || 'production'
@@ -10,10 +16,9 @@ if Config::CONFIG['host_os'] =~ /mswin/
       args   = [task,"RAILS_ENV=#{env}","RAILS_GROUPS=#{groups}"]
 
       if fork
-        ruby(*args)
+        sh(($rake_cmd + args).join(" "))
       else
-        Kernel.exec("java", "-cp", File.join(Rails.root, "..", "build", "jruby*.jar"),
-                    "org.jruby.Main", "--1.9",  "-S", "rake", *args)
+        Kernel.exec(*$rake_cmd, *args)
       end
     end
   end
