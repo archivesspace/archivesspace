@@ -9,7 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     acc = Accession.get_or_die(params[:accession_id], params[:repo_id])
     acc.update_from_json(params[:accession])
-    json_response({:status => "Updated", :id => acc[:id]})
+    updated_response(acc, params[:accession])
   end
 
 

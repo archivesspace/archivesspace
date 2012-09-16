@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentFamily.get_or_die(params[:agent_id])
     agent.update_from_json(params[:agent])
 
-    json_response({:status => "Updated", :id => agent[:id]})
+    updated_response(agent, params[:agent])
   end
 
 
