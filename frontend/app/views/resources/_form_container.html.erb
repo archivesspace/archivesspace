@@ -16,7 +16,6 @@
       <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
     </h3>
     <div id="extents_container">
-      <% puts @resource.extents.inspect %>
       <% @resource.extents.each_with_index do | extent, index | %>
         <% f.with_jsonmodel("extents[]", extent, :extent) do %>
           <%= render :partial => "extent/form", :locals => {:f => f, :index => index} %>

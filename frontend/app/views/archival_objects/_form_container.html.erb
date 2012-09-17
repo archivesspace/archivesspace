@@ -3,10 +3,26 @@
 <%= render "shared/form_messages", :object => @archival_object %>
 
 <fieldset>
+
   <section id="basic_information">
     <h3>Basic Information</h3>
     <%= render :partial => "archival_objects/forms/basic_information", :locals => {:f => f} %>
   </section>
+
+  <section id="extent">
+    <h3>
+      Extent
+      <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
+    </h3>
+    <div id="extents_container">
+      <% @archival_object.extents.each_with_index do | extent, index | %>
+        <% f.with_jsonmodel("extents[]", extent, :extent) do %>
+          <%= render :partial => "extent/form", :locals => {:f => f, :index => index} %>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
 </fieldset>
 
 

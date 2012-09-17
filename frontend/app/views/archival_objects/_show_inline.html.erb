@@ -14,5 +14,7 @@
       <h3>Basic Information</h3>
       <%= render :partial => "archival_objects/display/basic_information" %>
     </section>
+
+    <%= render :partial => "extent/show", :locals => { :extents => @archival_object.extents } %>
   </div>
 </div>

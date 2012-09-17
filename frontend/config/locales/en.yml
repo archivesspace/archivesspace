@@ -84,6 +84,8 @@ en:
     title: Title
     ref_id: Ref ID
     "[:resource_id, :ref_id]": Ref ID
+    extents:
+      <<: *extent_attributes
   resource:
     title: Title
     id_0: Identifier
