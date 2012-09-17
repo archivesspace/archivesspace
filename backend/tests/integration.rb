@@ -170,11 +170,17 @@ def main
 
   while true
     begin
-      Net::HTTP.get(URI($url))
+      uri = URI($url)
+      req = Net::HTTP::Get.new(uri.request_uri)
+      Net::HTTP.start(uri.host, uri.port) do |http|
+        http.read_timeout = 3
+        http.request(req)
+      end
+
       break
     rescue
       # Keep trying
-      # puts "Waiting for backend (#{$!.inspect})"
+      puts "Waiting for backend (#{$!.inspect})"
       sleep(5)
     end
   end
@@ -190,11 +196,6 @@ def main
 
   if server
     TestUtils::kill(server)
-    begin
-      Process.waitpid(server)
-    rescue
-      # Already dead.
-    end
   end
 
   exit(status)

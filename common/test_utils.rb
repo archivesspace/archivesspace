@@ -1,11 +1,17 @@
+require 'rbconfig'
+
 module TestUtils
 
   def self.kill(pid)
-    begin
-      Process.kill(15, pid)
-      Process.waitpid(pid)
-    rescue
-      # Already dead.
+    if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+      system("taskkill /pid #{pid} /f /t")
+    else
+      begin
+        Process.kill(15, pid)
+        Process.waitpid(pid)
+      rescue
+        # Already dead.
+      end
     end
   end
 

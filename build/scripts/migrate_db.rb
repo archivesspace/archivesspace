@@ -1,6 +1,6 @@
 require_relative "../../config/config-distribution"
 
-if (AppConfig[:db_url] =~ /jdbc:derby:(\/.*?);.*aspacedemo=true$/)
+if (AppConfig[:db_url] =~ /jdbc:derby:(.*?);.*aspacedemo=true$/)
   dir = $1
 
   if File.directory?(dir) and File.exists?(File.join(dir, "seg0"))
