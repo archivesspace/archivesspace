@@ -16,7 +16,9 @@
       "content_description" => {"type" => "string", "ifmissing" => "warn"},
       "condition_description" => {"type" => "string", "ifmissing" => "warn"},
 
-      "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"}
+      "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
+
+      "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) uri_or_object"}},
     },
 
     "additionalProperties" => false,

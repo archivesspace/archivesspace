@@ -2,6 +2,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   plugin :validation_helpers
   include ASModel
   include Subjects
+  include Extents
 
 
   def children
