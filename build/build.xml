@@ -179,6 +179,7 @@
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
+      <jvmarg line="${env.JAVA_OPTS}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S rake assets:precompile" />
