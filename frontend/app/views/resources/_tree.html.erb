@@ -12,7 +12,7 @@
         <ul>
            {for node in nodes}
               <li id="archival_object_${node.id}" class="analog archival_object" rel="archival_object" data-id="${node.id}" data-archival_object="${node.archival_object}">
-                 <a href="#archival_object_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+                 <a href="#tree::archival_object_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
                  ${render_children(node.children)}
               </li>
            {/for}
@@ -22,7 +22,7 @@
    
      {macro render_resource(node)}
         <li id="resource_${node.resource_id}" class="resource" rel="resource" data-id="${node.resource_id}">
-           <a href="#resource_${node.resource_id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+           <a href="#tree::resource_${node.resource_id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
            ${render_children(tree.children)}
         </li>
      {/macro}
@@ -73,12 +73,12 @@
   <div id="tree_nodenavigation_toolbar_template"><!--
     <div class="btn-group">
       {if defined('previous')}
-        <a href="#${previous}" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
+        <a href="#tree::${previous}" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
       {else}
         <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
       {/if}
       {if defined('next')}
-        <a href="#${next}" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
+        <a href="#tree::${next}" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
       {else}
         <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
       {/if}

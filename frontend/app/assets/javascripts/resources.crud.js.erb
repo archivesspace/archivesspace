@@ -43,7 +43,7 @@ $(function() {
     $(".btn-cancel", $form).html("Revert Changes");
     $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "resources/" + resource_tree_data.resource_id + location.hash + "'>Finish Editing</a>");
 
-    if (location.hash !== "#newAO") {
+    if (location.hash !== "#tree::newAO") {
       $(".btn-primary", $form).attr("disabled", "disabled");
       $(".btn-cancel", $form).attr("disabled", "disabled");
     }
@@ -84,7 +84,7 @@ $(function() {
         if ($container.find(".alert-error:first, .alert-warning:first").length) {
           $container.triggerHandler("submitted", {success: false});
         } else {
-          if (location.hash === "#newAO") {
+          if (location.hash === "#tree::newAO") {
             changeHashSilently("#archival_object_" + $(response).find("#ao_id").val());
           }
           form_changed = false;
@@ -99,7 +99,7 @@ $(function() {
       }
     });
 
-    $form.find(":input:not(:hidden):not([type=submit]):first").focus();
+    //$form.find(":input:not(:hidden):not([type=submit]):first").focus();
 
     $container.triggerHandler("form.loaded");
   };
@@ -180,6 +180,14 @@ $(function() {
   };
 
 
+  var setHashForNode = function(node_id) {
+    if (node_id.indexOf("tree::") < 0) {
+      node_id = "tree::"+node_id;
+    }
+    location.hash = node_id;
+  };
+
+
   var changeHashSilently = function(newHash) {
     $(window).data("ignore-hashchange", true);
     location.hash = newHash;
@@ -190,14 +198,21 @@ $(function() {
     if ($(window).data("ignore-hashchange")) {
       $(window).data("ignore-hashchange", false);
       return;
-    }      
-    if (form_changed) {
-      confirmChanges($(location.hash));
-      changeHashSilently("#"+$(".selected", $tree).attr("id"));
+    }
+
+    if (!location.hash || !location.hash.indexOf("tree::") != 0) {
       return;
     }
 
-    var $selected = $(location.hash);
+    var id_from_hash = location.hash.replace("tree::", "");
+
+    if (form_changed) {
+      confirmChanges($(id_from_hash));
+      changeHashSilently("#tree::"+$(".selected", $tree).attr("id"));
+      return;
+    }
+
+    var $selected = $(id_from_hash);
     $(".selected", $tree).removeClass("selected");
     $selected.addClass("selected");
     $tree.jstree("deselect_all");
@@ -214,7 +229,7 @@ $(function() {
     $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "newAO"}, "data": {"title": "New Archival Object"}});
     $("#newAO", $tree).addClass("analog").attr("rel", "archival_object");
     $("#newAO", $tree).find("a").attr("href", "#newAO");
-    location.hash = "#newAO";
+    setHashForNode("newAO");
   };
 
 
@@ -246,7 +261,7 @@ $(function() {
       }
 
       if ($(".selected", $tree).attr("id") === "newAO") {
-        location.hash = $(".selected", $tree).parents("li:first").attr("id");
+        setHashForNode($(".selected", $tree).parents("li:first").attr("id"));
       } else {
         loadPaneForNode($(".selected", $tree));
       }
@@ -336,7 +351,7 @@ $(function() {
         if (targetNodeEl.attr("id") === "newAO") {
           addNewAONode($("#"+parentIdForNewAO));
         } else {
-          location.hash = targetNodeEl.attr("id");
+          setHashForNode(targetNodeEl.attr("id"));
         }
         $("#saveYourChangesModal").modal("hide");
       };
@@ -359,7 +374,7 @@ $(function() {
       if (targetNodeEl.attr("id") != "newAO") {
         $tree.jstree("delete_node", $('#newAO', $tree));
       }
-      location.hash = targetNodeEl.attr("id");
+      setHashForNode(targetNodeEl.attr("id"));
       $("#saveYourChangesModal").modal("hide");
     });
   };
@@ -412,7 +427,7 @@ $(function() {
       $(".selected", $tree).removeClass("selected");
 
       if (location.hash) {
-        $(location.hash).addClass("selected");
+        $(location.hash.replace("tree::","")).addClass("selected");
       }
 
       if ($(".selected", $tree).length === 0) {
@@ -445,9 +460,9 @@ $(function() {
         return;
       }
       if ($nodeToSelect.attr("id") === "newAO") {
-        location.hash = "#newAO";
+        setHashForNode("newAO");
       } else {
-        location.hash = $nodeToSelect.find("a").attr("href");
+        setHashForNode($nodeToSelect.find("a").attr("href"));
       }
     }).bind("move_node.jstree", function(data) {
 

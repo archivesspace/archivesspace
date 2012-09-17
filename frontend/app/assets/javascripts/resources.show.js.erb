@@ -46,7 +46,7 @@ $(function() {
 
 
   var renderTreeToolbar = function() {
-    var nodeEl = $(location.hash);
+    var nodeEl = $(location.hash.replace("tree::",""));
     $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
     // render tree navigation
     var allNodes = $tree.find("li");
@@ -80,7 +80,7 @@ $(function() {
     });
 
     $(window).hashchange(function(){
-      var $selected = $(location.hash);
+      var $selected = $(location.hash.replace("tree::",""));
       $(".selected", $tree).removeClass("selected");
       $selected.addClass("selected");
       $tree.jstree("deselect_all");
@@ -140,7 +140,7 @@ $(function() {
       "plugins": [ "themes", "html_data", "ui", "cookies"]
     }).bind("loaded.jstree", function (event, data) {
       if (location.hash) {
-        $(location.hash).addClass("selected");
+        $(location.hash.replace("tree::","")).addClass("selected");
       }
       if ($(".selected", $tree).length === 0) {
         $("li:first", $tree).addClass("selected");
