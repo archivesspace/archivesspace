@@ -190,7 +190,7 @@ module ASModel
     end
 
 
-    def sequel_to_jsonmodel(obj, model)
+    def sequel_to_jsonmodel(obj, model, opts = {})
       json = JSONModel(model).new(obj.values.reject {|k, v| v.nil? })
 
       uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})
@@ -217,13 +217,13 @@ module ASModel
     end
 
 
-    def to_jsonmodel(obj, model, repo_id = nil)
+    def to_jsonmodel(obj, model, repo_id = nil, opts = {})
       if obj.is_a? Integer
         # An ID.  Get the Sequel row for it.
         obj = get_or_die(obj, repo_id)
       end
 
-      sequel_to_jsonmodel(obj, model)
+      sequel_to_jsonmodel(obj, model, opts)
     end
 
   end

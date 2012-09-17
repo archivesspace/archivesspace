@@ -1,8 +1,8 @@
 module CrudHelpers
 
-  def handle_update(model, id, jsonmodel)
+  def handle_update(model, id, jsonmodel, opts = {})
     obj = model.get_or_die(params[id], params[:repo_id])
-    obj.update_from_json(params[jsonmodel])
+    obj.update_from_json(params[jsonmodel], opts)
 
     updated_response(obj, params[jsonmodel])
   end

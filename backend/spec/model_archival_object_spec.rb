@@ -33,7 +33,7 @@ describe 'ArchivalObject model' do
                                                   "extent_type" => "reels",
                                                 }]
                                               }),
-                                    :repo_id => @repo)
+                                    :repo_id => @repo_id)
     ArchivalObject[ao[:id]].extents.length.should eq(1)
     ArchivalObject[ao[:id]].extents[0].extent_type.should eq("reels")
   end

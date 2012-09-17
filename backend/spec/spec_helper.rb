@@ -119,6 +119,11 @@ def make_test_repo(code = "ARCHIVESSPACE")
 end
 
 
+def make_test_user(username, name = "A test user", source = "local")
+  User.create(:username => username, :name => name, :source => source)
+end
+
+
 RSpec.configure do |config|
   config.include Rack::Test::Methods
 
