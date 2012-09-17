@@ -168,23 +168,6 @@ def main
     server = TestUtils::start_backend($port)
   end
 
-  while true
-    begin
-      uri = URI($url)
-      req = Net::HTTP::Get.new(uri.request_uri)
-      Net::HTTP.start(uri.host, uri.port) do |http|
-        http.read_timeout = 3
-        http.request(req)
-      end
-
-      break
-    rescue
-      # Keep trying
-      puts "Waiting for backend (#{$!.inspect})"
-      sleep(5)
-    end
-  end
-
   status = 0
   begin
     run_tests

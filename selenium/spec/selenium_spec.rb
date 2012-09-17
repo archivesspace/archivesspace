@@ -130,20 +130,6 @@ describe "ArchivesSpace user interface" do
       @frontend = TestUtils::start_frontend($frontend_port, $backend)
     end
 
-    while true
-      begin
-        Net::HTTP.get(URI($frontend))
-        break
-      rescue
-        # Keep trying
-        puts "Waiting for frontend (#{$!.inspect})"
-        sleep(5)
-      end
-    end
-
-    TestUtils::wait_for_url(URI($frontend))
-    TestUtils::wait_for_url(URI($backend))
-
     @user = "testuser#{Time.now.to_i}"
     @driver = Selenium::WebDriver.for :firefox
     @driver.navigate.to $frontend

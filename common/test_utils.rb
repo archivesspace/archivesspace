@@ -19,13 +19,15 @@ module TestUtils
   def self.wait_for_url(url)
     while true
       begin
-        response = Net::HTTP.get_response(url)
-
-        if response.is_a?(Net::HTTPSuccess)
-          break
-        else
-          raise "Not ready (#{response})"
+        uri = URI(url)
+        req = Net::HTTP::Get.new(uri.request_uri)
+        Net::HTTP.start(uri.host, uri.port, nil, nil, nil,
+                        :open_timeout => 3,
+                        :read_timeout => 3) do |http|
+          http.request(req)
         end
+
+        break
       rescue
         # Keep trying
         puts "Waiting for #{url} (#{$!.inspect})"
@@ -42,6 +44,8 @@ module TestUtils
                   "#{base}/../build/run", "backend:devserver:integration",
                   "-Daspace.backend.port=#{port}",
                   "-Daspace_integration_test=1")
+
+    TestUtils.wait_for_url("http://localhost:#{port}")
   end
 
 
@@ -51,6 +55,8 @@ module TestUtils
     Process.spawn({:JAVA_OPTS => "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}"},
                   "#{base}/../build/run", "frontend:devserver:integration",
                   "-Daspace.frontend.port=#{port}")
+
+    TestUtils.wait_for_url("http://localhost:#{port}")
   end
 
 end
