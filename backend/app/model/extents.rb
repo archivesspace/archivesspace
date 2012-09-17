@@ -8,7 +8,8 @@ module Extents
 
     base.jsonmodel_hint(:the_property => :extents,
                         :contains_records_of_type => :extent,
-                        :corresponding_to_association  => :extents)
+                        :corresponding_to_association  => :extents,
+                        :always_resolve => true)
   end
 
 end

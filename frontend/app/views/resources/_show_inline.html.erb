@@ -33,5 +33,54 @@
        </div>
        <% end %>
     </section>
+
+    <section id="extent">
+      <h3>Extent</h3>
+      <div class="accordion" id="extent_accordion">
+        <% @resource.extents.each_with_index do | extent, index | %>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <div class="row-fluid">
+                <div class="span1">
+                  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#extent_accordion" href="#extent_<%= index %>"><span class="icon-chevron-right"></span><span class="icon-chevron-down"></span></a>
+                </div>
+                <div class="span4 accordion-toggle" data-toggle="collapse" data-parent="#extent_accordion" href="#extent_<%= index %>">
+                  <%= "#{extent['number']} #{I18n.t('extent.'+extent['extent_type'])}"%>
+                </div>
+                <div class="span7 accordion-toggle">
+                  <%= extent['container_summary'] %>
+                </div>
+              </div>
+            </div>
+            <div id="extent_<%= index %>" class="accordion-body collapse">
+              <div class="row-fluid label-and-value">
+                <div class="span3 offset1" ><%= I18n.t('extent.portion') %></div>
+                <div class="span8"><%= I18n.t('extent.'+extent["portion"]) %></div>
+              </div>
+              <div class="row-fluid label-and-value">
+                <div class="span3 offset1"><%= I18n.t('extent.number') %></div>
+                <div class="span8"><%= extent['number'] %></div>
+              </div>
+              <div class="row-fluid label-and-value">
+                <div class="span3 offset1"><%= I18n.t('extent.extent_type') %></div>
+                <div class="span8"><%= I18n.t('extent.'+extent["extent_type"]) %></div>
+              </div>
+              <div class="row-fluid label-and-value">
+                <div class="span3 offset1"><%= I18n.t('extent.container_summary') %></div>
+                <div class="span8"><%= extent['container_summary'] %></div>
+              </div>
+              <div class="row-fluid label-and-value">
+                <div class="span3 offset1"><%= I18n.t('extent.physical_details') %></div>
+                <div class="span8"><%= extent['physical_details'] %></div>
+              </div>
+              <div class="row-fluid label-and-value">
+                <div class="span3 offset1"><%= I18n.t('extent.dimensions') %></div>
+                <div class="span8"><%= extent['dimensions'] %></div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
   </div>
 </div>

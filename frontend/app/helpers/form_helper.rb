@@ -135,6 +135,11 @@ module FormHelper
     end
 
 
+    def label_textarea_pair(method, extra_args = {})
+      label_field_pair method, jsonmodel_text_area(method, :rows => 3), extra_args
+    end
+
+
     def label_and_fourpartid(method, extra_args  = {})
       extra_args[:control_class] = "identifier-fields"
       field_html =  jsonmodel_text_field(:id_0, :class=> "id_0", :size => 10)
@@ -190,7 +195,7 @@ module FormHelper
       @template.text_area(@object_name, method, {
                              "data-original_value" => current[method],
                              :object => current,
-                             :force_name => current_name(method),
+                             :name => current_name(method),
                              :id => current_name(method, true)
                            }.merge(opts))
     end

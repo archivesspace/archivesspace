@@ -364,7 +364,7 @@ Sequel.migration do
       Integer :resource_id, :null => true
 
       String :portion, :null => false
-      Integer :number, :null => false
+      String :number, :null => false
       String :extent_type, :null => false
 
       String :container_summary, :null => true

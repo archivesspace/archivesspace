@@ -62,6 +62,24 @@ en:
     <<: *agent_attributes
   agent_software:
     <<: *agent_attributes
+  extent: &extent_attributes
+    portion: Portion
+    whole: Whole
+    part: Part
+    number: Number
+    extent_type: Type
+    cassettes: Cassettes
+    cubic_feet: Cubic Feet
+    leafs: Leafs
+    linear_feet: Linear Feet
+    photographic_prints: Photographic Prints
+    photographic_slides: Photographic Slides
+    reels: Reels
+    sheets: Sheets
+    volumes: Volumes
+    container_summary: Container Summary
+    physical_details: Physical Details
+    dimensions: Dimensions
   archival_object:
     title: Title
     ref_id: Ref ID
@@ -72,6 +90,8 @@ en:
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
+    extents:
+      <<: *extent_attributes
   repository:
     repo_code: Repository code
     description: Description

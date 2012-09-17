@@ -158,4 +158,12 @@ describe 'Resources controller' do
 
   end
 
+  it "lets you create a resource with an extent" do
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
+    id = resource.save
+
+    JSONModel(:resource).find(id).extents[0].length === 1
+    JSONModel(:resource).find(id).extents[0]["portion"] === "whole"
+  end
+
 end

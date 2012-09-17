@@ -30,7 +30,7 @@ describe 'ArchivalObject model' do
                                                 "title" => "A new archival object",
                                                 "extents" => [{
                                                   "portion" => "whole",
-                                                  "number" => 5,
+                                                  "number" => "5 or so",
                                                   "extent_type" => "reels",
                                                 }]
                                               }),

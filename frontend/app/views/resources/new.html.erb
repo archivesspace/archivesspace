@@ -3,7 +3,7 @@
    <div class="span3">
       <%= render :partial => "resources/sidebar" %>
    </div> <!-- span3 -->
-   <div class="span9 record-pane" id="archival_object_container">
+   <div class="span9 record-pane" id="object_container">
       <%= form_for @resource, :as => "resource", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
          <%= render :partial => "resources/form_container", :locals => {:f => f} %>
          <div class="form-actions">            

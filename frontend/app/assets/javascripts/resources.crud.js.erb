@@ -218,7 +218,7 @@ $(function() {
   };
 
 
-  var addEventBindings = function() {
+  var addTreeEventBindings = function() {
 
     $(".archives-tree-container").on("click", ".add-child-archival-object-analog", function() {
       var $selected = $(".selected", $tree);
@@ -304,6 +304,19 @@ $(function() {
     });
 
   };
+
+
+  var addEventBindings = function() {
+    $container.on("click", "#extent > h3 > .btn", function() {
+      var extent_forms = $(".subform.extent-fields").length;
+      $("#extents_container", $container).append(AS.renderTemplate("extent_form_template", {index: extent_forms}));
+      $("form", $container).triggerHandler("form-changed");
+    });
+     $container.on("click", ".subform-remove", function() {
+       $(this).parents(".subform:first").remove();
+       $("form", $container).triggerHandler("form-changed");
+     });
+  }
 
 
   var confirmChanges = function(targetNodeEl) {
@@ -467,7 +480,10 @@ $(function() {
     renderTree();
     initTree(function() {
       loadPaneForNode($(".selected", $tree));
-    });   
+    });
+    addTreeEventBindings();
+    addEventBindings();
+  } else {
     addEventBindings();
   }
 
