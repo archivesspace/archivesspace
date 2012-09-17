@@ -99,7 +99,7 @@ $(function() {
       }
     });
 
-    $form.find(":input:not(:hidden):first").focus();
+    $form.find(":input:not(:hidden):not([type=submit]):first").focus();
 
     $container.triggerHandler("form.loaded");
   };
@@ -274,6 +274,35 @@ $(function() {
         return 'Please note you have some unsaved changes.';
       }
     });
+
+
+    var resizeArchivesTree = function() {
+      var height = $("#archives_tree").parent().height() - $("#archives_tree_toolbar").outerHeight() - 21;
+      $("#archives_tree").height(height);
+    }
+
+    $("#archives_tree").scroll(function() {
+      if ($(this).scrollTop() === 0) {
+        $(this).removeClass("overflow");
+      } else {
+        $(this).addClass("overflow");
+      }
+    });
+
+    if ($.cookie("archives-tree-container::height")) {
+      $(".archives-tree-container").height($.cookie("archives-tree-container::height"));
+    }
+    setTimeout(resizeArchivesTree, 0);
+
+    $(".archives-tree-container").resizable({
+      handles: "s",
+      minHeight: 80,
+      resize: function(event, ui) {
+        $.cookie("archives-tree-container::height", ui.size.height);
+        resizeArchivesTree();
+      }
+    });
+
   };
 
 

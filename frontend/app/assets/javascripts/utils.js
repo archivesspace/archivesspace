@@ -68,17 +68,26 @@ $(function() {
 
 // sidebar action
 $(function() {
-  $("#archivesSpaceSidebar").on("click", ".nav a", function(event) {
-    event.preventDefault();
-    event.stopPropagation();
+  var bindSidebarEvents = function() {
+    $("#archivesSpaceSidebar:not(.initialised)").each(function() {
+      $(this).on("click", ".nav a", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-    var $target_item = $(this);
-    $($target_item.attr("href")).ScrollTo({
-      callback: function() {
-          $(".active", "#archivesSpaceSidebar").removeClass("active");
-          $target_item.parents("li:first").addClass("active");
-      }
+        var $target_item = $(this);
+        $($target_item.attr("href")).ScrollTo({
+          callback: function() {
+              $(".active", "#archivesSpaceSidebar").removeClass("active");
+              $target_item.parents("li:first").addClass("active");
+          }
+        });
+      });
+      $(this).addClass("initialised");      
     });
+  };
+  bindSidebarEvents();
+  $(document).ajaxComplete(function() {
+    bindSidebarEvents();
   });
 });
 
@@ -155,8 +164,8 @@ AS.addControlGroupHighlighting = function(parent) {
 };
 
 // add control-group :input focus/blur behaviour
-$(function() {
-  $(document).ready(function() {
-    AS.addControlGroupHighlighting($(document.body))
-  });
-});
+//$(function() {
+//  $(document).ready(function() {
+//    AS.addControlGroupHighlighting($(document.body))
+//  });
+//});

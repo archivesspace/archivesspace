@@ -1,19 +1,18 @@
-<div class="btn-group" style="float: right">
-   <% if @resource_id %>
-      <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
-   <% end %>
-</div>
-
-<h2><%= @archival_object.title %> <span class="label label-info">Archival Object</span></h2>
-<br/>
-
-<div class="tabbable">
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane active" id="basic-information">
-      <%= render :partial => "archival_objects/display/basic_information" %>
+<div class="row-fluid">
+  <div class="span3">
+    <%= render :partial => "sidebar" %>
+  </div>
+  <div class="span9 record-pane">
+    <div class="btn-group" style="float: right">
+       <% if @resource_id %>
+          <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
+       <% end %>
     </div>
+
+    <h2><%= @archival_object.title %> <span class="label label-info">Archival Object</span></h2>
+    <section id="basic_information">
+      <h3>Basic Information</h3>
+      <%= render :partial => "archival_objects/display/basic_information" %>
+    </section>
   </div>
 </div>

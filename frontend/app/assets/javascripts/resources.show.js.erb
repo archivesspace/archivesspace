@@ -89,6 +89,34 @@ $(function() {
 
       loadPaneForNode($selected);
     });
+
+
+    var resizeArchivesTree = function() {
+      var height = $("#archives_tree").parent().height() - $("#archives_tree_toolbar").outerHeight() - 21;
+      $("#archives_tree").height(height);
+    }
+
+    $("#archives_tree").scroll(function() {
+      if ($(this).scrollTop() === 0) {
+        $(this).removeClass("overflow");
+      } else {
+        $(this).addClass("overflow");
+      }
+    });
+
+    if ($.cookie("archives-tree-container::height")) {
+      $(".archives-tree-container").height($.cookie("archives-tree-container::height"));
+    }
+    setTimeout(resizeArchivesTree, 100);
+
+    $(".archives-tree-container").resizable({
+      handles: "s",
+      minHeight: 80,
+      resize: function(event, ui) {
+        $.cookie("archives-tree-container::height", ui.size.height, {path: "/"});
+        resizeArchivesTree();
+      }
+    });
   };
 
   var initTree = function() {
