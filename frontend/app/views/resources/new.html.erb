@@ -1,15 +1,16 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Resources", :controller => :resources, :action => :index),"New Resource"]} %>
-<div class="row-fluid">
-   <div class="span3">
-      <%= render :partial => "resources/sidebar" %>
-   </div> <!-- span3 -->
-   <div class="span9 record-pane" id="object_container">
-      <%= form_for @resource, :as => "resource", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
-         <%= render :partial => "resources/form_container", :locals => {:f => f} %>
-         <div class="form-actions">            
-            <button type="submit" class="btn btn-primary">Save Resource</button>   
-            <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
-         </div>
-      <% end %>
-   </div>
-</div>
+
+<%= form_for @resource, :as => "resource", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+  <div class="row-fluid">
+     <div class="span3">
+        <%= render :partial => "resources/sidebar" %>
+     </div> <!-- span3 -->
+     <div class="span9 record-pane" id="object_container">
+       <%= render :partial => "resources/form_container", :locals => {:f => f} %>
+       <div class="form-actions">            
+          <button type="submit" class="btn btn-primary">Save Resource</button>   
+          <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+       </div>
+     </div>
+  </div>
+<% end %>
