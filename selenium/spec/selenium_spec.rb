@@ -11,6 +11,22 @@ $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 
 
+module Selenium
+  module WebDriver
+    module Firefox
+      class Binary
+
+        # Searching the registry causes a EXCEPTION_ACCESS_VIOLATION under
+        # Windows 7.  Skip this step and just look for Firefox in the usual
+        # places.
+        def self.windows_registry_path
+          nil
+        end
+      end
+    end
+  end
+end
+
 class Selenium::WebDriver::Driver
   RETRIES = 20
 
