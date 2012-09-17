@@ -110,12 +110,12 @@ end
 def make_test_repo(code = "ARCHIVESSPACE")
   repo = JSONModel(:repository).from_hash("repo_code" => code,
                                           "description" => "A new ArchivesSpace repository")
-  id = repo.save
+  @repo_id = repo.save
   @repo = repo.uri
 
-  JSONModel::set_repository(id)
+  JSONModel::set_repository(@repo_id)
 
-  id
+  @repo_id
 end
 
 
