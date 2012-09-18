@@ -56,6 +56,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   def validate
     validates_unique([:resource_id, :ref_id],
                      :message => "An Archival Object Ref ID must be unique to its resource")
+    map_validation_to_json_property([:resource_id, :ref_id], :ref_id)
     super
   end
 

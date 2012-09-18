@@ -49,6 +49,22 @@ module ASModel
     id
   end
 
+
+  def map_validation_to_json_property(columns, property)
+    errors = self.errors.clone
+
+    self.errors.clear
+
+    errors.each do |error, msg|
+      if error == columns
+        self.errors[property] = msg
+      else
+        self.errors[error] = msg
+      end
+    end
+  end
+
+
   module ClassMethods
 
     # Match a JSONModel object to an existing database association.
