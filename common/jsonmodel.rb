@@ -12,6 +12,10 @@ module JSONModel
   @@client_mode = false
 
 
+  def self.custom_validations
+    @@custom_validations
+  end
+
   def strict_mode(val)
     @@strict_mode = val
   end
@@ -235,7 +239,7 @@ module JSONModel
     def validate(current_schema, data, fragments, options = {})
       if current_schema.schema.has_key?("validations")
         current_schema.schema["validations"].each do |name|
-          errors = @@custom_validations[name].call(data)
+          errors = JSONModel::custom_validations[name].call(data)
 
           errors.each do |field, msg|
             err = JSON::Schema::ValidationError.new("Validation failed for '#{field}': #{msg}",
