@@ -68,6 +68,8 @@ module JSONModel
 end
 
 
+# Note: This import is loading JSONModel into the Object class.  Pretty gross!
+# It would be nice if we could narrow the scope of this to just the tests.
 include JSONModel
 
 require_relative "../app/main"
