@@ -30,19 +30,19 @@ module FormHelper
 
     def with_jsonmodel(name, obj, model, opts = {})
 
-      @json_index ||= -1
-
       if model.is_a? Symbol
         model = JSONModel(model)
       end
+
+      @json_index ||= {}
+      @json_index[model] ||= -1
 
       if obj.is_a? Hash
         obj = model.new(obj)
       end
 
-      @json_index += 1
-      opts[:index] ||= "#{@json_index}"
-
+      @json_index[model] += 1
+      opts[:index] ||= @json_index[model].to_s
 
       @jsonmodel_object ||= []
 
