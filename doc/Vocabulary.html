@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: Vocabulary
+  Schema: vocabulary
   
     &mdash; Documentation by YARD 0.8.2.1
   
@@ -31,10 +31,10 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (V)</a> &raquo;
+    <a href="_index.html">Index (v)</a> &raquo;
     
     
-    <span class="title">Vocabulary</span>
+    <span class="title">vocabulary</span>
   
 
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -59,7 +59,7 @@
   
     <a class="full_list_link" id="schema_list_link"
         href="schema_list.html">
-      Schemas
+      Schema List
     </a>
   
 </div>
@@ -68,151 +68,67 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><h1>Class: Vocabulary
-  
-  
-  
-</h1>
+    <div id="content">
 
-<dl class="box">
-  
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
-      <span class="inheritName">Object</span>
-      
-        <ul class="fullTree">
-          <li>Object</li>
-          
-            <li class="next">Vocabulary</li>
-          
-        </ul>
-        <a href="#" class="inheritanceTree">show all</a>
-      
-      </dd>
-    
-  
-  
-    
-  
-    
-      <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></dd>
-      
-    
-  
-  
-  
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/vocabulary.rb</dd>
-  
-</dl>
-<div class="clear"></div>
+    	<h1>JSON Schema: Vocabulary</h1>
+
+			<h2>URI Template</h2>
+			<h3>/vocabularies</h3>
+
+			<h2>Properties</h2>
+			
+				<h3 class="signature"> - (string) <strong>uri</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>ref_id</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>name</strong></h3>
+			
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
 
 
-
-
-
-
-
-
-  
-    <h2>
-      Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#set-class_method" title="set (class method)">+ (Object) <strong>set</strong>(params) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ASModel.html#before_create-instance_method" title="ASModel#before_create (method)">#before_create</a></span>, <span class='object_link'><a href="ASModel.html#before_update-instance_method" title="ASModel#before_update (method)">#before_update</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#update_from_json-instance_method" title="ASModel#update_from_json (method)">#update_from_json</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
-
-
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="set-class_method">
-  
-    + (<tt>Object</tt>) <strong>set</strong>(params) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
+1
+2
+3
+4
+5
+6
 7
 8
-9</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/vocabulary.rb', line 7</span>
+9
+10
+11
+12</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'common/schemas/vocabulary.rb', line 1</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
+:schema =&gt; {
+  &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
+  &quot;type&quot; =&gt; &quot;object&quot;,
+  &quot;uri&quot; =&gt; &quot;/vocabularies&quot;,
+  &quot;properties&quot; =&gt; {
+    &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
+    &quot;ref_id&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
+    &quot;name&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true}
+  },
+   &quot;additionalProperties&quot; =&gt; false,
+}</pre>
+          </td>
+        </tr>
+      </table>
+			</div>
+
+
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.0. Documentation Generated on Fri Aug 31 17:32:21 2012 by
+  ArchivesSpace Version 0.1.0. Documentation Generated on Tue Sep 18 17:54:04 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

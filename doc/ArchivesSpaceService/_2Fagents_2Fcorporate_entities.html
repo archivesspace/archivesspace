@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Endpoint: ArchivesSpaceService::/agents/corporate_entities
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="alpha_index.html">Index (/)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="" title="ArchivesSpaceService (class)">ArchivesSpaceService</a></span></span>
+     &raquo; 
+    <span class="title">/agents/corporate_entities</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schemas
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content">
+<div class="class_method_details">
+  <h2>Endpoint</h2>
+
+	
+
+  <div class="method_detailsfirst">
+    	<h3>/agents/corporate_entities</h3>
+			<dl>
+				<dt>Endpoint</dt>
+				<dd>post&#160;</dd>
+				<dt>Description</dt>
+				<dd>Create a corporate entity agent</dd>
+				<dt>Parameters</dt>
+				
+				<dd>false <request body> -- The corporate entity to create</dd>
+				
+				<dt>Returns</dt>
+				
+				<dt>200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}</dt>
+				
+				<dt>400 -- {:error => (description of error)}</dt>
+									
+			</dl>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+3
+4
+5
+6
+7
+8
+9
+10
+11</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/agent_corporate_entity.rb', line 3</span>
+
+<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/agents/corporate_entities</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Create a corporate entity agent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>agent</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:agent_corporate_entity</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The corporate entity to create</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:created</span><span class='rbracket'>]</span><span class='comma'>,</span>
+           <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+<span class='kw'>do</span>
+  <span class='id identifier rubyid_agent'>agent</span> <span class='op'>=</span> <span class='const'>AgentCorporateEntity</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:agent</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_created_response'>created_response</span><span class='lparen'>(</span><span class='id identifier rubyid_agent'>agent</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:agent</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+</div>
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.1.0. Documentation Generated on Tue Sep 18 13:59:28 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+  </body>
+</html>

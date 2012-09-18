@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../alpha_index.html">Index (E)</a> &raquo;
+    <a href="../_index.html">Index (E)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span></span>
      &raquo; 
     <span class="title">Endpoint</span>
@@ -59,7 +59,7 @@
   
     <a class="full_list_link" id="schema_list_link"
         href="../schema_list.html">
-      Schemas
+      Schema List
     </a>
   
 </div>
@@ -222,6 +222,29 @@
   <span class="summary_signature">
     
       <a href="#post-class_method" title="post (class method)">+ (Object) <strong>post</strong>(uri) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#return_types-class_method" title="return_types (class method)">+ (Object) <strong>return_types</strong> </a>
     
 
     
@@ -466,10 +489,6 @@
       <pre class="lines">
 
 
-58
-59
-60
-61
 62
 63
 64
@@ -478,10 +497,14 @@
 67
 68
 69
-70</pre>
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
   <span class='cvar'>@@endpoints</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
@@ -516,10 +539,10 @@
       <pre class="lines">
 
 
-72</pre>
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='symbol'>:get</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -542,10 +565,10 @@
       <pre class="lines">
 
 
-74</pre>
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -568,12 +591,42 @@
       <pre class="lines">
 
 
-73</pre>
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='symbol'>:post</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="return_types-class_method">
+  
+    + (<tt>Object</tt>) <strong>return_types</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_return_types'>return_types</span>
+  <span class='cvar'>@@return_types</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -634,10 +687,10 @@
       <pre class="lines">
 
 
-77</pre>
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_description'>description</span><span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='ivar'>@description</span> <span class='op'>=</span> <span class='id identifier rubyid_description'>description</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -660,15 +713,15 @@
       <pre class="lines">
 
 
-79
-80
-81
-82
 83
-84</pre>
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_params'>params</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='ivar'>@required_params</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
@@ -696,10 +749,6 @@
       <pre class="lines">
 
 
-86
-87
-88
-89
 90
 91
 92
@@ -729,10 +778,14 @@
 116
 117
 118
-119</pre>
+119
+120
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_returns'>returns</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_returns'>returns</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@returns</span> <span class='op'>=</span> <span class='id identifier rubyid_returns'>returns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='cvar'>@@return_types</span><span class='lbracket'>[</span><span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='semicolon'>;</span> <span class='id identifier rubyid_r'>r</span> <span class='rbrace'>}</span>
@@ -788,10 +841,10 @@
       <pre class="lines">
 
 
-76</pre>
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_uri'>uri</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='ivar'>@uri</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -804,7 +857,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.0. Documentation Generated on Fri Aug 31 17:32:20 2012 by
+  ArchivesSpace Version 0.1.0. Documentation Generated on Tue Sep 18 17:54:01 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: Term
+  Schema: term
   
     &mdash; Documentation by YARD 0.8.2.1
   
@@ -31,10 +31,10 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (T)</a> &raquo;
+    <a href="_index.html">Index (t)</a> &raquo;
     
     
-    <span class="title">Term</span>
+    <span class="title">term</span>
   
 
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -59,7 +59,7 @@
   
     <a class="full_list_link" id="schema_list_link"
         href="schema_list.html">
-      Schemas
+      Schema List
     </a>
   
 </div>
@@ -68,408 +68,73 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><h1>Class: Term
-  
-  
-  
-</h1>
+    <div id="content">
 
-<dl class="box">
-  
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
-      <span class="inheritName">Object</span>
-      
-        <ul class="fullTree">
-          <li>Object</li>
-          
-            <li class="next">Term</li>
-          
-        </ul>
-        <a href="#" class="inheritanceTree">show all</a>
-      
-      </dd>
-    
-  
-  
-    
-  
-    
-      <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></dd>
-      
-    
-  
-  
-  
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/term.rb</dd>
-  
-</dl>
-<div class="clear"></div>
+    	<h1>JSON Schema: Term</h1>
+
+			<h2>URI Template</h2>
+			<h3>/terms</h3>
+
+			<h2>Properties</h2>
+			
+				<h3 class="signature"> - (string) <strong>uri</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>term</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>term_type</strong></h3>
+			
+				<h3 class="signature"> - (JSONModel(:vocabulary) uri) <strong>vocabulary</strong></h3>
+			
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
 
 
-
-
-
-
-
-
-  
-    <h2>
-      Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#create_from_json-class_method" title="create_from_json (class method)">+ (Object) <strong>create_from_json</strong>(json, opts = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#ensure_exists-class_method" title="ensure_exists (class method)">+ (Object) <strong>ensure_exists</strong>(json) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#sequel_to_jsonmodel-class_method" title="sequel_to_jsonmodel (class method)">+ (Object) <strong>sequel_to_jsonmodel</strong>(obj, type) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#set_vocabulary-class_method" title="set_vocabulary (class method)">+ (Object) <strong>set_vocabulary</strong>(json, opts) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#validate-instance_method" title="#validate (instance method)">- (Object) <strong>validate</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ASModel.html#before_create-instance_method" title="ASModel#before_create (method)">#before_create</a></span>, <span class='object_link'><a href="ASModel.html#before_update-instance_method" title="ASModel#before_update (method)">#before_update</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#update_from_json-instance_method" title="ASModel#update_from_json (method)">#update_from_json</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
-
-
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="create_from_json-class_method">
-  
-    + (<tt>Object</tt>) <strong>create_from_json</strong>(json, opts = {}) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-20
-21
-22
-23</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 20</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_set_vocabulary'>set_vocabulary</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="ensure_exists-class_method">
-  
-    + (<tt>Object</tt>) <strong>ensure_exists</strong>(json) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-33
-34
-35
-36
-37
-38
-39
-40
-41</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 33</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ensure_exists'>ensure_exists</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
-  <span class='kw'>begin</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
-  <span class='kw'>rescue</span> <span class='const'>Sequel</span><span class='op'>::</span><span class='const'>ValidationFailed</span>
-    <span class='const'>Term</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:vocab_id</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:vocabulary</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_id_for'>id_for</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_vocabulary'>vocabulary</span><span class='rparen'>)</span><span class='comma'>,</span>
-              <span class='symbol'>:term</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_term'>term</span><span class='comma'>,</span>
-              <span class='symbol'>:term_type</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_term_type'>term_type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="sequel_to_jsonmodel-class_method">
-  
-    + (<tt>Object</tt>) <strong>sequel_to_jsonmodel</strong>(obj, type) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-25
-26
-27
-28
-29
-30</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 25</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_vocabulary'>vocabulary</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:vocabulary</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_vocab_id'>vocab_id</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_json'>json</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_vocabulary-class_method">
-  
-    + (<tt>Object</tt>) <strong>set_vocabulary</strong>(json, opts) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-12
-13
-14
-15
-16
-17
-18</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 12</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_vocabulary'>set_vocabulary</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vocab_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vocabulary</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vocab_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='op'>::</span><span class='id identifier rubyid_parse_reference'>parse_reference</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vocabulary</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="validate-instance_method">
-  
-    - (<tt>Object</tt>) <strong>validate</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
+1
+2
+3
+4
+5
+6
 7
 8
 9
-10</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 7</span>
+10
+11
+12
+13
+14
+15</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'common/schemas/term.rb', line 1</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
-  <span class='kw'>super</span>
-  <span class='id identifier rubyid_validates_unique'>validates_unique</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:vocab_id</span><span class='comma'>,</span> <span class='symbol'>:term</span><span class='comma'>,</span> <span class='symbol'>:term_type</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Term must be unique</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
+:schema =&gt; {
+  &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
+  &quot;type&quot; =&gt; &quot;object&quot;,
+  &quot;uri&quot; =&gt; &quot;/terms&quot;,
+  &quot;properties&quot; =&gt; {
+    &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
+     &quot;term&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
+    &quot;term_type&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true, &quot;enum&quot; =&gt; [&quot;Cultural context&quot;, &quot;Function&quot;, &quot;Geographic&quot;, &quot;Genre / form&quot;, &quot;Occupation&quot;, &quot;Style / period&quot;, &quot;Technique&quot;, &quot;Temporal&quot;, &quot;Topical&quot;, &quot;Uniform title&quot;]},
+     &quot;vocabulary&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:vocabulary) uri&quot;, &quot;required&quot; =&gt; true}
+  },
+   &quot;additionalProperties&quot; =&gt; false,
+}</pre>
+          </td>
+        </tr>
+      </table>
+			</div>
+
+
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.0. Documentation Generated on Fri Aug 31 17:32:20 2012 by
+  ArchivesSpace Version 0.1.0. Documentation Generated on Tue Sep 18 17:54:04 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

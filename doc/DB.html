@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (D)</a> &raquo;
+    <a href="_index.html">Index (D)</a> &raquo;
     
     
     <span class="title">DB</span>
@@ -59,7 +59,7 @@
   
     <a class="full_list_link" id="schema_list_link"
         href="schema_list.html">
-      Schemas
+      Schema List
     </a>
   
 </div>
@@ -135,6 +135,29 @@
   <span class="summary_signature">
     
       <a href="#connect-class_method" title="connect (class method)">+ (Object) <strong>connect</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connected%3F-class_method" title="connected? (class method)">+ (Boolean) <strong>connected?</strong> </a>
     
 
     
@@ -277,18 +300,81 @@
 7
 8
 9
-10</pre>
+10
+11
+12
+13
+14
+15</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 3</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_connect'>connect</span>
   <span class='kw'>if</span> <span class='kw'>not</span> <span class='ivar'>@pool</span>
-    <span class='ivar'>@pool</span> <span class='op'>=</span> <span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_connect'>connect</span><span class='lparen'>(</span><span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:db_url</span><span class='rbracket'>]</span><span class='comma'>,</span>
-                           <span class='symbol'>:max_connections</span> <span class='op'>=&gt;</span> <span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:db_max_connections</span><span class='rbracket'>]</span><span class='comma'>,</span>
-                           <span class='comment'># :loggers =&gt; [Logger.new($stderr)]
-</span>                           <span class='rparen'>)</span>
+    <span class='kw'>begin</span>
+      <span class='ivar'>@pool</span> <span class='op'>=</span> <span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_connect'>connect</span><span class='lparen'>(</span><span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:db_url</span><span class='rbracket'>]</span><span class='comma'>,</span>
+                             <span class='symbol'>:max_connections</span> <span class='op'>=&gt;</span> <span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:db_max_connections</span><span class='rbracket'>]</span><span class='comma'>,</span>
+                             <span class='symbol'>:test</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
+                             <span class='comment'># :loggers =&gt; [Logger.new($stderr)]
+</span>                             <span class='rparen'>)</span>
+    <span class='kw'>rescue</span>
+      <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DB connection failed: </span><span class='embexpr_beg'>#{</span><span class='gvar'>$!</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="connected?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>connected?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_connected?'>connected?</span>
+  <span class='kw'>not</span> <span class='ivar'>@pool</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -310,12 +396,12 @@
       <pre class="lines">
 
 
-71
-72
-73</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_disconnect'>disconnect</span>
   <span class='ivar'>@pool</span><span class='period'>.</span><span class='id identifier rubyid_disconnect'>disconnect</span>
@@ -350,12 +436,12 @@
       <pre class="lines">
 
 
-66
-67
-68</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_integrity_violation'>is_integrity_violation</span><span class='lparen'>(</span><span class='id identifier rubyid_exception'>exception</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_wrapped_exception'>wrapped_exception</span><span class='period'>.</span><span class='id identifier rubyid_cause'>cause</span><span class='period'>.</span><span class='id identifier rubyid_getSQLState'>getSQLState</span><span class='lparen'>(</span><span class='rparen'>)</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^23</span><span class='regexp_end'>/</span></span>
@@ -380,15 +466,6 @@
       <pre class="lines">
 
 
-27
-28
-29
-30
-31
-32
-33
-34
-35
 36
 37
 38
@@ -415,10 +492,19 @@
 59
 60
 61
-62</pre>
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_transaction'>transaction</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_last_err'>last_err</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -499,12 +585,12 @@
       <pre class="lines">
 
 
-22
-23
-24</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rollback_and_return'>rollback_and_return</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RollbackWithResponse</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
@@ -519,7 +605,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.0. Documentation Generated on Fri Aug 31 17:32:20 2012 by
+  ArchivesSpace Version 0.1.0. Documentation Generated on Tue Sep 18 17:54:01 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

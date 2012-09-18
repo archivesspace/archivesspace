@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: Accession
+  Schema: accession
   
     &mdash; Documentation by YARD 0.8.2.1
   
@@ -31,10 +31,10 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (A)</a> &raquo;
+    <a href="_index.html">Index (a)</a> &raquo;
     
     
-    <span class="title">Accession</span>
+    <span class="title">accession</span>
   
 
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -59,7 +59,7 @@
   
     <a class="full_list_link" id="schema_list_link"
         href="schema_list.html">
-      Schemas
+      Schema List
     </a>
   
 </div>
@@ -68,174 +68,95 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><h1>Class: Accession
-  
-  
-  
-</h1>
+    <div id="content">
 
-<dl class="box">
-  
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></span>
-      
-        <ul class="fullTree">
-          <li>Object</li>
-          
-            <li class="next"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></li>
-          
-            <li class="next">Accession</li>
-          
-        </ul>
-        <a href="#" class="inheritanceTree">show all</a>
-      
-      </dd>
-    
-  
-  
-    
-  
-    
-      <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Identifiers.html" title="Identifiers (module)">Identifiers</a></span></dd>
-      
-    
-  
-  
-  
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/accession.rb<span class="defines">,<br />
-  frontend/app/models/accession.rb</span>
-</dd>
-  
-</dl>
-<div class="clear"></div>
+    	<h1>JSON Schema: Accession</h1>
+
+			<h2>URI Template</h2>
+			<h3>/repositories/:repo_id/accessions</h3>
+
+			<h2>Properties</h2>
+			
+				<h3 class="signature"> - (string) <strong>uri</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>title</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>id_0</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>id_1</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>id_2</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>id_3</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>content_description</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>condition_description</strong></h3>
+			
+				<h3 class="signature"> - (date) <strong>accession_date</strong></h3>
+			
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
 
 
-
-
-
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#resource_link-instance_method" title="#resource_link (instance method)">- (Object) <strong>resource_link</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute resource_link.</p>
-</div></span>
-  
-</li>
-
-    
-  </ul>
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  <h2>Method Summary</h2>
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Identifiers.html" title="Identifiers (module)">Identifiers</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Identifiers.html#after_initialize-instance_method" title="Identifiers#after_initialize (method)">#after_initialize</a></span>, <span class='object_link'><a href="Identifiers.html#before_validation-instance_method" title="Identifiers#before_validation (method)">#before_validation</a></span>, <span class='object_link'><a href="Identifiers.html#id_0%3D-instance_method" title="Identifiers#id_0= (method)">#id_0=</a></span>, <span class='object_link'><a href="Identifiers.html#id_1%3D-instance_method" title="Identifiers#id_1= (method)">#id_1=</a></span>, <span class='object_link'><a href="Identifiers.html#id_2%3D-instance_method" title="Identifiers#id_2= (method)">#id_2=</a></span>, <span class='object_link'><a href="Identifiers.html#id_3%3D-instance_method" title="Identifiers#id_3= (method)">#id_3=</a></span>, <span class='object_link'><a href="Identifiers.html#validate-instance_method" title="Identifiers#validate (method)">#validate</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ASModel.html#before_create-instance_method" title="ASModel#before_create (method)">#before_create</a></span>, <span class='object_link'><a href="ASModel.html#before_update-instance_method" title="ASModel#before_update (method)">#before_update</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#update_from_json-instance_method" title="ASModel#update_from_json (method)">#update_from_json</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
-
-  <div id="instance_attr_details" class="attr_details">
-    <h2>Instance Attribute Details</h2>
-    
-      
-      <span id="resource_link=-instance_method"></span>
-      <div class="method_details first">
-  <h3 class="signature first" id="resource_link-instance_method">
-  
-    - (<tt>Object</tt>) <strong>resource_link</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Returns the value of attribute resource_link</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
+1
 2
 3
-4</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/accession.rb', line 2</span>
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'common/schemas/accession.rb', line 1</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_resource_link'>resource_link</span>
-  <span class='ivar'>@resource_link</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
+:schema =&gt; {
+  &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
+  &quot;type&quot; =&gt; &quot;object&quot;,
+  &quot;uri&quot; =&gt; &quot;/repositories/:repo_id/accessions&quot;,
+  &quot;properties&quot; =&gt; {
+    &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
+     &quot;title&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
+     &quot;id_0&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;ifmissing&quot; =&gt; &quot;error&quot;, &quot;minLength&quot; =&gt; 1, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
+    &quot;id_1&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false, &quot;default&quot; =&gt; &quot;&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
+    &quot;id_2&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false, &quot;default&quot; =&gt; &quot;&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
+    &quot;id_3&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false, &quot;default&quot; =&gt; &quot;&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
+     &quot;content_description&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;ifmissing&quot; =&gt; &quot;warn&quot;},
+    &quot;condition_description&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;ifmissing&quot; =&gt; &quot;warn&quot;},
+     &quot;accession_date&quot; =&gt; {&quot;type&quot; =&gt; &quot;date&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;}
+  },
+   &quot;additionalProperties&quot; =&gt; false,
+}</pre>
+          </td>
+        </tr>
+      </table>
+			</div>
+
 
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.0. Documentation Generated on Fri Aug 31 17:32:21 2012 by
+  ArchivesSpace Version 0.1.0. Documentation Generated on Tue Sep 18 17:54:04 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>
