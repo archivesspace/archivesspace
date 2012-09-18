@@ -85,7 +85,7 @@ module JSONModel
 
 
   def self.load_schema(schema_name)
-    if not @@schema[schema_name]
+    if not @@models[schema_name]
       schema = File.join(File.dirname(__FILE__),
                          "schemas",
                          "#{schema_name}.rb")
@@ -111,6 +111,12 @@ module JSONModel
 
 
   def self.init(opts = {})
+
+    @@init_args ||= nil
+
+    if @@init_args
+      return true
+    end
 
     if opts.has_key?(:client_mode)
       @@client_mode = opts[:client_mode]

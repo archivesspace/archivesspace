@@ -22,6 +22,8 @@ class ArchivesSpaceService < Sinatra::Base
 
   configure do
 
+    JSONModel::init
+
     require_relative "model/db"
 
     DB.connect
