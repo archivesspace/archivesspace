@@ -600,7 +600,12 @@ module JSONModel
 
             schema = ::JSON::Validator.schemas[message[:schema].to_s].schema
 
-            attribute = schema_path_lookup(schema, fragment_join(path, property))
+            attribute = schema_path_lookup(schema, property)
+
+            if not attribute
+              attribute = schema_path_lookup(schema, fragment_join(message[:fragment], property))
+            end
+
             if attribute and attribute['ifmissing'] == "error"
               errors[fragment_join(message[:fragment], property)] = ["Property is required but was missing"]
             else
