@@ -55,27 +55,54 @@ $(function() {
       };
       $this.on("click", ".sort-name-generation-type", handleSortNameType);
 
+      var sortNameTemplate = function(nameFormEl) {
+        var agent_type = $("#agent_agent_type", $this).val();
+
+        var data = serializeNameFields(nameFormEl);
+
+        var sort_name_template = agent_type+"_sort_name";
+        if (agent_type === "agent_person") {
+          sort_name_template += "_"+data["direct_order"];
+        }
+        sort_name_template += "_template";
+
+        return sort_name_template;
+      }
+
+      var serializeNameFields = function(nameFormEl) {
+        var agentFields = $(":input", nameFormEl);
+        var template_data = {};
+        agentFields.each(function() {
+          var tmp = $(this).attr("name").split("[");
+          var method = tmp[tmp.length-1].slice(0,-1);
+          template_data[method] = $(this).val();
+        });
+        return template_data;
+      };
+
       var updateAutomaticSortName = function() {
         var agentFieldsContainer = $(this).parents(".agent-name-fields:first");
         if ($(":input[name$=\"[sort_name_type]\"]",agentFieldsContainer).is(":checked")) {
-          var agentFields = $(":input", agentFieldsContainer);
-          var template_data = {};
-          agentFields.each(function() {
-            var tmp = $(this).attr("name").split("[");
-            var method = tmp[tmp.length-1].slice(0,-1);
-            template_data[method] = $(this).val();
-          });
-          var agent_type = $("#agent_agent_type", $this).val();
-
-          var sort_name_template = agent_type+"_sort_name";
-          if (agent_type === "agent_person") {
-            sort_name_template += "_"+template_data["direct_order"];
-          }
-          sort_name_template += "_template";
-          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val($.trim(AS.renderTemplate(sort_name_template, template_data)));
+          var autoSortName = $.trim(AS.renderTemplate(
+                                    sortNameTemplate(agentFieldsContainer), 
+                                    serializeNameFields(agentFieldsContainer)));
+          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(autoSortName);
         }
       };
       $this.on("change", ".agent-name-fields :input:not([name~='sort_name'])", updateAutomaticSortName);
+
+      var initSortNameType = function() {
+        $(".agent-name-fields").each(function() {
+          // should sort_name_type should be checked?
+          var autoSortName = $.trim(AS.renderTemplate(sortNameTemplate(this), serializeNameFields(this)));
+          var currentSortName = $(":input[name$=\"[sort_name]\"]", this).val();
+          if (autoSortName != currentSortName) {
+            $(":input[name$=\"[sort_name_type]\"]", this).removeAttr("checked");
+            $(":input[name$=\"[sort_name]\"]", this).removeAttr("readonly");
+          }
+        });
+      }
+      initSortNameType();
 
     });
   };
