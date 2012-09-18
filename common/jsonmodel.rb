@@ -461,6 +461,8 @@ module JSONModel
       # values that don't appear in the JSON schema will not appear in the
       # result.
       def to_hash
+        @validated = false
+
         cleaned = self.class.drop_unknown_properties(@data)
         self.class.validate(cleaned)
 
