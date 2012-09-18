@@ -1,3 +1,21 @@
+def init
+
+  super
+
+  schemata = Registry.all(:schema)
+  
+  schemata.each do |object|
+    begin
+      serialize(object)
+    rescue => e
+      path = options.serializer.serialized_path(object)
+      log.error "Exception occurred while generating '#{path}'"
+      log.backtrace(e)
+    end
+  end
+end    
+
+
 # Generate a searchable schema list in the output
 def generate_schema_list
   puts "GENERATE SCHEMA LIST"
@@ -17,7 +35,8 @@ end
 
 
 def link_schema(item)
-  linkify(item)
+  "<a href='#{item}.html'>#{item}</a>"
+#  linkify(item)
 end
   
 

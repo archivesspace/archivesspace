@@ -1,4 +1,3 @@
 def menu_lists
-  # TODO: Check the registry to see if there are any schemas
-  super + [ { :type => 'schema', :title => 'Schemas', :search_title => 'Schemas' } ]
+  super + [ { :type => 'schema', :title => 'Schema List', :search_title => 'Schema List' } ]
 end

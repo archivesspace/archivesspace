@@ -1,0 +1,32 @@
+
+
+    	<h1>JSON Schema: <%= @schema[:name].to_s.sub(/schema_/, '').capitalize %></h1>
+
+			<h2>URI Template</h2>
+			<h3><%= @schema[:uri] %></h3>
+
+			<h2>Properties</h2>
+			<% for property in @schema[:properties].keys  %>
+				<h3 class="signature"> - (<%= @schema[:properties][property]["type"]%>) <strong><%= property %></strong></h3>
+			<% end %>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+<%= @schema[:schema].split("\n").size.times.to_a.map {|i| @schema[:line] + i }.join("\n") %></pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File '<%= h @schema[:file] %>', line <%= @schema[:line] %></span>
+
+<%= html_syntax_highlight format_source(@schema[:schema]) %></pre>
+          </td>
+        </tr>
+      </table>
+			</div>
+
+
+

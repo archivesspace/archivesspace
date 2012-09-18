@@ -10,3 +10,4 @@
 'common/*.rb'
 'common/schemas/*.rb'
 -
+API.md
