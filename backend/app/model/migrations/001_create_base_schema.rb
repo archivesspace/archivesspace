@@ -217,7 +217,7 @@ Sequel.migration do
 
     class Sequel::Schema::CreateTableGenerator
       def apply_name_columns
-        String :authority_id, :null => false
+        String :authority_id, :null => true
         String :dates, :null => true
         TextField :description_type, :null => true
         TextField :description_note, :null => true

@@ -9,12 +9,12 @@ describe 'Agent model' do
                                                         "agent_type" => "agent_corporate_entity",
                                                         "names" => [
                                                                     {
-                                                                      "authority_id" => "something",
+                                                                      "rules" => "local",
                                                                       "primary_name" => "Magus Magoo Inc",
                                                                       "sort_name" => "Magus Magoo Inc"
                                                                     },
                                                                     {
-                                                                      "authority_id" => "else",
+                                                                      "rules" => "local",
                                                                       "primary_name" => "Magus McGoo PTY LTD",
                                                                       "sort_name" => "McGoo, M"
                                                                     }
@@ -32,7 +32,7 @@ describe 'Agent model' do
                                                   "agent_type" => "agent_corporate_entity",
                                                    "names" => [
                                                                {
-                                                                 "authority_id" => "something",
+                                                                 "rules" => "local",
                                                                  "primary_name" => "Magus Magoo Inc",
                                                                  "sort_name" => "Magus Magoo Inc"
                                                                }
@@ -49,4 +49,20 @@ describe 'Agent model' do
     AgentCorporateEntity[agent[:id]].agent_contacts[0][:name].should eq("Business hours contact")
   end
 
+
+  it "requires a source to be set if an authority id is provided" do
+    expect { 
+      agent = AgentCorporateEntity.create_from_json(JSONModel(:agent_corporate_entity)
+                                     .from_hash({
+                                                  "agent_type" => "agent_corporate_entity",
+                                                   "names" => [
+                                                               {
+                                                                 "authority_id" => "wooo",
+                                                                 "primary_name" => "Magus Magoo Inc",
+                                                                 "sort_name" => "Magus Magoo Inc"
+                                                               }
+                                                               ]
+                                                }))
+     }.to raise_error(JSONModel::ValidationException)
+  end
 end

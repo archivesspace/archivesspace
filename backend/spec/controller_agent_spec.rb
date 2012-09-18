@@ -4,8 +4,7 @@ describe 'Generic agent controller' do
 
   def create_agents
     JSONModel(:agent_person).from_hash(:names => [{
-                                                    :title => 'Mr',
-                                                    :authority_id => 'authid',
+                                                    :rules => "local",
                                                     :primary_name => 'Magus Magoo',
                                                     :direct_order => "standard"
                                                   }],
@@ -16,7 +15,7 @@ describe 'Generic agent controller' do
                                        ).save
 
     JSONModel(:agent_family).from_hash(:names => [{
-                                                    "authority_id" => "something",
+                                                    "rules" => "local",
                                                     "family_name" => "Magoo Family",
                                                     "sort_name" => "Family Magoo"
                                                   }],

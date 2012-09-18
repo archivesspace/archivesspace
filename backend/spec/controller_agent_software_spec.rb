@@ -4,7 +4,7 @@ describe 'Software agent controller' do
 
   def create_software
     JSONModel(:agent_software).from_hash(:names => [{
-                                                    "authority_id" => "something",
+                                                    "rules" => "local",
                                                     "manufacturer" => "Magoo Software",
                                                     "software_name" => "Eggplant car steering system",
                                                     "version" => "2.0",

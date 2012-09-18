@@ -164,7 +164,11 @@ module FormHelper
       attr_definition = schema["properties"][method.to_s]
 
       if attr_definition.has_key?("enum")
-        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_name(option)), option]}
+        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_name("#{method}_#{option}")), option]}
+
+        if not attr_definition["required"]
+          options_array = [""].concat(options_array)
+        end
 
         @template.select(current, method, 
                          options_array, 

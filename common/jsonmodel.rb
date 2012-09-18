@@ -8,7 +8,6 @@ module JSONModel
   @@models = {}
   @@custom_validations = {}
   @@protected_fields = []
-
   @@strict_mode = false
   @@client_mode = false
 
@@ -78,7 +77,6 @@ module JSONModel
     if cls
       @@types.delete(cls)
       @@schema.delete(cls)
-      @@custom_validations.delete(cls)
       @@models.delete(type)
     end
   end
@@ -233,6 +231,25 @@ module JSONModel
       @uri = URI.parse("http://www.archivesspace.org/archivesspace.json")
     end
 
+
+    def validate(current_schema, data, fragments, options = {})
+      if current_schema.schema.has_key?("validations")
+        current_schema.schema["validations"].each do |name|
+          errors = @@custom_validations[name].call(data)
+
+          errors.each do |field, msg|
+            err = JSON::Schema::ValidationError.new("Validation failed for '#{field}': #{msg}",
+                                                    fragments,
+                                                    "custom_validation",
+                                                    current_schema)
+            JSON::Validator.validation_error(err)
+          end
+        end
+      end
+
+      super
+    end
+
     JSON::Validator.register_validator(self.new)
   end
 
@@ -282,9 +299,13 @@ module JSONModel
       #
       # The validation is a block that takes a hash of properties and an
       # errors/warnings hash and adds any errors or warnings it finds.
-      def self.add_validation(&block)
-        @@custom_validations[self] ||= []
-        @@custom_validations[self] << block
+      def self.add_validation(name, &block)
+        raise "Validation name already taken: #{name}" if @@custom_validations[name]
+
+        @@custom_validations[name] = block
+
+        self.schema["validations"] ||= []
+        self.schema["validations"] << name
       end
 
 
@@ -649,6 +670,11 @@ module JSONModel
               errors[fragment_join(message[:fragment])] = ["Must be a #{$3} (you provided a #{$2})"]
             end
 
+
+          elsif (message[:failed_attribute] == 'custom_validation' and
+                 message[:message] =~ /Validation failed for '(.*?)': (.*?) in schema /)
+            errors[fragment_join(message[:fragment], $1)] = [$2]
+
           else
             errors[:unknown] = [message]
           end
@@ -677,10 +703,6 @@ module JSONModel
         messages = validator.validate
 
         exceptions = self.parse_schema_messages(messages, validator)
-
-        @@custom_validations[self].to_a.each do |validation|
-          validation.call(hash, exceptions)
-        end
 
         if raise_errors and not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
           raise ValidationException.new(:invalid_object => self.new(hash),
@@ -727,9 +749,6 @@ module JSONModel
 
         result
       end
-
-
-
 
 
       # In client mode, mix in some extra convenience methods for querying the
