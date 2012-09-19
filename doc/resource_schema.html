@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Schema: resource_schema
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="alpha_index.html">Index (r)</a> &raquo;
+    
+    
+    <span class="title">resource_schema</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content">
+
+    	<h1>JSON Schema: Resource</h1>
+
+			<h2>URI Template</h2>
+			<h3>/repositories/:repo_id/resources</h3>
+
+			<h2>Properties</h2>
+			
+				<h3 class="signature"> - (string) <strong>uri</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>id_0</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>id_1</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>id_2</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>id_3</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>title</strong></h3>
+			
+				<h3 class="signature"> - (array) <strong>subjects</strong></h3>
+			
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'common/schemas/resource.rb', line 1</span>
+
+:schema =&gt; {
+  &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
+  &quot;type&quot; =&gt; &quot;object&quot;,
+  &quot;uri&quot; =&gt; &quot;/repositories/:repo_id/resources&quot;,
+  &quot;properties&quot; =&gt; {
+    &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
+     &quot;id_0&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;ifmissing&quot; =&gt; &quot;error&quot;, &quot;minLength&quot; =&gt; 1, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
+    &quot;id_1&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false, &quot;default&quot; =&gt; &quot;&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
+    &quot;id_2&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false, &quot;default&quot; =&gt; &quot;&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
+    &quot;id_3&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false, &quot;default&quot; =&gt; &quot;&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
+     &quot;title&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
+     &quot;subjects&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:subject) uri_or_object&quot;}},
+  },
+   &quot;additionalProperties&quot; =&gt; false,
+}</pre>
+          </td>
+        </tr>
+      </table>
+			</div>
+
+
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.1.x Documentation Generated on Tue Sep 18 21:09:17 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+  </body>
+</html>
