@@ -3,7 +3,7 @@
    <% if object._exceptions.has_key?(:errors) %>
       <div class="alert alert-error">
          <% object._exceptions[:errors].each do |attr, messages| %>
-              <div class="errors-for_attr">
+              <div class="errors-<%= attr.gsub('/', "_") %>">
                 <% messages.each do |msg| %>
                   <div class="error"><%= I18n.t(:"#{type}.#{attr}") %> - <%= msg %></div>
                 <% end %>
@@ -14,7 +14,7 @@
    <% if object._exceptions.has_key?(:warnings) %>
       <div class="alert alert-warning">
          <% object._exceptions[:warnings].each do |attr, messages| %>
-            <div class="errors-<%= attr %>">
+            <div class="errors-<%= attr.gsub('/', "_") %>">
               <% messages.each do |msg| %>
                 <div class="warning"><%= I18n.t(:"#{type}.#{attr}") %> - <%= msg %></div>
               <% end %>
