@@ -70,7 +70,7 @@ module JSONSchemaUtils
        :failed_attribute => ['MinItems'],
        :pattern => /The property '#\/.*?' did not contain a minimum number of items ([0-9]+) in schema/,
        :do => ->(msgs, message, path, items) {
-         msgs[:errors][fragment_join(path)] = ["The '#{$1}' array needs at least #{items} elements"]
+         msgs[:errors][fragment_join(path)] = ["The '#{path}' array needs at least #{items} elements"]
        }
      },
 
@@ -99,7 +99,7 @@ module JSONSchemaUtils
        :failed_attribute => ['custom_validation'],
        :pattern => /Validation failed for '(.*?)': (.*?) in schema /,
        :do => ->(msgs, message, path, property, msg) {
-         msgs[:errors][fragment_join(path, $1)] = [$2]
+         msgs[:errors][fragment_join(path, property)] = [msg]
        }
      },
 
