@@ -120,6 +120,7 @@ describe 'JSON model' do
     JSONModel.create_model_for("strictschema",
                                {
                                  "type" => "object",
+                                 "$schema" => "http://www.archivesspace.org/archivesspace.json",
                                  "properties" => {
                                    "container" => {
                                      "type" => "object",
@@ -134,7 +135,6 @@ describe 'JSON model' do
     JSONModel::strict_mode(false)
 
     model = JSONModel(:strictschema).from_hash({:container => {}}, false)
-
     model._exceptions[:errors].keys.should eq(["container/strict"])
 
     JSONModel::strict_mode(true)
