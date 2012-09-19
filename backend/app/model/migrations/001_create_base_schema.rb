@@ -1,12 +1,10 @@
 Sequel.migration do
   up do
-    DB_TYPE = self.database_type
-
     create_table(:sessions) do
       primary_key :id
       String :session_id, :unique => true, :null => false
       DateTime :last_modified, :null => false
-      if DB_TYPE == :derby
+      if $db_type == :derby
         Clob :session_data, :null => true
       else
         Blob :session_data, :null => true
@@ -39,7 +37,7 @@ Sequel.migration do
       primary_key :id
 
       String :group_id, :null => false, :unique => true
-      String :description, :null => false
+      TextField :description, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -64,7 +62,7 @@ Sequel.migration do
       primary_key :id
 
       String :repo_code, :null => false, :unique => true
-      String :description, :null => false
+      TextField :description, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -79,8 +77,8 @@ Sequel.migration do
       String :identifier, :null => false, :unique => true
 
       String :title, :null => true
-      String :content_description, :null => true
-      String :condition_description, :null => true
+      TextField :content_description, :null => true
+      TextField :condition_description, :null => true
 
       DateTime :accession_date, :null => true
 
@@ -121,7 +119,7 @@ Sequel.migration do
       String :ref_id, :null => false, :unique => false
       String :component_id, :null => true
 
-      String :title, :null => true
+      TextField :title, :null => true
       String :level, :null => true
 
       DateTime :create_time, :null => false
@@ -185,13 +183,214 @@ Sequel.migration do
     create_join_table(:subject_id => :subjects, :resource_id => :resources)
 
 
+    create_table(:agent_person) do
+      primary_key :id
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    create_table(:agent_family) do
+      primary_key :id
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    create_table(:agent_corporate_entity) do
+      primary_key :id
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    create_table(:agent_software) do
+      primary_key :id
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    class Sequel::Schema::CreateTableGenerator
+      def apply_name_columns
+        String :authority_id, :null => true
+        String :dates, :null => true
+        TextField :description_type, :null => true
+        TextField :description_note, :null => true
+        TextField :description_citation, :null => true
+        TextField :qualifier, :null => true
+        String :source, :null => true
+        String :rules, :null => true
+        TextField :sort_name, :null => true
+      end
+    end
+
+    create_table(:name_person) do
+      primary_key :id
+
+      Integer :agent_person_id, :null => false
+
+      String :primary_name, :null => false
+      String :direct_order, :null => false
+
+      TextField :title, :null => true
+      TextField :prefix, :null => true
+      TextField :rest_of_name, :null => true
+      TextField :suffix, :null => true
+      TextField :fuller_form, :null => true
+      String :number, :null => true
+
+      apply_name_columns
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:name_person) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+    end
+
+
+    create_table(:name_family) do
+      primary_key :id
+
+      Integer :agent_family_id, :null => false
+
+      TextField :family_name, :null => false
+
+      TextField :prefix, :null => true
+
+      apply_name_columns
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:name_family) do
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+    end
+
+
+    create_table(:name_corporate_entity) do
+      primary_key :id
+
+      Integer :agent_corporate_entity_id, :null => false
+
+      TextField :primary_name, :null => false
+
+      TextField :subordinate_name_1, :null => true
+      TextField :subordinate_name_2, :null => true
+      String :number, :null => true
+
+      apply_name_columns
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:name_corporate_entity) do
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+    end
+
+
+    create_table(:name_software) do
+      primary_key :id
+
+      Integer :agent_software_id, :null => false
+
+      TextField :software_name, :null => false
+
+      TextField :version, :null => true
+      TextField :manufacturer, :null => true
+
+      apply_name_columns
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:name_software) do
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+    end
+
+
+    create_table(:agent_contacts) do
+      primary_key :id
+
+      Integer :agent_person_id, :null => true
+      Integer :agent_family_id, :null => true
+      Integer :agent_corporate_entity_id, :null => true
+      Integer :agent_software_id, :null => true
+
+      TextField :name, :null => false
+      TextField :salutation, :null => true
+      TextField :address_1, :null => true
+      TextField :address_2, :null => true
+      TextField :address_3, :null => true
+      TextField :city, :null => true
+      TextField :region, :null => true
+      TextField :country, :null => true
+      TextField :post_code, :null => true
+      TextField :telephone, :null => true
+      TextField :telephone_ext, :null => true
+      TextField :fax, :null => true
+      TextField :email, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:agent_contacts) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+    end
+
+
+    create_table(:extents) do
+      primary_key :id
+
+      Integer :accession_id, :null => true
+      Integer :archival_object_id, :null => true
+      Integer :resource_id, :null => true
+
+      String :portion, :null => false
+      String :number, :null => false
+      String :extent_type, :null => false
+
+      String :container_summary, :null => true
+      String :physical_details, :null => true
+      String :dimensions, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:extents) do
+      add_foreign_key([:accession_id], :accessions, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
+    end
+
+
   end
 
   down do
 
-    [:subjects_terms, :archival_objects_subjects, :subjects, :terms, :sessions,
-     :auth_db, :groups_users, :users, :groups, :accessions,
-     :archival_objects, :vocabularies,
+    [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
+     :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
+     :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
+     :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
+     :archival_objects, :vocabularies, :extent,
      :resources, :repositories].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)

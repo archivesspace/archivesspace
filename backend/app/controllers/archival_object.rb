@@ -11,7 +11,7 @@ class ArchivesSpaceService < Sinatra::Base
     ao = ArchivalObject.create_from_json(params[:archival_object],
                                          :repo_id => params[:repo_id])
 
-    created_response(ao[:id], params[:archival_object]._warnings)
+    created_response(ao, params[:archival_object])
   end
 
 
@@ -27,7 +27,7 @@ class ArchivesSpaceService < Sinatra::Base
     ao = ArchivalObject.get_or_die(params[:archival_object_id], params[:repo_id])
     ao.update_from_json(params[:archival_object])
 
-    json_response({:status => "Updated", :id => ao[:id]})
+    updated_response(ao, params[:archival_object])
   end
 
 

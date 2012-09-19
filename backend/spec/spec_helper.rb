@@ -1,3 +1,5 @@
+require 'sinatra'
+
 if ENV['COVERAGE_REPORTS']
   require 'tmpdir'
   require 'pp'
@@ -42,19 +44,18 @@ class DB
 end
 
 
-require_relative "../app/main"
-require 'sinatra'
 require 'rack/test'
+require_relative "../app/lib/bootstrap"
 
 JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com')
-include JSONModel
 
-JSONModel::models.each do |type, cls|
-  class << cls
-    include Rack::Test::Methods
+module JSONModel
+  module HTTP
 
-    def _do_http_request(url, req)
+    extend Rack::Test::Methods
+
+    def self.do_http_request(url, req)
       send(req.method.downcase.intern, req.path, params = req.body)
 
       last_response.instance_eval do
@@ -66,11 +67,17 @@ JSONModel::models.each do |type, cls|
   end
 end
 
-# setup test environment
-set :environment, :test
-set :run, false
-set :raise_errors, true
-set :logging, false
+
+# Note: This import is loading JSONModel into the Object class.  Pretty gross!
+# It would be nice if we could narrow the scope of this to just the tests.
+include JSONModel
+
+require_relative "../app/main"
+
+
+
+
+
 
 Log.quiet_please
 

@@ -1,0 +1,38 @@
+<% if @schemata %>
+<div class="class_method_details">
+  <h2>Schemata</h2>
+
+	<% index = 0 %>
+  <% for schema in @schemata %>
+  <div class="method_details<%= index == 0 ? 'first' : '' %>">
+    	<h3><%= schema[:name].to_s.sub(/schema_/, '').capitalize %></h3>
+			<dl>
+				<dt>URI Template</dt>
+				<dd><%= schema[:uri] %></dd>
+				<dt>Properties</dt>
+				<% for property in schema[:properties].keys  %>
+					<dd><%= property %> (<%= schema[:properties][property]["type"]%>)</pre></dd>
+				<% end %>
+			</dl>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+<%= schema[:schema].split("\n").size.times.to_a.map {|i| schema[:line] + i }.join("\n") %></pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File '<%= h schema[:file] %>', line <%= schema[:line] %></span>
+
+<%= html_syntax_highlight format_source(schema[:schema]) %></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+		<%index += 1 %>
+ <% end %>
+</div>
+<% end %>

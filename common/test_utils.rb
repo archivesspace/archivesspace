@@ -1,11 +1,17 @@
+require 'rbconfig'
+
 module TestUtils
 
   def self.kill(pid)
-    begin
-      Process.kill(15, pid)
-      Process.waitpid(pid)
-    rescue
-      # Already dead.
+    if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+      system("taskkill /pid #{pid} /f /t")
+    else
+      begin
+        Process.kill(15, pid)
+        Process.waitpid(pid)
+      rescue
+        # Already dead.
+      end
     end
   end
 
@@ -13,13 +19,15 @@ module TestUtils
   def self.wait_for_url(url)
     while true
       begin
-        response = Net::HTTP.get_response(url)
-
-        if response.is_a?(Net::HTTPSuccess)
-          break
-        else
-          raise "Not ready (#{response})"
+        uri = URI(url)
+        req = Net::HTTP::Get.new(uri.request_uri)
+        Net::HTTP.start(uri.host, uri.port, nil, nil, nil,
+                        :open_timeout => 3,
+                        :read_timeout => 3) do |http|
+          http.request(req)
         end
+
+        break
       rescue
         # Keep trying
         puts "Waiting for #{url} (#{$!.inspect})"
@@ -32,19 +40,27 @@ module TestUtils
   def self.start_backend(port)
     base = File.dirname(__FILE__)
 
-    Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
-                  "#{base}/../build/run", "backend:devserver:integration",
-                  "-Daspace.backend.port=#{port}",
-                  "-Daspace_integration_test=1")
+    pid = Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
+                        "#{base}/../build/run", "backend:devserver:integration",
+                        "-Daspace.backend.port=#{port}",
+                        "-Daspace_integration_test=1")
+
+    TestUtils.wait_for_url("http://localhost:#{port}")
+
+    pid
   end
 
 
   def self.start_frontend(port, backend_url)
     base = File.dirname(__FILE__)
 
-    Process.spawn({:JAVA_OPTS => "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}"},
-                  "#{base}/../build/run", "frontend:devserver:integration",
-                  "-Daspace.frontend.port=#{port}")
+    pid = Process.spawn({:JAVA_OPTS => "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}"},
+                        "#{base}/../build/run", "frontend:devserver:integration",
+                        "-Daspace.frontend.port=#{port}")
+
+    TestUtils.wait_for_url("http://localhost:#{port}")
+
+    pid
   end
 
 end

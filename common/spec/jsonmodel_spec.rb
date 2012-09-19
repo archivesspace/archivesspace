@@ -24,11 +24,14 @@ describe JSONModel do
       include JSONModel
     end
   end
+
+
   before(:each) do
 
     schema = '{
       :schema => {
         "$schema" => "http://www.archivesspace.org/archivesspace.json",
+
         "type" => "object",
         "uri" => "/repositories/:repo_id/stubs",
         "properties" => {
@@ -36,6 +39,11 @@ describe JSONModel do
           "ref_id" => {"type" => "string", "ifmissing" => "error", "minLength" => 1, "pattern" => "^[a-zA-Z0-9]*$"},
           "component_id" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
           "title" => {"type" => "string", "minLength" => 1, "required" => true},
+
+          "names" => {
+            "type" => "array",
+            "items" => {"type" => "JSONModel(:stub) uri_or_object"},
+          },
 
           "level" => {"type" => "string", "minLength" => 1, "required" => false},
           "parent" => {"type" => "JSONModel(:stub) uri", "required" => false},
@@ -49,14 +57,30 @@ describe JSONModel do
     }'
 
 
+    child_schema = '{
+      :schema => {
+        "$schema" => "http://www.archivesspace.org/archivesspace.json",
 
-    # File.stub(:dirname){ 'stub' }
-    # File.stub(:join){ 'stub' }
-    # File.stub(:join).with("schemas", "*.rb") { 'stub' }
-    Dir.stub(:glob){ ['stub'] }
-    File.stub(:basename){ 'stub' }
-    File.stub_chain("open.read") { schema }
-    # File.stub(:open).with('stub'){'stub'}
+        "type" => "object",
+        "parent" => "stub",
+
+        "uri" => "/repositories/:repo_id/child_stubs",
+
+        "properties" => {
+          "childproperty" => {"type" => "string", "required" => false},
+        },
+
+        "additionalProperties" => false,
+      },
+    }'
+
+
+    # main schema
+    Dir.stub(:glob){ ['stub', 'child_stub'] }
+
+
+    File.stub(:open).with(/stub\.rb/) { StringIO.new(schema) }
+    File.stub(:open).with(/child_stub\.rb/) { StringIO.new(child_schema) }
 
 
     Net::HTTP.stub(:start){ StubHTTP.new }
@@ -86,22 +110,35 @@ describe JSONModel do
   end
 
   it "should be able to save an instance of a model" do
-    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title=> "Stub Object"})
+    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
     jo.save()
     jo.to_hash.has_key?('uri').should be_true
   end
 
   it "should create an instance when given a hash using symbols for keys" do
 
-    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title=> "Stub Object"})
+    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
     jo.ref_id.should eq("abc")
 
   end
 
   it "should have its repo id in its uri after being saved" do
-    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title=> "Stub Object"})
+    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
     jo.save("repo_id" => 2)
     jo.uri.should eq('/repositories/2/stubs/999')
+  end
+
+  it "should inherit properties from the inherited object via extend/$ref" do
+    @klass.JSONModel(:child_stub).to_s.should eq('JSONModel(:child_stub)')
+    child_jo = @klass.JSONModel(:child_stub).from_hash({:title => "hello", :ref_id => "abc", :childproperty => "yeah", :ignoredproperty => "oh no"})
+    child_jo.save
+    child_jo.to_hash.has_key?('childproperty').should be_true
+    child_jo.to_hash.has_key?('uri').should be_true
+    child_jo.to_hash.has_key?('ignoredproperty').should be_false
+  end
+
+  it "can query its schema for the types of things" do
+    @klass.JSONModel(:stub).type_of("names/items").should eq @klass.JSONModel(:stub)
   end
 
 end

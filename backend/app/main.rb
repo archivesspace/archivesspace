@@ -22,24 +22,46 @@ class ArchivesSpaceService < Sinatra::Base
 
   configure do
 
+    JSONModel::init
+
     require_relative "model/db"
+
     DB.connect
+
+    unless DB.connected?
+      puts "\n============================================\n"
+      puts "DATABASE CONNECTION FAILED"
+      puts ""
+      puts "This system isn't going to do very much until its database turns up."
+      puts ""
+      puts "You will need to specify your database in:\n\n"
+      puts "  #{AppConfig.find_user_config}"
+      puts "\nor point your browser to the '/setup' URL on the backend (e.g. http://localhost:4567/setup)"
+      puts "\n============================================\n"
+    end
 
     # We'll handle these ourselves
     disable :sessions
 
-    # Load all models
-    require_relative "model/ASModel"
-    require_relative "model/identifiers"
-    require_relative "model/subjects"
-    Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
-      basename = File.basename(model, ".rb")
-      require_relative File.join("model", basename)
-    end
+    if DB.connected?
+      # Load all models
+      require_relative "model/ASModel"
+      require_relative "model/identifiers"
+      require_relative "model/subjects"
+      require_relative "model/extents"
+      Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
+        basename = File.basename(model, ".rb")
+        require_relative File.join("model", basename)
+      end
 
-    # Load all controllers
-    Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).sort.each do |controller|
-      load File.absolute_path(controller)
+      # Load all controllers
+      Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).sort.each do |controller|
+        load File.absolute_path(controller)
+      end
+
+    else
+      # Just load the setup controller
+      load File.absolute_path(File.join(File.dirname(__FILE__), "controllers", "setup.rb"))
     end
 
     set :raise_errors, Proc.new { false }
@@ -128,12 +150,29 @@ class ArchivesSpaceService < Sinatra::Base
 
 
     def json_response(obj, status = 200)
-      [status, {"Content-Type" => "application/json"}, [obj.to_json]]
+      [status, {"Content-Type" => "application/json"}, [obj.to_json + "\n"]]
     end
 
 
-    def created_response(id, warnings = {})
-      json_response({:status => "Created", :id => id, :warnings => warnings})
+    def modified_response(type, obj, jsonmodel = nil)
+      response = {:status => type, :id => obj[:id]}
+
+      if jsonmodel
+        response[:uri] = jsonmodel.class.uri_for(obj[:id])
+        response[:warnings] = jsonmodel._warnings
+      end
+
+      json_response(response)
+    end
+
+
+    def created_response(*opts)
+      modified_response('Created', *opts)
+    end
+
+
+    def updated_response(*opts)
+      modified_response('Updated', *opts)
     end
 
   end
@@ -171,8 +210,12 @@ class ArchivesSpaceService < Sinatra::Base
         @session = session
       }
 
-      result = DB.open do
-        @app.call(env)
+      if DB.connected?
+        result = DB.open do
+          @app.call(env)
+        end
+      else
+        result = @app.call(env)
       end
 
       end_time = Time.now
@@ -203,6 +246,7 @@ end
 
 if $0 == __FILE__
   Log.info("Dev server starting up...")
+
   ArchivesSpaceService.run!(:port => (ARGV[0] or 4567)) do |server|
     server.instance_eval do
       @config[:AccessLog] = []

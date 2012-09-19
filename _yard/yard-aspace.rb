@@ -1,0 +1,6 @@
+YARD::Templates::Engine.register_template_path File.dirname(__FILE__) + '/templates'
+require_relative '../common/jsonmodel.rb'
+require_relative '../backend/app/lib/rest.rb'
+require_relative 'handler'
+require_relative 'schema_object'
+require_relative 'endpoint_object'

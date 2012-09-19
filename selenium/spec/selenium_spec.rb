@@ -11,6 +11,22 @@ $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 
 
+module Selenium
+  module WebDriver
+    module Firefox
+      class Binary
+
+        # Searching the registry causes a EXCEPTION_ACCESS_VIOLATION under
+        # Windows 7.  Skip this step and just look for Firefox in the usual
+        # places.
+        def self.windows_registry_path
+          nil
+        end
+      end
+    end
+  end
+end
+
 class Selenium::WebDriver::Driver
   RETRIES = 20
 
@@ -111,6 +127,14 @@ RSpec.configure do |c|
   c.fail_fast = true
 end
 
+def cleanup
+  @driver.quit if @driver
+
+  TestUtils::kill($backend_pid) if $backend_pid
+  TestUtils::kill($frontend_pid) if $frontend_pid
+end
+
+
 
 describe "ArchivesSpace user interface" do
 
@@ -126,23 +150,9 @@ describe "ArchivesSpace user interface" do
 
     (@backend, @frontend) = [false, false]
     if standalone
-      @backend = TestUtils::start_backend($backend_port)
-      @frontend = TestUtils::start_frontend($frontend_port, $backend)
+      $backend_pid = TestUtils::start_backend($backend_port)
+      $frontend_pid = TestUtils::start_frontend($frontend_port, $backend)
     end
-
-    while true
-      begin
-        Net::HTTP.get(URI($frontend))
-        break
-      rescue
-        # Keep trying
-        puts "Waiting for frontend (#{$!.inspect})"
-        sleep(5)
-      end
-    end
-
-    TestUtils::wait_for_url(URI($frontend))
-    TestUtils::wait_for_url(URI($backend))
 
     @user = "testuser#{Time.now.to_i}"
     @driver = Selenium::WebDriver.for :firefox
@@ -152,10 +162,17 @@ describe "ArchivesSpace user interface" do
 
   # Stop selenium, kill the dev servers
   after(:all) do
-    @driver.quit
+    cleanup
+  end
 
-    TestUtils::kill(@backend) if @backend
-    TestUtils::kill(@frontend) if @frontend
+
+  around(:each) do |example|
+    begin
+      example.run
+    rescue
+      cleanup
+      raise $!
+    end
   end
 
 
@@ -176,10 +193,10 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Sign In").click
     @driver.find_element(:link, "Register now").click
 
-    @driver.find_element(:id, "createuser_username").clear_and_send_keys @user
-    @driver.find_element(:id, "createuser_name").clear_and_send_keys @user
-    @driver.find_element(:id, "createuser_password").clear_and_send_keys "testuser"
-    @driver.find_element(:id, "createuser_confirm_password").clear_and_send_keys "testuser"
+    @driver.find_element(:id, "createuser[username]").clear_and_send_keys @user
+    @driver.find_element(:id, "createuser[name]").clear_and_send_keys @user
+    @driver.find_element(:id, "createuser[password]").clear_and_send_keys "testuser"
+    @driver.find_element(:id, "createuser[confirm_password]").clear_and_send_keys "testuser"
 
     @driver.find_element(:id, 'create_account').click
 
@@ -239,14 +256,119 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "Notifies of errors and warnings when creating an invalid Person Agent" do
+    @driver.find_element(:link, 'Create').click
+    @driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()"); 
+    @driver.find_element(:link, 'Person').click
+
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css, ".errors-names_0_rules").text.should eq('Rules - is required')
+    @driver.find_element(:css, ".errors-names_0_primary_name").text.should eq('Primary Name - Property is required but was missing')
+  end
+
+
+  it "Notifies error when Authority ID is provided without a Source" do
+    @driver.find_element(:id => "agent[names][0][authority_id]").clear_and_send_keys "authid123"
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css, ".errors-names_0_source").text.should eq('Source - is required')
+  end
+
+  it "Notifies error when Source is provided without an Authority ID" do
+    @driver.find_element(:id => "agent[names][0][authority_id]").clear_and_send_keys ""
+
+    source_select = @driver.find_element(:id => "agent[names][0][source]")
+    source_select.find_elements( :tag_name => "option" ).each do |option|
+      option.click if option.attribute("value") === "local"
+    end
+
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css, ".errors-names_0_authority_id").text.should eq('Authority ID - is required')
+  end
+
+  it "Sort name updates when other name fields are updated" do
+    @driver.find_element(:id => "agent[names][0][primary_name]").clear_and_send_keys ["Hendrix", :tab]
+
+    @driver.find_element(:id => "agent[names][0][sort_name]").attribute("value").should eq("Hendrix")
+
+    @driver.find_element(:id => "agent[names][0][rest_of_name]").clear_and_send_keys ["Johnny Allen", :tab]
+
+    @driver.find_element(:id => "agent[names][0][sort_name]").attribute("value").should eq("Hendrix, Johnny Allen")
+  end
+
+  it "Changing Direct Order update Sort Name" do
+    direct_order_select = @driver.find_element(:id => "agent[names][0][direct_order]")
+    direct_order_select.find_elements( :tag_name => "option" ).each do |option|
+      option.click if option.attribute("value") === "inverted"
+    end
+
+    @driver.find_element(:id => "agent[names][0][sort_name]").attribute("value").should eq("Johnny Allen Hendrix")
+  end
+
+  it "Can add a secondary name and validations match index of name form" do
+    @driver.find_element(:css => '#secondary_names h3 .btn').click
+    
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+
+    @driver.find_element(:css, ".errors-names_1_rules").text.should eq('Rules - is required')
+    @driver.find_element(:css, ".errors-names_1_primary_name").text.should eq('Primary Name - Property is required but was missing')
+
+    rules_select = @driver.find_element(:id => "agent[names][1][rules]")
+    rules_select.find_elements( :tag_name => "option" ).each do |option|
+      option.click if option.attribute("value") === "local"
+    end
+    @driver.find_element(:id => "agent[names][1][primary_name]").clear_and_send_keys "Hendrix"
+    @driver.find_element(:id => "agent[names][1][rest_of_name]").clear_and_send_keys "Jimi"
+  end
+
+  it "Can add a contact to a person" do
+    @driver.find_element(:css => '#contacts h3 .btn').click
+
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+
+    @driver.find_element(:css, ".errors-agent_contacts_0_name").text.should eq('Contact Description - Property is required but was missing')
+
+    @driver.find_element(:id => "agent[agent_contacts][0][name]").clear_and_send_keys "Email Address"
+    @driver.find_element(:id => "agent[agent_contacts][0][email]").clear_and_send_keys "jimi@rocknrollheaven.com"
+  end
+
+  it "Can save a person and view readonly view of person" do
+    @driver.find_element(:id => "agent[names][0][authority_id]").clear_and_send_keys "authid123"
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+
+    @driver.find_element(:css => '.record-pane h2').text.should eq("Johnny Allen Hendrix Agent")
+  end
+
+  it "Allows edit of a person" do
+    @driver.find_element(:link, 'Edit').click
+  end
+
+  it "Allows removal of the contact details" do
+    @driver.find_element(:css => '#contacts .subform-remove').click
+    expect {
+      @driver.find_element(:id => "agent[agent_contacts][0][name]")
+    }.to raise_error
+
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+
+    expect {
+      @driver.find_element(:css => "#contacts h3")
+    }.to raise_error
+  end
+
+  it "displays the agent in the agent's index page" do
+    @driver.find_element(:link, 'Browse Agents').click
+    @driver.find_element_with_text('//td', /Johnny Allen Hendrix/)
+  end
+
+
   it "Can opt to ignore warnings when creating an accession" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Accession").click
 
-    @driver.find_element(:id => "accession_title").clear_and_send_keys "Accession title"
+    @driver.find_element(:id => "accession[title]").clear_and_send_keys "Accession title"
 
-    @driver.complete_4part_id("accession_id_%d")
-    @driver.find_element(:id => "accession_accession_date").clear_and_send_keys "2012-01-01"
+    @driver.complete_4part_id("accession[id_%d]")
+    @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
     @driver.find_element(:css => "form#new_accession button[type='submit']").click
 
     @driver.find_element(:css => "div.alert-warning").text.should eq("Content Description - Property was missing\nCondition Description - Property was missing")
@@ -260,13 +382,13 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Accession").click
 
-    @driver.find_element(:id => "accession_title").clear_and_send_keys "Accession title"
+    @driver.find_element(:id => "accession[title]").clear_and_send_keys "Accession title"
 
-    @driver.complete_4part_id("accession_id_%d")
+    @driver.complete_4part_id("accession[id_%d]")
 
-    @driver.find_element(:id => "accession_accession_date").clear_and_send_keys "2012-01-01"
-    @driver.find_element(:id => "accession_content_description").clear_and_send_keys "A box containing our own universe"
-    @driver.find_element(:id => "accession_condition_description").clear_and_send_keys "Slightly squashed"
+    @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
+    @driver.find_element(:id => "accession[content_description]").clear_and_send_keys "A box containing our own universe"
+    @driver.find_element(:id => "accession[condition_description]").clear_and_send_keys "Slightly squashed"
 
     @driver.find_element(:css => "form#new_accession button[type='submit']").click
   end
@@ -275,8 +397,8 @@ describe "ArchivesSpace user interface" do
   it "Can edit an accession once created" do
     @driver.find_element(:link, 'Edit Accession').click
 
-    @driver.find_element(:id => 'accession_content_description').clear_and_send_keys "Here is a description of this accession."
-    @driver.find_element(:id => 'accession_condition_description').clear_and_send_keys "Here we note the condition of this accession."
+    @driver.find_element(:id => 'accession[content_description]').clear_and_send_keys "Here is a description of this accession."
+    @driver.find_element(:id => 'accession[condition_description]').clear_and_send_keys "Here we note the condition of this accession."
 
     # note - the form is called 'new_accession' even though this is an edit form -jj
     @driver.find_element(:css => "form#new_accession button[type='submit']").click
@@ -287,7 +409,7 @@ describe "ArchivesSpace user interface" do
 
   it "Can edit an accession but cancel the edit" do
     @driver.find_element(:link, 'Edit Accession').click
-    @driver.find_element(:id => 'accession_content_description').clear_and_send_keys " moo"
+    @driver.find_element(:id => 'accession[content_description]').clear_and_send_keys " moo"
     @driver.find_element(:link, "Cancel").click
 
     @driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/)
@@ -298,12 +420,12 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Resource").click
 
-    @driver.find_element(:id, "resource_title").clear
+    @driver.find_element(:id, "resource[title]").clear
 
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     @driver.find_element(:css, "div.alert.alert-error").text.should eq('Identifier - Property is required but was missing')
-    @driver.find_element(:css, "div.alert.alert-warning").text.should eq('Title - Property was missing')
+    @driver.find_element(:css, "div.alert.alert-warning .errors-title").text.should eq('Title - Property was missing')
 
     @driver.find_element(:css, "a.btn.btn-cancel").click
   end
@@ -315,8 +437,9 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Resource").click
 
-    @driver.find_element(:id, "resource_title").clear_and_send_keys(resource_title)
-    @driver.complete_4part_id("resource_id_%d")
+    @driver.find_element(:id, "resource[title]").clear_and_send_keys(resource_title)
+    @driver.find_element(:id, "resource[extents][0][number]").clear_and_send_keys("5")
+    @driver.complete_4part_id("resource[id_%d]")
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     # The new resource shows up on the tree to the left
@@ -335,23 +458,25 @@ describe "ArchivesSpace user interface" do
 
 
   it "Can populate the archival object tree" do
-    @driver.find_element(:id, "archival_object_title").clear_and_send_keys("Lost mail")
-    @driver.find_element(:id, "archival_object_ref_id").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    @driver.find_element(:id, "archival_object[title]").clear_and_send_keys("Lost mail")
+    @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    @driver.find_element(:id, "archival_object[extents][0][number]").clear_and_send_keys("10")
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
     ["January", "February", "December"]. each do |month|
 
-      @driver.find_element(:id, "archival_object_title").clear_and_send_keys(month)
-      @driver.find_element(:id, "archival_object_ref_id").clear_and_send_keys(Digest::MD5.hexdigest("#{month}#{Time.now}"))
+      @driver.find_element(:id, "archival_object[title]").clear_and_send_keys(month)
+      @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{month}#{Time.now}"))
+      @driver.find_element(:id, "archival_object[extents][0][number]").clear_and_send_keys("10")
 
-      old_element = @driver.find_element(:id, "archival_object_title")
+      old_element = @driver.find_element(:id, "archival_object[title]")
       @driver.click_and_wait_until_gone(:id => "createPlusOne")
     end
   end
 
 
   it "Can cancel edits to archival object records" do
-    @driver.find_element(:id, "archival_object_title").clear_and_send_keys("unimportant change")
+    @driver.find_element(:id, "archival_object[title]").clear_and_send_keys("unimportant change")
     @driver.find_element(:css, "a[title='December']").click
     @driver.find_element(:id, "dismissChangesButton").click
 
@@ -363,8 +488,9 @@ describe "ArchivesSpace user interface" do
   it "Can add a child to an existing node and assign a subject" do
     @driver.find_element(:link, "Add Child").click
     @driver.find_element(:link, "Analog Object").click
-    @driver.find_element(:id, "archival_object_title").clear_and_send_keys("Christmas cards")
-    @driver.find_element(:id, "archival_object_ref_id").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    @driver.find_element(:id, "archival_object[title]").clear_and_send_keys("Christmas cards")
+    @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    @driver.find_element(:id, "archival_object[extents][0][number]").clear_and_send_keys("10")
 
     @driver.find_element(:css, ".linker-wrapper a.btn").click
     @driver.find_element(:css, "a.linker-create-btn").click

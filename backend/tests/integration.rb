@@ -168,17 +168,6 @@ def main
     server = TestUtils::start_backend($port)
   end
 
-  while true
-    begin
-      Net::HTTP.get(URI($url))
-      break
-    rescue
-      # Keep trying
-      # puts "Waiting for backend (#{$!.inspect})"
-      sleep(5)
-    end
-  end
-
   status = 0
   begin
     run_tests
@@ -190,11 +179,6 @@ def main
 
   if server
     TestUtils::kill(server)
-    begin
-      Process.waitpid(server)
-    rescue
-      # Already dead.
-    end
   end
 
   exit(status)

@@ -185,6 +185,7 @@
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           dir="../frontend">
+      <jvmarg line="${env.JAVA_OPTS}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S rake assets:precompile" />
@@ -227,13 +228,7 @@
 
     <mkdir dir="target" />
 
-    <exec executable="javac" failonerror="true">
-      <arg value="-d" />
-      <arg value="target" />
-      <arg value="-cp" />
-      <arg value="../launcher/libs/*" />
-      <arg value="../launcher/src/org/archivesspace/Main.java" />
-    </exec>
+    <javac includeAntRuntime="false" fork="true" destdir="target" srcdir="../launcher/src" failonerror="true" classpath="../launcher/libs/*" />
 
     <jar jarfile="deps.jar">
       <zipgroupfileset dir="../launcher/libs" includes="*.jar" />
@@ -267,6 +262,11 @@
       <env key="COVERAGE_REPORTS" value="true" />
       <arg line="--1.9 --debug ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
+  </target>
+
+
+  <target name="test" depends="backend:test, backend:integration, common:test, selenium:test"
+          description="Run the full suite of tests">
   </target>
 
 

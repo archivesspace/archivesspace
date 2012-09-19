@@ -30,9 +30,9 @@ class Term < Sequel::Model(:terms)
   end
 
 
-  def self.ensure_exists(json)
+  def self.ensure_exists(json, referrer)
     begin
-      self.create_from_json(json).id
+      self.create_from_json(json)
     rescue Sequel::ValidationFailed
       Term.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
                 :term => json.term,

@@ -144,4 +144,26 @@ describe 'Resources controller' do
   end
 
 
+  it "can give a list of all resources" do
+
+    JSONModel(:resource).from_hash("title" => "coal", "id_0" => "1").save
+    JSONModel(:resource).from_hash("title" => "wind", "id_0" => "2").save
+    JSONModel(:resource).from_hash("title" => "love", "id_0" => "3").save
+
+    resources = JSONModel(:resource).all
+
+    resources.any? { |res| res.title == "coal" }.should be_true
+    resources.any? { |res| res.title == "wind" }.should be_true
+    resources.any? { |res| res.title == "love" }.should be_true
+
+  end
+
+  it "lets you create a resource with an extent" do
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
+    id = resource.save
+
+    JSONModel(:resource).find(id).extents[0].length === 1
+    JSONModel(:resource).find(id).extents[0]["portion"] === "whole"
+  end
+
 end

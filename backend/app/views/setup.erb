@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+  <style>
+    input.error {
+      border: solid red 1px;
+    }
+  </style>
+
+  <body>
+    <% if @state[:message] %>
+    <div class="<%= @state[:message][:class] %>"><%= @state[:message][:text] %></div>
+    <% end %>
+
+
+    <h1>ArchivesSpace setup</h1>
+
+    <% if @state[:using_demo_db] || @state[:connection_failed] %>
+
+    <% if @state[:using_demo_db] %>
+    <div class="notice">
+
+      <p>It looks like you're currently running with the
+        ArchivesSpace demo database.  That's fine--we're not judging you--but
+        if you're thinking about using this system for realsies, it's a good
+        idea to use an external database like MySQL.</p>
+
+      <p>If you're using MySQL, you can create a suitable database as follows:</p>
+
+      <pre>
+  <i>
+  # Note: You'll need to know your MySQL database's root password for
+  # this to work.  If you're unsure, try leaving off the "-p" switch:
+  # you may be able to connect without a password.
+  </i>
+  <b>$ mysql -uroot -p</b>
+  Enter password: 
+  Welcome to the MySQL monitor.  Commands end with ; or \g.
+  Your MySQL connection id is 344
+  Server version: 5.1.49-3 (Debian)
+
+  Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+  This software comes with ABSOLUTELY NO WARRANTY. This is free software,
+  and you are welcome to modify and redistribute it under the GPL v2 license
+
+  Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+  mysql> <b>create database archivesspace default character set utf8;</b>
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> <b>grant all on archivesspace.* to 'as'@'localhost' identified by 'as123';</b>
+  Query OK, 0 rows affected (0.00 sec)
+
+  mysql> <b>exit</b>
+  Bye
+      </pre>
+
+      <p>This creates a database called <b>archivesspace</b> with user <b>as</b>
+        and password <b>as123</b>.</p>
+
+      <p>When you're ready to switch to an external database, just fill out
+        the form below.  <b>Note:</b> we currently can't migrate from
+        a demo database to an external one, so <b>anything in your demo
+          database will be lost</b> if you use the form below.</p>
+
+    </div>
+
+    <% end %>
+      <%
+         @fields = {}
+
+         @fields['mysql'] = [
+            {
+               :label => "Hostname",
+               :id => "hostname",
+               :default => "localhost"
+            },
+            {
+               :label => "Post",
+               :id => "port",
+               :default => "3306"
+            },
+            {
+               :label => "Database",
+               :id => "database",
+               :default => "archivesspace"
+            },
+            {
+               :label => "Username",
+               :id => "username",
+               :default => "as"
+            },
+            {
+               :label => "Password",
+               :id => "password",
+               :default => "as123"
+            }
+         ]
+      %>
+
+
+      <h2>Database setup</h2>
+      <form action="set_database" method="POST">
+
+        <table>
+          <tr>
+            <td><label for="db_type">Database type</label></td>
+            <td>
+              <select name="db_type" id="db_type">
+                <option value="mysql">MySQL</option>
+              </select>
+            </td>
+          </tr>
+
+          <% @fields['mysql'].each do |field| %>
+          <tr>
+            <td><label for="<%= field[:id] %>"><%= field[:label] %></label></td>
+            <td>
+              <input type="text" name="<%= field[:id] %>" id="<%= field[:id] %>"
+                     value="<%= @state[field[:id]] or @state[field[:id].intern] or field[:default] %>" />
+            </td>
+          </tr>
+          <% end %>
+        </table>
+
+        <input type="submit" value="Save settings" />
+        <p>When you click "Save settings", your configuration will be
+          written to <tt><%= @state[:config_path] %></tt></p>
+      </form>
+
+    </div>
+
+    <% end %>
+
+    <h2>Database status</h2>
+
+    <% if @state[:needs_migration] %>
+
+    <p>We've successfully connected to your database, but its schema
+    needs to be updated to work with this version of ArchivesSpace.
+    To update your schema automatically, click the button below</p>
+
+    <form method="POST" action="update_schema">
+      <input type="submit" value="Update my database" />
+    </form>
+
+    <% elsif @state[:connection_failed] %>
+
+    <p>We seem to be having some trouble connecting to your
+    database.  Please check your settings in the form above.</p>
+
+    <% else %>
+
+    <p>Everything looks great!</p>
+
+    <p><b>You will need to restart the ArchivesSpace application</b>
+    for any database changes to take effect.  Please do that now!</p>
+
+    <% end %>
+
+
+    <% if not @state[:errors].empty? %>
+    <script>
+
+      function mark_error(id) {
+        document.getElementById(id).className += "error";
+      }
+
+      <% @state[:errors].keys.each do |field| %>
+        mark_error('<%= field %>');
+      <% end %>
+
+    </script>
+    <% end %>
+
+  </body>
+
+</html>

@@ -1,0 +1,23 @@
+<div class="agent-name-fields">
+  <%= f.label_field_pair :authority_id %>
+  <%= f.label_field_pair :source %>
+  <%= f.label_field_pair :rules %>
+  <hr/>
+  <%= f.label_field_pair :software_name %>
+  <%= f.label_field_pair :version %>
+  <%= f.label_field_pair :manufacturer %>
+  <%= f.label_field_pair :dates %>
+  <hr/>
+  <%= f.label_field_pair :qualifier %>
+  <div class="control-group">
+    <%= f.jsonmodel_label :sort_name %>
+    <div class="controls">
+      <%= f.jsonmodel_field :sort_name, :readonly => "readonly" %>
+      <label><%= check_box_tag "#{f.current_name(:sort_name_type)}", "automatic", true, :class => "sort-name-generation-type", :force_id => f.current_name(:sort_name_type, true) %> <small>Automatically generate?</small></label>
+    </div>
+  </div>
+  <hr/>
+  <%= f.label_field_pair :description_type %>
+  <%= f.label_field_pair :description_note %>
+  <%= f.label_field_pair :description_citation %>
+</div>

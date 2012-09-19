@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     resource = Resource.create_from_json(params[:resource], :repo_id => params[:repo_id])
 
-    created_response(resource[:id], params[:resource]._warnings)
+    created_response(resource, params[:resource])
   end
 
 
@@ -54,7 +54,7 @@ class ArchivesSpaceService < Sinatra::Base
     resource = Resource.get_or_die(params[:resource_id], params[:repo_id])
     resource.update_from_json(params[:resource])
 
-    json_response({:status => "Updated", :id => resource[:id]})
+    updated_response(resource, params[:resource])
   end
 
 
@@ -68,7 +68,7 @@ class ArchivesSpaceService < Sinatra::Base
     resource = Resource.get_or_die(params[:resource_id], params[:repo_id])
     resource.update_tree(params[:tree])
 
-    json_response({:status => "Updated", :id => resource[:id]})
+    updated_response(resource, params[:tree])
   end
 
 

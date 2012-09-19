@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     user = User.create_from_json(params[:user], :source => "local")
     DBAuth.set_password(params[:user].username, params[:password])
 
-    created_response(user[:id], params[:user]._warnings)
+    created_response(user, params[:user])
   end
 
 

@@ -1,5 +1,5 @@
 /* =============================================================
- * bootstrap-typeahead.js v2.1.0
+ * bootstrap-typeahead.js v2.1.1
  * http://twitter.github.com/bootstrap/javascript.html#typeahead
  * =============================================================
  * Copyright 2012 Twitter, Inc.
@@ -17,12 +17,13 @@
  * limitations under the License.
  * ============================================================ */
 
-/* =============================================================
- * Customisations for Archives Space include:
- * - in render, store item as data on the dropdown option to support
- *   objects as items
- * - allow native events to propagate on keyup
- * ============================================================ */
+ /* =============================================================
+  * Customisations for Archives Space include:
+  * - in render, store item as data on the dropdown option to support
+  *   objects as items
+  * - allow native events to propagate on keyup
+  * ============================================================ */
+
 
 !function($){
 
@@ -180,7 +181,7 @@
         .on('keypress', $.proxy(this.keypress, this))
         .on('keyup',    $.proxy(this.keyup, this))
 
-      if ($.browser.webkit || $.browser.msie) {
+      if ($.browser.chrome || $.browser.webkit || $.browser.msie) {
         this.$element.on('keydown', $.proxy(this.keydown, this))
       }
 
@@ -243,6 +244,7 @@
         default:
           this.lookup()
       }
+
       // ArchivesSpace customisations: allow all native events to
       // still propagate.
       //e.stopPropagation()

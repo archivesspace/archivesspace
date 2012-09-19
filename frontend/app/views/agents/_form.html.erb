@@ -1,0 +1,128 @@
+<%= render "shared/form_messages", :object => @agent %>
+
+<fieldset>
+  <section id="agent_details">
+    <h3>Agent Details</h3>
+    <%# f.label_field_pair :type %>
+    <div class="control-group">
+       <label class="control-label">Type</label>
+       <div class="controls label-only">
+          <%= f.hidden_field :agent_type %>
+          <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
+       </div>
+    </div>
+  </section>
+
+  <section id="primary_name">
+    <h3>Primary Name</h3>
+    <% f.with_jsonmodel("names[]", @agent.names[0], @name_type) do %>
+      <%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => f} %>
+    <% end %>
+
+  </section>
+
+  <section id="secondary_names">
+    <h3>
+      Secondary Name(s)
+      <input type="button" class="btn btn-small pull-right" value="Add Secondary Name"/>
+    </h3>
+    <div id="secondary_names_container">
+      <% if @agent.names.length > 1 %>
+        <% @agent.names.each_with_index do | name , index | %>
+          <% if index > 0 %>
+            <% f.with_jsonmodel("names[]", name, @name_type) do %>
+              <%= render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="alert alert-info">Click 'Add Secondary Name' to add further name records.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <h3>
+      Contact Details
+      <input type="button" class="btn btn-small pull-right" value="Add Contact Details"/>
+    </h3>
+    <div id="contacts_container">
+      <% if @agent.agent_contacts && @agent.agent_contacts.length > 0 %>
+        <% @agent.agent_contacts.each do | contact | %>
+          <% f.with_jsonmodel("agent_contacts[]", contact, :agent_contact) do %>
+            <%= render :partial => "agents/contact_details", :locals => {:f => f} %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p class="alert alert-info">Click 'Add Contact Details' to add contact detail records.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <section id="relationships">
+    <h3>Relationships</h3>
+    <p class="alert alert-info">TODO</p>
+  </section>
+
+</fieldset>
+
+<div id="agent_contact_form_template"><!--
+  <% f.with_jsonmodel("agent_contacts[]", {}, :agent_contact, :index => "${index}") do %>
+    <%= render :partial => "agents/contact_details", :locals => {:f => f} %>
+  <% end %>
+--></div>
+
+<div id="agent_secondary_name_form_template"><!--
+  <% f.with_jsonmodel("names[]", {}, @name_type, :index => "${index}") do %>
+    <%= render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
+  <% end %>
+--></div>
+
+<div id="agent_person_sort_name_standard_template"><!--
+{if defined('primary_name') && primary_name.length > 0}${primary_name}{/if}
+{if defined('rest_of_name') && rest_of_name.length > 0}, ${rest_of_name}{/if}
+{if defined('prefix') && prefix.length > 0}, ${prefix}{/if}
+{if defined('suffix') && suffix.length > 0}, ${suffix}{/if}
+{if defined('title') && title.length > 0}, ${title}{/if}
+{if defined('number') && number.length > 0}, ${number}{/if}
+{if defined('fuller_form') && fuller_form.length > 0} (${fuller_form}){/if}
+{if defined('dates') && dates.length > 0}, ${dates}{/if}
+{if defined('qualifier') && qualifier.length > 0}, (${qualifier}){/if}
+--></div>
+
+<div id="agent_person_sort_name_inverted_template"><!--
+{if defined('rest_of_name') && rest_of_name.length > 0}${rest_of_name}{/if}
+{if defined('primary_name') && primary_name.length > 0} ${primary_name}{/if}
+{if defined('prefix') && prefix.length > 0}, ${prefix}{/if}
+{if defined('suffix') && suffix.length > 0}, ${suffix}{/if}
+{if defined('title') && title.length > 0}, ${title}{/if}
+{if defined('number') && number.length > 0}, ${number}{/if}
+{if defined('fuller_form') && fuller_form.length > 0} (${fuller_form}){/if}
+{if defined('dates') && dates.length > 0}, ${dates}{/if}
+{if defined('qualifier') && qualifier.length > 0}, (${qualifier}){/if}
+--></div>
+
+<div id="agent_family_sort_name_template"><!--
+{if defined('family_name') && family_name.length > 0}${family_name}{/if}
+{if defined('prefix') && prefix.length > 0}, ${prefix}{/if}
+{if defined('dates') && dates.length > 0}, ${dates}{/if}
+{if defined('qualifier') && qualifier.length > 0}, (${qualifier}){/if}
+--></div>
+
+<div id="agent_corporate_entity_sort_name_template"><!--
+{if defined('primary_name') && primary_name.length > 0}${primary_name}. {/if}
+{if defined('subordinate_name_1') && subordinate_name_1.length > 0} ${subordinate_name_1}. {/if}
+{if defined('subordinate_name_2') && subordinate_name_2.length > 0} ${subordinate_name_2}. {/if}
+{if defined('number') && number.length > 0 && defined('dates') && dates.length > 0} (${number} : ${dates})
+{elseif defined('number') && number.length > 0} (${number})
+{elseif defined('dates') && dates.length > 0} (${dates})
+{/if}
+{if defined('qualifier') && qualifier.length > 0}, (${qualifier}){/if}
+--></div>
+
+<div id="agent_software_sort_name_template"><!--
+{if defined('manufacturer') && manufacturer.length > 0}${manufacturer} {/if}
+{if defined('software_name') && software_name.length > 0} ${software_name}{/if}
+{if defined('version') && version.length > 0} ${version}{/if}
+{if defined('qualifier') && qualifier.length > 0}, (${qualifier}){/if}
+--></div>

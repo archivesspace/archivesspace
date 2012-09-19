@@ -1,0 +1,74 @@
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), @agent.names[0]['sort_name']]} %>
+<div class="row-fluid">
+   <div class="span3">
+      <%= render :partial => "agents/sidebar" %>
+   </div>
+   <div class="span9 record-pane">
+     <div class="btn-group" style="float: right">
+       <%= link_to "Edit", {:controller => :agents, :action => :edit, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
+     </div>
+
+      <h2><%= @agent.names[0]['sort_name'] %>  <span class="label label-info">Agent</span></h2>
+
+      <div class="row-fluid">
+        <section id="agent_details">
+          <h3>Agent Details</h3>
+
+          <div class="row-fluid label-and-value">
+             <div class="span3">Type</div>
+             <div class="span9"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="row-fluid">
+        <section id="primary_name">
+          <h3>Primary Name</h3>
+
+          <% @agent.names[0].to_hash.each do |k,v| %>
+            <div class="row-fluid label-and-value">
+               <div class="span3"><%= I18n.t("agent.names.#{k}") %></div>
+               <div class="span9"><%= v %></div>
+            </div>
+          <% end %>
+        </section>
+      </div>
+
+      <% if @agent.names.length > 1 %>
+        <div class="row-fluid">
+          <section id="secondary_names">
+            <h3>Secondary Name(s)</h3>
+
+            <% @agent.names.each_with_index do |name, i|
+              next if i == 0 
+              name.to_hash.each do |k,v| %>
+
+              <div class="row-fluid label-and-value">
+                 <div class="span3"><%= I18n.t("agent.names.#{k}") %></div>
+                 <div class="span9"><%= v %></div>
+              </div>
+            <% end
+              end %>
+          </section>
+        </div>
+      <% end %>
+
+      <% if @agent.agent_contacts.length > 0 %>
+        <div class="row-fluid">
+          <section id="contacts">
+            <h3>Contact Details</h3>
+
+            <% @agent.agent_contacts.each do |contact| 
+              contact.to_hash.each do |k,v| %>
+
+              <div class="row-fluid label-and-value">
+                 <div class="span3"><%= I18n.t("agent.agent_contacts.#{k}") %></div>
+                 <div class="span9"><%= v %></div>
+              </div>
+            <% end
+              end %>
+          </section>
+        </div>
+      <% end %>      
+    </div>
+</div>

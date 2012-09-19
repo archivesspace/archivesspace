@@ -3,6 +3,7 @@ class Resource < Sequel::Model(:resources)
   include ASModel
   include Identifiers
   include Subjects
+  include Extents
 
 
   def link(opts)

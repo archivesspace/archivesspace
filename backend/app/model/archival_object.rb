@@ -2,6 +2,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   plugin :validation_helpers
   include ASModel
   include Subjects
+  include Extents
 
 
   def children
@@ -25,23 +26,18 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
   def self.create_from_json(json, opts = {})
     set_resource(json, opts)
-    obj = super(json, opts)
-    apply_subjects(obj, json, opts)
-    obj
+    super(json, opts)
   end
 
 
   def update_from_json(json, opts = {})
     self.class.set_resource(json, opts)
-    obj = super(json, opts)
-    self.class.apply_subjects(obj, json, {})
-    obj
+    super(json, opts)
   end
 
 
   def self.sequel_to_jsonmodel(obj, type)
     json = super(obj, type)
-    json.subjects = obj.subjects.map {|subject| JSONModel(:subject).uri_for(subject.id)}
 
     if obj.resource_id
       json.resource = JSONModel(:resource).uri_for(obj.resource_id,
@@ -60,6 +56,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   def validate
     validates_unique([:resource_id, :ref_id],
                      :message => "An Archival Object Ref ID must be unique to its resource")
+    map_validation_to_json_property([:resource_id, :ref_id], :ref_id)
     super
   end
 

@@ -107,3 +107,44 @@ h2 > .label {
   float: right;
   margin-top: 10px;
 }
+
+.dropdown-submenu a:focus .dropdown-menu {
+  display: block;
+}
+
+.nav-list .form-actions {
+  margin: 0;
+  padding: 10px !important;
+  border: 1px solid #E5E5E5;
+  border-radius: 0 0 4px 4px;
+
+  .btn-primary {
+    width: 100%;
+  }
+
+  .btn-cancel {
+    width: auto;
+    float: right;
+    padding: 4px 14px;
+  }
+}
+
+/* accordion styles */
+.accordion {
+  .accordion-toggle {
+    .icon-chevron-down {
+      display: block;
+    }
+    .icon-chevron-right {
+      display: none;
+    }
+    &.collapsed {
+      .icon-chevron-down {
+        display: none;
+      }
+      .icon-chevron-right {
+        display: block;
+      }
+    }
+  }
+}

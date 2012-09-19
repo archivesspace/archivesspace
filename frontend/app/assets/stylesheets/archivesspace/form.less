@@ -9,6 +9,20 @@
   margin-top: 5px;
 }
 
+.control-group {
+  margin: 0 !important;
+  padding: 4px 0;
+}
+
+.control-group.active {
+  border-radius: 4px;
+  background-color: #fafcff;
+}
+
+.control-group .controls.label-only {
+  line-height: 30px;
+}
+
 /* identifier fields */
 .identifier-fields input {
   width: auto;
@@ -30,6 +44,16 @@
 #save_and_finish_editing {
   margin-left: 4px;
   float: right;
+}
+
+.record-pane h3 {
+  background-color: #FAFAFA;
+  border-bottom: 1px solid #DDD;
+  padding-left: 10px;
+}
+
+.record-pane section h3 .btn.pull-right {
+  margin: 6px 6px 0 0;
 }
 
 .linker-list {
@@ -71,4 +95,135 @@
 .inputs-fill-it-up input,
 .inputs-fill-it-up select {
   width: 100%;
+}
+
+/* Form sidebar navigation */
+
+.as-nav-list {
+  width: 228px;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+     -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+          box-shadow: 0 1px 4px rgba(0,0,0,.065);
+}
+.as-nav-list > li > a {
+  display: block;
+  *width: 190px;
+  margin: 0 0 -1px;
+  padding: 8px 14px;
+  border: 1px solid #e5e5e5;
+}
+.as-nav-list > li:first-child > a {
+  -webkit-border-radius: 6px 6px 0 0;
+     -moz-border-radius: 6px 6px 0 0;
+          border-radius: 6px 6px 0 0;
+}
+.as-nav-list > li:last-child > a {
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+}
+.as-nav-list > .active > a {
+  position: relative;
+  z-index: 2;
+  padding: 9px 15px;
+  border: 0;
+  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+  -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+     -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+          box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+}
+.as-nav-list .icon-chevron-right {
+  float: right;
+  margin-top: 2px;
+  margin-right: -6px;
+  opacity: .25;
+}
+.as-nav-list > li > a:hover {
+  background-color: #f5f5f5;
+}
+.as-nav-list a:hover .icon-chevron-right {
+  opacity: .5;
+}
+.as-nav-list .active .icon-chevron-right,
+.as-nav-list .active a:hover .icon-chevron-right {
+  background-image: url(../img/glyphicons-halflings-white.png);
+  opacity: 1;
+}
+.as-nav-list.affix {
+  //top: 40px;
+}
+.as-nav-list.affix-bottom {
+  position: absolute;
+  top: auto;
+  bottom: 270px;
+}
+
+/* Desktop large
+------------------------- */
+@media (min-width: 1200px) {
+  .as-nav-list {
+    width: 258px;
+  }
+}
+
+/* Desktop
+------------------------- */
+@media (max-width: 980px) {
+  .as-nav-list {
+    margin-right: 0;
+  }
+}
+
+/* Tablet to desktop
+------------------------- */
+@media (min-width: 768px) and (max-width: 980px) {
+  /* Adjust sidenav width */
+  .as-nav-list {
+    width: 166px;
+  }
+}
+
+/* Tablet
+------------------------- */
+@media (max-width: 767px) {
+  .as-nav-list {
+    width: auto;
+    margin-bottom: 20px;
+  }
+  .as-nav-list.affix {
+    position: static;
+    width: auto;
+    top: 0;
+  }
+}
+
+
+/* AGENT NAME Form styles */
+.subform {
+  border: 1px solid #DDD;
+  .border-radius(4px);
+  margin-bottom: 10px;
+
+  h4 {
+    background-color: #FAFAFA;
+    line-height: 1.4em;
+    min-height: 1.4em;
+    margin: 0;
+    border-bottom: 1px solid #DDD;
+    .border-radius(4px 4px 0 0);
+  }
+
+  .subform-remove {
+    margin: 6px 6px 0 0;
+  }
+
+  .subform-container {
+    margin-top: 10px;
+  }
 }
