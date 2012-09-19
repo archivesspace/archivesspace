@@ -44,13 +44,11 @@ class DB
 end
 
 
-require_relative "../app/main"
 require 'rack/test'
+require_relative "../app/lib/bootstrap"
 
 JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com')
-include JSONModel
-
 
 module JSONModel
   module HTTP
@@ -68,6 +66,17 @@ module JSONModel
     end
   end
 end
+
+
+# Note: This import is loading JSONModel into the Object class.  Pretty gross!
+# It would be nice if we could narrow the scope of this to just the tests.
+include JSONModel
+
+require_relative "../app/main"
+
+
+
+
 
 
 Log.quiet_please

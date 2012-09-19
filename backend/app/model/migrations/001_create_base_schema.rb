@@ -217,7 +217,7 @@ Sequel.migration do
 
     class Sequel::Schema::CreateTableGenerator
       def apply_name_columns
-        String :authority_id, :null => false
+        String :authority_id, :null => true
         String :dates, :null => true
         TextField :description_type, :null => true
         TextField :description_note, :null => true
@@ -356,6 +356,32 @@ Sequel.migration do
     end
 
 
+    create_table(:extents) do
+      primary_key :id
+
+      Integer :accession_id, :null => true
+      Integer :archival_object_id, :null => true
+      Integer :resource_id, :null => true
+
+      String :portion, :null => false
+      String :number, :null => false
+      String :extent_type, :null => false
+
+      String :container_summary, :null => true
+      String :physical_details, :null => true
+      String :dimensions, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:extents) do
+      add_foreign_key([:accession_id], :accessions, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
+    end
+
+
   end
 
   down do
@@ -364,7 +390,7 @@ Sequel.migration do
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
-     :archival_objects, :vocabularies,
+     :archival_objects, :vocabularies, :extent,
      :resources, :repositories].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)

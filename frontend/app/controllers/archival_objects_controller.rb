@@ -16,6 +16,7 @@ class ArchivalObjectsController < ApplicationController
     @archival_object.title = "New Archival Object"
     @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent]) if params.has_key?(:parent)
     @archival_object.resource = JSONModel(:resource).uri_for(params[:resource]) if params.has_key?(:resource)
+    @archival_object.extents = [JSONModel(:extent).new._always_valid!]
 
     return render :partial => "archival_objects/new_inline" if inline?
 

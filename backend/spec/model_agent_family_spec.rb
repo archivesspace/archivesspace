@@ -9,12 +9,12 @@ describe 'Agent Family model' do
                                                         "agent_type" => "agent_family",
                                                         "names" => [
                                                                     {
-                                                                      "authority_id" => "something",
+                                                                      "rules" => "local",
                                                                       "family_name" => "Magoo Family",
                                                                       "sort_name" => "Family Magoo"
                                                                     },
                                                                     {
-                                                                      "authority_id" => "else",
+                                                                      "rules" => "local",
                                                                       "family_name" => "McGoo Family",
                                                                       "sort_name" => "Family McGoo"
                                                                     }
@@ -32,7 +32,7 @@ describe 'Agent Family model' do
                                                   "agent_type" => "agent_family",
                                                    "names" => [
                                                                {
-                                                                 "authority_id" => "something",
+                                                                 "rules" => "local",
                                                                  "family_name" => "Magoo Family",
                                                                  "sort_name" => "Family Magoo"
                                                                }
@@ -49,4 +49,20 @@ describe 'Agent Family model' do
     AgentFamily[agent[:id]].agent_contacts[0][:name].should eq("Business hours contact")
   end
 
+
+  it "requires a source to be set if an authority id is provided" do
+    expect { 
+      agent = AgentFamily.create_from_json(JSONModel(:agent_family)
+                                     .from_hash({
+                                                  "agent_type" => "agent_family",
+                                                   "names" => [
+                                                               {
+                                                                 "authority_id" => "wooo",
+                                                                 "family_name" => "Magoo Family",
+                                                                 "sort_name" => "Family Magoo"
+                                                               }
+                                                               ]
+                                                }))
+     }.to raise_error(JSONModel::ValidationException)
+  end
 end

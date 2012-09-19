@@ -1,0 +1,14 @@
+<div class="subform extent-fields">
+  <% if index > 0 %>
+    <a href="javascript:void(0)" class="btn btn-mini pull-right subform-remove"><span class='icon-remove'></span></a>
+  <% end %>
+  <div class="extent-container">
+    <%= f.label_field_pair :portion %>
+    <%= f.label_field_pair :number %>
+    <%= f.label_field_pair :extent_type %>
+    <hr/>
+    <%= f.label_textarea_pair :container_summary %>
+    <%= f.label_textarea_pair :physical_details %>
+    <%= f.label_field_pair :dimensions %>
+  </div>
+</div>

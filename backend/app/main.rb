@@ -22,6 +22,8 @@ class ArchivesSpaceService < Sinatra::Base
 
   configure do
 
+    JSONModel::init
+
     require_relative "model/db"
 
     DB.connect
@@ -46,6 +48,7 @@ class ArchivesSpaceService < Sinatra::Base
       require_relative "model/ASModel"
       require_relative "model/identifiers"
       require_relative "model/subjects"
+      require_relative "model/extents"
       Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
         basename = File.basename(model, ".rb")
         require_relative File.join("model", basename)

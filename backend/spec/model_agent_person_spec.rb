@@ -9,15 +9,13 @@ describe 'Agent model' do
                                                         "agent_type" => "agent_person",
                                                         "names" => [
                                                                     {
-                                                                      "title" => "Mr",
-                                                                      "authority_id" => "something",
+                                                                      "rules" => "local",
                                                                       "primary_name" => "Magus Magoo",
                                                                       "sort_name" => "Magoo, Mr M",
                                                                       "direct_order" => "standard"
                                                                     },
                                                                     {
-                                                                      "title" => "Mr",
-                                                                      "authority_id" => "else",
+                                                                      "rules" => "local",
                                                                       "primary_name" => "Magus McGoo",
                                                                       "sort_name" => "McGoo, M",
                                                                       "direct_order" => "standard"
@@ -36,8 +34,7 @@ describe 'Agent model' do
                                                   "agent_type" => "agent_person",
                                                    "names" => [
                                                                {
-                                                                 "title" => "Mr",
-                                                                 "authority_id" => "something",
+                                                                 "rules" => "local",
                                                                  "primary_name" => "Magus Magoo",
                                                                  "sort_name" => "Magoo, Mr M",
                                                                  "direct_order" => "standard"
@@ -55,4 +52,56 @@ describe 'Agent model' do
     AgentPerson[agent[:id]].agent_contacts[0][:name].should eq("Business hours contact")
   end
 
+
+  it "requires a rules to be set if source is not provided" do
+    expect { 
+      agent = AgentPerson.create_from_json(JSONModel(:agent_person)
+                                     .from_hash({
+                                                  "agent_type" => "agent_person",
+                                                   "names" => [
+                                                               {
+                                                                 "primary_name" => "Magus Magoo",
+                                                                 "sort_name" => "Magoo, Mr M",
+                                                                 "direct_order" => "standard"
+                                                               }
+                                                               ]
+                                                }))
+     }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "requires a source to be set if an authority id is provided" do
+    expect { 
+      agent = AgentPerson.create_from_json(JSONModel(:agent_person)
+                                     .from_hash({
+                                                  "agent_type" => "agent_person",
+                                                   "names" => [
+                                                               {
+                                                                 "authority_id" => "wooo",
+                                                                 "primary_name" => "Magus Magoo",
+                                                                 "sort_name" => "Magoo, Mr M",
+                                                                 "direct_order" => "standard"
+                                                               }
+                                                               ]
+                                                }))
+     }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "allows rules to be nil if authority id and source are provided" do
+    agent = AgentPerson.create_from_json(JSONModel(:agent_person)
+                                   .from_hash({
+                                                "agent_type" => "agent_person",
+                                                 "names" => [
+                                                             {
+                                                               "authority_id" => "123123",
+                                                               "source" => "local",
+                                                               "primary_name" => "Magus Magoo",
+                                                               "sort_name" => "Magoo, Mr M",
+                                                               "direct_order" => "standard"
+                                                             }
+                                                             ]
+                                              }))
+    AgentPerson[agent[:id]].name_person.length.should eq(1)
+  end
 end

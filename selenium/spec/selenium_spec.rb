@@ -305,7 +305,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     @driver.find_element(:css, "div.alert.alert-error").text.should eq('Identifier - Property is required but was missing')
-    @driver.find_element(:css, "div.alert.alert-warning").text.should eq('Title - Property was missing')
+    @driver.find_element(:css, "div.alert.alert-warning .errors-title").text.should eq('Title - Property was missing')
 
     @driver.find_element(:css, "a.btn.btn-cancel").click
   end
@@ -318,6 +318,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Resource").click
 
     @driver.find_element(:id, "resource[title]").clear_and_send_keys(resource_title)
+    @driver.find_element(:id, "resource[extents][0][number]").clear_and_send_keys("5")
     @driver.complete_4part_id("resource[id_%d]")
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
@@ -339,12 +340,14 @@ describe "ArchivesSpace user interface" do
   it "Can populate the archival object tree" do
     @driver.find_element(:id, "archival_object[title]").clear_and_send_keys("Lost mail")
     @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    @driver.find_element(:id, "archival_object[extents][0][number]").clear_and_send_keys("10")
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
     ["January", "February", "December"]. each do |month|
 
       @driver.find_element(:id, "archival_object[title]").clear_and_send_keys(month)
       @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{month}#{Time.now}"))
+      @driver.find_element(:id, "archival_object[extents][0][number]").clear_and_send_keys("10")
 
       old_element = @driver.find_element(:id, "archival_object[title]")
       @driver.click_and_wait_until_gone(:id => "createPlusOne")
@@ -367,6 +370,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Analog Object").click
     @driver.find_element(:id, "archival_object[title]").clear_and_send_keys("Christmas cards")
     @driver.find_element(:id, "archival_object[ref_id]").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    @driver.find_element(:id, "archival_object[extents][0][number]").clear_and_send_keys("10")
 
     @driver.find_element(:css, ".linker-wrapper a.btn").click
     @driver.find_element(:css, "a.linker-create-btn").click

@@ -4,7 +4,7 @@ describe 'Corporate entity agent controller' do
 
   def create_corporate_entity
     JSONModel(:agent_corporate_entity).from_hash(:names => [{
-                                                    "authority_id" => "something",
+                                                    "rules" => "local",
                                                     "primary_name" => "Magoo Incorporated",
                                                     "sort_name" => "Corporate_Entity Magoo"
                                                   }],

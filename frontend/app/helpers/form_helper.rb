@@ -135,6 +135,11 @@ module FormHelper
     end
 
 
+    def label_textarea_pair(method, extra_args = {})
+      label_field_pair method, jsonmodel_text_area(method, :rows => 3), extra_args
+    end
+
+
     def label_and_fourpartid(method, extra_args  = {})
       extra_args[:control_class] = "identifier-fields"
       field_html =  jsonmodel_text_field(:id_0, :class=> "id_0", :size => 10)
@@ -159,7 +164,11 @@ module FormHelper
       attr_definition = schema["properties"][method.to_s]
 
       if attr_definition.has_key?("enum")
-        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_name(option)), option]}
+        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_name("#{method}_#{option}")), option]}
+
+        if not attr_definition["required"]
+          options_array = [""].concat(options_array)
+        end
 
         @template.select(current, method, 
                          options_array, 
@@ -190,7 +199,7 @@ module FormHelper
       @template.text_area(@object_name, method, {
                              "data-original_value" => current[method],
                              :object => current,
-                             :force_name => current_name(method),
+                             :name => current_name(method),
                              :id => current_name(method, true)
                            }.merge(opts))
     end
