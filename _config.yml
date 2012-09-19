@@ -3,7 +3,7 @@
 permalink: /:categories/:year/:month/:day/:title 
 
 exclude: [".rvmrc", ".rbenv-version", "Rakefile", "changelog.md"]
-include: ["_index.html"]
+include: ["_index.html", "API.md"]
 auto: true
 pygments: true
 
@@ -11,11 +11,9 @@ pygments: true
 # so be sure to set them if your theme uses them.
 #
 title : ArchivesSpaceDev
-tagline: The final frontier
+tagline: v 0.1.x
 author :
   name : ASpace
-  email : brianjhoffman@gmail.com
-  github : lcdhoffman
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
