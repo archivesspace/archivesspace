@@ -80,6 +80,10 @@
     
   
     
+      <dt class="r1">Includes:</dt>
+      <dd class="r1">CodeObjects</dd>
+      
+    
   
   
   
@@ -121,6 +125,29 @@
   <span class="summary_signature">
     
       <a href="#action-instance_method" title="#action (instance method)">- (Object) <strong>action</strong>(*args, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_items-instance_method" title="#add_items (instance method)">- (Object) <strong>add_items</strong>(n) </a>
     
 
     
@@ -206,8 +233,8 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Returns the name of the Sinatra application created by
-+setup_example_app+: &lsquo;ExampleApp1&rsquo; for the first application,
-&lsquo;ExampleApp2&rsquo; fo the second one, and so on&hellip;</p>
++setup_example_app+: &#8216;ExampleApp1&#8217; for the first application,
+&#8216;ExampleApp2&#8217; fo the second one, and so on&#8230;</p>
 </div></span>
   
 </li>
@@ -607,6 +634,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#docstring-instance_method" title="#docstring (instance method)">- (Object) <strong>docstring</strong>(content, object = nil, handler = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#file-instance_method" title="#file (instance method)">- (Object) <strong>file</strong> </a>
     
 
@@ -677,6 +727,29 @@
   <span class="summary_signature">
     
       <a href="#namespace-instance_method" title="#namespace (instance method)">- (Object) <strong>namespace</strong>(*args, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse-instance_method" title="#parse (instance method)">- (Object) <strong>parse</strong>(content, object = nil, handler = nil) </a>
     
 
     
@@ -883,6 +956,52 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#saves_to_multidb-instance_method" title="#saves_to_multidb (instance method)">- (Object) <strong>saves_to_multidb</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#saves_to_singledb-instance_method" title="#saves_to_singledb (instance method)">- (Object) <strong>saves_to_singledb</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#setup_example_app-instance_method" title="#setup_example_app (instance method)">- (Object) <strong>setup_example_app</strong>(options = {}) </a>
     
 
@@ -1014,8 +1133,8 @@ reloader.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>It calls <tt>File.open(path, &lsquo;w&rsquo;, &amp;block)</tt> all the times
-needed to change the file&rsquo;s mtime.</p>
+    <span class="summary_desc"><div class='inline'><p>It calls <tt>File.open(path, &#8216;w&#8217;, &amp;block)</tt> all the times
+needed to change the file&#8217;s mtime.</p>
 </div></span>
   
 </li>
@@ -1095,6 +1214,7 @@ located at <tt>specs/reloader/app.rb.erb</tt>.</p>
   
 
 
+  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -1124,6 +1244,36 @@ located at <tt>specs/reloader/app.rb.erb</tt>.</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_capture'>capture</span><span class='lparen'>(</span><span class='symbol'>:stdout</span><span class='rparen'>)</span><span class='lbrace'>{</span> <span class='id identifier rubyid_runner'>runner</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_items-instance_method">
+  
+    - (<tt>Object</tt>) <strong>add_items</strong>(n) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'build/gems/gems/yard-0.8.2.1/spec/registry_store_spec.rb', line 120</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_items'>add_items</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='ivar'>@store</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@foo</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1224,8 +1374,8 @@ located at <tt>specs/reloader/app.rb.erb</tt>.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Returns the name of the Sinatra application created by
-+setup_example_app+: &lsquo;ExampleApp1&rsquo; for the first application,
-&lsquo;ExampleApp2&rsquo; fo the second one, and so on&hellip;</p>
++setup_example_app+: &#8216;ExampleApp1&#8217; for the first application,
+&#8216;ExampleApp2&#8217; fo the second one, and so on&#8230;</p>
 
 
   </div>
@@ -2007,6 +2157,36 @@ located at <tt>specs/reloader/app.rb.erb</tt>.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="docstring-instance_method">
+  
+    - (<tt>Object</tt>) <strong>docstring</strong>(content, object = nil, handler = nil) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'build/gems/gems/yard-0.8.2.1/spec/docstring_parser_spec.rb', line 11</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_docstring'>docstring</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_object'>object</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_handler'>handler</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_object'>object</span><span class='comma'>,</span> <span class='id identifier rubyid_handler'>handler</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_docstring'>to_docstring</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="file-instance_method">
   
     - (<tt>Object</tt>) <strong>file</strong> 
@@ -2132,6 +2312,42 @@ located at <tt>specs/reloader/app.rb.erb</tt>.</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mock_app'>mock_app</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_namespace'>namespace</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parse</strong>(content, object = nil, handler = nil) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'build/gems/gems/yard-0.8.2.1/spec/docstring_parser_spec.rb', line 4</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_object'>object</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_handler'>handler</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='ivar'>@library</span> <span class='op'>||=</span> <span class='const'>Tags</span><span class='op'>::</span><span class='const'>Library</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span>
+  <span class='ivar'>@parser</span> <span class='op'>=</span> <span class='const'>DocstringParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@library</span><span class='rparen'>)</span>
+  <span class='ivar'>@parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_object'>object</span><span class='comma'>,</span> <span class='id identifier rubyid_handler'>handler</span><span class='rparen'>)</span>
+  <span class='ivar'>@parser</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2397,6 +2613,74 @@ located at <tt>specs/reloader/app.rb.erb</tt>.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="saves_to_multidb-instance_method">
+  
+    - (<tt>Object</tt>) <strong>saves_to_multidb</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'build/gems/gems/yard-0.8.2.1/spec/registry_store_spec.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_saves_to_multidb'>saves_to_multidb</span>
+  <span class='id identifier rubyid_times'>times</span> <span class='op'>=</span> <span class='ivar'>@store</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+  <span class='ivar'>@serializer</span><span class='period'>.</span><span class='id identifier rubyid_should_receive'>should_receive</span><span class='lparen'>(</span><span class='symbol'>:serialize</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exactly'>exactly</span><span class='lparen'>(</span><span class='id identifier rubyid_times'>times</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span>
+  <span class='ivar'>@store</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>foo</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@last</span> <span class='op'>=</span> <span class='id identifier rubyid_times'>times</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="saves_to_singledb-instance_method">
+  
+    - (<tt>Object</tt>) <strong>saves_to_singledb</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'build/gems/gems/yard-0.8.2.1/spec/registry_store_spec.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_saves_to_singledb'>saves_to_singledb</span>
+  <span class='ivar'>@serializer</span><span class='period'>.</span><span class='id identifier rubyid_should_receive'>should_receive</span><span class='lparen'>(</span><span class='symbol'>:serialize</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_once'>once</span><span class='period'>.</span><span class='id identifier rubyid_with'>with</span><span class='lparen'>(</span><span class='id identifier rubyid_instance_of'>instance_of</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='ivar'>@store</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>foo</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="setup_example_app-instance_method">
   
     - (<tt>Object</tt>) <strong>setup_example_app</strong>(options = {}) 
@@ -2619,8 +2903,8 @@ reloader.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>It calls <tt>File.open(path, &lsquo;w&rsquo;, &amp;block)</tt> all the times
-needed to change the file&rsquo;s mtime.</p>
+    <p>It calls <tt>File.open(path, &#8216;w&#8217;, &amp;block)</tt> all the times
+needed to change the file&#8217;s mtime.</p>
 
 
   </div>
@@ -2741,12 +3025,12 @@ needed to change the file&rsquo;s mtime.</p>
     <p>Writes a file with a Sinatra application using the template
 located at <tt>specs/reloader/app.rb.erb</tt>.  It expects an
 +options+ hash, with an array of strings containing the
-application&rsquo;s routes (+:routes+ key), a hash with the inline
-template&rsquo;s names as keys and the bodys as values
+application&#8217;s routes (+:routes+ key), a hash with the inline
+template&#8217;s names as keys and the bodys as values
 (+:inline_templates+ key) and an optional application name
 (+:name+) otherwise +app_name+ is used.</p>
 
-<p>It ensures to change the written file&rsquo;s mtime when it already
+<p>It ensures to change the written file&#8217;s mtime when it already
 exists.</p>
 
 
@@ -2809,7 +3093,7 @@ exists.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.0. Documentation Generated on Tue Sep 18 17:59:28 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Tue Sep 18 20:55:46 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

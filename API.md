@@ -1,8 +1,8 @@
 # ArchivesSpace REST API
-As of 2012-09-18 13:59:19 -0400 the following REST endpoints exist:
+As of 2012-09-18 20:55:42 -0400 the following REST endpoints exist:
 
 	
-## /agents 
+## GET /agents 
 
 ### Description
 
@@ -15,7 +15,7 @@ Get all agent records
 	200 -- [(:agent)]
 
 	
-## /agents/corporate_entities 
+## POST /agents/corporate_entities 
 
 ### Description
 
@@ -23,7 +23,7 @@ Create a corporate entity agent
 
 ### Parameters
 
-	false <request body> -- The corporate entity to create
+	JSONModel(:agent_corporate_entity) <request body> -- The corporate entity to create
 
 ### Returns
 
@@ -31,7 +31,7 @@ Create a corporate entity agent
 	400 -- {:error => (description of error)}
 
 	
-## /agents/corporate_entities/:agent_id 
+## POST /agents/corporate_entities/:agent_id 
 
 ### Description
 
@@ -41,7 +41,7 @@ Update a corporate entity agent
 
 	Integer agent_id -- The ID of the agent to update
 
-	false <request body> -- The corporate entity to create
+	JSONModel(:agent_corporate_entity) <request body> -- The corporate entity to create
 
 ### Returns
 
@@ -49,7 +49,7 @@ Update a corporate entity agent
 	400 -- {:error => (description of error)}
 
 	
-## /agents/corporate_entities/:id 
+## GET /agents/corporate_entities/:id 
 
 ### Description
 
@@ -65,7 +65,7 @@ Get a corporate entity by ID
 	404 -- {"error":"Agent not found"}
 
 	
-## /agents/families 
+## POST /agents/families 
 
 ### Description
 
@@ -73,7 +73,7 @@ Create a family agent
 
 ### Parameters
 
-	false <request body> -- The family to create
+	JSONModel(:agent_family) <request body> -- The family to create
 
 ### Returns
 
@@ -81,7 +81,7 @@ Create a family agent
 	400 -- {:error => (description of error)}
 
 	
-## /agents/families/:agent_id 
+## POST /agents/families/:agent_id 
 
 ### Description
 
@@ -91,7 +91,7 @@ Update a family agent
 
 	Integer agent_id -- The ID of the agent to update
 
-	false <request body> -- The family to create
+	JSONModel(:agent_family) <request body> -- The family to create
 
 ### Returns
 
@@ -99,7 +99,7 @@ Update a family agent
 	400 -- {:error => (description of error)}
 
 	
-## /agents/families/:id 
+## GET /agents/families/:id 
 
 ### Description
 
@@ -115,7 +115,7 @@ Get a family by ID
 	404 -- {"error":"Agent not found"}
 
 	
-## /agents/people 
+## POST /agents/people 
 
 ### Description
 
@@ -123,7 +123,7 @@ Create a person agent
 
 ### Parameters
 
-	false <request body> -- The person to create
+	JSONModel(:agent_person) <request body> -- The person to create
 
 ### Returns
 
@@ -131,7 +131,7 @@ Create a person agent
 	400 -- {:error => (description of error)}
 
 	
-## /agents/people/:agent_id 
+## POST /agents/people/:agent_id 
 
 ### Description
 
@@ -141,7 +141,7 @@ Update a person agent
 
 	Integer agent_id -- The ID of the agent to update
 
-	false <request body> -- The person to create
+	JSONModel(:agent_person) <request body> -- The person to create
 
 ### Returns
 
@@ -149,7 +149,7 @@ Update a person agent
 	400 -- {:error => (description of error)}
 
 	
-## /agents/people/:id 
+## GET /agents/people/:id 
 
 ### Description
 
@@ -165,7 +165,7 @@ Get a person by ID
 	404 -- {"error":"Agent not found"}
 
 	
-## /agents/software 
+## POST /agents/software 
 
 ### Description
 
@@ -173,7 +173,7 @@ Create a software agent
 
 ### Parameters
 
-	false <request body> -- The software to create
+	JSONModel(:agent_software) <request body> -- The software to create
 
 ### Returns
 
@@ -181,7 +181,7 @@ Create a software agent
 	400 -- {:error => (description of error)}
 
 	
-## /agents/software/:agent_id 
+## POST /agents/software/:agent_id 
 
 ### Description
 
@@ -191,7 +191,7 @@ Update a software agent
 
 	Integer agent_id -- The ID of the software to update
 
-	false <request body> -- The software to create
+	JSONModel(:agent_software) <request body> -- The software to create
 
 ### Returns
 
@@ -199,7 +199,7 @@ Update a software agent
 	400 -- {:error => (description of error)}
 
 	
-## /agents/software/:id 
+## GET /agents/software/:id 
 
 ### Description
 
@@ -215,7 +215,7 @@ Get a software by ID
 	404 -- {"error":"Agent not found"}
 
 	
-## /repositories 
+## GET /repositories 
 
 ### Description
 
@@ -228,7 +228,7 @@ Get a list of Repositories
 	200 -- [(:repository)]
 
 	
-## /repositories 
+## POST /repositories 
 
 ### Description
 
@@ -236,7 +236,7 @@ Create a Repository
 
 ### Parameters
 
-	false <request body> -- The repository to create
+	JSONModel(:repository) <request body> -- The repository to create
 
 ### Returns
 
@@ -244,7 +244,7 @@ Create a Repository
 	400 -- {:error => (description of error)}
 
 	
-## /repositories/:id 
+## GET /repositories/:id 
 
 ### Description
 
@@ -260,7 +260,7 @@ Get a Repository by ID
 	404 -- {"error":"Repository not found"}
 
 	
-## /repositories/:repo_id/accessions 
+## GET /repositories/:repo_id/accessions 
 
 ### Description
 
@@ -275,7 +275,7 @@ Get a list of Accessions for a Repository
 	200 -- [(:accession)]
 
 	
-## /repositories/:repo_id/accessions 
+## POST /repositories/:repo_id/accessions 
 
 ### Description
 
@@ -283,7 +283,7 @@ Create an Accession
 
 ### Parameters
 
-	false <request body> -- The accession to create
+	JSONModel(:accession) <request body> -- The accession to create
 
 	Integer repo_id -- The Repository ID -- The Repository must exist
 
@@ -292,7 +292,7 @@ Create an Accession
 	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
 	
-## /repositories/:repo_id/accessions/:accession_id 
+## GET /repositories/:repo_id/accessions/:accession_id 
 
 ### Description
 
@@ -309,7 +309,7 @@ Get an Accession by ID
 	200 -- (:accession)
 
 	
-## /repositories/:repo_id/accessions/:accession_id 
+## POST /repositories/:repo_id/accessions/:accession_id 
 
 ### Description
 
@@ -319,7 +319,7 @@ Update an Accession
 
 	Integer accession_id -- The accession ID to update
 
-	false <request body> -- The accession data to update
+	JSONModel(:accession) <request body> -- The accession data to update
 
 	Integer repo_id -- The Repository ID -- The Repository must exist
 
@@ -328,7 +328,7 @@ Update an Accession
 	200 -- {:status => "Updated", :id => (id of updated object)}
 
 	
-## /repositories/:repo_id/archival_objects 
+## POST /repositories/:repo_id/archival_objects 
 
 ### Description
 
@@ -336,7 +336,7 @@ Create an Archival Object
 
 ### Parameters
 
-	false <request body> -- The Archival Object to create
+	JSONModel(:archival_object) <request body> -- The Archival Object to create
 
 	Integer repo_id -- The Repository ID
 
@@ -347,7 +347,7 @@ Create an Archival Object
 	409 -- {"error":{"[:resource_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}
 
 	
-## /repositories/:repo_id/archival_objects 
+## GET /repositories/:repo_id/archival_objects 
 
 ### Description
 
@@ -362,7 +362,7 @@ Get a list of Archival Objects for a Repository
 	200 -- [(:archival_object)]
 
 	
-## /repositories/:repo_id/archival_objects/:archival_object_id 
+## POST /repositories/:repo_id/archival_objects/:archival_object_id 
 
 ### Description
 
@@ -372,7 +372,7 @@ Update an Archival Object
 
 	Integer archival_object_id -- The Archival Object ID to update
 
-	false <request body> -- The Archival Object data to update
+	JSONModel(:archival_object) <request body> -- The Archival Object data to update
 
 	Integer repo_id -- The Repository ID
 
@@ -383,7 +383,7 @@ Update an Archival Object
 	409 -- {"error":{"[:resource_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}
 
 	
-## /repositories/:repo_id/archival_objects/:archival_object_id 
+## GET /repositories/:repo_id/archival_objects/:archival_object_id 
 
 ### Description
 
@@ -403,7 +403,7 @@ Get an Archival Object by ID
 	404 -- {"error":"ArchivalObject not found"}
 
 	
-## /repositories/:repo_id/archival_objects/:archival_object_id/children 
+## GET /repositories/:repo_id/archival_objects/:archival_object_id/children 
 
 ### Description
 
@@ -421,7 +421,7 @@ Get the children of an Archival Object
 	404 -- {"error":"ArchivalObject not found"}
 
 	
-## /repositories/:repo_id/resources 
+## POST /repositories/:repo_id/resources 
 
 ### Description
 
@@ -429,7 +429,7 @@ Create a Resource
 
 ### Parameters
 
-	false <request body> -- The resource to create
+	JSONModel(:resource) <request body> -- The resource to create
 
 	Integer repo_id -- The Repository ID -- The Repository must exist
 
@@ -438,7 +438,7 @@ Create a Resource
 	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
 	
-## /repositories/:repo_id/resources 
+## GET /repositories/:repo_id/resources 
 
 ### Description
 
@@ -453,7 +453,7 @@ Get a list of Resources for a Repository
 	200 -- [(:resource)]
 
 	
-## /repositories/:repo_id/resources/:resource_id 
+## GET /repositories/:repo_id/resources/:resource_id 
 
 ### Description
 
@@ -472,7 +472,7 @@ Get a Resource
 	200 -- (:resource)
 
 	
-## /repositories/:repo_id/resources/:resource_id 
+## POST /repositories/:repo_id/resources/:resource_id 
 
 ### Description
 
@@ -482,7 +482,7 @@ Update a Resource
 
 	Integer resource_id -- The ID of the resource to retrieve
 
-	false <request body> -- The resource to update
+	JSONModel(:resource) <request body> -- The resource to update
 
 	Integer repo_id -- The Repository ID -- The Repository must exist
 
@@ -491,7 +491,7 @@ Update a Resource
 	200 -- {:status => "Updated", :id => (id of updated object)}
 
 	
-## /repositories/:repo_id/resources/:resource_id/tree 
+## GET /repositories/:repo_id/resources/:resource_id/tree 
 
 ### Description
 
@@ -508,7 +508,7 @@ Get a Resource tree
 	200 -- OK
 
 	
-## /repositories/:repo_id/resources/:resource_id/tree 
+## POST /repositories/:repo_id/resources/:resource_id/tree 
 
 ### Description
 
@@ -518,7 +518,7 @@ Update a Resource tree
 
 	Integer resource_id -- The ID of the resource to retrieve
 
-	false <request body> -- A JSON tree representing the modified hierarchy
+	JSONModel(:resource_tree) <request body> -- A JSON tree representing the modified hierarchy
 
 	Integer repo_id -- The Repository ID -- The Repository must exist
 
@@ -527,7 +527,7 @@ Update a Resource tree
 	200 -- {:status => "Updated", :id => (id of updated object)}
 
 	
-## /subjects 
+## POST /subjects 
 
 ### Description
 
@@ -535,14 +535,14 @@ Create a Subject
 
 ### Parameters
 
-	false <request body> -- The subject data to create
+	JSONModel(:subject) <request body> -- The subject data to create
 
 ### Returns
 
 	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
 	
-## /subjects 
+## GET /subjects 
 
 ### Description
 
@@ -555,7 +555,7 @@ Get a list of Subjects
 	200 -- [(:subject)]
 
 	
-## /subjects/:subject_id 
+## GET /subjects/:subject_id 
 
 ### Description
 
@@ -570,7 +570,7 @@ Get a Subject by ID
 	200 -- (:subject)
 
 	
-## /users 
+## POST /users 
 
 ### Description
 
@@ -580,7 +580,7 @@ Create a local user
 
 	String password -- The user's password
 
-	false <request body> -- The user to create
+	JSONModel(:user) <request body> -- The user to create
 
 ### Returns
 
@@ -588,7 +588,7 @@ Create a local user
 	400 -- {:error => (description of error)}
 
 	
-## /users/:username/login 
+## POST /users/:username/login 
 
 ### Description
 
@@ -606,7 +606,7 @@ Log in
 	403 -- Login failed
 
 	
-## /vocabularies 
+## GET /vocabularies 
 
 ### Description
 
@@ -621,7 +621,7 @@ Get a list of Vocabularies
 	200 -- [(:vocabulary)]
 
 	
-## /vocabularies 
+## POST /vocabularies 
 
 ### Description
 
@@ -629,14 +629,14 @@ Create a Vocabulary
 
 ### Parameters
 
-	false <request body> -- The vocabulary data to create
+	JSONModel(:vocabulary) <request body> -- The vocabulary data to create
 
 ### Returns
 
 	200 -- {:status => "Created", :id => (id of created object), :warnings => {(warnings)}}
 
 	
-## /vocabularies/:vocab_id 
+## POST /vocabularies/:vocab_id 
 
 ### Description
 
@@ -646,14 +646,14 @@ Update a Vocabulary
 
 	Integer vocab_id -- The vocabulary ID to update
 
-	false <request body> -- The vocabulary data to update
+	JSONModel(:vocabulary) <request body> -- The vocabulary data to update
 
 ### Returns
 
 	200 -- {:status => "Updated", :id => (id of updated object)}
 
 	
-## /vocabularies/:vocab_id 
+## GET /vocabularies/:vocab_id 
 
 ### Description
 
@@ -668,7 +668,7 @@ Get a Vocabulary by ID
 	200 -- OK
 
 	
-## /vocabularies/:vocab_id/terms 
+## GET /vocabularies/:vocab_id/terms 
 
 ### Description
 

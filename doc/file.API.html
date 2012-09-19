@@ -67,9 +67,9 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><div id='filecontents'><h1 id="archivesspace-rest-api">ArchivesSpace REST API</h1>
-<p>As of 2012-09-18 17:59:23 -0400 the following REST endpoints exist:</p>
+<p>As of 2012-09-18 20:55:42 -0400 the following REST endpoints exist:</p>
 
-<h2 id="agents">/agents</h2>
+<h2 id="get-agents">GET /agents</h2>
 
 <h3 id="description">Description</h3>
 
@@ -82,7 +82,7 @@
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:agent</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="agentscorporateentities">/agents/corporate_entities</h2>
+<h2 id="post-agentscorporateentities">POST /agents/corporate_entities</h2>
 
 <h3 id="description-1">Description</h3>
 
@@ -90,7 +90,7 @@
 
 <h3 id="parameters-1">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The corporate entity to create
+<pre class="code ruby"><code>JSONModel(:agent_corporate_entity) &lt;request body&gt; -- The corporate entity to create
 </code></pre>
 
 <h3 id="returns-1">Returns</h3>
@@ -99,7 +99,7 @@
 400 -- {:error =&gt; (description of error)}
 </code></pre>
 
-<h2 id="agentscorporateentitiesagentid">/agents/corporate_entities/:agent_id</h2>
+<h2 id="post-agentscorporateentitiesagentid">POST /agents/corporate_entities/:agent_id</h2>
 
 <h3 id="description-2">Description</h3>
 
@@ -109,7 +109,7 @@
 
 <pre class="code ruby"><code>Integer agent_id -- The ID of the agent to update
 
-false &lt;request body&gt; -- The corporate entity to create
+JSONModel(:agent_corporate_entity) &lt;request body&gt; -- The corporate entity to create
 </code></pre>
 
 <h3 id="returns-2">Returns</h3>
@@ -118,7 +118,7 @@ false &lt;request body&gt; -- The corporate entity to create
 <span class='int'>400</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="agentscorporateentitiesid">/agents/corporate_entities/:id</h2>
+<h2 id="get-agentscorporateentitiesid">GET /agents/corporate_entities/:id</h2>
 
 <h3 id="description-3">Description</h3>
 
@@ -135,7 +135,7 @@ false &lt;request body&gt; -- The corporate entity to create
 404 -- {&quot;error&quot;:&quot;Agent not found&quot;}
 </code></pre>
 
-<h2 id="agentsfamilies">/agents/families</h2>
+<h2 id="post-agentsfamilies">POST /agents/families</h2>
 
 <h3 id="description-4">Description</h3>
 
@@ -143,7 +143,7 @@ false &lt;request body&gt; -- The corporate entity to create
 
 <h3 id="parameters-4">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The family to create
+<pre class="code ruby"><code>JSONModel(:agent_family) &lt;request body&gt; -- The family to create
 </code></pre>
 
 <h3 id="returns-4">Returns</h3>
@@ -152,7 +152,7 @@ false &lt;request body&gt; -- The corporate entity to create
 400 -- {:error =&gt; (description of error)}
 </code></pre>
 
-<h2 id="agentsfamiliesagentid">/agents/families/:agent_id</h2>
+<h2 id="post-agentsfamiliesagentid">POST /agents/families/:agent_id</h2>
 
 <h3 id="description-5">Description</h3>
 
@@ -162,7 +162,7 @@ false &lt;request body&gt; -- The corporate entity to create
 
 <pre class="code ruby"><code>Integer agent_id -- The ID of the agent to update
 
-false &lt;request body&gt; -- The family to create
+JSONModel(:agent_family) &lt;request body&gt; -- The family to create
 </code></pre>
 
 <h3 id="returns-5">Returns</h3>
@@ -171,7 +171,7 @@ false &lt;request body&gt; -- The family to create
 <span class='int'>400</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="agentsfamiliesid">/agents/families/:id</h2>
+<h2 id="get-agentsfamiliesid">GET /agents/families/:id</h2>
 
 <h3 id="description-6">Description</h3>
 
@@ -188,7 +188,7 @@ false &lt;request body&gt; -- The family to create
 404 -- {&quot;error&quot;:&quot;Agent not found&quot;}
 </code></pre>
 
-<h2 id="agentspeople">/agents/people</h2>
+<h2 id="post-agentspeople">POST /agents/people</h2>
 
 <h3 id="description-7">Description</h3>
 
@@ -196,7 +196,7 @@ false &lt;request body&gt; -- The family to create
 
 <h3 id="parameters-7">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The person to create
+<pre class="code ruby"><code>JSONModel(:agent_person) &lt;request body&gt; -- The person to create
 </code></pre>
 
 <h3 id="returns-7">Returns</h3>
@@ -205,7 +205,7 @@ false &lt;request body&gt; -- The family to create
 400 -- {:error =&gt; (description of error)}
 </code></pre>
 
-<h2 id="agentspeopleagentid">/agents/people/:agent_id</h2>
+<h2 id="post-agentspeopleagentid">POST /agents/people/:agent_id</h2>
 
 <h3 id="description-8">Description</h3>
 
@@ -215,7 +215,7 @@ false &lt;request body&gt; -- The family to create
 
 <pre class="code ruby"><code>Integer agent_id -- The ID of the agent to update
 
-false &lt;request body&gt; -- The person to create
+JSONModel(:agent_person) &lt;request body&gt; -- The person to create
 </code></pre>
 
 <h3 id="returns-8">Returns</h3>
@@ -224,7 +224,7 @@ false &lt;request body&gt; -- The person to create
 <span class='int'>400</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="agentspeopleid">/agents/people/:id</h2>
+<h2 id="get-agentspeopleid">GET /agents/people/:id</h2>
 
 <h3 id="description-9">Description</h3>
 
@@ -241,7 +241,7 @@ false &lt;request body&gt; -- The person to create
 404 -- {&quot;error&quot;:&quot;Agent not found&quot;}
 </code></pre>
 
-<h2 id="agentssoftware">/agents/software</h2>
+<h2 id="post-agentssoftware">POST /agents/software</h2>
 
 <h3 id="description-10">Description</h3>
 
@@ -249,7 +249,7 @@ false &lt;request body&gt; -- The person to create
 
 <h3 id="parameters-10">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The software to create
+<pre class="code ruby"><code>JSONModel(:agent_software) &lt;request body&gt; -- The software to create
 </code></pre>
 
 <h3 id="returns-10">Returns</h3>
@@ -258,7 +258,7 @@ false &lt;request body&gt; -- The person to create
 400 -- {:error =&gt; (description of error)}
 </code></pre>
 
-<h2 id="agentssoftwareagentid">/agents/software/:agent_id</h2>
+<h2 id="post-agentssoftwareagentid">POST /agents/software/:agent_id</h2>
 
 <h3 id="description-11">Description</h3>
 
@@ -268,7 +268,7 @@ false &lt;request body&gt; -- The person to create
 
 <pre class="code ruby"><code>Integer agent_id -- The ID of the software to update
 
-false &lt;request body&gt; -- The software to create
+JSONModel(:agent_software) &lt;request body&gt; -- The software to create
 </code></pre>
 
 <h3 id="returns-11">Returns</h3>
@@ -277,7 +277,7 @@ false &lt;request body&gt; -- The software to create
 <span class='int'>400</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="agentssoftwareid">/agents/software/:id</h2>
+<h2 id="get-agentssoftwareid">GET /agents/software/:id</h2>
 
 <h3 id="description-12">Description</h3>
 
@@ -294,7 +294,7 @@ false &lt;request body&gt; -- The software to create
 404 -- {&quot;error&quot;:&quot;Agent not found&quot;}
 </code></pre>
 
-<h2 id="repositories">/repositories</h2>
+<h2 id="get-repositories">GET /repositories</h2>
 
 <h3 id="description-13">Description</h3>
 
@@ -307,7 +307,7 @@ false &lt;request body&gt; -- The software to create
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:repository</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="repositories-1">/repositories</h2>
+<h2 id="post-repositories">POST /repositories</h2>
 
 <h3 id="description-14">Description</h3>
 
@@ -315,7 +315,7 @@ false &lt;request body&gt; -- The software to create
 
 <h3 id="parameters-14">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The repository to create
+<pre class="code ruby"><code>JSONModel(:repository) &lt;request body&gt; -- The repository to create
 </code></pre>
 
 <h3 id="returns-14">Returns</h3>
@@ -324,7 +324,7 @@ false &lt;request body&gt; -- The software to create
 400 -- {:error =&gt; (description of error)}
 </code></pre>
 
-<h2 id="repositoriesid">/repositories/:id</h2>
+<h2 id="get-repositoriesid">GET /repositories/:id</h2>
 
 <h3 id="description-15">Description</h3>
 
@@ -341,7 +341,7 @@ false &lt;request body&gt; -- The software to create
 404 -- {&quot;error&quot;:&quot;Repository not found&quot;}
 </code></pre>
 
-<h2 id="repositoriesrepoidaccessions">/repositories/:repo_id/accessions</h2>
+<h2 id="get-repositoriesrepoidaccessions">GET /repositories/:repo_id/accessions</h2>
 
 <h3 id="description-16">Description</h3>
 
@@ -357,7 +357,7 @@ false &lt;request body&gt; -- The software to create
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:accession</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="repositoriesrepoidaccessions-1">/repositories/:repo_id/accessions</h2>
+<h2 id="post-repositoriesrepoidaccessions">POST /repositories/:repo_id/accessions</h2>
 
 <h3 id="description-17">Description</h3>
 
@@ -365,7 +365,7 @@ false &lt;request body&gt; -- The software to create
 
 <h3 id="parameters-17">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The accession to create
+<pre class="code ruby"><code>JSONModel(:accession) &lt;request body&gt; -- The accession to create
 
 Integer repo_id -- The Repository ID -- The Repository must exist
 </code></pre>
@@ -375,7 +375,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
 </code></pre>
 
-<h2 id="repositoriesrepoidaccessionsaccessionid">/repositories/:repo_id/accessions/:accession_id</h2>
+<h2 id="get-repositoriesrepoidaccessionsaccessionid">GET /repositories/:repo_id/accessions/:accession_id</h2>
 
 <h3 id="description-18">Description</h3>
 
@@ -393,7 +393,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lparen'>(</span><span class='symbol'>:accession</span><span class='rparen'>)</span>
 </code></pre>
 
-<h2 id="repositoriesrepoidaccessionsaccessionid-1">/repositories/:repo_id/accessions/:accession_id</h2>
+<h2 id="post-repositoriesrepoidaccessionsaccessionid">POST /repositories/:repo_id/accessions/:accession_id</h2>
 
 <h3 id="description-19">Description</h3>
 
@@ -403,7 +403,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <pre class="code ruby"><code>Integer accession_id -- The accession ID to update
 
-false &lt;request body&gt; -- The accession data to update
+JSONModel(:accession) &lt;request body&gt; -- The accession data to update
 
 Integer repo_id -- The Repository ID -- The Repository must exist
 </code></pre>
@@ -413,7 +413,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="repositoriesrepoidarchivalobjects">/repositories/:repo_id/archival_objects</h2>
+<h2 id="post-repositoriesrepoidarchivalobjects">POST /repositories/:repo_id/archival_objects</h2>
 
 <h3 id="description-20">Description</h3>
 
@@ -421,7 +421,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <h3 id="parameters-20">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The Archival Object to create
+<pre class="code ruby"><code>JSONModel(:archival_object) &lt;request body&gt; -- The Archival Object to create
 
 Integer repo_id -- The Repository ID
 </code></pre>
@@ -433,7 +433,7 @@ Integer repo_id -- The Repository ID
 409 -- {&quot;error&quot;:{&quot;[:resource_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}
 </code></pre>
 
-<h2 id="repositoriesrepoidarchivalobjects-1">/repositories/:repo_id/archival_objects</h2>
+<h2 id="get-repositoriesrepoidarchivalobjects">GET /repositories/:repo_id/archival_objects</h2>
 
 <h3 id="description-21">Description</h3>
 
@@ -449,7 +449,7 @@ Integer repo_id -- The Repository ID
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:archival_object</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="repositoriesrepoidarchivalobjectsarchivalobjectid">/repositories/:repo_id/archival_objects/:archival_object_id</h2>
+<h2 id="post-repositoriesrepoidarchivalobjectsarchivalobjectid">POST /repositories/:repo_id/archival_objects/:archival_object_id</h2>
 
 <h3 id="description-22">Description</h3>
 
@@ -459,7 +459,7 @@ Integer repo_id -- The Repository ID
 
 <pre class="code ruby"><code>Integer archival_object_id -- The Archival Object ID to update
 
-false &lt;request body&gt; -- The Archival Object data to update
+JSONModel(:archival_object) &lt;request body&gt; -- The Archival Object data to update
 
 Integer repo_id -- The Repository ID
 </code></pre>
@@ -471,7 +471,7 @@ Integer repo_id -- The Repository ID
 409 -- {&quot;error&quot;:{&quot;[:resource_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}
 </code></pre>
 
-<h2 id="repositoriesrepoidarchivalobjectsarchivalobjectid-1">/repositories/:repo_id/archival_objects/:archival_object_id</h2>
+<h2 id="get-repositoriesrepoidarchivalobjectsarchivalobjectid">GET /repositories/:repo_id/archival_objects/:archival_object_id</h2>
 
 <h3 id="description-23">Description</h3>
 
@@ -492,7 +492,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 404 -- {&quot;error&quot;:&quot;ArchivalObject not found&quot;}
 </code></pre>
 
-<h2 id="repositoriesrepoidarchivalobjectsarchivalobjectidchildren">/repositories/:repo_id/archival_objects/:archival_object_id/children</h2>
+<h2 id="get-repositoriesrepoidarchivalobjectsarchivalobjectidchildren">GET /repositories/:repo_id/archival_objects/:archival_object_id/children</h2>
 
 <h3 id="description-24">Description</h3>
 
@@ -511,7 +511,7 @@ Integer repo_id -- The Repository ID
 404 -- {&quot;error&quot;:&quot;ArchivalObject not found&quot;}
 </code></pre>
 
-<h2 id="repositoriesrepoidresources">/repositories/:repo_id/resources</h2>
+<h2 id="post-repositoriesrepoidresources">POST /repositories/:repo_id/resources</h2>
 
 <h3 id="description-25">Description</h3>
 
@@ -519,7 +519,7 @@ Integer repo_id -- The Repository ID
 
 <h3 id="parameters-25">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The resource to create
+<pre class="code ruby"><code>JSONModel(:resource) &lt;request body&gt; -- The resource to create
 
 Integer repo_id -- The Repository ID -- The Repository must exist
 </code></pre>
@@ -529,7 +529,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
 </code></pre>
 
-<h2 id="repositoriesrepoidresources-1">/repositories/:repo_id/resources</h2>
+<h2 id="get-repositoriesrepoidresources">GET /repositories/:repo_id/resources</h2>
 
 <h3 id="description-26">Description</h3>
 
@@ -545,7 +545,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="repositoriesrepoidresourcesresourceid">/repositories/:repo_id/resources/:resource_id</h2>
+<h2 id="get-repositoriesrepoidresourcesresourceid">GET /repositories/:repo_id/resources/:resource_id</h2>
 
 <h3 id="description-27">Description</h3>
 
@@ -565,7 +565,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span>
 </code></pre>
 
-<h2 id="repositoriesrepoidresourcesresourceid-1">/repositories/:repo_id/resources/:resource_id</h2>
+<h2 id="post-repositoriesrepoidresourcesresourceid">POST /repositories/:repo_id/resources/:resource_id</h2>
 
 <h3 id="description-28">Description</h3>
 
@@ -575,7 +575,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <pre class="code ruby"><code>Integer resource_id -- The ID of the resource to retrieve
 
-false &lt;request body&gt; -- The resource to update
+JSONModel(:resource) &lt;request body&gt; -- The resource to update
 
 Integer repo_id -- The Repository ID -- The Repository must exist
 </code></pre>
@@ -585,7 +585,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="repositoriesrepoidresourcesresourceidtree">/repositories/:repo_id/resources/:resource_id/tree</h2>
+<h2 id="get-repositoriesrepoidresourcesresourceidtree">GET /repositories/:repo_id/resources/:resource_id/tree</h2>
 
 <h3 id="description-29">Description</h3>
 
@@ -603,7 +603,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='const'>OK</span>
 </code></pre>
 
-<h2 id="repositoriesrepoidresourcesresourceidtree-1">/repositories/:repo_id/resources/:resource_id/tree</h2>
+<h2 id="post-repositoriesrepoidresourcesresourceidtree">POST /repositories/:repo_id/resources/:resource_id/tree</h2>
 
 <h3 id="description-30">Description</h3>
 
@@ -613,7 +613,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <pre class="code ruby"><code>Integer resource_id -- The ID of the resource to retrieve
 
-false &lt;request body&gt; -- A JSON tree representing the modified hierarchy
+JSONModel(:resource_tree) &lt;request body&gt; -- A JSON tree representing the modified hierarchy
 
 Integer repo_id -- The Repository ID -- The Repository must exist
 </code></pre>
@@ -623,7 +623,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="subjects">/subjects</h2>
+<h2 id="post-subjects">POST /subjects</h2>
 
 <h3 id="description-31">Description</h3>
 
@@ -631,7 +631,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <h3 id="parameters-31">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The subject data to create
+<pre class="code ruby"><code>JSONModel(:subject) &lt;request body&gt; -- The subject data to create
 </code></pre>
 
 <h3 id="returns-31">Returns</h3>
@@ -639,7 +639,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
 </code></pre>
 
-<h2 id="subjects-1">/subjects</h2>
+<h2 id="get-subjects">GET /subjects</h2>
 
 <h3 id="description-32">Description</h3>
 
@@ -652,7 +652,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:subject</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="subjectssubjectid">/subjects/:subject_id</h2>
+<h2 id="get-subjectssubjectid">GET /subjects/:subject_id</h2>
 
 <h3 id="description-33">Description</h3>
 
@@ -668,7 +668,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lparen'>(</span><span class='symbol'>:subject</span><span class='rparen'>)</span>
 </code></pre>
 
-<h2 id="users">/users</h2>
+<h2 id="post-users">POST /users</h2>
 
 <h3 id="description-34">Description</h3>
 
@@ -678,7 +678,7 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <pre class="code ruby"><code>String password -- The user's password
 
-false &lt;request body&gt; -- The user to create
+JSONModel(:user) &lt;request body&gt; -- The user to create
 </code></pre>
 
 <h3 id="returns-34">Returns</h3>
@@ -687,7 +687,7 @@ false &lt;request body&gt; -- The user to create
 400 -- {:error =&gt; (description of error)}
 </code></pre>
 
-<h2 id="usersusernamelogin">/users/:username/login</h2>
+<h2 id="post-usersusernamelogin">POST /users/:username/login</h2>
 
 <h3 id="description-35">Description</h3>
 
@@ -706,7 +706,7 @@ false &lt;request body&gt; -- The user to create
 403 -- Login failed
 </code></pre>
 
-<h2 id="vocabularies">/vocabularies</h2>
+<h2 id="get-vocabularies">GET /vocabularies</h2>
 
 <h3 id="description-36">Description</h3>
 
@@ -722,7 +722,7 @@ false &lt;request body&gt; -- The user to create
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:vocabulary</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="vocabularies-1">/vocabularies</h2>
+<h2 id="post-vocabularies">POST /vocabularies</h2>
 
 <h3 id="description-37">Description</h3>
 
@@ -730,7 +730,7 @@ false &lt;request body&gt; -- The user to create
 
 <h3 id="parameters-37">Parameters</h3>
 
-<pre class="code ruby"><code>false &lt;request body&gt; -- The vocabulary data to create
+<pre class="code ruby"><code>JSONModel(:vocabulary) &lt;request body&gt; -- The vocabulary data to create
 </code></pre>
 
 <h3 id="returns-37">Returns</h3>
@@ -738,7 +738,7 @@ false &lt;request body&gt; -- The user to create
 <pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
 </code></pre>
 
-<h2 id="vocabulariesvocabid">/vocabularies/:vocab_id</h2>
+<h2 id="post-vocabulariesvocabid">POST /vocabularies/:vocab_id</h2>
 
 <h3 id="description-38">Description</h3>
 
@@ -748,7 +748,7 @@ false &lt;request body&gt; -- The user to create
 
 <pre class="code ruby"><code>Integer vocab_id -- The vocabulary ID to update
 
-false &lt;request body&gt; -- The vocabulary data to update
+JSONModel(:vocabulary) &lt;request body&gt; -- The vocabulary data to update
 </code></pre>
 
 <h3 id="returns-38">Returns</h3>
@@ -756,7 +756,7 @@ false &lt;request body&gt; -- The vocabulary data to update
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="vocabulariesvocabid-1">/vocabularies/:vocab_id</h2>
+<h2 id="get-vocabulariesvocabid">GET /vocabularies/:vocab_id</h2>
 
 <h3 id="description-39">Description</h3>
 
@@ -772,7 +772,7 @@ false &lt;request body&gt; -- The vocabulary data to update
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='const'>OK</span>
 </code></pre>
 
-<h2 id="vocabulariesvocabidterms">/vocabularies/:vocab_id/terms</h2>
+<h2 id="get-vocabulariesvocabidterms">GET /vocabularies/:vocab_id/terms</h2>
 
 <h3 id="description-40">Description</h3>
 
@@ -790,7 +790,7 @@ false &lt;request body&gt; -- The vocabulary data to update
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.0. Documentation Generated on Tue Sep 18 17:59:28 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Tue Sep 18 20:55:46 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>
