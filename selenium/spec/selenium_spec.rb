@@ -127,6 +127,14 @@ RSpec.configure do |c|
   c.fail_fast = true
 end
 
+def cleanup
+  @driver.quit if @driver
+
+  TestUtils::kill($backend_pid) if $backend_pid
+  TestUtils::kill($frontend_pid) if $frontend_pid
+end
+
+
 
 describe "ArchivesSpace user interface" do
 
@@ -142,8 +150,8 @@ describe "ArchivesSpace user interface" do
 
     (@backend, @frontend) = [false, false]
     if standalone
-      @backend = TestUtils::start_backend($backend_port)
-      @frontend = TestUtils::start_frontend($frontend_port, $backend)
+      $backend_pid = TestUtils::start_backend($backend_port)
+      $frontend_pid = TestUtils::start_frontend($frontend_port, $backend)
     end
 
     @user = "testuser#{Time.now.to_i}"
@@ -154,10 +162,17 @@ describe "ArchivesSpace user interface" do
 
   # Stop selenium, kill the dev servers
   after(:all) do
-    @driver.quit
+    cleanup
+  end
 
-    TestUtils::kill(@backend) if @backend
-    TestUtils::kill(@frontend) if @frontend
+
+  around(:each) do |example|
+    begin
+      example.run
+    rescue
+      cleanup
+      raise $!
+    end
   end
 
 
