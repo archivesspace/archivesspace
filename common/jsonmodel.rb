@@ -286,7 +286,7 @@ module JSONModel
       #
       # For example, type_of("names/items/type") might return a JSONModel class
       def self.type_of(path)
-        type = self.schema_path_lookup(self.schema, path)["type"]
+        type = JSONSchemaUtils.schema_path_lookup(self.schema, path)["type"]
 
         ref = JSONModel.parse_jsonmodel_ref(type)
 
