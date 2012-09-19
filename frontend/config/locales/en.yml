@@ -73,19 +73,19 @@ en:
     <<: *agent_attributes
   extent: &extent_attributes
     portion: Portion
-    whole: Whole
-    part: Part
+    portion_whole: Whole
+    portion_part: Part
     number: Number
     extent_type: Type
-    cassettes: Cassettes
-    cubic_feet: Cubic Feet
-    leafs: Leafs
-    linear_feet: Linear Feet
-    photographic_prints: Photographic Prints
-    photographic_slides: Photographic Slides
-    reels: Reels
-    sheets: Sheets
-    volumes: Volumes
+    extent_type_cassettes: Cassettes
+    extent_type_cubic_feet: Cubic Feet
+    extent_type_leafs: Leafs
+    extent_type_linear_feet: Linear Feet
+    extent_type_photographic_prints: Photographic Prints
+    extent_type_photographic_slides: Photographic Slides
+    extent_type_reels: Reels
+    extent_type_sheets: Sheets
+    extent_type_volumes: Volumes
     container_summary: Container Summary
     physical_details: Physical Details
     dimensions: Dimensions
