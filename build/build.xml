@@ -210,6 +210,7 @@
     </java>
   </target>
 
+
 	<target name="doc:yard" description="Generate YARD documentation">
 		<java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
 					failonerror="true"
@@ -219,6 +220,7 @@
 			<arg line="--1.9 build/gems/bin/yardoc" />
     </java>
   </target>
+
 
   <target name="dist" depends="backend:war, frontend:war" description="Build a standalone distribution jar of frontend, backend and all components">
 
