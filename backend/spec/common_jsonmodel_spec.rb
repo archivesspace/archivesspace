@@ -193,13 +193,6 @@ describe 'JSON model' do
   end
 
 
-  it "returns nil if you try to look it up in a bad hash" do
-
-    JSONModel(:testschema).lookup({}).should eq nil
-
-  end
-
-
   it "enforces minimum length of property values" do
 
     ts = JSONModel(:testschema).from_hash({

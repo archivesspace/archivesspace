@@ -4,13 +4,10 @@ require_relative 'json_schema_utils'
 
 module JSONModel
 
-  @@schema = {}
-  @@types = {}
   @@models = {}
   @@custom_validations = {}
   @@protected_fields = []
   @@strict_mode = false
-  @@client_mode = false
 
 
   def self.custom_validations
@@ -75,15 +72,7 @@ module JSONModel
 
 
   def self.destroy_model(type)
-    type = type.to_s
-
-    cls = @@models[type]
-
-    if cls
-      @@types.delete(cls)
-      @@schema.delete(cls)
-      @@models.delete(type)
-    end
+    @@models.delete(type.to_s)
   end
 
 
@@ -117,12 +106,9 @@ module JSONModel
 
     @@init_args ||= nil
 
+    # Skip initialisation if this model has already been loaded.
     if @@init_args
       return true
-    end
-
-    if opts.has_key?(:client_mode)
-      @@client_mode = opts[:client_mode]
     end
 
     if opts.has_key?(:strict_mode)
@@ -163,6 +149,38 @@ module JSONModel
 
     cls = Class.new do
 
+      # Class instance variables store the bits specific to this model
+      def self.init(type, schema)
+        @record_type = type
+        @schema = schema
+      end
+
+
+      # If this class is subclassed, we won't be able to see our class instance
+      # variables unless we explicitly look up the inheritance chain.
+      def self.find_ancestor_class_instance(variable)
+        self.ancestors.each do |clz|
+          val = clz.instance_variable_get(variable)
+          return val if val
+        end
+
+        nil
+      end
+
+
+      # Return the JSON schema that defines this JSONModel class
+      def self.schema
+        find_ancestor_class_instance(:@schema)
+      end
+
+
+      # Return the type of this JSONModel class (a keyword like
+      # :archival_object)
+      def self.record_type
+        find_ancestor_class_instance(:@record_type)
+      end
+
+
       # Define accessors for all variable names listed in 'attributes'
       def self.define_accessors(attributes)
         attributes.each do |attribute|
@@ -186,13 +204,6 @@ module JSONModel
 
       def self.to_s
         "JSONModel(:#{self.record_type})"
-      end
-
-
-      # Return the type of this JSONModel class (a keyword like
-      # :archival_object)
-      def self.record_type
-        self.lookup(@@types)
       end
 
 
@@ -421,23 +432,6 @@ module JSONModel
       ## Supporting methods following from here
       protected
 
-      # Return the JSON schema that defines this JSONModel class
-      def self.schema
-        self.lookup(@@schema)
-      end
-
-
-      # Find the entry for this JSONModel class in the supplied 'hash'.
-      def self.lookup(hash)
-        my_true_self = self.ancestors.find {|cls| hash[cls]}
-
-        if my_true_self
-          return hash[my_true_self]
-        end
-
-        return nil
-      end
-
 
       # Given a (potentially nested) 'hash', remove any properties that don't
       # appear in the JSON schema defining this JSONModel.
@@ -544,7 +538,7 @@ module JSONModel
 
       # In client mode, mix in some extra convenience methods for querying the
       # ArchivesSpace backend service via HTTP.
-      if @@client_mode
+      if @@init_args[:client_mode]
         require_relative 'jsonmodel_client'
         include JSONModel::Client
       end
@@ -553,8 +547,9 @@ module JSONModel
 
     cls.define_accessors(schema['properties'].keys)
 
-    @@types[cls] = type
-    @@schema[cls] = schema
+    cls.init(type, schema)
+
+
     @@models[type] = cls
 
     cls.instance_eval do
