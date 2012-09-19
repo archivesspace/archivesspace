@@ -50,6 +50,12 @@
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium/Gemfile'" />
     </java>
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='../_yard/Gemfile'" />
+    </java>
   </target>
 
 
@@ -204,6 +210,15 @@
     </java>
   </target>
 
+	<target name="doc:yard" description="Generate YARD documentation">
+		<java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+					failonerror="true"
+					dir="../">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+			<arg line="--1.9 build/gems/bin/yardoc" />
+    </java>
+  </target>
 
   <target name="dist" depends="backend:war, frontend:war" description="Build a standalone distribution jar of frontend, backend and all components">
 

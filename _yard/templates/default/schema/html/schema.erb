@@ -1,6 +1,6 @@
 
 
-    	<h1>JSON Schema: <%= @schema[:name].to_s.sub(/schema_/, '').capitalize %></h1>
+    	<h1>JSON Schema: <%= @schema[:name].to_s.sub(/_schema/, '').capitalize %></h1>
 
 			<h2>URI Template</h2>
 			<h3><%= @schema[:uri] %></h3>

@@ -11,6 +11,10 @@ module YARD::CodeObjects
     def type
       :endpoint
     end
+    
+    def return_types
+      nil
+    end
      
     def describe
 

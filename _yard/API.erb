@@ -3,7 +3,7 @@ As of <%= @time.inspect %> the following REST endpoints exist:
 
 <% @endpoints.each do | e | %>
 	
-## <%= e[:uri]%> 
+## <%= e[:method].upcase%> <%= e[:uri]%> 
 
 ### Description
 

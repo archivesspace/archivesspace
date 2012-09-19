@@ -20,7 +20,8 @@ end
 def generate_schema_list
   puts "GENERATE SCHEMA LIST"
    # load all the features from the Registry
-   @items = Registry.all(:schema)
+   @items = Registry.all(:schema).sort { |a,b| a.name.downcase <=> b.name.downcase }
+
    @list_title = "Schema List"
    @list_type = "schema"
 
@@ -35,7 +36,7 @@ end
 
 
 def link_schema(item)
-  "<a href='#{item}.html'>#{item}</a>"
+  "<a href='#{item}.html'>#{item.to_s.sub(/_schema/,'')}</a>"
 #  linkify(item)
 end
   

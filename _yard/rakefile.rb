@@ -1,10 +1,6 @@
 
 namespace :doc do
   
-  task :hello do
-    puts "Hello"
-  end
-  
   desc "Generate the documentation"
   task :yard do
     puts "Generating YARD documentation"
@@ -12,23 +8,12 @@ namespace :doc do
       `yardoc`
     end
   end
-  #   
-  # desc "Load the YARD-generated documentation into the /doc directory"
-  # task :load do
-  # 
-  #   # Get all the directories with 'doc' subdirectories
-  #   Dir.glob('*').each do |d|
-  #     next unless File.exist?("#{d}/doc")
-  #     `rsync -av #{d}/doc/ doc/#{d}`
-  #   end
-  # end
-  
+
   desc "Create the API.md file"
   task :api do
     require 'erb'
     require 'sinatra'
     require_relative '../common/jsonmodel.rb'
-#    require_relative '../backend/app/controllers/setup.rb'
     require_relative '../backend/app/lib/rest.rb'
 
 
@@ -39,17 +24,16 @@ namespace :doc do
       end
       
       include RESTHelpers
-      
+
     end
     
     @time = Time.new
 
+    JSONModel::init
+
     Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file}
 
-
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
-    puts @endpoints.count
-    @foos = ['one', 'two', 'three', 'for']
 
     erb = ERB.new(File.read('API.erb'), nil, '<>')
 

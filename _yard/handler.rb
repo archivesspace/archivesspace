@@ -35,11 +35,13 @@ class SchemaHandler < YARD::Handlers::Ruby::Base
   handles(/.*/)
   
   in_file(/schemas\/.*\.rb/)
+  
   def process
-    name = statement.file.sub(/\.rb/, '').sub(/.*\//, '')
-#    name = statement.file
+
+    name = statement.file.sub(/\.rb/, '').sub(/.*\//, '') + "_schema"
     schema_object = register YARD::CodeObjects::SchemaObject.new(:root, name)
     schema_object[:schema] = schema_object[:source] = statement[0].source
+
     s = eval("{ #{schema_object[:source]} }")
     schema_object[:uri] = s[:schema]["uri"]
     schema_object[:properties] = s[:schema]["properties"]
