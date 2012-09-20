@@ -181,6 +181,7 @@ Sequel.migration do
     create_join_table(:subject_id => :subjects, :term_id => :terms)
     create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
     create_join_table(:subject_id => :subjects, :resource_id => :resources)
+    create_join_table(:subject_id => :subjects, :accession_id => :accessions)
 
 
     create_table(:agent_person) do
@@ -386,7 +387,7 @@ Sequel.migration do
 
   down do
 
-    [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
+    [:subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :users, :groups, :accessions,

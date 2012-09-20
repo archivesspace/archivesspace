@@ -1,27 +1,3 @@
 <%= f.label_field_pair :title %>
 <%= f.label_and_fourpartid :id_0 %>
-<div class="control-group">
-   <label class="control-label">Subjects</label>
-   <div class="controls">
-      <div class="input-append linker-wrapper">
-          <input type="text" class="linker" 
-               data-object_class="subject" 
-               data-controller="subjects" 
-               data-name="Subject" 
-               data-name_plural="Subjects" 
-               data-owner_class="resource" 
-               data-owner_attribute="subjects" 
-               data-url="<%= url_for :controller => :subjects, :action => :list, :format => :json %>" 
-               data-selected='<%= @resource['subjects'].blank? ? "[]" : @resource['resolved']['subjects'].collect {|s| Subject.from_hash(s)}.to_json %>' 
-               data-format="${display_string}" 
-          />
-          <div class="btn-group">
-             <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                 <li><a href="javascript:void(0);" class="linker-browse-btn">Browse</a></li>
-                 <li><a href="javascript:void(0);" class="linker-create-btn">Create</a></li>
-              </ul>
-          </div>
-      </div>
-   </div>
-</div>
+<%= render :partial => "subjects/linker", :locals => { :object => @resource }%>
