@@ -1,9 +1,34 @@
 <%= render "shared/form_messages", :object => @accession %>
 
-<fieldset>
-   <%= f.label_field_pair :title %>
-   <%= f.label_and_fourpartid :id_0 %>
-   <%= f.label_field_pair :accession_date, f.jsonmodel_text_field(:accession_date, :placeholder => "YYYY-MM-DD", :value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))) %>
-   <%= f.label_field_pair :content_description, f.jsonmodel_text_area(:content_description, :rows => 3) %>
-   <%= f.label_field_pair :condition_description, f.jsonmodel_text_area(:condition_description, :rows => 3) %>   
-</fieldset>
+<section id="basic_information">
+  <h3>Basic Information</h3>
+  <fieldset>
+     <%= f.label_field_pair :title %>
+     <%= f.label_and_fourpartid :id_0 %>
+     <%= f.label_field_pair :accession_date, f.jsonmodel_text_field(:accession_date, :placeholder => "YYYY-MM-DD", :value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))) %>
+     <%= f.label_field_pair :content_description, f.jsonmodel_text_area(:content_description, :rows => 3) %>
+     <%= f.label_field_pair :condition_description, f.jsonmodel_text_area(:condition_description, :rows => 3) %>   
+  </fieldset>
+</section>
+
+
+<section id="extent">
+  <h3>
+    Extent
+    <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
+  </h3>
+  <div id="extents_container">
+    <% @accession.extents.each_with_index do | extent, index | %>
+      <% f.with_jsonmodel("extents[]", extent, :extent) do %>
+        <%= render :partial => "extent/form", :locals => {:f => f, :index => index} %>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<%= render :partial => "extent/template", :locals => {:f => f} %>
+
+<div class="form-actions">            
+  <button type="submit" class="btn btn-primary">Save Accession</button>
+  <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+</div>

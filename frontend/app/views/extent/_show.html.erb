@@ -11,7 +11,7 @@
             </div>
             <div class="span4 accordion-toggle" data-toggle="collapse" data-parent="#extent_accordion" href="#extent_<%= index %>">
               <%= extent['number'] %> 
-              <%= I18n.t('extent.'+extent['extent_type']) %>
+              <%= I18n.t('extent.extent_type_'+extent['extent_type']) %>
             </div>
             <div class="span7 accordion-toggle">
               <%= extent['container_summary'] %>
@@ -21,7 +21,7 @@
         <div id="extent_<%= index %>" class="accordion-body collapse">
           <div class="row-fluid label-and-value">
             <div class="span3 offset1" ><%= I18n.t('extent.portion') %></div>
-            <div class="span8"><%= I18n.t('extent.'+extent["portion"]) %></div>
+            <div class="span8"><%= I18n.t('extent.portion_'+extent["portion"]) %></div>
           </div>
           <div class="row-fluid label-and-value">
             <div class="span3 offset1"><%= I18n.t('extent.number') %></div>
@@ -29,7 +29,7 @@
           </div>
           <div class="row-fluid label-and-value">
             <div class="span3 offset1"><%= I18n.t('extent.extent_type') %></div>
-            <div class="span8"><%= I18n.t('extent.'+extent["extent_type"]) %></div>
+            <div class="span8"><%= I18n.t('extent.extent_type_'+extent["extent_type"]) %></div>
           </div>
           <div class="row-fluid label-and-value">
             <div class="span3 offset1"><%= I18n.t('extent.container_summary') %></div>

@@ -1,4 +1,22 @@
 en:
+  extent: &extent_attributes
+    portion: Portion
+    portion_whole: Whole
+    portion_part: Part
+    number: Number
+    extent_type: Type
+    extent_type_cassettes: Cassettes
+    extent_type_cubic_feet: Cubic Feet
+    extent_type_leafs: Leafs
+    extent_type_linear_feet: Linear Feet
+    extent_type_photographic_prints: Photographic Prints
+    extent_type_photographic_slides: Photographic Slides
+    extent_type_reels: Reels
+    extent_type_sheets: Sheets
+    extent_type_volumes: Volumes
+    container_summary: Container Summary
+    physical_details: Physical Details
+    dimensions: Dimensions
   accession:
     accession_date: Accession Date
     accession_id: Identifier
@@ -9,6 +27,8 @@ en:
     publish_help: Check this if you wish to publish this accession to the public.
     restrictions: Restrictions?
     title: Title
+    extents:
+      <<: *extent_attributes
   agent: &agent_attributes
     type: Agent Type
     agent_type:
@@ -71,24 +91,6 @@ en:
     <<: *agent_attributes
   agent_software:
     <<: *agent_attributes
-  extent: &extent_attributes
-    portion: Portion
-    portion_whole: Whole
-    portion_part: Part
-    number: Number
-    extent_type: Type
-    extent_type_cassettes: Cassettes
-    extent_type_cubic_feet: Cubic Feet
-    extent_type_leafs: Leafs
-    extent_type_linear_feet: Linear Feet
-    extent_type_photographic_prints: Photographic Prints
-    extent_type_photographic_slides: Photographic Slides
-    extent_type_reels: Reels
-    extent_type_sheets: Sheets
-    extent_type_volumes: Volumes
-    container_summary: Container Summary
-    physical_details: Physical Details
-    dimensions: Dimensions
   archival_object:
     title: Title
     ref_id: Ref ID
