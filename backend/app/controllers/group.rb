@@ -53,11 +53,6 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id])
     .returns([200, "[(:resource)]"]) \
   do
-    json_response(Group.collect {|group|
-                    {
-                      :group_code => group[:group_code],
-                      :description => group[:description]
-                    }
-                  })
+    handle_listing(Group, :group)
   end
 end

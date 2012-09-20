@@ -8,7 +8,10 @@ class Group < Sequel::Model(:groups)
 
   def self.set_members(obj, json)
     obj.remove_all_users
-    (json.member_usernames or []).map {|username| obj.add_user(User[:username => username])}
+    (json.member_usernames or []).map {|username|
+      user = User[:username => username]
+      obj.add_user(user) if user
+    }
   end
 
 

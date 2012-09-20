@@ -1,0 +1,68 @@
+$(function() {
+  "use strict";
+
+  var addNewMember = function(e) {
+    // Only interested in events on the input box if they've hit enter.
+    if ($(e.target).attr("id") == "new-member") {
+      if ((e.keyCode || e.which) != 13) {
+        return;
+      }
+    }
+
+    e.preventDefault();
+    var input = $("#new-member");
+    var username = input.val();
+
+    if (!username || $("#" + username).length > 0) {
+      return;
+    }
+
+    var option = $("<option />").attr("value", username).attr("id", username).text(username);
+
+    $("#userlist").append(option);
+    input.val('');
+  };
+
+
+  var removeSelectedMembers = function(e) {
+    e.preventDefault();
+
+    $(':selected', "#userlist").remove();
+  };
+
+
+
+  $("form#new_group").submit(function (e) {
+    var form = $(e.target);
+
+    $("#hidden_member_fields", form).remove();
+
+    var fields = $('<div style="display: none" id="hidden_member_fields" />');
+
+    $("#userlist option").each(function(idx, option) {
+      var input = $('<input type="hidden" name="group[member_usernames][]" />');
+      input.val($(option).val());
+
+      fields.append(input);
+    });
+
+    form.append(fields);
+
+    return true;
+  });
+
+
+  $("#add-new-member").click(addNewMember);
+  $("#new-member").keydown(addNewMember);
+
+  $("#remove-member").click(removeSelectedMembers);
+
+  $("#userlist").change(function (e) {
+    if ($(':selected', e.target).length > 0) {
+      $("#remove-member").show();
+    } else {
+      $("#remove-member").hide();
+    }
+  });
+
+});
