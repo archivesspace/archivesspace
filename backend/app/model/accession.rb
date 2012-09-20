@@ -3,4 +3,5 @@ class Accession < Sequel::Model(:accessions)
   include ASModel
   include Identifiers
   include Extents
+  include Subjects
 end

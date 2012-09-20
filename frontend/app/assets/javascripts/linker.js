@@ -96,7 +96,8 @@ $(function() {
           var item = $(this).data("object");
           $this.tokenInput("add", {
             id: item.uri,
-            name: AS.quickTemplate(config.format, item)
+            name: AS.quickTemplate(config.format, item),
+            json: item
           });
         });
         $("#"+config.modal_id).modal('hide');
@@ -158,7 +159,7 @@ $(function() {
           onCachedResult: formatResults,
           onResult: formatResults,
           tokenFormatter: function(item) {
-            var tokenEl = AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config});
+            var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
             $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
             return tokenEl;
           },
