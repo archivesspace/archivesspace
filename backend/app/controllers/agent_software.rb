@@ -6,8 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    agent = AgentSoftware.create_from_json(params[:agent])
-    created_response(agent, params[:agent])
+    handle_create(AgentSoftware, :agent)
   end
 
 
@@ -18,10 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    agent = AgentSoftware.get_or_die(params[:agent_id])
-    agent.update_from_json(params[:agent])
-
-    updated_response(agent, params[:agent])
+    handle_update(AgentSoftware, :agent_id, :agent)
   end
 
 

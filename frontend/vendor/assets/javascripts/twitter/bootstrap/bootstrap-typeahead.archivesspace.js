@@ -22,6 +22,7 @@
   * - in render, store item as data on the dropdown option to support
   *   objects as items
   * - allow native events to propagate on keyup
+  * - add patch for long clicks bluring menu before click event triggers
   * ============================================================ */
 
 
@@ -186,6 +187,7 @@
       }
 
       this.$menu
+        .on('mousedown', $.proxy(this.click, this))
         .on('click', $.proxy(this.click, this))
         .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
     }

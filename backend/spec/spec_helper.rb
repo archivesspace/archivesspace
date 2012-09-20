@@ -44,13 +44,11 @@ class DB
 end
 
 
-require_relative "../app/main"
 require 'rack/test'
+require_relative "../app/lib/bootstrap"
 
 JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com')
-include JSONModel
-
 
 module JSONModel
   module HTTP
@@ -68,6 +66,17 @@ module JSONModel
     end
   end
 end
+
+
+# Note: This import is loading JSONModel into the Object class.  Pretty gross!
+# It would be nice if we could narrow the scope of this to just the tests.
+include JSONModel
+
+require_relative "../app/main"
+
+
+
+
 
 
 Log.quiet_please
@@ -101,12 +110,17 @@ end
 def make_test_repo(code = "ARCHIVESSPACE")
   repo = JSONModel(:repository).from_hash("repo_code" => code,
                                           "description" => "A new ArchivesSpace repository")
-  id = repo.save
+  @repo_id = repo.save
   @repo = repo.uri
 
-  JSONModel::set_repository(id)
+  JSONModel::set_repository(@repo_id)
 
-  id
+  @repo_id
+end
+
+
+def make_test_user(username, name = "A test user", source = "local")
+  User.create(:username => username, :name => name, :source => source)
 end
 
 

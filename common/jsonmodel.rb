@@ -1,17 +1,18 @@
 require 'json-schema'
+require_relative 'json_schema_utils'
 
 
 module JSONModel
 
-  @@schema = {}
-  @@types = {}
   @@models = {}
   @@custom_validations = {}
   @@protected_fields = []
-
   @@strict_mode = false
-  @@client_mode = false
 
+
+  def self.custom_validations
+    @@custom_validations
+  end
 
   def strict_mode(val)
     @@strict_mode = val
@@ -71,21 +72,12 @@ module JSONModel
 
 
   def self.destroy_model(type)
-    type = type.to_s
-
-    cls = @@models[type]
-
-    if cls
-      @@types.delete(cls)
-      @@schema.delete(cls)
-      @@custom_validations.delete(cls)
-      @@models.delete(type)
-    end
+    @@models.delete(type.to_s)
   end
 
 
   def self.load_schema(schema_name)
-    if not @@schema[schema_name]
+    if not @@models[schema_name]
       schema = File.join(File.dirname(__FILE__),
                          "schemas",
                          "#{schema_name}.rb")
@@ -112,8 +104,11 @@ module JSONModel
 
   def self.init(opts = {})
 
-    if opts.has_key?(:client_mode)
-      @@client_mode = opts[:client_mode]
+    @@init_args ||= nil
+
+    # Skip initialisation if this model has already been loaded.
+    if @@init_args
+      return true
     end
 
     if opts.has_key?(:strict_mode)
@@ -148,96 +143,43 @@ module JSONModel
 
   protected
 
-
-  # Preprocess the schema to support ArchivesSpace extensions
-  def self.preprocess_schema(type, schema, path = [])
-    if schema["type"] == "object"
-      schema["properties"].each do |property, defn|
-        if defn.has_key?("ifmissing")
-          defn["required"] = ["error", "warn"].include?(defn["ifmissing"])
-        end
-
-        self.preprocess_schema(type, defn, path + [property])
-      end
-    end
-  end
-
-
-  class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
-    extend JSONModel
-
-    def self.validate(current_schema, data, fragments, validator, options = {})
-
-      types = current_schema.schema['type']
-
-      if JSONModel.parse_jsonmodel_ref(types)
-        (model, qualifier) = JSONModel.parse_jsonmodel_ref(types)
-
-        if qualifier == 'uri'
-          if JSONModel(model).id_for(data, {}, true).nil?
-            validation_error("The property '#{build_fragment(fragments)}' of type " +
-                             "#{data.class} did not match the following type: #{types} in schema",
-                             fragments, current_schema, self, options[:record_errors])
-          end
-        elsif qualifier == 'uri_or_object'
-          if data.is_a? String
-            if JSONModel(model).id_for(data, {}, true).nil?
-            validation_error("The property '#{build_fragment(fragments)}' of type " +
-                             "#{data.class} did not match the following type: #{types} in schema",
-                             fragments, current_schema, self, options[:record_errors])
-            end
-          elsif data.is_a? Hash
-
-            top_errors = validation_errors
-            ::JSON::Validator.clear_errors
-
-            JSONModel(model).from_hash(data, false)
-
-            nested_errors = validation_errors
-
-            nested_errors.each do |validation_error|
-              # Add the fragment path to each nested exception to make them
-              # findable from the root of the top-level json document.
-              validation_error.fragments = fragments + validation_error.fragments
-            end
-
-            # Push them all back
-            (top_errors + nested_errors).each do |error|
-              ::JSON::Validator.validation_error(error)
-            end
-
-          else
-            validation_error("The property '#{build_fragment(fragments)}' of type " +
-                             "#{data.class} did not match the following type: #{types} in schema",
-                             fragments, current_schema, self, options[:record_errors])
-          end
-        end
-      else
-        super
-      end
-    end
-  end
-
-
-  class ArchivesSpaceSchema < JSON::Schema::Validator
-    def initialize
-      super
-      extend_schema_definition("http://json-schema.org/draft-03/schema#")
-      @attributes["type"] = ArchivesSpaceTypeAttribute
-      @uri = URI.parse("http://www.archivesspace.org/archivesspace.json")
-    end
-
-    JSON::Validator.register_validator(self.new)
-  end
-
-
   # Create and return a new JSONModel class called 'type', based on the
   # JSONSchema 'schema'
   def self.create_model_for(type, schema)
 
-    preprocess_schema(type, schema)
-
     cls = Class.new do
+
+      # Class instance variables store the bits specific to this model
+      def self.init(type, schema)
+        @record_type = type
+        @schema = schema
+      end
+
+
+      # If this class is subclassed, we won't be able to see our class instance
+      # variables unless we explicitly look up the inheritance chain.
+      def self.find_ancestor_class_instance(variable)
+        self.ancestors.each do |clz|
+          val = clz.instance_variable_get(variable)
+          return val if val
+        end
+
+        nil
+      end
+
+
+      # Return the JSON schema that defines this JSONModel class
+      def self.schema
+        find_ancestor_class_instance(:@schema)
+      end
+
+
+      # Return the type of this JSONModel class (a keyword like
+      # :archival_object)
+      def self.record_type
+        find_ancestor_class_instance(:@record_type)
+      end
+
 
       # Define accessors for all variable names listed in 'attributes'
       def self.define_accessors(attributes)
@@ -265,20 +207,17 @@ module JSONModel
       end
 
 
-      # Return the type of this JSONModel class (a keyword like
-      # :archival_object)
-      def self.record_type
-        self.lookup(@@types)
-      end
-
-
       # Add a custom validation to this model type.
       #
-      # The validation is a block that takes a hash of properties and an
-      # errors/warnings hash and adds any errors or warnings it finds.
-      def self.add_validation(&block)
-        @@custom_validations[self] ||= []
-        @@custom_validations[self] << block
+      # The validation is a block that takes a hash of properties and returns an array of pairs like:
+      # [["propertyname", "the problem with it"], ...]
+      def self.add_validation(name, &block)
+        raise "Validation name already taken: #{name}" if @@custom_validations[name]
+
+        @@custom_validations[name] = block
+
+        self.schema["validations"] ||= []
+        self.schema["validations"] << name
       end
 
 
@@ -358,7 +297,7 @@ module JSONModel
       #
       # For example, type_of("names/items/type") might return a JSONModel class
       def self.type_of(path)
-        type = self.schema_path_lookup(self.schema, path)["type"]
+        type = JSONSchemaUtils.schema_path_lookup(self.schema, path)["type"]
 
         ref = JSONModel.parse_jsonmodel_ref(type)
 
@@ -408,6 +347,7 @@ module JSONModel
       end
 
 
+      # Zap this?  A bit arbitrary
       def _warnings
         exceptions = self._exceptions
 
@@ -461,6 +401,8 @@ module JSONModel
       # values that don't appear in the JSON schema will not appear in the
       # result.
       def to_hash
+        @validated = false
+
         cleaned = self.class.drop_unknown_properties(@data)
         self.class.validate(cleaned)
 
@@ -489,23 +431,6 @@ module JSONModel
 
       ## Supporting methods following from here
       protected
-
-      # Return the JSON schema that defines this JSONModel class
-      def self.schema
-        self.lookup(@@schema)
-      end
-
-
-      # Find the entry for this JSONModel class in the supplied 'hash'.
-      def self.lookup(hash)
-        my_true_self = self.ancestors.find {|cls| hash[cls]}
-
-        if my_true_self
-          return hash[my_true_self]
-        end
-
-        return nil
-      end
 
 
       # Given a (potentially nested) 'hash', remove any properties that don't
@@ -548,107 +473,6 @@ module JSONModel
       end
 
 
-      def self.fragment_join(fragment, property = nil)
-        fragment = fragment.gsub(/^#\//, "")
-
-        if property and fragment != "" and fragment !~ /\/$/
-          fragment = "#{fragment}/"
-        end
-
-        "#{fragment}#{property}"
-      end
-
-
-      def self.schema_path_lookup(schema, path)
-        if path.is_a? String
-          return self.schema_path_lookup(schema, path.split("/"))
-        end
-
-        if schema.has_key?('properties')
-          schema = schema['properties']
-        end
-
-        if path.length == 1
-          schema[path.first]
-        else
-          if schema[path.first]
-            self.schema_path_lookup(schema[path.first], path.drop(1))
-          else
-            nil
-          end
-        end
-      end
-
-
-      # Given a list of error messages produced by JSON schema validation, parse
-      # them into a structured format like:
-      #
-      # {
-      #   :errors => {:attr1 => "(What was wrong with attr1)"},
-      #   :warnings => {:attr2 => "(attr2 not quite right either)"}
-      # }
-      def self.parse_schema_messages(messages, validator)
-        errors = {}
-        warnings = {}
-
-        messages.each do |message|
-
-          if (message[:failed_attribute] == 'Properties' and
-              message[:message] =~ /The property '(.*?)' did not contain a required property of '(.*?)'.*/)
-
-            (path, property) = [message[:fragment], $2]
-
-            schema = ::JSON::Validator.schemas[message[:schema].to_s].schema
-
-            attribute = schema_path_lookup(schema, fragment_join(path, property))
-            if attribute and attribute['ifmissing'] == "error"
-              errors[fragment_join(message[:fragment], property)] = ["Property is required but was missing"]
-            else
-              warnings[fragment_join(message[:fragment], property)] = ["Property was missing"]
-            end
-
-          elsif (message[:failed_attribute] == 'Pattern' and
-                 message[:message] =~ /The property '#\/(.*?)' did not match the regex '(.*?)' in schema/)
-
-            errors[fragment_join(message[:fragment])] = ["Did not match regular expression: #{$2}"]
-
-          elsif (message[:failed_attribute] == 'MinLength' and
-                 message[:message] =~ /The property '#\/(.*?)' was not of a minimum string length of ([0-9]+) in schema/)
-
-            errors[fragment_join(message[:fragment])] = ["Must be at least #{$2} characters"]
-
-          elsif (message[:failed_attribute] == 'MinItems' and
-                 message[:message] =~ /The property '#\/(.*?)' did not contain a minimum number of items ([0-9]+) in schema/)
-
-            errors[fragment_join(message[:fragment])] = ["The '#{$1}' array needs at least #{$2} elements"]
-
-          elsif (message[:failed_attribute] == 'Enum' and
-                 message[:message] =~ /The property '#\/(.*?)' value "(.*?)" .*values: (.*) in schema/)
-
-            errors[fragment_join(message[:fragment])] = ["Invalid value '#{$2}'.  Must be one of: #{$3}"]
-
-          elsif ((message[:failed_attribute] == 'Type' or message[:failed_attribute] == 'ArchivesSpaceType') and
-                 message[:message] =~ /The property '#\/(.*?)' of type (.*?) did not match the following type: (.*?) in schema/)
-
-            if $3 !~ /JSONModel/ || message[:failed_attribute] == 'ArchivesSpaceType'
-              # We'll skip JSONModels because the specific problem with the
-              # document will have already been listed separately.
-              errors[fragment_join(message[:fragment])] = ["Must be a #{$3} (you provided a #{$2})"]
-            end
-
-          else
-            errors[:unknown] = [message]
-          end
-
-        end
-
-        {
-          :errors => errors,
-          :warnings => warnings,
-        }
-      end
-
-
       # Validate the supplied hash using the JSON schema for this model.  Raise
       # a ValidationException if there are any fatal validation problems, or if
       # strict mode is enabled and warnings were produced.
@@ -663,11 +487,7 @@ module JSONModel
 
         messages = validator.validate
 
-        exceptions = self.parse_schema_messages(messages, validator)
-
-        @@custom_validations[self].to_a.each do |validation|
-          validation.call(hash, exceptions)
-        end
+        exceptions = JSONSchemaUtils.parse_schema_messages(messages, validator)
 
         if raise_errors and not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
           raise ValidationException.new(:invalid_object => self.new(hash),
@@ -716,12 +536,9 @@ module JSONModel
       end
 
 
-
-
-
       # In client mode, mix in some extra convenience methods for querying the
       # ArchivesSpace backend service via HTTP.
-      if @@client_mode
+      if @@init_args[:client_mode]
         require_relative 'jsonmodel_client'
         include JSONModel::Client
       end
@@ -730,8 +547,9 @@ module JSONModel
 
     cls.define_accessors(schema['properties'].keys)
 
-    @@types[cls] = type
-    @@schema[cls] = schema
+    cls.init(type, schema)
+
+
     @@models[type] = cls
 
     cls.instance_eval do
@@ -748,5 +566,8 @@ module JSONModel
     @@init_args
   end
 
-
 end
+
+
+# Custom JSON schema validations
+require_relative 'archivesspace_json_schema'

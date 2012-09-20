@@ -1,12 +1,10 @@
 Sequel.migration do
   up do
-    DB_TYPE = self.database_type
-
     create_table(:sessions) do
       primary_key :id
       String :session_id, :unique => true, :null => false
       DateTime :last_modified, :null => false
-      if DB_TYPE == :derby
+      if $db_type == :derby
         Clob :session_data, :null => true
       else
         Blob :session_data, :null => true
@@ -35,14 +33,33 @@ Sequel.migration do
     end
 
 
-    create_table(:groups) do
+    create_table(:repositories) do
       primary_key :id
 
-      String :group_id, :null => false, :unique => true
+      String :repo_code, :null => false, :unique => true
       String :description, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
+    end
+
+
+    create_table(:groups) do
+      primary_key :id
+
+      Integer :repo_id, :null => false
+
+      String :group_code, :null => false
+      TextField :description, :null => false
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:groups) do
+      add_foreign_key([:repo_id], :repositories, :key => :id)
+      add_index([:repo_id, :group_code], :unique => true)
     end
 
 
@@ -57,17 +74,37 @@ Sequel.migration do
     alter_table(:groups_users) do
       add_foreign_key([:user_id], :users, :key => :id)
       add_foreign_key([:group_id], :groups, :key => :id)
+
+      add_index(:group_id)
+      add_index(:user_id)
     end
 
 
-    create_table(:repositories) do
+    create_table(:permissions) do
       primary_key :id
 
-      String :repo_code, :null => false, :unique => true
-      String :description, :null => false
+      String :permission_code, :unique => true
+      TextField :description, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
+    end
+
+
+    create_table(:groups_permissions) do
+      primary_key :id
+
+      Integer :permission_id, :null => false
+      Integer :group_id, :null => false
+    end
+
+
+    alter_table(:groups_permissions) do
+      add_foreign_key([:permission_id], :permissions, :key => :id)
+      add_foreign_key([:group_id], :groups, :key => :id)
+
+      add_index(:permission_id)
+      add_index(:group_id)
     end
 
 
@@ -79,8 +116,8 @@ Sequel.migration do
       String :identifier, :null => false, :unique => true
 
       String :title, :null => true
-      String :content_description, :null => true
-      String :condition_description, :null => true
+      TextField :content_description, :null => true
+      TextField :condition_description, :null => true
 
       DateTime :accession_date, :null => true
 
@@ -121,7 +158,7 @@ Sequel.migration do
       String :ref_id, :null => false, :unique => false
       String :component_id, :null => true
 
-      String :title, :null => true
+      TextField :title, :null => true
       String :level, :null => true
 
       DateTime :create_time, :null => false
@@ -183,6 +220,7 @@ Sequel.migration do
     create_join_table(:subject_id => :subjects, :term_id => :terms)
     create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
     create_join_table(:subject_id => :subjects, :resource_id => :resources)
+    create_join_table(:subject_id => :subjects, :accession_id => :accessions)
 
 
     create_table(:agent_person) do
@@ -219,15 +257,15 @@ Sequel.migration do
 
     class Sequel::Schema::CreateTableGenerator
       def apply_name_columns
-        String :authority_id, :null => false
+        String :authority_id, :null => true
         String :dates, :null => true
-        String :description_type, :null => true
-        String :description_note, :null => true
-        String :description_citation, :null => true
-        String :qualifier, :null => true
+        TextField :description_type, :null => true
+        TextField :description_note, :null => true
+        TextField :description_citation, :null => true
+        TextField :qualifier, :null => true
         String :source, :null => true
         String :rules, :null => true
-        String :sort_name, :null => true
+        TextField :sort_name, :null => true
       end
     end
 
@@ -239,11 +277,11 @@ Sequel.migration do
       String :primary_name, :null => false
       String :direct_order, :null => false
 
-      String :title, :null => true
-      String :prefix, :null => true
-      String :rest_of_name, :null => true
-      String :suffix, :null => true
-      String :fuller_form, :null => true
+      TextField :title, :null => true
+      TextField :prefix, :null => true
+      TextField :rest_of_name, :null => true
+      TextField :suffix, :null => true
+      TextField :fuller_form, :null => true
       String :number, :null => true
 
       apply_name_columns
@@ -263,9 +301,9 @@ Sequel.migration do
 
       Integer :agent_family_id, :null => false
 
-      String :family_name, :null => false
+      TextField :family_name, :null => false
 
-      String :prefix, :null => true
+      TextField :prefix, :null => true
 
       apply_name_columns
 
@@ -284,10 +322,10 @@ Sequel.migration do
 
       Integer :agent_corporate_entity_id, :null => false
 
-      String :primary_name, :null => false
+      TextField :primary_name, :null => false
 
-      String :subordinate_name_1, :null => true
-      String :subordinate_name_2, :null => true
+      TextField :subordinate_name_1, :null => true
+      TextField :subordinate_name_2, :null => true
       String :number, :null => true
 
       apply_name_columns
@@ -307,10 +345,10 @@ Sequel.migration do
 
       Integer :agent_software_id, :null => false
 
-      String :software_name, :null => false
+      TextField :software_name, :null => false
 
-      String :version, :null => true
-      String :manufacturer, :null => true
+      TextField :version, :null => true
+      TextField :manufacturer, :null => true
 
       apply_name_columns
 
@@ -332,19 +370,19 @@ Sequel.migration do
       Integer :agent_corporate_entity_id, :null => true
       Integer :agent_software_id, :null => true
 
-      String :name, :null => false
-      String :salutation, :null => true
-      String :address_1, :null => true
-      String :address_2, :null => true
-      String :address_3, :null => true
-      String :city, :null => true
-      String :region, :null => true
-      String :country, :null => true
-      String :post_code, :null => true
-      String :telephone, :null => true
-      String :telephone_ext, :null => true
-      String :fax, :null => true
-      String :email, :null => true
+      TextField :name, :null => false
+      TextField :salutation, :null => true
+      TextField :address_1, :null => true
+      TextField :address_2, :null => true
+      TextField :address_3, :null => true
+      TextField :city, :null => true
+      TextField :region, :null => true
+      TextField :country, :null => true
+      TextField :post_code, :null => true
+      TextField :telephone, :null => true
+      TextField :telephone_ext, :null => true
+      TextField :fax, :null => true
+      TextField :email, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -358,15 +396,41 @@ Sequel.migration do
     end
 
 
+    create_table(:extents) do
+      primary_key :id
+
+      Integer :accession_id, :null => true
+      Integer :archival_object_id, :null => true
+      Integer :resource_id, :null => true
+
+      String :portion, :null => false
+      String :number, :null => false
+      String :extent_type, :null => false
+
+      String :container_summary, :null => true
+      String :physical_details, :null => true
+      String :dimensions, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:extents) do
+      add_foreign_key([:accession_id], :accessions, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
+    end
+
+
   end
 
   down do
 
-    [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
+    [:subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
-     :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
-     :archival_objects, :vocabularies,
+     :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
+     :archival_objects, :vocabularies, :extent,
      :resources, :repositories].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)

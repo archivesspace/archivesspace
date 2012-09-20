@@ -14,6 +14,7 @@
       "resource" => {"type" => "JSONModel(:resource) uri", "required" => false},
 
       "subjects" => {"type" => "array", "items" => {"type" => "JSONModel(:subject) uri_or_object"}},
+      "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) uri_or_object"}},
     },
 
     "additionalProperties" => false,

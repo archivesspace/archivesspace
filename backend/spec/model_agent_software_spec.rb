@@ -9,12 +9,12 @@ describe 'Agent model' do
                                                         "agent_type" => "agent_software",
                                                         "names" => [
                                                                     {
-                                                                      "authority_id" => "something",
+                                                                      "rules" => "local",
                                                                       "software_name" => "Magus Magoo Freeware",
                                                                       "sort_name" => "Magoo, Mr M"
                                                                     },
                                                                     {
-                                                                      "authority_id" => "else",
+                                                                      "rules" => "local",
                                                                       "software_name" => "Magus McGoo Vaporware",
                                                                       "sort_name" => "McGoo"
                                                                     }
@@ -32,7 +32,7 @@ describe 'Agent model' do
                                                   "agent_type" => "agent_software",
                                                    "names" => [
                                                                {
-                                                                 "authority_id" => "something",
+                                                                 "rules" => "local",
                                                                  "software_name" => "Magus Magoo Freeware",
                                                                  "sort_name" => "Magoo, Mr M"
                                                                }
@@ -49,4 +49,20 @@ describe 'Agent model' do
     AgentSoftware[agent[:id]].agent_contacts[0][:name].should eq("Business hours contact")
   end
 
+
+  it "requires a source to be set if an authority id is provided" do
+    expect { 
+      agent = AgentSoftware.create_from_json(JSONModel(:agent_software)
+                                       .from_hash({
+                                                  "agent_type" => "agent_software",
+                                                   "names" => [
+                                                               {
+                                                                 "authority_id" => "wooo",
+                                                                 "software_name" => "Magus Magoo Freeware",
+                                                                 "sort_name" => "Magoo, Mr M"
+                                                               }
+                                                               ]
+                                                }))
+     }.to raise_error(JSONModel::ValidationException)
+  end
 end

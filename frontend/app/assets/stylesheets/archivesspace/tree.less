@@ -9,8 +9,14 @@
 }
 
 .archives-tree-container {
+  margin: -12px -20px 10px !important;
   padding: 0 0 10px;
   position: relative;
+  background-color: #F3F3F3;
+  #gradient > .vertical(#F3F3F3, #EDEDED);
+  border-top: 1px solid #EEE;
+  border-bottom: 1px solid #FFF;
+  overflow: hidden;
 
   > .archives-tree-title {
     background-color: #eee;
@@ -30,9 +36,14 @@
   }
 
   .archives-tree {
-    margin: 10px 0;
+    padding: 0 20px 0 0;
+    margin: 0 0 0 20px;
     overflow: auto;
-    
+
+    &.overflow {
+      .box-shadow(inset -1px 2px 3px #DDD);
+    }
+
     a > .jstree-icon {
       display: inline-block;
       width: 14px;
@@ -63,6 +74,35 @@
     
     .resource > a > .jstree-icon {
       background-position: -264px -24px !important;
+    }
+  }
+
+  #archives_tree_toolbar {
+    padding: 0 20px;
+  }
+
+  .ui-resizable-handle.ui-resizable-s {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 8px;
+    background-color: #EEE;
+    background-image: asset-url("archivesspace/drag_handle.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #D9D9D9;
+    cursor: ns-resize;
+
+    &:hover {
+      background-color: #e9e9e9;
+    }
+  }
+
+  &.ui-resizable-resizing {
+    .ui-resizable-handle.ui-resizable-s {
+      background-color: #e9e9e9;
     }
   }
 }

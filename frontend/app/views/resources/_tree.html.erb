@@ -1,92 +1,87 @@
-<div id="archives_tree_toolbar"></div>
-<div id="archives_tree" class="archives-tree" data-resource-id="<%= @resource_tree['resource_id'] %>"></div>
+<div class="archives-tree-container">
+  <div id="archives_tree_toolbar"></div>
+  <div id="archives_tree" class="archives-tree" data-resource-id="<%= @resource_tree['resource_id'] %>"></div>
 
-<script>
-   AS.tree_data["resource-id-<%= @resource_tree['resource_id'] %>"] = <%= @resource_tree.to_json.html_safe %>;
-</script>
+  <script>
+     AS.tree_data["resource-id-<%= @resource_tree['resource_id'] %>"] = <%= @resource_tree.to_json.html_safe %>;
+  </script>
 
-<div id="tree_template"><!--
-   {macro render_children(nodes)}
-      {if nodes.length > 0}
-      <ul>
-         {for node in nodes}
-            <li id="archival_object_${node.id}" class="analog archival_object" rel="archival_object" data-id="${node.id}" data-archival_object="${node.archival_object}">
-               <a href="#archival_object_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
-               ${render_children(node.children)}
-            </li>
-         {/for}
-      </ul>
-      {/if}
-   {/macro}
+  <div id="tree_template"><!--
+     {macro render_children(nodes)}
+        {if nodes.length > 0}
+        <ul>
+           {for node in nodes}
+              <li id="archival_object_${node.id}" class="analog archival_object" rel="archival_object" data-id="${node.id}" data-archival_object="${node.archival_object}">
+                 <a href="#tree::archival_object_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+                 ${render_children(node.children)}
+              </li>
+           {/for}
+        </ul>
+        {/if}
+     {/macro}
    
-   {macro render_resource(node)}
-      <li id="resource_${node.resource_id}" class="resource" rel="resource" data-id="${node.resource_id}">
-         <a href="#resource_${node.resource_id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
-         ${render_children(tree.children)}
-      </li>
-   {/macro}
+     {macro render_resource(node)}
+        <li id="resource_${node.resource_id}" class="resource" rel="resource" data-id="${node.resource_id}">
+           <a href="#tree::resource_${node.resource_id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+           ${render_children(tree.children)}
+        </li>
+     {/macro}
    
-   <ul class="jstree-classic">
-      ${render_resource(tree)}
-   </ul>
---></div>
-
-<div id="tree_toolbar_template"><!--
-  <div class="btn-toolbar">
-    <div class="btn-group">
-      <div class="btn-group expand-tree">
-        <a href="javascript:void(0)" class="btn btn-mini"><span class="icon-resize-full"></span></a>
-      </div>
-      <div class="btn-group retract-tree">
-        <a href="javascript:void(0)" class="btn btn-mini"><span class="icon-resize-small"></span></a>
-      </div>
-    </div>
-  </div>
---></div>
-
-<div id="tree_toolbar_addchild_template"><!--
-   <div class="btn-group dropdown">
-    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
-      Add Child
-      <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-      <li>
-         <a href="javascript:void(0);" class="add-child-archival-object-analog">
-            <span class='icon-file'></span> Analog Object
-         </a>         
-      </li>
-    </ul>
-  </div>
---></div>
-
-<div id="tree_toolbar_addsibling_template"><!--
-    <div class="btn-group dropdown">
-     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Sibling">
-       +1
-       <span class="caret"></span>
-     </a>
-     <ul class="dropdown-menu">
-       <li>
-          <a href="javascript:void(0);" class="add-sibling-archival-object-analog">
-             <span class='icon-file'></span> Analog Object
-          </a>         
-       </li>
+     <ul class="jstree-classic">
+        ${render_resource(tree)}
      </ul>
-   </div>
---></div>
+  --></div>
 
-<div id="tree_nodenavigation_toolbar_template"><!--
-  <div class="btn-group">
-    {if defined('previous')}
-      <a href="#${previous}" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
-    {else}
-      <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
-    {/if}
-    {if defined('next')}
-      <a href="#${next}" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
-    {else}
-      <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
-    {/if}
-  </div>
---></div>
+  <div id="tree_toolbar_template"><!--
+    <div class="btn-toolbar">
+      <div class="btn-group"></div>
+    </div>
+  --></div>
+
+  <div id="tree_toolbar_addchild_template"><!--
+     <div class="btn-group dropdown">
+      <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
+        Add Child
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+           <a href="javascript:void(0);" class="add-child-archival-object-analog">
+              <span class='icon-file'></span> Analog Object
+           </a>         
+        </li>
+      </ul>
+    </div>
+  --></div>
+
+  <div id="tree_toolbar_addsibling_template"><!--
+      <div class="btn-group dropdown">
+       <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Sibling">
+         +1
+         <span class="caret"></span>
+       </a>
+       <ul class="dropdown-menu">
+         <li>
+            <a href="javascript:void(0);" class="add-sibling-archival-object-analog">
+               <span class='icon-file'></span> Analog Object
+            </a>         
+         </li>
+       </ul>
+     </div>
+  --></div>
+
+  <div id="tree_nodenavigation_toolbar_template"><!--
+    <div class="btn-group">
+      {if defined('previous')}
+        <a href="#tree::${previous}" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
+      {else}
+        <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
+      {/if}
+      {if defined('next')}
+        <a href="#tree::${next}" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
+      {else}
+        <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
+      {/if}
+    </div>
+  --></div>
+</div>

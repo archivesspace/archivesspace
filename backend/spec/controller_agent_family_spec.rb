@@ -4,7 +4,7 @@ describe 'Family agent controller' do
 
   def create_family
     JSONModel(:agent_family).from_hash(:names => [{
-                                                    "authority_id" => "something",
+                                                    "rules" => "local",
                                                     "family_name" => "Magoo Family",
                                                     "sort_name" => "Family Magoo"
                                                   }],

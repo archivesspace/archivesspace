@@ -1,4 +1,22 @@
 en:
+  extent: &extent_attributes
+    portion: Portion
+    portion_whole: Whole
+    portion_part: Part
+    number: Number
+    extent_type: Type
+    extent_type_cassettes: Cassettes
+    extent_type_cubic_feet: Cubic Feet
+    extent_type_leafs: Leafs
+    extent_type_linear_feet: Linear Feet
+    extent_type_photographic_prints: Photographic Prints
+    extent_type_photographic_slides: Photographic Slides
+    extent_type_reels: Reels
+    extent_type_sheets: Sheets
+    extent_type_volumes: Volumes
+    container_summary: Container Summary
+    physical_details: Physical Details
+    dimensions: Dimensions
   accession:
     accession_date: Accession Date
     accession_id: Identifier
@@ -9,6 +27,8 @@ en:
     publish_help: Check this if you wish to publish this accession to the public.
     restrictions: Restrictions?
     title: Title
+    extents:
+      <<: *extent_attributes
   agent: &agent_attributes
     type: Agent Type
     agent_type:
@@ -33,13 +53,22 @@ en:
       description_citation: Description Citation
       family_name: Family Name
       direct_order: Direct Order
-      standard: Primary Name, Rest of Name
-      inverted: Rest of Name _ Primary Name
+      direct_order_standard: Primary Name, Rest of Name
+      direct_order_inverted: Rest of Name _ Primary Name
       subordinate_name_1: Subordinate Name 1
       subordinate_name_2: Subordinate Name 2
       software_name: Software Name
       version: Version
       manufacturer: Manufacturer
+      source: Source
+      source_local: Local sources (local)
+      source_naf: NACO Authority File (naf)
+      source_nad: NAD / ARK II Name Authority Database (nad)
+      source_ulan: Union List of Artist Names (ulan)
+      rules: Rules
+      rules_local: Local rules (local)
+      rules_aacr: Anglo-American Cataloging Rules (aacr)
+      rules_dacs: "Describing Archives: A Content Standard (dacs)"
     agent_contacts:
       name: Contact Description
       salutation: Salutation
@@ -66,12 +95,20 @@ en:
     title: Title
     ref_id: Ref ID
     "[:resource_id, :ref_id]": Ref ID
+    extents:
+      <<: *extent_attributes
+  group:
+    group_code: Group code
+    description: Group description
+    members: Group members
   resource:
     title: Title
     id_0: Identifier
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
+    extents:
+      <<: *extent_attributes
   repository:
     repo_code: Repository code
     description: Description

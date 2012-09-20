@@ -41,6 +41,12 @@
                 </li>
               </ul>
             </li>
+            <li class="dropdown admin-container">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Manage groups", :controller => :groups, :action => :index %></li>
+              </ul>
+            </li>
           </ul>         
           <% end %>
           <ul class="nav pull-right">

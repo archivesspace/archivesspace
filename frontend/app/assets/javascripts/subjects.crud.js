@@ -12,8 +12,8 @@ $(function() {
 
 
       var renderTermRow = function(term) {
-        $(".add-term-btn", $this).hide();
-        $(".remove-term-btn", $this).show();
+        $(".add-term-btn", $this).css("visibility", "hidden");
+        $(".remove-term-btn", $this).css("visibility", "visible");
         var $row = $(AS.renderTemplate("subjects_term_template"));
         if (term) {
           $row.find(":text").val(term.term);
@@ -49,7 +49,7 @@ $(function() {
           }
         })
         .focus();
-        $(".terms-container .row-fluid:last .add-term-btn", $this).show();
+        $(".terms-container .row-fluid:last .add-term-btn", $this).css("visibility", "visible");
       };
 
 
@@ -57,9 +57,9 @@ $(function() {
         $(this).parents(".row-fluid:first").remove();
         renderSubjectPreview();
         if ($(".terms-container .row-fluid", $this).length === 1) {
-          $(".remove-term-btn", $this).hide();
+          $(".remove-term-btn", $this).css("visibility", "hidden");
         }
-        $(".terms-container .row-fluid:last .add-term-btn", $this).show();
+        $(".terms-container .row-fluid:last .add-term-btn", $this).css("visibility", "visible");
       };
 
 
@@ -91,7 +91,7 @@ $(function() {
         }
       } else {
         renderTermRow();
-        $(".remove-term-btn", $this).hide();
+        $(".remove-term-btn", $this).css("visibility", "hidden");
       }
     });
   };

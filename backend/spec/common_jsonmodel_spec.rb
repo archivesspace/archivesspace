@@ -120,6 +120,7 @@ describe 'JSON model' do
     JSONModel.create_model_for("strictschema",
                                {
                                  "type" => "object",
+                                 "$schema" => "http://www.archivesspace.org/archivesspace.json",
                                  "properties" => {
                                    "container" => {
                                      "type" => "object",
@@ -134,10 +135,9 @@ describe 'JSON model' do
     JSONModel::strict_mode(false)
 
     model = JSONModel(:strictschema).from_hash({:container => {}}, false)
-
     model._exceptions[:errors].keys.should eq(["container/strict"])
-    JSONModel::strict_mode(true)
 
+    JSONModel::strict_mode(true)
   end
 
 
@@ -189,13 +189,6 @@ describe 'JSON model' do
                                           })
     ts[:elt_2] = "a value has been set"
     ts[:elt_2].should eq "a value has been set"
-
-  end
-
-
-  it "returns nil if you try to look it up in a bad hash" do
-
-    JSONModel(:testschema).lookup({}).should eq nil
 
   end
 

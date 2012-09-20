@@ -1,0 +1,25 @@
+<%= f.label_field_pair :description %>
+
+<div class="control-group">
+  <label for="userlist" class="control-label"><%= I18n.t("group.members") %></label>
+  <div class="controls">
+    <select id="userlist" multiple="multiple">
+      <% (@group.member_usernames or []).each do |username| %>
+      <option id="<%= username %>" value="<%= username %>"><%= username %></option>
+      <% end %>
+    </select>
+    <button id="remove-member" style="display: none;" class="btn btn-small">remove</button>
+  </div>
+</div>
+
+<div class="control-group">
+  <div class="controls">
+    <input id="new-member" class="input-medium" type="text" placeholder="Username" />
+    <button id="add-new-member" class="btn btn-small">add</button>
+  </div>
+</div>
+
+<div class="form-actions">
+  <input type="submit" class="btn btn-primary" value="Save group" />
+  <%= link_to "Cancel", {:controller => :groups, :action => :index}, :class => "btn btn-secondary" %>
+</div>

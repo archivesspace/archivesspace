@@ -6,9 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["vocabulary", JSONModel(:vocabulary), "The vocabulary data to update", :body => true])
     .returns([200, :updated]) \
   do
-    vocabulary = Vocabulary.get_or_die(params[:vocab_id])
-    vocabulary.update_from_json(params[:vocabulary])
-    updated_response(vocabulary, params[:vocabulary])
+    handle_update(Vocabulary, :vocab_id, :vocabulary)
   end
 
   Endpoint.post('/vocabularies')
@@ -16,9 +14,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["vocabulary", JSONModel(:vocabulary), "The vocabulary data to create", :body => true])
     .returns([200, :created]) \
   do
-    vocabulary = Vocabulary.create_from_json(params[:vocabulary])
-
-    created_response(vocabulary, params[:vocabulary])
+    handle_create(Vocabulary, :vocabulary)
   end
 
 
@@ -28,13 +24,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:vocabulary)]"]) \
   do
     if params[:ref_id]
-      json_response(Vocabulary.set({:ref_id => params[:ref_id] }).collect { |vocabulary|
-                      Vocabulary.to_jsonmodel(vocabulary, :vocabulary).to_hash
-                    })
+      handle_listing(Vocabulary, :vocabulary, :ref_id => params[:ref_id])
     else
-      json_response(Vocabulary.all.collect {|vocabulary|
-                      Vocabulary.to_jsonmodel(vocabulary, :vocabulary).to_hash
-                    })
+      handle_listing(Vocabulary, :vocabulary)
     end
   end
 
@@ -44,8 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["vocab_id", Integer, "The vocabulary ID"])
     .returns([200, "[(:term)]"]) \
   do
-    json_response(Term.filter({:vocab_id => params[:vocab_id]}).collect {|t|
-                    Term.to_jsonmodel(t, :term).to_hash})
+    handle_listing(Term, :term, :vocab_id => params[:vocab_id])
   end
 
 

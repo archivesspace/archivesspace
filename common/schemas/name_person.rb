@@ -6,10 +6,10 @@
 
     "properties" => {
       "primary_name" => {"type" => "string", "ifmissing" => "error"},
-      "title" => {"type" => "string", "ifmissing" => "error"},
+      "title" => {"type" => "string"},
       "direct_order" => {
         "type" => "string",
-        "required" => false,
+        "required" => true,
         "enum" => ["standard", "inverted"]
       },
       "prefix" => {"type" => "string"},

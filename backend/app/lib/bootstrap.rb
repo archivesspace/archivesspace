@@ -7,8 +7,6 @@ require_relative "../../../config/config-distribution"
 require_relative "../../../common/jsonmodel"
 require_relative "../model/db_migrator"
 
-JSONModel::init
-
 
 
 if ENV["ASPACE_INTEGRATION"] == "true"

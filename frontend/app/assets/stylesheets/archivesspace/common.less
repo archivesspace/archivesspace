@@ -128,3 +128,23 @@ h2 > .label {
     padding: 4px 14px;
   }
 }
+
+/* accordion styles */
+.accordion {
+  .accordion-toggle {
+    .icon-chevron-down {
+      display: block;
+    }
+    .icon-chevron-right {
+      display: none;
+    }
+    &.collapsed {
+      .icon-chevron-down {
+        display: none;
+      }
+      .icon-chevron-right {
+        display: block;
+      }
+    }
+  }
+}

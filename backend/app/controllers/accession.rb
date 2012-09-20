@@ -7,9 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, :updated]) \
   do
-    acc = Accession.get_or_die(params[:accession_id], params[:repo_id])
-    acc.update_from_json(params[:accession])
-    updated_response(acc, params[:accession])
+    handle_update(Accession, :accession_id, :accession)
   end
 
 
@@ -19,10 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, :created]) \
   do
-    accession = Accession.create_from_json(params[:accession],
-                                           :repo_id => params[:repo_id])
-
-    created_response(accession, params[:accession])
+    handle_create(Accession, :accession)
   end
 
 
@@ -31,18 +26,20 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id])
     .returns([200, "[(:accession)]"]) \
   do
-    json_response(Accession.filter(:repo_id => params[:repo_id]).collect {|acc|
-                    Accession.to_jsonmodel(acc, :accession).to_hash
-                  })
+    handle_listing(Accession, :accession, :repo_id => params[:repo_id])
   end
 
 
   Endpoint.get('/repositories/:repo_id/accessions/:accession_id')
     .description("Get an Accession by ID")
     .params(["accession_id", Integer, "The accession ID"],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["resolve", [String], "A list of references to resolve and embed in the response",
+             :optional => true])
     .returns([200, "(:accession)"]) \
   do
-    json_response(Accession.to_jsonmodel(params[:accession_id], :accession, params[:repo_id]))
+    json = Accession.to_jsonmodel(params[:accession_id], :accession, params[:repo_id])
+
+    json_response(resolve_references(json, params[:resolve]))
   end
 end
