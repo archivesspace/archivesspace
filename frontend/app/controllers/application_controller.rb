@@ -43,7 +43,12 @@ class ApplicationController < ActionController::Base
       # given.  Update it from the user's parameters
       model = opts[:model] || JSONModel(opts[:instance])
       obj = opts[:obj] || model.new
-      obj.replace(params[opts[:instance]])
+
+      if opts[:replace] || opts[:replace].nil?
+        obj.replace(params[opts[:instance]])
+      else
+        obj.update(params[opts[:instance]])
+      end
 
       # Make the updated object available to templates
       instance_variable_set("@#{opts[:instance]}".intern, obj)

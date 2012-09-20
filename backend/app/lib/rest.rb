@@ -120,6 +120,21 @@ module RESTHelpers
   end
 
 
+  class BooleanParam
+    def self.value(s)
+      if s.nil?
+        nil
+      elsif s.downcase == 'true'
+        true
+      elsif s.downcase == 'false'
+        false
+      else
+        raise "Invalid boolean value: #{s}"
+      end
+    end
+  end
+
+
   def self.included(base)
 
     base.extend(JSONModel)
@@ -129,6 +144,8 @@ module RESTHelpers
       def coerce_type(value, type)
         if type == Integer
           Integer(value)
+        elsif type == BooleanParam
+          BooleanParam.value(value)
         elsif type.respond_to? :from_json
           type.from_json(value)
         elsif type.is_a? Array
@@ -160,7 +177,7 @@ module RESTHelpers
             params[name] = request.body.read
           end
 
-          if not params[name] and not opts[:optional]
+          if not params[name] and not opts[:optional] and not opts[:default]
             errors[:missing] << {:name => name, :doc => doc}
           else
 
@@ -172,6 +189,9 @@ module RESTHelpers
               rescue ArgumentError
                 errors[:bad_type] << {:name => name, :doc => doc, :type => type}
               end
+            elsif type and opts[:default]
+              params[name.intern] = opts[:default]
+              params.delete(name)
             end
 
             if opts[:validation]

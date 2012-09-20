@@ -3,8 +3,7 @@ require 'spec_helper'
 describe 'ArchivalObject model' do
 
   before(:each) do
-    @repo = Repository.create(:repo_code => "TESTREPO",
-                              :description => "My new test repository").id
+    make_test_repo
   end
 
 
@@ -12,7 +11,7 @@ describe 'ArchivalObject model' do
     ArchivalObject.create_from_json(JSONModel(:archival_object).
                                     from_hash({ "ref_id" => "abcd",
                                                 "title" => "A new archival object"}),
-                                    :repo_id => @repo)
+                                    :repo_id => @repo_id)
   end
 
 
@@ -34,7 +33,7 @@ describe 'ArchivalObject model' do
                                                   "extent_type" => "reels",
                                                 }]
                                               }),
-                                    :repo_id => @repo)
+                                    :repo_id => @repo_id)
     ArchivalObject[ao[:id]].extents.length.should eq(1)
     ArchivalObject[ao[:id]].extents[0].extent_type.should eq("reels")
   end

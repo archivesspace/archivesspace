@@ -97,6 +97,10 @@ en:
     "[:resource_id, :ref_id]": Ref ID
     extents:
       <<: *extent_attributes
+  group:
+    group_code: Group code
+    description: Group description
+    members: Group members
   resource:
     title: Title
     id_0: Identifier

@@ -2,10 +2,12 @@ require 'spec_helper'
 
 describe 'Accession model' do
 
-  it "Allows accessions to be created" do
-    repo = Repository.create(:repo_code => "TESTREPO",
-                             :description => "My new test repository")
+  before(:each) do
+    make_test_repo
+  end
 
+
+  it "Allows accessions to be created" do
     accession = Accession.create_from_json(JSONModel(:accession).
                                            from_hash({
                                                        "id_0" => "1234",
@@ -17,16 +19,13 @@ describe 'Accession model' do
                                                        "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
                                                        "condition_description" => "Most letters smeared with jam"
                                                      }),
-                                           :repo_id => repo[:id])
+                                           :repo_id => @repo_id)
 
     Accession[accession[:id]].title.should eq("Papers of Mark Triggs")
   end
 
 
   it "Enforces ID uniqueness" do
-    repo = Repository.create(:repo_code => "TESTREPO",
-                             :description => "My new test repository")
-
     lambda {
       2.times do
         Accession.create_from_json(JSONModel(:accession).
@@ -40,7 +39,7 @@ describe 'Accession model' do
                                                "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
                                                "condition_description" => "Most letters smeared with jam"
                                              }),
-                                   :repo_id => repo[:id])
+                                   :repo_id => @repo_id)
       end
     }.should raise_error(Sequel::ValidationFailed)
   end
