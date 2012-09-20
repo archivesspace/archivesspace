@@ -35,11 +35,13 @@ class SchemaHandler < YARD::Handlers::Ruby::Base
   handles(/.*/)
   
   in_file(/schemas\/.*\.rb/)
+  
   def process
-    name = statement.file.sub(/\.rb/, '').sub(/.*\//, '')
-#    name = statement.file
+
+    name = statement.file.sub(/\.rb/, '').sub(/.*\//, '') + "_schema"
     schema_object = register YARD::CodeObjects::SchemaObject.new(:root, name)
     schema_object[:schema] = schema_object[:source] = statement[0].source
+
     s = eval("{ #{schema_object[:source]} }")
     schema_object[:uri] = s[:schema]["uri"]
     schema_object[:properties] = s[:schema]["properties"]
@@ -52,9 +54,22 @@ class EndpointHandler < YARD::Handlers::Ruby::Base
 
   def process
     name = statement.jump(:tstring_content).source
-    puts "NAME #{name}"
+    
     endpoint_object = register YARD::CodeObjects::EndpointObject.new(namespace, name)
-    endpoint_object.source = statement[0].source
+    
+    # Hack the Endpoint class so it just returns a clean
+    # object
+
+    RESTHelpers::Endpoint.class_eval do
+
+      def returns(*returns, &block)
+        @returns = returns.map { |r| r[1] = RESTHelpers::Endpoint.return_types[r[1]] || r[1]; r }
+        self
+      end
+      
+    end
+    
+    endpoint_object.source = statement.source
     endpoint_object.describe
 
   end

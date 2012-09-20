@@ -1,0 +1,15 @@
+<%= render "shared/form_messages", :object => @group %>
+
+<div class="row-fluid">
+  <div class="span3">
+  </div>
+
+  <div class="span9 record-pane">
+    <h2>Editing group: <%= @group.description %></h2>
+
+    <%= form_for @group, :as => "group", :url => {:action => :update, :id => @group.id}, :html => {:class => 'form-horizontal'} do |f| %>
+   
+    <%= render :partial => "groups/form", :locals => {:f => f} %>
+    <% end %>
+  </div>
+</div>

@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'Resource model' do
 
   before(:each) do
-    @repo = Repository.create(:repo_code => "TESTREPO",
-                              :description => "My new test repository").id
+    make_test_repo
   end
+
 
   def create_resource
     Resource.create_from_json(JSONModel(:resource).
@@ -13,7 +13,7 @@ describe 'Resource model' do
                                           "title" => "A new resource",
                                           "id_0" => "abc123"
                                         }),
-                              :repo_id => @repo)
+                              :repo_id => @repo_id)
   end
 
 

@@ -1,7 +1,7 @@
 def init
   super
   sections.place(:specs).before(:method_summary)
-  sections.place(:schemata).before(:method_summary)
+  # sections.place(:schemata).before(:method_summary)
 end
 
 def specs

@@ -5,15 +5,16 @@ class AccessionsController < ApplicationController
   end
 
   def show
-    @accession = Accession.find(params[:id])
+    @accession = Accession.find(params[:id], "resolve[]" => "subjects")
   end
 
   def new
     @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
+    @accession.extents = [JSONModel(:extent).new._always_valid!]
   end
 
   def edit
-    @accession = Accession.find(params[:id])
+    @accession = Accession.find(params[:id], "resolve[]" => "subjects")
   end
 
 
@@ -29,7 +30,7 @@ class AccessionsController < ApplicationController
   def update
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :obj => JSONModel(:accession).find(params[:id]),
+                :obj => JSONModel(:accession).find(params[:id], "resolve[]" => "subjects"),
                 :on_invalid => ->(){
                   return render action: "edit"
                 },

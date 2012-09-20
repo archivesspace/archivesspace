@@ -6,8 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    repo = Repository.create_from_json(params[:repository])
-    created_response(repo, params[:repository])
+    handle_create(Repository, :repository)
   end
 
 
@@ -26,9 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a list of Repositories")
     .returns([200, "[(:repository)]"]) \
   do
-    json_response(Repository.collect {|repo|
-                    Repository.to_jsonmodel(repo, :repository).to_hash
-                  })
+    handle_listing(Repository, :repository)
   end
 
 end

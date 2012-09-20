@@ -18,7 +18,7 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
                  :always_resolve => true)
 
 
-  def self.sequel_to_jsonmodel(obj, type)
+  def self.sequel_to_jsonmodel(obj, type, opts = {})
     json = super(obj, type)
     json.agent_type = "agent_corporate_entity"
     json

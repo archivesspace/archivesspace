@@ -33,14 +33,33 @@ Sequel.migration do
     end
 
 
+    create_table(:repositories) do
+      primary_key :id
+
+      String :repo_code, :null => false, :unique => true
+      String :description, :null => false
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
     create_table(:groups) do
       primary_key :id
 
-      String :group_id, :null => false, :unique => true
+      Integer :repo_id, :null => false
+
+      String :group_code, :null => false
       TextField :description, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:groups) do
+      add_foreign_key([:repo_id], :repositories, :key => :id)
+      add_index([:repo_id, :group_code], :unique => true)
     end
 
 
@@ -55,17 +74,37 @@ Sequel.migration do
     alter_table(:groups_users) do
       add_foreign_key([:user_id], :users, :key => :id)
       add_foreign_key([:group_id], :groups, :key => :id)
+
+      add_index(:group_id)
+      add_index(:user_id)
     end
 
 
-    create_table(:repositories) do
+    create_table(:permissions) do
       primary_key :id
 
-      String :repo_code, :null => false, :unique => true
+      String :permission_code, :unique => true
       TextField :description, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
+    end
+
+
+    create_table(:groups_permissions) do
+      primary_key :id
+
+      Integer :permission_id, :null => false
+      Integer :group_id, :null => false
+    end
+
+
+    alter_table(:groups_permissions) do
+      add_foreign_key([:permission_id], :permissions, :key => :id)
+      add_foreign_key([:group_id], :groups, :key => :id)
+
+      add_index(:permission_id)
+      add_index(:group_id)
     end
 
 
@@ -181,6 +220,7 @@ Sequel.migration do
     create_join_table(:subject_id => :subjects, :term_id => :terms)
     create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
     create_join_table(:subject_id => :subjects, :resource_id => :resources)
+    create_join_table(:subject_id => :subjects, :accession_id => :accessions)
 
 
     create_table(:agent_person) do
@@ -386,10 +426,10 @@ Sequel.migration do
 
   down do
 
-    [:subjects_terms, :archival_objects_subjects, :subjects, :terms,
+    [:subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
-     :sessions, :auth_db, :groups_users, :users, :groups, :accessions,
+     :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
      :archival_objects, :vocabularies, :extent,
      :resources, :repositories].each do |table|
       puts "Dropping #{table}"

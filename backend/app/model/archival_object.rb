@@ -36,7 +36,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, type)
+  def self.sequel_to_jsonmodel(obj, type, opts = {})
     json = super(obj, type)
 
     if obj.resource_id

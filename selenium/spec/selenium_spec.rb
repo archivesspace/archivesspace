@@ -369,9 +369,11 @@ describe "ArchivesSpace user interface" do
 
     @driver.complete_4part_id("accession[id_%d]")
     @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
-    @driver.find_element(:css => "form#new_accession button[type='submit']").click
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => "div.alert-warning").text.should eq("Content Description - Property was missing\nCondition Description - Property was missing")
+    @driver.find_element(:css => ".errors-content_description").text.should eq("Content Description - Property was missing")
+    @driver.find_element(:css => ".errors-condition_description").text.should eq("Condition Description - Property was missing")
+    @driver.find_element(:css => ".errors-extents_0_number").text.should eq("Number - Property was missing")
 
     # Save anyway
     @driver.find_element(:css => "div.alert-warning .btn-warning").click
@@ -390,29 +392,66 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id => "accession[content_description]").clear_and_send_keys "A box containing our own universe"
     @driver.find_element(:id => "accession[condition_description]").clear_and_send_keys "Slightly squashed"
 
-    @driver.find_element(:css => "form#new_accession button[type='submit']").click
+    @driver.find_element(:id => "accession[extents][0][number]").clear_and_send_keys "10"
+
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
   end
 
 
   it "Can edit an accession once created" do
-    @driver.find_element(:link, 'Edit Accession').click
+    @driver.find_element(:link, 'Edit').click
 
     @driver.find_element(:id => 'accession[content_description]').clear_and_send_keys "Here is a description of this accession."
     @driver.find_element(:id => 'accession[condition_description]').clear_and_send_keys "Here we note the condition of this accession."
 
-    # note - the form is called 'new_accession' even though this is an edit form -jj
-    @driver.find_element(:css => "form#new_accession button[type='submit']").click
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
     @driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/)
   end
 
 
   it "Can edit an accession but cancel the edit" do
-    @driver.find_element(:link, 'Edit Accession').click
+    @driver.find_element(:link, 'Edit').click
     @driver.find_element(:id => 'accession[content_description]').clear_and_send_keys " moo"
     @driver.find_element(:link, "Cancel").click
 
     @driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/)
+  end
+
+
+  it "Can edit an accession and add another Extent" do
+    @driver.find_element(:link, 'Edit').click
+    @driver.find_element(:css => '#extent h3 .btn').click
+
+    @driver.find_element(:id => 'accession[extents][1][number]').clear_and_send_keys "5"
+    event_type_select = @driver.find_element(:id => "accession[extents][1][extent_type]")
+    event_type_select.find_elements( :tag_name => "option" ).each do |option|
+      option.click if option.attribute("value") === "volumes"
+    end
+
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
+  end
+
+
+  it "Can see two extents on the saved Accession" do
+    extent_headings = @driver.find_elements(:css => '#extent .accordion-heading')
+    extent_headings.length.should eq (2)
+    extent_headings[0].text.should eq ("10 Cassettes")
+    extent_headings[1].text.should eq ("5 Volumes")
+  end
+
+
+  it "Can see remove an extent when editing an Accession" do
+    @driver.find_element(:link, 'Edit').click
+
+    @driver.find_element(:css => '#extent .subform-remove').click
+
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+    extent_headings = @driver.find_elements(:css => '#extent .accordion-heading')
+    
+    extent_headings.length.should eq (1)
+    extent_headings[0].text.should eq ("10 Cassettes")
   end
 
 

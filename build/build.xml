@@ -54,6 +54,12 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='../_yard/Gemfile'" />
+    </java>
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../migrations/Gemfile'" />
     </java>
   </target>
@@ -220,6 +226,17 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d spec" />
+    </java>
+  </target>
+
+
+	<target name="doc:yard" description="Generate YARD documentation">
+		<java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+					failonerror="true"
+					dir="../">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+			<arg line="--1.9 build/gems/bin/yardoc" />
     </java>
   </target>
 

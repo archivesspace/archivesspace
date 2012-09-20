@@ -1,8 +1,7 @@
 def init
   super
-  puts "INIT #{:namespace}"
   sections.place(:specs).before(:children)
-  sections.place(:endpoints).before(:children)
+  sections.place(:endpoints).after(:children)
 end
 
 
