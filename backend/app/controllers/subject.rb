@@ -6,9 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["subject", JSONModel(:subject), "The subject data to create", :body => true])
     .returns([200, :created]) \
   do
-    subject = Subject.create_from_json(params[:subject])
-
-    created_response(subject, params[:subject])
+    handle_create(Subject, :subject)
   end
 
 
@@ -17,9 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params()
     .returns([200, "[(:subject)]"]) \
   do
-    json_response(Subject.all.collect {|subject|
-                    Subject.to_jsonmodel(subject, :subject).to_hash
-                  })
+    handle_listing(Subject, :subject)
   end
 
 

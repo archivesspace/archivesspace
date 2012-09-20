@@ -1,5 +1,6 @@
 require_relative 'lib/bootstrap'
 require_relative 'lib/rest'
+require_relative 'lib/crud_helpers'
 
 require 'sinatra/base'
 require 'json'
@@ -8,6 +9,7 @@ require 'json'
 class ArchivesSpaceService < Sinatra::Base
 
   include RESTHelpers
+  include CrudHelpers
 
 
   configure :development do |config|
