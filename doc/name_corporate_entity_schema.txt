@@ -1,0 +1,16 @@
+JSON Schema: Name_corporate_entity
+
+Properties
+
+string	primary_name
+
+string	subordinate_name_1
+
+string	subordinate_name_2
+
+string	number
+
+
+
+
+

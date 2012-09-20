@@ -1,0 +1,14 @@
+JSON Schema: Vocabulary
+/vocabularies
+Properties
+
+string	uri
+
+string	ref_id
+
+string	name
+
+
+
+
+

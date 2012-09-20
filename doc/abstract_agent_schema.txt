@@ -1,0 +1,14 @@
+JSON Schema: Abstract_agent
+
+Properties
+
+string	uri
+
+string	agent_type
+
+array (JSONModel(:agent_contact) uri_or_object)	agent_contacts
+
+
+
+
+

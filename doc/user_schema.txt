@@ -1,0 +1,14 @@
+JSON Schema: User
+/users
+Properties
+
+string	uri
+
+string	username
+
+string	name
+
+
+
+
+

@@ -1,0 +1,34 @@
+JSON Schema: Agent_contact
+
+Properties
+
+string	name
+
+string	salutation
+
+string	address_1
+
+string	address_2
+
+string	address_3
+
+string	city
+
+string	region
+
+string	country
+
+string	post_code
+
+string	telephone
+
+string	telephone_ext
+
+string	fax
+
+string	email
+
+
+
+
+

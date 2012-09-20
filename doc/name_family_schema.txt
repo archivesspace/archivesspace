@@ -1,0 +1,12 @@
+JSON Schema: Name_family
+
+Properties
+
+string	family_name
+
+string	prefix
+
+
+
+
+

@@ -1,0 +1,26 @@
+JSON Schema: Archival_object
+/repositories/:repo_id/archival_objects
+Properties
+
+string	uri
+
+string	ref_id
+
+string	component_id
+
+string	title
+
+string	level
+
+JSONModel(:archival_object) uri	parent
+
+JSONModel(:resource) uri	resource
+
+array (JSONModel(:subject) uri_or_object)	subjects
+
+array (JSONModel(:extent) uri_or_object)	extents
+
+
+
+
+

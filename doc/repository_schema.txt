@@ -1,0 +1,14 @@
+JSON Schema: Repository
+/repositories
+Properties
+
+string	uri
+
+string	repo_code
+
+string	description
+
+
+
+
+

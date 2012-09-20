@@ -1,0 +1,22 @@
+JSON Schema: Extent
+/repositories/:repo_id/extents
+Properties
+
+string	uri
+
+string	portion
+
+string	number
+
+string	extent_type
+
+string	container_summary
+
+string	physical_details
+
+string	dimensions
+
+
+
+
+

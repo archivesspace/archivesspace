@@ -1,0 +1,26 @@
+JSON Schema: Abstract_name
+
+Properties
+
+string	authority_id
+
+string	dates
+
+string	description_type
+
+string	description_note
+
+string	description_citation
+
+string	qualifier
+
+string	source
+
+string	rules
+
+string	sort_name
+
+
+
+
+

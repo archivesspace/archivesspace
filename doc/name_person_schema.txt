@@ -1,0 +1,24 @@
+JSON Schema: Name_person
+
+Properties
+
+string	primary_name
+
+string	title
+
+string	direct_order
+
+string	prefix
+
+string	rest_of_name
+
+string	suffix
+
+string	fuller_form
+
+string	number
+
+
+
+
+

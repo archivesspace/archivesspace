@@ -1,0 +1,10 @@
+JSON Schema: Agent_person
+/agents/people
+Properties
+
+array (JSONModel(:name_person) uri_or_object)	names
+
+
+
+
+

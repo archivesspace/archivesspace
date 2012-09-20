@@ -1,0 +1,14 @@
+JSON Schema: Name_software
+
+Properties
+
+string	software_name
+
+string	version
+
+string	manufacturer
+
+
+
+
+

@@ -1,0 +1,16 @@
+JSON Schema: Resource_tree
+/repositories/:repo_id/resources/:resource_id/tree
+Properties
+
+string	uri
+
+JSONModel(:archival_object) uri	archival_object
+
+string	title
+
+array	children
+
+
+
+
+

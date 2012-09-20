@@ -1,0 +1,10 @@
+JSON Schema: Agent_family
+/agents/families
+Properties
+
+array (JSONModel(:name_family) uri_or_object)	names
+
+
+
+
+
