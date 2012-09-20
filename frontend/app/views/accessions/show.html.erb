@@ -28,6 +28,20 @@
            <div class="span3">Condition Description</div>
            <div class="span9"><%= @accession.condition_description %></div>
         </div>
+        <% if not @accession.subjects.blank? %>
+        <hr/>
+        <div class="row-fluid label-and-value">
+           <div class="span3">Subjects</div>
+           <div class="span9">
+              <% @accession["resolved"]["subjects"].each do | subject | %>
+                 <div class="token">
+                    <%= Subject.from_hash(subject).display_string %>
+                 </div>
+              <% end %>
+           </div>
+        </div>
+        <% end %>
+
       </section>
 
 

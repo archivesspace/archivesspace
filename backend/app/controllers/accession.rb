@@ -33,9 +33,13 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/accessions/:accession_id')
     .description("Get an Accession by ID")
     .params(["accession_id", Integer, "The accession ID"],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["resolve", [String], "A list of references to resolve and embed in the response",
+             :optional => true])
     .returns([200, "(:accession)"]) \
   do
-    json_response(Accession.to_jsonmodel(params[:accession_id], :accession, params[:repo_id]))
+    json = Accession.to_jsonmodel(params[:accession_id], :accession, params[:repo_id])
+
+    json_response(resolve_references(json, params[:resolve]))
   end
 end
