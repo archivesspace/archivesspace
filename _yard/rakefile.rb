@@ -4,9 +4,7 @@ namespace :doc do
   desc "Generate the documentation"
   task :yard do
     puts "Generating YARD documentation"
-    Dir.chdir("../") do
-      `yardoc`
-    end
+    system(File.join("..", "build", "run"), "doc:yardoc")
   end
 
   desc "Create the API.md file"
