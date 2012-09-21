@@ -6,7 +6,7 @@
       <%= render :partial => "sidebar" %>
     </div>
     <div class="span9 record-pane">
-      <h2>Edit Accession "<%= @accession.title%>"</h2>
+      <h2>Edit Accession "<%= @accession.title%>" <span class="label label-info">Accession</span></h2>
       <input type="hidden" name="_method" value="put" />
       <%= render :partial => "accessions/form", :locals => {:f => f} %>
     </div>
