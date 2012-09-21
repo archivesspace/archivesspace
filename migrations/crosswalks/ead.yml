@@ -46,36 +46,6 @@ entities:
                              'term_type' => 'Cultural context'
                              }"
       
-# source:
-#   format: "xml"
-#   schema: "ead"
-# entities:
-#   resource: 
-#     instance: ["ead"]
-#     properties:
-#       id_0: ["unitid"]
-#       title: ["unittitle"]
-#     relationships:
-#       subjects: ["child::subject"] 
-#   archival_object: 
-#     instance: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
-#     properties:
-#       title: ["unittitle"]
-#       ref_id: ["@id"]
-#     relationships:
-#       parent: ["parent::c"]
-#       resource: ["ancestor::ead"]
-#       subjects: ["child::subject"]      
-      
-  # vocabulary:
-  #   properties: 
-  #     ref_id: 
-  #     name: ["//subject[@source]"]
-  # subject: 
-  #   instance: ["//subject"]
-  #   properties:
-  #     terms: ["self::subject"]
-  #   relationships:
-  #     vocabulary: ["@source"]
+
 
 
