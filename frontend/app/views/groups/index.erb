@@ -5,7 +5,11 @@
    </div>
 
    <div class="span9 record-pane">
-     <h2>Manage Groups</h2>
+     <div class="btn-group">
+       <%= link_to "Create Group", {:controller => :groups, :action => :new}, :class => "btn" %>
+     </div>
+
+     <h2>Groups</h2>
 
      <table class="table table-striped table-bordered table-condensed">
        <thead>
@@ -25,7 +29,5 @@
          <% end %>
        </tbody>
      </table>
-
-     <%= link_to "Create group", {:controller => :groups, :action => :new}, :class => "btn btn-primary" %>
    </div>
 </div>
