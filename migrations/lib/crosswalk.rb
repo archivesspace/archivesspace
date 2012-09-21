@@ -6,7 +6,10 @@ module ASpaceImport
 
 
     def initialize(opts)
-      @walk = Psych.load(IO.read(opts[:crosswalk]))
+
+      @walk = Psych.load(IO.read(File.join(File.dirname(__FILE__),
+                                                "../crosswalks",
+                                                "#{opts[:crosswalk]}.yml")))
       
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)
@@ -129,7 +132,6 @@ module ASpaceImport
     end
     
     
-    
     def ancestor_relationships(opts)
       
       return nil unless @walk['entities'][opts[:type]]
@@ -141,22 +143,7 @@ module ASpaceImport
         end
       end
     end
-    
-    
-    
-    # Remove this:
-    
-    def get_property(schema, xpath)
-      
-      if (property = lookup_property_for(schema, xpath))
-        yield property 
-      end
-    end
- 
-    
-
-
-    
+  
 
     def lookup_entities_for(opts)
       types = []
@@ -175,21 +162,5 @@ module ASpaceImport
       end
     end
     
-    def lookup_property_for(type, xpath)
-      return nil unless @walk['entities'][type]
-      props = []
-      @walk['entities'][type]['properties'].each do |k, v|
-        v['xpath'].each do |xp|
-          if xp.match(/^(\/)*(@)?#{xpath}$/)
-            props.push(k)
-          end
-        end
-      end
-      if props.count > 1
-        raise StandardError.new("Found more than one property to create with this xpath (#{xpath}), and have no means of giving them priority: #{props.to_s}")
-      else
-        props.pop
-      end
-    end
   end 
 end

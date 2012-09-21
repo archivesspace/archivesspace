@@ -1,3 +1,4 @@
+$test_mode = true
 require_relative "../lib/bootstrap"
 
 if ENV['COVERAGE_REPORTS']

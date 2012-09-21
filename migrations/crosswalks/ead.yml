@@ -43,8 +43,8 @@ entities:
       terms: 
         xpath: ["self"]
         procedure: "|value| {'term' => value, 
-                             'term_type' => 'Cultural context', 
-                             'vocabulary' => @default_vocab}"
+                             'term_type' => 'Cultural context'
+                             }"
       
 # source:
 #   format: "xml"

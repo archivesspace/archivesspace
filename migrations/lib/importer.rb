@@ -58,6 +58,11 @@ module ASpaceImport
 
 
     def initialize(opts = { })
+      
+      raise "Need a repo_id in order to run" unless opts[:repo_id]
+      
+      JSONModel::set_repository(opts[:repo_id])
+      
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)
       end

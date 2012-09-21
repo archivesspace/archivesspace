@@ -138,7 +138,13 @@ ASpaceImport::Importer.importer :xml do
         
         # For instance:
         if ['subject'].include?(@parse_queue[-1].class.record_type)
-          @parse_queue[-1].vocabulary = @default_vocab
+          
+          @vocab_uri ||= "/vocabularies/#{@vocab_id}"
+
+          @parse_queue[-1].vocabulary = @vocab_uri
+          if @parse_queue[-1].terms.is_a?(Array)
+            @parse_queue[-1].terms.each {|t| t['vocabulary'] = @vocab_uri}
+          end
         end
 
 

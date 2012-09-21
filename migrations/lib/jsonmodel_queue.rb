@@ -41,7 +41,6 @@ module JSONModel
       end
     end
 
-
  
     # Protected methods
     protected

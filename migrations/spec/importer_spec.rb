@@ -39,7 +39,7 @@ describe "ASpaceImport::Importer" do
       def self.profile; "blah"; end
       def run; "blech"; end
     end
-    expect { ASpaceImport::Importer.create_importer({:importer => :hey}) }.to_not raise_error
+    expect { ASpaceImport::Importer.create_importer({:importer => :hey, :repo_id => '1'}) }.to_not raise_error
   end
 end
 

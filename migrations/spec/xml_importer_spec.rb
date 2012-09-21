@@ -8,28 +8,25 @@ describe 'ASpaceImport::Importer::XmlImporter' do
     ASpaceImport::Importer.destroy_importers
    
     load "../importers/xml.rb"
- 
-    repo_id = make_test_repo
-    @default_vocab = make_test_vocab
     
-    opts = {
-            :crosswalk => '../crosswalks/ead.yml', 
+    @opts = {
+            :crosswalk => 'ead', 
             :input_file => '../examples/ead/afcu.xml', 
             :importer => 'xml',
-            :repo_id => repo_id,
-            :default_vocab => @default_vocab          
+            :repo_id => make_test_repo,
+            :vocab_uri => make_test_vocab          
             }
     
      
-    @i = ASpaceImport::Importer.create_importer(opts)
+    @i = ASpaceImport::Importer.create_importer(@opts)
 
      
   end
   
   def create_subject
-    vocab_uri = @default_vocab
-    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "1981 Heroes", "term_type" => "Cultural context", "vocabulary" => vocab_uri}],
-                                            "vocabulary" => vocab_uri
+
+    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "1981 Heroes", "term_type" => "Cultural context", "vocabulary" => @opts[:vocab_uri]}],
+                                            "vocabulary" => @opts[:vocab_uri]
                                             )
 
     subject.save
