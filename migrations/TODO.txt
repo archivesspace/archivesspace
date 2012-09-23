@@ -2,7 +2,7 @@
 	
 - revisit dry run mode
 
-- revisit debug mode (get rid of it in favor of verbose?)
+- revisit allow-failures
 	
 - create measurements for speed and memory usage
 

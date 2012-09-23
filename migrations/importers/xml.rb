@@ -4,15 +4,15 @@ require 'nokogiri'
 ASpaceImport::Importer.importer :xml do
 
   def initialize(opts)
-    # load in the YAML
-    # TODO - die if not given a crosswalk and an input file
-    # TODO - require gems at run time? (so it can be listed without giving an error)
+
     @xw = ASpaceImport::Crosswalk.new(opts)
+
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
-    # TODO - create a separate module for the parse queue
-    #     since it doesn't have much to do with JSONModel (?)
+
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
+
     super
+
   end
 
 
@@ -29,36 +29,32 @@ ASpaceImport::Importer.importer :xml do
           
           record_type = jo.class.record_type
           
-          eval("def jo.depth; #{node.depth}; end")
+          jo.instance_eval("def depth; #{node.depth}; end")
           
-          jo.add_after_save_hook(Proc.new { @goodimports += 1 } )
+          jo.add_after_save_hook(Proc.new { @goodimports += 1 })
 
           # For Debugging / Testing
-          jo.add_after_save_hook(Proc.new { puts "\nSaved: #{jo.to_s}" } )
+          jo.add_after_save_hook(Proc.new { puts "\nSaved: #{jo.to_s}" })
           
           # Set any properties that take 'self'
-          @xw.set_properties( :object => jo,
-                              :xpath => "self",
-                              :value => node.inner_xml
-                            )
+          @xw.set_properties(:object => jo,
+                             :xpath => "self",
+                             :value => node.inner_xml)
 
-  
           node.attributes.each do |a|
             
-
-            @xw.set_properties( :object => jo,
-                                :xpath => "@#{a[0]}",
-                                :value => a[1] )
-
+            @xw.set_properties(:object => jo,
+                               :xpath => "@#{a[0]}",
+                               :value => a[1])
           end
 
           # Does this object need something in the parse
           # queue to set one of it's (the current object) 
           # properties?
           
-          @xw.ancestor_relationships(:type => record_type) do |record_types, property|
+          @xw.ancestor_relationships(:type => record_type) do |types, property|
 
-            if (ao = @parse_queue.reverse.find {|ao| check_type(ao, record_types)})
+            if (ao = @parse_queue.reverse.find {|ao| check_type(ao, types)})
               ao.add_after_save_hook(Proc.new { jo.send("#{property}=", ao.uri) })
               jo.wait_for(ao)
             end
@@ -82,9 +78,9 @@ ASpaceImport::Importer.importer :xml do
             # Won't work if the child object ends 
             # up waiting on something else            
             jo.add_after_save_hook(Proc.new {
-                                            @xw.set_properties( :object => ao,
-                                                                :xpath => xpath,
-                                                                :value => jo.uri)
+                                      @xw.set_properties( :object => ao,
+                                                          :xpath => xpath,
+                                                          :value => jo.uri)
                                             })
 
           end

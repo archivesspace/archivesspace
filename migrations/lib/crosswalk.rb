@@ -55,10 +55,14 @@ module ASpaceImport
 
       jo = opts[:object]
       schema_properties = jo.class.schema['properties']  
-          
-      return nil unless @walk['entities'][jo.class.record_type]
       
-      @walk['entities'][jo.class.record_type]['properties'].each do |property, hsh|
+      #     FINISH THIS
+    # return nil unless @walk['entities'][jo.class.record_type]
+      
+      @walk['entities'][jo.class.record_type]['properties'].each do 
+                                                      |property, hsh|
+                                                      
+        next unless hsh['xpath'].find { |xp| xp.match(opts[:xpath]) }                                              
  
         # Allows the crosswalk to override the default
         # behavior, which is direct value assignment
@@ -138,12 +142,13 @@ module ASpaceImport
       
       @walk['entities'][opts[:type]]['properties'].each do |property, hsh|
 
-        if hsh['xpath'].find { |xp| xp.match(/^parent::([a-z]*)$/) or xp.match(/^ancestor::([a-z]*)$/) }
+        if hsh['xpath'].find { |xp| xp.match(/^parent::([a-z]*)$/) or 
+                                    xp.match(/^ancestor::([a-z]*)$/) }
             yield lookup_entities_for(:xpath => $1), property
         end
       end
     end
-  
+    
 
     def lookup_entities_for(opts)
       types = []
