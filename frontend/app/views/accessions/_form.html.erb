@@ -37,9 +37,9 @@
     <% if @accession.dates.blank? %>
       <p class="alert alert-info">Click 'Add Date' to add a date record.</p>
     <% else %>
-      <% @accession.dates.each do | date | %>
+      <% @accession.dates.each_with_index do | date, index | %>
         <% f.with_jsonmodel("dates[]", date, :date) do %>
-          <%= render :partial => "dates/form", :locals => {:f => f} %>
+          <%= render :partial => "dates/form", :locals => {:f => f, :index => index} %>
         <% end %>
       <% end %>
     <% end %>

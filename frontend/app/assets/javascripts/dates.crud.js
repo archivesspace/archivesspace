@@ -1,6 +1,7 @@
 $(function() {
   var $this = $(".content-pane form");
 
+  var form_index = $(".subform.date-fields", $this).length;
 
   var toggle_disabled_fields = function() {
     $("label.radio :radio", this).each(function() {
@@ -23,25 +24,25 @@ $(function() {
 
     dateFormEl.addClass("initialised");
 
-    $("#date_type .accordion-group label", dateFormEl).click(function(event) {
+    $(".date-type-accordion .accordion-group label", dateFormEl).click(function(event) {
       $(":radio", $(this).parents(".control-group:first")).removeAttr("checked");
       $(":radio", this).attr("checked", "checked");
-      $.proxy(toggle_disabled_fields, $(this).parents("#date_type"))();
+      $.proxy(toggle_disabled_fields, $(this).parents(".date-type-accordion:first"))();
     });
 
 
-    $("#date_type", dateFormEl).each(toggle_disabled_fields);
+    $(".date-type-accordion", dateFormEl).each(toggle_disabled_fields);
 
   };
 
 
   $this.on("click", "#dates > h3 > .btn", function() {
-    var forms = $(".subform.date-fields", $this).length;
-    var dateFormEl = $(AS.renderTemplate("date_form_template", {index: forms}));
+    var dateFormEl = $(AS.renderTemplate("date_form_template", {index: form_index++}));
     $("#dates_container", $this).append(dateFormEl);
     $(".alert", $("#dates_container", $this)).hide();
     $this.triggerHandler("form-changed");
     $.proxy(init_date_form, dateFormEl)();
+    $(":input:visible:first", dateFormEl).focus();
   });
 
 
@@ -56,7 +57,7 @@ $(function() {
 
   $("#dates .date-fields", $this).each(function() {
     $.proxy(init_date_form, this)();
-    $("#date_type label.radio :radio:checked", this).parents(".accordion-group:first").find(".accordion-body").removeClass("collapsed").addClass("in");
+    $(".date-type-accordion label.radio :radio:checked", this).parents(".accordion-group:first").find(".accordion-body").removeClass("collapsed").addClass("in");
   });
 
 });

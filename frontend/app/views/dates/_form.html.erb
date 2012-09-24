@@ -5,22 +5,22 @@
     <div class="control-group">
       <label class="control-label"><%= I18n.t("accession.dates.date_type")%></label>
       <div class="controls">
-        <div class="accordion controls-accordion" id="date_type">
+        <div class="accordion controls-accordion date-type-accordion" id="date_type_<%= index %>">
           <div class="accordion-group">
-            <label class="radio in" data-toggle="collapse" data-parent="#date_type" href="#date_type_expression">
+            <label class="radio in" data-toggle="collapse" data-parent="#date_type_<%= index %>" href="#date_type_expression_<%= index %>">
               <%= f.jsonmodel_radio :date_type, "expression" %> Expression
             </label>
-            <div id="date_type_expression" class="accordion-body collapse">
+            <div id="date_type_expression_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
                 <%= f.label_field_pair :expression, f.jsonmodel_text_field(:expression, :placeholder => "Describe the date or date range") %>
               </div>
             </div>
           </div>
           <div class="accordion-group">
-            <label class="radio" data-toggle="collapse" data-parent="#date_type" href="#date_type_single">
+            <label class="radio" data-toggle="collapse" data-parent="#date_type_<%= index %>" href="#date_type_single_<%= index %>">
              <%= f.jsonmodel_radio :date_type, "single" %> Single Date
             </label>
-            <div id="date_type_single" class="accordion-body collapse">
+            <div id="date_type_single_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
                 <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
                 <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
@@ -28,10 +28,10 @@
             </div>
           </div>
           <div class="accordion-group">
-            <label class="radio" data-toggle="collapse" data-parent="#date_type" href="#date_type_inclusive">
+            <label class="radio" data-toggle="collapse" data-parent="#date_type_<%= index %>" href="#date_type_inclusive_<%= index %>">
               <%= f.jsonmodel_radio :date_type, "inclusive" %> Inclusive Dates
             </label>
-            <div id="date_type_inclusive" class="accordion-body collapse">
+            <div id="date_type_inclusive_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
                 <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
                 <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
@@ -41,10 +41,10 @@
             </div>
           </div>
           <div class="accordion-group">
-            <label class="radio" data-toggle="collapse" data-parent="#date_type" href="#date_type_bulk">
+            <label class="radio" data-toggle="collapse" data-parent="#date_type_<%= index %>" href="#date_type_bulk_<%= index %>">
               <%= f.jsonmodel_radio :date_type, "bulk" %> Bulk Dates
             </label>
-            <div id="date_type_bulk" class="accordion-body collapse">
+            <div id="date_type_bulk_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
                 <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
                 <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
