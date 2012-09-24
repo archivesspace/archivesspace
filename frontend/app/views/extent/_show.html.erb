@@ -1,18 +1,19 @@
 <section id="extent">
   <h3>Extent</h3>
-  <div class="accordion" id="extent_accordion">
+  <div class="accordion details" id="extent_accordion">
     <% extents.each_with_index do | extent, index | %>
       <div class="accordion-group">
         <div class="accordion-heading">
-          <div class="row-fluid">
+          <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#extent_accordion" href="#extent_<%= index %>">
             <div class="span1">
-              <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#extent_accordion" href="#extent_<%= index %>"><span class="icon-chevron-right"></span><span class="icon-chevron-down"></span></a>
+              <span class="icon-chevron-right"></span>
+              <span class="icon-chevron-down"></span>
             </div>
-            <div class="span4 accordion-toggle" data-toggle="collapse" data-parent="#extent_accordion" href="#extent_<%= index %>">
+            <div class="span4">
               <%= extent['number'] %> 
               <%= I18n.t('extent.extent_type_'+extent['extent_type']) %>
             </div>
-            <div class="span7 accordion-toggle">
+            <div class="span7">
               <%= extent['container_summary'] %>
             </div>
           </div>

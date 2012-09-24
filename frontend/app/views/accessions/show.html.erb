@@ -43,10 +43,10 @@
            </div>
         </div>
         <% end %>
-
       </section>
 
-
       <%= render :partial => "extent/show", :locals => { :extents => @accession.extents } %>
+      <%= render :partial => "dates/show", :locals => { :dates => @accession.dates } %>
+
    </div>
 </div>

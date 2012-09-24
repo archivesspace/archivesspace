@@ -1,8 +1,38 @@
 <section id="dates">
   <h3>Dates</h3>
-  <div class="accordion" id="dates_accordion">
+  <div class="accordion details" id="dates_accordion">
     <% dates.each_with_index do | date, index | %>
-      Woo date.
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#date_accordion" href="#date_<%= index %>">
+            <div class="span1">
+              <span class="icon-chevron-right"></span>
+              <span class="icon-chevron-down"></span>
+            </div>
+            <div class="span2">
+              <%= I18n.t("date.label_#{date['label']}") %>
+            </div>
+            <div class="span6">
+             <% if date['date_type'] === "expression" %>
+                <%= date['expression'] %>
+              <% elsif date['date_type'] === "single" %>
+                <%= date['begin'] %> <%= date['begin_time'] %>
+              <% else %>
+              <% end %>
+            </div>
+            <div class="span3">
+              <%= I18n.t("date.uncertain_#{date['uncertain']}") %>
+            </div>
+          </div>
+        </div>
+        <div id="date_<%= index %>" class="accordion-body collapse">
+          <% date.each do |k, v| %>
+            <div class="row-fluid label-and-value">
+              <div class="span3 offset1" ><%= I18n.t("date.#{k}") %></div>
+              <div class="span8"><%= v %></div>
+            </div>
+          <% end %>
+      </div>
     <% end %>
   </div>
 </section>
