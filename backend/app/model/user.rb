@@ -32,5 +32,20 @@ class User < Sequel::Model(:users)
   end
 
 
+  def permissions(repo_id = Group.GLOBAL)
+
+    self.class.db[:groups].
+      join(:groups_users, :group_id => :id).
+      join(:groups_permissions, :group_id => :group_id).
+      join(:permissions, :id => :permission_id).
+      filter(:user_id => self.id,
+             :repo_id => repo_id).
+      select(:permission_code).
+      distinct.
+      map {|row| row[:permission_code]}
+
+  end
+
+
   many_to_many :groups
 end

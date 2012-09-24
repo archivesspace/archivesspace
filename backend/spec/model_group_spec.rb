@@ -65,8 +65,7 @@ describe 'Group model' do
     group.add_user(make_test_user("simon"))
     group.add_user(make_test_user("garfunkel"))
 
-    group.add_permission(Permission.define(:permission_code => "manage_repository",
-                                           :description => "Grants access to make changes to a repository"))
+    group.grant("manage_repository")
 
     group.permissions.map {|permission| permission[:permission_code]}.should eq(["manage_repository"])
 

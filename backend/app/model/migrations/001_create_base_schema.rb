@@ -107,6 +107,8 @@ Sequel.migration do
 
       add_index(:permission_id)
       add_index(:group_id)
+
+      add_index([:permission_id, :group_id], :unique => true)
     end
 
 

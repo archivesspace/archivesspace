@@ -49,8 +49,13 @@ class Group < Sequel::Model(:groups)
   end
 
 
-  def grant(permission)
-    add_permission(Permission[:permission_code => permission.to_s])
+  def grant(permission_code)
+    permission = Permission[:permission_code => permission_code.to_s]
+
+    if self.class.db[:groups_permissions].filter(:group_id => self.id,
+                                                 :permission_id => permission.id).empty?
+      add_permission(permission)
+    end
   end
 
 

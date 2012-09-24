@@ -35,6 +35,9 @@ class ArchivesSpaceService
     ## Standard permissions
     Permission.define(:permission_code => "create_repository",
                       :description => "The ability to create new repositories")
+
+    Permission.define(:permission_code => "manage_repository",
+                      :description => "The ability to manage a given repository")
   end
 
 
