@@ -48,8 +48,8 @@ describe "JSONModel::Client" do
     child = JSONModel(:archival_object).from_hash({:ref_id => "def", :title => "Child Object"})
     grandchild = JSONModel(:archival_object).from_hash({:ref_id => "ghi", :title => "Grand Child Object"})
     
-    parent.add_after_save_hook(Proc.new { child.send("parent=", parent.uri) })    
-    child.add_after_save_hook(Proc.new { grandchild.send("parent=", child.uri) })
+    parent.after_save { child.send("parent=", parent.uri) }
+    child.after_save { grandchild.send("parent=", child.uri) }
 
     
     child.wait_for(parent)

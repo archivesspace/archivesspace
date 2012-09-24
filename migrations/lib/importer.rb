@@ -1,7 +1,6 @@
 module ASpaceImport
   class Importer
 
-
     @@importers = {}
 
     # @return [Fixnum] the number of importers that have been loaded
