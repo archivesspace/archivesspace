@@ -27,7 +27,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a list of Repositories")
     .returns([200, "[(:repository)]"]) \
   do
-    handle_listing(Repository, :repository)
+    handle_listing(Repository, :repository,
+                   :hidden => 0)
   end
 
 end

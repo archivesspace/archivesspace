@@ -4,7 +4,8 @@ require 'json'
 class User < JSONModel(:user)
 
   def self.establish_session(session, backend_session, username)
-    session[:session] = backend_session
+    session[:session] = backend_session["session"]
+    session[:permissions] = backend_session["permissions"]
     session[:user] = username
   end
 
@@ -15,9 +16,10 @@ class User < JSONModel(:user)
     response = JSONModel::HTTP.post_form("#{uri}/login", :password => password)
 
     if response.code == '200'
-      JSON.parse(response.body)["session"]
+      JSON.parse(response.body)
     else
       nil
     end
   end
+
 end

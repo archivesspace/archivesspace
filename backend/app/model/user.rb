@@ -27,7 +27,7 @@ class User < Sequel::Model(:users)
                           join(:groups_permissions, :group_id => :group_id).
                           filter(:user_id => self.id,
                                  :permission_id => permission.id,
-                                 :repo_id => (opts[:repo_id] or Group.GLOBAL)).
+                                 :repo_id => [opts[:repo_id], Group.GLOBAL].reject(&:nil?)).
                           count) >= 1)
   end
 
