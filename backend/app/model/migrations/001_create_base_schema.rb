@@ -433,6 +433,36 @@ Sequel.migration do
     end
 
 
+    create_table(:dates) do
+      primary_key :id
+
+      Integer :accession_id, :null => true
+      Integer :archival_object_id, :null => true
+      Integer :resource_id, :null => true
+
+      String :type, :null => false
+      String :label, :null => false
+
+      String :uncertain, :null => true
+      String :expression, :null => true
+      String :begin, :null => true
+      String :being_time, :null => true
+      String :end, :null => true
+      String :end_time, :null => true
+      String :era, :null => true
+      String :calendar, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:dates) do
+      add_foreign_key([:accession_id], :accessions, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
+    end
+
+
   end
 
   down do
@@ -441,7 +471,7 @@ Sequel.migration do
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
-     :archival_objects, :vocabularies, :extent,
+     :dates, :archival_objects, :vocabularies, :extent,
      :resources, :repositories].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)
