@@ -1,4 +1,4 @@
-class Date < Sequel::Model(:dates)
+class ASDate < Sequel::Model(:dates)
   include ASModel
 
   plugin :validation_helpers
