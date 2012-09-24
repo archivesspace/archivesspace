@@ -9,8 +9,9 @@ unless $test_mode
   JSONModel::init( { :client_mode => true, :strict_mode => true } )
 end
 
-require_relative "importer"
 require_relative "crosswalk"
+require_relative "importer"
+
 require_relative "parse_queue"
 
 

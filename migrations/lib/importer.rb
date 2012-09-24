@@ -1,6 +1,7 @@
 module ASpaceImport
   class Importer
 
+
     @@importers = {}
 
     # @return [Fixnum] the number of importers that have been loaded
@@ -21,10 +22,18 @@ module ASpaceImport
     # @return [Object] an instance of the selected importer
     # @raise [StandardError] if the class of the selected importer doesn't pass the usability test
 
-    def self.create_importer(options)
-      i = @@importers[options[:importer].to_sym]
+    def self.create_importer(opts)
+      i = @@importers[opts[:importer].to_sym]
       if i.usable
-        i.new options
+        if opts[:crosswalk]
+          
+          ASpaceImport::Crosswalk.init(opts)
+          
+          i.class_eval do
+            include ASpaceImport::Crosswalk
+          end
+        end
+        i.new opts
       else
         raise StandardError.new("Unusable importer or importer not found for: #{name}")
       end
@@ -62,6 +71,7 @@ module ASpaceImport
       raise "Need a repo_id in order to run" unless opts[:repo_id]
       
       JSONModel::set_repository(opts[:repo_id])
+      
       
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)

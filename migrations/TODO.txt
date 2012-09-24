@@ -6,6 +6,8 @@
 	
 - create measurements for speed and memory usage
 
+- refactor ancestor relationships setter
+
 
 
 

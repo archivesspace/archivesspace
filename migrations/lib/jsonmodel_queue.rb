@@ -7,10 +7,10 @@ module JSONModel
           
     @@wait_queue = Array.new # JSON objects waiting for another JSON object to be saved
 
-    def add_after_save_hook(proc)
+    def after_save(&block)
       @after_save_hooks ||= Array.new
-      @after_save_hooks.push(proc)
-    end  
+      @after_save_hooks.push(Proc.new(&block))
+    end 
   
     # Wait until another object is saved
     # before allowing itself to be saved.
@@ -21,13 +21,11 @@ module JSONModel
       @waiting_for ||= Array.new
       @waiting_for.push(json_obj)
     end
-  
     
     # Try to save the JSON object, do some post-save updating
     # of related objects if it works, then remove it from the 
     # main queue.
-    
-
+  
     def save_or_wait(opts = {})
       if self.try_save(opts)
         while @@wait_queue.length > 0 do
@@ -52,7 +50,7 @@ module JSONModel
       end    
       if can_save
         r = self.save(opts)
-        self.after_save
+        self.run_after_save_hooks
         return r
       else
         can_save
@@ -60,7 +58,7 @@ module JSONModel
     end
 
     
-    def after_save
+    def run_after_save_hooks
       @after_save_hooks.each { |proc| proc.call } if @after_save_hooks    
     end
     
