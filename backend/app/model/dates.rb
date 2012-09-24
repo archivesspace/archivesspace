@@ -7,14 +7,9 @@ module Dates
     base.one_to_many :dates, :class => "ASDate"
 
     base.jsonmodel_hint(:the_property => :dates,
-                        :contains_records_of_type => "ASDate",
+                        :contains_records_of_type => :date,
                         :corresponding_to_association  => :dates,
                         :always_resolve => true)
-  end
-
-
-  def validate
-    super
   end
 
 end

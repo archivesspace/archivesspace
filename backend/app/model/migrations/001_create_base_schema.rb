@@ -446,7 +446,7 @@ Sequel.migration do
       String :uncertain, :null => true
       String :expression, :null => true
       String :begin, :null => true
-      String :being_time, :null => true
+      String :begin_time, :null => true
       String :end, :null => true
       String :end_time, :null => true
       String :era, :null => true
