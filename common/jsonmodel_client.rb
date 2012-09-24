@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require_relative 'exceptions'
 
 
 module JSONModel
@@ -139,6 +140,10 @@ module JSONModel
         self.uri = self.class.uri_for(response["id"], opts)
 
         return response["id"]
+
+      elsif response.code == '403'
+        raise AccessDeniedException.new
+
       elsif response.code =~ /^4/
         err = JSON.parse(response.body)
 

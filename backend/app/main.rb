@@ -144,6 +144,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => request.env['sinatra.error'].conflicts}, 409)
   end
 
+  error AccessDeniedException do
+    json_response({:error => "Access denied"}, 403)
+  end
+
   error Sequel::ValidationFailed do
     json_response({:error => request.env['sinatra.error'].errors}, 409)
   end

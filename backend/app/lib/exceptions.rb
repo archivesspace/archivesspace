@@ -1,3 +1,5 @@
+require_relative "../../../common/exceptions"
+
 class BadParamsException < StandardError
   attr_accessor :params
 
@@ -15,7 +17,4 @@ class ConflictException < StandardError
 end
 
 class NotFoundException < StandardError
-end
-
-class AccessDeniedException < StandardError
 end
