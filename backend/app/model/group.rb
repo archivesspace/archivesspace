@@ -66,6 +66,8 @@ class Group < Sequel::Model(:groups)
       json.member_usernames = obj.users.map {|user| user[:username]}
     end
 
+    json.grants_permissions = obj.permissions.map {|permission| permission[:permission_code]}
+
     json
   end
 

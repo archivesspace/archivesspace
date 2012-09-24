@@ -87,6 +87,7 @@ Sequel.migration do
 
       String :permission_code, :unique => true
       TextField :description, :null => false
+      String :level, :default => "repository"
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false

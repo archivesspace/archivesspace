@@ -2,8 +2,12 @@ class Permission < Sequel::Model(:permissions)
   include ASModel
   plugin :validation_helpers
 
-  def self.define(opts)
-    permission = (Permission[:permission_code => opts[:permission_code]] or Permission.create(opts))
+  def self.define(code, description, opts = {})
+    opts[:level] ||= "repository"
+
+    permission = (Permission[:permission_code => code] or
+                  Permission.create(opts.merge(:permission_code => code,
+                                               :description => description)))
 
     # Admin users automatically get everything
     admins = Group[:group_code => Group.ADMIN_GROUP_CODE]

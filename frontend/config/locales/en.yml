@@ -99,8 +99,11 @@ en:
       <<: *extent_attributes
   group:
     group_code: Group code
-    description: Group description
-    members: Group members
+    description: Description
+    members: Members
+    permissions: "Members can:"
+    permission_types:
+        manage_repository: manage this repository
   resource:
     title: Title
     id_0: Identifier

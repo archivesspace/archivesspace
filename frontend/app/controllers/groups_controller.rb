@@ -23,6 +23,9 @@ class GroupsController < ApplicationController
 
 
   def update
+    params[:group][:grants_permissions] ||= []
+    params[:group][:member_usernames] ||= []
+
     handle_crud(:instance => :group,
                 :model => Accession,
                 :obj => JSONModel(:group).find(params[:id]),

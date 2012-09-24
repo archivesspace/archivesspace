@@ -69,8 +69,7 @@ describe 'Group controller' do
     group = create_group
     make_test_user("guybrush")
 
-    Permission.define(:permission_code => "swashbuckle",
-                      :description => "The right to sail the high seas!")
+    Permission.define("swashbuckle", "The right to sail the high seas!")
 
     group.member_usernames = ["guybrush"]
     group.grants_permissions = ["swashbuckle"]

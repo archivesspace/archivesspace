@@ -24,7 +24,7 @@ module ApplicationHelper
 
 
   def user_can?(permission, repository = nil)
-    repository ||= session[:repo_id]
+    repository ||= session[:repo]
 
     (session[:user] &&
      session[:permissions] &&
