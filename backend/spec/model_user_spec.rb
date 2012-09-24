@@ -22,7 +22,7 @@ describe 'User model' do
       group.add_user(user)
     end
 
-    user.permissions(@repo_id).sort.should eq (["create_repository", "manage_repository"])
+    user.permissions['ARCHIVESSPACE'].sort.should eq(["create_repository", "manage_repository"])
   end
 
 end

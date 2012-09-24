@@ -6,7 +6,7 @@ class ArchivesSpaceService
       Repository.unrestrict_primary_key
       begin
         Repository.create(:id => Group.GLOBAL,
-                          :repo_code => "_aspace_global_repo",
+                          :repo_code => "_archivesspace",
                           :description => "Global repository",
                           :hidden => 1)
       ensure

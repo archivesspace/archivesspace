@@ -32,18 +32,25 @@ class User < Sequel::Model(:users)
   end
 
 
-  def permissions(repo_id = Group.GLOBAL)
+  def permissions
+    result = {}
 
-    self.class.db[:groups].
+    # Crikey...
+    ds = self.class.db[:groups].
       join(:groups_users, :group_id => :id).
       join(:groups_permissions, :group_id => :group_id).
       join(:permissions, :id => :permission_id).
-      filter(:user_id => self.id,
-             :repo_id => repo_id).
-      select(:permission_code).
+      join(:repositories, :id => :groups__repo_id).
+      filter(:user_id => self.id).
       distinct.
-      map {|row| row[:permission_code]}
+      select(:repo_code, :permission_code)
 
+    ds.each do |row|
+      result[row[:repo_code]] ||= []
+      result[row[:repo_code]] << row[:permission_code]
+    end
+
+    result
   end
 
 
