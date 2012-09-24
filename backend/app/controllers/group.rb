@@ -53,6 +53,6 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id])
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(Group, :group)
+    handle_listing(Group, :group, :repo_id => params[:repo_id])
   end
 end

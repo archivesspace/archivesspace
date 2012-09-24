@@ -80,4 +80,18 @@ describe 'Group controller' do
                                        :repo_id => @repo_id).should eq(true)
   end
 
+
+  it "Restricts group listings to only the current repository" do
+    repo_one = make_test_repo("RepoOne")
+    repo_two = make_test_repo("RepoTwo")
+
+    JSONModel(:group).from_hash("group_code" => "group-in-repo1",
+                                "description" => "A test group").save(:repo_id => repo_one)
+
+    JSONModel(:group).from_hash("group_code" => "group-in-repo2",
+                                "description" => "A test group").save(:repo_id => repo_two)
+
+    JSONModel(:group).all({}, :repo_id => repo_one).map {|group| group.group_code}.should eq(["group-in-repo1"])
+  end
+
 end
