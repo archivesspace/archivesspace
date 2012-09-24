@@ -7,7 +7,7 @@ describe 'Date model' do
 
     date = ASDate.create_from_json(JSONModel(:date).
                                  from_hash({
-                                             "type" => "single",
+                                             "date_type" => "single",
                                              "label" => "creation",
                                              "expression" => "The day before yesterday",
                                            }))
@@ -20,7 +20,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                    from_hash({
-                                               "type" => "single",
+                                               "date_type" => "single",
                                                "label" => "creation",
                                              }))
     }.should raise_error(Sequel::ValidationFailed)
@@ -31,7 +31,7 @@ describe 'Date model' do
 
     date = ASDate.create_from_json(JSONModel(:date).
                                  from_hash({
-                                             "type" => "single",
+                                             "date_type" => "single",
                                              "label" => "creation",
                                              "begin" => "2012-05-14",
                                              "end" => "2012-05-14",
@@ -46,7 +46,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                    from_hash({
-                                               "type" => "single",
+                                               "date_type" => "single",
                                                "label" => "creation",
                                                "begin" => "2012-05-14",
                                                "begin_time" => "12:00",
@@ -71,7 +71,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                    from_hash({
-                                               "type" => "single",
+                                               "date_type" => "single",
                                                "label" => "creation",
                                                "begin" => "2012-13",
                                                "end" => "2012-13",
@@ -81,7 +81,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                   from_hash({
-                                              "type" => "single",
+                                              "date_type" => "single",
                                               "label" => "creation",
                                               "begin" => "2012-12-32",
                                               "end" => "2012-12-32",
@@ -91,7 +91,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                   from_hash({
-                                              "type" => "single",
+                                              "date_type" => "single",
                                               "label" => "creation",
                                               "begin" => "FOOBAR",
                                               "end" => "FOOBAR",
@@ -105,7 +105,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                    from_hash({
-                                               "type" => "single",
+                                               "date_type" => "single",
                                                "label" => "creation",
                                                "begin" => "2012",
                                                "end" => "2012",
@@ -117,7 +117,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                    from_hash({
-                                               "type" => "single",
+                                               "date_type" => "single",
                                                "label" => "creation",
                                                "begin" => "2012",
                                                "end" => "2012",
@@ -129,7 +129,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                    from_hash({
-                                               "type" => "single",
+                                               "date_type" => "single",
                                                "label" => "creation",
                                                "begin" => "2012",
                                                "end" => "2012",
@@ -141,7 +141,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                    from_hash({
-                                               "type" => "single",
+                                               "date_type" => "single",
                                                "label" => "creation",
                                                "begin" => "2012",
                                                "end" => "2012",
@@ -152,7 +152,7 @@ describe 'Date model' do
 
     date = ASDate.create_from_json(JSONModel(:date).
                                  from_hash({
-                                             "type" => "single",
+                                             "date_type" => "single",
                                              "label" => "creation",
                                              "begin" => "2012",
                                              "end" => "2012",

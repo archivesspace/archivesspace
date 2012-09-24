@@ -440,7 +440,7 @@ Sequel.migration do
       Integer :archival_object_id, :null => true
       Integer :resource_id, :null => true
 
-      String :type, :null => false
+      String :date_type, :null => false
       String :label, :null => false
 
       String :uncertain, :null => true
