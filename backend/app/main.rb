@@ -12,6 +12,7 @@ class ArchivesSpaceService < Sinatra::Base
   include CrudHelpers
 
 
+
   configure :development do |config|
     require 'sinatra/reloader'
     register Sinatra::Reloader
@@ -69,6 +70,37 @@ class ArchivesSpaceService < Sinatra::Base
     set :raise_errors, Proc.new { false }
     set :show_exceptions, false
     set :logging, false
+
+
+    ANONYMOUS_USER = AnonymousUser.new
+
+
+    if not Repository[Group.GLOBAL]
+      # Create the "global" repository
+      Repository.unrestrict_primary_key
+      begin
+        Repository.create(:id => Group.GLOBAL,
+                          :repo_code => "_aspace_global_repo",
+                          :description => "Global repository",
+                          :hidden => 1)
+      ensure
+        Repository.restrict_primary_key
+      end
+    end
+
+    if User[:username => "admin"].nil?
+      User.create_from_json(JSONModel(:user).from_hash(:username => User.ADMIN_USERNAME,
+                                                       :name => "Administrator"),
+                            :source => "local")
+    end
+
+    if Group[:group_code => Group.ADMIN_GROUP_CODE].nil?
+      group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.ADMIN_GROUP_CODE,
+                                                                 :description => "Administrators"),
+                                     :repo_id => Group.GLOBAL)
+
+      group.add_user(User[:username => User.ADMIN_USERNAME])
+    end
   end
 
 
@@ -126,7 +158,12 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   def session
-    @session
+    env[:aspace_session]
+  end
+
+
+  def current_user
+    env[:aspace_user]
   end
 
 
@@ -208,9 +245,9 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
-      @app.instance_eval {
-        @session = session
-      }
+      env[:aspace_session] = @session
+      env[:aspace_user] = ((@session && @session[:user] && User.find(:username => @session[:user])) ||
+                           ANONYMOUS_USER)
 
       if DB.connected?
         result = DB.open do

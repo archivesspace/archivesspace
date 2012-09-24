@@ -70,9 +70,9 @@ describe 'Group model' do
 
     group.permissions.map {|permission| permission[:permission_code]}.should eq(["manage_repository"])
 
-    User[:username => "simon"].can?("manage_repository", repo_one).should eq(true)
-    User[:username => "simon"].can?("something_else", repo_one).should eq(false)
-    User[:username => "simon"].can?("manage_repository", repo_two).should eq(false)
+    User[:username => "simon"].can?("manage_repository", :repo_id => repo_one).should eq(true)
+    User[:username => "simon"].can?("something_else", :repo_id => repo_one).should eq(false)
+    User[:username => "simon"].can?("manage_repository", :repo_id => repo_two).should eq(false)
   end
 
 end

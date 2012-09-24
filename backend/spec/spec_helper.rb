@@ -74,11 +74,6 @@ include JSONModel
 
 require_relative "../app/main"
 
-
-
-
-
-
 Log.quiet_please
 
 class ArchivesSpaceService
@@ -124,13 +119,34 @@ def make_test_user(username, name = "A test user", source = "local")
 end
 
 
+
+class ArchivesSpaceService
+  def current_user
+    Thread.current[:active_test_user]
+  end
+end
+
+
+def as_test_user(username)
+  old_user = Thread.current[:active_test_user]
+  Thread.current[:active_test_user] = User.find(:username => username)
+  begin
+    yield
+  ensure
+    Thread.current[:active_test_user] = old_user
+  end
+end
+
+
 RSpec.configure do |config|
   config.include Rack::Test::Methods
 
   # Roll back the database after each test
   config.around(:each) do |example|
     DB.open(true) do
-      example.run
+      as_test_user("admin") do
+        example.run
+      end
       raise Sequel::Rollback
     end
   end

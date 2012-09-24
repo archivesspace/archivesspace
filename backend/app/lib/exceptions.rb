@@ -16,3 +16,6 @@ end
 
 class NotFoundException < StandardError
 end
+
+class AccessDeniedException < StandardError
+end

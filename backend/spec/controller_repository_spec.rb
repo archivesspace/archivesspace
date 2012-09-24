@@ -19,4 +19,15 @@ describe 'Repository controller' do
   end
 
 
+  it "Only allows admins to create new repositories" do
+    make_test_user("regularjoe")
+
+    as_test_user("regularjoe") do
+      expect {
+        repo = JSONModel(:repository).from_hash("repo_code" => "regularjoe-repo",
+                                                "description" => "A new ArchivesSpace repository").save
+      }.to raise_error(AccessDeniedException)
+    end
+  end
+
 end

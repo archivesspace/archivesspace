@@ -6,6 +6,16 @@ class Group < Sequel::Model(:groups)
   many_to_many :permissions
 
 
+  def self.GLOBAL
+    # The repository ID indicating that this group is global to all repositories
+    -1
+  end
+
+  def self.ADMIN_GROUP_CODE
+    'administrators'
+  end
+
+
   def self.set_members(obj, json)
     obj.remove_all_users
     (json.member_usernames or []).map {|username|

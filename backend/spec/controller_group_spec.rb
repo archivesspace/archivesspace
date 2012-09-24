@@ -76,7 +76,8 @@ describe 'Group controller' do
     group.grants_permissions = ["swashbuckle"]
     group.save
 
-    User[:username => "guybrush"].can?("swashbuckle", @repo_id).should eq(true)
+    User[:username => "guybrush"].can?("swashbuckle",
+                                       :repo_id => @repo_id).should eq(true)
   end
 
 end

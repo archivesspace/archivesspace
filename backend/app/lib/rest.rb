@@ -45,6 +45,7 @@ module RESTHelpers
       @method = method
       @uri = ""
       @description = "-- No description provided --"
+      @preconditions = []
       @required_params = []
       @returns = []
     end
@@ -75,6 +76,7 @@ module RESTHelpers
 
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
+    def preconditions(*preconditions); @preconditions = preconditions; self; end
 
     def params(*params)
       @required_params = params.map do |p|
@@ -88,6 +90,7 @@ module RESTHelpers
 
       @@endpoints << self
 
+      preconditions = @preconditions
       rp = @required_params
       uri = @uri
       method = @method
@@ -108,6 +111,11 @@ module RESTHelpers
 
       ArchivesSpaceService.send(@method, @uri, {}) do
         ensure_params(rp)
+
+        unless preconditions.all? { |precondition| self.instance_eval &precondition }
+          raise AccessDeniedException.new("Access denied")
+        end
+
 
         if self.class.development?
           Log.debug("#{method.to_s.upcase} #{uri}")

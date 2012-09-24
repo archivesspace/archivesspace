@@ -39,6 +39,8 @@ Sequel.migration do
       String :repo_code, :null => false, :unique => true
       String :description, :null => false
 
+      Integer :hidden, :default => 0
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
