@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories')
     .description("Create a Repository")
     .params(["repository", JSONModel(:repository), "The repository to create", :body => true])
-    .preconditions(proc { current_user.can?(:create_repository, :repo => params[:repository]) })
+    .preconditions(proc { current_user.can?(:create_repository) })
     .returns([200, :created],
              [400, :error],
              [403, :access_denied]) \

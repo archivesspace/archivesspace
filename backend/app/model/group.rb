@@ -49,6 +49,11 @@ class Group < Sequel::Model(:groups)
   end
 
 
+  def grant(permission)
+    add_permission(Permission[:permission_code => permission.to_s])
+  end
+
+
   def self.sequel_to_jsonmodel(obj, type, opts = {})
     json = super
 

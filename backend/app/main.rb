@@ -75,33 +75,7 @@ class ArchivesSpaceService < Sinatra::Base
     ANONYMOUS_USER = AnonymousUser.new
 
 
-    if not Repository[Group.GLOBAL]
-      # Create the "global" repository
-      Repository.unrestrict_primary_key
-      begin
-        Repository.create(:id => Group.GLOBAL,
-                          :repo_code => "_aspace_global_repo",
-                          :description => "Global repository",
-                          :hidden => 1)
-      ensure
-        Repository.restrict_primary_key
-      end
-    end
-
-    if User[:username => "admin"].nil?
-      User.create_from_json(JSONModel(:user).from_hash(:username => User.ADMIN_USERNAME,
-                                                       :name => "Administrator"),
-                            :source => "local")
-      DBAuth.set_password(User.ADMIN_USERNAME, User.ADMIN_USERNAME)
-    end
-
-    if Group[:group_code => Group.ADMIN_GROUP_CODE].nil?
-      group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.ADMIN_GROUP_CODE,
-                                                                 :description => "Administrators"),
-                                     :repo_id => Group.GLOBAL)
-
-      group.add_user(User[:username => User.ADMIN_USERNAME])
-    end
+    require_relative "lib/bootstrap_access_control"
   end
 
 
