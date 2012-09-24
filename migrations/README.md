@@ -1,63 +1,54 @@
-# @markup markdown
-# @title ASpace Import / Export LTD.
-# @author Brian Hoffman
-
 # Getting started
 
-## If using RVM (https://rvm.io//)
+Install nokogiri, json-schema, psych
+
+Basic usage of import.rb is like this:
   
-  * Install ruby (~> 1.9.3) 
-
-         $ rvm install 1.9.3
-				 $ rvm use 1.9.3
-
-  * Create a new gemset
-
-         $ rvm gemset create archivesspace-migrations
-         $ rvm gemset use archivesspace-migrations
-
-  * Install nokogiri, json-schema
-
-         $ gem install nokogiri
-         $ gem install json-schema
-
-  * Run import.rb like so
-  
-         $ import.rb [-n ] (DRY RUN) -i {importer-name} {path/to/your/data/file.ext}
-
-
-## Without RVM
-
-  * This should work as long as you are using Ruby 1.9; Please report on any problems you have in your environment
+	$ import.rb -i {importer-name} [-s {path/to/your/data/file.ext}] [-x {crosswalk-name}]
 
 # Using the import tool
 
-## Running imports
+## Running a test import (example)
 
-  * Navigate to this directory (migrations)
+You can follow the steps below to run an example import
 
-  * Run the importer like this
+Step 1: Follow the steps in the global README and start the application on port 8089
+
+Step 2: Open the 'migrations' directory
+
+	$ cd migrations
+
+Step 3: Create an empty repository and vocabulary and note their IDs
+
+	$ rake import:make_repo
+	$ rake import:make_vocab
+
+Step 4: Run a test import using the following options
 		
-				$./import.rb [ OPTIONS ] [ @IMPORTER ARGS ]
+	$./import.rb -r {REPO_ID} -v {VOCAB_ID} -i xml -x ead -s examples/ead/afcu.xml
 
-  * To see all importer flags, run
+You can see the records that have been created using rake:
+
+	$ rake import:list_objects[{REPO_ID}]
+	$ rake import:list_subjects[{VOCAB_ID}]
+
+To see all importer flags, run
 				
-				$./import.rb -h
+	$./import.rb -h
 
-  * To find out what importers are available, and what to pass them
+To find out what importers are available, and what to pass them
 	
-				$./import.rb -l
-				
+	$./import.rb -l
+
 ## Adding an Importer
 
-  * You can create an importer and add it to the importers directory
+You can create an importer and add it to the importers directory
 	
-  * The first line of your file must be
+The first line of your file must be
 	
-				```
 				ASpaceImporter.importer :foo do # 'foo' is the unique key for this importer
-				```
-  * You must define two methods, self.profile and run. See examples.
+
+You must define two methods, self.profile and run. See examples or contact the development team for more info.
 	
 
 
