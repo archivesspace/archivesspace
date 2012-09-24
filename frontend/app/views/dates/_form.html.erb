@@ -1,0 +1,63 @@
+<div class="subform date-fields">
+  <a href="javascript:void(0)" class="btn btn-mini pull-right subform-remove"><span class='icon-remove'></span></a>
+  <div class="date-container">
+    <%= f.label_field_pair :label %>
+    <div class="control-group">
+      <label class="control-label"><%= I18n.t("accession.dates.date_type")%></label>
+      <div class="controls">
+        <div class="accordion controls-accordion" id="date_type">
+          <div class="accordion-group">
+            <label class="radio in" data-toggle="collapse" data-parent="#date_type" href="#date_type_expression">
+              <%= f.jsonmodel_radio :date_type, "expression" %> Expression
+            </label>
+            <div id="date_type_expression" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <%= f.label_field_pair :expression %>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <label class="radio" data-toggle="collapse" data-parent="#date_type" href="#date_type_single">
+             <%= f.jsonmodel_radio :date_type, "single" %> Single Date
+            </label>
+            <div id="date_type_single" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <%= f.label_field_pair :begin %>
+                <%= f.label_field_pair :begin_time %>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <label class="radio" data-toggle="collapse" data-parent="#date_type" href="#date_type_inclusive">
+              <%= f.jsonmodel_radio :date_type, "inclusive" %> Inclusive Dates
+            </label>
+            <div id="date_type_inclusive" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <%= f.label_field_pair :begin %>
+                <%= f.label_field_pair :begin_time %>
+                <%= f.label_field_pair :end %>
+                <%= f.label_field_pair :end_time %>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <label class="radio" data-toggle="collapse" data-parent="#date_type" href="#date_type_bulk">
+              <%= f.jsonmodel_radio :date_type, "bulk" %> Bulk Dates
+            </label>
+            <div id="date_type_bulk" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <%= f.label_field_pair :begin %>
+                <%= f.label_field_pair :begin_time %>
+                <%= f.label_field_pair :end %>
+                <%= f.label_field_pair :end_time %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= f.label_field_pair :uncertain %>
+    <%= f.label_field_pair :era %>
+    <%= f.label_field_pair :calendar %>
+  </div>
+</div>

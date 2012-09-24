@@ -1,3 +1,5 @@
+//= require dates.crud
+
 $(function() {
 
   $.fn.init_accession_form = function() {
@@ -17,15 +19,17 @@ $(function() {
           $("#extents_container", $this).append(AS.renderTemplate("extent_form_template", {index: extent_forms}));
           $this.triggerHandler("form-changed");
         });
+
+
+        $this.on("click", "#extent .subform-remove", function() {
+          $(this).parents(".subform:first").remove();
+          $this.triggerHandler("form-changed");
+        });
+
+
       };
 
-       $this.on("click", ".subform-remove", function() {
-         $(this).parents(".subform:first").remove();
-         $this.triggerHandler("form-changed");
-       });
-
-
-       addEventBindings();
+      addEventBindings();
     });
   };
 

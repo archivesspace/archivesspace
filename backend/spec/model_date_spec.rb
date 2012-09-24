@@ -7,7 +7,7 @@ describe 'Date model' do
 
     date = ASDate.create_from_json(JSONModel(:date).
                                  from_hash({
-                                             "date_type" => "single",
+                                             "date_type" => "expression",
                                              "label" => "creation",
                                              "expression" => "The day before yesterday",
                                            }))
@@ -46,7 +46,7 @@ describe 'Date model' do
     expect {
       date = ASDate.create_from_json(JSONModel(:date).
                                    from_hash({
-                                               "date_type" => "single",
+                                               "date_type" => "bulk",
                                                "label" => "creation",
                                                "begin" => "2012-05-14",
                                                "begin_time" => "12:00",

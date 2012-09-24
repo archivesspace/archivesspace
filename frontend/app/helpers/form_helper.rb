@@ -195,6 +195,15 @@ module FormHelper
                            }.merge(opts))
     end
 
+    def jsonmodel_radio(method, value)
+      @template.radio_button(@object_name, method, value, {
+                             "data-original_value" => current[method],
+                             :object => current,
+                             :force_name => current_name(method),
+                             :force_id => current_name(method, true)
+                           })
+    end
+
     def jsonmodel_text_area(method, opts)
       @template.text_area(@object_name, method, {
                              "data-original_value" => current[method],

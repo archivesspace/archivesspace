@@ -17,6 +17,35 @@ en:
     container_summary: Container Summary
     physical_details: Physical Details
     dimensions: Dimensions
+  date: &date_attributes
+    label: Label
+    label_broadcast: Broadcast
+    label_copyright: Copyright
+    label_creation: Creation
+    label_deaccession: Deaccession
+    label_digitized: Digitized
+    label_issued: Issued
+    label_modified: Modified
+    label_publication: Publication
+    label_other: Other
+    date_type: Type
+    date_type_expression: Expression
+    date_type_single: Single
+    date_type_bulk: Bulk Dates
+    date_type_inclusive: inclusive Dates
+    expression: Expression
+    begin: Begin
+    begin_time: Begin Time
+    end: End
+    end_time: End Time
+    uncertain: Uncertainty
+    uncertain_approximate: Approximate
+    uncertain_inferred: Inferred
+    uncertain_questionable: Questionable
+    era: Era
+    era_ce: ce
+    calendar: Calendar
+    calendar_gregorian: Gregorian
   accession:
     accession_date: Accession Date
     accession_id: Identifier
@@ -29,6 +58,8 @@ en:
     title: Title
     extents:
       <<: *extent_attributes
+    dates:
+      <<: *date_attributes
   agent: &agent_attributes
     type: Agent Type
     agent_type:
