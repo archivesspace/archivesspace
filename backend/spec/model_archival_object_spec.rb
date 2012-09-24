@@ -38,4 +38,25 @@ describe 'ArchivalObject model' do
     ArchivalObject[ao[:id]].extents[0].extent_type.should eq("reels")
   end
 
+
+  it "Allows archival objects to be created with a date" do
+    ao = ArchivalObject.create_from_json(JSONModel(:archival_object).
+                              from_hash({
+                                          "ref_id" => "abcd",
+                                          "title" => "A new archival object",
+                                          "dates" => [
+                                            {
+                                               "date_type" => "single",
+                                               "label" => "creation",
+                                               "begin" => "2012-05-14",
+                                               "end" => "2012-05-14",
+                                            }
+                                          ]
+                                        }),
+                              :repo_id => @repo_id)
+
+    ArchivalObject[ao[:id]].dates.length.should eq(1)
+    ArchivalObject[ao[:id]].dates[0].begin.should eq("2012-05-14")
+  end
+
 end

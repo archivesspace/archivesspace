@@ -4,6 +4,7 @@ class Resource < Sequel::Model(:resources)
   include Identifiers
   include Subjects
   include Extents
+  include Dates
 
 
   def link(opts)

@@ -3,6 +3,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   include ASModel
   include Subjects
   include Extents
+  include Dates
 
 
   def children

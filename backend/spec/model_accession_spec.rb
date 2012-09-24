@@ -69,4 +69,31 @@ describe 'Accession model' do
   end
 
 
+  it "Allows accessions to be created with a date" do
+    accession = Accession.create_from_json(JSONModel(:accession).
+                                           from_hash({
+                                                       "id_0" => "1234",
+                                                       "id_1" => "5678",
+                                                       "id_2" => "9876",
+                                                       "id_3" => "5432",
+                                                       "title" => "Papers of Mark Triggs",
+                                                       "accession_date" => Time.now,
+                                                       "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
+                                                       "condition_description" => "Most letters smeared with jam",
+                                                       "dates" => [
+                                                         {
+                                                            "date_type" => "single",
+                                                            "label" => "creation",
+                                                            "begin" => "2012-05-14",
+                                                            "end" => "2012-05-14",
+                                                         }
+                                                       ]
+                                                     }),
+                                           :repo_id => @repo_id)
+
+    Accession[accession[:id]].dates.length.should eq(1)
+    Accession[accession[:id]].dates[0].begin.should eq("2012-05-14")
+  end
+
+
 end
