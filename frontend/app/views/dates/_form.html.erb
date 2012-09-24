@@ -12,7 +12,7 @@
             </label>
             <div id="date_type_expression" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_field_pair :expression %>
+                <%= f.label_field_pair :expression, f.jsonmodel_text_field(:expression, :placeholder => "Describe the date or date range") %>
               </div>
             </div>
           </div>
@@ -22,8 +22,8 @@
             </label>
             <div id="date_type_single" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_field_pair :begin %>
-                <%= f.label_field_pair :begin_time %>
+                <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
+                <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
               </div>
             </div>
           </div>
@@ -33,10 +33,10 @@
             </label>
             <div id="date_type_inclusive" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_field_pair :begin %>
-                <%= f.label_field_pair :begin_time %>
-                <%= f.label_field_pair :end %>
-                <%= f.label_field_pair :end_time %>
+                <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
+                <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
+                <%= f.label_field_pair :end, f.jsonmodel_text_field(:end, :placeholder => "YYYY-MM-DD") %>
+                <%= f.label_field_pair :end_time, f.jsonmodel_text_field(:end_time, :placeholder => "HH:MM:SS") %>
               </div>
             </div>
           </div>
@@ -46,10 +46,10 @@
             </label>
             <div id="date_type_bulk" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_field_pair :begin %>
-                <%= f.label_field_pair :begin_time %>
-                <%= f.label_field_pair :end %>
-                <%= f.label_field_pair :end_time %>
+                <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
+                <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
+                <%= f.label_field_pair :end, f.jsonmodel_text_field(:end, :placeholder => "YYYY-MM-DD") %>
+                <%= f.label_field_pair :end_time, f.jsonmodel_text_field(:end_time, :placeholder => "HH:MM:SS") %>
               </div>
             </div>
           </div>
