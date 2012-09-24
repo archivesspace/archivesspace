@@ -92,6 +92,7 @@ class ArchivesSpaceService < Sinatra::Base
       User.create_from_json(JSONModel(:user).from_hash(:username => User.ADMIN_USERNAME,
                                                        :name => "Administrator"),
                             :source => "local")
+      DBAuth.set_password(User.ADMIN_USERNAME, User.ADMIN_USERNAME)
     end
 
     if Group[:group_code => Group.ADMIN_GROUP_CODE].nil?
@@ -249,8 +250,8 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
-      env[:aspace_session] = @session
-      env[:aspace_user] = ((@session && @session[:user] && User.find(:username => @session[:user])) ||
+      env[:aspace_session] = session
+      env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
                            ANONYMOUS_USER)
 
       if DB.connected?

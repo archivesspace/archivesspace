@@ -21,6 +21,7 @@ def do_post(s, url)
   Net::HTTP.start(url.host, url.port) do |http|
     req = Net::HTTP::Post.new(url.request_uri)
     req.body = s
+    req["X-ARCHIVESSPACE-SESSION"] = @session if @session
 
     r = http.request(req)
 
@@ -46,6 +47,12 @@ end
 
 
 def run_tests
+
+  puts "Create an admin session"
+  r = do_post(URI.encode_www_form(:password => "admin"),
+              url("/users/admin/login"))
+
+  @session = r[:body]["session"] or fail("Admin login", r)
 
   puts "Create a repository"
   r = do_post({
