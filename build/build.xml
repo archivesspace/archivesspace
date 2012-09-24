@@ -250,13 +250,24 @@
   </target>
 
 
-	<target name="doc:yard" description="Generate YARD documentation">
-		<java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
-					failonerror="true"
-					dir="../">
+  <target name="doc:yard" description="Generate the full YARD documentation">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../_yard">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-			<arg line="--1.9 build/gems/bin/yardoc" />
+      <arg line="--1.9 -S rake doc:gen" />
+    </java>
+  </target>
+
+
+  <target name="doc:yardoc" description="Run the yardoc command">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="..">
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 build/gems/bin/yardoc" />
     </java>
   </target>
 
