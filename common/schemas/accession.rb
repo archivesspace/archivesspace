@@ -19,7 +19,7 @@
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
 
       "subjects" => {"type" => "array", "items" => {"type" => "JSONModel(:subject) uri_or_object"}},
-      "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) uri_or_object"}},
+      "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) object"}},
     },
 
     "additionalProperties" => false,

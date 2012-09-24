@@ -53,7 +53,7 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
                            fragments, current_schema, self, options[:record_errors])
         end
 
-      elsif qualifier == 'uri_or_object'
+      elsif qualifier == 'uri_or_object' || qualifier == 'object'
         if data.is_a?(Hash)
 
           top_errors = validation_errors
