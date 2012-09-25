@@ -48,6 +48,8 @@ class ApplicationController < ActionController::Base
       model = opts[:model] || JSONModel(opts[:instance])
       obj = opts[:obj] || model.new
 
+      # The UI may pass back a hash keyed on index for array attributes.
+      # Clean this up so we're only dealing with arrays.
       array_attributes = obj.class.schema["properties"].select {|k,v| v["type"] === "array"}
       array_attributes.each do |attribute, attribute_properties|
         if params[opts[:instance].to_s].has_key?(attribute) && params[opts[:instance].to_s][attribute].kind_of?(Hash)
