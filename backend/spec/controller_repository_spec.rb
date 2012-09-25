@@ -30,4 +30,12 @@ describe 'Repository controller' do
     end
   end
 
+
+  it "Creating a repository automatically creates a repository-managers group too" do
+    id = make_test_repo("ARCHIVESSPACE")
+
+    JSONModel(:group).all.first.group_code.should eq("repository-managers")
+  end
+
+
 end

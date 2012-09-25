@@ -90,7 +90,9 @@ describe 'Group controller' do
     JSONModel(:group).from_hash("group_code" => "group-in-repo2",
                                 "description" => "A test group").save(:repo_id => repo_two)
 
-    JSONModel(:group).all({}, :repo_id => repo_one).map {|group| group.group_code}.should eq(["group-in-repo1"])
+    groups = JSONModel(:group).all({}, :repo_id => repo_one)
+
+    groups.map(&:group_code).sort.should eq(["group-in-repo1", "repository-managers"])
   end
 
 end

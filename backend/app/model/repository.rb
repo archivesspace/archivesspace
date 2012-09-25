@@ -10,8 +10,15 @@ class Repository < Sequel::Model(:repositories)
     validates_presence(:description, :message => "You must give your repository a description")
   end
 
+
   def self.exists?(id)
     not Repository[id].nil?
+  end
+
+  def after_create
+    Group.create_from_json(JSONModel(:group).from_hash(:group_code => "repository-managers",
+                                                       :description => "Managers of the #{repo_code} repository"),
+                           :repo_id => self.id)
   end
 
 end

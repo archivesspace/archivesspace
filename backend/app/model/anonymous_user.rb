@@ -2,7 +2,7 @@ require_relative 'user'
 
 class AnonymousUser
 
-  def can?(permission, opts = {}, next_check)
+  def can?(permission, opts = {})
     false
   end
 
