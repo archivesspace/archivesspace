@@ -442,8 +442,10 @@ describe "ArchivesSpace user interface" do
   it "updates Sort Name when other name fields are updated" do
 
     @driver.find_element(:id => "agent[names][0][primary_name]").clear_and_send_keys ["Hendrix", :tab]
+    @driver.find_element(:id => "agent[names][0][rest_of_name]").clear_and_send_keys "" #fudge focus away from primary_name
     @driver.find_element(:id => "agent[names][0][sort_name]").attribute("value").should eq("Hendrix")
     @driver.find_element(:id => "agent[names][0][rest_of_name]").clear_and_send_keys ["Johnny Allen", :tab]
+    @driver.find_element(:id => "agent[names][0][suffix]").clear_and_send_keys "" #fudge focus away from rest_of_name
 
     @driver.find_element(:id => "agent[names][0][sort_name]").attribute("value").should eq("Hendrix, Johnny Allen")
 
