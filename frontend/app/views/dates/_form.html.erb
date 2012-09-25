@@ -22,8 +22,24 @@
             </label>
             <div id="date_type_single_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_and_field :begin, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
-                <%= f.label_and_field :begin_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
+                <%= f.label_and_field :begin, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:begin)}_single"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:begin)}_single",
+                    :placeholder => "YYYY-MM-DD"                    
+                  }
+                } %>
+                <%= f.label_and_field :begin_time, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:begin_time)}_single"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:begin_time)}_single",
+                    :placeholder => "HH:MM:SS"
+                  }
+                } %>
               </div>
             </div>
           </div>
@@ -33,10 +49,42 @@
             </label>
             <div id="date_type_inclusive_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_and_field :begin, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
-                <%= f.label_and_field :begin_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
-                <%= f.label_and_field :end, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
-                <%= f.label_and_field :end_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
+                <%= f.label_and_field :begin, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:begin)}_inclusive"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:begin)}_inclusive",
+                    :placeholder => "YYYY-MM-DD"                    
+                  }
+                } %>
+                <%= f.label_and_field :begin_time, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:begin_time)}_inclusive"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:begin_time)}_inclusive",
+                    :placeholder => "HH:MM:SS"
+                  }
+                } %>
+                <%= f.label_and_field :end, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:end)}_inclusive"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:end)}_inclusive",
+                    :placeholder => "YYYY-MM-DD"                    
+                  }
+                } %>
+                <%= f.label_and_field :end_time, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:end_time)}_inclusive"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:end_time)}_inclusive",
+                    :placeholder => "HH:MM:SS"
+                  }
+                } %>
               </div>
             </div>
           </div>
@@ -46,10 +94,42 @@
             </label>
             <div id="date_type_bulk_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_and_field :begin, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
-                <%= f.label_and_field :begin_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
-                <%= f.label_and_field :end, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
-                <%= f.label_and_field :end_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
+                <%= f.label_and_field :begin, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:begin)}_bulk"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:begin)}_bulk",
+                    :placeholder => "YYYY-MM-DD"                    
+                  }
+                } %>
+                <%= f.label_and_field :begin_time, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:begin_time)}_bulk"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:begin_time)}_bulk",
+                    :placeholder => "HH:MM:SS"
+                  }
+                } %>
+                <%= f.label_and_field :end, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:end)}_bulk"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:end)}_bulk",
+                    :placeholder => "YYYY-MM-DD"                    
+                  }
+                } %>
+                <%= f.label_and_field :end_time, {
+                  :label_opts => {
+                    :force_id => "#{f.current_name(:end_time)}_bulk"
+                  },
+                  :field_opts => {
+                    :force_id => "#{f.current_name(:end_time)}_bulk",
+                    :placeholder => "HH:MM:SS"
+                  }
+                } %>
               </div>
             </div>
           </div>

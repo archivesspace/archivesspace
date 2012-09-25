@@ -132,7 +132,7 @@ module FormHelper
       control_classes = "controls"
       control_classes << " #{extra_args[:control_class]}" if extra_args.has_key? :control_class
 
-      label_html = jsonmodel_label(method)
+      label_html = jsonmodel_label(method, extra_args[:label_opts]||{})
 
       mab = Markaby::Builder.new
       mab.div :class => control_group_classes do
@@ -165,8 +165,9 @@ module FormHelper
     end
 
 
-    def jsonmodel_label(method)
-      "<label for=\"#{current_name(method, true)}\" class=\"control-label\">#{I18n.t(current_i18n(method))}</label>".html_safe
+    def jsonmodel_label(method, opts = {})
+      field_id = opts[:force_id] || current_name(method, true)
+      "<label for=\"#{field_id}\" class=\"control-label\">#{I18n.t(current_i18n(method))}</label>".html_safe
     end
 
 
