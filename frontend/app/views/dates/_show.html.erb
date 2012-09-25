@@ -21,7 +21,7 @@
               <% end %>
             </div>
             <div class="span3">
-              <%= I18n.t("date.uncertain_#{date['uncertain']}") %>
+              <% if date['uncertain']%><%= I18n.t("date.uncertain_#{date['uncertain']}") %><% end %>
             </div>
           </div>
         </div>
@@ -32,6 +32,7 @@
               <div class="span8"><%= v %></div>
             </div>
           <% end %>
+        </div>
       </div>
     <% end %>
   </div>

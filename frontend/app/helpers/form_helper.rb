@@ -60,7 +60,7 @@ module FormHelper
     end
 
 
-    def current_name(method, use_index = false)
+    def current_name(method, use_index = true)
       result = @object_name
 
       (@jsonmodel_object or []).each do |name, _, opts|
@@ -79,6 +79,11 @@ module FormHelper
       result += "[#{method}]"
 
       result
+    end
+
+
+    def current_i18n(method)
+      current_name(method, false)
     end
 
 
@@ -158,7 +163,7 @@ module FormHelper
 
 
     def jsonmodel_label(method)
-      "<label for=\"#{current_name(method, true)}\" class=\"control-label\">#{I18n.t(current_name(method))}</label>".html_safe
+      "<label for=\"#{current_name(method, true)}\" class=\"control-label\">#{I18n.t(current_i18n(method))}</label>".html_safe
     end
 
 
@@ -171,7 +176,7 @@ module FormHelper
       attr_definition = schema["properties"][method.to_s]
 
       if attr_definition.has_key?("enum")
-        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_name("#{method}_#{option}")), option]}
+        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_i18n("#{method}_#{option}")), option]}
 
         if not attr_definition["required"]
           options_array = [""].concat(options_array)

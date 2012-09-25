@@ -48,6 +48,17 @@ class ApplicationController < ActionController::Base
       model = opts[:model] || JSONModel(opts[:instance])
       obj = opts[:obj] || model.new
 
+      array_attributes = obj.class.schema["properties"].select {|k,v| v["type"] === "array"}
+      array_attributes.each do |attribute, attribute_properties|
+        if params[opts[:instance].to_s].has_key?(attribute) && params[opts[:instance].to_s][attribute].kind_of?(Hash)
+          target = []
+          params[opts[:instance].to_s][attribute].each do |k,v|
+            target.push(v)
+          end
+          params[opts[:instance].to_s][attribute] = target
+        end
+      end
+
       if opts[:replace] || opts[:replace].nil?
         obj.replace(params[opts[:instance]])
       else

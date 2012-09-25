@@ -42,15 +42,16 @@
             <h3>Secondary Name(s)</h3>
 
             <% @agent.names.each_with_index do |name, i|
-              next if i == 0 
+              next if i == 0
               name.to_hash.each do |k,v| %>
 
               <div class="row-fluid label-and-value">
                  <div class="span3"><%= I18n.t("agent.names.#{k}") %></div>
                  <div class="span9"><%= v %></div>
               </div>
-            <% end
-              end %>
+            <% end %>
+            <% if i < @agent.names.length-1 %><hr/><% end %>
+            <% end %>
           </section>
         </div>
       <% end %>
