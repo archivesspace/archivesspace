@@ -104,7 +104,7 @@
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
+      <arg line="--1.9 -X-C ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
   </target>
 
