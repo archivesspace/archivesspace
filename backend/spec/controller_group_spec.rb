@@ -95,4 +95,18 @@ describe 'Group controller' do
     groups.map(&:group_code).sort.should eq(["group-in-repo1", "repository-managers"])
   end
 
+
+  it "Stops you assigning a global permission to a repository" do
+    group = create_group
+    make_test_user("guybrush")
+
+    Permission.define("captain", "The captain of the ArchivesSpace ship",
+                      :level => "global")
+
+    group.member_usernames = ["guybrush"]
+    group.grants_permissions = ["captain"]
+
+    expect { group.save }.to raise_error(AccessDeniedException)
+  end
+
 end
