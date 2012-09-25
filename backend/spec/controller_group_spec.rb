@@ -92,7 +92,7 @@ describe 'Group controller' do
 
     groups = JSONModel(:group).all({}, :repo_id => repo_one)
 
-    groups.map(&:group_code).sort.should eq(["group-in-repo1", "repository-managers"])
+    groups.map(&:group_code).include?("group-in-repo2").should be_false
   end
 
 
