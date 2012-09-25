@@ -141,4 +141,10 @@ describe JSONModel do
     @klass.JSONModel(:stub).type_of("names/items").should eq @klass.JSONModel(:stub)
   end
 
+  it "should return an empty array for nil properties of type array" do
+    jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
+    jo.names.class.should eq(Array)
+    jo.names.length.should eq(0)
+  end
+
 end

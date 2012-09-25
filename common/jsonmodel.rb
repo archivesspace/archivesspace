@@ -186,8 +186,15 @@ module JSONModel
         attributes.each do |attribute|
 
           if not method_defined? "#{attribute}"
-            define_method "#{attribute}" do
-              @data[attribute]
+            if self.schema["properties"].has_key?(attribute) && self.schema["properties"][attribute]["type"] === "array"
+              define_method "#{attribute}" do
+                return [] if @data[attribute].nil?
+                @data[attribute]
+              end
+            else
+              define_method "#{attribute}" do
+                @data[attribute]
+              end
             end
           end
 
@@ -545,9 +552,10 @@ module JSONModel
 
     end
 
-    cls.define_accessors(schema['properties'].keys)
 
     cls.init(type, schema)
+
+    cls.define_accessors(schema['properties'].keys)
 
 
     @@models[type] = cls

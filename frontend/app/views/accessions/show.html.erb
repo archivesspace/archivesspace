@@ -46,7 +46,10 @@
       </section>
 
       <%= render :partial => "extent/show", :locals => { :extents => @accession.extents } %>
-      <%= render :partial => "dates/show", :locals => { :dates => @accession.dates } %>
+
+      <% if @accession.dates.length > 0 %>
+        <%= render :partial => "dates/show", :locals => { :dates => @accession.dates } %>
+      <% end %>
 
    </div>
 </div>
