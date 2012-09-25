@@ -23,7 +23,7 @@ describe 'Date model' do
                                                "date_type" => "single",
                                                "label" => "creation",
                                              }))
-    }.should raise_error(Sequel::ValidationFailed)
+    }.should raise_error(JSONModel::ValidationException)
   end
 
 
@@ -52,7 +52,7 @@ describe 'Date model' do
                                                "begin_time" => "12:00",
                                                "end" => "2012-05-14",
                                              }))
-    }.should raise_error(Sequel::ValidationFailed)
+    }.should raise_error(JSONModel::ValidationException)
   end
 
 

@@ -110,12 +110,19 @@ module FormHelper
     end
 
 
+    def error_classes(method)
+      classes = ""
+      classes << " warning" if @object._exceptions.has_key?(:warnings) && @object._exceptions[:warnings].has_key?(document_path(method))
+      classes << " error" if @object._exceptions.has_key?(:errors) && @object._exceptions[:errors].has_key?(document_path(method))
+      classes
+    end
+
+
     def label_field_pair(method, field_html=nil, extra_args  = {})
       extra_args.reject! {|k,v| v.blank?}
 
       control_group_classes = "control-group"
-      control_group_classes << " warning" if @object._exceptions.has_key?(:warnings) && @object._exceptions[:warnings].has_key?(document_path(method))
-      control_group_classes << " error" if @object._exceptions.has_key?(:errors) && @object._exceptions[:errors].has_key?(document_path(method))
+      control_group_classes << " " + error_classes(method)
 
       control_classes = "controls"
       control_classes << " #{extra_args[:control_class]}" if extra_args.has_key? :control_class
