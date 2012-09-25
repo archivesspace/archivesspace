@@ -18,6 +18,7 @@
               <% elsif date['date_type'] === "single" %>
                 <%= date['begin'] %> <%= date['begin_time'] %>
               <% else %>
+                <%= date['begin'] %> <%= date['begin_time'] %> &ndash; <%= date['end'] %> <%= date['end_time'] %>
               <% end %>
             </div>
             <div class="span3">
