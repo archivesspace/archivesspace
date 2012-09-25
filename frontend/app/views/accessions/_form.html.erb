@@ -3,11 +3,11 @@
 <section id="basic_information">
   <h3>Basic Information</h3>
   <fieldset>
-     <%= f.label_field_pair :title %>
+     <%= f.label_and_field :title %>
      <%= f.label_and_fourpartid :id_0 %>
-     <%= f.label_field_pair :accession_date, f.jsonmodel_text_field(:accession_date, :placeholder => "YYYY-MM-DD", :value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))) %>
-     <%= f.label_field_pair :content_description, f.jsonmodel_text_area(:content_description, :rows => 3) %>
-     <%= f.label_field_pair :condition_description, f.jsonmodel_text_area(:condition_description, :rows => 3) %>
+     <%= f.label_with_field :accession_date, f.jsonmodel_text_field(:accession_date, :placeholder => "YYYY-MM-DD", :value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))) %>
+     <%= f.label_with_field :content_description, f.jsonmodel_text_area(:content_description, :rows => 3) %>
+     <%= f.label_with_field :condition_description, f.jsonmodel_text_area(:condition_description, :rows => 3) %>
      <%= render :partial => "subjects/linker", :locals => { :object => @accession }%>
   </fieldset>
 </section>

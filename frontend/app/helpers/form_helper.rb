@@ -123,7 +123,7 @@ module FormHelper
     end
 
 
-    def label_field_pair(method, field_html=nil, extra_args  = {})
+    def label_with_field(method, field_html, extra_args  = {})
       extra_args.reject! {|k,v| v.blank?}
 
       control_group_classes = "control-group"
@@ -133,8 +133,6 @@ module FormHelper
       control_classes << " #{extra_args[:control_class]}" if extra_args.has_key? :control_class
 
       label_html = jsonmodel_label(method)
-
-      field_html = jsonmodel_field(method) if field_html.blank?
 
       mab = Markaby::Builder.new
       mab.div :class => control_group_classes do
@@ -147,8 +145,13 @@ module FormHelper
     end
 
 
-    def label_textarea_pair(method, extra_args = {})
-      label_field_pair method, jsonmodel_text_area(method, :rows => 3), extra_args
+    def label_and_field(method, extra_args = {})
+      label_with_field(method, jsonmodel_field(method, extra_args[:field_opts]||{}), extra_args)
+    end
+
+
+    def label_and_textarea(method, extra_args = {})
+      label_with_field method, jsonmodel_text_area(method, :rows => 3), extra_args
     end
 
 
@@ -158,7 +161,7 @@ module FormHelper
       field_html << jsonmodel_text_field(:id_1, :class=> "id_1", :size => 10, :disabled => current[:id_0].blank? && current[:id_1].blank?)
       field_html << jsonmodel_text_field(:id_2, :class=> "id_2", :size => 10, :disabled => current[:id_1].blank? && current[:id_2].blank?)
       field_html << jsonmodel_text_field(:id_3, :class=> "id_3", :size => 10, :disabled => current[:id_2].blank? && current[:id_3].blank?)
-      label_field_pair(method, field_html, extra_args)
+      label_with_field(method, field_html, extra_args)
     end
 
 
@@ -191,14 +194,14 @@ module FormHelper
                            "data-original_value" => current[method],
                            :name => current_name(method),
                            :id => current_name(method, true)
-                         })
+                         }.merge(opts))
       else
         jsonmodel_text_field(method, opts)
       end
     end
 
 
-    def jsonmodel_text_field(method, opts)
+    def jsonmodel_text_field(method, opts = {})
       @template.text_field(@object_name, method, {
                              "data-original_value" => current[method],
                              :object => current,

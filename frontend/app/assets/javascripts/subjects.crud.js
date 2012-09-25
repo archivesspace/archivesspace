@@ -81,7 +81,7 @@ $(function() {
       $this.on("click", ".remove-term-btn", removeTermRow);
 
       var existingTerms = $(".terms-container", $this).data("terms");
-      if (existingTerms) {
+      if (existingTerms.length > 0) {
         if ($.isArray(existingTerms)) {
           for (var i=0;i<existingTerms.length;i++) {
             renderTermRow(existingTerms[i]);

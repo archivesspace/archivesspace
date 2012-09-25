@@ -1,7 +1,7 @@
 <div class="subform date-fields">
   <a href="javascript:void(0)" class="btn btn-mini pull-right subform-remove"><span class='icon-remove'></span></a>
   <div class="date-container">
-    <%= f.label_field_pair :label %>
+    <%= f.label_and_field :label %>
     <div class="control-group <%= f.error_classes(:date_type) %>">
       <label class="control-label"><%= I18n.t("accession.dates.date_type")%></label>
       <div class="controls">
@@ -12,7 +12,7 @@
             </label>
             <div id="date_type_expression_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_field_pair :expression, f.jsonmodel_text_field(:expression, :placeholder => "Describe the date or date range") %>
+                <%= f.label_and_field :expression, {:field_opts => {:placeholder => "Describe the date or date range"}} %>
               </div>
             </div>
           </div>
@@ -22,8 +22,8 @@
             </label>
             <div id="date_type_single_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
-                <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
+                <%= f.label_and_field :begin, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
+                <%= f.label_and_field :begin_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
               </div>
             </div>
           </div>
@@ -33,10 +33,10 @@
             </label>
             <div id="date_type_inclusive_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
-                <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
-                <%= f.label_field_pair :end, f.jsonmodel_text_field(:end, :placeholder => "YYYY-MM-DD") %>
-                <%= f.label_field_pair :end_time, f.jsonmodel_text_field(:end_time, :placeholder => "HH:MM:SS") %>
+                <%= f.label_and_field :begin, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
+                <%= f.label_and_field :begin_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
+                <%= f.label_and_field :end, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
+                <%= f.label_and_field :end_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
               </div>
             </div>
           </div>
@@ -46,18 +46,18 @@
             </label>
             <div id="date_type_bulk_<%= index %>" class="accordion-body collapse">
               <div class="accordion-inner">
-                <%= f.label_field_pair :begin, f.jsonmodel_text_field(:begin, :placeholder => "YYYY-MM-DD") %>
-                <%= f.label_field_pair :begin_time, f.jsonmodel_text_field(:begin_time, :placeholder => "HH:MM:SS") %>
-                <%= f.label_field_pair :end, f.jsonmodel_text_field(:end, :placeholder => "YYYY-MM-DD") %>
-                <%= f.label_field_pair :end_time, f.jsonmodel_text_field(:end_time, :placeholder => "HH:MM:SS") %>
+                <%= f.label_and_field :begin, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
+                <%= f.label_and_field :begin_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
+                <%= f.label_and_field :end, {:field_opts => {:placeholder => "YYYY-MM-DD"}} %>
+                <%= f.label_and_field :end_time, {:field_opts => {:placeholder => "HH:MM:SS"}} %>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <%= f.label_field_pair :uncertain %>
-    <%= f.label_field_pair :era %>
-    <%= f.label_field_pair :calendar %>
+    <%= f.label_and_field :uncertain %>
+    <%= f.label_and_field :era %>
+    <%= f.label_and_field :calendar %>
   </div>
 </div>

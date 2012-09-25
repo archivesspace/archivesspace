@@ -633,6 +633,34 @@ describe "ArchivesSpace user interface" do
 
   end
 
+=begin
+  it "Can create an Accession with some dates" do
+    @driver.find_element(:link, "Create").click
+    @driver.find_element(:link, "Accession").click
+
+    # populate mandatory fields
+    @driver.find_element(:id => "accession[title]").clear_and_send_keys "Accession with dates"
+
+    @driver.complete_4part_id("accession[id_%d]")
+
+    @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
+    @driver.find_element(:id => "accession[content_description]").clear_and_send_keys "A box containing our own universe"
+    @driver.find_element(:id => "accession[condition_description]").clear_and_send_keys "Slightly squashed"
+
+    @driver.find_element(:id => "accession[extents][0][number]").clear_and_send_keys "10"
+
+    # add some dates!
+    @driver.find_element(:css => '#dates h3 .btn').click
+    @driver.find_element(:css => '#dates h3 .btn').click
+
+    #populate the first date    
+    date_label_select = @driver.find_element(:id => "accession[dates][0][label]")
+    date_label_select.find_elements( :tag_name => "option" ).each do |option|
+      option.click if option.attribute("value") === "digitized"
+    end
+    @driver.find_element(:id => "accession[dates][0][date_type]").click
+  end
+=end
 
   # Resources
 

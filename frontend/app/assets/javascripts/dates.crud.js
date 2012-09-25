@@ -24,7 +24,7 @@ $(function() {
 
     dateFormEl.addClass("initialised");
 
-    $(".date-type-accordion .accordion-group label", dateFormEl).click(function(event) {
+    $(".date-type-accordion .accordion-group > label.radio", dateFormEl).click(function(event) {
       $(":radio", $(this).parents(".date-type-accordion:first")).removeAttr("checked");
       $(":radio", this).attr("checked", "checked");
       $.proxy(toggle_disabled_fields, $(this).parents(".date-type-accordion:first"))();

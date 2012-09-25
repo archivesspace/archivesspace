@@ -4,11 +4,11 @@
       <%= form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
          <%= render "shared/form_messages", :object => @user, :form => f %>
          <fieldset>
-           <%= f.label_field_pair :username %>
-           <%= f.label_field_pair :name, f.text_field(:name, :size => 30, :class => "input-xxlarge", :force_id => f.current_name(:name)) %>
+           <%= f.label_and_field :username %>
+           <%= f.label_with_field :name, f.text_field(:name, :size => 30, :class => "input-xxlarge", :force_id => f.current_name(:name)) %>
 
-           <%= f.label_field_pair :password, f.password_field(:password, :size => 30, :class => "input-large", :force_id => f.current_name(:password)) %>
-           <%= f.label_field_pair :confirm_password, f.password_field(:confirm_password, :size => 30, :class => "input-large", :force_id => f.current_name(:confirm_password)) %>
+           <%= f.label_with_field :password, f.password_field(:password, :size => 30, :class => "input-large", :force_id => f.current_name(:password)) %>
+           <%= f.label_with_field :confirm_password, f.password_field(:confirm_password, :size => 30, :class => "input-large", :force_id => f.current_name(:confirm_password)) %>
          </fieldset>
 
          <div class="form-actions">

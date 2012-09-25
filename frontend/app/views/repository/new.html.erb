@@ -6,8 +6,8 @@
    <div class="modal-body">     
       <%= render "shared/form_messages", :object => @repository %>
       <fieldset>
-        <%= f.label_field_pair :repo_code, f.text_field(:repo_code, :size => 10) %>
-        <%= f.label_field_pair :description, f.text_area(:description, :rows => 3) %>
+        <%= f.label_with_field :repo_code, f.text_field(:repo_code, :size => 10) %>
+        <%= f.label_with_field :description, f.text_area(:description, :rows => 3) %>
       </fieldset>
    </div>
    <div class="modal-footer">
