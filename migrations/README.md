@@ -46,7 +46,7 @@ You can create an importer and add it to the importers directory
 	
 The first line of your file must be
 	
-				ASpaceImporter.importer :foo do # 'foo' is the unique key for this importer
+	ASpaceImporter.importer :foo do # 'foo' is the unique key for this importer
 
 You must define two methods, self.profile and run. See examples or contact the development team for more info.
 	

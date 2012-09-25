@@ -36,9 +36,7 @@ module ASpaceImport
                 raise StandardError.new("Found more than one entity to create with #{xpath}.")
               end
               
-              mod = JSONModel(k)
-              
-
+              mod = JSONModel::JSONModel(k)
               
               mod.class_eval do
                 
