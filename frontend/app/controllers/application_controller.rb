@@ -1,3 +1,5 @@
+require 'memoryleak'
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
@@ -11,6 +13,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :load_repository_list
   before_filter :load_default_vocabulary
+  before_filter :refresh_permissions
 
   before_filter :sanitize_params
 
@@ -87,20 +90,32 @@ class ApplicationController < ActionController::Base
 
 
   def load_repository_list
-    @repositories = JSONModel(:repository).all
+    unless request.path == '/webhook/notify'
+      @repositories = MemoryLeak::Resources.get(:repository)
 
-    if not session.has_key?(:repo) and not @repositories.empty?
-      session[:repo] = @repositories.first.repo_code.to_s
-      session[:repo_id] = @repositories.first.id
+      # Make sure the user's selected repository still exists.
+      if session[:repo] && !@repositories.any?{|repo| repo.repo_code == session[:repo]}
+        session.delete(:repo)
+        session.delete(:repo_id)
+      end
+
+      if not session[:repo] and not @repositories.empty?
+        session[:repo] = @repositories.first.repo_code.to_s
+        session[:repo_id] = @repositories.first.id
+      end
     end
-
   end
 
-  def load_default_vocabulary
-    if not session.has_key?(:vocabulary)
-      session[:vocabulary] = JSONModel(:vocabulary).all.first.to_hash
+
+  def refresh_permissions
+    unless request.path == '/webhook/notify'
+      if session[:last_permission_refresh] &&
+          session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_last_modified)
+        User.refresh_permissions(session)
+      end
     end
   end
+
 
   def choose_layout
     if inline?
@@ -110,10 +125,20 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
   def sanitize_param(hash)
     hash.clone.each do |k,v|
       hash[k.sub("_attributes","")] = v if k.end_with?("_attributes")
       sanitize_param(v) if v.kind_of? Hash
+    end
+  end
+
+
+  def load_default_vocabulary
+    unless request.path == '/webhook/notify'
+      if not session.has_key?(:vocabulary)
+        session[:vocabulary] = MemoryLeak::Resources.get(:vocabulary).first.to_hash
+      end
     end
   end
 

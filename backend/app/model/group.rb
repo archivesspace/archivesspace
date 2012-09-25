@@ -36,6 +36,7 @@ class Group < Sequel::Model(:groups)
     set_members(obj, json)
     set_permissions(obj, json)
 
+    broadcast_changes
     obj
   end
 
@@ -45,6 +46,7 @@ class Group < Sequel::Model(:groups)
     self.class.set_members(self, json) if opts[:with_members]
     self.class.set_permissions(self, json)
 
+    self.class.broadcast_changes
     self.id
   end
 
@@ -78,4 +80,8 @@ class Group < Sequel::Model(:groups)
                      :message => "Group code must be unique within a repository")
   end
 
+
+  def self.broadcast_changes
+    Webhooks.notify("REFRESH_ACLS")
+  end
 end

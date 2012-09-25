@@ -1,6 +1,7 @@
 require_relative 'lib/bootstrap'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
+require 'uri'
 
 require 'sinatra/base'
 require 'json'
@@ -76,6 +77,15 @@ class ArchivesSpaceService < Sinatra::Base
 
 
     require_relative "lib/bootstrap_access_control"
+
+
+    # Ensure that the frontend is registered
+    Array(AppConfig[:frontend_url]).each do |url|
+      Webhooks.add_listener(URI.join(url, "/webhook/notify").to_s)
+    end
+
+    Webhooks.start
+    Webhooks.notify("BACKEND_STARTED")
   end
 
 

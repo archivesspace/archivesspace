@@ -21,6 +21,12 @@ Sequel.migration do
     end
 
 
+    create_table(:webhook_endpoints) do
+      primary_key :id
+      String :url, :unique => true, :null => false
+    end
+
+
     create_table(:users) do
       primary_key :id
 

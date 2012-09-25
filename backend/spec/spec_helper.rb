@@ -1,5 +1,13 @@
 require 'sinatra'
 
+require_relative '../app/lib/webhooks'
+
+class Webhooks
+  def self.notify(*ignored)
+  end
+end
+
+
 if ENV['COVERAGE_REPORTS']
   require 'tmpdir'
   require 'pp'

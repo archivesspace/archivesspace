@@ -19,6 +19,8 @@ class Repository < Sequel::Model(:repositories)
     Group.create_from_json(JSONModel(:group).from_hash(:group_code => "repository-managers",
                                                        :description => "Managers of the #{repo_code} repository"),
                            :repo_id => self.id)
+
+    Webhooks.notify("REPOSITORY_CHANGED")
   end
 
 end
