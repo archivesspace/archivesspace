@@ -42,6 +42,10 @@ class ArchivesSpaceService
                       "The ability to manage a given repository",
                       :level => "repository")
 
+    Permission.define("update_repository",
+                      "The ability to view a given repository",
+                      :level => "repository")
+
     Permission.define("view_repository",
                       "The ability to view a given repository",
                       :level => "repository")

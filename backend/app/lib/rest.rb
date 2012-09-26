@@ -87,7 +87,11 @@ module RESTHelpers
       # provided, add a check to make sure the requesting user has permission
       # to view this repository
       if @required_params.any?{|param| param.first == 'repo_id'}
-        @preconditions << proc { current_user.can?(:view_repository) }
+        if @method == :get
+          @preconditions << proc { |request| current_user.can?(:view_repository, :repo_id => request.params[:repo_id]) }
+        elsif @method == :post
+          @preconditions << proc { |request| current_user.can?(:update_repository, :repo_id => request.params[:repo_id]) }
+        end
       end
 
       self

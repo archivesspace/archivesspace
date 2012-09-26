@@ -31,13 +31,14 @@ describe 'Repository controller' do
   end
 
 
-  it "Creating a repository automatically creates a repository-managers group too" do
+  it "Creating a repository automatically creates the standard set of groups" do
     id = make_test_repo("ARCHIVESSPACE")
 
     groups = JSONModel(:group).all.map {|group| group.group_code}
 
     groups.include?("repository-managers").should be_true
-    groups.include?("repository-users").should be_true
+    groups.include?("repository-archivists").should be_true
+    groups.include?("repository-viewers").should be_true
   end
 
 
