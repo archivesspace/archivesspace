@@ -400,6 +400,20 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  # Subjects
+
+  it "reports errors and warnings when creating an invalid Subject" do
+    @driver.find_element(:link => 'Create').click
+    @driver.find_element(:link => 'Subject').click
+
+    @driver.find_element(:css => '#external_documents h3 .btn').click
+
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+
+    # check messages
+    @driver.find_element(:css, ".alert.alert-error").length.should be > 0
+  end
+
   # Person Agents
 
   it "reports errors and warnings when creating an invalid Person Agent" do
