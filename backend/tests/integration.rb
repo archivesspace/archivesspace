@@ -33,6 +33,7 @@ end
 def do_get(url)
   Net::HTTP.start(url.host, url.port) do |http|
     req = Net::HTTP::Get.new(url.request_uri)
+    req["X-ARCHIVESSPACE-SESSION"] = @session if @session
     r = http.request(req)
 
     {:body => JSON(r.body), :status => r.code}
