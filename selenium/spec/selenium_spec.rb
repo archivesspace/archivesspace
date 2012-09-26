@@ -27,6 +27,7 @@ module Selenium
   end
 end
 
+
 class Selenium::WebDriver::Driver
   RETRIES = 20
 
@@ -64,6 +65,18 @@ class Selenium::WebDriver::Driver
   end
 
 
+  def ensure_no_such_element(*selectors)
+    wait_for_ajax
+
+    begin
+      find_element_orig(*selectors)
+      raise "Element was supposed to be absent: #{selectors}"
+    rescue Selenium::WebDriver::Error::NoSuchElementError => e
+      return true
+    end
+  end
+
+
   def click_and_wait_until_gone(*selector)
     element = self.find_element(*selector)
     element.click
@@ -88,12 +101,16 @@ class Selenium::WebDriver::Driver
   end
 
 
-  def find_element_with_text(xpath, pattern, noError = false)
+  def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
     RETRIES.times do
 
       matches = self.find_elements(:xpath => xpath)
       matches.each do | match |
         return match if match.text =~ pattern
+      end
+
+      if noRetry
+        return nil
       end
 
       sleep 0.5
@@ -204,19 +221,23 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "But they have no repositories yet!" do
+    @driver.find_element(:css, '.repository-container .btn').click
+    @driver.find_element(:css, '.repository-container .dropdown-menu').text.should match(/No repositories/)
+  end
+
   it "Can log out" do
     logout(@driver)
   end
 
 
-  it "Can log in with the user just created" do
+  it "Logs in as admin" do
     @driver.find_element(:link, "Sign In").click
-    @driver.find_element(:id, 'user_username').clear_and_send_keys @user
-    @driver.find_element(:id, 'user_password').clear_and_send_keys "testuser"
+    @driver.find_element(:id, 'user_username').clear_and_send_keys "admin"
+    @driver.find_element(:id, 'user_password').clear_and_send_keys "admin"
 
     @driver.find_element(:id, 'login').click
   end
-
 
   it "Flags errors when creating a repository with missing fields" do
     @driver.find_element(:css, '.repository-container .btn').click
@@ -256,9 +277,79 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "Can assign the test user to the archivist group" do
+    @driver.find_element(:link, "Admin").click
+    @driver.find_element(:link, "Groups").click
+
+    row = @driver.find_element_with_text('//tr', /repository-archivists/)
+    row.find_element(:css, '.btn').click
+
+    @driver.find_element(:id, 'new-member').clear_and_send_keys(@user)
+    @driver.find_element(:id, 'add-new-member').click
+    @driver.find_element(:css => 'input[type="submit"]').click
+  end
+
+
+  it "Can assign the test user to the viewers group of the first repository" do
+    # Select the first repository
+    @driver.find_element(:css, '.repository-container .btn').click
+    @driver.find_element(:link_text => test_repo_code_1).click
+
+    @driver.find_element(:link, "Admin").click
+    @driver.find_element(:link, "Groups").click
+
+    row = @driver.find_element_with_text('//tr', /repository-viewers/)
+    row.find_element(:css, '.btn').click
+
+    @driver.find_element(:id, 'new-member').clear_and_send_keys(@user)
+    @driver.find_element(:id, 'add-new-member').click
+    @driver.find_element(:css => 'input[type="submit"]').click
+  end
+
+
+  it "Can log out of the admin account" do
+    logout(@driver)
+  end
+
+
+  it "Can log in with the user just created" do
+    @driver.find_element(:link, "Sign In").click
+    @driver.find_element(:id, 'user_username').clear_and_send_keys @user
+    @driver.find_element(:id, 'user_password').clear_and_send_keys "testuser"
+
+    @driver.find_element(:id, 'login').click
+  end
+
+
+  it "Doesn't see the 'Create' menu in the first repository" do
+    # Wait until we're marked as logged in
+    @driver.find_element_with_text('//span', /#{@user}/)
+
+    if not @driver.find_element_with_text('//span', /#{test_repo_code_1}/, true, true)
+      @driver.find_element(:css, '.repository-container .btn').click
+
+      # Select the first repo since it wasn't selected already
+      @driver.find_element(:link_text => test_repo_code_1).click
+      @driver.find_element_with_text('//span[class="current-repository-id"]', /#{test_repo_code_1}/)
+    end
+
+    @driver.ensure_no_such_element(:link, "Create")
+  end
+
+
+  it "Can select the second repository and find the create link" do
+    @driver.find_element(:css, '.repository-container .btn').click
+    @driver.find_element(:link_text => test_repo_code_2).click
+
+    # Wait until it's selected
+    @driver.find_element_with_text('//span', /#{test_repo_code_2}/)
+    @driver.find_element(:link, "Create")
+  end
+
+
   it "Notifies of errors and warnings when creating an invalid Person Agent" do
     @driver.find_element(:link, 'Create').click
-    @driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()"); 
+    @driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()");
     @driver.find_element(:link, 'Person').click
 
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
@@ -344,15 +435,11 @@ describe "ArchivesSpace user interface" do
 
   it "Allows removal of the contact details" do
     @driver.find_element(:css => '#contacts .subform-remove').click
-    expect {
-      @driver.find_element(:id => "agent[agent_contacts][0][name]")
-    }.to raise_error
+    @driver.ensure_no_such_element(:id => "agent[agent_contacts][0][name]")
 
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
-    expect {
-      @driver.find_element(:css => "#contacts h3")
-    }.to raise_error
+    @driver.ensure_no_such_element(:css => "#contacts h3")
   end
 
   it "displays the agent in the agent's index page" do
@@ -571,7 +658,8 @@ describe "ArchivesSpace user interface" do
     ## Check browse list for resources
     @driver.find_element(:link, "Browse").click
     @driver.find_element(:link, "Resources").click
-    if @driver.find_element_with_text('//td', /#{resource_title}/, true) != nil
+
+    if @driver.find_element_with_text('//td', /#{resource_title}/, true, true) != nil
       puts "ERROR: #{resource_title} should not exist in resource Browse list!"
     end
   end
