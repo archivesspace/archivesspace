@@ -184,10 +184,14 @@ module RESTHelpers
           :failed_validation => []
         }
 
+        known_params = {}
+
         declared_params.each do |definition|
 
           (name, type, doc, opts) = definition
           opts ||= {}
+
+          known_params[name] = true
 
           if opts[:body]
             params[name] = request.body.read
@@ -218,6 +222,15 @@ module RESTHelpers
 
           end
         end
+
+
+        # Any params that were passed in that aren't declared by our endpoint get dropped here.
+        unknown_params = params.keys.reject {|p| known_params[p.to_s] }
+
+        unknown_params.each do |p|
+          params.delete(p)
+        end
+
 
         if not errors.values.flatten.empty?
           result = {}
