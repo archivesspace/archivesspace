@@ -72,11 +72,6 @@ module ArchivesSpace
   end
 
 
-  # Used by the launcher to set the backend URL on the fly.
-  if java.lang.System.get_property("ARCHIVESSPACE_BACKEND")
-    Application.config.backend_url = java.lang.System.get_property("ARCHIVESSPACE_BACKEND")
-  end
-
   class SessionGone < StandardError
   end
 

@@ -24,7 +24,8 @@ end
 
 JSONModel::init(:client_mode => true,
                 :mixins => [RailsFormMixin],
-                :url => ArchivesSpace::Application.config.backend_url)
+                :url => AppConfig[:backend_url])
+
 
 if not ENV['DISABLE_STARTUP']
   JSONModel::add_error_handler do |error|

@@ -48,8 +48,11 @@ public class Main
             backend_port = Integer.valueOf(args[1]);
         }
 
-        System.setProperty("ARCHIVESSPACE_BACKEND", "http://localhost:"
+        System.setProperty("aspace.config.backend_url", "http://localhost:"
                            + backend_port);
+
+        System.setProperty("aspace.config.frontend_url", "http://localhost:"
+                           + frontend_port);
 
 
         Server backend_server = runServer(backend_port, "backend", "/");
