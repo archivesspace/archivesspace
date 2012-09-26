@@ -25,4 +25,23 @@
   </section>
 </fieldset>
 
+<section id="dates">
+  <h3>
+    Dates
+    <input type="button" class="btn btn-small pull-right" value="Add Date"/>
+  </h3>
+  <div id="dates_container">
+    <% if @resource.dates.blank? %>
+      <p class="alert alert-info">Click 'Add Date' to add a date record.</p>
+    <% else %>
+      <% @resource.dates.each_with_index do | date, index | %>
+        <% f.with_jsonmodel("dates[]", date, :date) do %>
+          <%= render :partial => "dates/form", :locals => {:f => f, :index => index} %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
 <%= render :partial => "extent/template", :locals => {:f => f} %>
+<%= render :partial => "dates/template", :locals => {:f => f} %>

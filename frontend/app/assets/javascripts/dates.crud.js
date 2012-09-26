@@ -1,63 +1,80 @@
 $(function() {
-  var $this = $(".content-pane form");
+  
+  $.fn.init_date_form = function() {
+    $(this).each(function() {
 
-  var form_index = $(".subform.date-fields", $this).length;
+      var $this = $(this);
 
-  var toggle_disabled_fields = function() {
-    $("label.radio :radio", this).each(function() {
-      var $group = $(this).parents(".accordion-group:first");
-      if ($(this).is(":checked")) {
-        $(".accordion-body :input", $group).removeAttr("disabled");
-      } else {
-        $(".accordion-body :input", $group).attr("disabled","disabled");
+      if ($this.hasClass("initialised")) {
+        return;
       }
-    });
+
+      $this.addClass("initialised");
+
+      var form_index = $(".subform.date-fields", $this).length;
+
+
+      var init_subform = function() {
+        var $subform = $(this);
+
+        $("label.radio", $subform).click(function(event) {
+          $(":radio", $subform).removeAttr("checked");
+          $(":radio", this).attr("checked", "checked");
+          $this.parents("form:first").triggerHandler("form-changed");
+          $.proxy(toggleDisabledFields, $subform)();
+        });
+
+        $(".subform-remove", $subform).on("click", function() {
+          $subform.remove();
+          $this.parents("form:first").triggerHandler("form-changed");
+          if ($(".subform.date-fields", $this).length === 0) {
+            $(".alert", $("#dates_container", $this)).show();
+          }
+        });
+
+        $("label.radio :radio:checked", $subform).parents(".accordion-group:first").find(".accordion-body").removeClass("collapsed").addClass("in");
+        $.proxy(toggleDisabledFields, $subform)();
+      };
+
+
+      var toggleDisabledFields = function() {
+        $("label.radio :radio", this).each(function() {
+          var $group = $(this).parents(".accordion-group:first");
+          if ($(this).is(":checked")) {
+            $(".accordion-body :input", $group).removeAttr("disabled");
+          } else {
+            $(".accordion-body :input", $group).attr("disabled","disabled");
+          }
+        });
+      };
+
+
+      var init = function() {    
+        // add binding for creation of subforms
+        $("h3 > .btn", $this).on("click", function() {
+          var dateFormEl = $(AS.renderTemplate("date_form_template", {index: form_index++}));
+          $("#dates_container", $this).append(dateFormEl);
+          $(".alert", $("#dates_container", $this)).hide();
+          $this.parents("form:first").triggerHandler("form-changed");
+          $.proxy(init_subform, dateFormEl)();
+          $(":input:visible:first", dateFormEl).focus();
+        });
+
+        // init any existing subforms
+        $(".subform.date-fields", $this).each(init_subform);
+      };
+
+      init();
+    })
   };
 
 
-  var init_date_form = function() {
-    var dateFormEl = $(this);
-    
-    if (dateFormEl.hasClass("initialised")) {
-      return;
-    }
-
-    dateFormEl.addClass("initialised");
-
-    $(".date-type-accordion .accordion-group > label.radio", dateFormEl).click(function(event) {
-      $(":radio", $(this).parents(".date-type-accordion:first")).removeAttr("checked");
-      $(":radio", this).attr("checked", "checked");
-      $.proxy(toggle_disabled_fields, $(this).parents(".date-type-accordion:first"))();
+  $(document).ready(function() {
+    $(document).ajaxComplete(function() {
+      $("#dates:not(.initialised)").init_date_form();
     });
 
-
-    $(".date-type-accordion", dateFormEl).each(toggle_disabled_fields);
-
-  };
-
-
-  $this.on("click", "#dates > h3 > .btn", function() {
-    var dateFormEl = $(AS.renderTemplate("date_form_template", {index: form_index++}));
-    $("#dates_container", $this).append(dateFormEl);
-    $(".alert", $("#dates_container", $this)).hide();
-    $this.triggerHandler("form-changed");
-    $.proxy(init_date_form, dateFormEl)();
-    $(":input:visible:first", dateFormEl).focus();
-  });
-
-
-  $this.on("click", "#dates .subform-remove", function() {
-    $(this).parents(".subform:first").remove();
-    $this.triggerHandler("form-changed");
-    if ($("#dates_container .date-form", $this).length === 0) {
-      $(".alert", $("#dates_container", $this)).show();
-    }
-  });
-
-
-  $("#dates .date-fields", $this).each(function() {
-    $.proxy(init_date_form, this)();
-    $(".date-type-accordion label.radio :radio:checked", this).parents(".accordion-group:first").find(".accordion-body").removeClass("collapsed").addClass("in");
+    $("#dates:not(.initialised)").init_date_form();
   });
 
 });

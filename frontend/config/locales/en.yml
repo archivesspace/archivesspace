@@ -128,6 +128,8 @@ en:
     "[:resource_id, :ref_id]": Ref ID
     extents:
       <<: *extent_attributes
+    dates:
+      <<: *date_attributes
   group:
     group_code: Group code
     description: Description
@@ -145,6 +147,8 @@ en:
     identifier: Identifier
     extents:
       <<: *extent_attributes
+    dates:
+      <<: *date_attributes
   repository:
     repo_code: Repository code
     description: Description
