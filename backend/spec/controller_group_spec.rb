@@ -7,23 +7,28 @@ describe 'Group controller' do
   end
 
 
-  def create_group(opts = {})
-    group = JSONModel(:group).from_hash("group_code" => "newgroup",
+  def create_group(gcode = "newgroup", opts = {})
+
+    group = JSONModel(:group).from_hash("group_code" => gcode,
                                         "description" => "A test group")
     group.update(opts)
     group.save
 
     group
+
   end
 
 
   it "lets you create a group and get it back" do
+
     created = create_group
     JSONModel(:group).find(created.id).description.should eq("A test group")
+
   end
 
 
   it "lets you set the group's membership" do
+
     group = create_group
 
     make_test_user("herman")
@@ -39,10 +44,12 @@ describe 'Group controller' do
     group.save
 
     JSONModel(:group).find(group.id).member_usernames.sort.should eq(["elaine", "guybrush"])
+
   end
 
 
-  it "Optionally leaves group members alone" do
+  it "optionally leaves group members alone" do
+
     group = create_group
 
     make_test_user("herman")
@@ -65,7 +72,8 @@ describe 'Group controller' do
   end
 
 
-  it "Assigns permissions" do
+  it "assigns permissions" do
+
     group = create_group
     make_test_user("guybrush")
 
@@ -134,6 +142,21 @@ describe 'Group controller' do
         as_test_user(user) do archivists.save end
       }.to raise_error(AccessDeniedException)
     end
+  end
+
+
+  it "gives a list of all groups" do
+
+    create_group("supergroup")
+    create_group("groupthink")
+    create_group("groupygroup")
+
+    groups = JSONModel(:group).all
+
+    groups.any? { |group| group.group_code == "supergroup" }.should be_true
+    groups.any? { |group| group.group_code == "groupthink" }.should be_true
+    groups.any? { |group| group.group_code == "groupygroup" }.should be_true
+
   end
 
 end
