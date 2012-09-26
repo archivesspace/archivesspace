@@ -61,7 +61,7 @@ describe 'Group controller' do
     JSONModel(:group).find(group.id).member_usernames.should eq(["herman"])
 
     # And no members at all if we add that to our query
-    JSONModel(:group).find(group.id, :with_members => false).member_usernames.should eq(nil)
+    JSONModel(:group).find(group.id, :with_members => false).member_usernames.length.should eq(0)
   end
 
 
