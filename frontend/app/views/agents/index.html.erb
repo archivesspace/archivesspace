@@ -6,10 +6,12 @@
    <div class="span9 record-pane">
       <div class="btn-group">
         <div class="btn-group">
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            Create Agent
-            <span class="caret"></span>
-          </a>
+          <% if user_can?('update_repository') %>
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              Create Agent
+              <span class="caret"></span>
+            </a>
+          <% end %>
           <ul class="dropdown-menu">
             <li><%= link_to "Person", :controller => :agents, :action => :new, :type => :agent_person %></li>
             <li><%= link_to "Family", :controller => :agents, :action => :new, :type => :agent_family %></li>
@@ -37,7 +39,9 @@
               <td><%= I18n.t("agent.agent_type.#{agent.agent_type}") %></td>
               <td>
                  <div class="btn-group" style="float: right">
-                   <%= link_to "Edit", {:controller => :agents, :action => :edit, :id => agent.id, :type => agent.agent_type}, :class => "btn btn-mini" %>
+                   <% if user_can?('update_repository') %>
+                     <%= link_to "Edit", {:controller => :agents, :action => :edit, :id => agent.id, :type => agent.agent_type}, :class => "btn btn-mini" %>
+                   <% end %>
                    <%= link_to "View", {:controller => :agents, :action => :show, :id => agent.id, :type => agent.agent_type}, :class => "btn btn-mini" %>
                  </div>
               </td>

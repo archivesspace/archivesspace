@@ -5,7 +5,9 @@
    </div>
    <div class="span9 record-pane">
       <div class="btn-group">
-        <%= link_to "Create Archival Object", {:controller => :archival_objects, :action => :new}, :class => "btn" %>
+        <% if user_can?('update_repository') %>
+          <%= link_to "Create Archival Object", {:controller => :archival_objects, :action => :new}, :class => "btn" %>
+        <% end %>
       </div>
       <h2>Archival Objects</h2>
       <% if not @archival_objects.blank? %>

@@ -5,7 +5,9 @@
   <div class="span9 record-pane">
     <div class="btn-group" style="float: right">
        <% if @resource_id %>
-          <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
+          <% if user_can?('update_repository') %>
+            <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
+          <% end %>
        <% end %>
     </div>
 
