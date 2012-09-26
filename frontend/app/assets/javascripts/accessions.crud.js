@@ -1,4 +1,5 @@
 //= require dates.crud
+//= require extent.crud
 
 $(function() {
 
@@ -14,18 +15,6 @@ $(function() {
 
 
       var addEventBindings = function() {
-        $this.on("click", "#extent > h3 > .btn", function() {
-          var extent_forms = $(".subform.extent-fields", $this).length;
-          $("#extents_container", $this).append(AS.renderTemplate("extent_form_template", {index: extent_forms}));
-          $this.triggerHandler("form-changed");
-        });
-
-
-        $this.on("click", "#extent .subform-remove", function() {
-          $(this).parents(".subform:first").remove();
-          $this.triggerHandler("form-changed");
-        });
-
 
       };
 

@@ -28,7 +28,7 @@ $(function() {
           $subform.remove();
           $this.parents("form:first").triggerHandler("form-changed");
           if ($(".subform.date-fields", $this).length === 0) {
-            $(".alert", $("#dates_container", $this)).show();
+            $(".alert", $this).show();
           }
         });
 
