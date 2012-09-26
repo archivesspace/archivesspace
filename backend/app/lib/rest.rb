@@ -76,12 +76,20 @@ module RESTHelpers
 
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
-    def preconditions(*preconditions); @preconditions = preconditions; self; end
+    def preconditions(*preconditions); @preconditions += preconditions; self; end
 
     def params(*params)
       @required_params = params.map do |p|
         @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
       end
+
+      # A special case for repo_id since it's so prevalent: if the repo_id is
+      # provided, add a check to make sure the requesting user has permission
+      # to view this repository
+      if @required_params.any?{|param| param.first == 'repo_id'}
+        @preconditions << proc { current_user.can?(:view_repository) }
+      end
+
       self
     end
 

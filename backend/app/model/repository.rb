@@ -17,13 +17,20 @@ class Repository < Sequel::Model(:repositories)
 
   def after_create
 
+    if self.id == Group.GLOBAL
+      # No need for standard groups on this one.
+      return
+    end
+
     standard_groups = [{
                          :group_code => "repository-managers",
-                         :description => "Managers of the #{repo_code} repository"
+                         :description => "Managers of the #{repo_code} repository",
+                         :grants_permissions => ["manage_repository"]
                        },
                        {
                          :group_code => "repository-users",
-                         :description => "Users of the #{repo_code} repository"
+                         :description => "Users of the #{repo_code} repository",
+                         :grants_permissions => ["view_repository"]
                        }]
 
     standard_groups.each do |group_data|

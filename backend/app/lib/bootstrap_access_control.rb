@@ -1,6 +1,7 @@
 class ArchivesSpaceService
 
   def self.set_up_base_permissions
+
     if not Repository[Group.GLOBAL]
       # Create the "global" repository
       Repository.unrestrict_primary_key
@@ -39,6 +40,10 @@ class ArchivesSpaceService
 
     Permission.define("manage_repository",
                       "The ability to manage a given repository",
+                      :level => "repository")
+
+    Permission.define("view_repository",
+                      "The ability to view a given repository",
                       :level => "repository")
   end
 

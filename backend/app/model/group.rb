@@ -27,8 +27,12 @@ class Group < Sequel::Model(:groups)
 
   def self.set_permissions(obj, json)
     obj.remove_all_permissions
-    (json.grants_permissions or []).each do |permission|
-      permission = Permission[:permission_code => permission]
+    (json.grants_permissions or []).each do |permission_code|
+      permission = Permission[:permission_code => permission_code]
+
+      if permission.nil?
+        raise "Unknown permission code: #{permission_code}"
+      end
 
       if permission[:level] == 'global'
         raise AccessDeniedException.new("You can't assign a global permission to a repository")
