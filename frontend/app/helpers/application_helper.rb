@@ -21,19 +21,4 @@ module ApplicationHelper
     css.html_safe
   end
 
-
-
-  def user_can?(permission, repository = nil)
-    repository ||= session[:repo]
-
-    (session[:user] &&
-     session[:permissions] &&
-
-     (session[:permissions][repository] &&
-      session[:permissions][repository].include?(permission)) ||
-
-     (session[:permissions]['_archivesspace'] &&
-      session[:permissions]['_archivesspace'].include?(permission)))
-  end
-
 end

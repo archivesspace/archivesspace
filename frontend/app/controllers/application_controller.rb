@@ -11,9 +11,10 @@ class ApplicationController < ActionController::Base
   # Note: This should be first!
   before_filter :store_user_session
 
+  before_filter :refresh_permissions
+
   before_filter :load_repository_list
   before_filter :load_default_vocabulary
-  before_filter :refresh_permissions
 
   before_filter :sanitize_params
 
@@ -70,6 +71,23 @@ class ApplicationController < ActionController::Base
   end
 
 
+  helper_method :user_can?
+  def user_can?(permission, repository = nil)
+    repository ||= session[:repo]
+
+    (session &&
+     session[:user] &&
+     session[:permissions] &&
+
+     ((session[:permissions][repository] &&
+       session[:permissions][repository].include?(permission)) ||
+
+      (session[:permissions]['_archivesspace'] &&
+       session[:permissions]['_archivesspace'].include?(permission))))
+  end
+
+
+
   private
 
   def destroy_user_session
@@ -91,7 +109,9 @@ class ApplicationController < ActionController::Base
 
   def load_repository_list
     unless request.path == '/webhook/notify'
-      @repositories = MemoryLeak::Resources.get(:repository)
+      @repositories = MemoryLeak::Resources.get(:repository).find_all do |repository|
+        user_can?('view_repository', repository.repo_code)
+      end
 
       # Make sure the user's selected repository still exists.
       if session[:repo] && !@repositories.any?{|repo| repo.repo_code == session[:repo]}
