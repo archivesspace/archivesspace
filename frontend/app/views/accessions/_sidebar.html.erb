@@ -2,8 +2,13 @@
   <ul class="nav nav-list affix as-nav-list" data-spy="affix">
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
     <li><a href="#extent">Extent <span class="icon-chevron-right"></span></a></li>
-    <% if @accession.dates.length > 0 %>
+
+    <% if not controller.action_name === "show" or @accession.dates.length > 0 %>
       <li><a href="#dates">Dates <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if not controller.action_name === "show" or @accession.external_documents.length > 0 %>
+      <li><a href="#external_documents">External Documents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>

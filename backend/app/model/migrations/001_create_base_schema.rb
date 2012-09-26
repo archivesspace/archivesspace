@@ -463,11 +463,44 @@ Sequel.migration do
     end
 
 
+    create_table(:external_documents) do
+      primary_key :id
+
+      Integer :accession_id, :null => true
+      Integer :archival_object_id, :null => true
+      Integer :resource_id, :null => true
+      Integer :subject_id, :null => true
+      Integer :agent_person_id, :null => true
+      Integer :agent_family_id, :null => true
+      Integer :agent_corporate_entity_id, :null => true
+      Integer :agent_software_id, :null => true
+
+      String :title, :null => false
+      String :location, :null => false
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:external_documents) do
+      add_foreign_key([:accession_id], :accessions, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
+      add_foreign_key([:subject_id], :subjects, :key => :id)
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+
+      add_index([:accession_id, :archival_object_id, :resource_id, :subject_id, :agent_person_id, :agent_family_id, :agent_corporate_entity_id, :agent_software_id, :location], :unique => true, :name => :external_documents_location_uniqueness)
+    end
+
   end
 
   down do
 
-    [:subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
+    [:external_documents,
+     :subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,

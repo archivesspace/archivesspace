@@ -42,5 +42,10 @@
       <%= render :partial => "dates/show", :locals => { :dates => @resource.dates } %>
     <% end %>
 
+    <% if @resource.external_documents.length > 0 %>
+      <%= render :partial => "external_documents/show", :locals => { :external_documents => @resource.external_documents } %>
+    <% end %>
+
+
   </div>
 </div>

@@ -5,4 +5,5 @@ class Accession < Sequel::Model(:accessions)
   include Extents
   include Subjects
   include Dates
+  include ExternalDocuments
 end

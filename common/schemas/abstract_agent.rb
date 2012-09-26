@@ -16,6 +16,8 @@
         "items" => {"type" => "JSONModel(:agent_contact) uri_or_object"}
       },
 
+      "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
+
     },
   },
 }

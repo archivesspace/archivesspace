@@ -17,6 +17,9 @@ en:
     container_summary: Container Summary
     physical_details: Physical Details
     dimensions: Dimensions
+  external_document: &external_document_attributes
+    title: Description
+    location: Location
   date: &date_attributes
     label: Label
     label_broadcast: Broadcast
@@ -60,6 +63,8 @@ en:
       <<: *extent_attributes
     dates:
       <<: *date_attributes
+    external_documents:
+      <<: *external_document_attributes
   agent: &agent_attributes
     type: Agent Type
     agent_type:
@@ -130,6 +135,8 @@ en:
       <<: *extent_attributes
     dates:
       <<: *date_attributes
+    external_documents:
+      <<: *external_document_attributes
   group:
     group_code: Group code
     description: Description
@@ -149,6 +156,8 @@ en:
       <<: *extent_attributes
     dates:
       <<: *date_attributes
+    external_documents:
+      <<: *external_document_attributes
   repository:
     repo_code: Repository code
     description: Description

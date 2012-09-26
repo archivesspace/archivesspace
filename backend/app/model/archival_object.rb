@@ -4,6 +4,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   include Subjects
   include Extents
   include Dates
+  include ExternalDocuments
 
 
   def children

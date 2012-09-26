@@ -1,0 +1,22 @@
+<section id="external_documents">
+  <h3>External Documents</h3>
+
+  <% external_documents.each_with_index do | document, index | %>
+    <div class="row-fluid label-and-value">
+       <div class="span3"><%= I18n.t("external_document.title") %></div>
+       <div class="span9"><%= document["title"] %></div>
+    </div>
+    <div class="row-fluid label-and-value">
+      <div class="span3"><%= I18n.t("external_document.location") %></div>
+      <div class="span9">
+        <% if (document["location"] =~ URI::regexp).nil? %>
+          <%= document["location"] %>
+        <% else %>
+          <a href="<%= document["location"] %>"><%= document["location"] %></a>
+        <% end %>
+      </div>
+    </div>
+    <% if index < external_documents.length-1 %><hr/><% end %>
+  <% end %>
+
+</section>

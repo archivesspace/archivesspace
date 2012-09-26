@@ -41,10 +41,29 @@
     </div>
   </section>
 
+  <section id="external_documents">
+    <h3>
+      External Documents
+      <input type="button" class="btn btn-small pull-right" value="Add External Document"/>
+    </h3>
+    <div id="external_documents_container">
+      <% if @archival_object.external_documents.blank? %>
+        <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
+      <% else %>
+        <% @archival_object.external_documents.each_with_index do | external_document, index | %>
+          <% f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
+            <%= render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
 </fieldset>
 
 <%= render :partial => "extent/template", :locals => {:f => f} %>
 <%= render :partial => "dates/template", :locals => {:f => f} %>
+<%= render :partial => "external_documents/template", :locals => {:f => f} %>
 
 <%= f.hidden_field :parent %>
 <%= f.hidden_field :resource %>
