@@ -688,9 +688,6 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  # Resources
-
-
   it "can delete an existing date when editing an Accession" do
 
     @driver.find_element(:link, 'Edit').click
@@ -706,6 +703,63 @@ describe "ArchivesSpace user interface" do
     date_headings.length.should eq (1)
 
   end
+
+
+  it "Can create an Accession with some external documents" do
+    @driver.find_element(:link, "Create").click
+    @driver.find_element(:link, "Accession").click
+
+    # populate mandatory fields
+    @driver.find_element(:id => "accession[title]").clear_and_send_keys "Accession with external documents"
+
+    @driver.complete_4part_id("accession[id_%d]")
+
+    @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
+    @driver.find_element(:id => "accession[content_description]").clear_and_send_keys "A box containing our own universe"
+    @driver.find_element(:id => "accession[condition_description]").clear_and_send_keys "Slightly squashed"
+
+    @driver.find_element(:id => "accession[extents][0][number]").clear_and_send_keys "10"
+
+    # add some external documents
+    @driver.find_element(:css => '#external_documents h3 .btn').click
+    @driver.find_element(:css => '#external_documents h3 .btn').click
+
+    #populate the first external documents    
+    @driver.find_element(:id => "accession[external_documents][0][title]").clear_and_send_keys "My URI document"
+    @driver.find_element(:id => "accession[external_documents][0][location]").clear_and_send_keys "http://archivesspace.org"
+
+    #populate the second external documents    
+    @driver.find_element(:id => "accession[external_documents][1][title]").clear_and_send_keys "My other document"
+    @driver.find_element(:id => "accession[external_documents][1][location]").clear_and_send_keys "a/file/path/or/something/"
+
+    # save!
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+    # check external documents
+    external_document_sections = @driver.find_elements(:css => '#external_documents .external-document')
+    external_document_sections.length.should eq (2)
+    external_document_sections[0].find_element(:link => "http://archivesspace.org")
+  end
+
+
+  it "can delete an existing external documents when editing an Accession" do
+
+    @driver.find_element(:link, 'Edit').click
+
+    # remove the first external documents
+    @driver.find_element(:css => '#external_documents .subform-remove').click
+
+    # save!
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+    # check remaining external documents
+    external_document_sections = @driver.find_elements(:css => '#external_documents .external-document')
+    external_document_sections.length.should eq (1)
+
+  end
+
+
+  # Resources
 
 
   it "reports errors and warnings when creating an invalid Resource" do

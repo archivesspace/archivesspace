@@ -18,7 +18,7 @@ en:
     physical_details: Physical Details
     dimensions: Dimensions
   external_document: &external_document_attributes
-    title: Description
+    title: Title
     location: Location
   date: &date_attributes
     label: Label
