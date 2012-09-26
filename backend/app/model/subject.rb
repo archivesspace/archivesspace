@@ -3,6 +3,7 @@ require_relative 'term'
 class Subject < Sequel::Model(:subjects)
   plugin :validation_helpers
   include ASModel
+  include ExternalDocuments
 
   many_to_many :terms
   many_to_many :archival_objects

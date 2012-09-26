@@ -1,20 +1,46 @@
 <%= render "shared/form_messages", :object => @subject %>
 <fieldset>
    <%= f.hidden_field :vocabulary, :value => session[:vocabulary]['uri'] %>
-   <div class="row-fluid">
-      <div class="span5">Term</div>
-      <div class="span5">Type</div>
-      <div class="span2"></div>
-   </div>
-   <div class="terms-container" data-terms="<%= @subject.terms.to_json %>"></div>
+
+   <section id="terms">
+     <h3>Terms</h3>
+     <div class="row-fluid">
+        <div class="span5">Term</div>
+        <div class="span5">Type</div>
+        <div class="span2"></div>
+     </div>
+     <div class="terms-container" data-terms="<%= @subject.terms.to_json %>"></div>
+
+     <hr/>
+
+     <div class="well">
+        <div class="subject-preview"><em>Subject Preview</em></div>
+     </div>
+     
+   </section>
+
+   <section id="external_documents">
+     <h3>
+       External Documents
+       <input type="button" class="btn btn-small pull-right" value="Add External Document"/>
+     </h3>
+     <div id="external_documents_container">
+       <% if @subject.external_documents.blank? %>
+         <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
+       <% else %>
+         <% @subject.external_documents.each_with_index do | external_document, index | %>
+           <% f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
+             <%= render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
+           <% end %>
+         <% end %>
+       <% end %>
+     </div>
+   </section>
+
 </fieldset>
 
-<hr/>
 
-
-<div class="well">
-   <div class="subject-preview"><em>Subject Preview</em></div>
-</div>
+<%= render :partial => "external_documents/template", :locals => {:f => f} %>
 
 <div id="subjects_term_template"><!--
    <div class="row-fluid inputs-fill-it-up">

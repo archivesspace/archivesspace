@@ -1,6 +1,8 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Subjects", :controller => :subjects, :action => :index),"New Subject"]} %>
 <div class="row-fluid">
-   <div class="span3"></div>
+   <div class="span3">
+     <%= render :partial => "sidebar" %>
+   </div>
    <div class="span9 record-pane">
       <h2><%= "New Subject" %>  <span class="label label-info">Subject</span></h2>
       <br/>

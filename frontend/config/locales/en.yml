@@ -166,6 +166,8 @@ en:
   subject:
     term: Term
     term_type: Type
+    external_documents:
+      <<: *external_document_attributes
   createuser:
     username: Username
     name: Your full name

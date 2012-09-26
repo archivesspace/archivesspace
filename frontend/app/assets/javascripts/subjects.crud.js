@@ -1,3 +1,5 @@
+//= require external_documents.crud
+
 $(function() {
 
   $.fn.init_subject_form = function() {

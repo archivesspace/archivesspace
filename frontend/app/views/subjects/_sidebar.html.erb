@@ -1,0 +1,15 @@
+<div id="archivesSpaceSidebar">
+  <ul class="nav nav-list affix as-nav-list" data-spy="affix">
+    <li><a href="#terms">Terms <span class="icon-chevron-right"></span></a></li>
+
+    <% if not controller.action_name === "show" or @subject.external_documents.length > 0 %>
+      <li><a href="#external_documents">External Documents <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if not controller.action_name === "show" %>
+      <li class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Subject</button>
+      </li>
+    <% end %>
+  </ul>
+</div>
