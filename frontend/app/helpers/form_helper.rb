@@ -216,7 +216,7 @@ module FormHelper
                              "data-original_value" => current[method],
                              :object => current,
                              :force_name => current_name(method),
-                             :force_id => current_name(method, true)
+                             :force_id => "#{current_name(method, true)}_#{value}"
                            })
     end
 
