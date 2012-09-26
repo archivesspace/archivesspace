@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
   def load_repository_list
     unless request.path == '/webhook/notify'
       @repositories = MemoryLeak::Resources.get(:repository).find_all do |repository|
-        user_can?('view_repository', repository.repo_code)
+        user_can?('view_repository', repository.repo_code) || user_can?('manage_repository', repository.repo_code)
       end
 
       # Make sure the user's selected repository still exists.
