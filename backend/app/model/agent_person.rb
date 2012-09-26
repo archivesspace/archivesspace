@@ -3,6 +3,7 @@ require_relative 'name_person'
 class AgentPerson < Sequel::Model(:agent_person)
 
   include ASModel
+  include ExternalDocuments
 
   one_to_many :name_person
   one_to_many :agent_contacts

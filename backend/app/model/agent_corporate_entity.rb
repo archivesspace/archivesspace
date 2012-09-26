@@ -3,6 +3,7 @@ require_relative 'name_corporate_entity'
 class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
 
   include ASModel
+  include ExternalDocuments
 
   one_to_many :name_corporate_entity
   one_to_many :agent_contacts

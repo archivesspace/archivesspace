@@ -72,6 +72,11 @@
               end %>
           </section>
         </div>
-      <% end %>      
+      <% end %>
+
+      <% if @agent.external_documents.length > 0 %>
+        <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents } %>
+      <% end %>
+
     </div>
 </div>

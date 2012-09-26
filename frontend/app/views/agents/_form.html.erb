@@ -58,12 +58,28 @@
     </div>
   </section>
 
-  <section id="relationships">
-    <h3>Relationships</h3>
-    <p class="alert alert-info">TODO</p>
+  <section id="external_documents">
+    <h3>
+      External Documents
+      <input type="button" class="btn btn-small pull-right" value="Add External Document"/>
+    </h3>
+    <div id="external_documents_container">
+      <% if @agent.external_documents.blank? %>
+        <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
+      <% else %>
+        <% @agent.external_documents.each_with_index do | external_document, index | %>
+          <% f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
+            <%= render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
   </section>
 
+
 </fieldset>
+
+<%= render :partial => "external_documents/template", :locals => {:f => f} %>
 
 <div id="agent_contact_form_template"><!--
   <% f.with_jsonmodel("agent_contacts[]", {}, :agent_contact, :index => "${index}") do %>

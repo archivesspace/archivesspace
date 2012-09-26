@@ -119,6 +119,8 @@ en:
       telephone_ext: Telephone Ext.
       fax: Fax Number
       email: Email Address
+    external_documents:
+      <<: *external_document_attributes
   agent_person:
     <<: *agent_attributes
   agent_family:
