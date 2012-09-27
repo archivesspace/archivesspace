@@ -75,19 +75,20 @@ class ArchivesSpaceService < Sinatra::Base
     set :logging, false
 
 
-    ANONYMOUS_USER = AnonymousUser.new
+    if DB.connected?
+      ANONYMOUS_USER = AnonymousUser.new
 
+      require_relative "lib/bootstrap_access_control"
 
-    require_relative "lib/bootstrap_access_control"
+      # Ensure that the frontend is registered
+      Array(AppConfig[:frontend_url]).each do |url|
+        Webhooks.add_listener(URI.join(url, "/webhook/notify").to_s)
+      end
 
-
-    # Ensure that the frontend is registered
-    Array(AppConfig[:frontend_url]).each do |url|
-      Webhooks.add_listener(URI.join(url, "/webhook/notify").to_s)
+      Webhooks.start
+      Webhooks.notify("BACKEND_STARTED")
     end
 
-    Webhooks.start
-    Webhooks.notify("BACKEND_STARTED")
   end
 
 
