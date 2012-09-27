@@ -105,8 +105,12 @@ class Selenium::WebDriver::Driver
     RETRIES.times do
 
       matches = self.find_elements(:xpath => xpath)
-      matches.each do | match |
-        return match if match.text =~ pattern
+      begin
+        matches.each do | match |
+          return match if match.text =~ pattern
+        end
+      rescue
+        # Ignore exceptions and retry
       end
 
       if noRetry
