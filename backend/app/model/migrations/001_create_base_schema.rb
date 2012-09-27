@@ -1,3 +1,5 @@
+Sequel.extension :inflector
+
 Sequel.migration do
   up do
     create_table(:sessions) do
@@ -466,15 +468,6 @@ Sequel.migration do
     create_table(:external_documents) do
       primary_key :id
 
-      Integer :accession_id, :null => true
-      Integer :archival_object_id, :null => true
-      Integer :resource_id, :null => true
-      Integer :subject_id, :null => true
-      Integer :agent_person_id, :null => true
-      Integer :agent_family_id, :null => true
-      Integer :agent_corporate_entity_id, :null => true
-      Integer :agent_software_id, :null => true
-
       String :title, :null => false
       String :location, :null => false
 
@@ -482,17 +475,22 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:external_documents) do
-      add_foreign_key([:accession_id], :accessions, :key => :id)
-      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
-      add_foreign_key([:resource_id], :resources, :key => :id)
-      add_foreign_key([:subject_id], :subjects, :key => :id)
-      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
-      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
-      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
-      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
 
-      add_index([:accession_id, :archival_object_id, :resource_id, :subject_id, :agent_person_id, :agent_family_id, :agent_corporate_entity_id, :agent_software_id, :location], :unique => true, :name => :external_documents_location_uniqueness)
+    records_supporting_external_documents = [:accession, :archival_object,
+                                             :resource, :subject,
+                                             :agent_person,
+                                             :agent_family,
+                                             :agent_corporate_entity,
+                                             :agent_software]
+
+    records_supporting_external_documents.each do |record|
+      table = table_exists?(record) ? record : record.to_s.pluralize.intern
+
+      create_join_table({
+                          "#{record}_id".intern => table,
+                          :external_document_id => :external_documents
+                        },
+                        :name => "#{table}_external_documents")
     end
 
   end
@@ -504,8 +502,12 @@ Sequel.migration do
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
-     :dates, :archival_objects, :vocabularies, :extent,
-     :resources, :repositories].each do |table|
+     :dates, :archival_objects, :vocabularies, :extent, :resources, :repositories,
+     :accessions_external_documents, :archival_objects_external_documents,
+     :external_documents_resources, :external_documents_subjects,
+     :agent_people_external_documents, :agent_families_external_documents,
+     :agent_corporate_entities_external_documents,
+     :agent_softwares_external_documents].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)
     end

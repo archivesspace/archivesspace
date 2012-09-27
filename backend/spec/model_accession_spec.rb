@@ -124,30 +124,32 @@ describe 'Accession model' do
 
   it "throws an error when accession created with duplicate external documents" do
     expect {
-      accession = Accession.create_from_json(JSONModel(:accession).
-                                           from_hash({
-                                                       "id_0" => "1234",
-                                                       "id_1" => "5678",
-                                                       "id_2" => "9876",
-                                                       "id_3" => "5432",
-                                                       "title" => "Papers of Mark Triggs",
-                                                       "accession_date" => Time.now,
-                                                       "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
-                                                       "condition_description" => "Most letters smeared with jam",
 
-                                                       "external_documents" => [
-                                                         {
-                                                           "title" => "My external document",
-                                                           "location" => "http://www.foobar.com",
-                                                         },
-                                                         {
-                                                           "title" => "My other document",
-                                                           "location" => "http://www.foobar.com",
-                                                         },
-                                                       ]
-                                                     }),
-                                           :repo_id => @repo_id)
-    }.should raise_error
+      Accession.create_from_json(JSONModel(:accession).
+                                 from_hash({
+                                             "id_0" => "1234",
+                                             "id_1" => "5678",
+                                             "id_2" => "9876",
+                                             "id_3" => "5432",
+                                             "title" => "Papers of Mark Triggs",
+                                             "accession_date" => Time.now,
+                                             "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
+                                             "condition_description" => "Most letters smeared with jam",
+
+                                             "external_documents" => [
+                                                                      {
+                                                                        "title" => "My external document",
+                                                                        "location" => "http://www.foobar.com",
+                                                                      },
+                                                                      {
+                                                                        "title" => "My other document",
+                                                                        "location" => "http://www.foobar.com",
+                                                                      },
+                                                                     ]
+                                           }),
+                                 :repo_id => @repo_id)
+
+    }.should raise_error(Sequel::ValidationFailed)
   end
 
 

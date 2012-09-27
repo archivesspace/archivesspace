@@ -3,10 +3,6 @@ class ASDate < Sequel::Model(:dates)
 
   plugin :validation_helpers
 
-  many_to_one :accession
-  many_to_one :resource
-  many_to_one :archival_object
-
 
   def validate
     if self[:date_type] === "expression"
