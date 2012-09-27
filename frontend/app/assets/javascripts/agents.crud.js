@@ -17,7 +17,11 @@ $(function() {
       var addSecondaryNameForm = function() {
         $("#secondary_names_container .alert-info", $this).hide();
         form_index ++;
-        $("#secondary_names_container", $this).append(AS.renderTemplate("agent_secondary_name_form_template", {index: form_index}));
+        var nameSubFormEl = $(AS.renderTemplate("agent_secondary_name_form_template", {index: form_index}));
+        nameSubFormEl.hide();
+        $("#secondary_names_container", $this).append(nameSubFormEl);
+        nameSubFormEl.fadeIn();
+        $(":input:visible:first", nameSubFormEl).focus();
       };
       $("#secondary_names h3 input[type=button]").click(addSecondaryNameForm);
 
@@ -32,8 +36,12 @@ $(function() {
 
       var addContactDetailsForm = function() {
         $("#contacts_container .alert-info", $this).hide();
-          form_index ++;
-          $("#contacts_container", $this).append(AS.renderTemplate("agent_contact_form_template", {index: form_index}))
+        form_index ++;
+        var contactSubFormEl = $(AS.renderTemplate("agent_contact_form_template", {index: form_index}));
+        contactSubFormEl.hide();
+        $("#contacts_container", $this).append(contactSubFormEl);
+        contactSubFormEl.fadeIn();
+        $(":input:visible:first", contactSubFormEl).focus();
       };
       $("#contacts h3 input[type=button]").click(addContactDetailsForm);
 

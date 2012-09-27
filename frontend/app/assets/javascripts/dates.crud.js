@@ -53,7 +53,9 @@ $(function() {
         // add binding for creation of subforms
         $("h3 > .btn", $this).on("click", function() {
           var dateFormEl = $(AS.renderTemplate("date_form_template", {index: form_index++}));
+          dateFormEl.hide();
           $("#dates_container", $this).append(dateFormEl);
+          dateFormEl.fadeIn();
           $(".alert", $("#dates_container", $this)).hide();
           $this.parents("form:first").triggerHandler("form-changed");
           $.proxy(init_subform, dateFormEl)();

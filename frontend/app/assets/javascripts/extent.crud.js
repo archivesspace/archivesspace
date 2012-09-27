@@ -31,7 +31,9 @@ $(function() {
         // add binding for creation of subforms
         $("h3 > .btn", $this).on("click", function() {
           var extentFormEl = $(AS.renderTemplate("extent_form_template", {index: form_index++}));
+          extentFormEl.hide();
           $("#extents_container", $this).append(extentFormEl);
+          extentFormEl.fadeIn();
           $(".alert", $this).hide();
           $this.parents("form:first").triggerHandler("form-changed");
           $.proxy(init_subform, extentFormEl)();
