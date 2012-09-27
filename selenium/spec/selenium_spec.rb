@@ -411,7 +411,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
     # check messages
-    @driver.find_element(:css, ".alert.alert-error").length.should be > 0
+    @driver.find_element(:css, ".errors-terms_0_term").text.should eq("Term - Property was missing")
   end
 
   # Person Agents

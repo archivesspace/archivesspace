@@ -163,9 +163,12 @@ en:
   repository:
     repo_code: Repository code
     description: Description
-  subject:
+  term: &term_attributes
     term: Term
     term_type: Type
+  subject:
+    terms:
+      <<: *term_attributes
     external_documents:
       <<: *external_document_attributes
   createuser:

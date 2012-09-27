@@ -44,9 +44,9 @@
 
 <div id="subjects_term_template"><!--
    <div class="row-fluid inputs-fill-it-up">
-      <div class="span5"><input type="text" name="subject[terms][][term]" data-source="<%= session['vocabulary']['terms'].to_json %>" autocomplete="off" /></div>
+      <div class="span5"><input type="text" name="subject[terms][${index}][term]" data-source="<%= session['vocabulary']['terms'].to_json %>" autocomplete="off" /></div>
       <div class="span5">
-         <select name="subject[terms][][term_type]">
+         <select name="subject[terms][${index}][term_type]">
             <% JSONModel(:term).schema["properties"]["term_type"]["enum"].each do |option| %>
                <option value="<%= option %>"><%= option %></option>
             <% end %>
@@ -57,7 +57,7 @@
             <button type="button" class="btn btn-small add-term-btn">Add</button>
             <button type="button" class="btn btn-small remove-term-btn"><span class="icon-remove-sign"></span></button>
          </div>
-         <input type="hidden" name="subject[terms][][vocabulary]" value="<%= session[:vocabulary]['uri'] %>"/>
+         <input type="hidden" name="subject[terms][${index}][vocabulary]" value="<%= session[:vocabulary]['uri'] %>"/>
       </div>
    </div>
 --></div>
