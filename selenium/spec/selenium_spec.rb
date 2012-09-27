@@ -536,6 +536,8 @@ describe "ArchivesSpace user interface" do
   it "can remove contact details" do
 
     @driver.find_element(:css => '#contacts .subform-remove').click
+    @driver.find_element(:css => '#contacts .confirm-removal').click
+
     @driver.ensure_no_such_element(:id => "agent[agent_contacts][0][name]")
 
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
@@ -646,6 +648,8 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:link, 'Edit').click
     @driver.find_element(:css => '#extent .subform-remove').click
+    @driver.find_element(:css => '#extent .confirm-removal').click
+
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
     extent_headings = @driver.find_elements(:css => '#extent .accordion-heading')
@@ -708,6 +712,7 @@ describe "ArchivesSpace user interface" do
 
     # remove the first date
     @driver.find_element(:css => '#dates .subform-remove').click
+    @driver.find_element(:css => '#dates .confirm-removal').click
 
     # save!
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
@@ -762,6 +767,7 @@ describe "ArchivesSpace user interface" do
 
     # remove the first external documents
     @driver.find_element(:css => '#external_documents .subform-remove').click
+    @driver.find_element(:css => '#external_documents .confirm-removal').click
 
     # save!
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
