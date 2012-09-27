@@ -26,10 +26,13 @@ $(function() {
       $("#secondary_names h3 input[type=button]").click(addSecondaryNameForm);
 
       var removeSecondaryNameForm = function() {
-        $(this).parents(".subform:first").remove();
-        if ($("#secondary_names .subform", $this).length === 0) {
-          $("#secondary_names_container .alert-info", $this).show();
-        }
+        var $subform = $(this).parents(".subform:first");
+        AS.confirmSubFormDelete($(this), function() {
+          $subform.remove();
+          if ($("#secondary_names .subform", $this).length === 0) {
+            $("#secondary_names_container .alert-info", $this).show();
+          }
+        });
       };
       $("#secondary_names").on("click", ".subform-remove", removeSecondaryNameForm);
 
@@ -46,10 +49,13 @@ $(function() {
       $("#contacts h3 input[type=button]").click(addContactDetailsForm);
 
       var removeContactDetailsForm = function() {
-        $(this).parents(".subform:first").remove();
-        if ($("#contacts .subform", $this).length === 0) {
-          $("#contacts_container .alert-info", $this).show();
-        }
+        var $subform = $(this).parents(".subform:first");
+        AS.confirmSubFormDelete($(this), function() {
+          $subform.remove();
+          if ($("#contacts .subform", $this).length === 0) {
+            $("#contacts_container .alert-info", $this).show();
+          }
+        });
       };
       $("#contacts").on("click", ".subform-remove", removeContactDetailsForm);
 

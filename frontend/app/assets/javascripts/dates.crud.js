@@ -25,11 +25,13 @@ $(function() {
         });
 
         $(".subform-remove", $subform).on("click", function() {
-          $subform.remove();
-          $this.parents("form:first").triggerHandler("form-changed");
-          if ($(".subform.date-fields", $this).length === 0) {
-            $(".alert", $this).show();
-          }
+          AS.confirmSubFormDelete($(this), function() {
+            $subform.remove();
+            $this.parents("form:first").triggerHandler("form-changed");
+            if ($(".subform.date-fields", $this).length === 0) {
+              $(".alert", $this).show();
+            }
+          });
         });
 
         $("label.radio :radio:checked", $subform).parents(".accordion-group:first").find(".accordion-body").removeClass("collapsed").addClass("in");

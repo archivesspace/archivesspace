@@ -155,3 +155,24 @@ AS.addControlGroupHighlighting = function(parent) {
 //    AS.addControlGroupHighlighting($(document.body))
 //  });
 //});
+
+// confirmation behaviour for subform-remove actions
+AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
+  var confirmationEl = $(AS.renderTemplate("subform_remove_confirmation_template"));
+  confirmationEl.hide();
+  subformRemoveButtonEl.hide();
+  subformRemoveButtonEl.before(confirmationEl);
+  confirmationEl.fadeIn();
+  $(".confirm-removal", confirmationEl).focus();
+
+  $(".cancel-removal", confirmationEl).click(function(event) {
+    confirmationEl.remove();
+    subformRemoveButtonEl.fadeIn();
+  });
+
+  $(".confirm-removal", confirmationEl).click(function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    onConfirmCallback();
+  });
+};

@@ -18,11 +18,13 @@ $(function() {
         var $subform = $(this);
 
         $(".subform-remove", $subform).on("click", function() {
-          $subform.remove();
-          $this.parents("form:first").triggerHandler("form-changed");
-          if ($(".subform.external-document-fields", $this).length === 0) {
-            $(".alert", $this).show();
-          }
+          AS.confirmSubFormDelete($(this), function() {
+            $subform.remove();
+            $this.parents("form:first").triggerHandler("form-changed");
+            if ($(".subform.external-document-fields", $this).length === 0) {
+              $(".alert", $this).show();
+            }
+          });
         });
       };
 
