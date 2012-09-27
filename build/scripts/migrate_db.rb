@@ -11,7 +11,8 @@ if (AppConfig[:db_url] =~ /jdbc:derby:(.*?);.*aspacedemo=true$/)
   end
 end
 
-require_relative "../../backend/app/main"
+require_relative "../../backend/app/model/db_migrator"
+
 
 Sequel.connect(AppConfig[:db_url],
                :max_connections => AppConfig[:db_max_connections],
