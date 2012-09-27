@@ -490,7 +490,8 @@ Sequel.migration do
                           "#{record}_id".intern => table,
                           :external_document_id => :external_documents
                         },
-                        :name => "#{table}_external_documents")
+                        :name => "#{table}_external_documents",
+                        :index_options => {:name => "ed_#{record}_idx"})
     end
 
   end
