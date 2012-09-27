@@ -11,14 +11,6 @@ class Subject < JSONModel(:subject)
     @display_string
   end
 
-
-  def available_terms
-    @available_terms ||= JSONModel::HTTP.get_json("#{JSONModel(:vocabulary).uri_for(vocab_id)}/terms")
-
-    @available_terms
-  end
-
-
   def to_hash
     hash = super
     hash["display_string"] = display_string

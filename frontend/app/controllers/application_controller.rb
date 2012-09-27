@@ -169,9 +169,7 @@ class ApplicationController < ActionController::Base
 
   def load_default_vocabulary
     unless request.path == '/webhook/notify'
-      if not session.has_key?(:vocabulary)
-        session[:vocabulary] = MemoryLeak::Resources.get(:vocabulary).first.to_hash
-      end
+      session[:vocabulary] = MemoryLeak::Resources.get(:vocabulary).first.to_hash
     end
   end
 

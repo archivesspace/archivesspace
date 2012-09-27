@@ -19,6 +19,9 @@ class Term < Sequel::Model(:terms)
 
   def self.create_from_json(json, opts = {})
     set_vocabulary(json, opts)
+
+    broadcast_changes
+
     super(json, opts)
   end
 
@@ -40,4 +43,7 @@ class Term < Sequel::Model(:terms)
     end
   end
 
+  def self.broadcast_changes
+    Webhooks.notify("VOCABULARY_CHANGED")
+  end
 end
