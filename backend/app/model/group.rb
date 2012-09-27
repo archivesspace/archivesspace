@@ -8,7 +8,7 @@ class Group < Sequel::Model(:groups)
 
   def self.GLOBAL
     # The repository ID indicating that this group is global to all repositories
-    -1
+    (2 ** 31) - 1
   end
 
   def self.ADMIN_GROUP_CODE
