@@ -1,0 +1,16 @@
+JSON Schema: Permission
+/permissions
+Properties
+
+string	uri
+
+string	permission_code
+
+string	description
+
+string	level
+
+
+
+
+

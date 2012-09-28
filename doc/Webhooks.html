@@ -1,0 +1,437 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Webhooks
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="alpha_index.html">Index (W)</a> &raquo;
+    
+    
+    <span class="title">Webhooks</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Webhooks
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Webhooks</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+      <dt class="r2">Extended by:</dt>
+      <dd class="r2"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></dd>
+      
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">backend/app/lib/webhooks.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="queue-classvariable" class="">@@queue =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>Queue</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_listener-class_method" title="add_listener (class method)">+ (Object) <strong>add_listener</strong>(url) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notify-class_method" title="notify (class method)">+ (Object) <strong>notify</strong>(code, params = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start-class_method" title="start (class method)">+ (Object) <strong>start</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_listener-class_method">
+  
+    + (<tt>Object</tt>) <strong>add_listener</strong>(url) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/webhooks.rb', line 14</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_listener'>add_listener</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+  <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
+    <span class='kw'>begin</span>
+      <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:webhook_endpoints</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='symbol'>:url</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+    <span class='kw'>rescue</span>
+      <span class='comment'># Ignore dupes
+</span>    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="notify-class_method">
+  
+    + (<tt>Object</tt>) <strong>notify</strong>(code, params = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/webhooks.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_notify'>notify</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='cvar'>@@queue</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="start-class_method">
+  
+    + (<tt>Object</tt>) <strong>start</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/webhooks.rb', line 30</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span>
+  <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+
+    <span class='kw'>while</span> <span class='kw'>true</span>
+
+      <span class='comment'># A short delay to give duplicate events the change to batch together
+</span>      <span class='id identifier rubyid_sleep'>sleep</span> <span class='float'>0.5</span>
+
+      <span class='id identifier rubyid_messages'>messages</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+      <span class='comment'># Wait for at least one element to show up
+</span>      <span class='id identifier rubyid_messages'>messages</span> <span class='op'>&lt;&lt;</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
+
+      <span class='kw'>until</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+        <span class='id identifier rubyid_messages'>messages</span> <span class='op'>&lt;&lt;</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_events'>events</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+      <span class='id identifier rubyid_messages'>messages</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='op'>|</span>
+        <span class='id identifier rubyid_events'>events</span><span class='lbracket'>[</span><span class='id identifier rubyid_code'>code</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>code</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>params</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_notification'>notification</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:webhook_notification</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='symbol'>:events</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_events'>events</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+
+      <span class='id identifier rubyid_listeners'>listeners</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
+        <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:webhook_endpoints</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='symbol'>:url</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_listeners'>listeners</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_url'>url</span><span class='op'>|</span>
+        <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+          <span class='kw'>begin</span>
+            <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span><span class='comma'>,</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span><span class='rparen'>)</span>
+
+            <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_open_timeout'>open_timeout</span> <span class='op'>=</span> <span class='int'>2</span>
+            <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_read_timeout'>read_timeout</span> <span class='op'>=</span> <span class='int'>2</span>
+
+            <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Post</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_request_uri'>request_uri</span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_req'>req</span><span class='period'>.</span><span class='id identifier rubyid_form_data'>form_data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>notification</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_notification'>notification</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rbrace'>}</span>
+
+            <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_http'>http</span><span class='op'>|</span>
+              <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_req'>req</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_response'>response</span><span class='op'>|</span>
+              <span class='kw'>end</span>
+            <span class='kw'>end</span>
+          <span class='kw'>rescue</span>
+            <span class='comment'># Oh well!
+</span>          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:57 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+  </body>
+</html>

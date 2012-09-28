@@ -1,0 +1,12 @@
+JSON Schema: External_document
+
+Properties
+
+string	title
+
+string	location
+
+
+
+
+

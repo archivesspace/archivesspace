@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: MemoryLeak::Resources
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../alpha_index.html">Index (R)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../MemoryLeak.html" title="MemoryLeak (module)">MemoryLeak</a></span></span>
+     &raquo; 
+    <span class="title">Resources</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: MemoryLeak::Resources
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">MemoryLeak::Resources</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">frontend/app/models/memoryleak.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="resources-classvariable" class="">@@resources =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='symbol'>:repository</span> <span class='op'>=&gt;</span> <span class='const'>Atomic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='symbol'>:vocabulary</span> <span class='op'>=&gt;</span> <span class='const'>Atomic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='symbol'>:acl_last_modified</span> <span class='op'>=&gt;</span> <span class='const'>Atomic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='comma'>,</span> <span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="expiration_seconds-classvariable" class="">@@expiration_seconds =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='symbol'>:repository</span> <span class='op'>=&gt;</span> <span class='int'>60</span><span class='comma'>,</span>
+  <span class='symbol'>:vocabulary</span> <span class='op'>=&gt;</span> <span class='int'>60</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get-class_method" title="get (class method)">+ (Object) <strong>get</strong>(resource) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#invalidate_all%21-class_method" title="invalidate_all! (class method)">+ (Object) <strong>invalidate_all!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#refresh-class_method" title="refresh (class method)">+ (Object) <strong>refresh</strong>(resource) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set-class_method" title="set (class method)">+ (Object) <strong>set</strong>(resource, value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get-class_method">
+  
+    + (<tt>Object</tt>) <strong>get</strong>(resource) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_stale'>stale</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span>
+           <span class='lparen'>(</span><span class='cvar'>@@expiration_seconds</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span>
+            <span class='lparen'>(</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>-</span> <span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='lbracket'>[</span><span class='symbol'>:last_modified</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='cvar'>@@expiration_seconds</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_refresh'>refresh</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_stale'>stale</span>
+
+  <span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="invalidate_all!-class_method">
+  
+    + (<tt>Object</tt>) <strong>invalidate_all!</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_invalidate_all!'>invalidate_all!</span>
+  <span class='cvar'>@@resources</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_atom'>atom</span><span class='op'>|</span>
+    <span class='id identifier rubyid_atom'>atom</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_val'>val</span><span class='op'>|</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="refresh-class_method">
+  
+    + (<tt>Object</tt>) <strong>refresh</strong>(resource) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_refresh'>refresh</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set-class_method">
+  
+    + (<tt>Object</tt>) <strong>set</strong>(resource, value) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_swap'>swap</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:58 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+  </body>
+</html>

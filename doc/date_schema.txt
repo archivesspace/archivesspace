@@ -1,0 +1,28 @@
+JSON Schema: Date
+
+Properties
+
+string	date_type
+
+string	label
+
+string	uncertain
+
+string	expression
+
+string	begin
+
+string	begin_time
+
+string	end
+
+string	end_time
+
+string	era
+
+string	calendar
+
+
+
+
+

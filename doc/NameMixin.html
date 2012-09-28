@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: NameMixin
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="alpha_index.html">Index (N)</a> &raquo;
+    
+    
+    <span class="title">NameMixin</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: NameMixin
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="NameCorporateEntity.html" title="NameCorporateEntity (class)">NameCorporateEntity</a></span>, <span class='object_link'><a href="NameFamily.html" title="NameFamily (class)">NameFamily</a></span>, <span class='object_link'><a href="NamePerson.html" title="NamePerson (class)">NamePerson</a></span>, <span class='object_link'><a href="NameSoftware.html" title="NameSoftware (class)">NameSoftware</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/model/name_mixin.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate-instance_method" title="#validate (instance method)">- (Object) <strong>validate</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="validate-instance_method">
+  
+    - (<tt>Object</tt>) <strong>validate</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5
+6
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/name_mixin.rb', line 3</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
+  <span class='id identifier rubyid_is_using_source'>is_using_source</span> <span class='op'>=</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:source</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:authority_id</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_validates_presence'>validates_presence</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:rules</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>not</span> <span class='id identifier rubyid_is_using_source'>is_using_source</span>
+  <span class='id identifier rubyid_validates_presence'>validates_presence</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:source</span><span class='comma'>,</span> <span class='symbol'>:authority_id</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_is_using_source'>is_using_source</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:55 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+  </body>
+</html>
