@@ -12,7 +12,9 @@
    <div class="span9 record-pane">
       <div class="btn-group" style="float: right">
         <% if @resource_tree %>
-           <%= link_to "Edit", {:controller => :archival_objects, :action => :edit, :id => @archival_object.id, :resource_id => @resource_tree["resource_id"]}, :class => "btn btn-small" %>
+           <% if user_can?('update_repository') %>
+             <%= link_to "Edit", {:controller => :archival_objects, :action => :edit, :id => @archival_object.id, :resource_id => @resource_tree["resource_id"]}, :class => "btn btn-small" %>
+           <% end %>
         <% end %>
         <a href="#" class="btn btn-small">Delete</a>
       </div>

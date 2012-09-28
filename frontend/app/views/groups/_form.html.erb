@@ -1,4 +1,4 @@
-<%= f.label_field_pair :description %>
+<%= f.label_and_field :description %>
 
 <div class="control-group">
   <label for="userlist" class="control-label"><%= I18n.t("group.members") %></label>
@@ -19,7 +19,25 @@
   </div>
 </div>
 
+<div class="control-group">
+    <label for="permissionlist" class="control-label"><%= I18n.t("group.permissions") %></label>
+    <div class="controls">
+      <% JSONModel(:permission).all(:level => "repository").each do |permission| %>
+        <label class="checkbox" for="<%= permission.permission_code %>">
+          <input id="<%= permission.permission_code %>"
+                 name="group[grants_permissions][]"
+                 type="checkbox"
+                 <% if @group.grants_permissions.include?(permission.permission_code) %>
+                 checked="checked"
+                 <% end %>
+                 value="<%= permission.permission_code %>" />
+          <%= I18n.t("group.permission_types.#{permission.permission_code}") %>
+        </label>
+      <% end %>
+    </div>
+</div>
+
 <div class="form-actions">
   <input type="submit" class="btn btn-primary" value="Save group" />
-  <%= link_to "Cancel", {:controller => :groups, :action => :index}, :class => "btn btn-secondary" %>
+  <%= link_to "Cancel", {:controller => :groups, :action => :index}, :class => "btn btn-secondary btn-cancel" %>
 </div>

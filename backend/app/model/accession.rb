@@ -4,4 +4,6 @@ class Accession < Sequel::Model(:accessions)
   include Identifiers
   include Extents
   include Subjects
+  include Dates
+  include ExternalDocuments
 end

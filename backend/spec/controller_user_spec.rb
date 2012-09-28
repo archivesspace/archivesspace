@@ -8,6 +8,7 @@ def create_user
   user.save(:password => "password")
 end
 
+
 describe 'User controller' do
 
   before(:each) do
@@ -54,6 +55,26 @@ describe 'User controller' do
 
     last_response.status.should eq(412)
     JSON(last_response.body)["code"].should eq ('SESSION_GONE')
+  end
+
+
+  it "Yields a list of the user's permissions" do
+    make_test_repo
+
+    group = JSONModel(:group).from_hash("group_code" => "newgroup",
+                                        "description" => "A test group")
+    group.grants_permissions = ["manage_repository"]
+    group.member_usernames = ["test1"]
+    id = group.save
+
+    # as a part of the login process...
+    post '/users/test1/login', params = { "password" => "password"}
+    last_response.should be_ok
+    JSON(last_response.body)["permissions"]["ARCHIVESSPACE"].should eq(["manage_repository"])
+
+    # But also with the user
+    user = JSONModel(:user).find('test1')
+    user.permissions["ARCHIVESSPACE"].should eq(["manage_repository"])
   end
 
 end

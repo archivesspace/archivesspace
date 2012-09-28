@@ -5,7 +5,9 @@
    </div>
    <div class="span9 record-pane">
       <div class="btn-group">
-        <%= link_to "Create Accession", {:controller => :accessions, :action => :new}, :class => "btn" %>
+        <% if user_can?('update_repository') %>
+          <%= link_to "Create Accession", {:controller => :accessions, :action => :new}, :class => "btn" %>
+        <% end %>
       </div>
       <h2>Accessions</h2>
       <% if @accessions.length > 0 %>
@@ -27,7 +29,9 @@
                <td>
                   <div class="btn-group" style="float: right">
                     <%= link_to "View", {:controller => :accessions, :action => :show, :id => accession.id}, :class => "btn btn-mini" %>
-                    <%= link_to "Edit", {:controller => :accessions, :action => :edit, :id => accession.id}, :class => "btn btn-mini" %>
+                    <% if user_can?('update_repository') %>
+                      <%= link_to "Edit", {:controller => :accessions, :action => :edit, :id => accession.id}, :class => "btn btn-mini" %>
+                    <% end %>
                   </div>
                </td>
              </tr>

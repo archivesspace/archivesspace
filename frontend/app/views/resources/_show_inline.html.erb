@@ -4,7 +4,9 @@
   </div>
   <div class="span9 record-pane">
     <div class="btn-group" style="float: right">
-      <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource.id, :anchor => "resource_#{@resource.id}"}, :class => "btn btn-small" %>
+      <% if user_can?('update_repository') %>
+        <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource.id, :anchor => "resource_#{@resource.id}"}, :class => "btn btn-small" %>
+      <% end %>
     </div>
     <h2><%= @resource.title %> <span class="label label-info">Resource</span></h2>
     <section id="basic_information">
@@ -35,5 +37,15 @@
     </section>
 
     <%= render :partial => "extent/show", :locals => { :extents => @resource.extents } %>
+
+    <% if @resource.dates.length > 0 %>
+      <%= render :partial => "dates/show", :locals => { :dates => @resource.dates } %>
+    <% end %>
+
+    <% if @resource.external_documents.length > 0 %>
+      <%= render :partial => "external_documents/show", :locals => { :external_documents => @resource.external_documents } %>
+    <% end %>
+
+
   </div>
 </div>

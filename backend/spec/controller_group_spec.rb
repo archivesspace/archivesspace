@@ -61,7 +61,7 @@ describe 'Group controller' do
     JSONModel(:group).find(group.id).member_usernames.should eq(["herman"])
 
     # And no members at all if we add that to our query
-    JSONModel(:group).find(group.id, :with_members => false).member_usernames.should eq(nil)
+    JSONModel(:group).find(group.id, :with_members => false).member_usernames.length.should eq(0)
   end
 
 
@@ -69,14 +69,44 @@ describe 'Group controller' do
     group = create_group
     make_test_user("guybrush")
 
-    Permission.define(:permission_code => "swashbuckle",
-                      :description => "The right to sail the high seas!")
+    Permission.define("swashbuckle", "The right to sail the high seas!")
 
     group.member_usernames = ["guybrush"]
     group.grants_permissions = ["swashbuckle"]
     group.save
 
-    User[:username => "guybrush"].can?("swashbuckle", @repo_id).should eq(true)
+    User[:username => "guybrush"].can?("swashbuckle",
+                                       :repo_id => @repo_id).should eq(true)
+  end
+
+
+  it "Restricts group listings to only the current repository" do
+    repo_one = make_test_repo("RepoOne")
+    repo_two = make_test_repo("RepoTwo")
+
+    JSONModel(:group).from_hash("group_code" => "group-in-repo1",
+                                "description" => "A test group").save(:repo_id => repo_one)
+
+    JSONModel(:group).from_hash("group_code" => "group-in-repo2",
+                                "description" => "A test group").save(:repo_id => repo_two)
+
+    groups = JSONModel(:group).all({}, :repo_id => repo_one)
+
+    groups.map(&:group_code).include?("group-in-repo2").should be_false
+  end
+
+
+  it "Stops you assigning a global permission to a repository" do
+    group = create_group
+    make_test_user("guybrush")
+
+    Permission.define("captain", "The captain of the ArchivesSpace ship",
+                      :level => "global")
+
+    group.member_usernames = ["guybrush"]
+    group.grants_permissions = ["captain"]
+
+    expect { group.save }.to raise_error(AccessDeniedException)
   end
 
 end

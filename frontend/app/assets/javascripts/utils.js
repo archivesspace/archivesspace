@@ -20,20 +20,6 @@ $(function() {
 });
 
 
-// custom controls-accordion for radio driven accordion
-$(function() {
-  // ensure accordion is expanded for checked radios
-  $(".controls-accordion input:checked").each(function() {
-    $($(this).parents("label:first").attr("href")).addClass("in");
-  });
-
-  // ensure radio is checked for expanding accordion
-  $(".controls-accordion label.radio").on("click", function() {
-    $("input", this).attr("checked","checked");
-  });
-});
-
-
 // add form change detection
 $(function() {
   var ignoredKeycodes = [37,39,9];
@@ -169,3 +155,24 @@ AS.addControlGroupHighlighting = function(parent) {
 //    AS.addControlGroupHighlighting($(document.body))
 //  });
 //});
+
+// confirmation behaviour for subform-remove actions
+AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
+  var confirmationEl = $(AS.renderTemplate("subform_remove_confirmation_template"));
+  confirmationEl.hide();
+  subformRemoveButtonEl.hide();
+  subformRemoveButtonEl.before(confirmationEl);
+  confirmationEl.fadeIn();
+  $(".confirm-removal", confirmationEl).focus();
+
+  $(".cancel-removal", confirmationEl).click(function(event) {
+    confirmationEl.remove();
+    subformRemoveButtonEl.fadeIn();
+  });
+
+  $(".confirm-removal", confirmationEl).click(function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    onConfirmCallback();
+  });
+};

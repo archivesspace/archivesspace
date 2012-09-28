@@ -15,9 +15,11 @@
                      <li><%= link_to repo.repo_code, {:controller => :repository, :action => :select, :id => repo.id}, :class => "select-repo" %></li>
                   <% end %>
                <% end %>
-               <li class="divider"></li>
+            <% else %>
+              <li><span class="icon-info-sign"></span> No repositories yet</li>
             <% end %>
-            <% if session[:user] %>
+            <% if user_can?('create_repository') %>
+            <li class="divider"></li>
                <li><%= link_to "Create a Repository", {:controller => :repository, :action => :new}, "data-toggle" => "modal-ajax" %></li>
             <% end %>
           </ul>                 

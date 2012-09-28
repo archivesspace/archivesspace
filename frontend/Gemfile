@@ -45,3 +45,5 @@ gem 'warbler'
 
 # To use debugger
 # gem 'debugger'
+
+gem 'atomic'

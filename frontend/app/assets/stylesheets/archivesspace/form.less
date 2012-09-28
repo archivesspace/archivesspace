@@ -12,6 +12,16 @@
 .control-group {
   margin: 0 !important;
   padding: 4px 0;
+  .accordion {
+    margin-bottom: 0;
+    .accordion-body {
+      margin-left: -180px;
+      .accordion-inner {
+        background-color: #fafafa;
+        border-bottom: 1px solid #E5E5E5;
+      }
+    }
+  }
 }
 
 .control-group.active {
@@ -152,7 +162,6 @@
 }
 .as-nav-list .active .icon-chevron-right,
 .as-nav-list .active a:hover .icon-chevron-right {
-  background-image: url(../img/glyphicons-halflings-white.png);
   opacity: 1;
 }
 .as-nav-list.affix {
@@ -219,6 +228,7 @@
     .border-radius(4px 4px 0 0);
   }
 
+  .subform-removal-confirmation,
   .subform-remove {
     margin: 6px 6px 0 0;
   }

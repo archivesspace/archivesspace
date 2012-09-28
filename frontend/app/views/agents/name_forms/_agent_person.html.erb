@@ -1,19 +1,19 @@
 <div class="agent-name-fields">
-  <%= f.label_field_pair :authority_id %>
-  <%= f.label_field_pair :source %>
-  <%= f.label_field_pair :rules %>
+  <%= f.label_and_field :authority_id %>
+  <%= f.label_and_field :source %>
+  <%= f.label_and_field :rules %>
   <hr/>
-  <%= f.label_field_pair :direct_order %>
-  <%= f.label_field_pair :prefix %>
-  <%= f.label_field_pair :title %>
-  <%= f.label_field_pair :primary_name %>
-  <%= f.label_field_pair :rest_of_name %>
-  <%= f.label_field_pair :suffix %>
-  <%= f.label_field_pair :fuller_form %>
-  <%= f.label_field_pair :number %>
-  <%= f.label_field_pair :dates %>
+  <%= f.label_and_field :direct_order %>
+  <%= f.label_and_field :prefix %>
+  <%= f.label_and_field :title %>
+  <%= f.label_and_field :primary_name %>
+  <%= f.label_and_field :rest_of_name %>
+  <%= f.label_and_field :suffix %>
+  <%= f.label_and_field :fuller_form %>
+  <%= f.label_and_field :number %>
+  <%= f.label_and_field :dates %>
   <hr/>
-  <%= f.label_field_pair :qualifier %>
+  <%= f.label_and_field :qualifier %>
   <div class="control-group">
     <%= f.jsonmodel_label :sort_name %>
     <div class="controls">
@@ -22,7 +22,7 @@
     </div>
   </div>
   <hr/>
-  <%= f.label_field_pair :description_type %>
-  <%= f.label_field_pair :description_note %>
-  <%= f.label_field_pair :description_citation %>
+  <%= f.label_and_field :description_type %>
+  <%= f.label_and_field :description_note %>
+  <%= f.label_and_field :description_citation %>
 </div>

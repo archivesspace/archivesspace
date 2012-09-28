@@ -6,6 +6,16 @@ class Group < Sequel::Model(:groups)
   many_to_many :permissions
 
 
+  def self.GLOBAL
+    # The repository ID indicating that this group is global to all repositories
+    (2 ** 31) - 1
+  end
+
+  def self.ADMIN_GROUP_CODE
+    'administrators'
+  end
+
+
   def self.set_members(obj, json)
     obj.remove_all_users
     (json.member_usernames or []).map {|username|
@@ -17,15 +27,28 @@ class Group < Sequel::Model(:groups)
 
   def self.set_permissions(obj, json)
     obj.remove_all_permissions
-    (json.grants_permissions or []).map {|permission| obj.add_permission(Permission[:permission_code => permission])}
+    (json.grants_permissions or []).each do |permission_code|
+      permission = Permission[:permission_code => permission_code]
+
+      if permission.nil?
+        raise "Unknown permission code: #{permission_code}"
+      end
+
+      if permission[:level] == 'global'
+        raise AccessDeniedException.new("You can't assign a global permission to a repository")
+      end
+
+      obj.add_permission(permission)
+    end
   end
 
 
   def self.create_from_json(json, opts = {})
     obj = super(json, opts)
-    set_members(obj, json) if opts[:with_members]
+    set_members(obj, json)
     set_permissions(obj, json)
 
+    broadcast_changes
     obj
   end
 
@@ -35,7 +58,18 @@ class Group < Sequel::Model(:groups)
     self.class.set_members(self, json) if opts[:with_members]
     self.class.set_permissions(self, json)
 
+    self.class.broadcast_changes
     self.id
+  end
+
+
+  def grant(permission_code)
+    permission = Permission[:permission_code => permission_code.to_s]
+
+    if self.class.db[:groups_permissions].filter(:group_id => self.id,
+                                                 :permission_id => permission.id).empty?
+      add_permission(permission)
+    end
   end
 
 
@@ -45,6 +79,8 @@ class Group < Sequel::Model(:groups)
     if opts[:with_members]
       json.member_usernames = obj.users.map {|user| user[:username]}
     end
+
+    json.grants_permissions = obj.permissions.map {|permission| permission[:permission_code]}
 
     json
   end
@@ -56,4 +92,8 @@ class Group < Sequel::Model(:groups)
                      :message => "Group code must be unique within a repository")
   end
 
+
+  def self.broadcast_changes
+    Webhooks.notify("REFRESH_ACLS")
+  end
 end

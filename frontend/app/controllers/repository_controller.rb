@@ -8,7 +8,10 @@ class RepositoryController < ApplicationController
   def create
     handle_crud(:instance => :repository,
                 :on_invalid => ->(){ render action: "new", :layout => nil },
-                :on_valid => ->(id){ render :text => "Success" })
+                :on_valid => ->(id){
+                  MemoryLeak::Resources.refresh(:repository)
+                  render :text => "Success"
+                })
   end
 
   def select

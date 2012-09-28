@@ -1,3 +1,5 @@
+require 'memoryleak'
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
@@ -8,6 +10,8 @@ class ApplicationController < ActionController::Base
 
   # Note: This should be first!
   before_filter :store_user_session
+
+  before_filter :refresh_permissions
 
   before_filter :load_repository_list
   before_filter :load_default_vocabulary
@@ -44,6 +48,19 @@ class ApplicationController < ActionController::Base
       model = opts[:model] || JSONModel(opts[:instance])
       obj = opts[:obj] || model.new
 
+      # The UI may pass back a hash keyed on index for array attributes.
+      # Clean this up so we're only dealing with arrays.
+      array_attributes = obj.class.schema["properties"].select {|k,v| v["type"] === "array"}
+      array_attributes.each do |attribute, attribute_properties|
+        if params[opts[:instance].to_s].has_key?(attribute) && params[opts[:instance].to_s][attribute].kind_of?(Hash)
+          target = []
+          params[opts[:instance].to_s][attribute].each do |k,v|
+            target.push(v)
+          end
+          params[opts[:instance].to_s][attribute] = target
+        end
+      end
+
       if opts[:replace] || opts[:replace].nil?
         obj.replace(params[opts[:instance]])
       else
@@ -67,6 +84,23 @@ class ApplicationController < ActionController::Base
   end
 
 
+  helper_method :user_can?
+  def user_can?(permission, repository = nil)
+    repository ||= session[:repo]
+
+    (session &&
+     session[:user] &&
+     session[:permissions] &&
+
+     ((session[:permissions][repository] &&
+       session[:permissions][repository].include?(permission)) ||
+
+      (session[:permissions]['_archivesspace'] &&
+       session[:permissions]['_archivesspace'].include?(permission))))
+  end
+
+
+
   private
 
   def destroy_user_session
@@ -87,20 +121,34 @@ class ApplicationController < ActionController::Base
 
 
   def load_repository_list
-    @repositories = JSONModel(:repository).all
+    unless request.path == '/webhook/notify'
+      @repositories = MemoryLeak::Resources.get(:repository).find_all do |repository|
+        user_can?('view_repository', repository.repo_code) || user_can?('manage_repository', repository.repo_code)
+      end
 
-    if not session.has_key?(:repo) and not @repositories.empty?
-      session[:repo] = @repositories.first.repo_code.to_s
-      session[:repo_id] = @repositories.first.id
+      # Make sure the user's selected repository still exists.
+      if session[:repo] && !@repositories.any?{|repo| repo.repo_code == session[:repo]}
+        session.delete(:repo)
+        session.delete(:repo_id)
+      end
+
+      if not session[:repo] and not @repositories.empty?
+        session[:repo] = @repositories.first.repo_code.to_s
+        session[:repo_id] = @repositories.first.id
+      end
     end
-
   end
 
-  def load_default_vocabulary
-    if not session.has_key?(:vocabulary)
-      session[:vocabulary] = JSONModel(:vocabulary).all.first.to_hash
+
+  def refresh_permissions
+    unless request.path == '/webhook/notify'
+      if session[:last_permission_refresh] &&
+          session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_last_modified)
+        User.refresh_permissions(session)
+      end
     end
   end
+
 
   def choose_layout
     if inline?
@@ -110,10 +158,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
   def sanitize_param(hash)
     hash.clone.each do |k,v|
       hash[k.sub("_attributes","")] = v if k.end_with?("_attributes")
       sanitize_param(v) if v.kind_of? Hash
+    end
+  end
+
+
+  def load_default_vocabulary
+    unless request.path == '/webhook/notify'
+      session[:vocabulary] = MemoryLeak::Resources.get(:vocabulary).first.to_hash
     end
   end
 

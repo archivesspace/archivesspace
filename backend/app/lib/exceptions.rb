@@ -1,3 +1,5 @@
+require_relative "../../../common/exceptions"
+
 class BadParamsException < StandardError
   attr_accessor :params
 

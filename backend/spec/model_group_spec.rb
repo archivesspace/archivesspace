@@ -65,14 +65,13 @@ describe 'Group model' do
     group.add_user(make_test_user("simon"))
     group.add_user(make_test_user("garfunkel"))
 
-    group.add_permission(Permission.define(:permission_code => "manage_repository",
-                                           :description => "Grants access to make changes to a repository"))
+    group.grant("manage_repository")
 
     group.permissions.map {|permission| permission[:permission_code]}.should eq(["manage_repository"])
 
-    User[:username => "simon"].can?("manage_repository", repo_one).should eq(true)
-    User[:username => "simon"].can?("something_else", repo_one).should eq(false)
-    User[:username => "simon"].can?("manage_repository", repo_two).should eq(false)
+    User[:username => "simon"].can?("manage_repository", :repo_id => repo_one).should eq(true)
+    User[:username => "simon"].can?("something_else", :repo_id => repo_one).should eq(false)
+    User[:username => "simon"].can?("manage_repository", :repo_id => repo_two).should eq(false)
   end
 
 end

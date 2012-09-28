@@ -1,6 +1,7 @@
 require_relative 'lib/bootstrap'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
+require 'uri'
 
 require 'sinatra/base'
 require 'json'
@@ -10,6 +11,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   include RESTHelpers
   include CrudHelpers
+
 
 
   configure :development do |config|
@@ -49,8 +51,10 @@ class ArchivesSpaceService < Sinatra::Base
       # Load all models
       require_relative "model/ASModel"
       require_relative "model/identifiers"
+      require_relative "model/external_documents"
       require_relative "model/subjects"
       require_relative "model/extents"
+      require_relative "model/dates"
       Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
         basename = File.basename(model, ".rb")
         require_relative File.join("model", basename)
@@ -69,6 +73,22 @@ class ArchivesSpaceService < Sinatra::Base
     set :raise_errors, Proc.new { false }
     set :show_exceptions, false
     set :logging, false
+
+
+    if DB.connected?
+      ANONYMOUS_USER = AnonymousUser.new
+
+      require_relative "lib/bootstrap_access_control"
+
+      # Ensure that the frontend is registered
+      Array(AppConfig[:frontend_url]).each do |url|
+        Webhooks.add_listener(URI.join(url, "/webhook/notify").to_s)
+      end
+
+      Webhooks.start
+      Webhooks.notify("BACKEND_STARTED")
+    end
+
   end
 
 
@@ -112,6 +132,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => request.env['sinatra.error'].conflicts}, 409)
   end
 
+  error AccessDeniedException do
+    json_response({:error => "Access denied"}, 403)
+  end
+
   error Sequel::ValidationFailed do
     json_response({:error => request.env['sinatra.error'].errors}, 409)
   end
@@ -126,7 +150,12 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   def session
-    @session
+    env[:aspace_session]
+  end
+
+
+  def current_user
+    env[:aspace_user]
   end
 
 
@@ -208,9 +237,13 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
-      @app.instance_eval {
-        @session = session
-      }
+
+      if session
+        env[:aspace_session] = session
+        env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
+                             ANONYMOUS_USER)
+      end
+
 
       if DB.connected?
         result = DB.open do

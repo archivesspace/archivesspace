@@ -1,3 +1,5 @@
+Sequel.extension :inflector
+
 Sequel.migration do
   up do
     create_table(:sessions) do
@@ -21,6 +23,12 @@ Sequel.migration do
     end
 
 
+    create_table(:webhook_endpoints) do
+      primary_key :id
+      String :url, :unique => true, :null => false
+    end
+
+
     create_table(:users) do
       primary_key :id
 
@@ -38,6 +46,8 @@ Sequel.migration do
 
       String :repo_code, :null => false, :unique => true
       String :description, :null => false
+
+      Integer :hidden, :default => 0
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -85,6 +95,7 @@ Sequel.migration do
 
       String :permission_code, :unique => true
       TextField :description, :null => false
+      String :level, :default => "repository"
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -105,6 +116,8 @@ Sequel.migration do
 
       add_index(:permission_id)
       add_index(:group_id)
+
+      add_index([:permission_id, :group_id], :unique => true)
     end
 
 
@@ -422,16 +435,80 @@ Sequel.migration do
     end
 
 
+    create_table(:dates) do
+      primary_key :id
+
+      Integer :accession_id, :null => true
+      Integer :archival_object_id, :null => true
+      Integer :resource_id, :null => true
+
+      String :date_type, :null => false
+      String :label, :null => false
+
+      String :uncertain, :null => true
+      String :expression, :null => true
+      String :begin, :null => true
+      String :begin_time, :null => true
+      String :end, :null => true
+      String :end_time, :null => true
+      String :era, :null => true
+      String :calendar, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:dates) do
+      add_foreign_key([:accession_id], :accessions, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
+    end
+
+
+    create_table(:external_documents) do
+      primary_key :id
+
+      String :title, :null => false
+      String :location, :null => false
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    records_supporting_external_documents = [:accession, :archival_object,
+                                             :resource, :subject,
+                                             :agent_person,
+                                             :agent_family,
+                                             :agent_corporate_entity,
+                                             :agent_software]
+
+    records_supporting_external_documents.each do |record|
+      table = table_exists?(record) ? record : record.to_s.pluralize.intern
+
+      create_join_table({
+                          "#{record}_id".intern => table,
+                          :external_document_id => :external_documents
+                        },
+                        :name => "#{table}_external_documents",
+                        :index_options => {:name => "ed_#{record}_idx"})
+    end
+
   end
 
   down do
 
-    [:subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
+    [:external_documents,
+     :subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
-     :archival_objects, :vocabularies, :extent,
-     :resources, :repositories].each do |table|
+     :dates, :archival_objects, :vocabularies, :extent, :resources, :repositories,
+     :accessions_external_documents, :archival_objects_external_documents,
+     :external_documents_resources, :external_documents_subjects,
+     :agent_people_external_documents, :agent_families_external_documents,
+     :agent_corporate_entities_external_documents,
+     :agent_softwares_external_documents].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)
     end

@@ -1,3 +1,5 @@
+//= require external_documents.crud
+
 $(function() {
 
   $.fn.init_subject_form = function() {
@@ -11,10 +13,13 @@ $(function() {
       $this.addClass("initialised");
 
 
-      var renderTermRow = function(term) {
+      var renderTermRow = function(term, index) {
         $(".add-term-btn", $this).css("visibility", "hidden");
         $(".remove-term-btn", $this).css("visibility", "visible");
-        var $row = $(AS.renderTemplate("subjects_term_template"));
+        if (index == null) {
+            index = $(".terms-container .row-fluid", $this).length;
+        }
+        var $row = $(AS.renderTemplate("subjects_term_template", {index: index}));
         if (term) {
           $row.find(":text").val(term.term);
           $row.find("select").val(term.term_type);
@@ -81,13 +86,13 @@ $(function() {
       $this.on("click", ".remove-term-btn", removeTermRow);
 
       var existingTerms = $(".terms-container", $this).data("terms");
-      if (existingTerms) {
+      if (existingTerms.length > 0) {
         if ($.isArray(existingTerms)) {
           for (var i=0;i<existingTerms.length;i++) {
-            renderTermRow(existingTerms[i]);
+            renderTermRow(existingTerms[i], i);
           }
         } else if (typeof existingTerms === "object") {
-          renderTermRow(existingTerms);
+          renderTermRow(existingTerms, i);
         }
       } else {
         renderTermRow();

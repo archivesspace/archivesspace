@@ -2,6 +2,9 @@
 //= require jquery.ba-hashchange
 //= require jstree
 //= require subjects.crud
+//= require dates.crud
+//= require extent.crud
+//= require external_documents.crud
 
 $(function() {
 
@@ -321,19 +324,6 @@ $(function() {
   };
 
 
-  var addEventBindings = function() {
-    $container.on("click", "#extent > h3 > .btn", function() {
-      var extent_forms = $(".subform.extent-fields").length;
-      $("#extents_container", $container).append(AS.renderTemplate("extent_form_template", {index: extent_forms}));
-      $("form", $container).triggerHandler("form-changed");
-    });
-     $container.on("click", ".subform-remove", function() {
-       $(this).parents(".subform:first").remove();
-       $("form", $container).triggerHandler("form-changed");
-     });
-  }
-
-
   var confirmChanges = function(targetNodeEl) {
     var parentIdForNewAO;
     if (targetNodeEl.attr("id") === "newAO") {
@@ -497,9 +487,6 @@ $(function() {
       loadPaneForNode($(".selected", $tree));
     });
     addTreeEventBindings();
-    addEventBindings();
-  } else {
-    addEventBindings();
   }
 
 });

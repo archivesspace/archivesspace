@@ -8,6 +8,8 @@ ArchivesSpace::Application.routes.draw do
   match 'login' => "session#login", :via => :post
   match 'logout' => "session#logout", :via => :get
 
+  match 'webhook/notify' => 'webhook#notify', :via => :post
+
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)

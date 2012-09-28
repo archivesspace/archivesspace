@@ -45,6 +45,7 @@ module RESTHelpers
       @method = method
       @uri = ""
       @description = "-- No description provided --"
+      @preconditions = []
       @required_params = []
       @returns = []
     end
@@ -75,11 +76,24 @@ module RESTHelpers
 
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
+    def preconditions(*preconditions); @preconditions += preconditions; self; end
 
     def params(*params)
       @required_params = params.map do |p|
         @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
       end
+
+      # A special case for repo_id since it's so prevalent: if the repo_id is
+      # provided, add a check to make sure the requesting user has permission
+      # to view this repository
+      if @required_params.any?{|param| param.first == 'repo_id'}
+        if @method == :get
+          @preconditions << proc { |request| current_user.can?(:view_repository, :repo_id => request.params[:repo_id]) }
+        elsif @method == :post
+          @preconditions << proc { |request| current_user.can?(:update_repository, :repo_id => request.params[:repo_id]) }
+        end
+      end
+
       self
     end
 
@@ -88,6 +102,7 @@ module RESTHelpers
 
       @@endpoints << self
 
+      preconditions = @preconditions
       rp = @required_params
       uri = @uri
       method = @method
@@ -108,6 +123,11 @@ module RESTHelpers
 
       ArchivesSpaceService.send(@method, @uri, {}) do
         ensure_params(rp)
+
+        unless preconditions.all? { |precondition| self.instance_eval &precondition }
+          raise AccessDeniedException.new("Access denied")
+        end
+
 
         if self.class.development?
           Log.debug("#{method.to_s.upcase} #{uri}")
@@ -168,10 +188,14 @@ module RESTHelpers
           :failed_validation => []
         }
 
+        known_params = {}
+
         declared_params.each do |definition|
 
           (name, type, doc, opts) = definition
           opts ||= {}
+
+          known_params[name] = true
 
           if opts[:body]
             params[name] = request.body.read
@@ -202,6 +226,15 @@ module RESTHelpers
 
           end
         end
+
+
+        # Any params that were passed in that aren't declared by our endpoint get dropped here.
+        unknown_params = params.keys.reject {|p| known_params[p.to_s] }
+
+        unknown_params.each do |p|
+          params.delete(p)
+        end
+
 
         if not errors.values.flatten.empty?
           result = {}

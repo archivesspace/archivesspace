@@ -3,7 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/groups')
     .description("Create a group within a repository")
     .params(["group", JSONModel(:group), "The group to create", :body => true],
-            ["repo_id", Integer, "The Repository ID"])
+            ["repo_id", :repo_id])
     .returns([200, :created],
              [400, :error],
              [409, :conflict]) \
@@ -16,7 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Update a group")
     .params(["group_id", Integer, "The Group ID to update"],
             ["group", JSONModel(:group), "The Group data to update", :body => true],
-            ["repo_id", Integer, "The Repository ID"],
+            ["repo_id", :repo_id],
             ["with_members",
              BooleanParam,
              "If 'true' (the default) replace the membership list with the list provided",
@@ -50,9 +50,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/groups')
     .description("Get a list of groups for a repository")
-    .params(["repo_id", :repo_id])
+    .params(["repo_id", :repo_id],
+            ["group_code", String, "Get groups by group code",
+             :optional => true])
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(Group, :group)
+    handle_listing(Group, :group, params)
   end
 end

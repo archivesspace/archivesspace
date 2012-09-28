@@ -60,7 +60,7 @@ module FormHelper
     end
 
 
-    def current_name(method, use_index = false)
+    def current_name(method, use_index = true)
       result = @object_name
 
       (@jsonmodel_object or []).each do |name, _, opts|
@@ -79,6 +79,11 @@ module FormHelper
       result += "[#{method}]"
 
       result
+    end
+
+
+    def current_i18n(method)
+      current_name(method, false)
     end
 
 
@@ -110,19 +115,24 @@ module FormHelper
     end
 
 
-    def label_field_pair(method, field_html=nil, extra_args  = {})
+    def error_classes(method)
+      classes = ""
+      classes << " warning" if @object._exceptions.has_key?(:warnings) && @object._exceptions[:warnings].has_key?(document_path(method))
+      classes << " error" if @object._exceptions.has_key?(:errors) && @object._exceptions[:errors].has_key?(document_path(method))
+      classes
+    end
+
+
+    def label_with_field(method, field_html, extra_args  = {})
       extra_args.reject! {|k,v| v.blank?}
 
       control_group_classes = "control-group"
-      control_group_classes << " warning" if @object._exceptions.has_key?(:warnings) && @object._exceptions[:warnings].has_key?(document_path(method))
-      control_group_classes << " error" if @object._exceptions.has_key?(:errors) && @object._exceptions[:errors].has_key?(document_path(method))
+      control_group_classes << " " + error_classes(method)
 
       control_classes = "controls"
       control_classes << " #{extra_args[:control_class]}" if extra_args.has_key? :control_class
 
-      label_html = jsonmodel_label(method)
-
-      field_html = jsonmodel_field(method) if field_html.blank?
+      label_html = jsonmodel_label(method, extra_args[:label_opts]||{})
 
       mab = Markaby::Builder.new
       mab.div :class => control_group_classes do
@@ -135,8 +145,13 @@ module FormHelper
     end
 
 
-    def label_textarea_pair(method, extra_args = {})
-      label_field_pair method, jsonmodel_text_area(method, :rows => 3), extra_args
+    def label_and_field(method, extra_args = {})
+      label_with_field(method, jsonmodel_field(method, extra_args[:field_opts]||{}), extra_args)
+    end
+
+
+    def label_and_textarea(method, extra_args = {})
+      label_with_field method, jsonmodel_text_area(method, :rows => 3), extra_args
     end
 
 
@@ -146,12 +161,13 @@ module FormHelper
       field_html << jsonmodel_text_field(:id_1, :class=> "id_1", :size => 10, :disabled => current[:id_0].blank? && current[:id_1].blank?)
       field_html << jsonmodel_text_field(:id_2, :class=> "id_2", :size => 10, :disabled => current[:id_1].blank? && current[:id_2].blank?)
       field_html << jsonmodel_text_field(:id_3, :class=> "id_3", :size => 10, :disabled => current[:id_2].blank? && current[:id_3].blank?)
-      label_field_pair(method, field_html, extra_args)
+      label_with_field(method, field_html, extra_args)
     end
 
 
-    def jsonmodel_label(method)
-      "<label for=\"#{current_name(method, true)}\" class=\"control-label\">#{I18n.t(current_name(method))}</label>".html_safe
+    def jsonmodel_label(method, opts = {})
+      field_id = opts[:force_id] || current_name(method, true)
+      "<label for=\"#{field_id}\" class=\"control-label\">#{I18n.t(current_i18n(method))}</label>".html_safe
     end
 
 
@@ -164,7 +180,7 @@ module FormHelper
       attr_definition = schema["properties"][method.to_s]
 
       if attr_definition.has_key?("enum")
-        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_name("#{method}_#{option}")), option]}
+        options_array = attr_definition["enum"].collect {|option| [I18n.t(current_i18n("#{method}_#{option}")), option]}
 
         if not attr_definition["required"]
           options_array = [""].concat(options_array)
@@ -179,20 +195,29 @@ module FormHelper
                            "data-original_value" => current[method],
                            :name => current_name(method),
                            :id => current_name(method, true)
-                         })
+                         }.merge(opts))
       else
         jsonmodel_text_field(method, opts)
       end
     end
 
 
-    def jsonmodel_text_field(method, opts)
+    def jsonmodel_text_field(method, opts = {})
       @template.text_field(@object_name, method, {
                              "data-original_value" => current[method],
                              :object => current,
                              :force_name => current_name(method),
                              :force_id => current_name(method, true)
                            }.merge(opts))
+    end
+
+    def jsonmodel_radio(method, value)
+      @template.radio_button(@object_name, method, value, {
+                             "data-original_value" => current[method],
+                             :object => current,
+                             :force_name => current_name(method),
+                             :force_id => "#{current_name(method, true)}_#{value}"
+                           })
     end
 
     def jsonmodel_text_area(method, opts)

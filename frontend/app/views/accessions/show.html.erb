@@ -4,9 +4,11 @@
       <%= render :partial => "sidebar" %>
    </div>
    <div class="span9 record-pane">
-      <div class="btn-group" style="float: right">
-        <%= link_to "Edit", {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn" %>
-      </div>
+     <% if user_can?('update_repository') %>
+        <div class="btn-group" style="float: right">
+          <%= link_to "Edit", {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn" %>
+        </div>
+      <% end %>
       <h2><%= @accession.title %> <span class="label label-info">Accession</span></h2>
 
       <section id="basic_information">
@@ -41,10 +43,17 @@
            </div>
         </div>
         <% end %>
-
       </section>
 
-
       <%= render :partial => "extent/show", :locals => { :extents => @accession.extents } %>
+
+      <% if @accession.dates.length > 0 %>
+        <%= render :partial => "dates/show", :locals => { :dates => @accession.dates } %>
+      <% end %>
+
+      <% if @accession.external_documents.length > 0 %>
+        <%= render :partial => "external_documents/show", :locals => { :external_documents => @accession.external_documents } %>
+      <% end %>
+
    </div>
 </div>

@@ -2,13 +2,15 @@
 --markup=markdown
 --exclude build/gems
 -e ./_yard/yard-aspace.rb
-#'*.rb'
+'*.rb'
 '**/spec/*_spec.rb'
-#'backend/app/*.rb'
-#'backend/app/controllers/*.rb'
-#'backend/app/**/*.rb'
-#'frontend/app/**/*.rb'
-#'common/*.rb'
+'backend/app/*.rb'
+'backend/app/controllers/*.rb'
+'backend/app/**/*.rb'
+'frontend/app/**/*.rb'
+'common/*.rb'
 'common/schemas/*.rb'
+'migrations/lib/*.rb'
 -
 API.md
+migrations/README.md

@@ -17,6 +17,38 @@ en:
     container_summary: Container Summary
     physical_details: Physical Details
     dimensions: Dimensions
+  external_document: &external_document_attributes
+    title: Title
+    location: Location
+  date: &date_attributes
+    label: Label
+    label_broadcast: Broadcast
+    label_copyright: Copyright
+    label_creation: Creation
+    label_deaccession: Deaccession
+    label_digitized: Digitized
+    label_issued: Issued
+    label_modified: Modified
+    label_publication: Publication
+    label_other: Other
+    date_type: Type
+    date_type_expression: Expression
+    date_type_single: Single
+    date_type_bulk: Bulk Dates
+    date_type_inclusive: inclusive Dates
+    expression: Expression
+    begin: Begin
+    begin_time: Begin Time
+    end: End
+    end_time: End Time
+    uncertain: Uncertainty
+    uncertain_approximate: Approximate
+    uncertain_inferred: Inferred
+    uncertain_questionable: Questionable
+    era: Era
+    era_ce: ce
+    calendar: Calendar
+    calendar_gregorian: Gregorian
   accession:
     accession_date: Accession Date
     accession_id: Identifier
@@ -29,6 +61,10 @@ en:
     title: Title
     extents:
       <<: *extent_attributes
+    dates:
+      <<: *date_attributes
+    external_documents:
+      <<: *external_document_attributes
   agent: &agent_attributes
     type: Agent Type
     agent_type:
@@ -83,6 +119,8 @@ en:
       telephone_ext: Telephone Ext.
       fax: Fax Number
       email: Email Address
+    external_documents:
+      <<: *external_document_attributes
   agent_person:
     <<: *agent_attributes
   agent_family:
@@ -97,10 +135,19 @@ en:
     "[:resource_id, :ref_id]": Ref ID
     extents:
       <<: *extent_attributes
+    dates:
+      <<: *date_attributes
+    external_documents:
+      <<: *external_document_attributes
   group:
     group_code: Group code
-    description: Group description
-    members: Group members
+    description: Description
+    members: Members
+    permissions: "Members can:"
+    permission_types:
+        manage_repository: manage this repository (change groups and other settings)
+        update_repository: create/modify/delete records in this repository
+        view_repository: view the records in this repository
   resource:
     title: Title
     id_0: Identifier
@@ -109,12 +156,21 @@ en:
     identifier: Identifier
     extents:
       <<: *extent_attributes
+    dates:
+      <<: *date_attributes
+    external_documents:
+      <<: *external_document_attributes
   repository:
     repo_code: Repository code
     description: Description
-  subject:
+  term: &term_attributes
     term: Term
     term_type: Type
+  subject:
+    terms:
+      <<: *term_attributes
+    external_documents:
+      <<: *external_document_attributes
   createuser:
     username: Username
     name: Your full name

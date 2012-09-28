@@ -5,7 +5,9 @@
    </div>
    <div class="span9 record-pane">
      <div class="btn-group" style="float: right">
-       <%= link_to "Edit", {:controller => :agents, :action => :edit, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
+       <% if user_can?('update_repository') %>
+         <%= link_to "Edit", {:controller => :agents, :action => :edit, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
+       <% end %>
      </div>
 
       <h2><%= @agent.names[0]['sort_name'] %>  <span class="label label-info">Agent</span></h2>
@@ -40,15 +42,16 @@
             <h3>Secondary Name(s)</h3>
 
             <% @agent.names.each_with_index do |name, i|
-              next if i == 0 
+              next if i == 0
               name.to_hash.each do |k,v| %>
 
               <div class="row-fluid label-and-value">
                  <div class="span3"><%= I18n.t("agent.names.#{k}") %></div>
                  <div class="span9"><%= v %></div>
               </div>
-            <% end
-              end %>
+            <% end %>
+            <% if i < @agent.names.length-1 %><hr/><% end %>
+            <% end %>
           </section>
         </div>
       <% end %>
@@ -69,6 +72,11 @@
               end %>
           </section>
         </div>
-      <% end %>      
+      <% end %>
+
+      <% if @agent.external_documents.length > 0 %>
+        <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents } %>
+      <% end %>
+
     </div>
 </div>

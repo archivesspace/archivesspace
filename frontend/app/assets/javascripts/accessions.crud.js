@@ -1,3 +1,7 @@
+//= require dates.crud
+//= require extent.crud
+//= require external_documents.crud
+
 $(function() {
 
   $.fn.init_accession_form = function() {
@@ -12,20 +16,10 @@ $(function() {
 
 
       var addEventBindings = function() {
-        $this.on("click", "#extent > h3 > .btn", function() {
-          var extent_forms = $(".subform.extent-fields", $this).length;
-          $("#extents_container", $this).append(AS.renderTemplate("extent_form_template", {index: extent_forms}));
-          $this.triggerHandler("form-changed");
-        });
+
       };
 
-       $this.on("click", ".subform-remove", function() {
-         $(this).parents(".subform:first").remove();
-         $this.triggerHandler("form-changed");
-       });
-
-
-       addEventBindings();
+      addEventBindings();
     });
   };
 

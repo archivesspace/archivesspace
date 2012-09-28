@@ -1,0 +1,2 @@
+class AccessDeniedException < StandardError
+end

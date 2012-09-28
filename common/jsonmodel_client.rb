@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require_relative 'exceptions'
 
 
 module JSONModel
@@ -30,6 +31,15 @@ module JSONModel
   end
 
 
+  def self.backend_url
+    if Module.const_defined?(:BACKEND_SERVICE_URL)
+      BACKEND_SERVICE_URL
+    else
+      init_args[:url]
+    end
+  end
+
+
   @@error_handlers = []
 
   def self.add_error_handler(&block)
@@ -42,7 +52,33 @@ module JSONModel
     end
   end
 
+
   @@protected_fields << "uri"
+
+
+
+  module Webhooks
+    @@notification_handlers = []
+
+    def self.add_notification_handler(code = nil, &block)
+      @@notification_handlers << {:code => code, :block => block}
+    end
+
+    def self.notify(notification)
+      notification.events.each do |event|
+        @@notification_handlers.each do |handler|
+          if handler[:code].nil? or handler[:code] == event["code"]
+            handler[:block].call(event["code"], event["params"])
+          end
+        end
+      end
+    end
+
+    def self.webhook_register(endpoint)
+      JSONModel::HTTP::post_form('/webhooks/register', "url" => endpoint)
+    end
+  end
+
 
 
   module HTTP
@@ -139,6 +175,10 @@ module JSONModel
         self.uri = self.class.uri_for(response["id"], opts)
 
         return response["id"]
+
+      elsif response.code == '403'
+        raise AccessDeniedException.new
+
       elsif response.code =~ /^4/
         err = JSON.parse(response.body)
 

@@ -24,13 +24,35 @@ end
 
 JSONModel::init(:client_mode => true,
                 :mixins => [RailsFormMixin],
-                :url => ArchivesSpace::Application.config.backend_url)
+                :url => AppConfig[:backend_url])
 
-JSONModel::add_error_handler do |error|
-  if error["code"] == "SESSION_GONE"
-    raise ArchivesSpace::SessionGone.new("Your backend session was not found")
+
+if not ENV['DISABLE_STARTUP']
+  JSONModel::add_error_handler do |error|
+    if error["code"] == "SESSION_GONE"
+      raise ArchivesSpace::SessionGone.new("Your backend session was not found")
+    end
   end
+
+
+  JSONModel::Webhooks::add_notification_handler("REPOSITORY_CHANGED") do |msg, params|
+    MemoryLeak::Resources.refresh(:repository)
+  end
+
+
+  JSONModel::Webhooks::add_notification_handler("VOCABULARY_CHANGED") do |msg, params|
+    MemoryLeak::Resources.refresh(:vocabulary)
+  end
+
+  JSONModel::Webhooks::add_notification_handler("BACKEND_STARTED") do |msg, params|
+    MemoryLeak::Resources.invalidate_all!
+  end
+
+  JSONModel::Webhooks::add_notification_handler("REFRESH_ACLS") do |msg, params|
+    MemoryLeak::Resources.set(:acl_last_modified, Time.now.to_i)
+  end
+
 end
 
-include JSONModel
 
+include JSONModel

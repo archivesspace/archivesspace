@@ -1,0 +1,5 @@
+<div id="date_form_template"><!--
+  <% f.with_jsonmodel("dates[]", {}, :date, :index => "${index}") do %>
+    <%= render :partial => "dates/form", :locals => {:f => f, :index => "${index}"} %>
+  <% end %>
+--></div>

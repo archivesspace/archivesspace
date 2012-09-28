@@ -1,4 +1,4 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index),"Edit Accession \"#{@accession.title}\""]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index), link_to(@accession.title, :controller => :accessions, :action => :show, :id => @accession.id), "Edit"]} %>
 
 <%= form_for @accession, :as => "accession", :url => {:action => :update, :id => @accession.id}, :html => {:class => 'form-horizontal', :id => "accession_form"} do |f| %>
   <div class="row-fluid">
@@ -6,7 +6,7 @@
       <%= render :partial => "sidebar" %>
     </div>
     <div class="span9 record-pane">
-      <h2>Edit Accession "<%= @accession.title%>"</h2>
+      <h2><%= @accession.title%> <span class="label label-info">Accession</span></h2>
       <input type="hidden" name="_method" value="put" />
       <%= render :partial => "accessions/form", :locals => {:f => f} %>
     </div>

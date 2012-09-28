@@ -11,8 +11,8 @@
       <li><a href="#contacts">Contact Details <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if not controller.action_name === "show" %>
-      <li><a href="#relationships">Relationships <span class="icon-chevron-right"></span></a></li>
+    <% if not controller.action_name === "show" or @agent.external_documents.length > 0 %>
+      <li><a href="#external_documents">External Documents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>

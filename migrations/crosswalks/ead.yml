@@ -1,0 +1,51 @@
+# Maps the cross walk between EAD and ASpace objects.
+# Borrows some ideas from Qubit
+#   http://code.google.com/p/qubit-toolkit/source/browse/trunk/apps/qubit/modules/object/config/import/ead.yml
+source:
+  format: "xml"
+  schema: "http://www.loc.gov/ead/ead.xsd"
+entities:
+  resource: 
+    xpath: ["ead"]
+    properties:
+      id_0: 
+        xpath: ["descendant::unitid"]
+
+      title: 
+        xpath: ["descendant::unittitle"]
+        
+      subjects: 
+        xpath: ["descendant::subject"]
+        # temporary hack:
+        procedure: "|value| value = nil unless value.include?('/'); value"
+        
+  archival_object: 
+    xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
+    properties:
+      title: 
+        xpath: ["descendant::unittitle"]
+
+      ref_id: 
+        xpath: ["@id"]
+        
+      parent: 
+        xpath: ["parent::c"]
+
+      resource: 
+        xpath: ["ancestor::ead"]
+        
+      subjects: 
+        xpath: ["child::subject"]
+      
+  subject:
+    xpath: ["subject"]
+    properties:
+      terms: 
+        xpath: ["self"]
+        procedure: "|value| {'term' => value, 
+                             'term_type' => 'Cultural context'
+                             }"
+      
+
+
+

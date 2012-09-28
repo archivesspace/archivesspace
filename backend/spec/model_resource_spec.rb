@@ -29,4 +29,26 @@ describe 'Resource model' do
 
     expect { create_resource }.to raise_error
   end
+
+
+  it "Allows resources to be created with a date" do
+    resource = Resource.create_from_json(JSONModel(:resource).
+                              from_hash({
+                                          "title" => "A new resource",
+                                          "id_0" => "abc123",
+                                          "dates" => [
+                                            {
+                                               "date_type" => "single",
+                                               "label" => "creation",
+                                               "begin" => "2012-05-14",
+                                               "end" => "2012-05-14",
+                                            }
+                                          ]
+                                        }),
+                              :repo_id => @repo_id)
+
+    Resource[resource[:id]].dates.length.should eq(1)
+    Resource[resource[:id]].dates[0].begin.should eq("2012-05-14")
+  end
+
 end

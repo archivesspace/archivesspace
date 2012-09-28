@@ -5,7 +5,9 @@
   <div class="span9 record-pane">
     <div class="btn-group" style="float: right">
        <% if @resource_id %>
-          <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
+          <% if user_can?('update_repository') %>
+            <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
+          <% end %>
        <% end %>
     </div>
 
@@ -16,5 +18,14 @@
     </section>
 
     <%= render :partial => "extent/show", :locals => { :extents => @archival_object.extents } %>
+
+    <% if @archival_object.dates.length > 0 %>
+      <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates } %>
+    <% end %>
+
+    <% if @archival_object.external_documents.length > 0 %>
+      <%= render :partial => "external_documents/show", :locals => { :external_documents => @archival_object.external_documents } %>
+    <% end %>
+
   </div>
 </div>

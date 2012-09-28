@@ -1,15 +1,18 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Subjects", :controller => :subjects, :action => :index),"New Subject"]} %>
-<div class="row-fluid">
-   <div class="span3"></div>
-   <div class="span9 record-pane">
+
+<%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render :partial => "sidebar" %>
+    </div>
+    <div class="span9 record-pane">
       <h2><%= "New Subject" %>  <span class="label label-info">Subject</span></h2>
-      <br/>
-      <%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
-         <%= render :partial => "subjects/form", :locals => {:f => f} %>
-         <div class="form-actions">            
-            <button type="submit" class="btn btn-primary">Save Subject</button>   
-            <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
-         </div>
-      <% end %>
-   </div>
-</div>
+      <br/>      
+      <%= render :partial => "subjects/form", :locals => {:f => f} %>
+      <div class="form-actions">            
+        <button type="submit" class="btn btn-primary">Save Subject</button>   
+        <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+      </div>
+    </div>
+  </div>
+<% end %>
