@@ -20,16 +20,18 @@ entities:
         procedure: "|value| value = nil unless value.include?('/'); value"
         
   archival_object: 
-    xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
+    xpath: ["//dsc", "//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
     properties:
       title: 
-        xpath: ["descendant::unittitle"]
+        xpath: ["child::*/child::unittitle"]
+        default: "Archival Object"
 
       ref_id: 
         xpath: ["@id"]
+        default: "1"
         
       parent: 
-        xpath: ["parent::c"]
+        xpath: ["parent::c", ""]
 
       resource: 
         xpath: ["ancestor::ead"]

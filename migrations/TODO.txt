@@ -1,5 +1,6 @@
 
-	
+- debug mode
+
 - revisit dry run mode
 
 - revisit allow-failures
