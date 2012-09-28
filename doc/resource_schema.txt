@@ -16,7 +16,11 @@ string	title
 
 array (JSONModel(:subject) uri_or_object)	subjects
 
-array (JSONModel(:extent) uri_or_object)	extents
+array (JSONModel(:extent) object)	extents
+
+array (JSONModel(:date) object)	dates
+
+array (JSONModel(:external_document) object)	external_documents
 
 
 

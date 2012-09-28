@@ -8,6 +8,8 @@ string	ref_id
 
 string	name
 
+array (JSONModel(:term) object)	terms
+
 
 
 

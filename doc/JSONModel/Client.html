@@ -84,7 +84,9 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">common/jsonmodel_client.rb</dd>
+    <dd class="r1 last">common/jsonmodel_client.rb<span class="defines">,<br />
+  migrations/lib/jsonmodel_queue.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -102,11 +104,207 @@
   
 </p>
 
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="wait_queue-classvariable" class="">@@wait_queue =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Methods to support queuing of objects that can&#8217;t
+be saved until a related object has been saved
+and assigned a URI</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre></dd>
+      
+    </dl>
+  
 
 
 
 
 
+
+
+<div class="method_details">
+  <h2>Specifications</h2>
+  
+    <h3>It should supply a class for a loaded schema</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+     <table class="source_code">
+       <tr>
+         <td>
+           <pre class="lines">
+
+
+12</pre>
+         </td>
+         <td>
+           <pre class="code"><span class="info file"># File 'migrations/spec/jsonmodel_queue_spec.rb', line 12</span>
+
+<span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>JSONModel(:resource)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span></pre>
+         </td>
+       </tr>
+     </table>
+
+   
+    <h3>It should not return a uri for an unsaved object</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+     <table class="source_code">
+       <tr>
+         <td>
+           <pre class="lines">
+
+
+18
+19</pre>
+         </td>
+         <td>
+           <pre class="code"><span class="info file"># File 'migrations/spec/jsonmodel_queue_spec.rb', line 18</span>
+
+<span class='id identifier rubyid_jo'>jo</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:id_0</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span><span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Fake Resurce</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_nil'>be_nil</span></pre>
+         </td>
+       </tr>
+     </table>
+
+   
+    <h3>It should return a uri for a saved object</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+     <table class="source_code">
+       <tr>
+         <td>
+           <pre class="lines">
+
+
+23
+24
+25
+26</pre>
+         </td>
+         <td>
+           <pre class="code"><span class="info file"># File 'migrations/spec/jsonmodel_queue_spec.rb', line 23</span>
+
+<span class='id identifier rubyid_jo'>jo</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:id_0</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span><span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Fake Resource</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+ <span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\/repositories\/[0-9]*\/[0-9]*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span></pre>
+         </td>
+       </tr>
+     </table>
+
+   
+    <h3>It should hold off saving an object while it is waiting for other unsaved objects</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+     <table class="source_code">
+       <tr>
+         <td>
+           <pre class="lines">
+
+
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41</pre>
+         </td>
+         <td>
+           <pre class="code"><span class="info file"># File 'migrations/spec/jsonmodel_queue_spec.rb', line 30</span>
+
+<span class='id identifier rubyid_alpha'>alpha</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:id_0</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span><span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Fake Resurce A</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_beta'>beta</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:id_0</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>def</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span><span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Fake Resurce B</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+ <span class='id identifier rubyid_beta'>beta</span><span class='period'>.</span><span class='id identifier rubyid_wait_for'>wait_for</span><span class='lparen'>(</span><span class='id identifier rubyid_alpha'>alpha</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_beta'>beta</span><span class='period'>.</span><span class='id identifier rubyid_save_or_wait'>save_or_wait</span>
+
+<span class='id identifier rubyid_beta'>beta</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_nil'>be_nil</span>
+ <span class='id identifier rubyid_alpha'>alpha</span><span class='period'>.</span><span class='id identifier rubyid_save_or_wait'>save_or_wait</span>
+
+<span class='id identifier rubyid_alpha'>alpha</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\/repositories\/[0-9]*\/resources\/[0-9]*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>    
+<span class='id identifier rubyid_beta'>beta</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\/repositories\/[0-9]*\/resources\/[0-9]*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span></pre>
+         </td>
+       </tr>
+     </table>
+
+   
+    <h3>It should support after-save hooks and a waiting queue</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+     <table class="source_code">
+       <tr>
+         <td>
+           <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</pre>
+         </td>
+         <td>
+           <pre class="code"><span class="info file"># File 'migrations/spec/jsonmodel_queue_spec.rb', line 46</span>
+
+<span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:archival_object</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Parent Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child'>child</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:archival_object</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>def</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Child Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_grandchild'>grandchild</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:archival_object</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghi</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Grand Child Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_after_save'>after_save</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>parent=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_after_save'>after_save</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_grandchild'>grandchild</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>parent=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+ 
+<span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_wait_for'>wait_for</span><span class='lparen'>(</span><span class='id identifier rubyid_parent'>parent</span><span class='rparen'>)</span>
+ <span class='id identifier rubyid_grandchild'>grandchild</span><span class='period'>.</span><span class='id identifier rubyid_wait_for'>wait_for</span><span class='lparen'>(</span><span class='id identifier rubyid_child'>child</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_grandchild'>grandchild</span><span class='period'>.</span><span class='id identifier rubyid_save_or_wait'>save_or_wait</span>
+ <span class='id identifier rubyid_grandchild'>grandchild</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_nil'>be_nil</span>
+  <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_save_or_wait'>save_or_wait</span>
+ <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_nil'>be_nil</span>
+  <span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_save_or_wait'>save_or_wait</span>
+ <span class='id identifier rubyid_grandchild'>grandchild</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_grandchild'>grandchild</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\/repositories\/[0-9]*\/archival_objects\/[0-9]*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\/repositories\/[0-9]*\/archival_objects\/[0-9]*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span></pre>
+         </td>
+       </tr>
+     </table>
+
+   
+</div>
 
   
     <h2>
@@ -174,6 +372,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#after_save-instance_method" title="#after_save (instance method)">- (Object) <strong>after_save</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>JSON objects waiting for another JSON object to be saved.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#save-instance_method" title="#save (instance method)">- (Object) <strong>save</strong>(opts = {}) </a>
     
 
@@ -190,6 +411,55 @@
   
     <span class="summary_desc"><div class='inline'><p>Validate this JSONModel instance, produce a JSON string, and send an
 update to the backend.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_or_wait-instance_method" title="#save_or_wait (instance method)">- (Object) <strong>save_or_wait</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Try to save the JSON object, do some post-save updating
+of related objects if it works, then remove it from the 
+main queue.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wait_for-instance_method" title="#wait_for (instance method)">- (Object) <strong>wait_for</strong>(json_obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Wait until another object is saved
+before allowing itself to be saved.</p>
 </div></span>
   
 </li>
@@ -219,12 +489,12 @@ update to the backend.</p>
       <pre class="lines">
 
 
-122
-123
-124</pre>
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'>ClassMethods</span><span class='rparen'>)</span>
@@ -255,19 +525,61 @@ update to the backend.</p>
       <pre class="lines">
 
 
-155
-156
-157
-158
-159</pre>
+195
+196
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 195</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_error'>add_error</span><span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='ivar'>@errors</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='ivar'>@errors</span><span class='lbracket'>[</span><span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_message'>message</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="after_save-instance_method">
+  
+    - (<tt>Object</tt>) <strong>after_save</strong>(&amp;block) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>JSON objects waiting for another JSON object to be saved</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/jsonmodel_queue.rb', line 10</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_after_save'>after_save</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@after_save_hooks</span> <span class='op'>||=</span> <span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@after_save_hooks</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='const'>Proc</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -300,33 +612,37 @@ update to the backend.</p>
       <pre class="lines">
 
 
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152</pre>
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 
@@ -341,6 +657,10 @@ update to the backend.</p>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
 
     <span class='kw'>return</span> <span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>403</span><span class='tstring_end'>'</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>AccessDeniedException</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+
   <span class='kw'>elsif</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^4</span><span class='regexp_end'>/</span></span>
     <span class='id identifier rubyid_err'>err</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
 
@@ -357,12 +677,117 @@ update to the backend.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="save_or_wait-instance_method">
+  
+    - (<tt>Object</tt>) <strong>save_or_wait</strong>(opts = {}) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Try to save the JSON object, do some post-save updating
+of related objects if it works, then remove it from the 
+main queue.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/jsonmodel_queue.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save_or_wait'>save_or_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_try_save'>try_save</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+    <span class='kw'>while</span> <span class='cvar'>@@wait_queue</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='kw'>do</span>
+      <span class='cvar'>@@wait_queue</span><span class='period'>.</span><span class='id identifier rubyid_each_index'>each_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>        
+        <span class='cvar'>@@wait_queue</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='cvar'>@@wait_queue</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_try_save'>try_save</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+      <span class='kw'>break</span> <span class='kw'>if</span> <span class='cvar'>@@wait_queue</span><span class='period'>.</span><span class='id identifier rubyid_compact!'>compact!</span> <span class='op'>==</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='cvar'>@@wait_queue</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="wait_for-instance_method">
+  
+    - (<tt>Object</tt>) <strong>wait_for</strong>(json_obj) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Wait until another object is saved
+before allowing itself to be saved.
+TODO - raise an error before a deadlock
+occurs</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/jsonmodel_queue.rb', line 20</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wait_for'>wait_for</span><span class='lparen'>(</span><span class='id identifier rubyid_json_obj'>json_obj</span><span class='rparen'>)</span>
+  <span class='ivar'>@waiting_for</span> <span class='op'>||=</span> <span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@waiting_for</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_json_obj'>json_obj</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Wed Sep 19 13:53:27 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:55 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

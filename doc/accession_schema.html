@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (a)</a> &raquo;
+    <a href="alpha_index.html">Index (a)</a> &raquo;
     
     
     <span class="title">accession_schema</span>
@@ -97,7 +97,11 @@
 			
 				<h3 class="signature"> - (array (JSONModel(:subject) uri_or_object)) <strong>subjects</strong></h3>
 			
-				<h3 class="signature"> - (array (JSONModel(:extent) uri_or_object)) <strong>extents</strong></h3>
+				<h3 class="signature"> - (array (JSONModel(:extent) object)) <strong>extents</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:date) object)) <strong>dates</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:external_document) object)) <strong>external_documents</strong></h3>
 			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -131,7 +135,9 @@
 22
 23
 24
-25</pre>
+25
+26
+27</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/accession.rb', line 1</span>
@@ -151,7 +157,9 @@
     &quot;condition_description&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;ifmissing&quot; =&gt; &quot;warn&quot;},
      &quot;accession_date&quot; =&gt; {&quot;type&quot; =&gt; &quot;date&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
      &quot;subjects&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:subject) uri_or_object&quot;}},
-    &quot;extents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:extent) uri_or_object&quot;}},
+    &quot;extents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:extent) object&quot;}},
+    &quot;dates&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:date) object&quot;}},
+    &quot;external_documents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:external_document) object&quot;}},
   },
    &quot;additionalProperties&quot; =&gt; false,
 }</pre>
@@ -167,7 +175,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Thu Sep 20 12:17:47 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:59 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

@@ -8,6 +8,8 @@ string	agent_type
 
 array (JSONModel(:agent_contact) uri_or_object)	agent_contacts
 
+array (JSONModel(:external_document) object)	external_documents
+
 
 
 

@@ -1,8 +1,6 @@
 JSON Schema: Extent
-/repositories/:repo_id/extents
-Properties
 
-string	uri
+Properties
 
 string	portion
 

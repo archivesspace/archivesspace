@@ -93,13 +93,6 @@ server with the following commands:</p>
 <pre class="code ruby"><code>java -jar launcher/archivesspace.jar [frontend port] [backend port]
 </code></pre>
 
-<p>To create a test account and log in, you’ll currently need to use
-curl:</p>
-
-<pre class="code ruby"><code>username=$USER
-curl -d '{&quot;username&quot;:&quot;$username&quot;,&quot;name&quot;:&quot;Test User&quot;}' 'http://localhost:8089/users?password=testuser'
-</code></pre>
-
 <p>Note: If you have already run the service in demo mode, you may need to remove the existing demo database in order to avoid a ‘java.sql.SQLException: Failed to create database’ error:</p>
 
 <pre class="code ruby"><code>	build/run db:nuke
@@ -111,7 +104,7 @@ curl -d '{&quot;username&quot;:&quot;$username&quot;,&quot;name&quot;:&quot;Test
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Wed Sep 19 13:53:26 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:54 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

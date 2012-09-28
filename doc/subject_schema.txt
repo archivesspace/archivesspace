@@ -8,6 +8,8 @@ array (JSONModel(:term) uri_or_object)	terms
 
 JSONModel(:vocabulary) uri	vocabulary
 
+array (JSONModel(:external_document) object)	external_documents
+
 
 
 

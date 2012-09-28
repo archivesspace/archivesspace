@@ -68,50 +68,68 @@
 
     <div id="content"><div id='filecontents'><h1 id="getting-started">Getting started</h1>
 
-<p>If you have the Java 1.6.0 SDK (or above) you can build and run a demo
-server with the following commands:</p>
+<p>Install nokogiri, json-schema, psych</p>
 
-<pre class="code ruby"><code> git clone git://github.com/hudmol/archivesspace.git
+<p>Basic usage of import.rb is like this:</p>
 
- cd archivesspace
-
- build/run dist
-
- java -jar archivesspace.jar
+<pre class="code ruby"><code>$ import.rb -i {importer-name} [-s {path/to/your/data/file.ext}] [-x {crosswalk-name}]
 </code></pre>
 
-<p>This will start the ArchivesSpace application running on:</p>
+<h1 id="using-the-import-tool">Using the import tool</h1>
 
-<p>http://localhost:8080/</p>
+<h2 id="running-a-test-import-example">Running a test import (example)</h2>
 
-<p>and the backend web service running on:</p>
+<p>You can follow the steps below to run an example import</p>
 
-<p>http://localhost:8089/</p>
+<p>Step 1: Follow the steps in the global README and start the application on port 8089</p>
 
-<p>If you’d like to use different ports, you can run:</p>
+<p>Step 2: Open the ‘migrations’ directory</p>
 
-<pre class="code ruby"><code>java -jar launcher/archivesspace.jar [frontend port] [backend port]
+<pre class="code ruby"><code>$ cd migrations
 </code></pre>
 
-<p>To create a test account and log in, you’ll currently need to use
-curl:</p>
+<p>Step 3: Create an empty repository and vocabulary and note their IDs</p>
 
-<pre class="code ruby"><code>username=$USER
-curl -d '{&quot;username&quot;:&quot;$username&quot;,&quot;name&quot;:&quot;Test User&quot;}' 'http://localhost:8089/users?password=testuser'
+<pre class="code ruby"><code>$ rake import:make_repo
+$ rake import:make_vocab
 </code></pre>
 
-<p>Note: If you have already run the service in demo mode, you may need to remove the existing demo database in order to avoid a ‘java.sql.SQLException: Failed to create database’ error:</p>
+<p>Step 4: Run a test import using the following options</p>
 
-<pre class="code ruby"><code>	build/run db:nuke
+<pre class="code ruby"><code>$./import.rb -r {REPO_ID} -v {VOCAB_ID} -i xml -x ead -s examples/ead/afcu.xml
 </code></pre>
 
-<h1 id="documentation">Documentation</h1>
+<p>You can see the records that have been created using rake:</p>
 
-<p>Latest documentation is published at <a href="http://hudmol.github.com/archivesspace/">http://hudmol.github.com/archivesspace/</a></p>
+<pre class="code ruby"><code>$ rake import:list_objects[{REPO_ID}]
+$ rake import:list_subjects[{VOCAB_ID}]
+</code></pre>
+
+<p>To see all importer flags, run</p>
+
+<pre class="code ruby"><code>$./import.rb -h
+</code></pre>
+
+<p>To find out what importers are available, and what to pass them</p>
+
+<pre class="code ruby"><code>$./import.rb -l
+</code></pre>
+
+<h2 id="adding-an-importer">Adding an Importer</h2>
+
+<p>You can create an importer and add it to the importers directory</p>
+
+<p>The first line of your file must be</p>
+
+<pre class="code ruby"><code>ASpaceImporter.importer :foo do # 'foo' is the unique key for this importer
+</code></pre>
+
+<p>You must define two methods, self.profile and run. See examples or contact the development team for more info.</p>
+
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Wed Sep 19 13:53:26 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:54 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

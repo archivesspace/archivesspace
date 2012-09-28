@@ -8,6 +8,8 @@ string	username
 
 string	name
 
+object	permissions
+
 
 
 

@@ -83,13 +83,13 @@
   
   
     <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span></dd>
+    <dd class="r1"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="ArchivesSpaceTypeAttribute.html" title="ArchivesSpaceTypeAttribute (class)">ArchivesSpaceTypeAttribute</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span>, <span class='object_link'><a href="Webhooks.html" title="Webhooks (class)">Webhooks</a></span></dd>
     
   
   
     <dt class="r2 last">Defined in:</dt>
     <dd class="r2 last">common/jsonmodel.rb<span class="defines">,<br />
-  common/jsonmodel_client.rb</span>
+  common/jsonmodel_client.rb,<br /> migrations/lib/jsonmodel_queue.rb</span>
 </dd>
   
 </dl>
@@ -99,7 +99,7 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSONModel/Client.html" title="JSONModel::Client (module)">Client</a></span>, <span class='object_link'><a href="JSONModel/HTTP.html" title="JSONModel::HTTP (module)">HTTP</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSONModel/Client.html" title="JSONModel::Client (module)">Client</a></span>, <span class='object_link'><a href="JSONModel/HTTP.html" title="JSONModel::HTTP (module)">HTTP</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>, <span class='object_link'><a href="JSONModel/Webhooks.html" title="JSONModel::Webhooks (module)">Webhooks</a></span>
     
   
     
@@ -113,16 +113,6 @@
   <h2>Constant Summary</h2>
   
     <dl class="constants">
-      
-        <dt id="schema-classvariable" class="">@@schema =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrace'>{</span><span class='rbrace'>}</span></pre></dd>
-      
-        <dt id="types-classvariable" class="">@@types =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrace'>{</span><span class='rbrace'>}</span></pre></dd>
       
         <dt id="models-classvariable" class="">@@models =
           
@@ -140,11 +130,6 @@
         <dd><pre class="code"><span class='lbracket'>[</span><span class='rbracket'>]</span></pre></dd>
       
         <dt id="strict_mode-classvariable" class="">@@strict_mode =
-          
-        </dt>
-        <dd><pre class="code"><span class='kw'>false</span></pre></dd>
-      
-        <dt id="client_mode-classvariable" class="">@@client_mode =
           
         </dt>
         <dd><pre class="code"><span class='kw'>false</span></pre></dd>
@@ -340,6 +325,29 @@
      </table>
 
    
+    <h3>It should return an empty array for nil properties of type array</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+     <table class="source_code">
+       <tr>
+         <td>
+           <pre class="lines">
+
+
+144
+145
+146</pre>
+         </td>
+         <td>
+           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 144</span>
+
+<span class='id identifier rubyid_jo'>jo</span> <span class='op'>=</span> <span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Stub Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span></pre>
+         </td>
+       </tr>
+     </table>
+
+   
 </div>
 
   
@@ -392,6 +400,52 @@
   
     <span class="summary_desc"><div class='inline'><p>Grab an array of JSON objects from &#8216;uri&#8217; and use the &#8216;type_descriptor&#8217;
 property of each object to cast it into a JSONModel.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#backend_url-class_method" title="backend_url (class method)">+ (Object) <strong>backend_url</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_validations-class_method" title="custom_validations (class method)">+ (Object) <strong>custom_validations</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -707,12 +761,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-35
-36
-37</pre>
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_error_handler'>add_error_handler</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='cvar'>@@error_handlers</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_block'>block</span>
@@ -748,19 +802,87 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-15
 16
 17
 18
-19</pre>
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='comma'>,</span> <span class='id identifier rubyid_type_descriptor'>type_descriptor</span><span class='rparen'>)</span>
   <span class='const'>JSONModel</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_get_json'>get_json</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_obj'>obj</span><span class='op'>|</span>
     <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='lbracket'>[</span><span class='id identifier rubyid_type_descriptor'>type_descriptor</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="backend_url-class_method">
+  
+    + (<tt>Object</tt>) <strong>backend_url</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_backend_url'>backend_url</span>
+  <span class='kw'>if</span> <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_const_defined?'>const_defined?</span><span class='lparen'>(</span><span class='symbol'>:BACKEND_SERVICE_URL</span><span class='rparen'>)</span>
+    <span class='const'>BACKEND_SERVICE_URL</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_init_args'>init_args</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="custom_validations-class_method">
+  
+    + (<tt>Object</tt>) <strong>custom_validations</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_custom_validations'>custom_validations</span>
+  <span class='cvar'>@@custom_validations</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -782,33 +904,15 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-73
 74
 75
-76
-77
-78
-79
-80
-81
-82
-83
-84</pre>
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_destroy_model'>destroy_model</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-
-  <span class='id identifier rubyid_cls'>cls</span> <span class='op'>=</span> <span class='cvar'>@@models</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='rbracket'>]</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_cls'>cls</span>
-    <span class='cvar'>@@types</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_cls'>cls</span><span class='rparen'>)</span>
-    <span class='cvar'>@@schema</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_cls'>cls</span><span class='rparen'>)</span>
-    <span class='cvar'>@@custom_validations</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_cls'>cls</span><span class='rparen'>)</span>
-    <span class='cvar'>@@models</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+  <span class='cvar'>@@models</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -830,14 +934,14 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-39
-40
-41
-42
-43</pre>
+49
+50
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_handle_error'>handle_error</span><span class='lparen'>(</span><span class='id identifier rubyid_err'>err</span><span class='rparen'>)</span>
   <span class='cvar'>@@error_handlers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_handler'>handler</span><span class='op'>|</span>
@@ -864,6 +968,14 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
+105
+106
+107
+108
+109
+110
+111
+112
 113
 114
 115
@@ -883,20 +995,18 @@ property of each object to cast it into a JSONModel.</p>
 129
 130
 131
-132
-133
-134
-135
-136
-137</pre>
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_init'>init</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:client_mode</span><span class='rparen'>)</span>
-    <span class='cvar'>@@client_mode</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:client_mode</span><span class='rbracket'>]</span>
+  <span class='cvar'>@@init_args</span> <span class='op'>||=</span> <span class='kw'>nil</span>
+
+  <span class='comment'># Skip initialisation if this model has already been loaded.
+</span>  <span class='kw'>if</span> <span class='cvar'>@@init_args</span>
+    <span class='kw'>return</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:strict_mode</span><span class='rparen'>)</span>
@@ -938,7 +1048,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-38
 39
 40
 41
@@ -946,10 +1055,11 @@ property of each object to cast it into a JSONModel.</p>
 43
 44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='comment'># Checks if a model exists first; returns the model class
@@ -980,6 +1090,14 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
+79
+80
+81
+82
+83
+84
+85
+86
 87
 88
 89
@@ -995,21 +1113,13 @@ property of each object to cast it into a JSONModel.</p>
 99
 100
 101
-102
-103
-104
-105
-106
-107
-108
-109
-110</pre>
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load_schema'>load_schema</span><span class='lparen'>(</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='kw'>not</span> <span class='cvar'>@@schema</span><span class='lbracket'>[</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='kw'>not</span> <span class='cvar'>@@models</span><span class='lbracket'>[</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_schema'>schema</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span>
                        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>schemas</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
                        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='rbrace'>}</span><span class='tstring_content'>.rb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1052,16 +1162,16 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
+135
+136
+137
+138
+139
 140
-141
-142
-143
-144
-145
-146</pre>
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_jsonmodel_ref'>parse_jsonmodel_ref</span><span class='lparen'>(</span><span class='id identifier rubyid_ref'>ref</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_ref'>ref</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>and</span> <span class='id identifier rubyid_ref'>ref</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>JSONModel\(:([a-zA-Z_\-]+)\) (.*)</span><span class='regexp_end'>/</span></span>
@@ -1100,7 +1210,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-61
 62
 63
 64
@@ -1109,10 +1218,11 @@ property of each object to cast it into a JSONModel.</p>
 67
 68
 69
-70</pre>
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_reference'>parse_reference</span><span class='lparen'>(</span><span class='id identifier rubyid_reference'>reference</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='cvar'>@@models</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='op'>|</span>
@@ -1154,12 +1264,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-8
 9
-10</pre>
+10
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 9</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_repository'>set_repository</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:selected_repo_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_id'>id</span>
@@ -1184,7 +1294,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-22
 23
 24
 25
@@ -1192,10 +1301,11 @@ property of each object to cast it into a JSONModel.</p>
 27
 28
 29
-30</pre>
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_with_repository'>with_repository</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_old_repo'>old_repo</span> <span class='op'>=</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:selected_repo_id</span><span class='rbracket'>]</span>
@@ -1232,12 +1342,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-48
 49
-50</pre>
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='const'>JSONModel</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
@@ -1272,12 +1382,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_models'>models</span>
   <span class='cvar'>@@models</span>
@@ -1302,12 +1412,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-16
 17
-18</pre>
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_strict_mode'>strict_mode</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='cvar'>@@strict_mode</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -1322,7 +1432,7 @@ property of each object to cast it into a JSONModel.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Wed Sep 19 13:53:26 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:54 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>

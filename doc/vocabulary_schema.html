@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (v)</a> &raquo;
+    <a href="alpha_index.html">Index (v)</a> &raquo;
     
     
     <span class="title">vocabulary_schema</span>
@@ -83,6 +83,8 @@
 			
 				<h3 class="signature"> - (string) <strong>name</strong></h3>
 			
+				<h3 class="signature"> - (array (JSONModel(:term) object)) <strong>terms</strong></h3>
+			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
       <table class="source_code">
@@ -102,7 +104,9 @@
 9
 10
 11
-12</pre>
+12
+13
+14</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/vocabulary.rb', line 1</span>
@@ -114,7 +118,8 @@
   &quot;properties&quot; =&gt; {
     &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
     &quot;ref_id&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
-    &quot;name&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true}
+    &quot;name&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
+     &quot;terms&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:term) object&quot;}, &quot;readonly&quot; =&gt; true},
   },
    &quot;additionalProperties&quot; =&gt; false,
 }</pre>
@@ -130,7 +135,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Thu Sep 20 12:17:47 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:59 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>
