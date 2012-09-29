@@ -241,6 +241,8 @@ module JSONModel
 
         if response.code == '200'
           self.from_json(response.body)
+        elsif response.code == '403'
+          raise AccessDeniedException.new
         elsif response.code == '404'
           nil
         else
@@ -262,6 +264,8 @@ module JSONModel
           json_list = JSON(response.body)
 
           json_list.map {|h| self.from_hash(h)}
+        elsif response.code == '403'
+          raise AccessDeniedException.new
         else
           raise response.body
         end

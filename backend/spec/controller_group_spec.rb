@@ -109,4 +109,31 @@ describe 'Group controller' do
     expect { group.save }.to raise_error(AccessDeniedException)
   end
 
+
+  it "Restricts group-related activities to repository-managers" do
+    make_test_user("archivist")
+    archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
+    archivists.member_usernames = ["archivist"]
+    archivists.save
+
+    make_test_user("viewer")
+    viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
+    viewers.member_usernames = ["viewer"]
+    viewers.save
+
+    ["archivist", "viewer"].each do |user|
+      expect {
+        as_test_user(user) do JSONModel(:group).all end
+      }.to raise_error(AccessDeniedException)
+
+      expect {
+        as_test_user(user) do JSONModel(:group).find(archivists.id) end
+      }.to raise_error(AccessDeniedException)
+
+      expect {
+        as_test_user(user) do archivists.save end
+      }.to raise_error(AccessDeniedException)
+    end
+  end
+
 end
