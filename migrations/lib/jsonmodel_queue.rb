@@ -49,6 +49,7 @@ module JSONModel
         can_save = false unless w.uri 
       end    
       if can_save
+        puts self.to_s
         r = self.save(opts)
         self.run_after_save_hooks
         return r

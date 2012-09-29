@@ -22,14 +22,14 @@ ASpaceImport::Importer.importer :xml do
     @reader.each do |node|
       if node.node_type == 1
         
+        puts "Parsing node: #{node.name}" if @verbose
+        
         target_objects(:xpath => node.name, :depth => node.depth) do |tob|
 
           # For Debugging / Testing
           tob.after_save { puts "\nSaved: #{tob.to_s}" }
           
-          # Set any properties that take 'self'
-          tob.set_properties(:xpath => "self",
-                            :value => node.inner_xml)
+          tob.set_properties(:xpath => "self") { node.inner_xml }
 
           node.attributes.each do |a|
             
@@ -79,26 +79,26 @@ ASpaceImport::Importer.importer :xml do
                 
         # Does the XML <node> create a property 
         # for an entity in the queue?
-        
+           
         @parse_queue.reverse.each do |qob|
 
-          xpath = node.name
-          if node.depth - qob.depth == 1
-            xpath.insert(0, 'child::')
-          elsif node.depth - qob.depth > 1
-            xpath.insert(0, 'descendant::')
-          else
-            next 
-          end
-     
-          qob.set_properties(:xpath => xpath,
-                            :value => node.inner_xml )
+          # xpath = node.name
+          # if node.depth - qob.depth == 1
+          #   xpath.insert(0, 'child::')
+          # elsif node.depth - qob.depth > 1
+          #   xpath.insert(0, 'descendant::')
+          # else
+          #   next 
+          # end
 
-          
+          qob.set_properties(:xpath => node.name, 
+                             :depth => node.depth) { node.inner_xml }
+
+        
         # TODO (if needed): check for ancestor records 
         # that need attributes from the present node
         end
-        
+
             
       # Does the XML </node> match the [-1]
       # object in the parse queue ?
@@ -106,6 +106,12 @@ ASpaceImport::Importer.importer :xml do
                                           :xpath => node.name, 
                                           :type => @parse_queue[-1].class.record_type
                                           )
+        
+        # Set defaults for missing values
+        
+        @parse_queue[-1].set_default_properties
+
+
                                           
         # Fill in missing values; add supporting records etc.
         # Hardcoded property sets should be abstracted or the
@@ -124,6 +130,8 @@ ASpaceImport::Importer.importer :xml do
 
 
         # Save or send to waiting area
+        puts "Finished parsing #{node.name}" if @verbose
+        puts @parse_queue[-1].to_s if @verbose
         @parse_queue.pop    
         
       end

@@ -42,7 +42,7 @@ end
 
 @doc << '</dsc></archdesc></ead>'
 
-@doc.gsub!(/id="(.*)"/){|i| "id=\"#{rand(1000000)}\""}
+@doc.gsub!(/id="([a-zA-Z0-9]*)"/){|i| "id=\"#{rand(1000000)}\""}
 
 
 

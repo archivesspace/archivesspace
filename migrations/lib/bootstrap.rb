@@ -14,7 +14,10 @@ require_relative "importer"
 
 require_relative "parse_queue"
 
-
+res = JSON.parse(`curl -F'password=admin' #{ASpaceImportConfig::ASPACE_BASE}/users/admin/login`)
+session_id = res['session']
+puts "Session ID #{session_id}"
+Thread.current[:backend_session] = session_id
 
 
 

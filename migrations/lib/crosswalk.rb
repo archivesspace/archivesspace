@@ -9,7 +9,28 @@ module ASpaceImport
                                                 "../crosswalks",
                                                 "#{opts[:crosswalk]}.yml")))
     end 
+  
     
+    # Returns a regex object that will be used to determine if a parsed
+    # node is relevant to a given JSON object in the queue.
+    # The depth offset is the node.depth of the node that created the 
+    # JSON object, less the node.depth of the node that potentially contains
+    # a property for the JSON object (which might be the same node)
+    
+    def self.regexify_node(node_name, depth_offset = 0)
+      
+      case depth_offset
+      when 0
+        /^#{node_name}$/
+      when 1
+        /^(child|descendant)::#{node_name}$/
+      when 2
+        /^(child::\*\/child|descendant)::#{node_name}$/
+      when 3..100
+        /^descendant::#{node_name}$/
+      end
+    end
+      
             
     # Given an xpath, return true if
     # the crosswalk maps it to a JSON
@@ -39,12 +60,7 @@ module ASpaceImport
               mod = JSONModel::JSONModel(k)
               
               mod.class_eval do
-                
-                def mapped_properties
-                  @@walk['entities'][self.class.record_type]['properties']
-                end
-                
-                
+
                 def ancestor_relationships
                   self.mapped_properties.each do |property, hsh|
 
@@ -54,26 +70,69 @@ module ASpaceImport
                     end
                   end
                 end
-                
-                
-                def set_properties(opts)
+                   
+                def mapped_properties(src = {})
+                  if src[:xpath]
+                    result = {}
 
-                  self.mapped_properties.each do |property, hsh|
-
-                    next unless hsh['xpath'].find { |xp| xp.match(opts[:xpath]) }                                              
-
-                    # Allows the crosswalk to override the default
-                    # behavior, which is direct value assignment
-                    if hsh['procedure']
-                      proc = eval "lambda { #{hsh['procedure']} }"
-                      value = proc.call(opts[:value])
-                    else
-                      value = opts[:value]
+                    @@walk['entities'][self.class.record_type]['properties'].each do |p, defn|
+                      result[p] = defn if defn['xpath'].find { |xp| xp.match(src[:xpath]) }
                     end
+                    
+                    result                      
+                    
+                  else  
+                    @@walk['entities'][self.class.record_type]['properties']
+                  end
+                end
+                
+                def set_default_properties
+                  
+                  self.mapped_properties.each do |prop, defn|
+                    
+                    next unless defn['default']
+                    
+                    # Don't overwrite an existing value with a default
+                    next if self.send("#{prop}") 
 
-                    next if value == nil
+                    self.send("#{prop}=", defn['default'])
+                  end
+                end
+                          
+                
+                def set_properties(src, &block)
 
-                    if hsh['xpath'].find { |xp| xp.match(opts[:xpath]) }
+                  if src[:depth]
+                    offset = src[:depth] - self.depth
+                  else
+                    offset = 0
+                  end
+                  
+                  match_string = ASpaceImport::Crosswalk::regexify_node(
+                                                    src[:xpath], offset)
+
+                  self.mapped_properties(src).each do |property, defn|
+
+                    if defn['xpath'].find { |xp| xp.match(match_string) }
+                      
+                      src[:value] = Proc.new(&block).call if block_given?
+
+                      # Allows the crosswalk to override the default
+                      # behavior, which is direct value assignment
+                    
+                      if defn['procedure']
+                        proc = eval "lambda { #{defn['procedure']} }"
+                        value = proc.call(src[:value])
+                      else
+                        value = src[:value]
+                      end
+
+                      next if value == nil
+                      
+                      if value.length > 1000
+                        raise "Trying to set #{property} on #{self.class.record_type} using a suspciously\
+                        large value #{value.length}"
+                      end
 
                       if (type = self.class.schema['properties'][property]['type'])
 
