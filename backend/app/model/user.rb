@@ -21,13 +21,14 @@ class User < Sequel::Model(:users)
   # True if a user has access to perform 'permission' in 'repo_id'
   def can?(permission, opts = {})
     permission = Permission[:permission_code => permission.to_s]
+    global_repo = Repository[:repo_code => Group.GLOBAL]
 
     !permission.nil? && ((self.class.db[:groups].
                           join(:groups_users, :group_id => :id).
                           join(:groups_permissions, :group_id => :group_id).
                           filter(:user_id => self.id,
                                  :permission_id => permission.id,
-                                 :repo_id => [opts[:repo_id], Group.GLOBAL].reject(&:nil?)).
+                                 :repo_id => [opts[:repo_id], global_repo.id].reject(&:nil?)).
                           count) >= 1)
   end
 

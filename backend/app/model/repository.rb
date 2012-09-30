@@ -17,7 +17,7 @@ class Repository < Sequel::Model(:repositories)
 
   def after_create
 
-    if self.id == Group.GLOBAL
+    if self.repo_code == Group.GLOBAL
       # No need for standard groups on this one.
       return
     end
