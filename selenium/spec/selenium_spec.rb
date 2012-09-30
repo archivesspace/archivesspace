@@ -663,7 +663,7 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  it "Can create an Accession with some dates" do
+  it "can create an Accession with some dates" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Accession").click
 
@@ -850,9 +850,12 @@ describe "ArchivesSpace user interface" do
       @driver.click_and_wait_until_gone(:id => "createPlusOne")
     end
 
-    @driver.find_element(:css => "li#archival_object_2.analog.archival_object.jstree-leaf").text.strip.should eq("January")
-    @driver.find_element(:css => "li#archival_object_3.analog.archival_object.jstree-leaf").text.strip.should eq("February")
-    @driver.find_element(:css => "li#archival_object_4.analog.archival_object.jstree-leaf").text.strip.should eq("December")
+
+    elements = @driver.find_elements(:css => "li.jstree-leaf").map{|li| li.text.strip}
+
+    ["January", "February", "December"].each do |month|
+      elements.any? {|elt| elt =~ /#{month}/}.should be_true
+    end
 
   end
 
