@@ -191,7 +191,14 @@ describe "ArchivesSpace user interface" do
     begin
       example.run
     rescue
+      if ENV['SCREENSHOT_ON_ERROR']
+        outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
+        puts "Saving screenshot to #{outfile}"
+        save_screenshot(outfile)
+      end
+
       cleanup
+
       raise $!
     end
   end
