@@ -60,11 +60,11 @@ module FormHelper
     end
 
 
-    def current_name(method, use_index = true)
+    def current_name(method, use_index = true, sub_record_prefix = "")
       result = @object_name
 
       (@jsonmodel_object or []).each do |name, _, opts|
-        result += "[#{name}]"
+        result += "[#{sub_record_prefix}#{name}]"
 
         if opts[:is_array]
           if use_index
@@ -83,7 +83,10 @@ module FormHelper
 
 
     def current_i18n(method)
-      current_name(method, false)
+      # if method is a path/string, then ensure the subrecord labels are prefixed with '_'
+      method = "_#{method}" if method.kind_of?(String) && method.include?("/")
+
+      current_name(method, false, "_")
     end
 
 

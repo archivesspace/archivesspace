@@ -3,7 +3,7 @@
   <div class="date-container">
     <%= f.label_and_field :label %>
     <div class="control-group <%= f.error_classes(:date_type) %>">
-      <label class="control-label"><%= I18n.t("accession.dates.date_type")%></label>
+      <label class="control-label"><%= I18n.t(f.current_i18n("date_type"))%></label>
       <div class="controls">
         <div class="accordion controls-accordion date-type-accordion" id="date_type_<%= index %>">
           <div class="accordion-group">

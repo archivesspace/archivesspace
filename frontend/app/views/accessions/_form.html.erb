@@ -1,4 +1,4 @@
-<%= render "shared/form_messages", :object => @accession %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @accession, :f => f} %>
 
 <section id="basic_information">
   <h3>Basic Information</h3>

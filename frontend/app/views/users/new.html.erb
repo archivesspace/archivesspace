@@ -2,7 +2,7 @@
    <div class="span12">
       <h2>New Account</h2>
       <%= form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
-         <%= render "shared/form_messages", :object => @user, :form => f %>
+         <%= render :partial => "shared/form_messages", :locals => {:object => @user, :f => f} %>
          <fieldset>
            <%= f.label_and_field :username %>
            <%= f.label_with_field :name, f.text_field(:name, :size => 30, :class => "input-xxlarge", :force_id => f.current_name(:name)) %>

@@ -1,6 +1,6 @@
 <h2><%= @archival_object.title %>  <span class="label label-info">Archival Object</span></h2>
 <br/>
-<%= render "shared/form_messages", :object => @archival_object %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @archival_object, :f => f} %>
 
 <fieldset>
 

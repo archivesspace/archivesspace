@@ -1,4 +1,4 @@
-<%= render "shared/form_messages", :object => @agent %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @agent, :f => f} %>
 
 <fieldset>
   <section id="agent_details">

@@ -2,7 +2,7 @@
    <%= @resource.title.blank? ? "New Resource" : @resource.title %>  <span class="label label-info">Resource</span>
 </h2>
 
-<%= render "shared/form_messages", :object => @resource %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @resource, :f => f} %>
 
 <fieldset>
   <section id="basic_information">
