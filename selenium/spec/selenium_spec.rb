@@ -799,6 +799,23 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "can create a subject and link to an Accession" do
+
+    @driver.find_element(:link, 'Edit').click
+
+    @driver.find_element(:css, ".linker-wrapper a.btn").click
+    @driver.find_element(:css, "a.linker-create-btn").click
+    @driver.find_element(:css, "form#new_subject .row-fluid:first-child input").clear_and_send_keys("AccessionTermABC")
+    @driver.find_element(:css, "form#new_subject .row-fluid:first-child .add-term-btn").click
+    @driver.find_element(:css, "form#new_subject .row-fluid:last-child input").clear_and_send_keys("AccessionTermDEF")
+    @driver.find_element(:id, "createAndLinkButton").click
+
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+    @driver.find_element(:css => ".label-and-value .token").text.should eq("AccessionTermABC -- AccessionTermDEF")
+  end
+
+
   # Resources
 
 
