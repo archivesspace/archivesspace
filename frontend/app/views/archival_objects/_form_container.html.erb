@@ -16,7 +16,7 @@
     </h3>
     <div id="extents_container">
       <% if @archival_object.extents.blank? %>
-        <p class="alert alert-info">Click 'Add Extend' to add an extent record.</p>
+        <p class="alert alert-info">Click 'Add Extent' to add an extent record.</p>
       <% else %>
         <% @archival_object.extents.each_with_index do | extent, index | %>
           <% f.with_jsonmodel("extents[]", extent, :extent) do %>

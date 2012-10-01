@@ -17,7 +17,7 @@
     </h3>
     <div id="extents_container">
       <% if @resource.extents.blank? %>
-        <p class="alert alert-info">Click 'Add Extend' to add an extent record.</p>
+        <p class="alert alert-info">Click 'Add Extent' to add an extent record.</p>
       <% else %>
         <% @resource.extents.each_with_index do | extent, index | %>
           <% f.with_jsonmodel("extents[]", extent, :extent) do %>
