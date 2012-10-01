@@ -3,6 +3,10 @@ require 'sinatra'
 require_relative '../app/lib/webhooks'
 
 class Webhooks
+  class << self
+    alias :notify_orig :notify
+  end
+
   def self.notify(*ignored)
   end
 end
