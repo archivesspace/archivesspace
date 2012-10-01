@@ -83,8 +83,20 @@ module FormHelper
 
 
     def current_i18n(method)
-      # if method is a path/string, then ensure the subrecord labels are prefixed with '_'
-      method = "_#{method}" if method.kind_of?(String) && method.include?("/")
+      # if method is a path/string, then ensure the sub record labels are prefixed with '_'
+      if method.kind_of?(String) && method.include?("/")
+        new_method = ""
+        split_path = method.split("/")
+        split_path.each_with_index do |s, i|
+          # if s in path doesn't represent an index
+          # and it isn't the last item in the path (the method)
+          # prefix with '_'
+          new_method += "_" if s.to_i.to_s != s && i < split_path.length - 1
+          new_method += s
+          new_method += "/" if i < split_path.length - 1
+        end
+        method = new_method
+      end
 
       current_name(method, false, "_")
     end
