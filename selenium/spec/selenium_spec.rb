@@ -811,6 +811,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:css, "div.alert.alert-error").text.should eq('Identifier - Property is required but was missing')
     @driver.find_element(:css, "div.alert.alert-warning .errors-title").text.should eq('Title - Property was missing')
+    @driver.find_element(:css, "div.alert.alert-warning .errors-extents_0_number").text.should eq("Number - Property was missing")
 
     @driver.find_element(:css, "a.btn.btn-cancel").click
 
@@ -826,6 +827,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:id, "resource[title]").clear_and_send_keys(resource_title)
     @driver.complete_4part_id("resource[id_%d]")
+    @driver.find_element(:id => "resource[extents][0][number]").clear_and_send_keys("10")
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     # The new Resource shows up on the tree
