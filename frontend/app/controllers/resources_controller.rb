@@ -16,7 +16,6 @@ class ResourcesController < ApplicationController
 
   def new
     @resource = JSONModel(:resource).new({:title => "New Resource"})._always_valid!
-    @resource.extents = [JSONModel(:extent).new._always_valid!]
   end
 
   def edit

@@ -19,9 +19,13 @@
     <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
   </h3>
   <div id="extents_container">
-    <% @accession.extents.each_with_index do | extent, index | %>
-      <% f.with_jsonmodel("extents[]", extent, :extent) do %>
-        <%= render :partial => "extent/form", :locals => {:f => f, :index => index} %>
+    <% if @accession.extents.blank? %>
+      <p class="alert alert-info">Click 'Add Extend' to add an extent record.</p>
+    <% else %>
+      <% @accession.extents.each_with_index do | extent, index | %>
+        <% f.with_jsonmodel("extents[]", extent, :extent) do %>
+          <%= render :partial => "extent/form", :locals => {:f => f} %>
+        <% end %>
       <% end %>
     <% end %>
   </div>
