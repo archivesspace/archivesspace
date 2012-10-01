@@ -43,9 +43,9 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/contact_form' => 'agents#contact_form', :via => [:get]
   match 'agents/:type/name_form' => 'agents#name_form', :via => [:get]
   match 'agents/:type/create' => 'agents#create', :via => [:post]
-  match 'agents/:type/update' => 'agents#update', :via => [:post]
   match 'agents/:type/new' => 'agents#new', :via => [:get]
   match 'agents/:type/:id/edit' => 'agents#edit', :via => [:get]
+  match 'agents/:type/:id/update' => 'agents#update', :via => [:post]
   match 'agents/:type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
 
