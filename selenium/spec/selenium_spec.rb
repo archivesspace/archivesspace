@@ -94,7 +94,7 @@ class Selenium::WebDriver::Driver
 
 
   def complete_4part_id(pattern)
-    accession_id = Digest::MD5.hexdigest("#{Time.now}").scan(/.{6}/)[0...4]
+    accession_id = Digest::MD5.hexdigest("#{Time.now}#{$$}").scan(/.{6}/)[0...4]
     accession_id.each_with_index do |elt, i|
       self.find_element(:id => sprintf(pattern, i)).clear_and_send_keys elt
     end
@@ -175,7 +175,7 @@ describe "ArchivesSpace user interface" do
       $frontend_pid = TestUtils::start_frontend($frontend_port, $backend)
     end
 
-    @user = "testuser#{Time.now.to_i}"
+    @user = "testuser#{Time.now.to_i}_#{$$}"
     @driver = Selenium::WebDriver.for :firefox
     @driver.navigate.to $frontend
   end
@@ -261,9 +261,9 @@ describe "ArchivesSpace user interface" do
 
   # Repositories
 
-  test_repo_code_1 = "test1#{Time.now.to_i}"
+  test_repo_code_1 = "test1#{Time.now.to_i}_#{$$}"
   test_repo_name_1 = "test repository 1 - #{Time.now}"
-  test_repo_code_2 = "test2#{Time.now.to_i}"
+  test_repo_code_2 = "test2#{Time.now.to_i}_#{$$}"
   test_repo_name_2 = "test repository 2 - #{Time.now}"
 
 
