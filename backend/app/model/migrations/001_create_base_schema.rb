@@ -32,7 +32,7 @@ Sequel.migration do
     create_table(:users) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       String :username, :null => false, :unique => true
       String :name, :null => false
@@ -46,7 +46,7 @@ Sequel.migration do
     create_table(:repositories) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       String :repo_code, :null => false, :unique => true
       String :description, :null => false
@@ -61,7 +61,7 @@ Sequel.migration do
     create_table(:groups) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
 
@@ -130,7 +130,7 @@ Sequel.migration do
     create_table(:accessions) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
 
@@ -153,7 +153,7 @@ Sequel.migration do
     create_table(:resources) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
       String :title, :null => false
@@ -173,7 +173,7 @@ Sequel.migration do
     create_table(:archival_objects) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
       Integer :resource_id, :null => true
@@ -201,7 +201,7 @@ Sequel.migration do
     create_table(:vocabularies) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       String :name, :null => false, :unique => true
       String :ref_id, :null => false, :unique => true
@@ -217,7 +217,7 @@ Sequel.migration do
     create_table(:subjects) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :vocab_id, :null => false
 
@@ -233,7 +233,7 @@ Sequel.migration do
     create_table(:terms) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :vocab_id, :null => false
 
@@ -258,7 +258,7 @@ Sequel.migration do
     create_table(:agent_person) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -268,7 +268,7 @@ Sequel.migration do
     create_table(:agent_family) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -278,7 +278,7 @@ Sequel.migration do
     create_table(:agent_corporate_entity) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -288,7 +288,7 @@ Sequel.migration do
     create_table(:agent_software) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -312,7 +312,7 @@ Sequel.migration do
     create_table(:name_person) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :agent_person_id, :null => false
 
@@ -341,7 +341,7 @@ Sequel.migration do
     create_table(:name_family) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :agent_family_id, :null => false
 
@@ -364,7 +364,7 @@ Sequel.migration do
     create_table(:name_corporate_entity) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :agent_corporate_entity_id, :null => false
 
@@ -389,7 +389,7 @@ Sequel.migration do
     create_table(:name_software) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :agent_software_id, :null => false
 
@@ -413,7 +413,7 @@ Sequel.migration do
     create_table(:agent_contacts) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :agent_person_id, :null => true
       Integer :agent_family_id, :null => true
@@ -449,7 +449,7 @@ Sequel.migration do
     create_table(:extents) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :accession_id, :null => true
       Integer :archival_object_id, :null => true
@@ -477,7 +477,7 @@ Sequel.migration do
     create_table(:dates) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       Integer :accession_id, :null => true
       Integer :archival_object_id, :null => true
@@ -509,7 +509,7 @@ Sequel.migration do
     create_table(:external_documents) do
       primary_key :id
 
-      Integer :lock_version, :default => 0
+      Integer :lock_version, :default => 0, :null => false
 
       String :title, :null => false
       String :location, :null => false
