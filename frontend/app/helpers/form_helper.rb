@@ -24,6 +24,34 @@ module FormHelper
     end
   end
 
+  def jsonmodel_form_for(record, options = {}, &proc)
+    raise ArgumentError, "Missing block" unless block_given?
+
+    options[:html] ||= {}
+
+    case record
+      when String, Symbol
+        object_name = record
+        object      = nil
+      else
+        object      = record.is_a?(Array) ? record.last : record
+        object_name = options[:as] || ActiveModel::Naming.param_key(object)
+        apply_form_for_options!(record, options)
+    end
+
+    options[:html][:remote] = options.delete(:remote) if options.has_key?(:remote)
+    options[:html][:method] = options.delete(:method) if options.has_key?(:method)
+    options[:html][:authenticity_token] = options.delete(:authenticity_token)
+
+    builder = options[:parent_builder] = instantiate_builder(object_name, object, options, &proc)
+    fields_for = fields_for(object_name, object, options, &proc)
+    default_options = builder.multipart? ? { :multipart => true } : {}
+    output = form_tag(options.delete(:url) || {}, default_options.merge!(options.delete(:html)))
+    output << hidden_field_tag("#{object_name}[lock_version]", record["lock_version"]) if record["lock_version"]
+    output << fields_for
+    output.safe_concat('</form>')
+  end
+
 
   module FormBuilderMethods
 
@@ -53,6 +81,8 @@ module FormHelper
       end
 
       result = yield
+
+      result << @template.hidden_field_tag(current_name("lock_version"), current["lock_version"])
 
       @jsonmodel_object.pop
 
