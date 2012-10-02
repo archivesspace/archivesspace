@@ -1,4 +1,4 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), link_to(@agent.names[0]["sort_name"], :controller => :agents, :action => :show, :type => @agent.agent_type), "Edit"]} %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), link_to(@agent.names[0]["sort_name"], :id => @agent.id, :controller => :agents, :action => :show, :type => @agent.agent_type), "Edit"]} %>
 
 <%= jsonmodel_form_for @agent, :as => "agent", :url => {:action => :update, :id => @agent.id, :type => @agent.agent_type}, :html => {:class => 'form-horizontal'} do |f| %>
 <div class="row-fluid">

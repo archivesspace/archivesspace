@@ -18,8 +18,8 @@ $(function() {
         var $subform = $(this);
 
         $(".subform-remove", $subform).on("click", function() {
-          AS.confirmSubFormDelete($(this), function() {
-            $subform.remove();
+          AS.confirmSubFormDelete($(this), function(button) {
+            button.parents(".subform-wrapper").remove();
             $this.parents("form:first").triggerHandler("form-changed");
             if ($(".subform.external-document-fields", $this).length === 0) {
               $(".alert", $this).show();

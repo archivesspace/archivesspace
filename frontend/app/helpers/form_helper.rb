@@ -56,7 +56,7 @@ module FormHelper
   module FormBuilderMethods
 
 
-    def with_jsonmodel(name, obj, model, opts = {})
+    def with_jsonmodel(name, obj, model, opts = {}, &block)
 
       if model.is_a? Symbol
         model = JSONModel(model)
@@ -82,11 +82,16 @@ module FormHelper
 
       result = yield
 
-      result << @template.hidden_field_tag(current_name("lock_version"), current["lock_version"])
+      lock_version = (obj["lock_version"] ? @template.hidden_field_tag(current_name("lock_version"),
+                                                                       obj["lock_version"],
+                                                                       :class => "subform-hidden-field") : "")
 
       @jsonmodel_object.pop
 
-      result
+      ('<div class="subform-wrapper">'.html_safe +
+       lock_version +
+       result +
+       '</div>'.html_safe)
     end
 
 

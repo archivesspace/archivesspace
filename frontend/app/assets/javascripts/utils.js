@@ -173,6 +173,6 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
   $(".confirm-removal", confirmationEl).click(function(event) {
     event.preventDefault();
     event.stopPropagation();
-    onConfirmCallback();
+    onConfirmCallback($(event.target));
   });
 };

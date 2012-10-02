@@ -14,8 +14,8 @@
 
   <section id="primary_name">
     <h3>Primary Name</h3>
-    <% f.with_jsonmodel("names[]", @agent.names[0], @name_type) do %>
-      <%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => f} %>
+    <%= f.with_jsonmodel("names[]", @agent.names[0], @name_type) do %>
+      <% render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => f} %>
     <% end %>
 
   </section>
@@ -29,8 +29,8 @@
       <% if @agent.names.length > 1 %>
         <% @agent.names.each_with_index do | name , index | %>
           <% if index > 0 %>
-            <% f.with_jsonmodel("names[]", name, @name_type) do %>
-              <%= render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
+            <%= f.with_jsonmodel("names[]", name, @name_type) do %>
+              <% render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
             <% end %>
           <% end %>
         <% end %>
@@ -48,8 +48,8 @@
     <div id="contacts_container">
       <% if @agent.agent_contacts && @agent.agent_contacts.length > 0 %>
         <% @agent.agent_contacts.each do | contact | %>
-          <% f.with_jsonmodel("agent_contacts[]", contact, :agent_contact) do %>
-            <%= render :partial => "agents/contact_details", :locals => {:f => f} %>
+          <%= f.with_jsonmodel("agent_contacts[]", contact, :agent_contact) do %>
+            <% render :partial => "agents/contact_details", :locals => {:f => f} %>
           <% end %>
         <% end %>
       <% else %>
@@ -68,8 +68,8 @@
         <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
       <% else %>
         <% @agent.external_documents.each_with_index do | external_document, index | %>
-          <% f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
-            <%= render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
+          <%= f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
+            <% render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
           <% end %>
         <% end %>
       <% end %>
@@ -82,14 +82,14 @@
 <%= render :partial => "external_documents/template", :locals => {:f => f} %>
 
 <div id="agent_contact_form_template"><!--
-  <% f.with_jsonmodel("agent_contacts[]", {}, :agent_contact, :index => "${index}") do %>
-    <%= render :partial => "agents/contact_details", :locals => {:f => f} %>
+  <%= f.with_jsonmodel("agent_contacts[]", {}, :agent_contact, :index => "${index}") do %>
+    <% render :partial => "agents/contact_details", :locals => {:f => f} %>
   <% end %>
 --></div>
 
 <div id="agent_secondary_name_form_template"><!--
-  <% f.with_jsonmodel("names[]", {}, @name_type, :index => "${index}") do %>
-    <%= render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
+  <%= f.with_jsonmodel("names[]", {}, @name_type, :index => "${index}") do %>
+    <% render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
   <% end %>
 --></div>
 

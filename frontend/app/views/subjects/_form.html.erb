@@ -29,8 +29,8 @@
          <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
        <% else %>
          <% @subject.external_documents.each_with_index do | external_document, index | %>
-           <% f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
-             <%= render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
+           <%= f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
+             <% render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
            <% end %>
          <% end %>
        <% end %>
