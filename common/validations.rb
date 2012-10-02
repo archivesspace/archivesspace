@@ -58,7 +58,8 @@ module JSONModel::Validations
     elsif hash["date_type"] === "inclusive" || hash["date_type"] === "bulk"
       errors << ["begin", "is required"] if hash["begin"].nil?
       errors << ["end", "is required"] if hash["end"].nil?
-      errors << ["end_time", "is required"] if not hash["begin_time"].nil?
+      errors << ["begin_time", "is required"] if not hash["end_time"].nil? and hash["begin_time"].nil?
+      errors << ["end_time", "is required"] if not hash["begin_time"].nil? and hash["end_time"].nil?
     end
 
     errors
