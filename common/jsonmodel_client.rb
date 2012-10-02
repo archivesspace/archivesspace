@@ -54,8 +54,6 @@ module JSONModel
 
 
   @@protected_fields << "uri"
-  @@protected_fields << "lock_version"
-
 
 
   module Webhooks
@@ -177,7 +175,7 @@ module JSONModel
 
         # If we were able to save successfully, increment our local version
         # number to match the version on the server.
-        self.lock_version = self.lock_version ? (self.lock_version + 1) : 0
+        self.lock_version = response["lock_version"]
 
         return response["id"]
 
