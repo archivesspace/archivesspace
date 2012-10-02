@@ -65,6 +65,14 @@ class Selenium::WebDriver::Driver
   end
 
 
+  def blocking_find_elements(*selectors)
+    # Hit with find_element first to invoke our usual retry logic
+    find_element(*selectors)
+
+    find_elements(*selectors)
+  end
+
+
   def ensure_no_such_element(*selectors)
     wait_for_ajax
 
@@ -648,7 +656,7 @@ describe "ArchivesSpace user interface" do
 
   it "can see two extents on the saved Accession" do
 
-    extent_headings = @driver.find_elements(:css => '#extent .accordion-heading')
+    extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
     extent_headings.length.should eq (2)
     extent_headings[0].text.should eq ("10 Cassettes")
     extent_headings[1].text.should eq ("5 Volumes")
@@ -664,7 +672,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    extent_headings = @driver.find_elements(:css => '#extent .accordion-heading')
+    extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
     extent_headings.length.should eq (1)
     extent_headings[0].text.should eq ("10 Cassettes")
 
@@ -713,7 +721,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
     # check dates
-    date_headings = @driver.find_elements(:css => '#dates .accordion-heading')
+    date_headings = @driver.blocking_find_elements(:css => '#dates .accordion-heading')
     date_headings.length.should eq (2)    
   end
 
@@ -730,7 +738,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
     # check remaining date
-    date_headings = @driver.find_elements(:css => '#dates .accordion-heading')
+    date_headings = @driver.blocking_find_elements(:css => '#dates .accordion-heading')
     date_headings.length.should eq (1)
 
   end
@@ -767,7 +775,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
     # check external documents
-    external_document_sections = @driver.find_elements(:css => '#external_documents .external-document')
+    external_document_sections = @driver.blocking_find_elements(:css => '#external_documents .external-document')
     external_document_sections.length.should eq (2)
     external_document_sections[0].find_element(:link => "http://archivesspace.org")
   end
@@ -785,7 +793,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
     # check remaining external documents
-    external_document_sections = @driver.find_elements(:css => '#external_documents .external-document')
+    external_document_sections = @driver.blocking_find_elements(:css => '#external_documents .external-document')
     external_document_sections.length.should eq (1)
 
   end
@@ -859,7 +867,7 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    elements = @driver.find_elements(:css => "li.jstree-leaf").map{|li| li.text.strip}
+    elements = @driver.blocking_find_elements(:css => "li.jstree-leaf").map{|li| li.text.strip}
 
     ["January", "February", "December"].each do |month|
       elements.any? {|elt| elt =~ /#{month}/}.should be_true
