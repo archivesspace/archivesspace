@@ -1,0 +1,10 @@
+JSON Schema: <%= @schema[:name].to_s.sub(/_schema/, '').capitalize %>
+<%= @schema[:uri] %>
+Properties
+<% for property in @schema[:properties].keys  %>
+<%= @schema[:properties][property]["type"]%>	<%= property %>
+<% end %>
+
+
+
+

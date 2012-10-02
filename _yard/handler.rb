@@ -57,23 +57,16 @@ class EndpointHandler < YARD::Handlers::Ruby::Base
     
     endpoint_object = register YARD::CodeObjects::EndpointObject.new(namespace, name)
     
-    # Hack the Endpoint class so it just returns a clean
-    # object
-
-    RESTHelpers::Endpoint.class_eval do
-
-      def returns(*returns, &block)
-        @returns = returns.map { |r| r[1] = RESTHelpers::Endpoint.return_types[r[1]] || r[1]; r }
-        self
-      end
-      
-    end
-    
     endpoint_object.source = statement.source
     endpoint_object.describe
 
   end
 end
+
+
+  
+  
+  
 
 
 
