@@ -597,6 +597,7 @@ describe "ArchivesSpace user interface" do
     @driver.complete_4part_id("accession[id_%d]")
     @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
+    @driver.find_element(:id => "accession[extents][0][number]").clear_and_send_keys "10"
 
     @driver.find_element(:css => ".errors-content_description").text.should eq("Content Description - Property was missing")
     @driver.find_element(:css => ".errors-condition_description").text.should eq("Condition Description - Property was missing")

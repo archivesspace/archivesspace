@@ -25,6 +25,10 @@ module ASModel
 
 
   def self.included(base)
+    base.instance_eval do
+      plugin :optimistic_locking
+    end
+
     base.extend(ClassMethods)
     base.extend(JSONModel)
   end
@@ -41,7 +45,9 @@ module ASModel
     end
 
     self.class.strict_param_setting = false
+
     self.update(changes)
+
     id = self.save
 
     self.class.apply_linked_database_records(self, json, opts)

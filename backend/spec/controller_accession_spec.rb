@@ -75,4 +75,25 @@ describe 'Accession controller' do
     JSONModel(:accession).find(created).uri.should eq("#{@repo}/accessions/#{created}")
   end
 
+
+
+  it "won't let you overwrite the current version of a record with a stale copy" do
+
+    created = create_accession
+
+    acc1 = JSONModel(:accession).find(created)
+    acc2 = JSONModel(:accession).find(created)
+
+    acc1.id_1 = "5678"
+    acc1.save
+
+    # Working off the stale copy
+    acc2.id_1 = "9999"
+    expect {
+      acc2.save
+    }.to raise_error(ConflictException)
+
+  end
+
+
 end
