@@ -183,22 +183,23 @@ describe "ArchivesSpace user interface" do
 
   # Stop selenium, kill the dev servers
   after(:all) do
+    if not @last_example_ok and ENV['SCREENSHOT_ON_ERROR']
+      outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
+      puts "Saving screenshot to #{outfile}"
+      @driver.save_screenshot(outfile)
+    end
+
     cleanup
   end
 
 
   around(:each) do |example|
     begin
+      @last_example_ok = false
       example.run
+      @last_example_ok = true
     rescue
-      if ENV['SCREENSHOT_ON_ERROR']
-        outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
-        puts "Saving screenshot to #{outfile}"
-        save_screenshot(outfile)
-      end
-
       cleanup
-
       raise $!
     end
   end
