@@ -172,7 +172,7 @@ module ASModel
               # Give our classes an opportunity to provide their own logic here
               db_record = model.ensure_exists(subrecord_json, obj)
             else
-              extra_opts = {}
+              extra_opts = {}.merge(opts)
 
               if linked_record[:association][:key]
                 extra_opts[linked_record[:association][:key]] = obj.id
