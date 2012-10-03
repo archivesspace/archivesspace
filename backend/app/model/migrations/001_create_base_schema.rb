@@ -518,6 +518,8 @@ Sequel.migration do
       String :identifier, :null => false
       String :rights_type, :null => false
 
+      Integer :active
+
       String :materials, :null => true
 
       String :ip_status, :null => true

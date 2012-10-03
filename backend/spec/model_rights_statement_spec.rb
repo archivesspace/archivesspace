@@ -12,11 +12,29 @@ describe 'Rights Statement model' do
                                               "identifier" => "abc123",
                                               "rights_type" => "intellectual_property",
                                               "ip_status" => "copyrighted",
-                                              "jurisdiction" => "AU"
+                                              "jurisdiction" => "AU",
+                                              "active" => true
                                             }),
                                 :repo_id => @repo_id)
 
     RightsStatement[rights_statement[:id]].identifier.should eq("abc123")
+    RightsStatement[rights_statement[:id]].active.should eq(1)
+  end
+
+
+  it "creating a new rights statement and with active set to false" do
+    rights_statement = RightsStatement.create_from_json(JSONModel(:rights_statement).
+                                                          from_hash({
+                                                                      "identifier" => "abc123",
+                                                                      "rights_type" => "intellectual_property",
+                                                                      "ip_status" => "copyrighted",
+                                                                      "jurisdiction" => "AU",
+                                                                      "active" => false
+                                                                    }),
+                                                        :repo_id => @repo_id)
+
+    RightsStatement[rights_statement[:id]].identifier.should eq("abc123")
+    RightsStatement[rights_statement[:id]].active.should eq(0)
   end
 
 

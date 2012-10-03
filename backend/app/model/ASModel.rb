@@ -46,7 +46,7 @@ module ASModel
 
     self.class.strict_param_setting = false
 
-    self.update(changes)
+    self.update(self.class.map_json_to_db_types(json.class.schema, changes))
 
     id = self.save
 
@@ -116,13 +116,37 @@ module ASModel
 
     def create_from_json(json, extra_values = {})
       self.strict_param_setting = false
-      obj = self.create(json.to_hash.merge(extra_values))
+      obj = self.create(map_json_to_db_types(json.class.schema, json.to_hash.merge(extra_values)))
 
       self.apply_linked_database_records(obj, json, extra_values)
 
       obj
     end
 
+
+    def map_json_to_db_types(schema, hash)
+      hash = hash.clone
+      schema['properties'].each do |property, definition|
+        if hash.has_key?(property) && definition['type'] === 'boolean'
+          hash[property] = (hash[property] ? 1 : 0)
+        end
+      end
+
+      hash
+    end
+
+
+    def map_db_types_to_json(schema, hash)
+      hash = hash.clone
+      schema['properties'].each do |property, definition|
+        property = property.intern
+        if hash.has_key?(property) && definition['type'] === 'boolean'
+          hash[property] = (hash[property] === 1)
+        end
+      end
+
+      hash
+    end
 
     # Several JSONModels consist of logical subrecords that are stored as
     # separate models in the database (in separate tables).
@@ -197,7 +221,7 @@ module ASModel
 
 
     def sequel_to_jsonmodel(obj, model, opts = {})
-      json = JSONModel(model).new(obj.values.reject {|k, v| v.nil? })
+      json = JSONModel(model).new(map_db_types_to_json(JSONModel(model).schema, obj.values.reject {|k, v| v.nil? }))
 
       uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})
       json.uri = uri if uri

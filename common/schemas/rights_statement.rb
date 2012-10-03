@@ -7,6 +7,8 @@
       "rights_type" => {"type" => "string", "minLength" => 1, "required" => true, "enum" => ["intellectual_property", "license", "statute", "institutional_policy"]},
       "identifier" => {"type" => "string", "minLength" => 1, "required" => true},
 
+      "active" => {"type" => "boolean", "default" => true},
+
       "materials" => {"type" => "string", "required" => false},
 
       "ip_status" => {"type" => "string", "required" => false, "enum" => ["copyrighted", "public_domain", "unknown"]},
