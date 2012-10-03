@@ -1,6 +1,6 @@
 <h2><%= @archival_object.title %>  <span class="label label-info">Archival Object</span></h2>
 <br/>
-<%= render "shared/form_messages", :object => @archival_object %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @archival_object, :f => f} %>
 
 <fieldset>
 
@@ -15,9 +15,13 @@
       <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
     </h3>
     <div id="extents_container">
-      <% @archival_object.extents.each_with_index do | extent, index | %>
-        <% f.with_jsonmodel("extents[]", extent, :extent) do %>
-          <%= render :partial => "extent/form", :locals => {:f => f, :index => index} %>
+      <% if @archival_object.extents.blank? %>
+        <p class="alert alert-info">Click 'Add Extent' to add an extent record.</p>
+      <% else %>
+        <% @archival_object.extents.each_with_index do | extent, index | %>
+          <% f.with_jsonmodel("extents[]", extent, :extent) do %>
+            <%= render :partial => "extent/form", :locals => {:f => f} %>
+          <% end %>
         <% end %>
       <% end %>
     </div>

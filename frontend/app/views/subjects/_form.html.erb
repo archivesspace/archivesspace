@@ -1,4 +1,4 @@
-<%= render "shared/form_messages", :object => @subject %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @subject, :f => f} %>
 <fieldset>
    <%= f.hidden_field :vocabulary, :value => session[:vocabulary]['uri'] %>
 

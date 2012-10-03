@@ -1,4 +1,4 @@
-<%= render "shared/form_messages", :object => @accession %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @accession, :f => f} %>
 
 <section id="basic_information">
   <h3>Basic Information</h3>
@@ -19,9 +19,13 @@
     <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
   </h3>
   <div id="extents_container">
-    <% @accession.extents.each_with_index do | extent, index | %>
-      <% f.with_jsonmodel("extents[]", extent, :extent) do %>
-        <%= render :partial => "extent/form", :locals => {:f => f, :index => index} %>
+    <% if @accession.extents.blank? %>
+      <p class="alert alert-info">Click 'Add Extent' to add an extent record.</p>
+    <% else %>
+      <% @accession.extents.each_with_index do | extent, index | %>
+        <% f.with_jsonmodel("extents[]", extent, :extent) do %>
+          <%= render :partial => "extent/form", :locals => {:f => f} %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

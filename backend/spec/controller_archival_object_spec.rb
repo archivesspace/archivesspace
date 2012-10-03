@@ -41,7 +41,7 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object with a parent" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     resource.save
 
     created = create_archival_object("resource" => resource.uri)
@@ -60,10 +60,10 @@ describe 'Archival Object controller' do
 
 
   it "warns when two archival objects in the same resource having the same ref_id" do
-    resourceA = JSONModel(:resource).from_hash("title" => "a resource A", "id_0" => "abc123")
+    resourceA = JSONModel(:resource).from_hash("title" => "a resource A", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     resourceA.save
 
-    resourceB = JSONModel(:resource).from_hash("title" => "a resource B", "id_0" => "xyz456")
+    resourceB = JSONModel(:resource).from_hash("title" => "a resource B", "id_0" => "xyz456", "extents" => [{"portion" => "whole", "number" => "10", "extent_type" => "reels"}])
     resourceB.save
 
     create_archival_object("resource" => resourceA.uri, "ref_id" => "xyz")

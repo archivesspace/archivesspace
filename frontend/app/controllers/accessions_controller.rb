@@ -10,7 +10,6 @@ class AccessionsController < ApplicationController
 
   def new
     @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
-    @accession.extents = [JSONModel(:extent).new._always_valid!]
   end
 
   def edit

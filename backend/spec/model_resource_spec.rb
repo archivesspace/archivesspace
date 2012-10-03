@@ -11,7 +11,14 @@ describe 'Resource model' do
     Resource.create_from_json(JSONModel(:resource).
                               from_hash({
                                           "title" => "A new resource",
-                                          "id_0" => "abc123"
+                                          "id_0" => "abc123",
+                                          "extents" => [
+                                            {
+                                              "portion" => "whole",
+                                              "number" => "5 or so",
+                                              "extent_type" => "reels",
+                                            }
+                                          ]
                                         }),
                               :repo_id => @repo_id)
   end
@@ -33,22 +40,52 @@ describe 'Resource model' do
 
   it "Allows resources to be created with a date" do
     resource = Resource.create_from_json(JSONModel(:resource).
-                              from_hash({
-                                          "title" => "A new resource",
-                                          "id_0" => "abc123",
-                                          "dates" => [
-                                            {
-                                               "date_type" => "single",
-                                               "label" => "creation",
-                                               "begin" => "2012-05-14",
-                                               "end" => "2012-05-14",
-                                            }
-                                          ]
-                                        }),
-                              :repo_id => @repo_id)
+                                           from_hash({
+                                                       "title" => "A new resource",
+                                                       "id_0" => "abc123",
+                                                       "extents" => [
+                                                         {
+                                                           "portion" => "whole",
+                                                           "number" => "5 or so",
+                                                           "extent_type" => "reels",
+                                                         }
+                                                       ],
+                                                       "dates" => [
+                                                         {
+                                                           "date_type" => "single",
+                                                           "label" => "creation",
+                                                           "begin" => "2012-05-14",
+                                                           "end" => "2012-05-14",
+                                                         }
+                                                       ]
+                                                     }),
+                                         :repo_id => @repo_id)
 
     Resource[resource[:id]].dates.length.should eq(1)
     Resource[resource[:id]].dates[0].begin.should eq("2012-05-14")
   end
 
+
+  it "Throws an exception if extents is nil" do
+    expect {
+      resource = Resource.create_from_json(JSONModel(:resource).
+                                             from_hash({
+                                                         "title" => "A new resource",
+                                                         "id_0" => "abc123",
+                                                       }),
+                                           :repo_id => @repo_id)
+    }.to raise_error
+  end
+
+  it "Throws an exception if extents is empty" do
+    expect {
+      resource = Resource.create_from_json(JSONModel(:resource).
+                                             from_hash({
+                                                         "title" => "A new resource",
+                                                         "id_0" => "abc123",
+                                                         "extents" => []
+                                                       }),
+                                           :repo_id => @repo_id)
+    }.to raise_error
+  end
 end
