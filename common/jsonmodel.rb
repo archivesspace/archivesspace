@@ -472,7 +472,7 @@ module JSONModel
                 result[k] = self.drop_unknown_properties(v, schema["properties"][k])
               elsif schema["properties"][k]["type"] == "array"
                 result[k] = v.collect {|elt| self.drop_unknown_properties(elt, schema["properties"][k]["items"])}
-              elsif v and v != ""
+              elsif v != "" and !v.nil?
                 result[k] = v
               end
             end
