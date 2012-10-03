@@ -546,10 +546,12 @@ describe "ArchivesSpace user interface" do
 
   # Accessions
 
+  accession_title = "Exciting new stuff"
+
   it "gives option to ignore warnings when creating an Accession" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Accession").click
-    @driver.find_element(:id => "accession[title]").clear_and_send_keys "Accession title"
+    @driver.find_element(:id => "accession[title]").clear_and_send_keys accession_title
     @driver.complete_4part_id("accession[id_%d]")
     @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
@@ -565,14 +567,14 @@ describe "ArchivesSpace user interface" do
   it "can create an Accession" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Accession").click
-    @driver.find_element(:id => "accession[title]").clear_and_send_keys "Accession title"
+    @driver.find_element(:id => "accession[title]").clear_and_send_keys accession_title
     @driver.complete_4part_id("accession[id_%d]")
     @driver.find_element(:id => "accession[accession_date]").clear_and_send_keys "2012-01-01"
     @driver.find_element(:id => "accession[content_description]").clear_and_send_keys "A box containing our own universe"
     @driver.find_element(:id => "accession[condition_description]").clear_and_send_keys "Slightly squashed"
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => '.record-pane h2').text.should eq("Accession title Accession")
+    @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession")
   end
 
 
@@ -612,6 +614,8 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id => 'accession[extents][1][number]').clear_and_send_keys "10"
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+    @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession")
   end
 
 
@@ -899,6 +903,55 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Resources").click
 
     @driver.find_element_with_text('//td', /#{resource_title}/, true, true).should be_nil
+  end
+
+
+  it "can edit a Resource and add another Extent" do
+    ## Change back to the populated repository
+    @driver.find_element(:css, '.repository-container .btn').click
+    @driver.find_element(:link_text => test_repo_code_2).click
+
+    ## Check browse list for Resources
+    @driver.find_element(:link, "Browse").click
+    @driver.find_element(:link, "Resources").click
+
+    @driver.find_element(:link, 'View').click
+    @driver.find_element(:link, 'Edit').click
+    @driver.find_element(:css => '#extent h3 .btn').click
+
+    @driver.find_element(:id => 'resource[extents][1][number]').clear_and_send_keys "5"
+    event_type_select = @driver.find_element(:id => "resource[extents][1][extent_type]")
+    event_type_select.find_elements( :tag_name => "option" ).each do |option|
+      option.click if option.attribute("value") === "volumes"
+    end
+
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
+
+    @driver.find_element_with_text('//div', /Resource Saved/).should_not be_nil
+
+    @driver.find_element(:link, 'Finish Editing').click
+  end
+
+
+  it "can see two Extents on the saved Resource" do
+    extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
+
+    extent_headings.length.should eq (2)
+    extent_headings[0].text.should eq ("10 Cassettes")
+    extent_headings[1].text.should eq ("5 Volumes")
+  end
+
+
+  it "can remove an Extent when editing a Resource" do
+    @driver.find_element(:link, 'Edit').click
+    @driver.find_element(:css => '#extent .subform-remove').click
+    @driver.find_element(:css => '#extent .confirm-removal').click
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
+    @driver.find_element(:link, 'Finish Editing').click
+    extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
+
+    extent_headings.length.should eq (1)
+    extent_headings[0].text.should eq ("10 Cassettes")
   end
 
 
