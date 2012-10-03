@@ -1,0 +1,40 @@
+<section id="rights_statements">
+  <h3>Rights Statements</h3>
+  <div class="accordion details" id="rights_statements_accordion">
+    <% rights_statements.each_with_index do | rights_statement, index | %>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#rights_statements_accordion" href="#rights_statement_<%= index %>">
+            <div class="span1">
+              <span class="icon-chevron-right"></span>
+              <span class="icon-chevron-down"></span>
+            </div>
+            <div class="span2">
+              <%= rights_statement['identifier'] %>
+            </div>
+            <div class="span4">
+              <%= I18n.t("rights_statement.rights_type_#{rights_statement['rights_type']}") %>
+            </div>
+            <div class="span5">
+              <% if rights_statement['ip_status'] %>
+                <%= I18n.t("rights_statement.ip_status_#{rights_statement['ip_status']}") %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div id="rights_statement_<%= index %>" class="accordion-body collapse">
+          <% rights_statement.each do |k, v| %>
+            <div class="row-fluid label-and-value">
+              <div class="span3 offset1" ><%= I18n.t("rights_statement.#{k}") %></div>
+              <% if JSONModel(:rights_statement).schema["properties"][k]["enum"] %>
+                <div class="span8"><%= I18n.t("rights_statement.#{k}_#{v}") %></div>
+              <% else  %>
+                <div class="span8"><%= v %></div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

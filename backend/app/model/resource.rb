@@ -6,6 +6,7 @@ class Resource < Sequel::Model(:resources)
   include Extents
   include Dates
   include ExternalDocuments
+  include RightsStatements
 
 
   def link(opts)

@@ -70,9 +70,30 @@
 </section>
 
 
+<section id="rights_statements">
+  <h3>
+    Rights Statements
+    <input type="button" class="btn btn-small pull-right" value="Add Rights Statement"/>
+  </h3>
+  <div id="rights_statements_container">
+    <% if @accession.rights_statements.blank? %>
+      <p class="alert alert-info">Click 'Add Rights Statement' to add an rights statement record.</p>
+    <% else %>
+      <% @accession.rights_statements.each_with_index do | rights_statement, index | %>
+        <% f.with_jsonmodel("rights_statements[]", rights_statement, :rights_statement) do %>
+          <%= render :partial => "rights_statements/form", :locals => {:f => f, :index => index} %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+
 <%= render :partial => "extent/template", :locals => {:f => f} %>
 <%= render :partial => "dates/template", :locals => {:f => f} %>
 <%= render :partial => "external_documents/template", :locals => {:f => f} %>
+<%= render :partial => "rights_statements/template", :locals => {:f => f} %>
+
 
 <div class="form-actions">            
   <button type="submit" class="btn btn-primary">Save Accession</button>

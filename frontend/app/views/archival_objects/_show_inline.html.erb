@@ -29,5 +29,9 @@
       <%= render :partial => "external_documents/show", :locals => { :external_documents => @archival_object.external_documents } %>
     <% end %>
 
+    <% if @archival_object.rights_statements.length > 0 %>
+      <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @archival_object.rights_statements } %>
+    <% end %>
+
   </div>
 </div>

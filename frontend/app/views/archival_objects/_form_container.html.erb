@@ -63,11 +63,30 @@
     </div>
   </section>
 
+  <section id="rights_statements">
+    <h3>
+      Rights Statements
+      <input type="button" class="btn btn-small pull-right" value="Add Rights Statement"/>
+    </h3>
+    <div id="rights_statements_container">
+      <% if @archival_object.rights_statements.blank? %>
+        <p class="alert alert-info">Click 'Add Rights Statement' to add an rights statement record.</p>
+      <% else %>
+        <% @archival_object.rights_statements.each_with_index do | rights_statement, index | %>
+          <% f.with_jsonmodel("rights_statements[]", rights_statement, :rights_statement) do %>
+            <%= render :partial => "rights_statements/form", :locals => {:f => f, :index => index} %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
 </fieldset>
 
 <%= render :partial => "extent/template", :locals => {:f => f} %>
 <%= render :partial => "dates/template", :locals => {:f => f} %>
 <%= render :partial => "external_documents/template", :locals => {:f => f} %>
+<%= render :partial => "rights_statements/template", :locals => {:f => f} %>
 
 <%= f.hidden_field :parent %>
 <%= f.hidden_field :resource %>

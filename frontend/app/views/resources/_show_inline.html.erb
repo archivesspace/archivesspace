@@ -46,6 +46,9 @@
       <%= render :partial => "external_documents/show", :locals => { :external_documents => @resource.external_documents } %>
     <% end %>
 
+    <% if @resource.rights_statements.length > 0 %>
+      <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @resource.rights_statements } %>
+    <% end %>
 
   </div>
 </div>
