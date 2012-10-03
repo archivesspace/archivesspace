@@ -47,3 +47,13 @@ gem 'warbler'
 # gem 'debugger'
 
 gem 'atomic'
+
+# Importing requirements
+
+gem 'nokogiri'
+
+# For queuing batch import jobs
+
+#gem 'delayed_job_active_record'
+
+

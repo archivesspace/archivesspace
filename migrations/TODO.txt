@@ -1,4 +1,10 @@
 
+- class level validator for options?
+	- ensure the backend knows about the vocab, repo
+	- ensure the importer exists
+	- ensure the crosswalk and the source file match
+	- etc.
+
 - debug mode
 
 - revisit dry run mode
@@ -9,6 +15,12 @@
 
 - refactor ancestor relationships setter
 
+- change 'path' to 'key' in import.rb CLI for crosswalk option
+
+- replace importer directory load in CLI with ASpaceImport::init
+
+- add init options to ASpaceImport module
+	- perhaps allow loaded importers to be restricted (i.e., xml only for webapps)
 
 
 
