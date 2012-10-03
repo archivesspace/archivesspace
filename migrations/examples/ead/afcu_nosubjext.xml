@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ead xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns="urn:isbn:1-931666-22-9">    <eadheader findaidstatus="unverified-full-draft" repositoryencoding="iso15511" countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b">
+        <eadid>afcu</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>Guide to The Records of the American and Foreign Christian Union 
+                    <date calendar="gregorian" normal="1851-1884" era="ce" type="inclusive"> 1851-1884 </date>
+                    <lb/>
+                    <num>MC 20</num>
+                </titleproper>
+                <author>Finding aid prepared by Susan Meier.</author>
+            </titlestmt>
+            <editionstmt>
+                <p>This version was derived from Meier's 1985 finding aid.</p>
+            </editionstmt>
+            <publicationstmt>
+                <publisher>New York University Archives</publisher>
+                <address>
+                    <addressline>Elmer Holmes Bobst Library</addressline>
+                    <addressline>70 Washington Square South</addressline>
+                    <addressline>New York, NY, 10012</addressline>
+                    <addressline>(212) 998-2641</addressline>
+                    <addressline>university.archives@library.nyu.edu</addressline>
+                </address>
+            </publicationstmt>
+        </filedesc>
+        <profiledesc>
+            <creation>This finding aid was produced using the Archivists' Toolkit
+                <date>2012-02-09T11:56-0500</date>
+            </creation>
+            <langusage>Description is in 
+                <language> English</language>.</langusage>
+        </profiledesc>
+    </eadheader>
+    <archdesc level="collection">
+        <did>
+            <unittitle>Records of the American and Foreign Christian Union</unittitle>
+            <unitid>MC 20</unitid>
+            <repository>
+                <corpname>New York University Archives</corpname>
+            </repository>
+            <langmaterial>
+                <language langcode="eng"/>
+            </langmaterial>
+            <physdesc>
+                <extent>7.5 linear feet</extent>
+            </physdesc>
+            <unitdate>1851-1884</unitdate>
+            <abstract id="beffff2" label="Abstract">The American and Foreign Christian Union (AFCU) was founded in 1849 as an interdenominational organization with the purpose of converting Roman Catholics to evangelical Protestantism. Headquartered in New York City, the AFCU was founded by the union of the American Protestant Society(1844-1849), the Christian Alliance (1842-1849), and the Foreign Evangelical Society (1839-1849). The AFCU employed domestic missionaries; supported individual missionary efforts and kindred societies in Europe, Canada, and South America; published a monthly journal, The Christian World (1850-1884). In 1884 the AFCU discontinued its active missionary work but continued to support the American Church in Paris.</abstract>
+        </did>
+        <bioghist id="beffff11">
+            <head>History</head>
+            <p>The American and Foreign Christian Union (AFCU) was founded in New York City in May 1849 with the objective of promoting American evangelical culture, both within the United States and abroad, by converting 
+                <corpname>Roman Catholics</corpname> to 
+                <ssssss>Protestantism</ssssss>. Several members of the faculty and administration of New York University were affiliated with the 
+                <corpname>AFCU,</corpname> including professors 
+                <persname>Henry Martyn Baird</persname>, 
+                <persname>Samuel F. B. Morse</persname>, and 
+                <persname>Henry P. Tappan</persname>. University presidents 
+                <persname>Theodore Frelinghuysen</persname>, 
+                <persname>Isaac Ferris</persname>, and 
+                <persname>Howard Crosby</persname> also served as members of the governing board.</p>
+            <p>Union members considered the conversion of Catholics to be an essential step toward their larger goal of converting the world to the American Protestant and democratic way of life. Individual 
+                <ssssss>Christians</ssssss> of various denominational affiliations, including those of the Presbyterian, Congregational, 
+                <ssssss> Baptist,</ssssss>
+                <ssssss> Lutheran</ssssss>, 
+                <ssssss>Dutch Reformed</ssssss>, and the 
+                <ssssss>Methodist Episcopal</ssssss> churches, composed the constituency of the Union. Most AFCU officers were leading clergymen who were also active in other interdenominational benevolent societies. As an interdenominational organization, the AFCU relied upon voluntary contributions from members of the various sympathetic evangelical Protestant denominations and received its strongest support, throughout the 35 years of its active missionary work, from those of the Presbyterian and Congregational churches.</p>
+            <p>The AFCU was founded through the union of three complementary societies, all of whom were founded during the early 1840s, a period of particularly heavy Irish Catholic immigration to the United States. The 
+                <corpname>American Protestant Society</corpname> (1844-1849) directed its efforts toward the conversion of American, though foreign-born, Catholics. The 
+                <corpname>Christian Alliance</corpname> (1842-1849) was founded to work for the conversion of Italian Catholics, both in Italy and elsewhere. The Foreign Evangelical Society (1839-1849) promoted Protestantism abroad by providing financial assistance to evangelical groups and individuals in Catholic and non-Catholic countries.</p>
+            <p>Both the American Protestant Society and the Christian Alliance directly employed missionaries, colporteurs, Bible-readers, and teachers who were required to submit monthly reports. The 
+                <corpname>Foreign Evangelical Society</corpname> preferred to work indirectly by raising funds and forwarding them to evangelical and kindred societies native to the country in which the Society was interested. These included groups such as the 
+                <corpname>French Canadian Missionary Society</corpname>, the 
+                <corpname>Societe Evangelique de France</corpname>, the 
+                <corpname>Societe Evangelique de Belge</corpname>, the 
+                <corpname>Comite Protestant de Lyon</corpname>, among many others. In countries such as 
+                <geogname>Poland</geogname>, 
+                <geogname>Sweden</geogname>, and 
+                <geogname>Germany</geogname>, where there were no similar organizations, the Society initiated its own missions and assisted individuals in 
+                <geogname>South America</geogname>, 
+                <geogname>Haiti</geogname>, 
+                <geogname>Mexico</geogname>, and 
+                <geogname>Texas</geogname>.</p>
+            <p>The directors of the three societies recognized their similar objectives and the value of making just one appeal to the Christian public. The three societies were united as the American and Foreign Christian Union in 1849. The initial officers of the AFCU included the President, Vice-Presidents (who numbered over 50), a 40-member Board of Directors, a nine-member Executive Committee, two Corresponding Secretaries, Recording Secretary, Treasurer, and General Agent. However, during the next 35 years, most of these offices varied slightly in number, title, and form.</p>
+            <p>The new society inherited the interests, responsibilities, and methods of each organization. Therefore, the Union employed domestic agents directly and granted regular appropriations to foreign evangelical societies. In foreign countries where Protestant or evangelical organizations did not exist, the Union sponsored individual missions. However, this was almost always done in cooperation with another similar American agency, such as the American Seaman's Friend Society. The Union also worked with the American Bible Society and the American Tract Society. In 1850 the Union began to publish a monthly journal, the 
+                <emph render="italic">American and Foreign Christian Union</emph>, later titled: 
+                <emph render="italic">The Christian World</emph>.</p>
+            <p>During its first decade, the Union increased many of the operations of its antecedent societies. By 
+                <date calendar="gregorian" era="ce">1860,</date> the domestic operations of the Union had grown to include 73 employees in 23 American states whose efforts were supervised by seven District Secretaries. Abroad, the AFCU granted subsidies designed to pay part of the support of 212 foreign employees and raised the funds to build the American Chapel in 
+                <geogname>Paris</geogname> to both serve Americans abroad and as a base for evangelical work in France. The minister of the Chapel was selected by the Union.</p>
+            <p>In 
+                <date calendar="gregorian" era="ce">1861</date> the AFCU was incorporated. By this time two major Protestant churches (Presbyterian and Methodist Episcopal) had begun independent missions to convert American Catholics to their respective denominations. This action represented a substantial loss of financial support for the domestic activities of the AFCU. Perhaps in response to these actions, the Union reorganized its efforts to extend them further abroad. Domestic employees were reduced in number to 25, and several small foreign mission stations were closed including those in Sweden, Haiti, Ireland, and Brazil. Support to the 
+                <corpname>French Canadian Missionary Society</corpname> was also discontinued.</p>
+            <p>The funds withdrawn from these enterprises were applied to the evangelization of Italy. This operation soon became the largest of AFCU enterprises. By 1864 the Union was supporting over 50 employees, the American Chapel in Florence, and a female seminary. By 1866 the Union had established a Theological Seminary in Milan. These efforts led to the founding of the 
+                <corpname>Free Italian Church</corpname> of Italy in 1871. The Evangelical Committee of the Free Italian Church then assumed responsibility for AFCU operations in that country and relieved the Union from further direct participation in the evangelization of Italy.</p>
+            <p>By 1873 several denominational missionary societies had opened foreign mission stations to convert Roman Catholics to their respective denominations. Donations to the Union were drastically reduced in favor of the denominational enterprises. In response the AFCU withdrew from the foreign field, appropriated its foreign operations to various denominational missionary agencies, and re-entered the domestic field. The Union supported seven to ten missionaries in western cities of the United States until 
+                <date calendar="gregorian" era="ce">1884</date>.</p>
+            <p>In 1877 the AFCU again began actively to promote and support evangelization efforts in France. The effort was largely unsuccessful until 1881 when the Union agreed to sponsor a group of French evangelicals on a fundraising tour of the United States, conducted under the auspices of the Commission for the American Fund for the Evangelization of France. The success of this enterprise led the Union to reorganize yet again in April of 1884. All domestic missions were closed to allow the Union to assume the evangelization of France as its sole and principal object. The Board of Directors was reduced from 40 members to 16, and George B. Safford was hired to act as corresponding secretary and assistant treasurer and to promote the cause among Protestant churches' ecclesiastical bodies. Public interest and support of the cause was not, however, sustained, and the Union was forced to discontinue its active missionary work in November 1884.</p>
+            <p>The AFCU remained incorporated, and for the next 27 years, 
+                <persname>L. T. Chamberlain</persname> voluntarily acted as secretary and treasurer to forward funds to Paris from friends of the American Chapel. In 
+                <date calendar="gregorian" era="ce">1914</date> the Union became affiliated with the American Church in Berlin when it assumed responsibility for an endowment fund for the parish house. Headquartered in New York City, the organization today continues to assist the American Church in Paris by managing its endowment, raising funds, and supporting the pastor.</p>
+            <p>Sources:</p>
+            <list type="ordered">
+                <item>(Reports, pamphlets, Serials, and Addresses): American and Foreign Christian Union.</item>
+                <item>An Address to the Christian public from the Board of Directors of the American and Foreign Christian Union. New York, 1849.</item>
+                <item>The American and Foreign Christian Union</item>
+                <item>Annual Reports of the American and Foreign Christian Union. Nos. 1-35 (1850-1884).</item>
+                <item>Presbyterian Historical Society, Philadelphia, Pennsylvania. Minutes, Reports and Selected Correspondence of the American and Foreign Christian Union, 1849-1971 (Record Group 118).</item>
+                <item>Questions Answered in Regard to the American and Foreign Christian Union. New York, n.d.</item>
+                <item>The Record. Vol. 3-32 (1871-1892). David Trumbull, ed., Valparaiso, Chile.</item>
+                <item>American Protestant Magazine. Vol. 1-5 (1845-1849).</item>
+                <item>Annual Reports of the American Protestant Society, No. 1, 3-6 (1844, 1846-1849).</item>
+                <item>Constitution and Address of the Christian Alliance. New York, 1843.</item>
+                <item>Annual Reports of the Foreign Evangelical Society. Nos. 1-4, 6-7, 10 (1840-1943, 1845-1846, 1849).</item>
+                <item>Proceedings at the First Annual Meeting of the Foreign Evangelical Society. New York, 1840.</item>
+                <item>Baird, Henry Martyn. The Life of the Rev. Robert Baird, D. D. New York: Anson D. F. Randolph, 1866.</item>
+                <item>Cochran, Joseph Wilson. Friendly Adventurers. Paris: Brentano's, 1931.</item>
+                <item>Daniels, Margarette. Makers of South America. New York: Missionary Education Movement of the United States and Canada, 1916</item>
+                <item>Dixon, Ruth. A Church on the Seine. New York: American and Foreign Christian Union, 1981.</item>
+                <item>Miller, Charles J. "British and American Influences on the Religious Revival in French Europe, 1816-1848." Ph.D. dissertation, Northwestern University, 1947</item>
+                <item>Rakow, Mary Martina. "Melinda Rankin and Magdalen Hayden: Evangelical and Catholic Forms of Nineteenth Century Christian Spirituality." Ph.D. dissertation, Boston College, 1982.</item>
+                <item>Rankin, Melinda. Texas in 1850. Boston: Damrell and Moore, 1850.</item>
+                <item>Rankin, Melinda. Twenty Years Among the Mexicans. Cincinnati: Central Book Concern, 1881.</item>
+                <item>Smylie, John Edwin. "Protestant Clergymen and America's World Role, 1865-1900: A Study of Christianity, Nationality, and International Relations." Ph.D. dissertation, Princeton Theological Seminary, 1959.</item>
+                <item>Swanson, Michael Richard H. "Robert Baird and the Evangelical Crusade in America, 1820-1860." Ph.D. dissertation, Case Western Reserve University, 1971.</item>
+            </list>
+        </bioghist>
+        <arrangement id="beffff17">
+            <head>Arrangement</head>
+            <p>Materials are arranged alphabetically by subject</p>
+        </arrangement>
+        <scopecontent id="beffff15">
+            <head>Scope and Content</head>
+            <p>The records of the American and Foreign Christian Union, 1851-1884, consist of correspondence, missionary reports, 
+                <genreform>financial reports</genreform>, 
+                <genreform>pamphlets</genreform>, and 
+                <genreform>newspaper clippings</genreform>. They primarily represent the central office of Corresponding Secretary and Assistant Treasurer and reflect both the domestic and foreign enterprises of the Union from 
+                <date calendar="gregorian" era="ce">1862-1884</date>. Within these dates, the office was held by: A. E. Campbell (1858-1867), Joseph Scudder (1865-1870), J. Glentworth Butler (1868-1871), Samuel W. Crittenden (1871-1873), Henry M. Baird (1873-1884), and George B. Safford (1884). The records most completely reflect the Union's domestic missions in Cincinnati and Louisville; the foreign missions in Italy, Mexico, and Chile, as well as the many and varied evangelical efforts in France; the assumption of the Union's foreign missions by denominational agencies in 1873; the reorganization of the Union in 1884; and the relationship of the AFCU with individual denominations and with other contemporary interdenominational benevolent societies.</p>
+            <p>The papers were bound without order and have been arranged into six series: I. Preamble, Constitution, and By-Laws, II. General Correspondence and Missionary Reports, III. Financial Records, IV. The Christian World, V. Commission for the American Fund for the Evangelization of France, and VI. The Reorganization of 1884.</p>
+            <p>Series Description</p>
+            <p>Series I: Preamble, Constitution, and By-Laws, 1851, 1882, 1884 (Box 1)</p>
+            <p>Series II: General Correspondence and Missionary Reports, 1862-1884 (Boxes 1-12)</p>
+            <p></p>
+            <p>Series III: Financial Records, 1857-1884 (Boxes 13-14)</p>
+            <p>Series IV: The Christian Wor1d, 1877-1884 (Boxes 15-17)</p>
+            <p>Series V: Commission for the American Fund for the Evangelization of France, 1880-1881 (Box 18)</p>
+            <p>Series VI: Reorganization of 1884, April 1884-November 1884 (Box 18)</p>
+        </scopecontent>
+        <prefercite id="beffff10">
+            <head>Preferred Citation</head>
+            <p>Published citations should take the following form: Identification of item, date (if known); Records of the American and Foreign Christian Union; MC 20; box number; folder number; New York University Archives, New York University Libraries.</p>
+        </prefercite>
+        <userestrict id="beffff8">
+            <head>Use Restrictions</head>
+            <p>Some materials may be restricted. Permission to publish materials must be obtained in writing from the:
+                <lb/>New York University Archives
+                <lb/> Elmer Holmes Bobst Library
+                <lb/> 70 Washington Square South
+                <lb/> New York, NY 10012
+                <lb/> Phone: (212) 998-2641
+                <lb/>Fax: (212) 995-4225
+                <lb/>E-mail: university.archives@library.nyu.edu
+                <lb/></p>
+        </userestrict>
+        <accessrestrict id="beffff6">
+            <head>Access Restrictions</head>
+            <p>Open to researchers.</p>
+        </accessrestrict>
+        <custodhist id="beffff4">
+            <head>Provenance</head>
+            <p>In January of 1885, the Executive Committee of the American and Foreign Christian Union offered its library of 743 volumes to New York University, with the stipulation that the University also provide storage for some books, pamphlets, and boxes of records which the Union wished to retain. It was agreed that if the Union did not call for the Library within ten years, the materials would then become the property of the University. The books and records were never reclaimed. The records were presumably transferred to the University Archives, although there is no written record of the transaction.</p>
+        </custodhist>
+        <controlaccess>
+            <corpname source="naf">American and Foreign Christian Union.</corpname>
+            <persname rules="dacs" source="local">Bacon, Leonard W., 1802-1881</persname>
+            <persname source="naf">Beard, Augustus Field, 1833-1934</persname>
+            <persname source="naf">Berry, J. Romeyn</persname>
+            <persname rules="dacs" source="local">Booth, William A.</persname>
+            <persname rules="dacs" source="local">Budington, Joel</persname>
+            <persname source="naf">Butler, J. Glentworth,  (James Glentworth), 1821-1916</persname>
+            <persname source="naf">Butler, William, 1818-1899</persname>
+            <persname source="naf">Chamberlain, L. T.,  (Leander Trowbridge), 1837-1913</persname>
+            <persname rules="dacs" source="local">Clark, William</persname>
+            <corpname rules="dacs" source="local">Commission for the American Fund for the Evangelization of France.</corpname>
+            <persname source="naf">Eldridge, Azariah, 1820-1888</persname>
+            <persname source="naf">Emerson, Joseph</persname>
+            <persname rules="dacs" source="local">Hall, E. Edwin</persname>
+            <persname rules="dacs" source="local">Hitchcock, Edward W.</persname>
+            <persname source="naf">Kirk, Edward N., b. 1782</persname>
+            <persname rules="dacs" source="local">Montsalvatge, Ramon</persname>
+            <persname rules="dacs" source="local">Moorehead, William G.</persname>
+            <persname source="naf">Park, A. J.</persname>
+            <corpname rules="dacs" source="naf">Presbyterian Church in the U.S.A. Board of Foreign Missions.</corpname>
+            <persname rules="dacs" source="local">Purlier, Lavinia</persname>
+            <persname source="naf">Rankin, Melinda, 1811-1888</persname>
+            <persname rules="dacs" source="local">Riley, H. Chauncey</persname>
+            <persname source="naf">Robinson, Charles S.</persname>
+            <persname rules="dacs" source="local">Sadd, J.M.</persname>
+            <persname rules="dacs" source="local">Schiller, Anna</persname>
+            <persname rules="dacs" source="local">Scudder, Joseph</persname>
+            <persname source="naf">Smith, T. Ralston.,  (Thomas Ralston), 1830-1903</persname>
+            <persname rules="dacs" source="local">Trumbull, David</persname>
+            <persname rules="dacs" source="local">Vermilye, Jacob D.</persname>
+            <ssssss source="lcsh">American Bible Society.</ssssss>
+            <ssssss source="local">American Chapel in Paris.</ssssss>
+            <ssssss source="lcsh">American Protestant Society.</ssssss>
+            <ssssss source="lcsh">American Tract Society.</ssssss>
+            <ssssss source="lcsh">Anti-Catholicism |z United States.</ssssss>
+            <ssssss source="lcsh">Anti-Catholicism.</ssssss>
+            <genreform source="aat">Articles.</genreform>
+            <ssssss source="lcsh">Catholic Church |x Doctrinal and controversial works |x Protestant authors.</ssssss>
+            <ssssss source="lcsh">Christian Alliance.</ssssss>
+            <ssssss source="local">Christian world.</ssssss>
+            <genreform source="aat">Clippings (information artifacts)</genreform>
+            <genreform source="aat">Correspondence.</genreform>
+            <ssssss source="lcsh">Evangelical Committee of the Free Italian Church.</ssssss>
+            <ssssss source="lcsh">Evangelicalism.</ssssss>
+            <ssssss source="lcsh">Foreign Evangelical Society.</ssssss>
+            <ssssss source="local">French Canadian Missionary Society.</ssssss>
+            <ssssss source="lcsh">Home missions.</ssssss>
+            <ssssss source="lcsh">Interdenominational cooperation.</ssssss>
+            <genreform source="aat">Memorandums.</genreform>
+            <ssssss source="lcsh">Missions and Christian union.</ssssss>
+            <ssssss source="lcsh">Missions.</ssssss>
+            <geogname source="lcsh">New York (State) |z New York.</geogname>
+            <ssssss source="lcsh">Protestantism.</ssssss>
+            <ssssss source="local">Societe Evangelique de France.</ssssss>
+            <ssssss source="local">Societe Evangelique de Geneve.</ssssss>
+            <ssssss source="lcsh">Waldenses.</ssssss>
+        </controlaccess>
+        <dsc>
+            <c id="beffff18" level="series">
+                <did>
+                    <unittitle>Series I: Preamble, Constitution, and By-Laws, 1851, 1882, 1884</unittitle>
+                </did>
+                <c id="beffff19" level="otherlevel">
+                    <did>
+                        <unittitle>Preamble and Constitution,</unittitle>
+                        <container id="cid10526" type="Box" label="Mixed materials (31142046889807)">1</container>
+                        <container parent="cid10526" type="Folder">1</container>
+                        <unitdate>1851</unitdate>
+                    </did>
+                </c>
+                <c id="beffff20" level="otherlevel">
+                    <did>
+                        <unittitle>Proposed Amendments to the Constitution and By-Laws</unittitle>
+                        <container id="cid10525" type="Box" label="Mixed materials (31142046889807)">1</container>
+                        <container parent="cid10525" type="Folder">2</container>
+                        <unitdate>1882, 1884</unitdate>
+                    </did>
+                </c>
+            </c>
+            <c id="beffff21" level="series">
+                <did>
+                    <unittitle>Series II: GENERAL CORRESPONDENCE AND MISSION REPORTS.</unittitle>
+                </did>
+                <scopecontent id="beffff267">
+                    <head>Scope and Contents note</head>
+                    <p>This series of letters and missionary reports has been arranged alphabetically by author. Attention should be given to the following points. The dates of the folders are inclusive and do not indicate gaps in the papers. The relationship of individuals employed or otherwise affiliated with the AFCU is indicated in parenthesis after their names. The contents of Miscellaneous folders should not be overlooked; they frequently contain correspondence from members. of the Board of Directors and officiating members of other organizations. If a correspondent has written in behalf of another organization, the papers are found under that corporate name. If the correspondent, who may perhaps be an agent of another agency, handwritten on his own behalf, the papers will be found under his name. In some cases both personal and corporate names should be consulted; for example, both Edward W. Hitchcock and Charles S. Robinson served as minister of the American Chapel in Paris and their letters should be considered with those in the American Chapel in Paris folder.</p>
+                </scopecontent>
+                <c id="beffff326" level="otherlevel">
+                    <did>
+                        <unittitle>Financial Records:Checks,</unittitle>
+                        <container id="cid10232" type="Box" label="Mixed materials (31142046889971)">18</container>
+                        <container parent="cid10232" type="Folder">9</container>
+                        <unitdate>1884</unitdate>
+                    </did>
+                </c>
+            </c>
+        </dsc>
+    </archdesc>
+</ead>
