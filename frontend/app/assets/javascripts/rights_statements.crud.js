@@ -28,20 +28,22 @@ $(function() {
             }
           });
         });
+
+        $(document).triggerHandler("subrecord.new");
       };
 
 
       var init = function() {
         // add binding for creation of subforms
         $("h3 > .btn", $this).on("click", function() {
-          var extentFormEl = $(AS.renderTemplate("rights_statement_form_template", {index: form_index++}));
-          extentFormEl.hide();
-          $("#rights_statements_container", $this).append(extentFormEl);
-          extentFormEl.fadeIn();
+          var formEl = $(AS.renderTemplate("rights_statement_form_template", {index: form_index++}));
+          formEl.hide();
+          $("#rights_statements_container", $this).append(formEl);
+          formEl.fadeIn();
           $(".alert", $this).hide();
           $this.parents("form:first").triggerHandler("form-changed");
-          $.proxy(init_subform, extentFormEl)();
-          $(":input:visible:first", extentFormEl).focus();
+          $.proxy(init_subform, formEl)();
+          $(":input:visible:first", formEl).focus();
         });
 
         // init any existing subforms

@@ -246,6 +246,8 @@ module FormHelper
                            :name => current_name(method),
                            :id => current_name(method, true)
                          }.merge(opts))
+      elsif attr_definition["type"] === "date"
+        jsonmodel_date_field(method, opts)
       else
         jsonmodel_text_field(method, opts)
       end
@@ -277,6 +279,19 @@ module FormHelper
                              :name => current_name(method),
                              :id => current_name(method, true)
                            }.merge(opts))
+    end
+
+    def jsonmodel_date_field(method, opts)
+      @template.text_field(@object_name, method, {
+        :class => "date-field",
+        "data-original_value" => current[method],
+        :object => current,
+        :force_name => current_name(method),
+        :force_id => current_name(method, true),
+        :placeholder => "YYYY-MM-DD",
+        :"data-date-format" => "yyyy-mm-dd",
+        :"data-date" => Date.today.strftime('%Y-%m-%d'),
+      }.merge(opts))
     end
 
   end
