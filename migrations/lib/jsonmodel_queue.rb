@@ -1,5 +1,5 @@
 module JSONModel
-  module Client
+  module Queueable
     
     # Methods to support queuing of objects that can't
     # be saved until a related object has been saved

@@ -60,6 +60,8 @@ module ASpaceImport
               mod = JSONModel::JSONModel(k)
               
               mod.class_eval do
+                
+                include JSONModel::Queueable
 
                 def ancestor_relationships
                   self.mapped_properties.each do |property, hsh|

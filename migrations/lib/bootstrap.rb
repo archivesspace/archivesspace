@@ -11,8 +11,9 @@ end
 
 require_relative "crosswalk"
 require_relative "importer"
-
 require_relative "parse_queue"
+
+ASpaceImport::init
 
 res = JSON.parse(`curl -F'password=admin' #{ASpaceImportConfig::ASPACE_BASE}/users/admin/login`)
 session_id = res['session']

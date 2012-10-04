@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require 'optparse'
 require File.join(File.dirname(__FILE__), "lib", "bootstrap")
-Dir.glob(File.dirname(__FILE__) + '/importers/*', &method(:require))
 
 options = {:dry => false, 
            :relaxed => false, 
