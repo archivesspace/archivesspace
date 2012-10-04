@@ -14,5 +14,5 @@
   <%= f.label_and_field :restriction_end_date %>
   <%= f.label_and_field :granted_note %>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => object, :method => :external_documents, :suppress_template => true} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => object, :method => :external_documents, :suppress_template => true, :section_id => "rights_statement_external_documents"} %>
 </div>
