@@ -1,6 +1,6 @@
 
-- allow the backend base url to get passed in as an option
-	- remove dependance on migraiton config in rails
+- create helper methods to render reports and other messages
+	appropriate for context (HTML, CLI, etc.)
 
 - validate XML files against schema (using libxml)
 	- where to do this?
@@ -15,6 +15,7 @@
 
 - option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
 
+- move jsonmodel_queue to a separate module and mix it in to jsonmodel
 
 - revisit allow-failures
 	
