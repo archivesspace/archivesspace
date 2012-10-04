@@ -27,6 +27,8 @@
       "restriction_end_date" => {"type" => "date", "required" => false},
 
       "granted_note" => {"type" => "string", "required" => false},
+
+      "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
     },
 
     "additionalProperties" => false,

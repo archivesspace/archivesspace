@@ -441,16 +441,23 @@ module JSONModel
       end
 
 
-      ## Supporting methods following from here
-      protected
-
-
       def self.map_hash_with_schema(hash, schema = nil, transformations = [])
         if schema.nil?
           return self.map_hash_with_schema(hash, self.schema, transformations)
         end
 
         return hash if not hash.is_a?(Hash)
+
+        if schema.is_a?(String)
+          ref = JSONModel.parse_jsonmodel_ref(schema)
+
+          if ref
+            # A nested reference to another data type.  Validate against it.
+            schema = JSONModel(ref[0]).schema
+          else
+            raise "Invalid schema given: #{schema}"
+          end
+        end
 
         if schema["$ref"] == "#"
           # A recursive schema.  Back to the beginning.
@@ -471,7 +478,7 @@ module JSONModel
           if schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "object")
             result[k] = self.map_hash_with_schema(v, schema["properties"][k], transformations)
           elsif schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "array")
-            result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"], transformations)}
+            result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"]["type"], transformations)}
           else
             result[k] = v
           end
@@ -480,6 +487,9 @@ module JSONModel
         result
       end
 
+
+      ## Supporting methods following from here
+      protected
 
       def self.drop_unknown_properties(hash, schema = nil)
         fn = proc do |hash, schema|

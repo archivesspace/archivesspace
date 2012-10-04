@@ -48,23 +48,28 @@ class ApplicationController < ActionController::Base
       model = opts[:model] || JSONModel(opts[:instance])
       obj = opts[:obj] || model.new
 
-      # The UI may pass back a hash keyed on index for array attributes.
-      # Clean this up so we're only dealing with arrays.
-      array_attributes = obj.class.schema["properties"].select {|k,v| v["type"] === "array"}
-      array_attributes.each do |attribute, attribute_properties|
-        if params[opts[:instance].to_s].has_key?(attribute) && params[opts[:instance].to_s][attribute].kind_of?(Hash)
-          target = []
-          params[opts[:instance].to_s][attribute].each do |k,v|
-            target.push(v)
+
+      fix_arrays = proc do |hash, schema|
+        result = hash.clone
+
+        schema['properties'].each do |property, definition|
+          if definition['type'] == 'array' and result[property].is_a?(Hash)
+            result[property] = result[property].sort_by {|k, _| k}.map {|_, v| v}
           end
-          params[opts[:instance].to_s][attribute] = target
         end
+
+        result
       end
 
+
+      instance = JSONModel(opts[:instance]).map_hash_with_schema(params[opts[:instance]],
+                                                                 nil,
+                                                                 [fix_arrays])
+
       if opts[:replace] || opts[:replace].nil?
-        obj.replace(params[opts[:instance]])
+        obj.replace(instance)
       else
-        obj.update(params[opts[:instance]])
+        obj.update(instance)
       end
 
       # Make the updated object available to templates
