@@ -57,7 +57,7 @@
 }
 
 .record-pane h3 {
-  background-color: #FAFAFA;
+  background-color: #F6F6F6;
   border-bottom: 1px solid #DDD;
   padding-left: 10px;
 }
@@ -214,28 +214,42 @@
 
 
 /* AGENT NAME Form styles */
-.subrecord-form-container {
-  h4 {
-    background-color: #FAFAFA;
-    line-height: 1.4em;
-    min-height: 1.4em;
-    margin: 0;
-    border-bottom: 1px solid #DDD;
-    .border-radius(4px 4px 0 0);
-  }
+.subrecord-form {
+  background-color: #FAFAFA;
+  .box-shadow(~"1px 1px 3px rgba(0, 0, 0, 0.25)");
 
-  .subrecord-form-removal-confirmation,
-  .subrecord-form-remove {
-    margin: 6px 6px 0 0;
-  }
+  .subrecord-form-container {
+    margin: 0 10px 20px;
+    padding: 0 0 10px;
 
-  .subrecord-form-fields {
-    border: 1px solid #DDD;
-    .border-radius(4px);
-    margin-bottom: 10px;
-  }
+    .alert {
+      margin: 10px 0 0;
+    }
 
-  .subrecord-form {
-    margin: 0 10px;
+    h3 {
+      background-color: #F6F6F6;
+      line-height: 1.4em;
+      min-height: 1.4em;
+      margin: 0;
+      border-bottom: 1px solid #DDD;
+      .border-radius(4px 4px 0 0);
+    }
+
+    .subrecord-form-removal-confirmation,
+    .subrecord-form-remove {
+      margin: 6px 6px 0 0;
+    }
+
+    .subrecord-form-fields {
+      background-color: #FFF;
+      border: 1px solid #DDD;
+      .border-radius(4px);
+      margin-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .subrecord-form {
+      margin: 10px 10px 0;
+    }
   }
 }
