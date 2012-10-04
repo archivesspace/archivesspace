@@ -64,6 +64,8 @@ module ASpaceImport
                 def ancestor_relationships
                   self.mapped_properties.each do |property, hsh|
 
+                    next unless hsh['xpath']
+                    
                     if hsh['xpath'].find { |xp| xp.match(/^parent::([a-z]*)$/) or 
                                                 xp.match(/^ancestor::([a-z]*)$/) }
                         yield ASpaceImport::Crosswalk.lookup(:xpath => $1), property
@@ -76,6 +78,7 @@ module ASpaceImport
                     result = {}
 
                     @@walk['entities'][self.class.record_type]['properties'].each do |p, defn|
+                      next unless defn['xpath']
                       result[p] = defn if defn['xpath'].find { |xp| xp.match(src[:xpath]) }
                     end
                     
@@ -92,10 +95,27 @@ module ASpaceImport
                     
                     next unless defn['default']
                     
-                    # Don't overwrite an existing value with a default
-                    next if self.send("#{prop}") 
-
-                    self.send("#{prop}=", defn['default'])
+                    if defn['procedure']
+                      proc = eval "lambda { #{defn['procedure']} }"
+                      value = proc.call(defn['default'])
+                    else
+                      value = defn['default']
+                    end
+                    
+                    case self.class.schema['properties'][prop]['type']
+                    when 'string'                    
+                      # Don't overwrite an existing value with a default
+                      next if self.send("#{prop}") 
+                      self.send("#{prop}=", value)
+                    when 'array'
+                      if self.send("#{prop}")
+                        new_arr = self.send("#{prop}")
+                        new_arr.push(value)
+                        self.send("#{prop}=", new_arr)
+                      else
+                        self.send("#{prop}=", [value])
+                      end
+                    end   
                   end
                 end
                           
@@ -171,6 +191,7 @@ module ASpaceImport
         end
         
         obj.after_save { @goodimports += 1 }
+        obj.after_save { @import_log.push("Imported #{obj.uri}") }
         
         yield obj
         

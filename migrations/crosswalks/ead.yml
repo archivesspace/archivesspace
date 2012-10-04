@@ -19,6 +19,10 @@ entities:
         # temporary hack:
         procedure: "|value| value = nil unless value.include?('/'); value"
         
+      extents:
+        default: "{'portion' => 'whole', 'number' => '5 or so', 'extent_type' => 'reels'}"
+        procedure: "|value| eval(value)"
+        
   archival_object: 
     xpath: ["//dsc", "//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
     properties:

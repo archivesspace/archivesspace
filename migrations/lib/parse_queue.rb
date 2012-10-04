@@ -6,13 +6,14 @@ module ASpaceImport
 
     def pop
       if self.length > 0
-        self.last.save_or_wait({:repo_id => @repo_id})        
+        self.last.save_or_wait(@opts)        
         super
       end
     end
   
     def initialize(opts)
       @repo_id = opts[:repo_id] if opts[:repo_id]
+      @opts = opts
     end
   end
 end

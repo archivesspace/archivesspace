@@ -55,7 +55,7 @@ end
 if options[:importer]
   i = ASpaceImport::Importer.create_importer(options)
   i.run
-  i.report
+  puts i.report
 end
 
 

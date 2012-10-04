@@ -16,5 +16,10 @@ class ImportFile #< ActiveRecord::Base
 
   end
   
+  def delete
+    
+    File.delete(self.path)
+    
+  end
 
 end

@@ -1,7 +1,12 @@
 <h1>Import a File</h1>
+<% if flash[:notice] %>
+	<p>
+		<%= flash[:notice] %>
+	</p>
+<% end %>
 <%= form_tag '/import/upload', :multipart => true do %>
 	<p>
-		<%= label_tag :upload, 'File' %>
+		<%= label_tag :upload, 'Select an EAD to upload:' %>
 		<%= file_field :upload, :import_file %>
 	</p>
 	<p>

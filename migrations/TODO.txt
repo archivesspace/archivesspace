@@ -1,4 +1,7 @@
 
+- validate XML files against schema (using libxml)
+	- where to do this?
+
 - class level validator for options?
 	- ensure the backend knows about the vocab, repo
 	- ensure the importer exists
@@ -6,6 +9,8 @@
 	- etc.
 
 - debug mode
+
+- option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
 
 - revisit dry run mode
 
