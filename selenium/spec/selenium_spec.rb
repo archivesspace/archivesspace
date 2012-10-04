@@ -946,10 +946,12 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css, ".token-input-delete-token").click
 
     # search for the created subject
-    @driver.find_element(:id, "token-input-").clear_and_send_keys("Foo")
+    @driver.find_element(:id, "token-input-").clear_and_send_keys("FooTerm456")
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
-    @driver.click_and_wait_until_gone(:css, "form#new_archival_object button[type='submit']")
+    @driver.find_element(:css, "form#new_archival_object button[type='submit']").click
+
+    @driver.wait_for_ajax
 
     # Verify that the change stuck
     @driver.navigate.refresh
