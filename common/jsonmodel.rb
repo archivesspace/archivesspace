@@ -453,7 +453,7 @@ module JSONModel
 
           if ref
             # A nested reference to another data type.  Validate against it.
-            schema = JSONModel(ref[0]).schema
+            schema = JSONModel.JSONModel(ref[0]).schema
           else
             raise "Invalid schema given: #{schema}"
           end
