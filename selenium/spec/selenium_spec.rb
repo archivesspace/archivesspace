@@ -525,7 +525,7 @@ describe "ArchivesSpace user interface" do
   end
 
   it "can remove contact details" do
-    @driver.find_element(:css => '#contacts .subform-remove').click
+    @driver.find_element(:css => '#contacts .subrecord-form-remove').click
     @driver.find_element(:css => '#contacts .confirm-removal').click
 
     @driver.ensure_no_such_element(:id => "agent[agent_contacts][0][name]")
@@ -601,7 +601,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, 'Edit').click
 
     # add the first extent
-    @driver.find_element(:css => '#extent h3 .btn').click
+    @driver.find_element(:css => '#extents h3 .btn').click
 
     @driver.find_element(:id => 'accession[extents][0][number]').clear_and_send_keys "5"
     event_type_select = @driver.find_element(:id => "accession[extents][0][extent_type]")
@@ -610,7 +610,7 @@ describe "ArchivesSpace user interface" do
     end
 
     # add the second extent
-    @driver.find_element(:css => '#extent h3 .btn').click
+    @driver.find_element(:css => '#extents h3 .btn').click
     @driver.find_element(:id => 'accession[extents][1][number]').clear_and_send_keys "10"
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
@@ -620,7 +620,8 @@ describe "ArchivesSpace user interface" do
 
 
   it "can see two extents on the saved Accession" do
-    extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
+    extent_headings = @driver.blocking_find_elements(:css => '#extents .accordion-heading')
+
     extent_headings.length.should eq (2)
 
     extent_headings[0].text.should eq ("5 Volumes")
@@ -630,12 +631,12 @@ describe "ArchivesSpace user interface" do
 
   it "can see remove an extent when editing an Accession" do
     @driver.find_element(:link, 'Edit').click
-    @driver.find_element(:css => '#extent .subform-remove').click
-    @driver.find_element(:css => '#extent .confirm-removal').click
+    @driver.find_elements(:css => '#extents .subrecord-form-remove')[0].click
+    @driver.find_element(:css => '#extents .confirm-removal').click
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
+    extent_headings = @driver.blocking_find_elements(:css => '#extents .accordion-heading')
     extent_headings.length.should eq (1)
     extent_headings[0].text.should eq ("10 Cassettes")
   end
@@ -690,7 +691,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, 'Edit').click
 
     # remove the first date
-    @driver.find_element(:css => '#dates .subform-remove').click
+    @driver.find_element(:css => '#dates .subrecord-form-remove').click
     @driver.find_element(:css => '#dates .confirm-removal').click
 
     # save!
@@ -741,7 +742,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, 'Edit').click
 
     # remove the first external documents
-    @driver.find_element(:css => '#external_documents .subform-remove').click
+    @driver.find_element(:css => '#external_documents .subrecord-form-remove').click
     @driver.find_element(:css => '#external_documents .confirm-removal').click
 
     # save!

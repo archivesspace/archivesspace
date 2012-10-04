@@ -46,7 +46,7 @@
       </section>
 
      <% if @accession.extents.length > 0 %>
-       <%= render :partial => "extent/show", :locals => { :extents => @accession.extents } %>
+       <%= render :partial => "extents/show", :locals => { :extents => @accession.extents } %>
      <% end %>
 
       <% if @accession.dates.length > 0 %>

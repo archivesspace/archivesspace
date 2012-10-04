@@ -1,0 +1,32 @@
+<%
+  singular = method.to_s.singularize
+  section_id = method.to_s if section_id.blank?
+%>
+
+<section id="<%= section_id %>" class="subrecord-form" data-object-name="<%= singular %>" data-template-id="<%= singular %>_form_template">
+
+  <h3>
+    <%= I18n.t("#{singular}._html.plural") %>
+    <input type="button" class="btn btn-small pull-right" value="Add <%= I18n.t("#{singular}._html.singular") %>"/>
+  </h3>
+
+  <div class="subrecord-form-container">
+
+    <% if object[method].blank? %>
+
+      <p class="alert alert-info">Click 'Add <%= I18n.t("#{singular}._html.singular") %>' to add a <%= I18n.t("#{singular}._html.singular") %> record.</p>
+
+    <% else %>
+
+      <% object[method].each_with_index do | obj, index | %>
+        <% f.with_jsonmodel("#{method.to_s}[]", obj, singular.intern) do %>
+          <%= render :partial => "#{method.to_s}/form", :locals => {:f => f, :index => index} %>
+        <% end %>
+      <% end %>
+
+    <% end %>
+  </div>
+
+</section>
+
+<%= render :partial => "#{method.to_s}/template", :locals => {:f => f} %>

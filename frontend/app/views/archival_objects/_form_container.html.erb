@@ -9,84 +9,14 @@
     <%= render :partial => "archival_objects/forms/basic_information", :locals => {:f => f} %>
   </section>
 
-  <section id="extent">
-    <h3>
-      Extent
-      <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
-    </h3>
-    <div id="extents_container">
-      <% if @archival_object.extents.blank? %>
-        <p class="alert alert-info">Click 'Add Extent' to add an extent record.</p>
-      <% else %>
-        <% @archival_object.extents.each_with_index do | extent, index | %>
-          <%= f.with_jsonmodel("extents[]", extent, :extent) do %>
-            <% render :partial => "extent/form", :locals => {:f => f} %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  </section>
 
-  <section id="dates">
-    <h3>
-      Dates
-      <input type="button" class="btn btn-small pull-right" value="Add Date"/>
-    </h3>
-    <div id="dates_container">
-      <% if @archival_object.dates.blank? %>
-        <p class="alert alert-info">Click 'Add Date' to add a date record.</p>
-      <% else %>
-        <% @archival_object.dates.each_with_index do | date, index | %>
-          <%= f.with_jsonmodel("dates[]", date, :date) do %>
-            <% render :partial => "dates/form", :locals => {:f => f, :index => index} %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  </section>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @archival_object, :method => :extents} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @archival_object, :method => :dates} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @archival_object, :method => :external_documents} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @archival_object, :method => :rights_statements} %>
 
-  <section id="external_documents">
-    <h3>
-      External Documents
-      <input type="button" class="btn btn-small pull-right" value="Add External Document"/>
-    </h3>
-    <div id="external_documents_container">
-      <% if @archival_object.external_documents.blank? %>
-        <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
-      <% else %>
-        <% @archival_object.external_documents.each_with_index do | external_document, index | %>
-          <%= f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
-            <% render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  </section>
-
-  <section id="rights_statements">
-    <h3>
-      Rights Statements
-      <input type="button" class="btn btn-small pull-right" value="Add Rights Statement"/>
-    </h3>
-    <div id="rights_statements_container">
-      <% if @archival_object.rights_statements.blank? %>
-        <p class="alert alert-info">Click 'Add Rights Statement' to add an rights statement record.</p>
-      <% else %>
-        <% @archival_object.rights_statements.each_with_index do | rights_statement, index | %>
-          <% f.with_jsonmodel("rights_statements[]", rights_statement, :rights_statement) do %>
-            <%= render :partial => "rights_statements/form", :locals => {:f => f, :index => index} %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  </section>
 
 </fieldset>
-
-<%= render :partial => "extent/template", :locals => {:f => f} %>
-<%= render :partial => "dates/template", :locals => {:f => f} %>
-<%= render :partial => "external_documents/template", :locals => {:f => f} %>
-<%= render :partial => "rights_statements/template", :locals => {:f => f} %>
 
 <%= f.hidden_field :parent %>
 <%= f.hidden_field :resource %>

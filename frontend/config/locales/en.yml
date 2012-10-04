@@ -21,6 +21,9 @@ en:
     restriction_start_date: Restrictions Start Date
     restriction_end_date: Restrictions End Date
     granted_note: Granted Note
+    _html:
+      plural: Rights Statements
+      singular: Rights Statement
   extent: &extent_attributes
     portion: Portion
     portion_whole: Whole
@@ -39,9 +42,15 @@ en:
     container_summary: Container Summary
     physical_details: Physical Details
     dimensions: Dimensions
+    _html:
+      plural: Extents
+      singular: Extent
   external_document: &external_document_attributes
     title: Title
     location: Location
+    _html:
+      plural: External Documents
+      singular: External Document
   date: &date_attributes
     label: Label
     label_broadcast: Broadcast
@@ -71,6 +80,9 @@ en:
     era_ce: ce
     calendar: Calendar
     calendar_gregorian: Gregorian
+    _html:
+      plural: Dates
+      singular: Date
   accession:
     accession_date: Accession Date
     accession_id: Identifier

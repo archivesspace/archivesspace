@@ -18,7 +18,7 @@
     </section>
 
     <% if @archival_object.extents.length > 0 %>
-      <%= render :partial => "extent/show", :locals => { :extents => @archival_object.extents } %>
+      <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents } %>
     <% end %>
 
     <% if @archival_object.dates.length > 0 %>

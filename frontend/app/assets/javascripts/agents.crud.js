@@ -1,4 +1,4 @@
-//= require external_documents.crud
+//= require subrecord.crud
 
 $(function() {
 
@@ -33,7 +33,7 @@ $(function() {
           }
         });
       };
-      $("#secondary_names").on("click", ".subform-remove", removeSecondaryNameForm);
+      $("#secondary_names").on("click", ".subrecord-form-remove", removeSecondaryNameForm);
 
 
       var addContactDetailsForm = function() {
@@ -55,7 +55,7 @@ $(function() {
           }
         });
       };
-      $("#contacts").on("click", ".subform-remove", removeContactDetailsForm);
+      $("#contacts").on("click", ".subrecord-form-remove", removeContactDetailsForm);
 
 
       var handleSortNameType = function() {

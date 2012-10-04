@@ -1,4 +1,4 @@
-//= require external_documents.crud
+//= require subrecord.crud
 
 $(function() {
 

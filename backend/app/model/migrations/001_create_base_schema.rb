@@ -595,7 +595,7 @@ Sequel.migration do
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
-     :dates, :archival_objects, :vocabularies, :extent, :resources, :repositories,
+     :dates, :archival_objects, :vocabularies, :extents, :resources, :repositories,
      :accessions_external_documents, :archival_objects_external_documents,
      :external_documents_resources, :external_documents_subjects,
      :agent_people_external_documents, :agent_families_external_documents,
