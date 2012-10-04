@@ -1,29 +1,4 @@
 en:
-  rights_statement: &rights_statement_attributes
-    identifier: Identifier
-    rights_type: Rights Type
-    rights_type_intellectual_property: Intellectual Property
-    rights_type_license: License
-    rights_type_statute: Statute
-    rights_type_institutional_policy: Institutional Policy
-    materials: Materials
-    ip_status: IP Status
-    ip_status_copyrighted: Copyrighted
-    ip_status_public_domain: Public Domain
-    ip_status_unknown: Unknown
-    ip_expiration_date: IP Expiration Date
-    license_identifier_terms: License Identifier Terms
-    statute_citation: Statute Citation
-    jurisdiction: Jurisdiction
-    type_note: Type Note
-    permissions: Permissions
-    restrictions: Restrictions
-    restriction_start_date: Restrictions Start Date
-    restriction_end_date: Restrictions End Date
-    granted_note: Granted Note
-    _html:
-      plural: Rights Statements
-      singular: Rights Statement
   extent: &extent_attributes
     portion: Portion
     portion_whole: Whole
@@ -51,6 +26,33 @@ en:
     _html:
       plural: External Documents
       singular: External Document
+  rights_statement: &rights_statement_attributes
+    identifier: Identifier
+    rights_type: Rights Type
+    rights_type_intellectual_property: Intellectual Property
+    rights_type_license: License
+    rights_type_statute: Statute
+    rights_type_institutional_policy: Institutional Policy
+    materials: Materials
+    ip_status: IP Status
+    ip_status_copyrighted: Copyrighted
+    ip_status_public_domain: Public Domain
+    ip_status_unknown: Unknown
+    ip_expiration_date: IP Expiration Date
+    license_identifier_terms: License Identifier Terms
+    statute_citation: Statute Citation
+    jurisdiction: Jurisdiction
+    type_note: Type Note
+    permissions: Permissions
+    restrictions: Restrictions
+    restriction_start_date: Restrictions Start Date
+    restriction_end_date: Restrictions End Date
+    granted_note: Granted Note
+    _external_documents:
+      <<: *external_document_attributes
+    _html:
+      plural: Rights Statements
+      singular: Rights Statement
   date: &date_attributes
     label: Label
     label_broadcast: Broadcast

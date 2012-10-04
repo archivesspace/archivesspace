@@ -7,7 +7,7 @@
 
   if nested_template
     template_id = nested_template
-    template_id << "_${index}" if nested_multiple
+    template_id << "_#{f.current_index}" if nested_multiple
   else
     template_id = "#{singular}_form_template"
   end
@@ -41,7 +41,7 @@
 
   <% if not suppress_template %>
     <% if nested_template %>
-      <div id="<%= template_id %>" style="display:none;">
+      <div id="<%= template_id %>" style="display:none;" class="nested-template">
         <%= f.with_jsonmodel("#{method.to_s}[]", {}, singular.intern, :index => "${sub_index}") do %>
           <% render :partial => "#{method.to_s}/form", :locals => {:f => f} %>
         <% end %>

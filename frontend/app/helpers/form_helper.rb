@@ -167,6 +167,15 @@ module FormHelper
     end
 
 
+    def current_index
+      if @jsonmodel_object
+        @jsonmodel_object.last[2][:index]
+      else
+        nil
+      end
+    end
+
+
     def error_classes(method)
       classes = ""
       classes << " warning" if @object._exceptions.has_key?(:warnings) && @object._exceptions[:warnings].has_key?(document_path(method))

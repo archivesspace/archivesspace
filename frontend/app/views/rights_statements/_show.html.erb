@@ -33,6 +33,9 @@
               <% end %>
             </div>
           <% end %>
+          <% if rights_statement.external_documents.length > 0 %>
+            <%= render :partial => "external_documents/show", :locals => { :external_documents => rights_statement.external_documents } %>
+          <% end %>
         </div>
       </div>
     <% end %>
