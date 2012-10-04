@@ -51,7 +51,7 @@ $(function() {
         });
 
         // init any existing subforms
-        $(".subrecord-form-fields", $this).each(init_subform);
+        $(".subrecord-form-wrapper", $this).each(init_subform);
       };
 
       init();

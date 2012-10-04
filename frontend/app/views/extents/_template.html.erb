@@ -1,5 +1,5 @@
 <div id="extent_form_template"><!--
   <%= f.with_jsonmodel("extents[]", {}, :extent, :index => "${index}") do %>
-    <%= render :partial => "extents/form", :locals => {:f => f, :index => 1} %>
+    <% render :partial => "extents/form", :locals => {:f => f, :index => 1} %>
   <% end %>
 --></div>

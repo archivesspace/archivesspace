@@ -1,5 +1,5 @@
 <div id="rights_statement_form_template"><!--
   <%= f.with_jsonmodel("rights_statements[]", {}, :rights_statement, :index => "${index}") do %>
-    <%= render :partial => "rights_statements/form", :locals => {:f => f, :index => "${index}"} %>
+    <% render :partial => "rights_statements/form", :locals => {:f => f, :index => "${index}"} %>
   <% end %>
 --></div>

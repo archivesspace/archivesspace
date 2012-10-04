@@ -88,10 +88,12 @@ module FormHelper
 
       @jsonmodel_object.pop
 
-      ('<div class="subform-wrapper">'.html_safe +
+      return_me = ('<div class="subrecord-form-wrapper">'.html_safe +
        lock_version +
        result +
        '</div>'.html_safe)
+
+      return_me
     end
 
 

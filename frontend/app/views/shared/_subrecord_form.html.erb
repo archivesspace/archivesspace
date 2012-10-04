@@ -19,8 +19,8 @@
     <% else %>
 
       <% object[method].each_with_index do | obj, index | %>
-        <% f.with_jsonmodel("#{method.to_s}[]", obj, singular.intern) do %>
-          <%= render :partial => "#{method.to_s}/form", :locals => {:f => f, :index => index} %>
+        <%= f.with_jsonmodel("#{method.to_s}[]", obj, singular.intern) do %>
+          <% render :partial => "#{method.to_s}/form", :locals => {:f => f, :index => index} %>
         <% end %>
       <% end %>
 
