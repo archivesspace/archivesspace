@@ -37,7 +37,7 @@
             <unittitle>Records of the American and Foreign Christian Union</unittitle>
             <unitid>MC 20</unitid>
             <repository>
-                <corpname>New York University Archives</corpname>
+                <corpname_disabled>New York University Archives</corpname_disabled>
             </repository>
             <langmaterial>
                 <language langcode="eng"/>
@@ -51,30 +51,30 @@
         <bioghist id="beffff11">
             <head>History</head>
             <p>The American and Foreign Christian Union (AFCU) was founded in New York City in May 1849 with the objective of promoting American evangelical culture, both within the United States and abroad, by converting 
-                <corpname>Roman Catholics</corpname> to 
-                <ssssss>Protestantism</ssssss>. Several members of the faculty and administration of New York University were affiliated with the 
-                <corpname>AFCU,</corpname> including professors 
-                <persname>Henry Martyn Baird</persname>, 
-                <persname>Samuel F. B. Morse</persname>, and 
-                <persname>Henry P. Tappan</persname>. University presidents 
-                <persname>Theodore Frelinghuysen</persname>, 
-                <persname>Isaac Ferris</persname>, and 
-                <persname>Howard Crosby</persname> also served as members of the governing board.</p>
+                <corpname_disabled>Roman Catholics</corpname_disabled> to 
+                <subject_disabled>Protestantism</subject_disabled>. Several members of the faculty and administration of New York University were affiliated with the 
+                <corpname_disabled>AFCU,</corpname_disabled> including professors 
+                <persname_disabled>Henry Martyn Baird</persname_disabled>, 
+                <persname_disabled>Samuel F. B. Morse</persname_disabled>, and 
+                <persname_disabled>Henry P. Tappan</persname_disabled>. University presidents 
+                <persname_disabled>Theodore Frelinghuysen</persname_disabled>, 
+                <persname_disabled>Isaac Ferris</persname_disabled>, and 
+                <persname_disabled>Howard Crosby</persname_disabled> also served as members of the governing board.</p>
             <p>Union members considered the conversion of Catholics to be an essential step toward their larger goal of converting the world to the American Protestant and democratic way of life. Individual 
-                <ssssss>Christians</ssssss> of various denominational affiliations, including those of the Presbyterian, Congregational, 
-                <ssssss> Baptist,</ssssss>
-                <ssssss> Lutheran</ssssss>, 
-                <ssssss>Dutch Reformed</ssssss>, and the 
-                <ssssss>Methodist Episcopal</ssssss> churches, composed the constituency of the Union. Most AFCU officers were leading clergymen who were also active in other interdenominational benevolent societies. As an interdenominational organization, the AFCU relied upon voluntary contributions from members of the various sympathetic evangelical Protestant denominations and received its strongest support, throughout the 35 years of its active missionary work, from those of the Presbyterian and Congregational churches.</p>
+                <subject_disabled>Christians</subject_disabled> of various denominational affiliations, including those of the Presbyterian, Congregational, 
+                <subject_disabled> Baptist,</subject_disabled>
+                <subject_disabled> Lutheran</subject_disabled>, 
+                <subject_disabled>Dutch Reformed</subject_disabled>, and the 
+                <subject_disabled>Methodist Episcopal</subject_disabled> churches, composed the constituency of the Union. Most AFCU officers were leading clergymen who were also active in other interdenominational benevolent societies. As an interdenominational organization, the AFCU relied upon voluntary contributions from members of the various sympathetic evangelical Protestant denominations and received its strongest support, throughout the 35 years of its active missionary work, from those of the Presbyterian and Congregational churches.</p>
             <p>The AFCU was founded through the union of three complementary societies, all of whom were founded during the early 1840s, a period of particularly heavy Irish Catholic immigration to the United States. The 
-                <corpname>American Protestant Society</corpname> (1844-1849) directed its efforts toward the conversion of American, though foreign-born, Catholics. The 
-                <corpname>Christian Alliance</corpname> (1842-1849) was founded to work for the conversion of Italian Catholics, both in Italy and elsewhere. The Foreign Evangelical Society (1839-1849) promoted Protestantism abroad by providing financial assistance to evangelical groups and individuals in Catholic and non-Catholic countries.</p>
+                <corpname_disabled>American Protestant Society</corpname_disabled> (1844-1849) directed its efforts toward the conversion of American, though foreign-born, Catholics. The 
+                <corpname_disabled>Christian Alliance</corpname_disabled> (1842-1849) was founded to work for the conversion of Italian Catholics, both in Italy and elsewhere. The Foreign Evangelical Society (1839-1849) promoted Protestantism abroad by providing financial assistance to evangelical groups and individuals in Catholic and non-Catholic countries.</p>
             <p>Both the American Protestant Society and the Christian Alliance directly employed missionaries, colporteurs, Bible-readers, and teachers who were required to submit monthly reports. The 
-                <corpname>Foreign Evangelical Society</corpname> preferred to work indirectly by raising funds and forwarding them to evangelical and kindred societies native to the country in which the Society was interested. These included groups such as the 
-                <corpname>French Canadian Missionary Society</corpname>, the 
-                <corpname>Societe Evangelique de France</corpname>, the 
-                <corpname>Societe Evangelique de Belge</corpname>, the 
-                <corpname>Comite Protestant de Lyon</corpname>, among many others. In countries such as 
+                <corpname_disabled>Foreign Evangelical Society</corpname_disabled> preferred to work indirectly by raising funds and forwarding them to evangelical and kindred societies native to the country in which the Society was interested. These included groups such as the 
+                <corpname_disabled>French Canadian Missionary Society</corpname_disabled>, the 
+                <corpname_disabled>Societe Evangelique de France</corpname_disabled>, the 
+                <corpname_disabled>Societe Evangelique de Belge</corpname_disabled>, the 
+                <corpname_disabled>Comite Protestant de Lyon</corpname_disabled>, among many others. In countries such as 
                 <geogname>Poland</geogname>, 
                 <geogname>Sweden</geogname>, and 
                 <geogname>Germany</geogname>, where there were no similar organizations, the Society initiated its own missions and assisted individuals in 
@@ -91,14 +91,14 @@
                 <geogname>Paris</geogname> to both serve Americans abroad and as a base for evangelical work in France. The minister of the Chapel was selected by the Union.</p>
             <p>In 
                 <date calendar="gregorian" era="ce">1861</date> the AFCU was incorporated. By this time two major Protestant churches (Presbyterian and Methodist Episcopal) had begun independent missions to convert American Catholics to their respective denominations. This action represented a substantial loss of financial support for the domestic activities of the AFCU. Perhaps in response to these actions, the Union reorganized its efforts to extend them further abroad. Domestic employees were reduced in number to 25, and several small foreign mission stations were closed including those in Sweden, Haiti, Ireland, and Brazil. Support to the 
-                <corpname>French Canadian Missionary Society</corpname> was also discontinued.</p>
+                <corpname_disabled>French Canadian Missionary Society</corpname_disabled> was also discontinued.</p>
             <p>The funds withdrawn from these enterprises were applied to the evangelization of Italy. This operation soon became the largest of AFCU enterprises. By 1864 the Union was supporting over 50 employees, the American Chapel in Florence, and a female seminary. By 1866 the Union had established a Theological Seminary in Milan. These efforts led to the founding of the 
-                <corpname>Free Italian Church</corpname> of Italy in 1871. The Evangelical Committee of the Free Italian Church then assumed responsibility for AFCU operations in that country and relieved the Union from further direct participation in the evangelization of Italy.</p>
+                <corpname_disabled>Free Italian Church</corpname_disabled> of Italy in 1871. The Evangelical Committee of the Free Italian Church then assumed responsibility for AFCU operations in that country and relieved the Union from further direct participation in the evangelization of Italy.</p>
             <p>By 1873 several denominational missionary societies had opened foreign mission stations to convert Roman Catholics to their respective denominations. Donations to the Union were drastically reduced in favor of the denominational enterprises. In response the AFCU withdrew from the foreign field, appropriated its foreign operations to various denominational missionary agencies, and re-entered the domestic field. The Union supported seven to ten missionaries in western cities of the United States until 
                 <date calendar="gregorian" era="ce">1884</date>.</p>
             <p>In 1877 the AFCU again began actively to promote and support evangelization efforts in France. The effort was largely unsuccessful until 1881 when the Union agreed to sponsor a group of French evangelicals on a fundraising tour of the United States, conducted under the auspices of the Commission for the American Fund for the Evangelization of France. The success of this enterprise led the Union to reorganize yet again in April of 1884. All domestic missions were closed to allow the Union to assume the evangelization of France as its sole and principal object. The Board of Directors was reduced from 40 members to 16, and George B. Safford was hired to act as corresponding secretary and assistant treasurer and to promote the cause among Protestant churches' ecclesiastical bodies. Public interest and support of the cause was not, however, sustained, and the Union was forced to discontinue its active missionary work in November 1884.</p>
             <p>The AFCU remained incorporated, and for the next 27 years, 
-                <persname>L. T. Chamberlain</persname> voluntarily acted as secretary and treasurer to forward funds to Paris from friends of the American Chapel. In 
+                <persname_disabled>L. T. Chamberlain</persname_disabled> voluntarily acted as secretary and treasurer to forward funds to Paris from friends of the American Chapel. In 
                 <date calendar="gregorian" era="ce">1914</date> the Union became affiliated with the American Church in Berlin when it assumed responsibility for an endowment fund for the parish house. Headquartered in New York City, the organization today continues to assist the American Church in Paris by managing its endowment, raising funds, and supporting the pastor.</p>
             <p>Sources:</p>
             <list type="ordered">
@@ -172,62 +172,62 @@
             <p>In January of 1885, the Executive Committee of the American and Foreign Christian Union offered its library of 743 volumes to New York University, with the stipulation that the University also provide storage for some books, pamphlets, and boxes of records which the Union wished to retain. It was agreed that if the Union did not call for the Library within ten years, the materials would then become the property of the University. The books and records were never reclaimed. The records were presumably transferred to the University Archives, although there is no written record of the transaction.</p>
         </custodhist>
         <controlaccess>
-            <corpname source="naf">American and Foreign Christian Union.</corpname>
-            <persname rules="dacs" source="local">Bacon, Leonard W., 1802-1881</persname>
-            <persname source="naf">Beard, Augustus Field, 1833-1934</persname>
-            <persname source="naf">Berry, J. Romeyn</persname>
-            <persname rules="dacs" source="local">Booth, William A.</persname>
-            <persname rules="dacs" source="local">Budington, Joel</persname>
-            <persname source="naf">Butler, J. Glentworth,  (James Glentworth), 1821-1916</persname>
-            <persname source="naf">Butler, William, 1818-1899</persname>
-            <persname source="naf">Chamberlain, L. T.,  (Leander Trowbridge), 1837-1913</persname>
-            <persname rules="dacs" source="local">Clark, William</persname>
-            <corpname rules="dacs" source="local">Commission for the American Fund for the Evangelization of France.</corpname>
-            <persname source="naf">Eldridge, Azariah, 1820-1888</persname>
-            <persname source="naf">Emerson, Joseph</persname>
-            <persname rules="dacs" source="local">Hall, E. Edwin</persname>
-            <persname rules="dacs" source="local">Hitchcock, Edward W.</persname>
-            <persname source="naf">Kirk, Edward N., b. 1782</persname>
-            <persname rules="dacs" source="local">Montsalvatge, Ramon</persname>
-            <persname rules="dacs" source="local">Moorehead, William G.</persname>
-            <persname source="naf">Park, A. J.</persname>
-            <corpname rules="dacs" source="naf">Presbyterian Church in the U.S.A. Board of Foreign Missions.</corpname>
-            <persname rules="dacs" source="local">Purlier, Lavinia</persname>
-            <persname source="naf">Rankin, Melinda, 1811-1888</persname>
-            <persname rules="dacs" source="local">Riley, H. Chauncey</persname>
-            <persname source="naf">Robinson, Charles S.</persname>
-            <persname rules="dacs" source="local">Sadd, J.M.</persname>
-            <persname rules="dacs" source="local">Schiller, Anna</persname>
-            <persname rules="dacs" source="local">Scudder, Joseph</persname>
-            <persname source="naf">Smith, T. Ralston.,  (Thomas Ralston), 1830-1903</persname>
-            <persname rules="dacs" source="local">Trumbull, David</persname>
-            <persname rules="dacs" source="local">Vermilye, Jacob D.</persname>
-            <ssssss source="lcsh">American Bible Society.</ssssss>
-            <ssssss source="local">American Chapel in Paris.</ssssss>
-            <ssssss source="lcsh">American Protestant Society.</ssssss>
-            <ssssss source="lcsh">American Tract Society.</ssssss>
-            <ssssss source="lcsh">Anti-Catholicism |z United States.</ssssss>
-            <ssssss source="lcsh">Anti-Catholicism.</ssssss>
+            <corpname_disabled source="naf">American and Foreign Christian Union.</corpname_disabled>
+            <persname_disabled rules="dacs" source="local">Bacon, Leonard W., 1802-1881</persname_disabled>
+            <persname_disabled source="naf">Beard, Augustus Field, 1833-1934</persname_disabled>
+            <persname_disabled source="naf">Berry, J. Romeyn</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Booth, William A.</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Budington, Joel</persname_disabled>
+            <persname_disabled source="naf">Butler, J. Glentworth,  (James Glentworth), 1821-1916</persname_disabled>
+            <persname_disabled source="naf">Butler, William, 1818-1899</persname_disabled>
+            <persname_disabled source="naf">Chamberlain, L. T.,  (Leander Trowbridge), 1837-1913</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Clark, William</persname_disabled>
+            <corpname_disabled rules="dacs" source="local">Commission for the American Fund for the Evangelization of France.</corpname_disabled>
+            <persname_disabled source="naf">Eldridge, Azariah, 1820-1888</persname_disabled>
+            <persname_disabled source="naf">Emerson, Joseph</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Hall, E. Edwin</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Hitchcock, Edward W.</persname_disabled>
+            <persname_disabled source="naf">Kirk, Edward N., b. 1782</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Montsalvatge, Ramon</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Moorehead, William G.</persname_disabled>
+            <persname_disabled source="naf">Park, A. J.</persname_disabled>
+            <corpname_disabled rules="dacs" source="naf">Presbyterian Church in the U.S.A. Board of Foreign Missions.</corpname_disabled>
+            <persname_disabled rules="dacs" source="local">Purlier, Lavinia</persname_disabled>
+            <persname_disabled source="naf">Rankin, Melinda, 1811-1888</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Riley, H. Chauncey</persname_disabled>
+            <persname_disabled source="naf">Robinson, Charles S.</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Sadd, J.M.</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Schiller, Anna</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Scudder, Joseph</persname_disabled>
+            <persname_disabled source="naf">Smith, T. Ralston.,  (Thomas Ralston), 1830-1903</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Trumbull, David</persname_disabled>
+            <persname_disabled rules="dacs" source="local">Vermilye, Jacob D.</persname_disabled>
+            <subject_disabled source="lcsh">American Bible Society.</subject_disabled>
+            <subject_disabled source="local">American Chapel in Paris.</subject_disabled>
+            <subject_disabled source="lcsh">American Protestant Society.</subject_disabled>
+            <subject_disabled source="lcsh">American Tract Society.</subject_disabled>
+            <subject_disabled source="lcsh">Anti-Catholicism |z United States.</subject_disabled>
+            <subject_disabled source="lcsh">Anti-Catholicism.</subject_disabled>
             <genreform source="aat">Articles.</genreform>
-            <ssssss source="lcsh">Catholic Church |x Doctrinal and controversial works |x Protestant authors.</ssssss>
-            <ssssss source="lcsh">Christian Alliance.</ssssss>
-            <ssssss source="local">Christian world.</ssssss>
+            <subject_disabled source="lcsh">Catholic Church |x Doctrinal and controversial works |x Protestant authors.</subject_disabled>
+            <subject_disabled source="lcsh">Christian Alliance.</subject_disabled>
+            <subject_disabled source="local">Christian world.</subject_disabled>
             <genreform source="aat">Clippings (information artifacts)</genreform>
             <genreform source="aat">Correspondence.</genreform>
-            <ssssss source="lcsh">Evangelical Committee of the Free Italian Church.</ssssss>
-            <ssssss source="lcsh">Evangelicalism.</ssssss>
-            <ssssss source="lcsh">Foreign Evangelical Society.</ssssss>
-            <ssssss source="local">French Canadian Missionary Society.</ssssss>
-            <ssssss source="lcsh">Home missions.</ssssss>
-            <ssssss source="lcsh">Interdenominational cooperation.</ssssss>
+            <subject_disabled source="lcsh">Evangelical Committee of the Free Italian Church.</subject_disabled>
+            <subject_disabled source="lcsh">Evangelicalism.</subject_disabled>
+            <subject_disabled source="lcsh">Foreign Evangelical Society.</subject_disabled>
+            <subject_disabled source="local">French Canadian Missionary Society.</subject_disabled>
+            <subject_disabled source="lcsh">Home missions.</subject_disabled>
+            <subject_disabled source="lcsh">Interdenominational cooperation.</subject_disabled>
             <genreform source="aat">Memorandums.</genreform>
-            <ssssss source="lcsh">Missions and Christian union.</ssssss>
-            <ssssss source="lcsh">Missions.</ssssss>
+            <subject_disabled source="lcsh">Missions and Christian union.</subject_disabled>
+            <subject_disabled source="lcsh">Missions.</subject_disabled>
             <geogname source="lcsh">New York (State) |z New York.</geogname>
-            <ssssss source="lcsh">Protestantism.</ssssss>
-            <ssssss source="local">Societe Evangelique de France.</ssssss>
-            <ssssss source="local">Societe Evangelique de Geneve.</ssssss>
-            <ssssss source="lcsh">Waldenses.</ssssss>
+            <subject_disabled source="lcsh">Protestantism.</subject_disabled>
+            <subject_disabled source="local">Societe Evangelique de France.</subject_disabled>
+            <subject_disabled source="local">Societe Evangelique de Geneve.</subject_disabled>
+            <subject_disabled source="lcsh">Waldenses.</subject_disabled>
         </controlaccess>
         <dsc>
             <c id="beffff18" level="series">

@@ -97,6 +97,9 @@ module ASpaceImport
                     
                     next unless defn['default']
                     
+                    # Don't overwrite an existing value with a default
+                    next if self.send("#{prop}")
+                    
                     if defn['procedure']
                       proc = eval "lambda { #{defn['procedure']} }"
                       value = proc.call(defn['default'])
@@ -106,17 +109,9 @@ module ASpaceImport
                     
                     case self.class.schema['properties'][prop]['type']
                     when 'string'                    
-                      # Don't overwrite an existing value with a default
-                      next if self.send("#{prop}") 
                       self.send("#{prop}=", value)
                     when 'array'
-                      if self.send("#{prop}")
-                        new_arr = self.send("#{prop}")
-                        new_arr.push(value)
-                        self.send("#{prop}=", new_arr)
-                      else
-                        self.send("#{prop}=", [value])
-                      end
+                      self.send("#{prop}=", [value])
                     end   
                   end
                 end

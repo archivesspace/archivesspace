@@ -15,8 +15,6 @@
 
 - option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
 
-- move jsonmodel_queue to a separate module and mix it in to jsonmodel
-
 - revisit allow-failures
 	
 - create measurements for speed and memory usage

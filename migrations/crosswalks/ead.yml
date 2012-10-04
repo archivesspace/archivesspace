@@ -20,8 +20,9 @@ entities:
         procedure: "|value| value = nil unless value.include?('/'); value"
         
       extents:
-        default: "{'portion' => 'whole', 'number' => '5 or so', 'extent_type' => 'reels'}"
-        procedure: "|value| eval(value)"
+        xpath: ["descendant::extent"]
+        default: "5 or so"
+        procedure: "|value| {'portion' => 'whole', 'number' => value, 'extent_type' => 'reels'}"
         
   archival_object: 
     xpath: ["//dsc", "//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
@@ -48,9 +49,28 @@ entities:
     properties:
       terms: 
         xpath: ["self"]
-        procedure: "|value| {'term' => value, 
-                             'term_type' => 'Cultural context'
-                             }"
+        procedure: "|value| {'term' => value, 'term_type' => 'Cultural context'}"
+        
+  agent_person:
+    xpath: ["persname"]
+    properties:
+      agent_type:
+        default: "agent_person"
+      
+      names:
+        xpath: ["self"]
+        procedure: "|value| {'rules' => 'local', 'primary_name' => value, 'sort_name' => value, 'direct_order' => 'standard'}"
+
+  agent_corporate_entity:
+    xpath: ["corpname"]
+    properties:
+      agent_type:
+        default: "agent_corporate_entity"    
+  
+      names:
+        xpath: ["self"]
+        procedure: "|value| {'primary_name' => value}"
+  
       
 
 
