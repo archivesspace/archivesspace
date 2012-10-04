@@ -17,7 +17,9 @@
       <%= render :partial => "archival_objects/display/basic_information" %>
     </section>
 
-    <%= render :partial => "extent/show", :locals => { :extents => @archival_object.extents } %>
+    <% if @archival_object.extents.length > 0 %>
+      <%= render :partial => "extent/show", :locals => { :extents => @archival_object.extents } %>
+    <% end %>
 
     <% if @archival_object.dates.length > 0 %>
       <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates } %>

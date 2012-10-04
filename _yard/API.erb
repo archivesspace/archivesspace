@@ -5,12 +5,12 @@ As of <%= @time.inspect %> the following REST endpoints exist:
 	
 ## <%= e[:method].upcase%> <%= e[:uri]%> 
 
-### Description
+__Description__
 
 <%= e[:description]%>
 
 
-### Parameters
+__Parameters__
 <% e[:params].each do |param| 
   opts = (param[3] or {})
   vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
@@ -21,7 +21,7 @@ As of <%= @time.inspect %> the following REST endpoints exist:
 <% end %>
 <% end %>
 
-### Returns
+__Returns__
 
 <% e[:returns].each do |ret| %>
 <%= "\t#{ret[0]} -- #{ret[1]}\n" %>

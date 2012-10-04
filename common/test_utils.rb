@@ -16,6 +16,11 @@ module TestUtils
   end
 
 
+  def self.get(url)
+    Net::HTTP.get_response(url)
+  end
+
+
   def self.wait_for_url(url)
     while true
       begin

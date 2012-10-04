@@ -3,12 +3,16 @@ require 'sinatra'
 require_relative '../app/lib/webhooks'
 
 class Webhooks
+  class << self
+    alias :notify_orig :notify
+  end
+
   def self.notify(*ignored)
   end
 end
 
 
-if ENV['COVERAGE_REPORTS']
+if ENV['COVERAGE_REPORTS'] == 'true'
   require 'tmpdir'
   require 'pp'
   require 'simplecov'

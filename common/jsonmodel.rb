@@ -97,6 +97,9 @@ module JSONModel
         entry[:schema]["properties"] = properties
       end
 
+      # All records have a lock_version property that we use for optimistic concurrency control.
+      entry[:schema]["properties"]["lock_version"] = {"type" => ["integer", "string"], "required" => false}
+
       self.create_model_for(schema_name, entry[:schema])
     end
   end

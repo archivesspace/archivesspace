@@ -1,6 +1,6 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index),"New #{I18n.t("agent.agent_type.#{@agent.agent_type}")}"]} %>
 
-<%= form_for @agent, :as => "agent", :url => {:action => :create, :type => @agent.agent_type}, :html => {:class => 'form-horizontal'} do |f| %>
+<%= jsonmodel_form_for @agent, :as => "agent", :url => {:action => :create, :type => @agent.agent_type}, :html => {:class => 'form-horizontal'} do |f| %>
   <div class="row-fluid">
     <div class="span3">
       <%= render :partial => "agents/sidebar" %>

@@ -59,11 +59,11 @@ en:
     publish_help: Check this if you wish to publish this accession to the public.
     restrictions: Restrictions?
     title: Title
-    extents:
+    _extents:
       <<: *extent_attributes
-    dates:
+    _dates:
       <<: *date_attributes
-    external_documents:
+    _external_documents:
       <<: *external_document_attributes
   agent: &agent_attributes
     type: Agent Type
@@ -72,7 +72,7 @@ en:
       agent_person: Person
       agent_corporate_entity: Corporate Entity
       agent_software: Software
-    names:
+    _names:
       authority_id: Authority ID
       primary_name: Primary Name
       prefix: Prefix
@@ -105,7 +105,7 @@ en:
       rules_local: Local rules (local)
       rules_aacr: Anglo-American Cataloging Rules (aacr)
       rules_dacs: "Describing Archives: A Content Standard (dacs)"
-    agent_contacts:
+    _agent_contacts:
       name: Contact Description
       salutation: Salutation
       address_1: Address Line 1
@@ -119,7 +119,7 @@ en:
       telephone_ext: Telephone Ext.
       fax: Fax Number
       email: Email Address
-    external_documents:
+    _external_documents:
       <<: *external_document_attributes
   agent_person:
     <<: *agent_attributes
@@ -133,11 +133,11 @@ en:
     title: Title
     ref_id: Ref ID
     "[:resource_id, :ref_id]": Ref ID
-    extents:
+    _extents:
       <<: *extent_attributes
-    dates:
+    _dates:
       <<: *date_attributes
-    external_documents:
+    _external_documents:
       <<: *external_document_attributes
   group:
     group_code: Group code
@@ -154,11 +154,12 @@ en:
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
-    extents:
+    extents: Extents
+    _extents:
       <<: *extent_attributes
-    dates:
+    _dates:
       <<: *date_attributes
-    external_documents:
+    _external_documents:
       <<: *external_document_attributes
   repository:
     repo_code: Repository code
@@ -167,9 +168,9 @@ en:
     term: Term
     term_type: Type
   subject:
-    terms:
+    _terms:
       <<: *term_attributes
-    external_documents:
+    _external_documents:
       <<: *external_document_attributes
   createuser:
     username: Username

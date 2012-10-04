@@ -1,7 +1,7 @@
 $test_mode = true
 require_relative "../lib/bootstrap"
 
-if ENV['COVERAGE_REPORTS']
+if ENV['COVERAGE_REPORTS'] == 'true'
   require 'tmpdir'
   require 'pp'
   require 'simplecov'

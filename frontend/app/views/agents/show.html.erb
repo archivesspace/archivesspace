@@ -29,7 +29,7 @@
 
           <% @agent.names[0].to_hash.each do |k,v| %>
             <div class="row-fluid label-and-value">
-               <div class="span3"><%= I18n.t("agent.names.#{k}") %></div>
+               <div class="span3"><%= I18n.t("agent._names.#{k}") %></div>
                <div class="span9"><%= v %></div>
             </div>
           <% end %>
@@ -46,7 +46,7 @@
               name.to_hash.each do |k,v| %>
 
               <div class="row-fluid label-and-value">
-                 <div class="span3"><%= I18n.t("agent.names.#{k}") %></div>
+                 <div class="span3"><%= I18n.t("agent._names.#{k}") %></div>
                  <div class="span9"><%= v %></div>
               </div>
             <% end %>
@@ -65,7 +65,7 @@
               contact.to_hash.each do |k,v| %>
 
               <div class="row-fluid label-and-value">
-                 <div class="span3"><%= I18n.t("agent.agent_contacts.#{k}") %></div>
+                 <div class="span3"><%= I18n.t("agent._agent_contacts.#{k}") %></div>
                  <div class="span9"><%= v %></div>
               </div>
             <% end

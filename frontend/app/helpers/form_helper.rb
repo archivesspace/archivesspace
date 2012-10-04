@@ -24,11 +24,39 @@ module FormHelper
     end
   end
 
+  def jsonmodel_form_for(record, options = {}, &proc)
+    raise ArgumentError, "Missing block" unless block_given?
+
+    options[:html] ||= {}
+
+    case record
+      when String, Symbol
+        object_name = record
+        object      = nil
+      else
+        object      = record.is_a?(Array) ? record.last : record
+        object_name = options[:as] || ActiveModel::Naming.param_key(object)
+        apply_form_for_options!(record, options)
+    end
+
+    options[:html][:remote] = options.delete(:remote) if options.has_key?(:remote)
+    options[:html][:method] = options.delete(:method) if options.has_key?(:method)
+    options[:html][:authenticity_token] = options.delete(:authenticity_token)
+
+    builder = options[:parent_builder] = instantiate_builder(object_name, object, options, &proc)
+    fields_for = fields_for(object_name, object, options, &proc)
+    default_options = builder.multipart? ? { :multipart => true } : {}
+    output = form_tag(options.delete(:url) || {}, default_options.merge!(options.delete(:html)))
+    output << hidden_field_tag("#{object_name}[lock_version]", record["lock_version"]) if record["lock_version"]
+    output << fields_for
+    output.safe_concat('</form>')
+  end
+
 
   module FormBuilderMethods
 
 
-    def with_jsonmodel(name, obj, model, opts = {})
+    def with_jsonmodel(name, obj, model, opts = {}, &block)
 
       if model.is_a? Symbol
         model = JSONModel(model)
@@ -54,17 +82,24 @@ module FormHelper
 
       result = yield
 
+      lock_version = (obj["lock_version"] ? @template.hidden_field_tag(current_name("lock_version"),
+                                                                       obj["lock_version"],
+                                                                       :class => "subform-hidden-field") : "")
+
       @jsonmodel_object.pop
 
-      result
+      ('<div class="subform-wrapper">'.html_safe +
+       lock_version +
+       result +
+       '</div>'.html_safe)
     end
 
 
-    def current_name(method, use_index = true)
+    def current_name(method, use_index = true, sub_record_prefix = "")
       result = @object_name
 
       (@jsonmodel_object or []).each do |name, _, opts|
-        result += "[#{name}]"
+        result += "[#{sub_record_prefix}#{name}]"
 
         if opts[:is_array]
           if use_index
@@ -83,7 +118,22 @@ module FormHelper
 
 
     def current_i18n(method)
-      current_name(method, false)
+      # if method is a path/string, then ensure the sub record labels are prefixed with '_'
+      if method.kind_of?(String) && method.include?("/")
+        new_method = ""
+        split_path = method.split("/")
+        split_path.each_with_index do |s, i|
+          # if s in path doesn't represent an index
+          # and it isn't the last item in the path (the method)
+          # prefix with '_'
+          new_method += "_" if s.to_i.to_s != s && i < split_path.length - 1
+          new_method += s
+          new_method += "/" if i < split_path.length - 1
+        end
+        method = new_method
+      end
+
+      current_name(method, false, "_")
     end
 
 

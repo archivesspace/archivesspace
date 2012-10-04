@@ -40,12 +40,13 @@ describe 'Accession controller' do
   end
 
 
-  it "Fails on missing properties" do
+  it "fails on missing properties" do
     JSONModel::strict_mode(false)
+
+    expect { JSONModel(:accession).from_hash("id_0" => "abcdef") }.to raise_error(JSONModel::ValidationException)
 
     begin
       acc = JSONModel(:accession).from_hash("id_0" => "abcdef")
-      acc.save
     rescue JSONModel::ValidationException => e
       errors = ["title", "accession_date"]
       warnings = ["content_description", "condition_description"]
@@ -73,5 +74,26 @@ describe 'Accession controller' do
     created = create_accession
     JSONModel(:accession).find(created).uri.should eq("#{@repo}/accessions/#{created}")
   end
+
+
+
+  it "won't let you overwrite the current version of a record with a stale copy" do
+
+    created = create_accession
+
+    acc1 = JSONModel(:accession).find(created)
+    acc2 = JSONModel(:accession).find(created)
+
+    acc1.id_1 = "5678"
+    acc1.save
+
+    # Working off the stale copy
+    acc2.id_1 = "9999"
+    expect {
+      acc2.save
+    }.to raise_error(ConflictException)
+
+  end
+
 
 end

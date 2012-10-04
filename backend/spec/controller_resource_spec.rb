@@ -8,7 +8,7 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource and get it back" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     id = resource.save
 
     JSONModel(:resource).find(id).title.should eq("a resource")
@@ -17,7 +17,7 @@ describe 'Resources controller' do
 
   it "lets you manipulate the record hierarchy" do
 
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     id = resource.save
 
     aos = []
@@ -84,7 +84,7 @@ describe 'Resources controller' do
 
 
   it "lets you update a resource" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     id = resource.save
 
     resource.title = "an updated resource"
@@ -95,7 +95,7 @@ describe 'Resources controller' do
 
 
   it "can handle asking for the tree of an empty resource" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     id = resource.save
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
@@ -110,7 +110,7 @@ describe 'Resources controller' do
     ao_id = ao.save
 
 
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123")
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     coll_id = resource.save
 
 
@@ -136,6 +136,7 @@ describe 'Resources controller' do
 
     resource = JSONModel(:resource).from_hash("title" => "a resource",
                                               "id_0" => "abc123",
+                                              "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}],
                                               "subjects" => [subject.uri]
                                               )
     coll_id = resource.save
@@ -146,9 +147,9 @@ describe 'Resources controller' do
 
   it "can give a list of all resources" do
 
-    JSONModel(:resource).from_hash("title" => "coal", "id_0" => "1").save
-    JSONModel(:resource).from_hash("title" => "wind", "id_0" => "2").save
-    JSONModel(:resource).from_hash("title" => "love", "id_0" => "3").save
+    JSONModel(:resource).from_hash("title" => "coal", "id_0" => "1", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]).save
+    JSONModel(:resource).from_hash("title" => "wind", "id_0" => "2", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]).save
+    JSONModel(:resource).from_hash("title" => "love", "id_0" => "3", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]).save
 
     resources = JSONModel(:resource).all
 

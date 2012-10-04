@@ -2,7 +2,7 @@
    <%= @resource.title.blank? ? "New Resource" : @resource.title %>  <span class="label label-info">Resource</span>
 </h2>
 
-<%= render "shared/form_messages", :object => @resource %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @resource, :f => f} %>
 
 <fieldset>
   <section id="basic_information">
@@ -16,50 +16,55 @@
       <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
     </h3>
     <div id="extents_container">
-      <% @resource.extents.each_with_index do | extent, index | %>
-        <% f.with_jsonmodel("extents[]", extent, :extent) do %>
-          <%= render :partial => "extent/form", :locals => {:f => f, :index => index} %>
+      <% if @resource.extents.blank? %>
+        <p class="alert alert-info">Click 'Add Extent' to add an extent record.</p>
+      <% else %>
+        <% @resource.extents.each_with_index do | extent, index | %>
+          <%= f.with_jsonmodel("extents[]", extent, :extent) do %>
+            <% render :partial => "extent/form", :locals => {:f => f} %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
   </section>
+
+  <section id="dates">
+    <h3>
+      Dates
+      <input type="button" class="btn btn-small pull-right" value="Add Date"/>
+    </h3>
+    <div id="dates_container">
+      <% if @resource.dates.blank? %>
+        <p class="alert alert-info">Click 'Add Date' to add a date record.</p>
+      <% else %>
+        <% @resource.dates.each_with_index do | date, index | %>
+          <%= f.with_jsonmodel("dates[]", date, :date) do %>
+            <% render :partial => "dates/form", :locals => {:f => f, :index => index} %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
+  <section id="external_documents">
+    <h3>
+      External Documents
+      <input type="button" class="btn btn-small pull-right" value="Add External Document"/>
+    </h3>
+    <div id="external_documents_container">
+      <% if @resource.external_documents.blank? %>
+        <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
+      <% else %>
+        <% @resource.external_documents.each_with_index do | external_document, index | %>
+          <%= f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
+            <% render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
 </fieldset>
-
-<section id="dates">
-  <h3>
-    Dates
-    <input type="button" class="btn btn-small pull-right" value="Add Date"/>
-  </h3>
-  <div id="dates_container">
-    <% if @resource.dates.blank? %>
-      <p class="alert alert-info">Click 'Add Date' to add a date record.</p>
-    <% else %>
-      <% @resource.dates.each_with_index do | date, index | %>
-        <% f.with_jsonmodel("dates[]", date, :date) do %>
-          <%= render :partial => "dates/form", :locals => {:f => f, :index => index} %>
-        <% end %>
-      <% end %>
-    <% end %>
-  </div>
-</section>
-
-<section id="external_documents">
-  <h3>
-    External Documents
-    <input type="button" class="btn btn-small pull-right" value="Add External Document"/>
-  </h3>
-  <div id="external_documents_container">
-    <% if @resource.external_documents.blank? %>
-      <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
-    <% else %>
-      <% @resource.external_documents.each_with_index do | external_document, index | %>
-        <% f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
-          <%= render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
-        <% end %>
-      <% end %>
-    <% end %>
-  </div>
-</section>
 
 <%= render :partial => "extent/template", :locals => {:f => f} %>
 <%= render :partial => "dates/template", :locals => {:f => f} %>

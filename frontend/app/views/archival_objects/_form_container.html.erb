@@ -1,6 +1,6 @@
 <h2><%= @archival_object.title %>  <span class="label label-info">Archival Object</span></h2>
 <br/>
-<%= render "shared/form_messages", :object => @archival_object %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @archival_object, :f => f} %>
 
 <fieldset>
 
@@ -15,9 +15,13 @@
       <input type="button" class="btn btn-small pull-right" value="Add Extent"/>
     </h3>
     <div id="extents_container">
-      <% @archival_object.extents.each_with_index do | extent, index | %>
-        <% f.with_jsonmodel("extents[]", extent, :extent) do %>
-          <%= render :partial => "extent/form", :locals => {:f => f, :index => index} %>
+      <% if @archival_object.extents.blank? %>
+        <p class="alert alert-info">Click 'Add Extent' to add an extent record.</p>
+      <% else %>
+        <% @archival_object.extents.each_with_index do | extent, index | %>
+          <%= f.with_jsonmodel("extents[]", extent, :extent) do %>
+            <% render :partial => "extent/form", :locals => {:f => f} %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -33,8 +37,8 @@
         <p class="alert alert-info">Click 'Add Date' to add a date record.</p>
       <% else %>
         <% @archival_object.dates.each_with_index do | date, index | %>
-          <% f.with_jsonmodel("dates[]", date, :date) do %>
-            <%= render :partial => "dates/form", :locals => {:f => f, :index => index} %>
+          <%= f.with_jsonmodel("dates[]", date, :date) do %>
+            <% render :partial => "dates/form", :locals => {:f => f, :index => index} %>
           <% end %>
         <% end %>
       <% end %>
@@ -51,8 +55,8 @@
         <p class="alert alert-info">Click 'Add External Document' to add an external document record.</p>
       <% else %>
         <% @archival_object.external_documents.each_with_index do | external_document, index | %>
-          <% f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
-            <%= render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
+          <%= f.with_jsonmodel("external_documents[]", external_document, :external_document) do %>
+            <% render :partial => "external_documents/form", :locals => {:f => f, :index => index} %>
           <% end %>
         <% end %>
       <% end %>

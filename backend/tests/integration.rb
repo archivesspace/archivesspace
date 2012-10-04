@@ -110,7 +110,8 @@ def run_tests
   r = do_post({
                 :title => "integration test resource",
                 :id_0 => "abc123",
-                :subjects => ["/subjects/#{subject_id}"]
+                :subjects => ["/subjects/#{subject_id}"],
+                :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
               }.to_json,
               url("/repositories/#{repo_id}/resources"))
 

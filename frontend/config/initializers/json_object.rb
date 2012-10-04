@@ -6,7 +6,7 @@ module RailsFormMixin
     # For any array types in this schema, define a setter that will trigger
     # form_helper to do what we want.
     base.schema['properties'].each do |name, property|
-      if property['type'].downcase == 'array'
+      if property['type'].is_a?(String) && property['type'].downcase == 'array'
         base.instance_eval do
           define_method "#{name}_attributes=" do
           end

@@ -163,4 +163,71 @@ describe 'Date model' do
     ASDate[date[:id]].end_time.should eq("03:01:00")
   end
 
+
+  it "creates a bulk date with begin and end times" do
+    expect {
+      date = ASDate.create_from_json(JSONModel(:date).
+                                     from_hash({
+                                               "date_type" => "bulk",
+                                               "label" => "creation",
+                                               "begin" => "2001-01-01",
+                                               "end" => "2009-12-31",
+                                               "begin_time" => "00:00:00",
+                                               "end_time" => "23:59:59",
+                                               }))
+    }.should_not raise_error
+  end
+
+
+  it "reports an error if a bulk date lacks a begin date" do
+    expect {
+      date = ASDate.create_from_json(JSONModel(:date).
+                                     from_hash({
+                                               "date_type" => "bulk",
+                                               "label" => "creation",
+                                               "end" => "2009-12-31",
+                                               }))
+    }.should raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "reports an error if a bulk date lacks an end date" do
+    expect {
+      date = ASDate.create_from_json(JSONModel(:date).
+                                     from_hash({
+                                               "date_type" => "bulk",
+                                               "label" => "creation",
+                                               "begin" => "2001-01-01",
+                                               }))
+    }.should raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "reports an error if a bulk date has a begin time and lacks an end time" do
+    expect {
+      date = ASDate.create_from_json(JSONModel(:date).
+                                     from_hash({
+                                               "date_type" => "bulk",
+                                               "label" => "creation",
+                                               "begin" => "2001-01-01",
+                                               "end" => "2009-12-31",
+                                               "begin_time" => "00:00",
+                                               }))
+    }.should raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "reports an error if a bulk date has an end time and lacks a begin time" do
+    expect {
+      date = ASDate.create_from_json(JSONModel(:date).
+                                     from_hash({
+                                               "date_type" => "bulk",
+                                               "label" => "creation",
+                                               "begin" => "2001-01-01",
+                                               "end" => "2009-12-31",
+                                               "end_time" => "23:59:59",
+                                               }))
+    }.should raise_error(JSONModel::ValidationException)
+  end
+
 end

@@ -7,8 +7,8 @@ describe 'Group controller' do
   end
 
 
-  def create_group(opts = {})
-    group = JSONModel(:group).from_hash("group_code" => "newgroup",
+  def create_group(gcode = "newgroup", opts = {})
+    group = JSONModel(:group).from_hash("group_code" => gcode,
                                         "description" => "A test group")
     group.update(opts)
     group.save
@@ -42,7 +42,7 @@ describe 'Group controller' do
   end
 
 
-  it "Optionally leaves group members alone" do
+  it "optionally leaves group members alone" do
     group = create_group
 
     make_test_user("herman")
@@ -65,7 +65,7 @@ describe 'Group controller' do
   end
 
 
-  it "Assigns permissions" do
+  it "assigns permissions" do
     group = create_group
     make_test_user("guybrush")
 
@@ -80,7 +80,7 @@ describe 'Group controller' do
   end
 
 
-  it "Restricts group listings to only the current repository" do
+  it "restricts group listings to only the current repository" do
     repo_one = make_test_repo("RepoOne")
     repo_two = make_test_repo("RepoTwo")
 
@@ -96,7 +96,7 @@ describe 'Group controller' do
   end
 
 
-  it "Stops you assigning a global permission to a repository" do
+  it "stops you assigning a global permission to a repository" do
     group = create_group
     make_test_user("guybrush")
 
@@ -107,6 +107,46 @@ describe 'Group controller' do
     group.grants_permissions = ["captain"]
 
     expect { group.save }.to raise_error(AccessDeniedException)
+  end
+
+
+  it "Restricts group-related activities to repository-managers" do
+    make_test_user("archivist")
+    archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
+    archivists.member_usernames = ["archivist"]
+    archivists.save
+
+    make_test_user("viewer")
+    viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
+    viewers.member_usernames = ["viewer"]
+    viewers.save
+
+    ["archivist", "viewer"].each do |user|
+      expect {
+        as_test_user(user) do JSONModel(:group).all end
+      }.to raise_error(AccessDeniedException)
+
+      expect {
+        as_test_user(user) do JSONModel(:group).find(archivists.id) end
+      }.to raise_error(AccessDeniedException)
+
+      expect {
+        as_test_user(user) do archivists.save end
+      }.to raise_error(AccessDeniedException)
+    end
+  end
+
+
+  it "gives a list of all groups" do
+    create_group("supergroup")
+    create_group("groupthink")
+    create_group("groupygroup")
+
+    groups = JSONModel(:group).all
+
+    groups.any? { |group| group.group_code == "supergroup" }.should be_true
+    groups.any? { |group| group.group_code == "groupthink" }.should be_true
+    groups.any? { |group| group.group_code == "groupygroup" }.should be_true
   end
 
 end
