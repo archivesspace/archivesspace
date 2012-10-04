@@ -19,9 +19,7 @@
      
    </section>
 
-
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @subject, :method => :external_documents} %>
-
+   <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :external_documents, :section_id => "subject_external_documents", :force_custom_template => "subject_external_documents_form_template"} %>
 
 </fieldset>
 

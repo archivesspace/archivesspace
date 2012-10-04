@@ -11,10 +11,10 @@
   </section>
 
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :extents} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :dates} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :external_documents} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :rights_statements} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :extents} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :dates} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :external_documents} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :rights_statements} %>
 
 
 </fieldset>
