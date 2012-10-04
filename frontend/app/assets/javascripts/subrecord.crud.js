@@ -17,7 +17,7 @@ $(function() {
       var init_subform = function() {
         var $subform = $(this);
 
-        if ($subform.data("allow-removal") === true) {
+        if ($(".subrecord-form-fields", $subform).data("allow-removal") === true) {
           var removeBtn = $("<a href='javascript:void(0)' class='btn btn-mini pull-right subrecord-form-remove'><span class='icon-remove'></span></a>");
           $subform.prepend(removeBtn);
           removeBtn.on("click", function() {
@@ -38,6 +38,7 @@ $(function() {
       var init = function() {
         // add binding for creation of subforms
         $("h3 > .btn", $this).on("click", function() {
+
           var formEl = $(AS.renderTemplate($this.data("template-id"), {index: form_index}));
           formEl.hide();
           $(".subrecord-form-container", $this).append(formEl);

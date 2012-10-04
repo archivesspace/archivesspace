@@ -509,6 +509,8 @@ Sequel.migration do
     create_table(:rights_statements) do
       primary_key :id
 
+      Integer :lock_version, :default => 0, :null => false
+
       Integer :accession_id, :null => true
       Integer :archival_object_id, :null => true
       Integer :resource_id, :null => true

@@ -99,7 +99,7 @@ en:
       <<: *date_attributes
     _external_documents:
       <<: *external_document_attributes
-    rights_statements:
+    _rights_statements:
       <<: *rights_statement_attributes
   agent: &agent_attributes
     type: Agent Type
@@ -175,7 +175,7 @@ en:
       <<: *date_attributes
     _external_documents:
       <<: *external_document_attributes
-    rights_statements:
+    _rights_statements:
       <<: *rights_statement_attributes
   group:
     group_code: Group code
@@ -199,7 +199,7 @@ en:
       <<: *date_attributes
     _external_documents:
       <<: *external_document_attributes
-    rights_statements:
+    _rights_statements:
       <<: *rights_statement_attributes
   repository:
     repo_code: Repository code
