@@ -25,10 +25,13 @@ $(function() {
               $subform.remove();
               $this.parents("form:first").triggerHandler("form-changed");
               if ($(".subrecord-form-fields", $this).length === 0) {
-                $(".alert", $this).show();
+                $("> .subrecord-form-container > .alert", $this).show();
               }
             });
           });
+
+          // init any sub sub records!
+          $(".subrecord-form:not(.initialised)", $subform).init_subrecord_form();
         }
 
         $(document).triggerHandler("subrecord.new", [$this.data("object-name"), $subform]);
@@ -43,7 +46,7 @@ $(function() {
           formEl.hide();
           $(".subrecord-form-container", $this).append(formEl);
           formEl.fadeIn();
-          $(".alert", $this).hide();
+          $("> .subrecord-form-container > .alert", $this).hide();
           $this.parents("form:first").triggerHandler("form-changed");
           $.proxy(init_subform, formEl)();
           $(":input:visible:first", formEl).focus();
