@@ -2,16 +2,18 @@
   singular = method.to_s.singularize
   section_id = method.to_s if section_id.blank?
   suppress_template = false if suppress_template.blank?
-  force_custom_template = false if force_custom_template.blank?
+  nested_template = false if nested_template.blank?
+  nested_multiple = false if nested_multiple.blank?
 
-  if force_custom_template
-    template_id = force_custom_template
+  if nested_template
+    template_id = nested_template
+    template_id << "_${index}" if nested_multiple
   else
     template_id = "#{singular}_form_template"
   end
 %>
 <div>
-  <% puts object.inspect %>
+
   <section id="<%= section_id %>" class="subrecord-form" data-object-name="<%= singular %>" data-template-id="<%= template_id %>">
 
     <h3>
@@ -38,10 +40,10 @@
   </section>
 
   <% if not suppress_template %>
-    <% if force_custom_template %>
-      <div id="<%= force_custom_template %>" style="display:none;">
-        <%= f.with_jsonmodel("external_documents[]", {}, :external_document, :index => "${index}") do %>
-          <% render :partial => "external_documents/form", :locals => {:f => f, :index => 1} %>
+    <% if nested_template %>
+      <div id="<%= template_id %>" style="display:none;">
+        <%= f.with_jsonmodel("#{method.to_s}[]", {}, singular.intern, :index => "${sub_index}") do %>
+          <% render :partial => "#{method.to_s}/form", :locals => {:f => f} %>
         <% end %>
       </div>
     <% else %>
