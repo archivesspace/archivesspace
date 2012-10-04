@@ -74,6 +74,7 @@ module ASpaceImport
                     end
                   end
                 end
+            
                    
                 def mapped_properties(src = {})
                   if src[:xpath]
@@ -91,13 +92,32 @@ module ASpaceImport
                   end
                 end
                 
+                # todo - add an option for do / don't overwrite
+                
+                def add_property(prop, val)
+                  case self.class.schema['properties'][prop]['type']
+                  when 'string'
+                    self.send("#{prop}=", val)
+                  when 'array'
+                    if self.send("#{prop}")
+                      new_arr = self.send("#{prop}")
+                      new_arr.push(val)
+                      self.send("#{prop}=", new_arr)
+                    else
+                      self.send("#{prop}=", [val])
+                    end
+                  end
+                end
+                
                 def set_default_properties
                   
                   self.mapped_properties.each do |prop, defn|
                     
                     next unless defn['default']
                     
-                    # Don't overwrite an existing value with a default
+                    # Don't overwrite or append to an existing value 
+                    # with a default
+                    
                     next if self.send("#{prop}")
                     
                     if defn['procedure']
@@ -107,12 +127,8 @@ module ASpaceImport
                       value = defn['default']
                     end
                     
-                    case self.class.schema['properties'][prop]['type']
-                    when 'string'                    
-                      self.send("#{prop}=", value)
-                    when 'array'
-                      self.send("#{prop}=", [value])
-                    end   
+                    self.add_property(prop, value)
+                      
                   end
                 end
                           
@@ -147,26 +163,14 @@ module ASpaceImport
                       next if value == nil
                       
                       if value.length > 1000
-                        raise "Trying to set #{property} on #{self.class.record_type} using a suspciously\
+                        raise "Trying to set #{property} on #{self.class.record_type} using a suspiciously\
                         large value #{value.length}"
                       end
 
                       if (type = self.class.schema['properties'][property]['type'])
 
-                        if type == 'string'
+                        self.add_property(property, value)
 
-                          self.send("#{property}=", value) unless self.send("#{property}")
-                        elsif type == 'array' #and schema_properties[property]['items']['type'] == 'string'
-
-                          if self.send("#{property}")
-
-                            new_arr = self.send("#{property}")
-                            new_arr.push(value)
-                            self.send("#{property}=", new_arr)
-                          else
-                            self.send("#{property}=", [value])
-                          end
-                        end
                       end
                     end
                   end
