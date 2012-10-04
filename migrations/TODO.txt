@@ -1,4 +1,7 @@
 
+- allow the backend base url to get passed in as an option
+	- remove dependance on migraiton config in rails
+
 - validate XML files against schema (using libxml)
 	- where to do this?
 
@@ -12,7 +15,6 @@
 
 - option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
 
-- revisit dry run mode
 
 - revisit allow-failures
 	
