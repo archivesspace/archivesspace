@@ -4,22 +4,25 @@
   suppress_template = false if suppress_template.blank?
   nested_template = false if nested_template.blank?
   nested_multiple = false if nested_multiple.blank?
+  heading_size = "h3"
 
   if nested_template
     template_id = nested_template
+    heading_size = "h4" if nested_template
     template_id << "_#{f.current_index}" if nested_multiple
   else
     template_id = "#{singular}_form_template"
   end
+
 %>
 <div>
 
   <section id="<%= section_id %>" class="subrecord-form" data-object-name="<%= singular %>" data-template-id="<%= template_id %>">
 
-    <h3>
+    <<%= heading_size %> class="subrecord-form-heading">
       <%= I18n.t("#{singular}._html.plural") %>
       <input type="button" class="btn btn-small pull-right" value="Add <%= I18n.t("#{singular}._html.singular") %>"/>
-    </h3>
+    </<%= heading_size %>>
 
     <div class="subrecord-form-container">
       <% if object[method.to_s].blank? %>

@@ -40,7 +40,7 @@ $(function() {
 
       var init = function() {
         // add binding for creation of subforms
-        $("> h3 > .btn", $this).on("click", function() {
+        $("> .subrecord-form-heading > .btn", $this).on("click", function() {
 
           var index_data = {
             "index": $this.data("form_index"),
