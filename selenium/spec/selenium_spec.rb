@@ -11,6 +11,17 @@ $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 
 
+class RSpec::Core::Example
+  def passed?
+    @exception.nil?
+  end
+
+  def failed?
+    !passed?
+  end
+end
+
+
 module Selenium
   module WebDriver
     module Firefox
@@ -89,14 +100,18 @@ class Selenium::WebDriver::Driver
     element = self.find_element(*selector)
     element.click
 
-    try = 0
-    while self.find_element(*selector).equal? element
-      if try < RETRIES
-        try += 1
-        sleep 0.5
-      else
-        raise Selenium::WebDriver::Error::NoSuchElementError.new(selector.inspect)
+    begin
+      try = 0
+      while self.find_element_orig(*selector).equal? element
+        if try < RETRIES
+          try += 1
+          sleep 0.5
+        else
+          raise Selenium::WebDriver::Error::NoSuchElementError.new(selector.inspect)
+        end
       end
+    rescue Selenium::WebDriver::Error::NoSuchElementError
+      nil
     end
   end
 
@@ -158,7 +173,7 @@ end
 
 
 def cleanup
-  @driver.quit if @driver
+#  @driver.quit if @driver
 
   if ENV["COVERAGE_REPORTS"] == 'true'
     begin
@@ -201,24 +216,17 @@ describe "ArchivesSpace user interface" do
 
   # Stop selenium, kill the dev servers
   after(:all) do
-    if not $last_example_ok and ENV['SCREENSHOT_ON_ERROR']
-      outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
-      puts "Saving screenshot to #{outfile}"
-      @driver.save_screenshot(outfile)
-    end
-
     cleanup
   end
 
 
-  around(:each) do |example|
+  after(:each) do |group|
     begin
-      $last_example_ok = false
-      example.run
-      $last_example_ok = true
-    rescue
-      cleanup
-      raise $!
+      if group.example.exception and ENV['SCREENSHOT_ON_ERROR']
+        outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
+        puts "Saving screenshot to #{outfile}"
+        @driver.save_screenshot(outfile)
+      end
     end
   end
 
@@ -560,7 +568,6 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:link, 'Edit').click
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').text.should eq("Save Person")
-
   end
 
   it "can remove contact details" do
@@ -570,7 +577,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.ensure_no_such_element(:id => "agent[agent_contacts][0][name]")
 
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.click_and_wait_until_gone(:css => '#archivesSpaceSidebar button.btn-primary')
 
     @driver.ensure_no_such_element(:css => "#contacts h3")
 
@@ -939,10 +946,12 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css, ".token-input-delete-token").click
 
     # search for the created subject
-    @driver.find_element(:id, "token-input-").clear_and_send_keys("Foo")
+    @driver.find_element(:id, "token-input-").clear_and_send_keys("FooTerm456")
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
-    @driver.click_and_wait_until_gone(:css, "form#new_archival_object button[type='submit']")
+    @driver.find_element(:css, "form#new_archival_object button[type='submit']").click
+
+    @driver.wait_for_ajax
 
     # Verify that the change stuck
     @driver.navigate.refresh

@@ -56,7 +56,6 @@ module JSONModel
   @@protected_fields << "uri"
 
 
-
   module Webhooks
     @@notification_handlers = []
 
@@ -174,10 +173,18 @@ module JSONModel
 
         self.uri = self.class.uri_for(response["id"], opts)
 
+        # If we were able to save successfully, increment our local version
+        # number to match the version on the server.
+        self.lock_version = response["lock_version"]
+
         return response["id"]
 
       elsif response.code == '403'
         raise AccessDeniedException.new
+
+      elsif response.code == '409'
+        err = JSON.parse(response.body)
+        raise ConflictException.new(err["error"])
 
       elsif response.code =~ /^4/
         err = JSON.parse(response.body)

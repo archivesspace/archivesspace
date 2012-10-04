@@ -152,5 +152,4 @@ describe 'Accession model' do
     }.should raise_error(Sequel::ValidationFailed)
   end
 
-
 end

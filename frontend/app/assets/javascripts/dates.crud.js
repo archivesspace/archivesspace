@@ -25,8 +25,8 @@ $(function() {
         });
 
         $(".subform-remove", $subform).on("click", function() {
-          AS.confirmSubFormDelete($(this), function() {
-            $subform.remove();
+          AS.confirmSubFormDelete($(this), function(button) {
+            button.parents(".subform-wrapper").remove();
             $this.parents("form:first").triggerHandler("form-changed");
             if ($(".subform.date-fields", $this).length === 0) {
               $(".alert", $this).show();

@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sequel'
+require 'sequel/plugins/optimistic_locking'
 
 require_relative 'exceptions'
 require_relative 'logging'

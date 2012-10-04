@@ -7,7 +7,7 @@
   <div class="span9 record-pane">
     <h2><%= @group.description %> <span class="label label-info">Group</span></h2>
 
-    <%= form_for @group, :as => "group", :url => {:action => :update, :id => @group.id}, :html => {:class => 'form-horizontal'} do |f| %>
+    <%= jsonmodel_form_for @group, :as => "group", :url => {:action => :update, :id => @group.id}, :html => {:class => 'form-horizontal'} do |f| %>
    
     <%= render :partial => "groups/form", :locals => {:f => f} %>
     <% end %>

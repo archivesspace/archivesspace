@@ -1,6 +1,6 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Resources", :controller => :resources, :action => :index),"New Resource"]} %>
 
-<%= form_for @resource, :as => "resource", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+<%= jsonmodel_form_for @resource, :as => "resource", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
   <div class="row-fluid">
      <div class="span3">
         <%= render :partial => "resources/sidebar" %>
