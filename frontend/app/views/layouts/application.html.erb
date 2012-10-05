@@ -12,7 +12,7 @@
   <%= javascript_include_tag "application" %>
   <%= include_controller_js %>
 </head>
-<body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20">
+<body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20" class="action-<%= controller.action_name %>">
 
    <header>
      <%= render "shared/header" %>

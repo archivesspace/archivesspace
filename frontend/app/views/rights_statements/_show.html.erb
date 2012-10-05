@@ -9,9 +9,6 @@
               <span class="icon-chevron-right"></span>
               <span class="icon-chevron-down"></span>
             </div>
-            <div class="span2">
-              <%= rights_statement['identifier'] %>
-            </div>
             <div class="span3">
               <%= I18n.t("rights_statement.rights_type_#{rights_statement['rights_type']}") %>
             </div>
@@ -37,7 +34,7 @@
             </div>
           <% end %>
           <% if rights_statement["external_documents"].length > 0 %>
-            <%= render :partial => "external_documents/show", :locals => { :external_documents => rights_statement["external_documents"] } %>
+            <%= render :partial => "external_documents/show", :locals => { :external_documents => rights_statement["external_documents"], :id => "rights_statement_#{index}_external_documents" } %>
           <% end %>
         </div>
       </div>

@@ -773,6 +773,34 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "can add a rights statement to an Accession" do
+    @driver.find_element(:link, 'Edit').click
+
+    # add a rights sub record
+    @driver.find_element(:css => '#rights_statements .subrecord-form-heading .btn').click
+
+    @driver.find_element(:id, "accession[rights_statements][0][identifier]").clear_and_send_keys(Digest::MD5.hexdigest("#{Time.now}"))
+    ip_status_select = @driver.find_element(:id => "accession[rights_statements][0][ip_status]")
+    ip_status_select.find_elements( :tag_name => "option" ).each do |option|
+      option.click if option.attribute("value") === "copyrighted"
+    end
+    @driver.find_element(:id, "accession[rights_statements][0][jurisdiction]").clear_and_send_keys("AU")
+    @driver.find_element(:id, "accession[rights_statements][0][active]").click
+
+    # add an external document
+    @driver.find_element(:css => "#rights_statement_external_documents .subrecord-form-heading .btn").click
+    @driver.find_element(:id, "accession[rights_statements][0][external_documents][0][title]").clear_and_send_keys("Agreement")
+    @driver.find_element(:id, "accession[rights_statements][0][external_documents][0][location]").clear_and_send_keys("http://locationof.agreement.com")
+
+    # save changes
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+    # check the show page
+    @driver.find_element(:id, "rights_statements")
+    @driver.find_element(:id, "rights_statement_0")
+  end
+
+
   # Resources
 
 
