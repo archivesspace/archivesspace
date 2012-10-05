@@ -10,10 +10,9 @@
   </section>
 
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :extents} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :dates} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :external_documents} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :rights_statements} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @archival_object, :method => :extents} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @archival_object, :method => :external_documents} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @archival_object, :method => :rights_statements} %>
 
 
 </fieldset>

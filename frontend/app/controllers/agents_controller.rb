@@ -31,6 +31,7 @@ class AgentsController < ApplicationController
 
   def update
     handle_crud(:instance => :agent,
+                :model => JSONModel(@agent_type),
                 :obj => JSONModel(@agent_type).find(params[:id]),
                 :on_invalid => ->(){
                   return render :action => :edit

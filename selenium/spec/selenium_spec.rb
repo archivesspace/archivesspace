@@ -415,7 +415,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link => 'Create').click
     @driver.find_element(:link => 'Subject').click
 
-    @driver.find_element(:css => '#external_documents h3 .btn').click
+    @driver.find_element(:css => '#subject_external_documents .subrecord-form-heading .btn').click
 
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
@@ -483,7 +483,7 @@ describe "ArchivesSpace user interface" do
 
 
   it "can add a secondary name and validations match index of name form" do
-    @driver.find_element(:css => '#secondary_names h3 .btn').click
+    @driver.find_element(:css => '#secondary_names .subrecord-form-heading .btn').click
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
     @driver.find_element(:css, ".errors-names_1_rules").text.should eq('Rules - is required')
@@ -501,7 +501,7 @@ describe "ArchivesSpace user interface" do
 
 
   it "can add a contact to a person" do
-    @driver.find_element(:css => '#contacts h3 .btn').click
+    @driver.find_element(:css => '#contacts .subrecord-form-heading .btn').click
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
     @driver.find_element(:css, ".errors-agent_contacts_0_name").text.should eq('Contact Description - Property is required but was missing')
@@ -527,6 +527,8 @@ describe "ArchivesSpace user interface" do
   it "can remove contact details" do
     @driver.find_element(:css => '#contacts .subrecord-form-remove').click
     @driver.find_element(:css => '#contacts .confirm-removal').click
+
+    sleep(1)
 
     @driver.ensure_no_such_element(:id => "agent[agent_contacts][0][name]")
 
@@ -601,7 +603,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, 'Edit').click
 
     # add the first extent
-    @driver.find_element(:css => '#extents h3 .btn').click
+    @driver.find_element(:css => '#extents .subrecord-form-heading .btn').click
 
     @driver.find_element(:id => 'accession[extents][0][number]').clear_and_send_keys "5"
     event_type_select = @driver.find_element(:id => "accession[extents][0][extent_type]")
@@ -610,7 +612,7 @@ describe "ArchivesSpace user interface" do
     end
 
     # add the second extent
-    @driver.find_element(:css => '#extents h3 .btn').click
+    @driver.find_element(:css => '#extents .subrecord-form-heading .btn').click
     @driver.find_element(:id => 'accession[extents][1][number]').clear_and_send_keys "10"
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
@@ -656,8 +658,8 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id => "accession[condition_description]").clear_and_send_keys "Slightly squashed"
 
     # add some dates!
-    @driver.find_element(:css => '#dates h3 .btn').click
-    @driver.find_element(:css => '#dates h3 .btn').click
+    @driver.find_element(:css => '#dates .subrecord-form-heading .btn').click
+    @driver.find_element(:css => '#dates .subrecord-form-heading .btn').click
 
     #populate the first date    
     date_label_select = @driver.find_element(:id => "accession[dates][0][label]")
@@ -717,8 +719,8 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id => "accession[condition_description]").clear_and_send_keys "Slightly squashed"
 
     # add some external documents
-    @driver.find_element(:css => '#external_documents h3 .btn').click
-    @driver.find_element(:css => '#external_documents h3 .btn').click
+    @driver.find_element(:css => '#external_documents .subrecord-form-heading .btn').click
+    @driver.find_element(:css => '#external_documents .subrecord-form-heading .btn').click
 
     #populate the first external documents    
     @driver.find_element(:id => "accession[external_documents][0][title]").clear_and_send_keys "My URI document"
@@ -918,7 +920,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:link, 'View').click
     @driver.find_element(:link, 'Edit').click
-    @driver.find_element(:css => '#extent h3 .btn').click
+    @driver.find_element(:css => '#extents .subrecord-form-heading .btn').click
 
     @driver.find_element(:id => 'resource[extents][1][number]').clear_and_send_keys "5"
     event_type_select = @driver.find_element(:id => "resource[extents][1][extent_type]")
@@ -935,7 +937,7 @@ describe "ArchivesSpace user interface" do
 
 
   it "can see two Extents on the saved Resource" do
-    extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
+    extent_headings = @driver.blocking_find_elements(:css => '#extents .accordion-heading')
 
     extent_headings.length.should eq (2)
     extent_headings[0].text.should eq ("10 Cassettes")
@@ -946,13 +948,13 @@ describe "ArchivesSpace user interface" do
   it "can remove an Extent when editing a Resource" do
     @driver.find_element(:link, 'Edit').click
 
-    @driver.blocking_find_elements(:css => '#extent .subform-remove')[1].click
-    @driver.find_element(:css => '#extent .confirm-removal').click
+    @driver.blocking_find_elements(:css => '#extents .subrecord-form-remove')[1].click
+    @driver.find_element(:css => '#extents .confirm-removal').click
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     @driver.find_element(:link, 'Finish Editing').click
 
-    extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
+    extent_headings = @driver.blocking_find_elements(:css => '#extents .accordion-heading')
 
     extent_headings.length.should eq (1)
     extent_headings[0].text.should eq ("10 Cassettes")

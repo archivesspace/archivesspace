@@ -13,19 +13,19 @@
   </section>
 
   <section id="primary_name">
-    <h3>Primary Name</h3>
+    <h3 class="subrecord-form-heading">Primary Name</h3>
     <%= f.with_jsonmodel("names[]", @agent.names[0], @name_type) do %>
       <% render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => f} %>
     <% end %>
 
   </section>
 
-  <section id="secondary_names">
-    <h3>
+  <section id="secondary_names"class="subrecord-form-dummy">
+    <h3 class="subrecord-form-heading">
       Secondary Name(s)
       <input type="button" class="btn btn-small pull-right" value="Add Secondary Name"/>
     </h3>
-    <div id="secondary_names_container">
+    <div id="secondary_names_container" class="subrecord-form-container">
       <% if @agent.names.length > 1 %>
         <% @agent.names.each_with_index do | name , index | %>
           <% if index > 0 %>
@@ -40,12 +40,12 @@
     </div>
   </section>
 
-  <section id="contacts">
-    <h3>
+  <section id="contacts" class="subrecord-form-dummy">
+    <h3 class="subrecord-form-heading">
       Contact Details
       <input type="button" class="btn btn-small pull-right" value="Add Contact Details"/>
     </h3>
-    <div id="contacts_container">
+    <div id="contacts_container" class="subrecord-form-container">
       <% if @agent.agent_contacts && @agent.agent_contacts.length > 0 %>
         <% @agent.agent_contacts.each do | contact | %>
           <%= f.with_jsonmodel("agent_contacts[]", contact, :agent_contact) do %>
@@ -58,7 +58,7 @@
     </div>
   </section>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :method => :external_documents} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @agent, :method => :external_documents} %>
 
 </fieldset>
 

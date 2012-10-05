@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
       end
 
 
-      instance = JSONModel(opts[:instance]).map_hash_with_schema(params[opts[:instance]],
+      instance = model.map_hash_with_schema(params[opts[:instance]],
                                                                  nil,
                                                                  [fix_arrays, set_false_for_checkboxes])
 

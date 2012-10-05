@@ -27,8 +27,8 @@ $(function() {
 
       var removeSecondaryNameForm = function() {
         AS.confirmSubFormDelete($(this), function(button) {
-          button.parents(".subform-wrapper").remove();
-          if ($("#secondary_names .subform", $this).length === 0) {
+          button.parents(".subrecord-form-wrapper").remove();
+          if ($("#secondary_names .subrecord-form-wrapper", $this).length === 0) {
             $("#secondary_names_container .alert-info", $this).show();
           }
         });
@@ -49,8 +49,8 @@ $(function() {
 
       var removeContactDetailsForm = function() {
         AS.confirmSubFormDelete($(this), function(button) {
-          button.parents(".subform-wrapper").remove();
-          if ($("#contacts .subform", $this).length === 0) {
+          button.parents(".subrecord-form-wrapper").remove();
+          if ($("#contacts .subrecord-form-wrapper", $this).length === 0) {
             $("#contacts_container .alert-info", $this).show();
           }
         });
