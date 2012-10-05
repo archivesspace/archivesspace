@@ -62,9 +62,26 @@ class ApplicationController < ActionController::Base
       end
 
 
+      set_false_for_checkboxes = proc do |hash, schema|
+        result = hash.clone
+
+        schema['properties'].each do |property, definition|
+          if definition['type'] == 'boolean'
+            if not result.has_key?(property)
+              result[property] = false
+            else
+              result[property] = (result[property].to_i === 1)
+            end
+          end
+        end
+
+        result
+      end
+
+
       instance = JSONModel(opts[:instance]).map_hash_with_schema(params[opts[:instance]],
                                                                  nil,
-                                                                 [fix_arrays])
+                                                                 [fix_arrays, set_false_for_checkboxes])
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)

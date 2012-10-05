@@ -12,18 +12,21 @@
             <div class="span2">
               <%= rights_statement['identifier'] %>
             </div>
-            <div class="span4">
+            <div class="span3">
               <%= I18n.t("rights_statement.rights_type_#{rights_statement['rights_type']}") %>
             </div>
-            <div class="span5">
+            <div class="span4">
               <% if rights_statement['ip_status'] %>
                 <%= I18n.t("rights_statement.ip_status_#{rights_statement['ip_status']}") %>
               <% end %>
             </div>
+            <div class="span1">
+              <%= I18n.t("rights_statement.active_#{rights_statement['active'].to_s}") %>
+            </div>
           </div>
         </div>
         <div id="rights_statement_<%= index %>" class="accordion-body collapse">
-          <% rights_statement.each do |k, v| %>
+          <% rights_statement.reject{|k,v| ["lock_version", "external_documents"].include?(k)}.each do |k, v| %>
             <div class="row-fluid label-and-value">
               <div class="span3 offset1" ><%= I18n.t("rights_statement.#{k}") %></div>
               <% if JSONModel(:rights_statement).schema["properties"][k]["enum"] %>

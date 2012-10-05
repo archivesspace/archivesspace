@@ -33,6 +33,9 @@ en:
     rights_type_license: License
     rights_type_statute: Statute
     rights_type_institutional_policy: Institutional Policy
+    active: Active
+    active_true: Active
+    active_false: Inactive
     materials: Materials
     ip_status: IP Status
     ip_status_copyrighted: Copyrighted

@@ -259,6 +259,8 @@ module FormHelper
                          }.merge(opts))
       elsif attr_definition["type"] === "date"
         jsonmodel_date_field(method, opts)
+      elsif attr_definition["type"] === "boolean"
+        jsonmodel_boolean_field(method, opts)
       else
         jsonmodel_text_field(method, opts)
       end
@@ -281,6 +283,17 @@ module FormHelper
                              :force_name => current_name(method),
                              :force_id => "#{current_name(method, true)}_#{value}"
                            })
+    end
+
+    def jsonmodel_boolean_field(method, opts)
+      @template.check_box(@object_name, method, {
+                            :checked_value => true,
+                            :uncheced_value => false,
+                            "data-original_value" => current[method],
+                            :object => current,
+                            :force_name => current_name(method),
+                            :force_id => "#{current_name(method, true)}"
+      }.merge(opts))
     end
 
     def jsonmodel_text_area(method, opts)
