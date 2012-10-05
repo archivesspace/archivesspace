@@ -110,7 +110,7 @@ describe 'Group controller' do
   end
 
 
-  it "Restricts group-related activities to repository-managers" do
+  it "restricts group-related activities to repository-managers" do
     make_test_user("archivist")
     archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
     archivists.member_usernames = ["archivist"]
