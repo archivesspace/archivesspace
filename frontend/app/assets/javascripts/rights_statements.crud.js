@@ -1,5 +1,3 @@
-//= require external_documents.crud
-
 $(function() {
 
   $.fn.init_rights_statements_form = function() {
