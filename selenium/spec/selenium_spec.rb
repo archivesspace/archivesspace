@@ -944,10 +944,13 @@ describe "ArchivesSpace user interface" do
 
   it "can remove an Extent when editing a Resource" do
     @driver.find_element(:link, 'Edit').click
-    @driver.find_element(:css => '#extent .subform-remove').click
+
+    @driver.blocking_find_elements(:css => '#extent .subform-remove')[1].click
     @driver.find_element(:css => '#extent .confirm-removal').click
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
+
     @driver.find_element(:link, 'Finish Editing').click
+
     extent_headings = @driver.blocking_find_elements(:css => '#extent .accordion-heading')
 
     extent_headings.length.should eq (1)
