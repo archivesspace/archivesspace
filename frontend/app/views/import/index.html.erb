@@ -1,18 +1,37 @@
-<h1>Import a File</h1>
-<% if flash[:notice] %>
-	<p>
-		<%= flash[:notice] %>
-	</p>
-<% end %>
-<%= form_tag '/import/upload', :multipart => true do %>
-	<p>
-		<%= label_tag :upload, 'Select an EAD to upload:' %>
-		<%= file_field :upload, :import_file %>
-	</p>
-	<p>
-		<%= submit_tag('Upload') %>
-	</p>
-<% end %>
-<p>
-	<%= @importer_list %>
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["Import"]} %>
 
+<%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal' do %>
+  <div class="row-fluid">
+    <div class="span12 record-pane">
+      <h2>Import an EAD File</h2>
+
+      <% if flash[:success] %>
+        <div class="alert alert-success">
+          <pre><%= flash[:success] %></pre>
+        </div>
+      <% end %>
+
+      <% if flash[:error] %>
+        <div class="alert alert-error">
+          <%= flash[:error] %>
+        </div>
+      <% end %>
+
+      <fieldset>
+        <div class="control-group ">
+          <%= label_tag :upload, 'Select an EAD to upload:', :class=>"control-label" %>
+          <div class="controls">
+            <%= file_field :upload, :import_file %>
+          </div>
+        </div>
+        <br/>
+        <p class="well"><%= @importer_list %></p>
+      </fieldset>
+
+      <div class="form-actions">
+        <%= submit_tag('Import', :class=>"btn btn-primary") %>
+        <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+      </div>
+    </div>
+  </div>
+<% end %>
