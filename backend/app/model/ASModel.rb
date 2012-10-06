@@ -124,11 +124,21 @@ module ASModel
     end
 
 
+    JSON_TO_DB_MAPPINGS = {
+      'boolean' => {
+        :description => "JSON booleans become DB integers",
+        :json_to_db => ->(bool) { bool ? 1 : 0 },
+        :db_to_json => ->(int) { int === 1 }
+      }
+    }
+
+
     def map_json_to_db_types(schema, hash)
       hash = hash.clone
       schema['properties'].each do |property, definition|
-        if hash.has_key?(property) && definition['type'] === 'boolean'
-          hash[property] = (hash[property] ? 1 : 0)
+        mapping = JSON_TO_DB_MAPPINGS[definition['type']]
+        if mapping && hash.has_key?(property)
+          hash[property] = mapping[:json_to_db].call(hash[property])
         end
       end
 
@@ -139,14 +149,17 @@ module ASModel
     def map_db_types_to_json(schema, hash)
       hash = hash.clone
       schema['properties'].each do |property, definition|
+        mapping = JSON_TO_DB_MAPPINGS[definition['type']]
+
         property = property.intern
-        if hash.has_key?(property) && definition['type'] === 'boolean'
-          hash[property] = (hash[property] === 1)
+        if mapping && hash.has_key?(property)
+          hash[property] = mapping[:db_to_json].call(hash[property])
         end
       end
 
       hash
     end
+
 
     # Several JSONModels consist of logical subrecords that are stored as
     # separate models in the database (in separate tables).
