@@ -2,8 +2,8 @@
 
 <project name="ArchivesSpace" default="help">
 
-  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.6.7.2/jruby-complete-1.6.7.2.jar" />
-  <property name="jruby_file" value="jruby-complete-1.6.7.2.jar" />
+  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.0.RC1/jruby-complete-1.7.0.RC1.jar" />
+  <property name="jruby_file" value="jruby-complete-1.7.0.RC1.jar" />
 
   <!-- We need a different version of JRuby for coverage reports until JRUBY-6106 gets merged -->
   <property name="coverage.jruby_url" value="http://aspace.hudmol.com/packages/jruby-trunk.jar" />
