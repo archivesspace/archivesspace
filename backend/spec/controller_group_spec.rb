@@ -149,4 +149,18 @@ describe 'Group controller' do
     groups.any? { |group| group.group_code == "groupygroup" }.should be_true
   end
 
+
+  it "allows repository managers to view the group list" do
+    make_test_user("newmanager")
+    managers = JSONModel(:group).all(:group_code => "repository-managers").first
+    managers.member_usernames = ["newmanager"]
+    managers.save
+
+    expect {
+      as_test_user("newmanager") do
+        JSONModel(:group).all
+      end
+    }.to_not raise_error
+  end
+
 end
