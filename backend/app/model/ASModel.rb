@@ -34,23 +34,25 @@ module ASModel
   end
 
 
-  def update_from_json(json, opts = {})
-    old = JSONModel(json.class.record_type).from_hash(json.to_hash.merge(self.values)).to_hash
-    changes = json.to_hash.merge(opts)
+  def update_from_json(json, extra_values = {})
+    schema_defined_properties = json.class.schema["properties"].keys
 
-    old.each do |k, v|
-      if not changes.has_key?(k)
-        changes[k] = nil
-      end
-    end
+    # Start by assuming all existing properties were nil, then overlay the
+    # updates plus any extra attributes.
+    #
+    # This has the effect of unsetting (or setting to NULL) any properties that
+    # were removed by this update.
+    updated = Hash[schema_defined_properties.map {|property| [property, nil]}].
+                                             merge(json.to_hash).
+                                             merge(ASUtils.keys_as_strings(extra_values))
 
     self.class.strict_param_setting = false
 
-    self.update(self.class.map_json_to_db_types(json.class.schema, changes))
+    self.update(self.class.map_json_to_db_types(json.class.schema, updated))
 
     id = self.save
 
-    self.class.apply_linked_database_records(self, json, opts)
+    self.class.apply_linked_database_records(self, json, extra_values)
 
     id
   end
@@ -116,7 +118,9 @@ module ASModel
 
     def create_from_json(json, extra_values = {})
       self.strict_param_setting = false
-      obj = self.create(map_json_to_db_types(json.class.schema, json.to_hash.merge(extra_values)))
+
+      obj = self.create(map_json_to_db_types(json.class.schema,
+                                             json.to_hash.merge(ASUtils.keys_as_strings(extra_values))))
 
       self.apply_linked_database_records(obj, json, extra_values)
 
@@ -209,7 +213,7 @@ module ASModel
               # Give our classes an opportunity to provide their own logic here
               db_record = model.ensure_exists(subrecord_json, obj)
             else
-              extra_opts = {}.merge(opts)
+              extra_opts = opts.clone
 
               if linked_record[:association][:key]
                 extra_opts[linked_record[:association][:key]] = obj.id
