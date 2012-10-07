@@ -19,9 +19,16 @@ class User < Sequel::Model(:users)
 
 
   # True if a user has access to perform 'permission' in 'repo_id'
-  def can?(permission, opts = {})
-    permission = Permission[:permission_code => permission.to_s]
+  def can?(permission_code, opts = {})
+    permission = Permission[:permission_code => permission_code.to_s]
     global_repo = Repository[:repo_code => Group.GLOBAL]
+
+    raise "The permission '#{permission_code}' doesn't exist" if permission.nil?
+
+    if !opts[:repo_id] && permission[:level] == "repository"
+      raise("Problem when checking permission: #{permission.permission_code} " +
+            "is a repository-level permission, but no :repo_id was given")
+    end
 
     !permission.nil? && ((self.class.db[:groups].
                           join(:groups_users, :group_id => :id).
