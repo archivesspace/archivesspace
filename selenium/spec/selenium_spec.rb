@@ -644,7 +644,7 @@ describe "ArchivesSpace user interface" do
 
   it "can see remove an extent when editing an Accession" do
     @driver.find_element(:link, 'Edit').click
-    @driver.find_elements(:css => '#extents .subrecord-form-remove')[0].click
+    @driver.blocking_find_elements(:css => '#extents .subrecord-form-remove')[0].click
     @driver.find_element(:css => '#extents .confirm-removal').click
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
