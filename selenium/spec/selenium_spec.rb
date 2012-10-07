@@ -184,7 +184,7 @@ end
 
 
 def cleanup
-#  @driver.quit if @driver
+  @driver.quit if @driver
 
   if ENV["COVERAGE_REPORTS"] == 'true'
     begin
