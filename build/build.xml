@@ -45,6 +45,9 @@
 
 
   <target name="bootstrap" description="Download JRuby and install all required gems">
+    <delete>
+      <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
+    </delete>
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
