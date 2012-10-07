@@ -16,6 +16,8 @@ class ApplicationController < ActionController::Base
   before_filter :load_repository_list
   before_filter :load_default_vocabulary
 
+  before_filter :unauthorised_access
+
   before_filter :sanitize_params
 
   protected
@@ -106,6 +108,18 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def user_needs_to_be_a_viewer
+    render_403 if not user_can? 'view_repository'
+  end
+
+  def user_needs_to_be_an_archivist
+    render_403 if not user_can? 'update_repository'
+  end
+
+  def user_needs_to_be_a_manager
+    render_403 if not user_can? 'manage_repository'
+  end
+
   helper_method :user_can?
   def user_can?(permission, repository = nil)
     repository ||= session[:repo]
@@ -120,8 +134,6 @@ class ApplicationController < ActionController::Base
       (session[:permissions]['_archivesspace'] &&
        session[:permissions]['_archivesspace'].include?(permission))))
   end
-
-
 
   private
 
@@ -195,8 +207,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
   def sanitize_params
     sanitize_param(params)
+  end
+
+  def unauthorised_access
+    render_403
+  end
+
+
+  def render_403
+    render "/403"
   end
 
 end
