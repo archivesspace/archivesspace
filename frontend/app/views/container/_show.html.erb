@@ -1,0 +1,16 @@
+<%
+   id = "container_subrecord" if id.blank?
+%>
+<section id="<%= id %>">
+  <h4>Container</h4>
+
+  <div class="container-subrecord">
+    <% container.reject{|k,v| ["lock_version", "container"].include?(k)}.each do |k, v| %>
+      <div class="row-fluid label-and-value">
+        <div class="span3 offset1" ><%= I18n.t("container.#{k}") %></div>
+        <div class="span8"><%= v %></div>
+      </div>
+    <% end %>
+  </div>
+
+</section>

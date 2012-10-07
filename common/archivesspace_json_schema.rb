@@ -66,7 +66,6 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
 
       elsif qualifier == 'uri_or_object' || qualifier == 'object'
         if data.is_a?(Hash)
-
           data["jsonmodel_type"] ||= model.to_s
           subvalidator = JSON::Validator.new(JSONModel(model).schema,
                                              data,

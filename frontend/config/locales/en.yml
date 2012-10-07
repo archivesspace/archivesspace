@@ -1,4 +1,5 @@
 en:
+<<<<<<< HEAD
   agent_person_name:
     authority_id: Authority ID
     source: Source
@@ -109,6 +110,36 @@ en:
       enumeration: Enumeration
       items: Items
   <<: *note_attributes
+  container: &container_attributes
+    type_1: Type 1
+    indicator_1: Indicator 1
+    barcode_1: Barcode 1
+    type_2: Type 2
+    indicator_2: Indicator 2
+    type_3: Type 3
+    indicator_3: Indicator 3
+    _html:
+      plural: Containers
+      singular: Container
+  instance: &instance_attributes
+    instance_type: Type
+    instance_type_audio: Audio
+    instance_type_books: Books
+    instance_type_computer_disks: Computer Disks
+    instance_type_digital_object: Digital Object
+    instance_type_digital_object_link: Digital Object Link
+    instance_type_graphic_materials: Graphic Materials
+    instance_type_maps: Maps
+    instance_type_microform: Microform
+    instance_type_mixed_materials: Mixed Materials
+    instance_type_moving_images: Moving Images
+    instance_type_realia: Realia
+    instance_type_text: Text
+    _container:
+      <<: *container_attributes
+    _html:
+      plural: Instances
+      singular: Instance
   extent: &extent_attributes
     portion: Portion
     portion_whole: Whole
@@ -316,6 +347,8 @@ en:
       <<: *external_document_attributes
     _rights_statements:
       <<: *rights_statement_attributes
+    _instances:
+      <<: *instance_attributes
   repository:
     repo_code: Repository code
     description: Description

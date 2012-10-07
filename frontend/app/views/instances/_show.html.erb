@@ -1,0 +1,36 @@
+<section id="instances">
+  <h3>Instances</h3>
+  <div class="accordion details" id="instances_accordion">
+    <% instances.each_with_index do | instance, index | %>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#instances_accordion" href="#instance_<%= index %>">
+            <div class="span1">
+              <span class="icon-chevron-right"></span>
+              <span class="icon-chevron-down"></span>
+            </div>
+            <div class="span3">
+              <%= I18n.t("instance.instance_type_#{instance['instance_type']}") %>
+            </div>
+            <div class="span7">
+              <% if instance["container"].length > 0 %>
+                <%= instance["container"]["type_1"] %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div id="instance_<%= index %>" class="accordion-body collapse">
+          <% instance.reject{|k,v| ["lock_version", "container"].include?(k)}.each do |k, v| %>
+            <div class="row-fluid label-and-value">
+              <div class="span3 offset1" ><%= I18n.t("instance.#{k}") %></div>
+              <div class="span8"><%= v %></div>
+            </div>
+          <% end %>
+          <% if instance["container"].length > 0 %>
+            <%= render :partial => "container/show", :locals => { :container => instance["container"], :id => "instance_#{index}_container" } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

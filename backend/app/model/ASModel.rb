@@ -185,13 +185,7 @@ module ASModel
       (ASModel.linked_records[self] or []).each do |linked_record|
 
         # Remove the existing linked records
-        if [:one_to_one, :one_to_many].include?(linked_record[:association][:type])
-          # Delete the objects from the other table
-          obj.send("#{linked_record[:association][:name]}_dataset").delete
-        else
-          # Just remove the links
-          obj.send("remove_all_#{linked_record[:association][:name]}".intern)
-        end
+        remove_existing_linked_records(obj, linked_record)
 
         # Read the subrecords from our JSON blob and fetch or create
         # the corresponding subrecord from the database.
@@ -228,6 +222,26 @@ module ASModel
       end
     end
 
+    def remove_existing_linked_records(obj, record)
+      model = Kernel.const_get(record[:association][:class_name])
+
+      # remove all sub records from the object first to avoid an integrity constraints
+      (ASModel.linked_records[model] or []).each do |linked_record|
+        (obj.send(record[:association][:name]) || []).each do |sub_obj|
+          remove_existing_linked_records(sub_obj, linked_record)
+        end
+      end
+
+      # now remove this record from the object
+      if [:one_to_one, :one_to_many].include?(record[:association][:type])
+        # Delete the objects from the other table
+        obj.send("#{record[:association][:name]}_dataset").delete
+      else
+        # Just remove the links
+        obj.send("remove_all_#{record[:association][:name]}".intern)
+      end
+    end
+
 
     def get_or_die(id, repo_id = nil)
       # For a minute there I lost myself...
@@ -245,19 +259,29 @@ module ASModel
 
       # If there are linked records for this class, grab their URI references too
       (ASModel.linked_records[self] or []).each do |linked_record|
-
         model = Kernel.const_get(linked_record[:association][:class_name])
 
-        records = obj.send(linked_record[:association][:name]).map {|linked_obj|
+        if (linked_record[:association][:type] === :one_to_one)
+          record_data = obj.send(linked_record[:association][:name])
           if linked_record[:always_resolve]
-            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel], :any).to_hash
+            record = model.to_jsonmodel(record_data, linked_record[:jsonmodel]).to_hash
           else
-            JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id) or
+            record = JSONModel(linked_record[:jsonmodel]).uri_for(record_data.id) or
               raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
           end
-        }
+          json[linked_record[:json_property]] = record
+        else
+          records = obj.send(linked_record[:association][:name]).map {|linked_obj|
+            if linked_record[:always_resolve]
+              model.to_jsonmodel(linked_obj, linked_record[:jsonmodel]).to_hash
+            else
+              JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id) or
+                raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
+            end
+          }
 
-        json[linked_record[:json_property]] = records
+          json[linked_record[:json_property]] = records
+        end
       end
 
       json

@@ -50,5 +50,9 @@
       <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @resource.rights_statements } %>
     <% end %>
 
+    <% if @resource.instances.length > 0 %>
+      <%= render :partial => "instances/show", :locals => { :instances => @resource.instances } %>
+    <% end %>
+
   </div>
 </div>
