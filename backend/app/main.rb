@@ -1,6 +1,7 @@
 require_relative 'lib/bootstrap'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
+require_relative 'lib/webrick_fix'
 require 'uri'
 
 require 'sinatra/base'
