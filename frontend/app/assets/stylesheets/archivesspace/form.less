@@ -57,13 +57,21 @@
 }
 
 .record-pane h3 {
-  background-color: #FAFAFA;
+  background-color: #F6F6F6;
   border-bottom: 1px solid #DDD;
   padding-left: 10px;
 }
 
-.record-pane section h3 .btn.pull-right {
+.record-pane section h3 .btn.pull-right,
+.record-pane section section h4 .btn.pull-right {
   margin: 6px 6px 0 0;
+}
+
+.record-pane section section h4 {
+  background-color: #F6F6F6;
+  border-bottom: 1px solid #DDD;
+  padding-left: 10px;
+  line-height: 36px;
 }
 
 .linker-list {
@@ -214,26 +222,42 @@
 
 
 /* AGENT NAME Form styles */
-.subform {
-  border: 1px solid #DDD;
-  .border-radius(4px);
-  margin-bottom: 10px;
+.subrecord-form-dummy,
+.subrecord-form {
+  margin: 20px 0;
+  background-color: #FAFAFA;
+  .box-shadow(~"1px 1px 3px rgba(0, 0, 0, 0.25)");
 
-  h4 {
-    background-color: #FAFAFA;
-    line-height: 1.4em;
-    min-height: 1.4em;
-    margin: 0;
-    border-bottom: 1px solid #DDD;
-    .border-radius(4px 4px 0 0);
-  }
+  .subrecord-form-container {
+    margin: 0 10px;
+    padding: 0 0 10px;
 
-  .subform-removal-confirmation,
-  .subform-remove {
-    margin: 6px 6px 0 0;
-  }
+    .alert {
+      margin: 10px 0 0;
+    }
 
-  .subform-container {
-    margin-top: 10px;
+    .subrecord-form-heading {
+      min-height: 1.4em;
+      margin: 0;
+      border-bottom: 1px solid #DDD;
+      .border-radius(4px 4px 0 0);
+    }
+
+    .subrecord-form-removal-confirmation,
+    .subrecord-form-remove {
+      margin: 6px 6px 0 0;
+    }
+
+    .subrecord-form-fields {
+      background-color: #FFF;
+      border: 1px solid #DDD;
+      .border-radius(4px);
+      margin-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .subrecord-form {
+      margin: 10px 10px 0;
+    }
   }
 }

@@ -7,7 +7,8 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, :updated]) \
   do
-    handle_update(Accession, :accession_id, :accession)
+    handle_update(Accession, :accession_id, :accession,
+                  :repo_id => params[:repo_id])
   end
 
 

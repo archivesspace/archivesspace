@@ -1,7 +1,6 @@
 //= require dates.crud
-//= require extent.crud
 //= require subjects.crud
-//= require external_documents.crud
+//= require subrecord.crud
 
 $(function() {
 

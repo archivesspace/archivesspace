@@ -323,6 +323,8 @@ module JSONModel
         @data = self.class.keys_as_strings(params)
         @warnings = warnings
 
+        @data = self.class.apply_schema_defaults(@data)
+
         self.class.define_accessors(@data.keys)
       end
 
@@ -439,47 +441,88 @@ module JSONModel
       end
 
 
+      def self.map_hash_with_schema(hash, schema = nil, transformations = [])
+        if schema.nil?
+          return self.map_hash_with_schema(hash, self.schema, transformations)
+        end
+
+        return hash if not hash.is_a?(Hash)
+
+        if schema.is_a?(String)
+          ref = JSONModel.parse_jsonmodel_ref(schema)
+
+          if ref
+            # A nested reference to another data type.  Validate against it.
+            schema = JSONModel.JSONModel(ref[0]).schema
+          else
+            raise "Invalid schema given: #{schema}"
+          end
+        end
+
+        if schema["$ref"] == "#"
+          # A recursive schema.  Back to the beginning.
+          schema = self.schema
+        end
+
+        return hash if not schema.has_key?("properties")
+
+        transformations.each do |transform|
+          hash = transform.call(hash, schema)
+        end
+
+        result = {}
+
+        hash.each do |k, v|
+          k = k.to_s
+
+          if schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "object")
+            result[k] = self.map_hash_with_schema(v, schema["properties"][k], transformations)
+          elsif schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "array")
+            result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"]["type"], transformations)}
+          else
+            result[k] = v
+          end
+        end
+
+        result
+      end
+
+
       ## Supporting methods following from here
       protected
 
-
-      # Given a (potentially nested) 'hash', remove any properties that don't
-      # appear in the JSON schema defining this JSONModel.
       def self.drop_unknown_properties(hash, schema = nil)
-        if schema.nil?
-          self.drop_unknown_properties(hash, self.schema)
-        else
-          if not hash.is_a?(Hash)
-            return hash
-          end
-
-          if schema["$ref"] == "#"
-            # A recursive schema.  Back to the beginning.
-            schema = self.schema
-          end
-
-          if not schema.has_key?("properties")
-            return hash
-          end
-
+        fn = proc do |hash, schema|
           result = {}
 
           hash.each do |k, v|
-            k = k.to_s
-
-            if schema["properties"].has_key?(k)
-              if schema["properties"][k]["type"] == "object"
-                result[k] = self.drop_unknown_properties(v, schema["properties"][k])
-              elsif schema["properties"][k]["type"] == "array"
-                result[k] = v.collect {|elt| self.drop_unknown_properties(elt, schema["properties"][k]["items"])}
-              elsif v and v != ""
-                result[k] = v
-              end
+            if schema["properties"].has_key?(k.to_s) and v != "" and !v.nil?
+              result[k] = v
             end
           end
 
           result
         end
+
+        self.map_hash_with_schema(hash, schema, [fn])
+      end
+
+
+      def self.apply_schema_defaults(hash, schema = nil)
+        fn = proc do |hash, schema|
+          result = hash.clone
+
+          schema["properties"].each do |property, definition|
+
+            if definition.has_key?("default") and !hash.has_key?(property.to_s) and !hash.has_key?(property.intern)
+              result[property] = definition["default"]
+            end
+          end
+
+          result
+        end
+
+        self.map_hash_with_schema(hash, schema, [fn])
       end
 
 

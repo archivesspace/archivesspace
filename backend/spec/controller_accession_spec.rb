@@ -76,7 +76,6 @@ describe 'Accession controller' do
   end
 
 
-
   it "won't let you overwrite the current version of a record with a stale copy" do
 
     created = create_accession
@@ -95,5 +94,24 @@ describe 'Accession controller' do
 
   end
 
+
+  it "creates an accession with a rights statement" do
+    acc = JSONModel(:accession).from_hash("id_0" => "1234",
+                                          "title" => "The accession title",
+                                          "content_description" => "The accession description",
+                                          "condition_description" => "The condition description",
+                                          "accession_date" => "2012-05-03",
+                                          "rights_statements" => [
+                                            {
+                                              "identifier" => "abc123",
+                                              "rights_type" => "intellectual_property",
+                                              "ip_status" => "copyrighted",
+                                              "jurisdiction" => "AU",
+                                            }
+                                          ]).save
+    JSONModel(:accession).find(acc).rights_statements.length.should eq(1)
+    JSONModel(:accession).find(acc).rights_statements[0]["identifier"].should eq("abc123")
+    JSONModel(:accession).find(acc).rights_statements[0]["active"].should eq(true)
+  end
 
 end

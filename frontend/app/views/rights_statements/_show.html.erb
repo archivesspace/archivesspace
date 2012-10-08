@@ -1,0 +1,43 @@
+<section id="rights_statements">
+  <h3>Rights Statements</h3>
+  <div class="accordion details" id="rights_statements_accordion">
+    <% rights_statements.each_with_index do | rights_statement, index | %>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#rights_statements_accordion" href="#rights_statement_<%= index %>">
+            <div class="span1">
+              <span class="icon-chevron-right"></span>
+              <span class="icon-chevron-down"></span>
+            </div>
+            <div class="span3">
+              <%= I18n.t("rights_statement.rights_type_#{rights_statement['rights_type']}") %>
+            </div>
+            <div class="span4">
+              <% if rights_statement['ip_status'] %>
+                <%= I18n.t("rights_statement.ip_status_#{rights_statement['ip_status']}") %>
+              <% end %>
+            </div>
+            <div class="span1">
+              <%= I18n.t("rights_statement.active_#{rights_statement['active'].to_s}") %>
+            </div>
+          </div>
+        </div>
+        <div id="rights_statement_<%= index %>" class="accordion-body collapse">
+          <% rights_statement.reject{|k,v| ["lock_version", "external_documents"].include?(k)}.each do |k, v| %>
+            <div class="row-fluid label-and-value">
+              <div class="span3 offset1" ><%= I18n.t("rights_statement.#{k}") %></div>
+              <% if JSONModel(:rights_statement).schema["properties"][k]["enum"] %>
+                <div class="span8"><%= I18n.t("rights_statement.#{k}_#{v}") %></div>
+              <% else  %>
+                <div class="span8"><%= v %></div>
+              <% end %>
+            </div>
+          <% end %>
+          <% if rights_statement["external_documents"].length > 0 %>
+            <%= render :partial => "external_documents/show", :locals => { :external_documents => rights_statement["external_documents"], :id => "rights_statement_#{index}_external_documents" } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

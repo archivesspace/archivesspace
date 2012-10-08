@@ -152,4 +152,32 @@ describe 'Accession model' do
     }.should raise_error(Sequel::ValidationFailed)
   end
 
+
+  it "Allows accessions to be created with a rights statement" do
+    accession = Accession.create_from_json(JSONModel(:accession).
+                                             from_hash({
+                                                         "id_0" => "1234",
+                                                         "id_1" => "5678",
+                                                         "id_2" => "9876",
+                                                         "id_3" => "5432",
+                                                         "title" => "Papers of Mark Triggs",
+                                                         "accession_date" => Time.now,
+                                                         "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
+                                                         "condition_description" => "Most letters smeared with jam",
+
+                                                         "rights_statements" => [
+                                                           {
+                                                             "identifier" => "abc123",
+                                                             "rights_type" => "intellectual_property",
+                                                             "ip_status" => "copyrighted",
+                                                             "jurisdiction" => "AU",
+                                                           }
+                                                         ]
+                                                       }),
+                                           :repo_id => @repo_id)
+
+    Accession[accession[:id]].rights_statements.length.should eq(1)
+    Accession[accession[:id]].rights_statements[0].identifier.should eq("abc123")
+  end
+
 end

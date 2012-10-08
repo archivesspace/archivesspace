@@ -506,6 +506,55 @@ Sequel.migration do
     end
 
 
+    create_table(:rights_statements) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :accession_id, :null => true
+      Integer :archival_object_id, :null => true
+      Integer :resource_id, :null => true
+
+      Integer :repo_id, :null => false
+
+      String :identifier, :null => false
+      String :rights_type, :null => false
+
+      Integer :active
+
+      String :materials, :null => true
+
+      String :ip_status, :null => true
+      DateTime :ip_expiration_date, :null => true
+
+      String :license_identifier_terms, :null => true
+      String :statute_citation, :null => true
+
+      String :jurisdiction, :null => true
+      String :type_note, :null => true
+
+      String :permissions, :null => true
+      String :restrictions, :null => true
+      DateTime :restriction_start_date, :null => true
+      DateTime :restriction_end_date, :null => true
+
+      String :granted_note, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:rights_statements) do
+      add_foreign_key([:accession_id], :accessions, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
+
+      add_foreign_key([:repo_id], :repositories, :key => :id)
+      add_index([:repo_id, :identifier], :unique => true)
+    end
+
+
     create_table(:external_documents) do
       primary_key :id
 
@@ -524,7 +573,8 @@ Sequel.migration do
                                              :agent_person,
                                              :agent_family,
                                              :agent_corporate_entity,
-                                             :agent_software]
+                                             :agent_software,
+                                             :rights_statement]
 
     records_supporting_external_documents.each do |record|
       table = table_exists?(record) ? record : record.to_s.pluralize.intern
@@ -537,16 +587,17 @@ Sequel.migration do
                         :index_options => {:name => "ed_#{record}_idx"})
     end
 
+
   end
 
   down do
 
-    [:external_documents,
+    [:external_documents, :rights_statements,
      :subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
-     :dates, :archival_objects, :vocabularies, :extent, :resources, :repositories,
+     :dates, :archival_objects, :vocabularies, :extents, :resources, :repositories,
      :accessions_external_documents, :archival_objects_external_documents,
      :external_documents_resources, :external_documents_subjects,
      :agent_people_external_documents, :agent_families_external_documents,

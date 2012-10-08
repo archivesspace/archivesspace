@@ -46,7 +46,7 @@ module ASModel
 
     self.class.strict_param_setting = false
 
-    self.update(changes)
+    self.update(self.class.map_json_to_db_types(json.class.schema, changes))
 
     id = self.save
 
@@ -116,11 +116,48 @@ module ASModel
 
     def create_from_json(json, extra_values = {})
       self.strict_param_setting = false
-      obj = self.create(json.to_hash.merge(extra_values))
+      obj = self.create(map_json_to_db_types(json.class.schema, json.to_hash.merge(extra_values)))
 
       self.apply_linked_database_records(obj, json, extra_values)
 
       obj
+    end
+
+
+    JSON_TO_DB_MAPPINGS = {
+      'boolean' => {
+        :description => "JSON booleans become DB integers",
+        :json_to_db => ->(bool) { bool ? 1 : 0 },
+        :db_to_json => ->(int) { int === 1 }
+      }
+    }
+
+
+    def map_json_to_db_types(schema, hash)
+      hash = hash.clone
+      schema['properties'].each do |property, definition|
+        mapping = JSON_TO_DB_MAPPINGS[definition['type']]
+        if mapping && hash.has_key?(property)
+          hash[property] = mapping[:json_to_db].call(hash[property])
+        end
+      end
+
+      hash
+    end
+
+
+    def map_db_types_to_json(schema, hash)
+      hash = hash.clone
+      schema['properties'].each do |property, definition|
+        mapping = JSON_TO_DB_MAPPINGS[definition['type']]
+
+        property = property.intern
+        if mapping && hash.has_key?(property)
+          hash[property] = mapping[:db_to_json].call(hash[property])
+        end
+      end
+
+      hash
     end
 
 
@@ -172,7 +209,7 @@ module ASModel
               # Give our classes an opportunity to provide their own logic here
               db_record = model.ensure_exists(subrecord_json, obj)
             else
-              extra_opts = {}
+              extra_opts = {}.merge(opts)
 
               if linked_record[:association][:key]
                 extra_opts[linked_record[:association][:key]] = obj.id
@@ -197,7 +234,7 @@ module ASModel
 
 
     def sequel_to_jsonmodel(obj, model, opts = {})
-      json = JSONModel(model).new(obj.values.reject {|k, v| v.nil? })
+      json = JSONModel(model).new(map_db_types_to_json(JSONModel(model).schema, obj.values.reject {|k, v| v.nil? }))
 
       uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})
       json.uri = uri if uri

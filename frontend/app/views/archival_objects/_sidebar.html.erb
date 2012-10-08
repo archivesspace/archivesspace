@@ -3,7 +3,7 @@
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @archival_object.extents.length > 0 %>
-      <li><a href="#extent">Extent <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#extents">Extents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @archival_object.dates.length > 0 %>
@@ -12,6 +12,10 @@
 
     <% if not controller.action_name === "show" or @archival_object.external_documents.length > 0 %>
       <li><a href="#external_documents">External Documents <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if not controller.action_name === "show" or @archival_object.rights_statements.length > 0 %>
+      <li><a href="#rights_statements">Rights Statements <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>

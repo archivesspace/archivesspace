@@ -122,16 +122,15 @@ module RESTHelpers
       end
 
       ArchivesSpaceService.send(@method, @uri, {}) do
+        if self.class.development?
+          Log.debug("#{method.to_s.upcase} #{uri}")
+          Log.debug("Request parameters: #{filter_passwords(params).inspect}")
+        end
+
         ensure_params(rp)
 
         unless preconditions.all? { |precondition| self.instance_eval &precondition }
           raise AccessDeniedException.new("Access denied")
-        end
-
-
-        if self.class.development?
-          Log.debug("#{method.to_s.upcase} #{uri}")
-          Log.debug("Request parameters: #{filter_passwords(params).inspect}")
         end
 
         self.instance_eval &block

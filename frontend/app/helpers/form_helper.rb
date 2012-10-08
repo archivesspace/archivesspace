@@ -88,10 +88,12 @@ module FormHelper
 
       @jsonmodel_object.pop
 
-      ('<div class="subform-wrapper">'.html_safe +
+      return_me = ('<div class="subrecord-form-wrapper">'.html_safe +
        lock_version +
        result +
        '</div>'.html_safe)
+
+      return_me
     end
 
 
@@ -161,6 +163,15 @@ module FormHelper
         @jsonmodel_object.last[1]
       else
         @object
+      end
+    end
+
+
+    def current_index
+      if @jsonmodel_object
+        @jsonmodel_object.last[2][:index]
+      else
+        nil
       end
     end
 
@@ -246,6 +257,10 @@ module FormHelper
                            :name => current_name(method),
                            :id => current_name(method, true)
                          }.merge(opts))
+      elsif attr_definition["type"] === "date"
+        jsonmodel_date_field(method, opts)
+      elsif attr_definition["type"] === "boolean"
+        jsonmodel_boolean_field(method, opts)
       else
         jsonmodel_text_field(method, opts)
       end
@@ -270,6 +285,17 @@ module FormHelper
                            })
     end
 
+    def jsonmodel_boolean_field(method, opts)
+      @template.check_box(@object_name, method, {
+                            :checked_value => true,
+                            :uncheced_value => false,
+                            "data-original_value" => current[method],
+                            :object => current,
+                            :force_name => current_name(method),
+                            :force_id => "#{current_name(method, true)}"
+      }.merge(opts))
+    end
+
     def jsonmodel_text_area(method, opts)
       @template.text_area(@object_name, method, {
                              "data-original_value" => current[method],
@@ -277,6 +303,19 @@ module FormHelper
                              :name => current_name(method),
                              :id => current_name(method, true)
                            }.merge(opts))
+    end
+
+    def jsonmodel_date_field(method, opts)
+      @template.text_field(@object_name, method, {
+        :class => "date-field",
+        "data-original_value" => current[method],
+        :object => current,
+        :force_name => current_name(method),
+        :force_id => current_name(method, true),
+        :placeholder => "YYYY-MM-DD",
+        :"data-date-format" => "yyyy-mm-dd",
+        :"data-date" => Date.today.strftime('%Y-%m-%d'),
+      }.merge(opts))
     end
 
   end

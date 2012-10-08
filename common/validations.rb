@@ -72,4 +72,28 @@ module JSONModel::Validations
     end
   end
 
+
+  def self.check_rights_statement(hash)
+    errors = []
+
+    if hash["rights_type"] === "intellectual_property"
+      errors << ["ip_status", "is required"] if hash["ip_status"].nil?
+      errors << ["jurisdiction", "is required"] if hash["jurisdiction"].nil?
+    elsif hash["rights_type"] === "license"
+      errors << ["license_identifier_terms", "is required"] if hash["license_identifier_terms"].nil?
+    elsif hash["rights_type"] === "statute"
+      errors << ["statute_citation", "is required"] if hash["statute_citation"].nil?
+      errors << ["jurisdiction", "is required"] if hash["jurisdiction"].nil?
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:rights_statement)
+    JSONModel(:rights_statement).add_validation("check_rights_statement") do |hash|
+      check_rights_statement(hash)
+    end
+  end
+
 end

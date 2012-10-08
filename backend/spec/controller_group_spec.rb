@@ -110,7 +110,7 @@ describe 'Group controller' do
   end
 
 
-  it "Restricts group-related activities to repository-managers" do
+  it "restricts group-related activities to repository-managers" do
     make_test_user("archivist")
     archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
     archivists.member_usernames = ["archivist"]
@@ -147,6 +147,20 @@ describe 'Group controller' do
     groups.any? { |group| group.group_code == "supergroup" }.should be_true
     groups.any? { |group| group.group_code == "groupthink" }.should be_true
     groups.any? { |group| group.group_code == "groupygroup" }.should be_true
+  end
+
+
+  it "allows repository managers to view the group list" do
+    make_test_user("newmanager")
+    managers = JSONModel(:group).all(:group_code => "repository-managers").first
+    managers.member_usernames = ["newmanager"]
+    managers.save
+
+    expect {
+      as_test_user("newmanager") do
+        JSONModel(:group).all
+      end
+    }.to_not raise_error
   end
 
 end

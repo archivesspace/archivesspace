@@ -17,9 +17,45 @@ en:
     container_summary: Container Summary
     physical_details: Physical Details
     dimensions: Dimensions
+    _html:
+      plural: Extents
+      singular: Extent
   external_document: &external_document_attributes
     title: Title
     location: Location
+    _html:
+      plural: External Documents
+      singular: External Document
+  rights_statement: &rights_statement_attributes
+    identifier: Identifier
+    rights_type: Rights Type
+    rights_type_intellectual_property: Intellectual Property
+    rights_type_license: License
+    rights_type_statute: Statute
+    rights_type_institutional_policy: Institutional Policy
+    active: Active
+    active_true: Active
+    active_false: Inactive
+    materials: Materials
+    ip_status: IP Status
+    ip_status_copyrighted: Copyrighted
+    ip_status_public_domain: Public Domain
+    ip_status_unknown: Unknown
+    ip_expiration_date: IP Expiration Date
+    license_identifier_terms: License Identifier Terms
+    statute_citation: Statute Citation
+    jurisdiction: Jurisdiction
+    type_note: Type Note
+    permissions: Permissions
+    restrictions: Restrictions
+    restriction_start_date: Restrictions Start Date
+    restriction_end_date: Restrictions End Date
+    granted_note: Granted Note
+    _external_documents:
+      <<: *external_document_attributes
+    _html:
+      plural: Rights Statements
+      singular: Rights Statement
   date: &date_attributes
     label: Label
     label_broadcast: Broadcast
@@ -49,6 +85,9 @@ en:
     era_ce: ce
     calendar: Calendar
     calendar_gregorian: Gregorian
+    _html:
+      plural: Dates
+      singular: Date
   accession:
     accession_date: Accession Date
     accession_id: Identifier
@@ -65,6 +104,8 @@ en:
       <<: *date_attributes
     _external_documents:
       <<: *external_document_attributes
+    _rights_statements:
+      <<: *rights_statement_attributes
   agent: &agent_attributes
     type: Agent Type
     agent_type:
@@ -139,6 +180,8 @@ en:
       <<: *date_attributes
     _external_documents:
       <<: *external_document_attributes
+    _rights_statements:
+      <<: *rights_statement_attributes
   group:
     group_code: Group code
     description: Description
@@ -161,6 +204,8 @@ en:
       <<: *date_attributes
     _external_documents:
       <<: *external_document_attributes
+    _rights_statements:
+      <<: *rights_statement_attributes
   repository:
     repo_code: Repository code
     description: Description

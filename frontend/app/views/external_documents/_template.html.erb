@@ -1,5 +1,5 @@
 <div id="external_document_form_template"><!--
   <%= f.with_jsonmodel("external_documents[]", {}, :external_document, :index => "${index}") do %>
-    <% render :partial => "external_documents/form", :locals => {:f => f, :index => 1} %>
+    <% render :partial => "external_documents/form", :locals => {:f => f} %>
   <% end %>
 --></div>

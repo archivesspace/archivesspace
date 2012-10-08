@@ -1,6 +1,7 @@
 require_relative 'lib/bootstrap'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
+require_relative 'lib/webrick_fix'
 require 'uri'
 
 require 'sinatra/base'
@@ -55,6 +56,7 @@ class ArchivesSpaceService < Sinatra::Base
       require_relative "model/subjects"
       require_relative "model/extents"
       require_relative "model/dates"
+      require_relative "model/rights_statements"
       Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
         basename = File.basename(model, ".rb")
         require_relative File.join("model", basename)

@@ -1,4 +1,4 @@
-//= require external_documents.crud
+//= require subrecord.crud
 
 $(function() {
 
@@ -27,13 +27,13 @@ $(function() {
 
       var removeSecondaryNameForm = function() {
         AS.confirmSubFormDelete($(this), function(button) {
-          button.parents(".subform-wrapper").remove();
-          if ($("#secondary_names .subform", $this).length === 0) {
+          button.parents(".subrecord-form-wrapper").remove();
+          if ($("#secondary_names .subrecord-form-wrapper", $this).length === 0) {
             $("#secondary_names_container .alert-info", $this).show();
           }
         });
       };
-      $("#secondary_names").on("click", ".subform-remove", removeSecondaryNameForm);
+      $("#secondary_names").on("click", ".subrecord-form-remove", removeSecondaryNameForm);
 
 
       var addContactDetailsForm = function() {
@@ -49,13 +49,13 @@ $(function() {
 
       var removeContactDetailsForm = function() {
         AS.confirmSubFormDelete($(this), function(button) {
-          button.parents(".subform-wrapper").remove();
-          if ($("#contacts .subform", $this).length === 0) {
+          button.parents(".subrecord-form-wrapper").remove();
+          if ($("#contacts .subrecord-form-wrapper", $this).length === 0) {
             $("#contacts_container .alert-info", $this).show();
           }
         });
       };
-      $("#contacts").on("click", ".subform-remove", removeContactDetailsForm);
+      $("#contacts").on("click", ".subrecord-form-remove", removeContactDetailsForm);
 
 
       var handleSortNameType = function() {

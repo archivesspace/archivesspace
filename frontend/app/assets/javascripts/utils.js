@@ -1,4 +1,5 @@
 //= require trimpath-template-1.0.38
+//= require bootstrap-datepicker
 
 // initialise ajax modal
 $(function() {
@@ -75,6 +76,24 @@ $(function() {
   $(document).ajaxComplete(function() {
     bindSidebarEvents();
   });
+});
+
+
+// date fields and datepicker initialisation
+$(function() {
+  var initDateFields = function() {
+    $(".date-field:not(.initialised)").each(function() {
+      $(this).addClass("initialised");
+      $(this).datepicker({
+        autoclose: true
+      });
+    });
+  };
+  initDateFields();
+  $(document).ajaxComplete(function() {
+    initDateFields();
+  });
+  $(document).bind("subrecord.new", initDateFields);
 });
 
 
