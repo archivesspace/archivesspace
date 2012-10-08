@@ -40,8 +40,19 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
 
 
   def self.validate(current_schema, data, fragments, validator, options = {})
-
     types = current_schema.schema['type']
+
+    # A bit crazy, sorry.  If we're being asked to validate a hash whose
+    # jsonmodel_type is marked against a different JSONModel schema, we're
+    # wasting our time.  Just stop straight away.
+    if (data.is_a?(Hash) && data["jsonmodel_type"]) &&
+        (current_schema.schema.is_a?(Hash) &&
+         "#{current_schema.schema["type"]}".include?("JSONModel") &&
+         !"#{current_schema.schema["type"]}".include?("JSONModel(:#{data['jsonmodel_type']})"))
+
+      # Blow up
+      validation_error("Nope!", fragments, current_schema, self, false)
+    end
 
     if JSONModel.parse_jsonmodel_ref(types)
       (model, qualifier) = JSONModel.parse_jsonmodel_ref(types)
@@ -60,6 +71,7 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
           # errors we've currently seen.  Grab a copy first and restore them
           # afterwards..
           pre_nested_validation_errors = validation_errors
+
           JSONModel(model).from_hash(data, false)
 
           # Any validation errors are from the nested run

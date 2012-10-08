@@ -492,8 +492,8 @@ module JSONModel
           elsif schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "array")
 
             if schema["properties"][k]["items"]["type"].is_a?(Array)
-              # A list of multiple valid types.  Match them up based on the value of the 'jsonmodel_type' property.
-              schema_types = schema["properties"][k]["items"]["type"]
+              # A list of multiple valid types.  Match them up based on the value of the 'jsonmodel_type' property
+              schema_types = schema["properties"][k]["items"]["type"].map {|type| type["type"]}
 
               result[k] = v.collect {|elt|
 
@@ -506,7 +506,7 @@ module JSONModel
                   end
 
                   next_schema = schema_types.find {|type|
-                    (type.is_a?(String) && type =~ /JSONModel(:#{jsonmodel_type})/) ||
+                    (type.is_a?(String) && type.include?("JSONModel(:#{jsonmodel_type})")) ||
                     (type.is_a?(Hash) && type["jsonmodel_type"] === jsonmodel_type)
                   }
 
@@ -587,7 +587,19 @@ module JSONModel
 
         messages = validator.validate
 
-        exceptions = JSONSchemaUtils.parse_schema_messages(messages, validator)
+        expanded_messages = []
+
+
+        messages.each do |msg|
+          if msg[:errors] and !msg[:errors].empty?
+            # Favour reporting the sub-error instead of the aggregate one
+            expanded_messages += msg[:errors]
+          else
+            expanded_messages << msg
+          end
+        end
+
+        exceptions = JSONSchemaUtils.parse_schema_messages(expanded_messages, validator)
 
         if raise_errors and not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
           raise ValidationException.new(:invalid_object => self.new(hash),
