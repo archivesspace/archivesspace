@@ -36,14 +36,17 @@ describe 'Resources controller' do
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
     tree.to_hash.should eq({
+                             "jsonmodel_type" => "resource_tree",
                              "archival_object" => aos[0].uri,
                              "title" => "archival object: earth",
                              "children" => [
                                             {
+                                              "jsonmodel_type" => "resource_tree",
                                               "archival_object" => aos[1].uri,
                                               "title" => "archival object: australia",
                                               "children" => [
                                                              {
+                                                               "jsonmodel_type" => "resource_tree",
                                                                "archival_object" => aos[2].uri,
                                                                "title" => "archival object: canberra",
                                                                "children" => []
@@ -56,14 +59,17 @@ describe 'Resources controller' do
 
     # Now turn it on its head
     changed = {
+      "jsonmodel_type" => "resource_tree",
       "archival_object" => aos[2].uri,
       "title" => "archival object: canberra",
       "children" => [
                      {
+                       "jsonmodel_type" => "resource_tree",
                        "archival_object" => aos[1].uri,
                        "title" => "archival object: australia",
                        "children" => [
                                       {
+                                        "jsonmodel_type" => "resource_tree",
                                         "archival_object" => aos[0].uri,
                                         "title" => "archival object: earth",
                                         "children" => []

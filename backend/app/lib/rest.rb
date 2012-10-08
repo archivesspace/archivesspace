@@ -3,6 +3,11 @@ module RESTHelpers
   include JSONModel
 
 
+  def resolve_reference(uri)
+    JSON(redirect_internal(uri)[2].join(""))
+  end
+
+
   def resolve_references(json, resolve)
     hash = json.to_hash
 
@@ -12,10 +17,10 @@ module RESTHelpers
       if hash[property]
         if hash[property].is_a? Array
           hash['resolved'][property] = hash[property].map do |uri|
-            JSON(redirect_internal(uri)[2].join(""))
+            resolve_reference(uri)
           end
         else
-          hash['resolved'][property] = JSON(redirect_internal(hash[property])[2].join(""))
+          hash['resolved'][property] = resolve_reference(hash[property])
         end
       end
     end

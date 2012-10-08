@@ -18,21 +18,19 @@ class Resource < Sequel::Model(:resources)
 
 
   def assemble_tree(node, links, properties)
-    result = properties[node]
+    result = JSONModel(:resource_tree).new(properties[node])
 
-    result[:archival_object] = JSONModel(:archival_object).uri_for(result[:id],
-                                                                   :repo_id => self.repo_id)
-    result.delete(:id)
-
+    result.archival_object = JSONModel(:archival_object).uri_for(result[:id],
+                                                                 :repo_id => self.repo_id)
     if links[node]
-      result[:children] = links[node].map do |child_id|
+      result.children = links[node].map do |child_id|
         assemble_tree(child_id, links, properties)
       end
     else
-      result[:children] = []
+      result.children = []
     end
 
-    result
+    result.to_hash
   end
 
 

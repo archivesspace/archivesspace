@@ -100,6 +100,10 @@ module JSONModel
       # All records have a lock_version property that we use for optimistic concurrency control.
       entry[:schema]["properties"]["lock_version"] = {"type" => ["integer", "string"], "required" => false}
 
+      # All records must indicate their model type
+      entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
+
+
       self.create_model_for(schema_name, entry[:schema])
     end
   end
@@ -233,6 +237,8 @@ module JSONModel
 
       # Create an instance of this JSONModel from the data contained in 'hash'.
       def self.from_hash(hash, raise_errors = true)
+        hash["jsonmodel_type"] = self.record_type.to_s
+
         validate(hash, raise_errors)
 
         # Note that I don't use the cleaned version here.  We want to keep
@@ -319,11 +325,17 @@ module JSONModel
       end
 
 
-      def initialize(params = {}, warnings = [])
-        @data = self.class.keys_as_strings(params)
-        @warnings = warnings
+      def set_data(data)
+        hash = self.class.keys_as_strings(data)
+        hash["jsonmodel_type"] = self.class.record_type.to_s
+        hash = self.class.apply_schema_defaults(hash)
 
-        @data = self.class.apply_schema_defaults(@data)
+        @data = hash
+      end
+
+      def initialize(params = {}, warnings = [])
+        set_data(params)
+        @warnings = warnings
 
         self.class.define_accessors(@data.keys)
       end
@@ -396,7 +408,7 @@ module JSONModel
           params[field] = @data[field]
         end
 
-        @data = params
+        set_data(params)
       end
 
 
@@ -478,7 +490,42 @@ module JSONModel
           if schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "object")
             result[k] = self.map_hash_with_schema(v, schema["properties"][k], transformations)
           elsif schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "array")
-            result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"]["type"], transformations)}
+
+            if schema["properties"][k]["items"]["type"].is_a?(Array)
+              # A list of multiple valid types.  Match them up based on the value of the 'jsonmodel_type' property.
+              schema_types = schema["properties"][k]["items"]["type"]
+
+              result[k] = v.collect {|elt|
+
+                if elt.is_a?(Hash)
+                  jsonmodel_type = elt["jsonmodel_type"]
+
+                  if !jsonmodel_type
+                    raise("Can't unambiguously match #{elt.inspect} against schema types: #{schema_types.inspect}. " +
+                          "Resolve this by adding a 'jsonmodel_type' property to #{elt.inspect}")
+                  end
+
+                  next_schema = schema_types.find {|type|
+                    (type.is_a?(String) && type =~ /JSONModel(:#{jsonmodel_type})/) ||
+                    (type.is_a?(Hash) && type["jsonmodel_type"] === jsonmodel_type)
+                  }
+
+                  if next_schema.nil?
+                    raise "Couldn't determine type of '#{elt.inspect}'.  Must be one of: #{schema_types.inspect}"
+                  end
+
+                  self.map_hash_with_schema(elt, next_schema, transformations)
+                elsif elt.is_a?(Array)
+                  raise "Nested arrays aren't supported here (yet)"
+                else
+                  elt
+                end
+              }
+            else
+              # Just one valid type
+              result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"]["type"], transformations)}
+            end
+
           else
             result[k] = v
           end
