@@ -56,22 +56,27 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
       elsif qualifier == 'uri_or_object' || qualifier == 'object'
         if data.is_a?(Hash)
 
-          top_errors = validation_errors
-          ::JSON::Validator.clear_errors
-
+          # Running a nested validation has the side effect of clearing the
+          # errors we've currently seen.  Grab a copy first and restore them
+          # afterwards..
+          pre_nested_validation_errors = validation_errors
           JSONModel(model).from_hash(data, false)
 
+          # Any validation errors are from the nested run
           nested_errors = validation_errors
 
-          nested_errors.each do |validation_error|
-            # Add the fragment path to each nested exception to make them
-            # findable from the root of the top-level json document.
-            validation_error.fragments = fragments + validation_error.fragments
+          ::JSON::Validator.clear_errors
+
+          # Restore the original errors
+          pre_nested_validation_errors.each do |error|
+            validation_errors.push(error)
           end
 
-          # Push them all back
-          (top_errors + nested_errors).each do |error|
-            ::JSON::Validator.validation_error(error)
+          # And add the nested errors with fragments rewritten relative to the
+          # current position in the tree.
+          nested_errors.each do |validation_error|
+            validation_error.fragments = fragments + validation_error.fragments
+            validation_errors.push(validation_error)
           end
 
         else
