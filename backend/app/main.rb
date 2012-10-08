@@ -244,6 +244,8 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
+      env[:aspace_user] = ANONYMOUS_USER
+
       if session
         env[:aspace_session] = session
         env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
