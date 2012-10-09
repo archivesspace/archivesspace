@@ -1,24 +1,44 @@
+<%
+   note_types = []
+
+
+   JSONModel(:note_multipart).schema['properties']['subnotes']['items']['type'].each do |item_def|
+     note_types.push(JSONModel.parse_jsonmodel_ref(item_def['type'])[0].to_s)
+   end
+
+%>
+
 <div class="subrecord-form-fields">
   <h5>MULTI</h5>
 
-  <%= f.jsonmodel_hidden_field :type, "${type}" %>
+  <div class="control-group">
+    <label class="control-label">Type</label>
+    <div class="controls label-only">
+      <%= f.jsonmodel_hidden_field :type, type %>
+      <strong><%= type %></strong>
+    </div>
+  </div>
+
   <%= f.label_and_field :label %>
 
-  <section>
-    <h4>
+  <section class="subrecord-form">
+    <h4 class="subrecord-form-heading">
       Sub Notes
       <div class="btn-group pull-right">
-        <button class="btn btn-small  dropdown-toggle" data-toggle="dropdown">Add Sub Note <span class="caret"></span></button>
+        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Add Sub Note <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li>
-            Type: <select>
-                <option value="Foo">FOOOO</option>
+            <select>
+              <% note_types.sort.each do |type| %>
+                <option value="<% type %>"><%= type %></option>
+              <% end %>
             </select>
           </li>
-          <a href="javascript:void(0);" class="btn btn-small add-subnote-btn">Add Node For Type</a>
+          <button class="btn btn-small add-sub-note-btn">Add Sub Node For Type</button>
         </ul>
       </div>
     </h4>
+    <div class="subrecord-form-container"></div>
   </section>
 
 </div>

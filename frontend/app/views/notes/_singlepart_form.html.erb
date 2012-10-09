@@ -1,5 +1,13 @@
 <div class="subrecord-form-fields">
   <h5>SINGLE</h5>
-  <%= f.jsonmodel_hidden_field :type, "${type}" %>
+
+  <div class="control-group">
+    <label class="control-label">Type</label>
+    <div class="controls label-only">
+      <%= f.jsonmodel_hidden_field :type, type %>
+      <strong><%= type %></strong>
+    </div>
+  </div>
+
   <%= f.label_and_field :label %>
 </div>
