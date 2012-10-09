@@ -1,4 +1,7 @@
 class AccessionsController < ApplicationController
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
+  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
     @accessions = Accession.all
