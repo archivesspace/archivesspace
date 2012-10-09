@@ -85,4 +85,27 @@ class Resource < Sequel::Model(:resources)
   end
 
 
+  def self.create_from_json(json, opts = {})
+    notes_blob = JSON(json.notes)
+    json.notes = nil
+    super(json, opts.merge(:notes => notes_blob))
+  end
+
+
+  def update_from_json(json, opts = {})
+    notes_blob = JSON(json.notes)
+    json.notes = nil
+    super(json, opts.merge(:notes => notes_blob))
+  end
+
+
+  def self.sequel_to_jsonmodel(obj, type, opts = {})
+    notes = JSON.parse(obj.notes)
+    obj[:notes] = nil
+    json = super(obj, type, opts)
+    json.notes = notes
+
+    json
+  end
+
 end

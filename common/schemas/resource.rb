@@ -18,6 +18,14 @@
       "dates" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
       "rights_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:rights_statement) object"}},
+
+      "notes" => {
+        "type" => "array",
+        "items" => {"type" => [{"type" => "JSONModel(:note_bibliography) object"},
+                               {"type" => "JSONModel(:note_index) object"},
+                               {"type" => "JSONModel(:note_multipart) object"},
+                               {"type" => "JSONModel(:note_singlepart) object"}]},
+      }
     },
 
     "additionalProperties" => false,

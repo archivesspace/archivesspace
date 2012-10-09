@@ -6,11 +6,8 @@ Sequel.migration do
       primary_key :id
       String :session_id, :unique => true, :null => false
       DateTime :last_modified, :null => false
-      if $db_type == :derby
-        Clob :session_data, :null => true
-      else
-        Blob :session_data, :null => true
-      end
+
+      BlobField :session_data, :null => true
     end
 
 
@@ -159,6 +156,8 @@ Sequel.migration do
       String :title, :null => false
 
       String :identifier, :null => false
+
+      Blob :notes, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
