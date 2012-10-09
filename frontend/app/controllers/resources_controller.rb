@@ -1,4 +1,7 @@
 class ResourcesController < ApplicationController
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :update_tree]
+  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :tree]
+  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update, :update_tree]
 
   def index
     @resources = JSONModel(:resource).all

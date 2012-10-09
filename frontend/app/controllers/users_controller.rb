@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_filter :unauthorised_access
 
   def index
     @user = JSONModel(:user).new._always_valid!

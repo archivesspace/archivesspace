@@ -1,4 +1,5 @@
 class SessionController < ApplicationController
+  skip_before_filter :unauthorised_access
 
   def login
     backend_session = User.login(params[:username], params[:password])

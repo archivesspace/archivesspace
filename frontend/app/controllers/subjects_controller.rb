@@ -1,4 +1,7 @@
 class SubjectsController < ApplicationController
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :list, :new, :edit, :create, :update]
+  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :list]
+  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
     @subjects = Subject.all
