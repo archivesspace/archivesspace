@@ -246,7 +246,7 @@ module ASModel
 
         records = obj.send(linked_record[:association][:name]).map {|linked_obj|
           if linked_record[:always_resolve]
-            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel]).to_hash
+            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel], :any).to_hash
           else
             JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id) or
               raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
@@ -260,10 +260,17 @@ module ASModel
     end
 
 
-    def to_jsonmodel(obj, model, repo_id = nil, opts = {})
+    def to_jsonmodel(obj, model, repo_id, opts = {})
       if obj.is_a? Integer
+        raise("Can't accept a repo_id of nil:\n" +
+              "  * If you're getting an object that isn't repository-scoped, use :none\n" +
+              "  * If you don't care which repository you're fetching from (careful!), use :any\n") if repo_id.nil?
+
         # An ID.  Get the Sequel row for it.
-        obj = get_or_die(obj, repo_id)
+        obj = get_or_die(obj, ([:any, :none].include?(repo_id)) ? nil : repo_id)
+
+        raise "Expected object to have a repo_id set: #{obj.inspect}" if (repo_id == :any && obj[:repo_id].nil?)
+        raise "Didn't expect object to have a repo_id set: #{obj.inspect}" if (repo_id == :none && !obj[:repo_id].nil?)
       end
 
       sequel_to_jsonmodel(obj, model, opts)

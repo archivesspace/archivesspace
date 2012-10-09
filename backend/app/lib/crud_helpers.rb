@@ -18,7 +18,7 @@ module CrudHelpers
 
   def handle_listing(model, type, where = {})
     json_response((where.empty? ? model : model.filter(where)).collect {|acc|
-                    model.to_jsonmodel(acc, type).to_hash
+                    model.to_jsonmodel(acc, type, :any).to_hash
                   })
   end
 
