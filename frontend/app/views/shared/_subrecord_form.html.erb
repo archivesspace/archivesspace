@@ -17,7 +17,7 @@
 %>
 <div>
 
-  <section id="<%= section_id %>" class="subrecord-form" data-object-name="<%= singular %>" data-template-id="<%= template_id %>">
+  <section id="<%= section_id %>" class="subrecord-form" data-subrecord-form="true" data-object-name="<%= singular %>" data-template-id="<%= template_id %>">
 
     <<%= heading_size %> class="subrecord-form-heading">
       <%= I18n.t("#{singular}._html.plural") %>

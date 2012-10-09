@@ -80,10 +80,10 @@ $(function() {
 
   $(document).ready(function() {
     $(document).ajaxComplete(function() {
-      $(".subrecord-form:not(.initialised)").init_subrecord_form();
+      $(".subrecord-form[data-subrecord-form]:not(.initialised)").init_subrecord_form();
     });
 
-    $(".subrecord-form:not(.initialised)").init_subrecord_form();
+    $(".subrecord-form[data-subrecord-form]:not(.initialised)").init_subrecord_form();
   });
 
 });

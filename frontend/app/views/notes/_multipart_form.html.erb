@@ -1,0 +1,24 @@
+<div class="subrecord-form-fields">
+  <h5>MULTI</h5>
+
+  <%= f.jsonmodel_hidden_field :type, "${type}" %>
+  <%= f.label_and_field :label %>
+
+  <section>
+    <h4>
+      Sub Notes
+      <div class="btn-group pull-right">
+        <button class="btn btn-small  dropdown-toggle" data-toggle="dropdown">Add Sub Note <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li>
+            Type: <select>
+                <option value="Foo">FOOOO</option>
+            </select>
+          </li>
+          <a href="javascript:void(0);" class="btn btn-small add-subnote-btn">Add Node For Type</a>
+        </ul>
+      </div>
+    </h4>
+  </section>
+
+</div>

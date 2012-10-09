@@ -11,25 +11,25 @@
    note_types["Bibliography"] = :note_bibliography
 %>
 
-<section id="notes">
+<section id="notes" class="subrecord-form">
   <h3>Notes
     <div class="btn-group pull-right">
       <button class="btn btn-small  dropdown-toggle" data-toggle="dropdown">Add Note <span class="caret"></span></button>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu subrecord-selector">
         <li>
-          Type: <select>
+          <select>
             <% note_types.keys.sort.each do |type| %>
               <option value="<%= note_types[type] %>"><%= type %></option>
             <% end %>
           </select>
         </li>
-        <a href="javascript:void(0);" class="btn btn-small add-note-for-type-btn">Add Node For Type</a>
+        <li class="form-actions">
+          <button class="btn btn-small add-note-for-type-btn">Add Node For Type</button>
+        </li>
       </ul>
     </div>
   </h3>
-  <div class="notes-container subrecord-form-container">
-
-  </div>
+  <div class="notes-container subrecord-form-container"></div>
 </section>
 
 <%= render :partial=>"notes/templates", :locals=>{:f => f} %>
