@@ -1,10 +1,35 @@
-<h4>Choose your type</h4>
+<%
+   note_types = {}
 
+   [:note_multipart, :note_singlepart].each do |schema|
+     JSONModel(schema).schema['properties']['type']['enum'].each do |type|
+       note_types[type] = schema
+     end
+   end
 
-<h4>Bibliography</h4>
+   note_types["Index"] = :note_index
+   note_types["Bibliography"] = :note_bibliography
+%>
 
-<h4>Index</h4>
+<section id="notes">
+  <h3>Notes
+    <div class="btn-group pull-right">
+      <button class="btn btn-small  dropdown-toggle" data-toggle="dropdown">Add Note <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li>
+          Type: <select>
+            <% note_types.keys.sort.each do |type| %>
+              <option value="<%= note_types[type] %>"><%= type %></option>
+            <% end %>
+          </select>
+        </li>
+        <a href="javascript:void(0);" class="btn btn-small add-note-for-type-btn">Add Node For Type</a>
+      </ul>
+    </div>
+  </h3>
+  <div class="notes-container subrecord-form-container">
 
-<h4>Multi part</h4>
+  </div>
+</section>
 
-<h4>Single part</h4>
+<%= render :partial=>"notes/templates", :locals=>{:f => f} %>

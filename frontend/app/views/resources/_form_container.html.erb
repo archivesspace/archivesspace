@@ -10,10 +10,8 @@
     <%= render :partial => "resources/forms/basic_information", :locals => {:f => f} %>
   </section>
 
-  <section id="notes">
-    <h3>Notes</h3>
-    <%= render :partial => "resources/forms/notes", :locals => {:f => f} %>
-  </section>
+
+  <%= render :partial => "resources/forms/notes", :locals => {:f => f} %>
 
 
   <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :extents} %>
