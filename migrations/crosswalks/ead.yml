@@ -36,7 +36,7 @@ entities:
         default: "1"
         
       parent: 
-        xpath: ["parent::c", ""]
+        xpath: ["parent::c"]
 
       resource: 
         xpath: ["ancestor::ead"]
@@ -69,7 +69,7 @@ entities:
   
       names:
         xpath: ["self"]
-        procedure: "|value| {'primary_name' => value}"
+        procedure: "|value| {'rules' => 'local', 'primary_name' => value}"
   
       
 

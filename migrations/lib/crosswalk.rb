@@ -8,7 +8,13 @@ module ASpaceImport
       @@walk = Psych.load(IO.read(File.join(File.dirname(__FILE__),
                                                 "../crosswalks",
                                                 "#{opts[:crosswalk]}.yml")))
+                                                      
     end 
+  
+    def self.walk
+      
+      @@walk
+    end
   
     
     # Returns a regex object that will be used to determine if a parsed
@@ -20,6 +26,11 @@ module ASpaceImport
     def self.regexify_node(node_name, depth_offset = 0)
       
       case depth_offset
+        
+      when -100..-2
+        /^ancestor::#{node_name}$/
+      when -1
+        /^(parent|ancestor)::#{node_name}$/          
       when 0
         /^#{node_name}$/
       when 1
@@ -30,12 +41,42 @@ module ASpaceImport
         /^descendant::#{node_name}$/
       end
     end
+    
+    # Lookup for record types in the crosswalk that match an xpath
       
+    def self.lookup(xpath)
+      
+      @@types_lookup ||= {}
+      
+      unless @@types_lookup[xpath]
+        
+        puts "Registering lookup for #{xpath}"
+
+        types = []
+        
+        @@walk['entities'].each do |ent, defn|
+          defn['xpath'].each do |xp|
+            if xp.match(/^(\/)*#{xpath}$/)
+              puts "Pushing #{ent} to types"
+              types.push(ent) 
+            end
+          end
+        end
+        if types.count > 0
+          @@types_lookup[xpath] = types
+        else
+          @@types_lookup[xpath] = nil
+        end
+      end  
+    
+      puts "Lookup for #{xpath} returns #{@@types_lookup[xpath]}"
+    
+      return @@types_lookup[xpath]
+
+    end
             
-    # Given an xpath, return true if
-    # the crosswalk maps it to a JSON
-    # Model. Return a JSONModel for
-    # any match if given a block
+    # Given an xpath, return true if the crosswalk maps it to a JSON
+    # Model. Return a JSONModel for any match if given a block
     # Example:
     #   
     #   Crosswalk.target_objects(:xpath => 'c')
@@ -45,13 +86,19 @@ module ASpaceImport
       
       @@entity_map ||= {}
       
+      return false if @@entity_map[opts[:xpath]] == 0
+      
       unless @@entity_map[opts[:xpath]]
+        
+        puts "Testing map for #{opts[:xpath]}" if $DEBUG
         
         @@walk['entities'].each do |k, v|
 
           v['xpath'].each do |xp|
 
             if xp.match(/^(\/)*#{opts[:xpath]}$/)
+              
+              puts "Matched #{xp} using #{opts[:xpath]}" if $DEBUG
               
               if @@entity_map[opts[:xpath]]
                 raise StandardError.new("Found more than one entity to create with #{xpath}.")
@@ -63,120 +110,37 @@ module ASpaceImport
                 
                 include JSONModel::Queueable
 
-                def ancestor_relationships
-                  self.mapped_properties.each do |property, hsh|
-
-                    next unless hsh['xpath']
-                    
-                    if hsh['xpath'].find { |xp| xp.match(/^parent::([a-z]*)$/) or 
-                                                xp.match(/^ancestor::([a-z]*)$/) }
-                        yield ASpaceImport::Crosswalk.lookup(:xpath => $1), property
-                    end
-                  end
-                end
-            
-                   
-                def mapped_properties(src = {})
-                  if src[:xpath]
-                    result = {}
-
-                    @@walk['entities'][self.class.record_type]['properties'].each do |p, defn|
-                      next unless defn['xpath']
-                      result[p] = defn if defn['xpath'].find { |xp| xp.match(src[:xpath]) }
-                    end
-                    
-                    result                      
-                    
-                  else  
-                    @@walk['entities'][self.class.record_type]['properties']
-                  end
-                end
+                # def ancestor_relationships
+                #   self.mapped_properties.each do |property, hsh|
+                # 
+                #     next unless hsh['xpath']
+                #     
+                #     if hsh['xpath'].find { |xp| xp.match(/^parent::([a-z]*)$/) or 
+                #                                 xp.match(/^ancestor::([a-z]*)$/) }
+                #         yield ASpaceImport::Crosswalk.lookup(:xpath => $1), property
+                #     end
+                #   end
+                # end
                 
-                # todo - add an option for do / don't overwrite
-                
-                def add_property(prop, val)
-                  case self.class.schema['properties'][prop]['type']
-                  when 'string'
-                    self.send("#{prop}=", val)
-                  when 'array'
-                    if self.send("#{prop}")
-                      new_arr = self.send("#{prop}")
-                      new_arr.push(val)
-                      self.send("#{prop}=", new_arr)
-                    else
-                      self.send("#{prop}=", [val])
-                    end
+                def receivers
+                  unless @property_mgr
+                    @property_mgr = ASpaceImport::Crosswalk::PropertyMgr.new(self)
                   end
+                  
+                  @property_mgr
                 end
-                
+              
+                def mapped_properties
+                  ASpaceImport::Crosswalk::walk['entities'][self.class.record_type]['properties']
+                end
+                         
                 def set_default_properties
-                  
-                  self.mapped_properties.each do |prop, defn|
-                    
-                    next unless defn['default']
-                    
-                    # Don't overwrite or append to an existing value 
-                    # with a default
-                    
-                    next if self.send("#{prop}")
-                    
-                    if defn['procedure']
-                      proc = eval "lambda { #{defn['procedure']} }"
-                      value = proc.call(defn['default'])
-                    else
-                      value = defn['default']
-                    end
-                    
-                    self.add_property(prop, value)
-                      
-                  end
-                end
-                          
-                
-                def set_properties(src, &block)
-
-                  if src[:depth]
-                    offset = src[:depth] - self.depth
-                  else
-                    offset = 0
-                  end
-                  
-                  match_string = ASpaceImport::Crosswalk::regexify_node(
-                                                    src[:xpath], offset)
-
-                  self.mapped_properties(src).each do |property, defn|
-
-                    if defn['xpath'].find { |xp| xp.match(match_string) }
-                      
-                      src[:value] = Proc.new(&block).call if block_given?
-
-                      # Allows the crosswalk to override the default
-                      # behavior, which is direct value assignment
-                    
-                      if defn['procedure']
-                        proc = eval "lambda { #{defn['procedure']} }"
-                        value = proc.call(src[:value])
-                      else
-                        value = src[:value]
-                      end
-
-                      next if value == nil
-                      
-                      if value.length > 1000
-                        raise "Trying to set #{property} on #{self.class.record_type} using a suspiciously\
-                        large value #{value.length}"
-                      end
-
-                      if (type = self.class.schema['properties'][property]['type'])
-
-                        self.add_property(property, value)
-
-                      end
-                    end
-                  end
+                  self.receivers.each { |r| r.receive }
                 end
                 
               end                
+              
+              raise "Trying to reset a key in @@entity_map" if @@entity_map[opts[:xpath]] and $DEBUG 
                 
               @@entity_map[opts[:xpath]] = mod
 
@@ -197,28 +161,140 @@ module ASpaceImport
         yield obj
         
       elsif @@entity_map[opts[:xpath]]
+        puts "XP: #{opts[:xpath]} -- EM: #{@@entity_map[opts[:xpath]]}" if $DEBUG
         true
       else
+        @@entity_map[opts[:xpath]] = 0
         false
       end
     end
     
     
-    def self.lookup(opts)
-      types = []
-      @@walk['entities'].each do |k, v|
-        v['xpath'].each do |xp|
-          if xp.match(/^(\/)*#{opts[:xpath]}$/)
-            types.push(k) unless opts[:type] and k != opts[:type] # fix this
+
+    
+    class PropertyMgr
+      
+      def initialize(json_obj)
+        @json_obj = json_obj
+        @mapped_props = ASpaceImport::Crosswalk::walk['entities'][@json_obj.class.record_type]['properties']
+        @depth = @json_obj.depth
+        @receivers = {}
+        
+        @mapped_props.each do |p, defn|
+          @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json_obj, p, defn)
+        end        
+      end
+      
+      def each
+        @receivers.each { |p, r| yield r }                  
+      end
+      
+      def for(opts)
+        if opts[:depth]
+          offset = opts[:depth] - @depth
+        else
+          offset = 0
+        end                 
+        
+        if opts[:xpath]
+        
+          match_string = ASpaceImport::Crosswalk::regexify_node(
+                                            opts[:xpath], offset)
+        
+          @mapped_props.each do |p, defn|
+            next unless defn['xpath']
+            if defn['xpath'].find { |xp| xp.match(match_string) }
+
+              puts "Matched #{defn['xpath']} using #{match_string}" if $DEBUG
+
+              @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json_obj, p, defn)
+            
+              yield @receivers[p]
+            
+            end
           end
+        
+        elsif opts[:record_type]
+
+          if offset == -1
+            regex_test = /^(parent)::([a-z]*)$/
+          elsif offset < -1
+            regex_test = /^(parent|ancestor)::([a-z]*)$/
+          else
+            return
+          end
+          
+          @mapped_props.each do |p, defn|
+            next unless defn['xpath']
+            
+            puts "Checking property #{p} with xpath #{defn['xpath'].join(', ')} and regex #{regex_test} and type #{opts[:record_type]}"
+            
+            if defn['xpath'].find { |xp| xp.match(regex_test) }
+
+              if ASpaceImport::Crosswalk::lookup($2).include?(opts[:record_type])
+                puts "And Matched #{defn['xpath']} using #{regex_test} returning #{$2}" if $DEBUG
+
+                @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json_obj, p, defn)
+
+                yield @receivers[p]
+              end
+
+            end
+          end
+                      
         end
       end
-      if types.count > 0
-        types
-      else
-        nil
+    end
+    
+    class PropertyReceiver
+      
+      def initialize(json_obj, prop, defn)
+        @json, @prop, @defn = json_obj, prop, defn
+        @type = @json.class.schema['properties'][@prop]['type']        
+      end
+      
+      def to_s
+        "Property Receiver for #{@json.class.record_type} -- #{@prop}" if $DEBUG
+      end
+      
+      def receive(val = nil)
+
+        if val == nil and @defn['default'] and not @json.send("#{@prop}")
+          val = @defn['default']
+        end
+        
+        return if val == nil
+        
+        if @defn['procedure']
+          proc = eval "lambda { #{@defn['procedure']} }"
+          val = proc.call(val)
+          puts "Procedure Val: #{val}" if $DEBUG
+        end
+        
+        return if val == nil
+        
+        if @type == 'string'
+          
+          @json.send("#{@prop}=", val)
+        elsif @type == 'array'
+          
+          if @json.send("#{@prop}")
+            new_arr = @json.send("#{@prop}")
+            new_arr.push(val)
+            @json.send("#{@prop}=", new_arr)
+          else
+            @json.send("#{@prop}=", [val])
+          end
+        # can add more complexity here as needed
+        elsif @type.match(/^JSONModel/) 
+          
+          puts "Set JSON uri on #{@prop} -- uri is #{val} -- type is #{@type}" if $DEBUG
+          @json.send("#{@prop}=", val)
+        end
       end
     end
   
+
+    
   end
 end

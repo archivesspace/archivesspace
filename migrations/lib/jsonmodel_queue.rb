@@ -44,12 +44,12 @@ module JSONModel
     protected
      
     def try_save(opts = {})
+      puts "Try Saving #{self.to_s}" if $DEBUG
       can_save = true
       self.waiting_for.each do |w|
         can_save = false unless w.uri 
       end    
       if can_save
-        puts self.to_s
         if opts[:dry] == true
           r = self.fake_save(opts)
         else

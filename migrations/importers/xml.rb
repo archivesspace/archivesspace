@@ -19,55 +19,55 @@ ASpaceImport::Importer.importer :xml do
 
 
   def run
+    puts "XMLImporter:run" if $DEBUG
+    
     @reader.each do |node|
+      
       if node.node_type == 1
         
-        puts "Parsing node: #{node.name}" if @verbose
+        puts "Parsing node: #{node.name}" if $DEBUG
         
-        target_objects(:xpath => node.name, :depth => node.depth) do |tob|
+        node_args = {:xpath => node.name, :depth => node.depth}
+        
+        target_objects(node_args) do |tob|
 
-          # For Debugging / Testing
-          tob.after_save { puts "\nSaved: #{tob.to_s}" }
+          tob.after_save { puts "\nSaved: #{tob.to_s}" } if $DEBUG
           
-          tob.set_properties(:xpath => "self") { node.inner_xml }
+          tob.receivers.for(:xpath => "self") do |r|
+            r.receive(node.inner_xml)
+          end
 
           node.attributes.each do |a|
             
-            tob.set_properties(:xpath => "@#{a[0]}",
-                              :value => a[1])
+            tob.receivers.for(:xpath => "@#{a[0]}") do |r|
+              r.receive(a[1])
+            end                         
           end
 
+          # Outgoing Links to Ancestors
           # Does this object need something in the parse
           # queue to set one of it's (the current object) 
           # properties?
-          
-          tob.ancestor_relationships do |types, property|
 
-            if (qob = @parse_queue.reverse.find {|qob| check_type(qob, types)})
-              qob.after_save { tob.send("#{property}=", qob.uri) }
-              tob.wait_for(qob)
+          @parse_queue.reverse.each do |qdob|
+            tob.receivers.for(:depth => qdob.depth, 
+                              :record_type => qdob.class.record_type) do |r|
+
+              qdob.after_save { r.receive(qdob.uri) }
+              tob.wait_for(qdob)
             end
           end
           
+          # Incoming Links from Ancestors
           # Does this object satisfy a property of
           # somethign in the queue?
 
-          @parse_queue.reverse.each do |qob|
+          @parse_queue.reverse.each do |qdob|
 
-            xpath = node.name
-            if node.depth - qob.depth == 1
-              xpath.insert(0, 'child::')
-            elsif node.depth - qob.depth > 1
-              xpath.insert(0, 'descendant::')
-            else
-              next 
+            qdob.receivers.for(node_args) do |r|
+              tob.after_save { r.receive(tob.uri) }
+              qdob.wait_for(tob)
             end
-            
-            # This needs revision.
-            # Won't work if the child object ends 
-            # up waiting on something else            
-            tob.after_save { qob.set_properties(:xpath => xpath,
-                                              :value => tob.uri) }
 
           end        
           
@@ -80,21 +80,13 @@ ASpaceImport::Importer.importer :xml do
         # Does the XML <node> create a property 
         # for an entity in the queue?
            
-        @parse_queue.reverse.each do |qob|
-
-          # xpath = node.name
-          # if node.depth - qob.depth == 1
-          #   xpath.insert(0, 'child::')
-          # elsif node.depth - qob.depth > 1
-          #   xpath.insert(0, 'descendant::')
-          # else
-          #   next 
-          # end
-
-          qob.set_properties(:xpath => node.name, 
-                             :depth => node.depth) { node.inner_xml }
-
-        
+        @parse_queue.reverse.each do |qdob|
+          
+          qdob.receivers.for(node_args) do |r|
+            puts "Node args: #{node_args.inspect} -- Receiver: #{r.to_s}" if $DEBUG
+            r.receive(node.inner_xml)
+          end
+              
         # TODO (if needed): check for ancestor records 
         # that need attributes from the present node
         end
@@ -102,22 +94,17 @@ ASpaceImport::Importer.importer :xml do
             
       # Does the XML </node> match the [-1]
       # object in the parse queue ?
-      elsif node.node_type != 1 and target_objects(
-                                          :xpath => node.name, 
-                                          :type => @parse_queue[-1].class.record_type
-                                          )
-        
+
+      elsif node.node_type != 1 and target_objects(:xpath => node.name, :depth => node.depth)
+
         # Set defaults for missing values
         
         @parse_queue[-1].set_default_properties
 
-
-                                          
+        # Temporary hacks and whatnot:                                          
         # Fill in missing values; add supporting records etc.
-        # Hardcoded property sets should be abstracted or the
-        # data model should be re-examined
-        
         # For instance:
+        
         if ['subject'].include?(@parse_queue[-1].class.record_type)
           
           @vocab_uri ||= "/vocabularies/#{@vocab_id}"
@@ -130,23 +117,12 @@ ASpaceImport::Importer.importer :xml do
 
 
         # Save or send to waiting area
-        puts "Finished parsing #{node.name}" if @verbose
-        puts @parse_queue[-1].to_s if @verbose
+        puts "Finished parsing #{node.name}" if $DEBUG
         @parse_queue.pop    
         
       end
     end
-  end
-  
-  
-  def check_type(ob, types)
-    if ob and types.include?(ob.class.record_type)
-      ob
-    else
-      nil
-    end
-  end
-  
+  end  
   
 
 end
