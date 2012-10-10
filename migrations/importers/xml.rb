@@ -5,6 +5,9 @@ ASpaceImport::Importer.importer :xml do
 
   def initialize(opts)
 
+    # Validate the file first
+    # validate(opts[:input_file]) 
+
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
 
@@ -114,7 +117,28 @@ ASpaceImport::Importer.importer :xml do
       end
     end
   end  
+
+
+  # Very rough XSD validation
   
+  def validate(input_file)
+    
+
+    open(input_file).read().match(/xsi:schemaLocation="[^"]*(http[^"]*)"/)
+    
+    require 'net/http'
+    
+    uri = URI($1)
+    xsd_file = Net::HTTP.get(uri)
+    
+    xsd = Nokogiri::XML::Schema(xsd_file)
+    doc = Nokogiri::XML(File.read(input_file))
+
+    xsd.validate(doc).each do |error|
+      @import_log << "Invalid Source: " + error.message
+    end
+  
+  end
 
 end
 

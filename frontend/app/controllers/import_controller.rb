@@ -1,4 +1,7 @@
 class ImportController < ApplicationController
+
+  skip_before_filter :unauthorised_access
+
   def index
     
     unless session[:repo_id] and session[:repo_id] > 1
