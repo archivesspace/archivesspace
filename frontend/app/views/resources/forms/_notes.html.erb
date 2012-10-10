@@ -17,13 +17,13 @@
     <%= f.with_jsonmodel "notes[]", {}, :note_singlepart, :index => "0" do %>
       <% render :partial=>"notes/singlepart_form.html", :locals => {:f => f} %>
     <% end %>
-    <%= f.with_jsonmodel "notes[]", {}, :note_bibliography, :index => "2" do %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_bibliography, :index => "1" do %>
       <% render :partial=>"notes/bibliography_form.html", :locals => {:f => f} %>
     <% end %>
-    <%= f.with_jsonmodel "notes[]", {}, :note_index, :index => "3" do %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_index, :index => "2" do %>
       <% render :partial=>"notes/index_form.html", :locals => {:f => f} %>
     <% end %>
-    <%= f.with_jsonmodel "notes[]", {}, :note_multipart, :index => "1" do %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_multipart, :index => "3" do %>
       <% render :partial=>"notes/multipart_form.html", :locals => {:f => f} %>
     <% end %>
   </div>

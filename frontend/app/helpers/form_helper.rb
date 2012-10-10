@@ -65,7 +65,7 @@ module FormHelper
       @json_index ||= {}
       @json_index[model] ||= -1
 
-      if obj.is_a? Hash
+      if obj.is_a?(Hash) && !model.is_a?(Hash)
         obj = model.new(obj)
       end
 
@@ -75,9 +75,9 @@ module FormHelper
       @jsonmodel_object ||= []
 
       if name =~ /^(.*)\[\]$/
-        @jsonmodel_object << [$1, obj, opts.merge(:is_array => true)]
+        @jsonmodel_object << [$1, obj, opts.merge(:is_array => true), model]
       else
-        @jsonmodel_object << [name, obj, opts]
+        @jsonmodel_object << [name, obj, opts, model]
       end
 
       result = yield
@@ -113,7 +113,7 @@ module FormHelper
 
       end
 
-      result += "[#{method}]"
+      result += "[#{method}]" if not method.blank?
 
       result
     end
@@ -152,7 +152,7 @@ module FormHelper
 
       end
 
-      result << method
+      result << method if not method.blank?
 
       result.join("/")
     end
@@ -164,6 +164,11 @@ module FormHelper
       else
         @object
       end
+    end
+
+    def current_model
+      return current.class.schema if current.class.respond_to?(:schema)
+      @jsonmodel_object.last[3]
     end
 
 
@@ -233,7 +238,10 @@ module FormHelper
 
 
     def jsonmodel_field(method, opts = {})
-      schema = current.class.schema
+      schema = current_model
+
+      opts.merge!({:value => current[method.to_s] || ""}) if current.is_a?(Hash)
+      opts.merge!({:value => current}) if current.is_a?(String)
 
       if not schema["properties"].has_key?(method.to_s)
         return "PROBLEM: #{object_name} does not define #{method} in its schema"
@@ -296,7 +304,7 @@ module FormHelper
       }.merge(opts))
     end
 
-    def jsonmodel_text_area(method, opts)
+    def jsonmodel_text_area(method, opts = {})
       @template.text_area(@object_name, method, {
                              "data-original_value" => current[method],
                              :object => current,

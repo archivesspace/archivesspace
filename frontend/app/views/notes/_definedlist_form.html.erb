@@ -11,11 +11,16 @@
   <%= f.jsonmodel_hidden_field :type, "Defined List" %>
   <%= f.label_and_field :title %>
 
-  <div class="control-group">
+  <div class="control-group <%= f.error_classes("items") %>">
     <label class="control-label">Items</label>
     <div class="controls">
-      <div><textarea id="<%= f.current_name "items" %>[0]" name="<%= f.current_name "items" %>[0]" size="30" type="text" rows="3"></textarea></div>
-      <div style="padding-top: 10px"><textarea id="<%= f.current_name "items" %>[1]" name="<%= f.current_name "items" %>[1]" size="30" type="text" rows="3"></textarea></div>
+      <% f.with_jsonmodel "items[]", "", f.current_model['properties']['items'], :index => "0" do %>
+        <%= f.jsonmodel_text_area "", :value => f.current, :rows => 3 %>
+      <% end %>
+      <div style="padding-top: 10px;"></div>
+      <% f.with_jsonmodel "items[]", "", f.current_model['properties']['items'], :index => "1" do %>
+        <%= f.jsonmodel_text_area "", :value => f.current, :rows => 3 %>
+      <% end %>
     </div>
   </div>
 
