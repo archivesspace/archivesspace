@@ -467,6 +467,9 @@ module JSONModel
             # A nested reference to another data type.  Validate against it.
             schema = JSONModel.JSONModel(ref[0]).schema
           else
+            puts hash.inspect
+            puts schema.inspect
+            puts ref.inspect
             raise "Invalid schema given: #{schema}"
           end
         end
@@ -478,9 +481,14 @@ module JSONModel
 
         return hash if not schema.has_key?("properties")
 
+        puts "****"
+        puts hash.inspect
+
         transformations.each do |transform|
           hash = transform.call(hash, schema)
         end
+
+        puts hash.inspect
 
         result = {}
 
@@ -521,6 +529,9 @@ module JSONModel
                   elt
                 end
               }
+            elsif schema["properties"][k]["items"]["type"] === "object"
+              puts "MARK"
+              result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"], transformations)}
             else
               # Just one valid type
               result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"]["type"], transformations)}
