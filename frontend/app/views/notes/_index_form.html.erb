@@ -1,11 +1,6 @@
 <div class="subrecord-form-fields">
 
-  <div class="control-group ">
-    <label class="control-label">Note Type</label>
-    <div class="controls label-only">
-      <strong>Index</strong>
-    </div>
-  </div>
+  <h4 class="subrecord-form-heading">Index</h4>
 
   <%= f.jsonmodel_hidden_field :jsonmodel_type, "note_index" %>
   <%= f.jsonmodel_hidden_field :type, "Index" %>
@@ -14,7 +9,7 @@
   <%= f.label_and_textarea :content %>
 
   <section class="subrecord-form">
-    <h4 class="subrecord-form-heading">Items</h4>
+    <h5 class="subrecord-form-heading">Items</h5>
     <div class="subrecord-form-container">
       <% f.with_jsonmodel "items[]", {}, f.current.class.schema['properties']['items']['items'], :index => "0" do %>
         <div class="subrecord-form-fields">
