@@ -17,17 +17,14 @@
     <%= f.with_jsonmodel "notes[]", {}, :note_singlepart, :index => "0" do %>
       <% render :partial=>"notes/singlepart_form.html", :locals => {:f => f} %>
     <% end %>
-    <%= f.with_jsonmodel "notes[]", {}, :note_multipart, :index => "1" do %>
-      <% render :partial=>"notes/multipart_form.html", :locals => {:f => f} %>
-    <% end %>
     <%= f.with_jsonmodel "notes[]", {}, :note_bibliography, :index => "2" do %>
       <% render :partial=>"notes/bibliography_form.html", :locals => {:f => f} %>
     <% end %>
-    <%= f.with_jsonmodel "notes[]", {}, :note_orderedlist, :index => "4" do %>
-      <% render :partial=>"notes/orderedlist_form.html", :locals => {:f => f} %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_index, :index => "3" do %>
+      <% render :partial=>"notes/index_form.html", :locals => {:f => f} %>
     <% end %>
-    <%= f.with_jsonmodel "notes[]", {}, :note_definedlist, :index => "5" do %>
-      <% render :partial=>"notes/definedlist_form.html", :locals => {:f => f} %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_multipart, :index => "1" do %>
+      <% render :partial=>"notes/multipart_form.html", :locals => {:f => f} %>
     <% end %>
   </div>
 </section>

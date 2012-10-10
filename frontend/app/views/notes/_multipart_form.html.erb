@@ -1,5 +1,12 @@
 <div class="subrecord-form-fields">
-  <h5>MULTI</h5>
+
+  <div class="control-group ">
+    <label class="control-label">Note Type</label>
+    <div class="controls label-only">
+      <strong>Multipart Note</strong>
+    </div>
+  </div>
+
   <%= f.jsonmodel_hidden_field :jsonmodel_type, "note_multipart" %>
   <%= f.label_and_field :type %>
   <%= f.label_and_field :label %>
@@ -21,6 +28,9 @@
       <% end %>
       <%= f.with_jsonmodel "subnotes[]", {}, :note_definedlist, :index => "3" do %>
         <% render :partial=>"notes/definedlist_form.html", :locals => {:f => f} %>
+      <% end %>
+      <%= f.with_jsonmodel "subnotes[]", {}, :note_index, :index => "4" do %>
+        <% render :partial=>"notes/index_form.html", :locals => {:f => f} %>
       <% end %>
     </div>
   </section>

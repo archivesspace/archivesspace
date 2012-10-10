@@ -1,0 +1,47 @@
+<div class="subrecord-form-fields">
+
+  <div class="control-group ">
+    <label class="control-label">Note Type</label>
+    <div class="controls label-only">
+      <strong>Index</strong>
+    </div>
+  </div>
+
+  <%= f.jsonmodel_hidden_field :jsonmodel_type, "note_index" %>
+  <%= f.jsonmodel_hidden_field :type, "Index" %>
+
+  <%= f.label_and_field :label %>
+  <%= f.label_and_textarea :content %>
+
+  <section class="subrecord-form">
+    <h4 class="subrecord-form-heading">Items</h4>
+    <div class="subrecord-form-container">
+      <div class="subrecord-form-fields">
+        <div class="control-group ">
+          <label for="<%= f.current_name "items" %>[0][value]" class="control-label">Value</label>
+          <div class="controls">
+            <input id="<%= f.current_name "items" %>[0][value]" name="<%= f.current_name "events" %>[0][value]" size="30" type="text"/>
+          </div>
+        </div>
+        <div class="control-group ">
+          <label for="<%= f.current_name "items" %>[0][type]" class="control-label">Type</label>
+          <div class="controls">
+            <input id="<%= f.current_name "items" %>[0][type]" name="<%= f.current_name "events" %>[0][type]" size="30" type="text"/>
+          </div>
+        </div>
+        <div class="control-group ">
+          <label for="<%= f.current_name "items" %>[0][reference]" class="control-label">Reference</label>
+          <div class="controls">
+            <input id="<%= f.current_name "items" %>[0][reference]" name="<%= f.current_name "events" %>[0][reference]" size="30" type="text"/>
+          </div>
+        </div>
+        <div class="control-group ">
+          <label for="<%= f.current_name "items" %>[0][reference_text]" class="control-label">Reference Text</label>
+          <div class="controls">
+            <input id="<%= f.current_name "items" %>[0][reference_text]" name="<%= f.current_name "events" %>[0][reference_text]" size="30" type="text"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

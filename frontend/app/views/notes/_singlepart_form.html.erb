@@ -1,5 +1,12 @@
 <div class="subrecord-form-fields">
-  <h5>SINGLE</h5>
+
+  <div class="control-group ">
+    <label class="control-label">Note Type</label>
+    <div class="controls label-only">
+      <strong>Single Part Note</strong>
+    </div>
+  </div>
+
   <%= f.jsonmodel_hidden_field :jsonmodel_type, "note_singlepart" %>
   <%= f.label_and_field :type %>
   <%= f.label_and_field :label %>

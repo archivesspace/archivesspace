@@ -1,27 +1,23 @@
 <div class="subrecord-form-fields">
-  <section class="subrecord-form">
-    <h4 class="subrecord-form-heading">
-      Ordered List
-    </h4>
-    <div class="subrecord-form-container">
-      <div class="subrecord-form-fields">
-        <%= f.jsonmodel_hidden_field :jsonmodel_type, "note_definedlist" %>
-        <%= f.jsonmodel_hidden_field :type, "Defined List" %>
-        <%= f.label_and_field :title %>
-        <%= f.label_and_field :enumeration %>
 
-        <section class="subrecord-form">
-          <h4 class="subrecord-form-heading">Items</h4>
-          <div class="subrecord-form-container">
-            <div class="subrecord-form-fields">
-              <textarea id="<%= f.current_name "items" %>[0]" name="<%= f.current_name "items" %>[0]" size="30" type="text"></textarea>
-            </div>
-            <div class="subrecord-form-fields">
-              <textarea id="<%= f.current_name "items" %>[1]" name="<%= f.current_name "items" %>[1]" size="30" type="text"></textarea>
-            </div>
-          </div>
-        </section>
-      </div>
+  <div class="control-group ">
+    <label class="control-label">Note Type</label>
+    <div class="controls label-only">
+      <strong>Ordered List</strong>
     </div>
-  </section>
+  </div>
+
+  <%= f.jsonmodel_hidden_field :jsonmodel_type, "note_orderedlist" %>
+  <%= f.jsonmodel_hidden_field :type, "Ordered List" %>
+  <%= f.label_and_field :title %>
+  <%= f.label_and_field :enumeration %>
+
+  <div class="control-group">
+    <label class="control-label">Items</label>
+    <div class="controls">
+      <div><textarea id="<%= f.current_name "items" %>[0]" name="<%= f.current_name "items" %>[0]" size="30" type="text" rows="3"></textarea></div>
+      <div style="padding-top: 10px"><textarea id="<%= f.current_name "items" %>[1]" name="<%= f.current_name "items" %>[1]" size="30" type="text" rows="3"></textarea></div>
+    </div>
+  </div>
+
 </div>
