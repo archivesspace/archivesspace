@@ -2,7 +2,7 @@
    <% if object._exceptions.has_key?(:errors) %>
       <div class="alert alert-error">
          <% object._exceptions[:errors].each do |attr, messages| %>
-            <div class="errors-<%= attr.gsub('/', "_") %>">
+            <div class="errors-for-attribute errors-<%= attr.gsub('/', "_") %>" data-for="<%= f.current_name(attr).gsub("/", "][") %>">
               <% messages.each do |msg| %>
                 <div class="error"><%= I18n.t(f.current_i18n(attr)) %> - <%= msg %></div>
               <% end %>
@@ -13,7 +13,7 @@
    <% if object._exceptions.has_key?(:warnings) %>
       <div class="alert alert-warning">
          <% object._exceptions[:warnings].each do |attr, messages| %>
-            <div class="errors-<%= attr.gsub('/', "_") %>">
+            <div class="warnings-for-attribute errors-<%= attr.gsub('/', "_") %>" data-for="<%= f.current_name(attr).gsub("/", "][") %>">
               <% messages.each do |msg| %>
                 <div class="warning"><%= I18n.t(f.current_i18n(attr)) %> - <%= msg %></div>
               <% end %>
