@@ -467,9 +467,6 @@ module JSONModel
             # A nested reference to another data type.  Validate against it.
             schema = JSONModel.JSONModel(ref[0]).schema
           else
-            puts hash.inspect
-            puts schema.inspect
-            puts ref.inspect
             raise "Invalid schema given: #{schema}"
           end
         end
@@ -481,14 +478,9 @@ module JSONModel
 
         return hash if not schema.has_key?("properties")
 
-        puts "****"
-        puts hash.inspect
-
         transformations.each do |transform|
           hash = transform.call(hash, schema)
         end
-
-        puts hash.inspect
 
         result = {}
 
@@ -530,7 +522,6 @@ module JSONModel
                 end
               }
             elsif schema["properties"][k]["items"]["type"] === "object"
-              puts "MARK"
               result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"], transformations)}
             else
               # Just one valid type
@@ -597,22 +588,9 @@ module JSONModel
                                         :record_errors => true)
 
         messages = validator.validate
+        exceptions = JSONSchemaUtils.parse_schema_messages(messages, validator)
 
-        expanded_messages = []
-
-
-        messages.each do |msg|
-          if msg[:errors] and !msg[:errors].empty?
-            # Favour reporting the sub-error instead of the aggregate one
-            expanded_messages += msg[:errors]
-          else
-            expanded_messages << msg
-          end
-        end
-
-        exceptions = JSONSchemaUtils.parse_schema_messages(expanded_messages, validator)
-
-        if raise_errors and not exceptions[:errors].empty? or (@@strict_mode and not exceptions[:warnings].empty?)
+        if raise_errors && (!exceptions[:errors].empty? || (@@strict_mode && !exceptions[:warnings].empty?))
           raise ValidationException.new(:invalid_object => self.new(hash),
                                         :warnings => exceptions[:warnings],
                                         :errors => exceptions[:errors])

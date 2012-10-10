@@ -301,4 +301,53 @@ describe 'JSON model' do
 
   end
 
+
+  it "reports errors correctly for complicated resources with notes" do
+    begin
+      JSONModel(:resource).from_hash({"title" => "New Resource",
+                                       "id_0" => "",
+                                       "notes" => [{"jsonmodel_type" => "note_singlepart",
+                                                     "type" => "Abstract",
+                                                     "label" => "moo",
+                                                     "content" => ""},
+                                                   {"jsonmodel_type" => "note_multipart",
+                                                     "type" => "Accruals",
+                                                     "content" => "moo",
+                                                     "label" => "moo",
+                                                     "subnotes" => [{"jsonmodel_type" => "note_bibliography",
+                                                                      "type" => "Bibliography",
+                                                                      "label" => "",
+                                                                      "content" => "",
+                                                                      "items" => ["",
+                                                                                  ""]}]}],
+                                       "extents" => [{"portion" => "whole",
+                                                       "number" => "5",
+                                                       "extent_type" => "cassettes",
+                                                       "container_summary" => "",
+                                                       "physical_details" => "",
+                                                       "dimensions" => ""}]})
+
+    rescue JSONModel::ValidationException => e
+      e.errors.keys.sort.should eq(["id_0",
+                                    "notes/0/content",
+                                    "notes/1/subnotes/0/content",
+                                    "notes/1/subnotes/0/label"])
+    end
+  end
+
+
+  it "reports errors correctly for simple errors too" do
+    begin
+      JSONModel(:subject).from_hash({"vocabulary" => "/vocabularies/1",
+                                      "terms" => [{
+                                                    "term" => "",
+                                                    "term_type" => "Cultural context",
+                                                    "vocabulary" => "/vocabularies/1"
+                                                  }]})
+    rescue JSONModel::ValidationException => e
+      e.warnings.keys.sort.should eq(["terms/0/term"])
+    end
+
+  end
+
 end

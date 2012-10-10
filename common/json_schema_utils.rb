@@ -2,6 +2,7 @@ module JSONSchemaUtils
 
   def self.fragment_join(fragment, property = nil)
     fragment = fragment.gsub(/^#\//, "")
+    property = property.gsub(/^#\//, "") if property
 
     if property and fragment != "" and fragment !~ /\/$/
       fragment = "#{fragment}/"
@@ -134,6 +135,23 @@ module JSONSchemaUtils
     ]
 
 
+  # For a given error, find its list of sub errors.
+  def self.extract_suberrors(errors)
+    errors = Array[errors].flatten
+
+    result = errors.map do |error|
+      if !error[:errors]
+        error
+      else
+        self.extract_suberrors(error[:errors])
+      end
+    end
+
+    result.flatten
+  end
+
+
+
   # Given a list of error messages produced by JSON schema validation, parse
   # them into a structured format like:
   #
@@ -142,6 +160,9 @@ module JSONSchemaUtils
   #   :warnings => {:attr2 => "(attr2 not quite right either)"}
   # }
   def self.parse_schema_messages(messages, validator)
+
+    messages = self.extract_suberrors(messages)
+
     msgs = {
       :errors => {},
       :warnings => {},

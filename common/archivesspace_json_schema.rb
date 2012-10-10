@@ -25,7 +25,7 @@ class IfMissingAttribute < JSON::Schema::PropertiesAttribute
         if data.has_key?(property)
           schema = JSON::Schema.new(property_schema, current_schema.uri,validator)
           fragments << property
-          schema.validate(data[property], fragments,options)
+          schema.validate(data[property], fragments, options)
           fragments.pop
         end
       end
@@ -72,25 +72,17 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
           # afterwards..
           pre_nested_validation_errors = validation_errors
 
-          JSONModel(model).from_hash(data, false)
+          #JSONModel(model).from_hash(data, false)
+          data["jsonmodel_type"] ||= model.to_s
+          subvalidator = JSON::Validator.new(JSONModel(model).schema,
+                                             data,
+                                             :errors_as_objects => true,
+                                             :record_errors => true)
 
-          # Any validation errors are from the nested run
-          nested_errors = validation_errors
-
-          ::JSON::Validator.clear_errors
-
-          # Restore the original errors
-          pre_nested_validation_errors.each do |error|
-            validation_errors.push(error)
+          # Urk
+          subvalidator.instance_eval do
+            @base_schema.validate(@data, fragments, @validation_options)
           end
-
-          # And add the nested errors with fragments rewritten relative to the
-          # current position in the tree.
-          nested_errors.each do |validation_error|
-            validation_error.fragments = fragments + validation_error.fragments
-            validation_errors.push(validation_error)
-          end
-
         else
           validation_error("The property '#{build_fragment(fragments)}' of type " +
                            "#{data.class} did not match the following type: #{types} in schema",
