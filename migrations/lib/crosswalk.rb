@@ -16,12 +16,10 @@ module ASpaceImport
       @@walk
     end
   
-    
-    # Returns a regex object that will be used to determine if a parsed
-    # node is relevant to a given JSON object in the queue.
-    # The depth offset is the node.depth of the node that created the 
-    # JSON object, less the node.depth of the node that potentially contains
-    # a property for the JSON object (which might be the same node)
+    # Returns a regex object that will be used to determine if a parsing
+    # context is relevant to a JSON object in the queue.  The depth offset
+    # is the node.depth of the parsing context that created the JSON
+    # object, less the node.depth of the current parsing context.
     
     def self.regexify_node(node_name, depth_offset = 0)
       
@@ -42,7 +40,7 @@ module ASpaceImport
       end
     end
     
-    # Lookup for record types in the crosswalk that match an xpath
+    # Hash lookup for record types in the crosswalk that match an xpath
       
     def self.lookup(xpath)
       
@@ -50,14 +48,11 @@ module ASpaceImport
       
       unless @@types_lookup[xpath]
         
-        puts "Registering lookup for #{xpath}"
-
         types = []
         
         @@walk['entities'].each do |ent, defn|
           defn['xpath'].each do |xp|
             if xp.match(/^(\/)*#{xpath}$/)
-              puts "Pushing #{ent} to types"
               types.push(ent) 
             end
           end
@@ -69,16 +64,15 @@ module ASpaceImport
         end
       end  
     
-      puts "Lookup for #{xpath} returns #{@@types_lookup[xpath]}"
+      puts "Lookup for #{xpath} returns #{@@types_lookup[xpath]}" if $DEBUG
     
       return @@types_lookup[xpath]
 
     end
-            
+
     # Given an xpath, return true if the crosswalk maps it to a JSON
-    # Model. Return a JSONModel for any match if given a block
-    # Example:
-    #   
+    # Model. Return a JSONModel for any match if given a block Example:
+    #
     #   Crosswalk.target_objects(:xpath => 'c')
     #     => true
 
@@ -90,11 +84,9 @@ module ASpaceImport
       
       unless @@entity_map[opts[:xpath]]
         
-        puts "Testing map for #{opts[:xpath]}" if $DEBUG
-        
-        @@walk['entities'].each do |k, v|
+        @@walk['entities'].each do |ent, defn|
 
-          v['xpath'].each do |xp|
+          defn['xpath'].each do |xp|
 
             if xp.match(/^(\/)*#{opts[:xpath]}$/)
               
@@ -104,23 +96,11 @@ module ASpaceImport
                 raise StandardError.new("Found more than one entity to create with #{xpath}.")
               end
               
-              mod = JSONModel::JSONModel(k)
+              mod = JSONModel::JSONModel(ent)
               
               mod.class_eval do
                 
                 include JSONModel::Queueable
-
-                # def ancestor_relationships
-                #   self.mapped_properties.each do |property, hsh|
-                # 
-                #     next unless hsh['xpath']
-                #     
-                #     if hsh['xpath'].find { |xp| xp.match(/^parent::([a-z]*)$/) or 
-                #                                 xp.match(/^ancestor::([a-z]*)$/) }
-                #         yield ASpaceImport::Crosswalk.lookup(:xpath => $1), property
-                #     end
-                #   end
-                # end
                 
                 def receivers
                   unless @property_mgr
@@ -169,9 +149,10 @@ module ASpaceImport
       end
     end
     
-    
+    # Intermediate / chaining class for yielding property receivers given
+    # either an xpath or a record_type along with an optional depth (of
+    # the parsing context into which the reciever will be yielded)
 
-    
     class PropertyMgr
       
       def initialize(json_obj)
@@ -198,11 +179,12 @@ module ASpaceImport
         
         if opts[:xpath]
         
-          match_string = ASpaceImport::Crosswalk::regexify_node(
-                                            opts[:xpath], offset)
+          match_string = ASpaceImport::Crosswalk::regexify_node(opts[:xpath], offset)
         
           @mapped_props.each do |p, defn|
+ 
             next unless defn['xpath']
+ 
             if defn['xpath'].find { |xp| xp.match(match_string) }
 
               puts "Matched #{defn['xpath']} using #{match_string}" if $DEBUG
@@ -225,18 +207,17 @@ module ASpaceImport
           end
           
           @mapped_props.each do |p, defn|
+ 
             next unless defn['xpath']
-            
-            puts "Checking property #{p} with xpath #{defn['xpath'].join(', ')} and regex #{regex_test} and type #{opts[:record_type]}"
             
             if defn['xpath'].find { |xp| xp.match(regex_test) }
 
               if ASpaceImport::Crosswalk::lookup($2).include?(opts[:record_type])
-                puts "And Matched #{defn['xpath']} using #{regex_test} returning #{$2}" if $DEBUG
 
                 @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json_obj, p, defn)
 
                 yield @receivers[p]
+                
               end
 
             end
@@ -245,6 +226,10 @@ module ASpaceImport
         end
       end
     end
+    
+    # Capable of receiving values from a parsing situation
+    # and assigning them to the object and property the 
+    # receiver refers to
     
     class PropertyReceiver
       

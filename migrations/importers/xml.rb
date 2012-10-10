@@ -44,10 +44,7 @@ ASpaceImport::Importer.importer :xml do
             end                         
           end
 
-          # Outgoing Links to Ancestors
-          # Does this object need something in the parse
-          # queue to set one of it's (the current object) 
-          # properties?
+          # Links from current object to ojects in the queue
 
           @parse_queue.reverse.each do |qdob|
             tob.receivers.for(:depth => qdob.depth, 
@@ -58,9 +55,7 @@ ASpaceImport::Importer.importer :xml do
             end
           end
           
-          # Incoming Links from Ancestors
-          # Does this object satisfy a property of
-          # somethign in the queue?
+          # Links from objects in the queue to current object
 
           @parse_queue.reverse.each do |qdob|
 
@@ -71,8 +66,7 @@ ASpaceImport::Importer.importer :xml do
 
           end        
           
-          # Store the object in the parse queue
-          # until the closing tag gets read
+          # Add current object to parsing queue
           
           @parse_queue.push(tob)
         end     
@@ -87,13 +81,11 @@ ASpaceImport::Importer.importer :xml do
             r.receive(node.inner_xml)
           end
               
-        # TODO (if needed): check for ancestor records 
-        # that need attributes from the present node
+          # TODO (if needed): objects in queue that need attributes of
+          # current node
         end
-
             
-      # Does the XML </node> match the [-1]
-      # object in the parse queue ?
+      # Remove objects from the queue once their nodes close
 
       elsif node.node_type != 1 and target_objects(:xpath => node.name, :depth => node.depth)
 
@@ -115,11 +107,10 @@ ASpaceImport::Importer.importer :xml do
           end
         end
 
-
         # Save or send to waiting area
         puts "Finished parsing #{node.name}" if $DEBUG
-        @parse_queue.pop    
-        
+
+        @parse_queue.pop            
       end
     end
   end  
