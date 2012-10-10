@@ -67,19 +67,14 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
       elsif qualifier == 'uri_or_object' || qualifier == 'object'
         if data.is_a?(Hash)
 
-          # Running a nested validation has the side effect of clearing the
-          # errors we've currently seen.  Grab a copy first and restore them
-          # afterwards..
-          pre_nested_validation_errors = validation_errors
-
-          #JSONModel(model).from_hash(data, false)
           data["jsonmodel_type"] ||= model.to_s
           subvalidator = JSON::Validator.new(JSONModel(model).schema,
                                              data,
                                              :errors_as_objects => true,
                                              :record_errors => true)
 
-          # Urk
+          # Urk.  Validate the subrecord but pass in the fragments of the point
+          # we're at in the parent record.
           subvalidator.instance_eval do
             @base_schema.validate(@data, fragments, @validation_options)
           end
