@@ -12,24 +12,24 @@
 %>
 
 <section id="notes" class="subrecord-form">
-  <h3 class="subrecord-form-heading">Notes
-    <div class="btn-group pull-right">
-      <button class="btn btn-small  dropdown-toggle" data-toggle="dropdown">Add Note <span class="caret"></span></button>
-      <ul class="dropdown-menu subrecord-selector">
-        <li>
-          <select>
-            <% note_types.keys.sort.each do |type| %>
-              <option value="<%= note_types[type] %>"><%= type %></option>
-            <% end %>
-          </select>
-        </li>
-        <li class="form-actions">
-          <button class="btn btn-small add-note-for-type-btn">Add Node For Type</button>
-        </li>
-      </ul>
-    </div>
-  </h3>
-  <div class="notes-container subrecord-form-container"></div>
+  <h3 class="subrecord-form-heading">Notes</h3>
+  <div class="notes-container subrecord-form-container">
+    <%= f.with_jsonmodel "notes[]", {}, :note_singlepart, :index => "0" do %>
+      <% render :partial=>"notes/singlepart_form.html", :locals => {:f => f} %>
+    <% end %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_multipart, :index => "1" do %>
+      <% render :partial=>"notes/multipart_form.html", :locals => {:f => f} %>
+    <% end %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_bibliography, :index => "2" do %>
+      <% render :partial=>"notes/bibliography_form.html", :locals => {:f => f} %>
+    <% end %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_orderedlist, :index => "4" do %>
+      <% render :partial=>"notes/orderedlist_form.html", :locals => {:f => f} %>
+    <% end %>
+    <%= f.with_jsonmodel "notes[]", {}, :note_definedlist, :index => "5" do %>
+      <% render :partial=>"notes/definedlist_form.html", :locals => {:f => f} %>
+    <% end %>
+  </div>
 </section>
 
 <%= render :partial=>"notes/templates", :locals=>{:f => f} %>

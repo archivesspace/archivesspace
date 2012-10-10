@@ -1,0 +1,49 @@
+<div class="subrecord-form-fields">
+  <section class="subrecord-form">
+    <h4 class="subrecord-form-heading">
+      Chronology
+    </h4>
+    <div class="subrecord-form-container">
+      <div class="subrecord-form-fields">
+        <%= f.jsonmodel_hidden_field :jsonmodel_type, "note_chronology" %>
+        <%= f.jsonmodel_hidden_field :type, "Chronology" %>
+        <%= f.label_and_field :title %>
+
+        <section class="subrecord-form">
+          <h4 class="subrecord-form-heading">Events</h4>
+          <div class="subrecord-form-container">
+            <div class="subrecord-form-fields">
+              <div class="control-group ">
+                <label for="<%= f.current_name "events" %>[0][date]" class="control-label">Date</label>
+                <div class="controls">
+                  <input class="date-field" data-date-format="yyyy-mm-dd" id="<%= f.current_name "events" %>[0][date]" name="<%= f.current_name "events" %>[0][date]" placeholder="YYYY-MM-DD" size="30" type="text"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Event Details</label>
+                <div class="controls">
+                  <div><textarea id="<%= f.current_name "events" %>[0][items][0]" name="<%= f.current_name "events" %>[0][items][0]" size="30" type="text"></textarea></div>
+                  <div style="padding-top: 10px"><textarea id="<%= f.current_name "events" %>[0][items][1]" name="<%= f.current_name "events" %>[0][items][1]" size="30" type="text"></textarea></div>
+                </div>
+              </div>
+            </div>
+            <div class="subrecord-form-fields">
+              <div class="control-group ">
+                <label for="<%= f.current_name "events" %>[1][date]" class="control-label">Date</label>
+                <div class="controls">
+                  <input class="date-field" data-date-format="yyyy-mm-dd" id="<%= f.current_name "events" %>[0][date]" name="<%= f.current_name "events" %>[0][date]" placeholder="YYYY-MM-DD" size="30" type="text"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Event Details</label>
+                <div class="controls">
+                  <div><textarea id="<%= f.current_name "events" %>[1][items][0]" name="<%= f.current_name "events" %>[0][items][0]" size="30" type="text"></textarea></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
