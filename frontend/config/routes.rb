@@ -1,4 +1,8 @@
 ArchivesSpace::Application.routes.draw do
+
+  get "import/index"
+  post "import/upload"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

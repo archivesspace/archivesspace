@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 require 'optparse'
 require File.join(File.dirname(__FILE__), "lib", "bootstrap")
-Dir.glob(File.dirname(__FILE__) + '/importers/*', &method(:require))
 
 options = {:dry => false, 
+           :debug => false,
            :relaxed => false, 
            :verbose => false, 
            :repo_id => ASpaceImportConfig::DEFAULT_REPO_ID, 
@@ -15,6 +15,10 @@ optparse = OptionParser.new do|opts|
   opts.on( '-a', '--allow-failures', 'Do not stop because an import fails') do
     options[:relaxed] = true
   end
+  opts.on( '-d', '--debug', 'Debug mode' ) do
+    $DEBUG = true
+    options[:debug] = true
+  end 
   opts.on( '-h', '--help', 'Display this screen' ) do
     puts opts
     exit
@@ -55,7 +59,7 @@ end
 if options[:importer]
   i = ASpaceImport::Importer.create_importer(options)
   i.run
-  i.report
+  puts i.report
 end
 
 

@@ -5,6 +5,9 @@ ASpaceImport::Importer.importer :xml do
 
   def initialize(opts)
 
+    # Validate the file first
+    # validate(opts[:input_file]) 
+
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
 
@@ -19,60 +22,54 @@ ASpaceImport::Importer.importer :xml do
 
 
   def run
+    puts "XMLImporter:run" if $DEBUG
+    
     @reader.each do |node|
+      
       if node.node_type == 1
         
-        puts "Parsing node: #{node.name}" if @verbose
+        puts "Parsing node: #{node.name}" if $DEBUG
         
-        target_objects(:xpath => node.name, :depth => node.depth) do |tob|
+        node_args = {:xpath => node.name, :depth => node.depth}
+        
+        target_objects(node_args) do |tob|
 
-          # For Debugging / Testing
-          tob.after_save { puts "\nSaved: #{tob.to_s}" }
+          tob.after_save { puts "\nSaved: #{tob.to_s}" } if $DEBUG
           
-          tob.set_properties(:xpath => "self") { node.inner_xml }
+          tob.receivers.for(:xpath => "self") do |r|
+            r.receive(node.inner_xml)
+          end
 
           node.attributes.each do |a|
             
-            tob.set_properties(:xpath => "@#{a[0]}",
-                              :value => a[1])
+            tob.receivers.for(:xpath => "@#{a[0]}") do |r|
+              r.receive(a[1])
+            end                         
           end
 
-          # Does this object need something in the parse
-          # queue to set one of it's (the current object) 
-          # properties?
-          
-          tob.ancestor_relationships do |types, property|
+          # Links from current object to ojects in the queue
 
-            if (qob = @parse_queue.reverse.find {|qob| check_type(qob, types)})
-              qob.after_save { tob.send("#{property}=", qob.uri) }
-              tob.wait_for(qob)
+          @parse_queue.reverse.each do |qdob|
+            tob.receivers.for(:depth => qdob.depth, 
+                              :record_type => qdob.class.record_type) do |r|
+
+              qdob.after_save { r.receive(qdob.uri) }
+              tob.wait_for(qdob)
             end
           end
           
-          # Does this object satisfy a property of
-          # somethign in the queue?
+          # Links from objects in the queue to current object
 
-          @parse_queue.reverse.each do |qob|
+          @parse_queue.reverse.each do |qdob|
 
-            xpath = node.name
-            if node.depth - qob.depth == 1
-              xpath.insert(0, 'child::')
-            elsif node.depth - qob.depth > 1
-              xpath.insert(0, 'descendant::')
-            else
-              next 
+            qdob.receivers.for(node_args) do |r|
+              tob.after_save { r.receive(tob.uri) }
+              qdob.wait_for(tob)
             end
-            
-            # This needs revision.
-            # Won't work if the child object ends 
-            # up waiting on something else            
-            tob.after_save { qob.set_properties(:xpath => xpath,
-                                              :value => tob.uri) }
 
           end        
           
-          # Store the object in the parse queue
-          # until the closing tag gets read
+          # Add current object to parsing queue
           
           @parse_queue.push(tob)
         end     
@@ -80,44 +77,29 @@ ASpaceImport::Importer.importer :xml do
         # Does the XML <node> create a property 
         # for an entity in the queue?
            
-        @parse_queue.reverse.each do |qob|
-
-          # xpath = node.name
-          # if node.depth - qob.depth == 1
-          #   xpath.insert(0, 'child::')
-          # elsif node.depth - qob.depth > 1
-          #   xpath.insert(0, 'descendant::')
-          # else
-          #   next 
-          # end
-
-          qob.set_properties(:xpath => node.name, 
-                             :depth => node.depth) { node.inner_xml }
-
-        
-        # TODO (if needed): check for ancestor records 
-        # that need attributes from the present node
+        @parse_queue.reverse.each do |qdob|
+          
+          qdob.receivers.for(node_args) do |r|
+            puts "Node args: #{node_args.inspect} -- Receiver: #{r.to_s}" if $DEBUG
+            r.receive(node.inner_xml)
+          end
+              
+          # TODO (if needed): objects in queue that need attributes of
+          # current node
         end
-
             
-      # Does the XML </node> match the [-1]
-      # object in the parse queue ?
-      elsif node.node_type != 1 and target_objects(
-                                          :xpath => node.name, 
-                                          :type => @parse_queue[-1].class.record_type
-                                          )
-        
+      # Remove objects from the queue once their nodes close
+
+      elsif node.node_type != 1 and target_objects(:xpath => node.name, :depth => node.depth)
+
         # Set defaults for missing values
         
         @parse_queue[-1].set_default_properties
 
-
-                                          
+        # Temporary hacks and whatnot:                                          
         # Fill in missing values; add supporting records etc.
-        # Hardcoded property sets should be abstracted or the
-        # data model should be re-examined
-        
         # For instance:
+        
         if ['subject'].include?(@parse_queue[-1].class.record_type)
           
           @vocab_uri ||= "/vocabularies/#{@vocab_id}"
@@ -128,26 +110,35 @@ ASpaceImport::Importer.importer :xml do
           end
         end
 
-
         # Save or send to waiting area
-        puts "Finished parsing #{node.name}" if @verbose
-        puts @parse_queue[-1].to_s if @verbose
-        @parse_queue.pop    
-        
+        puts "Finished parsing #{node.name}" if $DEBUG
+
+        @parse_queue.pop            
       end
     end
-  end
+  end  
+
+
+  # Very rough XSD validation
   
-  
-  def check_type(ob, types)
-    if ob and types.include?(ob.class.record_type)
-      ob
-    else
-      nil
+  def validate(input_file)
+    
+
+    open(input_file).read().match(/xsi:schemaLocation="[^"]*(http[^"]*)"/)
+    
+    require 'net/http'
+    
+    uri = URI($1)
+    xsd_file = Net::HTTP.get(uri)
+    
+    xsd = Nokogiri::XML::Schema(xsd_file)
+    doc = Nokogiri::XML(File.read(input_file))
+
+    xsd.validate(doc).each do |error|
+      @import_log << "Invalid Source: " + error.message
     end
+  
   end
-  
-  
 
 end
 

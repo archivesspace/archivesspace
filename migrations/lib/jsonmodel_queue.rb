@@ -1,5 +1,5 @@
 module JSONModel
-  module Client
+  module Queueable
     
     # Methods to support queuing of objects that can't
     # be saved until a related object has been saved
@@ -44,13 +44,17 @@ module JSONModel
     protected
      
     def try_save(opts = {})
+      puts "Try Saving #{self.to_s}" if $DEBUG
       can_save = true
       self.waiting_for.each do |w|
         can_save = false unless w.uri 
       end    
       if can_save
-        puts self.to_s
-        r = self.save(opts)
+        if opts[:dry] == true
+          r = self.fake_save(opts)
+        else
+          r = self.save(opts)
+        end
         self.run_after_save_hooks
         return r
       else
@@ -58,6 +62,16 @@ module JSONModel
       end
     end
 
+    def fake_save(opts)
+      id = rand(100)
+      
+      self.uri = self.class.uri_for(id.to_s, opts)
+
+      # If we were able to save successfully, increment our local version
+      # number to match the version on the server.
+      self.lock_version = "1"
+    end
+    
     
     def run_after_save_hooks
       @after_save_hooks.each { |proc| proc.call } if @after_save_hooks    

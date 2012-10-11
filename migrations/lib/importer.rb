@@ -1,4 +1,10 @@
 module ASpaceImport
+  
+  def self.init
+    Dir.glob(File.dirname(__FILE__) + '/../importers/*', &method(:load))
+  end
+  
+  
   class Importer
 
     @@importers = {}
@@ -9,12 +15,12 @@ module ASpaceImport
       @@importers.length
     end
 
-
     def self.list
-      puts "The following importers are available"
+      list = "The following importers are available"
       @@importers.each do |i, klass|
-        puts "\t #{klass.name} \t #{klass.profile}"
+        list += "\t #{klass.name} \t #{klass.profile}"
       end
+      list
     end
 
     # @param options [Hash] runtime options passed into the importer
@@ -78,14 +84,17 @@ module ASpaceImport
       @import_keys = []
       @goodimports = 0
       @badimports = 0
+      @import_log = []
       @current = { }
       @stashed = { }
     end
 
 
     def report
-      puts "#{@goodimports} records imported"
+      r = "#{@goodimports} records imported\n"
       # puts "#{@badimports} records failed to import"
+      r += @import_log.join("\n") if @verbose
+      r
     end
 
 
