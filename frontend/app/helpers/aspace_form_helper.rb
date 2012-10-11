@@ -34,7 +34,7 @@ module AspaceFormHelper
 
       ("<div data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
        " data-id-path=\"#{id_for(set_index(self.path(context_name), '${index}'), false)}\" " +
-       " class=\"subrecord-form allow-add-remove\">#{result}</div>").html_safe
+       " class=\"subrecord-form-list\">#{result}</div>").html_safe
 
     end
 
