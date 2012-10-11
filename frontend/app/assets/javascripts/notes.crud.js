@@ -23,7 +23,7 @@ $(function() {
           var $subsubform = $(AS.renderTemplate("template_bib_item", {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: index
+            index: "${index}"
           }));
 
           $target_subrecord_list.append($subsubform);
@@ -60,7 +60,7 @@ $(function() {
           var $subsubform = $(AS.renderTemplate("template_index_item", {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: index
+            index: "${index}"
           }));
 
           $target_subrecord_list.append($subsubform);
@@ -84,7 +84,7 @@ $(function() {
           var $subsubform = $(AS.renderTemplate("template_chronology_item", {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: index
+            index: "${index}"
           }));
 
           $target_subrecord_list.append($subsubform);
@@ -108,7 +108,7 @@ $(function() {
           var $subsubform = $(AS.renderTemplate("template_definedlist_item", {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: index
+            index: "${index}"
           }));
 
           $target_subrecord_list.append($subsubform);
@@ -132,7 +132,7 @@ $(function() {
           var $subsubform = $(AS.renderTemplate("template_orderedlist_item", {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: index
+            index: "${index}"
           }));
 
           $target_subrecord_list.append($subsubform);
@@ -154,7 +154,7 @@ $(function() {
           var $subsubform = $(AS.renderTemplate("template_chronology_item_event", {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: index
+            index: "${index}"
           }));
 
           $target_subrecord_list.append($subsubform);
@@ -177,8 +177,7 @@ $(function() {
           var $subsubform = $(AS.renderTemplate("template_"+selected.text(), {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: index,
-            type: selected.text()
+            index: "${index}"
           }));
 
           $target_subrecord_list.append($subsubform);
@@ -233,8 +232,7 @@ $(function() {
         var $subform = $(AS.renderTemplate("template_"+selected.val(), {
           path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
           id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-          index: index,
-          type: selected.text()
+          index: "${index}"
         }));
 
         $target_subrecord_list.append($subform);
