@@ -17,7 +17,7 @@ $(function() {
       var init_subform = function() {
         var $subform = $(this);
 
-        if ($("> .subrecord-form-fields", $subform).data("allow-removal") === true) {
+        if ($("> .subrecord-form-fields", $subform).data("allow-removal") === false) {
           var removeBtn = $("<a href='javascript:void(0)' class='btn btn-mini pull-right subrecord-form-remove'><span class='icon-remove'></span></a>");
           $subform.prepend(removeBtn);
           removeBtn.on("click", function() {
@@ -47,13 +47,8 @@ $(function() {
             "sub_index" : "${index}"
           };
 
-          var formEl = $(AS.renderTemplate($this.data("template-id"), index_data));
+          var formEl = $(AS.renderTemplate($this.data("template"), index_data));
           formEl.hide();
-
-          // re-enable form elements if a nested sub form template was used
-          if ($("#"+ $this.data("template-id")).hasClass("nested-template")) {
-            $(":input", formEl).removeAttr("disabled");
-          }
 
           $("> .subrecord-form-container", $this).append(formEl);
           formEl.fadeIn();
@@ -63,11 +58,6 @@ $(function() {
           $(":input:visible:first", formEl).focus();
           $this.data("form_index", $this.data("form_index")+1);
         });
-
-        // if a nested subrecord, esnure any sub record template :inputs are disabled
-        if ($("#"+ $this.data("template-id")).hasClass("nested-template")) {
-          $(":input", $("#"+ $this.data("template-id"))).attr("disabled","disabled");
-        }
 
         // init any existing subforms
         $("> .subrecord-form-container > .subrecord-form-wrapper", $this).each(init_subform);

@@ -11,7 +11,7 @@ $(function() {
 
       $this.addClass("initialised");
 
-      var index = $(".subrecord-form-wrapper", $this).length;
+      var index = $(".subrecord-form-fields", $this).length;
 
       var initBibliographyNote = function($subform) {
         $(".add-bibliography-item-btn", $subform).click(function() {
@@ -21,7 +21,7 @@ $(function() {
             index: index
           }));
 
-          $(".subrecord-form-container", $subform).append($subsubform);
+          $("> .subrecord-form-container .subrecord-form .subrecord-form-fields", $subform).append($subsubform);
 
           initRemoveActionForSubRecord($subsubform)
         });
@@ -62,28 +62,31 @@ $(function() {
       };
 
 
-      var initTopLevelNote = function(event) {
+      var initNoteForm = function($subform) {
+        initRemoveActionForSubRecord($subform);
+      };
+
+      var createTopLevelNote = function(event) {
         event.preventDefault();
 
+        var $target_subrecord_form = $("> .subrecord-form-container > .subrecord-form", $this);
+
         var selected = $("option:selected", $(this).parents(".dropdown-menu"));
-        var $subform = $(AS.renderTemplate(selected.val()+"_form_template", {
-          path: "foo",
+        var $subform = $(AS.renderTemplate("template_"+selected.val(), {
+          path: AS.quickTemplate($target_subrecord_form.data("name-path"), {index: index}),
+          id_path: AS.quickTemplate($target_subrecord_form.data("id-path"), {index: index}),
           index: index,
           type: selected.text()
         }));
 
-        $(".notes-container", $this).append($subform);
+        $target_subrecord_form.append($subform);
 
-        initRemoveActionForSubRecord($subform);
-
-        if (selected.val() === "note_multipart") {
-          initMultipartNote($subform);
-        }
+        initNoteForm($subform)
 
         index++;
       };
 
-      $(".add-note-for-type-btn", $this).click(initTopLevelNote);
+      $(".add-note-for-type-btn", $this).click(createTopLevelNote);
 
     })
   };
@@ -91,10 +94,10 @@ $(function() {
 
   $(document).ready(function() {
     $(document).ajaxComplete(function() {
-      $("#notes:not(.initialised)").init_notes_form();
+      $("#notes.subrecord-form:not(.initialised)").init_notes_form();
     });
 
-    $("#notes:not(.initialised)").init_notes_form();
+    $("#notes.subrecord-form:not(.initialised)").init_notes_form();
   });
 
 });

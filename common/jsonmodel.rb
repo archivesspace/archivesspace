@@ -424,7 +424,9 @@ module JSONModel
       # Produce a (possibly nested) hash from the values of this JSONModel.  Any
       # values that don't appear in the JSON schema will not appear in the
       # result.
-      def to_hash
+      def to_hash(raw = false)
+        return @data if raw
+
         @validated = false
 
         cleaned = self.class.drop_unknown_properties(@data)

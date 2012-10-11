@@ -36,7 +36,6 @@ class ApplicationController < ActionController::Base
   #
   def handle_crud(opts)
     begin
-
       # The UI may pass JSON blobs for linked resources for the purposes of displaying its form.
       # Deserialise these so the corresponding objects are stored on the JSONModel.
       (params[opts[:instance]]["resolved"] or []).each do |property, value|
@@ -95,6 +94,7 @@ class ApplicationController < ActionController::Base
 
       if not params.has_key?(:ignorewarnings) and not obj._warnings.empty?
         # Throw the form back to the user to confirm warnings.
+        instance_variable_set("@exceptions".intern, obj._exceptions)
         return opts[:on_invalid].call
       end
 
@@ -102,6 +102,7 @@ class ApplicationController < ActionController::Base
       opts[:on_valid].call(id)
     rescue JSONModel::ValidationException => e
       # Throw the form back to the user to display error messages.
+      instance_variable_set("@exceptions".intern, obj._exceptions)
       opts[:on_invalid].call
     end
   end
