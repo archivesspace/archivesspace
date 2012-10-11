@@ -88,4 +88,21 @@ describe 'Resource model' do
                                            :repo_id => @repo_id)
     }.to raise_error
   end
+
+
+
+  it "blows up if you don't specify which repository you're querying" do
+    resource = create_resource
+
+    expect {
+      Resource.to_jsonmodel(resource[:id], :resource, nil)
+    }.to raise_error
+
+    expect {
+      Resource.to_jsonmodel(resource[:id], :resource, :none)
+    }.to raise_error
+  end
+
+
+
 end

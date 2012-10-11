@@ -29,7 +29,7 @@ class ArchivesSpaceService < Sinatra::Base
     user = User[:username => params[:username].downcase]
 
     if user
-      json = User.to_jsonmodel(user, :user)
+      json = User.to_jsonmodel(user, :user, :none)
       json.permissions = user.permissions
       json_response(json)
     else
