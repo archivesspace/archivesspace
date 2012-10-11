@@ -127,6 +127,10 @@ module AspaceFormHelper
       label_with_field(name, textfield(name, obj[name]))
     end
 
+    def label_and_textarea(name, opts = {})
+      label_with_field(name, @forms.text_area_tag(name, obj[name], opts))
+    end
+
 
     def label_and_select(name, options)
       @forms.content_tag(:div, (I18n.t(i18n_for(name)) + @forms.select_tag(path(name), @forms.options_for_select(options))).html_safe)

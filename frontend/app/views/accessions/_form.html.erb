@@ -1,22 +1,22 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @accession, :f => f} %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @accession, :form => form} %>
 
 <section id="basic_information">
   <h3>Basic Information</h3>
   <fieldset>
-     <%= f.label_and_field :title %>
-     <%= f.label_and_fourpartid :id_0 %>
-     <%= f.label_and_field :accession_date, {:field_opts => {:value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))}} %>
-     <%= f.label_with_field :content_description, f.jsonmodel_text_area(:content_description, :rows => 3) %>
-     <%= f.label_with_field :condition_description, f.jsonmodel_text_area(:condition_description, :rows => 3) %>
-     <%= render :partial => "subjects/linker", :locals => { :object => @accession }%>
+     <%= form.label_and_textfield "title" %>
+     <%= form.label_and_fourpartid %>
+     <%#= form.label_and_field :accession_date, {:field_opts => {:value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))}} %>
+     <%= form.label_and_textarea "content_description", :rows => 3 %>
+     <%= form.label_and_textarea "condition_description", :rows => 3 %>
+     <%#= render :partial => "subjects/linker", :locals => { :object => @accession }%>
   </fieldset>
 </section>
 
 
-<%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @accession, :method => :extents} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @accession, :method => :dates} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @accession, :method => :external_documents} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @accession, :method => :rights_statements} %>
+<%#= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @accession, :method => :extents} %>
+<%#= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @accession, :method => :dates} %>
+<%#= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @accession, :method => :external_documents} %>
+<%#= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @accession, :method => :rights_statements} %>
 
 
 <div class="form-actions">            
