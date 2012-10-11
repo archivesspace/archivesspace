@@ -26,7 +26,7 @@ class SubjectsController < ApplicationController
   end
 
   def new
-    @subject = Subject.new({:vocab_id => JSONModel(:vocabulary).id_for(session[:vocabulary]["uri"])})._always_valid!
+    @subject = Subject.new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"])})._always_valid!
     render :partial => "subjects/new" if inline?
   end
 

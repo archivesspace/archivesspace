@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
   before_filter :refresh_permissions
 
   before_filter :load_repository_list
-  before_filter :load_default_vocabulary
 
   before_filter :unauthorised_access
 
@@ -135,6 +134,11 @@ class ApplicationController < ActionController::Base
        session[:permissions]['_archivesspace'].include?(permission))))
   end
 
+  helper_method :current_vocabulary
+  def current_vocabulary
+    MemoryLeak::Resources.get(:vocabulary).first.to_hash
+  end
+
   private
 
   def destroy_user_session
@@ -197,13 +201,6 @@ class ApplicationController < ActionController::Base
     hash.clone.each do |k,v|
       hash[k.sub("_attributes","")] = v if k.end_with?("_attributes")
       sanitize_param(v) if v.kind_of? Hash
-    end
-  end
-
-
-  def load_default_vocabulary
-    unless request.path == '/webhook/notify'
-      session[:vocabulary] = MemoryLeak::Resources.get(:vocabulary).first.to_hash
     end
   end
 

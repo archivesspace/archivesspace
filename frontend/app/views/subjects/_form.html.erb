@@ -1,6 +1,6 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :f => f} %>
 <fieldset>
-   <%= f.hidden_field :vocabulary, :value => session[:vocabulary]['uri'] %>
+   <%= f.hidden_field :vocabulary, :value => current_vocabulary['uri'] %>
 
    <section id="terms">
      <h3>Terms</h3>
@@ -28,7 +28,7 @@
 
 <div id="subjects_term_template"><!--
    <div class="row-fluid inputs-fill-it-up">
-      <div class="span5"><input type="text" name="subject[terms][${index}][term]" data-source="<%= session['vocabulary']['terms'].to_json %>" autocomplete="off" /></div>
+      <div class="span5"><input type="text" name="subject[terms][${index}][term]" data-source="<%= current_vocabulary['terms'].to_json %>" autocomplete="off" /></div>
       <div class="span5">
          <select name="subject[terms][${index}][term_type]">
             <% JSONModel(:term).schema["properties"]["term_type"]["enum"].each do |option| %>
@@ -41,7 +41,7 @@
             <button type="button" class="btn btn-small add-term-btn">Add</button>
             <button type="button" class="btn btn-small remove-term-btn"><span class="icon-remove-sign"></span></button>
          </div>
-         <input type="hidden" name="subject[terms][${index}][vocabulary]" value="<%= session[:vocabulary]['uri'] %>"/>
+         <input type="hidden" name="subject[terms][${index}][vocabulary]" value="<%= current_vocabulary['uri'] %>"/>
       </div>
    </div>
 --></div>
