@@ -1,4 +1,43 @@
 en:
+  notes: &note_attributes
+    note_index:
+      label: Label
+      content: Content
+      items: Items
+    index_item:
+      value: Value
+      type: Type
+      reference: Reference
+      reference_text: Reference Text
+    note_singlepart:
+      label: Label
+      content: Content
+      type: Type
+    note_multipart:
+      label: Label
+      type: Type
+      content: Content
+    note_bibliography:
+      label: Label
+      content: Content
+      items: Items
+    note_chronology:
+      title: Title
+      items: Items
+    chronology_item:
+      event_date: Event Date
+      events: Events
+    note_definedlist:
+      title: Title
+      items: Items
+    definedlist_item:
+      label: Label
+      value: Value
+    note_orderedlist:
+      title: Title
+      enumeration: Enumeration
+      items: Items
+  <<: *note_attributes
   extent: &extent_attributes
     portion: Portion
     portion_whole: Whole
