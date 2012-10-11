@@ -207,6 +207,7 @@ module AspaceFormHelper
 
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << capture(context, &body)
+    s << templates_for_js
     s << "</div>".html_safe
 
     s

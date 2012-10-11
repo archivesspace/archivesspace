@@ -11,10 +11,16 @@ $(function() {
 
       $this.addClass("initialised");
 
-      $this.data("form_index", $("> .subrecord-form-container .subrecord-form-wrapper", $this).length);
+      $this.data("form_index", $("> .subrecord-form-container .subrecord-form-fields", $this).length);
 
       var init_subform = function() {
         var $subform = $(this);
+
+        if ($subform.hasClass("initialised")) {
+          return;
+        }
+
+        $subform.addClass("initialised");
 
         var removeBtn = $("<a href='javascript:void(0)' class='btn btn-mini pull-right subrecord-form-remove'><span class='icon-remove'></span></a>");
         $subform.prepend(removeBtn);
@@ -25,7 +31,6 @@ $(function() {
           });
         });
 
-        $(document).triggerHandler("subrecord.new", [$this.data("object-name"), $subform]);
       };
 
 
@@ -38,7 +43,7 @@ $(function() {
           var index_data = {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: $this.data("form_index")}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: $this.data("form_index")}),
-            index: $this.data("form_index")
+            index: "${index}"
           };
 
           var formEl = $(AS.renderTemplate($this.data("template"), index_data));
@@ -51,6 +56,12 @@ $(function() {
           $this.parents("form:first").triggerHandler("form-changed");
 
           $.proxy(init_subform, formEl)();
+
+          //init any sub sub record forms
+          $(".subrecord-form:not(.initialised)",formEl).init_subrecord_form();
+
+          $(document).triggerHandler("subrecord.new", [$this.data("object-name"), formEl]);
+
           $(":input:visible:first", formEl).focus();
 
           $this.data("form_index", $this.data("form_index")+1);

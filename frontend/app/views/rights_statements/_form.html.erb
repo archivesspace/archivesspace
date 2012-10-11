@@ -1,19 +1,21 @@
-<div class="subrecord-form-fields" data-allow-removal="true">
-  <%= f.label_and_field :identifier %>
-  <%= f.label_and_field :rights_type %>
-  <%= f.label_and_field :active %>
-  <%= f.label_and_field :materials %>
-  <%= f.label_and_field :ip_status %>
-  <%= f.label_and_field :ip_expiration_date %>
-  <%= f.label_and_field :license_identifier_terms %>
-  <%= f.label_and_field :statute_citation %>
-  <%= f.label_and_field :jurisdiction %>
-  <%= f.label_and_field :type_note %>
-  <%= f.label_and_field :permissions %>
-  <%= f.label_and_field :restrictions %>
-  <%= f.label_and_field :restriction_start_date %>
-  <%= f.label_and_field :restriction_end_date %>
-  <%= f.label_and_field :granted_note %>
-
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => f.current, :method => :external_documents, :section_id => "rights_statement_external_documents", :nested_template => "rights_statement_external_documents_form_template", :nested_multiple => true} %>
-</div>
+<% define_template "external_document" do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_textfield "identifier" %>
+    <%= form.label_and_textfield "rights_type" %>
+    <%= form.label_and_textfield "active" %>
+    <%= form.label_and_textfield "materials" %>
+    <%= form.label_and_textfield "ip_status" %>
+    <%= form.label_and_textfield "ip_expiration_date" %>
+    <%= form.label_and_textfield "license_identifier_terms" %>
+    <%= form.label_and_textfield "statute_citation" %>
+    <%= form.label_and_textfield "jurisdiction" %>
+    <%= form.label_and_textfield "type_note" %>
+    <%= form.label_and_textfield "permissions" %>
+    <%= form.label_and_textfield "restrictions" %>
+    <%= form.label_and_textfield "restriction_start_date" %>
+    <%= form.label_and_textfield "restriction_end_date" %>
+    <%= form.label_and_textfield "granted_note" %>
+  
+    <%#= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => f.current, :method => :external_documents, :section_id => "rights_statement_external_documents", :nested_template => "rights_statement_external_documents_form_template", :nested_multiple => true} %>
+  </div>
+<% end %>

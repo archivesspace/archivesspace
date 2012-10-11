@@ -1,5 +1,24 @@
-<div id="rights_statement_form_template"><!--
-  <%= f.with_jsonmodel("rights_statements[]", {}, :rights_statement, :index => "${index}") do %>
-    <% render :partial => "rights_statements/form", :locals => {:f => f, :index => "${index}", :object => {}} %>
-  <% end %>
---></div>
+<% define_template "rights_statement" do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_textfield "identifier" %>
+    <%= form.label_and_textfield "rights_type" %>
+    <%= form.label_and_textfield "active" %>
+    <%= form.label_and_textfield "materials" %>
+    <%= form.label_and_textfield "ip_status" %>
+    <%= form.label_and_textfield "ip_expiration_date" %>
+    <%= form.label_and_textfield "license_identifier_terms" %>
+    <%= form.label_and_textfield "statute_citation" %>
+    <%= form.label_and_textfield "jurisdiction" %>
+    <%= form.label_and_textfield "type_note" %>
+    <%= form.label_and_textfield "permissions" %>
+    <%= form.label_and_textfield "restrictions" %>
+    <%= form.label_and_textfield "restriction_start_date" %>
+    <%= form.label_and_textfield "restriction_end_date" %>
+    <%= form.label_and_textfield "granted_note" %>
+
+    <div class="subrecord-form-container">
+      <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+    </div>
+  </div>
+
+<% end %>
