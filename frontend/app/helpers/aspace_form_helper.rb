@@ -123,8 +123,8 @@ module AspaceFormHelper
     end
 
 
-    def label_and_textfield(name)
-      label_with_field(name, textfield(name, obj[name]))
+    def label_and_textfield(name, opts = {})
+      label_with_field(name, textfield(name, obj[name], opts[:field_opts] || {}))
     end
 
     def label_and_textarea(name, opts = {})
@@ -174,13 +174,25 @@ module AspaceFormHelper
       label_with_field("id_0", field_html, :control_class => "identifier-fields")
     end
 
+    def label(name, opts = {})
+      "<label class=\"control-label\" for=\"#{id_for(name)}\">#{I18n.t(i18n_for(name))}</label>"
+    end
+
+    def radio(name, value)
+      puts "*** #{name} #{value} === #{obj[name]}"
+
+      options = {:id => "#{id_for(name)}_#{value}", :type => "radio", :value => value, :name => path(name)}
+      options[:checked] = "checked" if obj[name] == value
+
+      @forms.tag("input", options, false, false)
+    end
 
     def label_with_field(name, field_html, opts = {})
       control_group_classes = "control-group"
       control_group_classes << " #{opts[:control_class]}" if opts.has_key? :control_class
 
       control_group = "<div class=\"#{control_group_classes}\">"
-      control_group << "<label class=\"control-label\" for=\"#{id_for(name)}\">#{I18n.t(i18n_for(name))}</label>"
+      control_group << label(name, opts[:label_opts])
       control_group << "<div class=\"controls\">"
       control_group << field_html
       control_group << "</div>"
