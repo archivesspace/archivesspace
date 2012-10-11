@@ -1,6 +1,11 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list affix as-nav-list" data-spy="affix">
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
+
+    <% if not controller.action_name === "show" or @resource.notes.length > 0 %>
+      <li><a href="#notes">Notes <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <li><a href="#extents">Extents <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @resource.dates.length > 0 %>

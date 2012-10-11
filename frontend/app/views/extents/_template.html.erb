@@ -1,5 +1,12 @@
-<div id="extent_form_template"><!--
-  <%= f.with_jsonmodel("extents[]", {}, :extent, :index => "${index}") do %>
-    <% render :partial => "extents/form", :locals => {:f => f, :index => 1} %>
-  <% end %>
---></div>
+<% define_template "extent" do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_textfield("portion") %>
+    <%= form.label_and_textfield("number") %>
+    <%= form.label_and_textfield("extent_type") %>
+    <%= form.label_and_textfield("portion") %>
+    <hr/>
+    <%= form.label_and_textfield("container_summary") %>
+    <%= form.label_and_textfield("physical_details") %>
+    <%= form.label_and_textfield("dimensions") %>
+  </div>
+<% end %>

@@ -1,10 +1,13 @@
 <%
-  singular = name.to_s.singularize
-  section_id = name.to_s if section_id.blank?
+  singular = name.singularize
+  section_id = name if section_id.blank?
   heading_size = "h3"
-
+  js_template_name = "template_#{singular}" if js_template_name.blank?
 %>
-<section id="<%= section_id %>" class="subrecord-form" data-subrecord-form="true" data-object-name="<%= singular %>" data-template-id="<%= template_name %>">
+
+<%= render :partial=>"#{name.to_s}/template", :locals => {:form => form} %>
+
+<section id="<%= section_id %>" class="subrecord-form" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>">
 
   <<%= heading_size %> class="subrecord-form-heading">
     <%= I18n.t("#{singular}._html.plural") %>
@@ -12,17 +15,11 @@
   </<%= heading_size %>>
 
   <div class="subrecord-form-container">
-    <% if form[name].blank? %>
-
-      <p class="alert alert-info">Click 'Add <%= I18n.t("#{singular}._html.singular") %>' to add a <%= I18n.t("#{singular}._html.singular") %> record.</p>
-
-    <% else %>
-
-      <%= form.list_for(form[name], "#{name}[]") do |item| %>
-        <% form.emit_template(template_name, item) %>
-      <% end %>
-
+    <%= form.list_for(form[name], "#{name}[]") do |item| %>
+      <% form.emit_template(singular, item) %>
     <% end %>
   </div>
 
 </section>
+
+<%= templates_for_js %>
