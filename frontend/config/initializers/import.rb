@@ -1,7 +1,7 @@
-require 'importer'
-require 'jsonmodel_queue'
-require 'crosswalk'
-require 'parse_queue'
+require_relative '../../../migrations/lib/importer'
+require_relative '../../../migrations/lib/jsonmodel_queue'
+require_relative '../../../migrations/lib/crosswalk'
+require_relative '../../../migrations/lib/parse_queue'
 
 if ENV['DISABLE_STARTUP'] != 'true'
   ASpaceImport::init
