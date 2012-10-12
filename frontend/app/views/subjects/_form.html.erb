@@ -1,6 +1,8 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @subject, :f => f} %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
+
 <fieldset>
-   <%= f.hidden_field :vocabulary, :value => current_vocabulary['uri'] %>
+   <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
+
 
    <section id="terms">
      <h3>Terms</h3>
@@ -19,12 +21,10 @@
      
    </section>
 
-   <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @subject, :method => :external_documents, :section_id => "subject_external_documents", :nested_template => "subject_external_documents_form_template"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 
 </fieldset>
 
-
-<%= render :partial => "external_documents/template", :locals => {:f => f} %>
 
 <div id="subjects_term_template"><!--
    <div class="row-fluid inputs-fill-it-up">
