@@ -1,11 +1,5 @@
 - hook up agents to archival objects and resources on import
 
-
-
-- fix problem of ambiguity of multiple possible property setters:
-	- restore 'set once' rule, or
-	- destroy and xpath array after a single value property gets set
-
 - create helper methods to render reports and other messages
 	appropriate for context (HTML, CLI, etc.)
 	
@@ -23,20 +17,11 @@
 	- ensure the crosswalk and the source file match
 	- etc.
 
-- debug mode
-
 - option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
 
 - revisit allow-failures
 	
-- create measurements for speed and memory usage
-
-- refactor ancestor relationships setter
-
 - change 'path' to 'key' in import.rb CLI for crosswalk option
-
-- add init options to ASpaceImport module
-	- perhaps allow loaded importers to be restricted (i.e., xml only for webapps)
 
 
 

@@ -29,7 +29,7 @@ entities:
     properties:
       title: 
         xpath: ["child::*/child::unittitle"]
-        default: "Archival Object"
+        default: "Archival Objects"
 
       ref_id: 
         xpath: ["@id"]

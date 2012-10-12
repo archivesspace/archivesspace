@@ -259,8 +259,10 @@ module ASpaceImport
         return if val == nil
         
         if @type == 'string'
-          
-          @json.send("#{@prop}=", val)
+          # Only set once
+          unless @json.send("#{@prop}")
+            @json.send("#{@prop}=", val)
+          end
         elsif @type == 'array'
           
           if @json.send("#{@prop}")
