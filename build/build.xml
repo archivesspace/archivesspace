@@ -50,37 +50,37 @@
     </delete>
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S gem install bundler" />
     </java>
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../backend/Gemfile'" />
     </java>
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../frontend/Gemfile'" />
     </java>
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium/Gemfile'" />
     </java>
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../_yard/Gemfile'" />
     </java>
 
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true">
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../migrations/Gemfile'" />
@@ -90,7 +90,7 @@
 
   <!-- Database -->
   <target name="db:migrate" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -100,7 +100,7 @@
 
 
   <target name="db:nuke" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="..">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -145,7 +145,7 @@
 
 
   <target name="backend:war" depends="set-classpath, bootstrap" description="Deploy the backend application as a .war file">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -155,7 +155,7 @@
 
 
   <target name="backend:devserver" depends="set-classpath" description="Start an instance of the ArchivesSpace backend development server">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../backend">
       <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -168,7 +168,7 @@
 
   <target name="backend:doc" depends="set-classpath" description="Generate documentation for endpoints">
     <property name="match" value=""/>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" 
           dir="../backend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -188,7 +188,7 @@
         
 
   <target name="frontend:devserver" depends="set-classpath, frontend:clean" description="Start an instance of the ArchivesSpace frontend development server">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../frontend">
       <jvmarg line="${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -199,7 +199,7 @@
 
 
   <target name="frontend:console" depends="set-classpath" description="Run the rails console">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
@@ -214,6 +214,7 @@
     <delete dir="../frontend/tmp" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
           dir="../frontend">
       <jvmarg line="${env.JAVA_OPTS}" />
       <env key="GEM_HOME" value="${gem_home}" />
@@ -222,6 +223,7 @@
     </java>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
           dir="../frontend">
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
