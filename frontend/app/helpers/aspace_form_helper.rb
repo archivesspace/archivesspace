@@ -103,7 +103,6 @@ module AspaceFormHelper
 
     def exceptions_for_js(exceptions)
       result = {}
-
       [:errors, :warnings].each do |condition|
         result[condition] = exceptions[condition].keys.map {|property|
           str = "#{form_top}/#{property}"
@@ -175,14 +174,19 @@ module AspaceFormHelper
     end
 
     def label(name, opts = {})
-      "<label class=\"control-label\" for=\"#{id_for(name)}\">#{I18n.t(i18n_for(name))}</label>"
+      "<label class=\"control-label\" for=\"#{id_for(name)}\">#{I18n.t(i18n_for(name))}</label>".html_safe
     end
 
     def radio(name, value)
-      puts "*** #{name} #{value} === #{obj[name]}"
-
       options = {:id => "#{id_for(name)}_#{value}", :type => "radio", :value => value, :name => path(name)}
       options[:checked] = "checked" if obj[name] == value
+
+      @forms.tag("input", options, false, false)
+    end
+
+    def checkbox(name)
+      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :checked_value => true, :uncheced_value => false}
+      options[:checked] = "checked" if not obj[name].blank?
 
       @forms.tag("input", options, false, false)
     end

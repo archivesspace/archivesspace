@@ -1,10 +1,9 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list affix as-nav-list" data-spy="affix">
     <li><a href="#agent_details">Agent Details <span class="icon-chevron-right"></span></a></li>
-    <li><a href="#primary_name">Primary Name <span class="icon-chevron-right"></span></a></li>
 
-    <% if not controller.action_name === "show" or @agent.names.length > 1 %>
-      <li><a href="#secondary_names">Secondary Name(s) <span class="icon-chevron-right"></span></a></li>
+    <% if not controller.action_name === "show" or @agent.names.length > 0 %>
+      <li><a href="#names">Names <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @agent.agent_contacts.length > 0 %>

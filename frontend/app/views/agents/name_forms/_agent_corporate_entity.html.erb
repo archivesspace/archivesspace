@@ -1,24 +1,26 @@
-<div class="agent-name-fields">
-  <%= f.label_and_field :authority_id %>
-  <%= f.label_and_field :source %>
-  <%= f.label_and_field :rules %>
-  <hr/>
-  <%= f.label_and_field :primary_name %>
-  <%= f.label_and_field :subordinate_name_1 %>
-  <%= f.label_and_field :subordinate_name_2 %>
-  <%= f.label_and_field :number %>
-  <%= f.label_and_field :dates %>
-  <hr/>
-  <%= f.label_and_field :qualifier %>
-  <div class="control-group">
-    <%= f.jsonmodel_label :sort_name %>
-    <div class="controls">
-      <%= f.jsonmodel_field :sort_name, :readonly => "readonly" %>
-      <label><%= check_box_tag "#{f.current_name(:sort_name_type)}", "automatic", true, :class => "sort-name-generation-type", :force_id => f.current_name(:sort_name_type, true) %> <small>Automatically generate?</small></label>
+<% define_template "agent_corporate_entity_name" do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_textfield "authority_id" %>
+    <%= form.label_and_textfield "source" %>
+    <%= form.label_and_textfield "rules" %>
+    <hr/>
+    <%= form.label_and_textfield "primary_name" %>
+    <%= form.label_and_textfield "subordinate_name_1" %>
+    <%= form.label_and_textfield "subordinate_name_2" %>
+    <%= form.label_and_textfield "number" %>
+    <%= form.label_and_textfield "dates" %>
+    <hr/>
+    <%= form.label_and_textfield "qualifier" %>
+    <div class="control-group">
+      <%= form.label("sort_name") %>
+      <div class="controls">
+        <%= form.textfield "sort_name", form["sort_name"], :readonly => "readonly" %>
+        <label><%= form.checkbox "automatic" %> <small>Automatically generate?</small></label>
+      </div>
     </div>
+    <hr/>
+    <%= form.label_and_textfield "description_type" %>
+    <%= form.label_and_textfield "description_note" %>
+    <%= form.label_and_textfield "description_citation" %>
   </div>
-  <hr/>
-  <%= f.label_and_field :description_type %>
-  <%= f.label_and_field :description_note %>
-  <%= f.label_and_field :description_citation %>
-</div>
+<% end %>

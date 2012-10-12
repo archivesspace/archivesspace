@@ -1,4 +1,75 @@
 en:
+  agent_person_name:
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    direct_order: Direct Order
+    prefix: Prefix
+    title: Title
+    primary_name: Primary Name
+    rest_of_name: Rest of Name
+    suffix: Suffix
+    fuller_form: Fuller Form
+    number: Number
+    dates: Dates
+    qualifier: Qualifier
+    sort_name: Sort Name
+    description_type: Description Type
+    description_note: Description Note
+    description_citation: Description Citation
+  agent_family_name:
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    prefix: Prefix
+    family_name: Family Name
+    dates: Dates
+    qualifier: Qualifier
+    sort_name: Sort Name
+    description_type: Description Type
+    description_note: Description Note
+    description_citation: Description Citation
+  agent_corporate_entity_name:
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    primary_name: Primary Name
+    subordinate_name_1: Subordinate Name 1
+    subordinate_name_2: Subordinate Name 2
+    number: Number
+    dates: Dates
+    qualifier: Qualifier
+    sort_name: Sort Name
+    description_type: Description Type
+    description_note: Description Note
+    description_citation: Description Citation
+  agent_software_name:
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    software_name: Software Name
+    version: Version
+    manufacturer: Manufacturer
+    dates: Dates
+    qualifier: Qualifier
+    sort_name: Sort Name
+    description_type: Description Type
+    description_note: Description Note
+    description_citation: Description Citation
+  agent_contact_details:
+    name: Contact Name
+    salutation: Salutation
+    address_1: Address 1
+    address_2: Address 2
+    address_3: Address 3
+    city: City
+    region: Region
+    country: Country
+    post_code: Post Code
+    telephone: Telephone
+    telephone_ext: Telephone Extension
+    fax: Fax
+    email: Email
   notes: &note_attributes
     note_index:
       label: Label
