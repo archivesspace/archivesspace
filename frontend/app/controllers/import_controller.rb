@@ -50,7 +50,7 @@ class ImportController < ApplicationController
     
     options = {:dry => false, 
                :relaxed => false, 
-               :verbose => true, 
+               :verbose => false, #verbose report will overflow the cookie 
                :repo_id => session[:repo_id], 
                :vocab_id => '1',
                :importer => 'xml',
