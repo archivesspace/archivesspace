@@ -127,7 +127,7 @@ module AspaceFormHelper
     end
 
     def label_and_textarea(name, opts = {})
-      label_with_field(name, @forms.text_area_tag(name, obj[name], opts))
+      label_with_field(name, @forms.text_area_tag(path(name), obj[name], opts))
     end
 
 
