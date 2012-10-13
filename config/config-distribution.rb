@@ -39,7 +39,7 @@ class AppConfig
     elsif java.lang.System.getProperty("catalina.home")
       # Tomcat users
       File.join(java.lang.System.getProperty("catalina.home"), "conf", "config.rb")
-    elsif __FILE__ !~ /^#{java.lang.System.getProperty("java.io.tmpdir")}/
+    elsif __FILE__.index(java.lang.System.getProperty("java.io.tmpdir")) != 0
       File.join(File.dirname(__FILE__), "config.rb")
     else
       File.join(Dir.home, ".aspace_config.rb")
