@@ -864,6 +864,12 @@ describe "ArchivesSpace user interface" do
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
     ["January", "February", "December"]. each do |month|
+
+      # Wait for the new empty form to be populated.  There's a tricky race
+      # condition here that I can't quite track down, so here's my blunt
+      # instrument fix.
+      @driver.find_element(:xpath, "//input[@value='New Archival Object']")
+
       @driver.clear_and_send_keys([:id, "archival_object[title]"],(month))
       @driver.clear_and_send_keys([:id, "archival_object[ref_id]"],(Digest::MD5.hexdigest("#{month}#{Time.now}")))
 
