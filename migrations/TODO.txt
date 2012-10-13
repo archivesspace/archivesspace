@@ -1,4 +1,5 @@
-- why are titles getting passed in twice?
+- hook up agents to archival objects and resources on import
+
 
 
 - fix problem of ambiguity of multiple possible property setters:
