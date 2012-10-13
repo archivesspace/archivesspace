@@ -39,7 +39,7 @@ class AppConfig
     elsif java.lang.System.getProperty("catalina.home")
       # Tomcat users
       File.join(java.lang.System.getProperty("catalina.home"), "conf", "config.rb")
-    elsif __FILE__ !~ /^#{Dir.tmpdir}/
+    elsif __FILE__ !~ /^#{java.lang.System.getProperty("java.io.tmpdir")}/
       File.join(File.dirname(__FILE__), "config.rb")
     else
       File.join(Dir.home, ".aspace_config.rb")
@@ -76,7 +76,7 @@ class AppConfig
 
 
   def self.demo_db_url
-    "jdbc:derby:#{File.join(Dir.tmpdir, "archivesspace_demo_db")};create=true;aspacedemo=true"
+    "jdbc:derby:#{File.join(java.lang.System.getProperty("java.io.tmpdir"), "archivesspace_demo_db")};create=true;aspacedemo=true"
   end
 
 
