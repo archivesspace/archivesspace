@@ -7,7 +7,7 @@ GEM
     eventmachine (0.12.10-java)
     jdbc-derby (10.6.2.1-java)
     jdbc-mysql (5.1.13)
-    jruby-jars (1.6.7.2)
+    jruby-jars (1.7.0.rc2)
     jruby-rack (1.1.7)
     json (1.5.0-java)
     json-jruby (1.5.0-java)
@@ -64,6 +64,7 @@ DEPENDENCIES
   bcrypt-ruby (= 3.0.1)
   jdbc-derby (= 10.6.2.1)
   jdbc-mysql (= 5.1.13)
+  jruby-jars (= 1.7.0.rc2)
   json-jruby (= 1.5.0)
   json-schema
   rack-session-sequel (= 0.0.1)
