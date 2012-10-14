@@ -5,6 +5,7 @@ module AspaceFormHelper
       @forms = Object.new
       @parent = parent
       @context = [[name, values_from]]
+      @path_to_i18n_map = {}
 
       class << @forms
         include ActionView::Helpers::TagHelper
@@ -13,6 +14,11 @@ module AspaceFormHelper
         include ActionView::Helpers::FormOptionsHelper
       end
 
+    end
+
+
+    def path_to_i18n_map
+      @path_to_i18n_map
     end
 
 
@@ -49,6 +55,13 @@ module AspaceFormHelper
     end
 
 
+    # Turn a name like my[nested][object][0][title] into the equivalent JSON
+    # path (my/nested/object/0/title)
+    def name_to_json_path(name)
+      name.gsub(/[\[\]]+/, "/").gsub(/\/+$/, "").gsub(/^\/+/, "")
+    end
+
+
     def path(name = nil)
       names = @context.map(&:first)
       tail = names.drop(1)
@@ -61,6 +74,10 @@ module AspaceFormHelper
           "[#{e}]"
         end
       }.join("")
+
+      if name
+        @path_to_i18n_map[name_to_json_path(path)] = i18n_for(name)
+      end
 
       "#{names.first}#{path}"
     end
@@ -84,20 +101,13 @@ module AspaceFormHelper
 
 
     def i18n_for(name)
-      names = @context.map(&:first)
-      tail = names.drop(1)
-
-      path = tail.map {|e|
-        e = e.gsub(/\[.*]$/, "")
-        "_#{e}"
-      }.join(".")
-
-      "#{@active_template or form_top}.#{name}"
+      "#{@active_template or form_top}.#{name.to_s.gsub(/\[\]$/, "")}"
     end
 
 
     def path_to_i18n_key(path)
-      "#{form_top}.#{path.gsub(/\/[0-9]+\//, '.')}"
+      puts "Looking up #{path}"
+      path_to_i18n_map[path]
     end
 
 
@@ -243,6 +253,11 @@ module AspaceFormHelper
 
   def form_context(name, values_from = {}, &body)
     context = FormContext.new(name, values_from, self)
+
+    # Not feeling great about this, but we render the form twice: the first pass
+    # sets up the mapping from form input names to i18n keys, while the second
+    # actually uses that map to set the labels correctly.
+    capture(context, &body)
 
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << capture(context, &body)
