@@ -53,12 +53,20 @@ $(function() {
     }
   });
 
-  $("[name^='resource[instances]['][name$='][instance_type]']").each(function() {
-    var subform = $(this).parents(".subrecord-form-fields:first");
-    $.proxy(initInstance, this)(subform);
-  }).change(function() {
-    var subform = $(this).parents(".subrecord-form-fields:first");
-    $.proxy(initInstance, this)(subform);
+  var initExistingInstances = function() {
+    $("[name^='resource[instances]['][name$='][instance_type]']").each(function() {
+      var subform = $(this).parents(".subrecord-form-fields:first");
+      $.proxy(initInstance, this)(subform);
+    }).change(function() {
+        var subform = $(this).parents(".subrecord-form-fields:first");
+        $.proxy(initInstance, this)(subform);
+      });
+  };
+
+  $(document).ajaxComplete(function() {
+    initExistingInstances();
   });
+
+  initExistingInstances();
 
 });
