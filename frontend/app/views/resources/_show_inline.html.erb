@@ -36,7 +36,11 @@
        <% end %>
     </section>
 
-    <%= render :partial => "extents/show", :locals => { :extents => @resource.extents } %>
+    <% if @resource.notes.length > 0 %>
+      <%= render :partial => "notes/show", :locals => { :notes => @resource.notes } %>
+    <% end %>
+
+    <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
 
     <% if @resource.dates.length > 0 %>
       <%= render :partial => "dates/show", :locals => { :dates => @resource.dates } %>

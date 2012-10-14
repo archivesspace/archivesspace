@@ -8,6 +8,12 @@ class Resource < Sequel::Model(:resources)
   include ExternalDocuments
   include RightsStatements
 
+  # add instances association
+  one_to_many :instances
+  jsonmodel_hint(:the_property => :instances,
+                 :contains_records_of_type => :instance,
+                 :corresponding_to_association => :instances,
+                 :always_resolve => true)
 
   def link(opts)
     child = ArchivalObject.get_or_die(opts[:child])

@@ -41,6 +41,8 @@ $(function() {
             $(document).triggerHandler("subrecord.new", ["note", $subsubform]);
           }
 
+          $this.parents("form:first").triggerHandler("form-changed");
+
           $(":input:visible:first", $subsubform).focus();
 
           index++;
@@ -151,6 +153,8 @@ $(function() {
         $(document).triggerHandler("subrecord.new", ["note", $subform]);
 
         $(":input:visible:first", $subform).focus();
+
+        $this.parents("form:first").triggerHandler("form-changed");
 
         index++;
       };
