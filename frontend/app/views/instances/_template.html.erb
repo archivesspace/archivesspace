@@ -1,5 +1,31 @@
-<div id="instance_form_template"><!--
-  <%= f.with_jsonmodel("instances[]", {}, :instance, :index => "${index}") do %>
-    <% render :partial => "instances/form", :locals => {:f => f, :index => "${index}"} %>
-  <% end %>
---></div>
+<% define_template "container" do |form| %>
+  <section>
+    <h4 class="subrecord-form-heading">Container</h4>
+    <div class="container-form-fields">
+      <%= form.label_and_textfield "type_1" %>
+      <%= form.label_and_textfield "indicator_1" %>
+      <%= form.label_and_textfield "barcode_1" %>
+      <%= form.label_and_textfield "type_2" %>
+      <%= form.label_and_textfield "indicator_2" %>
+      <%= form.label_and_textfield "type_3" %>
+      <%= form.label_and_textfield "indicator_3" %>
+    </div>
+  </section>
+<% end %>
+
+<% define_template "instance" do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select "instance_type", form.jsonmodel_options_for(:instance, "instance_type", true), :field_opts => {:add_empty_option => true} %>
+    <br/>
+    <div class="instance-container-or-digital-object">
+      <div class="alert alert-warning instance-type-nil">Please select an instance type</div>
+      <div class="alert alert-info instance-type-digital-object">TODO</div>
+      <div class="alert alert-info instance-type-digital-object-link">TODO</div>
+      <div class="instance-type-with-container">
+        <%= form.fields_for(form["container"] || {}, "container") do |item| %>
+          <% form.emit_template("container", item) %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

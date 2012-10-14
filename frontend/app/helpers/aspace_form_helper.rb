@@ -33,7 +33,7 @@ module AspaceFormHelper
       result = ""
 
       objects.each_with_index do |object, idx|
-        push(set_index(context_name, idx), object) do
+        push(set_index(context_name, 0), object) do
           result << @parent.capture(object, &block)
         end
       end
@@ -41,6 +41,21 @@ module AspaceFormHelper
       ("<div data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
        " data-id-path=\"#{id_for(set_index(self.path(context_name), '${index}'), false)}\" " +
        " class=\"subrecord-form-list\">#{result}</div>").html_safe
+
+    end
+
+
+    def fields_for(object, context_name, &block)
+
+      result = ""
+
+      push(context_name, object) do
+        result << @parent.capture(object, &block)
+      end
+
+      ("<div data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
+        " data-id-path=\"#{id_for(set_index(self.path(context_name), '${index}'), false)}\" " +
+        " class=\"subrecord-form-fields-for\">#{result}</div>").html_safe
 
     end
 
@@ -177,17 +192,18 @@ module AspaceFormHelper
                  false, false)
     end
 
-    def jsonmodel_options_for(schema, property)
-      options = {}
-      jsonmodel_enum_for(schema, property).each do |v|
-        options[I18n.t(i18n_for("#{property}_#{v}"))] = v
+    def jsonmodel_options_for(model, property, add_empty_options = false)
+      options = []
+      options.push(["",""]) if add_empty_options
+      jsonmodel_enum_for(model, property).each do |v|
+        options.push([I18n.t(i18n_for("#{property}_#{v}")), v])
       end
       options
     end
 
 
-    def jsonmodel_enum_for(schema, property)
-      JSONModel(schema).schema["properties"][property]["enum"]
+    def jsonmodel_enum_for(model, property)
+      JSONModel(model).schema["properties"][property]["enum"]
     end
 
 
