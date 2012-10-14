@@ -1,6 +1,7 @@
 $(function() {
 
   $.fn.init_notes_form = function() {
+
     $(this).each(function() {
 
       var $this = $(this);
@@ -35,6 +36,18 @@ $(function() {
           index++;
         });
       };
+
+
+      var dropdownFocusFix(elt) = function(form) {
+        $('.dropdown-menu.subrecord-selector li', form).click(function(e) {
+          if (!$(e.target).hasClass('btn')) {
+            // Don't hide the dropdown unless what we clicked on was the "Add" button itself.
+            e.stopPropagation();
+          }
+        });
+      }
+
+      dropdownFocusFix();
 
 
       var initRemoveActionForSubRecord = function($subform) {
@@ -212,6 +225,9 @@ $(function() {
         $noteform.addClass("initialised")
 
         initRemoveActionForSubRecord($noteform);
+
+        dropdownFocusFix($noteform);
+
 
         // init the sub note forms
         if ($noteform.data("type") === "note_multipart") {
