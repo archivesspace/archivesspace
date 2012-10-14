@@ -258,7 +258,7 @@ $(function() {
 
         initNoteForm($subform)
 
-        $(document).triggerHandler("subrecord.new", ["note", $subsubform]);
+        $(document).triggerHandler("subrecord.new", ["note", $subform]);
 
         $(":input:visible:first", $subform).focus();
 
