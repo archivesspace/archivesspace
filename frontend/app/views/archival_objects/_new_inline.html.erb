@@ -2,7 +2,7 @@
   <%= form_context :archival_object, @archival_object.to_hash(true) do |form| %>
     <div class="row-fluid">
       <div class="span3">
-        <%= render :partial => "sidebar", :locals => {:form => form} %>
+        <%= render :partial => "sidebar" %>
       </div>
       <div class="span9 record-pane">
         <%= render :partial => "archival_objects/form_container", :locals => {:form => form} %>

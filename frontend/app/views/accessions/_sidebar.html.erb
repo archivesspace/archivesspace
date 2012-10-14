@@ -3,19 +3,19 @@
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @accession.extents.length > 0 %>
-      <li><a href="#<%= form.id_for("extents") %>">Extents <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_extents_">Extents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.dates.length > 0 %>
-      <li><a href="#<%= form.id_for("dates") %>">Dates <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_dates_">Dates <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.external_documents.length > 0 %>
-      <li><a href="#<%= form.id_for("external_documents") %>">External Documents <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_external_documents_">External Documents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.rights_statements.length > 0 %>
-      <li><a href="#<%= form.id_for("rights_statements") %>">Rights Statements <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_rights_documents_">Rights Statements <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>

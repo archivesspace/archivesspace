@@ -3,21 +3,21 @@
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" or @resource.notes.length > 0 %>
-      <li><a href="#<%= form.id_for("notes") %>">Notes <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_notes_">Notes <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <li><a href="#<%= form.id_for("extents") %>">Extents <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#resource_extents_">Extents <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @resource.dates.length > 0 %>
-      <li><a href="#<%= form.id_for("dates") %>">Dates <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_dates_">Dates <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.external_documents.length > 0 %>
-      <li><a href="#<%= form.id_for("external_documents") %>">External Documents <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_external_documents_">External Documents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.rights_statements.length > 0 %>
-      <li><a href="#<%= form.id_for("rights_statements") %>">Rights Statements <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_rights_statements_">Rights Statements <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>
