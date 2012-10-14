@@ -100,7 +100,7 @@ class Resource < Sequel::Model(:resources)
 
 
   def self.sequel_to_jsonmodel(obj, type, opts = {})
-    notes = JSON.parse(obj.notes)
+    notes = JSON.parse(obj.notes || "[]")
     obj[:notes] = nil
     json = super(obj, type, opts)
     json.notes = notes
