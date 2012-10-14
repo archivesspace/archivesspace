@@ -4,7 +4,7 @@
   <%= form_context :agent, @agent.to_hash(true) do |form| %>
     <div class="row-fluid">
       <div class="span3">
-        <%= render :partial => "agents/sidebar" %>
+        <%= render :partial => "sidebar", :locals => {:form => form} %>
       </div>
       <div class="span9 record-pane">
         <h2><%= @agent.names[0]["primary_name"] %>  <span class="label label-info">Agent</span></h2>

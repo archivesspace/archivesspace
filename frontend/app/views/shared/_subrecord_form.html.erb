@@ -1,6 +1,6 @@
 <%
   singular = name.singularize
-  section_id = name if section_id.blank?
+  section_id = form.id_for(name) if section_id.blank?
   heading_size = "h3"
   js_template_name = "template_#{singular}" if js_template_name.blank?
 %>
