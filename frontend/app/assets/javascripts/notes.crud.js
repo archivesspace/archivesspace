@@ -14,14 +14,18 @@ $(function() {
 
       var index = $(".subrecord-form-fields", $this).length;
 
-      var initBibliographyNote = function($subform) {
+      var initNoteType = function($subform, template_name, is_subrecord, button_class) {
 
-        $(".add-item-btn", $subform).click(function() {
+        $((button_class || ".add-item-btn"), $subform).click(function() {
           event.preventDefault();
 
-          var $target_subrecord_list = $(this).siblings(".subrecord-form-list:first");
+          if (typeof(template_name) === 'function') {
+            template_name = template_name($(this));
+          }
 
-          var $subsubform = $(AS.renderTemplate("template_bib_item", {
+          var $target_subrecord_list = $(this).siblings(".subrecord-form-list:first").add(".subrecord-form-list:first", $subform).first();
+
+          var $subsubform = $(AS.renderTemplate(template_name, {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
             index: "${index}"
@@ -29,7 +33,11 @@ $(function() {
 
           $target_subrecord_list.append($subsubform);
 
-          initRemoveActionForSubRecord($subsubform)
+          initNoteForm($subsubform);
+
+          if (is_subrecord) {
+            $(document).triggerHandler("subrecord.new", ["note", $subsubform]);
+          }
 
           $(":input:visible:first", $subsubform).focus();
 
@@ -38,7 +46,12 @@ $(function() {
       };
 
 
-      var dropdownFocusFix(elt) = function(form) {
+      var initBibliographyNote = function($subform) {
+        initNoteType($subform, "template_bib_item");
+      };
+
+
+      var dropdownFocusFix = function(form) {
         $('.dropdown-menu.subrecord-selector li', form).click(function(e) {
           if (!$(e.target).hasClass('btn')) {
             // Don't hide the dropdown unless what we clicked on was the "Add" button itself.
@@ -64,157 +77,37 @@ $(function() {
 
 
       var initIndexNote = function($subform) {
-
-        $(".add-item-btn", $subform).click(function() {
-          event.preventDefault();
-
-          var selected = $("option:selected", $(this).parents(".dropdown-menu"));
-
-          var $target_subrecord_list = $(".subrecord-form-list:first", $subform);
-
-          var $subsubform = $(AS.renderTemplate("template_index_item", {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: "${index}"
-          }));
-
-          $target_subrecord_list.append($subsubform);
-
-          initNoteForm($subsubform);
-
-          $(":input:visible:first", $subsubform).focus();
-
-          index++;
-        });
+        initNoteType($subform, "template_index_item");
       };
 
 
       var initChronologyNote = function($subform) {
-
-        $(".add-item-btn", $subform).click(function() {
-          event.preventDefault();
-
-          var selected = $("option:selected", $(this).parents(".dropdown-menu"));
-
-          var $target_subrecord_list = $(".subrecord-form-list:first", $subform);
-
-          var $subsubform = $(AS.renderTemplate("template_chronology_item", {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: "${index}"
-          }));
-
-          $target_subrecord_list.append($subsubform);
-
-          initNoteForm($subsubform);
-
-          $(document).triggerHandler("subrecord.new", ["note", $subsubform]);
-
-          $(":input:visible:first", $subsubform).focus();
-
-          index++;
-        });
+        initNoteType($subform, "template_chronology_item", true);
       };
 
 
       var initDefinedListNote = function($subform) {
-
-        $(".add-item-btn", $subform).click(function() {
-          event.preventDefault();
-
-          var selected = $("option:selected", $(this).parents(".dropdown-menu"));
-
-          var $target_subrecord_list = $(".subrecord-form-list:first", $subform);
-
-          var $subsubform = $(AS.renderTemplate("template_definedlist_item", {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: "${index}"
-          }));
-
-          $target_subrecord_list.append($subsubform);
-
-          initNoteForm($subsubform);
-
-          $(":input:visible:first", $subsubform).focus();
-
-          index++;
-        });
+        initNoteType($subform, "template_definedlist_item");
       };
 
 
       var initOrderedListNote = function($subform) {
-
-        $(".add-item-btn", $subform).click(function() {
-          event.preventDefault();
-
-          var selected = $("option:selected", $(this).parents(".dropdown-menu"));
-
-          var $target_subrecord_list = $(this).siblings(".subrecord-form-list:first");
-
-          var $subsubform = $(AS.renderTemplate("template_orderedlist_item", {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: "${index}"
-          }));
-
-          $target_subrecord_list.append($subsubform);
-
-          initRemoveActionForSubRecord($subsubform);
-
-          $(":input:visible:first", $subsubform).focus();
-
-          index++;
-        });
+        initNoteType($subform, "template_orderedlist_item");
       };
 
 
       var initChronologyNoteItem = function($subform) {
-
-        $(".add-event-btn", $subform).click(function() {
-          event.preventDefault();
-
-          var $target_subrecord_list = $(this).siblings(".subrecord-form-list:first");
-
-          var $subsubform = $(AS.renderTemplate("template_chronology_item_event", {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: "${index}"
-          }));
-
-          $target_subrecord_list.append($subsubform);
-
-          initRemoveActionForSubRecord($subsubform);
-
-          index++;
-        });
+        initNoteType($subform, "template_orderedlist_item", false, '.add-event-btn');
       };
 
       var initMultipartNote = function($subform) {
 
-        $(".add-sub-note-btn", $subform).click(function() {
-          event.preventDefault();
+        var template_name = function (self) {
+          var selected = $("option:selected", self.parents(".dropdown-menu"));
+          return "template_"+selected.text();
+        }
 
-          var selected = $("option:selected", $(this).parents(".dropdown-menu"));
-
-          var $target_subrecord_list = $(".subrecord-form-list:first", $subform);
-
-          var $subsubform = $(AS.renderTemplate("template_"+selected.text(), {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
-            index: "${index}"
-          }));
-
-          $target_subrecord_list.append($subsubform);
-
-          initNoteForm($subsubform);
-
-          $(":input:visible:first", $subsubform).focus();
-
-          $(document).triggerHandler("subrecord.new", ["note", $subform]);
-
-          index++;
-        });
+        initNoteType($subform, template_name, true, '.add-sub-note-btn');
       };
 
 
@@ -250,8 +143,6 @@ $(function() {
           // nothing to do!
         } else if ($noteform.data("type") === "note_orderedlist") {
           initOrderedListNote($noteform);
-        } else {
-           console.error("ERROR Note type note supported: " + $noteform.data("type"));
         }
       };
 
