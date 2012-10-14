@@ -15,9 +15,9 @@
 
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
-  <%# ren=der :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :dates} %>
-  <%# render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :external_documents} %>
-  <%# render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :rights_statements} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
 
 
 </fieldset>

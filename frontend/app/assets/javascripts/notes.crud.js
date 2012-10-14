@@ -95,6 +95,8 @@ $(function() {
 
           initNoteForm($subsubform);
 
+          $(document).triggerHandler("subrecord.new", ["note", $subsubform]);
+
           $(":input:visible:first", $subsubform).focus();
 
           index++;
@@ -196,6 +198,8 @@ $(function() {
 
           $(":input:visible:first", $subsubform).focus();
 
+          $(document).triggerHandler("subrecord.new", ["note", $subform]);
+
           index++;
         });
       };
@@ -253,6 +257,8 @@ $(function() {
         $target_subrecord_list.append($subform);
 
         initNoteForm($subform)
+
+        $(document).triggerHandler("subrecord.new", ["note", $subsubform]);
 
         $(":input:visible:first", $subform).focus();
 

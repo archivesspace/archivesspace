@@ -127,13 +127,23 @@ module AspaceFormHelper
       label_with_field(name, textfield(name, obj[name], opts[:field_opts] || {}))
     end
 
+    def label_and_date(name, opts = {})
+      field_opts = (opts[:field_opts] || {}).merge({
+        :class => "date-field",
+        :placeholder => "YYYY-MM-DD",
+        :"data-date-format" => "yyyy-mm-dd",
+        :"data-date" => Date.today.strftime('%Y-%m-%d')
+      })
+      label_with_field(name, textfield(name, obj[name], field_opts))
+    end
+
     def label_and_textarea(name, opts = {})
       label_with_field(name, @forms.text_area_tag(path(name), obj[name], opts))
     end
 
 
     def label_and_select(name, options, opts = {})
-      label_with_field(name, @forms.select_tag(path(name), @forms.options_for_select(options), {:id => id_for(name)}.merge!(opts[:field_opts] || {})))
+      label_with_field(name, @forms.select_tag(path(name), @forms.options_for_select(options, obj[name]), {:id => id_for(name)}.merge!(opts[:field_opts] || {})))
     end
 
 
@@ -141,6 +151,10 @@ module AspaceFormHelper
       label_with_field(name, password(name, obj[name], opts[:field_opts] || {}))
     end
 
+
+    def label_and_boolean(name, opts = {})
+      label_with_field(name, checkbox(name))
+    end
 
     def textfield(name = nil, value = "", opts =  {})
       @forms.tag("input", {:id => id_for(name), :type => "text", :value => value, :name => path(name)}.merge(opts),
@@ -206,8 +220,8 @@ module AspaceFormHelper
     end
 
     def checkbox(name)
-      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :checked_value => true, :uncheced_value => false}
-      options[:checked] = "checked" if not obj[name].blank?
+      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "true"}
+      options[:checked] = "checked" if not obj[name] === "true"
 
       @forms.tag("input", options, false, false)
     end
