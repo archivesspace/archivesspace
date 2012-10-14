@@ -177,6 +177,10 @@ AS.addControlGroupHighlighting = function(parent) {
 
 // confirmation behaviour for subform-remove actions
 AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
+
+  // Hide any others that were selected first
+  $(".cancel-removal:visible").trigger('click');
+
   var confirmationEl = $(AS.renderTemplate("subform_remove_confirmation_template"));
   confirmationEl.hide();
   subformRemoveButtonEl.hide();
