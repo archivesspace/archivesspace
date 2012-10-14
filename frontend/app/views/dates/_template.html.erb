@@ -23,7 +23,7 @@
           </label>
           <div id="<%= form.id_for("date_type_single") %>" class="accordion-body collapse">
             <div class="accordion-inner">
-              <%= form.label_and_textfield "begin", {
+              <%= form.label_and_date "begin", {
                 :label_opts => {
                   :id => "#{form.id_for("begin")}_single"
                 },
@@ -50,7 +50,7 @@
           </label>
           <div id="<%= form.id_for("date_type_inclusive") %>" class="accordion-body collapse">
             <div class="accordion-inner">
-              <%= form.label_and_textfield "begin", {
+              <%= form.label_and_date "begin", {
                 :label_opts => {
                   :id => "#{form.id_for("begin")}_inclusive"
                 },
@@ -68,7 +68,7 @@
                   :placeholder => "HH:MM:SS"
                 }
               } %>
-              <%= form.label_and_textfield "end", {
+              <%= form.label_and_date "end", {
                 :label_opts => {
                   :id => "#{form.id_for("end")}_inclusive"
                 },
@@ -95,7 +95,7 @@
           </label>
           <div id="<%= form.id_for("date_type_bulk") %>" class="accordion-body collapse">
             <div class="accordion-inner">
-              <%= form.label_and_textfield "begin", {
+              <%= form.label_and_date "begin", {
                 :label_opts => {
                   :id => "#{form.id_for("begin")}_bulk"
                 },
@@ -113,7 +113,7 @@
                   :placeholder => "HH:MM:SS"
                 }
               } %>
-              <%= form.label_and_textfield "end", {
+              <%= form.label_and_date "end", {
                 :label_opts => {
                   :id => "#{form.id_for("end")}_bulk"
                 },
