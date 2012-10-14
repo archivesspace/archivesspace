@@ -34,6 +34,7 @@ module AspaceFormHelper
 
       objects.each_with_index do |object, idx|
         push(set_index(context_name, 0), object) do
+          result << hidden_input("lock_version", object["lock_version"])
           result << @parent.capture(object, &block)
         end
       end
@@ -50,6 +51,7 @@ module AspaceFormHelper
       result = ""
 
       push(context_name, object) do
+        result << hidden_input("lock_version", object["lock_version"])
         result << @parent.capture(object, &block)
       end
 
@@ -276,6 +278,7 @@ module AspaceFormHelper
     capture(context, &body)
 
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
+    s << context.hidden_input("lock_version", values_from["lock_version"])
     s << capture(context, &body)
     s << templates_for_js
     s << "</div>".html_safe
