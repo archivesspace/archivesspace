@@ -102,6 +102,7 @@ module AspaceFormHelper
 
 
     def exceptions_for_js(exceptions)
+      puts "**** #{exceptions.inspect}"
       result = {}
       [:errors, :warnings].each do |condition|
         result[condition] = exceptions[condition].keys.map {|property|
@@ -132,7 +133,12 @@ module AspaceFormHelper
 
 
     def label_and_select(name, options)
-      @forms.content_tag(:div, (I18n.t(i18n_for(name)) + @forms.select_tag(path(name), @forms.options_for_select(options))).html_safe)
+      label_with_field(name, @forms.select_tag(path(name), @forms.options_for_select(options)))
+    end
+
+
+    def label_and_password(name, opts = {})
+      label_with_field(name, password(name, obj[name], opts[:field_opts] || {}))
     end
 
 
@@ -142,12 +148,27 @@ module AspaceFormHelper
     end
 
 
+    def password(name = nil, value = "", opts =  {})
+      @forms.tag("input", {:id => id_for(name), :type => "password", :value => value, :name => path(name)}.merge(opts),
+                 false, false)
+    end
+
+    def jsonmodel_options_for(schema, property)
+      options = {}
+      jsonmodel_enum_for(schema, property).each do |v|
+        options[I18n.t(i18n_for("#{property}_#{v}"))] = v
+      end
+      options
+    end
+
+
     def jsonmodel_enum_for(schema, property)
       JSONModel(schema).schema["properties"][property]["enum"]
     end
 
 
-    def hidden_input(name, value)
+    def hidden_input(name, value = nil)
+      value = obj[name] if value.blank?
       @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => value, :name => path(name)},
                  false, false)
     end
@@ -232,6 +253,8 @@ module AspaceFormHelper
 
   def templates_for_js
     result = ""
+
+    return result if @templates.blank?
 
     @templates.each do |name, template|
       context = FormContext.new("${path}", {}, self)

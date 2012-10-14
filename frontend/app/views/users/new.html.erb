@@ -1,20 +1,21 @@
 <div class="row-fluid">
    <div class="span12">
       <h2>New Account</h2>
-      <%= jsonmodel_form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
-         <%= render :partial => "shared/form_messages", :locals => {:object => @user, :f => f} %>
+     <%= form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+       <%= form_context :user, @user.to_hash(true) do |form| %>
+         <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
          <fieldset>
-           <%= f.label_and_field :username %>
-           <%= f.label_with_field :name, f.text_field(:name, :size => 30, :class => "input-xxlarge", :force_id => f.current_name(:name)) %>
+           <%= form.label_and_textfield "username" %>
+           <%= form.label_and_textfield "name", {:field_opts => {:size => 30, :class => "input-xxlarge"}} %>
 
-           <%= f.label_with_field :password, f.password_field(:password, :size => 30, :class => "input-large", :force_id => f.current_name(:password)) %>
-           <%= f.label_with_field :confirm_password, f.password_field(:confirm_password, :size => 30, :class => "input-large", :force_id => f.current_name(:confirm_password)) %>
+           <%= form.label_and_password "password", {:field_opts => {:size => 30, :class => "input-large"}} %>
+           <%= form.label_and_password "confirm_password", {:field_opts => {:size => 30, :class => "input-large"}} %>
          </fieldset>
-
          <div class="form-actions">
-            <button id="create_account" type="submit" class="btn btn-primary">Create account</button>
-            <%= link_to "Cancel", {:controller => :welcome}, :class => "btn btn-cancel" %>
+           <button id="create_account" type="submit" class="btn btn-primary">Create account</button>
+           <%= link_to "Cancel", {:controller => :welcome}, :class => "btn btn-cancel" %>
          </div>
-      <% end %>
+       <% end %>
+     <% end %>
    </div>
 </div>

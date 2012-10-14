@@ -1,3 +1,3 @@
-<%= f.label_and_field :title %>
-<%= f.label_and_field :ref_id %>
+<%= form.label_and_textfield "title" %>
+<%= form.label_and_textfield "ref_id" %>
 <%= render :partial => "subjects/linker", :locals => { :object => @archival_object }%>

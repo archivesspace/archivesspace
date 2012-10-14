@@ -327,7 +327,7 @@ en:
       <<: *term_attributes
     _external_documents:
       <<: *external_document_attributes
-  createuser:
+  user:
     username: Username
     name: Your full name
     password: Password

@@ -1,9 +1,8 @@
 <% define_template "extent" do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_textfield("portion") %>
+    <%= form.label_and_select("portion", form.jsonmodel_options_for(:extent, "portion")) %>
     <%= form.label_and_textfield("number") %>
-    <%= form.label_and_textfield("extent_type") %>
-    <%= form.label_and_textfield("portion") %>
+    <%= form.label_and_select("extent_type", form.jsonmodel_options_for(:extent, "extent_type")) %>
     <hr/>
     <%= form.label_and_textfield("container_summary") %>
     <%= form.label_and_textfield("physical_details") %>
