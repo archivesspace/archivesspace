@@ -14,6 +14,8 @@ $(function() {
 
       var index = $(".subrecord-form-fields", $this).length;
 
+      var initialisers = {}
+
       var initNoteType = function($subform, template_name, is_subrecord, button_class) {
 
         $((button_class || ".add-item-btn"), $subform).click(function() {
@@ -46,7 +48,7 @@ $(function() {
       };
 
 
-      var initBibliographyNote = function($subform) {
+      initialisers.note_bibliography = function($subform) {
         initNoteType($subform, "template_bib_item");
       };
 
@@ -76,31 +78,31 @@ $(function() {
       };
 
 
-      var initIndexNote = function($subform) {
+      initialisers.note_index = function($subform) {
         initNoteType($subform, "template_index_item");
       };
 
 
-      var initChronologyNote = function($subform) {
+      initialisers.note_chronology = function($subform) {
         initNoteType($subform, "template_chronology_item", true);
       };
 
 
-      var initDefinedListNote = function($subform) {
+      initialisers.note_definedlist = function($subform) {
         initNoteType($subform, "template_definedlist_item");
       };
 
 
-      var initOrderedListNote = function($subform) {
+      initialisers.note_orderedlist = function($subform) {
         initNoteType($subform, "template_orderedlist_item");
       };
 
 
-      var initChronologyNoteItem = function($subform) {
+      initialisers.chronology_item = function($subform) {
         initNoteType($subform, "template_orderedlist_item", false, '.add-event-btn');
       };
 
-      var initMultipartNote = function($subform) {
+      initialisers.note_multipart = function($subform) {
 
         var template_name = function (self) {
           var selected = $("option:selected", self.parents(".dropdown-menu"));
@@ -121,28 +123,9 @@ $(function() {
 
         dropdownFocusFix($noteform);
 
-
-        // init the sub note forms
-        if ($noteform.data("type") === "note_multipart") {
-          initMultipartNote($noteform);
-        } else if ($noteform.data("type") === "note_singlepart") {
-          // nothing to do ... yet!
-        } else if ($noteform.data("type") === "note_bibliography") {
-          initBibliographyNote($noteform);
-        } else if ($noteform.data("type") === "note_chronology") {
-          initChronologyNote($noteform);
-        } else if ($noteform.data("type") === "chronology_item") {
-          initChronologyNoteItem($noteform);
-        } else if ($noteform.data("type") === "note_index") {
-          initIndexNote($noteform);
-        } else if ($noteform.data("type") === "index_item") {
-          // nothing to do! ... yet.
-        } else if ($noteform.data("type") === "note_definedlist") {
-          initDefinedListNote($noteform);
-        } else if ($noteform.data("type") === "definedlist_item") {
-          // nothing to do!
-        } else if ($noteform.data("type") === "note_orderedlist") {
-          initOrderedListNote($noteform);
+        var note_type = $noteform.data("type");
+        if (initialisers[note_type]) {
+          initialisers[note_type]($noteform);
         }
       };
 
