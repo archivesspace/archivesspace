@@ -132,8 +132,8 @@ module AspaceFormHelper
     end
 
 
-    def label_and_select(name, options)
-      label_with_field(name, @forms.select_tag(path(name), @forms.options_for_select(options)))
+    def label_and_select(name, options, opts = {})
+      label_with_field(name, @forms.select_tag(path(name), @forms.options_for_select(options), {:id => id_for(name)}.merge!(opts[:field_opts] || {})))
     end
 
 

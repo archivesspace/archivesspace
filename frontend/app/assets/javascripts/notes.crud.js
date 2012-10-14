@@ -30,6 +30,8 @@ $(function() {
 
           initRemoveActionForSubRecord($subsubform)
 
+          $(":input:visible:first", $subsubform).focus();
+
           index++;
         });
       };
@@ -67,6 +69,8 @@ $(function() {
 
           initNoteForm($subsubform);
 
+          $(":input:visible:first", $subsubform).focus();
+
           index++;
         });
       };
@@ -90,6 +94,8 @@ $(function() {
           $target_subrecord_list.append($subsubform);
 
           initNoteForm($subsubform);
+
+          $(":input:visible:first", $subsubform).focus();
 
           index++;
         });
@@ -115,6 +121,8 @@ $(function() {
 
           initNoteForm($subsubform);
 
+          $(":input:visible:first", $subsubform).focus();
+
           index++;
         });
       };
@@ -138,6 +146,8 @@ $(function() {
           $target_subrecord_list.append($subsubform);
 
           initRemoveActionForSubRecord($subsubform);
+
+          $(":input:visible:first", $subsubform).focus();
 
           index++;
         });
@@ -183,6 +193,8 @@ $(function() {
           $target_subrecord_list.append($subsubform);
 
           initNoteForm($subsubform);
+
+          $(":input:visible:first", $subsubform).focus();
 
           index++;
         });
@@ -235,9 +247,14 @@ $(function() {
           index: "${index}"
         }));
 
+        // set the note type
+        $(".note-type", $subform).val(selected.text());
+
         $target_subrecord_list.append($subform);
 
         initNoteForm($subform)
+
+        $(":input:visible:first", $subform).focus();
 
         index++;
       };

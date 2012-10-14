@@ -1,15 +1,21 @@
 
 <%
-   note_types = {}
+   all_note_types = {}
+   singlepart_note_types = {}
+   multipart_note_types = {}
 
-   [:note_multipart, :note_singlepart].each do |schema|
-     JSONModel(schema).schema['properties']['type']['enum'].each do |type|
-       note_types[type] = schema
-     end
+   JSONModel(:note_singlepart).schema['properties']['type']['enum'].each do |type|
+     singlepart_note_types[type] = :note_singlepart
    end
 
-   note_types["Index"] = :note_index
-   note_types["Bibliography"] = :note_bibliography
+   JSONModel(:note_multipart).schema['properties']['type']['enum'].each do |type|
+     multipart_note_types[type] = :note_multipart
+   end
+
+   all_note_types.merge!(singlepart_note_types)
+   all_note_types.merge!(multipart_note_types)
+   all_note_types["Index"] = :note_index
+   all_note_types["Bibliography"] = :note_bibliography
 %>
 
 <% define_template "note_singlepart" do |form| %>
@@ -18,7 +24,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_singlepart") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_textfield("type") %>
+      <%= form.label_and_select("type", singlepart_note_types.keys, :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_textfield("content") %>
     </div>
   </div>
@@ -50,23 +56,20 @@
   <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
 <% end %>
 
-
 <%
-   multipart_note_types = []
-
-
-   JSONModel(:note_multipart).schema['properties']['subnotes']['items']['type'].each do |item_def|
-     multipart_note_types.push(JSONModel.parse_jsonmodel_ref(item_def['type'])[0].to_s)
+   multipart_subnote_types = []
+  JSONModel(:note_multipart).schema['properties']['subnotes']['items']['type'].each do |item_def|
+    multipart_subnote_types.push(JSONModel.parse_jsonmodel_ref(item_def['type'])[0].to_s)
    end
-
 %>
+
 <% define_template "note_multipart" do |form| %>
   <div class="subrecord-form-fields" data-type="note_multipart">
     <h4 class="subrecord-form-heading">Multipart Note</h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_multipart") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_textfield("type") %>
+      <%= form.label_and_select("type", multipart_note_types.keys, :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_textfield("content") %>
 
       <section class="subrecord-form">
@@ -77,7 +80,7 @@
             <ul class="dropdown-menu subrecord-selector">
               <li>
                 <select>
-                  <% multipart_note_types.sort.each do |type| %>
+                  <% multipart_subnote_types.sort.each do |type| %>
                     <option value="<% type %>"><%= type %></option>
                   <% end %>
                 </select>
@@ -234,8 +237,8 @@
       <ul class="dropdown-menu subrecord-selector">
         <li>
           <select>
-            <% note_types.keys.sort.each do |type| %>
-              <option value="<%= note_types[type] %>"><%= type %></option>
+            <% all_note_types.keys.sort.each do |type| %>
+              <option value="<%= all_note_types[type] %>"><%= type %></option>
             <% end %>
           </select>
         </li>
