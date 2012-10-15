@@ -5,13 +5,13 @@
        var _errors = <%= form.exceptions_for_js(@exceptions) %>;
 
        var callback = function () {
-         if (_errors.errors.length) {
+         if (_errors.errors) {
            $(_errors.errors).each(function (idx, elt) {
              $("#" + elt).parents(".control-group").addClass("error");
            });
          }
 
-         if (_errors.warnings.length) {
+         if (_errors.warnings) {
            $(_errors.warnings).each(function (idx, elt) {
              $("#" + elt).parents(".control-group").addClass("warning");
            });
