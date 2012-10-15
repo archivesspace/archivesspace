@@ -42,6 +42,7 @@ module AspaceFormHelper
           result << "<div class=\"subrecord-form-wrapper\">"
           result << hidden_input("lock_version", object["lock_version"])
           result << @parent.capture(object, &block)
+          result << "</div>"
         end
       end
 

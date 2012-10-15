@@ -38,7 +38,7 @@ $(function() {
           initNoteForm($subsubform);
 
           if (is_subrecord) {
-            $(document).triggerHandler("subrecord.new", ["note", $subsubform]);
+            $(document).triggerHandler("new.subrecord", ["note", $subsubform]);
           }
 
           $this.parents("form:first").triggerHandler("form-changed");
@@ -150,7 +150,7 @@ $(function() {
 
         initNoteForm($subform)
 
-        $(document).triggerHandler("subrecord.new", ["note", $subform]);
+        $(document).triggerHandler("new.subrecord", ["note", $subform]);
 
         $(":input:visible:first", $subform).focus();
 

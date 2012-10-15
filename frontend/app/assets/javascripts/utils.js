@@ -93,7 +93,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initDateFields();
   });
-  $(document).bind("subrecord.new", initDateFields);
+  $(document).bind("new.subrecord, init.subrecord", initDateFields);
 });
 
 

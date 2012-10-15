@@ -27,7 +27,7 @@ $(function() {
           });
         });
 
-        $(document).triggerHandler("subrecord.new");
+        $(document).triggerHandler("new.subrecord", ["note", $subform]);
       };
 
 
@@ -45,7 +45,9 @@ $(function() {
         });
 
         // init any existing subforms
-        $(".subform.rights-statement-fields", $this).each(init_subform);
+        $(document).bind("init.subrecord", function(event, object_name, subform) {
+          $.proxy(init_subform, subform)();
+        });
       };
 
       init();

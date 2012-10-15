@@ -31,6 +31,7 @@ $(function() {
           });
         });
 
+        $(document).triggerHandler("init.subrecord", [$this.data("object-name"), $subform])
       };
 
 
@@ -60,7 +61,7 @@ $(function() {
           //init any sub sub record forms
           $(".subrecord-form:not(.initialised)",formEl).init_subrecord_form();
 
-          $(document).triggerHandler("subrecord.new", [$this.data("object-name"), formEl]);
+          $(document).triggerHandler("new.subrecord", [$this.data("object-name"), formEl]);
 
           $(":input:visible:first", formEl).focus();
 
@@ -68,7 +69,7 @@ $(function() {
         });
 
         // init any existing subforms
-        $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-fields", $this).each(init_subform);
+        $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
       };
 
       init();
