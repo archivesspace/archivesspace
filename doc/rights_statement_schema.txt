@@ -1,0 +1,40 @@
+JSON Schema: Rights_statement
+
+Properties
+
+string	rights_type
+
+string	identifier
+
+boolean	active
+
+string	materials
+
+string	ip_status
+
+date	ip_expiration_date
+
+string	license_identifier_terms
+
+string	statute_citation
+
+string	jurisdiction
+
+string	type_note
+
+string	permissions
+
+string	restrictions
+
+date	restriction_start_date
+
+date	restriction_end_date
+
+string	granted_note
+
+array (JSONModel(:external_document) object)	external_documents
+
+
+
+
+
