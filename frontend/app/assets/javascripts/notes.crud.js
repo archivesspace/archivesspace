@@ -108,7 +108,7 @@ $(function() {
 
         var template_name = function (self) {
           var selected = $("option:selected", self.parents(".dropdown-menu"));
-          return "template_"+selected.text();
+          return "template_"+selected.val();
         }
 
         initNoteType($subform, template_name, true, '.add-sub-note-btn');

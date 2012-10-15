@@ -72,6 +72,7 @@ en:
     email: Email
   notes: &note_attributes
     note_index:
+      option: Index
       label: Label
       content: Content
       items: Items
@@ -89,22 +90,26 @@ en:
       type: Type
       content: Content
     note_bibliography:
+      option: Bibliography
       label: Label
       content: Content
       items: Items
     note_chronology:
+      option: Chronology
       title: Title
       items: Items
     chronology_item:
       event_date: Event Date
       events: Events
     note_definedlist:
+      option: Defined List
       title: Title
       items: Items
     definedlist_item:
       label: Label
       value: Value
     note_orderedlist:
+      option: Ordered List
       title: Title
       enumeration: Enumeration
       items: Items

@@ -22,7 +22,7 @@
                <span class="identifier-display-part"><%= @resource.id_0 %></span><span class="identifier-display-part"><%= @resource.id_1 %></span><span class="identifier-display-part"><%= @resource.id_2 %></span><span class="identifier-display-part"><%= @resource.id_3 %></span>
             </div>
          </div>
-         <% if @resource.subjects %>
+         <% if not @resource.subjects.blank? %>
          <hr/>
          <div class="row-fluid label-and-value">
             <div class="span3">Subjects</div>
