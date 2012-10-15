@@ -134,13 +134,12 @@ module AspaceFormHelper
 
 
     def exceptions_for_js(exceptions)
+      puts exceptions.inspect
       result = {}
       [:errors, :warnings].each do |condition|
         if exceptions[condition]
           result[condition] = exceptions[condition].keys.map {|property|
-            str = "#{form_top}/#{property}"
-            str = str.gsub(/\/([0-9]+)\//, "/[\\1]/")
-            str.gsub(/[\[\]\/]/, "_") + "_"
+            "#{form_top}#{property.split("/").collect{|a| "[#{a}]"}.join}".gsub(/[\[\]\/]/, "_")
           }
         end
       end
