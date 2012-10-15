@@ -17,6 +17,11 @@ module AspaceFormHelper
     end
 
 
+    def readonly?
+      false
+    end
+
+
     def path_to_i18n_map
       @path_to_i18n_map
     end
@@ -171,7 +176,7 @@ module AspaceFormHelper
 
 
     def label_and_select(name, options, opts = {})
-      label_with_field(name, @forms.select_tag(path(name), @forms.options_for_select(options, obj[name]), {:id => id_for(name)}.merge!(opts[:field_opts] || {})))
+      label_with_field(name, select(name, options, opts[:field_opts] || {}))
     end
 
 
@@ -183,6 +188,12 @@ module AspaceFormHelper
     def label_and_boolean(name, opts = {})
       label_with_field(name, checkbox(name))
     end
+
+
+    def select(name, options, opts = {})
+      @forms.select_tag(path(name), @forms.options_for_select(options, obj[name]), {:id => id_for(name)}.merge!(opts))
+    end
+
 
     def textfield(name = nil, value = "", opts =  {})
       @forms.tag("input", {:id => id_for(name), :type => "text", :value => value, :name => path(name)}.merge(opts),
@@ -259,13 +270,39 @@ module AspaceFormHelper
       control_group_classes = "control-group"
       control_group_classes << " #{opts[:control_class]}" if opts.has_key? :control_class
 
+      controls_classes = "controls"
+      controls_classes << " #{opts[:controls_class]}" if opts.has_key? :controls_class
+
       control_group = "<div class=\"#{control_group_classes}\">"
       control_group << label(name, opts[:label_opts])
-      control_group << "<div class=\"controls\">"
+      control_group << "<div class=\"#{controls_classes}\">"
       control_group << field_html
       control_group << "</div>"
       control_group << "</div>"
       control_group.html_safe
+    end
+  end
+
+
+  class ReadOnlyContext < FormContext
+
+    def readonly?
+      true
+    end
+
+    def select(name, options, opts = {})
+      return nil if obj[name].blank?
+      I18n.t("#{i18n_for(name)}_#{obj[name]}", :default => obj[name])
+    end
+
+    def textfield(name = nil, value = "", opts =  {})
+      value
+    end
+
+
+    def label_with_field(name, field_html, opts = {})
+      return "" if field_html.blank?
+      super(name, field_html, opts.merge({:controls_class => "label-only"}))
     end
   end
 
@@ -326,4 +363,18 @@ module AspaceFormHelper
     result.html_safe
   end
 
+  def readonly_context(name, values_from = {}, &body)
+    context = ReadOnlyContext.new(name, values_from, self)
+
+    # Not feeling great about this, but we render the form twice: the first pass
+    # sets up the mapping from form input names to i18n keys, while the second
+    # actually uses that map to set the labels correctly.
+    capture(context, &body)
+
+    s = "<div class=\"readonly-context form-horizontal\">".html_safe
+    s << capture(context, &body)
+    s << "</div>".html_safe
+
+    s
+  end
 end
