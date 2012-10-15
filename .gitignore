@@ -4,3 +4,4 @@ migrations
 common
 _site
 rakefile.rb
+.yardoc
