@@ -38,7 +38,8 @@ module AspaceFormHelper
       result = ""
 
       objects.each_with_index do |object, idx|
-        push(set_index(context_name, 0), object) do
+        push(set_index(context_name, idx), object) do
+          result << "<div class=\"subrecord-form-wrapper\">"
           result << hidden_input("lock_version", object["lock_version"])
           result << @parent.capture(object, &block)
         end
