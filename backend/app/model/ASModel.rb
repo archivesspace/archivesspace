@@ -193,9 +193,12 @@ module ASModel
 
         if linked_record[:association][:type] === :one_to_one
           add_record_method = linked_record[:association][:name].to_s
-          json[linked_record[:json_property]] = [json[linked_record[:json_property]]]
         else
           add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
+        end
+
+        if linked_record[:association][:type] === :one_to_one || linked_record[:is_array] === false
+          json[linked_record[:json_property]] = [json[linked_record[:json_property]]]
         end
 
         (json[linked_record[:json_property]] or []).each do |json_or_uri|
