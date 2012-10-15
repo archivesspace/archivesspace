@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (A)</a> &raquo;
+    <a href="_index.html">Index (A)</a> &raquo;
     
     
     <span class="title">ASDate</span>
@@ -203,7 +203,8 @@
 15
 16
 17
-18</pre>
+18
+19</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASDate.rb', line 7</span>
@@ -216,6 +217,7 @@
   <span class='kw'>elsif</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:date_type</span><span class='rbracket'>]</span> <span class='op'>===</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bulk</span><span class='tstring_end'>&quot;</span></span> <span class='op'>||</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:date_type</span><span class='rbracket'>]</span> <span class='op'>===</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inclusive</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_validates_presence'>validates_presence</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:begin</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_validates_presence'>validates_presence</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:end</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_validates_presence'>validates_presence</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:begin_time</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:end_time</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_validates_presence'>validates_presence</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:end_time</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:begin_time</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
   <span class='kw'>super</span>
@@ -230,7 +232,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Sep 28 14:44:57 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:25 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>
