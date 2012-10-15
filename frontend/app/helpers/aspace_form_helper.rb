@@ -177,6 +177,7 @@ module AspaceFormHelper
 
 
     def label_and_select(name, options, opts = {})
+      options = ([""] + options) if opts[:nodefault]
       label_with_field(name, select(name, options, opts[:field_opts] || {}))
     end
 

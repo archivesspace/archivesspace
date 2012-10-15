@@ -9,16 +9,16 @@ class UsersController < ApplicationController
 
 
   def create
-    @user = JSONModel(:user).from_hash(params['createuser'])
+    @user = JSONModel(:user).from_hash(params['user'])
 
     ['password', 'confirm_password'].each do |field|
-      if not params['createuser'][field] or params['createuser'][field].empty?
+      if not params['user'][field] or params['user'][field].empty?
         @user.add_error(field, "Can't be empty")
       end
     end
 
     if not @user._exceptions[:errors] and
-        params['createuser']['password'] != params['createuser']['confirm_password']
+        params['user']['password'] != params['user']['confirm_password']
       @user.add_error('passwords', "entered values didn't match")
     end
 
@@ -26,12 +26,12 @@ class UsersController < ApplicationController
       return render action: "new"
     end
 
-    @user.save(:password => params['createuser']['password'])
+    @user.save(:password => params['user']['password'])
 
-    backend_session = User.login(params['createuser']['username'],
-                                 params['createuser']['password'])
+    backend_session = User.login(params['user']['username'],
+                                 params['user']['password'])
 
-    User.establish_session(session, backend_session, params['createuser']['username'])
+    User.establish_session(session, backend_session, params['user']['username'])
 
     redirect_to :controller => :welcome, :action => :index
 

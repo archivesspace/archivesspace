@@ -29,6 +29,7 @@
             <div class="errors-for-attribute">
               <% messages.each do |msg| %>
                 <div class="error"><%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %></div>
+                <% puts "ERROR: #{form.path_to_i18n_key(attr)}" %>
               <% end %>
             </div>
          <% end %>
@@ -40,6 +41,7 @@
             <div class="warnings-for-attribute">
               <% messages.each do |msg| %>
                 <div class="warning"><%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %></div>
+                <% puts "WARNING: #{form.path_to_i18n_key(attr)}" %>
               <% end %>
             </div>
          <% end %>

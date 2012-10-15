@@ -1,8 +1,8 @@
 <% define_template "agent_person_name" do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_textfield "authority_id" %>
-    <%= form.label_and_textfield "source" %>
-    <%= form.label_and_textfield "rules" %>
+    <%= form.label_and_select "source", JSONModel(:name_person).schema['properties']['source']['enum'], :nodefault => true %>
+    <%= form.label_and_select "rules", JSONModel(:name_person).schema['properties']['rules']['enum'], :nodefault => true %>
     <hr/>
     <%= form.label_and_textfield "direct_order" %>
     <%= form.label_and_textfield "prefix" %>
