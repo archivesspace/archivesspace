@@ -83,7 +83,7 @@ $(function() {
       $this.on("click", ".sort-name-generation-type", handleSortNameType);
 
       var sortNameTemplate = function(nameFormEl) {
-        var agent_type = $("#agent_agent_type", $this).val();
+        var agent_type = $("#agent_agent_type_", $this).val();
 
         var data = serializeNameFields(nameFormEl);
 
@@ -108,23 +108,23 @@ $(function() {
       };
 
       var updateAutomaticSortName = function() {
-        var agentFieldsContainer = $(this).parents(".agent-name-fields:first");
-        if ($(":input[name$=\"[sort_name_type]\"]",agentFieldsContainer).is(":checked")) {
+        var agentFieldsContainer = $(this).parents(".subrecord-form-fields:first");
+        if ($(":input[name$=\"[automatic]\"]",agentFieldsContainer).is(":checked")) {
           var autoSortName = $.trim(AS.renderTemplate(
                                     sortNameTemplate(agentFieldsContainer), 
                                     serializeNameFields(agentFieldsContainer)));
           $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(autoSortName);
         }
       };
-      $this.on("change", ".agent-name-fields :input:not([name~='sort_name'])", updateAutomaticSortName);
+      $this.on("change", ":input:not([name~='sort_name'])", updateAutomaticSortName);
 
       var initSortNameType = function() {
-        $(".agent-name-fields").each(function() {
-          // should sort_name_type should be checked?
+        $(".subrecord-form-fields", $this).each(function() {
+          // should automatic should be checked?
           var autoSortName = $.trim(AS.renderTemplate(sortNameTemplate(this), serializeNameFields(this)));
           var currentSortName = $(":input[name$=\"[sort_name]\"]", this).val();
           if (autoSortName != currentSortName) {
-            $(":input[name$=\"[sort_name_type]\"]", this).removeAttr("checked");
+            $(":input[name$=\"[automatic]\"]", this).removeAttr("checked");
             $(":input[name$=\"[sort_name]\"]", this).removeAttr("readonly");
           }
         });

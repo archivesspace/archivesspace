@@ -4,7 +4,7 @@
     <%= form.label_and_select "source", JSONModel(:name_person).schema['properties']['source']['enum'], :nodefault => true %>
     <%= form.label_and_select "rules", JSONModel(:name_person).schema['properties']['rules']['enum'], :nodefault => true %>
     <hr/>
-    <%= form.label_and_textfield "direct_order" %>
+    <%= form.label_and_select "direct_order", form.jsonmodel_options_for(:name_person, "direct_order") %>
     <%= form.label_and_textfield "prefix" %>
     <%= form.label_and_textfield "title" %>
     <%= form.label_and_textfield "primary_name" %>
@@ -19,7 +19,7 @@
       <%= form.label("sort_name") %>
       <div class="controls">
         <%= form.textfield "sort_name", form["sort_name"], :readonly => "readonly" %>
-        <label><%= form.checkbox "automatic" %> <small>Automatically generate?</small></label>
+        <label><%= form.checkbox "automatic", true %> <small>Automatically generate?</small></label>
       </div>
     </div>
     <hr/>

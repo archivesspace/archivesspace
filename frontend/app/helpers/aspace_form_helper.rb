@@ -266,9 +266,9 @@ module AspaceFormHelper
       @forms.tag("input", options, false, false)
     end
 
-    def checkbox(name)
+    def checkbox(name, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "true"}
-      options[:checked] = "checked" if not obj[name] === "true"
+      options[:checked] = "checked" if force_checked or not (obj[name] === "true")
 
       @forms.tag("input", options, false, false)
     end
