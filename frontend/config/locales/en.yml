@@ -57,7 +57,7 @@ en:
     description_note: Description Note
     description_citation: Description Citation
   agent_contact_details:
-    name: Contact Name
+    name: Contact Description
     salutation: Salutation
     address_1: Address 1
     address_2: Address 2

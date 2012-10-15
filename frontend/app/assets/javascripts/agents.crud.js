@@ -24,7 +24,11 @@ $(function() {
         $subform.prepend(removeBtn);
         removeBtn.on("click", function() {
           AS.confirmSubFormDelete(removeBtn, function() {
-            $subform.remove();
+            if ($subform.parent().hasClass("subrecord-form-wrapper")) {
+              $subform.parent().remove();
+            } else {
+              $subform.remove();
+            }
             $this.parents("form:first").triggerHandler("form-changed");
           });
         });
@@ -132,7 +136,7 @@ $(function() {
       }
       initSortNameType();
 
-      $(".subrecord-form-fields:not(.initialised)", $this).each(function() {
+      $("#names .subrecord-form-fields:not(.initialised), #contacts .subrecord-form-fields:not(.initialised)", $this).each(function() {
         initSubForm($(this));
       });
     });
