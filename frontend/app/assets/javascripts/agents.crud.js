@@ -119,13 +119,14 @@ $(function() {
       $this.on("change", ":input:not([name~='sort_name'])", updateAutomaticSortName);
 
       var initSortNameType = function() {
-        $(".subrecord-form-fields", $this).each(function() {
+        $(":input[name$=\"[sort_name]\"]", $this).each(function() {
+          var $subform = $(this).parents(".subrecord-form-fields:first");
           // should automatic should be checked?
-          var autoSortName = $.trim(AS.renderTemplate(sortNameTemplate(this), serializeNameFields(this)));
-          var currentSortName = $(":input[name$=\"[sort_name]\"]", this).val();
+          var autoSortName = $.trim(AS.renderTemplate(sortNameTemplate($subform), serializeNameFields($subform)));
+          var currentSortName = $(this).val();
           if (autoSortName != currentSortName) {
-            $(":input[name$=\"[automatic]\"]", this).removeAttr("checked");
-            $(":input[name$=\"[sort_name]\"]", this).removeAttr("readonly");
+            $(":input[name$=\"[automatic]\"]", $subform).removeAttr("checked");
+            $(":input[name$=\"[sort_name]\"]", $subform).removeAttr("readonly");
           }
         });
       }

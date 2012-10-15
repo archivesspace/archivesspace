@@ -499,7 +499,7 @@ describe "ArchivesSpace user interface" do
 
 
   it "can add a secondary name and validations match index of name form" do
-    @driver.find_element(:css => '#secondary_names .subrecord-form-heading .btn').click
+    @driver.find_element(:css => '#names .subrecord-form-heading .btn').click
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
