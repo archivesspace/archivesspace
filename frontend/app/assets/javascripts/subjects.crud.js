@@ -91,6 +91,7 @@ $(function() {
 
       if ($(".term-row", $target_subrecord_list).length === 0) {
         renderTermRow();
+        $(".terms-container .row-fluid:first .remove-term-btn", $this).css("visibility", "hidden");
       } else {
         renderSubjectPreview();
         if ($(".term-row", $target_subrecord_list).length > 1) {
