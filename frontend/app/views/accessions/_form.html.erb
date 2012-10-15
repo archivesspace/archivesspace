@@ -6,8 +6,8 @@
      <%= form.label_and_textfield "title" %>
      <%= form.label_and_fourpartid %>
      <%= form.label_and_date "accession_date", {:field_opts => {:value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))}} %>
-     <%= form.label_and_textarea "content_description", :rows => 3 %>
-     <%= form.label_and_textarea "condition_description", :rows => 3 %>
+     <%= form.label_and_textarea "content_description" %>
+     <%= form.label_and_textarea "condition_description" %>
     <%= render :partial => "subjects/linker", :locals => { :object => @accession }%>
   </fieldset>
 </section>
