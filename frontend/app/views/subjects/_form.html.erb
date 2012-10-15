@@ -1,8 +1,33 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
 
+<% define_template "term" do |form| %>
+  <div class="row-fluid inputs-fill-it-up term-row">
+    <div class="span5">
+      <div class="control-group">
+        <%= form.textfield "term", form.obj["term"], :autocomplete => "off" %>
+      </div>
+    </div>
+    <div class="span5">
+      <div class="control-group">
+        <%= form.select "term_type", form.jsonmodel_options_for(:term, "term_type") %>
+      </div>
+    </div>
+    <div class="span2">
+      <div class="btn-group">
+        <button type="button" class="btn btn-small add-term-btn">Add</button>
+        <button type="button" class="btn btn-small remove-term-btn"><span class="icon-remove-sign"></span></button>
+      </div>
+      <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  AS.AVAILABLE_TERMS = <%= current_vocabulary['terms'].to_json.html_safe %>;
+</script>
+
 <fieldset>
    <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
-
 
    <section id="terms">
      <h3>Terms</h3>
@@ -11,7 +36,11 @@
         <div class="span5">Type</div>
         <div class="span2"></div>
      </div>
-     <div class="terms-container" data-terms="<%= @subject.terms.to_json %>"></div>
+     <div class="terms-container">
+       <%= form.list_for(form["terms"], "terms[]") do |term| %>
+         <% form.emit_template("term") %>
+       <% end %>
+     </div>
 
      <hr/>
 
@@ -24,27 +53,6 @@
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 
 </fieldset>
-
-
-<div id="subjects_term_template"><!--
-   <div class="row-fluid inputs-fill-it-up">
-      <div class="span5"><input type="text" name="subject[terms][${index}][term]" data-source="<%= current_vocabulary['terms'].to_json %>" autocomplete="off" /></div>
-      <div class="span5">
-         <select name="subject[terms][${index}][term_type]">
-            <% JSONModel(:term).schema["properties"]["term_type"]["enum"].each do |option| %>
-               <option value="<%= option %>"><%= option %></option>
-            <% end %>
-         </select>
-      </div>
-      <div class="span2">
-         <div class="btn-group">
-            <button type="button" class="btn btn-small add-term-btn">Add</button>
-            <button type="button" class="btn btn-small remove-term-btn"><span class="icon-remove-sign"></span></button>
-         </div>
-         <input type="hidden" name="subject[terms][${index}][vocabulary]" value="<%= current_vocabulary['uri'] %>"/>
-      </div>
-   </div>
---></div>
 
 <div id="subjects_preview_template"><!--
   {for t in terms}
