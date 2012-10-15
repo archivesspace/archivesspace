@@ -234,15 +234,16 @@ module ASModel
     def remove_existing_linked_records(obj, record)
       model = Kernel.const_get(record[:association][:class_name])
 
-      # remove all sub records from the object first to avoid an integrity constraints
-      (ASModel.linked_records[model] or []).each do |linked_record|
-        (obj.send(record[:association][:name]) || []).each do |sub_obj|
-          remove_existing_linked_records(sub_obj, linked_record)
-        end
-      end
-
       # now remove this record from the object
       if [:one_to_one, :one_to_many].include?(record[:association][:type])
+
+        # remove all sub records from the object first to avoid an integrity constraints
+        (ASModel.linked_records[model] or []).each do |linked_record|
+          (obj.send(record[:association][:name]) || []).each do |sub_obj|
+            remove_existing_linked_records(sub_obj, linked_record)
+          end
+        end
+
         # Delete the objects from the other table
         obj.send("#{record[:association][:name]}_dataset").delete
       else

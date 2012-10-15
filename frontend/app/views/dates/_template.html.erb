@@ -1,7 +1,7 @@
 <% define_template "date" do |form| %>
   <div class="subrecord-form-fields" data-allow-removal="true">
     <div class="date-container">
-      <%= form.label_and_textfield :label %>
+      <%= form.label_and_select :label, JSONModel(:date).schema['properties']['label']['enum'] %>
 
       <div class="control-group">
         <label class="control-label"><%= I18n.t(form.i18n_for("date_type"))%></label>
