@@ -46,19 +46,19 @@
       </section>
 
      <% if @accession.extents.length > 0 %>
-       <%= render :partial => "extents/show", :locals => { :extents => @accession.extents } %>
+       <%= render :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>
      <% end %>
 
       <% if @accession.dates.length > 0 %>
-        <%= render :partial => "dates/show", :locals => { :dates => @accession.dates } %>
+        <%= render :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
       <% end %>
 
       <% if @accession.external_documents.length > 0 %>
-        <%= render :partial => "external_documents/show", :locals => { :external_documents => @accession.external_documents } %>
+        <%= render :partial => "external_documents/show", :locals => { :external_documents => @accession.external_documents, :section_id => "accession_external_documents_" } %>
       <% end %>
 
      <% if @accession.rights_statements.length > 0 %>
-       <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements } %>
+       <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements, :section_id => "accession_rights_statements_" } %>
      <% end %>
 
    </div>

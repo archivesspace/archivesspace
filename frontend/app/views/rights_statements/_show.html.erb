@@ -1,4 +1,8 @@
-<section id="rights_statements">
+<%
+   section_id = "rights_statements" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
   <h3>Rights Statements</h3>
   <div class="accordion details" id="rights_statements_accordion">
     <% rights_statements.each_with_index do | rights_statement, index | %>

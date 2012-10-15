@@ -1,4 +1,8 @@
-<section id="dates">
+<%
+   section_id = "dates" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
   <h3>Dates</h3>
   <div class="accordion details" id="dates_accordion">
     <% dates.each_with_index do | date, index | %>

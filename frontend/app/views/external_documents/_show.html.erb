@@ -1,7 +1,8 @@
 <%
-  id = "external_documents" if id.blank?
+   section_id = "external_documents" if section_id.blank?
 %>
-<section id="<%= id %>">
+
+<section id="<%= section_id %>">
   <h3>External Documents</h3>
 
   <% external_documents.each_with_index do | document, index | %>
