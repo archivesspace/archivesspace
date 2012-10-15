@@ -16,7 +16,7 @@ describe 'Instance model' do
                                                                  }))
 
     Instance[instance[:id]].instance_type.should eq("text")
-    Instance[instance[:id]].container.type_1.should eq("A Container")
+    Instance[instance[:id]].container.first.type_1.should eq("A Container")
   end
 
 

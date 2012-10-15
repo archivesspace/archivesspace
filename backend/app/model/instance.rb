@@ -10,4 +10,5 @@ class Instance < Sequel::Model(:instances)
                  :contains_records_of_type => :container,
                  :corresponding_to_association => :container,
                  :always_resolve => true)
+
 end

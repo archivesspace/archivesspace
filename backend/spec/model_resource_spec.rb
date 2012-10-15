@@ -131,7 +131,7 @@ describe 'Resource model' do
 
     Resource[resource[:id]].instances.length.should eq(1)
     Resource[resource[:id]].instances[0].instance_type.should eq("text")
-    Resource[resource[:id]].instances[0].container.type_1.should eq("A Container")
+    Resource[resource[:id]].instances[0].container.first.type_1.should eq("A Container")
   end
 
 end

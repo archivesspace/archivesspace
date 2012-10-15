@@ -270,27 +270,16 @@ module ASModel
       (ASModel.linked_records[self] or []).each do |linked_record|
         model = Kernel.const_get(linked_record[:association][:class_name])
 
-        if (linked_record[:association][:type] === :one_to_one)
-          record_data = obj.send(linked_record[:association][:name])
+        records = obj.send(linked_record[:association][:name]).map {|linked_obj|
           if linked_record[:always_resolve]
-            record = model.to_jsonmodel(record_data, linked_record[:jsonmodel]).to_hash
+            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel], :any).to_hash
           else
-            record = JSONModel(linked_record[:jsonmodel]).uri_for(record_data.id) or
+            JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id) or
               raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
           end
-          json[linked_record[:json_property]] = record
-        else
-          records = obj.send(linked_record[:association][:name]).map {|linked_obj|
-            if linked_record[:always_resolve]
-              model.to_jsonmodel(linked_obj, linked_record[:jsonmodel]).to_hash
-            else
-              JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id) or
-                raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
-            end
-          }
+        }
 
-          json[linked_record[:json_property]] = records
-        end
+        json[linked_record[:json_property]] = (linked_record[:is_array] === false ? records[0] : records)
       end
 
       json
