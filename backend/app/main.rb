@@ -244,16 +244,15 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
-      env[:aspace_user] = ANONYMOUS_USER
-
-      if session
-        env[:aspace_session] = session
-        env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
-                             ANONYMOUS_USER)
-      end
-
-
       if DB.connected?
+        env[:aspace_user] = ANONYMOUS_USER
+
+        if session
+          env[:aspace_session] = session
+          env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
+                               ANONYMOUS_USER)
+        end
+
         result = DB.open do
           @app.call(env)
         end
