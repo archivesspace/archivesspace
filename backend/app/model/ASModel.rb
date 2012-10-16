@@ -202,6 +202,7 @@ module ASModel
         end
 
         (json[linked_record[:json_property]] or []).each do |json_or_uri|
+          next if json_or_uri.nil?
 
           db_record = nil
 
@@ -235,7 +236,7 @@ module ASModel
       model = Kernel.const_get(record[:association][:class_name])
 
       # now remove this record from the object
-      if [:one_to_one, :one_to_many].include?(record[:association][:type])
+      if [:one_to_one, :one_to_many, :many_to_one].include?(record[:association][:type])
 
         # remove all sub records from the object first to avoid an integrity constraints
         (ASModel.linked_records[model] or []).each do |linked_record|

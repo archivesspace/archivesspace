@@ -661,13 +661,33 @@ Sequel.migration do
       add_foreign_key([:repo_id], :repositories, :key => :id)
     end
 
-    #create_join_table(:location_id => :locations, :container_id => :containers)
+    create_table(:container_locations) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :location_id
+      Integer :container_id
+
+      String :status
+      String :start_date
+      String :end_date
+      String :note
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:container_locations) do
+      add_foreign_key([:location_id], :locations, :key => :id)
+      add_foreign_key([:container_id], :containers, :key => :id)
+    end
 
   end
 
   down do
 
-    [:external_documents, :rights_statements, :location,
+    [:external_documents, :rights_statements, :location, :container_locations,
      :subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
