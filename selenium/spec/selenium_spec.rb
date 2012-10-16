@@ -69,12 +69,8 @@ class Selenium::WebDriver::Driver
           sleep 0.5
         else
           puts "Failed to find #{selectors}"
-          puts "Type a replacement for '#{selectors.inspect}'"
-          replacement = [selectors.first, STDIN.readline.chomp]
-          puts "Trying again with '#{replacement.inspect}'"
-          return self.find_element(*replacement)
 
-          # raise e
+          raise e
         end
       end
     end
@@ -171,6 +167,27 @@ end
 
 
 class Selenium::WebDriver::Element
+  def select_option(value)
+    self.find_elements(:tag_name => "option").each do |option|
+      if option.attribute("value") === value
+        option.click
+        return
+      end
+    end
+
+    raise "Couldn't select value: #{value}"
+  end
+
+
+  def nearest_ancestor(xpath)
+    self.find_element(:xpath => './ancestor-or-self::' + xpath + '[1]')
+  end
+
+
+  def containing_subform
+    nearest_ancestor('div[contains(@class, "subrecord-form-fields")]')
+  end
+
 end
 
 
@@ -462,9 +479,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "")
     source_select = @driver.find_element(:id => "agent_names__0__source_")
 
-    source_select.find_elements( :tag_name => "option" ).each do |option|
-      option.click if option.attribute("value") === "local"
-    end
+    source_select.select_option("local")
 
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
@@ -1008,6 +1023,142 @@ describe "ArchivesSpace user interface" do
 
     extent_headings.length.should eq (1)
     extent_headings[0].text.should eq ("10 Cassettes")
+  end
+
+
+  it "can attach notes to resources" do
+    @driver.find_element(:link, "Create").click
+    @driver.find_element(:link, "Resource").click
+
+    @driver.clear_and_send_keys([:id, "resource_title_"], "a resource with notes")
+    @driver.complete_4part_id("resource_id_%d_")
+    @driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+
+    add_note = proc do |type|
+      @driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
+      @driver.find_element(:css => '#notes .subrecord-selector select').select_option(type)
+      @driver.find_element(:css => '#notes .subrecord-selector .btn').click
+    end
+
+    3.times do
+      add_note.call("note_multipart")
+    end
+
+    @driver.blocking_find_elements(:css => '#notes .subrecord-form-fields').length.should eq(3)
+  end
+
+
+  it "confirms before removing a note entry" do
+    notes = @driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
+
+    notes[0].find_element(:css => '.subrecord-form-remove').click
+
+    # Get a confirmation
+    @driver.find_element(:css => '.subrecord-form-removal-confirmation')
+
+    # Now remove the second note
+    notes[1].find_element(:css => '.subrecord-form-remove').click
+
+    # Verify that the first confirmation is now gone
+    @driver.find_elements(:css => '.subrecord-form-removal-confirmation').length.should be < 2
+
+    # Confirm
+    @driver.find_element(:css => '.subrecord-form-removal-confirmation .btn-primary').click
+
+    # Take out the first note too
+    notes[0].find_element(:css => '.subrecord-form-remove').click
+    @driver.find_element(:css => '.subrecord-form-removal-confirmation .btn-primary').click
+
+    # One left!
+    @driver.blocking_find_elements(:css => '#notes .subrecord-form-fields').length.should eq(1)
+
+    # Fill it out
+    @driver.clear_and_send_keys([:id, 'resource_notes__2__label_'],
+                                "A multipart note")
+
+    @driver.clear_and_send_keys([:id, 'resource_notes__2__content_'],
+                                "Some note content")
+
+
+    # Save the resource
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
+    @driver.find_element(:link, 'Finish Editing').click
+  end
+
+
+  it "can edit an existing resource note to add subparts after saving" do
+    @driver.find_element(:link, 'Edit').click
+
+    notes = @driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
+
+    # Add a sub note
+    notes[0].find_element(:css => '.subrecord-form-heading .btn').click
+    notes[0].find_element(:css => '.subrecord-selector select').select_option('note_bibliography')
+    notes[0].find_element(:css => '.add-sub-note-btn').click
+
+    @driver.find_element(:id => 'resource_notes__0__subnotes__1__label_')
+    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__label_'], "Bibliography label")
+    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__content_'], "Bibliography content")
+
+    2.times do
+      notes[0].find_element(:css => '.add-item-btn').click
+    end
+
+    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__items__2_'], "Bib item 1")
+    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__items__3_'], "Bib item 2")
+
+
+    notes[0].find_element(:css => '.subrecord-form-heading .btn').click
+    notes[0].find_element(:css => '.subrecord-selector select').select_option('note_index')
+    notes[0].find_element(:css => '.add-sub-note-btn').click
+
+    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__4__label_'], "Index item")
+    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__4__content_'], "Index content")
+
+    2.times do
+      @driver.find_element(:id => 'resource_notes__0__subnotes__4__label_').
+              containing_subform.
+              find_element(:css => '.add-item-btn').
+              click
+    end
+
+    [5, 6]. each do |i|
+      ["value", "type", "reference", "reference_text"].each do |field|
+        @driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__4__items__#{i}__#{field}_"],
+                                    "pogo")
+      end
+    end
+
+    # Save the resource
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
+    @driver.find_element(:link, 'Finish Editing').click
+
+    @driver.find_element_with_text("//div", /pogo/)
+  end
+
+
+  it "Can add a top-level bibliography too" do
+    @driver.find_element(:link, 'Edit').click
+
+    add_note_button = @driver.find_element(:css => '#notes > .subrecord-form-heading .btn').click
+    @driver.find_element(:css => '#notes > .subrecord-form-heading select').select_option("note_bibliography")
+    @driver.find_element(:css => '#notes > .subrecord-form-heading .subrecord-selector .btn').click
+
+    @driver.clear_and_send_keys([:id, 'resource_notes__5__label_'], "Top-level bibliography label")
+    @driver.clear_and_send_keys([:id, 'resource_notes__5__content_'], "Top-level bibliography content")
+
+    form = @driver.find_element(:id => 'resource_notes__5__content_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
+
+    2.times do
+      form.find_element(:css => '.add-item-btn').click
+    end
+
+    @driver.clear_and_send_keys([:id, 'resource_notes__5__items__6_'], "Top-level bib item 1")
+    @driver.clear_and_send_keys([:id, 'resource_notes__5__items__7_'], "Top-level bib item 2")
+
+    # Save the resource
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
+    @driver.find_element(:link, 'Finish Editing').click
   end
 
 

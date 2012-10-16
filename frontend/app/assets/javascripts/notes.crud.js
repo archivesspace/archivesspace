@@ -18,16 +18,18 @@ $(function() {
 
       var initNoteType = function($subform, template_name, is_subrecord, button_class) {
 
-        $((button_class || ".add-item-btn"), $subform).click(function() {
+        $((button_class || ".add-item-btn"), $subform).click(function(event) {
           event.preventDefault();
 
+          template = template_name
+
           if (typeof(template_name) === 'function') {
-            template_name = template_name($(this));
+            template = template_name($(this));
           }
 
           var $target_subrecord_list = $(this).siblings(".subrecord-form-list:first").add(".subrecord-form-list:first", $subform).first();
 
-          var $subsubform = $(AS.renderTemplate(template_name, {
+          var $subsubform = $(AS.renderTemplate(template, {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
             index: "${index}"
@@ -162,8 +164,8 @@ $(function() {
       $(".add-note-for-type-btn", $this).click(createTopLevelNote);
 
       // initialising forms
-      if ($(".subrecord-form-list > .subrecord-form-fields", $this).length) {
-        $(".subrecord-form-list > .subrecord-form-fields", $this).each(function() {
+      if ($(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).length) {
+        $(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).each(function() {
           initNoteForm($(this));
         });
         $(".subrecord-form-inline", $this).each(function() {
