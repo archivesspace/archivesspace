@@ -631,11 +631,43 @@ Sequel.migration do
     end
 
 
+    create_table(:locations) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :repo_id, :null => false
+
+      String :building, :null => false
+
+      String :floor
+      String :room
+      String :area
+      String :barcode
+      String :classification
+      String :coordinate_1_label
+      String :coordinate_1_indicator
+      String :coordinate_2_label
+      String :coordinate_2_indicator
+      String :coordinate_3_label
+      String :coordinate_3_indicator
+      String :temporary
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:locations) do
+      add_foreign_key([:repo_id], :repositories, :key => :id)
+    end
+
+    #create_join_table(:location_id => :locations, :container_id => :containers)
+
   end
 
   down do
 
-    [:external_documents, :rights_statements,
+    [:external_documents, :rights_statements, :location,
      :subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
