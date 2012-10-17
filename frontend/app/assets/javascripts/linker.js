@@ -60,10 +60,14 @@ $(function() {
             beforeSubmit: function() {
               $("#createAndLinkButton", $modal).attr("disabled","disabled");
             },
-            success: function(response, status, xhr) {             
-              if ($(response).is("form")) {                         
+            success: function(response, status, xhr) {
+              if ($(response).is("form")) {
                 initCreateForm(response);
               } else {
+                if (config.multiplicity === "one") {
+                  clearTokens();
+                }
+
                 $this.tokenInput("add", {
                   id: response.uri,
                   name: formattedNameForJSON(response),
@@ -143,6 +147,17 @@ $(function() {
         $this.on("tokeninput.enter", showLinkerCreateModal);
       };
 
+
+      var clearTokens = function() {
+        // as tokenInput plugin won't clear a token
+        // if it has an input.. remove all inputs first!
+        var $tokenList = $(".token-input-list", $this.parent());
+        for (var i=0; i<$this.tokenInput("get").length; i++) {
+          var id_to_remove = $this.tokenInput("get")[i].id.replace(/\//g,"_");
+          $("#"+id_to_remove + " :input", $tokenList).remove();
+        }
+        $this.tokenInput("clear");
+      };
 
       var tokensForPrepopulation = function() {
         if ($this.data("multiplicity") === "one") {

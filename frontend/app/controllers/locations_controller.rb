@@ -4,11 +4,11 @@ class LocationsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @locations = JSONModel(:location).all
+    @locations = Location.all
   end
 
   def show
-    @location = JSONModel(:location).find(params[:id])
+    @location = Location.find(params[:id])
   end
 
   def new
@@ -17,12 +17,12 @@ class LocationsController < ApplicationController
   end
 
   def edit
-    @location = JSONModel(:location).find(params[:id])
+    @location = Location.find(params[:id])
   end
 
   def create
     handle_crud(:instance => :location,
-                :model => JSONModel(:location),
+                :model => Location,
                 :on_invalid => ->(){
                   return render :partial => "locations/new" if inline?
                   return render :action => :new
@@ -38,8 +38,8 @@ class LocationsController < ApplicationController
 
   def update
     handle_crud(:instance => :location,
-                :model => JSONModel(:location),
-                :obj => JSONModel(:location).find(params[:id]),
+                :model => Location,
+                :obj => Location.find(params[:id]),
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = "Location Saved"
