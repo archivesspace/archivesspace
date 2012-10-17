@@ -1,0 +1,43 @@
+<%
+   all_note_types = {}
+
+   JSONModel(:note_singlepart).schema['properties']['type']['enum'].each do |type|
+     all_note_types[type] = :note_singlepart
+   end
+
+   JSONModel(:note_multipart).schema['properties']['type']['enum'].each do |type|
+     all_note_types[type] = :note_multipart
+   end
+
+   all_note_types["Index"] = :note_index
+   all_note_types["Bibliography"] = :note_bibliography
+%>
+
+<%= render :partial => "notes/template" %>
+
+<section id="notes" class="subrecord-form">
+  <h3 class="subrecord-form-heading">
+    Notes
+    <div class="btn-group pull-right">
+      <button class="btn btn-small  dropdown-toggle" data-toggle="dropdown">Add Note <span class="caret"></span></button>
+      <ul class="dropdown-menu subrecord-selector">
+        <li>
+          <select>
+            <% all_note_types.keys.sort.each do |type| %>
+              <option value="<%= all_note_types[type] %>"><%= type %></option>
+            <% end %>
+          </select>
+        </li>
+        <li class="form-actions">
+          <button class="btn btn-small add-note-for-type-btn">Add Note</button>
+        </li>
+      </ul>
+    </div>
+  </h3>
+  <div class="subrecord-form-container">
+    <%= form.list_for(form["notes"], "notes[]") do |note| %>
+      <% form.emit_template(note["jsonmodel_type"]) %>
+    <% end %>
+  </div>
+
+</section>

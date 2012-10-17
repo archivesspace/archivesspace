@@ -13,24 +13,25 @@ $(function() {
       $this.addClass("initialised");
 
 
-      var renderTermRow = function(term, index) {
+      var renderTermRow = function() {
         $(".add-term-btn", $this).css("visibility", "hidden");
         $(".remove-term-btn", $this).css("visibility", "visible");
-        if (index == null) {
-            index = $(".terms-container .row-fluid", $this).length;
-        }
-        var $row = $(AS.renderTemplate("subjects_term_template", {index: index}));
-        if (term) {
-          $row.find(":text").val(term.term);
-          $row.find("select").val(term.term_type);
-        }
-        $(".terms-container", $this).append($row);
 
-        var typeahead_data = $(".terms-container .row-fluid:last :text:first", $this).data("source");
+        var index = $(".term-row", $this).length;
+
+        var template_data = {
+          path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
+          id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index})
+        };
+        var $row = $(AS.renderTemplate("template_term", template_data));
+
+        $target_subrecord_list.append($row);
+
+        var typeahead_data = AS.AVAILABLE_TERMS;
 
         var itemDisplayString = function(item) {
           return  item.term + " ["+item.term_type+"]"
-        }
+        };
 
         $(".terms-container .row-fluid:last :text:first", $this)
         .typeahead({
@@ -59,6 +60,7 @@ $(function() {
 
 
       var removeTermRow = function() {
+        $(this).parents(".subrecord-form-wrapper:first").remove();
         $(this).parents(".row-fluid:first").remove();
         renderSubjectPreview();
         if ($(".terms-container .row-fluid", $this).length === 1) {
@@ -85,18 +87,18 @@ $(function() {
       $this.on("click", ".add-term-btn", renderTermRow);
       $this.on("click", ".remove-term-btn", removeTermRow);
 
-      var existingTerms = $(".terms-container", $this).data("terms");
-      if (existingTerms.length > 0) {
-        if ($.isArray(existingTerms)) {
-          for (var i=0;i<existingTerms.length;i++) {
-            renderTermRow(existingTerms[i], i);
-          }
-        } else if (typeof existingTerms === "object") {
-          renderTermRow(existingTerms, i);
-        }
-      } else {
+      var $target_subrecord_list = $(".terms-container .subrecord-form-list", $this);
+
+      if ($(".term-row", $target_subrecord_list).length === 0) {
         renderTermRow();
-        $(".remove-term-btn", $this).css("visibility", "hidden");
+        $(".terms-container .row-fluid:first .remove-term-btn", $this).css("visibility", "hidden");
+      } else {
+        renderSubjectPreview();
+        if ($(".term-row", $target_subrecord_list).length > 1) {
+          $(".terms-container .row-fluid:not(:last) .add-term-btn", $this).css("visibility", "hidden");
+        } else {
+          $(".terms-container .row-fluid:first .remove-term-btn", $this).css("visibility", "hidden");
+        }
       }
     });
   };

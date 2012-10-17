@@ -25,7 +25,7 @@ class IfMissingAttribute < JSON::Schema::PropertiesAttribute
         if data.has_key?(property)
           schema = JSON::Schema.new(property_schema, current_schema.uri,validator)
           fragments << property
-          schema.validate(data[property], fragments,options)
+          schema.validate(data[property], fragments, options)
           fragments.pop
         end
       end
@@ -40,8 +40,19 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
 
 
   def self.validate(current_schema, data, fragments, validator, options = {})
-
     types = current_schema.schema['type']
+
+    # A bit crazy, sorry.  If we're being asked to validate a hash whose
+    # jsonmodel_type is marked against a different JSONModel schema, we're
+    # wasting our time.  Just stop straight away.
+    if (data.is_a?(Hash) && data["jsonmodel_type"]) &&
+        (current_schema.schema.is_a?(Hash) &&
+         "#{current_schema.schema["type"]}".include?("JSONModel") &&
+         !"#{current_schema.schema["type"]}".include?("JSONModel(:#{data['jsonmodel_type']})"))
+
+      # Blow up
+      validation_error("Nope!", fragments, current_schema, self, false)
+    end
 
     if JSONModel.parse_jsonmodel_ref(types)
       (model, qualifier) = JSONModel.parse_jsonmodel_ref(types)
@@ -55,25 +66,17 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
 
       elsif qualifier == 'uri_or_object' || qualifier == 'object'
         if data.is_a?(Hash)
+          data["jsonmodel_type"] ||= model.to_s
+          subvalidator = JSON::Validator.new(JSONModel(model).schema,
+                                             data,
+                                             :errors_as_objects => true,
+                                             :record_errors => true)
 
-          top_errors = validation_errors
-          ::JSON::Validator.clear_errors
-
-          JSONModel(model).from_hash(data, false)
-
-          nested_errors = validation_errors
-
-          nested_errors.each do |validation_error|
-            # Add the fragment path to each nested exception to make them
-            # findable from the root of the top-level json document.
-            validation_error.fragments = fragments + validation_error.fragments
+          # Urk.  Validate the subrecord but pass in the fragments of the point
+          # we're at in the parent record.
+          subvalidator.instance_eval do
+            @base_schema.validate(@data, fragments, @validation_options)
           end
-
-          # Push them all back
-          (top_errors + nested_errors).each do |error|
-            ::JSON::Validator.validation_error(error)
-          end
-
         else
           validation_error("The property '#{build_fragment(fragments)}' of type " +
                            "#{data.class} did not match the following type: #{types} in schema",

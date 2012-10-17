@@ -30,7 +30,7 @@
 }
 
 .control-group .controls.label-only {
-  line-height: 30px;
+  line-height: 28px;
 }
 
 /* identifier fields */
@@ -65,6 +65,12 @@
 .record-pane section h3 .btn.pull-right,
 .record-pane section section h4 .btn.pull-right {
   margin: 6px 6px 0 0;
+}
+
+section h3 {
+  .dropdown-menu {
+
+  }
 }
 
 .record-pane section section h4 {
@@ -108,6 +114,10 @@
 
 #new_subject .terms-container .row-fluid {
   margin-bottom: 5px;
+
+  .control-group {
+    padding: 0;
+  }
 }
 
 .inputs-fill-it-up input,
@@ -224,9 +234,31 @@
 /* AGENT NAME Form styles */
 .subrecord-form-dummy,
 .subrecord-form {
+  clear: both;
   margin: 20px 0;
   background-color: #FAFAFA;
   .box-shadow(~"1px 1px 3px rgba(0, 0, 0, 0.25)");
+
+  .subrecord-form-heading {
+    background-color: #F6F6F6;
+    border-bottom: 1px solid #DDD;
+    padding-left: 10px;
+
+    min-height: 1.4em;
+    margin: 0;
+    border-bottom: 1px solid #DDD;
+    .border-radius(4px 4px 0 0);
+
+    .btn-group.pull-right {
+      margin: 3px 6px 0 0;
+    }
+  }
+
+  .subrecord-form-fields .subrecord-form {
+    .subrecord-form-heading {
+      line-height: 30px;
+    }
+  }
 
   .subrecord-form-container {
     margin: 0 10px;
@@ -234,13 +266,6 @@
 
     .alert {
       margin: 10px 0 0;
-    }
-
-    .subrecord-form-heading {
-      min-height: 1.4em;
-      margin: 0;
-      border-bottom: 1px solid #DDD;
-      .border-radius(4px 4px 0 0);
     }
 
     .subrecord-form-removal-confirmation,
@@ -254,15 +279,46 @@
       .border-radius(4px);
       margin-top: 10px;
       padding-bottom: 10px;
-    }
 
-    .subrecord-form {
-      margin: 10px 10px 0;
+      > .subrecord-form-heading {
+        line-height: 36px;
+      }
+
+    }
+  }
+
+  .subrecord-form {
+    margin: 10px 0;
+  }
+
+  .instance-container-or-digital-object {
+    margin: 0 10px;
+
+    .instance-type-nil,
+    .instance-type-digital-object,
+    .instance-type-digital-object-link,
+    .instance-type-with-container {
+      display: none;
     }
   }
 }
 
+
 .alert pre {
   background-color: transparent;
   border: none;
+}
+
+
+.dropdown-menu.subrecord-selector {
+  li {
+    padding: 10px;
+  }
+  .form-actions {
+    margin: 0;
+  }
+}
+
+.subrecord-form textarea {
+  width: 90%;
 }

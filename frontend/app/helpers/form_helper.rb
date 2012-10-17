@@ -65,7 +65,7 @@ module FormHelper
       @json_index ||= {}
       @json_index[model] ||= -1
 
-      if obj.is_a? Hash
+      if obj.is_a?(Hash) && !model.is_a?(Hash)
         obj = model.new(obj)
       end
 
@@ -75,9 +75,9 @@ module FormHelper
       @jsonmodel_object ||= []
 
       if name =~ /^(.*)\[\]$/
-        @jsonmodel_object << [$1, obj, opts.merge(:is_array => true)]
+        @jsonmodel_object << [$1, obj, opts.merge(:is_array => true), model]
       else
-        @jsonmodel_object << [name, obj, opts]
+        @jsonmodel_object << [name, obj, opts, model]
       end
 
       result = yield
@@ -113,7 +113,7 @@ module FormHelper
 
       end
 
-      result += "[#{method}]"
+      result += "[#{method}]" if not method.blank?
 
       result
     end
@@ -125,12 +125,16 @@ module FormHelper
         new_method = ""
         split_path = method.split("/")
         split_path.each_with_index do |s, i|
+          # remove any indexes from the path
+          next if s.to_i.to_s === s
+
           # if s in path doesn't represent an index
           # and it isn't the last item in the path (the method)
           # prefix with '_'
           new_method += "_" if s.to_i.to_s != s && i < split_path.length - 1
           new_method += s
-          new_method += "/" if i < split_path.length - 1
+          new_method += "[" if i < split_path.length - 1
+          new_method += "]" if i === split_path.length - 1
         end
         method = new_method
       end
@@ -152,7 +156,7 @@ module FormHelper
 
       end
 
-      result << method
+      result << method if not method.blank?
 
       result.join("/")
     end
@@ -164,6 +168,11 @@ module FormHelper
       else
         @object
       end
+    end
+
+    def current_model
+      return current.class.schema if current.class.respond_to?(:schema)
+      @jsonmodel_object.last[3]
     end
 
 
@@ -233,7 +242,10 @@ module FormHelper
 
 
     def jsonmodel_field(method, opts = {})
-      schema = current.class.schema
+      schema = current_model
+
+      opts.merge!({:value => current[method.to_s] || ""}) if current.is_a?(Hash)
+      opts.merge!({:value => current}) if current.is_a?(String)
 
       if not schema["properties"].has_key?(method.to_s)
         return "PROBLEM: #{object_name} does not define #{method} in its schema"
@@ -243,7 +255,7 @@ module FormHelper
       if attr_definition.has_key?("enum")
         options_array = attr_definition["enum"].collect {|option| [I18n.t(current_i18n("#{method}_#{option}")), option]}
 
-        if not attr_definition["required"]
+        if !attr_definition["required"] || opts[:add_empty_option] === true
           options_array = [""].concat(options_array)
         end
 
@@ -296,7 +308,7 @@ module FormHelper
       }.merge(opts))
     end
 
-    def jsonmodel_text_area(method, opts)
+    def jsonmodel_text_area(method, opts = {})
       @template.text_area(@object_name, method, {
                              "data-original_value" => current[method],
                              :object => current,
@@ -315,6 +327,17 @@ module FormHelper
         :placeholder => "YYYY-MM-DD",
         :"data-date-format" => "yyyy-mm-dd",
         :"data-date" => Date.today.strftime('%Y-%m-%d'),
+      }.merge(opts))
+    end
+
+
+    def jsonmodel_hidden_field(method, value, opts = {})
+      @template.hidden_field(@object_name, method, {
+        :value => value,
+        "data-original_value" => current[method],
+        :object => current,
+        :name => current_name(method),
+        :id => current_name(method, true)
       }.merge(opts))
     end
 

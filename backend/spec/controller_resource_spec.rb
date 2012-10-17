@@ -36,14 +36,17 @@ describe 'Resources controller' do
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
     tree.to_hash.should eq({
+                             "jsonmodel_type" => "resource_tree",
                              "archival_object" => aos[0].uri,
                              "title" => "archival object: earth",
                              "children" => [
                                             {
+                                              "jsonmodel_type" => "resource_tree",
                                               "archival_object" => aos[1].uri,
                                               "title" => "archival object: australia",
                                               "children" => [
                                                              {
+                                                               "jsonmodel_type" => "resource_tree",
                                                                "archival_object" => aos[2].uri,
                                                                "title" => "archival object: canberra",
                                                                "children" => []
@@ -56,14 +59,17 @@ describe 'Resources controller' do
 
     # Now turn it on its head
     changed = {
+      "jsonmodel_type" => "resource_tree",
       "archival_object" => aos[2].uri,
       "title" => "archival object: canberra",
       "children" => [
                      {
+                       "jsonmodel_type" => "resource_tree",
                        "archival_object" => aos[1].uri,
                        "title" => "archival object: australia",
                        "children" => [
                                       {
+                                        "jsonmodel_type" => "resource_tree",
                                         "archival_object" => aos[0].uri,
                                         "title" => "archival object: earth",
                                         "children" => []
@@ -167,4 +173,51 @@ describe 'Resources controller' do
     JSONModel(:resource).find(id).extents[0]["portion"] === "whole"
   end
 
+
+  it "lets you create a resource with an instance and container" do
+    resource = JSONModel(:resource).from_hash({
+      "title" => "a resource", "id_0" => "abc123",
+      "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}],
+      "instances" => [{
+        "instance_type" => "text",
+        "container" => {
+          "type_1" => "A Container",
+          "indicator_1" => "555-1-2",
+          "barcode_1" => "00011010010011",
+        }
+      }]
+    })
+
+    id = resource.save
+
+    JSONModel(:resource).find(id).instances[0].length === 1
+    JSONModel(:resource).find(id).instances[0]["instance_type"] === "text"
+    JSONModel(:resource).find(id).instances[0]["container"]["type_1"] === "A Container"
+  end
+
+
+  it "lets you edit a resource with an instance and container" do
+    resource = JSONModel(:resource).from_hash({
+                                                "title" => "a resource", "id_0" => "abc123",
+                                                "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}],
+                                                "instances" => [{
+                                                                  "instance_type" => "text",
+                                                                  "container" => {
+                                                                    "type_1" => "A Container",
+                                                                    "indicator_1" => "555-1-2",
+                                                                    "barcode_1" => "00011010010011",
+                                                                  }
+                                                                }]
+                                              })
+
+    id = resource.save
+
+    resource = JSONModel(:resource).find(id)
+
+    resource.instances[0]["instance_type"] = "audio"
+
+    id = resource.save
+
+    JSONModel(:resource).find(id).instances[0]["instance_type"] === "audio"
+  end
 end

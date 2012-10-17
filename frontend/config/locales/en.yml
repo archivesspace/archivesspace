@@ -1,4 +1,149 @@
 en:
+  agent_person_name:
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    direct_order: Direct Order
+    prefix: Prefix
+    title: Title
+    primary_name: Primary Name
+    rest_of_name: Rest of Name
+    suffix: Suffix
+    fuller_form: Fuller Form
+    number: Number
+    dates: Dates
+    qualifier: Qualifier
+    sort_name: Sort Name
+    description_type: Description Type
+    description_note: Description Note
+    description_citation: Description Citation
+  agent_family_name:
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    prefix: Prefix
+    family_name: Family Name
+    dates: Dates
+    qualifier: Qualifier
+    sort_name: Sort Name
+    description_type: Description Type
+    description_note: Description Note
+    description_citation: Description Citation
+  agent_corporate_entity_name:
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    primary_name: Primary Name
+    subordinate_name_1: Subordinate Name 1
+    subordinate_name_2: Subordinate Name 2
+    number: Number
+    dates: Dates
+    qualifier: Qualifier
+    sort_name: Sort Name
+    description_type: Description Type
+    description_note: Description Note
+    description_citation: Description Citation
+  agent_software_name:
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    software_name: Software Name
+    version: Version
+    manufacturer: Manufacturer
+    dates: Dates
+    qualifier: Qualifier
+    sort_name: Sort Name
+    description_type: Description Type
+    description_note: Description Note
+    description_citation: Description Citation
+  agent_contact_details:
+    name: Contact Description
+    salutation: Salutation
+    address_1: Address 1
+    address_2: Address 2
+    address_3: Address 3
+    city: City
+    region: Region
+    country: Country
+    post_code: Post Code
+    telephone: Telephone
+    telephone_ext: Telephone Extension
+    fax: Fax
+    email: Email
+  notes: &note_attributes
+    note_index:
+      option: Index
+      label: Label
+      content: Content
+      items: Items
+    index_item:
+      value: Value
+      type: Type
+      reference: Reference
+      reference_text: Reference Text
+    note_singlepart:
+      label: Label
+      content: Content
+      type: Type
+    note_multipart:
+      label: Label
+      type: Type
+      content: Content
+    note_bibliography:
+      option: Bibliography
+      label: Label
+      content: Content
+      items: Items
+    note_chronology:
+      option: Chronology
+      title: Title
+      items: Items
+    chronology_item:
+      event_date: Event Date
+      events: Events
+    note_definedlist:
+      option: Defined List
+      title: Title
+      items: Items
+    definedlist_item:
+      label: Label
+      value: Value
+    note_orderedlist:
+      option: Ordered List
+      title: Title
+      enumeration: Enumeration
+      items: Items
+  <<: *note_attributes
+  container: &container_attributes
+    type_1: Type 1
+    indicator_1: Indicator 1
+    barcode_1: Barcode 1
+    type_2: Type 2
+    indicator_2: Indicator 2
+    type_3: Type 3
+    indicator_3: Indicator 3
+    _html:
+      plural: Containers
+      singular: Container
+  instance: &instance_attributes
+    instance_type: Type
+    instance_type_audio: Audio
+    instance_type_books: Books
+    instance_type_computer_disks: Computer Disks
+    instance_type_digital_object: Digital Object
+    instance_type_digital_object_link: Digital Object Link
+    instance_type_graphic_materials: Graphic Materials
+    instance_type_maps: Maps
+    instance_type_microform: Microform
+    instance_type_mixed_materials: Mixed Materials
+    instance_type_moving_images: Moving Images
+    instance_type_realia: Realia
+    instance_type_text: Text
+    _container:
+      <<: *container_attributes
+    _html:
+      plural: Instances
+      singular: Instance
   extent: &extent_attributes
     portion: Portion
     portion_whole: Whole
@@ -206,6 +351,8 @@ en:
       <<: *external_document_attributes
     _rights_statements:
       <<: *rights_statement_attributes
+    _instances:
+      <<: *instance_attributes
   repository:
     repo_code: Repository code
     description: Description
@@ -217,7 +364,7 @@ en:
       <<: *term_attributes
     _external_documents:
       <<: *external_document_attributes
-  createuser:
+  user:
     username: Username
     name: Your full name
     password: Password

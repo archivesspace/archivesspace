@@ -6,7 +6,7 @@
    <div class="span3">Ref ID</div>
    <div class="span9"><span class="identifier-display-part"><%= @archival_object.ref_id %></span></div>
 </div>
-<% if @archival_object.subjects %>
+<% if not @archival_object.subjects.blank? %>
 <hr/>
 <div class="row-fluid label-and-value">
    <div class="span3">Subjects</div>

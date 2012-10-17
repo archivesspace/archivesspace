@@ -196,7 +196,7 @@ class ArchivesSpaceService < Sinatra::Base
       response = {:status => type, :id => obj[:id], :lock_version => obj[:lock_version]}
 
       if jsonmodel
-        response[:uri] = jsonmodel.class.uri_for(obj[:id])
+        response[:uri] = jsonmodel.class.uri_for(obj[:id], :repo_id => params[:repo_id])
         response[:warnings] = jsonmodel._warnings
       end
 
@@ -245,14 +245,15 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
-      if session
-        env[:aspace_session] = session
-        env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
-                             ANONYMOUS_USER)
-      end
-
-
       if DB.connected?
+        env[:aspace_user] = ANONYMOUS_USER
+
+        if session
+          env[:aspace_session] = session
+          env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
+                               ANONYMOUS_USER)
+        end
+
         result = DB.open do
           @app.call(env)
         end

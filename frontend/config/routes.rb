@@ -32,6 +32,8 @@ ArchivesSpace::Application.routes.draw do
   match 'groups/:id' => 'groups#update', :via => [:post]
 
   resources :accessions
+  match 'accessions/:id' => 'accessions#update', :via => [:post]
+
   resources :archival_objects
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
 

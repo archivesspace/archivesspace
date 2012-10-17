@@ -93,7 +93,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initDateFields();
   });
-  $(document).bind("subrecord.new", initDateFields);
+  $(document).bind("new.subrecord, init.subrecord", initDateFields);
 });
 
 
@@ -177,6 +177,10 @@ AS.addControlGroupHighlighting = function(parent) {
 
 // confirmation behaviour for subform-remove actions
 AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
+
+  // Hide any others that were selected first
+  $(".cancel-removal:visible").trigger('click');
+
   var confirmationEl = $(AS.renderTemplate("subform_remove_confirmation_template"));
   confirmationEl.hide();
   subformRemoveButtonEl.hide();
@@ -195,3 +199,20 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
     onConfirmCallback($(event.target));
   });
 };
+
+//
+AS.initErrorMessageLinks = function() {
+
+
+};
+$(function() {
+  $(document).on("click", ".errors-for-attribute, .warnings-for-attribute", function() {
+    var $target = $(document.getElementById($(this).data("for")));
+    $target.ScrollTo({
+      offsetTop: 200,
+      callback: function() {
+        $target.focus();
+      }
+    });
+  });
+});

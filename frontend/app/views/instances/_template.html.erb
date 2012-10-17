@@ -1,0 +1,18 @@
+<%= render :partial => "container/template" %>
+
+<% define_template "instance" do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select "instance_type", form.jsonmodel_options_for(:instance, "instance_type", true), :field_opts => {:add_empty_option => true} %>
+    <br/>
+    <div class="instance-container-or-digital-object">
+      <div class="alert alert-warning instance-type-nil">Please select an instance type</div>
+      <div class="alert alert-info instance-type-digital-object">TODO</div>
+      <div class="alert alert-info instance-type-digital-object-link">TODO</div>
+      <div class="instance-type-with-container">
+        <%= form.fields_for(form["container"] || {}, "container") do |item| %>
+          <% form.emit_template("container", item) %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

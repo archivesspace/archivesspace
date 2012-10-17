@@ -18,6 +18,14 @@ module Sequel
           Text field, opts
         end
       end
+
+      def BlobField(field, opts = {})
+        if $db_type == :derby
+          Clob field, opts
+        else
+          Blob field, opts
+        end
+      end
     end
   end
 end

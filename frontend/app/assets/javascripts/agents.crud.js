@@ -10,52 +10,69 @@ $(function() {
         return;
       }
 
-      var form_index =  $(".agent-name-fields", $this).length;
+      var form_index =  $(".subrecord-form-fields", $this).length;
 
       $this.addClass("initialised");
 
-      var addSecondaryNameForm = function() {
-        $("#secondary_names_container .alert-info", $this).hide();
-        form_index ++;
-        var nameSubFormEl = $(AS.renderTemplate("agent_secondary_name_form_template", {index: form_index}));
-        nameSubFormEl.hide();
-        $("#secondary_names_container", $this).append(nameSubFormEl);
-        nameSubFormEl.fadeIn();
-        $(":input:visible:first", nameSubFormEl).focus();
-      };
-      $("#secondary_names h3 input[type=button]").click(addSecondaryNameForm);
+      var initSubForm = function($subform) {
+        if ($subform.hasClass("initialised")) {
+          return;
+        }
+        $subform.addClass("initialised");
 
-      var removeSecondaryNameForm = function() {
-        AS.confirmSubFormDelete($(this), function(button) {
-          button.parents(".subrecord-form-wrapper").remove();
-          if ($("#secondary_names .subrecord-form-wrapper", $this).length === 0) {
-            $("#secondary_names_container .alert-info", $this).show();
-          }
+        var removeBtn = $("<a href='javascript:void(0)' class='btn btn-mini pull-right subrecord-form-remove'><span class='icon-remove'></span></a>");
+        $subform.prepend(removeBtn);
+        removeBtn.on("click", function() {
+          AS.confirmSubFormDelete(removeBtn, function() {
+            if ($subform.parent().hasClass("subrecord-form-wrapper")) {
+              $subform.parent().remove();
+            } else {
+              $subform.remove();
+            }
+            $this.parents("form:first").triggerHandler("form-changed");
+          });
         });
       };
-      $("#secondary_names").on("click", ".subrecord-form-remove", removeSecondaryNameForm);
+
+      var addNameForm = function() {
+        $("#names .alert-info", $this).hide();
+        form_index ++;
+        var $target_subrecord_list = $("#names .subrecord-form-list:first", $this);
+        var index_data = {
+          path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: form_index}),
+          id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: form_index}),
+          index: "${index}"
+        };
+        var $subform = $(AS.renderTemplate("template_"+$("#agent_agent_type_").val()+"_name", index_data));
+        $subform.hide();
+        $target_subrecord_list.append($subform);
+        $subform.fadeIn();
+        $(":input:visible:first", $subform).focus();
+
+        initSubForm($subform)
+      };
+
+      $("#names > h3 input[type=button]").click(addNameForm);
 
 
       var addContactDetailsForm = function() {
         $("#contacts_container .alert-info", $this).hide();
         form_index ++;
-        var contactSubFormEl = $(AS.renderTemplate("agent_contact_form_template", {index: form_index}));
-        contactSubFormEl.hide();
-        $("#contacts_container", $this).append(contactSubFormEl);
-        contactSubFormEl.fadeIn();
-        $(":input:visible:first", contactSubFormEl).focus();
-      };
-      $("#contacts h3 input[type=button]").click(addContactDetailsForm);
+        var $target_subrecord_list = $("#contacts .subrecord-form-list:first", $this);
+        var index_data = {
+          path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: form_index}),
+          id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: form_index}),
+          index: "${index}"
+        };
+        var $subform = $(AS.renderTemplate("template_agent_contact_details", index_data));
+        $subform.hide();
+        $target_subrecord_list.append($subform);
+        $subform.fadeIn();
+        $(":input:visible:first", $subform).focus();
 
-      var removeContactDetailsForm = function() {
-        AS.confirmSubFormDelete($(this), function(button) {
-          button.parents(".subrecord-form-wrapper").remove();
-          if ($("#contacts .subrecord-form-wrapper", $this).length === 0) {
-            $("#contacts_container .alert-info", $this).show();
-          }
-        });
+        initSubForm($subform)
       };
-      $("#contacts").on("click", ".subrecord-form-remove", removeContactDetailsForm);
+      $("#contacts > h3 input[type=button]").click(addContactDetailsForm);
 
 
       var handleSortNameType = function() {
@@ -70,7 +87,7 @@ $(function() {
       $this.on("click", ".sort-name-generation-type", handleSortNameType);
 
       var sortNameTemplate = function(nameFormEl) {
-        var agent_type = $("#agent_agent_type", $this).val();
+        var agent_type = $("#agent_agent_type_", $this).val();
 
         var data = serializeNameFields(nameFormEl);
 
@@ -95,39 +112,43 @@ $(function() {
       };
 
       var updateAutomaticSortName = function() {
-        var agentFieldsContainer = $(this).parents(".agent-name-fields:first");
-        if ($(":input[name$=\"[sort_name_type]\"]",agentFieldsContainer).is(":checked")) {
+        var agentFieldsContainer = $(this).parents(".subrecord-form-fields:first");
+        if ($(":input[name$=\"[automatic]\"]",agentFieldsContainer).is(":checked")) {
           var autoSortName = $.trim(AS.renderTemplate(
                                     sortNameTemplate(agentFieldsContainer), 
                                     serializeNameFields(agentFieldsContainer)));
           $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(autoSortName);
         }
       };
-      $this.on("change", ".agent-name-fields :input:not([name~='sort_name'])", updateAutomaticSortName);
+      $this.on("change", ":input:not([name~='sort_name'])", updateAutomaticSortName);
 
       var initSortNameType = function() {
-        $(".agent-name-fields").each(function() {
-          // should sort_name_type should be checked?
-          var autoSortName = $.trim(AS.renderTemplate(sortNameTemplate(this), serializeNameFields(this)));
-          var currentSortName = $(":input[name$=\"[sort_name]\"]", this).val();
+        $(":input[name$=\"[sort_name]\"]", $this).each(function() {
+          var $subform = $(this).parents(".subrecord-form-fields:first");
+          // should automatic should be checked?
+          var autoSortName = $.trim(AS.renderTemplate(sortNameTemplate($subform), serializeNameFields($subform)));
+          var currentSortName = $(this).val();
           if (autoSortName != currentSortName) {
-            $(":input[name$=\"[sort_name_type]\"]", this).removeAttr("checked");
-            $(":input[name$=\"[sort_name]\"]", this).removeAttr("readonly");
+            $(":input[name$=\"[automatic]\"]", $subform).removeAttr("checked");
+            $(":input[name$=\"[sort_name]\"]", $subform).removeAttr("readonly");
           }
         });
       }
       initSortNameType();
 
+      $("#names .subrecord-form-fields:not(.initialised), #contacts .subrecord-form-fields:not(.initialised)", $this).each(function() {
+        initSubForm($(this));
+      });
     });
   };
 
 
   $(document).ready(function() {
     $(document).ajaxComplete(function() {
-      $("#new_agent:not(.initialised)").init_agent_form();
+      $("#agent_form:not(.initialised)").init_agent_form();
     });
 
-    $("#new_agent:not(.initialised)").init_agent_form();
+    $("#agent_form:not(.initialised)").init_agent_form();
   });
 
 });

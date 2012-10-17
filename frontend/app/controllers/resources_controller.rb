@@ -20,6 +20,12 @@ class ResourcesController < ApplicationController
   def new
     @resource = JSONModel(:resource).new({:title => "New Resource"})._always_valid!
     @resource.extents = [JSONModel(:extent).new._always_valid!]
+    @resource.notes = [
+      #JSONModel(:note_singlepart).new.to_hash(true),
+      #JSONModel(:note_bibliography).new({:items => [""]}).to_hash(true),
+      #JSONModel(:note_index).new({:items => ["",""]}).to_hash(true),
+      #JSONModel(:note_multipart).new({:subnotes => [{'jsonmodel_type' => "note_bibliography"},{'jsonmodel_type' => "note_index"},{'jsonmodel_type' => "note_definedlist"},{'jsonmodel_type' => "note_orderedlist"},{'jsonmodel_type' => "note_chronology", :items => [{:events=>["",""]}]}]}).to_hash(true),
+    ]
   end
 
   def edit

@@ -1,17 +1,19 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index),"New #{I18n.t("agent.agent_type.#{@agent.agent_type}")}"]} %>
 
-<%= jsonmodel_form_for @agent, :as => "agent", :url => {:action => :create, :type => @agent.agent_type}, :html => {:class => 'form-horizontal'} do |f| %>
-  <div class="row-fluid">
-    <div class="span3">
-      <%= render :partial => "agents/sidebar" %>
-    </div>
-    <div class="span9 record-pane">
-      <h2><%= "New #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>  <span class="label label-info">Agent</span></h2>    
-      <%= render :partial => "agents/form", :locals => {:f => f} %>
-      <div class="form-actions">            
-        <button type="submit" class="btn btn-primary">Save <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
-        <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+<%= form_for @agent, :as => "agent", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "agent_form"} do |f| %>
+  <%= form_context :agent, @agent.to_hash(true) do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "sidebar", :locals => {:form => form} %>
+      </div>
+      <div class="span9 record-pane">
+        <h2><%= "New #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>  <span class="label label-info">Agent</span></h2>
+        <%= render :partial => "agents/form", :locals => {:form => form} %>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
+          <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

@@ -1,0 +1,251 @@
+<%
+   singlepart_note_types = {}
+   multipart_note_types = {}
+
+   JSONModel(:note_singlepart).schema['properties']['type']['enum'].each do |type|
+     singlepart_note_types[type] = :note_singlepart
+   end
+
+   JSONModel(:note_multipart).schema['properties']['type']['enum'].each do |type|
+     multipart_note_types[type] = :note_multipart
+   end
+%>
+
+<% define_template "note_singlepart" do |form| %>
+  <div class="subrecord-form-fields" data-type="note_singlepart">
+    <h4 class="subrecord-form-heading">
+      <% if form.readonly? %>
+        <%= I18n.t("#{form.i18n_for("type")}_#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <span class="label label-info">Single Part</span>
+      <% else %>
+        Single Part Note
+      <% end %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_singlepart") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_select("type", singlepart_note_types.keys, :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_textfield("content") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_orderedlist" do |form| %>
+  <div class="subrecord-form-fields" data-type="note_orderedlist">
+    <h4 class="subrecord-form-heading">Ordered List</h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_orderedlist") %>
+      <%= form.label_and_textfield("title") %>
+      <%= form.label_and_textfield("enumeration") %>
+
+      <div class="control-group">
+        <label class="control-label">Items</label>
+        <div class="controls">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("orderedlist_item", item) %>
+          <% end %>
+          <% if not form.readonly? %>
+            <button class="btn btn-mini add-item-btn">Add Item</button>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+
+<% define_template "orderedlist_item" do |form, item| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+<% end %>
+
+<%
+   multipart_subnote_types = []
+   JSONModel(:note_multipart).schema['properties']['subnotes']['items']['type'].each do |item_def|
+     multipart_subnote_types.push(JSONModel.parse_jsonmodel_ref(item_def['type'])[0].to_s)
+   end
+%>
+
+<% define_template "note_multipart" do |form| %>
+  <div class="subrecord-form-fields" data-type="note_multipart">
+    <h4 class="subrecord-form-heading">
+      <% if form.readonly? %>
+        <%= I18n.t("#{form.i18n_for("type")}_#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <span class="label label-info">Multipart</span>
+      <% else %>
+        Multipart Note
+      <% end %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_multipart") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_select("type", multipart_note_types.keys, :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_textfield("content") %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading">
+          Sub Notes
+          <% if not form.readonly? %>
+            <div class="btn-group pull-right">
+              <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Add Sub Note <span class="caret"></span></button>
+              <ul class="dropdown-menu subrecord-selector">
+                <li>
+                  <select>
+                    <% multipart_subnote_types.sort.each do |type| %>
+                      <option value="<%= type %>"><%= I18n.t("notes.#{type}.option") %></option>
+                    <% end %>
+                  </select>
+                </li>
+                <li class="form-actions">
+                  <button class="btn btn-small add-sub-note-btn">Add Sub Note</button>
+                </li>
+              </ul>
+            </div>
+          <% end %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_definedlist" do |form| %>
+  <div class="subrecord-form-fields" data-type="note_definedlist">
+    <h4 class="subrecord-form-heading">Defined List</h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_definedlist") %>
+      <%= form.label_and_textfield("title") %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading">
+          Items
+          <% if not form.readonly? %>
+            <button class="btn btn-mini pull-right add-item-btn">Add Item</button>
+          <% end %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("definedlist_item", item) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "definedlist_item" do |form, item| %>
+  <div class="subrecord-form-fields" data-type="definedlist_item">
+    <%= form.label_and_textfield "label" %>
+    <%= form.label_and_textfield "value" %>
+  </div>
+<% end %>
+
+<% define_template "note_index" do |form| %>
+  <div class="subrecord-form-fields" data-type="note_index">
+    <h4 class="subrecord-form-heading">Index</h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_index") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_textfield("content") %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading">
+          Items
+          <% if not form.readonly? %>
+            <button class="btn btn-mini pull-right add-item-btn">Add Item</button>
+          <% end %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("index_item", item) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "index_item" do |form, item| %>
+  <div class="subrecord-form-fields" data-type="index_item">
+    <%= form.label_and_textfield "value" %>
+    <%= form.label_and_textfield "type" %>
+    <%= form.label_and_textfield "reference" %>
+    <%= form.label_and_textfield "reference_text" %>
+  </div>
+<% end %>
+
+<% define_template "note_chronology" do |form| %>
+  <div class="subrecord-form-fields" data-type="note_chronology">
+    <h4 class="subrecord-form-heading">Chronology</h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_chronology") %>
+      <%= form.label_and_textfield("title") %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading">
+          Items
+          <% if not form.readonly? %>
+            <button class="btn btn-mini pull-right add-item-btn">Add Item</button>
+          <% end %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("chronology_item", item) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "chronology_item" do |form, item| %>
+  <div class="subrecord-form-fields" data-type="chronology_item">
+    <%= form.label_and_date "event_date" %>
+    <div class="control-group">
+      <label class="control-label">Event Details</label>
+      <div class="controls">
+        <%= form.list_for(form["events"], "events[]") do |event| %>
+          <% form.emit_template("chronology_item_event", event) %>
+        <% end %>
+        <% if not form.readonly? %>
+          <button class="btn btn-mini add-event-btn">Add Event</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "chronology_item_event" do |form, event| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, event) %></div>
+<% end %>
+
+<% define_template "bib_item" do |form, item| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+<% end %>
+
+<% define_template "note_bibliography" do |form| %>
+  <div class="subrecord-form-fields" data-type="note_bibliography">
+    <h4 class="subrecord-form-heading">Bibliography</h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_bibliography") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_textfield("content") %>
+
+      <div class="control-group">
+        <label class="control-label">Items</label>
+        <div class="controls">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("bib_item", item) %>
+          <% end %>
+          <% if not form.readonly? %>
+            <button class="btn btn-mini add-item-btn">Add Item</button>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>

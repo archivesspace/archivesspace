@@ -2,19 +2,23 @@
    <%= @resource.title.blank? ? "New Resource" : @resource.title %>  <span class="label label-info">Resource</span>
 </h2>
 
-<%= render :partial => "shared/form_messages", :locals => {:object => @resource, :f => f} %>
+<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <fieldset>
   <section id="basic_information">
     <h3>Basic Information</h3>
-    <%= render :partial => "resources/forms/basic_information", :locals => {:f => f} %>
+    <%= render :partial => "resources/forms/basic_information", :locals => {:form => form} %>
   </section>
 
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :extents} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :dates} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :external_documents} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @resource, :method => :rights_statements} %>
+  <%= render :partial => "notes/form", :locals => {:form => form} %>
+
+
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances"} %>
 
 
 </fieldset>

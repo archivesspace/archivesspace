@@ -8,6 +8,12 @@ class Resource < Sequel::Model(:resources)
   include ExternalDocuments
   include RightsStatements
 
+  # add instances association
+  one_to_many :instances
+  jsonmodel_hint(:the_property => :instances,
+                 :contains_records_of_type => :instance,
+                 :corresponding_to_association => :instances,
+                 :always_resolve => true)
 
   def link(opts)
     child = ArchivalObject.get_or_die(opts[:child])
@@ -18,21 +24,19 @@ class Resource < Sequel::Model(:resources)
 
 
   def assemble_tree(node, links, properties)
-    result = properties[node]
+    result = JSONModel(:resource_tree).new(properties[node])
 
-    result[:archival_object] = JSONModel(:archival_object).uri_for(result[:id],
-                                                                   :repo_id => self.repo_id)
-    result.delete(:id)
-
+    result.archival_object = JSONModel(:archival_object).uri_for(result[:id],
+                                                                 :repo_id => self.repo_id)
     if links[node]
-      result[:children] = links[node].map do |child_id|
+      result.children = links[node].map do |child_id|
         assemble_tree(child_id, links, properties)
       end
     else
-      result[:children] = []
+      result.children = []
     end
 
-    result
+    result.to_hash
   end
 
 
@@ -86,5 +90,28 @@ class Resource < Sequel::Model(:resources)
     end
   end
 
+
+  def self.create_from_json(json, opts = {})
+    notes_blob = JSON(json.notes)
+    json.notes = nil
+    super(json, opts.merge(:notes => notes_blob))
+  end
+
+
+  def update_from_json(json, opts = {})
+    notes_blob = JSON(json.notes)
+    json.notes = nil
+    super(json, opts.merge(:notes => notes_blob))
+  end
+
+
+  def self.sequel_to_jsonmodel(obj, type, opts = {})
+    notes = JSON.parse(obj.notes || "[]")
+    obj[:notes] = nil
+    json = super(obj, type, opts)
+    json.notes = notes
+
+    json
+  end
 
 end

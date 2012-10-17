@@ -1,17 +1,19 @@
-<%= jsonmodel_form_for @archival_object, :as => "archival_object", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
-<div class="row-fluid">
-  <div class="span3">
-    <%= render :partial => "sidebar" %>
-  </div>
-  <div class="span9 record-pane">
-    <%= render :partial => "archival_objects/form_container", :locals => {:f => f} %>
-    <div class="form-actions">
-      <div class="btn-group btn-submit-group">
-        <button type="submit" class="btn btn-primary">Save Archival Object</button>
-        <button type="button" id="createPlusOne" class="btn btn-primary">+1</button>
+<%= form_for @archival_object, :as => "archival_object", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+  <%= form_context :archival_object, @archival_object.to_hash(true) do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "sidebar" %>
       </div>
-      <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+      <div class="span9 record-pane">
+        <%= render :partial => "archival_objects/form_container", :locals => {:form => form} %>
+        <div class="form-actions">
+          <div class="btn-group btn-submit-group">
+            <button type="submit" class="btn btn-primary">Save Archival Object</button>
+            <button type="button" id="createPlusOne" class="btn btn-primary">+1</button>
+          </div>
+          <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  <% end %>
 <% end %>

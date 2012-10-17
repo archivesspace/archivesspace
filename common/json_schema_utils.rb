@@ -2,6 +2,7 @@ module JSONSchemaUtils
 
   def self.fragment_join(fragment, property = nil)
     fragment = fragment.gsub(/^#\//, "")
+    property = property.gsub(/^#\//, "") if property
 
     if property and fragment != "" and fragment !~ /\/$/
       fragment = "#{fragment}/"
@@ -96,6 +97,26 @@ module JSONSchemaUtils
      },
 
      {
+       :failed_attribute => ['Type', 'ArchivesSpaceType'],
+       :pattern => /The property '#\/.*?' of type (.*?) did not match one or more of the following types:.*in schema/,
+       :do => ->(msgs, message, path, actual_type) {
+
+         types = []
+
+         message[:errors].each do |sub_msg|
+           if sub_msg[:message] =~ /did not match the following type: (.*?) in schema/
+             types << $1
+           end
+         end
+
+         if message[:failed_attribute] == 'ArchivesSpaceType'
+           msgs[:errors][fragment_join(path)] = ["Type must be one of: #{types.inspect}"]
+         end
+       }
+     },
+
+
+     {
        :failed_attribute => ['custom_validation'],
        :pattern => /Validation failed for '(.*?)': (.*?) in schema /,
        :do => ->(msgs, message, path, property, msg) {
@@ -114,6 +135,23 @@ module JSONSchemaUtils
     ]
 
 
+  # For a given error, find its list of sub errors.
+  def self.extract_suberrors(errors)
+    errors = Array[errors].flatten
+
+    result = errors.map do |error|
+      if !error[:errors]
+        error
+      else
+        self.extract_suberrors(error[:errors])
+      end
+    end
+
+    result.flatten
+  end
+
+
+
   # Given a list of error messages produced by JSON schema validation, parse
   # them into a structured format like:
   #
@@ -122,6 +160,9 @@ module JSONSchemaUtils
   #   :warnings => {:attr2 => "(attr2 not quite right either)"}
   # }
   def self.parse_schema_messages(messages, validator)
+
+    messages = self.extract_suberrors(messages)
+
     msgs = {
       :errors => {},
       :warnings => {},

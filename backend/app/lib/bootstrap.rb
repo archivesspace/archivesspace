@@ -6,6 +6,7 @@ require_relative 'exceptions'
 require_relative 'logging'
 require_relative "../../../config/config-distribution"
 require_relative "../../../common/jsonmodel"
+require_relative "../../../common/asutils"
 require_relative "../model/db_migrator"
 require_relative 'webhooks'
 

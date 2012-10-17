@@ -18,19 +18,19 @@
     </section>
 
     <% if @archival_object.extents.length > 0 %>
-      <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents } %>
+      <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents, :section_id => "archival_object_extents_" } %>
     <% end %>
 
     <% if @archival_object.dates.length > 0 %>
-      <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates } %>
+      <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates, :section_id => "archival_object_dates_" } %>
     <% end %>
 
     <% if @archival_object.external_documents.length > 0 %>
-      <%= render :partial => "external_documents/show", :locals => { :external_documents => @archival_object.external_documents } %>
+      <%= render :partial => "external_documents/show", :locals => { :external_documents => @archival_object.external_documents, :section_id => "archival_object_external_documents_" } %>
     <% end %>
 
     <% if @archival_object.rights_statements.length > 0 %>
-      <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @archival_object.rights_statements } %>
+      <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @archival_object.rights_statements, :section_id => "archival_object_rights_statements_" } %>
     <% end %>
 
   </div>

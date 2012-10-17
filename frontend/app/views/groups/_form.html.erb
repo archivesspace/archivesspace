@@ -1,6 +1,6 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @group, :f => f} %>
+<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
 
-<%= f.label_and_field :description %>
+<%= form.label_and_textfield "description" %>
 
 <div class="control-group">
   <label for="userlist" class="control-label"><%= I18n.t("group.members") %></label>

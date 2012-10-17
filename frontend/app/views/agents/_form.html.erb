@@ -1,4 +1,7 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @agent, :f => f} %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @agent, :form => form} %>
+
+<%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:form => form} %>
+<%= render :partial => "agents/contact_details", :locals => {:form => form} %>
 
 <fieldset>
   <section id="agent_details">
@@ -6,73 +9,39 @@
     <div class="control-group">
        <label class="control-label">Type</label>
        <div class="controls label-only">
-          <%= f.hidden_field :agent_type %>
+          <%= form.hidden_input "agent_type", @agent.agent_type %>
           <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
        </div>
     </div>
   </section>
 
-  <section id="primary_name">
-    <h3 class="subrecord-form-heading">Primary Name</h3>
-    <%= f.with_jsonmodel("names[]", @agent.names[0], @name_type) do %>
-      <% render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:f => f} %>
-    <% end %>
-
-  </section>
-
-  <section id="secondary_names"class="subrecord-form-dummy">
+  <section id="names" class="subrecord-form">
     <h3 class="subrecord-form-heading">
-      Secondary Name(s)
-      <input type="button" class="btn btn-small pull-right" value="Add Secondary Name"/>
+      Names
+      <input type="button" class="btn btn-small pull-right" value="Add Name" />
     </h3>
-    <div id="secondary_names_container" class="subrecord-form-container">
-      <% if @agent.names.length > 1 %>
-        <% @agent.names.each_with_index do | name , index | %>
-          <% if index > 0 %>
-            <%= f.with_jsonmodel("names[]", name, @name_type) do %>
-              <% render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
-            <% end %>
-          <% end %>
-        <% end %>
-      <% else %>
-        <p class="alert alert-info">Click 'Add Secondary Name' to add further name records.</p>
+    <div class="subrecord-form-container">
+      <%= form.list_for(form["names"], "names[]") do |name| %>
+        <% form.emit_template("#{@agent.agent_type}_name") %>
       <% end %>
     </div>
   </section>
 
-  <section id="contacts" class="subrecord-form-dummy">
+  <section id="contacts" class="subrecord-form">
     <h3 class="subrecord-form-heading">
       Contact Details
-      <input type="button" class="btn btn-small pull-right" value="Add Contact Details"/>
+      <input type="button" class="btn btn-small pull-right" value="Add Contact" />
     </h3>
-    <div id="contacts_container" class="subrecord-form-container">
-      <% if @agent.agent_contacts && @agent.agent_contacts.length > 0 %>
-        <% @agent.agent_contacts.each do | contact | %>
-          <%= f.with_jsonmodel("agent_contacts[]", contact, :agent_contact) do %>
-            <% render :partial => "agents/contact_details", :locals => {:f => f} %>
-          <% end %>
-        <% end %>
-      <% else %>
-        <p class="alert alert-info">Click 'Add Contact Details' to add contact detail records.</p>
+    <div class="subrecord-form-container">
+      <%= form.list_for(form["agent_contacts"], "agent_contacts[]") do |name| %>
+        <% form.emit_template("agent_contact_details") %>
       <% end %>
     </div>
   </section>
 
-  <%= render :partial => "shared/subrecord_form", :locals => {:f => f, :object => @agent, :method => :external_documents} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 
 </fieldset>
-
-<div id="agent_contact_form_template"><!--
-  <%= f.with_jsonmodel("agent_contacts[]", {}, :agent_contact, :index => "${index}") do %>
-    <% render :partial => "agents/contact_details", :locals => {:f => f} %>
-  <% end %>
---></div>
-
-<div id="agent_secondary_name_form_template"><!--
-  <%= f.with_jsonmodel("names[]", {}, @name_type, :index => "${index}") do %>
-    <% render :partial => "agents/name_forms/secondary_name_form", :locals => {:f => f} %>
-  <% end %>
---></div>
 
 <div id="agent_person_sort_name_standard_template"><!--
 {if defined('primary_name') && primary_name.length > 0}${primary_name}{/if}

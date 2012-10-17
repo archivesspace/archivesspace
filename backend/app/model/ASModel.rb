@@ -34,23 +34,25 @@ module ASModel
   end
 
 
-  def update_from_json(json, opts = {})
-    old = JSONModel(json.class.record_type).from_hash(json.to_hash.merge(self.values)).to_hash
-    changes = json.to_hash.merge(opts)
+  def update_from_json(json, extra_values = {})
+    schema_defined_properties = json.class.schema["properties"].keys
 
-    old.each do |k, v|
-      if not changes.has_key?(k)
-        changes[k] = nil
-      end
-    end
+    # Start by assuming all existing properties were nil, then overlay the
+    # updates plus any extra attributes.
+    #
+    # This has the effect of unsetting (or setting to NULL) any properties that
+    # were removed by this update.
+    updated = Hash[schema_defined_properties.map {|property| [property, nil]}].
+                                             merge(json.to_hash).
+                                             merge(ASUtils.keys_as_strings(extra_values))
 
     self.class.strict_param_setting = false
 
-    self.update(self.class.map_json_to_db_types(json.class.schema, changes))
+    self.update(self.class.map_json_to_db_types(json.class.schema, updated))
 
     id = self.save
 
-    self.class.apply_linked_database_records(self, json, opts)
+    self.class.apply_linked_database_records(self, json, extra_values)
 
     id
   end
@@ -116,7 +118,9 @@ module ASModel
 
     def create_from_json(json, extra_values = {})
       self.strict_param_setting = false
-      obj = self.create(map_json_to_db_types(json.class.schema, json.to_hash.merge(extra_values)))
+
+      obj = self.create(map_json_to_db_types(json.class.schema,
+                                             json.to_hash.merge(ASUtils.keys_as_strings(extra_values))))
 
       self.apply_linked_database_records(obj, json, extra_values)
 
@@ -181,18 +185,21 @@ module ASModel
       (ASModel.linked_records[self] or []).each do |linked_record|
 
         # Remove the existing linked records
-        if [:one_to_one, :one_to_many].include?(linked_record[:association][:type])
-          # Delete the objects from the other table
-          obj.send("#{linked_record[:association][:name]}_dataset").delete
-        else
-          # Just remove the links
-          obj.send("remove_all_#{linked_record[:association][:name]}".intern)
-        end
+        remove_existing_linked_records(obj, linked_record)
 
         # Read the subrecords from our JSON blob and fetch or create
         # the corresponding subrecord from the database.
         model = Kernel.const_get(linked_record[:association][:class_name])
-        add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
+
+        if linked_record[:association][:type] === :one_to_one
+          add_record_method = linked_record[:association][:name].to_s
+        else
+          add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
+        end
+
+        if linked_record[:association][:type] === :one_to_one || linked_record[:is_array] === false
+          json[linked_record[:json_property]] = [json[linked_record[:json_property]]]
+        end
 
         (json[linked_record[:json_property]] or []).each do |json_or_uri|
 
@@ -209,7 +216,7 @@ module ASModel
               # Give our classes an opportunity to provide their own logic here
               db_record = model.ensure_exists(subrecord_json, obj)
             else
-              extra_opts = {}.merge(opts)
+              extra_opts = opts.clone
 
               if linked_record[:association][:key]
                 extra_opts[linked_record[:association][:key]] = obj.id
@@ -221,6 +228,27 @@ module ASModel
 
           obj.send(add_record_method, db_record) if db_record
         end
+      end
+    end
+
+    def remove_existing_linked_records(obj, record)
+      model = Kernel.const_get(record[:association][:class_name])
+
+      # now remove this record from the object
+      if [:one_to_one, :one_to_many].include?(record[:association][:type])
+
+        # remove all sub records from the object first to avoid an integrity constraints
+        (ASModel.linked_records[model] or []).each do |linked_record|
+          (obj.send(record[:association][:name]) || []).each do |sub_obj|
+            remove_existing_linked_records(sub_obj, linked_record)
+          end
+        end
+
+        # Delete the objects from the other table
+        obj.send("#{record[:association][:name]}_dataset").delete
+      else
+        # Just remove the links
+        obj.send("remove_all_#{record[:association][:name]}".intern)
       end
     end
 
@@ -241,7 +269,6 @@ module ASModel
 
       # If there are linked records for this class, grab their URI references too
       (ASModel.linked_records[self] or []).each do |linked_record|
-
         model = Kernel.const_get(linked_record[:association][:class_name])
 
         records = obj.send(linked_record[:association][:name]).map {|linked_obj|
@@ -253,7 +280,7 @@ module ASModel
           end
         }
 
-        json[linked_record[:json_property]] = records
+        json[linked_record[:json_property]] = (linked_record[:is_array] === false ? records[0] : records)
       end
 
       json

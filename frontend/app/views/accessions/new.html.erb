@@ -1,13 +1,15 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index),"New Accession"]} %>
 
-<%= jsonmodel_form_for @accession, :as => "accession", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "accession_form"} do |f| %>
-  <div class="row-fluid">
-    <div class="span3">
-      <%= render :partial => "sidebar" %>
+<%= form_for @accession, :as => "accession", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "accession_form"} do |f| %>
+  <%= form_context :accession, @accession.to_hash(true) do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "sidebar" %>
+      </div>
+      <div class="span9 record-pane">
+        <h2>New Accession  <span class="label label-info">Accession</span></h2>
+        <%= render :partial => "accessions/form", :locals => {:form => form} %>
+      </div>
     </div>
-    <div class="span9 record-pane">
-      <h2>New Accession  <span class="label label-info">Accession</span></h2>
-      <%= render :partial => "accessions/form", :locals => {:f => f} %>
-    </div>
-  </div>
+  <% end %>
 <% end %>

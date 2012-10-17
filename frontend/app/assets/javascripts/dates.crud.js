@@ -11,16 +11,20 @@ $(function() {
     });
   };
 
-  $(document).bind("subrecord.new", function(event, object_name, subform) {
-    if (object_name === "date") {
-      $("label.radio", subform).click(function(event) {
-        $(":radio", subform).removeAttr("checked");
-        $(":radio", this).attr("checked", "checked");
-        subform.parents("form:first").triggerHandler("form-changed");
-        $.proxy(toggleDisabledFields, subform)();
-      });
-      $("label.radio :radio:checked", subform).parents(".accordion-group:first").find(".accordion-body").removeClass("collapsed").addClass("in");
+  var initDateForm = function(subform) {
+    $("label.radio", subform).click(function(event) {
+      $(":radio", subform).removeAttr("checked");
+      $(":radio", this).attr("checked", "checked");
+      subform.parents("form:first").triggerHandler("form-changed");
       $.proxy(toggleDisabledFields, subform)();
+    });
+    $("label.radio :radio:checked", subform).parents(".accordion-group:first").find(".accordion-body").removeClass("collapsed").addClass("in");
+    $.proxy(toggleDisabledFields, subform)();
+  };
+
+  $(document).bind("new.subrecord, init.subrecord", function(event, object_name, subform) {
+    if (object_name === "date") {
+      initDateForm(subform);
     }
   });
 

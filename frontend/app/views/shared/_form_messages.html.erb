@@ -1,25 +1,51 @@
-<% if not object._exceptions.empty? %>
-   <% if object._exceptions.has_key?(:errors) %>
+<% if @exceptions %>
+
+   <script>
+     $(function () {
+       var _errors = <%= form.exceptions_for_js(@exceptions) %>;
+
+       var callback = function () {
+         if (_errors.errors) {
+           $(_errors.errors).each(function (idx, elt) {
+             $("#" + elt).parents(".control-group").addClass("error");
+           });
+         }
+
+         if (_errors.warnings) {
+           $(_errors.warnings).each(function (idx, elt) {
+             $("#" + elt).parents(".control-group").addClass("warning");
+           });
+         }
+       };
+
+       $(callback);
+       $(document).ajaxComplete(callback);
+     });
+   </script>
+
+   <% if @exceptions.has_key?(:errors) %>
       <div class="alert alert-error">
-         <% object._exceptions[:errors].each do |attr, messages| %>
-            <div class="errors-<%= attr.gsub('/', "_") %>">
+         <% @exceptions[:errors].each do |attr, messages| %>
+            <div class="errors-for-attribute">
               <% messages.each do |msg| %>
-                <div class="error"><%= I18n.t(f.current_i18n(attr)) %> - <%= msg %></div>
+                <div class="error"><%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %></div>
+                <% puts "ERROR: #{form.path_to_i18n_key(attr)}" %>
               <% end %>
             </div>
          <% end %>
       </div>
    <% end %>
-   <% if object._exceptions.has_key?(:warnings) %>
+   <% if @exceptions.has_key?(:warnings) %>
       <div class="alert alert-warning">
-         <% object._exceptions[:warnings].each do |attr, messages| %>
-            <div class="errors-<%= attr.gsub('/', "_") %>">
+         <% @exceptions[:warnings].each do |attr, messages| %>
+            <div class="warnings-for-attribute">
               <% messages.each do |msg| %>
-                <div class="warning"><%= I18n.t(f.current_i18n(attr)) %> - <%= msg %></div>
+                <div class="warning"><%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %></div>
+                <% puts "WARNING: #{form.path_to_i18n_key(attr)}" %>
               <% end %>
             </div>
          <% end %>
-         <% if not object._exceptions.has_key?(:errors) %>
+         <% if not @exceptions.has_key?(:errors) %>
             <br/>
             <input type="submit" name="ignorewarnings" class="btn btn-warning" value="Save Anyway" />
          <% end %>

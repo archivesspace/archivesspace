@@ -1,57 +1,23 @@
 <%
-  singular = method.to_s.singularize
-  section_id = method.to_s if section_id.blank?
-  suppress_template = false if suppress_template.blank?
-  nested_template = false if nested_template.blank?
-  nested_multiple = false if nested_multiple.blank?
+  singular = name.singularize
+  section_id = form.id_for(name) if section_id.blank?
   heading_size = "h3"
-
-  if nested_template
-    template_id = nested_template
-    heading_size = "h4" if nested_template
-    template_id << "_#{f.current_index}" if nested_multiple
-  else
-    template_id = "#{singular}_form_template"
-  end
-
+  js_template_name = "template_#{singular}" if js_template_name.blank?
 %>
-<div>
 
-  <section id="<%= section_id %>" class="subrecord-form" data-object-name="<%= singular %>" data-template-id="<%= template_id %>">
+<%= render :partial=>"#{name.to_s}/template", :locals => {:form => form} %>
 
-    <<%= heading_size %> class="subrecord-form-heading">
-      <%= I18n.t("#{singular}._html.plural") %>
-      <input type="button" class="btn btn-small pull-right" value="Add <%= I18n.t("#{singular}._html.singular") %>"/>
-    </<%= heading_size %>>
+<section id="<%= section_id %>" class="subrecord-form" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>">
 
-    <div class="subrecord-form-container">
-      <% if object[method.to_s].blank? %>
+  <<%= heading_size %> class="subrecord-form-heading">
+    <%= I18n.t("#{singular}._html.plural") %>
+    <input type="button" class="btn btn-small pull-right" value="Add <%= I18n.t("#{singular}._html.singular") %>"/>
+  </<%= heading_size %>>
 
-        <p class="alert alert-info">Click 'Add <%= I18n.t("#{singular}._html.singular") %>' to add a <%= I18n.t("#{singular}._html.singular") %> record.</p>
-
-      <% else %>
-
-        <% object[method.to_s].each_with_index do | obj, index | %>
-          <%= f.with_jsonmodel("#{method.to_s}[]", obj, singular.intern) do %>
-            <% render :partial => "#{method.to_s}/form", :locals => {:f => f, :index => index} %>
-          <% end %>
-        <% end %>
-
-      <% end %>
-    </div>
-
-  </section>
-
-  <% if not suppress_template %>
-    <% if nested_template %>
-      <div id="<%= template_id %>" style="display:none;" class="nested-template">
-        <%= f.with_jsonmodel("#{method.to_s}[]", {}, singular.intern, :index => "${sub_index}") do %>
-          <% render :partial => "#{method.to_s}/form", :locals => {:f => f} %>
-        <% end %>
-      </div>
-    <% else %>
-      <%= render :partial => "#{method.to_s}/template", :locals => {:f => f} %>
+  <div class="subrecord-form-container">
+    <%= form.list_for(form[name], "#{name}[]") do |item| %>
+      <% form.emit_template(singular, item) %>
     <% end %>
-  <% end %>
+  </div>
 
-</div>
+</section>
