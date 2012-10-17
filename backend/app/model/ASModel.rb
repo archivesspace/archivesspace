@@ -200,6 +200,8 @@ module ASModel
 
         if linked_record[:association][:type] === :one_to_one
           add_record_method = linked_record[:association][:name].to_s
+        elsif linked_record[:association][:type] === :many_to_one
+          add_record_method = "#{linked_record[:association][:name].to_s.singularize}="
         else
           add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
         end
