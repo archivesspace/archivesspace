@@ -48,7 +48,7 @@ module ASModel
 
     self.class.strict_param_setting = false
 
-    self.update(self.class.map_json_to_db_types(json.class.schema, updated))
+    self.update(self.class.prepare_for_db(json.class.schema, updated))
 
     id = self.save
 
@@ -119,8 +119,8 @@ module ASModel
     def create_from_json(json, extra_values = {})
       self.strict_param_setting = false
 
-      obj = self.create(map_json_to_db_types(json.class.schema,
-                                             json.to_hash.merge(ASUtils.keys_as_strings(extra_values))))
+      obj = self.create(prepare_for_db(json.class.schema,
+                                       json.to_hash.merge(ASUtils.keys_as_strings(extra_values))))
 
       self.apply_linked_database_records(obj, json, extra_values)
 
@@ -137,13 +137,20 @@ module ASModel
     }
 
 
-    def map_json_to_db_types(schema, hash)
+    def prepare_for_db(schema, hash)
       hash = hash.clone
       schema['properties'].each do |property, definition|
         mapping = JSON_TO_DB_MAPPINGS[definition['type']]
         if mapping && hash.has_key?(property)
           hash[property] = mapping[:json_to_db].call(hash[property])
         end
+      end
+
+      (ASModel.linked_records[self] or []).each do |linked_record|
+        # Linked records will be processed separately by
+        # apply_linked_database_records.  Don't include them when saving to the
+        # database.
+        hash.delete(linked_record[:json_property].to_s)
       end
 
       hash
