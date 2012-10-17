@@ -1,3 +1,35 @@
+require 'net/http'
+
+
+namespace :export do
+
+  desc "Export a resource as ead"
+  task :ead, :repo_id, :resource_id do |t, args|
+    
+    Rake::Task["import:bootstrap"].invoke
+
+    args.with_defaults(:repo_id => ASpaceImportConfig::DEFAULT_REPO_ID, :resource_id=>1)
+    
+    url = URI("#{ASpaceImportConfig::ASPACE_BASE}/repositories/#{args[:repo_id]}/resources/#{args[:resource_id]}/ead")
+    
+    req = Net::HTTP::Get.new(url.request_uri)
+    
+    req['X-ArchivesSpace-Session'] = Thread.current[:backend_session]
+
+    Net::HTTP.start(url.host, url.port) do |http|
+      response = http.request(req)
+
+      if response.code =~ /^4/
+        JSONModel::handle_error(JSON.parse(response.body))
+      end
+
+      puts response.body
+      
+    end
+    
+    
+  end
+end
 
 
 namespace :import do
@@ -74,17 +106,36 @@ namespace :import do
   
   desc "List all archival objects in a repository"
   task :list_objects, :repo_id do |t, args|
-    
-    Rake::Task["import:bootstrap"].invoke
+
+    Rake::Task["import:bootstrap"].invoke    
 
     args.with_defaults(:repo_id => ASpaceImportConfig::DEFAULT_REPO_ID)
     
-    res = JSON.parse(`curl #{ASpaceImportConfig::ASPACE_BASE}/repositories/#{args[:repo_id]}/archival_objects`)
+    url = URI("#{ASpaceImportConfig::ASPACE_BASE}/repositories/#{args[:repo_id]}/archival_objects")
     
-    puts "\n\nURI\t\t\t\t\tTITLE(s)"  
-    res.each {|r| puts "#{r['uri']}\t#{r['title']}"}
+    req = Net::HTTP::Get.new(url.request_uri)
+    
+    req['X-ArchivesSpace-Session'] = Thread.current[:backend_session]
+
+    Net::HTTP.start(url.host, url.port) do |http|
+      response = http.request(req)
+
+      if response.code =~ /^4/
+        JSONModel::handle_error(JSON.parse(response.body))
+      end
+
+      res = JSON.parse(response.body)
+
+      puts "\n\nURI\t\t\t\t\tTITLE(s)"  
+      res.each {|r| puts "#{r['uri']}\t#{r['title']}"}
+      
+    end
+    
+
   end 
     
+
+
 
   # desc "List things of a given type"
   # task :list, :type, :repo_id do |t, args|
