@@ -122,4 +122,21 @@ module JSONModel::Validations
       check_location(hash)
     end
   end
+
+
+  def self.check_container_location(hash)
+    errors = []
+
+    errors << ["end_date", "is required"] if hash["end_date"].nil? and hash["status"] === "previous"
+
+    errors
+  end
+
+
+  if JSONModel(:container_location)
+    JSONModel(:container_location).add_validation("check_container_location") do |hash|
+      check_container_location(hash)
+    end
+  end
+
 end

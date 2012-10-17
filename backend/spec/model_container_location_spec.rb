@@ -39,16 +39,35 @@ describe 'Container Location' do
 
   it "can be created with a location" do
     location = create_location
-@@moo = true
+
     container_location = ContainerLocation.create_from_json(JSONModel(:container_location).
                                                               from_hash({
                                                                           "status" => "current",
                                                                           "start_date" => "2012-01-02",
                                                                           "location" => JSONModel(:location).uri_for(location[:id])
                                                                         }))
-@@moo = false
+
     ContainerLocation[container_location[:id]].status.should eq("current")
     ContainerLocation[container_location[:id]].start_date.should eq("2012-01-02")
+  end
+
+  it "end date is required if the location status is previous" do
+    expect {
+      container_location = ContainerLocation.create_from_json(JSONModel(:container_location).
+                                                              from_hash({
+                                                                          "status" => "previous",
+                                                                          "start_date" => "2012-01-02",
+                                                                        }))
+    }.should raise_error(JSONModel::ValidationException)
+
+    container_location = ContainerLocation.create_from_json(JSONModel(:container_location).
+                                                              from_hash({
+                                                                          "status" => "previous",
+                                                                          "start_date" => "2012-01-02",
+                                                                          "end_date" => "2012-02-01",
+                                                                        }))
+
+    ContainerLocation[container_location[:id]].end_date.should eq("2012-02-01")
   end
 
 end
