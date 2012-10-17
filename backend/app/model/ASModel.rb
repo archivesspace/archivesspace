@@ -279,11 +279,13 @@ module ASModel
 
       # If there are linked records for this class, grab their URI references too
       (ASModel.linked_records[self] or []).each do |linked_record|
+        # The opts hash will be mutated during URI substitution, so retain our own copy.
+        opts = opts.clone
         model = Kernel.const_get(linked_record[:association][:class_name])
 
         records = Array(obj.send(linked_record[:association][:name])).map {|linked_obj|
           if linked_record[:always_resolve]
-            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel], :any).to_hash
+            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel], :any, opts).to_hash
           else
             JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id, opts) or
               raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
@@ -311,6 +313,8 @@ module ASModel
         raise "Expected object to have a repo_id set: #{obj.inspect}" if (repo_id == :any && obj[:repo_id].nil?)
         raise "Didn't expect object to have a repo_id set: #{obj.inspect}" if (repo_id == :none && !obj[:repo_id].nil?)
       end
+
+      opts[:repo_id] ||= repo_id
 
       sequel_to_jsonmodel(obj, model, opts)
     end

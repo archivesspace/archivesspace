@@ -332,4 +332,65 @@ describe 'Resources controller' do
       JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["status"].should eq("previous")
       JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["resolved"]["location"]["temporary"].should eq("loan")
   end
+
+
+  it "correctly substitutes the repo_id in nested URIs" do
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                              })
+    location_id = location.save
+
+    resource = {
+      "dates" => [],
+      "extents" => [
+                    {
+                      "extent_type" => "cassettes",
+                      "number" => "1",
+                      "portion" => "whole"
+                    }
+                   ],
+      "external_documents" => [],
+      "id_0" => "test",
+      "instances" => [
+                      {
+                        "container" => {
+                          "barcode_1" => "test",
+                          "container_locations" => [
+                                                    {
+                                                      "end_date" => "2012-10-26",
+                                                      "location" => "/repositories/#{@repo_id}/locations/#{location_id}",
+                                                      "note" => "test",
+                                                      "start_date" => "2012-10-10",
+                                                      "status" => "current"
+                                                    }
+                                                   ],
+                          "indicator_1" => "test",
+                          "type_1" => "test"
+                        },
+                        "instance_type" => "books",
+                      }
+                     ],
+      "jsonmodel_type" => "resource",
+      "notes" => [],
+      "rights_statements" => [],
+      "subjects" => [],
+      "title" => "New Resource",
+    }
+
+
+    resource_id = JSONModel(:resource).from_hash(resource).save
+
+    # Set our default repository to nil here since we're really testing the fact
+    # that the :repo_id parameter is passed through faithfully, and the global
+    # setting would otherwise mask the error.
+    #
+    JSONModel.with_repository(nil) do
+      container_location = JSONModel(:resource).find(resource_id, :repo_id => @repo_id)["instances"][0]["container"]["container_locations"][0]
+      container_location["location"].should eq("/repositories/#{@repo_id}/locations/#{location_id}")
+    end
+  end
+
 end
