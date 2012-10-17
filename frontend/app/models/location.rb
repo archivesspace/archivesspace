@@ -8,7 +8,11 @@ class Location < JSONModel(:location)
   def display_string
     return @display_string if @display_string
 
-    @display_string = self.building
+    @display_string = ""
+
+    @display_string << "[#{I18n.t("location.temporary_#{self.temporary}")}] " if self.temporary
+
+    @display_string << self.building
     @display_string << ", #{self.floor}" if self.floor
     @display_string << ", #{self.room}" if self.room
     @display_string << ", #{self.area}" if self.area

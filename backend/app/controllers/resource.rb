@@ -4,7 +4,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Resource")
     .params(["resource", JSONModel(:resource), "The resource to create", :body => true],
             ["repo_id", :repo_id])
-    .returns([200, :created]) \
+    .returns([200, :created],
+             [400, :error]) \
   do
     handle_create(Resource, :resource)
   end
@@ -47,7 +48,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["resource_id", Integer, "The ID of the resource to retrieve"],
             ["resource", JSONModel(:resource), "The resource to update", :body => true],
             ["repo_id", :repo_id])
-    .returns([200, :updated]) \
+    .returns([200, :updated],
+             [400, :error]) \
   do
     handle_update(Resource, :resource_id, :resource)
   end

@@ -18,12 +18,13 @@ module RESTHelpers
 
       properties_to_resolve.each do |property_to_resolve|
         if result.has_key? property_to_resolve
-          result['resolved'] ||= {}
-          if result[property_to_resolve].is_a? Array
+          if result[property_to_resolve].is_a?(Array) and schema['properties'][property_to_resolve]['items']['type'].start_with?("JSONModel")
+            result['resolved'] ||= {}
             result['resolved'][property_to_resolve] = result[property_to_resolve].map do |uri|
               resolve_reference(uri)
             end
-          else
+          elsif schema['properties'][property_to_resolve]['type'].start_with?("JSONModel")
+            result['resolved'] ||= {}
             result['resolved'][property_to_resolve] = resolve_reference(result[property_to_resolve])
           end
         end
