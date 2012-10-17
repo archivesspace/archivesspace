@@ -1,4 +1,5 @@
 require "net/http"
+require "json"
 require "selenium-webdriver"
 require "digest"
 require "rspec"
@@ -237,7 +238,7 @@ describe "ArchivesSpace user interface" do
 
     (@backend, @frontend) = [false, false]
     if standalone
-      $backend_pid = TestUtils::start_backend($backend_port)
+      $backend_pid = TestUtils::start_backend($backend_port, $frontend)
       $frontend_pid = TestUtils::start_frontend($frontend_port, $backend)
     end
 
@@ -368,6 +369,39 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css, '.repository-container .btn').click
     @driver.find_element(:link_text => test_repo_code_2).click
     @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2
+  end
+
+
+  it "automatically refreshes the repository list when a new repo gets added" do
+    new_repo_code = "webhooktest1#{Time.now.to_i}_#{$$}"
+    new_repo_name = "webhook test repository - #{Time.now}"
+
+    # Hit the backend API directly to create a repository from outside the browser
+    res = Net::HTTP.post_form(URI("#{$backend}/users/admin/login"), :password => "admin")
+    admin_session = JSON(res.body)["session"]
+
+    create_repo = URI("#{$backend}/repositories")
+
+    req = Net::HTTP::Post.new(create_repo.path)
+    req["X-ARCHIVESSPACE-SESSION"] = admin_session
+    req.body = "{\"repo_code\": \"#{new_repo_code}\", \"description\": \"#{new_repo_name}\"}"
+
+    Net::HTTP.start(create_repo.hostname, create_repo.port) do |http|
+      res = http.request(req)
+
+      if res.code != "200"
+        raise "Bad response: #{res.body}"
+      end
+    end
+
+    # Give the webhook time to fire
+    sleep 5
+
+    @driver.navigate.refresh
+
+    # Verify that the new repo has shown up
+    @driver.find_element(:css, '.repository-container .btn').click
+    @driver.find_element(:link_text => new_repo_code)
   end
 
 
@@ -1137,7 +1171,7 @@ describe "ArchivesSpace user interface" do
   end
 
 
-  it "Can add a top-level bibliography too" do
+  it "can add a top-level bibliography too" do
     @driver.find_element(:link, 'Edit').click
 
     add_note_button = @driver.find_element(:css => '#notes > .subrecord-form-heading .btn').click

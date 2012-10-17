@@ -42,10 +42,13 @@ module TestUtils
   end
 
 
-  def self.start_backend(port)
+  def self.start_backend(port, frontend_url = nil)
     base = File.dirname(__FILE__)
 
-    pid = Process.spawn({:JAVA_OPTS => "-Xmx64M -XX:MaxPermSize=64M"},
+    java_opts = "-Xmx64M -XX:MaxPermSize=64M"
+    java_opts += " -Daspace.config.frontend_url=#{frontend_url}" if frontend_url
+
+    pid = Process.spawn({:JAVA_OPTS => java_opts},
                         "#{base}/../build/run", "backend:devserver:integration",
                         "-Daspace.backend.port=#{port}",
                         "-Daspace_integration_test=1")
