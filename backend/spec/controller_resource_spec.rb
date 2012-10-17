@@ -169,8 +169,8 @@ describe 'Resources controller' do
     resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     id = resource.save
 
-    JSONModel(:resource).find(id).extents[0].length === 1
-    JSONModel(:resource).find(id).extents[0]["portion"] === "whole"
+    JSONModel(:resource).find(id).extents.length.should eq(1)
+    JSONModel(:resource).find(id).extents[0]["portion"].should eq("whole")
   end
 
 
@@ -190,9 +190,9 @@ describe 'Resources controller' do
 
     id = resource.save
 
-    JSONModel(:resource).find(id).instances[0].length === 1
-    JSONModel(:resource).find(id).instances[0]["instance_type"] === "text"
-    JSONModel(:resource).find(id).instances[0]["container"]["type_1"] === "A Container"
+    JSONModel(:resource).find(id).instances.length.should eq(1)
+    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq("text")
+    JSONModel(:resource).find(id).instances[0]["container"]["type_1"].should eq("A Container")
   end
 
 
@@ -218,6 +218,43 @@ describe 'Resources controller' do
 
     id = resource.save
 
-    JSONModel(:resource).find(id).instances[0]["instance_type"] === "audio"
+    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq("audio")
   end
+
+  it "lets you create a resource with an instance with a container with a location (and the location is resolved)" do
+    # create a location
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                              })
+    location.save
+
+    # create the resource with all the instance/container etc
+    resource = JSONModel(:resource).from_hash({
+                                                "title" => "a resource", "id_0" => "abc123",
+                                                "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}],
+                                                "instances" => [{
+                                                                  "instance_type" => "text",
+                                                                  "container" => {
+                                                                    "type_1" => "A Container",
+                                                                    "indicator_1" => "555-1-2",
+                                                                    "barcode_1" => "00011010010011",
+                                                                    "container_locations" => [{
+                                                                      "status" => "current",
+                                                                      "start_date" => "2012-05-14",
+                                                                      "location" => location.uri
+                                                                    }]
+                                                                  }
+                                                                }]
+                                              })
+
+
+    id = resource.save
+
+    JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["status"].should eq("current")
+    JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["resolved"]["location"]["building"].should eq("129 West 81st Street")
+  end
+
 end
