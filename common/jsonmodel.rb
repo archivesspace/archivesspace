@@ -531,7 +531,7 @@ module JSONModel
               result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"]["type"], transformations)}
             end
 
-          elsif schema["properties"].has_key?(k) and schema["properties"][k]["type"].kind_of?(String) and schema["properties"][k]["type"].start_with?("JSONModel")
+          elsif schema["properties"].has_key?(k) and JSONModel.parse_jsonmodel_ref(schema["properties"][k]["type"])
             result[k] = self.map_hash_with_schema(v, schema["properties"][k]["type"], transformations)
           else
             result[k] = v
