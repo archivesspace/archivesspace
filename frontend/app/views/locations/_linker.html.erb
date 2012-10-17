@@ -1,0 +1,27 @@
+<hr/>
+<div class="control-group">
+   <label class="control-label">Location</label>
+   <div class="controls">
+       <div class="input-append linker-wrapper">
+          <input type="text" class="linker" 
+            data-object_class="location"
+            data-controller="locations"
+            data-label="Location"
+            data-label_plural="Locations"
+            data-name="location"
+            data-path="<%= form.path %>"
+            data-url="<%= url_for :controller => :locations, :action => :list, :format => :json %>"
+            data-selected='<%= form.obj['location'].blank? ? "{}" : form.obj['resolved']['location'] %>'
+            data-multiplicity="one"
+            data-format_property="display_string"
+          />
+          <div class="btn-group">
+             <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="javascript:void(0);" class="linker-browse-btn">Browse</a></li>
+                <li><a href="javascript:void(0);" class="linker-create-btn">Create</a></li>
+              </ul>
+          </div>
+       </div>
+   </div>
+</div>

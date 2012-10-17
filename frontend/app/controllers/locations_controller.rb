@@ -47,4 +47,18 @@ class LocationsController < ApplicationController
                 })
   end
 
+  def list
+    locations = Location.all
+
+    if params[:q]
+      locations = locations.select {|l| l.display_string.downcase.include?(params[:q].downcase)}
+    end
+
+    respond_to do |format|
+      format.json {
+        render :json => locations
+      }
+    end
+  end
+
 end
