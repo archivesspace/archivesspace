@@ -17,6 +17,16 @@ en:
     coordinate_2_indicator: Coordinate Indicator 2
     coordinate_3_label: Coordinate Label 3
     coordinate_3_indicator: Coordinate Indicator 3
+  container_location:
+    status: Status
+    status_current: Current
+    status_previous: Previous
+    start_date: Start Date
+    end_date: End Date
+    note: Note
+    _html:
+      singular: Location
+      plural: Locations
   agent_person_name:
     authority_id: Authority ID
     source: Source

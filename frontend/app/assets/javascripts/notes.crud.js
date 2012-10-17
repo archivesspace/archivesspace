@@ -74,8 +74,12 @@ $(function() {
         $subform.prepend(removeBtn);
         removeBtn.on("click", function() {
           AS.confirmSubFormDelete($(this), function() {
-            var parentContainer = $subform.parents(".subrecord-form-container:first");
-            $subform.remove();
+            if ($subform.parent().hasClass("subrecord-form-wrapper")) {
+              $subform.parent().remove()
+            } else {
+              $subform.remove();
+            }
+
             $this.parents("form:first").triggerHandler("form-changed");
           });
         });
