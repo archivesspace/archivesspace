@@ -401,7 +401,7 @@ describe "ArchivesSpace user interface" do
 
     # Verify that the new repo has shown up
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:link_text => new_repo_code)
+    @driver.find_element(:link_text => new_repo_code).text.should eq(new_repo_code)
   end
 
 
