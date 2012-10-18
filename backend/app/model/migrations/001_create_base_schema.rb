@@ -521,7 +521,6 @@ Sequel.migration do
       add_foreign_key([:resource_id], :resources, :key => :id)
     end
 
-
     create_table(:dates) do
       primary_key :id
 
@@ -530,6 +529,7 @@ Sequel.migration do
       Integer :accession_id, :null => true
       Integer :archival_object_id, :null => true
       Integer :resource_id, :null => true
+      Integer :event_id, :null => true
 
       String :date_type, :null => false
       String :label, :null => false
@@ -547,11 +547,56 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
+
+    create_table(:events) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :repo_id, :null => false
+
+      String :event_type, :null => false
+      String :outcome, :null => true
+      String :outcome_note, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:events) do
+      add_foreign_key([:repo_id], :repositories, :key => :id)
+    end
+
+
     alter_table(:dates) do
       add_foreign_key([:accession_id], :accessions, :key => :id)
       add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
       add_foreign_key([:resource_id], :resources, :key => :id)
+      add_foreign_key([:event_id], :events, :key => :id)
     end
+
+
+    agent_links = [:agent_person, :agent_corporate_entity,
+                   :agent_family, :agent_software]
+
+    agent_links.each do |linkable_agent|
+      table = "#{linkable_agent}_link".intern
+
+      create_table(table) do
+        primary_key :id
+
+        Integer :event_id, :null => false
+        Integer "#{linkable_agent}_id".intern, :null => false
+        String :role, :null => false
+      end
+
+
+      alter_table(table) do
+        add_foreign_key([:event_id], :events, :key => :id)
+        add_foreign_key(["#{linkable_agent}_id".intern], linkable_agent.intern, :key => :id)
+      end
+    end
+
 
 
     create_table(:rights_statements) do
@@ -697,7 +742,7 @@ Sequel.migration do
      :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
      :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
-     :dates, :archival_objects, :vocabularies, :extents, :resources, :repositories,
+     :dates, :events, :archival_objects, :vocabularies, :extents, :resources, :repositories,
      :accessions_external_documents, :archival_objects_external_documents,
      :external_documents_resources, :external_documents_subjects,
      :agent_people_external_documents, :agent_families_external_documents,

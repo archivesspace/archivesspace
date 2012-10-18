@@ -4,6 +4,8 @@
     "type" => "object",
     "uri" => "/repositories/:repo_id/events",
     "properties" => {
+      "uri" => {"type" => "string", "required" => false},
+
       "event_type" => {
         "type" => "string",
         "ifmissing" => "error",
