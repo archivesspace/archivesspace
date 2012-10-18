@@ -8,6 +8,7 @@ class Resource < Sequel::Model(:resource)
   include ExternalDocuments
   include RightsStatements
   include Instances
+  include Deaccessions
 
 
   def link(opts)

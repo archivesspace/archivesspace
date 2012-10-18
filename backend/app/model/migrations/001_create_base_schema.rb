@@ -494,12 +494,40 @@ Sequel.migration do
     end
 
 
+    create_table(:deaccession) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :accession_id, :null => true
+      Integer :resource_id, :null => true
+
+      Integer :whole_part, :default => 1
+      String :description, :null => false
+
+      String :reason
+      String :disposition
+
+      Integer :notification
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    alter_table(:deaccession) do
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+    end
+
+
     create_table(:extent) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
 
       Integer :accession_id, :null => true
+      Integer :deaccession_id, :null => true
       Integer :archival_object_id, :null => true
       Integer :resource_id, :null => true
 
@@ -519,7 +547,9 @@ Sequel.migration do
       add_foreign_key([:accession_id], :accession, :key => :id)
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
       add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:deaccession_id], :deaccession, :key => :id)
     end
+
 
     create_table(:date) do
       primary_key :id
@@ -527,6 +557,7 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
 
       Integer :accession_id, :null => true
+      Integer :deaccession_id, :null => true
       Integer :archival_object_id, :null => true
       Integer :resource_id, :null => true
       Integer :event_id, :null => true
@@ -597,7 +628,6 @@ Sequel.migration do
         add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
       end
     end
-
 
 
     create_table(:rights_statement) do
@@ -736,7 +766,7 @@ Sequel.migration do
 
   down do
 
-    [:external_document, :rights_statement, :location, :container_location,
+    [:external_document, :rights_statement, :location, :container_location, :deaccessions,
      :subject_term, :subject_archival_object, :subject_resource, :subject_accession, :subject, :term,
      :agent_contact, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,

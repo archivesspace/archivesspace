@@ -114,4 +114,28 @@ describe 'Accession controller' do
     JSONModel(:accession).find(acc).rights_statements[0]["active"].should eq(true)
   end
 
+
+  it "creates an accession with a deaccessopm" do
+    acc = JSONModel(:accession).from_hash("id_0" => "1234",
+                                          "title" => "The accession title",
+                                          "content_description" => "The accession description",
+                                          "condition_description" => "The condition description",
+                                          "accession_date" => "2012-05-03",
+                                          "deaccessions" => [
+                                            {
+                                              "whole_part" => false,
+                                              "description" => "A description of this deaccession",
+                                              "dates" => [{
+                                                            "date_type" => "single",
+                                                            "label" => "creation",
+                                                            "begin" => "2012-05-14",
+                                                          }],
+                                            }
+                                          ]).save
+    JSONModel(:accession).find(acc).deaccessions.length.should eq(1)
+    JSONModel(:accession).find(acc).deaccessions[0]["whole_part"].should eq(false)
+    JSONModel(:accession).find(acc).deaccessions[0]["dates"][0]["begin"].should eq("2012-05-14")
+  end
+
+
 end

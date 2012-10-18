@@ -7,6 +7,7 @@ class Accession < Sequel::Model(:accession)
   include Dates
   include ExternalDocuments
   include RightsStatements
+  include Deaccessions
 
 
   def self.records_matching(query, max)
