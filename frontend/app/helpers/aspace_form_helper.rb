@@ -130,13 +130,11 @@ module AspaceFormHelper
 
 
     def path_to_i18n_key(path)
-      puts "Looking up #{path}"
       path_to_i18n_map[path]
     end
 
 
     def exceptions_for_js(exceptions)
-      puts exceptions.inspect
       result = {}
       [:errors, :warnings].each do |condition|
         if exceptions[condition]

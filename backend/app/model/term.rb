@@ -7,6 +7,7 @@ class Term < Sequel::Model(:terms)
   def validate
     super
     validates_unique([:vocab_id, :term, :term_type], :message => "Term must be unique")
+    map_validation_to_json_property([:vocab_id, :term, :term_type], :term)
   end
 
   def self.set_vocabulary(json, opts)
