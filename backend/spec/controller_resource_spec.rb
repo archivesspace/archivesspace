@@ -429,15 +429,12 @@ describe 'Resources controller' do
 
     err = nil
     begin
-      $moo = true
       resource.save
     rescue
-      $moo = false
       err = $!
     end
 
     err.should be_an_instance_of(ValidationException)
-
     err.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
 
   end
