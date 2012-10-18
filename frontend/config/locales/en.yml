@@ -389,6 +389,7 @@ en:
     term: Term
     term_type: Type
   subject:
+    terms: Terms
     _terms:
       <<: *term_attributes
     _external_documents:

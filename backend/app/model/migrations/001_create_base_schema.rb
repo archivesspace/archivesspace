@@ -264,12 +264,15 @@ Sequel.migration do
 
       Integer :vocab_id, :null => false
 
+      String :terms_sha1
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
     alter_table(:subjects) do
       add_foreign_key([:vocab_id], :vocabularies, :key => :id)
+      #add_index([:vocab_id, :terms_hash], :unique => true)
     end
 
 

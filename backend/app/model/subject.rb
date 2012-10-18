@@ -1,4 +1,5 @@
 require_relative 'term'
+require 'digest/sha1'
 
 class Subject < Sequel::Model(:subjects)
   plugin :validation_helpers
@@ -14,13 +15,6 @@ class Subject < Sequel::Model(:subjects)
                  :always_resolve => true)
 
 
-  def validate
-    super
-    validates_unique([:vocab_id, :terms], :message => "Subject must be unique")
-    map_validation_to_json_property([:vocab_id, :terms], :terms)
-  end
-
-
   def self.set_vocabulary(json, opts)
     opts["vocab_id"] = nil
 
@@ -30,14 +24,33 @@ class Subject < Sequel::Model(:subjects)
   end
 
 
+  def self.generate_terms_sha1(json)
+    return nil if json.terms.empty?
+    Digest::SHA1.hexdigest(json.terms.inspect)
+  end
+
+
   def self.create_from_json(json, opts = {})
     set_vocabulary(json, opts)
-    super(json, opts)
+    obj = super(json, opts)
+
+    # add a terms sha1 hash to allow for uniqueness test
+    obj.terms_sha1 = generate_terms_sha1(json)
+    obj.save
+
+    obj
   end
+
 
   def update_from_json(json, opts = {})
     self.class.set_vocabulary(json, opts)
-    super(json, opts)
+    obj = super(json, opts)
+
+    # add a terms sha1 hash to allow for uniqueness test
+    obj.terms_sha1 = generate_terms_sha1(json)
+    obj.save
+
+    obj
   end
 
 
@@ -47,6 +60,13 @@ class Subject < Sequel::Model(:subjects)
     json.vocabulary = JSONModel(:vocabulary).uri_for(obj.vocab_id)
 
     json
+  end
+
+
+  def validate
+    super
+    validates_unique([:vocab_id, :terms], :message => "Subject must be unique")
+    map_validation_to_json_property([:vocab_id, :terms], :terms)
   end
 
 end

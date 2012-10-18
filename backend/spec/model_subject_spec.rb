@@ -63,4 +63,27 @@ describe 'Subject model' do
   end
 
 
+  it "ensures unique subjects may only be created" do
+    term_id_0 = createTerm.id
+    term_id_1 = createTerm.id
+    subject_a = Subject.create_from_json(JSONModel(:subject).
+                                         from_hash({
+                                                     "terms" => [
+                                                       JSONModel(:term).uri_for(term_id_0),
+                                                       JSONModel(:term).uri_for(term_id_1),
+                                                     ],
+                                                     "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
+                                                   }))
+    expect {
+      subject_b = Subject.create_from_json(JSONModel(:subject).
+                                           from_hash({
+                                                       "terms" => [
+                                                         JSONModel(:term).uri_for(term_id_0),
+                                                         JSONModel(:term).uri_for(term_id_1),
+                                                       ],
+                                                       "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
+                                                     }))
+     }.to raise_error(Sequel::ValidationFailed)
+  end
+
 end
