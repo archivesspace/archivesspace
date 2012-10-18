@@ -393,4 +393,54 @@ describe 'Resources controller' do
     end
   end
 
+
+  it "reports an eror when marking a non-temporary location as 'previous'" do
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                              })
+    location_id = location.save
+
+    resource = JSONModel(:resource).
+      from_hash("title" => "New Resource",
+                "id_0" => "test2",
+                "extents" => [{
+                                "portion" => "whole",
+                                "number" => "123",
+                                "extent_type" => "cassettes"
+                              }],
+                "instances" => [{
+                                  "instance_type" => "microform",
+                                  "container" => {
+                                    "type_1" => "test",
+                                    "indicator_1" => "test",
+                                    "barcode_1" => "test",
+                                    "container_locations" => [{
+                                                                "status" => "previous",
+                                                                "start_date" => "2012-10-12",
+                                                                "end_date" => "2012-10-26",
+                                                                "location" => "/repositories/#{@repo_id}/locations/#{location_id}"
+                                                              }]
+                                  }
+                                }])
+
+
+    err = nil
+    begin
+      $moo = true
+      resource.save
+    rescue
+      $moo = false
+      err = $!
+    end
+
+    err.should be_an_instance_of(ValidationException)
+
+    err.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
+
+  end
+
+
 end

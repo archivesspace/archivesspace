@@ -206,37 +206,58 @@ module ASModel
           add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
         end
 
+        is_array = true
         if linked_record[:association][:type] === :one_to_one || linked_record[:is_array] === false
+          is_array = false
           json[linked_record[:json_property]] = [json[linked_record[:json_property]]]
         end
 
-        (json[linked_record[:json_property]] or []).each do |json_or_uri|
+        (json[linked_record[:json_property]] or []).each_with_index do |json_or_uri, i|
           next if json_or_uri.nil?
 
           db_record = nil
 
-          if json_or_uri.kind_of? String
-            # A URI.  Just grab its database ID and look it up.
-            db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
-          else
-            # Create a database record for the JSON blob and return its ID
-            subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri)
-
-            if model.respond_to? :ensure_exists
-              # Give our classes an opportunity to provide their own logic here
-              db_record = model.ensure_exists(subrecord_json, obj)
+          begin
+            if json_or_uri.kind_of? String
+              # A URI.  Just grab its database ID and look it up.
+                      db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
             else
-              extra_opts = opts.clone
+              # Create a database record for the JSON blob and return its ID
+              subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri)
 
-              if linked_record[:association][:key]
-                extra_opts[linked_record[:association][:key]] = obj.id
+              if model.respond_to? :ensure_exists
+                # Give our classes an opportunity to provide their own logic here
+                db_record = model.ensure_exists(subrecord_json, obj)
+              else
+                extra_opts = opts.clone
+
+                if linked_record[:association][:key]
+                  extra_opts[linked_record[:association][:key]] = obj.id
+                end
+
+                db_record = model.create_from_json(subrecord_json, extra_opts)
               end
-
-              db_record = model.create_from_json(subrecord_json, extra_opts)
             end
-          end
 
-          obj.send(add_record_method, db_record) if db_record
+            obj.send(add_record_method, db_record) if db_record
+          rescue Sequel::ValidationFailed => e
+            # Modify the exception keys by prefixing each with the path up until this point.
+            e.instance_eval do
+              if @errors
+                prefix = linked_record[:json_property]
+                prefix = "#{prefix}/#{i}" if is_array
+
+                new_errors = {}
+                @errors.each do |k, v|
+                  new_errors["#{prefix}/#{k}"] = v
+                end
+
+                @errors = new_errors
+              end
+            end
+
+            raise e
+          end
         end
       end
     end

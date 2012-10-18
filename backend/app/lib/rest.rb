@@ -144,6 +144,8 @@ module RESTHelpers
 
         ensure_params(rp)
 
+        Log.debug("Post-processed params: #{params.inspect}") if self.class.development?
+
         unless preconditions.all? { |precondition| self.instance_eval &precondition }
           raise AccessDeniedException.new("Access denied")
         end
