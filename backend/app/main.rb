@@ -23,6 +23,8 @@ class ArchivesSpaceService < Sinatra::Base
     config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "migrations", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
+    config.also_reload File.join("../", "migrations", "lib", "exporter.rb")
+    config.also_reload File.join("../", "migrations", "serializers", "*.rb")
   end
 
 

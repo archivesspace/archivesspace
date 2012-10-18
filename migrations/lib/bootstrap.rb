@@ -15,6 +15,10 @@ require_relative "parse_queue"
 
 ASpaceImport::init
 
+require_relative "exporter"
+
+ASpaceExport::init
+
 res = JSON.parse(`curl -F'password=admin' #{ASpaceImportConfig::ASPACE_BASE}/users/admin/login`)
 session_id = res['session']
 puts "Session ID #{session_id}"
