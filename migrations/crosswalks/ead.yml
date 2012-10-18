@@ -10,6 +10,7 @@ entities:
     properties:
       id_0: 
         xpath: ["descendant::unitid"]
+        procedure: "|value| value.sub!(/_.*/, '')"
 
       title: 
         xpath: ["descendant::unittitle"]

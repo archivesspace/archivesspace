@@ -1,33 +1,78 @@
 require_relative "spec_helper"
 require 'nokogiri'
+require 'factory_girl'
+require 'tmpdir'
 
-describe "ASpaceExport::Serializer::EadSerializer" do
+FactoryGirl.find_definitions
+
+
+describe "ASpaceImport and ASpaceExport modules" do
   
   before(:each) do
     @repo_id = make_test_repo
+    puts "Created a new Repo with ID #{@repo_id}"
+    @ser = ASpaceExport::serializer(:ead)
+    @ser.repo_id = @repo_id
+  end
+  
+  it "should be able to export a Resource and its Tree as EAD" do
+
+    r = FactoryGirl.create(:resource, repo_id: @repo_id) 
+    puts r.inspect   
+    e = FactoryGirl.create(:extent, resource_id: r.id)
+    puts e.inspect 
+    p = FactoryGirl.create(:archival_object, {repo_id: @repo_id, resource_id: r.id})  
+    10.times { FactoryGirl.create(:archival_object, {repo_id: @repo_id, resource_id: r.id, parent_id: p.id}) }
+          
+    ead = @ser.serialize(r)
+    puts ead.to_s
+    
+    doc = Nokogiri::XML ead
+    ead_file = File.join(Dir::tmpdir, "test_ead_1.xml")
+    File.open(ead_file, 'w') { |file| file.write(doc) }
+    
+    # get rid of everything
+    #   needs a better solution
+    # Extent.dataset.each { |e| e.delete }
+    # ArchivalObject.dataset.each { |a| a.delete if a.parent_id }
+    # p.delete    
+    # r.delete
+    
+  end
+  
+  it "should be able to import a Resource and its Tree from EAD" do
+    
+    # reload the ead from the last test
+    ead_file = File.join(Dir::tmpdir, "test_ead_1.xml")
+    
+    @opts = {
+            :crosswalk => 'ead', 
+            :input_file => ead_file, 
+            :importer => 'xml',
+            :repo_id => @repo_id,
+            :vocab_uri => make_test_vocab          
+            }
+    
+     
+    @i = ASpaceImport::Importer.create_importer(@opts)
+    @i.run
+    
+    # Resource id should be 1
+    Resource.dataset.filter(:repo_id => @repo_id).each do |r|
+    # r = Resource.get_or_die(1, @repo_id)
+      ead = @ser.serialize(r)
+    
+      doc = Nokogiri::XML ead
+      ead_file = File.join(Dir::tmpdir, "test_ead_2.xml")
+      File.open(ead_file, 'w') { |file| file.write(doc) }    
+    end
+  end
+  
+  it "should be as roundtrippy as possible" do
+    # needs more research 
+    #test the files
   end
 
-  def create_resource
-    Resource.create_from_json(JSONModel(:resource).
-                              from_hash({
-                                          "title" => "A new resource",
-                                          "id_0" => "abc123",
-                                          "extents" => [
-                                            {
-                                              "portion" => "whole",
-                                              "number" => "5 or so",
-                                              "extent_type" => "reels",
-                                            }
-                                          ]
-                                        }),
-                              :repo_id => @repo_id)
-  end  
   
-  it "should be able to convert a Resource record to an EAD" do
-    r = create_resource
-    ead = ASpaceExport::serializer(:ead).serialize(r)
-    doc = Nokogiri::XML ead    
-    doc.xpath("//unittitle").to_s.should eq '<unittitle>A new resource</unittitle>'
-  end
 end
 
