@@ -33,6 +33,15 @@ ASpaceExport::serializer :ead do
     xml.archdesc {
       xml.did {
         xml.unittitle object.title
+        xml.unitid object.identifier
+        extents = Extent.dataset.filter(:resource_id => object.id)
+        if extents
+          xml.physdesc {
+            extents.each do |e|
+              _extent_statement(e, xml)
+            end 
+          }
+        end  
       }
       xml.dsc {
         if (tree = object.tree)
@@ -54,15 +63,15 @@ ASpaceExport::serializer :ead do
   
   def _c(object, tree, xml)
     
-    extents = Extent.dataset.filter(:archival_object_id => object.id)
-
-    xml.c {
+    xml.c(:id => object.ref_id) {      
       _did(object, xml)
       _desc_tree(tree, xml)
     }
   end
   
   def _did(object, xml)
+    extents = Extent.dataset.filter(:archival_object_id => object.id)
+    
     xml.did {
       xml.unittitle object.title
       if extents
