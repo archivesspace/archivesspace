@@ -1,3 +1,12 @@
+<%
+  if form.obj['location'].blank?
+    selected_json = "{}"
+  elsif  form.obj['resolved']['location'].is_a?(String)
+    selected_json =  Location.from_hash(JSON(form.obj['resolved']['location'])).to_json
+  else
+    selected_json =  Location.from_hash(form.obj['resolved']['location']).to_json
+  end
+%>
 <hr/>
 <div class="control-group">
    <label class="control-label">Location</label>
@@ -11,7 +20,7 @@
             data-name="location"
             data-path="<%= form.path %>"
             data-url="<%= url_for :controller => :locations, :action => :list, :format => :json %>"
-            data-selected='<%= form.obj['location'].blank? ? "{}" : form.obj['resolved']['location'] %>'
+            data-selected='<%= selected_json %>'
             data-multiplicity="one"
             data-format_property="display_string"
           />

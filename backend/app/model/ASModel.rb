@@ -245,7 +245,7 @@ module ASModel
       model = Kernel.const_get(record[:association][:class_name])
 
       # now remove this record from the object
-      if [:one_to_one, :one_to_many, :many_to_one].include?(record[:association][:type])
+      if [:one_to_one, :one_to_many].include?(record[:association][:type])
 
         # remove all sub records from the object first to avoid an integrity constraints
         (ASModel.linked_records[model] or []).each do |linked_record|
@@ -256,9 +256,12 @@ module ASModel
 
         # Delete the objects from the other table
         obj.send("#{record[:association][:name]}_dataset").delete
-      else
+      elsif record[:association][:type] === :many_to_many
         # Just remove the links
         obj.send("remove_all_#{record[:association][:name]}".intern)
+      elsif record[:association][:type] === :many_to_one
+        # Just remove the link
+        obj.send("#{record[:association][:name].intern}=", nil)
       end
     end
 

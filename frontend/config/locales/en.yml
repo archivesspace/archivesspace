@@ -24,6 +24,7 @@ en:
     start_date: Start Date
     end_date: End Date
     note: Note
+    location: Location
     _html:
       singular: Location
       plural: Locations
