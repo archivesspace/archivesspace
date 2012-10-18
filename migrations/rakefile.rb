@@ -10,7 +10,7 @@ namespace :export do
 
     args.with_defaults(:repo_id => ASpaceImportConfig::DEFAULT_REPO_ID, :resource_id=>1)
     
-    url = URI("#{ASpaceImportConfig::ASPACE_BASE}/repositories/#{args[:repo_id]}/resources/#{args[:resource_id]}/ead")
+    url = URI("#{ASpaceImportConfig::ASPACE_BASE}/repositories/#{args[:repo_id]}/resource_descriptions/#{args[:resource_id]}.xml")
     
     req = Net::HTTP::Get.new(url.request_uri)
     
