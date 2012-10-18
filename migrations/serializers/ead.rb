@@ -35,12 +35,16 @@ ASpaceExport::serializer :ead do
         xml.unittitle object.title
       }
       xml.dsc {
-        _desc_tree(object.tree, xml)
+        if (tree = object.tree)
+          _desc_tree(tree, xml)
+        end
       }
     }
   end
 
   def _desc_tree(tree, xml)
+    return unless tree['children']
+    
     tree['children'].each do |t|
       id = JSONModel::JSONModel(:archival_object).id_for(t['archival_object'])          
       object = ArchivalObject.get_or_die(id, @repo_id)
