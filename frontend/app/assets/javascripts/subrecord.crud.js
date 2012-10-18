@@ -31,7 +31,7 @@ $(function() {
           });
         });
 
-        $(document).triggerHandler("init.subrecord", [$this.data("object-name"), $subform])
+        $(document).triggerHandler("init.subrecord", [$subform.data("object-name"), $subform])
       };
 
 

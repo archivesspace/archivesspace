@@ -1,0 +1,63 @@
+<%
+   section_id = "deaccessions" if section_id.blank?
+%>
+
+<%= render :partial => "deaccessions/template" %>
+
+<section id="<%= section_id %>">
+  <h3>Deaccessions</h3>
+  <div class="accordion details" id="deaccessions_accordion">
+    <%= context.list_for(context["deaccessions"], "deaccessions[]") do |deaccession, index| %>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#deaccessions_accordion" href="#deaccession_<%= index %>">
+            <div class="span1">
+              <span class="icon-chevron-right"></span>
+              <span class="icon-chevron-down"></span>
+            </div>
+            <div class="span1">
+              <% if deaccession["whole_or_part"] %>Whole<% else %>Part<% end %>
+            </div>
+            <div class="span3">
+              <% if deaccession["dates"].length > 0 %>
+                <% if deaccession["dates"][0]['date_type'] === "expression" %>
+                  <%= deaccession["dates"][0]['expression'] %>
+                <% elsif deaccession["dates"][0]['date_type'] === "single" %>
+                  <%= deaccession["dates"][0]['begin'] %> <%= deaccession["dates"][0]['begin_time'] %>
+                <% else %>
+                  <%= deaccession["dates"][0]['begin'] %> <%= deaccession["dates"][0]['begin_time'] %> &ndash; <%= deaccession["dates"][0]['end'] %> <%= deaccession["dates"][0]['end_time'] %>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="span7">
+              <% if deaccession["extents"].length > 0 %>
+                <%= deaccession["extents"][0]['number'] %>
+                <%= I18n.t('extent.extent_type_'+deaccession["extents"][0]['extent_type']) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div id="deaccession_<%= index %>" class="accordion-body collapse">
+          <div class="subrecord-form-container">
+            <% deaccession.reject{|k,v| ["lock_version", "dates", "extents", "jsonmodel_type"].include?(k)}.each do |k, v| %>
+              <div class="row-fluid label-and-value">
+                <div class="span3 offset1" ><%= I18n.t("deaccession.#{k}") %></div>
+                <% if JSONModel(:deaccession).schema["properties"][k]["enum"] %>
+                  <div class="span8"><%= I18n.t("deaccession.#{k}_#{v}") %></div>
+                <% else  %>
+                  <div class="span8"><%= v %></div>
+                <% end %>
+              </div>
+            <% end %>
+            <% if deaccession["extents"].length > 0 %>
+              <%= render :partial => "extents/show", :locals => { :extents => deaccession["extents"], :section_id => "deaccession_#{index}_extents_" } %>
+            <% end %>
+            <% if deaccession["dates"].length > 0 %>
+              <%= render :partial => "dates/show", :locals => { :dates => deaccession["dates"], :section_id => "deaccession_#{index}_dates_" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

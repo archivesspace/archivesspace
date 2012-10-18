@@ -4,11 +4,11 @@
 
 <section id="<%= section_id %>">
   <h3>Dates</h3>
-  <div class="accordion details" id="dates_accordion">
+  <div class="accordion details" id="<%= section_id %>_accordion">
     <% dates.each_with_index do | date, index | %>
       <div class="accordion-group">
         <div class="accordion-heading">
-          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#date_accordion" href="#date_<%= index %>">
+          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_date_<%= index %>">
             <div class="span1">
               <span class="icon-chevron-right"></span>
               <span class="icon-chevron-down"></span>
@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <div id="date_<%= index %>" class="accordion-body collapse">
+        <div id="<%= section_id %>_date_<%= index %>" class="accordion-body collapse">
           <% date.each do |k, v| %>
             <div class="row-fluid label-and-value">
               <div class="span3 offset1" ><%= I18n.t("date.#{k}") %></div>
