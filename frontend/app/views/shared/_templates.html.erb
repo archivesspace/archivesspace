@@ -24,30 +24,46 @@
       <div class="linker-list"></div>
    </div>
    <div class="modal-footer">
-      <button id="addSelectedButton" class="btn btn-primary">Link to ${name_plural}</button>
+      <button id="addSelectedButton" class="btn btn-primary">Link to ${label_plural}</button>
       <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
    </div>
 --></div>
 <div id="linker_createmodal_template"><!--
    <div class="modal-body linker-container"></div>
    <div class="modal-footer">
-      <button id="createAndLinkButton" class="btn btn-primary">Create and Link to ${name}</button>
+      <button id="createAndLinkButton" class="btn btn-primary">Create and Link to ${label}</button>
       <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
    </div>
 --></div>
 <div id="linker_browse_template"><!--
    <ul>
-      {for item in items} 
+      {for item in items}
          <li>
             <label>
-               <input 
-                  type="checkbox" 
-                  name="linker-item" 
-                  value="${item.uri}" 
-                  data-object='${JSON.stringify(item)}'
-                  {if $.inArray(item.uri, selected) >= 0} checked="checked"{/if}
-               />
-               <span>${AS.quickTemplate(config.format, item)}</span>
+               {if config.multiplicity === "one"}
+                 <input
+                    type="radio"
+                    name="linker-item"
+                    value="${item.uri}"
+                    data-object='${JSON.stringify(item)}'
+                    {if $.inArray(item.uri, selected) >= 0} checked="checked"{/if}
+                 />
+               {else}
+                 <input
+                    type="checkbox"
+                    name="linker-item"
+                    value="${item.uri}"
+                    data-object='${JSON.stringify(item)}'
+                    {if $.inArray(item.uri, selected) >= 0} checked="checked"{/if}
+                 />
+               {/if}
+               <span>
+                {if config.format_property}
+                  ${item[config.format_property]}
+                {else}
+                  ${AS.quickTemplate(config.format, item)}
+                {/if}
+               </span>
             </label>
          </li>
       {/for}
@@ -55,13 +71,13 @@
 --></div>
 <div id="linker_selected_template"><!--
    {if config.multiplicity === "many" || (config.multiplicity === "one" && items.length === 0)}
-      <button type="button" class="btn btn-mini linker-add-button">Add ${config.name}</button>
+      <button type="button" class="btn btn-mini linker-add-button">Add ${config.label}</button>
    {/if}
    {if items.length > 0}
       <ul>
          {for item in items} 
             <li>
-               <input type="hidden" name="${config.owner_class}[${config.owner_attribute}][]" value="${item}" />
+               <input type="hidden" name="${config.path}[${config.name}][]" value="${item}" />
                ${item}
             </li>
          {/for}
@@ -71,9 +87,9 @@
    {/if}
 --></div>
 <div id="linker_selectedtoken_template"><!--
-   <li>
-      <input type="hidden" name="${config.owner_class}[resolved][${config.owner_attribute}][]" />
-      <input type="hidden" name="${config.owner_class}[${config.owner_attribute}][]" value="${item.id}" />
+   <li id="${item.id.replace(/\//g,'_')}">
+      <input type="hidden" name="${config.path}[resolved][${config.name}]{if config.multiplicity != 'one'}[]{/if}" />
+      <input type="hidden" name="${config.path}[${config.name}]{if config.multiplicity != 'one'}[]{/if}" value="${item.id}" />
       ${item.name}
    </li>
 --></div>

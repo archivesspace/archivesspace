@@ -1,14 +1,22 @@
+<%= render :partial=>"container_locations/template" %>
+
 <% define_template "container" do |form| %>
-  <section>
+  <section class="subrecord-form">
     <h4 class="subrecord-form-heading">Container</h4>
-    <div class="container-form-fields">
-      <%= form.label_and_textfield "type_1" %>
-      <%= form.label_and_textfield "indicator_1" %>
-      <%= form.label_and_textfield "barcode_1" %>
-      <%= form.label_and_textfield "type_2" %>
-      <%= form.label_and_textfield "indicator_2" %>
-      <%= form.label_and_textfield "type_3" %>
-      <%= form.label_and_textfield "indicator_3" %>
+    <div class="subrecord-form-container">
+      <div class="subrecord-form-fields">
+        <%= form.label_and_textfield "type_1" %>
+        <%= form.label_and_textfield "indicator_1" %>
+        <%= form.label_and_textfield "barcode_1" %>
+        <%= form.label_and_textfield "type_2" %>
+        <%= form.label_and_textfield "indicator_2" %>
+        <%= form.label_and_textfield "type_3" %>
+        <%= form.label_and_textfield "indicator_3" %>
+
+        <div class="subrecord-form-container">
+          <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "container_locations", :heading_size => "h5"} %>
+        </div>
+      </div>
     </div>
   </section>
 <% end %>

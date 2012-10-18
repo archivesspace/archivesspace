@@ -1,4 +1,33 @@
 en:
+  location:
+    temporary: Temporary
+    temporary_conservation: Conservation
+    temporary_exhibit: Exhibit
+    temporary_loan: Loan
+    temporary_reading_room: Reading Room
+    building: Building
+    floor: Floor
+    room: Room
+    area: Area
+    barcode: Barcode
+    classification: Classification
+    coordinate_1_label: Coordinate Label 1
+    coordinate_1_indicator: Coordinate Indicator 1
+    coordinate_2_label: Coordinate Label 2
+    coordinate_2_indicator: Coordinate Indicator 2
+    coordinate_3_label: Coordinate Label 3
+    coordinate_3_indicator: Coordinate Indicator 3
+  container_location:
+    status: Status
+    status_current: Current
+    status_previous: Previous
+    start_date: Start Date
+    end_date: End Date
+    note: Note
+    location: Location
+    _html:
+      singular: Location
+      plural: Locations
   agent_person_name:
     authority_id: Authority ID
     source: Source
@@ -360,6 +389,7 @@ en:
     term: Term
     term_type: Type
   subject:
+    terms: Terms
     _terms:
       <<: *term_attributes
     _external_documents:

@@ -142,11 +142,11 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   error Sequel::ValidationFailed do
-    json_response({:error => request.env['sinatra.error'].errors}, 409)
+    json_response({:error => request.env['sinatra.error'].errors}, 400)
   end
 
   error Sequel::DatabaseError do
-    json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 409)
+    json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 400)
   end
 
   error Sequel::Plugins::OptimisticLocking::Error do

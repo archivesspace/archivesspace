@@ -48,7 +48,7 @@ module ASModel
 
     self.class.strict_param_setting = false
 
-    self.update(self.class.map_json_to_db_types(json.class.schema, updated))
+    self.update(self.class.prepare_for_db(json.class.schema, updated))
 
     id = self.save
 
@@ -119,8 +119,8 @@ module ASModel
     def create_from_json(json, extra_values = {})
       self.strict_param_setting = false
 
-      obj = self.create(map_json_to_db_types(json.class.schema,
-                                             json.to_hash.merge(ASUtils.keys_as_strings(extra_values))))
+      obj = self.create(prepare_for_db(json.class.schema,
+                                       json.to_hash.merge(ASUtils.keys_as_strings(extra_values))))
 
       self.apply_linked_database_records(obj, json, extra_values)
 
@@ -137,13 +137,20 @@ module ASModel
     }
 
 
-    def map_json_to_db_types(schema, hash)
+    def prepare_for_db(schema, hash)
       hash = hash.clone
       schema['properties'].each do |property, definition|
         mapping = JSON_TO_DB_MAPPINGS[definition['type']]
         if mapping && hash.has_key?(property)
           hash[property] = mapping[:json_to_db].call(hash[property])
         end
+      end
+
+      (ASModel.linked_records[self] or []).each do |linked_record|
+        # Linked records will be processed separately by
+        # apply_linked_database_records.  Don't include them when saving to the
+        # database.
+        hash.delete(linked_record[:json_property].to_s)
       end
 
       hash
@@ -193,40 +200,64 @@ module ASModel
 
         if linked_record[:association][:type] === :one_to_one
           add_record_method = linked_record[:association][:name].to_s
+        elsif linked_record[:association][:type] === :many_to_one
+          add_record_method = "#{linked_record[:association][:name].to_s.singularize}="
         else
           add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
         end
 
+        is_array = true
         if linked_record[:association][:type] === :one_to_one || linked_record[:is_array] === false
+          is_array = false
           json[linked_record[:json_property]] = [json[linked_record[:json_property]]]
         end
 
-        (json[linked_record[:json_property]] or []).each do |json_or_uri|
+        (json[linked_record[:json_property]] or []).each_with_index do |json_or_uri, i|
+          next if json_or_uri.nil?
 
           db_record = nil
 
-          if json_or_uri.kind_of? String
-            # A URI.  Just grab its database ID and look it up.
-            db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
-          else
-            # Create a database record for the JSON blob and return its ID
-            subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri)
-
-            if model.respond_to? :ensure_exists
-              # Give our classes an opportunity to provide their own logic here
-              db_record = model.ensure_exists(subrecord_json, obj)
+          begin
+            if json_or_uri.kind_of? String
+              # A URI.  Just grab its database ID and look it up.
+                      db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
             else
-              extra_opts = opts.clone
+              # Create a database record for the JSON blob and return its ID
+              subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri)
 
-              if linked_record[:association][:key]
-                extra_opts[linked_record[:association][:key]] = obj.id
+              if model.respond_to? :ensure_exists
+                # Give our classes an opportunity to provide their own logic here
+                db_record = model.ensure_exists(subrecord_json, obj)
+              else
+                extra_opts = opts.clone
+
+                if linked_record[:association][:key]
+                  extra_opts[linked_record[:association][:key]] = obj.id
+                end
+
+                db_record = model.create_from_json(subrecord_json, extra_opts)
               end
-
-              db_record = model.create_from_json(subrecord_json, extra_opts)
             end
-          end
 
-          obj.send(add_record_method, db_record) if db_record
+            obj.send(add_record_method, db_record) if db_record
+          rescue Sequel::ValidationFailed => e
+            # Modify the exception keys by prefixing each with the path up until this point.
+            e.instance_eval do
+              if @errors
+                prefix = linked_record[:json_property]
+                prefix = "#{prefix}/#{i}" if is_array
+
+                new_errors = {}
+                @errors.each do |k, v|
+                  new_errors["#{prefix}/#{k}"] = v
+                end
+
+                @errors = new_errors
+              end
+            end
+
+            raise e
+          end
         end
       end
     end
@@ -246,9 +277,12 @@ module ASModel
 
         # Delete the objects from the other table
         obj.send("#{record[:association][:name]}_dataset").delete
-      else
+      elsif record[:association][:type] === :many_to_many
         # Just remove the links
         obj.send("remove_all_#{record[:association][:name]}".intern)
+      elsif record[:association][:type] === :many_to_one
+        # Just remove the link
+        obj.send("#{record[:association][:name].intern}=", nil)
       end
     end
 
@@ -269,18 +303,22 @@ module ASModel
 
       # If there are linked records for this class, grab their URI references too
       (ASModel.linked_records[self] or []).each do |linked_record|
+        # The opts hash will be mutated during URI substitution, so retain our own copy.
+        opts = opts.clone
         model = Kernel.const_get(linked_record[:association][:class_name])
 
-        records = obj.send(linked_record[:association][:name]).map {|linked_obj|
+        records = Array(obj.send(linked_record[:association][:name])).map {|linked_obj|
           if linked_record[:always_resolve]
-            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel], :any).to_hash
+            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel], :any, opts).to_hash
           else
-            JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id) or
+            JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id, opts) or
               raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
           end
         }
 
-        json[linked_record[:json_property]] = (linked_record[:is_array] === false ? records[0] : records)
+        is_array = (linked_record[:is_array] != false) && ![:many_to_one, :one_to_one].include?(linked_record[:association][:type])
+
+        json[linked_record[:json_property]] = (is_array ? records : records[0])
       end
 
       json
@@ -299,6 +337,8 @@ module ASModel
         raise "Expected object to have a repo_id set: #{obj.inspect}" if (repo_id == :any && obj[:repo_id].nil?)
         raise "Didn't expect object to have a repo_id set: #{obj.inspect}" if (repo_id == :none && !obj[:repo_id].nil?)
       end
+
+      opts[:repo_id] ||= repo_id
 
       sequel_to_jsonmodel(obj, model, opts)
     end

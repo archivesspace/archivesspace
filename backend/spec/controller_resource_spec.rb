@@ -169,8 +169,8 @@ describe 'Resources controller' do
     resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     id = resource.save
 
-    JSONModel(:resource).find(id).extents[0].length === 1
-    JSONModel(:resource).find(id).extents[0]["portion"] === "whole"
+    JSONModel(:resource).find(id).extents.length.should eq(1)
+    JSONModel(:resource).find(id).extents[0]["portion"].should eq("whole")
   end
 
 
@@ -190,9 +190,9 @@ describe 'Resources controller' do
 
     id = resource.save
 
-    JSONModel(:resource).find(id).instances[0].length === 1
-    JSONModel(:resource).find(id).instances[0]["instance_type"] === "text"
-    JSONModel(:resource).find(id).instances[0]["container"]["type_1"] === "A Container"
+    JSONModel(:resource).find(id).instances.length.should eq(1)
+    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq("text")
+    JSONModel(:resource).find(id).instances[0]["container"]["type_1"].should eq("A Container")
   end
 
 
@@ -218,6 +218,226 @@ describe 'Resources controller' do
 
     id = resource.save
 
-    JSONModel(:resource).find(id).instances[0]["instance_type"] === "audio"
+    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq("audio")
   end
+
+  it "lets you create a resource with an instance with a container with a location (and the location is resolved)" do
+    # create a location
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                              })
+    location.save
+
+    # create the resource with all the instance/container etc
+    resource = JSONModel(:resource).from_hash({
+                                                "title" => "a resource", "id_0" => "abc123",
+                                                "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}],
+                                                "instances" => [{
+                                                                  "instance_type" => "text",
+                                                                  "container" => {
+                                                                    "type_1" => "A Container",
+                                                                    "indicator_1" => "555-1-2",
+                                                                    "barcode_1" => "00011010010011",
+                                                                    "container_locations" => [{
+                                                                      "status" => "current",
+                                                                      "start_date" => "2012-05-14",
+                                                                      "location" => location.uri
+                                                                    }]
+                                                                  }
+                                                                }]
+                                              })
+
+
+    id = resource.save
+
+    JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["status"].should eq("current")
+    JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["resolved"]["location"]["building"].should eq("129 West 81st Street")
+  end
+
+
+  it "throws an error if try to link to a non temporary location and have status set to previous" do
+    # create a location
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                              })
+    location.save
+
+    # create the resource with all the instance/container etc
+    expect {
+      resource = JSONModel(:resource).from_hash({
+                                                "title" => "a resource", "id_0" => "abc123",
+                                                "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}],
+                                                "instances" => [{
+                                                                  "instance_type" => "text",
+                                                                  "container" => {
+                                                                    "type_1" => "A Container",
+                                                                    "indicator_1" => "555-1-2",
+                                                                    "barcode_1" => "00011010010011",
+                                                                    "container_locations" => [{
+                                                                                                "status" => "previous",
+                                                                                                "start_date" => "2012-05-14",
+                                                                                                "end_date" => "2012-05-18",
+                                                                                                "location" => location.uri
+                                                                                              }]
+                                                                  }
+                                                                }]
+                                              })
+
+
+      id = resource.save
+    }.to raise_error
+  end
+
+
+  it "allows linking to a temporary location and with status set to previous" do
+    # create a location
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                                "temporary" => "loan",
+                                              })
+    location.save
+
+    # create the resource with all the instance/container etc
+    resource = JSONModel(:resource).from_hash({
+                                                  "title" => "a resource", "id_0" => "abc123",
+                                                  "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}],
+                                                  "instances" => [{
+                                                                    "instance_type" => "text",
+                                                                    "container" => {
+                                                                      "type_1" => "A Container",
+                                                                      "indicator_1" => "555-1-2",
+                                                                      "barcode_1" => "00011010010011",
+                                                                      "container_locations" => [{
+                                                                                                  "status" => "previous",
+                                                                                                  "start_date" => "2012-05-14",
+                                                                                                  "end_date" => "2012-05-18",
+                                                                                                  "location" => location.uri
+                                                                                                }]
+                                                                    }
+                                                                  }]
+                                                })
+
+
+      id = resource.save
+
+      JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["status"].should eq("previous")
+      JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["resolved"]["location"]["temporary"].should eq("loan")
+  end
+
+
+  it "correctly substitutes the repo_id in nested URIs" do
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                              })
+    location_id = location.save
+
+    resource = {
+      "dates" => [],
+      "extents" => [
+                    {
+                      "extent_type" => "cassettes",
+                      "number" => "1",
+                      "portion" => "whole"
+                    }
+                   ],
+      "external_documents" => [],
+      "id_0" => "test",
+      "instances" => [
+                      {
+                        "container" => {
+                          "barcode_1" => "test",
+                          "container_locations" => [
+                                                    {
+                                                      "end_date" => "2012-10-26",
+                                                      "location" => "/repositories/#{@repo_id}/locations/#{location_id}",
+                                                      "note" => "test",
+                                                      "start_date" => "2012-10-10",
+                                                      "status" => "current"
+                                                    }
+                                                   ],
+                          "indicator_1" => "test",
+                          "type_1" => "test"
+                        },
+                        "instance_type" => "books",
+                      }
+                     ],
+      "jsonmodel_type" => "resource",
+      "notes" => [],
+      "rights_statements" => [],
+      "subjects" => [],
+      "title" => "New Resource",
+    }
+
+
+    resource_id = JSONModel(:resource).from_hash(resource).save
+
+    # Set our default repository to nil here since we're really testing the fact
+    # that the :repo_id parameter is passed through faithfully, and the global
+    # setting would otherwise mask the error.
+    #
+    JSONModel.with_repository(nil) do
+      container_location = JSONModel(:resource).find(resource_id, :repo_id => @repo_id)["instances"][0]["container"]["container_locations"][0]
+      container_location["location"].should eq("/repositories/#{@repo_id}/locations/#{location_id}")
+    end
+  end
+
+
+  it "reports an eror when marking a non-temporary location as 'previous'" do
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                              })
+    location_id = location.save
+
+    resource = JSONModel(:resource).
+      from_hash("title" => "New Resource",
+                "id_0" => "test2",
+                "extents" => [{
+                                "portion" => "whole",
+                                "number" => "123",
+                                "extent_type" => "cassettes"
+                              }],
+                "instances" => [{
+                                  "instance_type" => "microform",
+                                  "container" => {
+                                    "type_1" => "test",
+                                    "indicator_1" => "test",
+                                    "barcode_1" => "test",
+                                    "container_locations" => [{
+                                                                "status" => "previous",
+                                                                "start_date" => "2012-10-12",
+                                                                "end_date" => "2012-10-26",
+                                                                "location" => "/repositories/#{@repo_id}/locations/#{location_id}"
+                                                              }]
+                                  }
+                                }])
+
+
+    err = nil
+    begin
+      resource.save
+    rescue
+      err = $!
+    end
+
+    err.should be_an_instance_of(ValidationException)
+    err.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
+
+  end
+
+
 end

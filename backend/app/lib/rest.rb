@@ -8,24 +8,34 @@ module RESTHelpers
   end
 
 
-  def resolve_references(json, resolve)
-    hash = json.to_hash
+  def resolve_references(json, properties_to_resolve)
+    return json.to_hash if properties_to_resolve.nil?
 
-    hash['resolved'] ||= {}
+    resolve_properties = proc do |hash, schema|
+      result = hash.clone
 
-    (resolve or []).each do |property|
-      if hash[property]
-        if hash[property].is_a? Array
-          hash['resolved'][property] = hash[property].map do |uri|
-            resolve_reference(uri)
+      #return result if resolve.nil?
+
+      properties_to_resolve.each do |property_to_resolve|
+        if result.has_key? property_to_resolve
+          if result[property_to_resolve].is_a?(Array) and schema['properties'][property_to_resolve]['items']['type'].start_with?("JSONModel")
+            result['resolved'] ||= {}
+            result['resolved'][property_to_resolve] = result[property_to_resolve].map do |uri|
+              resolve_reference(uri)
+            end
+          elsif schema['properties'][property_to_resolve]['type'].start_with?("JSONModel")
+            result['resolved'] ||= {}
+            result['resolved'][property_to_resolve] = resolve_reference(result[property_to_resolve])
           end
-        else
-          hash['resolved'][property] = resolve_reference(hash[property])
         end
       end
+
+      result
     end
 
-    hash
+    json.class.map_hash_with_schema(json.to_hash,
+                               nil,
+                               [resolve_properties])
   end
 
 
@@ -133,6 +143,8 @@ module RESTHelpers
         end
 
         ensure_params(rp)
+
+        Log.debug("Post-processed params: #{params.inspect}") if self.class.development?
 
         unless preconditions.all? { |precondition| self.instance_eval &precondition }
           raise AccessDeniedException.new("Access denied")

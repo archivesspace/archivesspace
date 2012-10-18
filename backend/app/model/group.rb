@@ -90,6 +90,7 @@ class Group < Sequel::Model(:groups)
     super
     validates_unique([:repo_id, :group_code],
                      :message => "Group code must be unique within a repository")
+    map_validation_to_json_property([:repo_id, :group_code], :group_code)
   end
 
 

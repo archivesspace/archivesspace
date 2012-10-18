@@ -24,7 +24,7 @@
           </div>
         </div>
         <div id="instance_<%= index %>" class="accordion-body collapse">
-          <% instance.reject{|k,v| ["lock_version", "container"].include?(k)}.each do |k, v| %>
+          <% instance.reject{|k,v| ["lock_version", "container", "jsonmodel_type"].include?(k)}.each do |k, v| %>
             <div class="row-fluid label-and-value">
               <div class="span3 offset1" ><%= I18n.t("instance.#{k}") %></div>
               <div class="span8"><%= v %></div>

@@ -15,16 +15,15 @@ $(function() {
       var config = {
         url: $this.data("url"),
         format: $this.data("format"),
-        object_class: $this.data("object_class"),
+        format_property: $this.data("format_property"),
         controller: $this.data("controller"),
-        owner_class: $this.data("owner_class"),
-        owner_attribute: $this.data("owner_attribute"),
-        multiplicity: $this.data("multiplicity"),
+        path: $this.data("path"),
         name: $this.data("name"),
-        name_plural: $this.data("name_plural"),
+        multiplicity: $this.data("multiplicity") || "many",
+        label: $this.data("label"),
+        label_plural: $this.data("label_plural"),
         modal_id: "linkerModalFor_"+$this.data("class")
       };
-
 
       var renderItemsInModal = function() {
         var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
@@ -39,6 +38,15 @@ $(function() {
       };
 
 
+      var formattedNameForJSON = function(json) {
+        if (config.format) {
+          return AS.quickTemplate(config.format, json);
+        } else if (config.format_property) {
+          return json[config.format_property];
+        }
+        return "ERROR: no format for name (formattedNameForJSON)"
+      };
+
       var renderCreateFormForObject = function() {
         var $modal = $("#"+config.modal_id);
 
@@ -52,13 +60,17 @@ $(function() {
             beforeSubmit: function() {
               $("#createAndLinkButton", $modal).attr("disabled","disabled");
             },
-            success: function(response, status, xhr) {             
-              if ($(response).is("form")) {                         
+            success: function(response, status, xhr) {
+              if ($(response).is("form")) {
                 initCreateForm(response);
               } else {
+                if (config.multiplicity === "one") {
+                  clearTokens();
+                }
+
                 $this.tokenInput("add", {
                   id: response.uri,
-                  name: AS.quickTemplate(config.format, response),
+                  name: formattedNameForJSON(response),
                   json: response
                 });
                 $this.parents("form:first").triggerHandler("form-changed");
@@ -82,7 +94,7 @@ $(function() {
 
 
       var showLinkerCreateModal = function() {
-        AS.openCustomModal(config.modal_id, "Create "+ config.name, AS.renderTemplate("linker_createmodal_template", config));
+        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config));
         renderCreateFormForObject();
       };
 
@@ -96,7 +108,7 @@ $(function() {
           var item = $(this).data("object");
           $this.tokenInput("add", {
             id: item.uri,
-            name: AS.quickTemplate(config.format, item),
+            name: formattedNameForJSON(item),
             json: item
           });
         });
@@ -106,7 +118,7 @@ $(function() {
 
 
       var showLinkerBrowseModal = function() {
-        AS.openCustomModal(config.modal_id, "Browse "+ config.name_plural, AS.renderTemplate("linker_browsemodal_template",config));
+        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config));
         renderItemsInModal();
         $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
       };
@@ -119,7 +131,7 @@ $(function() {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
-              name: AS.quickTemplate(config.format, obj),
+              name: formattedNameForJSON(obj),
               id: obj.uri,
               json: obj
             });
@@ -136,18 +148,40 @@ $(function() {
       };
 
 
-      var tokensForPrepopulation = function() {
-        if ($this.data("selected").length === 0) {
-          return [];
+      var clearTokens = function() {
+        // as tokenInput plugin won't clear a token
+        // if it has an input.. remove all inputs first!
+        var $tokenList = $(".token-input-list", $this.parent());
+        for (var i=0; i<$this.tokenInput("get").length; i++) {
+          var id_to_remove = $this.tokenInput("get")[i].id.replace(/\//g,"_");
+          $("#"+id_to_remove + " :input", $tokenList).remove();
         }
+        $this.tokenInput("clear");
+      };
 
-        return $this.data("selected").map(function(item) {
-          return {
-            id: item.uri,
-            name: AS.quickTemplate(config.format, item),
-            json: item
-          };
-        });
+      var tokensForPrepopulation = function() {
+        if ($this.data("multiplicity") === "one") {
+          if ($.isEmptyObject($this.data("selected"))) {
+            return [];
+          }
+          return [{
+              id: $this.data("selected").uri,
+              name: formattedNameForJSON($this.data("selected")),
+              json: $this.data("selected")
+          }];
+        } else {
+          if ($this.data("selected").length === 0) {
+            return [];
+          }
+
+          return $this.data("selected").map(function(item) {
+            return {
+              id: item.uri,
+              name: formattedNameForJSON(item),
+              json: item
+            };
+          });
+        }
       };
 
 
@@ -156,6 +190,7 @@ $(function() {
           animateDropdown: false,
           preventDuplicates: true,
           allowFreeTagging: false,
+          tokenLimit: (config.multiplicity==="one"? 1 :null),
           onCachedResult: formatResults,
           onResult: formatResults,
           tokenFormatter: function(item) {
@@ -171,6 +206,9 @@ $(function() {
             $this.parents("form:first").triggerHandler("form-changed");
           }
         });
+
+        $this.parent().addClass("multiplicity-"+config.multiplicity);
+
         addEventBindings();
       };
 
@@ -185,4 +223,8 @@ $(document).ready(function() {
   });
 
   $(".linker:not(.initialised)").linker();
+
+  $(document).bind("new.subrecord", function(event, object_name, subform) {
+    $(".linker:not(.initialised)", subform).linker();
+  });
 });

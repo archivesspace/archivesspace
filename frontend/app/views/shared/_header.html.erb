@@ -21,6 +21,7 @@
                 <li class="divider"></li>
                 <li><%= link_to "Subjects", :controller => :subjects, :action => :index %></li>
                 <li><%= link_to "Agents", :controller => :agents, :action => :index %></li>
+                <li><%= link_to "Locations", :controller => :locations, :action => :index %></li>
               </ul>
             </li>
             <% if user_can?('update_repository') %>
@@ -40,6 +41,7 @@
                       <li><%= link_to "Software", :controller => :agents, :action => :new, :type => :agent_software %></li>
                     </ul>
                   </li>
+                  <li><%= link_to "Location", :controller => :locations, :action => :new %></li>
                 </ul>
               </li>
 							<li class="dropdown import-container">
