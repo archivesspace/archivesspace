@@ -40,7 +40,7 @@ module AspaceFormHelper
       objects.each_with_index do |object, idx|
         push(set_index(context_name, idx), object) do
           result << "<div class=\"subrecord-form-wrapper\">"
-          result << hidden_input("lock_version", object["lock_version"])
+          result << hidden_input("lock_version")
           result << @parent.capture(object, &block)
           result << "</div>"
         end
@@ -227,6 +227,7 @@ module AspaceFormHelper
 
 
     def hidden_input(name, value = nil)
+      puts "***** #{obj.inspect}"
       value = obj[name] if value.blank?
       @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => value, :name => path(name)},
                  false, false)

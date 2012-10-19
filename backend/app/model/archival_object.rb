@@ -6,6 +6,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   include Dates
   include ExternalDocuments
   include RightsStatements
+  include Instances
 
 
   def children

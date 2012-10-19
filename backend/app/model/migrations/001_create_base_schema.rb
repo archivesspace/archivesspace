@@ -169,12 +169,41 @@ Sequel.migration do
     end
 
 
+    create_table(:archival_objects) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :repo_id, :null => false
+      Integer :resource_id, :null => true
+
+      Integer :parent_id, :null => true
+
+      String :ref_id, :null => false, :unique => false
+      String :component_id, :null => true
+
+      TextField :title, :null => true
+      String :level, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:archival_objects) do
+      add_foreign_key([:repo_id], :repositories, :key => :id)
+      add_foreign_key([:resource_id], :resources, :key => :id)
+      add_foreign_key([:parent_id], :archival_objects, :key => :id)
+      add_index([:resource_id, :ref_id], :unique => true)
+    end
+
+
     create_table(:instances) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
 
       Integer :resource_id
+      Integer :archival_object_id
 
       String :instance_type, :null => false
 
@@ -184,6 +213,7 @@ Sequel.migration do
 
     alter_table(:instances) do
       add_foreign_key([:resource_id], :resources, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
     end
 
 
@@ -210,34 +240,6 @@ Sequel.migration do
 
     alter_table(:containers) do
       add_foreign_key([:instance_id], :instances, :key => :id)
-    end
-
-
-    create_table(:archival_objects) do
-      primary_key :id
-
-      Integer :lock_version, :default => 0, :null => false
-
-      Integer :repo_id, :null => false
-      Integer :resource_id, :null => true
-
-      Integer :parent_id, :null => true
-
-      String :ref_id, :null => false, :unique => false
-      String :component_id, :null => true
-
-      TextField :title, :null => true
-      String :level, :null => true
-
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
-    end
-
-    alter_table(:archival_objects) do
-      add_foreign_key([:repo_id], :repositories, :key => :id)
-      add_foreign_key([:resource_id], :resources, :key => :id)
-      add_foreign_key([:parent_id], :archival_objects, :key => :id)
-      add_index([:resource_id, :ref_id], :unique => true)
     end
 
 
