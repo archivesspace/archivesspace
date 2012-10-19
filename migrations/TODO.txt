@@ -1,3 +1,5 @@
+- Add JSONValidation Exceptions to the report, send to rails flash
+
 - hook up agents to archival objects and resources on import
 
 - create helper methods to render reports and other messages
