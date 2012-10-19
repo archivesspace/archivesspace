@@ -14,8 +14,6 @@ module RESTHelpers
     resolve_properties = proc do |hash, schema|
       result = hash.clone
 
-      #return result if resolve.nil?
-
       properties_to_resolve.each do |property_to_resolve|
         if result.has_key? property_to_resolve
           if result[property_to_resolve].is_a?(Array) and schema['properties'][property_to_resolve]['items']['type'].start_with?("JSONModel")
