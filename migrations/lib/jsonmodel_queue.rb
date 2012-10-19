@@ -46,19 +46,30 @@ module JSONModel
     def try_save(opts = {})
       puts "Try Saving #{self.to_s}" if $DEBUG
       can_save = true
-      self.waiting_for.each do |w|
-        can_save = false unless w.uri 
+      # This will come apart if an unsaveable object is required
+      # by the schema
+      self.waiting_for.select {|w| w.unsaveable? == false}.each do |w|
+        can_save = false unless w.uri
+        break unless can_save
       end    
       if can_save
         if opts[:dry] == true
           r = self.fake_save(opts)
         else
-          r = self.save(opts)
+          begin
+            r = self.save(opts)
+          rescue JSONModel::ValidationException
+            # here we could seek to recover from conflict or 
+            # uniqueness exceptions by trying to find the id
+            # of the dupe in the backend and proceeding
+            puts "Unsaveable object: #{$!}"
+            self.unsaveable!
+          end              
         end
         self.run_after_save_hooks
         return r
       else
-        can_save
+        false
       end
     end
 
@@ -80,6 +91,14 @@ module JSONModel
     
     def waiting_for
       @waiting_for || Array.new
+    end
+    
+    def unsaveable!
+      @unsaveable = true
+    end
+    
+    def unsaveable?
+      @unsaveable || false
     end
     
   end
