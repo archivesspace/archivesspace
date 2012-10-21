@@ -5,7 +5,7 @@
 
        var setupErrorMessage = function(idx, elt, type) {
          $("#" + elt).parents(".control-group").addClass(type);
-         $("." + type + "[data-target=" + elt + "]").click(function() {
+         $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='icon-chevron-down'></span>").click(function() {
            $("#" + elt).ScrollTo({
             callback: function() {
               $("#" + elt).focus();
