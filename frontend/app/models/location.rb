@@ -10,7 +10,7 @@ class Location < JSONModel(:location)
 
     @display_string = ""
 
-    @display_string << "[#{I18n.t("location.temporary_#{self.temporary}")}] " if self.temporary
+    @display_string << "[#{I18n.t("location.temporary_#{self.temporary}")}] " if not self.temporary.blank?
 
     @display_string << self.building
     @display_string << ", #{self.floor}" if self.floor
@@ -18,11 +18,11 @@ class Location < JSONModel(:location)
     @display_string << ", #{self.area}" if self.area
 
     others = []
-    others << self.barcode if self.barcode
-    others << self.classification if self.classification
-    others << "#{self.coordinate_1_label}: #{self.coordinate_1_indicator}" if self.coordinate_1_label
-    others << "#{self.coordinate_2_label}: #{self.coordinate_2_indicator}" if self.coordinate_2_label
-    others << "#{self.coordinate_3_label}: #{self.coordinate_3_indicator}" if self.coordinate_3_label
+    others << self.barcode if not self.barcode.blank?
+    others << self.classification if not self.classification.blank?
+    others << "#{self.coordinate_1_label}: #{self.coordinate_1_indicator}" if not self.coordinate_1_label.blank?
+    others << "#{self.coordinate_2_label}: #{self.coordinate_2_indicator}" if not self.coordinate_2_label.blank?
+    others << "#{self.coordinate_3_label}: #{self.coordinate_3_indicator}" if not self.coordinate_3_label.blank?
 
     @display_string << " [#{others.join(", ")}]"
 
