@@ -100,6 +100,7 @@ $(function() {
         $("header").ScrollTo();
       }, 
       error: function(obj, errorText, errorDesc) {
+        $container.prepend("<div class='alert alert-error'><p>An error occurred saving this record.</p><pre>"+errorDesc+"</pre></div>");
         $container.triggerHandler("submitted", {success: false});
         $(".btn-primary", $form).removeAttr("disabled");
       }
@@ -133,6 +134,7 @@ $(function() {
           $("form", $container).triggerHandler("form-changed");
         },
         error: function() {
+          $container.prepend("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>")
           console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
         }
       });
@@ -141,6 +143,9 @@ $(function() {
         url: APP_PATH+"archival_objects/"+nodeEl.data("id")+"/edit?inline=true",
         success: function(html) {
           initForm(html);
+        },
+        error: function(obj, errorText, errorDesc) {
+          $container.prepend("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
         }
       });
     } else if (nodeEl.attr("rel") === "resource") {         
@@ -148,6 +153,9 @@ $(function() {
         url: APP_PATH+"resources/"+nodeEl.data("id")+"/edit?inline=true",
         success: function(html) {
           initForm(html);
+        },
+        error: function(obj, errorText, errorDesc) {
+          $container.prepend("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
         }
       });
     }
