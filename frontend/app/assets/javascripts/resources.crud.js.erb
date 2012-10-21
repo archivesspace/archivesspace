@@ -94,8 +94,10 @@ $(function() {
           form_changed = false;
           rerenderTree(function() {
             $container.triggerHandler("submitted", {success: true});
-          });                
+          });
         }
+        // scroll back to the top
+        $("header").ScrollTo();
       }, 
       error: function(obj, errorText, errorDesc) {
         $container.triggerHandler("submitted", {success: false});
