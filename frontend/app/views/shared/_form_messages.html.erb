@@ -1,5 +1,5 @@
+<div class="form-messages">
 <% if @exceptions %>
-
    <script>
      $(function () {
        var _errors = <%= form.exceptions_for_js(@exceptions) %>;
@@ -56,3 +56,4 @@
       <%= flash[:success] %>
    </div>
 <% end %>
+</div>

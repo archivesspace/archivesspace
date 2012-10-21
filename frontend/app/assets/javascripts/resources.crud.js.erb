@@ -85,7 +85,7 @@ $(function() {
       success: function(response, status, xhr) {
         initForm(response);
 
-        if ($container.find(".alert-error:first, .alert-warning:first").length) {
+        if ($container.find(".form-messages .alert-error:first, .form-messages .alert-warning:first").length) {
           $container.triggerHandler("submitted", {success: false});
         } else {
           if (location.hash === "#tree::newAO") {
