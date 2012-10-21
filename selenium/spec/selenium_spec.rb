@@ -823,18 +823,20 @@ describe "ArchivesSpace user interface" do
 
   it "can create a subject and link to an Accession" do
 
+    me = "#{$$}.#{Time.now.to_i}"
+
     @driver.find_element(:link, 'Edit').click
 
     @driver.find_element(:css, ".linker-wrapper a.btn").click
     @driver.find_element(:css, "a.linker-create-btn").click
-    @driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "AccessionTermABC")
+    @driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "#{me}AccessionTermABC")
     @driver.find_element(:css, "form#new_subject .row-fluid:first-child .add-term-btn").click
-    @driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:last-child input"], "AccessionTermDEF")
+    @driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:last-child input"], "#{me}AccessionTermDEF")
     @driver.find_element(:id, "createAndLinkButton").click
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => ".label-and-value .token").text.should eq("AccessionTermABC -- AccessionTermDEF")
+    @driver.find_element(:css => ".label-and-value .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF")
   end
 
 
@@ -960,9 +962,9 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:css, ".linker-wrapper a.btn").click
     @driver.find_element(:css, "a.linker-create-btn").click
-    @driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "TestTerm123")
+    @driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "#{$$}TestTerm123")
     @driver.find_element(:css, "form#new_subject .row-fluid:first-child .add-term-btn").click
-    @driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:last-child input"], "FooTerm456")
+    @driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:last-child input"], "#{$$}FooTerm456")
     @driver.find_element(:id, "createAndLinkButton").click
   end
 
@@ -972,7 +974,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css, ".token-input-delete-token").click
 
     # search for the created subject
-    @driver.clear_and_send_keys([:id, "token-input-"], "FooTerm456")
+    @driver.clear_and_send_keys([:id, "token-input-"], "#{$$}FooTerm456")
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     @driver.find_element(:css, "form#new_archival_object button[type='submit']").click
@@ -982,7 +984,7 @@ describe "ArchivesSpace user interface" do
     # Verify that the change stuck
     @driver.navigate.refresh
 
-    @driver.find_element(:css, "ul.token-input-list").text.should match(/FooTerm456/)
+    @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/)
   end
 
 
