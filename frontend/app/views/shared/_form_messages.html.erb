@@ -5,13 +5,15 @@
 
        var setupErrorMessage = function(idx, elt, type) {
          $("#" + elt).parents(".control-group").addClass(type);
-         $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='icon-chevron-down'></span>").click(function() {
-           $("#" + elt).ScrollTo({
-            callback: function() {
-              $("#" + elt).focus();
-            }
+         if ($("#" + elt).length) {
+           $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='icon-chevron-down'></span>").click(function() {
+             $("#" + elt).ScrollTo({
+              callback: function() {
+                $("#" + elt).focus();
+              }
+             });
            });
-         });
+         }
        };
 
        var _errors = <%= form.exceptions_for_js(@exceptions) %>;
