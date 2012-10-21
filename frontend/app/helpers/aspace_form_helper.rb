@@ -139,12 +139,17 @@ module AspaceFormHelper
       [:errors, :warnings].each do |condition|
         if exceptions[condition]
           result[condition] = exceptions[condition].keys.map {|property|
-            "#{form_top}#{property.split("/").collect{|a| "[#{a}]"}.join}".gsub(/[\[\]\/]/, "_")
+            id_for_javascript(property)
           }
         end
       end
 
       result.to_json.html_safe
+    end
+
+
+    def id_for_javascript(name)
+      "#{form_top}#{name.split("/").collect{|a| "[#{a}]"}.join}".gsub(/[\[\]\/]/, "_")
     end
 
 
