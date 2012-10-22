@@ -353,7 +353,7 @@ Sequel.migration do
         TextField :qualifier, :null => true
         String :source, :null => true
         String :rules, :null => true
-        TextField :sort_name, :null => true
+        TextField :sort_name, :null => false
       end
     end
 
