@@ -16,6 +16,8 @@ class AgentsController < ApplicationController
   def new
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
     @agent.names = [@name_type.new._always_valid!]
+
+    render :partial => "agents/new" if inline?
   end
 
   def edit
@@ -26,9 +28,11 @@ class AgentsController < ApplicationController
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
                 :on_invalid => ->(){
+                  return render :partial => "agents/new" if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){
+                  return render :json => @agent.to_hash if inline?
                   redirect_to :controller => :agents, :action => :show, :id => id, :type => @agent_type
                 })
   end
@@ -46,7 +50,11 @@ class AgentsController < ApplicationController
   end
 
   def list
-    render :json => JSONModel::HTTP.get_json("/agents/by-name", params)
+    if params[:q].blank?
+      render :json => JSONModel::all('/agents', :agent_type)
+    else
+      render :json => JSONModel::HTTP.get_json("/agents/by-name", params)
+    end
   end
 
   private
