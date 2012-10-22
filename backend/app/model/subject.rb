@@ -65,8 +65,8 @@ class Subject < Sequel::Model(:subject)
 
   def validate
     super
-    validates_unique(:terms_sha1, :message => "Subject must be unique")
-    map_validation_to_json_property(:terms_sha1, :terms)
+    validates_unique([:vocab_id, :terms_sha1], :message => "Subject must be unique")
+    map_validation_to_json_property([:vocab_id, :terms_sha1], :terms)
   end
 
 end
