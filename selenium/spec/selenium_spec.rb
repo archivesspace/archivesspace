@@ -903,7 +903,7 @@ describe "ArchivesSpace user interface" do
 
   it "reports errors if adding an empty child to a Resource" do
     @driver.find_element(:link, "Add Child").click
-    @driver.find_element(:link, "Analog Object").click
+    @driver.find_element(:link, "Archival Object").click
 
     # False start: create an object without filling it out
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
@@ -956,7 +956,7 @@ describe "ArchivesSpace user interface" do
 
   it "can add a child to an existing node and assign a Subject" do
     @driver.find_element(:link, "Add Child").click
-    @driver.find_element(:link, "Analog Object").click
+    @driver.find_element(:link, "Archival Object").click
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "Christmas cards")
     @driver.clear_and_send_keys([:id, "archival_object_ref_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
