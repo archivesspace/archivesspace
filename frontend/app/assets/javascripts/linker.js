@@ -14,7 +14,7 @@ $(function() {
 
       var config = {
         url: $this.data("url"),
-        format: $this.data("format"),
+        format_template: $this.data("format_template"),
         format_property: $this.data("format_property"),
         controller: $this.data("controller"),
         path: $this.data("path"),
@@ -39,8 +39,11 @@ $(function() {
 
 
       var formattedNameForJSON = function(json) {
-        if (config.format) {
-          return AS.quickTemplate(config.format, json);
+        if (config.format_template) {
+          if (config.format_template.substring(0,2) != "${") {
+            config.format_template = "${" + config.format_template + "}";
+          }
+          return AS.quickTemplate(config.format_template, json);
         } else if (config.format_property) {
           return json[config.format_property];
         }

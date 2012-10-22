@@ -1,0 +1,14 @@
+<%= render :partial => "shared/form_messages", :locals => {:object => @event, :form => form} %>
+
+<section id="basic_information">
+  <h3>Basic Information</h3>
+  <fieldset>
+    <%= form.label_and_select "event_type", form.jsonmodel_options_for(:event, "event_type") %>
+    <%= form.label_and_textfield "outcome" %>
+    <%= form.label_and_textarea "outcome_note" %>
+  </fieldset>
+</section>
+
+<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents"} %>
+
+<%#render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>

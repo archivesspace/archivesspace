@@ -33,7 +33,7 @@
           "properties" => {
             "role" => {
               "type" => "string",
-              "enum" => ["authorizer", "executing program", "implementer", "recipient", "transmitter", "validator"],
+              "enum" => ["authorizer", "executing_program", "implementer", "recipient", "transmitter", "validator"],
             },
 
             "ref" => {"type" => [{"type" => "JSONModel(:agent_corporate_entity) uri"},

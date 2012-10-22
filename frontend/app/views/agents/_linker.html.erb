@@ -1,0 +1,30 @@
+<%
+   if form.obj['ref'].blank?
+     selected_json = "{}"
+   elsif  form.obj['resolved']['ref'].is_a?(String)
+     selected_json =  JSON(form.obj['resolved']['ref']).to_json
+   else
+     selected_json =  form.obj['resolved']['ref'].to_json
+   end
+%>
+<div class="control-group">
+  <label class="control-label">Agent</label>
+  <div class="controls">
+    <div class="input-append linker-wrapper">
+      <input type="text" class="linker"
+             data-object_class="<%= form.obj["jsonmodel_type"] %>"
+             data-controller="agents"
+             data-label="Agent"
+             data-label_plural="Agents"
+             data-name="ref"
+             data-path="<%= form.path %>"
+             data-url="<%= url_for :controller => :agents, :action => :list, :format => :json %>"
+             data-selected='<%= selected_json %>'
+             data-multiplicity="one"
+             data-format_template="names[0].sort_name"
+      />
+      <div class="btn-group">
+      </div>
+    </div>
+  </div>
+</div>

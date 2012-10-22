@@ -50,6 +50,10 @@ ArchivesSpace::Application.routes.draw do
   resources :locations
   match 'locations/:id' => 'locations#update', :via => [:post]
 
+  resources :events
+  match 'events/:id' => 'events#update', :via => [:post]
+
+  match 'agents/list' => 'agents#list', :via => [:get]
   match 'agents/contact_form' => 'agents#contact_form', :via => [:get]
   match 'agents/:type/name_form' => 'agents#name_form', :via => [:get]
   match 'agents/:type/create' => 'agents#create', :via => [:post]

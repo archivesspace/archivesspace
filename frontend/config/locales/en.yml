@@ -28,6 +28,20 @@ en:
     _html:
       singular: Location
       plural: Locations
+  linked_agent:
+    role: Role
+    role_authorizer: Authorizer
+    role_executing_program: Executing Program
+    role_implementer: Implementer
+    role_recipient: Recipient
+    role_validator: Validator
+    _html:
+      singular: Agent Link
+      plural: Agent Links
+  event:
+    event_type: Type
+    outcome: Outcome
+    outcome_note: Outcome Note
   agent_person_name:
     authority_id: Authority ID
     source: Source

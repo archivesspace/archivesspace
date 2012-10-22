@@ -225,11 +225,17 @@ module AspaceFormHelper
       options
     end
 
-
     def jsonmodel_enum_for(model, property)
       JSONModel(model).schema["properties"][property]["enum"]
     end
 
+    def options_for(property, values)
+      options = []
+      values.each do |v|
+        options.push([I18n.t(i18n_for("#{property}_#{v}"), :default => v), v])
+      end
+      options
+    end
 
     def hidden_input(name, value = nil)
       value = obj[name] if value.blank?
