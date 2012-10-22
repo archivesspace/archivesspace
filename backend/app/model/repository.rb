@@ -1,4 +1,4 @@
-class Repository < Sequel::Model(:repositories)
+class Repository < Sequel::Model(:repository)
   include ASModel
 
   plugin :validation_helpers

@@ -1,4 +1,4 @@
-class Extent < Sequel::Model(:extents)
+class Extent < Sequel::Model(:extent)
   include ASModel
 
   plugin :validation_helpers

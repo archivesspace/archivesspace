@@ -34,8 +34,8 @@ describe 'ArchivalObject model' do
                                                 }]
                                               }),
                                     :repo_id => @repo_id)
-    ArchivalObject[ao[:id]].extents.length.should eq(1)
-    ArchivalObject[ao[:id]].extents[0].extent_type.should eq("reels")
+    ArchivalObject[ao[:id]].extent.length.should eq(1)
+    ArchivalObject[ao[:id]].extent[0].extent_type.should eq("reels")
   end
 
 
@@ -55,8 +55,8 @@ describe 'ArchivalObject model' do
                                         }),
                               :repo_id => @repo_id)
 
-    ArchivalObject[ao[:id]].dates.length.should eq(1)
-    ArchivalObject[ao[:id]].dates[0].begin.should eq("2012-05-14")
+    ArchivalObject[ao[:id]].date.length.should eq(1)
+    ArchivalObject[ao[:id]].date[0].begin.should eq("2012-05-14")
   end
 
 

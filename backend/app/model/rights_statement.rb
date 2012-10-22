@@ -1,4 +1,4 @@
-class RightsStatement < Sequel::Model(:rights_statements)
+class RightsStatement < Sequel::Model(:rights_statement)
   include ASModel
   include ExternalDocuments
 

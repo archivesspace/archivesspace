@@ -1,4 +1,4 @@
-class Accession < Sequel::Model(:accessions)
+class Accession < Sequel::Model(:accession)
   plugin :validation_helpers
   include ASModel
   include Identifiers

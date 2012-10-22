@@ -1,4 +1,4 @@
-class ArchivalObject < Sequel::Model(:archival_objects)
+class ArchivalObject < Sequel::Model(:archival_object)
   plugin :validation_helpers
   include ASModel
   include Subjects

@@ -52,7 +52,7 @@ describe 'Group model' do
     group.add_user(make_test_user("simon"))
     group.add_user(make_test_user("garfunkel"))
 
-    group.users.map {|member| member[:username]}.sort.should eq(["garfunkel", "simon"])
+    group.user.map {|member| member[:username]}.sort.should eq(["garfunkel", "simon"])
   end
 
 
@@ -67,7 +67,7 @@ describe 'Group model' do
 
     group.grant("manage_repository")
 
-    group.permissions.map {|permission| permission[:permission_code]}.should eq(["manage_repository"])
+    group.permission.map {|permission| permission[:permission_code]}.should eq(["manage_repository"])
 
     User[:username => "simon"].can?("manage_repository", :repo_id => repo_one).should eq(true)
     User[:username => "simon"].can?("manage_repository", :repo_id => repo_two).should eq(false)

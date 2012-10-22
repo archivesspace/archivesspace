@@ -1,9 +1,9 @@
-class Group < Sequel::Model(:groups)
+class Group < Sequel::Model(:group)
   plugin :validation_helpers
   include ASModel
 
-  many_to_many :users
-  many_to_many :permissions
+  many_to_many :user, :join_table => :group_user
+  many_to_many :permission, :join_table => :group_permission
 
 
   def self.GLOBAL
@@ -17,7 +17,7 @@ class Group < Sequel::Model(:groups)
 
 
   def self.set_members(obj, json)
-    obj.remove_all_users
+    obj.remove_all_user
     (json.member_usernames or []).map {|username|
       user = User[:username => username]
       obj.add_user(user) if user
@@ -26,7 +26,7 @@ class Group < Sequel::Model(:groups)
 
 
   def self.set_permissions(obj, json)
-    obj.remove_all_permissions
+    obj.remove_all_permission
     (json.grants_permissions or []).each do |permission_code|
       permission = Permission[:permission_code => permission_code]
 
@@ -66,8 +66,8 @@ class Group < Sequel::Model(:groups)
   def grant(permission_code)
     permission = Permission[:permission_code => permission_code.to_s]
 
-    if self.class.db[:groups_permissions].filter(:group_id => self.id,
-                                                 :permission_id => permission.id).empty?
+    if self.class.db[:group_permission].filter(:group_id => self.id,
+                                               :permission_id => permission.id).empty?
       add_permission(permission)
     end
   end
@@ -77,10 +77,10 @@ class Group < Sequel::Model(:groups)
     json = super
 
     if opts[:with_members]
-      json.member_usernames = obj.users.map {|user| user[:username]}
+      json.member_usernames = obj.user.map {|user| user[:username]}
     end
 
-    json.grants_permissions = obj.permissions.map {|permission| permission[:permission_code]}
+    json.grants_permissions = obj.permission.map {|permission| permission[:permission_code]}
 
     json
   end

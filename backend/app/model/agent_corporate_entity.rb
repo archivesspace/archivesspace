@@ -6,7 +6,7 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
   include ExternalDocuments
 
   one_to_many :name_corporate_entity
-  one_to_many :agent_contacts
+  one_to_many :agent_contact
 
   jsonmodel_hint(:the_property => :names,
                  :contains_records_of_type => :name_corporate_entity,
@@ -15,7 +15,7 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
 
   jsonmodel_hint(:the_property => :agent_contacts,
                  :contains_records_of_type => :agent_contact,
-                 :corresponding_to_association => :agent_contacts,
+                 :corresponding_to_association => :agent_contact,
                  :always_resolve => true)
 
 

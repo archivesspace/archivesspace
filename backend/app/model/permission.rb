@@ -1,4 +1,4 @@
-class Permission < Sequel::Model(:permissions)
+class Permission < Sequel::Model(:permission)
   include ASModel
   plugin :validation_helpers
 

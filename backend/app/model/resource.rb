@@ -1,4 +1,4 @@
-class Resource < Sequel::Model(:resources)
+class Resource < Sequel::Model(:resource)
   plugin :validation_helpers
   include ASModel
   include Identifiers
@@ -8,6 +8,7 @@ class Resource < Sequel::Model(:resources)
   include ExternalDocuments
   include RightsStatements
   include Instances
+
 
   def link(opts)
     child = ArchivalObject.get_or_die(opts[:child])
@@ -58,7 +59,7 @@ class Resource < Sequel::Model(:resources)
 
 
   def update_tree(tree)
-    Resource.db[:archival_objects].
+    Resource.db[:archival_object].
              filter(:resource_id => self.id).
              update(:parent_id => nil)
 

@@ -2,7 +2,7 @@ Sequel.extension :inflector
 
 Sequel.migration do
   up do
-    create_table(:sessions) do
+    create_table(:session) do
       primary_key :id
       String :session_id, :unique => true, :null => false
       DateTime :last_modified, :null => false
@@ -20,13 +20,13 @@ Sequel.migration do
     end
 
 
-    create_table(:webhook_endpoints) do
+    create_table(:webhook_endpoint) do
       primary_key :id
       String :url, :unique => true, :null => false
     end
 
 
-    create_table(:users) do
+    create_table(:user) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -40,7 +40,7 @@ Sequel.migration do
     end
 
 
-    create_table(:repositories) do
+    create_table(:repository) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -55,7 +55,7 @@ Sequel.migration do
     end
 
 
-    create_table(:groups) do
+    create_table(:group) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -70,13 +70,13 @@ Sequel.migration do
     end
 
 
-    alter_table(:groups) do
-      add_foreign_key([:repo_id], :repositories, :key => :id)
+    alter_table(:group) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
       add_index([:repo_id, :group_code], :unique => true)
     end
 
 
-    create_table(:groups_users) do
+    create_table(:group_user) do
       primary_key :id
 
       Integer :user_id, :null => false
@@ -84,16 +84,16 @@ Sequel.migration do
     end
 
 
-    alter_table(:groups_users) do
-      add_foreign_key([:user_id], :users, :key => :id)
-      add_foreign_key([:group_id], :groups, :key => :id)
+    alter_table(:group_user) do
+      add_foreign_key([:user_id], :user, :key => :id)
+      add_foreign_key([:group_id], :group, :key => :id)
 
       add_index(:group_id)
       add_index(:user_id)
     end
 
 
-    create_table(:permissions) do
+    create_table(:permission) do
       primary_key :id
 
       String :permission_code, :unique => true
@@ -105,7 +105,7 @@ Sequel.migration do
     end
 
 
-    create_table(:groups_permissions) do
+    create_table(:group_permission) do
       primary_key :id
 
       Integer :permission_id, :null => false
@@ -113,9 +113,9 @@ Sequel.migration do
     end
 
 
-    alter_table(:groups_permissions) do
-      add_foreign_key([:permission_id], :permissions, :key => :id)
-      add_foreign_key([:group_id], :groups, :key => :id)
+    alter_table(:group_permission) do
+      add_foreign_key([:permission_id], :permission, :key => :id)
+      add_foreign_key([:group_id], :group, :key => :id)
 
       add_index(:permission_id)
       add_index(:group_id)
@@ -124,7 +124,7 @@ Sequel.migration do
     end
 
 
-    create_table(:accessions) do
+    create_table(:accession) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -143,11 +143,11 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:accessions) do
-      add_foreign_key([:repo_id], :repositories, :key => :id)
+    alter_table(:accession) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
     end
 
-    create_table(:resources) do
+    create_table(:resource) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -163,13 +163,13 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:resources) do
-      add_foreign_key([:repo_id], :repositories, :key => :id)
+    alter_table(:resource) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
       add_index([:repo_id, :identifier], :unique => true)
     end
 
 
-    create_table(:archival_objects) do
+    create_table(:archival_object) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -189,15 +189,15 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:archival_objects) do
-      add_foreign_key([:repo_id], :repositories, :key => :id)
-      add_foreign_key([:resource_id], :resources, :key => :id)
-      add_foreign_key([:parent_id], :archival_objects, :key => :id)
+    alter_table(:archival_object) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:parent_id], :archival_object, :key => :id)
       add_index([:resource_id, :ref_id], :unique => true)
     end
 
 
-    create_table(:instances) do
+    create_table(:instance) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -211,13 +211,13 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:instances) do
-      add_foreign_key([:resource_id], :resources, :key => :id)
-      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
+    alter_table(:instance) do
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_object, :key => :id)
     end
 
 
-    create_table(:containers) do
+    create_table(:container) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -238,12 +238,12 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:containers) do
-      add_foreign_key([:instance_id], :instances, :key => :id)
+    alter_table(:container) do
+      add_foreign_key([:instance_id], :instance, :key => :id)
     end
 
 
-    create_table(:vocabularies) do
+    create_table(:vocabulary) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -255,30 +255,29 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    self[:vocabularies].insert(:name => "global", :ref_id => "global",
+    self[:vocabulary].insert(:name => "global", :ref_id => "global",
                                :create_time => Time.now, :last_modified => Time.now)
 
 
-    create_table(:subjects) do
+    create_table(:subject) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
 
       Integer :vocab_id, :null => false
 
-      String :terms_sha1
+      String :terms_sha1, :unique => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:subjects) do
-      add_foreign_key([:vocab_id], :vocabularies, :key => :id)
-      #add_index([:vocab_id, :terms_hash], :unique => true)
+    alter_table(:subject) do
+      add_foreign_key([:vocab_id], :vocabulary, :key => :id)
     end
 
 
-    create_table(:terms) do
+    create_table(:term) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -292,15 +291,16 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:terms) do
-      add_foreign_key([:vocab_id], :vocabularies, :key => :id)
+    alter_table(:term) do
+      add_foreign_key([:vocab_id], :vocabulary, :key => :id)
       add_index([:vocab_id, :term, :term_type], :unique => true)
     end
 
-    create_join_table(:subject_id => :subjects, :term_id => :terms)
-    create_join_table(:subject_id => :subjects, :archival_object_id => :archival_objects)
-    create_join_table(:subject_id => :subjects, :resource_id => :resources)
-    create_join_table(:subject_id => :subjects, :accession_id => :accessions)
+
+    create_join_table({:subject_id => :subject, :term_id => :term}, :name => "subject_term")
+    create_join_table({:subject_id => :subject, :archival_object_id => :archival_object}, :name => "subject_archival_object")
+    create_join_table({:subject_id => :subject, :resource_id => :resource}, :name => "subject_resource")
+    create_join_table({:subject_id => :subject, :accession_id => :accession}, :name => "subject_accession")
 
 
     create_table(:agent_person) do
@@ -458,7 +458,7 @@ Sequel.migration do
     end
 
 
-    create_table(:agent_contacts) do
+    create_table(:agent_contact) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -486,7 +486,7 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:agent_contacts) do
+    alter_table(:agent_contact) do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
@@ -494,7 +494,7 @@ Sequel.migration do
     end
 
 
-    create_table(:extents) do
+    create_table(:extent) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -515,13 +515,13 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:extents) do
-      add_foreign_key([:accession_id], :accessions, :key => :id)
-      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
-      add_foreign_key([:resource_id], :resources, :key => :id)
+    alter_table(:extent) do
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
     end
 
-    create_table(:dates) do
+    create_table(:date) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -548,7 +548,7 @@ Sequel.migration do
     end
 
 
-    create_table(:events) do
+    create_table(:event) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -563,22 +563,22 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:events) do
-      add_foreign_key([:repo_id], :repositories, :key => :id)
+    alter_table(:event) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
     end
 
 
-    alter_table(:dates) do
-      add_foreign_key([:accession_id], :accessions, :key => :id)
-      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
-      add_foreign_key([:resource_id], :resources, :key => :id)
-      add_foreign_key([:event_id], :events, :key => :id)
+    alter_table(:date) do
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:event_id], :event, :key => :id)
     end
 
 
     event_links = [:agent_person, :agent_corporate_entity,
                    :agent_family, :agent_software,
-                   :archival_objects, :resources, :accessions]
+                   :archival_object, :resource, :accession]
 
     event_links.each do |linked_table|
       linkable = linked_table.to_s.singularize
@@ -595,14 +595,14 @@ Sequel.migration do
 
 
       alter_table(table) do
-        add_foreign_key([:event_id], :events, :key => :id)
+        add_foreign_key([:event_id], :event, :key => :id)
         add_foreign_key(["#{linkable}_id".intern], linked_table.intern, :key => :id)
       end
     end
 
 
 
-    create_table(:rights_statements) do
+    create_table(:rights_statement) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -629,7 +629,7 @@ Sequel.migration do
       String :jurisdiction, :null => true
       String :type_note, :null => true
 
-      String :permissions, :null => true
+      String :permission, :null => true
       String :restrictions, :null => true
       DateTime :restriction_start_date, :null => true
       DateTime :restriction_end_date, :null => true
@@ -641,17 +641,17 @@ Sequel.migration do
     end
 
 
-    alter_table(:rights_statements) do
-      add_foreign_key([:accession_id], :accessions, :key => :id)
-      add_foreign_key([:archival_object_id], :archival_objects, :key => :id)
-      add_foreign_key([:resource_id], :resources, :key => :id)
+    alter_table(:rights_statement) do
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
 
-      add_foreign_key([:repo_id], :repositories, :key => :id)
+      add_foreign_key([:repo_id], :repository, :key => :id)
       add_index([:repo_id, :identifier], :unique => true)
     end
 
 
-    create_table(:external_documents) do
+    create_table(:external_document) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -673,13 +673,11 @@ Sequel.migration do
                                              :rights_statement]
 
     records_supporting_external_documents.each do |record|
-      table = table_exists?(record) ? record : record.to_s.pluralize.intern
-
       create_join_table({
-                          "#{record}_id".intern => table,
-                          :external_document_id => :external_documents
+                          "#{record}_id".intern => record,
+                          :external_document_id => :external_document
                         },
-                        :name => "#{table}_external_documents",
+                        :name => "#{record}_external_document",
                         :index_options => {:name => "ed_#{record}_idx"})
     end
 
@@ -740,17 +738,17 @@ Sequel.migration do
 
   down do
 
-    [:external_documents, :rights_statements, :location, :container_locations,
-     :subjects_terms, :archival_objects_subjects, :resources_subjects, :accessions_subjects, :subjects, :terms,
-     :agent_contacts, :name_person, :name_family, :agent_person, :agent_family,
+    [:external_document, :rights_statement, :location, :container_location,
+     :subject_term, :subject_archival_object, :subject_resource, :subject_accession, :subject, :term,
+     :agent_contact, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
-     :sessions, :auth_db, :groups_users, :groups_permissions, :permissions, :users, :groups, :accessions,
-     :dates, :events, :archival_objects, :vocabularies, :extents, :resources, :repositories,
-     :accessions_external_documents, :archival_objects_external_documents,
-     :external_documents_resources, :external_documents_subjects,
-     :agent_people_external_documents, :agent_families_external_documents,
-     :agent_corporate_entities_external_documents,
-     :agent_softwares_external_documents].each do |table|
+     :session, :auth_db, :group_user, :group_permission, :permission, :user, :group, :accession,
+     :date, :event, :archival_object, :vocabulary, :extent, :resource, :repository,
+     :accession_external_document, :archival_object_external_document,
+     :external_document_resource, :external_document_subject,
+     :agent_people_external_document, :agent_family_external_document,
+     :agent_corporate_entity_external_document,
+     :agent_software_external_document].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)
     end

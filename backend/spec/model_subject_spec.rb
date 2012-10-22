@@ -36,7 +36,7 @@ describe 'Subject model' do
                                                    "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                                  }))
 
-    Subject[subject[:id]].terms[0].id.should eq(term_id)
+    Subject[subject[:id]].term[0].id.should eq(term_id)
   end
 
 
@@ -56,10 +56,10 @@ describe 'Subject model' do
                                                    "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                                  }))
 
-    Subject[subject[:id]].terms[0].id.should eq(term_id_0)
-    Subject[subject[:id]].terms[1].id.should eq(term_id_1)
-    Subject[subject[:id]].terms[2].id.should eq(term_id_2)
-    Subject[subject[:id]].terms[3].id.should eq(term_id_3)
+    Subject[subject[:id]].term[0].id.should eq(term_id_0)
+    Subject[subject[:id]].term[1].id.should eq(term_id_1)
+    Subject[subject[:id]].term[2].id.should eq(term_id_2)
+    Subject[subject[:id]].term[3].id.should eq(term_id_3)
   end
 
 
