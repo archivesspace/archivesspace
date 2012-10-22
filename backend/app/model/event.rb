@@ -1,3 +1,8 @@
+["agent_contact", "agent_corporate_entity", "agent_family", "agent_person", "agent_software",
+ "accession", "resource", "archival_object"].each do |dep|
+  require_relative dep
+end
+
 
 class AgentPersonLink < Sequel::Model(:event_agent_person)
   many_to_one :agent_person
@@ -49,14 +54,29 @@ class Event < Sequel::Model(:event)
                  :is_array => false,
                  :always_resolve => true)
 
-  @@agent_links = [:agent_person, :agent_corporate_entity,
-                   :agent_family, :agent_software]
+  @@agent_links = {
+    :agent_person => AgentPerson,
+    :agent_corporate_entity => AgentCorporateEntity,
+    :agent_family => AgentFamily,
+    :agent_software => AgentSoftware
+  }
 
-  @@record_links = [:accession, :resource, :archival_object]
+  @@record_links = {
+    :accession => Accession,
+    :resource => Resource,
+    :archival_object => ArchivalObject
+  }
 
-  (@@agent_links + @@record_links).each do |link_type|
+
+  (@@agent_links.keys + @@record_links.keys).each do |link_type|
     one_to_many "#{link_type}_link".intern
   end
+
+
+  def self.linkable_records_for(prefix)
+
+  end
+
 
 
   def self.create_from_json(json, opts = {})
@@ -75,31 +95,12 @@ class Event < Sequel::Model(:event)
   end
 
 
-  def self.set_agents(json, obj, opts)
-    @@agent_links.each do |link|
+  def self.set_linked_records(json, obj, opts, json_property, linkable_records)
+    linkable_records.keys.each do |link|
       obj.send("remove_all_#{link}_link".intern)
     end
 
-    (json[:linked_agents] or []).each do |agent_link|
-      agent_type = JSONModel.parse_reference(agent_link["ref"], opts)
-
-      model = Kernel.const_get(agent_type[:type].camelize)
-      agent = model[agent_type[:id]]
-
-      link = Kernel.const_get("#{agent_type[:type]}_link".camelize)
-
-      obj.send("add_#{agent_type[:type]}_link".intern,
-               link.create(agent_type[:type] => agent, :event => obj, :role => agent_link["role"]))
-    end
-  end
-
-
-  def self.set_records(json, obj, opts)
-    @@record_links.each do |link|
-      obj.send("remove_all_#{link}_link".intern)
-    end
-
-    (json[:linked_records] or []).each do |record_link|
+    (json[json_property] or []).each do |record_link|
       record_type = JSONModel.parse_reference(record_link["ref"], opts)
 
       model = Kernel.const_get(record_type[:type].camelize)
@@ -108,31 +109,37 @@ class Event < Sequel::Model(:event)
       link = Kernel.const_get("#{record_type[:type]}_link".camelize)
 
       obj.send("add_#{record_type[:type]}_link".intern,
-               link.create(record_type[:type] => record, :event => obj, :role => record_link["role"]))
+               link.create(record_type[:type] => record,
+                           :event => obj,
+                           :role => record_link["role"]))
     end
+
+  end
+
+
+  def self.set_agents(json, obj, opts)
+    self.set_linked_records(json, obj, opts, :linked_agents, @@agent_links)
+  end
+
+
+  def self.set_records(json, obj, opts)
+    self.set_linked_records(json, obj, opts, :linked_records, @@record_links)
   end
 
 
   def self.sequel_to_jsonmodel(obj, type, opts = {})
     json = super(obj, type)
 
-    json.linked_agents = @@agent_links.map {|agent_type|
-      obj.send("#{agent_type}_link".intern).map {|link|
-        {
-          "role" => link[:role],
-          "ref" => JSONModel(agent_type).uri_for(link["#{agent_type}_id".intern])
+    [[:linked_agents, @@agent_links], [:linked_records, @@record_links]].each do |property, linked_records|
+      json[property] = linked_records.keys.map {|record_type|
+        obj.send("#{record_type}_link".intern).map {|link|
+          {
+            "role" => link[:role],
+            "ref" => JSONModel(record_type).uri_for(link["#{record_type}_id".intern])
+          }
         }
-      }
-    }.flatten
-
-    json.linked_records = @@record_links.map {|record_type|
-      obj.send("#{record_type}_link".intern).map {|link|
-        {
-          "role" => link[:role],
-          "ref" => JSONModel(record_type).uri_for(link["#{record_type}_id".intern])
-        }
-      }
-    }.flatten
+      }.flatten
+    end
 
 
     json
