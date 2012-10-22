@@ -32,7 +32,7 @@ class Subject < Sequel::Model(:subjects)
 
   def self.create_from_json(json, opts = {})
     set_vocabulary(json, opts)
-    obj = super(json, opts)
+    obj = super
 
     # add a terms sha1 hash to allow for uniqueness test
     obj.terms_sha1 = generate_terms_sha1(json)
@@ -44,7 +44,7 @@ class Subject < Sequel::Model(:subjects)
 
   def update_from_json(json, opts = {})
     self.class.set_vocabulary(json, opts)
-    obj = super(json, opts)
+    obj = super
 
     # add a terms sha1 hash to allow for uniqueness test
     obj.terms_sha1 = generate_terms_sha1(json)
@@ -55,7 +55,7 @@ class Subject < Sequel::Model(:subjects)
 
 
   def self.sequel_to_jsonmodel(obj, type, opts = {})
-    json = super(obj, type)
+    json = super
 
     json.vocabulary = JSONModel(:vocabulary).uri_for(obj.vocab_id)
 
