@@ -188,6 +188,9 @@ module RESTHelpers
           else
             raise ArgumentError.new("Not an array")
           end
+        elsif type.is_a? Regexp
+          raise "Value '#{value}' didn't match #{type}" if value !~ type
+          value
         else
           value
         end
