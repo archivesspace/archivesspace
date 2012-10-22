@@ -15,7 +15,7 @@
       <%= form.label("sort_name") %>
       <div class="controls">
         <%= form.textfield "sort_name", form["sort_name"], :readonly => "readonly" %>
-        <label><%= form.checkbox "automatic" %> <small>Automatically generate?</small></label>
+        <label><%= form.checkbox "automatic", true, :class => "sort-name-generation-type" %> <small>Automatically generate?</small></label>
       </div>
     </div>
     <hr/>

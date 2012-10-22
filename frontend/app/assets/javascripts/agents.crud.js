@@ -76,7 +76,7 @@ $(function() {
 
 
       var handleSortNameType = function() {
-        var sortNameInput = $(":input[name='agent[names][][sort_name]']", $(this).parents(".controls:first"));
+        var sortNameInput = $(":input[name$=\"[sort_name]\"]", $(this).parents(".controls:first"));
         if ($(this).is(":checked")) {          
           sortNameInput.attr("readonly","readonly");
           $.proxy(updateAutomaticSortName, this);
