@@ -134,7 +134,7 @@ $(function() {
           $("form", $container).triggerHandler("form-changed");
         },
         error: function() {
-          $container.prepend("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>")
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>")
           console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
         }
       });
@@ -145,7 +145,7 @@ $(function() {
           initForm(html);
         },
         error: function(obj, errorText, errorDesc) {
-          $container.prepend("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
         }
       });
     } else if (nodeEl.attr("rel") === "resource") {         
@@ -155,7 +155,7 @@ $(function() {
           initForm(html);
         },
         error: function(obj, errorText, errorDesc) {
-          $container.prepend("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
         }
       });
     }
