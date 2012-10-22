@@ -576,24 +576,27 @@ Sequel.migration do
     end
 
 
-    agent_links = [:agent_person, :agent_corporate_entity,
-                   :agent_family, :agent_software]
+    event_links = [:agent_person, :agent_corporate_entity,
+                   :agent_family, :agent_software,
+                   :archival_objects, :resources, :accessions]
 
-    agent_links.each do |linkable_agent|
-      table = "#{linkable_agent}_link".intern
+    event_links.each do |linked_table|
+      linkable = linked_table.to_s.singularize
+
+      table = "#{linkable}_link".intern
 
       create_table(table) do
         primary_key :id
 
         Integer :event_id, :null => false
-        Integer "#{linkable_agent}_id".intern, :null => false
+        Integer "#{linkable}_id".intern, :null => false
         String :role, :null => false
       end
 
 
       alter_table(table) do
         add_foreign_key([:event_id], :events, :key => :id)
-        add_foreign_key(["#{linkable_agent}_id".intern], linkable_agent.intern, :key => :id)
+        add_foreign_key(["#{linkable}_id".intern], linked_table.intern, :key => :id)
       end
     end
 
