@@ -9,12 +9,13 @@
   </fieldset>
 </section>
 
-
-<h3>Event date</h3>
-<% form.push("date") do %>
-  <% render :partial => "dates/template", :locals => {:form => form} %>
-  <% form.emit_template("date", (@event.date or {})) %>
-<% end %>
+<section id="event_date">
+  <h3>Event date</h3>
+  <% form.push("date") do %>
+    <% render :partial => "dates/template", :locals => {:form => form} %>
+    <% form.emit_template("date", (@event.date or {})) %>
+  <% end %>
+</section>
 
 
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents"} %>
