@@ -581,22 +581,20 @@ Sequel.migration do
                    :archival_object, :resource, :accession]
 
     event_links.each do |linked_table|
-      linkable = linked_table.to_s.singularize
-
-      table = "#{linkable}_link".intern
+      table = "event_#{linked_table}".intern
 
       create_table(table) do
         primary_key :id
 
         Integer :event_id, :null => false
-        Integer "#{linkable}_id".intern, :null => false
+        Integer "#{linked_table}_id".intern, :null => false
         String :role, :null => false
       end
 
 
       alter_table(table) do
         add_foreign_key([:event_id], :event, :key => :id)
-        add_foreign_key(["#{linkable}_id".intern], linked_table.intern, :key => :id)
+        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
       end
     end
 

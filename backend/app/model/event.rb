@@ -1,35 +1,35 @@
 
-class AgentPersonLink < Sequel::Model(:agent_person_link)
+class AgentPersonLink < Sequel::Model(:event_agent_person)
   many_to_one :agent_person
   many_to_one :event
 end
 
-class AgentCorporateEntityLink < Sequel::Model(:agent_corporate_entity_link)
+class AgentCorporateEntityLink < Sequel::Model(:event_agent_corporate_entity)
   many_to_one :agent_corporate_entity
   many_to_one :event
 end
 
-class AgentFamilyLink < Sequel::Model(:agent_family_link)
+class AgentFamilyLink < Sequel::Model(:event_agent_family)
   many_to_one :agent_family
   many_to_one :event
 end
 
-class AgentSoftwareLink < Sequel::Model(:agent_software_link)
+class AgentSoftwareLink < Sequel::Model(:event_agent_software)
   many_to_one :agent_software
   many_to_one :event
 end
 
-class AccessionLink < Sequel::Model(:accession_link)
+class AccessionLink < Sequel::Model(:event_accession)
   many_to_one :accession
   many_to_one :event
 end
 
-class ResourceLink < Sequel::Model(:resource_link)
+class ResourceLink < Sequel::Model(:event_resource)
   many_to_one :resource
   many_to_one :event
 end
 
-class ArchivalObjectLink < Sequel::Model(:archival_object_link)
+class ArchivalObjectLink < Sequel::Model(:event_archival_object)
   many_to_one :archival_object
   many_to_one :event
 end
