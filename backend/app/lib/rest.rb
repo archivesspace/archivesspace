@@ -4,36 +4,34 @@ module RESTHelpers
 
 
   def resolve_reference(uri)
-    JSON(redirect_internal(uri)[2].join(""))
+    if !JSONModel.parse_reference(uri).nil?
+      JSON(redirect_internal(uri)[2].join(""))
+    else
+      uri
+    end
   end
 
+  def resolve_references(value, properties_to_resolve)
+    return value if properties_to_resolve.nil?
 
-  def resolve_references(json, properties_to_resolve)
-    return json.to_hash if properties_to_resolve.nil?
+    if value.is_a? Hash
+      resolved = {}
 
-    resolve_properties = proc do |hash, schema|
-      result = hash.clone
-
-      properties_to_resolve.each do |property_to_resolve|
-        if result.has_key? property_to_resolve
-          if result[property_to_resolve].is_a?(Array) and schema['properties'][property_to_resolve]['items']['type'].start_with?("JSONModel")
-            result['resolved'] ||= {}
-            result['resolved'][property_to_resolve] = result[property_to_resolve].map do |uri|
-              resolve_reference(uri)
-            end
-          elsif schema['properties'][property_to_resolve]['type'].start_with?("JSONModel")
-            result['resolved'] ||= {}
-            result['resolved'][property_to_resolve] = resolve_reference(result[property_to_resolve])
-          end
+      value.each do |k, v|
+        if properties_to_resolve.include?(k)
+          resolved[k] = (v.is_a? Array) ? v.map {|elt| resolve_reference(elt)} : resolve_reference(v)
+        else
+          resolve_references(v, properties_to_resolve)
         end
       end
 
-      result
+      value['resolved'] = resolved if !resolved.empty?
+
+    elsif value.is_a? Array
+      value.each {|elt| resolve_references(elt, properties_to_resolve)}
     end
 
-    json.class.map_hash_with_schema(json.to_hash,
-                               nil,
-                               [resolve_properties])
+    value
   end
 
 

@@ -23,7 +23,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     json = Event.to_jsonmodel(params[:event_id], :event, params[:repo_id])
 
-    json_response(resolve_references(json, params[:resolve]))
+    json_response(resolve_references(json.to_hash, params[:resolve]))
   end
 
 
