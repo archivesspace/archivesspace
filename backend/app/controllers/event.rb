@@ -15,8 +15,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get an Event by ID")
     .params(["event_id", Integer, "The Event ID"],
             ["repo_id", :repo_id],
-            # ["resolve", [String], "A list of references to resolve and embed in the response",
-            #  :optional => true]
+            ["resolve", [String], "A list of references to resolve and embed in the response",
+             :optional => true]
             )
     .returns([200, "(:event)"],
              [404, '{"error":"Event not found"}']) \

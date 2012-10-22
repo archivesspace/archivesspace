@@ -44,13 +44,10 @@ describe 'Events controller' do
                                                               "role" => "transfer"
                                                             }]).save
 
-    puts "ID: #{id.inspect}"
-    event = JSONModel(:event).find(id)
+    event = JSONModel(:event).find(id, "resolve[]" => "ref")
 
-    puts event.inspect
+    event.linked_agents[0]['resolved']['ref']['names'][0]['primary_name'].should eq("Magus Magoo")
+    event.linked_records[0]['resolved']['ref']['title'].should eq("The accession title")
   end
-
-
-
 
 end
