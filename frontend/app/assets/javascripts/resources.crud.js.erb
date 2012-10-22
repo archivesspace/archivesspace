@@ -85,7 +85,7 @@ $(function() {
       success: function(response, status, xhr) {
         initForm(response);
 
-        if ($container.find(".alert-error:first, .alert-warning:first").length) {
+        if ($container.find(".form-messages .alert-error:first, .form-messages .alert-warning:first").length) {
           $container.triggerHandler("submitted", {success: false});
         } else {
           if (location.hash === "#tree::newAO") {
@@ -94,10 +94,13 @@ $(function() {
           form_changed = false;
           rerenderTree(function() {
             $container.triggerHandler("submitted", {success: true});
-          });                
+          });
         }
+        // scroll back to the top
+        $("header").ScrollTo();
       }, 
       error: function(obj, errorText, errorDesc) {
+        $container.prepend("<div class='alert alert-error'><p>An error occurred saving this record.</p><pre>"+errorDesc+"</pre></div>");
         $container.triggerHandler("submitted", {success: false});
         $(".btn-primary", $form).removeAttr("disabled");
       }
@@ -131,6 +134,7 @@ $(function() {
           $("form", $container).triggerHandler("form-changed");
         },
         error: function() {
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>")
           console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-archival-object-analog')");
         }
       });
@@ -139,6 +143,9 @@ $(function() {
         url: APP_PATH+"archival_objects/"+nodeEl.data("id")+"/edit?inline=true",
         success: function(html) {
           initForm(html);
+        },
+        error: function(obj, errorText, errorDesc) {
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
         }
       });
     } else if (nodeEl.attr("rel") === "resource") {         
@@ -146,6 +153,9 @@ $(function() {
         url: APP_PATH+"resources/"+nodeEl.data("id")+"/edit?inline=true",
         success: function(html) {
           initForm(html);
+        },
+        error: function(obj, errorText, errorDesc) {
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
         }
       });
     }

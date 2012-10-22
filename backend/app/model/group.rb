@@ -44,7 +44,7 @@ class Group < Sequel::Model(:groups)
 
 
   def self.create_from_json(json, opts = {})
-    obj = super(json, opts)
+    obj = super
     set_members(obj, json)
     set_permissions(obj, json)
 

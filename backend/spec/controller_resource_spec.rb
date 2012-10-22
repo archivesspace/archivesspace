@@ -440,4 +440,58 @@ describe 'Resources controller' do
   end
 
 
+  it "supports resolving locations and subjects" do
+    location = JSONModel(:location).from_hash({
+                                                "building" => "129 West 81st Street",
+                                                "floor" => "5",
+                                                "room" => "5A",
+                                                "barcode" => "010101100011",
+                                              })
+    location.save
+
+    vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab",
+                                             "ref_id" => "abc"
+                                             )
+    vocab.save
+
+    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => vocab.uri}],
+                                            "vocabulary" => vocab.uri
+                                            )
+    subject.save
+
+
+
+    resource_id = JSONModel(:resource).
+      from_hash("title" => "New Resource",
+                "id_0" => "test2",
+                "subjects" => [subject.uri],
+                "extents" => [{
+                                "portion" => "whole",
+                                "number" => "123",
+                                "extent_type" => "cassettes"
+                              }],
+                "instances" => [{
+                                  "instance_type" => "microform",
+                                  "container" => {
+                                    "type_1" => "test",
+                                    "indicator_1" => "test",
+                                    "barcode_1" => "test",
+                                    "container_locations" => [{
+                                                                "status" => "current",
+                                                                "start_date" => "2012-10-12",
+                                                                "end_date" => "2012-10-26",
+                                                                "location" => location.uri
+                                                              }]
+                                  }
+                                }]).save
+
+
+    resource = JSONModel(:resource).find(resource_id, "resolve[]" => ["subjects", "location"])
+
+    # yowza!
+    resource["instances"][0]["container"]["container_locations"][0]["resolved"]["location"]["barcode"].should eq("010101100011")
+    resource["resolved"]["subjects"][0]["terms"][0]["term"].should eq("a test subject")
+  end
+
+
 end

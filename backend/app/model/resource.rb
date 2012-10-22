@@ -7,13 +7,7 @@ class Resource < Sequel::Model(:resources)
   include Dates
   include ExternalDocuments
   include RightsStatements
-
-  # add instances association
-  one_to_many :instances
-  jsonmodel_hint(:the_property => :instances,
-                 :contains_records_of_type => :instance,
-                 :corresponding_to_association => :instances,
-                 :always_resolve => true)
+  include Instances
 
   def link(opts)
     child = ArchivalObject.get_or_die(opts[:child])
@@ -108,7 +102,7 @@ class Resource < Sequel::Model(:resources)
   def self.sequel_to_jsonmodel(obj, type, opts = {})
     notes = JSON.parse(obj.notes || "[]")
     obj[:notes] = nil
-    json = super(obj, type, opts)
+    json = super
     json.notes = notes
 
     json

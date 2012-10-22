@@ -6,6 +6,7 @@ class ArchivalObject < Sequel::Model(:archival_objects)
   include Dates
   include ExternalDocuments
   include RightsStatements
+  include Instances
 
 
   def children
@@ -29,18 +30,18 @@ class ArchivalObject < Sequel::Model(:archival_objects)
 
   def self.create_from_json(json, opts = {})
     set_resource(json, opts)
-    super(json, opts)
+    super
   end
 
 
   def update_from_json(json, opts = {})
     self.class.set_resource(json, opts)
-    super(json, opts)
+    super
   end
 
 
   def self.sequel_to_jsonmodel(obj, type, opts = {})
-    json = super(obj, type)
+    json = super
 
     if obj.resource_id
       json.resource = JSONModel(:resource).uri_for(obj.resource_id,

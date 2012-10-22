@@ -20,7 +20,7 @@ class AgentFamily < Sequel::Model(:agent_family)
 
 
   def self.sequel_to_jsonmodel(obj, type, opts = {})
-    json = super(obj, type)
+    json = super
     json.agent_type = "agent_family"
     json
   end

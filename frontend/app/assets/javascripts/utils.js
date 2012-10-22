@@ -199,20 +199,3 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
     onConfirmCallback($(event.target));
   });
 };
-
-//
-AS.initErrorMessageLinks = function() {
-
-
-};
-$(function() {
-  $(document).on("click", ".errors-for-attribute, .warnings-for-attribute", function() {
-    var $target = $(document.getElementById($(this).data("for")));
-    $target.ScrollTo({
-      offsetTop: 200,
-      callback: function() {
-        $target.focus();
-      }
-    });
-  });
-});
