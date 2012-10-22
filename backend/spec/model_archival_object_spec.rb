@@ -78,9 +78,9 @@ describe 'ArchivalObject model' do
                                                      }),
                                          :repo_id => @repo_id)
 
-    ArchivalObject[ao[:id]].instances.length.should eq(1)
-    ArchivalObject[ao[:id]].instances[0].instance_type.should eq("text")
-    ArchivalObject[ao[:id]].instances[0].container.first.type_1.should eq("A Container")
+    ArchivalObject[ao[:id]].instance.length.should eq(1)
+    ArchivalObject[ao[:id]].instance[0].instance_type.should eq("text")
+    ArchivalObject[ao[:id]].instance[0].container.first.type_1.should eq("A Container")
   end
 
 end

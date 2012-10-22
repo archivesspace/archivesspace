@@ -1,4 +1,4 @@
-class Location < Sequel::Model(:locations)
+class Location < Sequel::Model(:location)
   include ASModel
 
   plugin :validation_helpers

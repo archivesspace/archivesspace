@@ -680,7 +680,7 @@ Sequel.migration do
     end
 
 
-    create_table(:locations) do
+    create_table(:location) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -706,11 +706,11 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:locations) do
-      add_foreign_key([:repo_id], :repositories, :key => :id)
+    alter_table(:location) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
     end
 
-    create_table(:container_locations) do
+    create_table(:container_location) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
@@ -727,9 +727,9 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(:container_locations) do
-      add_foreign_key([:location_id], :locations, :key => :id)
-      add_foreign_key([:container_id], :containers, :key => :id)
+    alter_table(:container_location) do
+      add_foreign_key([:location_id], :location, :key => :id)
+      add_foreign_key([:container_id], :container, :key => :id)
     end
 
   end

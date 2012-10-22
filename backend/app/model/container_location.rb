@@ -1,4 +1,4 @@
-class ContainerLocation < Sequel::Model(:container_locations)
+class ContainerLocation < Sequel::Model(:container_location)
   include ASModel
 
   plugin :validation_helpers
