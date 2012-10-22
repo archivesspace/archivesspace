@@ -1,7 +1,9 @@
+require_relative 'agent_mixin'
 require_relative 'name_software'
 
 class AgentSoftware < Sequel::Model(:agent_software)
 
+  extend AgentMixin
   include ASModel
   include ExternalDocuments
 
@@ -23,6 +25,11 @@ class AgentSoftware < Sequel::Model(:agent_software)
     json = super
     json.agent_type = "agent_software"
     json
+  end
+
+
+  def self.records_matching(query, max = 10)
+    self.agents_matching(query, max, :name_software, NameSoftware)
   end
 
 end

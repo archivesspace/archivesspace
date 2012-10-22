@@ -342,6 +342,5 @@ module ASModel
 
       sequel_to_jsonmodel(obj, model, opts)
     end
-
   end
 end

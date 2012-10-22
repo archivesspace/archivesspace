@@ -109,4 +109,10 @@ class Resource < Sequel::Model(:resource)
     json
   end
 
+
+  def self.records_matching(query, max)
+    self.where(Sequel.like(Sequel.function(:lower, :title),
+                           "#{query}%".downcase)).first(max)
+  end
+
 end

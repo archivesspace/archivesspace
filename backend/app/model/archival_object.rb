@@ -65,4 +65,9 @@ class ArchivalObject < Sequel::Model(:archival_object)
   end
 
 
+  def self.records_matching(query, max)
+    self.where(Sequel.like(Sequel.function(:lower, :title),
+                           "#{query}%".downcase)).first(max)
+  end
+
 end

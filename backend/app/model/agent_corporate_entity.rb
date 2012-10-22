@@ -1,7 +1,9 @@
+require_relative 'agent_mixin'
 require_relative 'name_corporate_entity'
 
 class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
 
+  extend AgentMixin
   include ASModel
   include ExternalDocuments
 
@@ -24,5 +26,12 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
     json.agent_type = "agent_corporate_entity"
     json
   end
+
+
+  def self.records_matching(query, max = 10)
+    self.agents_matching(query, max, :name_corporate_entity, NameCorporateEntity)
+  end
+
+
 
 end

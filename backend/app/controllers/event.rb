@@ -32,7 +32,11 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["q", /[\w0-9 -.]/, "The record title prefix to match"])
     .returns([200, "A list of matching records"]) \
   do
-    json_response(Event.linkable_records_for(params[:q]))
+    result = Event.linkable_records_for(params[:q]).map {|record_type, records|
+      records.map {|record| record.class.to_jsonmodel(record, record_type, params[:repo_id]).to_hash}
+    }.flatten
+
+    json_response(result)
   end
 
 

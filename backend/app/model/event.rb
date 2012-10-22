@@ -74,7 +74,9 @@ class Event < Sequel::Model(:event)
 
 
   def self.linkable_records_for(prefix)
-
+    @@record_links.map {|record_type, record_model|
+      [record_type, record_model.records_matching(prefix, 10)]
+    }
   end
 
 
