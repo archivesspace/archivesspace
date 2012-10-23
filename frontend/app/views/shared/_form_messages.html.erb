@@ -4,7 +4,13 @@
      $(function () {
 
        var setupErrorMessage = function(idx, elt, type) {
-         $("#" + elt).parents(".control-group").addClass(type);
+         if ($("#" + elt).length) {
+           $("#" + elt).parents(".control-group:first").addClass(type);
+         } else if ($("[data-real-id=" + elt + "]").length) {
+           $("[data-real-id=" + elt + "]").each(function() {
+             $(this).parents(".control-group:first").addClass(type);
+           });
+         }
          if ($("#" + elt).length && !$("." + type + "[data-target=" + elt + "]").hasClass("linked-to-field")) {
            $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='icon-chevron-down'></span>").click(function() {
              $("#" + elt).ScrollTo({
