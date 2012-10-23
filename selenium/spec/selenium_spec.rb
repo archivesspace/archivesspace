@@ -439,6 +439,20 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "reports errors when updating an Accession with invalid data" do
+    @driver.find_element(:link, 'Edit').click
+    @driver.clear_and_send_keys([:id, "accession_title_"], "")
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+    }.to_not raise_error
+    # cancel first to back out bad change
+    @driver.find_element(:link, "Cancel").click
+    # cancel second to leave edit mode without saving
+    @driver.find_element(:link, "Cancel").click
+  end
+
+
   it "can edit an Accession and two Extents" do
     @driver.find_element(:link, 'Edit').click
 
@@ -643,6 +657,15 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "can show a browse list of Accessions" do
+    @driver.find_element(:link, "Browse").click
+    @driver.find_element(:link, "Accessions").click
+    expect {
+      @driver.find_element_with_text('//td', /#{accession_title}/)
+    }.to_not raise_error
+  end
+
+
   # Events
 
   it "creates an event and links it to an agent and accession" do
@@ -672,10 +695,7 @@ describe "ArchivesSpace user interface" do
   end
 
 
-
-
   # Resources
-
 
   it "reports errors and warnings when creating an invalid Resource" do
     @driver.find_element(:link, "Create").click
