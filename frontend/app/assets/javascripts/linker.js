@@ -139,7 +139,7 @@ $(function() {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
-              name: formattedNameForJSON(obj),
+              name: "<span class='"+ obj.jsonmodel_type + "'><span class='icon-token'></span>" + formattedNameForJSON(obj) + "</span>",
               id: obj.uri,
               json: obj
             });
@@ -202,6 +202,7 @@ $(function() {
           onCachedResult: formatResults,
           onResult: formatResults,
           tokenFormatter: function(item) {
+            item.name = formattedNameForJSON(item.json);
             var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
             $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
             return tokenEl;

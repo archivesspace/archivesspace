@@ -1,3 +1,4 @@
+//= require agents.crud
 //= require dates.crud
 //= require subrecord.crud
 
