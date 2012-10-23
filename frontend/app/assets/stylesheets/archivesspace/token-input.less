@@ -149,3 +149,60 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 .linker-wrapper.multiplicity-many li.token-input-input-token {
   min-height: 28px;
 }
+
+.linker-list {
+  max-height: 240px;
+}
+
+.linker-list ul {
+  margin: 0;
+  list-style: none;
+}
+.linker-list li {
+  padding:0;
+}
+.linker-list label {
+  padding: 5px;
+}
+.linker-list label:hover {
+  background-color: #F1f1f1;
+}
+.linker-wrapper.input-append {
+  float: left;
+  width: 420px;
+  .token-input-list {
+    float: left;
+  }
+  .btn-group {
+    float: left;
+    left: -1px;
+    .btn {
+      .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
+    }
+  }
+}
+.linker-wrapper.multiplicity-one {
+  .token-input-list {
+    min-height: 28px;
+  }
+}
+
+.token-input-dropdown, .token-input-list {
+  .icon-token {
+    float: left;
+    .opacity(75);
+    margin: 2px 4px 0 0;
+  }
+
+  .token-input-selected-token .icon-token {
+    .opacity(100);
+  }
+
+  .agent_person .icon-token {background-position: -168px 0;}
+  .agent_software .icon-token {background-position: -360px -144px;}
+  .agent_corporate_entity .icon-token {background-position: -432px -144px;}
+  .agent_family .icon-token {background-image: url(../../archivesspace/icon-family.png); background-position: 0 0;}
+  .archival_object .icon-token {background-position: -24px -24px;}
+  .subject .icon-token {display: none;}
+  .location .icon-token {display: none;}
+}
