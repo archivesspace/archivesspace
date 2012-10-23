@@ -99,7 +99,7 @@ class Event < Sequel::Model(:event)
 
   def self.set_linked_records(json, obj, opts, json_property, linkable_records)
     linkable_records.keys.each do |link|
-      obj.send("remove_all_#{link}_link".intern)
+      obj.send("#{link}_link_dataset".intern).delete
     end
 
     (json[json_property] or []).each do |record_link|
@@ -137,7 +137,7 @@ class Event < Sequel::Model(:event)
         obj.send("#{record_type}_link".intern).map {|link|
           {
             "role" => link[:role],
-            "ref" => JSONModel(record_type).uri_for(link["#{record_type}_id".intern])
+            "ref" => JSONModel(record_type).uri_for(link["#{record_type}_id".intern], opts)
           }
         }
       }.flatten

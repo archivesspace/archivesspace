@@ -18,7 +18,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = JSONModel(:event).find(params[:id])
+    @event = JSONModel(:event).find(params[:id], "resolve[]" => ["ref"])
   end
 
   def create
@@ -28,7 +28,7 @@ class EventsController < ApplicationController
                   render :action => :new
                 },
                 :on_valid => ->(id){
-                  redirect_to :controller => :events, :action => :show, :id => id
+                  redirect_to :controller => :events, :action => :index, :id => id
                 })
   end
 
@@ -39,7 +39,7 @@ class EventsController < ApplicationController
                 :on_invalid => ->(){ render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = "Event Saved"
-                  render :action => :show
+                  redirect_to :controller => :events, :action => :index
                 })
   end
 

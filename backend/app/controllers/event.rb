@@ -11,6 +11,27 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/events/:event_id')
+    .description("Update an Event")
+    .params(["event_id", Integer, "The event ID to update"],
+            ["event", JSONModel(:event), "The event data to update", :body => true],
+            ["repo_id", :repo_id])
+    .returns([200, :updated]) \
+  do
+    handle_update(Event, :event_id, :event,
+                  :repo_id => params[:repo_id])
+  end
+
+
+  Endpoint.get('/repositories/:repo_id/events')
+    .description("Get a list of Events for a Repository")
+    .params(["repo_id", :repo_id])
+    .returns([200, "[(:event)]"]) \
+  do
+    handle_listing(Event, :event, :repo_id => params[:repo_id])
+  end
+
+
   Endpoint.get('/repositories/:repo_id/events/:event_id')
     .description("Get an Event by ID")
     .params(["event_id", Integer, "The Event ID"],
