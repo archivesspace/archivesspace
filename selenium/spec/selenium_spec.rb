@@ -195,6 +195,51 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "reports errors when attempting to create a Group with missing data" do
+    @driver.find_element(:link, "Admin").click
+    @driver.find_element(:link, "Groups").click
+    @driver.find_element(:link, "Create Group").click
+    @driver.find_element(:css => "form#new_group input[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Group code - Property is required but was missing/)
+    }.to_not raise_error
+    @driver.find_element(:link, "Cancel").click
+  end
+
+
+  it "can create a new Group" do
+    @driver.find_element(:link, "Create Group").click
+    @driver.clear_and_send_keys([:id, 'group_group_code_'], "goo")
+    @driver.clear_and_send_keys([:id, 'group_description_'], "Goo group to group goo")
+    @driver.find_element(:id, "view_repository").click
+    @driver.find_element(:css => "form#new_group input[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//tr', /goo/)
+    }.to_not raise_error
+  end
+
+
+  it "reports errors when attempting to update a Group with missing data" do
+    @driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
+    @driver.clear_and_send_keys([:id, 'group_description_'], "")
+    @driver.find_element(:css => "form#new_group input[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Description - Property is required but was missing/)
+    }.to_not raise_error
+    @driver.find_element(:link, "Cancel").click
+  end
+
+
+  it "can edit a Group" do
+    @driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
+    @driver.clear_and_send_keys([:id, 'group_description_'], "Group to gather goo")
+    @driver.find_element(:css => "form#new_group input[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//tr', /Group to gather goo/)
+    }.to_not raise_error
+  end
+
+
   it "can log out of the admin account" do
     logout(@driver)
   end
