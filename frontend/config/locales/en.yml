@@ -28,12 +28,21 @@ en:
     _html:
       singular: Location
       plural: Locations
+  linked_record:
+    role: Role
+    role_source: Source
+    role_outcome: Outcome
+    role_transfer: Transfer
+    _html:
+      singular: Record Link
+      plural: Record Links
   linked_agent:
     role: Role
     role_authorizer: Authorizer
     role_executing_program: Executing Program
     role_implementer: Implementer
     role_recipient: Recipient
+    role_transmitter: Transmitter
     role_validator: Validator
     _html:
       singular: Agent Link
