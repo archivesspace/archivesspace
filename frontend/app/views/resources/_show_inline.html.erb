@@ -58,6 +58,8 @@
       <% if @resource.instances.length > 0 %>
         <%= render :partial => "instances/show", :locals => { :instances => @resource.instances, :section_id => "resource_instances_"  } %>
       <% end %>
+
+			<%= render :partial => "ead/show", :locals => { :ead => @ead, :section_id => "resource_ead_" } %>
     <% end %>
   </div>
 </div>

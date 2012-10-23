@@ -1,0 +1,18 @@
+<%
+   section_id = "ead" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3>EAD</h3>
+
+  <div class="row-fluid label-and-value">
+      <div class="span3">EAD Status</div>
+      <div class="span9">
+				<%= render :partial => "ead/status", :locals => { :status => ead.status } %>
+				<br />
+				<a id="generate-ead" class="btn">Generate</a>
+				<a id="download-ead" href="<%= url_for(:action => 'download_ead', :controller => 'resources') %>" class="btn">Download</a>
+			</div>
+   </div>
+
+</section>

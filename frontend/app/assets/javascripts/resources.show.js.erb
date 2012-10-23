@@ -39,6 +39,7 @@ $(function() {
         success: function(html) {
           $container.html(html);
           renderTreeToolbar();
+					addEADEventBindings();
         }
       });
     }
@@ -89,7 +90,6 @@ $(function() {
 
       loadPaneForNode($selected);
     });
-
 
     var resizeArchivesTree = function() {
       var height = $("#archives_tree").parent().height() - $("#archives_tree_toolbar").outerHeight() - 21;
@@ -159,8 +159,26 @@ $(function() {
     });
   };
 
+	var addEADEventBindings = function() {
+		$("#generate-ead").click(function() {
+			$.ajax({
+	      url: APP_PATH+"resources/"+resource_tree_data.resource_id+"/generate_ead",
+	      type: 'GET',
+	      data: {
+	        resource_id: resource_tree_data.resource_id
+	      },
+	      success: function(status) {
+					console.log(status)
+					$("#ead-status").replaceWith(status);
+	      }
+		
+			});
+		});
+	};
+
+
   renderTree();
   addEventBindings();
   initTree();
-
+	
 });
