@@ -354,6 +354,16 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').text.should eq("Save Person")
   end
 
+
+  it "reports errors when updating a Person Agent with invalid data" do
+    @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "")
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
+      .text.should match(/Primary Name - Property is required but was missing/)
+    @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
+  end
+
+
   it "can remove contact details" do
     @driver.find_element(:css => '#contacts .subrecord-form-remove').click
     @driver.find_element(:css => '#contacts .confirm-removal').click
