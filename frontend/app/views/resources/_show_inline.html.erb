@@ -59,6 +59,11 @@
       <% if @resource.instances.length > 0 %>
         <%= render :partial => "instances/show", :locals => { :instances => @resource.instances, :section_id => "resource_instances_"  } %>
       <% end %>
+
+      <% if @resource.deaccessions.length > 0 %>
+        <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @resource.deaccessions, :context => readonly, :section_id => "resource_deaccessions_" } %>
+      <% end %>
+
     <% end %>
   </div>
 </div>

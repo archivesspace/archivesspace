@@ -87,6 +87,7 @@ en:
     reason: Reason
     disposition: Disposition
     notification: Notification Given?
+    dates: Dates
     _html:
       plural: Deaccessions
       singular: Deaccession
