@@ -63,7 +63,7 @@
        <% end %>
 
        <% if @accession.deaccessions.length > 0 %>
-         <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @accession.deaccessions, :context => readonly } %>
+         <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @accession.deaccessions, :context => readonly, :section_id => "accession_deaccessions_" } %>
        <% end %>
      <% end %>
    </div>
