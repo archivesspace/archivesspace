@@ -11,9 +11,9 @@
 
 <section id="event_date">
   <h3>Event date</h3>
-  <% form.push("date") do %>
+  <% form.push("date", @event.date || {}) do %>
     <% render :partial => "dates/template", :locals => {:form => form} %>
-    <% form.emit_template("date", (@event.date or {})) %>
+    <% form.emit_template("date") %>
   <% end %>
 </section>
 
