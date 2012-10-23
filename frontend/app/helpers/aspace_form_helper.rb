@@ -222,6 +222,7 @@ module AspaceFormHelper
       jsonmodel_enum_for(model, property).each do |v|
         options.push([I18n.t(i18n_for("#{property}_#{v}"), :default => v), v])
       end
+
       options
     end
 

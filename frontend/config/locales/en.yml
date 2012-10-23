@@ -51,6 +51,36 @@ en:
     event_type: Type
     outcome: Outcome
     outcome_note: Outcome Note
+    event_type_accession: Accession
+    event_type_accumulation: Accumulation
+    event_type_acknowledgement: Acknowledgement
+    event_type_agreement received: Agreement Received
+    event_type_agreement sent: Agreement Sent
+    event_type_appraisal: Appraisal
+    event_type_assessment: Assessment
+    event_type_capture: Capture
+    event_type_cataloging: Cataloging
+    event_type_collection: Collection
+    event_type_compression: Compression
+    event_type_contribution: Contribution
+    event_type_custody transfer: Custody Transfer
+    event_type_deaccession: Deaccession
+    event_type_decompression: Decompression
+    event_type_decryption: Decryption
+    event_type_deletion: Deletion
+    event_type_digital signature validation: Digital Signature Validation
+    event_type_fixity check: Fixity Check
+    event_type_ingestion: Ingestion
+    event_type_message digest calculation: Message Digest Calculation
+    event_type_migration: Migration
+    event_type_normalization: Normalization
+    event_type_processing: Processing
+    event_type_publication: Publication
+    event_type_replication: Replication
+    event_type_resource merge: Resource Merge
+    event_type_resource component transfer: Resource Component Transfer
+    event_type_validation: Validation
+    event_type_virus check: Virus Check
   agent_person_name:
     authority_id: Authority ID
     source: Source
