@@ -630,6 +630,37 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  # Events
+
+  it "creates an event and links it to an agent and accession" do
+    @driver.find_element(:link, "Create").click
+    @driver.find_element(:link, "Event").click
+    @driver.find_element(:id, "event_event_type_").select_option('virus check')
+    @driver.clear_and_send_keys([:id, "event_outcome_"], "A good outcome")
+    @driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's a lie: all test subjects perished.")
+
+    @driver.find_element(:id, "event_date__date_type__single").click
+    @driver.clear_and_send_keys([:id, "event_date__begin__single"], ["2000-01-01", :tab])
+
+    agent_subform = @driver.find_element(:id, "event_linked_agents__0__role_").
+                            nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
+
+    @driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
+    agent_subform.find_element(:id, "token-input-").send_keys("Johnny")
+    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+    record_subform = @driver.find_element(:id, "event_linked_records__0__role_").
+                             nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
+
+    record_subform.find_element(:id, "token-input-").send_keys("Accession with dates")
+    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+    @driver.find_element(:css => "form#new_event button[type='submit']").click
+  end
+
+
+
+
   # Resources
 
 
