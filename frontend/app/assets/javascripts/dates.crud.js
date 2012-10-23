@@ -22,6 +22,8 @@ $(function() {
       subform.parents("form:first").triggerHandler("form-changed");
       $.proxy(toggleDisabledFields, subform)();
     });
+
+    $.proxy(toggleDisabledFields, subform)();
     $("label.radio :radio:checked", subform).parents(".accordion-group:first").find(".accordion-body").removeClass("collapsed").addClass("in");
   };
 
