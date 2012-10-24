@@ -115,7 +115,7 @@ describe 'Accession controller' do
   end
 
 
-  it "creates an accession with a deaccessopm" do
+  it "creates an accession with a deaccession" do
     acc = JSONModel(:accession).from_hash("id_0" => "1234",
                                           "title" => "The accession title",
                                           "content_description" => "The accession description",

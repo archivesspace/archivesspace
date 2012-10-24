@@ -180,6 +180,14 @@ class Selenium::WebDriver::Element
   end
 
 
+  def get_select_value
+    self.find_elements(:tag_name => "option").each do |option|
+      return option.attribute("value") if option.attribute("checked")
+    end
+
+    return ""
+  end
+
   def nearest_ancestor(xpath)
     self.find_element(:xpath => './ancestor-or-self::' + xpath + '[1]')
   end

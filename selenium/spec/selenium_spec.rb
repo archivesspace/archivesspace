@@ -994,6 +994,27 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "can add a deaccession record" do
+    @driver.find_element(:link, 'Edit').click
+
+    @driver.find_element(:css => '#resource_deaccessions_ .subrecord-form-heading .btn').click
+
+    @driver.find_element(:id => 'resource_deaccessions__0__date__label_').get_select_value.should eq("deaccession")
+
+    @driver.clear_and_send_keys([:id, 'resource_deaccessions__0__description_'], "Lalala describing the deaccession")
+    @driver.find_element(:css => "#resource_deaccessions__0__date__date_type__single").find_element(:xpath => "./parent::*").click
+    sleep 2 # wait for dropdown/enabling of inputs
+    @driver.clear_and_send_keys([:id, 'resource_deaccessions__0__date__begin__single'], "2012-05-14")
+
+
+    # Save the resource
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
+    @driver.find_element(:link, 'Finish Editing').click
+
+    @driver.blocking_find_elements(:css => '#resource_deaccessions_').length.should eq(1)
+  end
+
+
   # Log out
 
   it "can log out once finished" do
