@@ -40,7 +40,9 @@ ArchivesSpace::Application.routes.draw do
   resources :resources
   match 'resources/:id/update_tree' => 'resources#update_tree', :via => [:post]
   match 'resources/:id/tree' => 'resources#tree', :via => [:get]
+  match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
   match 'resources/:id' => 'resources#update', :via => [:post]
+
 
   match 'subjects/list' => 'subjects#list', :via => [:get]
   resources :subjects

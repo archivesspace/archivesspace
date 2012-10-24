@@ -18,25 +18,15 @@ describe "ASpaceImport and ASpaceExport modules" do
   it "should be able to export a Resource and its Tree as EAD" do
 
     r = FactoryGirl.create(:resource, repo_id: @repo_id) 
-    puts r.inspect   
-    e = FactoryGirl.create(:extent, resource_id: r.id)
-    puts e.inspect 
+    e = FactoryGirl.create(:extent, resource_id: r.id) 
     p = FactoryGirl.create(:archival_object, {repo_id: @repo_id, resource_id: r.id})  
     10.times { FactoryGirl.create(:archival_object, {repo_id: @repo_id, resource_id: r.id, parent_id: p.id}) }
           
     ead = @ser.serialize(r)
-    puts ead.to_s
     
     doc = Nokogiri::XML ead
     ead_file = File.join(Dir::tmpdir, "test_ead_1.xml")
     File.open(ead_file, 'w') { |file| file.write(doc) }
-    
-    # get rid of everything
-    #   needs a better solution
-    # Extent.dataset.each { |e| e.delete }
-    # ArchivalObject.dataset.each { |a| a.delete if a.parent_id }
-    # p.delete    
-    # r.delete
     
   end
   
@@ -70,7 +60,7 @@ describe "ASpaceImport and ASpaceExport modules" do
   
   it "should be as roundtrippy as possible" do
     # needs more research 
-    #test the files
+    # test the files
   end
 
   
