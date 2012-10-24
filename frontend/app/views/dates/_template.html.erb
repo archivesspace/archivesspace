@@ -1,7 +1,7 @@
 <% define_template "date" do |form| %>
   <div class="subrecord-form-fields" data-allow-removal="true">
     <div class="date-container">
-      <%= form.label_and_select :label, JSONModel(:date).schema['properties']['label']['enum'] %>
+      <%= form.label_and_select :label, form.options_for(:label, JSONModel(:date).schema['properties']['label']['enum']) %>
 
       <div class="control-group">
         <label class="control-label"><%= I18n.t(form.i18n_for("date_type"))%></label>
@@ -29,6 +29,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("begin")}_single",
+                      :"data-real-id" => form.id_for("begin"),
                       :placeholder => "YYYY-MM-DD"
                     }
                   } %>
@@ -38,6 +39,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("begin_time")}_single",
+                      :"data-real-id" => form.id_for("begin_time"),
                       :placeholder => "HH:MM:SS"
                     }
                   } %>
@@ -56,7 +58,8 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("begin")}_inclusive",
-                      :placeholder => "YYYY-MM-DD"
+                      :placeholder => "YYYY-MM-DD",
+                      :"data-real-id" => form.id_for("begin")
                     }
                   } %>
                   <%= form.label_and_textfield "begin_time", {
@@ -65,6 +68,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("begin_time")}_inclusive",
+                      :"data-real-id" => form.id_for("begin_time"),
                       :placeholder => "HH:MM:SS"
                     }
                   } %>
@@ -74,6 +78,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("end")}_inclusive",
+                      :"data-real-id" => form.id_for("end"),
                       :placeholder => "HH:MM:SS"
                     }
                   } %>
@@ -83,6 +88,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("end_time")}_inclusive",
+                      :"data-real-id" => form.id_for("end_time"),
                       :placeholder => "HH:MM:SS"
                     }
                   } %>
@@ -101,6 +107,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("begin")}_bulk",
+                      :"data-real-id" => form.id_for("begin"),
                       :placeholder => "YYYY-MM-DD"
                     }
                   } %>
@@ -110,6 +117,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("begin_time")}_bulk",
+                      :"data-real-id" => form.id_for("begin_time"),
                       :placeholder => "HH:MM:SS"
                     }
                   } %>
@@ -119,6 +127,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("end")}_bulk",
+                      :"data-real-id" => form.id_for("end"),
                       :placeholder => "HH:MM:SS"
                     }
                   } %>
@@ -128,6 +137,7 @@
                     },
                     :field_opts => {
                       :id => "#{form.id_for("end_time")}_bulk",
+                      :"data-real-id" => form.id_for("end_time"),
                       :placeholder => "HH:MM:SS"
                     }
                   } %>

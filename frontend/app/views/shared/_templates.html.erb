@@ -61,7 +61,7 @@
                 {if config.format_property}
                   ${item[config.format_property]}
                 {else}
-                  ${AS.quickTemplate(config.format, item)}
+                  ${AS.quickTemplate(config.format_template, item)}
                 {/if}
                </span>
             </label>
@@ -76,7 +76,8 @@
    {if items.length > 0}
       <ul>
          {for item in items} 
-            <li>
+            <li class="${item.json.jsonmodel_type}">
+               <span class="icon-token"></span>
                <input type="hidden" name="${config.path}[${config.name}][]" value="${item}" />
                ${item}
             </li>
@@ -87,7 +88,8 @@
    {/if}
 --></div>
 <div id="linker_selectedtoken_template"><!--
-   <li id="${item.id.replace(/\//g,'_')}">
+   <li id="${item.id.replace(/\//g,'_')}" class="${item.json.jsonmodel_type}">
+      <span class="icon-token"></span>
       <input type="hidden" name="${config.path}[resolved][${config.name}]{if config.multiplicity != 'one'}[]{/if}" />
       <input type="hidden" name="${config.path}[${config.name}]{if config.multiplicity != 'one'}[]{/if}" value="${item.id}" />
       ${item.name}

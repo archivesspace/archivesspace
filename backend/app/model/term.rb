@@ -1,8 +1,9 @@
-class Term < Sequel::Model(:terms)
+class Term < Sequel::Model(:term)
   plugin :validation_helpers
   include ASModel
 
-  many_to_many :subjects
+  many_to_many :subject, :join_table => "subject_term"
+
 
   def validate
     super

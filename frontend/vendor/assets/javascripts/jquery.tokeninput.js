@@ -34,7 +34,7 @@ var DEFAULT_SETTINGS = {
     zindex: 999,
     resultsLimit: null,
 
-    enableHTML: false,
+    enableHTML: true,
 
     resultsFormatter: function(item) {
       var string = item[this.propertyToSearch];

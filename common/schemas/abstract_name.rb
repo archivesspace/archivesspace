@@ -13,7 +13,7 @@
       "qualifier" => {"type" => "string"},
       "source" => {"type" => "string", "enum" => ["local", "naf", "nad", "ulan"]},
       "rules" => {"type" => "string", "enum" => ["local", "aacr", "dacs"]},
-      "sort_name" => {"type" => "string"},
+      "sort_name" => {"type" => "string", "ifmissing" => "error"},
     },
   },
 }

@@ -61,8 +61,8 @@ describe 'Resource model' do
                                                      }),
                                          :repo_id => @repo_id)
 
-    Resource[resource[:id]].dates.length.should eq(1)
-    Resource[resource[:id]].dates[0].begin.should eq("2012-05-14")
+    Resource[resource[:id]].date.length.should eq(1)
+    Resource[resource[:id]].date[0].begin.should eq("2012-05-14")
   end
 
 
@@ -129,9 +129,9 @@ describe 'Resource model' do
                                                      }),
                                          :repo_id => @repo_id)
 
-    Resource[resource[:id]].instances.length.should eq(1)
-    Resource[resource[:id]].instances[0].instance_type.should eq("text")
-    Resource[resource[:id]].instances[0].container.first.type_1.should eq("A Container")
+    Resource[resource[:id]].instance.length.should eq(1)
+    Resource[resource[:id]].instance[0].instance_type.should eq("text")
+    Resource[resource[:id]].instance[0].container.first.type_1.should eq("A Container")
   end
 
 end

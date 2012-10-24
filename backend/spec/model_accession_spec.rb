@@ -91,8 +91,8 @@ describe 'Accession model' do
                                                      }),
                                            :repo_id => @repo_id)
 
-    Accession[accession[:id]].dates.length.should eq(1)
-    Accession[accession[:id]].dates[0].begin.should eq("2012-05-14")
+    Accession[accession[:id]].date.length.should eq(1)
+    Accession[accession[:id]].date[0].begin.should eq("2012-05-14")
   end
 
 
@@ -117,8 +117,8 @@ describe 'Accession model' do
                                                      }),
                                            :repo_id => @repo_id)
 
-    Accession[accession[:id]].external_documents.length.should eq(1)
-    Accession[accession[:id]].external_documents[0].title.should eq("My external document")
+    Accession[accession[:id]].external_document.length.should eq(1)
+    Accession[accession[:id]].external_document[0].title.should eq("My external document")
   end
 
 
@@ -176,8 +176,8 @@ describe 'Accession model' do
                                                        }),
                                            :repo_id => @repo_id)
 
-    Accession[accession[:id]].rights_statements.length.should eq(1)
-    Accession[accession[:id]].rights_statements[0].identifier.should eq("abc123")
+    Accession[accession[:id]].rights_statement.length.should eq(1)
+    Accession[accession[:id]].rights_statement[0].identifier.should eq("abc123")
   end
 
 end

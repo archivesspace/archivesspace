@@ -45,8 +45,8 @@ describe 'Agent model' do
                                                                         ]
                                                 }))
 
-    AgentSoftware[agent[:id]].agent_contacts.length.should eq(1)
-    AgentSoftware[agent[:id]].agent_contacts[0][:name].should eq("Business hours contact")
+    AgentSoftware[agent[:id]].agent_contact.length.should eq(1)
+    AgentSoftware[agent[:id]].agent_contact[0][:name].should eq("Business hours contact")
   end
 
 

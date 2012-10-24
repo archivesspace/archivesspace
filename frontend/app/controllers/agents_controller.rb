@@ -1,6 +1,6 @@
 class AgentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
-  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :list]
+  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :list]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   before_filter :assign_types
@@ -16,6 +16,8 @@ class AgentsController < ApplicationController
   def new
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
     @agent.names = [@name_type.new._always_valid!]
+
+    render :partial => "agents/new" if inline?
   end
 
   def edit
@@ -26,9 +28,11 @@ class AgentsController < ApplicationController
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
                 :on_invalid => ->(){
+                  return render :partial => "agents/new" if inline?
                   return render :action => :new
                 },
                 :on_valid => ->(id){
+                  return render :json => @agent.to_hash if inline?
                   redirect_to :controller => :agents, :action => :show, :id => id, :type => @agent_type
                 })
   end
@@ -43,6 +47,14 @@ class AgentsController < ApplicationController
                 :on_valid => ->(id){
                   redirect_to :controller => :agents, :action => :show, :id => id, :type => @agent_type
                 })
+  end
+
+  def list
+    if params[:q].blank?
+      render :json => JSONModel::all('/agents', :agent_type)
+    else
+      render :json => JSONModel::HTTP.get_json("/agents/by-name", params)
+    end
   end
 
   private

@@ -1,4 +1,4 @@
-class Instance < Sequel::Model(:instances)
+class Instance < Sequel::Model(:instance)
   include ASModel
 
   plugin :validation_helpers

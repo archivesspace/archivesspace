@@ -14,7 +14,7 @@ class Webhooks
   def self.add_listener(url)
     DB.open do |db|
       begin
-        db[:webhook_endpoints].insert(:url => url)
+        db[:webhook_endpoint].insert(:url => url)
       rescue
         # Ignore dupes
       end
@@ -31,50 +31,54 @@ class Webhooks
     Thread.new do
 
       while true
+        begin
+          # A short delay to give duplicate events the change to batch together
+          sleep 0.5
 
-        # A short delay to give duplicate events the change to batch together
-        sleep 0.5
+          messages = []
 
-        messages = []
-
-        # Wait for at least one element to show up
-        messages << @@queue.pop
-
-        until @@queue.empty?
+          # Wait for at least one element to show up
           messages << @@queue.pop
-        end
 
-        events = {}
-        messages.each do |code, params|
-          events[code] = {"code" => code, "params" => params}
-        end
+          until @@queue.empty?
+            messages << @@queue.pop
+          end
 
-        notification = JSONModel(:webhook_notification).from_hash(:events => events.values)
+          events = {}
+          messages.each do |code, params|
+            events[code] = {"code" => code, "params" => params}
+          end
 
-        listeners = DB.open do |db|
-          db[:webhook_endpoints].select(:url).map {|row| row[:url]}
-        end
+          notification = JSONModel(:webhook_notification).from_hash(:events => events.values)
 
-        listeners.each do |url|
-          Thread.new do
-            begin
-              uri = URI(url)
-              http = Net::HTTP.new(uri.host, uri.port)
+          listeners = DB.open do |db|
+            db[:webhook_endpoint].select(:url).map {|row| row[:url]}
+          end
 
-              http.open_timeout = 2
-              http.read_timeout = 2
+          listeners.each do |url|
+            Thread.new do
+              begin
+                uri = URI(url)
+                http = Net::HTTP.new(uri.host, uri.port)
 
-              req = Net::HTTP::Post.new(uri.request_uri)
-              req.form_data = {"notification" => notification.to_json}
+                http.open_timeout = 2
+                http.read_timeout = 2
 
-              http.start do |http|
-                http.request(req) do |response|
+                req = Net::HTTP::Post.new(uri.request_uri)
+                req.form_data = {"notification" => notification.to_json}
+
+                http.start do |http|
+                  http.request(req) do |response|
+                  end
                 end
+              rescue
+                # Oh well!
               end
-            rescue
-              # Oh well!
             end
           end
+        rescue
+          puts "Webhook delivery failure: #{$!}"
+          sleep 30
         end
       end
     end

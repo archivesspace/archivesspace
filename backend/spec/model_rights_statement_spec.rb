@@ -177,8 +177,8 @@ describe 'Rights Statement model' do
                                                           }),
                                                         :repo_id => @repo_id)
 
-    RightsStatement[rights_statement[:id]].external_documents.length.should eq(1)
-    RightsStatement[rights_statement[:id]].external_documents[0].title.should eq("My external document")
+    RightsStatement[rights_statement[:id]].external_document.length.should eq(1)
+    RightsStatement[rights_statement[:id]].external_document[0].title.should eq("My external document")
   end
 
 end

@@ -1,4 +1,4 @@
-class ArchivalObject < Sequel::Model(:archival_objects)
+class ArchivalObject < Sequel::Model(:archival_object)
   plugin :validation_helpers
   include ASModel
   include Subjects
@@ -64,5 +64,10 @@ class ArchivalObject < Sequel::Model(:archival_objects)
     super
   end
 
+
+  def self.records_matching(query, max)
+    self.where(Sequel.like(Sequel.function(:lower, :title),
+                           "#{query}%".downcase)).first(max)
+  end
 
 end

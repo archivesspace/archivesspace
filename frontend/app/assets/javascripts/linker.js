@@ -14,7 +14,7 @@ $(function() {
 
       var config = {
         url: $this.data("url"),
-        format: $this.data("format"),
+        format_template: $this.data("format_template"),
         format_property: $this.data("format_property"),
         controller: $this.data("controller"),
         path: $this.data("path"),
@@ -24,6 +24,10 @@ $(function() {
         label_plural: $this.data("label_plural"),
         modal_id: "linkerModalFor_"+$this.data("class")
       };
+
+      if (config.format_template && config.format_template.substring(0,2) != "${") {
+        config.format_template = "${" + config.format_template + "}";
+      }
 
       var renderItemsInModal = function() {
         var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
@@ -39,15 +43,15 @@ $(function() {
 
 
       var formattedNameForJSON = function(json) {
-        if (config.format) {
-          return AS.quickTemplate(config.format, json);
+        if (config.format_template) {
+          return AS.quickTemplate(config.format_template, json);
         } else if (config.format_property) {
           return json[config.format_property];
         }
         return "ERROR: no format for name (formattedNameForJSON)"
       };
 
-      var renderCreateFormForObject = function() {
+      var renderCreateFormForObject = function(form_uri) {
         var $modal = $("#"+config.modal_id);
 
         var initCreateForm = function(formEl) {
@@ -84,7 +88,7 @@ $(function() {
         };
 
         $.ajax({
-          url: APP_PATH+config.controller+"/new?inline=true",
+          url: form_uri,
           success: initCreateForm
         });
         $("#createAndLinkButton", $modal).click(function() {
@@ -95,7 +99,11 @@ $(function() {
 
       var showLinkerCreateModal = function() {
         AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config));
-        renderCreateFormForObject();
+        if ($(this).hasClass("linker-create-btn")) {
+          renderCreateFormForObject($(this).data("target"));
+        } else {
+          renderCreateFormForObject($(".linker-create-btn:first", $linkerWrapper).data("target"));
+        }
       };
 
 
@@ -131,7 +139,7 @@ $(function() {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
-              name: formattedNameForJSON(obj),
+              name: "<span class='"+ obj.jsonmodel_type + "'><span class='icon-token'></span>" + formattedNameForJSON(obj) + "</span>",
               id: obj.uri,
               json: obj
             });
@@ -194,6 +202,7 @@ $(function() {
           onCachedResult: formatResults,
           onResult: formatResults,
           tokenFormatter: function(item) {
+            item.name = formattedNameForJSON(item.json);
             var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
             $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
             return tokenEl;

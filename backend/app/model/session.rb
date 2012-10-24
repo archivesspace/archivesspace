@@ -16,9 +16,9 @@ class Session
           sid = SecureRandom.hex(SESSION_ID_LENGTH)
 
           begin
-            db[:sessions].insert(:session_id => sid,
-                                 :session_data => [Marshal.dump({})].pack("m*"),
-                                 :last_modified => Time.now)
+            db[:session].insert(:session_id => sid,
+                                :session_data => [Marshal.dump({})].pack("m*"),
+                                :last_modified => Time.now)
             break
           rescue Sequel::DatabaseError => ex
             if not DB.is_integrity_violation(ex)
@@ -41,7 +41,7 @@ class Session
 
   def self.find(sid)
     DB.open do |db|
-      session_data = db[:sessions].filter(:session_id => sid).get(:session_data)
+      session_data = db[:session].filter(:session_id => sid).get(:session_data)
 
       if session_data
         Session.new(sid, Marshal.load(session_data.unpack("m*").first))
@@ -64,7 +64,7 @@ class Session
 
   def save
     DB.open do |db|
-      db[:sessions]
+      db[:session]
         .filter(:session_id => @id)
         .update(:session_data => [Marshal.dump(@store)].pack("m*"),
                 :last_modified => Time.now)

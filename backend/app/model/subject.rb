@@ -1,17 +1,17 @@
 require_relative 'term'
 require 'digest/sha1'
 
-class Subject < Sequel::Model(:subjects)
+class Subject < Sequel::Model(:subject)
   plugin :validation_helpers
   include ASModel
   include ExternalDocuments
 
-  many_to_many :terms
-  many_to_many :archival_objects
+  many_to_many :term, :join_table => :subject_term
+  many_to_many :archival_object, :join_table => :subject_archival_object
 
   jsonmodel_hint(:the_property => :terms,
                  :contains_records_of_type => :term,
-                 :corresponding_to_association  => :terms,
+                 :corresponding_to_association  => :term,
                  :always_resolve => true)
 
 
@@ -65,8 +65,8 @@ class Subject < Sequel::Model(:subjects)
 
   def validate
     super
-    validates_unique([:vocab_id, :terms], :message => "Subject must be unique")
-    map_validation_to_json_property([:vocab_id, :terms], :terms)
+    validates_unique([:vocab_id, :terms_sha1], :message => "Subject must be unique")
+    map_validation_to_json_property([:vocab_id, :terms_sha1], :terms)
   end
 
 end

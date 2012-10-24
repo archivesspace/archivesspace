@@ -1,0 +1,14 @@
+<div id="archivesSpaceSidebar">
+  <ul class="nav nav-list affix as-nav-list" data-spy="affix">
+    <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#event_date">Event Date <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#event_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#event_linked_records_">Record Links <span class="icon-chevron-right"></span></a></li>
+
+    <% if not controller.action_name === "show" %>
+      <li class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Event</button>
+      </li>
+    <% end %>
+  </ul>
+</div>

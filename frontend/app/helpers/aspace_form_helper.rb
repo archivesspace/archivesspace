@@ -222,14 +222,21 @@ module AspaceFormHelper
       jsonmodel_enum_for(model, property).each do |v|
         options.push([I18n.t(i18n_for("#{property}_#{v}"), :default => v), v])
       end
+
       options
     end
-
 
     def jsonmodel_enum_for(model, property)
       JSONModel(model).schema["properties"][property]["enum"]
     end
 
+    def options_for(property, values)
+      options = []
+      values.each do |v|
+        options.push([I18n.t(i18n_for("#{property}_#{v}"), :default => v), v])
+      end
+      options
+    end
 
     def hidden_input(name, value = nil)
       value = obj[name] if value.blank?
@@ -269,11 +276,11 @@ module AspaceFormHelper
       @forms.tag("input", options, false, false)
     end
 
-    def checkbox(name, force_checked = false)
+    def checkbox(name, force_checked = false, opts = {})
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "true"}
       options[:checked] = "checked" if force_checked or not (obj[name] === "true")
 
-      @forms.tag("input", options, false, false)
+      @forms.tag("input", options.merge(opts), false, false)
     end
 
     def label_with_field(name, field_html, opts = {})

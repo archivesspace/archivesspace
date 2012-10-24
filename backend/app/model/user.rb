@@ -1,4 +1,4 @@
-class User < Sequel::Model(:users)
+class User < Sequel::Model(:user)
   include ASModel
   plugin :validation_helpers
 
@@ -30,9 +30,9 @@ class User < Sequel::Model(:users)
             "is a repository-level permission, but no :repo_id was given")
     end
 
-    !permission.nil? && ((self.class.db[:groups].
-                          join(:groups_users, :group_id => :id).
-                          join(:groups_permissions, :group_id => :group_id).
+    !permission.nil? && ((self.class.db[:group].
+                          join(:group_user, :group_id => :id).
+                          join(:group_permission, :group_id => :group_id).
                           filter(:user_id => self.id,
                                  :permission_id => permission.id,
                                  :repo_id => [opts[:repo_id], global_repo.id].reject(&:nil?)).
@@ -44,11 +44,11 @@ class User < Sequel::Model(:users)
     result = {}
 
     # Crikey...
-    ds = self.class.db[:groups].
-      join(:groups_users, :group_id => :id).
-      join(:groups_permissions, :group_id => :group_id).
-      join(:permissions, :id => :permission_id).
-      join(:repositories, :id => :groups__repo_id).
+    ds = self.class.db[:group].
+      join(:group_user, :group_id => :id).
+      join(:group_permission, :group_id => :group_id).
+      join(:permission, :id => :permission_id).
+      join(:repository, :id => :group__repo_id).
       filter(:user_id => self.id).
       distinct.
       select(:repo_code, :permission_code)
@@ -62,5 +62,5 @@ class User < Sequel::Model(:users)
   end
 
 
-  many_to_many :groups
+  many_to_many :group, :join_table => "group_user"
 end

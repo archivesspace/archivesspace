@@ -1,4 +1,4 @@
-class Accession < Sequel::Model(:accessions)
+class Accession < Sequel::Model(:accession)
   plugin :validation_helpers
   include ASModel
   include Identifiers
@@ -7,4 +7,11 @@ class Accession < Sequel::Model(:accessions)
   include Dates
   include ExternalDocuments
   include RightsStatements
+
+
+  def self.records_matching(query, max)
+    self.where(Sequel.like(Sequel.function(:lower, :title),
+                           "#{query}%".downcase)).first(max)
+  end
+
 end
