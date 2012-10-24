@@ -282,6 +282,7 @@ describe "ArchivesSpace user interface" do
 
 
   it "updates Sort Name when other name fields are updated" do
+    @driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
     @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix", :tab])
     @driver.clear_and_send_keys([:id, "agent_names__0__rest_of_name_"], "woo")
     @driver.find_element(:id => "agent_names__0__rest_of_name_").clear
@@ -339,7 +340,6 @@ describe "ArchivesSpace user interface" do
 
 
   it "can save a person and view readonly view of person" do
-    @driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
     @driver.find_element(:css => '.record-pane h2').text.should eq("Johnny Allen Hendrix Agent")
