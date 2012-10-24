@@ -1,0 +1,22 @@
+<h2>
+   <%= @digital_object.title.blank? ? "New Digital Object" : @digital_object.title %>  <span class="label label-info">Digital Object</span>
+</h2>
+
+<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+
+<fieldset>
+  <section id="basic_information">
+    <h3>Basic Information</h3>
+    <%= render :partial => "subjects/linker", :locals => { :form => form }%>
+
+  </section>
+
+
+  <%= render :partial => "notes/form", :locals => {:form => form} %>
+
+
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+
+</fieldset>

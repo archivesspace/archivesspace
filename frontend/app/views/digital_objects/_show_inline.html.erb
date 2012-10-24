@@ -1,0 +1,63 @@
+<div class="row-fluid">
+  <div class="span3">
+    <%= render :partial => "digital_objects/sidebar" %>
+  </div>
+  <div class="span9 record-pane">
+    <%= readonly_context :digital_object, @digital_object.to_hash(true) do |readonly| %>
+      <div class="btn-group" style="float: right">
+        <% if user_can?('update_repository') %>
+          <%= link_to "Edit", {:controller => :digital_objects, :action => :edit, :id => @digital_object.id, :anchor => "digital_object_#{@digital_object.id}"}, :class => "btn btn-small" %>
+        <% end %>
+      </div>
+      <h2><%= @digital_object.title %> <span class="label label-info">Digital Object</span></h2>
+      <section id="basic_information">
+        <h3>Basic Information</h3>
+        <div class="row-fluid label-and-value">
+            <div class="span3">Title</div>
+            <div class="span9"><%= @digital_object.title %></div>
+         </div>
+         <div class="row-fluid label-and-value">
+            <div class="span3">Identifier</div>
+            <div class="span9 identifier-display">
+               <span class="identifier-display-part"><%= @digital_object.id_0 %></span><span class="identifier-display-part"><%= @digital_object.id_1 %></span><span class="identifier-display-part"><%= @digital_object.id_2 %></span><span class="identifier-display-part"><%= @digital_object.id_3 %></span>
+            </div>
+         </div>
+         <% if not @digital_object.subjects.blank? %>
+         <hr/>
+         <div class="row-fluid label-and-value">
+            <div class="span3">Subjects</div>
+            <div class="span9">
+               <% @digital_object["resolved"]["subjects"].each do | subject | %>
+                  <div class="token">
+                     <%= Subject.from_hash(subject).display_string %>
+                  </div>
+               <% end %>
+            </div>
+         </div>
+         <% end %>
+      </section>
+
+      <% if @digital_object.notes.length > 0 %>
+        <%= render :partial => "notes/show", :locals => { :notes => @digital_object.notes, :context => readonly } %>
+      <% end %>
+
+      <%= render :partial => "extents/show", :locals => { :extents => @digital_object.extents, :section_id => "digital_object_extents_" } %>
+
+      <% if @digital_object.dates.length > 0 %>
+        <%= render :partial => "dates/show", :locals => { :dates => @digital_object.dates, :section_id => "digital_object_dates_" } %>
+      <% end %>
+
+      <% if @digital_object.external_documents.length > 0 %>
+        <%= render :partial => "external_documents/show", :locals => { :external_documents => @digital_object.external_documents, :section_id => "digital_object_external_documents_"  } %>
+      <% end %>
+
+      <% if @digital_object.rights_statements.length > 0 %>
+        <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @digital_object.rights_statements, :section_id => "digital_object_rights_statements_"  } %>
+      <% end %>
+
+      <% if @digital_object.instances.length > 0 %>
+        <%= render :partial => "instances/show", :locals => { :instances => @digital_object.instances, :section_id => "digital_object_instances_"  } %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

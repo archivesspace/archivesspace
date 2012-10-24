@@ -1,0 +1,19 @@
+<%= form_for @digital_object_component, :as => "digital_object_component", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+  <%= form_context :digital_object_component, @digital_object_component.to_hash(true) do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "sidebar" %>
+      </div>
+      <div class="span9 record-pane">
+        <%= render :partial => "digital_object_components/form_container", :locals => {:form => form} %>
+        <div class="form-actions">
+          <div class="btn-group btn-submit-group">
+            <button type="submit" class="btn btn-primary">Save Archival Object</button>
+            <button type="button" id="createPlusOne" class="btn btn-primary">+1</button>
+          </div>
+          <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

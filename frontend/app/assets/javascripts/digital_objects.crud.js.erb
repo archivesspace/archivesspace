@@ -1,0 +1,501 @@
+//= require jquery.cookie
+//= require jquery.ba-hashchange
+//= require jstree
+//= require subjects.crud
+//= require dates.crud
+//= require subrecord.crud
+
+$(function() {
+
+  var form_changed = false,
+      $tree = $("#archives_tree"),
+      $container = $("#object_container"),
+      digital_object_tree_data = AS.tree_data["digital_object-id-" + $(".archives-tree").data("digital_object-id")];
+
+
+  var renderTree = function() {
+    $tree.html(AS.renderTemplate("tree_template", {tree: digital_object_tree_data}));
+  };
+
+
+  var rerenderTree = function(callback) {
+    var selected_node_id = $(".selected", $tree).attr("id");
+
+    if (selected_node_id === "newAO") {
+      selected_node_id = "digital_object_component_" + $("#ao_id", $container).val();
+    }
+
+    $.getJSON(APP_PATH + "digital_objects/" + digital_object_tree_data.digital_object_id + "/tree", function(json) {
+      digital_object_tree_data = json;
+
+      renderTree();
+
+      $("#"+selected_node_id, $tree).addClass("selected");
+
+      initTree(callback);
+    });
+  };
+
+
+  var initForm = function(html) {
+    $container.html(html);         
+
+    var $form = $("form", $container);
+
+    $(".btn-cancel", $form).html("Revert Changes");
+    $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "digital_objects/" + digital_object_tree_data.digital_object_id + location.hash + "'>Finish Editing</a>");
+
+    if (location.hash !== "#tree::newAO") {
+      $(".btn-primary", $form).attr("disabled", "disabled");
+      $(".btn-cancel", $form).attr("disabled", "disabled");
+    }
+
+    $form.bind("form-changed", function() {
+      form_changed = true;
+      $(".btn-primary", $form).removeAttr("disabled");
+      $(".btn-cancel", $form).removeAttr("disabled");
+    });
+
+    $("#createPlusOne", $form).click(function() {
+      var createPlusOne = function(event, data) {
+        if (data.success) {
+          // if parent is a digital_object add +1 as a child
+          if ($(".selected", $tree).parents("li:first").hasClass("digital_object")) {
+            $(".archives-tree-container .add-child-digital-object-component-analog").trigger("click");
+          } else {
+            // else add +1 as a sibling
+            $(".archives-tree-container .add-sibling-digital-object-component-analog").trigger("click");
+          }
+        }
+      };
+
+      $container.one("submitted", createPlusOne);
+      $form.triggerHandler("submit");
+    });
+
+    $form.ajaxForm({
+      data: {
+        inline: true
+      },
+      beforeSubmit: function() {
+        $(".btn-primary", $form).attr("disabled","disabled");
+      },
+      success: function(response, status, xhr) {
+        initForm(response);
+
+        if ($container.find(".form-messages .alert-error:first, .form-messages .alert-warning:first").length) {
+          $container.triggerHandler("submitted", {success: false});
+        } else {
+          if (location.hash === "#tree::newAO") {
+            changeHashSilently("#digital_object_component_" + $(response).find("#ao_id").val());
+          }
+          form_changed = false;
+          rerenderTree(function() {
+            $container.triggerHandler("submitted", {success: true});
+          });
+        }
+        // scroll back to the top
+        $("header").ScrollTo();
+      }, 
+      error: function(obj, errorText, errorDesc) {
+        $container.prepend("<div class='alert alert-error'><p>An error occurred saving this record.</p><pre>"+errorDesc+"</pre></div>");
+        $container.triggerHandler("submitted", {success: false});
+        $(".btn-primary", $form).removeAttr("disabled");
+      }
+    });
+
+    //$form.find(":input:not(:hidden):not([type=submit]):first").focus();
+
+    $container.triggerHandler("form.loaded");
+  };
+
+
+  var loadPaneForNode = function(nodeEl) {
+    if (nodeEl.attr("id") === "newAO") {
+
+      var data = {
+        digital_object: digital_object_tree_data.digital_object_id,
+        inline: true
+      };
+
+      var $parentNodeEl = nodeEl.parents("li:first");
+      if ($parentNodeEl.attr("rel") === "digital_object_component") {
+        data.parent = $parentNodeEl.data("id");
+      }
+
+      $.ajax({
+        url: APP_PATH + "digital_object_components/new",
+        data: data,
+        type: "GET",
+        success: function(html) {
+          initForm(html);              
+          $("form", $container).triggerHandler("form-changed");
+        },
+        error: function() {
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>")
+          console.log("ERROR! $('.archives-tree-container').on('click', '.add-child-digital-object-component-analog')");
+        }
+      });
+    } else if (nodeEl.attr("rel") === "digital_object_component") {
+      $.ajax({
+        url: APP_PATH+"digital_object_components/"+nodeEl.data("id")+"/edit?inline=true",
+        success: function(html) {
+          initForm(html);
+        },
+        error: function(obj, errorText, errorDesc) {
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
+        }
+      });
+    } else if (nodeEl.attr("rel") === "digital_object") {         
+      $.ajax({
+        url: APP_PATH+"digital_objects/"+nodeEl.data("id")+"/edit?inline=true",
+        success: function(html) {
+          initForm(html);
+        },
+        error: function(obj, errorText, errorDesc) {
+          $container.html("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
+        }
+      });
+    }
+  };
+
+
+  var renderTreeNodeNavigation = function(event) {
+    var currentNodeEl = $(".selected", $tree);
+    if (currentNodeEl.length === 0) {
+      return;
+    }
+
+    var allNodes = $tree.find("li");
+    var indexOfCurrentNode = allNodes.index(currentNodeEl);
+    var data = {};
+    if (indexOfCurrentNode !== 0) {
+      data.previous = allNodes.get(indexOfCurrentNode-1).id;
+    }
+    if (indexOfCurrentNode+1 < allNodes.length) {
+      data.next = allNodes.get(indexOfCurrentNode+1).id;
+    }
+    $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_nodenavigation_toolbar_template", data));
+  };
+
+
+  var loadTreeActionsForNode = function(nodeEl) {
+    // render tree toolbar
+    $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
+    renderTreeNodeNavigation();
+    if ((nodeEl.hasClass("digital_object") && nodeEl.find("> ul > li").length === 0) || (nodeEl.hasClass("digital_object_component") && nodeEl.attr("id") != "newAO")) {
+      $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addchild_template"));
+      if (!nodeEl.hasClass("digital_object") && !nodeEl.parents("li:first").hasClass("digital_object")) {
+        $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addsibling_template"));
+      }
+    }
+  };
+
+
+  var setHashForNode = function(node_id) {
+    if (node_id.indexOf("tree::") < 0) {
+      node_id = "tree::"+node_id;
+    }
+    location.hash = node_id;
+  };
+
+
+  var changeHashSilently = function(newHash) {
+    $(window).data("ignore-hashchange", true);
+    location.hash = newHash;
+  };
+
+
+  var onHashChange = function(){
+    if ($(window).data("ignore-hashchange")) {
+      $(window).data("ignore-hashchange", false);
+      return;
+    }
+
+    if (!location.hash || !location.hash.indexOf("tree::") != 0) {
+      return;
+    }
+
+    var id_from_hash = location.hash.replace("tree::", "");
+
+    if (form_changed) {
+      confirmChanges($(id_from_hash));
+      changeHashSilently("#tree::"+$(".selected", $tree).attr("id"));
+      return;
+    }
+
+    var $selected = $(id_from_hash);
+    $(".selected", $tree).removeClass("selected");
+    $selected.addClass("selected");
+    $tree.jstree("deselect_all");
+    $tree.jstree("open_node", $selected);
+    $tree.jstree("select_node", $selected);
+
+    loadPaneForNode($selected);
+    loadTreeActionsForNode($selected);
+  };
+  
+
+
+  var addNewAONode = function(parentNode) {
+    $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "newAO"}, "data": {"title": "New Archival Object"}});
+    $("#newAO", $tree).addClass("analog").attr("rel", "digital_object_component");
+    $("#newAO", $tree).find("a").attr("href", "#newAO");
+    setHashForNode("newAO");
+  };
+
+
+  var addTreeEventBindings = function() {
+
+    $(".archives-tree-container").on("click", ".add-child-digital-object-component-analog", function() {
+      var $selected = $(".selected", $tree);
+      if ($selected.length === 0) {
+        return;
+      }
+
+      addNewAONode($selected);
+    });
+
+    $(".archives-tree-container").on("click", ".add-sibling-digital-object-component-analog", function() {
+      var $selected = $(".selected", $tree);
+      if ($selected.length === 0) {
+        return;
+      }
+
+      addNewAONode($selected.parents("li:first"));
+    });
+
+    $container.on("click", ".btn-cancel", function() {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if ($(this).attr("disabled")) {
+        return;
+      }
+
+      if ($(".selected", $tree).attr("id") === "newAO") {
+        setHashForNode($(".selected", $tree).parents("li:first").attr("id"));
+      } else {
+        loadPaneForNode($(".selected", $tree));
+      }
+    });
+
+    $(".archives-tree-container").on("click", ".expand-tree .btn", function() {
+      $(".archives-tree-container").addClass("expanded");
+      $(".archives-tree-container").animate({
+        width: $(".archives-tree-container").parents(".container:first").width()-5
+      }, 500);
+    });
+
+    $(".archives-tree-container").on("click", ".retract-tree .btn", function() {
+      $(".archives-tree-container").animate({
+        width: $(".archives-tree-container").parent().width()
+      }, 500, function() {
+        $(".archives-tree-container").removeClass("expanded");
+        $(".archives-tree-container").css("width", "auto");
+      });
+    });
+
+    $(window).hashchange(onHashChange);
+    $(window).bind("beforeunload", function(event) {
+      if (form_changed) {        
+        return 'Please note you have some unsaved changes.';
+      }
+    });
+
+
+    var resizeArchivesTree = function() {
+      var height = $("#archives_tree").parent().height() - $("#archives_tree_toolbar").outerHeight() - 21;
+      $("#archives_tree").height(height);
+    }
+
+    $("#archives_tree").scroll(function() {
+      if ($(this).scrollTop() === 0) {
+        $(this).removeClass("overflow");
+      } else {
+        $(this).addClass("overflow");
+      }
+    });
+
+    if ($.cookie("archives-tree-container::height")) {
+      $(".archives-tree-container").height($.cookie("archives-tree-container::height"));
+    }
+    setTimeout(resizeArchivesTree, 0);
+
+    $(".archives-tree-container").resizable({
+      handles: "s",
+      minHeight: 80,
+      resize: function(event, ui) {
+        $.cookie("archives-tree-container::height", ui.size.height);
+        resizeArchivesTree();
+      }
+    });
+
+  };
+
+
+  var confirmChanges = function(targetNodeEl) {
+    var parentIdForNewAO;
+    if (targetNodeEl.attr("id") === "newAO") {
+      parentIdForNewAO = targetNodeEl.parents("li:first").attr("id");
+    }
+
+    // open save your changes modal
+    AS.openCustomModal("saveYourChangesModal", "Save Your Changes", AS.renderTemplate("save_changes_modal_template"));
+
+    $("#saveChangesButton", "#saveYourChangesModal").on("click", function() {
+      $("form", $container).triggerHandler("submit");
+
+      var onSubmitSuccess = function() {
+        form_changed = false;
+        if (targetNodeEl.attr("id") === "newAO") {
+          addNewAONode($("#"+parentIdForNewAO));
+        } else {
+          setHashForNode(targetNodeEl.attr("id"));
+        }
+        $("#saveYourChangesModal").modal("hide");
+      };
+
+      var onSubmitError = function() {
+        $("#saveYourChangesModal").modal("hide");
+      };
+
+      $container.one("submitted", function(event, data) {
+        if (data.success) {
+          onSubmitSuccess();
+        } else {
+          onSubmitError();
+        }
+      });
+    });
+
+    $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
+      form_changed = false;
+      if (targetNodeEl.attr("id") != "newAO") {
+        $tree.jstree("delete_node", $('#newAO', $tree));
+      }
+      setHashForNode(targetNodeEl.attr("id"));
+      $("#saveYourChangesModal").modal("hide");
+    });
+  };
+
+
+  var initTree = function(onTreeLoadCallback) {
+    $tree.jstree({
+      "themes": {
+        "theme": "default",
+        "url": "<%= asset_path('jstree/style.css') %>"
+      },
+      "dnd": {
+        "drop_target" : false,
+        "drag_target" : false
+      },
+      "ui": {
+        "selected_parent_close": false,
+        "selected_parent_open": true
+      },
+      "crrm" : {
+        "move" : {
+          "check_move" : function (m) {
+
+            // can't move digital_object
+            if ($(m.o[0]).hasClass("digital_object")) {
+              return false;
+            }                     
+            // can't into digital_object
+            if ($(m.np[0]).hasClass("digital_object")) {
+              return false;
+            }
+
+            // can't move to above the root archival object
+            if ($(m.np[0]).hasClass("archives-tree")) {
+              return false;
+            }                                          
+
+            return true;
+          }
+        }
+      },
+      "core": {
+        "animation": 0 
+      },
+      "cookies": {
+        "save_selected": false
+      },
+      "plugins": [ "themes", "html_data", "ui", "crrm", "dnd", "cookies"]
+    }).one("loaded.jstree", function() {
+      $(".selected", $tree).removeClass("selected");
+
+      if (location.hash) {
+        $(location.hash.replace("tree::","")).addClass("selected");
+      }
+
+      if ($(".selected", $tree).length === 0) {
+        $("li:first", $tree).addClass("selected");
+      }
+
+      $tree.jstree("open_node", $(".selected", $tree));
+      $tree.jstree("select_node", $(".selected", $tree));
+
+      loadTreeActionsForNode($(".selected", $tree));
+
+      if (onTreeLoadCallback) onTreeLoadCallback();
+    }).bind("before.jstree", function (event, data) {
+      // check current form
+      if (form_changed && data.func === "select_node") {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        // don't do anything if node hasn't changed
+        if ($(data.args[0]).attr("href") === location.hash) {
+          return;
+        }
+
+        confirmChanges($(data.args[0]).parent());
+        return false;
+      }
+    }).bind("select_node.jstree", function (event, data) {
+      var $nodeToSelect = $(data.rslt.obj);
+      if ($nodeToSelect.find("a").attr("href") === location.hash) {
+        return;
+      }
+      if ($nodeToSelect.attr("id") === "newAO") {
+        setHashForNode("newAO");
+      } else {
+        setHashForNode($nodeToSelect.find("a").attr("href"));
+      }
+    }).bind("move_node.jstree", function(data) {
+
+      var parseTree = function(nodeEl) {
+        var result = {
+          digital_object_component: nodeEl.data("digital_object_component")
+        };
+
+        var children = [];
+        nodeEl.find("> ul > li").each(function() {
+          children.push(parseTree($(this)));
+        });
+
+        result.children = children;
+
+        return result;
+      };
+
+      $.ajax({
+        url: APP_PATH+"digital_objects/"+digital_object_tree_data.digital_object_id+"/update_tree",
+        type: "POST",
+        data: {
+          tree: JSON.stringify(parseTree($tree.find("li[rel=digital_object_component]:first")))
+        }
+      });
+    });
+  };
+
+  if ($tree.length) {
+    renderTree();
+    initTree(function() {
+      loadPaneForNode($(".selected", $tree));
+    });
+    addTreeEventBindings();
+  }
+
+});
