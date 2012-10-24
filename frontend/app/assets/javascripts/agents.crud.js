@@ -79,7 +79,7 @@ $(function() {
         var sortNameInput = $(":input[name$=\"[sort_name]\"]", $(this).parents(".controls:first"));
         if ($(this).is(":checked")) {          
           sortNameInput.attr("readonly","readonly");
-          $.proxy(updateAutomaticSortName, this);
+          $.proxy(updateAutomaticSortName, this)();
         } else {
           sortNameInput.removeAttr("readonly");
         }
