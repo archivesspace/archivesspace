@@ -11,8 +11,9 @@
       "disposition" => {"type" => "string"},
       "notification" => {"type" => "boolean", "default" => false},
 
+      "date" => {"type" => "JSONModel(:date) object", "ifmissing" => "error"},
+
       "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) object"}},
-      "dates" => {"type" => "array", "minLength" => 1, "required" => true, "items" => {"type" => "JSONModel(:date) object"}},
     },
 
     "additionalProperties" => false,

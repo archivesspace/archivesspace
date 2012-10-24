@@ -125,16 +125,16 @@ describe 'Accession controller' do
                                             {
                                               "whole_part" => false,
                                               "description" => "A description of this deaccession",
-                                              "dates" => [{
+                                              "date" => {
                                                             "date_type" => "single",
-                                                            "label" => "creation",
+                                                            "label" => "deaccession",
                                                             "begin" => "2012-05-14",
-                                                          }],
+                                                          },
                                             }
                                           ]).save
     JSONModel(:accession).find(acc).deaccessions.length.should eq(1)
     JSONModel(:accession).find(acc).deaccessions[0]["whole_part"].should eq(false)
-    JSONModel(:accession).find(acc).deaccessions[0]["dates"][0]["begin"].should eq("2012-05-14")
+    JSONModel(:accession).find(acc).deaccessions[0]["date"]["begin"].should eq("2012-05-14")
   end
 
 

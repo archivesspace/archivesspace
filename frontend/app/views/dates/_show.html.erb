@@ -1,9 +1,10 @@
 <%
    section_id = "dates" if section_id.blank?
+   section_title = "Dates" if section_title.blank?
 %>
 
 <section id="<%= section_id %>">
-  <h3>Dates</h3>
+  <h3><%= section_title %></h3>
   <div class="accordion details" id="<%= section_id %>_accordion">
     <% dates.each_with_index do | date, index | %>
       <div class="accordion-group">
@@ -31,7 +32,7 @@
           </div>
         </div>
         <div id="<%= section_id %>_date_<%= index %>" class="accordion-body collapse">
-          <% date.each do |k, v| %>
+          <% date.reject{|k,v| ["lock_version", "jsonmodel_type"].include?(k)}.each do |k, v| %>
             <div class="row-fluid label-and-value">
               <div class="span3 offset1" ><%= I18n.t("date.#{k}") %></div>
               <div class="span8"><%= v %></div>

@@ -1,5 +1,6 @@
 //= require dates.crud
 //= require subjects.crud
+//= require deaccessions.crud
 //= require subrecord.crud
 
 $(function() {

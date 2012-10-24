@@ -196,11 +196,10 @@ describe 'Accession model' do
                                                            {
                                                              "whole_part" => false,
                                                              "description" => "A description of this deaccession",
-                                                             "dates" => [{
-                                                                           "date_type" => "single",
-                                                                           "label" => "creation",
-                                                                           "begin" => "2012-05-14",
-                                                                         }],
+                                                             "date" => JSONModel(:date).from_hash("date_type" => "single",
+                                                                                                  "label" => "deaccession",
+                                                                                                  "begin" => "2012-05-14",
+                                                                                                  "end" => "2012-05-14").to_hash,
                                                            }
                                                          ]
                                                        }),
@@ -208,7 +207,7 @@ describe 'Accession model' do
 
     Accession[accession[:id]].deaccession.length.should eq(1)
     Accession[accession[:id]].deaccession[0].whole_part.should eq(0)
-    Accession[accession[:id]].deaccession[0].date[0].begin.should eq("2012-05-14")
+    Accession[accession[:id]].deaccession[0].date.begin.should eq("2012-05-14")
   end
 
 
