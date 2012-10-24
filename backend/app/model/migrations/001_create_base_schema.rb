@@ -197,6 +197,59 @@ Sequel.migration do
     end
 
 
+    create_table(:digital_object) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :repo_id, :null => false
+      String :digital_object_id, :null => false
+      String :title
+      String :level
+      String :digital_object_type
+      String :language
+
+      Blob :notes, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:digital_object) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+      add_index([:repo_id, :digital_object_id], :unique => true)
+    end
+
+
+    create_table(:digital_object_component) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :repo_id, :null => false
+      Integer :digital_object_id, :null => true
+      Integer :parent_id, :null => true
+
+      String :component_id, :null => false
+      String :title
+      String :label
+      String :language
+
+      Blob :notes, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:digital_object_component) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+      add_index([:repo_id, :component_id], :unique => true)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:parent_id], :digital_object_component, :key => :id)
+    end
+
+
+
     create_table(:instance) do
       primary_key :id
 
@@ -301,6 +354,9 @@ Sequel.migration do
     create_join_table({:subject_id => :subject, :archival_object_id => :archival_object}, :name => "subject_archival_object")
     create_join_table({:subject_id => :subject, :resource_id => :resource}, :name => "subject_resource")
     create_join_table({:subject_id => :subject, :accession_id => :accession}, :name => "subject_accession")
+    create_join_table({:subject_id => :subject, :digital_object_id => :digital_object}, :name => "subject_digital_object")
+    create_join_table({:subject_id => :subject, :digital_object_component_id => :digital_object_component},
+                      :name => "subject_digital_object_component")
 
 
     create_table(:agent_person) do
@@ -530,6 +586,9 @@ Sequel.migration do
       Integer :deaccession_id, :null => true
       Integer :archival_object_id, :null => true
       Integer :resource_id, :null => true
+      Integer :digital_object_id, :null => true
+      Integer :digital_object_component_id, :null => true
+
 
       String :portion, :null => false
       String :number, :null => false
@@ -561,6 +620,8 @@ Sequel.migration do
       Integer :archival_object_id, :null => true
       Integer :resource_id, :null => true
       Integer :event_id, :null => true
+      Integer :digital_object_id, :null => true
+      Integer :digital_object_component_id, :null => true
 
       String :date_type, :null => false
       String :label, :null => false
@@ -699,7 +760,9 @@ Sequel.migration do
                                              :agent_family,
                                              :agent_corporate_entity,
                                              :agent_software,
-                                             :rights_statement]
+                                             :rights_statement,
+                                             :digital_object,
+                                             :digital_object_component]
 
     records_supporting_external_documents.each do |record|
       create_join_table({

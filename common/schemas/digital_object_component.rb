@@ -11,6 +11,17 @@
       "label" => {"type" => "string"},
       "title" => {"type" => "string"},
       "language" => {"type" => "string"},
+      "notes" => {
+        "type" => "array",
+        "items" => {"type" => [{"type" => "JSONModel(:note_bibliography) object"},
+                               {"type" => "JSONModel(:note_index) object"},
+                               {"type" => "JSONModel(:note_multipart) object"},
+                               {"type" => "JSONModel(:note_singlepart) object"}]},
+      },
+
+      "parent" => {"type" => "JSONModel(:digital_object_component) uri", "required" => false},
+      "digital_object" => {"type" => "JSONModel(:digital_object) uri", "required" => false},
+
     },
 
     "additionalProperties" => false
