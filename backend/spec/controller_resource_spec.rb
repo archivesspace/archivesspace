@@ -494,4 +494,31 @@ describe 'Resources controller' do
   end
 
 
+
+  it "creates an accession with a deaccessopm" do
+    resource_id = JSONModel(:resource).from_hash({
+                                                  "title" => "New Resource",
+                                                  "id_0" => "test2",
+                                                  "extents" => [{
+                                                                 "portion" => "whole",
+                                                                 "number" => "123",
+                                                                 "extent_type" => "cassettes"
+                                                               }],
+                                                  "deaccessions" => [
+                                                    {
+                                                      "whole_part" => false,
+                                                      "description" => "A description of this deaccession",
+                                                      "dates" => [{
+                                                                    "date_type" => "single",
+                                                                    "label" => "creation",
+                                                                    "begin" => "2012-05-14",
+                                                                  }],
+                                                    }
+                                          ]}).save
+    JSONModel(:resource).find(resource_id).deaccessions.length.should eq(1)
+    JSONModel(:resource).find(resource_id).deaccessions[0]["whole_part"].should eq(false)
+    JSONModel(:resource).find(resource_id).deaccessions[0]["dates"][0]["begin"].should eq("2012-05-14")
+  end
+
+
 end

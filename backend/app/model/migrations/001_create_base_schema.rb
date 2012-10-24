@@ -604,6 +604,7 @@ Sequel.migration do
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:event_id], :event, :key => :id)
+      add_foreign_key([:deaccession_id], :deaccession, :key => :id)
     end
 
 

@@ -53,6 +53,7 @@ $(function() {
         $.proxy(initInstance, $("[name^='resource[instances]['][name$='][instance_type]']", subform))(subform);
       }
     }
+    return true;
   });
 
 });

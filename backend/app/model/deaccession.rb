@@ -1,4 +1,4 @@
-class Deaccession < Sequel::Model(:deaccessions)
+class Deaccession < Sequel::Model(:deaccession)
   include ASModel
   include Extents
   include Dates

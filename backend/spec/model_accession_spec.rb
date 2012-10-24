@@ -206,9 +206,9 @@ describe 'Accession model' do
                                                        }),
                                            :repo_id => @repo_id)
 
-    Accession[accession[:id]].deaccessions.length.should eq(1)
-    Accession[accession[:id]].deaccessions[0].whole_part.should eq(0)
-    Accession[accession[:id]].deaccessions[0].dates[0].begin.should eq("2012-05-14")
+    Accession[accession[:id]].deaccession.length.should eq(1)
+    Accession[accession[:id]].deaccession[0].whole_part.should eq(0)
+    Accession[accession[:id]].deaccession[0].date[0].begin.should eq("2012-05-14")
   end
 
 

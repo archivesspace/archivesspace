@@ -1,5 +1,5 @@
 <% define_template "date" do |form| %>
-  <div class="subrecord-form-fields" data-allow-removal="true">
+  <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_select :label, form.options_for(:label, JSONModel(:date).schema['properties']['label']['enum']) %>
 
