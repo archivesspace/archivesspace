@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :update_tree, :generate_ead, :download_ead]
-  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :tree, :generate_ead, :download_ead]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :update_tree]
+  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :tree]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update, :update_tree]
 
   def index
@@ -9,7 +9,6 @@ class ResourcesController < ApplicationController
 
   def show
     @resource = JSONModel(:resource).find(params[:id], "resolve[]" => ["subjects", "location"])
-    @ead = EADFile.new(@resource.id)
 
     if params[:inline]
       return render :partial => "resources/show_inline"
@@ -81,18 +80,7 @@ class ResourcesController < ApplicationController
       render :text => "Error"
     end
   end
-  
-  def generate_ead
-    @ead = EADFile.new(params[:id])
-    @ead.refresh
-    render :partial => "ead/status", :locals => { :status => @ead.status }
-  end
-  
-  def download_ead
-    @ead = EADFile.new(params[:id])
-    send_file @ead.file, :type => 'application/xml', :filename => "test.ead", :x_sendfile => true
-  end
-  
+
 
   private
 
