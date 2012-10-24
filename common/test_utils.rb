@@ -1,4 +1,5 @@
 require 'rbconfig'
+require 'socket'
 
 module TestUtils
 
@@ -69,6 +70,19 @@ module TestUtils
     TestUtils.wait_for_url("http://localhost:#{port}")
 
     pid
+  end
+
+
+  def self.free_port_from(port)
+    begin
+      server = TCPServer.new('127.0.0.1', port)
+      server.close
+
+      port
+    rescue Errno::EADDRINUSE
+      port += 1
+      retry
+    end
   end
 
 end

@@ -6,8 +6,8 @@ require "rspec"
 require_relative '../../common/test_utils'
 
 
-$backend_port = 3636
-$frontend_port = 3535
+$backend_port = TestUtils::free_port_from(3636)
+$frontend_port = TestUtils::free_port_from(4545)
 $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 
@@ -235,6 +235,7 @@ def selenium_init
 
   (@backend, @frontend) = [false, false]
   if standalone
+    puts "Starting backend and frontend using #{$backend} and #{$frontend}"
     $backend_pid = TestUtils::start_backend($backend_port, $frontend)
     $frontend_pid = TestUtils::start_frontend($frontend_port, $backend)
   end
