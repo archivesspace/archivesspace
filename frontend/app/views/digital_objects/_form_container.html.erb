@@ -7,8 +7,13 @@
 <fieldset>
   <section id="basic_information">
     <h3>Basic Information</h3>
-    <%= render :partial => "subjects/linker", :locals => { :form => form }%>
-
+    <%= form.label_and_textfield "title" %>
+    <%= form.label_and_textfield "digital_object_id" %>
+    <%= form.label_and_boolean "publish", {}, form.jsonmodel_schema_definition(:digital_object, "publish")["default"] %>
+    <%= form.label_and_select "level", form.jsonmodel_options_for(:digital_object, "level") %>
+    <%= form.label_and_select "digital_object_type", form.jsonmodel_options_for(:digital_object, "digital_object_type") %>
+    <%= form.label_and_textfield "language" %>
+    <%= form.label_and_boolean "restrictions", {}, form.jsonmodel_schema_definition(:digital_object, "restrictions")["default"] %>
   </section>
 
 

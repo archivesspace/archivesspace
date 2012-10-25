@@ -17,7 +17,7 @@
                    "mixed_materials",
                    "moving_image",
                    "notated_music",
-                   "software,_multimedia",
+                   "software_multimedia",
                    "sound_recording",
                    "sound_recording_musical",
                    "sound_recording_nonmusical",

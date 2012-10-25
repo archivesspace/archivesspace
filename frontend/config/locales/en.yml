@@ -1,4 +1,25 @@
 en:
+  digital_object:
+    title: Title
+    digital_object_id: Identifier
+    publish: Publish?
+    level: Level
+    level_collection: Collection
+    level_work: Work
+    level_image: Image
+    digital_object_type: Type
+    digital_object_type_cartographic: Cartographic
+    digital_object_type_mixed_materials: Mixed Materials
+    digital_object_type_moving_image: Moving Image
+    digital_object_type_notated_music: Notated Music
+    digital_object_type_software_multimedia: Software, Multimedia
+    digital_object_type_sound_recording: Sound Recording
+    digital_object_type_sound_recording_musical: Sound Recording (Musical)
+    digital_object_type_sound_recording_nonmusical: Sound Recording (Non-musical)
+    digital_object_type_still_image: Still Image
+    digital_object_type_text: Text
+    language: Language
+    restrictions: Restrictions?
   location:
     temporary: Temporary
     temporary_conservation: Conservation

@@ -19,7 +19,6 @@ class DigitalObjectsController < ApplicationController
 
   def new
     @digital_object = JSONModel(:digital_object).new({:title => "New Digital Object"})._always_valid!
-    @digital_object.extents = [JSONModel(:extent).new._always_valid!]
   end
 
   def edit

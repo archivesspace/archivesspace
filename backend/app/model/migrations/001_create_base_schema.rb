@@ -209,6 +209,9 @@ Sequel.migration do
       String :digital_object_type
       String :language
 
+      Integer :publish
+      Integer :restrictions
+
       Blob :notes, :null => true
 
       DateTime :create_time, :null => false

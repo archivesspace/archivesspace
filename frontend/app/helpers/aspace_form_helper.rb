@@ -190,8 +190,8 @@ module AspaceFormHelper
     end
 
 
-    def label_and_boolean(name, opts = {})
-      label_with_field(name, checkbox(name))
+    def label_and_boolean(name, opts = {}, default = false, force_checked = false)
+      label_with_field(name, checkbox(name, opts, default, force_checked))
     end
 
 
@@ -227,7 +227,11 @@ module AspaceFormHelper
     end
 
     def jsonmodel_enum_for(model, property)
-      JSONModel(model).schema["properties"][property]["enum"]
+      jsonmodel_schema_definition(model, property)["enum"]
+    end
+
+    def jsonmodel_schema_definition(model, property)
+      JSONModel(model).schema["properties"][property]
     end
 
     def options_for(property, values)
@@ -276,9 +280,9 @@ module AspaceFormHelper
       @forms.tag("input", options, false, false)
     end
 
-    def checkbox(name, force_checked = false, opts = {})
-      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "true"}
-      options[:checked] = "checked" if force_checked or not (obj[name] === "true")
+    def checkbox(name, opts = {}, default = true, force_checked = false)
+      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "1"}
+      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name] === "true") or (obj[name].nil? and default)
 
       @forms.tag("input", options.merge(opts), false, false)
     end
