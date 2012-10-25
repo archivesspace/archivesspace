@@ -243,7 +243,7 @@ module AspaceFormHelper
     end
 
     def hidden_input(name, value = nil)
-      value = obj[name] if value.blank?
+      value = obj[name] if value.nil?
       @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => value, :name => path(name)},
                  false, false)
     end
