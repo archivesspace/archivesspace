@@ -320,6 +320,9 @@ module AspaceFormHelper
       value
     end
 
+    def checkbox(name, opts = {}, default = true, force_checked = false)
+      ((obj[name] === true) || obj[name] === "true") ? "True" : "False"
+    end
 
     def label_with_field(name, field_html, opts = {})
       return "" if field_html.blank?
