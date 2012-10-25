@@ -39,77 +39,86 @@ describe 'Digital Objects controller' do
 
 
 
-  # it "lets you manipulate the record hierarchy" do
+  it "lets you manipulate the record hierarchy" do
 
-  #   resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
-  #   id = resource.save
+    digital_object = JSONModel(:digital_object).from_hash("title" => "a digital object",
+                                                          "digital_object_id" => "abc123",
+                                                          "extents" => [{
+                                                                          "portion" => "whole",
+                                                                          "number" => "5 or so",
+                                                                          "extent_type" => "reels"
+                                                                        }])
+    id = digital_object.save
 
-  #   aos = []
-  #   ["earth", "australia", "canberra"].each do |name|
-  #     ao = JSONModel(:archival_object).from_hash("ref_id" => name,
-  #                                                "title" => "archival object: #{name}")
-  #     if not aos.empty?
-  #       ao.parent = aos.last.uri
-  #     end
+    docs = []
+    ["earth", "australia", "canberra"].each do |name|
+      doc = JSONModel(:digital_object_component).from_hash("ref_id" => name,
+                                                           "component_id" => "id_for_#{name}",
+                                                           "title" => "digital object component: #{name}")
+      if not docs.empty?
+        doc.parent = docs.last.uri
+      end
 
-  #     ao.resource = resource.uri
-  #     ao.save
-  #     aos << ao
-  #   end
+      doc.digital_object = digital_object.uri
+      doc.save
+      docs << doc
+    end
 
-  #   tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+    $moo = true
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
+    $moo = false
 
-  #   tree.to_hash.should eq({
-  #                            "jsonmodel_type" => "resource_tree",
-  #                            "archival_object" => aos[0].uri,
-  #                            "title" => "archival object: earth",
-  #                            "children" => [
-  #                                           {
-  #                                             "jsonmodel_type" => "resource_tree",
-  #                                             "archival_object" => aos[1].uri,
-  #                                             "title" => "archival object: australia",
-  #                                             "children" => [
-  #                                                            {
-  #                                                              "jsonmodel_type" => "resource_tree",
-  #                                                              "archival_object" => aos[2].uri,
-  #                                                              "title" => "archival object: canberra",
-  #                                                              "children" => []
-  #                                                            }
-  #                                                           ]
-  #                                           }
-  #                                          ]
-  #                          })
+    tree.to_hash.should eq({
+                             "jsonmodel_type" => "digital_object_tree",
+                             "digital_object_component" => docs[0].uri,
+                             "title" => "digital object component: earth",
+                             "children" => [
+                                            {
+                                              "jsonmodel_type" => "digital_object_tree",
+                                              "digital_object_component" => docs[1].uri,
+                                              "title" => "digital object component: australia",
+                                              "children" => [
+                                                             {
+                                                               "jsonmodel_type" => "digital_object_tree",
+                                                               "digital_object_component" => docs[2].uri,
+                                                               "title" => "digital object component: canberra",
+                                                               "children" => []
+                                                             }
+                                                            ]
+                                            }
+                                           ]
+                           })
 
 
-  #   # Now turn it on its head
-  #   changed = {
-  #     "jsonmodel_type" => "resource_tree",
-  #     "archival_object" => aos[2].uri,
-  #     "title" => "archival object: canberra",
-  #     "children" => [
-  #                    {
-  #                      "jsonmodel_type" => "resource_tree",
-  #                      "archival_object" => aos[1].uri,
-  #                      "title" => "archival object: australia",
-  #                      "children" => [
-  #                                     {
-  #                                       "jsonmodel_type" => "resource_tree",
-  #                                       "archival_object" => aos[0].uri,
-  #                                       "title" => "archival object: earth",
-  #                                       "children" => []
-  #                                     }
-  #                                    ]
-  #                    }
-  #                   ]
-  #   }
+    # Now turn it on its head
+    changed = {
+      "jsonmodel_type" => "digital_object_tree",
+      "digital_object_component" => docs[2].uri,
+      "title" => "digital object component: canberra",
+      "children" => [
+                     {
+                       "jsonmodel_type" => "digital_object_tree",
+                       "digital_object_component" => docs[1].uri,
+                       "title" => "digital object component: australia",
+                       "children" => [
+                                      {
+                                        "jsonmodel_type" => "digital_object_tree",
+                                        "digital_object_component" => docs[0].uri,
+                                        "title" => "digital object component: earth",
+                                        "children" => []
+                                      }
+                                     ]
+                     }
+                    ]
+    }
 
-  #   JSONModel(:resource_tree).from_hash(changed).save(:resource_id => resource.id)
-  #   changed.delete("uri")
+    JSONModel(:digital_object_tree).from_hash(changed).save(:digital_object_id => digital_object.id)
+    changed.delete("uri")
 
-  #   tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
 
-  #   tree.to_hash.should eq(changed)
-  # end
+    tree.to_hash.should eq(changed)
+  end
 
 
 

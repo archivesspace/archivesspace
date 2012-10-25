@@ -10,6 +10,9 @@ describe 'Digital Object Component controller' do
   def create_digital_object_component(opts = {})
 
     doc = JSONModel(:digital_object_component).from_hash("component_id" => "abc123",
+                                                         "extents" => [{"portion" => "whole",
+                                                                         "number" => "5 or so",
+                                                                         "extent_type" => "reels"}],
                                                          "title" => "The digital object component title")
     doc.update(opts)
     doc.save
@@ -37,7 +40,10 @@ describe 'Digital Object Component controller' do
     digital_object.save
 
     created = create_digital_object_component("digital_object" => digital_object.uri,
-                                              "component_id" => "parent123")
+                                              "component_id" => "parent123",
+                                              "extents" => [{"portion" => "whole",
+                                                              "number" => "5 or so",
+                                                              "extent_type" => "reels"}])
 
     create_digital_object_component("component_id" => "child123",
                                     "digital_object" => digital_object.uri,
