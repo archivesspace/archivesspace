@@ -3,7 +3,7 @@
     <%= render :partial => "sidebar" %>
   </div>
   <div class="span9 record-pane">
-    <%= readonly_context :resource, @resource.to_hash(true) do |readonly| %>
+    <%= readonly_context :digital_object_component, @digital_object_component.to_hash(true) do |readonly| %>
 
       <div class="btn-group" style="float: right">
          <% if @digital_object_id %>

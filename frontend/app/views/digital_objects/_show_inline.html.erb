@@ -40,7 +40,9 @@
         <%= render :partial => "notes/show", :locals => { :notes => @digital_object.notes, :context => readonly } %>
       <% end %>
 
-      <%= render :partial => "extents/show", :locals => { :extents => @digital_object.extents, :section_id => "digital_object_extents_" } %>
+      <% if @digital_object.extents.length > 0 %>
+        <%= render :partial => "extents/show", :locals => { :extents => @digital_object.extents, :section_id => "digital_object_extents_" } %>
+      <% end %>
 
       <% if @digital_object.dates.length > 0 %>
         <%= render :partial => "dates/show", :locals => { :dates => @digital_object.dates, :section_id => "digital_object_dates_" } %>
@@ -48,14 +50,6 @@
 
       <% if @digital_object.external_documents.length > 0 %>
         <%= render :partial => "external_documents/show", :locals => { :external_documents => @digital_object.external_documents, :section_id => "digital_object_external_documents_"  } %>
-      <% end %>
-
-      <% if @digital_object.rights_statements.length > 0 %>
-        <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @digital_object.rights_statements, :section_id => "digital_object_rights_statements_"  } %>
-      <% end %>
-
-      <% if @digital_object.instances.length > 0 %>
-        <%= render :partial => "instances/show", :locals => { :instances => @digital_object.instances, :section_id => "digital_object_instances_"  } %>
       <% end %>
     <% end %>
   </div>

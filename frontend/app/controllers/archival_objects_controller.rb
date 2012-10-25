@@ -24,7 +24,10 @@ class ArchivalObjectsController < ApplicationController
   def create
     handle_crud(:instance => :archival_object,
                 :on_invalid => ->(){ render :partial => "new_inline" },
-                :on_valid => ->(id){ render :partial => "archival_objects/edit_inline" })
+                :on_valid => ->(id){
+                  flash[:success] = "Archival Object Created"
+                  render :partial => "archival_objects/edit_inline"
+                })
   end
 
 

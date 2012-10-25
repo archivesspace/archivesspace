@@ -23,7 +23,7 @@ $(function() {
     var selected_node_id = $(".selected", $tree).attr("id");
 
     if (selected_node_id === "newDO") {
-      selected_node_id = "digital_object_component_" + $("#ao_id", $container).val();
+      selected_node_id = "digital_object_component_" + $("#do_id", $container).val();
     }
 
     $.getJSON(APP_PATH + "digital_objects/" + digital_object_tree_data.digital_object_id + "/tree", function(json) {
@@ -88,7 +88,7 @@ $(function() {
           $container.triggerHandler("submitted", {success: false});
         } else {
           if (location.hash === "#tree::newDO") {
-            changeHashSilently("#digital_object_component_" + $(response).find("#ao_id").val());
+            changeHashSilently("#digital_object_component_" + $(response).find("#do_id").val());
           }
           form_changed = false;
           rerenderTree(function() {
@@ -240,7 +240,7 @@ $(function() {
 
   var addNewAONode = function(parentNode) {
     $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "newDO"}, "data": {"title": "New Digital Object Component"}});
-    $("#newDO", $tree).addClass("analog").attr("rel", "digital_object_component");
+    $("#newDO", $tree).addClass("digital").attr("rel", "digital_object_component");
     $("#newDO", $tree).find("a").attr("href", "#newDO");
     setHashForNode("newDO");
   };

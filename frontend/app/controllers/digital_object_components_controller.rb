@@ -25,7 +25,7 @@ class DigitalObjectComponentsController < ApplicationController
     handle_crud(:instance => :digital_object_component,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
-                  flash[:success] = "Digital Object Component Saved"
+                  flash[:success] = "Digital Object Component Created"
                   render :partial => "digital_object_components/edit_inline"
                 })
   end

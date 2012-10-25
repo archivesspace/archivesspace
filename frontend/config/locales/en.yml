@@ -20,6 +20,12 @@ en:
     digital_object_type_text: Text
     language: Language
     restrictions: Restrictions?
+  digital_object_component:
+    label: Label
+    title: Title
+    component_id: Identifier
+    publish: Publish
+    language: Language
   location:
     temporary: Temporary
     temporary_conservation: Conservation
