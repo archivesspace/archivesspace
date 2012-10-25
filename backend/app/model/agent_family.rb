@@ -1,11 +1,12 @@
-require_relative 'agent_mixin'
+require_relative 'agent_manager'
 require_relative 'name_family'
 
 class AgentFamily < Sequel::Model(:agent_family)
 
-  extend AgentMixin
   include ASModel
   include ExternalDocuments
+  include AgentManager::Mixin
+
 
   one_to_many :name_family
   one_to_many :agent_contact
@@ -21,15 +22,9 @@ class AgentFamily < Sequel::Model(:agent_family)
                  :always_resolve => true)
 
 
-  def self.sequel_to_jsonmodel(obj, type, opts = {})
-    json = super
-    json.agent_type = "agent_family"
-    json
-  end
+  register_agent_type(:jsonmodel => :agent_family,
+                      :name_type => :name_family,
+                      :name_model => NameFamily)
 
-
-  def self.records_matching(query, max = 10)
-    self.agents_matching(query, max, :name_family, NameFamily)
-  end
 
 end
