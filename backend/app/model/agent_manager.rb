@@ -3,9 +3,16 @@ module AgentManager
   @@registered_agents = {}
 
   def self.register_agent_type(agent_class, opts)
+    opts[:model] = agent_class
     @@registered_agents[agent_class] = opts
   end
 
+
+  def self.type_to_model_map
+    Hash[self.registered_agents.map {|agent_type|
+           [agent_type[:jsonmodel], agent_type[:model]]
+         }]
+  end
 
   def self.registered_agents
     @@registered_agents.values
@@ -28,6 +35,20 @@ module AgentManager
 
       def register_agent_type(opts)
         AgentManager.register_agent_type(self, opts)
+
+        self.one_to_many my_agent_type[:name_type]
+        self.one_to_many :agent_contact
+
+        self.jsonmodel_hint(:the_property => :names,
+                            :contains_records_of_type => my_agent_type[:name_type],
+                            :corresponding_to_association => my_agent_type[:name_type],
+                            :always_resolve => true)
+
+        self.jsonmodel_hint(:the_property => :agent_contacts,
+                            :contains_records_of_type => :agent_contact,
+                            :corresponding_to_association => :agent_contact,
+                            :always_resolve => true)
+
       end
 
 

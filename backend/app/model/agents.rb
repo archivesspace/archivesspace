@@ -18,11 +18,13 @@ end
 module Agents
 
   def self.included(base)
-    ["agent_contact", "agent_corporate_entity", "agent_family", "agent_person", "agent_software"].each do |link_type|
+    AgentManager.registered_agents.each do |agent_type|
+      link_type = agent_type[:jsonmodel]
       base.one_to_many "#{base.table_name}_#{link_type}_link".intern
       base.extend(ClassMethods)
     end
   end
+
 
   def update_from_json(json, opts = {})
     obj = super(json, opts)
@@ -30,21 +32,16 @@ module Agents
     obj
   end
 
+
   module ClassMethods
 
-    @@agent_links = {
-      :agent_person => AgentPerson,
-      :agent_corporate_entity => AgentCorporateEntity,
-      :agent_family => AgentFamily,
-      :agent_software => AgentSoftware
-    }
+    @@agent_links = AgentManager.type_to_model_map
 
     def create_from_json(json, opts = {})
       obj = super(json, opts)
       set_agents(json, obj, opts)
       obj
     end
-
 
 
     def set_linked_records(json, obj, opts, json_property, linkable_records)
