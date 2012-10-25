@@ -62,6 +62,7 @@ class ArchivesSpaceService < Sinatra::Base
       require_relative "model/rights_statements"
       require_relative "model/instances"
       require_relative "model/deaccessions"
+      require_relative "model/agents"
 
       Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
         basename = File.basename(model, ".rb")
