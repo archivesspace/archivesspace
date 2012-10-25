@@ -44,6 +44,7 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   def show
+    @digital_object_id = params['digital_object_id']
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], "resolve[]" => ["subjects"])
     render :partial => "digital_object_components/show_inline" if inline?
   end

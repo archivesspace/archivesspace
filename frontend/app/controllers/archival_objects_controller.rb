@@ -44,6 +44,7 @@ class ArchivalObjectsController < ApplicationController
 
 
   def show
+    @resource_id = params['resource_id']
     @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => ["subjects", "location"])
     render :partial => "archival_objects/show_inline" if inline?
   end

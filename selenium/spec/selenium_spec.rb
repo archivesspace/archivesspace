@@ -1016,77 +1016,81 @@ describe "ArchivesSpace user interface" do
 
 
 
-
   # Digital Objects
 
+  it "reports errors and warnings when creating an invalid Digital Object" do
+    @driver.find_element(:link, "Create").click
+    @driver.find_element(:link, "Digital Object").click
+    @driver.find_element(:id, "digital_object_title_").clear
+    @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
-  #it "reports errors and warnings when creating an invalid Digital Object" do
-  #  @driver.find_element(:link, "Create").click
-  #  @driver.find_element(:link, "Digital Object").click
-  #  @driver.find_element(:id, "digital_object_title_").clear
-  #  @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
-  #
-  #  @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
-  #
-  #  @driver.find_element(:css, "a.btn.btn-cancel").click
-  #end
-  #
-  #
-  #digital_object_title = "Pony Express Digital Image"
-  #
-  #it "can create a digital_object" do
-  #  @driver.find_element(:link, "Create").click
-  #  @driver.find_element(:link, "Digital Object").click
-  #
-  #  @driver.clear_and_send_keys([:id, "digital_object_title_"],(digital_object_title))
-  #  @driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
-  #
-  #  @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
-  #
-  #  # The new Digital Object shows up on the tree
-  #  @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(digital_object_title)
-  #end
-  #
-  #
-  #it "reports errors if adding an empty child to a Digital Object" do
-  #  @driver.find_element(:link, "Add Child").click
-  #  @driver.find_element(:link, "Digital Object Component").click
-  #
-  #  # False start: create an object without filling it out
-  #  @driver.click_and_wait_until_gone(:id => "createPlusOne")
-  #
-  #  @driver.find_element_with_text('//div[contains(@class, "error")]', /Ref ID - Property is required but was missing/)
-  #end
-  #
-  #
-  ## Digital Object Component Nodes in Tree
-  #
-  #it "can populate the archival object tree" do
-  #  @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "JPEG 2000 Verson of Image")
-  #  @driver.clear_and_send_keys([:id, "digital_object_component_ref_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
-  #  @driver.click_and_wait_until_gone(:id => "createPlusOne")
-  #
-  #  ["PNG format", "GIF format", "BMP format"]. each do |thing|
-  #
-  #    # Wait for the new empty form to be populated.  There's a tricky race
-  #    # condition here that I can't quite track down, so here's my blunt
-  #    # instrument fix.
-  #    @driver.find_element(:xpath, "//input[@value='New Digital Object Component']")
-  #
-  #    @driver.clear_and_send_keys([:id, "digital_object_component_title_"],(thing))
-  #    @driver.clear_and_send_keys([:id, "digital_object_component_label_"],(thing))
-  #    @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{thing}#{Time.now}")))
-  #
-  #    @driver.click_and_wait_until_gone(:id => "createPlusOne")
-  #  end
-  #
-  #
-  #  elements = @driver.blocking_find_elements(:css => "li.jstree-leaf").map{|li| li.text.strip}
-  #
-  #  ["PNG format", "GIF format", "BMP format"].each do |thing|
-  #    elements.any? {|elt| elt =~ /#{thing}/}.should be_true
-  #  end
-  #end
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
+
+    @driver.find_element(:css, "a.btn.btn-cancel").click
+  end
+
+
+  digital_object_title = "Pony Express Digital Image"
+
+  it "can create a digital_object" do
+    @driver.find_element(:link, "Create").click
+    @driver.find_element(:link, "Digital Object").click
+
+    @driver.clear_and_send_keys([:id, "digital_object_title_"],(digital_object_title))
+    @driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
+
+    @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
+
+    # The new Digital Object shows up on the tree
+    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(digital_object_title)
+  end
+
+
+  it "reports errors if adding an empty child to a Digital Object" do
+    @driver.find_element(:link, "Add Child").click
+    @driver.find_element(:link, "Digital Object Component").click
+
+    # False start: create an object without filling it out
+    @driver.click_and_wait_until_gone(:id => "createPlusOne")
+
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
+  end
+
+
+  # Digital Object Component Nodes in Tree
+
+  it "can populate the archival object tree" do
+    @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "JPEG 2000 Verson of Image")
+    @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
+
+    @driver.click_and_wait_until_gone(:id => "createPlusOne")
+
+    ["PNG format", "GIF format", "BMP format"].each_with_index do |thing, idx|
+
+      # Wait for the new empty form to be populated.  There's a tricky race
+      # condition here that I can't quite track down, so here's my blunt
+      # instrument fix.
+      @driver.find_element(:xpath, "//input[@value='New Digital Object Component']")
+
+      @driver.clear_and_send_keys([:id, "digital_object_component_title_"],(thing))
+      @driver.clear_and_send_keys([:id, "digital_object_component_label_"],(thing))
+      @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{thing}#{Time.now}")))
+
+      if idx < 2
+        @driver.click_and_wait_until_gone(:id => "createPlusOne")
+      else
+        @driver.find_element(:css => "form#new_digital_object_component button[type='submit']").click
+      end
+    end
+
+
+    elements = @driver.blocking_find_elements(:css => "li.jstree-leaf").map{|li| li.text.strip}
+
+    ["PNG format", "GIF format", "BMP format"].each do |thing|
+      elements.any? {|elt| elt =~ /#{thing}/}.should be_true
+    end
+
+  end
 
 
   # Log out
