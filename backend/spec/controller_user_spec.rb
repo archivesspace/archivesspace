@@ -59,7 +59,7 @@ describe 'User controller' do
 
 
   it "Yields a list of the user's permissions" do
-    make_test_repo
+    create(:repo)
 
     group = JSONModel(:group).from_hash("group_code" => "newgroup",
                                         "description" => "A test group")
