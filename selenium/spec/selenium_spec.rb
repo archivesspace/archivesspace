@@ -292,8 +292,30 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
     # check messages
-    @driver.find_element_with_text('//div[contains(@class, "warning")]', /Term - Property was missing/)
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "warning")]', /Term - Property was missing/)
+    }.to_not raise_error
   end
+
+
+  it "can create a new Subject" do
+    @driver.find_element(:link => 'Create').click
+    @driver.find_element(:link => 'Subject').click
+    @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really")
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css => '.record-pane h2').text.should eq("just a term really Subject")
+  end
+
+
+  it "can present a browse list of Subjects" do
+    @driver.find_element(:link => 'Browse').click
+    @driver.find_element(:link => 'Subjects').click
+
+    expect {
+      @driver.find_element_with_text('//tr', /just a term really/)
+    }.to_not raise_error
+  end
+
 
   # Person Agents
 
