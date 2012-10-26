@@ -20,7 +20,7 @@ describe 'Repository controller' do
 
 
   it "Only allows admins to create new repositories" do
-    make_test_user("regularjoe")
+    create(:user, :username => "regularjoe")
 
     as_test_user("regularjoe") do
       expect {
@@ -32,7 +32,7 @@ describe 'Repository controller' do
 
 
   it "Creating a repository automatically creates the standard set of groups" do
-    id = make_test_repo("ARCHIVESSPACE")
+    id = make_test_repo
 
     groups = JSONModel(:group).all.map {|group| group.group_code}
 

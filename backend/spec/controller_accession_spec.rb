@@ -3,38 +3,25 @@ require 'spec_helper'
 describe 'Accession controller' do
 
   before(:each) do
-    make_test_repo
-  end
-
-
-  def create_accession
-    JSONModel(:accession).from_hash("id_0" => "1234",
-                                    "title" => "The accession title",
-                                    "content_description" => "The accession description",
-                                    "condition_description" => "The condition description",
-                                    "accession_date" => "2012-05-03").save
+    create(:repo)
   end
 
 
   it "lets you create an accession and get it back" do
-    id = create_accession
+    id = create(:json_accession).id
     JSONModel(:accession).find(id).title.should eq("The accession title")
   end
 
 
   it "lets you list all accessions" do
-    id = create_accession
+    create(:json_accession)
     JSONModel(:accession).all.count.should eq(1)
   end
 
 
   it "fails when you try to update an accession that doesn't exist" do
-    acc = JSONModel(:accession).from_hash("id_0" => "1234",
-                                          "title" => "The accession title",
-                                          "content_description" => "The accession description",
-                                          "condition_description" => "The condition description",
-                                          "accession_date" => "2012-05-03")
-    acc.uri = "#{@repo}/accessions/9999"
+    acc = build(:json_accession)
+    acc.uri = "#{$repo}/accessions/9999"
 
     expect { acc.save }.to raise_error
   end
@@ -60,28 +47,27 @@ describe 'Accession controller' do
 
 
   it "supports updates" do
-    created = create_accession
+    acc = create(:json_accession)
 
-    acc = JSONModel(:accession).find(created)
     acc.id_1 = "5678"
     acc.save
 
-    JSONModel(:accession).find(created).id_1.should eq("5678")
+    JSONModel(:accession).find(acc.id).id_1.should eq("5678")
   end
 
 
   it "knows its own URI" do
-    created = create_accession
-    JSONModel(:accession).find(created).uri.should eq("#{@repo}/accessions/#{created}")
+    acc = create(:json_accession)
+    JSONModel(:accession).find(acc.id).uri.should eq("#{$repo}/accessions/#{acc.id}")
   end
 
 
   it "won't let you overwrite the current version of a record with a stale copy" do
 
-    created = create_accession
+    acc = create(:json_accession)
 
-    acc1 = JSONModel(:accession).find(created)
-    acc2 = JSONModel(:accession).find(created)
+    acc1 = JSONModel(:accession).find(acc.id)
+    acc2 = JSONModel(:accession).find(acc.id)
 
     acc1.id_1 = "5678"
     acc1.save

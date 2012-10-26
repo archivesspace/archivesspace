@@ -3,15 +3,16 @@ require 'spec_helper'
 describe 'Archival Object controller' do
 
   before(:each) do
-    make_test_repo
+    create(:repo)
   end
 
 
   def create_archival_object(opts = {})
 
-    ao = JSONModel(:archival_object).from_hash("ref_id" => "1234",
-                                               "level" => "series",
-                                               "title" => "The archival object title")
+    ao = create(:json_archival_object)
+    # ao = JSONModel(:archival_object).from_hash("ref_id" => "1234",
+    #                                            "level" => "series",
+    #                                            "title" => "The archival object title")
     ao.update(opts)
     ao.save
   end
@@ -19,23 +20,20 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object and get it back" do
-    created = create_archival_object
+    created = create(:json_archival_object).id
     JSONModel(:archival_object).find(created).title.should eq("The archival object title")
   end
 
   it "returns an error if the archival object is not in this repository" do
-    created = create_archival_object
+    created = create(:json_archival_object).id
 
-    repo = JSONModel(:repository).from_hash("repo_code" => "OTHERREPO",
-                                            "description" => "A new repository that doesn't contain our archival object")
-    repo.save
-    @repo = repo.uri
-    JSONModel::set_repository(JSONModel(:repository).id_for(@repo))
+    repo = create(:repo, :repo_code => 'OTHERREPO')
+
     JSONModel(:archival_object).find(created).should eq nil
   end
 
   it "lets you list all archival objects" do
-    id = create_archival_object
+    create(:json_archival_object)
     JSONModel(:archival_object).all.count.should eq(1)
   end
 
@@ -44,14 +42,15 @@ describe 'Archival Object controller' do
     resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     resource.save
 
-    created = create_archival_object("resource" => resource.uri)
+    # created = create_archival_object("resource" => resource.uri)
+    created = create(:json_archival_object, :resource => resource.uri).id
 
     create_archival_object("ref_id" => "4567",
                            "resource" => resource.uri,
                            "title" => "child archival object",
-                           "parent" => "#{@repo}/archival_objects/#{created}")
+                           "parent" => "#{$repo}/archival_objects/#{created}")
 
-    get "#{@repo}/archival_objects/#{created}/children"
+    get "#{$repo}/archival_objects/#{created}/children"
     last_response.should be_ok
 
     children = JSON(last_response.body)
