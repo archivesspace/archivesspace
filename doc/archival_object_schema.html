@@ -6,7 +6,7 @@
 <title>
   Schema: archival_object_schema
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (a)</a> &raquo;
+    <a href="alpha_index.html">Index (a)</a> &raquo;
     
     
     <span class="title">archival_object_schema</span>
@@ -101,6 +101,8 @@
 			
 				<h3 class="signature"> - (array (JSONModel(:rights_statement) object)) <strong>rights_statements</strong></h3>
 			
+				<h3 class="signature"> - (array (JSONModel(:instance) object)) <strong>instances</strong></h3>
+			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
       <table class="source_code">
@@ -131,7 +133,8 @@
 20
 21
 22
-23</pre>
+23
+24</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/archival_object.rb', line 1</span>
@@ -153,6 +156,7 @@
     &quot;dates&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:date) object&quot;}},
     &quot;external_documents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:external_document) object&quot;}},
     &quot;rights_statements&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:rights_statement) object&quot;}},
+    &quot;instances&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:instance) object&quot;}},
   },
    &quot;additionalProperties&quot; =&gt; false,
 }</pre>
@@ -168,9 +172,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:28 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:42 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

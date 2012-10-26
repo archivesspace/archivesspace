@@ -1,0 +1,22 @@
+JSON Schema: Event
+/repositories/:repo_id/events
+Properties
+
+string	uri
+
+string	event_type
+
+JSONModel(:date) object	date
+
+string	outcome
+
+string	outcome_note
+
+array (object)	linked_agents
+
+array (object)	linked_records
+
+
+
+
+

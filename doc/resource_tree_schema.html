@@ -6,7 +6,7 @@
 <title>
   Schema: resource_tree_schema
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (r)</a> &raquo;
+    <a href="alpha_index.html">Index (r)</a> &raquo;
     
     
     <span class="title">resource_tree_schema</span>
@@ -83,7 +83,7 @@
 			
 				<h3 class="signature"> - (string) <strong>title</strong></h3>
 			
-				<h3 class="signature"> - (array) <strong>children</strong></h3>
+				<h3 class="signature"> - (array (JSONModel(:resource_tree) object)) <strong>children</strong></h3>
 			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -104,7 +104,11 @@
 9
 10
 11
-12</pre>
+12
+13
+14
+15
+16</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/resource_tree.rb', line 1</span>
@@ -117,7 +121,11 @@
     &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
     &quot;archival_object&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:archival_object) uri&quot;, &quot;required&quot; =&gt; false},
     &quot;title&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; false},
-    &quot;children&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;additionalItems&quot; =&gt; false, &quot;items&quot; =&gt; { &quot;$ref&quot; =&gt; &quot;#&quot; }}
+    &quot;children&quot; =&gt; {
+      &quot;type&quot; =&gt; &quot;array&quot;,
+      &quot;additionalItems&quot; =&gt; false,
+      &quot;items&quot; =&gt; { &quot;type&quot; =&gt; &quot;JSONModel(:resource_tree) object&quot; }
+    }
   },
   &quot;additionalProperties&quot; =&gt; false,
 }</pre>
@@ -133,9 +141,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:28 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:41 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

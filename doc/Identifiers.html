@@ -6,7 +6,7 @@
 <title>
   Module: Identifiers
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (I)</a> &raquo;
+    <a href="alpha_index.html">Index (I)</a> &raquo;
     
     
     <span class="title">Identifiers</span>
@@ -514,13 +514,15 @@
 42
 43
 44
-45</pre>
+45
+46</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
   <span class='id identifier rubyid_validates_unique'>validates_unique</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='comma'>,</span> <span class='symbol'>:identifier</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>That ID is already in use</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_map_validation_to_json_property'>map_validation_to_json_property</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='comma'>,</span> <span class='symbol'>:identifier</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:id_0</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -533,9 +535,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:23 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:33 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

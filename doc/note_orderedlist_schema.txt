@@ -1,0 +1,14 @@
+JSON Schema: Note_orderedlist
+
+Properties
+
+string	title
+
+string	enumeration
+
+array (string)	items
+
+
+
+
+

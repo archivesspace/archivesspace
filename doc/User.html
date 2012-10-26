@@ -6,7 +6,7 @@
 <title>
   Class: User
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (U)</a> &raquo;
+    <a href="alpha_index.html">Index (U)</a> &raquo;
     
     
     <span class="title">User</span>
@@ -78,12 +78,12 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></span>
+      <span class="inheritName">JSONModel</span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></li>
+            <li class="next">JSONModel</li>
           
             <li class="next">User</li>
           
@@ -611,9 +611,9 @@
           <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>is a repository-level permission, but no :repo_id was given</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='op'>!</span><span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:groups</span><span class='rbracket'>]</span><span class='period'>.</span>
-                        <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:groups_users</span><span class='comma'>,</span> <span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='symbol'>:id</span><span class='rparen'>)</span><span class='period'>.</span>
-                        <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:groups_permissions</span><span class='comma'>,</span> <span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='symbol'>:group_id</span><span class='rparen'>)</span><span class='period'>.</span>
+  <span class='op'>!</span><span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:group</span><span class='rbracket'>]</span><span class='period'>.</span>
+                        <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:group_user</span><span class='comma'>,</span> <span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='symbol'>:id</span><span class='rparen'>)</span><span class='period'>.</span>
+                        <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:group_permission</span><span class='comma'>,</span> <span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='symbol'>:group_id</span><span class='rparen'>)</span><span class='period'>.</span>
                         <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:user_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span>
                                <span class='symbol'>:permission_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span>
                                <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_global_repo'>global_repo</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:nil?</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span>
@@ -667,11 +667,11 @@
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
 
   <span class='comment'># Crikey...
-</span>  <span class='id identifier rubyid_ds'>ds</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:groups</span><span class='rbracket'>]</span><span class='period'>.</span>
-    <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:groups_users</span><span class='comma'>,</span> <span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='symbol'>:id</span><span class='rparen'>)</span><span class='period'>.</span>
-    <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:groups_permissions</span><span class='comma'>,</span> <span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='symbol'>:group_id</span><span class='rparen'>)</span><span class='period'>.</span>
-    <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:permissions</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='symbol'>:permission_id</span><span class='rparen'>)</span><span class='period'>.</span>
-    <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:repositories</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='symbol'>:groups__repo_id</span><span class='rparen'>)</span><span class='period'>.</span>
+</span>  <span class='id identifier rubyid_ds'>ds</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:group</span><span class='rbracket'>]</span><span class='period'>.</span>
+    <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:group_user</span><span class='comma'>,</span> <span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='symbol'>:id</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:group_permission</span><span class='comma'>,</span> <span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='symbol'>:group_id</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:permission</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='symbol'>:permission_id</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='symbol'>:repository</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='symbol'>:group__repo_id</span><span class='rparen'>)</span><span class='period'>.</span>
     <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:user_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span>
     <span class='id identifier rubyid_distinct'>distinct</span><span class='period'>.</span>
     <span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='symbol'>:repo_code</span><span class='comma'>,</span> <span class='symbol'>:permission_code</span><span class='rparen'>)</span>
@@ -725,9 +725,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:24 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:35 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

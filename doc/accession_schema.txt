@@ -30,6 +30,8 @@ array (JSONModel(:external_document) object)	external_documents
 
 array (JSONModel(:rights_statement) object)	rights_statements
 
+array (JSONModel(:deaccession) object)	deaccessions
+
 
 
 

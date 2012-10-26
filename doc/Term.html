@@ -6,7 +6,7 @@
 <title>
   Class: Term
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (T)</a> &raquo;
+    <a href="alpha_index.html">Index (T)</a> &raquo;
     
     
     <span class="title">Term</span>
@@ -316,12 +316,12 @@
       <pre class="lines">
 
 
-46
-47
-48</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_broadcast_changes'>broadcast_changes</span>
   <span class='const'>Webhooks</span><span class='period'>.</span><span class='id identifier rubyid_notify'>notify</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>VOCABULARY_CHANGED</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -346,23 +346,23 @@
       <pre class="lines">
 
 
-20
-21
 22
 23
 24
 25
-26</pre>
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_set_vocabulary'>set_vocabulary</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_broadcast_changes'>broadcast_changes</span>
 
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -384,18 +384,18 @@
       <pre class="lines">
 
 
-36
-37
 38
 39
 40
 41
 42
 43
-44</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ensure_exists'>ensure_exists</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_referrer'>referrer</span><span class='rparen'>)</span>
   <span class='kw'>begin</span>
@@ -426,18 +426,18 @@
       <pre class="lines">
 
 
-28
-29
 30
 31
 32
-33</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='kw'>super</span>
   <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_vocabulary'>vocabulary</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:vocabulary</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_vocab_id'>vocab_id</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_json'>json</span>
@@ -462,16 +462,16 @@
       <pre class="lines">
 
 
-12
-13
 14
 15
 16
 17
-18</pre>
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_vocabulary'>set_vocabulary</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vocab_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -506,17 +506,19 @@
       <pre class="lines">
 
 
-7
 8
 9
-10</pre>
+10
+11
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
   <span class='kw'>super</span>
   <span class='id identifier rubyid_validates_unique'>validates_unique</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:vocab_id</span><span class='comma'>,</span> <span class='symbol'>:term</span><span class='comma'>,</span> <span class='symbol'>:term_type</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Term must be unique</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_map_validation_to_json_property'>map_validation_to_json_property</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:vocab_id</span><span class='comma'>,</span> <span class='symbol'>:term</span><span class='comma'>,</span> <span class='symbol'>:term_type</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:term</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -528,9 +530,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:24 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:35 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

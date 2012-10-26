@@ -1,0 +1,22 @@
+JSON Schema: Deaccession
+
+Properties
+
+boolean	whole_part
+
+string	description
+
+string	reason
+
+string	disposition
+
+boolean	notification
+
+JSONModel(:date) object	date
+
+array (JSONModel(:extent) object)	extents
+
+
+
+
+

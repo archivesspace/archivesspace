@@ -1,0 +1,12 @@
+JSON Schema: Note_chronology
+
+Properties
+
+string	title
+
+array (object)	items
+
+
+
+
+

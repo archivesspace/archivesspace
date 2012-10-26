@@ -1,0 +1,36 @@
+JSON Schema: Location
+/repositories/:repo_id/locations
+Properties
+
+string	uri
+
+string	building
+
+string	floor
+
+string	room
+
+string	area
+
+string	barcode
+
+string	classification
+
+string	coordinate_1_label
+
+string	coordinate_1_indicator
+
+string	coordinate_2_label
+
+string	coordinate_2_indicator
+
+string	coordinate_3_label
+
+string	coordinate_3_indicator
+
+string	temporary
+
+
+
+
+

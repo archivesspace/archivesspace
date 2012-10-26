@@ -6,7 +6,7 @@
 <title>
   Module: JSONModel
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (J)</a> &raquo;
+    <a href="alpha_index.html">Index (J)</a> &raquo;
     
     
     <span class="title">JSONModel</span>
@@ -147,208 +147,6 @@
 
 
 
-
-<div class="method_details">
-  <h2>Specifications</h2>
-  
-    <h3>It should supply a class for a loaded schema</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-93</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 93</span>
-
-<span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>JSONModel(:stub)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-    <h3>It should create an instance when given a hash</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-99
-100</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 99</span>
-
-<span class='id identifier rubyid_jo'>jo</span> <span class='op'>=</span> <span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref_id</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>title</span><span class='tstring_end'>&quot;</span></span><span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Stub Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_ref_id'>ref_id</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-    <h3>It should be able to determine the uri for a class instance give an id and a repo_id</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-106</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 106</span>
-
-<span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='int'>500</span><span class='comma'>,</span> <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/repositories/1/stubs/500</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-    <h3>It should be able to save an instance of a model</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-112
-113
-114</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 112</span>
-
-<span class='id identifier rubyid_jo'>jo</span> <span class='op'>=</span> <span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Stub Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>uri</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_true'>be_true</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-    <h3>It should create an instance when given a hash using symbols for keys</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-118
-119</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 118</span>
-
-<span class='id identifier rubyid_jo'>jo</span> <span class='op'>=</span> <span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Stub Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_ref_id'>ref_id</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-    <h3>It should have its repo id in its uri after being saved</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-125
-126
-127</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 125</span>
-
-<span class='id identifier rubyid_jo'>jo</span> <span class='op'>=</span> <span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Stub Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='int'>2</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/repositories/2/stubs/999</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-    <h3>It should inherit properties from the inherited object via extend/$ref</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-131
-132
-133
-134
-135
-136</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 131</span>
-
-<span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:child_stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>JSONModel(:child_stub)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
-<span class='id identifier rubyid_child_jo'>child_jo</span> <span class='op'>=</span> <span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:child_stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:childproperty</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>yeah</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:ignoredproperty</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>oh no</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_child_jo'>child_jo</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-<span class='id identifier rubyid_child_jo'>child_jo</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>childproperty</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_true'>be_true</span>
-<span class='id identifier rubyid_child_jo'>child_jo</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>uri</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_true'>be_true</span>
-<span class='id identifier rubyid_child_jo'>child_jo</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ignoredproperty</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_false'>be_false</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-    <h3>It can query its schema for the types of things</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-140</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 140</span>
-
-<span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_type_of'>type_of</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>names/items</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span> <span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-    <h3>It should return an empty array for nil properties of type array</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-     <table class="source_code">
-       <tr>
-         <td>
-           <pre class="lines">
-
-
-144
-145
-146</pre>
-         </td>
-         <td>
-           <pre class="code"><span class="info file"># File 'common/spec/jsonmodel_spec.rb', line 144</span>
-
-<span class='id identifier rubyid_jo'>jo</span> <span class='op'>=</span> <span class='ivar'>@klass</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:stub</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:ref_id</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Stub Object</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_jo'>jo</span><span class='period'>.</span><span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span></pre>
-         </td>
-       </tr>
-     </table>
-
-   
-</div>
 
   
     <h2>
@@ -874,12 +672,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-13
 14
-15</pre>
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_custom_validations'>custom_validations</span>
   <span class='cvar'>@@custom_validations</span>
@@ -904,12 +702,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-74
 75
-76</pre>
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_destroy_model'>destroy_model</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
   <span class='cvar'>@@models</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
@@ -968,11 +766,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-108
-109
-110
-111
-112
 113
 114
 115
@@ -995,10 +788,15 @@ property of each object to cast it into a JSONModel.</p>
 132
 133
 134
-135</pre>
+135
+136
+137
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_init'>init</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 
@@ -1048,7 +846,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-39
 40
 41
 42
@@ -1056,10 +853,11 @@ property of each object to cast it into a JSONModel.</p>
 44
 45
 46
-47</pre>
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='comment'># Checks if a model exists first; returns the model class
@@ -1090,7 +888,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-79
 80
 81
 82
@@ -1116,10 +913,15 @@ property of each object to cast it into a JSONModel.</p>
 102
 103
 104
-105</pre>
+105
+106
+107
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load_schema'>load_schema</span><span class='lparen'>(</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='kw'>not</span> <span class='cvar'>@@models</span><span class='lbracket'>[</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='rbracket'>]</span>
@@ -1145,6 +947,10 @@ property of each object to cast it into a JSONModel.</p>
     <span class='comment'># All records have a lock_version property that we use for optimistic concurrency control.
 </span>    <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:schema</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>properties</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>lock_version</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>integer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>required</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='rbrace'>}</span>
 
+    <span class='comment'># All records must indicate their model type
+</span>    <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:schema</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>properties</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>jsonmodel_type</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ifmissing</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>error</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+
+
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_model_for'>create_model_for</span><span class='lparen'>(</span><span class='id identifier rubyid_schema_name'>schema_name</span><span class='comma'>,</span> <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:schema</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -1168,16 +974,16 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-138
-139
-140
-141
-142
 143
-144</pre>
+144
+145
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_jsonmodel_ref'>parse_jsonmodel_ref</span><span class='lparen'>(</span><span class='id identifier rubyid_ref'>ref</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_ref'>ref</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>and</span> <span class='id identifier rubyid_ref'>ref</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>JSONModel\(:([a-zA-Z_\-]+)\) (.*)</span><span class='regexp_end'>/</span></span>
@@ -1216,7 +1022,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-62
 63
 64
 65
@@ -1225,10 +1030,11 @@ property of each object to cast it into a JSONModel.</p>
 68
 69
 70
-71</pre>
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_reference'>parse_reference</span><span class='lparen'>(</span><span class='id identifier rubyid_reference'>reference</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='cvar'>@@models</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='op'>|</span>
@@ -1348,12 +1154,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-49
 50
-51</pre>
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='const'>JSONModel</span><span class='period'>.</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
@@ -1388,12 +1194,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-55
 56
-57</pre>
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_models'>models</span>
   <span class='cvar'>@@models</span>
@@ -1418,12 +1224,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-17
 18
-19</pre>
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_strict_mode'>strict_mode</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='cvar'>@@strict_mode</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -1438,9 +1244,9 @@ property of each object to cast it into a JSONModel.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:22 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:33 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

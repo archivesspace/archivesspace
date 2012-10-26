@@ -24,6 +24,12 @@ array (JSONModel(:external_document) object)	external_documents
 
 array (JSONModel(:rights_statement) object)	rights_statements
 
+array (JSONModel(:instance) object)	instances
+
+array (JSONModel(:deaccession) object)	deaccessions
+
+array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
+
 
 
 

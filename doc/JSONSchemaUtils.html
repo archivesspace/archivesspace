@@ -6,7 +6,7 @@
 <title>
   Module: JSONSchemaUtils
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (J)</a> &raquo;
+    <a href="alpha_index.html">Index (J)</a> &raquo;
     
     
     <span class="title">JSONSchemaUtils</span>
@@ -159,6 +159,26 @@
  <span class='rbrace'>}</span><span class='comma'>,</span>
 
  <span class='lbrace'>{</span>
+   <span class='symbol'>:failed_attribute</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Type</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ArchivesSpaceType</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+   <span class='symbol'>:pattern</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>The property '#\/.*?' of type (.*?) did not match one or more of the following types:.*in schema</span><span class='regexp_end'>/</span></span><span class='comma'>,</span>
+   <span class='symbol'>:do</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_msgs'>msgs</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_actual_type'>actual_type</span><span class='rparen'>)</span> <span class='tlambeg'>{</span>
+
+     <span class='id identifier rubyid_types'>types</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+     <span class='id identifier rubyid_message'>message</span><span class='lbracket'>[</span><span class='symbol'>:errors</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sub_msg'>sub_msg</span><span class='op'>|</span>
+       <span class='kw'>if</span> <span class='id identifier rubyid_sub_msg'>sub_msg</span><span class='lbracket'>[</span><span class='symbol'>:message</span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>did not match the following type: (.*?) in schema</span><span class='regexp_end'>/</span></span>
+         <span class='id identifier rubyid_types'>types</span> <span class='op'>&lt;&lt;</span> <span class='backref'>$1</span>
+       <span class='kw'>end</span>
+     <span class='kw'>end</span>
+
+     <span class='kw'>if</span> <span class='id identifier rubyid_message'>message</span><span class='lbracket'>[</span><span class='symbol'>:failed_attribute</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ArchivesSpaceType</span><span class='tstring_end'>'</span></span>
+       <span class='id identifier rubyid_msgs'>msgs</span><span class='lbracket'>[</span><span class='symbol'>:errors</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_fragment_join'>fragment_join</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Type must be one of: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+     <span class='kw'>end</span>
+   <span class='rbrace'>}</span>
+ <span class='rbrace'>}</span><span class='comma'>,</span>
+
+
+ <span class='lbrace'>{</span>
    <span class='symbol'>:failed_attribute</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>custom_validation</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
    <span class='symbol'>:pattern</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>Validation failed for '(.*?)': (.*?) in schema </span><span class='regexp_end'>/</span></span><span class='comma'>,</span>
    <span class='symbol'>:do</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_msgs'>msgs</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_property'>property</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span><span class='rparen'>)</span> <span class='tlambeg'>{</span>
@@ -192,6 +212,29 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract_suberrors-class_method" title="extract_suberrors (class method)">+ (Object) <strong>extract_suberrors</strong>(errors) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>For a given error, find its list of sub errors.</p>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -273,7 +316,67 @@ them into a structured format like:.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="fragment_join-class_method">
+  <h3 class="signature first" id="extract_suberrors-class_method">
+  
+    + (<tt>Object</tt>) <strong>extract_suberrors</strong>(errors) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>For a given error, find its list of sub errors.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 139</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_suberrors'>extract_suberrors</span><span class='lparen'>(</span><span class='id identifier rubyid_errors'>errors</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_errors'>errors</span> <span class='op'>=</span> <span class='const'>Array</span><span class='lbracket'>[</span><span class='id identifier rubyid_errors'>errors</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_error'>error</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_error'>error</span><span class='lbracket'>[</span><span class='symbol'>:errors</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_error'>error</span>
+    <span class='kw'>else</span>
+      <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_suberrors'>extract_suberrors</span><span class='lparen'>(</span><span class='id identifier rubyid_error'>error</span><span class='lbracket'>[</span><span class='symbol'>:errors</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fragment_join-class_method">
   
     + (<tt>Object</tt>) <strong>fragment_join</strong>(fragment, property = nil) 
   
@@ -295,13 +398,15 @@ them into a structured format like:.</p>
 8
 9
 10
-11</pre>
+11
+12</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 3</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_fragment_join'>fragment_join</span><span class='lparen'>(</span><span class='id identifier rubyid_fragment'>fragment</span><span class='comma'>,</span> <span class='id identifier rubyid_property'>property</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fragment'>fragment</span> <span class='op'>=</span> <span class='id identifier rubyid_fragment'>fragment</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^#\/</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_property'>property</span> <span class='op'>=</span> <span class='id identifier rubyid_property'>property</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^#\/</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_property'>property</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_property'>property</span> <span class='kw'>and</span> <span class='id identifier rubyid_fragment'>fragment</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_fragment'>fragment</span> <span class='op'>!~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\/$</span><span class='regexp_end'>/</span></span>
     <span class='id identifier rubyid_fragment'>fragment</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fragment'>fragment</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span>
@@ -345,33 +450,39 @@ them into a structured format like:</p>
       <pre class="lines">
 
 
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145</pre>
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 162</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_schema_messages'>parse_schema_messages</span><span class='lparen'>(</span><span class='id identifier rubyid_messages'>messages</span><span class='comma'>,</span> <span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_messages'>messages</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_suberrors'>extract_suberrors</span><span class='lparen'>(</span><span class='id identifier rubyid_messages'>messages</span><span class='rparen'>)</span>
+
   <span class='id identifier rubyid_msgs'>msgs</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='symbol'>:errors</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
     <span class='symbol'>:warnings</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
@@ -413,7 +524,6 @@ them into a structured format like:</p>
       <pre class="lines">
 
 
-14
 15
 16
 17
@@ -431,10 +541,11 @@ them into a structured format like:</p>
 29
 30
 31
-32</pre>
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_schema_path_lookup'>schema_path_lookup</span><span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
@@ -465,9 +576,9 @@ them into a structured format like:</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:23 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:34 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

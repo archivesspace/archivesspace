@@ -6,7 +6,7 @@
 <title>
   Module: FormHelper::FormBuilderMethods
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../_index.html">Index (F)</a> &raquo;
+    <a href="../alpha_index.html">Index (F)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../FormHelper.html" title="FormHelper (module)">FormHelper</a></span></span>
      &raquo; 
     <span class="title">FormBuilderMethods</span>
@@ -154,6 +154,29 @@
   <span class="summary_signature">
     
       <a href="#current_index-instance_method" title="#current_index (instance method)">- (Object) <strong>current_index</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#current_model-instance_method" title="#current_model (instance method)">- (Object) <strong>current_model</strong> </a>
     
 
     
@@ -314,6 +337,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#jsonmodel_hidden_field-instance_method" title="#jsonmodel_hidden_field (instance method)">- (Object) <strong>jsonmodel_hidden_field</strong>(method, value, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#jsonmodel_label-instance_method" title="#jsonmodel_label (instance method)">- (Object) <strong>jsonmodel_label</strong>(method, opts = {}) </a>
     
 
@@ -360,7 +406,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#jsonmodel_text_area-instance_method" title="#jsonmodel_text_area (instance method)">- (Object) <strong>jsonmodel_text_area</strong>(method, opts) </a>
+      <a href="#jsonmodel_text_area-instance_method" title="#jsonmodel_text_area (instance method)">- (Object) <strong>jsonmodel_text_area</strong>(method, opts = {}) </a>
     
 
     
@@ -542,16 +588,16 @@
       <pre class="lines">
 
 
-161
-162
-163
-164
 165
 166
-167</pre>
+167
+168
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_current'>current</span>
   <span class='kw'>if</span> <span class='ivar'>@jsonmodel_object</span>
@@ -597,7 +643,11 @@
 136
 137
 138
-139</pre>
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 122</span>
@@ -608,12 +658,16 @@
     <span class='id identifier rubyid_new_method'>new_method</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_split_path'>split_path</span> <span class='op'>=</span> <span class='id identifier rubyid_method'>method</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_split_path'>split_path</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+      <span class='comment'># remove any indexes from the path
+</span>      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_s'>s</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>===</span> <span class='id identifier rubyid_s'>s</span>
+
       <span class='comment'># if s in path doesn't represent an index
 </span>      <span class='comment'># and it isn't the last item in the path (the method)
 </span>      <span class='comment'># prefix with '_'
 </span>      <span class='id identifier rubyid_new_method'>new_method</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_s'>s</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>!=</span> <span class='id identifier rubyid_s'>s</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_split_path'>split_path</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span>
       <span class='id identifier rubyid_new_method'>new_method</span> <span class='op'>+=</span> <span class='id identifier rubyid_s'>s</span>
-      <span class='id identifier rubyid_new_method'>new_method</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_split_path'>split_path</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span>
+      <span class='id identifier rubyid_new_method'>new_method</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_split_path'>split_path</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span>
+      <span class='id identifier rubyid_new_method'>new_method</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>===</span> <span class='id identifier rubyid_split_path'>split_path</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span>
     <span class='kw'>end</span>
     <span class='id identifier rubyid_method'>method</span> <span class='op'>=</span> <span class='id identifier rubyid_new_method'>new_method</span>
   <span class='kw'>end</span>
@@ -640,16 +694,16 @@
       <pre class="lines">
 
 
-170
-171
-172
-173
-174
-175
-176</pre>
+179
+180
+181
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_current_index'>current_index</span>
   <span class='kw'>if</span> <span class='ivar'>@jsonmodel_object</span>
@@ -657,6 +711,38 @@
   <span class='kw'>else</span>
     <span class='kw'>nil</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="current_model-instance_method">
+  
+    - (<tt>Object</tt>) <strong>current_model</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+173
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 173</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_current_model'>current_model</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span> <span class='kw'>if</span> <span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:schema</span><span class='rparen'>)</span>
+  <span class='ivar'>@jsonmodel_object</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -718,7 +804,7 @@
 
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method'>method</span><span class='rbrace'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method'>method</span><span class='rbrace'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='kw'>not</span> <span class='id identifier rubyid_method'>method</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
 
   <span class='id identifier rubyid_result'>result</span>
 <span class='kw'>end</span></pre>
@@ -742,10 +828,6 @@
       <pre class="lines">
 
 
-142
-143
-144
-145
 146
 147
 148
@@ -758,10 +840,14 @@
 155
 156
 157
-158</pre>
+158
+159
+160
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_document_path'>document_path</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -776,7 +862,7 @@
 
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_result'>result</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_method'>method</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_method'>method</span> <span class='kw'>if</span> <span class='kw'>not</span> <span class='id identifier rubyid_method'>method</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
 
   <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -800,15 +886,15 @@
       <pre class="lines">
 
 
-179
-180
-181
-182
-183
-184</pre>
+188
+189
+190
+191
+192
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 188</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_error_classes'>error_classes</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_classes'>classes</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
@@ -836,19 +922,19 @@
       <pre class="lines">
 
 
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297</pre>
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 288</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 300</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_boolean_field'>jsonmodel_boolean_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='ivar'>@template</span><span class='period'>.</span><span class='id identifier rubyid_check_box'>check_box</span><span class='lparen'>(</span><span class='ivar'>@object_name</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='lbrace'>{</span>
@@ -880,21 +966,21 @@
       <pre class="lines">
 
 
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319</pre>
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 308</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 320</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_date_field'>jsonmodel_date_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='ivar'>@template</span><span class='period'>.</span><span class='id identifier rubyid_text_field'>text_field</span><span class='lparen'>(</span><span class='ivar'>@object_name</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='lbrace'>{</span>
@@ -928,15 +1014,6 @@
       <pre class="lines">
 
 
-235
-236
-237
-238
-239
-240
-241
-242
-243
 244
 245
 246
@@ -960,13 +1037,28 @@
 264
 265
 266
-267</pre>
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 244</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_field'>jsonmodel_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_schema'>schema</span> <span class='op'>=</span> <span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span>
+  <span class='id identifier rubyid_schema'>schema</span> <span class='op'>=</span> <span class='id identifier rubyid_current_model'>current_model</span>
+
+  <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='id identifier rubyid_method'>method</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_current'>current</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_current'>current</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
 
   <span class='kw'>if</span> <span class='kw'>not</span> <span class='id identifier rubyid_schema'>schema</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>properties</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PROBLEM: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_object_name'>object_name</span><span class='rbrace'>}</span><span class='tstring_content'> does not define </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method'>method</span><span class='rbrace'>}</span><span class='tstring_content'> in its schema</span><span class='tstring_end'>&quot;</span></span>
@@ -976,7 +1068,7 @@
   <span class='kw'>if</span> <span class='id identifier rubyid_attr_definition'>attr_definition</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enum</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_options_array'>options_array</span> <span class='op'>=</span> <span class='id identifier rubyid_attr_definition'>attr_definition</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enum</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='id identifier rubyid_current_i18n'>current_i18n</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method'>method</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_option'>option</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_option'>option</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
 
-    <span class='kw'>if</span> <span class='kw'>not</span> <span class='id identifier rubyid_attr_definition'>attr_definition</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>required</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_attr_definition'>attr_definition</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>required</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:add_empty_option</span><span class='rbracket'>]</span> <span class='op'>===</span> <span class='kw'>true</span>
       <span class='id identifier rubyid_options_array'>options_array</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span><span class='lparen'>(</span><span class='id identifier rubyid_options_array'>options_array</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
 
@@ -1004,6 +1096,48 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="jsonmodel_hidden_field-instance_method">
+  
+    - (<tt>Object</tt>) <strong>jsonmodel_hidden_field</strong>(method, value, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+334
+335
+336
+337
+338
+339
+340
+341
+342</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 334</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_hidden_field'>jsonmodel_hidden_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@template</span><span class='period'>.</span><span class='id identifier rubyid_hidden_field'>hidden_field</span><span class='lparen'>(</span><span class='ivar'>@object_name</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='lbrace'>{</span>
+    <span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data-original_value</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='id identifier rubyid_method'>method</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:object</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_current'>current</span><span class='comma'>,</span>
+    <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_current_name'>current_name</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_current_name'>current_name</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="jsonmodel_label-instance_method">
   
     - (<tt>Object</tt>) <strong>jsonmodel_label</strong>(method, opts = {}) 
@@ -1018,13 +1152,13 @@
       <pre class="lines">
 
 
-229
-230
-231
-232</pre>
+238
+239
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 238</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_label'>jsonmodel_label</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_field_id'>field_id</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:force_id</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_current_name'>current_name</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
@@ -1050,17 +1184,17 @@
       <pre class="lines">
 
 
-279
-280
-281
-282
-283
-284
-285
-286</pre>
+291
+292
+293
+294
+295
+296
+297
+298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 279</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 291</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_radio'>jsonmodel_radio</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='ivar'>@template</span><span class='period'>.</span><span class='id identifier rubyid_radio_button'>radio_button</span><span class='lparen'>(</span><span class='ivar'>@object_name</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='lbrace'>{</span>
@@ -1078,7 +1212,7 @@
       <div class="method_details ">
   <h3 class="signature " id="jsonmodel_text_area-instance_method">
   
-    - (<tt>Object</tt>) <strong>jsonmodel_text_area</strong>(method, opts) 
+    - (<tt>Object</tt>) <strong>jsonmodel_text_area</strong>(method, opts = {}) 
   
 
   
@@ -1090,19 +1224,19 @@
       <pre class="lines">
 
 
-299
-300
-301
-302
-303
-304
-305
-306</pre>
+311
+312
+313
+314
+315
+316
+317
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 299</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 311</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_text_area'>jsonmodel_text_area</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_text_area'>jsonmodel_text_area</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@template</span><span class='period'>.</span><span class='id identifier rubyid_text_area'>text_area</span><span class='lparen'>(</span><span class='ivar'>@object_name</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='lbrace'>{</span>
                          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data-original_value</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='id identifier rubyid_method'>method</span><span class='rbracket'>]</span><span class='comma'>,</span>
                          <span class='symbol'>:object</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_current'>current</span><span class='comma'>,</span>
@@ -1130,17 +1264,17 @@
       <pre class="lines">
 
 
-270
-271
-272
-273
-274
-275
-276
-277</pre>
+282
+283
+284
+285
+286
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 270</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 282</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_text_field'>jsonmodel_text_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@template</span><span class='period'>.</span><span class='id identifier rubyid_text_field'>text_field</span><span class='lparen'>(</span><span class='ivar'>@object_name</span><span class='comma'>,</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='lbrace'>{</span>
@@ -1170,12 +1304,12 @@
       <pre class="lines">
 
 
-209
-210
-211</pre>
+218
+219
+220</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 218</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_label_and_field'>label_and_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_args'>extra_args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_label_with_field'>label_with_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_jsonmodel_field'>jsonmodel_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_args'>extra_args</span><span class='lbracket'>[</span><span class='symbol'>:field_opts</span><span class='rbracket'>]</span><span class='op'>||</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_args'>extra_args</span><span class='rparen'>)</span>
@@ -1200,17 +1334,17 @@
       <pre class="lines">
 
 
-219
-220
-221
-222
-223
-224
-225
-226</pre>
+228
+229
+230
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 228</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_label_and_fourpartid'>label_and_fourpartid</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_args'>extra_args</span>  <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_extra_args'>extra_args</span><span class='lbracket'>[</span><span class='symbol'>:control_class</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>identifier-fields</span><span class='tstring_end'>&quot;</span></span>
@@ -1240,12 +1374,12 @@
       <pre class="lines">
 
 
-214
-215
-216</pre>
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 223</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_label_and_textarea'>label_and_textarea</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_args'>extra_args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_label_with_field'>label_with_field</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_jsonmodel_text_area'>jsonmodel_text_area</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='symbol'>:rows</span> <span class='op'>=&gt;</span> <span class='int'>3</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_args'>extra_args</span>
@@ -1270,15 +1404,6 @@
       <pre class="lines">
 
 
-187
-188
-189
-190
-191
-192
-193
-194
-195
 196
 197
 198
@@ -1289,10 +1414,19 @@
 203
 204
 205
-206</pre>
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/form_helper.rb', line 196</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_label_with_field'>label_with_field</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_field_html'>field_html</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_args'>extra_args</span>  <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_extra_args'>extra_args</span><span class='period'>.</span><span class='id identifier rubyid_reject!'>reject!</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span><span class='rbrace'>}</span>
@@ -1386,7 +1520,7 @@
   <span class='ivar'>@json_index</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@json_index</span><span class='lbracket'>[</span><span class='id identifier rubyid_model'>model</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='op'>-</span><span class='int'>1</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Hash</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
@@ -1396,9 +1530,9 @@
   <span class='ivar'>@jsonmodel_object</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^(.*)\[\]$</span><span class='regexp_end'>/</span></span>
-    <span class='ivar'>@jsonmodel_object</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='backref'>$1</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:is_array</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+    <span class='ivar'>@jsonmodel_object</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='backref'>$1</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:is_array</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='rbracket'>]</span>
   <span class='kw'>else</span>
-    <span class='ivar'>@jsonmodel_object</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rbracket'>]</span>
+    <span class='ivar'>@jsonmodel_object</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='kw'>yield</span>
@@ -1426,9 +1560,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:23 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:33 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

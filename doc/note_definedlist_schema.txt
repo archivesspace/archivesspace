@@ -1,0 +1,12 @@
+JSON Schema: Note_definedlist
+
+Properties
+
+string	title
+
+array (object)	items
+
+
+
+
+

@@ -1,0 +1,10 @@
+JSON Schema: Note_bibliography
+
+Properties
+
+array (string)	items
+
+
+
+
+

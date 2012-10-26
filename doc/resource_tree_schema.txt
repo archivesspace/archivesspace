@@ -8,7 +8,7 @@ JSONModel(:archival_object) uri	archival_object
 
 string	title
 
-array	children
+array (JSONModel(:resource_tree) object)	children
 
 
 

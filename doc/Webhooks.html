@@ -6,7 +6,7 @@
 <title>
   Class: Webhooks
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (W)</a> &raquo;
+    <a href="alpha_index.html">Index (W)</a> &raquo;
     
     
     <span class="title">Webhooks</span>
@@ -255,7 +255,7 @@
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_listener'>add_listener</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
   <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
     <span class='kw'>begin</span>
-      <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:webhook_endpoints</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='symbol'>:url</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:webhook_endpoint</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='symbol'>:url</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
     <span class='kw'>rescue</span>
       <span class='comment'># Ignore dupes
 </span>    <span class='kw'>end</span>
@@ -362,7 +362,11 @@
 78
 79
 80
-81</pre>
+81
+82
+83
+84
+85</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/webhooks.rb', line 30</span>
@@ -371,50 +375,54 @@
   <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
 
     <span class='kw'>while</span> <span class='kw'>true</span>
+      <span class='kw'>begin</span>
+        <span class='comment'># A short delay to give duplicate events the change to batch together
+</span>        <span class='id identifier rubyid_sleep'>sleep</span> <span class='float'>0.5</span>
 
-      <span class='comment'># A short delay to give duplicate events the change to batch together
-</span>      <span class='id identifier rubyid_sleep'>sleep</span> <span class='float'>0.5</span>
+        <span class='id identifier rubyid_messages'>messages</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
-      <span class='id identifier rubyid_messages'>messages</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+        <span class='comment'># Wait for at least one element to show up
+</span>        <span class='id identifier rubyid_messages'>messages</span> <span class='op'>&lt;&lt;</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
 
-      <span class='comment'># Wait for at least one element to show up
-</span>      <span class='id identifier rubyid_messages'>messages</span> <span class='op'>&lt;&lt;</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
-
-      <span class='kw'>until</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-        <span class='id identifier rubyid_messages'>messages</span> <span class='op'>&lt;&lt;</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
-      <span class='kw'>end</span>
-
-      <span class='id identifier rubyid_events'>events</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-      <span class='id identifier rubyid_messages'>messages</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='op'>|</span>
-        <span class='id identifier rubyid_events'>events</span><span class='lbracket'>[</span><span class='id identifier rubyid_code'>code</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>code</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>params</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='rbrace'>}</span>
-      <span class='kw'>end</span>
-
-      <span class='id identifier rubyid_notification'>notification</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:webhook_notification</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='symbol'>:events</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_events'>events</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
-
-      <span class='id identifier rubyid_listeners'>listeners</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
-        <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:webhook_endpoints</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='symbol'>:url</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
-      <span class='kw'>end</span>
-
-      <span class='id identifier rubyid_listeners'>listeners</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_url'>url</span><span class='op'>|</span>
-        <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-          <span class='kw'>begin</span>
-            <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
-            <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span><span class='comma'>,</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span><span class='rparen'>)</span>
-
-            <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_open_timeout'>open_timeout</span> <span class='op'>=</span> <span class='int'>2</span>
-            <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_read_timeout'>read_timeout</span> <span class='op'>=</span> <span class='int'>2</span>
-
-            <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Post</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_request_uri'>request_uri</span><span class='rparen'>)</span>
-            <span class='id identifier rubyid_req'>req</span><span class='period'>.</span><span class='id identifier rubyid_form_data'>form_data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>notification</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_notification'>notification</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rbrace'>}</span>
-
-            <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_http'>http</span><span class='op'>|</span>
-              <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_req'>req</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_response'>response</span><span class='op'>|</span>
-              <span class='kw'>end</span>
-            <span class='kw'>end</span>
-          <span class='kw'>rescue</span>
-            <span class='comment'># Oh well!
-</span>          <span class='kw'>end</span>
+        <span class='kw'>until</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+          <span class='id identifier rubyid_messages'>messages</span> <span class='op'>&lt;&lt;</span> <span class='cvar'>@@queue</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
         <span class='kw'>end</span>
+
+        <span class='id identifier rubyid_events'>events</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+        <span class='id identifier rubyid_messages'>messages</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='op'>|</span>
+          <span class='id identifier rubyid_events'>events</span><span class='lbracket'>[</span><span class='id identifier rubyid_code'>code</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>code</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>params</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+
+        <span class='id identifier rubyid_notification'>notification</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:webhook_notification</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='symbol'>:events</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_events'>events</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+
+        <span class='id identifier rubyid_listeners'>listeners</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
+          <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:webhook_endpoint</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='symbol'>:url</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+
+        <span class='id identifier rubyid_listeners'>listeners</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_url'>url</span><span class='op'>|</span>
+          <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+            <span class='kw'>begin</span>
+              <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+              <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span><span class='comma'>,</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span><span class='rparen'>)</span>
+
+              <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_open_timeout'>open_timeout</span> <span class='op'>=</span> <span class='int'>2</span>
+              <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_read_timeout'>read_timeout</span> <span class='op'>=</span> <span class='int'>2</span>
+
+              <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Post</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_request_uri'>request_uri</span><span class='rparen'>)</span>
+              <span class='id identifier rubyid_req'>req</span><span class='period'>.</span><span class='id identifier rubyid_form_data'>form_data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>notification</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_notification'>notification</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rbrace'>}</span>
+
+              <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_http'>http</span><span class='op'>|</span>
+                <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_req'>req</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_response'>response</span><span class='op'>|</span>
+                <span class='kw'>end</span>
+              <span class='kw'>end</span>
+            <span class='kw'>rescue</span>
+              <span class='comment'># Oh well!
+</span>            <span class='kw'>end</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>rescue</span>
+        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Webhook delivery failure: </span><span class='embexpr_beg'>#{</span><span class='gvar'>$!</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>30</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
@@ -429,9 +437,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:25 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:36 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

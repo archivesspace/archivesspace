@@ -1,0 +1,16 @@
+JSON Schema: Abstract_note
+
+Properties
+
+string	label
+
+string	content
+
+boolean	publish
+
+string	persistent_id
+
+
+
+
+

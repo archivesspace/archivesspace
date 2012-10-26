@@ -6,7 +6,7 @@
 <title>
   Class: Group
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (G)</a> &raquo;
+    <a href="alpha_index.html">Index (G)</a> &raquo;
     
     
     <span class="title">Group</span>
@@ -438,12 +438,12 @@
       <pre class="lines">
 
 
-96
 97
-98</pre>
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_broadcast_changes'>broadcast_changes</span>
   <span class='const'>Webhooks</span><span class='period'>.</span><span class='id identifier rubyid_notify'>notify</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>REFRESH_ACLS</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -481,7 +481,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='kw'>super</span>
   <span class='id identifier rubyid_set_members'>set_members</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_set_permissions'>set_permissions</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
 
@@ -559,10 +559,10 @@
   <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='kw'>super</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:with_members</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_member_usernames'>member_usernames</span> <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_users'>users</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_user'>user</span><span class='op'>|</span> <span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_member_usernames'>member_usernames</span> <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_user'>user</span><span class='op'>|</span> <span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_grants_permissions'>grants_permissions</span> <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_permissions'>permissions</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_permission'>permission</span><span class='op'>|</span> <span class='id identifier rubyid_permission'>permission</span><span class='lbracket'>[</span><span class='symbol'>:permission_code</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_grants_permissions'>grants_permissions</span> <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_permission'>permission</span><span class='op'>|</span> <span class='id identifier rubyid_permission'>permission</span><span class='lbracket'>[</span><span class='symbol'>:permission_code</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
 
   <span class='id identifier rubyid_json'>json</span>
 <span class='kw'>end</span></pre>
@@ -598,7 +598,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_members'>set_members</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_remove_all_users'>remove_all_users</span>
+  <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_remove_all_user'>remove_all_user</span>
   <span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_member_usernames'>member_usernames</span> <span class='kw'>or</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_username'>username</span><span class='op'>|</span>
     <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='lbracket'>[</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_add_user'>add_user</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span>
@@ -645,7 +645,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_permissions'>set_permissions</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_remove_all_permissions'>remove_all_permissions</span>
+  <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_remove_all_permission'>remove_all_permission</span>
   <span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_grants_permissions'>grants_permissions</span> <span class='kw'>or</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_permission_code'>permission_code</span><span class='op'>|</span>
     <span class='id identifier rubyid_permission'>permission</span> <span class='op'>=</span> <span class='const'>Permission</span><span class='lbracket'>[</span><span class='symbol'>:permission_code</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_permission_code'>permission_code</span><span class='rbracket'>]</span>
 
@@ -701,8 +701,8 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_grant'>grant</span><span class='lparen'>(</span><span class='id identifier rubyid_permission_code'>permission_code</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_permission'>permission</span> <span class='op'>=</span> <span class='const'>Permission</span><span class='lbracket'>[</span><span class='symbol'>:permission_code</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_permission_code'>permission_code</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
 
-  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:groups_permissions</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span>
-                                               <span class='symbol'>:permission_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:group_permission</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:group_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span>
+                                             <span class='symbol'>:permission_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='id identifier rubyid_add_permission'>add_permission</span><span class='lparen'>(</span><span class='id identifier rubyid_permission'>permission</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -770,7 +770,8 @@
 90
 91
 92
-93</pre>
+93
+94</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/group.rb', line 89</span>
@@ -779,6 +780,7 @@
   <span class='kw'>super</span>
   <span class='id identifier rubyid_validates_unique'>validates_unique</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='comma'>,</span> <span class='symbol'>:group_code</span><span class='rbracket'>]</span><span class='comma'>,</span>
                    <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Group code must be unique within a repository</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_map_validation_to_json_property'>map_validation_to_json_property</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='comma'>,</span> <span class='symbol'>:group_code</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:group_code</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -790,9 +792,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Oct 15 10:20:25 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:36 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

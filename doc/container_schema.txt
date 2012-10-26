@@ -1,0 +1,24 @@
+JSON Schema: Container
+
+Properties
+
+string	type_1
+
+string	indicator_1
+
+string	barcode_1
+
+string	type_2
+
+string	indicator_2
+
+string	type_3
+
+string	indicator_3
+
+array (JSONModel(:container_location) uri_or_object)	container_locations
+
+
+
+
+

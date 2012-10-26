@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Schema: event_schema
+  
+    &mdash; Documentation by YARD 0.8.3
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="alpha_index.html">Index (e)</a> &raquo;
+    
+    
+    <span class="title">event_schema</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content">
+
+    	<h1>JSON Schema: Event</h1>
+
+			<h2>URI Template</h2>
+			<h3>/repositories/:repo_id/events</h3>
+
+			<h2>Properties</h2>
+			
+				<h3 class="signature"> - (string) <strong>uri</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>event_type</strong></h3>
+			
+				<h3 class="signature"> - (JSONModel(:date) object) <strong>date</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>outcome</strong></h3>
+			
+				<h3 class="signature"> - (string) <strong>outcome_note</strong></h3>
+			
+				<h3 class="signature"> - (array (object)) <strong>linked_agents</strong></h3>
+			
+				<h3 class="signature"> - (array (object)) <strong>linked_records</strong></h3>
+			
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'common/schemas/event.rb', line 1</span>
+
+:schema =&gt; {
+  &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
+  &quot;type&quot; =&gt; &quot;object&quot;,
+  &quot;uri&quot; =&gt; &quot;/repositories/:repo_id/events&quot;,
+  &quot;properties&quot; =&gt; {
+    &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
+     &quot;event_type&quot; =&gt; {
+      &quot;type&quot; =&gt; &quot;string&quot;,
+      &quot;ifmissing&quot; =&gt; &quot;error&quot;,
+      &quot;enum&quot; =&gt; [&quot;accession&quot;, &quot;accumulation&quot;, &quot;acknowledgement&quot;, &quot;agreement received&quot;,
+                 &quot;agreement sent&quot;, &quot;appraisal&quot;, &quot;assessment&quot;, &quot;capture&quot;, &quot;cataloging&quot;,
+                 &quot;collection&quot;, &quot;compression&quot;, &quot;contribution&quot;, &quot;custody transfer&quot;, &quot;deaccession&quot;,
+                 &quot;decompression&quot;, &quot;decryption&quot;, &quot;deletion&quot;, &quot;digital signature validation&quot;,
+                 &quot;fixity check&quot;, &quot;ingestion&quot;, &quot;message digest calculation&quot;, &quot;migration&quot;,
+                 &quot;normalization&quot;, &quot;processing&quot;, &quot;publication&quot;, &quot;replication&quot;, &quot;resource merge&quot;,
+                 &quot;resource component transfer&quot;, &quot;validation&quot;, &quot;virus check&quot;]
+     },
+    &quot;date&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:date) object&quot;, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
+    &quot;outcome&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
+    &quot;outcome_note&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
+     &quot;linked_agents&quot; =&gt; {
+      &quot;type&quot; =&gt; &quot;array&quot;,
+      &quot;ifmissing&quot; =&gt; &quot;error&quot;,
+      &quot;minItems&quot; =&gt; 1,
+      &quot;items&quot; =&gt; {
+        &quot;type&quot; =&gt; &quot;object&quot;,
+        &quot;properties&quot; =&gt; {
+          &quot;role&quot; =&gt; {
+            &quot;type&quot; =&gt; &quot;string&quot;,
+            &quot;enum&quot; =&gt; [&quot;authorizer&quot;, &quot;executing_program&quot;, &quot;implementer&quot;, &quot;recipient&quot;, &quot;transmitter&quot;, &quot;validator&quot;],
+          },
+           &quot;ref&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:agent_corporate_entity) uri&quot;},
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_family) uri&quot;},
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_person) uri&quot;},
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_software) uri&quot;}]}
+        }
+      }
+    },
+     &quot;linked_records&quot; =&gt; {
+      &quot;type&quot; =&gt; &quot;array&quot;,
+      &quot;ifmissing&quot; =&gt; &quot;error&quot;,
+      &quot;minItems&quot; =&gt; 1,
+      &quot;items&quot; =&gt; {
+        &quot;type&quot; =&gt; &quot;object&quot;,
+        &quot;properties&quot; =&gt; {
+          &quot;role&quot; =&gt; {
+            &quot;type&quot; =&gt; &quot;string&quot;,
+            &quot;enum&quot; =&gt; [&quot;source&quot;, &quot;outcome&quot;, &quot;transfer&quot;],
+          },
+           &quot;ref&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:accession) uri&quot;},
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:resource) uri&quot;},
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:archival_object) uri&quot;}]}}
+      }
+    }
+  },
+   &quot;additionalProperties&quot; =&gt; false
+}</pre>
+          </td>
+        </tr>
+      </table>
+			<br />
+			<span><a href="event_schema.txt">Plain Text Version</a></span>
+			</div>
+
+
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:41 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.3 (ruby-1.9.3).
+</div>
+  </body>
+</html>
