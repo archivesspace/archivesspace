@@ -773,11 +773,12 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, "token-input-"], "#{$$}FooTerm456")
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
-    @driver.find_element(:css, "form#new_archival_object button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css, "form#new_archival_object button[type='submit']")
 
-    @driver.wait_for_ajax
+    # so the subject is here now
+    @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/)
 
-    # Verify that the change stuck
+    # refresh the page and verify that the change really stuck
     @driver.navigate.refresh
 
     @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/)
