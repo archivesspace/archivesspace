@@ -870,6 +870,29 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "reports warnings when updating an Archival Object with invalid data" do
+    aotitle = @driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], "")
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
+    }.to_not raise_error
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+  end
+
+  it "can update an existing Archival Object" do
+    aotitle = @driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
+    puts "aotitle: #{aotitle}"
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css, "h2").text.should eq("save this please Archival Object")
+    @driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object Saved')
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
+    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+  end
+
+
   it "can add a child to an existing node and assign a Subject" do
     @driver.find_element(:link, "Add Child").click
     @driver.find_element(:link, "Archival Object").click
