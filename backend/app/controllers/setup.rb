@@ -149,7 +149,15 @@ class ArchivesSpaceService < Sinatra::Base
 
     if test_database(AppConfig[:db_url])
       db = Sequel.connect(AppConfig[:db_url], :test => true)
-      DBMigrator.setup_database(db)
+
+      puts "Setting up database..."
+
+      begin
+        DBMigrator.setup_database(db)
+      rescue
+        puts "FAILED: #{$!}"
+        puts $@.join("\n")
+      end
     end
 
     redirect to('setup/')
