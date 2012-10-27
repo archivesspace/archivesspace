@@ -50,7 +50,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/events/linkable-records/list')
     .description("Get a list of records matching some search criteria that can be linked to an event")
-    .params(["q", /[\w0-9 -.]/, "The record title prefix to match"])
+    .params(["q", /[\w0-9 -.]/, "The record title prefix to match"])   # FIXME: what about unicode characters here?
     .returns([200, "A list of matching records"]) \
   do
     result = Event.linkable_records_for(params[:q]).map {|record_type, records|
