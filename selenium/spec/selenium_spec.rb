@@ -36,7 +36,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'user_password'], "daisies")
     @driver.find_element(:id, 'login').click
 
-    @driver.find_element(:css => "p.help-inline.login-message").text.should eq('Login attempt failed')
+    assert { @driver.find_element(:css => "p.help-inline.login-message").text.should eq('Login attempt failed') }
 
     @driver.find_element(:link, "Sign In").click
   end
@@ -53,18 +53,18 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:id, 'create_account').click
 
-    @driver.find_element(:css => "span.user-label").text.should match(/#{@user}/)
+    assert { @driver.find_element(:css => "span.user-label").text.should match(/#{@user}/) }
   end
 
 
   it "but they have no repositories yet!" do
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:css, '.repository-container .dropdown-menu').text.should match(/No repositories/)
+    assert { @driver.find_element(:css, '.repository-container .dropdown-menu').text.should match(/No repositories/) }
   end
 
   it "can log out" do
     logout(@driver)
-    @driver.find_element(:link, "Sign In").text.should eq "Sign In"
+    assert { @driver.find_element(:link, "Sign In").text.should eq "Sign In" }
   end
 
 
@@ -91,7 +91,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, "repository_description_"], "missing repo code")
     @driver.find_element(:css => "form#new_repository input[type='submit']").click
 
-    @driver.find_element(:css => "div.alert.alert-error").text.should eq('Repository code - Property is required but was missing')
+    assert { @driver.find_element(:css => "div.alert.alert-error").text.should eq('Repository code - Property is required but was missing') }
     @driver.find_element(:css => "div.modal-footer button.btn").click
   end
 
@@ -117,18 +117,18 @@ describe "ArchivesSpace user interface" do
 
   it "can select either of the created repositories" do
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:link_text => test_repo_code_2).text.should eq test_repo_code_2
+    assert { @driver.find_element(:link_text => test_repo_code_2).text.should eq test_repo_code_2 }
     @driver.find_element(:link_text => test_repo_code_2).click
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2
+    assert { @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2 }
 
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:link_text => test_repo_code_1).text.should eq test_repo_code_1
+    assert { @driver.find_element(:link_text => test_repo_code_1).text.should eq test_repo_code_1 }
     @driver.find_element(:link_text => test_repo_code_1).click
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_1
+    assert { @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_1 }
 
     @driver.find_element(:css, '.repository-container .btn').click
     @driver.find_element(:link_text => test_repo_code_2).click
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2
+    assert { @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2 }
   end
 
 
@@ -161,7 +161,7 @@ describe "ArchivesSpace user interface" do
 
     # Verify that the new repo has shown up
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:link_text => new_repo_code).text.should eq(new_repo_code)
+    assert { @driver.find_element(:link_text => new_repo_code).text.should eq(new_repo_code) }
   end
 
 
@@ -251,7 +251,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'user_password'], "testuser")
     @driver.find_element(:id, 'login').click
 
-    @driver.find_element(:css => "span.user-label").text.should match(/#{@user}/)
+    assert { @driver.find_element(:css => "span.user-label").text.should match(/#{@user}/) }
   end
 
 
@@ -302,8 +302,8 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link => 'Create').click
     @driver.find_element(:link => 'Subject').click
     @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really")
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
-    @driver.find_element(:css => '.record-pane h2').text.should eq("just a term really Subject")
+    @driver.click_and_wait_until_gone(:css => '#archivesSpaceSidebar button.btn-primary')
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("just a term really Subject") }
   end
 
 
@@ -412,13 +412,13 @@ describe "ArchivesSpace user interface" do
   it "can save a person and view readonly view of person" do
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
 
-    @driver.find_element(:css => '.record-pane h2').text.should eq("Johnny Allen Hendrix Agent")
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("Johnny Allen Hendrix Agent") }
   end
 
 
   it "can present a person edit form" do
     @driver.find_element(:link, 'Edit').click
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').text.should eq("Save Person")
+    assert { @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').text.should eq("Save Person") }
   end
 
 
@@ -483,7 +483,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession")
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession") }
   end
 
 
@@ -493,7 +493,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'accession_condition_description_'], "Here we note the condition of this accession.")
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/)
+    assert { @driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/) }
   end
 
 
@@ -502,7 +502,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], " moo")
     @driver.find_element(:link, "Cancel").click
 
-    @driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/)
+    assert { @driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/) }
   end
 
 
@@ -538,7 +538,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession")
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession") }
   end
 
 
@@ -547,8 +547,8 @@ describe "ArchivesSpace user interface" do
 
     extent_headings.length.should eq (2)
 
-    extent_headings[0].text.should eq ("5 Volumes")
-    extent_headings[1].text.should eq ("10 Cassettes")
+    assert { extent_headings[0].text.should eq ("5 Volumes") }
+    assert { extent_headings[1].text.should eq ("10 Cassettes") }
   end
 
 
@@ -561,7 +561,7 @@ describe "ArchivesSpace user interface" do
 
     extent_headings = @driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
     extent_headings.length.should eq (1)
-    extent_headings[0].text.should eq ("10 Cassettes")
+    assert { extent_headings[0].text.should eq ("10 Cassettes") }
   end
 
 
@@ -692,7 +692,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => ".label-and-value .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF")
+    assert { @driver.find_element(:css => ".label-and-value .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
   end
 
 
@@ -790,7 +790,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     # The new Resource shows up on the tree
-    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(resource_title)
+    assert { @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(resource_title) }
   end
 
 
@@ -854,7 +854,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id, "dismissChangesButton").click
 
     # Last added node now selected
-    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('December')
+    assert { @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('December') }
   end
 
 
@@ -874,8 +874,8 @@ describe "ArchivesSpace user interface" do
     puts "aotitle: #{aotitle}"
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
-    @driver.find_element(:css, "h2").text.should eq("save this please Archival Object")
-    @driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object Saved')
+    assert { @driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
+    assert { @driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object Saved') }
     @driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
     @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
   end
@@ -907,12 +907,12 @@ describe "ArchivesSpace user interface" do
     @driver.click_and_wait_until_gone(:css, "form#new_archival_object button[type='submit']")
 
     # so the subject is here now
-    @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/)
+    assert { @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
 
     # refresh the page and verify that the change really stuck
     @driver.navigate.refresh
 
-    @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/)
+    assert { @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
   end
 
 
@@ -969,8 +969,8 @@ describe "ArchivesSpace user interface" do
     extent_headings = @driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
 
     extent_headings.length.should eq (2)
-    extent_headings[0].text.should eq ("10 Cassettes")
-    extent_headings[1].text.should eq ("5 Volumes")
+    assert { extent_headings[0].text.should eq ("10 Cassettes") }
+    assert { extent_headings[1].text.should eq ("5 Volumes") }
   end
 
 
@@ -986,7 +986,7 @@ describe "ArchivesSpace user interface" do
     extent_headings = @driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
 
     extent_headings.length.should eq (1)
-    extent_headings[0].text.should eq ("10 Cassettes")
+    assert { extent_headings[0].text.should eq ("10 Cassettes") }
   end
 
 
@@ -1174,7 +1174,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
     # The new Digital Object shows up on the tree
-    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(digital_object_title)
+    assert { @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(digital_object_title) }
   end
 
 
