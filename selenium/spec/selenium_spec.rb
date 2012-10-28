@@ -299,11 +299,13 @@ describe "ArchivesSpace user interface" do
 
 
   it "can create a new Subject" do
+    now = Time.now.to_i
+
     @driver.find_element(:link => 'Create').click
     @driver.find_element(:link => 'Subject').click
-    @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really")
+    @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really #{now}")
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
-    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("just a term really Subject") }
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("just a term really #{now} Subject") }
   end
 
 
