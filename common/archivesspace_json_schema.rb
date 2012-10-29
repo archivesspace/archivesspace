@@ -21,13 +21,6 @@ class IfMissingAttribute < JSON::Schema::PropertiesAttribute
             validation_error(message, fragments, current_schema, self, options[:record_errors])
           end
         end
-
-        if data.has_key?(property)
-          schema = JSON::Schema.new(property_schema, current_schema.uri,validator)
-          fragments << property
-          schema.validate(data[property], fragments, options)
-          fragments.pop
-        end
       end
     end
   end
