@@ -136,6 +136,7 @@ module JSONModel
 
     def self.post_json(url, json)
       req = Net::HTTP::Post.new(url.request_uri)
+      req['Content-Type'] = 'text/json'
       req.body = json
 
       do_http_request(url, req)
