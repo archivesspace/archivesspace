@@ -44,12 +44,17 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get the children of an Archival Object")
     .params(["archival_object_id", Integer, "The Archival Object ID"],
             ["repo_id", :repo_id])
-    .returns([200, "[(:archival_object)]"],
+    .returns([200, "a list of archival object references"],
              [404, '{"error":"ArchivalObject not found"}']) \
   do
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     json_response(ao.children.map {|child|
-                    ArchivalObject.to_jsonmodel(child, :archival_object).to_hash})
+                    {
+                      :uri => JSONModel(:archival_object).uri_for(child.id,
+                                                                  :repo_id => params[:repo_id]),
+                      :title => child.title,
+                      :has_children => child.has_children?
+                    }})
   end
 
 

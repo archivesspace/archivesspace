@@ -17,6 +17,11 @@ class ArchivalObject < Sequel::Model(:archival_object)
   end
 
 
+  def has_children?
+    ArchivalObject.filter(:parent_id => self.id).count > 0
+  end
+
+
   def self.set_resource(json, opts)
     opts["resource_id"] = nil
     opts["parent_id"] = nil
