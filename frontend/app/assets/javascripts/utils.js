@@ -74,7 +74,6 @@ $(function() {
       $.proxy(bindSidebarEvents, this)();
       $(this).affix({
         offset: {
-          top: 40,
           bottom: 120
         }
       })
