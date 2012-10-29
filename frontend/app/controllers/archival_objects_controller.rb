@@ -48,4 +48,15 @@ class ArchivalObjectsController < ApplicationController
     @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
     render :partial => "archival_objects/show_inline" if inline?
   end
+
+
+  def parent
+    params[:archival_object][:parent_id] = params[:parent] if params[:parent]
+
+    handle_crud(:instance => :archival_object,
+                :obj => JSONModel(:archival_object).find(params[:id]),
+                :on_invalid => ->(){ return render :text => "error" },
+                :on_valid => ->(id){ return render :text => "success"})
+  end
+
 end

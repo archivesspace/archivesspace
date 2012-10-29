@@ -1,17 +1,29 @@
 <div class="archives-tree-container">
   <div id="archives_tree_toolbar"></div>
-  <div id="archives_tree" class="archives-tree" data-resource-id="<%= @resource_tree['resource_id'] %>"></div>
+  <div id="archives_tree" class="archives-tree" data-resource-id="<%= @resource.id %>" data-resource="<%= @resource.to_json %>"></div>
 
   <script>
-     AS.tree_data["resource-id-<%= @resource_tree['resource_id'] %>"] = <%= @resource_tree.to_json.html_safe %>;
+
   </script>
 
   <div id="tree_template"><!--
+     {macro render_resource(node)}
+        <li id="resource_${node.resource_id}" class="resource jstree-closed" rel="resource" data-id="${node.resource_id}">
+           <a href="#tree::resource_${node.resource_id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+        </li>
+     {/macro}
+   
+     <ul class="jstree-classic">
+        ${render_resource(resource)}
+     </ul>
+  --></div>
+
+  <div id="tree_nodes_template"><!--
      {macro render_children(nodes)}
-        {if nodes.length > 0}
+        {if nodes && nodes.length > 0}
         <ul>
            {for node in nodes}
-              <li id="archival_object_${node.id}" class="analog archival_object" rel="archival_object" data-id="${node.id}" data-archival_object="${node.archival_object}">
+              <li id="archival_object_${node.id}" class="analog archival_object {if node.has_children} jstree-closed{/if}" rel="archival_object" data-id="${node.id}" data-archival_object="${node.archival_object}">
                  <a href="#tree::archival_object_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
                  ${render_children(node.children)}
               </li>
@@ -19,17 +31,8 @@
         </ul>
         {/if}
      {/macro}
-   
-     {macro render_resource(node)}
-        <li id="resource_${node.resource_id}" class="resource" rel="resource" data-id="${node.resource_id}">
-           <a href="#tree::resource_${node.resource_id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
-           ${render_children(tree.children)}
-        </li>
-     {/macro}
-   
-     <ul class="jstree-classic">
-        ${render_resource(tree)}
-     </ul>
+
+      ${render_children(nodes)}
   --></div>
 
   <div id="tree_toolbar_template"><!--

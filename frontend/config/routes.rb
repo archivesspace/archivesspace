@@ -36,10 +36,11 @@ ArchivesSpace::Application.routes.draw do
 
   resources :archival_objects
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
+  match 'archival_objects/:id/parent' => 'archival_objects#parent', :via => [:post]
 
   resources :digital_objects
   match 'digital_objects/:id' => 'digital_objects#update', :via => [:post]
-  match 'digital_objects/:id/tree' => 'digital_objects#tree', :via => [:get]
+  match 'digital_objects/:id/children' => 'digital_objects#tree', :via => [:get]
   match 'digital_objects/:id/update_tree' => 'digital_objects#update_tree', :via => [:post]
 
   resources :digital_object_components
@@ -47,7 +48,7 @@ ArchivesSpace::Application.routes.draw do
 
   resources :resources
   match 'resources/:id/update_tree' => 'resources#update_tree', :via => [:post]
-  match 'resources/:id/tree' => 'resources#tree', :via => [:get]
+  match 'resources/:id/children' => 'resources#children', :via => [:get]
   match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
   match 'resources/:id' => 'resources#update', :via => [:post]
 

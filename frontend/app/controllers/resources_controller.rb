@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :update_tree]
-  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :tree]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :children, :new, :edit, :create, :update, :update_tree]
+  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :children]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update, :update_tree]
 
   def index
@@ -25,11 +25,7 @@ class ResourcesController < ApplicationController
   def edit
     @resource = JSONModel(:resource).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
 
-    if params[:inline]
-      return render :partial => "resources/edit_inline"
-    end
-
-    fetch_resource_tree(@resource)
+    return render :partial => "resources/edit_inline" if params[:inline]
   end
 
 
@@ -63,9 +59,13 @@ class ResourcesController < ApplicationController
 
   end
 
-  def tree
-    fetch_resource_tree(JSONModel(:resource).find(params[:id]))
-    render :text => @resource_tree.to_json
+  def children
+    if params[:archival_object_id]
+      children = JSONModel::HTTP.get_json("#{JSONModel(:archival_object).uri_for(params[:archival_object_id])}/children")
+    else
+      children = JSONModel::HTTP.get_json("#{JSONModel(:resource).uri_for(params[:id])}/children")
+    end
+    render :json => children.map{|n| convert_refs_to_ids(n)}
   end
 
   def update_tree
@@ -82,11 +82,7 @@ class ResourcesController < ApplicationController
   private
 
   def convert_refs_to_ids(tree)
-    tree["id"] = JSONModel(:archival_object).id_for(tree["archival_object"])
-
-    tree["children"].each do |child|
-      convert_refs_to_ids(child)
-    end
+    tree["id"] = JSONModel(:archival_object).id_for(tree["uri"])
 
     tree
   end

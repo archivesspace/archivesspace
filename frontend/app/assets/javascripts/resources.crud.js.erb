@@ -14,11 +14,13 @@ $(function() {
   var form_changed = false,
       $tree = $("#archives_tree"),
       $container = $("#object_container"),
-      resource_tree_data = AS.tree_data["resource-id-" + $(".archives-tree").data("resource-id")];
+      resource = $(".archives-tree").data("resource"),
+      resource_id = $(".archives-tree").data("resource-id");
 
+  resource.resource_id = resource_id;
 
   var renderTree = function() {
-    $tree.html(AS.renderTemplate("tree_template", {tree: resource_tree_data}));
+    //$tree.html(AS.renderTemplate("tree_template", {tree: resource_tree_data}));
   };
 
 
@@ -29,7 +31,7 @@ $(function() {
       selected_node_id = "archival_object_" + $("#ao_id", $container).val();
     }
 
-    $.getJSON(APP_PATH + "resources/" + resource_tree_data.resource_id + "/tree", function(json) {
+    $.getJSON(APP_PATH + "resources/" + resource_id + "/tree", function(json) {
       resource_tree_data = json;
 
       renderTree();
@@ -47,7 +49,7 @@ $(function() {
     var $form = $("form", $container);
 
     $(".btn-cancel", $form).html("Revert Changes");
-    $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "resources/" + resource_tree_data.resource_id + location.hash + "'>Finish Editing</a>");
+    $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + "resources/" + resource_id + location.hash + "'>Finish Editing</a>");
 
     if (location.hash !== "#tree::newAO") {
       $(".btn-primary", $form).attr("disabled", "disabled");
@@ -118,7 +120,7 @@ $(function() {
     if (nodeEl.attr("id") === "newAO") {
 
       var data = {
-        resource: resource_tree_data.resource_id,
+        resource: resource_id,
         inline: true
       };
 
@@ -399,6 +401,24 @@ $(function() {
         "selected_parent_close": false,
         "selected_parent_open": true
       },
+      "html_data": {
+        "data": AS.renderTemplate("tree_template", {resource: resource}),
+        "ajax": {
+          "url": APP_PATH + "resources/" + resource_id + "/children",
+          dataType: "json",
+          "data": function(nodeEl) {
+            return nodeEl.hasClass("resource") ? {} : {
+              archival_object_id: nodeEl.data("id")
+            };
+          },
+          "success": function(data) {
+            return AS.renderTemplate("tree_nodes_template", {nodes: data});
+          },
+          "error": function() {
+            alert("Error::loading data for tree");
+          }
+        }
+      },
       "crrm" : {
         "move" : {
           "check_move" : function (m) {
@@ -487,7 +507,7 @@ $(function() {
       };
 
       $.ajax({
-        url: APP_PATH+"resources/"+resource_tree_data.resource_id+"/update_tree",
+        url: APP_PATH+"resources/"+resource_id+"/update_tree",
         type: "POST",
         data: {
           tree: JSON.stringify(parseTree($tree.find("li[rel=archival_object]:first")))
