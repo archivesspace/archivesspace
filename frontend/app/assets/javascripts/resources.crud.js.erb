@@ -19,27 +19,33 @@ $(function() {
 
   resource.resource_id = resource_id;
 
-  var renderTree = function() {
-    //$tree.html(AS.renderTemplate("tree_template", {tree: resource_tree_data}));
-  };
+  var refreshSelectedNode = function() {
+    var currentNodeEl = $(".selected", $tree);
 
+    if (currentNodeEl.attr("id") === "newAO") {
+      // replace the newAO node with a real AO node
 
-  var rerenderTree = function(callback) {
-    var selected_node_id = $(".selected", $tree).attr("id");
+      var parentNode = currentNodeEl.parents("li:first");
+      var ao_id = $("#ao_id", $container).val();
 
-    if (selected_node_id === "newAO") {
-      selected_node_id = "archival_object_" + $("#ao_id", $container).val();
+      var selected_node_id = "archival_object_" + ao_id;
+
+      currentNodeEl.remove();
+
+      $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": {"title": $("#archival_object_title_", $container).val()}});
+      $("#"+selected_node_id, $tree).addClass("analog").addClass("archival_object").addClass("selected").attr("rel", "archival_object").data("id", ao_id);
+      $("#"+selected_node_id, $tree).find("a").attr("href", "#tree::"+selected_node_id).addClass("jstree-clicked");
+    } else {
+      // Simply rename the node (just in case the node's title has changed)
+      var new_title = "";
+      if (currentNodeEl.hasClass("resource")) {
+        new_title = $("#resource_title_", $container).val();
+      } else {
+        // an AO
+        new_title = $("#archival_object_title_", $container).val();
+      }
+      $tree.jstree("rename_node", currentNodeEl, new_title);
     }
-
-    $.getJSON(APP_PATH + "resources/" + resource_id + "/tree", function(json) {
-      resource_tree_data = json;
-
-      renderTree();
-
-      $("#"+selected_node_id, $tree).addClass("selected");
-
-      initTree(callback);
-    });
   };
 
 
@@ -96,9 +102,8 @@ $(function() {
             changeHashSilently("#archival_object_" + $(response).find("#ao_id").val());
           }
           form_changed = false;
-          rerenderTree(function() {
-            $container.triggerHandler("submitted", {success: true});
-          });
+          refreshSelectedNode();
+          $container.triggerHandler("submitted", {success: true});
         }
         // scroll back to the top
         $("header").ScrollTo();
@@ -517,7 +522,6 @@ $(function() {
   };
 
   if ($tree.length) {
-    renderTree();
     initTree(function() {
       loadPaneForNode($(".selected", $tree));
     });
