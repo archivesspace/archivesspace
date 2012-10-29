@@ -22,11 +22,21 @@ FactoryGirl.define do
   
   factory :json_accession, class: JSONModel(:accession) do
     id_0 "1234"
+    id_1 "5678"
+    id_2 "9876"
+    id_3 "5432"
     title "The accession title"
     content_description 'The accession description'
     condition_description 'The condition description'
     accession_date '2012-05-03'
   end
+  
+  factory :json_agent_contact, class: JSONModel(:agent_contact) do
+    name 'Business hours contact'
+    telephone '0011 1234 1234'
+  end
+
+
 
   factory :json_agent_person, class: JSONModel(:agent_person) do
     agent_type 'agent_person'
@@ -34,6 +44,28 @@ FactoryGirl.define do
             "primary_name" => "Magus Magoo",
             "sort_name" => "Magoo, Mr M",
             "direct_order" => "standard"}]
+  end
+  
+  factory :json_agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
+    agent_type 'agent_corporate_entity'
+    names [
+            {
+              "rules" => "local",
+              "primary_name" => "Magus Magoo Inc",
+              "sort_name" => "Magus Magoo Inc"
+            }
+          ]
+  end
+  
+  factory :json_agent_family, class: JSONModel(:agent_family) do
+    agent_type "agent_family"
+    names [
+            {
+              "rules" => "local",
+              "family_name" => "Magoo Family",
+              "sort_name" => "Family Magoo"
+            }
+          ]
   end
   
   factory :json_archival_object, class: JSONModel(:archival_object) do
@@ -74,6 +106,13 @@ FactoryGirl.define do
     floor '5'
     room '5A'
     barcode '010101100011'
+  end
+  
+  factory :json_name_person, class: JSONModel(:name_person) do
+    rules 'local'
+    primary_name 'Magus Magoo'
+    sort_name 'Magoo, Mr M'
+    direct_order 'standard'
   end
   
   factory :json_resource, class: JSONModel(:resource) do

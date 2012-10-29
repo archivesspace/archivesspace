@@ -3,105 +3,54 @@ require 'spec_helper'
 describe 'Agent model' do
 
   it "allows agents to be created" do
+    
+    n1 = build(:json_name_person).to_hash
+    n2 = build(:json_name_person).to_hash
 
-    agent = AgentPerson.create_from_json(JSONModel(:agent_person)
-                                           .from_hash({
-                                                        "agent_type" => "agent_person",
-                                                        "names" => [
-                                                                    {
-                                                                      "rules" => "local",
-                                                                      "primary_name" => "Magus Magoo",
-                                                                      "sort_name" => "Magoo, Mr M",
-                                                                      "direct_order" => "standard"
-                                                                    },
-                                                                    {
-                                                                      "rules" => "local",
-                                                                      "primary_name" => "Magus McGoo",
-                                                                      "sort_name" => "McGoo, M",
-                                                                      "direct_order" => "standard"
-                                                                    }
-                                                                   ]
-                                                      }))
+    agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1, n2]))
 
     AgentPerson[agent[:id]].name_person.length.should eq(2)
   end
 
 
   it "allows agents to have a linked contact details" do
-
-    agent = AgentPerson.create_from_json(JSONModel(:agent_person)
-                                     .from_hash({
-                                                  "agent_type" => "agent_person",
-                                                   "names" => [
-                                                               {
-                                                                 "rules" => "local",
-                                                                 "primary_name" => "Magus Magoo",
-                                                                 "sort_name" => "Magoo, Mr M",
-                                                                 "direct_order" => "standard"
-                                                               }
-                                                               ],
-                                                    "agent_contacts" => [
-                                                                         {
-                                                                           "name" => "Business hours contact",
-                                                                           "telephone" => "0011 1234 1234"
-                                                                         }
-                                                                        ]
-                                                }))
+    
+    c1 = build(:json_agent_contact)
+    
+    agent = AgentPerson.create_from_json(build(:json_agent_person, :agent_contacts => [c1.to_hash]))
 
     AgentPerson[agent[:id]].agent_contact.length.should eq(1)
-    AgentPerson[agent[:id]].agent_contact[0][:name].should eq("Business hours contact")
+    AgentPerson[agent[:id]].agent_contact[0][:name].should eq(c1.name)
   end
 
 
   it "requires a rules to be set if source is not provided" do
-    expect { 
-      agent = AgentPerson.create_from_json(JSONModel(:agent_person)
-                                     .from_hash({
-                                                  "agent_type" => "agent_person",
-                                                   "names" => [
-                                                               {
-                                                                 "primary_name" => "Magus Magoo",
-                                                                 "sort_name" => "Magoo, Mr M",
-                                                                 "direct_order" => "standard"
-                                                               }
-                                                               ]
-                                                }))
-     }.to raise_error(JSONModel::ValidationException)
+    
+    expect { n1 = build(:json_name_person, :rules => nil).to_hash }.to raise_error(JSONModel::ValidationException)
+    
   end
 
 
   it "requires a source to be set if an authority id is provided" do
-    expect { 
-      agent = AgentPerson.create_from_json(JSONModel(:agent_person)
-                                     .from_hash({
-                                                  "agent_type" => "agent_person",
-                                                   "names" => [
-                                                               {
-                                                                 "authority_id" => "wooo",
-                                                                 "primary_name" => "Magus Magoo",
-                                                                 "sort_name" => "Magoo, Mr M",
-                                                                 "direct_order" => "standard"
-                                                               }
-                                                               ]
-                                                }))
-     }.to raise_error(JSONModel::ValidationException)
+    
+    expect { n1 = build(:json_name_person, :authority_id => 'wooo').to_hash }.to raise_error(JSONModel::ValidationException)
+    
   end
 
 
   it "allows rules to be nil if authority id and source are provided" do
-    agent = AgentPerson.create_from_json(JSONModel(:agent_person)
-                                   .from_hash({
-                                                "agent_type" => "agent_person",
-                                                 "names" => [
-                                                             {
-                                                               "authority_id" => "123123",
-                                                               "source" => "local",
-                                                               "primary_name" => "Magus Magoo",
-                                                               "sort_name" => "Magoo, Mr M",
-                                                               "direct_order" => "standard"
-                                                             }
-                                                             ]
-                                              }))
+    
+    n1 = build(:json_name_person, 
+                {:rules => nil,
+                 :source => 'local',
+                 :authority_id => '123123'
+                }
+              )
+    
+    expect { n1.to_hash }.to_not raise_error(JSONModel::ValidationException)
+    
+    agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1.to_hash]))
+
     AgentPerson[agent[:id]].name_person.length.should eq(1)
   end
 end
