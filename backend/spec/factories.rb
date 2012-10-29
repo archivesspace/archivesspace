@@ -68,6 +68,10 @@ FactoryGirl.define do
           ]
   end
   
+  factory :json_agent_software, class: JSONModel(:agent_software) do
+    agent_type 'agent_software'
+  end
+  
   factory :json_archival_object, class: JSONModel(:archival_object) do
     ref_id '1234'
     level 'series'
@@ -114,6 +118,13 @@ FactoryGirl.define do
     sort_name 'Magoo, Mr M'
     direct_order 'standard'
   end
+  
+  factory :json_name_software, class: JSONModel(:name_software) do
+    rules 'local'
+    software_name 'Magus Magoo Freeware'
+    sort_name 'Magoo, Mr M'
+  end
+
   
   factory :json_resource, class: JSONModel(:resource) do
     title 'a resource'
