@@ -56,25 +56,34 @@ $(function() {
 // sidebar action
 $(function() {
   var bindSidebarEvents = function() {
-    $("#archivesSpaceSidebar:not(.initialised)").each(function() {
-      $(this).on("click", ".nav a", function(event) {
-        event.preventDefault();
-        event.stopPropagation();
+    $(this).on("click", ".nav a", function(event) {
+      event.preventDefault();
+      event.stopPropagation();
 
-        var $target_item = $(this);
-        $($target_item.attr("href")).ScrollTo({
-          callback: function() {
-              $(".active", "#archivesSpaceSidebar").removeClass("active");
-              $target_item.parents("li:first").addClass("active");
-          }
-        });
+      var $target_item = $(this);
+      $($target_item.attr("href")).ScrollTo({
+        callback: function() {
+            $(".active", "#archivesSpaceSidebar").removeClass("active");
+            $target_item.parents("li:first").addClass("active");
+        }
       });
-      $(this).addClass("initialised");      
     });
   };
-  bindSidebarEvents();
+  var initSidebar = function() {
+    $("#archivesSpaceSidebar .nav-list:not(.initialised)").each(function() {
+      $.proxy(bindSidebarEvents, this)();
+      $(this).affix({
+        offset: {
+          top: 40,
+          bottom: 120
+        }
+      })
+      $(this).addClass("initialised");
+    });
+  };
+  initSidebar();
   $(document).ajaxComplete(function() {
-    bindSidebarEvents();
+    initSidebar();
   });
 });
 
@@ -199,3 +208,7 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
     onConfirmCallback($(event.target));
   });
 };
+
+// Used by all tree layouts -- sets the initial height for the tree pane... but can
+// be overridden by a user's cookie value
+AS.DEFAULT_TREE_PANE_HEIGHT = 100;

@@ -50,7 +50,7 @@
     if (typeof offsetBottom == 'function') offsetBottom = offset.bottom()
 
     affix = this.unpin != null && (scrollTop + this.unpin <= position.top) ?
-      false    : offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom) ?
+      false    : offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom - (this.affixed === 'bottom' ? offsetTop : 0)) ?
       'bottom' : offsetTop != null && scrollTop <= offsetTop ?
       'top'    : false
 
@@ -71,7 +71,7 @@
       var $this = $(this)
         , data = $this.data('affix')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('affix', (data = new Affix(this, options)))
+      $this.data('affix', (data = new Affix(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }
