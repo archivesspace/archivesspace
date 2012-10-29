@@ -24,7 +24,7 @@ class ResourcesController < ApplicationController
 
   def edit
     @resource = JSONModel(:resource).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
-
+    fetch_resource_tree(@resource)
     return render :partial => "resources/edit_inline" if params[:inline]
   end
 
@@ -63,9 +63,9 @@ class ResourcesController < ApplicationController
     if params[:archival_object_id]
       children = JSONModel::HTTP.get_json("#{JSONModel(:archival_object).uri_for(params[:archival_object_id])}/children")
     else
-      children = JSONModel::HTTP.get_json("#{JSONModel(:resource).uri_for(params[:id])}/children")
+      children = JSONModel::HTTP.get_json("#{JSONModel(:resource).uri_for(params[:id])}/tree")
     end
-    render :json => children.map{|n| convert_refs_to_ids(n)}
+    render :json => children
   end
 
   def update_tree
@@ -81,19 +81,21 @@ class ResourcesController < ApplicationController
 
   private
 
-  def convert_refs_to_ids(tree)
-    tree["id"] = JSONModel(:archival_object).id_for(tree["uri"])
+  def convert_refs_to_ids(node)
+    node["id"] = JSONModel(:archival_object).id_for(node["uri"])
 
-    tree
+    node.children.collect! {|n| convert_refs_to_ids(n)}
+
+    node
   end
 
   def fetch_resource_tree(resource)
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+    tree = JSONModel::HTTP.get_json("#{JSONModel(:resource).uri_for(params[:id])}/tree")
 
     @resource_tree = {
       "resource_id" => resource.id,
       "title" => resource.title,
-      "children" => tree ? [convert_refs_to_ids(tree.to_hash)] : []
+      "children" => [tree]
     }
   end
 

@@ -406,24 +406,6 @@ $(function() {
         "selected_parent_close": false,
         "selected_parent_open": true
       },
-      "html_data": {
-        "data": AS.renderTemplate("tree_template", {resource: resource}),
-        "ajax": {
-          "url": APP_PATH + "resources/" + resource_id + "/children",
-          dataType: "json",
-          "data": function(nodeEl) {
-            return nodeEl.hasClass("resource") ? {} : {
-              archival_object_id: nodeEl.data("id")
-            };
-          },
-          "success": function(data) {
-            return AS.renderTemplate("tree_nodes_template", {nodes: data});
-          },
-          "error": function() {
-            alert("Error::loading data for tree");
-          }
-        }
-      },
       "crrm" : {
         "move" : {
           "check_move" : function (m) {
@@ -522,6 +504,7 @@ $(function() {
   };
 
   if ($tree.length) {
+    $tree.html(AS.renderTemplate("tree_template", {tree: AS.tree_data}));
     initTree(function() {
       loadPaneForNode($(".selected", $tree));
     });
