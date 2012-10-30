@@ -142,4 +142,23 @@ describe 'Accession model' do
   end
 
 
+  #it "can be linked to an agent" do
+  #  accession = Accession.create_from_json(JSONModel(:accession).
+  #                                           from_hash({
+  #                                                       "id_0" => "1234",
+  #                                                       "id_1" => "5678",
+  #                                                       "id_2" => "9876",
+  #                                                       "id_3" => "5432",
+  #                                                       "title" => "Papers of Mark Triggs",
+  #                                                       "accession_date" => Time.now,
+  #                                                       "content_description" => "Unintelligible letters written by Mark Triggs addressed to Santa Claus",
+  #                                                       "condition_description" => "Most letters smeared with jam",
+  #                                                       "linked_agents" => [{
+  #                                                         "ref" => JSONModel(:agent_person).uri_for(100),
+  #                                                         "role" => "creator"
+  #                                                       }]
+  #                                                     }),
+  #                                         :repo_id => @repo_id)
+  #end
+
 end

@@ -697,6 +697,28 @@ Sequel.migration do
     end
 
 
+    accession_links = [:agent_person, :agent_corporate_entity,
+                   :agent_family, :agent_software]
+
+    accession_links.each do |linked_table|
+      table = "accession_#{linked_table}".intern
+
+      create_table(table) do
+        primary_key :id
+
+        Integer :accession_id, :null => false
+        Integer "#{linked_table}_id".intern, :null => false
+        String :role, :null => false
+      end
+
+
+      alter_table(table) do
+        add_foreign_key([:accession_id], :accession, :key => :id)
+        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
+      end
+    end
+
+
     create_table(:rights_statement) do
       primary_key :id
 

@@ -3,10 +3,9 @@
   # require dependent classes
   require_relative dep
 
-  ["event"].each do |object_with_agents|
+  ["event", "accession"].each do |object_with_agents|
     # define new link classes for object
     new_class = "#{object_with_agents}_#{dep}_link".classify
-
     Object.const_set(new_class, Class.new(Sequel::Model("#{object_with_agents}_#{dep}".intern)) {
       many_to_one dep.intern
       many_to_one object_with_agents.intern
@@ -21,8 +20,9 @@ module Agents
     AgentManager.registered_agents.each do |agent_type|
       link_type = agent_type[:jsonmodel]
       base.one_to_many "#{base.table_name}_#{link_type}_link".intern
-      base.extend(ClassMethods)
     end
+
+    base.extend(ClassMethods)
   end
 
 

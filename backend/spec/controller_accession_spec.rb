@@ -126,4 +126,33 @@ describe 'Accession controller' do
   end
 
 
+  it "creates an accession with a linked agent" do
+    agent = JSONModel(:agent_person).
+      from_hash("agent_type" => "agent_person",
+                "names" => [{
+                              "rules" => "local",
+                              "primary_name" => "Magus Magoo",
+                              "sort_name" => "Magoo, Mr M",
+                              "direct_order" => "standard"
+                            }])
+
+    agent.save
+
+    acc = JSONModel(:accession).from_hash("id_0" => "1234",
+                                          "title" => "The accession title",
+                                          "content_description" => "The accession description",
+                                          "condition_description" => "The condition description",
+                                          "accession_date" => "2012-05-03",
+                                          "linked_agents" => [{
+                                             "ref" => agent.uri,
+                                             "role" => "creator"
+                                           },
+                                          ]).save
+
+    JSONModel(:accession).find(acc).linked_agents.length.should eq(1)
+    JSONModel(:accession).find(acc).linked_agents[0]["role"].should eq("creator")
+    JSONModel(:accession).find(acc).linked_agents[0]["ref"].should eq(agent.uri)
+  end
+
+
 end

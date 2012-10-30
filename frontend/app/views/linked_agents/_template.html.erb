@@ -1,4 +1,11 @@
-<% define_template "linked_agent" do |form| %>
+<% define_template "accession_linked_agent" do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select("role", form.options_for("role", JSONModel(:accession).schema["properties"]["linked_agents"]["items"]["properties"]["role"]["enum"])) %>
+    <%= render :partial => "agents/linker", :locals => {:form => form} %>
+  </div>
+<% end %>
+
+<% define_template "event_linked_agent" do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_select("role", form.options_for("role", JSONModel(:event).schema["properties"]["linked_agents"]["items"]["properties"]["role"]["enum"])) %>
     <%= render :partial => "agents/linker", :locals => {:form => form} %>

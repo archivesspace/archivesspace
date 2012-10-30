@@ -24,6 +24,25 @@
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
       "rights_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:rights_statement) object"}},
       "deaccessions" => {"type" => "array", "items" => {"type" => "JSONModel(:deaccession) object"}},
+
+      "linked_agents" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "properties" => {
+            "role" => {
+              "type" => "string",
+              "enum" => ["creator", "source", "subject"],
+            },
+
+            "ref" => {"type" => [{"type" => "JSONModel(:agent_corporate_entity) uri"},
+                                 {"type" => "JSONModel(:agent_family) uri"},
+                                 {"type" => "JSONModel(:agent_person) uri"},
+                                 {"type" => "JSONModel(:agent_software) uri"}]}
+          }
+        }
+      },
+
     },
 
     "additionalProperties" => false,
