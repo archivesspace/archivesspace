@@ -27,8 +27,8 @@ $(function() {
           $container.html(html);
           renderTreeToolbar();
         }
-      });  
-    } else if (nodeEl.attr("rel") === "digital_object") {         
+      });
+    } else if (nodeEl.attr("rel") === "digital_object") {
       $.ajax({
         url: APP_PATH+"digital_objects/"+nodeEl.data("id"),
         type: 'GET',
@@ -134,7 +134,7 @@ $(function() {
         "selected_parent_open": true
       },
       "core": {
-        "animation": 100 
+        "animation": 100
       },
       "cookies": {
         "save_selected": false
@@ -157,7 +157,7 @@ $(function() {
         return;
       }
 
-      location.hash = $(data.rslt.obj).find("a").attr("href");          
+      location.hash = $(data.rslt.obj).find("a").attr("href");
     });
   };
 

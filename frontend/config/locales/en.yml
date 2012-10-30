@@ -462,6 +462,9 @@ en:
       <<: *external_document_attributes
     _rights_statements:
       <<: *rights_statement_attributes
+    _html:
+      singular: Archival Object
+      plural: Archival Objects
   group:
     group_code: Group code
     description: Description

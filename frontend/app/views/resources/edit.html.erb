@@ -2,7 +2,7 @@
 
 <div class="row-fluid">
   <div class="span12">
-      <%= render :partial => "resources/tree", :locals => {:selected => "resource"} %>
+    <%= render :partial => "shared/tree", :locals => {:object => @resource, :tree => @resource_tree, :child_jsonmodel_type => "archival_object"} %>
   </div>
 </div>
 

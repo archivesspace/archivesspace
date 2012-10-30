@@ -81,19 +81,11 @@ class ResourcesController < ApplicationController
 
   private
 
-  def convert_refs_to_ids(node)
-    node["id"] = JSONModel(:archival_object).id_for(node["uri"])
-
-    node.children.collect! {|n| convert_refs_to_ids(n)}
-
-    node
-  end
-
   def fetch_resource_tree(resource)
     tree = JSONModel::HTTP.get_json("#{JSONModel(:resource).uri_for(params[:id])}/tree")
 
     @resource_tree = {
-      "resource_id" => resource.id,
+      "id" => resource.id,
       "title" => resource.title,
       "children" => [tree]
     }

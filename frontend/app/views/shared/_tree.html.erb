@@ -1,0 +1,111 @@
+<%
+   read_only = false if read_only.blank?
+%>
+
+<div class="archives-tree-container">
+
+  <div id="archives_tree_toolbar"></div>
+
+  <div  id="archives_tree" class="archives-tree"
+        data-parent-id="<%= object.id %>"
+        data-parent="<%= object.to_json %>"
+        data-parent-jsonmodel-type="<%= object["jsonmodel_type"] %>"
+        data-child-jsonmodel-type="<%= child_jsonmodel_type %>"
+        data-child-label="<%= I18n.t("#{child_jsonmodel_type}._html.singular") %>"
+        data-read-only="<%= read_only %>"
+  ></div>
+
+  <script>
+    AS.tree_data = <%= tree.to_json.html_safe %>;
+  </script>
+
+  <div id="tree_template"><!--
+       {macro render_children(nodes)}
+       foo
+        {if nodes && nodes.length > 0}
+        <ul>
+           {for node in nodes}
+              <li id="${config.child_jsonmodel_type}_${node.id}" class="${config.child_jsonmodel_type} {if node.has_children} jstree-closed{/if}" rel="${config.child_jsonmodel_type}" data-id="${node.id}">
+                 <a href="#tree::${config.child_jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+                 ${render_children(node.children)}
+              </li>
+           {/for}
+        </ul>
+        {/if}
+     {/macro}
+
+     {macro render_parent(node)}
+        <li id="${config.parent_jsonmodel_type}_${node.id}" class="${config.parent_jsonmodel_type} jstree-closed" rel="${config.parent_jsonmodel_type}" data-id="${node.id}">
+           <a href="#tree::${config.parent_jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+           ${ node.children}
+           {if node.children}
+            ${render_children(node.children)}
+           {/if}
+        </li>
+     {/macro}
+
+     <ul class="jstree-classic">
+        ${render_parent(tree)}
+     </ul>
+  --></div>
+
+  <div id="tree_toolbar_template"><!--
+    <div class="btn-toolbar">
+      <div class="btn-group"></div>
+    </div>
+  --></div>
+
+
+
+  <div id="tree_nodenavigation_toolbar_template"><!--
+    <div class="btn-group">
+      {if defined('previous')}
+        <a href="#tree::${previous}" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
+      {else}
+        <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-left"></span></a>
+      {/if}
+      {if defined('next')}
+        <a href="#tree::${next}" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
+      {else}
+        <a disabled="disabled" class="btn btn-mini"><span class="icon-arrow-right"></span></a>
+      {/if}
+    </div>
+  --></div>
+
+  <% if not read_only %>
+
+    <div id="tree_toolbar_addchild_template"><!--
+       <div class="btn-group dropdown">
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
+          Add Child
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+             <a href="javascript:void(0);" class="add-child">
+                <span class='icon-file'></span> ${config.child_label}
+             </a>
+          </li>
+        </ul>
+      </div>
+    --></div>
+
+    <div id="tree_toolbar_addsibling_template"><!--
+        <div class="btn-group dropdown">
+         <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Sibling">
+           +1
+           <span class="caret"></span>
+         </a>
+         <ul class="dropdown-menu">
+           <li>
+              <a href="javascript:void(0);" class="add-sibling">
+                 <span class='icon-file'></span> ${config.child_label}
+              </a>
+           </li>
+         </ul>
+       </div>
+    --></div>
+
+  <% end  %>
+
+</div>
