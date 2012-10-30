@@ -618,6 +618,13 @@ module JSONModel
           uri = uri.gsub(":#{k}", v.to_s)
 
           if old != uri
+
+            if v.is_a? Symbol
+              raise ("Tried to substitute the value '#{v.inspect}' for ':#{k}'." +
+                     "  This is usually a sign that something has gone wrong" +
+                     " further up the stack. (URI was: '#{uri}')")
+            end
+
             # Matched on this parameter.  Remove it from the passed in hash
             matched << k
           end
