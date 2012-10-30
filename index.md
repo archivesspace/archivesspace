@@ -31,9 +31,9 @@ server with the following commands:
 
      cd archivesspace
 
-     launcher/build/run dist
+     build/run dist
 
-     java -jar launcher/archivesspace.jar
+     java -jar archivesspace.jar
 
 This will start the ArchivesSpace application running on:
 
@@ -45,14 +45,16 @@ and the backend web service running on:
 
 If you'd like to use different ports, you can run:
 
-    java -jar launcher/archivesspace.jar [frontend port] [backend port]
+    java -jar archivesspace.jar [frontend port] [backend port]
 
-To create a test account and log in, you'll currently need to use
-curl:
+To set up the application log in to the frontend application using the
+adminstrator account: 
 
-    username=$USER
-    curl -v -F password=testuser "http://localhost:8089/auth/local/user/$username"
+* Username: `admin`
+* Password: `admin`
 
+Create a repository after logging in. Once you have created a repository, you 
+can log out and register new user accounts from the link in the log-in form.
 
 
 
