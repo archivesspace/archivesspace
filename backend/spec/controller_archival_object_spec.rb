@@ -141,6 +141,6 @@ describe 'Archival Object controller' do
     ao = JSONModel(:archival_object).find(created, "resolve[]" => "ref")
     ao['linked_agents'].length.should eq(1)
     ao['linked_agents'][0]['role'].should eq("creator")
-    ao['linked_agents'][0]['resolved']['ref']['sort_name'].should eq("Magoo, Mr M")
+    ao['linked_agents'][0]['resolved']['ref']['names'][0]['sort_name'].should eq("Magoo, Mr M")
   end
 end
