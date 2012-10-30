@@ -157,7 +157,7 @@ describe 'Resources controller' do
     opts = {:portion => generate(:portion)}
     extents = [build(:json_extent, opts).to_hash]
     
-    resource = create(:json_resource)
+    resource = create(:json_resource, :extents => extents)
 
     JSONModel(:resource).find(resource.id).extents.length.should eq(1)
     JSONModel(:resource).find(resource.id).extents[0]["portion"].should eq(opts[:portion])
