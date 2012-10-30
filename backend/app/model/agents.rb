@@ -34,7 +34,7 @@ module Agents
 
 
   def update_from_json(json, opts = {})
-    obj = super(json, opts)
+    obj = super
     self.class.set_agents(json, obj, opts)
     obj
   end
@@ -45,7 +45,7 @@ module Agents
     @@agent_links = AgentManager.type_to_model_map
 
     def create_from_json(json, opts = {})
-      obj = super(json, opts)
+      obj = super
       set_agents(json, obj, opts)
       obj
     end
@@ -78,7 +78,7 @@ module Agents
 
 
     def sequel_to_jsonmodel(obj, type, opts = {})
-      json = super(obj, type)
+      json = super
 
       [[:linked_agents, @@agent_links]].each do |property, linked_records|
         json[property] = linked_records.keys.map {|record_type|

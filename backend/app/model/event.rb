@@ -56,14 +56,14 @@ class Event < Sequel::Model(:event)
 
 
   def self.create_from_json(json, opts = {})
-    obj = super(json, opts)
+    obj = super
     set_records(json, obj, opts)
     obj
   end
 
 
   def update_from_json(json, opts = {})
-    obj = super(json, opts)
+    obj = super
     self.class.set_records(json, obj, opts)
     obj
   end
@@ -97,7 +97,7 @@ class Event < Sequel::Model(:event)
 
 
   def self.sequel_to_jsonmodel(obj, type, opts = {})
-    json = super(obj, type)
+    json = super
 
     [[:linked_records, @@record_links]].each do |property, linked_records|
       json[property] = linked_records.keys.map {|record_type|
