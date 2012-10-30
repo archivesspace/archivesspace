@@ -31,9 +31,9 @@ server with the following commands:
 
      cd archivesspace
 
-     launcher/build/run dist
+     build/run dist
 
-     java -jar launcher/archivesspace.jar
+     java -jar archivesspace.jar
 
 This will start the ArchivesSpace application running on:
 
@@ -45,7 +45,7 @@ and the backend web service running on:
 
 If you'd like to use different ports, you can run:
 
-    java -jar launcher/archivesspace.jar [frontend port] [backend port]
+    java -jar archivesspace.jar [frontend port] [backend port]
 
 To set up the application log in to the frontend application using the
 adminstrator account: 
