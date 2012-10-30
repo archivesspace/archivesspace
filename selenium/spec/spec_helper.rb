@@ -252,3 +252,20 @@ def selenium_init
   @driver = Selenium::WebDriver.for :firefox
   @driver.navigate.to $frontend
 end
+
+
+def assert(&block)
+  try = 0
+
+  begin
+    block.call
+  rescue
+    try += 1
+    if try < 20
+      sleep 0.5
+      retry
+    else
+      raise $!
+    end
+  end
+end

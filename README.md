@@ -21,7 +21,16 @@ and the backend web service running on:
 
 If you'd like to use different ports, you can run:
 
-    java -jar launcher/archivesspace.jar [frontend port] [backend port]
+    java -jar archivesspace.jar [frontend port] [backend port]
+
+To set up the application log in to the frontend application using the
+adminstrator account: 
+
+* Username: `admin`
+* Password: `admin`
+
+Create a repository after logging in. Once you have created a repository, you 
+can log out and register new user accounts from the link in the log-in form.
 
 Note: If you have already run the service in demo mode, you may need to remove the existing demo database in order to avoid a 'java.sql.SQLException: Failed to create database' error:
 

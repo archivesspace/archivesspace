@@ -36,7 +36,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'user_password'], "daisies")
     @driver.find_element(:id, 'login').click
 
-    @driver.find_element(:css => "p.help-inline.login-message").text.should eq('Login attempt failed')
+    assert { @driver.find_element(:css => "p.help-inline.login-message").text.should eq('Login attempt failed') }
 
     @driver.find_element(:link, "Sign In").click
   end
@@ -53,18 +53,18 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:id, 'create_account').click
 
-    @driver.find_element(:css => "span.user-label").text.should match(/#{@user}/)
+    assert { @driver.find_element(:css => "span.user-label").text.should match(/#{@user}/) }
   end
 
 
   it "but they have no repositories yet!" do
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:css, '.repository-container .dropdown-menu').text.should match(/No repositories/)
+    assert { @driver.find_element(:css, '.repository-container .dropdown-menu').text.should match(/No repositories/) }
   end
 
   it "can log out" do
     logout(@driver)
-    @driver.find_element(:link, "Sign In").text.should eq "Sign In"
+    assert { @driver.find_element(:link, "Sign In").text.should eq "Sign In" }
   end
 
 
@@ -91,7 +91,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, "repository_description_"], "missing repo code")
     @driver.find_element(:css => "form#new_repository input[type='submit']").click
 
-    @driver.find_element(:css => "div.alert.alert-error").text.should eq('Repository code - Property is required but was missing')
+    assert { @driver.find_element(:css => "div.alert.alert-error").text.should eq('Repository code - Property is required but was missing') }
     @driver.find_element(:css => "div.modal-footer button.btn").click
   end
 
@@ -117,18 +117,18 @@ describe "ArchivesSpace user interface" do
 
   it "can select either of the created repositories" do
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:link_text => test_repo_code_2).text.should eq test_repo_code_2
+    assert { @driver.find_element(:link_text => test_repo_code_2).text.should eq test_repo_code_2 }
     @driver.find_element(:link_text => test_repo_code_2).click
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2
+    assert { @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2 }
 
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:link_text => test_repo_code_1).text.should eq test_repo_code_1
+    assert { @driver.find_element(:link_text => test_repo_code_1).text.should eq test_repo_code_1 }
     @driver.find_element(:link_text => test_repo_code_1).click
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_1
+    assert { @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_1 }
 
     @driver.find_element(:css, '.repository-container .btn').click
     @driver.find_element(:link_text => test_repo_code_2).click
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2
+    assert { @driver.find_element(:css, 'span.current-repository-id').text.should eq test_repo_code_2 }
   end
 
 
@@ -161,7 +161,7 @@ describe "ArchivesSpace user interface" do
 
     # Verify that the new repo has shown up
     @driver.find_element(:css, '.repository-container .btn').click
-    @driver.find_element(:link_text => new_repo_code).text.should eq(new_repo_code)
+    assert { @driver.find_element(:link_text => new_repo_code).text.should eq(new_repo_code) }
   end
 
 
@@ -195,6 +195,51 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "reports errors when attempting to create a Group with missing data" do
+    @driver.find_element(:link, "Admin").click
+    @driver.find_element(:link, "Groups").click
+    @driver.find_element(:link, "Create Group").click
+    @driver.find_element(:css => "form#new_group input[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Group code - Property is required but was missing/)
+    }.to_not raise_error
+    @driver.find_element(:link, "Cancel").click
+  end
+
+
+  it "can create a new Group" do
+    @driver.find_element(:link, "Create Group").click
+    @driver.clear_and_send_keys([:id, 'group_group_code_'], "goo")
+    @driver.clear_and_send_keys([:id, 'group_description_'], "Goo group to group goo")
+    @driver.find_element(:id, "view_repository").click
+    @driver.find_element(:css => "form#new_group input[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//tr', /goo/)
+    }.to_not raise_error
+  end
+
+
+  it "reports errors when attempting to update a Group with missing data" do
+    @driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
+    @driver.clear_and_send_keys([:id, 'group_description_'], "")
+    @driver.find_element(:css => "form#new_group input[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Description - Property is required but was missing/)
+    }.to_not raise_error
+    @driver.find_element(:link, "Cancel").click
+  end
+
+
+  it "can edit a Group" do
+    @driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
+    @driver.clear_and_send_keys([:id, 'group_description_'], "Group to gather goo")
+    @driver.find_element(:css => "form#new_group input[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//tr', /Group to gather goo/)
+    }.to_not raise_error
+  end
+
+
   it "can log out of the admin account" do
     logout(@driver)
   end
@@ -206,7 +251,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'user_password'], "testuser")
     @driver.find_element(:id, 'login').click
 
-    @driver.find_element(:css => "span.user-label").text.should match(/#{@user}/)
+    assert { @driver.find_element(:css => "span.user-label").text.should match(/#{@user}/) }
   end
 
 
@@ -244,11 +289,35 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:css => '#subject_external_documents_ .subrecord-form-heading .btn').click
 
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
     # check messages
-    @driver.find_element_with_text('//div[contains(@class, "warning")]', /Term - Property was missing/)
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "warning")]', /Term - Property was missing/)
+    }.to_not raise_error
   end
+
+
+  it "can create a new Subject" do
+    now = Time.now.to_i
+
+    @driver.find_element(:link => 'Create').click
+    @driver.find_element(:link => 'Subject').click
+    @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really #{now}")
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("just a term really #{now} Subject") }
+  end
+
+
+  it "can present a browse list of Subjects" do
+    @driver.find_element(:link => 'Browse').click
+    @driver.find_element(:link => 'Subjects').click
+
+    expect {
+      @driver.find_element_with_text('//tr', /just a term really/)
+    }.to_not raise_error
+  end
+
 
   # Person Agents
 
@@ -256,7 +325,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, 'Create').click
     @driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()");
     @driver.find_element(:link, 'Person').click
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
   end
@@ -264,7 +333,7 @@ describe "ArchivesSpace user interface" do
 
   it "reports an error when Authority ID is provided without a Source" do
     @driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
   end
 
@@ -275,7 +344,7 @@ describe "ArchivesSpace user interface" do
 
     source_select.select_option("local")
 
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Authority ID - is required/)
   end
@@ -310,7 +379,7 @@ describe "ArchivesSpace user interface" do
 
   it "can add a secondary name and validations match index of name form" do
     @driver.find_element(:css => '#names .subrecord-form-heading .btn').click
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
@@ -333,7 +402,7 @@ describe "ArchivesSpace user interface" do
 
   it "can add a contact to a person" do
     @driver.find_element(:css => '#contacts .subrecord-form-heading .btn').click
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Contact Description - Property is required but was missing/)
 
@@ -343,16 +412,31 @@ describe "ArchivesSpace user interface" do
 
 
   it "can save a person and view readonly view of person" do
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').click
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
-    @driver.find_element(:css => '.record-pane h2').text.should eq("Johnny Allen Hendrix Agent")
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("Johnny Allen Hendrix Agent") }
   end
 
 
   it "can present a person edit form" do
     @driver.find_element(:link, 'Edit').click
-    @driver.find_element(:css => '#archivesSpaceSidebar button.btn-primary').text.should eq("Save Person")
+    assert { @driver.find_element(:css => "form .record-pane button[type='submit']").text.should eq("Save Person") }
   end
+
+
+  it "reports errors when updating a Person Agent with invalid data" do
+    @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "")
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
+      .text.should match(/Primary Name - Property is required but was missing/)
+    @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix", :tab])
+    # ensure sort_name is generated by javascript
+    @driver.clear_and_send_keys([:id, "agent_names__0__suffix_"], "woo")
+    @driver.find_element(:id => "agent_names__0__suffix_").clear
+    sleep 2
+    assert { @driver.find_element(:id => "agent_names__0__sort_name_").attribute("value").should eq("Johnny Allen Hendrix") }
+  end
+
 
   it "can remove contact details" do
     @driver.find_element(:css => '#contacts .subrecord-form-remove').click
@@ -362,7 +446,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.ensure_no_such_element(:id => "agent_agent_contacts__0__name_")
 
-    @driver.click_and_wait_until_gone(:css => '#archivesSpaceSidebar button.btn-primary')
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     @driver.ensure_no_such_element(:css => "#contacts h3")
   end
@@ -406,7 +490,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession")
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession") }
   end
 
 
@@ -416,7 +500,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'accession_condition_description_'], "Here we note the condition of this accession.")
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/)
+    assert { @driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/) }
   end
 
 
@@ -425,7 +509,21 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], " moo")
     @driver.find_element(:link, "Cancel").click
 
-    @driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/)
+    assert { @driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/) }
+  end
+
+
+  it "reports errors when updating an Accession with invalid data" do
+    @driver.find_element(:link, 'Edit').click
+    @driver.clear_and_send_keys([:id, "accession_title_"], "")
+    @driver.find_element(:css => "form#accession_form button[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+    }.to_not raise_error
+    # cancel first to back out bad change
+    @driver.find_element(:link, "Cancel").click
+    # cancel second to leave edit mode without saving
+    @driver.find_element(:link, "Cancel").click
   end
 
 
@@ -447,7 +545,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession")
+    assert { @driver.find_element(:css => '.record-pane h2').text.should eq("#{accession_title} Accession") }
   end
 
 
@@ -456,8 +554,8 @@ describe "ArchivesSpace user interface" do
 
     extent_headings.length.should eq (2)
 
-    extent_headings[0].text.should eq ("5 Volumes")
-    extent_headings[1].text.should eq ("10 Cassettes")
+    assert { extent_headings[0].text.should eq ("5 Volumes") }
+    assert { extent_headings[1].text.should eq ("10 Cassettes") }
   end
 
 
@@ -470,7 +568,7 @@ describe "ArchivesSpace user interface" do
 
     extent_headings = @driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
     extent_headings.length.should eq (1)
-    extent_headings[0].text.should eq ("10 Cassettes")
+    assert { extent_headings[0].text.should eq ("10 Cassettes") }
   end
 
 
@@ -601,7 +699,7 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-    @driver.find_element(:css => ".label-and-value .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF")
+    assert { @driver.find_element(:css => ".label-and-value .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
   end
 
 
@@ -630,6 +728,15 @@ describe "ArchivesSpace user interface" do
     # check the show page
     @driver.find_element(:id, "accession_rights_statements_")
     @driver.find_element(:id, "rights_statement_0")
+  end
+
+
+  it "can show a browse list of Accessions" do
+    @driver.find_element(:link, "Browse").click
+    @driver.find_element(:link, "Accessions").click
+    expect {
+      @driver.find_element_with_text('//td', /#{accession_title}/)
+    }.to_not raise_error
   end
 
 
@@ -662,10 +769,7 @@ describe "ArchivesSpace user interface" do
   end
 
 
-
-
   # Resources
-
 
   it "reports errors and warnings when creating an invalid Resource" do
     @driver.find_element(:link, "Create").click
@@ -693,7 +797,18 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
     # The new Resource shows up on the tree
-    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(resource_title)
+    assert { @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(resource_title) }
+  end
+
+
+  it "reports warnings when updating a Resource with invalid data" do
+    @driver.clear_and_send_keys([:id, "resource_title_"],"")
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
+    }.to_not raise_error
+    @driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
+    @driver.find_element(:css => "form#new_resource button[type='submit']").click
   end
 
 
@@ -746,7 +861,30 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id, "dismissChangesButton").click
 
     # Last added node now selected
-    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('December')
+    assert { @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('December') }
+  end
+
+
+  it "reports warnings when updating an Archival Object with invalid data" do
+    aotitle = @driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], "")
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
+    }.to_not raise_error
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+  end
+
+  it "can update an existing Archival Object" do
+    aotitle = @driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
+    puts "aotitle: #{aotitle}"
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    assert { @driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
+    assert { @driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object Saved') }
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
+    @driver.find_element(:css => "form .record-pane button[type='submit']").click
   end
 
 
@@ -776,12 +914,12 @@ describe "ArchivesSpace user interface" do
     @driver.click_and_wait_until_gone(:css, "form#new_archival_object button[type='submit']")
 
     # so the subject is here now
-    @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/)
+    assert { @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
 
     # refresh the page and verify that the change really stuck
     @driver.navigate.refresh
 
-    @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/)
+    assert { @driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
   end
 
 
@@ -838,8 +976,8 @@ describe "ArchivesSpace user interface" do
     extent_headings = @driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
 
     extent_headings.length.should eq (2)
-    extent_headings[0].text.should eq ("10 Cassettes")
-    extent_headings[1].text.should eq ("5 Volumes")
+    assert { extent_headings[0].text.should eq ("10 Cassettes") }
+    assert { extent_headings[1].text.should eq ("5 Volumes") }
   end
 
 
@@ -855,7 +993,7 @@ describe "ArchivesSpace user interface" do
     extent_headings = @driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
 
     extent_headings.length.should eq (1)
-    extent_headings[0].text.should eq ("10 Cassettes")
+    assert { extent_headings[0].text.should eq ("10 Cassettes") }
   end
 
 
@@ -1043,7 +1181,7 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
     # The new Digital Object shows up on the tree
-    @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(digital_object_title)
+    assert { @driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(digital_object_title) }
   end
 
 

@@ -359,7 +359,8 @@ Sequel.migration do
     create_join_table({:subject_id => :subject, :accession_id => :accession}, :name => "subject_accession")
     create_join_table({:subject_id => :subject, :digital_object_id => :digital_object}, :name => "subject_digital_object")
     create_join_table({:subject_id => :subject, :digital_object_component_id => :digital_object_component},
-                      :name => "subject_digital_object_component")
+                      :name => "subject_digital_object_component",
+                      :index_options => { :name => 's_d_o_c_s_id_d_o_c_id_index'})
 
 
     create_table(:agent_person) do

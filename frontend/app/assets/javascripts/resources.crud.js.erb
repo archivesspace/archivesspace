@@ -321,6 +321,8 @@ $(function() {
 
     if ($.cookie("archives-tree-container::height")) {
       $(".archives-tree-container").height($.cookie("archives-tree-container::height"));
+    } else {
+      $(".archives-tree-container").height(AS.DEFAULT_TREE_PANE_HEIGHT);
     }
     setTimeout(resizeArchivesTree, 0);
 
