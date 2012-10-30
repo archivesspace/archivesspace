@@ -3,7 +3,7 @@
   # require dependent classes
   require_relative dep
 
-  ["event", "accession"].each do |object_with_agents|
+  ["event", "accession", "resource", "archival_object"].each do |object_with_agents|
     # define new link classes for object
     new_class = "#{object_with_agents}_#{dep}_link".classify
     Object.const_set(new_class, Class.new(Sequel::Model("#{object_with_agents}_#{dep}".intern)) {

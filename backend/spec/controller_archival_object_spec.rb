@@ -117,4 +117,30 @@ describe 'Archival Object controller' do
 
     ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
   end
+
+
+  it "can link to an agent" do
+    agent = JSONModel(:agent_person).
+      from_hash("agent_type" => "agent_person",
+                "names" => [{
+                              "rules" => "local",
+                              "primary_name" => "Magus Magoo",
+                              "sort_name" => "Magoo, Mr M",
+                              "direct_order" => "standard"
+                            }])
+
+    agent.save
+
+    created = create_archival_object("ref_id" => "4567",
+                                     "linked_agents" => [{
+                                        "ref" => agent.uri,
+                                        "role" => "creator"
+                                      }],
+                                     "title" => "my archival object")
+
+    ao = JSONModel(:archival_object).find(created, "resolve[]" => "ref")
+    ao['linked_agents'].length.should eq(1)
+    ao['linked_agents'][0]['role'].should eq("creator")
+    ao['linked_agents'][0]['resolved']['ref']['sort_name'].should eq("Magoo, Mr M")
+  end
 end

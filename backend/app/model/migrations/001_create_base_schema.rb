@@ -719,6 +719,50 @@ Sequel.migration do
     end
 
 
+    resource_links = [:agent_person, :agent_corporate_entity,
+                       :agent_family, :agent_software]
+
+    resource_links.each do |linked_table|
+      table = "resource_#{linked_table}".intern
+
+      create_table(table) do
+        primary_key :id
+
+        Integer :resource_id, :null => false
+        Integer "#{linked_table}_id".intern, :null => false
+        String :role, :null => false
+      end
+
+
+      alter_table(table) do
+        add_foreign_key([:resource_id], :resource, :key => :id)
+        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
+      end
+    end
+
+
+    archival_object_links = [:agent_person, :agent_corporate_entity,
+                      :agent_family, :agent_software]
+
+    archival_object_links.each do |linked_table|
+      table = "archival_object_#{linked_table}".intern
+
+      create_table(table) do
+        primary_key :id
+
+        Integer :archival_object_id, :null => false
+        Integer "#{linked_table}_id".intern, :null => false
+        String :role, :null => false
+      end
+
+
+      alter_table(table) do
+        add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
+      end
+    end
+
+
     create_table(:rights_statement) do
       primary_key :id
 
@@ -857,7 +901,10 @@ Sequel.migration do
 
   down do
 
-    [:external_document, :rights_statement, :location, :container_location, :deaccessions,
+    [:resource_agent_person, :resource_agent_family, :resource_agent_software, :resource_agent_corporate_entity,
+     :archival_object_agent_person, :archival_object_agent_family, :archival_object_agent_software, :archival_object_agent_corporate_entity,
+     :event_agent_person, :event_agent_family, :event_agent_software, :event_agent_corporate_entity, :event_accession, :event_archival_object, :event_resource,
+     :external_document, :rights_statement, :location, :container_location, :deaccessions,
      :subject_term, :subject_archival_object, :subject_resource, :subject_accession, :subject, :term,
      :agent_contact, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,

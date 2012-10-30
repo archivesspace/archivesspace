@@ -9,6 +9,7 @@ class Resource < Sequel::Model(:resource)
   include RightsStatements
   include Instances
   include Deaccessions
+  include Agents
 
 
   def link(opts)
