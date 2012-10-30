@@ -3,38 +3,28 @@ require 'spec_helper'
 describe 'Digital object model' do
 
   before(:each) do
-    make_test_repo
-  end
-
-
-  def create_digital_object
-    DigitalObject.create_from_json(JSONModel(:digital_object).
-                                   from_hash({
-                                               "title" => "A new digital object",
-                                               "digital_object_id" => "abc123",
-                                               "extents" => [
-                                                             {
-                                                               "portion" => "whole",
-                                                               "number" => "5 or so",
-                                                               "extent_type" => "reels",
-                                                             }
-                                                            ]
-                                             }),
-                                   :repo_id => @repo_id)
+    create(:repo)
   end
 
 
   it "Allows digital objects to be created" do
-    digital_object = create_digital_object
+    
+    json = build(:json_digital_object)
+    
+    digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
 
-    DigitalObject[digital_object[:id]].title.should eq("A new digital object")
+    DigitalObject[digital_object[:id]].title.should eq(json.title)
   end
 
 
   it "Prevents duplicate IDs " do
-    create_digital_object
+  
+    json1 = build(:json_digital_object, :digital_object_id => '123')
+    
+    json2 = build(:json_digital_object, :digital_object_id => '123')
 
-    expect { create_digital_object }.to raise_error
+    expect { DigitalObject.create_from_json(json1, :repo_id => $repo_id) }.to_not raise_error
+    expect { DigitalObject.create_from_json(json2, :repo_id => $repo_id) }.to raise_error
   end
 
 

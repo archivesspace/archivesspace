@@ -3,51 +3,54 @@ require 'spec_helper'
 describe 'Group model' do
 
   before(:each) do
-    make_test_repo
+    create(:repo)
   end
-
-
-  def test_group(group_code = "newgroup", description = "A test group")
-    JSONModel(:group).from_hash(:group_code => "newgroup",
-                                :description => "A test group")
-  end
-
+  
 
   it "Supports creating a new group" do
-    group = Group.create_from_json(test_group, :repo_id => @repo_id)
+    opts = {:group_code => generate(:alphanumstr)}
+    
+    group = Group.create_from_json(
+                              build(:json_group, opts), 
+                              :repo_id => $repo_id)
 
-    Group[group[:id]].group_code.should eq("newgroup")
+    Group[group[:id]].group_code.should eq(opts[:group_code])
   end
 
 
   it "Enforces group code uniqueness within a single repository" do
-    repo_one = make_test_repo("RepoOne")
-    repo_two = make_test_repo("RepoTwo")
-
-    obj = JSONModel(:group).from_hash(:group_code => "newgroup",
-                                      :description => "A test group")
+    
+    opts = {:group_code => generate(:alphanumstr)}
 
     expect {
-      Group.create_from_json(test_group, :repo_id => repo_one)
-      Group.create_from_json(test_group, :repo_id => repo_one)
+      Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
+      Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
     }.to raise_error
 
     # No problems here
-    Group.create_from_json(test_group, :repo_id => repo_two)
+    expect {
+      create(:repo)
+      Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
+    }.to_not raise_error
   end
 
 
   it "Ignores case when checking group code uniqueness" do
-    Group.create_from_json(test_group("newgroup"), :repo_id => @repo_id)
+    
+    opts = {:group_code => generate(:alphanumstr).downcase} 
+       
+    Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
+
+    opts[:group_code].upcase!
 
     expect {
-      Group.create_from_json(test_group("NEWGROUP"), :repo_id => @repo_id)
+      Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
     }.to raise_error
   end
 
 
   it "Lets you add users to a group" do
-    group = Group.create_from_json(test_group, :repo_id => @repo_id)
+    group = Group.create_from_json(build(:json_group), :repo_id => $repo_id)
 
     group.add_user(make_test_user("simon"))
     group.add_user(make_test_user("garfunkel"))
@@ -57,20 +60,20 @@ describe 'Group model' do
 
 
   it "Lets you assign permissions to a group and apply them to users" do
-    repo_one = make_test_repo("RepoOne")
-    repo_two = make_test_repo("RepoTwo")
+    repo1 = create(:repo)
+    repo2 = create(:repo)
 
-    group = Group.create_from_json(test_group, :repo_id => repo_one)
+    group = Group.create_from_json(build(:json_group), :repo_id => repo1.id)
 
     group.add_user(make_test_user("simon"))
-    group.add_user(make_test_user("garfunkel"))
 
     group.grant("manage_repository")
 
     group.permission.map {|permission| permission[:permission_code]}.should eq(["manage_repository"])
 
-    User[:username => "simon"].can?("manage_repository", :repo_id => repo_one).should eq(true)
-    User[:username => "simon"].can?("manage_repository", :repo_id => repo_two).should eq(false)
+    User[:username => "simon"].can?("manage_repository", :repo_id => repo1.id).should eq(true)
+    
+    User[:username => "simon"].can?("manage_repository", :repo_id => repo2.id).should eq(false)
   end
 
 end

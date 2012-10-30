@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'DigitalObjectComponent model' do
 
   before(:each) do
-    make_test_repo
+    create(:repo)
   end
 
 
@@ -12,7 +12,7 @@ describe 'DigitalObjectComponent model' do
                                             from_hash("ref_id" => "abcd",
                                                       "component_id" => "abc321",
                                                       "title" => "A new digital object component"),
-                                            :repo_id => @repo_id)
+                                            :repo_id => $repo_id)
   end
 
 

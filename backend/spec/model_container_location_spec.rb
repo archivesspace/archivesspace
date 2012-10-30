@@ -3,71 +3,57 @@ require 'spec_helper'
 describe 'Container Location' do
 
   before(:each) do
-    make_test_repo
+    create(:repo)
   end
 
-  def create_container
-    Container.create_from_json(JSONModel(:container).
-                                 from_hash({
-                                             "type_1" => "A Container",
-                                             "indicator_1" => "555-1-2",
-                                             "barcode_1" => "00011010010011",
-                                           }))
+  def create_container_location(opts = {})
+    ContainerLocation.create_from_json(build(:json_container_location, opts))
   end
 
-  def create_location
-    Location.create_from_json(JSONModel(:location).
-                                 from_hash({
-                                             "building" => "129 West 81st Street",
-                                             "floor" => "5",
-                                             "room" => "5A",
-                                             "barcode" => "010101100011",
-                                           }),
-                                          :repo_id => @repo_id)
-  end
 
   it "can be created" do
-    container_location = ContainerLocation.create_from_json(JSONModel(:container_location).
-                                             from_hash({
-                                                         "status" => "current",
-                                                         "start_date" => "2012-01-02",
-                                                       }))
+    
+    opts = {:status => generate(:container_location_status), 
+            :start_date => generate(:yyyy_mm_dd)
+            }
+            
+    cl = create_container_location(opts)
 
-    ContainerLocation[container_location[:id]].status.should eq("current")
-    ContainerLocation[container_location[:id]].start_date.should eq("2012-01-02")
+    ContainerLocation[cl[:id]].status.should eq(opts[:status])
+    ContainerLocation[cl[:id]].start_date.should eq(opts[:start_date])
   end
 
   it "can be created with a location" do
-    location = create_location
+    
+    location = create(:json_location)
 
-    container_location = ContainerLocation.create_from_json(JSONModel(:container_location).
-                                                              from_hash({
-                                                                          "status" => "current",
-                                                                          "start_date" => "2012-01-02",
-                                                                          "location" => JSONModel(:location).uri_for(location[:id])
-                                                                        }))
+    opts = {:status => generate(:container_location_status), 
+            :start_date => generate(:yyyy_mm_dd),
+            :location => location.uri
+            }
 
-    ContainerLocation[container_location[:id]].status.should eq("current")
-    ContainerLocation[container_location[:id]].start_date.should eq("2012-01-02")
+    cl = create_container_location(opts)
+
+    ContainerLocation[cl[:id]].status.should eq(opts[:status])
+    ContainerLocation[cl[:id]].start_date.should eq(opts[:start_date])
   end
 
   it "end date is required if the location status is previous" do
-    expect {
-      container_location = ContainerLocation.create_from_json(JSONModel(:container_location).
-                                                              from_hash({
-                                                                          "status" => "previous",
-                                                                          "start_date" => "2012-01-02",
-                                                                        }))
-    }.should raise_error(JSONModel::ValidationException)
+    
+    opts = {:end_date => nil, 
+            :status => 'current'
+            }
+    
+    expect { create_container_location(opts) }.to_not raise_error(JSONModel::ValidationException)
+    
+    opts[:status] = 'previous'
+    
+    expect { create_container_location(opts) }.to raise_error(JSONModel::ValidationException)
+    
+    opts[:end_date] = generate(:yyyy_mm_dd)
+    
+    expect { create_container_location(opts) }.to_not raise_error(JSONModel::ValidationException)
 
-    container_location = ContainerLocation.create_from_json(JSONModel(:container_location).
-                                                              from_hash({
-                                                                          "status" => "previous",
-                                                                          "start_date" => "2012-01-02",
-                                                                          "end_date" => "2012-02-01",
-                                                                        }))
-
-    ContainerLocation[container_location[:id]].end_date.should eq("2012-02-01")
   end
 
 end

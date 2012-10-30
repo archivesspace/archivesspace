@@ -3,182 +3,115 @@ require 'spec_helper'
 describe 'Rights Statement model' do
 
   before(:each) do
-    make_test_repo
+    create(:repo)
   end
 
-  it "Supports creating a new rights statement" do
-    rights_statement = RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                  from_hash({
-                                              "identifier" => "abc123",
-                                              "rights_type" => "intellectual_property",
-                                              "ip_status" => "copyrighted",
-                                              "jurisdiction" => "AU",
-                                              "active" => true
-                                            }),
-                                :repo_id => @repo_id)
+  def create_rights_statement(opts = {})
+    RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => $repo_id)
+  end
 
-    RightsStatement[rights_statement[:id]].identifier.should eq("abc123")
+
+  it "Supports creating a new rights statement" do
+    
+    opts = {:identifier => generate(:alphanumstr), :active => true}
+    
+    rights_statement = create_rights_statement(opts)
+
+    RightsStatement[rights_statement[:id]].identifier.should eq(opts[:identifier])
     RightsStatement[rights_statement[:id]].active.should eq(1)
   end
 
 
   it "creating a new rights statement and with active set to false" do
-    rights_statement = RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                                          from_hash({
-                                                                      "identifier" => "abc123",
-                                                                      "rights_type" => "intellectual_property",
-                                                                      "ip_status" => "copyrighted",
-                                                                      "jurisdiction" => "AU",
-                                                                      "active" => false
-                                                                    }),
-                                                        :repo_id => @repo_id)
+    
+    opts = {:identifier => generate(:alphanumstr), :active => false}
+    
+    rights_statement = create_rights_statement(opts)
 
-    RightsStatement[rights_statement[:id]].identifier.should eq("abc123")
+    RightsStatement[rights_statement[:id]].identifier.should eq(opts[:identifier])
     RightsStatement[rights_statement[:id]].active.should eq(0)
   end
 
 
   it "Enforces identifier uniqueness within a single repository" do
-    repo_one = make_test_repo("RepoOne")
-    repo_two = make_test_repo("RepoTwo")
+    repo_one = create(:repo)
+    repo_two = create(:repo)
+    
+    opts = {:identifier => generate(:alphanumstr)}
 
     expect {
-      RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                         from_hash({
-                                                     "identifier" => "abc123",
-                                                     "rights_type" => "intellectual_property",
-                                                     "ip_status" => "copyrighted",
-                                                     "jurisdiction" => "AU"
-                                                   }),
-                                       :repo_id => repo_one)
-      RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                         from_hash({
-                                                     "identifier" => "abc123",
-                                                     "rights_type" => "intellectual_property",
-                                                     "ip_status" => "copyrighted",
-                                                     "jurisdiction" => "AU"
-                                                   }),
-                                       :repo_id => repo_one)
+      RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => repo_one.id)
+      RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => repo_one.id)
+
     }.to raise_error
 
     # No problems here
-    RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                       from_hash({
-                                                   "identifier" => "abc123",
-                                                   "rights_type" => "intellectual_property",
-                                                   "ip_status" => "copyrighted",
-                                                   "jurisdiction" => "AU"
-                                                 }),
-                                     :repo_id => repo_two)
+    expect {
+      RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => repo_two.id)
+    }.to_not raise_error
   end
 
 
   it "Enforces validation rules when rights_type is intellectual_property" do
-    expect {
-      RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                         from_hash({
-                                                     "identifier" => "abc123",
-                                                     "rights_type" => "intellectual_property",
-                                                     "jurisdiction" => "AU"
-                                                   }),
-                                       :repo_id => @repo_id)
-    }.to raise_error(JSONModel::ValidationException)
+    
+    opts = {:rights_type => 'intellectual_property', :ip_status => nil, :jurisdiction => nil}
+    
+    expect { create_rights_statement(opts) }.to raise_error(JSONModel::ValidationException)
 
-    expect {
-      RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                         from_hash({
-                                                     "identifier" => "abc123",
-                                                     "rights_type" => "intellectual_property",
-                                                     "ip_status" => "copyrighted",
-                                                   }),
-                                       :repo_id => @repo_id)
-    }.to raise_error(JSONModel::ValidationException)
+    opts.delete(:ip_status)
 
+    expect { create_rights_statement(opts) }.to raise_error(JSONModel::ValidationException)
+
+    opts.delete(:jurisdiction)
 
     # this is ok though
-    RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                          from_hash({
-                                                      "identifier" => "abc123",
-                                                      "rights_type" => "intellectual_property",
-                                                      "ip_status" => "copyrighted",
-                                                      "jurisdiction" => "AU"
-                                                    }),
-                                        :repo_id => @repo_id)
+    expect { create_rights_statement(opts) }.to_not raise_error(JSONModel::ValidationException)
   end
 
 
   it "Enforces validation rules when rights_type is statute" do
-    expect {
-      RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                         from_hash({
-                                                     "identifier" => "abc123",
-                                                     "rights_type" => "statute",
-                                                     "statute_citation" => "This is where some statute details go.",
-                                                   }),
-                                       :repo_id => @repo_id)
-    }.to raise_error(JSONModel::ValidationException)
+    
+    opts = {:rights_type => 'statute', 
+            :ip_status => nil, 
+            :jurisdiction => nil,
+            :statute_citation => generate(:alphanumstr)
+            }
+            
+    expect { create_rights_statement(opts) }.to raise_error(JSONModel::ValidationException)
 
-    expect {
-      RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                         from_hash({
-                                                     "identifier" => "abc123",
-                                                     "rights_type" => "statute",
-                                                     "jurisdiction" => "AU"
-                                                   }),
-                                       :repo_id => @repo_id)
-    }.to raise_error(JSONModel::ValidationException)
+    opts.delete(:statute_citation)
+    opts[:jurisdiction] = generate(:alphanumstr)
 
-    # this is ok though
-    RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                       from_hash({
-                                                   "identifier" => "abc123",
-                                                   "rights_type" => "statute",
-                                                   "statute_citation" => "This is where some statute details go.",
-                                                   "jurisdiction" => "AU"
-                                                 }),
-                                     :repo_id => @repo_id)
+    expect { create_rights_statement(opts) }.to raise_error(JSONModel::ValidationException)
+
+    opts[:statute_citation] = generate(:alphanumstr)
+    
+    expect { create_rights_statement(opts) }.to_not raise_error(JSONModel::ValidationException)
   end
 
 
   it "Enforces validation rules when rights_type is license" do
-    expect {
-      RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                         from_hash({
-                                                     "identifier" => "abc123",
-                                                     "rights_type" => "license",
-                                                   }),
-                                       :repo_id => @repo_id)
-    }.to raise_error(JSONModel::ValidationException)
+    
+    opts = {:rights_type => 'license', 
+            :ip_status => nil, 
+            :jurisdiction => nil,
+            }
+            
+    expect { create_rights_statement(opts) }.to raise_error(JSONModel::ValidationException)
 
-    # this is ok though
-    RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                       from_hash({
-                                                   "identifier" => "abc123",
-                                                   "rights_type" => "license",
-                                                   "license_identifier_terms" => "This is where some terms go.",
-                                                 }),
-                                     :repo_id => @repo_id)
+    opts[:license_identifier_terms] = generate(:alphanumstr)
+
+    expect { create_rights_statement(opts) }.to_not raise_error(JSONModel::ValidationException)
   end
 
   it "Allows a rights statement to be created with an external document" do
-    rights_statement = RightsStatement.create_from_json(JSONModel(:rights_statement).
-                                                          from_hash({
-                                                                      "identifier" => "abc123",
-                                                                      "rights_type" => "intellectual_property",
-                                                                      "ip_status" => "copyrighted",
-                                                                      "jurisdiction" => "AU",
-
-                                                                      "external_documents" => [
-                                                                        {
-                                                                          "title" => "My external document",
-                                                                          "location" => "http://www.foobar.com",
-                                                                        }
-                                                                      ]
-                                                          }),
-                                                        :repo_id => @repo_id)
+    
+    opts = {:external_documents => [build(:json_external_document).to_hash]}
+    
+    rights_statement = create_rights_statement(opts)
 
     RightsStatement[rights_statement[:id]].external_document.length.should eq(1)
-    RightsStatement[rights_statement[:id]].external_document[0].title.should eq("My external document")
+    RightsStatement[rights_statement[:id]].external_document[0].title.should eq(opts[:external_documents][0]['title'])
   end
 
 end

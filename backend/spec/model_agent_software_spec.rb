@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Agent model' do
 
-  it "allows agents to be created" do
+  it "allows software agent records to be created with multiple names" do
     
     n1 = build(:json_name_software)
     n2 = build(:json_name_software)
@@ -11,17 +11,25 @@ describe 'Agent model' do
 
     AgentSoftware[agent[:id]].name_software.length.should eq(2)
   end
-
-
-  it "allows agents to have a linked contact details" do
+  
+  it "doesn't allow a software agent record to be created without a name" do
     
-    n1 = build(:json_name_software)
-    c1 = build(:json_agent_contact)
+    expect { 
+      AgentSoftware.create_from_json(build(:json_agent_software, :names => []))
+      }.to raise_error(JSONModel::ValidationException)
+  end
 
-    agent = AgentSoftware.create_from_json(build(:json_agent_software, {:names => [n1.to_hash], :agent_contacts => [c1.to_hash]}))
+
+  it "allows a software agent record to be created with linked contact details" do
+    
+    opts = {:name => 'Business hours contact'}
+    
+    c1 = build(:json_agent_contact, opts)
+
+    agent = AgentSoftware.create_from_json(build(:json_agent_software, {:agent_contacts => [c1.to_hash]}))
 
     AgentSoftware[agent[:id]].agent_contact.length.should eq(1)
-    AgentSoftware[agent[:id]].agent_contact[0][:name].should eq("Business hours contact")
+    AgentSoftware[agent[:id]].agent_contact[0][:name].should eq(opts[:name])
   end
 
 

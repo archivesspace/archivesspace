@@ -8,8 +8,10 @@ describe 'Accession controller' do
 
 
   it "lets you create an accession and get it back" do
-    id = create(:json_accession).id
-    JSONModel(:accession).find(id).title.should eq("The accession title")
+    opts = {:title => 'The accession title'}
+    
+    id = create(:json_accession, opts).id
+    JSONModel(:accession).find(id).title.should eq(opts[:title])
   end
 
 

@@ -153,10 +153,14 @@ describe 'Resources controller' do
   end
 
   it "lets you create a resource with an extent" do
+
+    opts = {:portion => generate(:portion)}
+    extents = [build(:json_extent, opts).to_hash]
+    
     resource = create(:json_resource)
 
     JSONModel(:resource).find(resource.id).extents.length.should eq(1)
-    JSONModel(:resource).find(resource.id).extents[0]["portion"].should eq("whole")
+    JSONModel(:resource).find(resource.id).extents[0]["portion"].should eq(opts[:portion])
   end
 
 

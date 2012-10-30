@@ -7,8 +7,9 @@ describe 'Group controller' do
   end
 
   it "lets you create a group and get it back" do
-    group = create(:json_group)
-    JSONModel(:group).find(group.id).description.should eq("A test group")
+    opts = {:description => generate(:generic_description)}
+    group = create(:json_group, opts)
+    JSONModel(:group).find(group.id).description.should eq(opts[:description])
   end
 
 

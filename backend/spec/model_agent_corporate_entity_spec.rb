@@ -24,19 +24,15 @@ describe 'Agent model' do
 
 
   it "allows agents to have a linked contact details" do
+    
+    contact_name = 'Business hours contact'
 
-    test_opts = {:agent_contacts => [
-                         {
-                           "name" => "Business hours contact",
-                           "telephone" => "0011 1234 1234"
-                         }
-                        ]
-                }
+    test_opts = {:agent_contacts => [build(:json_agent_contact, :name => contact_name).to_hash]}
 
     agent = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, test_opts))
 
     AgentCorporateEntity[agent[:id]].agent_contact.length.should eq(1)
-    AgentCorporateEntity[agent[:id]].agent_contact[0][:name].should eq("Business hours contact")
+    AgentCorporateEntity[agent[:id]].agent_contact[0][:name].should eq(contact_name)
   end
 
 
