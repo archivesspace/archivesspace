@@ -1,13 +1,13 @@
 class DigitalObjectComponentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent]
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
-  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
+  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update, :parent]
 
   def new
     @digital_object_component = JSONModel(:digital_object_component).new._always_valid!
     @digital_object_component.title = "New Digital Object Component"
-    @digital_object_component.parent = JSONModel(:digital_object_component).uri_for(params[:parent]) if params.has_key?(:parent)
-    @digital_object_component.digital_object = JSONModel(:digital_object).uri_for(params[:digital_object]) if params.has_key?(:digital_object)
+    @digital_object_component.parent = JSONModel(:digital_object_component).uri_for(params[:parent_node_id]) if params.has_key?(:parent_node_id)
+    @digital_object_component.digital_object = JSONModel(:digital_object).uri_for(params[:parent_object_id]) if params.has_key?(:parent_object_id)
 
     return render :partial => "digital_object_components/new_inline" if inline?
 
@@ -48,4 +48,19 @@ class DigitalObjectComponentsController < ApplicationController
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], "resolve[]" => ["subjects","ref"])
     render :partial => "digital_object_components/show_inline" if inline?
   end
+
+
+  def parent
+    if params[:parent]
+      params[:digital_object_component] ||= {}
+      params[:digital_object_component][:parent] = JSONModel(:digital_object_component).uri_for(params[:parent])
+    end
+
+    handle_crud(:instance => :digital_object_component,
+                :obj => JSONModel(:digital_object_component).find(params[:id]),
+                :replace => false,
+                :on_invalid => ->(){ throw "Error setting parent of digital object component" },
+                :on_valid => ->(id){ return render :text => "success"})
+  end
+
 end

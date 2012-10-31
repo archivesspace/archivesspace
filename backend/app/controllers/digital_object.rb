@@ -54,13 +54,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     digital_object = DigitalObject.get_or_die(params[:digital_object_id])
 
-    tree = digital_object.tree
-
-    if tree
-      json_response(tree)
-    else
-      raise NotFoundException.new("Tree doesn't exist")
-    end
+    json_response(digital_object.tree)
   end
 
 

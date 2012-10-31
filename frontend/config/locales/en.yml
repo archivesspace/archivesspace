@@ -26,6 +26,9 @@ en:
     component_id: Identifier
     publish: Publish
     language: Language
+    _html:
+      singular: Digital Object Component
+      plural: Digital Object Components
   location:
     temporary: Temporary
     temporary_conservation: Conservation

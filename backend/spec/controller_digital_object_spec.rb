@@ -67,12 +67,10 @@ describe 'Digital Objects controller' do
                              "title" => "digital object component: earth",
                              "children" => [
                                             {
-                                              "jsonmodel_type" => "digital_object_tree",
                                               "digital_object_component" => docs[1].uri,
                                               "title" => "digital object component: australia",
                                               "children" => [
                                                              {
-                                                               "jsonmodel_type" => "digital_object_tree",
                                                                "digital_object_component" => docs[2].uri,
                                                                "title" => "digital object component: canberra",
                                                                "children" => []
@@ -90,12 +88,10 @@ describe 'Digital Objects controller' do
       "title" => "digital object component: canberra",
       "children" => [
                      {
-                       "jsonmodel_type" => "digital_object_tree",
                        "digital_object_component" => docs[1].uri,
                        "title" => "digital object component: australia",
                        "children" => [
                                       {
-                                        "jsonmodel_type" => "digital_object_tree",
                                         "digital_object_component" => docs[0].uri,
                                         "title" => "digital object component: earth",
                                         "children" => []

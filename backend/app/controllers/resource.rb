@@ -52,13 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     resource = Resource.get_or_die(params[:resource_id])
 
-    tree = resource.tree
-
-    if tree
-      json_response(tree)
-    else
-      raise NotFoundException.new("Tree doesn't exist")
-    end
+    json_response(resource.tree)
   end
 
 

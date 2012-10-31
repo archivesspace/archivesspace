@@ -14,7 +14,7 @@ class DigitalObjectsController < ApplicationController
       return render :partial => "digital_objects/show_inline"
     end
 
-    fetch_digital_object_tree(@digital_object)
+    fetch_tree(@digital_object)
   end
 
   def new
@@ -28,7 +28,7 @@ class DigitalObjectsController < ApplicationController
       return render :partial => "digital_objects/edit_inline"
     end
 
-    fetch_digital_object_tree(@digital_object)
+    fetch_tree(@digital_object)
   end
 
 
@@ -55,45 +55,15 @@ class DigitalObjectsController < ApplicationController
   end
 
 
-  def destroy
-
-  end
-
-  def tree
-    fetch_digital_object_tree(JSONModel(:digital_object).find(params[:id]))
-    render :text => @digital_object_tree.to_json
-  end
-
-  def update_tree
-    begin
-      tree = JSONModel(:digital_object_tree).from_json(params[:tree])
-      tree.save(:digital_object_id => params[:id])
-      render :text => "Success"
-    rescue JSONModel::ValidationException => e
-      render :text => "Error"
-    end
-  end
-
-
   private
 
-  def convert_refs_to_ids(tree)
-    tree["id"] = JSONModel(:digital_object_component).id_for(tree["digital_object_component"])
-
-    tree["children"].each do |child|
-      convert_refs_to_ids(child)
-    end
-
-    tree
-  end
-
-  def fetch_digital_object_tree(digital_object)
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
+  def fetch_tree(digital_object)
+    tree = JSONModel::HTTP.get_json("#{JSONModel(:digital_object).uri_for(digital_object.id)}/tree")
 
     @digital_object_tree = {
-      "digital_object_id" => digital_object.id,
+      "id" => digital_object.id,
       "title" => digital_object.title,
-      "children" => tree ? [convert_refs_to_ids(tree.to_hash)] : []
+      "children" => tree.empty? ? [] : [tree]
     }
   end
 

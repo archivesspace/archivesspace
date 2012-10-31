@@ -55,9 +55,7 @@ describe 'Resources controller' do
     tree['children'][0]['archival_object'].should eq(aos[1].uri)
     tree['children'][0]['children'][0]['archival_object'].should eq(aos[2].uri)
 
-
     # Now turn it on its head
-
     changed = invert_tree(tree)
     
     JSONModel(:resource_tree).from_hash(changed).save(:resource_id => resource.id)
@@ -89,7 +87,7 @@ describe 'Resources controller' do
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
-    tree.should eq(nil)
+    tree.children.length.should eq(0)
   end
 
 

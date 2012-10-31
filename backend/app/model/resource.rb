@@ -61,7 +61,7 @@ class Resource < Sequel::Model(:resource)
     end
 
     # Check for empty tree
-    return nil if root_node.nil?
+    return {} if root_node.nil?
 
     assemble_tree(root_node, links, properties)
   end

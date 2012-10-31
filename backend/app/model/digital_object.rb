@@ -53,11 +53,11 @@ class DigitalObject < Sequel::Model(:digital_object)
       properties[doc.id] = {:title => doc.title, :id => doc.id}
     end
 
-    # Check for empty tree
-    return nil if root_node.nil?
+    return {} if root_node.nil?
 
     assemble_tree(root_node, links, properties)
   end
+
 
   def update_tree(tree)
     DigitalObjectComponent.this_repo.

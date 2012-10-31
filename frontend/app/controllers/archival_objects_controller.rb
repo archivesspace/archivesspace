@@ -1,13 +1,13 @@
 class ArchivalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent]
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
-  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
+  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update, :parent]
 
   def new
     @archival_object = JSONModel(:archival_object).new._always_valid!
     @archival_object.title = "New Archival Object"
-    @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent]) if params.has_key?(:parent)
-    @archival_object.resource = JSONModel(:resource).uri_for(params[:resource]) if params.has_key?(:resource)
+    @archival_object.parent = JSONModel(:archival_object).uri_for(params[:parent_node_id]) if params.has_key?(:parent_node_id)
+    @archival_object.resource = JSONModel(:resource).uri_for(params[:parent_object_id]) if params.has_key?(:parent_object_id)
 
     return render :partial => "archival_objects/new_inline" if inline?
 
@@ -51,11 +51,15 @@ class ArchivalObjectsController < ApplicationController
 
 
   def parent
-    params[:archival_object][:parent_id] = params[:parent] if params[:parent]
+    if params[:parent]
+      params[:archival_object] ||= {}
+      params[:archival_object][:parent] = JSONModel(:archival_object).uri_for(params[:parent])
+    end
 
     handle_crud(:instance => :archival_object,
                 :obj => JSONModel(:archival_object).find(params[:id]),
-                :on_invalid => ->(){ return render :text => "error" },
+                :replace => false,
+                :on_invalid => ->(){ throw "Error setting parent of archival object" },
                 :on_valid => ->(id){ return render :text => "success"})
   end
 

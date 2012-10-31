@@ -864,7 +864,7 @@ describe "ArchivesSpace user interface" do
 
   it "can cancel edits to Archival Objects" do
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "unimportant change")
-    @driver.find_element(:css, "a[title='December']").click
+    @driver.find_element_with_text("//div[@id='archives_tree']//a", /December/).click
     @driver.find_element(:id, "dismissChangesButton").click
 
     # Last added node now selected
@@ -1013,7 +1013,7 @@ describe "ArchivesSpace user interface" do
 
     add_note = proc do |type|
       @driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
-      @driver.find_element(:css => '#notes .subrecord-selector select').select_option(type)
+      @driver.blocking_find_elements(:css => '#notes .subrecord-selector select')[0].select_option(type)
       @driver.find_element(:css => '#notes .subrecord-selector .btn').click
     end
 

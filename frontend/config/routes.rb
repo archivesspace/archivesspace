@@ -45,6 +45,7 @@ ArchivesSpace::Application.routes.draw do
 
   resources :digital_object_components
   match 'digital_object_components/:id' => 'digital_object_components#update', :via => [:post]
+  match 'digital_object_components/:id/parent' => 'digital_object_components#parent', :via => [:post]
 
   resources :resources
   match 'resources/:id/update_tree' => 'resources#update_tree', :via => [:post]

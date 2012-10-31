@@ -37,8 +37,7 @@
      {macro render_parent(node)}
         <li id="${config.parent_jsonmodel_type}_${node.id}" class="${config.parent_jsonmodel_type} jstree-closed" rel="${config.parent_jsonmodel_type}" data-id="${node.id}">
            <a href="#tree::${config.parent_jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
-           ${ node.children}
-           {if node.children}
+           {if node.children && node.children.length > 0}
             ${render_children(node.children)}
            {/if}
         </li>

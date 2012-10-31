@@ -55,30 +55,6 @@ class ResourcesController < ApplicationController
   end
 
 
-  def destroy
-
-  end
-
-  def children
-    if params[:archival_object_id]
-      children = JSONModel::HTTP.get_json("#{JSONModel(:archival_object).uri_for(params[:archival_object_id])}/children")
-    else
-      children = JSONModel::HTTP.get_json("#{JSONModel(:resource).uri_for(params[:id])}/tree")
-    end
-    render :json => children
-  end
-
-  def update_tree
-    begin
-      tree = JSONModel(:resource_tree).from_json(params[:tree])
-      tree.save(:resource_id => params[:id])
-      render :text => "Success"
-    rescue JSONModel::ValidationException => e
-      render :text => "Error"
-    end
-  end
-
-
   private
 
   def fetch_resource_tree(resource)
@@ -87,7 +63,7 @@ class ResourcesController < ApplicationController
     @resource_tree = {
       "id" => resource.id,
       "title" => resource.title,
-      "children" => [tree]
+      "children" => tree.empty? ? [] : [tree]
     }
   end
 
