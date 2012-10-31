@@ -27,7 +27,7 @@ describe 'Family agent controller' do
 
       family.save
 
-      JSONModel(:agent_family).find(id).agent_contacts[0]['name'].should eq(opts[:name])
+      JSONModel(:agent_family).find(id).agent_contacts[n]['name'].should eq(opts[:name])
     end
 
   end
