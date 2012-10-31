@@ -140,7 +140,7 @@ module RESTHelpers
 
         ensure_params(rp)
 
-        Log.debug("Post-processed params: #{params.inspect}") if self.class.development?
+        Log.debug("Post-processed params: #{filter_passwords(params).inspect}") if self.class.development?
 
         RequestContext.open(:repo_id => params[:repo_id]) do
           unless preconditions.all? { |precondition| self.instance_eval &precondition }
