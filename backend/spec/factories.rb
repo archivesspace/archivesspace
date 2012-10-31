@@ -10,6 +10,8 @@ FactoryGirl.define do
   sequence(:alphanumstr) { |n| (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join } 
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:generic_description) {|n| "Description: #{n}"}
+  sequence(:generic_name) {|n| "Name Number #{n}"}
+  sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
   sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
   sequence(:number) { |n| rand(100).to_s }
@@ -34,7 +36,7 @@ FactoryGirl.define do
   sequence(:ip_status) { JSONModel(:rights_statement).schema['properties']['ip_status']['enum'].sample }
   
   sequence(:container_location_status) { JSONModel(:container_location).schema['properties']['status']['enum'].sample } 
-  
+  sequence(:temporary_location_type) { JSONModel(:location).schema['properties']['temporary']['enum'].sample }
   
   factory :repo, class: Repository do
     repo_code { generate(:repo_code) }
@@ -64,8 +66,8 @@ FactoryGirl.define do
   end
   
   factory :json_agent_contact, class: JSONModel(:agent_contact) do
-    name 'Contact name'
-    telephone '0011 1234 1234'
+    name { generate(:generic_name) }
+    telephone { generate(:phone_number) }
   end
 
   factory :json_agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
@@ -74,7 +76,7 @@ FactoryGirl.define do
   end
   
   factory :json_agent_family, class: JSONModel(:agent_family) do
-    agent_type "agent_family"
+    agent_type 'agent_family'
     names { [build(:json_name_family).to_hash] }
   end
   
@@ -157,13 +159,13 @@ FactoryGirl.define do
   
   factory :json_name_corporate_entity, class: JSONModel(:name_corporate_entity) do
     rules { generate(:name_rule) }
-    primary_name 'Magus Magoo Inc'
+    primary_name { generate(:generic_name) }
     sort_name 'Magus Magoo Inc'
   end
   
   factory :json_name_family, class: JSONModel(:name_family) do
     rules { generate(:name_rule) }
-    family_name 'Magoo Family'
+    family_name { generate(:generic_name) }
     sort_name 'Family Magoo'
   end
 
@@ -184,6 +186,11 @@ FactoryGirl.define do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent).to_hash] }
+  end
+  
+  factory :json_repo, class: JSONModel(:repository) do
+    repo_code { generate(:repo_code) }
+    description { generate(:generic_description) }
   end
   
   factory :json_rights_statement, class: JSONModel(:rights_statement) do

@@ -75,10 +75,10 @@ describe 'Group controller' do
     repo_two = create(:repo, :repo_code => 'RepoTwo')
 
     JSONModel::set_repository(repo_one.id)
-    create(:json_group, {:group_code => "group-in-repo1", "description" => "A test group"})
+    create(:json_group, {:group_code => "group-in-repo1"})
 
     JSONModel::set_repository(repo_two.id)
-    create(:json_group, {:group_code => "group-in-repo2", "description" => "A test group"})
+    create(:json_group, {:group_code => "group-in-repo2"})
 
     groups = JSONModel(:group).all({}, :repo_id => repo_one.id)
 
@@ -143,6 +143,8 @@ describe 'Group controller' do
 
   it "allows repository managers to view the group list" do
     create(:user, {:username => 'newmanager'})
+    create(:user, {:username => 'underling'})
+    
     managers = JSONModel(:group).all(:group_code => "repository-managers").first
     managers.member_usernames = ["newmanager"]
     managers.save
@@ -152,6 +154,12 @@ describe 'Group controller' do
         JSONModel(:group).all
       end
     }.to_not raise_error
+    
+    expect {
+      as_test_user('underling') do
+        JSONModel(:group).all
+      end
+    }.to raise_error
   end
 
 end

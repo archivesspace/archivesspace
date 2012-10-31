@@ -101,7 +101,7 @@ describe 'Archival Object controller' do
   it "can resolve subjects for you" do
     vocab = create(:json_vocab)
     
-    opts = {:term => 'test term'}
+    opts = {:term => generate(:term)}
 
     subject = create(:json_subject, {:terms => 
                                         [build(
@@ -115,6 +115,6 @@ describe 'Archival Object controller' do
 
     ao = JSONModel(:archival_object).find(created.id, "resolve[]" => "subjects")
 
-    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq('test term')
+    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
   end
 end
