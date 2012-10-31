@@ -8,6 +8,7 @@
 
     <%= form_for @group, :as => "group", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
       <%= form_context :group, @group.to_hash(true) do |form| %>
+			 	<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
         <%= form.label_and_textfield :group_code %>
         <%= render :partial => "groups/form", :locals => {:form => form} %>
       <% end %>
