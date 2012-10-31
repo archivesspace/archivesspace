@@ -17,6 +17,8 @@
     <%= render :partial => "subjects/linker", :locals => { :form => form }%>
   </section>
 
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "digital_object_linked_agent"} %>
+
   <%= render :partial => "notes/form", :locals => {:form => form} %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>

@@ -81,6 +81,14 @@ en:
     <<: *linked_agent_attributes
   event_linked_agent:
     <<: *linked_agent_attributes
+  resource_linked_agent:
+    <<: *linked_agent_attributes
+  archival_object_linked_agent:
+    <<: *linked_agent_attributes
+  digital_object_linked_agent:
+    <<: *linked_agent_attributes
+  digital_object_component_linked_agent:
+    <<: *linked_agent_attributes
   event:
     event_type: Type
     outcome: Outcome

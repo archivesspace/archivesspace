@@ -763,6 +763,50 @@ Sequel.migration do
     end
 
 
+    digital_object_links = [:agent_person, :agent_corporate_entity,
+                             :agent_family, :agent_software]
+
+    digital_object_links.each do |linked_table|
+      table = "digital_object_#{linked_table}".intern
+
+      create_table(table) do
+        primary_key :id
+
+        Integer :digital_object_id, :null => false
+        Integer "#{linked_table}_id".intern, :null => false
+        String :role, :null => false
+      end
+
+
+      alter_table(table) do
+        add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
+      end
+    end
+
+
+    digital_object_component_links = [:agent_person, :agent_corporate_entity,
+                            :agent_family, :agent_software]
+
+    digital_object_component_links.each do |linked_table|
+      table = "digital_object_component_#{linked_table}".intern
+
+      create_table(table) do
+        primary_key :id
+
+        Integer :digital_object_component_id, :null => false
+        Integer "#{linked_table}_id".intern, :null => false
+        String :role, :null => false
+      end
+
+
+      alter_table(table) do
+        add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
+        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
+      end
+    end
+
+
     create_table(:rights_statement) do
       primary_key :id
 

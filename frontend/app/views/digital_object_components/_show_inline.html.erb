@@ -39,6 +39,10 @@
 
       </section>
 
+      <% if @digital_object_component.linked_agents.length > 0 %>
+        <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @digital_object_component.linked_agents, :section_id => "digital_object_component_linked_agents_" } %>
+      <% end %>
+
       <% if @digital_object_component.extents.length > 0 %>
         <%= render :partial => "extents/show", :locals => { :extents => @digital_object_component.extents, :section_id => "digital_object_component_extents_" } %>
       <% end %>

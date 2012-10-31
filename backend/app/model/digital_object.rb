@@ -8,6 +8,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Extents
   include Dates
   include ExternalDocuments
+  include Agents
 
 
 def link(opts)

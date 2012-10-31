@@ -16,7 +16,7 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def edit
-    @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => ["subjects", "location"])
+    @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
     render :partial => "archival_objects/edit_inline" if inline?
   end
 
@@ -34,7 +34,7 @@ class ArchivalObjectsController < ApplicationController
   def update
     handle_crud(:instance => :archival_object,
                 :obj => JSONModel(:archival_object).find(params[:id],
-                                                         "resolve[]" => ["subjects", "location"]),
+                                                         "resolve[]" => ["subjects", "location", "ref"]),
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
                   flash[:success] = "Archival Object Saved"
@@ -45,7 +45,7 @@ class ArchivalObjectsController < ApplicationController
 
   def show
     @resource_id = params['resource_id']
-    @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => ["subjects", "location"])
+    @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
     render :partial => "archival_objects/show_inline" if inline?
   end
 end

@@ -38,6 +38,10 @@
          <% end %>
       </section>
 
+      <% if @resource.linked_agents.length > 0 %>
+        <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @resource.linked_agents, :section_id => "resource_linked_agents_" } %>
+      <% end %>
+
       <% if @resource.notes.length > 0 %>
         <%= render :partial => "notes/show", :locals => { :notes => @resource.notes, :context => readonly } %>
       <% end %>

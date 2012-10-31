@@ -8,7 +8,7 @@ class ResourcesController < ApplicationController
   end
 
   def show
-    @resource = JSONModel(:resource).find(params[:id], "resolve[]" => ["subjects", "location"])
+    @resource = JSONModel(:resource).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
 
     if params[:inline]
       return render :partial => "resources/show_inline"
@@ -23,7 +23,7 @@ class ResourcesController < ApplicationController
   end
 
   def edit
-    @resource = JSONModel(:resource).find(params[:id], "resolve[]" => ["subjects", "location"])
+    @resource = JSONModel(:resource).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
 
     if params[:inline]
       return render :partial => "resources/edit_inline"
@@ -48,7 +48,7 @@ class ResourcesController < ApplicationController
   def update
     handle_crud(:instance => :resource,
                 :obj => JSONModel(:resource).find(params[:id],
-                                                  "resolve[]" => ["subjects", "location"]),
+                                                  "resolve[]" => ["subjects", "location", "ref"]),
                 :on_invalid => ->(){
                   render :partial => "edit_inline"
                 },

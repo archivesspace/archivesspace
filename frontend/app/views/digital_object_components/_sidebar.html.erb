@@ -2,6 +2,10 @@
   <ul class="nav nav-list as-nav-list">
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
 
+    <% if controller.action_name != "show" || @digital_object_component.linked_agents.length > 0 %>
+      <li><a href="#digital_object_component_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <% if controller.action_name != "show" || @digital_object_component.extents.length > 0 %>
       <li><a href="#digital_object_component_extents_">Extents <span class="icon-chevron-right"></span></a></li>
     <% end %>

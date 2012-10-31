@@ -5,6 +5,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Extents
   include Dates
   include ExternalDocuments
+  include Agents
 
   def children
     self.class.filter(:parent_id => self.id)
