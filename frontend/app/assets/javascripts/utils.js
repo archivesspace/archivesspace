@@ -77,11 +77,25 @@ $(function() {
           top: $("#archivesSpaceSidebar").offset().top,
           bottom: 100
         }
-      })
+      });
       $(this).addClass("initialised");
     });
   };
+
   initSidebar();
+
+  // If the tree pane resizes, then we need to reset the offsets of the
+  // affixed sidebar.
+  $(window).bind("resize.tree", function() {
+    $("#archivesSpaceSidebar .nav-list.initialised").each(function() {
+      $(this).affix({
+        offset: {
+          top: $("#archivesSpaceSidebar").offset().top,
+          bottom: 100
+        }
+      });
+    });
+  });
   $(document).ajaxComplete(function() {
     initSidebar();
   });
@@ -212,3 +226,13 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
 // Used by all tree layouts -- sets the initial height for the tree pane... but can
 // be overridden by a user's cookie value
 AS.DEFAULT_TREE_PANE_HEIGHT = 100;
+
+AS.resetScrollSpy = function() {
+  // reset the scrollspy plugin
+  // so the headers update the status of the sidebar
+  $(document.body).removeData("scrollspy");
+  $(document.body).scrollspy({
+    target: "#archivesSpaceSidebar",
+    offset: 20
+  });
+}

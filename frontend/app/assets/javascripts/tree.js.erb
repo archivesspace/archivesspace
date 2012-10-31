@@ -117,6 +117,8 @@ $(function() {
         }
       });
 
+      AS.resetScrollSpy();
+
       $container.triggerHandler("form.loaded");
     };
 
@@ -137,6 +139,7 @@ $(function() {
             data: params,
             success: function(html) {
               $container.html(html);
+              AS.resetScrollSpy();
             }
           });
         } else if (nodeEl.attr("rel") === config.parent_jsonmodel_type) {
@@ -146,6 +149,7 @@ $(function() {
             data: params,
             success: function(html) {
               $container.html(html);
+              AS.resetScrollSpy();
             }
           });
         }
@@ -374,6 +378,7 @@ $(function() {
         resize: function(event, ui) {
           $.cookie("archives-tree-container::height", ui.size.height);
           resizeArchivesTree();
+          $(window).triggerHandler("resize.tree");
         }
       });
 

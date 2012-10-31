@@ -21,6 +21,8 @@
  * Customisations for Archives Space include:
  * - in checkPosition, tweak the positioning of the element
  *   when an offsetTop config option exists
+ * - disable any existing affix event bindings before setting
+ *   another affix
  * ============================================================ */
 
 !function ($) {
@@ -33,6 +35,10 @@
 
   var Affix = function (element, options) {
     this.options = $.extend({}, $.fn.affix.defaults, options)
+
+    // disable any existing affixing for this element
+    $(window).off('scroll.affix.data-api', $.proxy(this.checkPosition, this))
+
     this.$window = $(window).on('scroll.affix.data-api', $.proxy(this.checkPosition, this))
     this.$element = $(element)
     this.checkPosition()
