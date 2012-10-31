@@ -255,15 +255,7 @@ module JSONModel
       end
 
 
-      # Given a numeric internal ID and additional options produce a URI reference.
-      # For example:
-      #
-      #     JSONModel(:archival_object).uri_for(500, :repo_id => 123)
-      #
-      #  might yield "/repositories/123/archival_objects/500"
-      #
-      def self.uri_for(id = nil, opts = {})
-
+      def self.uri_and_remaining_options_for(id = nil, opts = {})
         # Some schemas (like name schemas) don't have a URI because they don't
         # need endpoints.  That's fine.
         if not self.schema['uri']
@@ -277,6 +269,20 @@ module JSONModel
         end
 
         self.substitute_parameters(uri, opts)
+      end
+
+
+      # Given a numeric internal ID and additional options produce a pair containing a URI reference.
+      # For example:
+      #
+      #     JSONModel(:archival_object).uri_for(500, :repo_id => 123)
+      #
+      #  might yield "/repositories/123/archival_objects/500"
+      #
+      def self.uri_for(id = nil, opts = {})
+        result = self.uri_and_remaining_options_for(id, opts)
+
+        result ? result[0] : nil
       end
 
 
@@ -605,12 +611,11 @@ module JSONModel
       end
 
 
-      # Given a URI like /repositories/:repo_id/something/:somevar, and a hash
-      # containing keys and replacement strings, return a URI with the values
-      # substituted in for their placeholders.
+      # Given a URI template like /repositories/:repo_id/something/:somevar, and
+      # a hash containing keys and replacement strings, return [uri, opts],
+      # where 'uri' is the template with values substituted for their
+      # placeholders, and 'opts' is any parameters that weren't consumed.
       #
-      # As a side effect, removes any keys from 'opts' that were successfully
-      # substituted.
       def self.substitute_parameters(uri, opts = {})
         matched = []
         opts.each do |k, v|
@@ -630,11 +635,12 @@ module JSONModel
           end
         end
 
+        remaining_opts = opts.clone
         matched.each do |k|
-          opts.delete(k)
+          remaining_opts.delete(k)
         end
 
-        uri
+        [uri, remaining_opts]
       end
 
 
