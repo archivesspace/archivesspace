@@ -17,6 +17,11 @@
  * limitations under the License.
  * ========================================================== */
 
+/* =============================================================
+ * Customisations for Archives Space include:
+ * - in checkPosition, tweak the positioning of the element
+ *   when an offsetTop config option exists
+ * ============================================================ */
 
 !function ($) {
 
@@ -53,6 +58,12 @@
       false    : offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom - (this.affixed === 'bottom' ? offsetTop : 0)) ?
       'bottom' : offsetTop != null && scrollTop <= offsetTop ?
       'top'    : false
+
+    if (offsetTop && affix === false) {
+      this.$element.css("top", "10px");
+    } else {
+      this.$element.css("top", "");
+    }
 
     if (this.affixed === affix) return
 

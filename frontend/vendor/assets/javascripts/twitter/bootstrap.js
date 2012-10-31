@@ -10,4 +10,4 @@
 //= require twitter/bootstrap/bootstrap-collapse
 //= require twitter/bootstrap/bootstrap-carousel
 //= require twitter/bootstrap/bootstrap-typeahead.archivesspace
-//= require twitter/bootstrap/bootstrap-affix
+//= require twitter/bootstrap/bootstrap-affix.archivesspace

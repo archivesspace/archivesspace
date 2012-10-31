@@ -74,8 +74,8 @@ $(function() {
       $.proxy(bindSidebarEvents, this)();
       $(this).affix({
         offset: {
-          top: 0,
-          bottom: 120
+          top: $("#archivesSpaceSidebar").offset().top,
+          bottom: 100
         }
       })
       $(this).addClass("initialised");
