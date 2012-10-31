@@ -1,6 +1,6 @@
 #!/bin/bash
 
-warn_expressions="^\+\s*(puts|console\.log|debugger|print)"
+warn_expressions="^\+\s*(puts|console\.log|debugger|print|\\\$moo)"
 
 git diff --cached | egrep "$warn_expressions" >/dev/null 2>&1
 

@@ -59,9 +59,7 @@ describe 'Digital Objects controller' do
       docs << doc
     end
 
-    $moo = true
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
-    $moo = false
 
     tree.to_hash.should eq({
                              "jsonmodel_type" => "digital_object_tree",
