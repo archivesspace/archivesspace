@@ -65,7 +65,7 @@ module AgentManager
 
 
       def agents_matching(query, max)
-        self.where(name_type => my_agent_type[:name_type].
+        self.where(my_agent_type[:name_type] => my_agent_type[:name_model].
                    where(Sequel.like(Sequel.function(:lower, :sort_name),
                                      "#{query}%".downcase))).first(max)
       end

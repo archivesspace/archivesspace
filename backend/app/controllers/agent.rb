@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:agent)]"]) \
   do
     json_response(AgentManager.type_to_model_map.map {|agent_type, agent_model|
-                    agent_model.records_matching(params[:q]).map {|agent|
+                    agent_model.agents_matching(params[:q], 10).map {|agent|
                       agent_model.to_jsonmodel(agent, agent_type, :none).to_hash
                     }
                   }.flatten)
