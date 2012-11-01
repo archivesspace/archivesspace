@@ -7,18 +7,23 @@ FactoryGirl.define do
   sequence(:repo_code) {|n| "ASPACE REPO #{n}"}
   sequence(:username) {|n| "username_#{n}"}
   
-  sequence(:alphanumstr) { |n| (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join } 
+  sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join } 
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:generic_description) {|n| "Description: #{n}"}
   sequence(:generic_name) {|n| "Name Number #{n}"}
+  sequence(:container_type) {|n| "Container Type #{n}"}
+  sequence(:sort_name) { |n| "SORT #{('a'..'z').to_a[rand(26)]} - #{n}" }
+  
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
   sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
-  sequence(:number) { |n| rand(100).to_s }
+  sequence(:number) { rand(100).to_s }
   sequence(:url) {|n| "http://www.example-#{n}.com"}
+  sequence(:barcode) { 20.times.map { rand(2)}.join }
+  sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
   
   sequence(:name_rule) { JSONModel(:abstract_name).schema['properties']['rules']['enum'].sample }
-  sequence(:level) { |n| %w(series subseries otherlevel)[rand(3)] }
+  sequence(:level) { %w(series subseries otherlevel)[rand(3)] }
   sequence(:term) { |n| "Term #{n}" }
   sequence(:term_type) { JSONModel(:term).schema['properties']['term_type']['enum'].sample }
 
@@ -26,6 +31,7 @@ FactoryGirl.define do
   sequence(:record_role) { JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']['enum'].sample }
   
   sequence(:date_type) { JSONModel(:date).schema['properties']['date_type']['enum'].sample }
+  sequence(:date_lable) { JSONModel(:date).schema['properties']['label']['enum'].sample }
   
   sequence(:event_type) { JSONModel(:event).schema['properties']['event_type']['enum'].sample }
   sequence(:extent_type) { JSONModel(:extent).schema['properties']['extent_type']['enum'].sample }
@@ -50,7 +56,7 @@ FactoryGirl.define do
   
   factory :user, class: User do
     username { generate(:username) }
-    name 'A test user'
+    name { generate(:generic_name) }
     source 'local'
   end
   
@@ -60,8 +66,8 @@ FactoryGirl.define do
     id_2 { generate(:alphanumstr) }
     id_3 { generate(:alphanumstr) }
     title { "Accession " + generate(:generic_title) }
-    content_description 'The accession description'
-    condition_description 'The condition description'
+    content_description { generate(:generic_description) }
+    condition_description { generate(:generic_description) }
     accession_date { generate(:yyyy_mm_dd) }
   end
   
@@ -97,9 +103,9 @@ FactoryGirl.define do
   end
   
   factory :json_container, class: JSONModel(:container) do
-    type_1 'A Container'
-    indicator_1 '555-1-2'
-    barcode_1 '00011010010011'
+    type_1 { generate(:container_type) }
+    indicator_1 { generate(:indicator) }
+    barcode_1 { generate(:barcode) }
   end
   
   factory :json_container_location, class: JSONModel(:container_location) do
@@ -114,6 +120,12 @@ FactoryGirl.define do
     self.begin { generate(:yyyy_mm_dd) }
     self.end { generate(:yyyy_mm_dd) }
     expression { generate(:alphanumstr) }
+  end
+  
+  factory :json_deaccession, class: JSONModel(:deaccession) do
+    whole_part { rand(2) == 1?true:false }
+    description { generate(:generic_description) }
+    date { build(:json_date).to_hash }
   end
   
   factory :json_digital_object, class: JSONModel(:digital_object) do
@@ -154,32 +166,33 @@ FactoryGirl.define do
     building '129 West 81st Street'
     floor '5'
     room '5A'
-    barcode '010101100011'
+    barcode { generate(:barcode) }
+    temporary { generate(:temporary_location_type) }
   end
   
   factory :json_name_corporate_entity, class: JSONModel(:name_corporate_entity) do
     rules { generate(:name_rule) }
     primary_name { generate(:generic_name) }
-    sort_name 'Magus Magoo Inc'
+    sort_name { generate(:sort_name) }
   end
   
   factory :json_name_family, class: JSONModel(:name_family) do
     rules { generate(:name_rule) }
     family_name { generate(:generic_name) }
-    sort_name 'Family Magoo'
+    sort_name { generate(:sort_name) }
   end
 
   factory :json_name_person, class: JSONModel(:name_person) do
     rules { generate(:name_rule) }
-    primary_name 'Magus Magoo'
-    sort_name 'Magoo, Mr M'
+    primary_name { generate(:generic_name) }
+    sort_name { generate(:sort_name) }
     direct_order 'standard'
   end
   
   factory :json_name_software, class: JSONModel(:name_software) do
     rules { generate(:name_rule) }
-    software_name 'Magus Magoo Freeware'
-    sort_name 'Magoo, Mr M'
+    software_name { generate(:generic_name) }
+    sort_name { generate(:sort_name) }
   end
  
   factory :json_resource, class: JSONModel(:resource) do
@@ -193,6 +206,7 @@ FactoryGirl.define do
     description { generate(:generic_description) }
   end
   
+  # may need factories for each rights type
   factory :json_rights_statement, class: JSONModel(:rights_statement) do
     identifier { generate(:alphanumstr) }
     rights_type 'intellectual_property'

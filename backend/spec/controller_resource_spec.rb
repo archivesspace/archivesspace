@@ -198,17 +198,17 @@ describe 'Resources controller' do
     location = create(:json_location, :temporary => generate(:temporary_location_type))
     status = generate(:container_location_status)
     
-    resource = create(:json_resource, 
-                      :instances => [{
-                        "instance_type" => "text",
-                        "container" => build(:json_container, 
-                                             :container_locations => [build(:json_container_location, 
-                                                                            :location => location.uri,
-                                                                            :status => status
-                                                                            ).to_hash
-                                                                      ]
-                                            ).to_hash
-                                      }])                                              
+    resource = create(:json_resource, {
+                        :instances => [build(:json_instance, {
+                          :container => build(:json_container, {
+                            :container_locations => [build(:json_container_location, {
+                              :location => location.uri,
+                              :status => status
+                              }).to_hash]
+                            }).to_hash
+                        }).to_hash]
+                      })
+                                                                    
 
     JSONModel(:resource).find(resource.id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["status"].should eq(status)
     JSONModel(:resource).find(resource.id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["resolved"]["location"]["building"].should eq(location.building)
@@ -217,209 +217,158 @@ describe 'Resources controller' do
   it "does not permit a resource's instance's container to be linked to a location with a status of 'previous' unless the location is designated 'temporary'" do
 
     # create a location
-    location_one = create(:json_location)
+    location_one = create(:json_location, :temporary => nil)
     location_two = create(:json_location, :temporary => generate(:temporary_location_type))
     # create the resource with all the instance/container etc
     
     l = lambda { |location|
-      resource = create(:json_resource, 
-                        :instances => [build(:json_instance,
-                                             :container => build(:json_container,
-                                                                  :container_locations => [build(:json_container_location,
-                                                                                                 :status => 'previous',
-                                                                                                 :location => location.uri
-                                                                                                 ).to_hash
-                                                                                          ]
-                                                                 ).to_hash
-                                            ).to_hash
-                                      ]
-                        )
+      resource = create(:json_resource, {
+                          :instances => [build(:json_instance, {
+                            :container => build(:json_container, {
+                              :container_locations => [build(:json_container_location, {
+                                 :status => 'previous',
+                                 :location => location.uri
+                               }).to_hash]
+                            }).to_hash
+                          }).to_hash]
+                        })
 
     }
     
     expect{ l.call(location_one) }.to raise_error
     expect{ l.call(location_two) }.to_not raise_error
-  end
-
-
-  it "allows linking to a temporary location and with status set to previous" do
-    # create a location
-    location = create(:json_location, 
-                      :temporary => 'loan')
-
-    resource = create(:json_resource, 
-                      :instances => [{
-                        "instance_type" => "text",
-                        "container" => build(:json_container, 
-                                             :container_locations => [{
-                                                'status' => 'previous',
-                                                'start_date' => '2012-05-14',
-                                                'end_date' => '2012-05-18',
-                                                'location' => create(:json_location, 
-                                                                     :temporary => 'loan').to_hash
-                                                }]
-                                            ).to_hash
-                                      }])
-
-      id = resource.id
-
-      JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["status"].should eq("previous")
-      JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["resolved"]["location"]["temporary"].should eq("loan")
-  end
-
-
-  it "correctly substitutes the repo_id in nested URIs" do
-
-    location = create(:json_location)
-    location_id = location.id
-
-    resource = {
-      "dates" => [],
-      "extents" => [
-                    {
-                      "extent_type" => "cassettes",
-                      "number" => "1",
-                      "portion" => "whole"
-                    }
-                   ],
-      "external_documents" => [],
-      "id_0" => "test",
-      "instances" => [
-                      {
-                        "container" => {
-                          "barcode_1" => "test",
-                          "container_locations" => [
-                                                    {
-                                                      "end_date" => "2012-10-26",
-                                                      "location" => "/repositories/#{$repo_id}/locations/#{location_id}",
-                                                      "note" => "test",
-                                                      "start_date" => "2012-10-10",
-                                                      "status" => "current"
-                                                    }
-                                                   ],
-                          "indicator_1" => "test",
-                          "type_1" => "test"
-                        },
-                        "instance_type" => "books",
-                      }
-                     ],
-      "jsonmodel_type" => "resource",
-      "notes" => [],
-      "rights_statements" => [],
-      "subjects" => [],
-      "title" => "New Resource",
-    }
-
-
-    resource_id = JSONModel(:resource).from_hash(resource).save
-
-    # Set our default repository to nil here since we're really testing the fact
-    # that the :repo_id parameter is passed through faithfully, and the global
-    # setting would otherwise mask the error.
-    #
-    JSONModel.with_repository(nil) do
-      container_location = JSONModel(:resource).find(resource_id, :repo_id => $repo_id)["instances"][0]["container"]["container_locations"][0]
-      container_location["location"].should eq("/repositories/#{$repo_id}/locations/#{location_id}")
-    end
-  end
-
-
-  it "reports an eror when marking a non-temporary location as 'previous'" do
-    location = create(:json_location)
-
-    resource = JSONModel(:resource).
-      from_hash("title" => "New Resource",
-                "id_0" => "test2",
-                "extents" => [{
-                                "portion" => "whole",
-                                "number" => "123",
-                                "extent_type" => "cassettes"
-                              }],
-                "instances" => [{
-                                  "instance_type" => "microform",
-                                  "container" => {
-                                    "type_1" => "test",
-                                    "indicator_1" => "test",
-                                    "barcode_1" => "test",
-                                    "container_locations" => [{
-                                                                "status" => "previous",
-                                                                "start_date" => "2012-10-12",
-                                                                "end_date" => "2012-10-26",
-                                                                "location" => "/repositories/#{$repo_id}/locations/#{location.id}"
-                                                              }]
-                                  }
-                                }])
-
-
+    
     err = nil
     begin
-      resource.save
+      l.call(location_one)
     rescue
       err = $!
     end
 
     err.should be_an_instance_of(ValidationException)
     err.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
-
   end
+
+
+  it "allows a resource's instance's container to be linked to a temporary location when the status is 'previous'" do
+    # create a location
+    temp = generate(:temporary_location_type)
+    status = 'previous'
+    
+    location = build(:json_location, 
+                      :temporary => 'loan')
+
+    resource = create(:json_resource, {
+                        :instances => [build(:json_instance, {
+                          :container => build(:json_container, {
+                            :container_locations => [build(:json_container_location, {
+                              :status => status,
+                              :location => build(:json_location, {
+                                :temporary => temp
+                              }).to_hash
+                            }).to_hash]
+                          }).to_hash
+                        }).to_hash]
+      
+    })
+
+      id = resource.id
+
+      JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["status"].should eq(status)
+      JSONModel(:resource).find(id, "resolve[]" => "location").instances[0]["container"]["container_locations"][0]["resolved"]["location"]["temporary"].should eq(temp)
+  end
+
+
+  it "correctly substitutes the repo_id in nested URIs" do
+
+    location = create(:json_location)
+
+    resource = create(:json_resource, {
+                        :extents => [build(:json_extent).to_hash],
+                        :instances => [build(:json_instance, {
+                          :container => build(:json_container, {
+                            :container_locations => [build(:json_container_location, {
+                              :start_date => generate(:yyyy_mm_dd),
+                              :end_date => generate(:yyyy_mm_dd),
+                              :location => "/repositories/#{$repo_id}/locations/#{location.id}"
+                            }).to_hash]
+                          }).to_hash
+                        }).to_hash]
+    })
+
+    # Set our default repository to nil here since we're really testing the fact
+    # that the :repo_id parameter is passed through faithfully, and the global
+    # setting would otherwise mask the error.
+    #
+    JSONModel.with_repository(nil) do
+      container_location = JSONModel(:resource).find(resource.id, :repo_id => $repo_id)["instances"][0]["container"]["container_locations"][0]
+      container_location["location"].should eq("/repositories/#{$repo_id}/locations/#{location.id}")
+    end
+  end
+
+  # it "reports an error when marking a non-temporary location as 'previous'" do
+  # merged this test into:
+  #  'does not permit a resource's instance's container to be linked to a location with a status of 'previous'...'
 
 
   it "supports resolving locations and subjects" do
 
+    test_barcode = generate(:barcode)
+    test_subject_term = generate(:term)
 
-    # vocab = JSONModel(:vocabulary).from_hash("name" => "Some Vocab",
-    #                                          "ref_id" => "abc"
-    #                                          )
-    # vocab.save
     vocab = create(:json_vocab)
 
-    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "a test subject", "term_type" => "Cultural context", "vocabulary" => vocab.uri}],
-                                            "vocabulary" => vocab.uri
-                                            )
-    subject.save
+    subject = create(:json_subject, {
+                        :terms => [build(:json_term, {
+                          :term => test_subject_term,
+                          :vocabulary => vocab.uri
+                        }).to_hash],
+                        :vocabulary => vocab.uri
+    })
+    
+    location = create(:json_location, {
+                        :barcode => test_barcode
+    })
 
-    r = create(:json_resource, 
-               :subjects => [subject.uri],
-               :instances => [{
-                  "instance_type" => "text",
-                  "container" => build(:json_container, 
-                                       :container_locations => [{
-                                          'status' => 'current',
-                                          'start_date' => '2012-05-14',
-                                          'end_date' => '2012-05-18',
-                                          'location' => create(:json_location).uri
-                                          }]
-                                      ).to_hash
-                                }])
 
+    r = create(:json_resource, {
+          :subjects => [subject.uri],
+          :instances => [build(:json_instance, {
+            :container => build(:json_container, {
+              :container_locations => [build(:json_container_location, {
+                :start_date => generate(:yyyy_mm_dd),
+                :end_date => generate(:yyyy_mm_dd),
+                :location => location.uri
+              }).to_hash]
+            }).to_hash
+          }).to_hash]
+    })
 
     resource = JSONModel(:resource).find(r.id, "resolve[]" => ["subjects", "location"])
 
     # yowza!
-    resource["instances"][0]["container"]["container_locations"][0]["resolved"]["location"]["barcode"].should eq("010101100011")
-    resource["resolved"]["subjects"][0]["terms"][0]["term"].should eq("a test subject")
+    resource["instances"][0]["container"]["container_locations"][0]["resolved"]["location"]["barcode"].should eq(test_barcode)
+    resource["resolved"]["subjects"][0]["terms"][0]["term"].should eq(test_subject_term)
   end
 
 
-
-  it "creates an accession with a deaccession" do
+  it "allows an resource to be created with an attached deaccession" do
+    
+    test_begin_date = generate(:yyyy_mm_dd)
+    test_boolean = (rand(2) == 1) ? false : true
+    
     r = create(:json_resource, 
-               :deaccessions => [
-                  {
-                    "whole_part" => false,
-                    "description" => "A description of this deaccession",
-                    "date" => {
-                      "date_type" => "single",
-                      "label" => "creation",
-                      "begin" => "2012-05-14",
-                    },
-                  }
-                ])
+               :deaccessions => [build(:json_deaccession, {
+                 :whole_part => test_boolean,
+                 :date => build(:json_date, {
+                   :begin => test_begin_date
+                 }).to_hash
+               }).to_hash]
+               )
     
     JSONModel(:resource).find(r.id).deaccessions.length.should eq(1)
-    JSONModel(:resource).find(r.id).deaccessions[0]["whole_part"].should eq(false)
-    JSONModel(:resource).find(r.id).deaccessions[0]["date"]["begin"].should eq("2012-05-14")
+    JSONModel(:resource).find(r.id).deaccessions[0]["whole_part"].should eq(test_boolean)
+    JSONModel(:resource).find(r.id).deaccessions[0]["date"]["begin"].should eq(test_begin_date)
   end
-
 
 end

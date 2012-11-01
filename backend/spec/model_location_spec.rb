@@ -11,7 +11,7 @@ describe 'Location model' do
     location = Location.create_from_json(build(:json_location), :repo_id => $repo_id)
 
     Location[location[:id]].building.should eq("129 West 81st Street")
-    Location[location[:id]].barcode.should eq("010101100011")
+    Location[location[:id]].barcode.should match(/[0,1]?/)
   end
 
   it "can be created with coordinate data" do
