@@ -328,8 +328,7 @@ describe 'JSON model' do
                                                        "dimensions" => ""}]})
 
     rescue JSONModel::ValidationException => e
-      e.errors.keys.sort.should eq(["id_0",
-                                    "notes/0/content",
+      e.errors.keys.sort.should eq(["notes/0/content",
                                     "notes/1/subnotes/0/content",
                                     "notes/1/subnotes/0/label"])
     end

@@ -27,6 +27,25 @@ describe 'Resource model' do
   end
 
 
+  it "prevents duplicate ref ids " do
+    json = JSONModel(:resource).from_hash({
+                                            "title" => "A new resource",
+                                            "ref_id" => "abc123",
+                                            "extents" => [
+                                              {
+                                                "portion" => "whole",
+                                                "number" => "5 or so",
+                                                "extent_type" => "reels",
+                                              }
+                                            ]
+                                          })
+
+    Resource.create_from_json(json, :repo_id => @repo_id)
+
+    expect { Resource.create_from_json(json) }.to raise_error
+  end
+
+
   it "Allows resources to be created with a date" do
     
     opts = {:dates => [build(:json_date).to_hash]}

@@ -40,6 +40,8 @@ module Identifiers
 
 
   def validate
+    return super if self.class.table_name === :resource and self.identifier.nil?
+
     validates_unique([:repo_id, :identifier], :message => "That ID is already in use")
     map_validation_to_json_property([:repo_id, :identifier], :id_0)
     super

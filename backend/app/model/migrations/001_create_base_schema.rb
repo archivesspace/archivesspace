@@ -158,7 +158,8 @@ Sequel.migration do
       Integer :repo_id, :null => false
       String :title, :null => false
 
-      String :identifier, :null => false
+      String :identifier
+      String :ref_id
 
       Blob :notes, :null => true
 

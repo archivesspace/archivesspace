@@ -483,6 +483,7 @@ en:
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
+    ref_id: Ref ID
     extents: Extents
     _extents:
       <<: *extent_attributes

@@ -784,7 +784,6 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id, "resource_title_").clear
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
-    @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
     @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
     @driver.find_element_with_text('//div[contains(@class, "warning")]', /Number - Property was missing/)
 
