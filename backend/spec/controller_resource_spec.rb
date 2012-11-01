@@ -38,28 +38,31 @@ describe 'Resources controller' do
 
     aos = []
     ["earth", "australia", "canberra"].each do |name|
-      ao = create(:json_archival_object, {:ref_id => name,
-                                          :title => "archival object: #{name}"})
+      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
       if not aos.empty?
         ao.parent = aos.last.uri
       end
 
       ao.resource = resource.uri
+
       ao.save
       aos << ao
     end
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id).to_hash
-    
+
     tree['archival_object'].should eq(aos[0].uri)
     tree['children'][0]['archival_object'].should eq(aos[1].uri)
     tree['children'][0]['children'][0]['archival_object'].should eq(aos[2].uri)
 
     # Now turn it on its head
+    type = tree.delete("jsonmodel_type")
     changed = invert_tree(tree)
+    changed["jsonmodel_type"] = type
     
     JSONModel(:resource_tree).from_hash(changed).save(:resource_id => resource.id)
     changed.delete("uri")
+    changed["jsonmodel_type"] = "resource_tree"
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
