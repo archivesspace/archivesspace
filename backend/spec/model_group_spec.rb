@@ -7,7 +7,7 @@ describe 'Group model' do
   end
   
 
-  it "Supports creating a new group" do
+  it "supports creating a new group" do
     opts = {:group_code => generate(:alphanumstr)}
     
     group = Group.create_from_json(
@@ -18,7 +18,7 @@ describe 'Group model' do
   end
 
 
-  it "Enforces group code uniqueness within a single repository" do
+  it "enforces group code uniqueness within a single repository" do
     
     opts = {:group_code => generate(:alphanumstr)}
 
@@ -35,10 +35,8 @@ describe 'Group model' do
   end
 
 
-  it "Ignores case when checking group code uniqueness" do
-    
+  it "ignores case when checking group code uniqueness" do
     opts = {:group_code => generate(:alphanumstr).downcase} 
-       
     Group.create_from_json(build(:json_group, opts), :repo_id => $repo_id)
 
     opts[:group_code].upcase!
@@ -49,7 +47,7 @@ describe 'Group model' do
   end
 
 
-  it "Lets you add users to a group" do
+  it "lets you add users to a group" do
     group = Group.create_from_json(build(:json_group), :repo_id => $repo_id)
 
     group.add_user(make_test_user("simon"))
@@ -59,7 +57,7 @@ describe 'Group model' do
   end
 
 
-  it "Lets you assign permissions to a group and apply them to users" do
+  it "lets you assign permissions to a group and apply them to users" do
     repo1 = create(:repo)
     repo2 = create(:repo)
 
