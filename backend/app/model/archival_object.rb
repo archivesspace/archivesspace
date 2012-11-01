@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class ArchivalObject < Sequel::Model(:archival_object)
   plugin :validation_helpers
   include ASModel
@@ -10,6 +12,12 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Agents
 
   set_model_scope :repository
+
+
+  def before_create
+    super
+    self.ref_id = SecureRandom.hex if self.ref_id.nil?
+  end
 
 
   def children
@@ -43,6 +51,9 @@ class ArchivalObject < Sequel::Model(:archival_object)
 
 
   def update_from_json(json, opts = {})
+    # don't allow ref_id to be updated
+    json.ref_id = self.ref_id
+
     self.class.set_resource(json, opts)
     super
   end

@@ -199,6 +199,19 @@ module AspaceFormHelper
     end
 
 
+    def label_and_readonly(name, default = "", opts = {})
+      value = obj[name]
+
+      if opts.has_key? :controls_class
+        opts[:controls_class] << " label_only"
+      else
+        opts[:controls_class] = " label_only"
+      end
+
+      label_with_field(name, value.blank? ? default : value , opts)
+    end
+
+
     def select(name, options, opts = {})
       @forms.select_tag(path(name), @forms.options_for_select(options, obj[name]), {:id => id_for(name)}.merge!(opts))
     end

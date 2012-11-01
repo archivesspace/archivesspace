@@ -823,10 +823,12 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Add Child").click
     @driver.find_element(:link, "Archival Object").click
 
+    @driver.clear_and_send_keys([:id, "archival_object_title_"], "")
+
     # False start: create an object without filling it out
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
-    @driver.find_element_with_text('//div[contains(@class, "error")]', /Ref ID - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
   end
 
 
@@ -834,7 +836,6 @@ describe "ArchivesSpace user interface" do
 
   it "can populate the archival object tree" do
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "Lost mail")
-    @driver.clear_and_send_keys([:id, "archival_object_ref_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
     ["January", "February", "December"]. each do |month|
@@ -845,7 +846,6 @@ describe "ArchivesSpace user interface" do
       @driver.find_element(:xpath, "//input[@value='New Archival Object']")
 
       @driver.clear_and_send_keys([:id, "archival_object_title_"],(month))
-      @driver.clear_and_send_keys([:id, "archival_object_ref_id_"],(Digest::MD5.hexdigest("#{month}#{Time.now}")))
 
       old_element = @driver.find_element(:id, "archival_object_title_")
       @driver.click_and_wait_until_gone(:id => "createPlusOne")
@@ -898,7 +898,6 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:link, "Add Child").click
     @driver.find_element(:link, "Archival Object").click
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "Christmas cards")
-    @driver.clear_and_send_keys([:id, "archival_object_ref_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
     @driver.find_element(:css, ".linker-wrapper a.btn").click
     @driver.find_element(:css, "a.linker-create-btn").click

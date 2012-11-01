@@ -112,4 +112,12 @@ describe 'Archival Object controller' do
 
     ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
   end
+
+
+  it "will won't allow a ref_id to be changed upon update" do
+    created = create_archival_object("ref_id" => nil)
+
+    JSONModel(:archival_object).find(created).ref_id.should_not be_nil
+  end
+
 end
