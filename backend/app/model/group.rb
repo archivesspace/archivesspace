@@ -16,6 +16,11 @@ class Group < Sequel::Model(:group)
   end
 
 
+  def before_save
+    self.group_code_norm = self.group_code.downcase
+  end
+
+
   def self.set_members(obj, json)
     obj.remove_all_user
     (json.member_usernames or []).map {|username|
@@ -88,9 +93,10 @@ class Group < Sequel::Model(:group)
 
   def validate
     super
-    validates_unique([:repo_id, :group_code],
+    self.group_code_norm = self.group_code.downcase
+    validates_unique([:repo_id, :group_code_norm],
                      :message => "Group code must be unique within a repository")
-    map_validation_to_json_property([:repo_id, :group_code], :group_code)
+    map_validation_to_json_property([:repo_id, :group_code_norm], :group_code)
   end
 
 

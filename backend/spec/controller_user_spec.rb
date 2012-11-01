@@ -58,8 +58,8 @@ describe 'User controller' do
   end
 
 
-  it "Yields a list of the user's permissions" do
-    make_test_repo
+  it "yields a list of the user's permissions" do
+    repo = create(:repo)
 
     group = JSONModel(:group).from_hash("group_code" => "newgroup",
                                         "description" => "A test group")
@@ -70,11 +70,11 @@ describe 'User controller' do
     # as a part of the login process...
     post '/users/test1/login', params = { "password" => "password"}
     last_response.should be_ok
-    JSON(last_response.body)["permissions"]["ARCHIVESSPACE"].should eq(["manage_repository"])
+    JSON(last_response.body)["permissions"][repo.repo_code].should eq(["manage_repository"])
 
     # But also with the user
     user = JSONModel(:user).find('test1')
-    user.permissions["ARCHIVESSPACE"].should eq(["manage_repository"])
+    user.permissions[repo.repo_code].should eq(["manage_repository"])
   end
 
 end

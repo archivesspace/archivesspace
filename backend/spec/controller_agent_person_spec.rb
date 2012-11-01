@@ -2,40 +2,31 @@ require 'spec_helper'
 
 describe 'Person agent controller' do
 
-  def create_person
-    JSONModel(:agent_person).from_hash(:names => [{
-                                                    :rules => "local",
-                                                    :primary_name => 'Magus Magoo',
-                                                    :direct_order => "standard",
-                                                    :sort_name => "1 - MAGOO",
-                                                  }],
-                                       :agent_contacts => [{
-                                                              "name" => "Business hours contact",
-                                                              "telephone" => "0011 1234 1234"
-                                                            }]
-                                       ).save
+  def create_person(opts = {})
+    create(:json_agent_person, opts)
   end
 
 
   it "lets you create a person and get them back" do
-    id = create_person
-    JSONModel(:agent_person).find(id).names.first['primary_name'].should eq('Magus Magoo')
+    opts = {:names => [build(:json_name_person).to_hash]}
+
+    id = create_person(opts).id
+    JSONModel(:agent_person).find(id).names.first['primary_name'].should eq(opts[:names][0]['primary_name'])
   end
 
-  it "lets you update someone" do
-    id = create_person
+  it "lets you update someone by adding contacts" do
+    id = create_person(:agent_contacts => nil).id
 
     person = JSONModel(:agent_person).find(id)
+    [0, 1].each do |n|
+      opts = {:name => generate(:generic_name)}
 
-    person.agent_contacts << {
-      "name" => "A separate contact",
-      "telephone" => "0118 999 881 999 119 725 3"
-    }
+      person.agent_contacts << build(:json_agent_contact, opts).to_hash
 
-    person.save
+      person.save
 
-    JSONModel(:agent_person).find(id).agent_contacts[1]['name'].should eq("A separate contact")
-
+      JSONModel(:agent_person).find(id).agent_contacts[n]['name'].should eq(opts[:name])
+    end
   end
 
 

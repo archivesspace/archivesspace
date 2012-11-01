@@ -3,36 +3,39 @@ require 'spec_helper'
 describe 'Repository controller' do
 
   it "gives a list of all repositories" do
-    make_test_repo("ARCHIVESSPACE")
-    make_test_repo("TEST")
+    
+    [0,1].each do |n|
+      repo_code = create(:repo).repo_code
 
-    repos = JSONModel(:repository).all
+      repos = JSONModel(:repository).all
 
-    repos.any? { |repo| repo.repo_code == "ARCHIVESSPACE" }.should be_true
-    repos.any? { |repo| repo.repo_code == "TEST" }.should be_true
+      repos.any? { |repo| repo.repo_code == repo_code }.should be_true
+      repos.any? { |repo| repo.repo_code == generate(:repo_code) }.should be_false
+    end
   end
 
   it "can get back a single repository" do
-    id = make_test_repo("ARCHIVESSPACE")
+    repo = create(:repo)
 
-    JSONModel(:repository).find(id).repo_code.should eq("ARCHIVESSPACE")
+    JSONModel(:repository).find(repo.id).repo_code.should eq(repo.repo_code)
   end
 
 
-  it "Only allows admins to create new repositories" do
-    make_test_user("regularjoe")
+  it "doesn't allow regular non-admin users to create new repositories" do
+    user = create(:user)
 
-    as_test_user("regularjoe") do
+    as_test_user(user.username) do
       expect {
-        repo = JSONModel(:repository).from_hash("repo_code" => "regularjoe-repo",
-                                                "description" => "A new ArchivesSpace repository").save
+        create(:json_repo)
+        # repo = JSONModel(:repository).from_hash("repo_code" => "regularjoe-repo",
+        #                                         "description" => "A new ArchivesSpace repository").save
       }.to raise_error(AccessDeniedException)
     end
   end
 
 
   it "Creating a repository automatically creates the standard set of groups" do
-    id = make_test_repo("ARCHIVESSPACE")
+    create(:repo)
 
     groups = JSONModel(:group).all.map {|group| group.group_code}
 

@@ -113,10 +113,13 @@ def app
   ArchivesSpaceService
 end
 
+require 'factory_girl'
+
+FactoryGirl.find_definitions
+
 
 def make_test_repo(code = "ARCHIVESSPACE")
-  repo = Repository.create(:repo_code => code,
-                           :description => "A new ArchivesSpace repository")
+  repo = create(:repo, {:repo_code => code})
 
   @repo_id = repo.id
   @repo = JSONModel(:repository).uri_for(repo.id)
@@ -128,7 +131,7 @@ end
 
 
 def make_test_user(username, name = "A test user", source = "local")
-  User.create(:username => username, :name => name, :source => source)
+  create(:user, {:username => username, :name => name, :source => source})
 end
 
 
@@ -153,7 +156,8 @@ end
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-
+  config.include FactoryGirl::Syntax::Methods
+  
   # Roll back the database after each test
   config.around(:each) do |example|
     DB.open(true) do

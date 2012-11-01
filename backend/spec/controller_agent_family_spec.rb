@@ -2,38 +2,33 @@ require 'spec_helper'
 
 describe 'Family agent controller' do
 
-  def create_family
-    JSONModel(:agent_family).from_hash(:names => [{
-                                                    "rules" => "local",
-                                                    "family_name" => "Magoo Family",
-                                                    "sort_name" => "Family Magoo"
-                                                  }],
-                                       :agent_contacts => [{
-                                                              "name" => "Business hours contact",
-                                                              "telephone" => "0011 1234 1234"
-                                                            }]
-                                       ).save
+  def create_family(opts = {})
+    create(:json_agent_family, opts)
   end
 
 
   it "lets you create a family and get them back" do
-    id = create_family
-    JSONModel(:agent_family).find(id).names.first['family_name'].should eq('Magoo Family')
+    opts = {:names => [build(:json_name_family).to_hash],
+            :agent_contacts => [build(:json_agent_contact).to_hash]
+            }
+
+    id = create_family(opts).id
+    JSONModel(:agent_family).find(id).names.first['family_name'].should eq(opts[:names][0]['family_name'])
   end
 
   it "lets you update a family" do
-    id = create_family
+    id = create_family(:agent_contacts => nil).id
 
     family = JSONModel(:agent_family).find(id)
+    [0,1].each do |n|
 
-    family.agent_contacts << {
-      "name" => "A separate contact",
-      "telephone" => "0118 999 881 999 119 725 3"
-    }
+      opts = {:name => generate(:generic_name)}
+      family.agent_contacts << build(:json_agent_contact, opts).to_hash
 
-    family.save
+      family.save
 
-    JSONModel(:agent_family).find(id).agent_contacts[1]['name'].should eq("A separate contact")
+      JSONModel(:agent_family).find(id).agent_contacts[n]['name'].should eq(opts[:name])
+    end
 
   end
 

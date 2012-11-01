@@ -3,91 +3,55 @@ require 'spec_helper'
 describe 'Resource model' do
 
   before(:each) do
-    make_test_repo
+    create(:repo)
   end
 
 
-  def create_resource
-    Resource.create_from_json(JSONModel(:resource).
-                              from_hash({
-                                          "title" => "A new resource",
-                                          "id_0" => "abc123",
-                                          "extents" => [
-                                            {
-                                              "portion" => "whole",
-                                              "number" => "5 or so",
-                                              "extent_type" => "reels",
-                                            }
-                                          ]
-                                        }),
-                              :repo_id => @repo_id)
+  def create_resource(opts = {})
+    Resource.create_from_json(build(:json_resource, opts), :repo_id => $repo_id)
   end
 
 
   it "Allows resources to be created" do
-    resource = create_resource
+    
+    opts = {:title => generate(:generic_title)}
+    
+    resource = create_resource(opts)
 
-    Resource[resource[:id]].title.should eq("A new resource")
+    Resource[resource[:id]].title.should eq(opts[:title])
   end
 
 
   it "Prevents duplicate IDs " do
-    create_resource
+    
+    opts = {:id_0 => generate(:alphanumstr)}
+    
+    create_resource(opts)
 
-    expect { create_resource }.to raise_error
+    expect { create_resource(opts) }.to raise_error
   end
 
 
   it "Allows resources to be created with a date" do
-    resource = Resource.create_from_json(JSONModel(:resource).
-                                           from_hash({
-                                                       "title" => "A new resource",
-                                                       "id_0" => "abc123",
-                                                       "extents" => [
-                                                         {
-                                                           "portion" => "whole",
-                                                           "number" => "5 or so",
-                                                           "extent_type" => "reels",
-                                                         }
-                                                       ],
-                                                       "dates" => [
-                                                         {
-                                                           "date_type" => "single",
-                                                           "label" => "creation",
-                                                           "begin" => "2012-05-14",
-                                                           "end" => "2012-05-14",
-                                                         }
-                                                       ]
-                                                     }),
-                                         :repo_id => @repo_id)
+    
+    opts = {:dates => [build(:json_date).to_hash]}
+    
+    resource = create_resource(opts)
 
     Resource[resource[:id]].date.length.should eq(1)
-    Resource[resource[:id]].date[0].begin.should eq("2012-05-14")
+    Resource[resource[:id]].date[0].begin.should eq(opts[:dates][0]['begin'])
   end
 
 
   it "Throws an exception if extents is nil" do
-    expect {
-      resource = Resource.create_from_json(JSONModel(:resource).
-                                             from_hash({
-                                                         "title" => "A new resource",
-                                                         "id_0" => "abc123",
-                                                       }),
-                                           :repo_id => @repo_id)
-    }.to raise_error
+    
+    expect { create_resource({:extents => nil}) }.to raise_error    
   end
 
 
   it "Throws an exception if extents is empty" do
-    expect {
-      resource = Resource.create_from_json(JSONModel(:resource).
-                                             from_hash({
-                                                         "title" => "A new resource",
-                                                         "id_0" => "abc123",
-                                                         "extents" => []
-                                                       }),
-                                           :repo_id => @repo_id)
-    }.to raise_error
+    
+    expect { create_resource({:extents => []}) }.to raise_error
   end
 
 
@@ -105,33 +69,14 @@ describe 'Resource model' do
 
 
   it "can be created with an instance" do
-    resource = Resource.create_from_json(JSONModel(:resource).
-                                           from_hash({
-                                                       "title" => "A new resource",
-                                                       "id_0" => "abc123",
-                                                       "extents" => [
-                                                         {
-                                                           "portion" => "whole",
-                                                           "number" => "5 or so",
-                                                           "extent_type" => "reels",
-                                                         }
-                                                       ],
-                                                       "instances" => [
-                                                         {
-                                                           "instance_type" => "text",
-                                                           "container" => {
-                                                             "type_1" => "A Container",
-                                                             "indicator_1" => "555-1-2",
-                                                             "barcode_1" => "00011010010011",
-                                                           }
-                                                         }
-                                                       ]
-                                                     }),
-                                         :repo_id => @repo_id)
+    
+    opts = {:instances => [build(:json_instance).to_hash]}
+    
+    resource = create_resource(opts)
 
     Resource[resource[:id]].instance.length.should eq(1)
-    Resource[resource[:id]].instance[0].instance_type.should eq("text")
-    Resource[resource[:id]].instance[0].container.first.type_1.should eq("A Container")
+    Resource[resource[:id]].instance[0].instance_type.should eq(opts[:instances][0]['instance_type'])
+    Resource[resource[:id]].instance[0].container.first.type_1.should eq(opts[:instances][0]['container']['type_1'])
   end
 
 end

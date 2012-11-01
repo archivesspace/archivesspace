@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Digital Object Component controller' do
 
   before(:each) do
-    make_test_repo
+    create(:repo)
   end
 
 
@@ -48,9 +48,9 @@ describe 'Digital Object Component controller' do
     create_digital_object_component("component_id" => "child123",
                                     "digital_object" => digital_object.uri,
                                     "title" => "child digital object component",
-                                    "parent" => "#{@repo}/digital_object_components/#{created}")
+                                    "parent" => "#{$repo}/digital_object_components/#{created}")
 
-    get "#{@repo}/digital_object_components/#{created}/children"
+    get "#{$repo}/digital_object_components/#{created}/children"
 
     children = JSON(last_response.body)
     children[0]["title"].should eq("child digital object component")

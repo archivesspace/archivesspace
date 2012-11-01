@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Digital Objects controller' do
 
   before(:each) do
-    make_test_repo
+    create(:repo)
   end
 
 

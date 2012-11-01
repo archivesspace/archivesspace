@@ -63,6 +63,7 @@ Sequel.migration do
       Integer :repo_id, :null => false
 
       String :group_code, :null => false
+      String :group_code_norm, :null => false
       TextField :description, :null => false
 
       DateTime :create_time, :null => false
@@ -72,7 +73,7 @@ Sequel.migration do
 
     alter_table(:group) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_index([:repo_id, :group_code], :unique => true)
+      add_index([:repo_id, :group_code_norm], :unique => true)
     end
 
 

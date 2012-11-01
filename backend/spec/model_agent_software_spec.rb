@@ -2,67 +2,43 @@ require 'spec_helper'
 
 describe 'Agent model' do
 
-  it "allows agents to be created" do
+  it "allows software agent records to be created with multiple names" do
+    
+    n1 = build(:json_name_software)
+    n2 = build(:json_name_software)
 
-    agent = AgentSoftware.create_from_json(JSONModel(:agent_software)
-                                           .from_hash({
-                                                        "agent_type" => "agent_software",
-                                                        "names" => [
-                                                                    {
-                                                                      "rules" => "local",
-                                                                      "software_name" => "Magus Magoo Freeware",
-                                                                      "sort_name" => "Magoo, Mr M"
-                                                                    },
-                                                                    {
-                                                                      "rules" => "local",
-                                                                      "software_name" => "Magus McGoo Vaporware",
-                                                                      "sort_name" => "McGoo"
-                                                                    }
-                                                                   ]
-                                                      }))
+    agent = AgentSoftware.create_from_json(build(:json_agent_software, :names => [n1.to_hash, n2.to_hash]))
 
     AgentSoftware[agent[:id]].name_software.length.should eq(2)
   end
+  
+  it "doesn't allow a software agent record to be created without a name" do
+    
+    expect { 
+      AgentSoftware.create_from_json(build(:json_agent_software, :names => []))
+      }.to raise_error(JSONModel::ValidationException)
+  end
 
 
-  it "allows agents to have a linked contact details" do
+  it "allows a software agent record to be created with linked contact details" do
+    
+    opts = {:name => 'Business hours contact'}
+    
+    c1 = build(:json_agent_contact, opts)
 
-    agent = AgentSoftware.create_from_json(JSONModel(:agent_software)
-                                     .from_hash({
-                                                  "agent_type" => "agent_software",
-                                                   "names" => [
-                                                               {
-                                                                 "rules" => "local",
-                                                                 "software_name" => "Magus Magoo Freeware",
-                                                                 "sort_name" => "Magoo, Mr M"
-                                                               }
-                                                               ],
-                                                    "agent_contacts" => [
-                                                                         {
-                                                                           "name" => "Business hours contact",
-                                                                           "telephone" => "0011 1234 1234"
-                                                                         }
-                                                                        ]
-                                                }))
+    agent = AgentSoftware.create_from_json(build(:json_agent_software, {:agent_contacts => [c1.to_hash]}))
 
     AgentSoftware[agent[:id]].agent_contact.length.should eq(1)
-    AgentSoftware[agent[:id]].agent_contact[0][:name].should eq("Business hours contact")
+    AgentSoftware[agent[:id]].agent_contact[0][:name].should eq(opts[:name])
   end
 
 
   it "requires a source to be set if an authority id is provided" do
+    
+    n1 = build(:json_name_software, :authority_id => 'wooo')
+    
     expect { 
-      agent = AgentSoftware.create_from_json(JSONModel(:agent_software)
-                                       .from_hash({
-                                                  "agent_type" => "agent_software",
-                                                   "names" => [
-                                                               {
-                                                                 "authority_id" => "wooo",
-                                                                 "software_name" => "Magus Magoo Freeware",
-                                                                 "sort_name" => "Magoo, Mr M"
-                                                               }
-                                                               ]
-                                                }))
+      n1.to_hash
      }.to raise_error(JSONModel::ValidationException)
   end
 end

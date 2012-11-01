@@ -6,10 +6,10 @@ require 'spec_helper'
 describe 'REST interface' do
 
   it "Requires view_repository access when performing GETs within a repo" do
-    make_test_repo("ARCHIVESSPACE")
+    create(:repo, :repo_code => 'ARCHIVESSPACE')
 
-    make_test_user("spongebob")
-    make_test_user("mrkrabs")
+    create(:user, :username => 'spongebob')
+    create(:user, :username => 'mrkrabs')
 
     viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
     archivists = JSONModel(:group).all(:group_code => "repository-archivists").first

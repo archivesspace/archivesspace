@@ -5,18 +5,14 @@ describe 'Instance model' do
 
   it "Allows an instance to be created" do
 
-    instance = Instance.create_from_json(JSONModel(:instance).
-                                                       from_hash({
-                                                                   "instance_type" => "text",
-                                                                   "container" => {
-                                                                     "type_1" => "A Container",
-                                                                     "indicator_1" => "555-1-2",
-                                                                     "barcode_1" => "00011010010011",
-                                                                   }
-                                                                 }))
+    opts = {:instance_type => generate(:instance_type), 
+            :container => build(:json_container).to_hash
+            }
 
-    Instance[instance[:id]].instance_type.should eq("text")
-    Instance[instance[:id]].container.first.type_1.should eq("A Container")
+    instance = Instance.create_from_json(build(:json_instance, opts))
+
+    Instance[instance[:id]].instance_type.should eq(opts[:instance_type])
+    Instance[instance[:id]].container.first.type_1.should eq(opts[:container]['type_1'])
   end
 
 
