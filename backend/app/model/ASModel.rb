@@ -336,6 +336,11 @@ module ASModel
     def sequel_to_jsonmodel(obj, model, opts = {})
       json = JSONModel(model).new(map_db_types_to_json(JSONModel(model).schema, obj.values.reject {|k, v| v.nil? }))
 
+      if obj.values.has_key?(:repo_id) && obj[:repo_id] != active_repository
+        raise ("ASSERTION FAILED: #{obj.inspect} has a repo_id of " +
+               "#{obj[:repo_id]} but the active repository is #{active_repository}")
+      end
+
       uri = json.class.uri_for(obj.id, :repo_id => active_repository)
       json.uri = uri if uri
 

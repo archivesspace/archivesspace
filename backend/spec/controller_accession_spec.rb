@@ -121,4 +121,13 @@ describe 'Accession controller' do
   end
 
 
+  it "doesn't show accessions for other repositories when listing " do
+    create(:json_accession)
+    JSONModel(:accession).all.count.should eq(1)
+
+    create(:repo)
+    JSONModel(:accession).all.count.should eq(0)
+  end
+
+
 end
