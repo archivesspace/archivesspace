@@ -66,36 +66,11 @@ describe 'ArchivalObject model' do
 
 
   it "will generate a ref_id if non is provided" do
-    ao = ArchivalObject.create_from_json(JSONModel(:archival_object).
-                                           from_hash({
-                                                       "title" => "A new archival object"
-                                                     }),
-                                         :repo_id => @repo_id)
+    ao = ArchivalObject.create_from_json(build(:json_archival_object),
+                                         :repo_id => $repo_id)
 
     ArchivalObject[ao[:id]].ref_id.should_not be_nil
   end
 
-
-  it "will won't allow a ref_id to be changed upon update" do
-    ao = ArchivalObject.create_from_json(JSONModel(:archival_object).
-                                           from_hash({
-                                                       "title" => "A new archival object"
-                                                     }),
-                                         :repo_id => @repo_id)
-
-    ao = ArchivalObject[ao[:id]]
-
-    ao_ref_id = ao.ref_id
-
-    ao.update_from_json(JSONModel(:archival_object).
-                          from_hash({
-                                      "title" => "A new archival object",
-                                      "ref" => "FOOBAR",
-                                      "lock_version" => ao.lock_version
-                                    }),
-                        :repo_id => @repo_id)
-
-    ArchivalObject[ao[:id]].ref_id.should eq(ao_ref_id)
-  end
 
 end

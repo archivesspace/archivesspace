@@ -17,6 +17,7 @@
             <div class="span3">Title</div>
             <div class="span9"><%= @resource.title %></div>
          </div>
+
         <% if @resource.id_0 %>
          <div class="row-fluid label-and-value">
             <div class="span3">Identifier</div>
@@ -25,14 +26,7 @@
             </div>
          </div>
         <% end %>
-        <% if @resource.ref_id %>
-          <div class="row-fluid label-and-value">
-            <div class="span3">Ref Id</div>
-            <div class="span9 identifier-display">
-              <span class="identifier-display-part"><%= @resource.ref_id %></span>
-            </div>
-          </div>
-        <% end %>
+
          <% if not @resource.subjects.blank? %>
          <hr/>
          <div class="row-fluid label-and-value">

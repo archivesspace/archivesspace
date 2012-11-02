@@ -125,15 +125,4 @@ class Resource < Sequel::Model(:resource)
   end
 
 
-  def validate
-    if not self.ref_id.nil?
-      validates_unique([:repo_id, :ref_id],
-                     :message => "Ref ID must be unique to its repository")
-      map_validation_to_json_property([:repo_id, :ref_id], :ref_id)
-    end
-
-    super
-  end
-
-
 end
