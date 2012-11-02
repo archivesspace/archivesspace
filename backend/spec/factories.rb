@@ -135,6 +135,11 @@ FactoryGirl.define do
     extents { [build(:json_extent).to_hash] }
   end
   
+  factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
+    component_id { generate(:alphanumstr) }
+    title { "Digital Object Component #{generate(:generic_title)}" }
+  end
+
   factory :json_event, class: JSONModel(:event) do
     date { build(:json_date).to_hash }
     event_type { generate(:event_type) }

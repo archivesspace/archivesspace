@@ -46,7 +46,7 @@ class DB
       require_relative "../app/model/db_migrator"
       @pool = Sequel.connect("jdbc:derby:memory:fakedb;create=true",
                              :max_connections => 10,
-                             # :loggers => [Logger.new($stderr)]
+                             #:loggers => [Logger.new($stderr)]
                              )
 
       DBMigrator.nuke_database(@pool)
@@ -116,6 +116,7 @@ end
 require 'factory_girl'
 
 FactoryGirl.find_definitions
+include FactoryGirl::Syntax::Methods
 
 
 def make_test_repo(code = "ARCHIVESSPACE")
@@ -155,6 +156,14 @@ def as_test_user(username)
 end
 
 
+DB.open(true) do
+  RequestContext.open do
+    create(:repo)
+    $default_repo = $repo_id
+  end
+end
+
+
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
@@ -164,7 +173,10 @@ RSpec.configure do |config|
     DB.open(true) do
       as_test_user("admin") do
         RequestContext.open do
-          create(:repo)
+          $repo_id = $default_repo
+          $repo = JSONModel(:repository).uri_for($repo_id)
+          JSONModel::set_repository($repo_id)
+          RequestContext.put(:repo_id, $repo_id)
           example.run
         end
       end
