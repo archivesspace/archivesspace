@@ -22,7 +22,7 @@ describe 'External Document model' do
                                    from_hash({
                                                "location" => "http://www.foobar.com",
                                              }))
-    }.should raise_error(JSONModel::ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -32,7 +32,7 @@ describe 'External Document model' do
                                    from_hash({
                                                "title" => "My external document",
                                              }))
-    }.should raise_error(JSONModel::ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
