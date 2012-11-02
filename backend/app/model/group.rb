@@ -2,6 +2,8 @@ class Group < Sequel::Model(:group)
   plugin :validation_helpers
   include ASModel
 
+  set_model_scope :repository
+
   many_to_many :user, :join_table => :group_user
   many_to_many :permission, :join_table => :group_permission
 

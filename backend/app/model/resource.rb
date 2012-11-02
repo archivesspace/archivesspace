@@ -11,6 +11,8 @@ class Resource < Sequel::Model(:resource)
   include Deaccessions
   include Agents
 
+  set_model_scope :repository
+
 
   def link(opts)
     child = ArchivalObject.get_or_die(opts[:child])

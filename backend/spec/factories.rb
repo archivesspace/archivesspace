@@ -51,6 +51,7 @@ FactoryGirl.define do
       $repo_id = r.id
       $repo = JSONModel(:repository).uri_for(r.id)
       JSONModel::set_repository($repo_id)
+      RequestContext.put(:repo_id, $repo_id)
     end
   end
   

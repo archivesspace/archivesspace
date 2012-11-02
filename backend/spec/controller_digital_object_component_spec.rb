@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'Digital Object Component controller' do
 
-  before(:each) do
-    create(:repo)
-  end
-
-
   def create_digital_object_component(opts = {})
 
     doc = JSONModel(:digital_object_component).from_hash("component_id" => "abc123",
@@ -65,32 +60,6 @@ describe 'Digital Object Component controller' do
     doc.save
 
     JSONModel(:digital_object_component).find(created).title.should eq("A brand new title")
-  end
-
-  it "lets you create a digital object component and link an agent" do
-    agent = JSONModel(:agent_person).
-      from_hash("agent_type" => "agent_person",
-                "names" => [{
-                              "rules" => "local",
-                              "primary_name" => "Magus Magoo",
-                              "sort_name" => "Magoo, Mr M",
-                              "direct_order" => "standard"
-                            }])
-
-    agent.save
-
-    id = create_digital_object_component({
-                                 "linked_agents" => [{
-                                                       "ref" => agent.uri,
-                                                       "role" => "creator"
-                                                     }]
-                               })
-
-    obj = JSONModel(:digital_object_component).find(id, "resolve[]" => "ref")
-
-    obj["linked_agents"].length.should eq(1)
-    obj["linked_agents"][0]["role"].should eq("creator")
-    obj["linked_agents"][0]["resolved"]["ref"]["names"][0]["sort_name"].should eq("Magoo, Mr M")
   end
 
 end

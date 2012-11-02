@@ -125,6 +125,7 @@ def make_test_repo(code = "ARCHIVESSPACE")
   @repo = JSONModel(:repository).uri_for(repo.id)
 
   JSONModel::set_repository(@repo_id)
+  RequestContext.put(:repo_id, @repo_id)
 
   @repo_id
 end
@@ -157,12 +158,15 @@ end
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
-  
+
   # Roll back the database after each test
   config.around(:each) do |example|
     DB.open(true) do
       as_test_user("admin") do
-        example.run
+        RequestContext.open do
+          create(:repo)
+          example.run
+        end
       end
       raise Sequel::Rollback
     end

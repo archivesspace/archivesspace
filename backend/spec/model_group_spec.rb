@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'Group model' do
 
-  before(:each) do
-    create(:repo)
-  end
-  
-
   it "supports creating a new group" do
     opts = {:group_code => generate(:alphanumstr)}
     
@@ -69,9 +64,11 @@ describe 'Group model' do
 
     group.permission.map {|permission| permission[:permission_code]}.should eq(["manage_repository"])
 
-    User[:username => "simon"].can?("manage_repository", :repo_id => repo1.id).should eq(true)
-    
-    User[:username => "simon"].can?("manage_repository", :repo_id => repo2.id).should eq(false)
+    RequestContext.put(:repo_id, repo1.id)
+    User[:username => "simon"].can?("manage_repository").should eq(true)
+
+    RequestContext.put(:repo_id, repo2.id)
+    User[:username => "simon"].can?("manage_repository").should eq(false)
   end
 
 end

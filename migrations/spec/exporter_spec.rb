@@ -49,7 +49,7 @@ describe "ASpaceImport and ASpaceExport modules" do
     
     # Resource id should be 1
     Resource.dataset.filter(:repo_id => @repo_id).each do |r|
-    # r = Resource.get_or_die(1, @repo_id)
+    # r = Resource.get_or_die(1)
       ead = @ser.serialize(r)
     
       doc = Nokogiri::XML ead

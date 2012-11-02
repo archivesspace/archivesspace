@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'Group controller' do
 
-  before(:each) do
-    create(:repo)
-  end
-
   it "lets you create a group and get it back" do
     opts = {:description => generate(:generic_description)}
     group = create(:json_group, opts)

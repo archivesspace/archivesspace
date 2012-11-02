@@ -371,17 +371,4 @@ describe 'Resources controller' do
     JSONModel(:resource).find(r.id).deaccessions[0]["date"]["begin"].should eq(test_begin_date)
   end
 
-
-  it "can link to an agent" do
-    agent = create(:json_agent_person)
-    agent.save
-
-    resource_id = create(:resource).save
-    resource = JSONModel(:resource).find(resource_id, "resolve[]" => "ref")
-
-    resource['linked_agents'].length.should eq(1)
-    resource['linked_agents'][0]['role'].should eq("creator")
-    resource['linked_agents'][0]['resolved']['ref']['names'][0]['sort_name'].should eq("Magoo, Mr M")
-  end
-
 end

@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'Location model' do
 
-  before(:each) do
-    create(:repo)
-  end
-
   it "can be created from a JSON module" do
 
     location = Location.create_from_json(build(:json_location), :repo_id => $repo_id)

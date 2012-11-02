@@ -19,7 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
              :optional => true])
     .returns([200, "(:resource)"]) \
   do
-    json = Resource.to_jsonmodel(params[:resource_id], :resource, params[:repo_id])
+    json = Resource.to_jsonmodel(params[:resource_id], :resource)
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end
@@ -31,7 +31,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
-    resource = Resource.get_or_die(params[:resource_id], params[:repo_id])
+    resource = Resource.get_or_die(params[:resource_id])
 
     tree = resource.tree
 
@@ -62,7 +62,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, :updated]) \
   do
-    resource = Resource.get_or_die(params[:resource_id], params[:repo_id])
+    resource = Resource.get_or_die(params[:resource_id])
     resource.update_tree(params[:tree])
 
     updated_response(resource, params[:tree])
@@ -74,7 +74,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id])
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(Resource, :resource, :repo_id => params[:repo_id])
+    handle_listing(Resource, :resource)
   end
 
 end

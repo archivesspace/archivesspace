@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'Rights Statement model' do
 
-  before(:each) do
-    create(:repo)
-  end
-
   def create_rights_statement(opts = {})
     RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => $repo_id)
   end

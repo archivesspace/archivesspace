@@ -2,19 +2,14 @@ require 'spec_helper'
 
 describe 'Digital Objects controller' do
 
-  before(:each) do
-    create(:repo)
-  end
-
-
-  def create_digital_object(extra_values = {})
-    digital_object = JSONModel(:digital_object).from_hash({"title" => "a digital object",
+  def create_digital_object
+    digital_object = JSONModel(:digital_object).from_hash("title" => "a digital object",
                                                           "digital_object_id" => "abc123",
                                                           "extents" => [{
                                                                           "portion" => "whole",
                                                                           "number" => "5 or so",
                                                                           "extent_type" => "reels"
-                                                                        }]}.merge(extra_values))
+                                                                        }])
     digital_object.save
   end
 
@@ -118,31 +113,6 @@ describe 'Digital Objects controller' do
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
 
     tree.to_hash.should eq(changed)
-  end
-
-  it "lets you create a digital object and link an agent" do
-    agent = JSONModel(:agent_person).
-      from_hash("agent_type" => "agent_person",
-                "names" => [{
-                              "rules" => "local",
-                              "primary_name" => "Magus Magoo",
-                              "sort_name" => "Magoo, Mr M",
-                              "direct_order" => "standard"
-                            }])
-
-    agent.save
-
-    id = create_digital_object({
-      "linked_agents" => [{
-        "ref" => agent.uri,
-        "role" => "creator"
-      }]
-    })
-
-    obj = JSONModel(:digital_object).find(id, "resolve[]" => "ref")
-    obj["linked_agents"].length.should eq(1)
-    obj["linked_agents"][0]["role"].should eq("creator")
-    obj["linked_agents"][0]["resolved"]["ref"]["names"][0]["sort_name"].should eq("Magoo, Mr M")
   end
 
 end

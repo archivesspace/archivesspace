@@ -11,7 +11,7 @@ module ExportHelpers
   def generate_ead(id, type, repo_id)
 
     # todo: generalize this for other types
-    resource = Resource.get_or_die(id, repo_id)
+    resource = Resource.get_or_die(id)
     
     serializer = ASpaceExport::serializer(:ead)
     

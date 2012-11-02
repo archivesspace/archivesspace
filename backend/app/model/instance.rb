@@ -1,6 +1,7 @@
 class Instance < Sequel::Model(:instance)
   include ASModel
 
+  set_model_scope :repository
   plugin :validation_helpers
 
   one_to_many :container

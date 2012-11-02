@@ -2,6 +2,7 @@ require_relative 'lib/bootstrap'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
 require_relative 'lib/export'
+require_relative 'lib/request_context.rb'
 require_relative 'lib/webrick_fix'
 require 'uri'
 

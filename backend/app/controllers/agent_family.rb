@@ -28,8 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
              [404, '{"error":"Agent not found"}']) \
   do
     json_response(AgentFamily.to_jsonmodel(AgentFamily.get_or_die(params[:id]),
-                                           :agent_family,
-                                           :none))
+                                           :agent_family))
   end
 
 end

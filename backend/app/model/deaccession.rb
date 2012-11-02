@@ -2,6 +2,7 @@ class Deaccession < Sequel::Model(:deaccession)
   include ASModel
   include Extents
 
+  set_model_scope :repository
   Sequel.extension :inflector
 
   one_to_one :date, :class => "ASDate"

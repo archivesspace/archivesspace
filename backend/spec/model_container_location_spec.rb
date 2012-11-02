@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'Container Location' do
 
-  before(:each) do
-    create(:repo)
-  end
-
   def create_container_location(opts = {})
     ContainerLocation.create_from_json(build(:json_container_location, opts))
   end

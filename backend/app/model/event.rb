@@ -28,6 +28,8 @@ class Event < Sequel::Model(:event)
 
   include Agents
 
+  set_model_scope :repository
+
   one_to_many :date, :class => "ASDate"
   jsonmodel_hint(:the_property => :date,
                  :contains_records_of_type => :date,

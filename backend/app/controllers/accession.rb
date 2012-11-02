@@ -7,8 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, :updated]) \
   do
-    handle_update(Accession, :accession_id, :accession,
-                  :repo_id => params[:repo_id])
+    handle_update(Accession, :accession_id, :accession)
   end
 
 
@@ -27,7 +26,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id])
     .returns([200, "[(:accession)]"]) \
   do
-    handle_listing(Accession, :accession, :repo_id => params[:repo_id])
+    handle_listing(Accession, :accession)
   end
 
 
@@ -39,7 +38,7 @@ class ArchivesSpaceService < Sinatra::Base
              :optional => true])
     .returns([200, "(:accession)"]) \
   do
-    json = Accession.to_jsonmodel(params[:accession_id], :accession, params[:repo_id])
+    json = Accession.to_jsonmodel(params[:accession_id], :accession)
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end

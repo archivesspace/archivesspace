@@ -21,11 +21,14 @@ describe 'Generic agent controller' do
 
 
   it "lets you list a queried set of agents" do
-    create_agents
+    create(:json_agent_person)
 
-    agents = JSONModel::HTTP.get_json("/agents/by-name", {:q => "Family Magoo"})
+    name = build(:json_name_family).to_hash
+    create(:json_agent_family, :names => [name])
+
+    agents = JSONModel::HTTP.get_json("/agents/by-name", {:q => name['sort_name']})
 
     agents.length.should eq(1)
-    agents[0]["names"][0]["sort_name"].should eq("Family Magoo")
+    agents[0]["names"][0]["sort_name"].should eq(name['sort_name'])
   end
 end

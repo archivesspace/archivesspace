@@ -9,6 +9,8 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Instances
   include Agents
 
+  set_model_scope :repository
+
 
   def children
     ArchivalObject.filter(:parent_id => self.id)

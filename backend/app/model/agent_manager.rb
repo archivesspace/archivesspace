@@ -28,6 +28,7 @@ module AgentManager
 
     def self.included(base)
       base.extend(ClassMethods)
+      base.set_model_scope :global
     end
 
 

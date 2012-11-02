@@ -6,6 +6,8 @@ class Subject < Sequel::Model(:subject)
   include ASModel
   include ExternalDocuments
 
+  set_model_scope :global
+
   many_to_many :term, :join_table => :subject_term
   many_to_many :archival_object, :join_table => :subject_archival_object
 

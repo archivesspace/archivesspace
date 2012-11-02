@@ -75,6 +75,35 @@ module ASModel
 
   module ClassMethods
 
+
+    @@model_scope = {}
+
+    def set_model_scope(value)
+      if ![:repository, :global].include?(value)
+        raise "Failure for #{self}: Model scope must be set as :repository or :global"
+      end
+
+      @@model_scope[self] = value
+    end
+
+
+    def model_scope
+      @@model_scope[self] or
+        raise "set_model_scope definition missing for model #{self}"
+    end
+
+
+    def active_repository
+      repo = RequestContext.get(:repo_id)
+
+      if model_scope == :repository and repo.nil?
+        raise "Missing repo_id for request!"
+      end
+
+      repo
+    end
+
+
     # Match a JSONModel object to an existing database association.
     #
     # This linkage manages records that contain subrecords:
@@ -119,8 +148,14 @@ module ASModel
     def create_from_json(json, extra_values = {})
       self.strict_param_setting = false
 
+      values = ASUtils.keys_as_strings(extra_values)
+
+      if model_scope == :repository && !values.has_key?("repo_id")
+        values["repo_id"] = active_repository
+      end
+
       obj = self.create(prepare_for_db(json.class.schema,
-                                       json.to_hash.merge(ASUtils.keys_as_strings(extra_values))))
+                                       json.to_hash.merge(values)))
 
       self.apply_linked_database_records(obj, json, extra_values)
 
@@ -287,9 +322,12 @@ module ASModel
     end
 
 
-    def get_or_die(id, repo_id = nil)
-      # For a minute there I lost myself...
-      obj = repo_id.nil? ? self[id] : self[:id => id, :repo_id => repo_id]
+    def get_or_die(id)
+      obj = if self.model_scope == :repository
+              self[:id => id, :repo_id => self.active_repository]
+            else
+              self[id]
+            end
 
       obj or raise NotFoundException.new("#{self} not found")
     end
@@ -298,20 +336,18 @@ module ASModel
     def sequel_to_jsonmodel(obj, model, opts = {})
       json = JSONModel(model).new(map_db_types_to_json(JSONModel(model).schema, obj.values.reject {|k, v| v.nil? }))
 
-      uri = json.class.uri_for(obj.id, {:repo_id => obj[:repo_id]})
+      uri = json.class.uri_for(obj.id, :repo_id => active_repository)
       json.uri = uri if uri
 
       # If there are linked records for this class, grab their URI references too
       (ASModel.linked_records[self] or []).each do |linked_record|
-        # The opts hash will be mutated during URI substitution, so retain our own copy.
-        opts = opts.clone
         model = Kernel.const_get(linked_record[:association][:class_name])
 
         records = Array(obj.send(linked_record[:association][:name])).map {|linked_obj|
           if linked_record[:always_resolve]
-            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel], :any, opts.clone).to_hash
+            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel]).to_hash
           else
-            JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id, opts.clone) or
+            JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id, :repo_id => active_repository) or
               raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
           end
         }
@@ -325,20 +361,11 @@ module ASModel
     end
 
 
-    def to_jsonmodel(obj, model, repo_id, opts = {})
+    def to_jsonmodel(obj, model, opts = {})
       if obj.is_a? Integer
-        raise("Can't accept a repo_id of nil:\n" +
-              "  * If you're getting an object that isn't repository-scoped, use :none\n" +
-              "  * If you don't care which repository you're fetching from (careful!), use :any\n") if repo_id.nil?
-
         # An ID.  Get the Sequel row for it.
-        obj = get_or_die(obj, ([:any, :none].include?(repo_id)) ? nil : repo_id)
-
-        raise "Expected object to have a repo_id set: #{obj.inspect}" if (repo_id == :any && obj[:repo_id].nil?)
-        raise "Didn't expect object to have a repo_id set: #{obj.inspect}" if (repo_id == :none && !obj[:repo_id].nil?)
+        obj = get_or_die(obj)
       end
-
-      opts[:repo_id] ||= repo_id
 
       sequel_to_jsonmodel(obj, model, opts)
     end

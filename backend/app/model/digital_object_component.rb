@@ -7,6 +7,8 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include ExternalDocuments
   include Agents
 
+  set_model_scope :repository
+
   def children
     self.class.filter(:parent_id => self.id)
   end
