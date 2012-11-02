@@ -166,7 +166,7 @@ module JSONModel
       @errors = nil
 
       type = self.class.record_type
-      response = JSONModel::HTTP.post_json(self.class.my_url(self.id, opts.clone), self.to_json)
+      response = JSONModel::HTTP.post_json(self.class.my_url(self.id, opts), self.to_json)
 
       if response.code == '200'
         response = JSON.parse(response.body)
@@ -214,6 +214,7 @@ module JSONModel
 
           def substitute_parameters(uri, opts = {})
             if not opts.has_key?(:repo_id)
+              opts = opts.clone
               opts[:repo_id] = Thread.current[:selected_repo_id]
             end
 
@@ -227,14 +228,16 @@ module JSONModel
       # URL of the backend)
       def my_url(id = nil, opts = {})
 
-        url = URI("#{JSONModel::HTTP.backend_url}#{self.uri_for(id, opts)}")
+        uri, remaining_opts = self.uri_and_remaining_options_for(id, opts)
+
+        url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
         # Don't need to pass this as a URL parameter if it wasn't picked up by
         # the URI template substitution.
-        opts.delete(:repo_id)
+        remaining_opts.delete(:repo_id)
 
-        if not opts.empty?
-          url.query = URI.encode_www_form(opts)
+        if not remaining_opts.empty?
+          url.query = URI.encode_www_form(remaining_opts)
         end
 
         url

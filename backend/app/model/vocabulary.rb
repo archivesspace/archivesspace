@@ -2,6 +2,8 @@ class Vocabulary < Sequel::Model(:vocabulary)
   plugin :validation_helpers
   include ASModel
 
+  set_model_scope :global
+
   one_to_many :subject
   one_to_many :term, :key => :vocab_id
 

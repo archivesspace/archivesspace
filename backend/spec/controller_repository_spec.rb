@@ -35,8 +35,6 @@ describe 'Repository controller' do
 
 
   it "Creating a repository automatically creates the standard set of groups" do
-    create(:repo)
-
     groups = JSONModel(:group).all.map {|group| group.group_code}
 
     groups.include?("repository-managers").should be_true

@@ -63,8 +63,11 @@ en:
     _html:
       singular: Record Link
       plural: Record Links
-  linked_agent:
+  linked_agent: &linked_agent_attributes
     role: Role
+    role_creator: Creator
+    role_source: Source
+    role_subject: Subject
     role_authorizer: Authorizer
     role_executing_program: Executing Program
     role_implementer: Implementer
@@ -74,6 +77,18 @@ en:
     _html:
       singular: Agent Link
       plural: Agent Links
+  accession_linked_agent:
+    <<: *linked_agent_attributes
+  event_linked_agent:
+    <<: *linked_agent_attributes
+  resource_linked_agent:
+    <<: *linked_agent_attributes
+  archival_object_linked_agent:
+    <<: *linked_agent_attributes
+  digital_object_linked_agent:
+    <<: *linked_agent_attributes
+  digital_object_component_linked_agent:
+    <<: *linked_agent_attributes
   event:
     event_type: Type
     outcome: Outcome

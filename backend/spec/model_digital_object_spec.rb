@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'Digital object model' do
 
-  before(:each) do
-    create(:repo)
-  end
-
-
   it "Allows digital objects to be created" do
     
     json = build(:json_digital_object)

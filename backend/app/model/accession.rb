@@ -8,7 +8,9 @@ class Accession < Sequel::Model(:accession)
   include ExternalDocuments
   include RightsStatements
   include Deaccessions
+  include Agents
 
+  set_model_scope :repository
 
   def self.records_matching(query, max)
     self.where(Sequel.like(Sequel.function(:lower, :title),

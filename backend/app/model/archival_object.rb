@@ -7,6 +7,9 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include ExternalDocuments
   include RightsStatements
   include Instances
+  include Agents
+
+  set_model_scope :repository
 
 
   def children
@@ -45,11 +48,11 @@ class ArchivalObject < Sequel::Model(:archival_object)
 
     if obj.resource_id
       json.resource = JSONModel(:resource).uri_for(obj.resource_id,
-                                                   {:repo_id => obj.repo_id})
+                                                   :repo_id => obj.repo_id)
 
       if obj.parent_id
         json.parent = JSONModel(:archival_object).uri_for(obj.parent_id,
-                                                          {:repo_id => obj.repo_id})
+                                                          :repo_id => obj.repo_id)
       end
     end
 

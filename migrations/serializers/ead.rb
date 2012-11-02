@@ -56,7 +56,7 @@ ASpaceExport::serializer :ead do
     
     tree['children'].each do |t|
       id = JSONModel::JSONModel(:archival_object).id_for(t['archival_object'])          
-      object = ArchivalObject.get_or_die(id, @repo_id)
+      object = ArchivalObject.get_or_die(id)
       _c(object, t, xml)
     end
   end

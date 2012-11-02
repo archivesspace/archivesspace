@@ -36,6 +36,11 @@
          <% end %>
       </section>
 
+      <% if @digital_object.linked_agents.length > 0 %>
+        <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @digital_object.linked_agents, :section_id => "digital_object_linked_agents_" } %>
+      <% end %>
+
+
       <% if @digital_object.notes.length > 0 %>
         <%= render :partial => "notes/show", :locals => { :notes => @digital_object.notes, :context => readonly } %>
       <% end %>

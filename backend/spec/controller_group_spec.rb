@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'Group controller' do
 
-  before(:each) do
-    create(:repo)
-  end
-
   it "lets you create a group and get it back" do
     opts = {:description => generate(:generic_description)}
     group = create(:json_group, opts)
@@ -72,15 +68,13 @@ describe 'Group controller' do
 
   it "restricts group listings to only the current repository" do
     repo_one = create(:repo, :repo_code => 'RepoOne')
-    repo_two = create(:repo, :repo_code => 'RepoTwo')
-
-    JSONModel::set_repository(repo_one.id)
     create(:json_group, {:group_code => "group-in-repo1"})
 
-    JSONModel::set_repository(repo_two.id)
+    repo_two = create(:repo, :repo_code => 'RepoTwo')
     create(:json_group, {:group_code => "group-in-repo2"})
 
-    groups = JSONModel(:group).all({}, :repo_id => repo_one.id)
+    RequestContext.put(:repo_id, repo_one.id)
+    groups = JSONModel(:group).all
 
     groups.map(&:group_code).include?("group-in-repo2").should be_false
   end

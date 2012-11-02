@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'Accession controller' do
 
-  before(:each) do
-    create(:repo)
-  end
-
-
   it "lets you create an accession and get it back" do
     opts = {:title => 'The accession title'}
     
@@ -123,6 +118,15 @@ describe 'Accession controller' do
     JSONModel(:accession).find(acc).deaccessions.length.should eq(1)
     JSONModel(:accession).find(acc).deaccessions[0]["whole_part"].should eq(false)
     JSONModel(:accession).find(acc).deaccessions[0]["date"]["begin"].should eq("2012-05-14")
+  end
+
+
+  it "doesn't show accessions for other repositories when listing " do
+    create(:json_accession)
+    JSONModel(:accession).all.count.should eq(1)
+
+    create(:repo)
+    JSONModel(:accession).all.count.should eq(0)
   end
 
 

@@ -106,6 +106,10 @@ module AspaceFormHelper
       "#{names.first}#{path}"
     end
 
+    def parent_context
+      form_top
+    end
+
 
     def obj
       @context.last.second

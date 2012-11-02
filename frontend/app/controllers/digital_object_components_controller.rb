@@ -16,7 +16,7 @@ class DigitalObjectComponentsController < ApplicationController
   end
 
   def edit
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], "resolve[]" => ["subjects"])
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], "resolve[]" => ["subjects","ref"])
     render :partial => "digital_object_components/edit_inline" if inline?
   end
 
@@ -34,7 +34,7 @@ class DigitalObjectComponentsController < ApplicationController
   def update
     handle_crud(:instance => :digital_object_component,
                 :obj => JSONModel(:digital_object_component).find(params[:id],
-                                                         "resolve[]" => ["subjects"]),
+                                                         "resolve[]" => ["subjects","ref"]),
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
                   flash[:success] = "Digital Object Component Saved"
@@ -45,7 +45,7 @@ class DigitalObjectComponentsController < ApplicationController
 
   def show
     @digital_object_id = params['digital_object_id']
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], "resolve[]" => ["subjects"])
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], "resolve[]" => ["subjects","ref"])
     render :partial => "digital_object_components/show_inline" if inline?
   end
 end

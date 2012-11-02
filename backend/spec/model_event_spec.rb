@@ -6,10 +6,6 @@ describe 'Event model' do
     @test_date = build(:json_date).to_hash
   end
 
-  before(:each) do
-    create(:repo)
-  end
-
 
   it "enforces at least one linked agent and one linked record via its schema" do
 

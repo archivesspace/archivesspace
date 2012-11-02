@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'DigitalObjectComponent model' do
 
-  before(:each) do
-    create(:repo)
-  end
-
-
   def create_digital_object_component
     DigitalObjectComponent.create_from_json(JSONModel(:digital_object_component).
                                             from_hash("ref_id" => "abcd",

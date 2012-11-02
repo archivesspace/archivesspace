@@ -1,6 +1,8 @@
 class Repository < Sequel::Model(:repository)
   include ASModel
 
+  set_model_scope :global
+
   plugin :validation_helpers
 
   def validate

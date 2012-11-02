@@ -1,4 +1,5 @@
 //= require dates.crud
+//= require agents.crud
 //= require subjects.crud
 //= require deaccessions.crud
 //= require subrecord.crud

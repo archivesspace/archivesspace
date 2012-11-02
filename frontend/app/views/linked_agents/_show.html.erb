@@ -1,0 +1,23 @@
+<%
+   section_id = "linked_agent" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3>Agent Links</h3>
+  <div class="row-fluid">
+    <div class="span3"><strong>Role</strong></div>
+    <div class="span8"><strong>Agent</strong></div>
+  </div>
+  <% linked_agents.each_with_index do | link, index | %>
+    <div class="row-fluid">
+      <div class="span3 pull1">
+        <%= I18n.t("linked_agent.role_#{link["role"]}") %>
+      </div>
+      <div class="span8">
+        <div class="token">
+          <%= link["resolved"]["ref"]["names"][0]["sort_name"] %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</section>

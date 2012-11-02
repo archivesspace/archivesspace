@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'Archival Object controller' do
 
-  before(:each) do
-    create(:repo)
-  end
-
-
   it "lets you create an archival object and get it back" do
     opts = {:title => 'The archival object title'}
     

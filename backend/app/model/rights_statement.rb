@@ -2,6 +2,8 @@ class RightsStatement < Sequel::Model(:rights_statement)
   include ASModel
   include ExternalDocuments
 
+  set_model_scope :repository
+
   plugin :validation_helpers
 
   def validate

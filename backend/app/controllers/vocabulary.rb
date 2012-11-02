@@ -45,6 +45,6 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["vocab_id", Integer, "The vocabulary ID"])
     .returns([200, "OK"]) \
   do
-    json_response(Vocabulary.to_jsonmodel(params[:vocab_id], :vocabulary, :none))
+    json_response(Vocabulary.to_jsonmodel(params[:vocab_id], :vocabulary))
   end
 end

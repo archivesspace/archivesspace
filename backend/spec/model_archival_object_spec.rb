@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'ArchivalObject model' do
 
-  before(:each) do
-    create(:repo)
-  end
-  
-
   it "Allows archival objects to be created" do
     ao = ArchivalObject.create_from_json(
                                           build(

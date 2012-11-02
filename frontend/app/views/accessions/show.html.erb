@@ -46,6 +46,10 @@
           <% end %>
         </section>
 
+       <% if @accession.linked_agents.length > 0 %>
+         <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
+       <% end %>
+
        <% if @accession.extents.length > 0 %>
          <%= render :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>
        <% end %>

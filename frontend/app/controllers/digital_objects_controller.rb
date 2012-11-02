@@ -8,7 +8,7 @@ class DigitalObjectsController < ApplicationController
   end
 
   def show
-    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => ["subjects"])
+    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => ["subjects","ref"])
 
     if params[:inline]
       return render :partial => "digital_objects/show_inline"
@@ -22,7 +22,7 @@ class DigitalObjectsController < ApplicationController
   end
 
   def edit
-    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => ["subjects"])
+    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => ["subjects","ref"])
 
     if params[:inline]
       return render :partial => "digital_objects/edit_inline"
@@ -44,7 +44,7 @@ class DigitalObjectsController < ApplicationController
   def update
     handle_crud(:instance => :digital_object,
                 :obj => JSONModel(:digital_object).find(params[:id],
-                                                  "resolve[]" => ["subjects"]),
+                                                  "resolve[]" => ["subjects","ref"]),
                 :on_invalid => ->(){
                   render :partial => "edit_inline"
                 },

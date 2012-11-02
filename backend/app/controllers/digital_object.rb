@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
              :optional => true])
     .returns([200, "(:digital_object)"]) \
   do
-    json = DigitalObject.to_jsonmodel(params[:digital_object_id], :digital_object, params[:repo_id])
+    json = DigitalObject.to_jsonmodel(params[:digital_object_id], :digital_object)
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end
@@ -42,7 +42,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id])
     .returns([200, "[(:digital_object)]"]) \
   do
-    handle_listing(DigitalObject, :digital_object, :repo_id => params[:repo_id])
+    handle_listing(DigitalObject, :digital_object)
   end
 
 
@@ -52,7 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, "OK"]) \
   do
-    digital_object = DigitalObject.get_or_die(params[:digital_object_id], params[:repo_id])
+    digital_object = DigitalObject.get_or_die(params[:digital_object_id])
 
     tree = digital_object.tree
 
@@ -71,7 +71,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, :updated]) \
   do
-    digital_object = DigitalObject.get_or_die(params[:digital_object_id], params[:repo_id])
+    digital_object = DigitalObject.get_or_die(params[:digital_object_id])
     digital_object.update_tree(params[:tree])
 
     updated_response(digital_object, params[:tree])

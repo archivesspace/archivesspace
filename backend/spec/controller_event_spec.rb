@@ -3,12 +3,10 @@ require 'spec_helper'
 describe 'Events controller' do
 
   before(:each) do
-    create(:repo)
-
     @test_agent = create(:json_agent_person)
 
     @test_accession = create(:json_accession)
-    
+
     @event_opts = {
       :linked_agents => [{
                            'ref' => @test_agent.uri,
@@ -20,6 +18,7 @@ describe 'Events controller' do
                          }]
     }
   end
+
 
   it "can save an event and get it back" do
 
@@ -55,6 +54,13 @@ describe 'Events controller' do
     end
 
     JSONModel(:event).all.length.should eq(5)
+  end
+
+
+  it "can get a list of records that are candidates for linking" do
+    result = JSONModel::HTTP.get_json(JSONModel(:event).uri_for('linkable-records/list'),
+                                      :q => @test_accession.title)
+    result[0]["title"].should eq(@test_accession.title)
   end
 
 end

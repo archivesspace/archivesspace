@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'Accession model' do
 
-  before(:each) do
-    create(:repo)
-  end
-
-
   it "Allows accessions to be created" do
     accession = Accession.create_from_json(build(:json_accession,
                                                  :title => "Papers of Mark Triggs"

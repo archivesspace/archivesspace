@@ -99,9 +99,9 @@ module RESTHelpers
       # to view this repository
       if @required_params.any?{|param| param.first == 'repo_id'}
         if @method == :get
-          @preconditions << proc { |request| current_user.can?(:view_repository, :repo_id => request.params[:repo_id]) }
+          @preconditions << proc { |request| current_user.can?(:view_repository) }
         elsif @method == :post
-          @preconditions << proc { |request| current_user.can?(:update_repository, :repo_id => request.params[:repo_id]) }
+          @preconditions << proc { |request| current_user.can?(:update_repository) }
         end
       end
 
@@ -140,13 +140,15 @@ module RESTHelpers
 
         ensure_params(rp)
 
-        Log.debug("Post-processed params: #{params.inspect}") if self.class.development?
+        Log.debug("Post-processed params: #{filter_passwords(params).inspect}") if self.class.development?
 
-        unless preconditions.all? { |precondition| self.instance_eval &precondition }
-          raise AccessDeniedException.new("Access denied")
+        RequestContext.open(:repo_id => params[:repo_id]) do
+          unless preconditions.all? { |precondition| self.instance_eval &precondition }
+            raise AccessDeniedException.new("Access denied")
+          end
+
+          self.instance_eval &block
         end
-
-        self.instance_eval &block
       end
     end
   end

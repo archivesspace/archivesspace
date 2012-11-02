@@ -2,6 +2,8 @@ class User < Sequel::Model(:user)
   include ASModel
   plugin :validation_helpers
 
+  set_model_scope :global
+
 
   def self.ADMIN_USERNAME
     "admin"
@@ -25,9 +27,9 @@ class User < Sequel::Model(:user)
 
     raise "The permission '#{permission_code}' doesn't exist" if permission.nil?
 
-    if !opts[:repo_id] && permission[:level] == "repository"
+    if permission[:level] == "repository" && self.class.active_repository.nil?
       raise("Problem when checking permission: #{permission.permission_code} " +
-            "is a repository-level permission, but no :repo_id was given")
+            "is a repository-level permission, but no repository was set")
     end
 
     !permission.nil? && ((self.class.db[:group].
@@ -35,7 +37,7 @@ class User < Sequel::Model(:user)
                           join(:group_permission, :group_id => :group_id).
                           filter(:user_id => self.id,
                                  :permission_id => permission.id,
-                                 :repo_id => [opts[:repo_id], global_repo.id].reject(&:nil?)).
+                                 :repo_id => [self.class.active_repository, global_repo.id].reject(&:nil?)).
                           count) >= 1)
   end
 

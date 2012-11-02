@@ -5,6 +5,9 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Extents
   include Dates
   include ExternalDocuments
+  include Agents
+
+  set_model_scope :repository
 
   def children
     self.class.filter(:parent_id => self.id)
@@ -49,11 +52,11 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
 
     if obj.digital_object_id
       json.digital_object = JSONModel(:digital_object).uri_for(obj.digital_object_id,
-                                                               {:repo_id => obj.repo_id})
+                                                               :repo_id => obj.repo_id)
 
       if obj.parent_id
         json.parent = JSONModel(:digital_object_component).uri_for(obj.parent_id,
-                                                                   {:repo_id => obj.repo_id})
+                                                                   :repo_id => obj.repo_id)
       end
     end
 
