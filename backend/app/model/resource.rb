@@ -44,7 +44,7 @@ class Resource < Sequel::Model(:resource)
     properties = {}
 
     root_node = nil
-    repository_view(ArchivalObject).filter(:resource_id => self.id).each do |ao|
+    ArchivalObject.this_repo.filter(:resource_id => self.id).each do |ao|
       if ao.parent_id
         links[ao.parent_id] ||= []
         links[ao.parent_id] << ao.id
@@ -63,7 +63,7 @@ class Resource < Sequel::Model(:resource)
 
 
   def update_tree(tree)
-    repository_view(:archival_object).
+    ArchivalObject.this_repo.
       filter(:resource_id => self.id).
       update(:parent_id => nil)
 
@@ -115,8 +115,8 @@ class Resource < Sequel::Model(:resource)
 
 
   def self.records_matching(query, max)
-    repository_view.where(Sequel.like(Sequel.function(:lower, :title),
-                                      "#{query}%".downcase)).first(max)
+    self.this_repo.where(Sequel.like(Sequel.function(:lower, :title),
+                                     "#{query}%".downcase)).first(max)
   end
 
 end

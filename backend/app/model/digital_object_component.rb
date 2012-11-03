@@ -10,7 +10,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   set_model_scope :repository
 
   def children
-    repository_view.filter(:parent_id => self.id)
+    DigitalObjectComponent.this_repo.filter(:parent_id => self.id)
   end
 
 

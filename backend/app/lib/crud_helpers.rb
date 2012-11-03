@@ -16,11 +16,9 @@ module CrudHelpers
 
 
   def handle_listing(model, type, where = {})
-    if model.model_scope == :repository
-      where[:repo_id] = model.active_repository
-    end
+    dataset = (model.model_scope == :repository) ? model.this_repo : model
 
-    json_response((where.empty? ? model : model.filter(where)).collect {|acc|
+    json_response((where.empty? ? dataset : dataset.filter(where)).collect {|acc|
                     model.to_jsonmodel(acc, type).to_hash
                   })
   end

@@ -26,11 +26,13 @@ class ArchivesSpaceService
     created_group = nil
 
     global_repo = Repository[:repo_code => Group.GLOBAL]
-    if Group[:group_code => Group.ADMIN_GROUP_CODE].nil?
-      created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.ADMIN_GROUP_CODE,
-                                                                         :description => "Administrators"),
-                                             :repo_id => global_repo.id)
-      created_group.add_user(User[:username => User.ADMIN_USERNAME])
+
+    RequestContext.open(:repo_id => global_repo.id) do
+      if Group[:group_code => Group.ADMIN_GROUP_CODE].nil?
+        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.ADMIN_GROUP_CODE,
+                                                                           :description => "Administrators"))
+        created_group.add_user(User[:username => User.ADMIN_USERNAME])
+      end
     end
 
 

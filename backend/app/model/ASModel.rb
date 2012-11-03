@@ -73,11 +73,6 @@ module ASModel
   end
 
 
-  def repository_view(table = nil)
-    self.class.repository_view(table)
-  end
-
-
   module ClassMethods
 
 
@@ -86,6 +81,33 @@ module ASModel
     def set_model_scope(value)
       if ![:repository, :global].include?(value)
         raise "Failure for #{self}: Model scope must be set as :repository or :global"
+      end
+
+      if value == :repository
+        model = self
+
+        orig_ds = self.dataset.clone
+
+        def_dataset_method(:this_repo) do
+          orig_ds.filter(:repo_id => model.active_repository)
+        end
+
+        orig_ds = self.dataset.clone
+        def_dataset_method(:any_repo) do
+          orig_ds
+        end
+
+        orig_row_proc = self.dataset.row_proc
+
+        self.dataset.row_proc = proc do |row|
+          if row.has_key?(:repo_id) && row[:repo_id] != model.active_repository
+            raise ("ASSERTION FAILED: #{row.inspect} has a repo_id of " +
+                   "#{row[:repo_id]} but the active repository is #{model.active_repository}")
+          end
+
+          orig_row_proc.call(row)
+        end
+
       end
 
       @@model_scope[self] = value
@@ -327,22 +349,9 @@ module ASModel
     end
 
 
-    def repository_view(table = nil)
-      if table
-        if table.respond_to? :filter
-          table.filter(:repo_id => self.active_repository)
-        else
-          self.db[table].filter(:repo_id => self.active_repository)
-        end
-      else
-        self.filter(:repo_id => self.active_repository)
-      end
-    end
-
-
     def get_or_die(id)
       obj = if self.model_scope == :repository
-              repository_view[:id => id]
+              self.this_repo[:id => id]
             else
               self[id]
             end
@@ -353,11 +362,6 @@ module ASModel
 
     def sequel_to_jsonmodel(obj, model, opts = {})
       json = JSONModel(model).new(map_db_types_to_json(JSONModel(model).schema, obj.values.reject {|k, v| v.nil? }))
-
-      if obj.values.has_key?(:repo_id) && obj[:repo_id] != active_repository
-        raise ("ASSERTION FAILED: #{obj.inspect} has a repo_id of " +
-               "#{obj[:repo_id]} but the active repository is #{active_repository}")
-      end
 
       uri = json.class.uri_for(obj.id, :repo_id => active_repository)
       json.uri = uri if uri
