@@ -114,11 +114,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     res = error_block!(boom.class, boom) || error_block!(status, boom)
 
-    if res
-      DB.rollback_and_return(res)
-    else
-      raise boom
-    end
+    res or raise boom
   end
 
 
@@ -228,10 +224,6 @@ class ArchivesSpaceService < Sinatra::Base
       @app = app
     end
 
-    # Wrap every call in our DB connection management code.  This should
-    # transparently deal with database restarts, and gives us a spot to hang any
-    # DB connection logic.
-    #
     def call(env)
       start_time = Time.now
       session_token = env["HTTP_X_ARCHIVESSPACE_SESSION"]
@@ -260,13 +252,9 @@ class ArchivesSpaceService < Sinatra::Base
           env[:aspace_user] = ((session && session[:user] && User.find(:username => session[:user])) ||
                                ANONYMOUS_USER)
         end
-
-        result = DB.open do
-          @app.call(env)
-        end
-      else
-        result = @app.call(env)
       end
+
+      result = @app.call(env)
 
       end_time = Time.now
 

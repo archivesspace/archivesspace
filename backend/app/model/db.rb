@@ -24,32 +24,14 @@ class DB
   end
 
 
-  class RollbackWithResponse < StandardError
-    attr_reader :response
-
-    def initialize(response)
-      @response = response
-    end
-  end
-
-
-  def self.rollback_and_return(response)
-    raise RollbackWithResponse.new(response)
-  end
-
-
   def self.open(transaction = true)
     last_err = false
 
     5.times do
       begin
         if transaction
-          begin
-            @pool.transaction do
-              return yield @pool
-            end
-          rescue RollbackWithResponse => e
-            return e.response
+          @pool.transaction do
+            return yield @pool
           end
 
           # Sometimes we'll make it to here.  That means we threw a
@@ -59,12 +41,23 @@ class DB
           return yield @pool
         end
 
+
       rescue Sequel::DatabaseDisconnectError => e
         # MySQL might have been restarted.
         last_err = e
         Log.info("Connecting to the database failed.  Retrying...")
         sleep(3)
+
+
+      rescue Sequel::DatabaseError => e
+        if e.wrapped_exception.getSQLState =~ /^40/
+          # Transaction was rolled back, but we can retry
+          sleep 1
+        else
+          raise e
+        end
       end
+
     end
 
     if last_err

@@ -147,7 +147,9 @@ module RESTHelpers
             raise AccessDeniedException.new("Access denied")
           end
 
-          self.instance_eval &block
+          result = DB.open do
+            self.instance_eval &block
+          end
         end
       end
     end
