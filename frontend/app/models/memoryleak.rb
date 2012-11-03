@@ -1,8 +1,11 @@
 require 'atomic'
+require 'thread'
 
 module MemoryLeak
 
   class Resources
+
+    @@refresh_mutex = Mutex.new
 
     @@resources = {
       :repository => Atomic.new(nil),
@@ -27,7 +30,13 @@ module MemoryLeak
 
 
     def self.refresh(resource)
-      self.set(resource, JSONModel(resource).all)
+      # Two concurrent users might trigger some resource to be refreshed at
+      # around the same time (e.g. when two people create a new repository at
+      # once).  We want both refreshes to run in sequence, so use a mutex to
+      # serialize them.
+      @@refresh_mutex.synchronize do
+        self.set(resource, JSONModel(resource).all)
+      end
     end
 
 

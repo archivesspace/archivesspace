@@ -299,7 +299,7 @@ describe "ArchivesSpace user interface" do
 
 
   it "can create a new Subject" do
-    now = Time.now.to_i
+    now = "#{$$}.#{Time.now.to_i}"
 
     @driver.find_element(:link => 'Create').click
     @driver.find_element(:link => 'Subject').click
@@ -756,13 +756,20 @@ describe "ArchivesSpace user interface" do
                             nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
     @driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
-    agent_subform.find_element(:id, "token-input-").send_keys("Johnny")
+
+    token_input = agent_subform.find_element(:id, "token-input-");
+    token_input.clear
+    token_input.click
+    token_input.send_keys("Johnny")
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     record_subform = @driver.find_element(:id, "event_linked_records__0__role_").
                              nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
-    record_subform.find_element(:id, "token-input-").send_keys("Accession with dates")
+    token_input = record_subform.find_element(:id, "token-input-")
+    token_input.clear
+    token_input.click
+    token_input.send_keys("Accession with dates")
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     @driver.find_element(:css => "form#new_event button[type='submit']").click
@@ -878,7 +885,6 @@ describe "ArchivesSpace user interface" do
 
   it "can update an existing Archival Object" do
     aotitle = @driver.find_element(:css, "h2").text.sub(/ +Archival Object/, "")
-    puts "aotitle: #{aotitle}"
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
     assert { @driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
