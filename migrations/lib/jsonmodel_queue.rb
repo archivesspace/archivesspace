@@ -27,10 +27,10 @@ module JSONModel
     # main queue.
   
     def save_or_wait(opts = {})
-      if self.try_save(opts)
+      if self.try_save(opts)[0]
         while @@wait_queue.length > 0 do
           @@wait_queue.each_index do |i|        
-            @@wait_queue[i] = nil if @@wait_queue[i].try_save(opts)
+            @@wait_queue[i] = nil if @@wait_queue[i].try_save(opts)[0]
           end
           break if @@wait_queue.compact! == nil
         end
@@ -39,55 +39,39 @@ module JSONModel
       end
     end
 
+    def unsaveable?
+      @unsaveable || false
+    end
  
     # Protected methods
     protected
      
     def try_save(opts = {})
-      puts "Try Saving #{self.to_s}" if $DEBUG
+      puts "Trying to save: #{self.to_s}" if $DEBUG
       can_save = true
-      # This will come apart if an unsaveable object is required
-      # by the schema
-      self.waiting_for.select {|w| w.unsaveable? == false}.each do |w|
-        can_save = false unless w.uri
-        break unless can_save
+      # 1st condition allows import to proceed if 
+      # a single record fails because of a validation error. 
+      # Watch out for chain reactions.
+      self.waiting_for.select {|w| w.unsaveable? == false && !(w.uri)}.each do |w|
+        return [false]
       end    
-      if can_save
-        if opts[:dry] == true
-          r = self.fake_save(opts)
-        else
-          begin
-            r = self.save(opts)
-          rescue JSONModel::ValidationException
-            # here we could seek to recover from conflict or 
-            # uniqueness exceptions by trying to find the id
-            # of the dupe in the backend and proceeding
-            puts "Unsaveable object: #{$!}"
-            self.unsaveable!
-          end              
-        end
-        self.run_after_save_hooks
-        return r
-      else
-        false
-      end
-    end
-
-    def fake_save(opts)
-      id = rand(100)
-      
-      self.uri = self.class.uri_for(id.to_s, opts)
-
-      # If we were able to save successfully, increment our local version
-      # number to match the version on the server.
-      self.lock_version = "1"
+      begin
+        self.save(opts)
+        save_result = [true, self.uri]
+      rescue JSONModel::ValidationException
+        # Here we *could* seek to recover from conflict or 
+        # uniqueness exceptions by trying to find the id
+        # of the dupe in the backend and proceeding
+        self.unsaveable!
+        save_result = [false, $!.to_s]
+      end              
+      self.run_after_save_hooks(save_result)
     end
     
-    
-    def run_after_save_hooks
-      @after_save_hooks.each { |proc| proc.call } if @after_save_hooks    
-    end
-    
+    def run_after_save_hooks(save_result)
+      @after_save_hooks.each { |proc| proc.call(save_result) } if @after_save_hooks
+      save_result  
+    end   
     
     def waiting_for
       @waiting_for || Array.new
@@ -95,10 +79,6 @@ module JSONModel
     
     def unsaveable!
       @unsaveable = true
-    end
-    
-    def unsaveable?
-      @unsaveable || false
     end
     
   end

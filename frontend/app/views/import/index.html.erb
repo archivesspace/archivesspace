@@ -32,6 +32,11 @@
         <%= submit_tag('Import', :class=>"btn btn-primary") %>
         <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
       </div>
+      
+      <% if @import_results %>
+        <h2>Results Report</h2>
+        <pre><%= @import_results %></pre>
+      <% end %>
     </div>
   </div>
 <% end %>

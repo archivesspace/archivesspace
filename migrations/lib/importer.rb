@@ -77,6 +77,22 @@ module ASpaceImport
       
       JSONModel::set_repository(opts[:repo_id])
       
+      if opts[:dry] == true
+        
+        JSONModel::Client.module_eval {
+          def save(opts)
+            id = rand(100)
+
+            self.uri = self.class.uri_for(id.to_s, opts)
+
+            # If we were able to save successfully, increment our local version
+            # number to match the version on the server.
+            self.lock_version = "1"
+
+            id
+          end
+        }
+      end
       
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)
@@ -85,18 +101,35 @@ module ASpaceImport
       @goodimports = 0
       @badimports = 0
       @import_log = []
-      @current = { }
-      @stashed = { }
     end
 
-
+    def log_save_result(result)
+      result[0] ? @goodimports += 1 : @badimports += 1
+      @import_log << result if result
+    end
+    
+    def report_summary
+      "#{@goodimports} records imported\n#{@badimports} records failed to import\n"
+    end
+    
     def report
-      r = "#{@goodimports} records imported\n"
-      # puts "#{@badimports} records failed to import"
-      r += @import_log.join("\n") if @verbose
-      r
+      report = "Aspace Import Report\n"
+      report += "--Executive Summary--\n"
+      report += report_summary
+      report += "--Details--\n"
+      @import_log.each do |r|
+        if r[0] 
+          report << "Successful Save: #{r[1]}\n"
+        else
+          report << "Can't Save: #{r[1]}\n"
+        end
+      end        
+      report
     end
-
+    
+    def import_log
+      @import_log.join("\n")
+    end
 
     def run
       raise StandardError.new("Unexpected error: run method must be defined by a subclass")

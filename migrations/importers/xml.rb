@@ -35,6 +35,9 @@ ASpaceImport::Importer.importer :xml do
         target_objects(node_args) do |tob|
 
           tob.after_save { puts "\nSaved: #{tob.to_s}" } if $DEBUG
+
+          # tob.after_save { |result| puts "RESULTS #{result.inspect}" }
+          tob.after_save { |result| log_save_result(result) }
           
           tob.receivers.for(:xpath => "self") do |r|
             r.receive(node.inner_xml)
@@ -135,7 +138,7 @@ ASpaceImport::Importer.importer :xml do
     doc = Nokogiri::XML(File.read(input_file))
 
     xsd.validate(doc).each do |error|
-      @import_log << "Invalid Source: " + error.message
+      # @import_log << "Invalid Source: " + error.message
     end
   
   end

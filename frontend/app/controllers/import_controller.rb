@@ -28,19 +28,23 @@ class ImportController < ApplicationController
 
         source_file.delete
 
-        flash[:success] = results
+        flash[:success] = results[0]
+        @import_results = results[1]
 
       rescue ValidationException => e
         errors_str = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}.join("")
         flash[:error] = "Error importing file: <br/> <div class='offset1'>#{errors_str}</div>".html_safe
       rescue Exception => e
+        Rails.logger.debug("Exception raised on file import: #{e.inspect}")
         flash[:error] = "Error importing file: <br/> <div class='offset1'>#{e.class.name} #{e.inspect}</div>".html_safe
       end
 
     end
 
-    redirect_to(:controller => :import,
-                :action => :index)
+    index
+    
+    render :index
+
   end
   
   
@@ -59,7 +63,9 @@ class ImportController < ApplicationController
     
     i = ASpaceImport::Importer.create_importer(options)
     i.run
-    i.report
+    
+    [i.report_summary, i.report]
+    # i.report_summary
   
   end
     
