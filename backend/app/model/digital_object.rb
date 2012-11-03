@@ -42,7 +42,7 @@ class DigitalObject < Sequel::Model(:digital_object)
     properties = {}
 
     root_node = nil
-    DigitalObjectComponent.filter(:digital_object_id => self.id).each do |doc|
+    repository_view(DigitalObjectComponent).filter(:digital_object_id => self.id).each do |doc|
       if doc.parent_id
         links[doc.parent_id] ||= []
         links[doc.parent_id] << doc.id
@@ -60,9 +60,9 @@ class DigitalObject < Sequel::Model(:digital_object)
   end
 
   def update_tree(tree)
-    DigitalObject.db[:digital_object_component].
-                  filter(:digital_object_id => self.id).
-                  update(:parent_id => nil)
+    repository_view(:digital_object_component).
+      filter(:digital_object_id => self.id).
+      update(:parent_id => nil)
 
     # The root node has a null parent
     self.link(:parent => nil,

@@ -13,7 +13,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
 
 
   def children
-    ArchivalObject.filter(:parent_id => self.id)
+    repository_view(ArchivalObject).filter(:parent_id => self.id)
   end
 
 
@@ -69,8 +69,8 @@ class ArchivalObject < Sequel::Model(:archival_object)
 
 
   def self.records_matching(query, max)
-    self.where(Sequel.like(Sequel.function(:lower, :title),
-                           "#{query}%".downcase)).first(max)
+    repository_view.where(Sequel.like(Sequel.function(:lower, :title),
+                                            "#{query}%".downcase)).first(max)
   end
 
 end

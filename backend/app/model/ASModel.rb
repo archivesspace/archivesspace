@@ -73,6 +73,11 @@ module ASModel
   end
 
 
+  def repository_view(table = nil)
+    self.class.repository_view(table)
+  end
+
+
   module ClassMethods
 
 
@@ -322,9 +327,22 @@ module ASModel
     end
 
 
+    def repository_view(table = nil)
+      if table
+        if table.respond_to? :filter
+          table.filter(:repo_id => self.active_repository)
+        else
+          self.db[table].filter(:repo_id => self.active_repository)
+        end
+      else
+        self.filter(:repo_id => self.active_repository)
+      end
+    end
+
+
     def get_or_die(id)
       obj = if self.model_scope == :repository
-              self[:id => id, :repo_id => self.active_repository]
+              repository_view[:id => id]
             else
               self[id]
             end

@@ -13,8 +13,8 @@ class Accession < Sequel::Model(:accession)
   set_model_scope :repository
 
   def self.records_matching(query, max)
-    self.where(Sequel.like(Sequel.function(:lower, :title),
-                           "#{query}%".downcase)).first(max)
+    repository_view.where(Sequel.like(Sequel.function(:lower, :title),
+                                            "#{query}%".downcase)).first(max)
   end
 
 end
