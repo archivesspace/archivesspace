@@ -17,6 +17,12 @@
         </div>
       <% end %>
 
+      <% if @import_results %>
+        <h3>Import Report</h3>
+        <pre><%= @import_results %></pre>
+        <h3>Import Another EAD File</h3>
+      <% end %>
+
       <fieldset>
         <div class="control-group ">
           <%= label_tag :upload, 'Select an EAD to upload:', :class=>"control-label" %>
@@ -32,11 +38,6 @@
         <%= submit_tag('Import', :class=>"btn btn-primary") %>
         <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
       </div>
-      
-      <% if @import_results %>
-        <h2>Results Report</h2>
-        <pre><%= @import_results %></pre>
-      <% end %>
     </div>
   </div>
 <% end %>
