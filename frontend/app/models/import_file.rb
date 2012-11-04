@@ -1,4 +1,4 @@
-class ImportFile #< ActiveRecord::Base
+class ImportFile
   
   attr_accessor :upload
   attr_accessor :path

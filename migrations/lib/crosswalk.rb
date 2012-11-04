@@ -11,8 +11,7 @@ module ASpaceImport
                                                       
     end 
   
-    def self.walk
-      
+    def self.walk     
       @@walk
     end
   
@@ -134,9 +133,6 @@ module ASpaceImport
         if opts[:depth]
           obj.instance_eval("def depth; #{opts[:depth]}; end")
         end
-        
-        obj.after_save { @goodimports += 1 }
-        obj.after_save { @import_log.push("Imported #{obj.uri}") }
         
         yield obj
         
