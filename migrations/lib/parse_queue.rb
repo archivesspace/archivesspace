@@ -6,7 +6,7 @@ module ASpaceImport
 
     def pop
       if self.length > 0
-        self.last.save_or_wait(@opts)        
+        self.last.save_or_wait       
         super
       end
     end
