@@ -643,6 +643,10 @@ module JSONModel
           end
         end
 
+        if uri.include?(":")
+          raise "Template substitution was incomplete: '#{uri}'"
+        end
+
         remaining_opts = opts.clone
         matched.each do |k|
           remaining_opts.delete(k)
