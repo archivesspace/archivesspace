@@ -7,7 +7,7 @@ Sequel.migration do
       String :session_id, :unique => true, :null => false
       DateTime :last_modified, :null => false
 
-      BlobField :session_data, :null => true
+      TextBlobField :session_data, :null => true
     end
 
 
@@ -160,7 +160,7 @@ Sequel.migration do
 
       String :identifier
 
-      Blob :notes, :null => true
+      BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -215,7 +215,7 @@ Sequel.migration do
       Integer :publish
       Integer :restrictions
 
-      Blob :notes, :null => true
+      BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -241,7 +241,7 @@ Sequel.migration do
       String :label
       String :language
 
-      Blob :notes, :null => true
+      BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false

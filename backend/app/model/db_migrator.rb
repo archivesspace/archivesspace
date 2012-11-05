@@ -9,8 +9,12 @@ Sequel.extension :migration
 
 
 module Sequel
+
   module Schema
+
     class CreateTableGenerator
+
+
       def TextField(field, opts = {})
         if $db_type == :derby
           String field, opts.merge(:size => 2048)
@@ -19,13 +23,24 @@ module Sequel
         end
       end
 
-      def BlobField(field, opts = {})
+
+      def TextBlobField(field, opts = {})
         if $db_type == :derby
           Clob field, opts
+        else
+          BlobField(field, opts)
+        end
+      end
+
+
+      def BlobField(field, opts = {})
+        if $db_type == :postgres
+          Bytea field, opts
         else
           Blob field, opts
         end
       end
+
     end
   end
 end
