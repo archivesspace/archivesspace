@@ -1,12 +1,15 @@
 require 'spec_helper'
 
+def create_accession
+  Accession.create_from_json(build(:json_accession,
+                                   :title => "Papers of Mark Triggs"),
+                             :repo_id => $repo_id)
+end
+
 describe 'Accession model' do
 
   it "Allows accessions to be created" do
-    accession = Accession.create_from_json(build(:json_accession,
-                                                 :title => "Papers of Mark Triggs"
-                                                 ), 
-                                           :repo_id => $repo_id)
+    accession = create_accession
 
     Accession[accession[:id]].title.should eq("Papers of Mark Triggs")
   end
@@ -136,5 +139,16 @@ describe 'Accession model' do
     Accession[accession[:id]].deaccession[0].date.begin.should eq("2012-05-14")
   end
 
+
+  it "Can suppress an accession record" do
+    accession = create_accession
+    accession.set_suppressed(true)
+
+    create(:user, :username => 'nobody')
+
+    as_test_user('nobody') do
+      Accession.this_repo[accession.id].should eq(nil)
+    end
+  end
 
 end

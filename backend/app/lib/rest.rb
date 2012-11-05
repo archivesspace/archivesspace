@@ -148,6 +148,12 @@ module RESTHelpers
           end
 
           result = DB.open do
+
+            # If the current user is a manager, show them suppressed records
+            # too.
+            RequestContext.put(:enforce_suppression,
+                               !current_user.can?(:manage_repository))
+
             self.instance_eval &block
           end
         end

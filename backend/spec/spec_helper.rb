@@ -148,9 +148,17 @@ end
 def as_test_user(username)
   old_user = Thread.current[:active_test_user]
   Thread.current[:active_test_user] = User.find(:username => username)
+  orig = RequestContext.get(:enforce_suppression)
+
   begin
+    if RequestContext.active?
+      RequestContext.put(:enforce_suppression,
+                         !Thread.current[:active_test_user].can?(:manage_repository))
+    end
+
     yield
   ensure
+    RequestContext.put(:enforce_suppression, orig) if RequestContext.active?
     Thread.current[:active_test_user] = old_user
   end
 end
@@ -177,6 +185,7 @@ RSpec.configure do |config|
           $repo = JSONModel(:repository).uri_for($repo_id)
           JSONModel::set_repository($repo_id)
           RequestContext.put(:repo_id, $repo_id)
+
           example.run
         end
       end

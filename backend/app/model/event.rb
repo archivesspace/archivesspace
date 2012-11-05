@@ -28,6 +28,7 @@ class Event < Sequel::Model(:event)
 
   include Agents
 
+  enable_suppression
   set_model_scope :repository
 
   one_to_many :date, :class => "ASDate"
@@ -114,6 +115,27 @@ class Event < Sequel::Model(:event)
 
 
     json
+  end
+
+
+  def set_suppressed(val)
+    # An event can be suppressed if all of its linked records are suppressed
+
+    has_active_linked_record = false
+
+    @@record_links.each do |record_type, model|
+      self.send("event_#{record_type}_link".intern).each do |link|
+        linked_record = model[link["#{record_type}_id".intern]]
+
+        if linked_record.values.has_key?(:suppressed) && linked_record[:suppressed] == 0
+          has_active_linked_record = true
+          break
+        end
+      end
+    end
+
+    self.suppressed = has_active_linked_record ? 0 : 1
+    save
   end
 
 

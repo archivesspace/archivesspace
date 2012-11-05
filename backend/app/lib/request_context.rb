@@ -1,5 +1,10 @@
 class RequestContext
 
+  def self.active?
+    !Thread.current[:request_context].nil?
+  end
+
+
   def self.open(context = {})
     set_context = Thread.current[:request_context].nil?
 
