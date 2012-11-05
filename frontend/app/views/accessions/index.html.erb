@@ -23,13 +23,16 @@
            <tbody>
               <% @accessions.each do |accession| %>
               <tr>
-               <td><%= accession.title %></td>
+               <td>
+                <% if accession.suppressed %><span class="label label-info">Suppressed</span><% end %>
+                <%= accession.title %>
+               </td>
                <td><%= accession.id %></td>
                <td><%= Date.strptime(accession.accession_date, "%Y-%m-%d") %></td>
                <td>
                   <div class="btn-group" style="float: right">
                     <%= link_to "View", {:controller => :accessions, :action => :show, :id => accession.id}, :class => "btn btn-mini" %>
-                    <% if user_can?('update_repository') %>
+                    <% if user_can?('update_repository') and not accession.suppressed %>
                       <%= link_to "Edit", {:controller => :accessions, :action => :edit, :id => accession.id}, :class => "btn btn-mini" %>
                     <% end %>
                   </div>
