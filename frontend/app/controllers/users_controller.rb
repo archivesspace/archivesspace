@@ -23,7 +23,8 @@ class UsersController < ApplicationController
     end
 
     if @user._exceptions[:errors]
-      return render action: "new"
+      @exceptions = @user._exceptions
+      return render :action => "new"
     end
 
     @user.save(:password => params['user']['password'])
@@ -37,8 +38,8 @@ class UsersController < ApplicationController
 
   rescue JSONModel::ValidationException => e
     @user = e.invalid_object
-
-    render action: "new", :notice => "There was a problem creating your account"
+    @exceptions = @user._exceptions
+    render :action => "new"
   end
 
 end
