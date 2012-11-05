@@ -67,6 +67,7 @@ module JSONModel
 
     extend Rack::Test::Methods
 
+
     def self.do_http_request(url, req)
       send(req.method.downcase.intern, req.path, params = req.body)
 

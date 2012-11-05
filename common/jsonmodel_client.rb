@@ -93,7 +93,12 @@ module JSONModel
 
     # Perform a HTTP POST request against the backend with form parameters
     def self.post_form(uri, params = {})
-      Net::HTTP.post_form(URI("#{backend_url}#{uri}"), params)
+      url = URI("#{backend_url}#{uri}")
+
+      req = Net::HTTP::Post.new(url.request_uri)
+      req.form_data = params
+
+      do_http_request(url, req)
     end
 
 

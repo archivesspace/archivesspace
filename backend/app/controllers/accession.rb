@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, :updated]) \
   do
-    Accession.get_or_die(params[:accession_id]).set_suppressed(param["suppressed"])
+    Accession.get_or_die(params[:accession_id]).set_suppressed(params[:suppressed])
 
     "OK"
   end
