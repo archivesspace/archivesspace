@@ -37,12 +37,17 @@ module Selenium
       end
     end
   end
+
+  module Config
+    def self.retries
+      20
+    end
+  end
+
 end
 
 
 class Selenium::WebDriver::Driver
-  RETRIES = 20
-
   def wait_for_ajax
     while (self.execute_script("return document.readyState") != "complete" or
            not self.execute_script("return window.$ == undefined || $.active == 0"))
@@ -65,7 +70,7 @@ class Selenium::WebDriver::Driver
 
         return elt
       rescue Selenium::WebDriver::Error::NoSuchElementError => e
-        if try < RETRIES
+        if try < Selenium::Config.retries
           try += 1
           sleep 0.5
         else
@@ -105,7 +110,7 @@ class Selenium::WebDriver::Driver
     begin
       try = 0
       while self.find_element_orig(*selector).equal? element
-        if try < RETRIES
+        if try < Selenium::Config.retries
           try += 1
           sleep 0.5
         else
@@ -127,31 +132,12 @@ class Selenium::WebDriver::Driver
 
 
   def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
-    RETRIES.times do
-
-      matches = self.find_elements(:xpath => xpath)
-      begin
-        matches.each do | match |
-          return match if match.text =~ pattern
-        end
-      rescue
-        # Ignore exceptions and retry
-      end
-
-      if noRetry
-        return nil
-      end
-
-      sleep 0.5
-    end
-
-    return nil if noError
-    raise Selenium::WebDriver::Error::NoSuchElementError.new("Could not find element for xpath: #{xpath} pattern: #{pattern}")
+    self.find_element(:tag_name => "body").find_element_with_text(xpath, pattern, noError, noRetry)
   end
 
 
   def clear_and_send_keys(selector, keys)
-    RETRIES.times do
+    Selenium::Config.retries.times do
       begin
         elt = self.find_element(*selector)
         elt.clear
@@ -168,6 +154,7 @@ end
 
 
 class Selenium::WebDriver::Element
+
   def select_option(value)
     self.find_elements(:tag_name => "option").each do |option|
       if option.attribute("value") === value
@@ -195,6 +182,30 @@ class Selenium::WebDriver::Element
 
   def containing_subform
     nearest_ancestor('div[contains(@class, "subrecord-form-fields")]')
+  end
+
+
+  def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
+    Selenium::Config.retries.times do
+
+      matches = self.find_elements(:xpath => xpath)
+      begin
+        matches.each do | match |
+          return match if match.text =~ pattern
+        end
+      rescue
+        # Ignore exceptions and retry
+      end
+
+      if noRetry
+        return nil
+      end
+
+      sleep 0.5
+    end
+
+    return nil if noError
+    raise Selenium::WebDriver::Error::NoSuchElementError.new("Could not find element for xpath: #{xpath} pattern: #{pattern}")
   end
 
 end

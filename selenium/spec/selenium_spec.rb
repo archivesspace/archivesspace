@@ -929,6 +929,29 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "can support dragging and dropping an archival object" do
+    # first resize the tree pane (do it incrementally so it doesn't flip out...)
+    pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
+    10.times {
+      @driver.action.drag_and_drop_by(pane_resize_handle, 0, 10).perform
+    }
+
+    source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /Christmas cards/)
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /Lost mail/)
+    @driver.action.drag_and_drop(source, target).perform
+    @driver.wait_for_ajax
+
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /Lost mail/)
+    target.find_element_with_text("./ul/li/ul/li/a", /Christmas cards/)
+
+    # refresh the page and verify that the change really stuck
+    @driver.navigate.refresh
+
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /Lost mail/)
+    target.find_element_with_text("./ul/li/ul/li/a", /Christmas cards/)
+  end
+
+
   # More Resources
 
   it "shows our newly added Resource in the browse list" do
@@ -1160,7 +1183,6 @@ describe "ArchivesSpace user interface" do
   end
 
 
-
   # Digital Objects
 
   it "reports errors and warnings when creating an invalid Digital Object" do
@@ -1235,6 +1257,37 @@ describe "ArchivesSpace user interface" do
       elements.any? {|elt| elt =~ /#{thing}/}.should be_true
     end
 
+  end
+
+  it "can drag and drop reorder a Digital Object" do
+    # create grand child
+    @driver.find_element(:link, "Add Child").click
+    @driver.find_element(:link, "Digital Object Component").click
+
+    @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
+    @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
+    @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
+
+    # first resize the tree pane (do it incrementally so it doesn't flip out...)
+    pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
+    10.times {
+      @driver.action.drag_and_drop_by(pane_resize_handle, 0, 10).perform
+    }
+
+    #drag to become sibling of parent
+    source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /ICO/)
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /JPEG 2000 Verson of Image/)
+    @driver.action.drag_and_drop(source, target).perform
+    @driver.wait_for_ajax
+
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /JPEG 2000 Verson of Image/)
+    target.find_element_with_text("./ul/li/ul/li/a", /ICO/)
+
+    # refresh the page and verify that the change really stuck
+    @driver.navigate.refresh
+
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /JPEG 2000 Verson of Image/)
+    target.find_element_with_text("./ul/li/ul/li/a", /ICO/)
   end
 
 
