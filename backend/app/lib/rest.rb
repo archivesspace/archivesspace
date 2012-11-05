@@ -151,8 +151,10 @@ module RESTHelpers
 
             # If the current user is a manager, show them suppressed records
             # too.
-            RequestContext.put(:enforce_suppression,
-                               !current_user.can?(:manage_repository))
+            if RequestContext.get(:repo_id)
+              RequestContext.put(:enforce_suppression,
+                                 !current_user.can?(:manage_repository))
+            end
 
             self.instance_eval &block
           end
