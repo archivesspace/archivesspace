@@ -16,6 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["accession_id", Integer, "The accession ID to update"],
             ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
+    .preconditions(proc { current_user.can?(:manage_repository) })
     .returns([200, :updated]) \
   do
     Accession.get_or_die(params[:accession_id]).set_suppressed(params[:suppressed])

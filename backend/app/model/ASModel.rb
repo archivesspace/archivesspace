@@ -35,6 +35,18 @@ module ASModel
 
 
   def update_from_json(json, extra_values = {})
+
+    if self.values.has_key?(:suppressed)
+      if self[:suppressed] == 1
+        raise ReadOnlyException.new("Can't update an object that has been suppressed")
+      end
+
+      # No funny business.  If you want to set this you need to do it via the
+      # dedicated controller.
+      json["suppressed"] = false
+    end
+
+
     schema_defined_properties = json.class.schema["properties"].keys
 
     # Start by assuming all existing properties were nil, then overlay the

@@ -209,7 +209,9 @@ module JSONModel
     def suppressed=(val)
       response = JSONModel::HTTP.post_form("#{self.uri}/suppressed", :suppressed => val)
 
-      if response.code != '200'
+      if response.code == '403'
+        raise AccessDeniedException.new("Permission denied when setting suppression status")
+      elsif response.code != '200'
         raise "Error when setting suppression status for #{self}: #{response.code} -- #{response.body}"
       end
 
