@@ -139,7 +139,7 @@ $(function() {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
-              name: "<span class='"+ obj.jsonmodel_type + "'><span class='icon-token'></span>" + formattedNameForJSON(obj) + "</span>",
+              name: formattedNameForJSON(obj),
               id: obj.uri,
               json: obj
             });
@@ -206,6 +206,10 @@ $(function() {
             var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
             $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
             return tokenEl;
+          },
+          resultsFormatter: function(item) {
+            var string = item.name;
+            return "<li><span class='"+ item.json.jsonmodel_type + "'><span class='icon-token'></span>" + (this.enableHTML ? string : _escapeHTML(string)) + "</span></li>";
           },
           prePopulate: tokensForPrepopulation(),
           onDelete: function() {
