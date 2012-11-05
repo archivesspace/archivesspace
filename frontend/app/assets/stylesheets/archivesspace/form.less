@@ -313,3 +313,40 @@ section h3 {
     }
   }
 }
+
+.btn-inline-form {
+  &.btn {
+    padding: 0;
+    background-color: transparent;
+    margin: 0;
+    border: none;
+  }
+
+  display: inline-block;
+  form {
+    margin: 0;
+    padding: 0;
+
+    > div {
+      display: inline;
+    }
+  }
+
+  &:last-child {
+    .btn {
+      .border-radius(0 4px 4px 0);
+    }
+  }
+
+  &:first-child {
+    .btn {
+      .border-radius(4px 0 0 4px);
+    }
+  }
+
+  &:last-child:first-child {
+    .btn {
+      .border-radius(4px);
+    }
+  }
+}

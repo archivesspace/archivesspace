@@ -14,10 +14,11 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/repositories/:repo_id/accessions/:accession_id/suppressed')
     .description("Suppress this record from non-managers")
     .params(["accession_id", Integer, "The accession ID to update"],
+            ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
     .returns([200, :updated]) \
   do
-    Accession.get_or_die(params[:accession_id]).set_suppressed(true)
+    Accession.get_or_die(params[:accession_id]).set_suppressed(param["suppressed"])
 
     "OK"
   end

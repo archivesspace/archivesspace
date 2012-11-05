@@ -33,6 +33,8 @@ ArchivesSpace::Application.routes.draw do
 
   resources :accessions
   match 'accessions/:id' => 'accessions#update', :via => [:post]
+  match 'accessions/:id/suppress' => 'accessions#suppress', :via => [:post]
+  match 'accessions/:id/unsuppress' => 'accessions#unsuppress', :via => [:post]
 
   resources :archival_objects
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]

@@ -4,10 +4,23 @@
       <%= render :partial => "sidebar" %>
    </div>
    <div class="span9 record-pane">
-     <%= readonly_context :accession, @accession.to_hash(true) do |readonly| %>
-       <% if user_can?('update_repository') %>
-          <div class="btn-group" style="float: right">
-            <%= link_to "Edit", {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn" %>
+    <%= readonly_context :accession, @accession.to_hash(true) do |readonly| %>
+      <% if user_can?('update_repository') %>
+        <div class="btn-group" style="float: right">
+          <% if @accession.suppressed %>
+            <% if user_can?('manage_repository') %>
+              <div class="btn btn-inline-form">
+                <%= button_to 'Unsuppress', {:controller => :accessions, :action => :unsuppress, :id => @accession.id}, :method => :post, :class => "btn btn-small" %>
+              </div>
+            <% end %>
+          <% else %>
+            <%= link_to "Edit", {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-small" %>
+            <% if user_can?('manage_repository') %>
+              <div class="btn btn-inline-form">
+                <%= button_to 'Suppress', {:controller => :accessions, :action => :suppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-warning" %>
+              </div>
+            <% end %>
+          <% end %>
           </div>
         <% end %>
         <h2><%= @accession.title %> <span class="label label-info">Accession</span></h2>
