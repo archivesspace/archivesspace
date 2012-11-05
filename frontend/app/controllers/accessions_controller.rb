@@ -18,6 +18,11 @@ class AccessionsController < ApplicationController
 
   def edit
     @accession = Accession.find(params[:id], "resolve[]" => ["subjects", "ref"])
+
+    if @accession.suppressed
+      flash[:info] = "Accession is suppressed and cannot be edited."
+      redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
+    end
   end
 
   def create

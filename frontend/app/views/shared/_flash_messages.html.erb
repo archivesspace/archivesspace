@@ -13,3 +13,8 @@
     <%= flash[:error] %>
   </div>
 <% end %>
+<% if flash[:info] %>
+  <div class="alert alert-info">
+    <%= flash[:info] %>
+  </div>
+<% end %>
