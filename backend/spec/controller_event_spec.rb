@@ -63,4 +63,13 @@ describe 'Events controller' do
     result[0]["title"].should eq(@test_accession.title)
   end
 
+
+  it "suppressed records aren't candidates for linking" do
+    @test_accession.suppressed = true
+    result = JSONModel::HTTP.get_json(JSONModel(:event).uri_for('linkable-records/list'),
+                                      :q => @test_accession.title)
+    result.length.should eq(0)
+  end
+
+
 end
