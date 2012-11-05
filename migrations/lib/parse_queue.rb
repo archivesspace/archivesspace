@@ -9,6 +9,10 @@ module ASpaceImport
         self.last.save_or_wait       
         super
       end
+      
+      if self.length == 0
+        JSONModel::Queueable.save_all
+      end
     end
   
     def initialize(opts)

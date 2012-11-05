@@ -134,6 +134,11 @@ module ASpaceImport
           obj.instance_eval("def depth; #{opts[:depth]}; end")
         end
         
+        # Set a pre-save URI to be dereferenced by the backend
+        # (Using a random number for demonstration - should be
+        # incremented by importer)
+        obj.uri = obj.class.uri_for(rand(10000))
+        
         yield obj
         
       elsif @@entity_map[opts[:xpath]]

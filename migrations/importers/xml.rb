@@ -56,8 +56,9 @@ ASpaceImport::Importer.importer :xml do
             tob.receivers.for(:depth => qdob.depth, 
                               :record_type => qdob.class.record_type) do |r|
 
-              qdob.after_save { r.receive(qdob.uri) }
-              tob.wait_for(qdob)
+              r.receive(qdob.uri)
+              # qdob.after_save { r.receive(qdob.uri) }
+              # tob.wait_for(qdob)
             end
           end
           
@@ -66,8 +67,9 @@ ASpaceImport::Importer.importer :xml do
           @parse_queue.reverse.each do |qdob|
 
             qdob.receivers.for(node_args) do |r|
-              tob.after_save { r.receive(tob.uri) }
-              qdob.wait_for(tob)
+              r.receive(tob.uri)
+              # tob.after_save { r.receive(tob.uri) }
+              # qdob.wait_for(tob)
             end
 
           end        
