@@ -63,12 +63,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
     json = super
 
     if obj.resource_id
-      json.resource = JSONModel(:resource).uri_for(obj.resource_id,
-                                                   :repo_id => obj.repo_id)
+      json.resource = uri_for(:resource, obj.resource_id)
 
       if obj.parent_id
-        json.parent = JSONModel(:archival_object).uri_for(obj.parent_id,
-                                                          :repo_id => obj.repo_id)
+        json.parent = uri_for(:archival_object, obj.parent_id)
       end
     end
 

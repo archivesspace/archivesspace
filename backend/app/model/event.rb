@@ -107,7 +107,7 @@ class Event < Sequel::Model(:event)
         obj.send("event_#{record_type}_link".intern).map {|link|
           {
             "role" => link[:role],
-            "ref" => JSONModel(record_type).uri_for(link["#{record_type}_id".intern], opts)
+            "ref" => uri_for(record_type, link["#{record_type}_id".intern], opts)
           }
         }
       }.flatten

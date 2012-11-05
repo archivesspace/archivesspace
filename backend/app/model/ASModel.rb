@@ -394,6 +394,11 @@ module ASModel
     end
 
 
+    def uri_for(jsonmodel, id, opts = {})
+      JSONModel(jsonmodel).uri_for(id, opts.merge(:repo_id => self.active_repository))
+    end
+
+
     def sequel_to_jsonmodel(obj, model, opts = {})
       json = JSONModel(model).new(map_db_types_to_json(JSONModel(model).schema, obj.values.reject {|k, v| v.nil? }))
 

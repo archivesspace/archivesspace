@@ -280,8 +280,6 @@ module JSONModel
       #  might yield "/repositories/123/archival_objects/500"
       #
       def self.uri_for(id = nil, opts = {})
-        opts[:repo_id] ||= RequestContext.get(:repo_id)
-
         result = self.uri_and_remaining_options_for(id, opts)
 
         result ? result[0] : nil

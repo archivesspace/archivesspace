@@ -51,12 +51,10 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
     json.notes = notes
 
     if obj.digital_object_id
-      json.digital_object = JSONModel(:digital_object).uri_for(obj.digital_object_id,
-                                                               :repo_id => obj.repo_id)
+      json.digital_object = uri_for(:digital_object, obj.digital_object_id)
 
       if obj.parent_id
-        json.parent = JSONModel(:digital_object_component).uri_for(obj.parent_id,
-                                                                   :repo_id => obj.repo_id)
+        json.parent = uri_for(:digital_object_component, obj.parent_id)
       end
     end
 

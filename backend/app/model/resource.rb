@@ -25,8 +25,7 @@ class Resource < Sequel::Model(:resource)
   def assemble_tree(node, links, properties)
     result = properties[node].clone
 
-    result['archival_object'] = JSONModel(:archival_object).uri_for(result[:id],
-                                                                    :repo_id => self.repo_id)
+    result['archival_object'] = self.class.uri_for(:archival_object, result[:id])
     if links[node]
       result['children'] = links[node].map do |child_id|
         assemble_tree(child_id, links, properties)

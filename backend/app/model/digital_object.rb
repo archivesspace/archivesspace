@@ -23,8 +23,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   def assemble_tree(node, links, properties)
     result = properties[node].clone
 
-    result['digital_object_component'] = JSONModel(:digital_object_component).uri_for(result[:id],
-                                                                                      :repo_id => self.repo_id)
+    result['digital_object_component'] = self.class.uri_for(:digital_object_component, result[:id])
     if links[node]
       result['children'] = links[node].map do |child_id|
         assemble_tree(child_id, links, properties)
