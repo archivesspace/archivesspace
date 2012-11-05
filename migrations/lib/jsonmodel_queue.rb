@@ -26,11 +26,11 @@ module JSONModel
     # of related objects if it works, then remove it from the 
     # main queue.
   
-    def save_or_wait(opts = {})
-      if self.try_save(opts)[0]
+    def save_or_wait
+      if self.try_save[0]
         while @@wait_queue.length > 0 do
           @@wait_queue.each_index do |i|        
-            @@wait_queue[i] = nil if @@wait_queue[i].try_save(opts)[0]
+            @@wait_queue[i] = nil if @@wait_queue[i].try_save[0]
           end
           break if @@wait_queue.compact! == nil
         end
@@ -46,7 +46,7 @@ module JSONModel
     # Protected methods
     protected
      
-    def try_save(opts = {})
+    def try_save
       puts "Trying to save: #{self.to_s}" if $DEBUG
       can_save = true
       # 1st condition allows import to proceed if 
@@ -56,7 +56,7 @@ module JSONModel
         return [false]
       end    
       begin
-        self.save(opts)
+        self.save
         save_result = [true, self.uri]
       rescue JSONModel::ValidationException
         # Here we *could* seek to recover from conflict or 

@@ -80,10 +80,10 @@ module ASpaceImport
       if opts[:dry] == true
         
         JSONModel::Client.module_eval {
-          def save(opts)
+          def save
             id = rand(100)
 
-            self.uri = self.class.uri_for(id.to_s, opts)
+            self.uri = self.class.uri_for(id.to_s)
 
             # If we were able to save successfully, increment our local version
             # number to match the version on the server.
