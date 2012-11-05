@@ -19,6 +19,18 @@
    </div>
 --></div>
 
+<div id="confirmation_modal_template"><!--
+   <div class="modal-body">
+      {if defined(message) && message.length > 0}
+        ${message}
+      {/if}
+   </div>
+   <div class="modal-footer">
+      <button id="confirmButton" class="btn btn-primary">Confirm</button>
+      <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+   </div>
+--></div>
+
 <div id="linker_browsemodal_template"><!--
    <div class="modal-body linker-container">
       <div class="linker-list"></div>

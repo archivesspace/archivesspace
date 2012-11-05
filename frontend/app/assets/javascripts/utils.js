@@ -236,3 +236,67 @@ AS.resetScrollSpy = function() {
     offset: 20
   });
 }
+
+// Add confirmation btn behaviour
+$(function() {
+  $.fn.initConfirmationAction = function() {
+    $(this).each(function() {
+
+      var $this = $(this);
+
+      if ($this.hasClass("initialised")) {
+        return;
+      }
+
+      $this.addClass("initialised");
+
+      var template_data = {
+        message: $this.data("message") || "",
+        title: $this.data("title") || "Are you sure?"
+      };
+
+      var confirmInlineFormAction = function() {
+        $this.parents("form").submit();
+      };
+
+
+      var confirmCustomAction = function() {
+        $.ajax({
+          url: $this.data("target"),
+          data: $this.data("params"),
+          type: $this.data("method"),
+          complete: function() {
+            $("#confirmChangesModal").modal("hide").remove();
+            if ($this.data("refresh")) {
+              document.location.reload;
+            }
+          }
+        });
+      };
+
+      var onClick = function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        AS.openCustomModal("confirmChangesModal", template_data.title , AS.renderTemplate("confirmation_modal_template", template_data));
+        $("#confirmButton", confirmChangesModal).click(function() {
+          if ($this.parents(".btn-inline-form:first").length) {
+            confirmInlineFormAction();
+          } else {
+            confirmCustomAction
+          }
+        });
+      }
+
+      $this.click(onClick);
+    })
+  };
+
+  $(document).ready(function() {
+    $(document).ajaxComplete(function() {
+      $(".btn[data-confirmation]:not(.initialised)").initConfirmationAction();
+    });
+
+    $(".btn[data-confirmation]:not(.initialised)").initConfirmationAction();
+  });
+});
