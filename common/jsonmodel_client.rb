@@ -200,6 +200,19 @@ module JSONModel
     end
 
 
+    # Mark the suppression status of this record
+    def suppressed=(val)
+      url = self.class.my_url("#{self.id}/suppressed")
+
+      response = JSONModel::HTTP.post_json(url, JSON(:suppressed => val))
+
+      if response.code != '200'
+        raise "Error when setting suppression status for #{self}: #{response.code} -- #{response.body}"
+      end
+
+      self["suppressed"] = true
+    end
+
     def add_error(field, message)
       @errors ||= {}
       @errors[field.to_s] ||= []

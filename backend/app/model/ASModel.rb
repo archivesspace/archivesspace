@@ -75,6 +75,15 @@ module ASModel
 
   module ClassMethods
 
+    @suppressible = false
+
+    def enable_suppression
+      @suppressible = true
+    end
+
+    def suppressible?
+      @suppressible
+    end
 
     @@model_scope = {}
 
@@ -89,12 +98,22 @@ module ASModel
         orig_ds = self.dataset.clone
 
         def_dataset_method(:this_repo) do
-          orig_ds.filter(:repo_id => model.active_repository)
+          filter = {:repo_id => model.active_repository}
+
+          if model.suppressible? && model.enforce_suppression?
+            filter[:suppressed] = 0
+          end
+
+          orig_ds.filter(filter)
         end
 
-        orig_ds = self.dataset.clone
+
         def_dataset_method(:any_repo) do
-          orig_ds
+          if model.suppressible? && model.enforce_suppression?
+            orig_ds.filter(:suppressed => 0)
+          else
+            orig_ds
+          end
         end
 
         orig_row_proc = self.dataset.row_proc
@@ -117,6 +136,11 @@ module ASModel
     def model_scope
       @@model_scope[self] or
         raise "set_model_scope definition missing for model #{self}"
+    end
+
+
+    def enforce_suppression?
+      RequestContext.get(:enforce_suppression)
     end
 
 

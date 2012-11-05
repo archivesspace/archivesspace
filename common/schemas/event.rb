@@ -24,6 +24,8 @@
       "outcome" => {"type" => "string"},
       "outcome_note" => {"type" => "string"},
 
+      "suppressed" => {"type" => "boolean"},
+
       "linked_agents" => {
         "type" => "array",
         "ifmissing" => "error",

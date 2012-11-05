@@ -131,6 +131,7 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
+      Integer :suppressed, :default => 0, :null => false
 
       String :identifier, :null => false, :unique => true
 
@@ -146,6 +147,7 @@ Sequel.migration do
 
     alter_table(:accession) do
       add_foreign_key([:repo_id], :repository, :key => :id)
+      add_index(:suppressed)
     end
 
     create_table(:resource) do
@@ -649,6 +651,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :suppressed, :default => 0, :null => false
 
       Integer :repo_id, :null => false
 
@@ -661,6 +664,7 @@ Sequel.migration do
     end
 
     alter_table(:event) do
+      add_index(:suppressed)
       add_foreign_key([:repo_id], :repository, :key => :id)
     end
 

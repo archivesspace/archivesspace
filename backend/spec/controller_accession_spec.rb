@@ -1,5 +1,14 @@
 require 'spec_helper'
 
+def create_nobody_user
+  create(:user, :username => 'nobody')
+
+  viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
+  viewers.member_usernames = ['nobody']
+  viewers.save
+end
+
+
 describe 'Accession controller' do
 
   it "lets you create an accession and get it back" do
@@ -129,5 +138,59 @@ describe 'Accession controller' do
     JSONModel(:accession).all.count.should eq(0)
   end
 
+
+  it "doesn't show suppressed accessions when listing" do
+    3.times do
+      create(:json_accession)
+    end
+
+    create_nobody_user
+
+    accession = create(:json_accession)
+    accession.suppressed = true
+
+    as_test_user('nobody') do
+      JSONModel(:accession).all.count.should eq(3)
+    end
+  end
+
+
+  it "doesn't give you any schtick if you request a suppressed accession as a manager" do
+    accession = create(:json_accession)
+    accession.suppressed = true
+
+    returned_accession = JSONModel(:accession).find(accession.id)
+
+    returned_accession.suppressed.should eq(true)
+  end
+
+
+  it "suppresses events that link to the current accession if they don't link to any other record" do
+    test_agent = create(:json_agent_person)
+    test_accession = create(:json_accession)
+
+    event = create(:json_event,
+                   :linked_agents => [{
+                                        'ref' => test_agent.uri,
+                                        'role' => generate(:agent_role)
+                                      }],
+                   :linked_records => [{
+                                         'ref' => test_accession.uri,
+                                         'role' => generate(:record_role)
+                                       }])
+
+    create_nobody_user
+
+    as_test_user('nobody') do
+      JSONModel(:event).find(event.id).should_not eq(nil)
+    end
+
+    test_accession.suppressed = true
+
+    as_test_user('nobody') do
+      JSONModel(:event).find(event.id).should be(nil)
+    end
+
+  end
 
 end

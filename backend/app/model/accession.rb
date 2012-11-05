@@ -10,11 +10,23 @@ class Accession < Sequel::Model(:accession)
   include Deaccessions
   include Agents
 
+  enable_suppression
   set_model_scope :repository
 
   def self.records_matching(query, max)
     self.this_repo.where(Sequel.like(Sequel.function(:lower, :title),
                                      "#{query}%".downcase)).first(max)
+  end
+
+
+  def set_suppressed(val)
+    self.suppressed = val ? 1 : 0
+    save
+
+    EventAccessionLink.filter(:accession_id => self.id).each do |link|
+      link.event.set_suppressed(true)
+    end
+
   end
 
 end
