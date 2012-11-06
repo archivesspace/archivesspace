@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
     if not @user._exceptions[:errors] and
         params['user']['password'] != params['user']['confirm_password']
-      @user.add_error('passwords', "entered values didn't match")
+      @user.add_error('confirm_password', "entered value didn't match password")
     end
 
     if @user._exceptions[:errors]
