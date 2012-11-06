@@ -33,11 +33,6 @@ ASpaceImport::Importer.importer :xml do
         node_args = {:xpath => node.name, :depth => node.depth}
         
         target_objects(node_args) do |tob|
-
-          tob.after_save { puts "\nSaved: #{tob.to_s}" } if $DEBUG
-
-          # tob.after_save { |result| puts "RESULTS #{result.inspect}" }
-          tob.after_save { |result| log_save_result(result) }
           
           tob.receivers.for(:xpath => "self") do |r|
             r.receive(node.inner_xml)
@@ -57,8 +52,6 @@ ASpaceImport::Importer.importer :xml do
                               :record_type => qdob.class.record_type) do |r|
 
               r.receive(qdob.uri)
-              # qdob.after_save { r.receive(qdob.uri) }
-              # tob.wait_for(qdob)
             end
           end
           
@@ -68,8 +61,6 @@ ASpaceImport::Importer.importer :xml do
 
             qdob.receivers.for(node_args) do |r|
               r.receive(tob.uri)
-              # tob.after_save { r.receive(tob.uri) }
-              # qdob.wait_for(tob)
             end
 
           end        

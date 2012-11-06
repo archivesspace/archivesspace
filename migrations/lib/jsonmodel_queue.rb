@@ -23,11 +23,6 @@ module JSONModel
       
       puts "RESPONSE \n #{response.inspect}" if $DEBUG
     end
-
-    def after_save(&block)
-      @after_save_hooks ||= Array.new
-      @after_save_hooks.push(Proc.new(&block))
-    end 
   
     # Wait until another object is saved
     # before allowing itself to be saved.
@@ -39,30 +34,10 @@ module JSONModel
     # of related objects if it works, then remove it from the 
     # main queue.
   
-    def save_or_wait
+    def queue_save
       @@wait_queue.push(self)
     end
-
-    def unsaveable?
-      @unsaveable || false
-    end
- 
-    # Protected methods
-    protected
-    
-    def run_after_save_hooks(save_result)
-      @after_save_hooks.each { |proc| proc.call(save_result) } if @after_save_hooks
-      save_result  
-    end   
-    
-    def waiting_for
-      @waiting_for || Array.new
-    end
-    
-    def unsaveable!
-      @unsaveable = true
-    end
-    
+   
   end
 end
 
