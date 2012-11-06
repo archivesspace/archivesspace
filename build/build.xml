@@ -2,12 +2,8 @@
 
 <project name="ArchivesSpace" default="help">
 
-  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.0.RC2/jruby-complete-1.7.0.RC2.jar" />
-  <property name="jruby_file" value="jruby-complete-1.7.0.RC2.jar" />
-
-  <!-- We need a different version of JRuby for coverage reports until JRUBY-6106 gets merged -->
-  <property name="coverage.jruby_url" value="http://aspace.hudmol.com/packages/jruby-trunk.jar" />
-  <property name="coverage.jruby_file" value="jruby-coverage.jar" />
+  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.0/jruby-complete-1.7.0.jar" />
+  <property name="jruby_file" value="jruby-complete-1.7.0.jar" />
 
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
@@ -25,16 +21,8 @@
 
 
   
-  <!-- Configure our classpath.  Use our custom jar for JRuby if running code coverage tests. -->
+  <!-- Configure our classpath. -->
   <target name="set-classpath" description="Set JRuby classpath">
-    <condition property="jruby_classpath" value="${coverage.jruby_file}">
-      <matches pattern=".*:coverage" string="${ant.project.invoked-targets}" />
-    </condition>
-
-    <condition property="jruby_classpath" value="${coverage.jruby_file}">
-      <matches pattern="true" string="${env.COVERAGE_REPORTS}" />
-    </condition>
-
     <condition property="COVERAGE_REPORTS" value="true">
       <matches pattern=".*:coverage" string="${ant.project.invoked-targets}" />
     </condition>
@@ -330,15 +318,11 @@
   </target>
 
 
-  <target name="bootstrap:coverage">
-    <get src="${coverage.jruby_url}" dest="${coverage.jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-  </target>
-
-  <target name="backend:coverage" depends="set-classpath, bootstrap:coverage, backend:test" description="Generate coverage reports for the backend">
+  <target name="backend:coverage" depends="set-classpath, backend:test" description="Generate coverage reports for the backend">
   </target>
 
 
-  <target name="frontend:coverage" depends="set-classpath, bootstrap:coverage, frontend:clean, selenium:test"
+  <target name="frontend:coverage" depends="set-classpath, frontend:clean, selenium:test"
           description="Generate coverage reports for the frontend">
   </target>
 

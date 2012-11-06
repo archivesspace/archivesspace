@@ -13,7 +13,7 @@ GEM
     i18n (0.6.1)
     jdbc-derby (10.6.2.1-java)
     jdbc-mysql (5.1.13)
-    jruby-jars (1.7.0.rc2)
+    jruby-jars (1.7.0)
     jruby-rack (1.1.7)
     json (1.5.0-java)
     json-jruby (1.5.0-java)
@@ -72,7 +72,7 @@ DEPENDENCIES
   factory_girl
   jdbc-derby (= 10.6.2.1)
   jdbc-mysql (= 5.1.13)
-  jruby-jars (= 1.7.0.rc2)
+  jruby-jars (= 1.7.0)
   json-jruby (= 1.5.0)
   json-schema
   nokogiri
