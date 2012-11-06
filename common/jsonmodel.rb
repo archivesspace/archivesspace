@@ -378,6 +378,14 @@ module JSONModel
       end
 
 
+      def add_error(attribute, message)
+        # reset validation
+        @validated = nil
+
+        super
+      end
+
+
       # Zap this?  A bit arbitrary
       def _warnings
         exceptions = self._exceptions
