@@ -1,16 +1,9 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index), link_to(@accession.title, :controller => :accessions, :action => :show, :id => @accession.id), "Edit"]} %>
 
-<%= form_for @accession, :as => "accession", :url => {:action => :update}, :html => {:class => 'form-horizontal', :id => "accession_form"} do |f| %>
-  <%= form_context :accession, @accession.to_hash(true) do |form| %>
-    <div class="row-fluid">
-      <div class="span3">
-        <%= render :partial => "sidebar" %>
-      </div>
-      <div class="span9 record-pane">
-        <h2><%= @accession.title%> <span class="label label-info">Accession</span></h2>
-        <input type="hidden" name="_method" value="put" />
-        <%= render :partial => "accessions/form", :locals => {:form => form} %>
-      </div>
-    </div>
-  <% end %>
-<% end %>
+<div class="row-fluid">
+  <div class="span12">
+    <%= render :partial => "shared/tree", :locals => {:object => @accession, :tree => @accession_tree, :child_jsonmodel_type => "resource"} %>
+  </div>
+</div>
+
+<div id="object_container"></div>

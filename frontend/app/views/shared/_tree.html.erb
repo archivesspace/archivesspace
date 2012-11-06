@@ -1,5 +1,52 @@
 <%
    read_only = false if read_only.blank?
+
+   hierarchy_rules = {
+    :accession => {
+      :can_spawn => [{
+        :type => :resource,
+        :label =>  I18n.t("resource._html.singular")
+      }],
+      :can_link_to => [{
+        :type => :resource,
+        :label =>  I18n.t("resource._html.singular")
+      }]
+    },
+    :resource => {
+      :can_add_child => [{
+        :jsonmodel_type => :archival_object,
+        :level => [:child],
+        :label =>  I18n.t("archival_object._html.singular")
+      }]
+    },
+    :archival_object => {
+      :can_add_child => [{
+        :type => :archival_object,
+        :label =>  I18n.t("archival_object._html.singular")
+      }],
+      :can_add_sibling => [{
+       :type => :archival_object,
+       :label =>  I18n.t("archival_object._html.singular")
+      }]
+    },
+    :digital_object => {
+      :can_add_child => [{
+                     :jsonmodel_type => :digital_object_component,
+                     :label =>  I18n.t("digital_object_component._html.singular")
+                   }]
+    },
+    :digital_object_component => {
+      :can_add_child => [{
+                     :type => :digital_object_component,
+                     :label =>  I18n.t("digital_object_component._html.singular")
+                   }],
+      :can_add_sibling => [{
+                             :type => :archival_object,
+                             :label =>  I18n.t("archival_object._html.singular")
+                           }]
+    }
+   }
+
 %>
 
 <div class="archives-tree-container">
@@ -13,6 +60,7 @@
         data-child-jsonmodel-type="<%= child_jsonmodel_type %>"
         data-child-label="<%= I18n.t("#{child_jsonmodel_type}._html.singular") %>"
         data-read-only="<%= read_only %>"
+        data-rules="<%= hierarchy_rules.to_json %>"
   ></div>
 
   <script>
@@ -73,36 +121,77 @@
 
   <% if not read_only %>
 
-    <div id="tree_toolbar_addchild_template"><!--
-       <div class="btn-group dropdown">
-        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
-          Add Child
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-             <a href="javascript:void(0);" class="add-child">
-                <span class='icon-file'></span> ${config.child_label}
-             </a>
-          </li>
-        </ul>
-      </div>
-    --></div>
-
-    <div id="tree_toolbar_addsibling_template"><!--
+    <div id="tree_nodeactions_toolbar_template"><!--
+      <div class="btn-group">
+      {if defined("can_spawn")}
         <div class="btn-group dropdown">
-         <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Sibling">
-           +1
-           <span class="caret"></span>
-         </a>
-         <ul class="dropdown-menu">
-           <li>
-              <a href="javascript:void(0);" class="add-sibling">
-                 <span class='icon-file'></span> ${config.child_label}
+          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Spawn">
+            Spawn
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {for obj in can_spawn}
+            <li>
+              <a href="javascript:void(0);" class="spawn" rel="${obj.type}">
+                <span class='icon-${obj.type}'></span> ${obj.label}
               </a>
-           </li>
-         </ul>
-       </div>
+            </li>
+            {/for}
+          </ul>
+        </div>
+      {/if}
+      {if defined("can_link_to")}
+        <div class="btn-group dropdown">
+          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Link To">
+            Link To
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {for obj in can_link_to}
+            <li>
+              <a href="javascript:void(0);" class="link" rel="${obj.type}">
+                <span class='icon-${obj.type}'></span> ${obj.label}
+              </a>
+            </li>
+            {/for}
+          </ul>
+        </div>
+      {/if}
+      {if defined("can_add_child")}
+        <div class="btn-group dropdown">
+          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
+            Add Child
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {for obj in can_add_child}
+            <li>
+              <a href="javascript:void(0);" class="add-child" rel="${obj.type}">
+                <span class='icon-${obj.type}'></span> ${obj.label}
+              </a>
+            </li>
+            {/for}
+          </ul>
+        </div>
+      {/if}
+      {if defined("can_add_sibling")}
+        <div class="btn-group dropdown">
+          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Sibling">
+            +1
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {for obj in can_add_sibling}
+            <li>
+              <a href="javascript:void(0);" class="add-sibling" rel="${obj.type}">
+                <span class='icon-${obj.type}'></span> ${obj.label}
+              </a>
+            </li>
+            {/for}
+          </ul>
+        </div>
+      {/if}
+      </div>
     --></div>
 
   <% end  %>

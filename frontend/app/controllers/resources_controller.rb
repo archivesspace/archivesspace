@@ -20,6 +20,7 @@ class ResourcesController < ApplicationController
   def new
     @resource = JSONModel(:resource).new({:title => "New Resource"})._always_valid!
     @resource.extents = [JSONModel(:extent).new._always_valid!]
+    return render :partial => "resources/new_inline" if params[:inline]
   end
 
   def edit

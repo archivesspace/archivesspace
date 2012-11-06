@@ -14,7 +14,8 @@ $(function() {
       parent_jsonmodel_type: $(".archives-tree").data("parent-jsonmodel-type"),
       child_jsonmodel_type: $(".archives-tree").data("child-jsonmodel-type"),
       child_label: $(".archives-tree").data("child-label"),
-      read_only: $(".archives-tree").data("read-only")
+      read_only: $(".archives-tree").data("read-only"),
+      rules: $(".archives-tree").data("rules")
     };
 
     config.parent_object.id = config.parent_object_id;
@@ -230,13 +231,9 @@ $(function() {
       // render tree toolbar
       $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
       renderTreeNodeNavigation();
-      if (config.read_only != true) {
-        if ((nodeEl.hasClass(config.parent_jsonmodel_type) && nodeEl.find("> ul > li").length === 0) || (nodeEl.hasClass(config.child_jsonmodel_type) && nodeEl.attr("id") != "new")) {
-          $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addchild_template", {config: config}));
-          if (!nodeEl.hasClass(config.parent_jsonmodel_type) && !nodeEl.parents("li:first").hasClass(config.parent_jsonmodel_type)) {
-            $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addsibling_template", {config: config}));
-          }
-        }
+      if (config.read_only != true && nodeEl.attr("id") != "new") {
+        var toolbar_actions = $(AS.renderTemplate("tree_nodeactions_toolbar_template", config.rules[nodeEl.attr("rel")]));
+        $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(toolbar_actions);
       }
     };
 
