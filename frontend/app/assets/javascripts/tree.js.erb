@@ -132,28 +132,16 @@ $(function() {
         params.inline = true;
         params[config.parent_jsonmodel_type+"_id"] = config.parent_object_id;
 
-        if (nodeEl.attr("rel") === config.child_jsonmodel_type) {
+        $.ajax({
+          url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id"),
+          type: 'GET',
+          data: params,
+          success: function(html) {
+            $container.html(html);
+            AS.resetScrollSpy();
+          }
+        });
 
-          $.ajax({
-            url: APP_PATH+config.child_jsonmodel_type+"s/"+nodeEl.data("id"),
-            type: 'GET',
-            data: params,
-            success: function(html) {
-              $container.html(html);
-              AS.resetScrollSpy();
-            }
-          });
-        } else if (nodeEl.attr("rel") === config.parent_jsonmodel_type) {
-          $.ajax({
-            url: APP_PATH+config.parent_jsonmodel_type+"s/"+nodeEl.data("id"),
-            type: 'GET',
-            data: params,
-            success: function(html) {
-              $container.html(html);
-              AS.resetScrollSpy();
-            }
-          });
-        }
         return;
       }
 
@@ -165,12 +153,12 @@ $(function() {
         };
 
         var $parentNodeEl = nodeEl.parents("li:first");
-        if ($parentNodeEl.attr("rel") === config.child_jsonmodel_type) {
+        if ($parentNodeEl.attr("rel") === nodeEl.attr("rel")) {
           data.parent_node_id = $parentNodeEl.data("id");
         }
 
         $.ajax({
-          url: APP_PATH + config.child_jsonmodel_type + "s/new",
+          url: APP_PATH + nodeEl.attr("rel") + "s/new",
           data: data,
           type: "GET",
           success: function(html) {
@@ -182,19 +170,9 @@ $(function() {
             console.log("ERROR! $('.archives-tree-container').on('click', '.add-child')");
           }
         });
-      } else if (nodeEl.attr("rel") === config.child_jsonmodel_type) {
+      } else if (nodeEl.attr("rel")) {
         $.ajax({
-          url: APP_PATH+config.child_jsonmodel_type+"s/"+nodeEl.data("id")+"/edit?inline=true",
-          success: function(html) {
-            initForm(html);
-          },
-          error: function(obj, errorText, errorDesc) {
-            $container.html("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
-          }
-        });
-      } else if (nodeEl.attr("rel") === config.parent_jsonmodel_type) {
-        $.ajax({
-          url: APP_PATH+config.parent_jsonmodel_type+"s/"+nodeEl.data("id")+"/edit?inline=true",
+          url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id")+"/edit?inline=true",
           success: function(html) {
             initForm(html);
           },
@@ -283,9 +261,9 @@ $(function() {
 
 
 
-    var addnewNode = function(parentNode) {
-      $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "new"}, "data": {"title": "New "+config.child_label}});
-      $("#new", $tree).addClass("new").attr("rel", config.child_jsonmodel_type);
+    var addnewNode = function(parentNode, newNodeType,  newNodeConfig) {
+      $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "new"}, "data": {"title": "New "+newNodeConfig.label}});
+      $("#new", $tree).addClass("new").attr("rel", newNodeType);
       $("#new", $tree).find("a").attr("href", "#new");
       setHashForNode("new");
     };
@@ -299,7 +277,7 @@ $(function() {
           return;
         }
 
-        addnewNode($selected);
+        addnewNode($selected, $(this).attr("rel"), config.rules[$(".selected", $tree).attr("rel")]["can_add_child"][$(this).attr("rel")]);
       });
 
       $(".archives-tree-container").on("click", ".add-sibling", function() {
@@ -308,7 +286,16 @@ $(function() {
           return;
         }
 
-        addnewNode($selected.parents("li:first"));
+        addnewNode($selected.parents("li:first"), $(this).attr("rel"), config.rules[$selected.parents("li:first").attr("rel")]["can_add_child"][$(this).attr("rel")]);
+      });
+
+      $(".archives-tree-container").on("click", ".spawn", function() {
+        var $selected = $(".selected", $tree);
+        if ($selected.length === 0) {
+          return;
+        }
+
+        alert("TODO");
       });
 
       $container.on("click", ".btn-cancel", function() {

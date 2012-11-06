@@ -3,49 +3,56 @@
 
    hierarchy_rules = {
     :accession => {
-      :can_spawn => [{
-        :type => :resource,
-        :label =>  I18n.t("resource._html.singular")
-      }],
-      :can_link_to => [{
-        :type => :resource,
-        :label =>  I18n.t("resource._html.singular")
-      }]
+      :can_spawn => {
+        :resource => {
+          :label =>  I18n.t("resource._html.singular")
+        }
+      },
+      :can_link_to => {
+        :resource => {
+          :label =>  I18n.t("resource._html.singular")
+        }
+      }
     },
     :resource => {
-      :can_add_child => [{
-        :jsonmodel_type => :archival_object,
-        :level => [:child],
-        :label =>  I18n.t("archival_object._html.singular")
-      }]
+      :can_add_child => {
+        :archival_object => {
+          :label =>  I18n.t("archival_object._html.singular")
+        }
+      }
     },
     :archival_object => {
-      :can_add_child => [{
-        :type => :archival_object,
-        :label =>  I18n.t("archival_object._html.singular")
-      }],
-      :can_add_sibling => [{
-       :type => :archival_object,
-       :label =>  I18n.t("archival_object._html.singular")
-      }]
+      :can_add_child => {
+        :archival_object => {
+          :label =>  I18n.t("archival_object._html.singular")
+        }
+      },
+      :can_add_sibling => {
+       :archival_object => {
+         :label =>  I18n.t("archival_object._html.singular")
+       }
+      }
     },
     :digital_object => {
-      :can_add_child => [{
-                     :type => :digital_object_component,
-                     :label =>  I18n.t("digital_object_component._html.singular")
-                   }]
+      :can_add_child => {
+       :digital_object_component => {
+         :label =>  I18n.t("digital_object_component._html.singular")
+       }
+     }
     },
     :digital_object_component => {
-      :can_add_child => [{
-                     :type => :digital_object_component,
-                     :label =>  I18n.t("digital_object_component._html.singular")
-                   }],
-      :can_add_sibling => [{
-                             :type => :digital_object_component,
-                             :label =>  I18n.t("digital_object_component._html.singular")
-                           }]
-    }
+      :can_add_child => {
+        :digital_object_component => {
+          :label =>  I18n.t("digital_object_component._html.singular")
+        },
+      },
+      :can_add_sibling => {
+        :digital_object_component => {
+          :label =>  I18n.t("digital_object_component._html.singular")
+        }
+      }
    }
+ }
 
 %>
 
@@ -132,8 +139,8 @@
           <ul class="dropdown-menu">
             {for obj in can_spawn}
             <li>
-              <a href="javascript:void(0);" class="spawn" rel="${obj.type}">
-                <span class='icon-${obj.type}'></span> ${obj.label}
+              <a href="javascript:void(0);" class="spawn" rel="${obj_index}">
+                <span class='icon-${obj_index}'></span> ${obj.label}
               </a>
             </li>
             {/for}
@@ -149,8 +156,8 @@
           <ul class="dropdown-menu">
             {for obj in can_link_to}
             <li>
-              <a href="javascript:void(0);" class="link" rel="${obj.type}">
-                <span class='icon-${obj.type}'></span> ${obj.label}
+              <a href="javascript:void(0);" class="link" rel="${obj_index}">
+                <span class='icon-${obj_index}'></span> ${obj.label}
               </a>
             </li>
             {/for}
@@ -166,8 +173,8 @@
           <ul class="dropdown-menu">
             {for obj in can_add_child}
             <li>
-              <a href="javascript:void(0);" class="add-child" rel="${obj.type}">
-                <span class='icon-${obj.type}'></span> ${obj.label}
+              <a href="javascript:void(0);" class="add-child" rel="${obj_index}">
+                <span class='icon-${obj_index}'></span> ${obj.label}
               </a>
             </li>
             {/for}
@@ -183,8 +190,8 @@
           <ul class="dropdown-menu">
             {for obj in can_add_sibling}
             <li>
-              <a href="javascript:void(0);" class="add-sibling" rel="${obj.type}">
-                <span class='icon-${obj.type}'></span> ${obj.label}
+              <a href="javascript:void(0);" class="add-sibling" rel="${obj_index}">
+                <span class='icon-${obj_index}'></span> ${obj.label}
               </a>
             </li>
             {/for}
