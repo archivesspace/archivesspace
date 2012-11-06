@@ -31,7 +31,7 @@
     },
     :digital_object => {
       :can_add_child => [{
-                     :jsonmodel_type => :digital_object_component,
+                     :type => :digital_object_component,
                      :label =>  I18n.t("digital_object_component._html.singular")
                    }]
     },
@@ -41,8 +41,8 @@
                      :label =>  I18n.t("digital_object_component._html.singular")
                    }],
       :can_add_sibling => [{
-                             :type => :archival_object,
-                             :label =>  I18n.t("archival_object._html.singular")
+                             :type => :digital_object_component,
+                             :label =>  I18n.t("digital_object_component._html.singular")
                            }]
     }
    }

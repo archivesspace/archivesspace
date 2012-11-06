@@ -43,43 +43,50 @@
     &.overflow {
       .box-shadow(inset -1px 2px 3px #DDD);
     }
+  }
 
-    a > .jstree-icon {
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      .ie7-restore-right-whitespace();
-      line-height: 14px;
-      vertical-align: text-top;
-      background-image: url(@iconSpritePath) !important;
-      background-position: 14px 14px;
-      background-repeat: no-repeat;
-    }
+  a > .jstree-icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    .ie7-restore-right-whitespace();
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url(@iconSpritePath) !important;
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+  }
 
-    a > .jstree-icon {
-      background-position: -384px -120px !important;
-    }
+  a > .jstree-icon {
+    background-position: -384px -120px !important;
+  }
 
-    .jstree-open > a > .jstree-icon {
-      background-position: -408px -120px !important;
-    } 
+  .jstree-open > a > .jstree-icon {
+    background-position: -408px -120px !important;
+  }
 
-    .archival_object > a > .jstree-icon {
-      background-position: -24px  -24px !important;
-    }
+  .archival_object > a > .jstree-icon,
+  .icon-archival_object {
+    background-position: -24px  -24px !important;
+  }
 
-    .digital_object_component > a > .jstree-icon {
-      background-position: -456px -24px !important;
-    }
+  .digital_object_component > a > .jstree-icon,
+  .icon-digital_object_component {
+    background-position: -456px -24px !important;
+  }
 
-    .new > a > .jstree-icon {
-      background-position: -456px -96px !important;
-    }
+  .new > a > .jstree-icon {
+    background-position: -456px -96px !important;
+  }
 
-    .resource > a > .jstree-icon,
-    .icon-resource  {
-      background-position: -264px -24px !important;
-    }
+  .resource > a > .jstree-icon,
+  .icon-resource  {
+    background-position: -264px -24px !important;
+  }
+
+  .accession > a > .jstree-icon,
+  .icon-accession {
+    background-position: -168px -24px !important;
   }
 
   #archives_tree_toolbar {
