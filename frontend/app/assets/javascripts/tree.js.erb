@@ -10,7 +10,7 @@ $(function() {
   if (AS.tree_data && $tree.length) {
     var config = {
       root_object_id: AS.tree_data.id,
-      root_jsonmodel_type: AS.tree_data,
+      root_jsonmodel_type: AS.tree_data.jsonmodel_type,
       read_only: $(".archives-tree").data("read-only"),
       rules: $(".archives-tree").data("rules")
     };
@@ -48,7 +48,7 @@ $(function() {
       var $form = $("form", $container);
 
       $(".btn-cancel", $form).html("Revert Changes");
-      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.root_jsonmodel_type + "s/" + config.root_object_id.id + location.hash + "'>Finish Editing</a>");
+      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.root_jsonmodel_type + "s/" + config.root_object_id + location.hash + "'>Finish Editing</a>");
 
       if (location.hash !== "#tree::new") {
         $(".btn-primary", $form).attr("disabled", "disabled");
