@@ -85,8 +85,6 @@ module ASModel
       @suppressible
     end
 
-    @@model_scope = {}
-
     def set_model_scope(value)
       if ![:repository, :global].include?(value)
         raise "Failure for #{self}: Model scope must be set as :repository or :global"
@@ -129,12 +127,12 @@ module ASModel
 
       end
 
-      @@model_scope[self] = value
+      @model_scope = value
     end
 
 
     def model_scope
-      @@model_scope[self] or
+      @model_scope or
         raise "set_model_scope definition missing for model #{self}"
     end
 
