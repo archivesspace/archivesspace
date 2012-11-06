@@ -63,6 +63,7 @@ class DigitalObjectsController < ApplicationController
     @digital_object_tree = {
       "id" => digital_object.id,
       "title" => digital_object.title,
+      "jsonmodel_type" => "digital_object",
       "children" => tree.empty? ? [] : [tree]
     }
   end

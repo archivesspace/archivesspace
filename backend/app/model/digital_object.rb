@@ -49,7 +49,7 @@ class DigitalObject < Sequel::Model(:digital_object)
         root_node = doc.id
       end
 
-      properties[doc.id] = {:title => doc.title, :id => doc.id}
+      properties[doc.id] = {:title => doc.title, :id => doc.id, :jsonmodel_type => :digital_object_component}
     end
 
     return {} if root_node.nil?

@@ -9,19 +9,15 @@ $(function() {
 
   if (AS.tree_data && $tree.length) {
     var config = {
-      parent_object: $(".archives-tree").data("parent"),
-      parent_object_id: $(".archives-tree").data("parent-id"),
-      parent_jsonmodel_type: $(".archives-tree").data("parent-jsonmodel-type"),
-      child_jsonmodel_type: $(".archives-tree").data("child-jsonmodel-type"),
-      child_label: $(".archives-tree").data("child-label"),
+      root_object_id: AS.tree_data.id,
+      root_jsonmodel_type: AS.tree_data,
       read_only: $(".archives-tree").data("read-only"),
       rules: $(".archives-tree").data("rules")
     };
 
-    config.parent_object.id = config.parent_object_id;
-
     var refreshSelectedNode = function() {
       var currentNodeEl = $(".selected", $tree);
+      var currentNodeType = currentNodeEl.attr("rel");
 
       if (currentNodeEl.attr("id") === "new") {
         // replace the new node with a real AO node
@@ -29,24 +25,18 @@ $(function() {
         var parentNode = currentNodeEl.parents("li:first");
         var child_id = $("#id", $container).val();
 
-        var selected_node_id = config.child_jsonmodel_type + "_" + child_id;
+        var selected_node_id = currentNodeType + "_" + child_id;
 
         currentNodeEl.remove();
 
-        $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": {"title": $("#"+config.child_jsonmodel_type+"_title_", $container).val()}});
-        $("#"+selected_node_id, $tree).addClass(config.child_jsonmodel_type).addClass("selected").attr("rel", config.child_jsonmodel_type).data("id", child_id);
+        $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": {"title": $("#"+currentNodeType+"_title_", $container).val()}});
+        $("#"+selected_node_id, $tree).addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", child_id);
         $("#"+selected_node_id, $tree).find("a").attr("href", "#tree::"+selected_node_id).addClass("jstree-clicked");
 
         loadTreeActionsForNode($("#"+selected_node_id, $tree));
       } else {
         // Simply rename the node (just in case the node's title has changed)
-        var new_title = "";
-        if (currentNodeEl.hasClass(config.parent_jsonmodel_type)) {
-          new_title = $("#"+config.parent_jsonmodel_type+"_title_", $container).val();
-        } else {
-          // an AO
-          new_title = $("#"+config.child_jsonmodel_type+"_title_", $container).val();
-        }
+        var new_title = $("#"+currentNodeType+"_title_", $container).val();
         $tree.jstree("rename_node", currentNodeEl, new_title);
       }
     };
@@ -58,7 +48,7 @@ $(function() {
       var $form = $("form", $container);
 
       $(".btn-cancel", $form).html("Revert Changes");
-      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.parent_jsonmodel_type + "s/" + config.parent_object.id + location.hash + "'>Finish Editing</a>");
+      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.root_jsonmodel_type + "s/" + config.root_object_id.id + location.hash + "'>Finish Editing</a>");
 
       if (location.hash !== "#tree::new") {
         $(".btn-primary", $form).attr("disabled", "disabled");
@@ -75,7 +65,7 @@ $(function() {
         var createPlusOne = function(event, data) {
           if (data.success) {
             // if parent is the top level parent, add +1 as a child
-            if ($(".selected", $tree).parents("li:first").hasClass(config.parent_jsonmodel_type)) {
+            if ($(".selected", $tree).parents("li:first").hasClass(config.root_jsonmodel_type)) {
               $(".archives-tree-container .add-child").trigger("click");
             } else {
               // else add +1 as a sibling
@@ -102,7 +92,7 @@ $(function() {
             $container.triggerHandler("submitted", {success: false});
           } else {
             if (location.hash === "#tree::new") {
-              changeHashSilently("#"+config.child_jsonmodel_type+"_" + $(response).find("#id").val());
+              changeHashSilently("#"+$(".selected", $tree).attr("rel")+"_" + $(response).find("#id").val());
             }
             form_changed = false;
             refreshSelectedNode();
@@ -130,7 +120,7 @@ $(function() {
 
         var params = {};
         params.inline = true;
-        params[config.parent_jsonmodel_type+"_id"] = config.parent_object_id;
+        params[config.root_jsonmodel_type+"_id"] = config.root_object_id;
 
         $.ajax({
           url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id"),
@@ -148,13 +138,17 @@ $(function() {
       if (nodeEl.attr("id") === "new") {
 
         var data = {
-          parent_object_id: config.parent_object.id,
+          root_object_id: config.root_object_id,
           inline: true
         };
 
         var $parentNodeEl = nodeEl.parents("li:first");
         if ($parentNodeEl.attr("rel") === nodeEl.attr("rel")) {
           data.parent_node_id = $parentNodeEl.data("id");
+        }
+
+        if (nodeEl.data("params")) {
+          data = $.extend({}, data, nodeEl.data("params"));
         }
 
         $.ajax({
@@ -261,9 +255,9 @@ $(function() {
 
 
 
-    var addnewNode = function(parentNode, newNodeType,  newNodeConfig) {
+    var addnewNode = function(parentNode, newNodeType,  newNodeConfig, new_object_params) {
       $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "new"}, "data": {"title": "New "+newNodeConfig.label}});
-      $("#new", $tree).addClass("new").attr("rel", newNodeType);
+      $("#new", $tree).addClass("new").attr("rel", newNodeType).data("params", new_object_params || {});
       $("#new", $tree).find("a").attr("href", "#new");
       setHashForNode("new");
     };
@@ -295,7 +289,12 @@ $(function() {
           return;
         }
 
-        alert("TODO");
+        var rules = config.rules[$(".selected", $tree).attr("rel")]["can_spawn"][$(this).attr("rel")];
+
+        var params = {};
+        params[$(".selected", $tree).attr("rel")+"_id"] = $(".selected", $tree).data("id");
+
+        addnewNode($selected, $(this).attr("rel"), rules, params);
       });
 
       $container.on("click", ".btn-cancel", function() {
@@ -434,11 +433,11 @@ $(function() {
             "check_move" : function (m) {
 
               // can't move top level parent
-              if ($(m.o[0]).hasClass(config.parent_jsonmodel_type)) {
+              if ($(m.o[0]).hasClass(config.root_jsonmodel_type)) {
                 return false;
               }
               // can't into top level parent
-              if ($(m.np[0]).hasClass(config.parent_jsonmodel_type)) {
+              if ($(m.np[0]).hasClass(config.root_jsonmodel_type)) {
                 return false;
               }
 
@@ -501,7 +500,7 @@ $(function() {
           }
         }).bind("move_node.jstree", function(event, data) {
           $.ajax({
-            url: APP_PATH+config.child_jsonmodel_type+"s/"+data.rslt.o.data("id")+"/parent",
+            url: APP_PATH+data.rslt.o.attr("rel")+"s/"+data.rslt.o.data("id")+"/parent",
             type: "POST",
             data: {
               parent: data.rslt.cr.data("id")

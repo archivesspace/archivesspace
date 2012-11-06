@@ -1,7 +1,7 @@
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Digital Objects", :controller => :digital_objects, :action => :index), @digital_object.title]} %>
 <div class="row-fluid">
   <div class="span12">
-    <%= render :partial => "shared/tree", :locals => {:object => @digital_object, :tree => @digital_object_tree, :child_jsonmodel_type => "digital_object_component", :read_only => true} %>
+    <%= render :partial => "shared/tree", :locals => {:tree => @digital_object_tree} %>
   </div>
 </div>
 

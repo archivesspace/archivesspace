@@ -64,6 +64,7 @@ class ResourcesController < ApplicationController
     @resource_tree = {
       "id" => resource.id,
       "title" => resource.title,
+      "jsonmodel_type" => "resource",
       "children" => tree.empty? ? [] : [tree]
     }
   end

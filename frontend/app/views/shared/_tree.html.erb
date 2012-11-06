@@ -61,11 +61,6 @@
   <div id="archives_tree_toolbar"></div>
 
   <div  id="archives_tree" class="archives-tree"
-        data-parent-id="<%= object.id %>"
-        data-parent="<%= object.to_json %>"
-        data-parent-jsonmodel-type="<%= object["jsonmodel_type"] %>"
-        data-child-jsonmodel-type="<%= child_jsonmodel_type %>"
-        data-child-label="<%= I18n.t("#{child_jsonmodel_type}._html.singular") %>"
         data-read-only="<%= read_only %>"
         data-rules="<%= hierarchy_rules.to_json %>"
   ></div>
@@ -76,12 +71,11 @@
 
   <div id="tree_template"><!--
        {macro render_children(nodes)}
-       foo
         {if nodes && nodes.length > 0}
         <ul>
            {for node in nodes}
-              <li id="${config.child_jsonmodel_type}_${node.id}" class="${config.child_jsonmodel_type} {if node.has_children} jstree-closed{/if}" rel="${config.child_jsonmodel_type}" data-id="${node.id}">
-                 <a href="#tree::${config.child_jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+              <li id="${node.jsonmodel_type}_${node.id}" class="${node.jsonmodel_type} {if node.has_children} jstree-closed{/if}" rel="${node.jsonmodel_type}" data-id="${node.id}">
+                 <a href="#tree::${node.jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
                  ${render_children(node.children)}
               </li>
            {/for}
@@ -90,8 +84,8 @@
      {/macro}
 
      {macro render_parent(node)}
-        <li id="${config.parent_jsonmodel_type}_${node.id}" class="${config.parent_jsonmodel_type} jstree-closed" rel="${config.parent_jsonmodel_type}" data-id="${node.id}">
-           <a href="#tree::${config.parent_jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+        <li id="${node.jsonmodel_type}_${node.id}" class="${node.jsonmodel_type}" rel="${node.jsonmodel_type}" data-id="${node.id}">
+           <a href="#tree::${node.jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
            {if node.children && node.children.length > 0}
             ${render_children(node.children)}
            {/if}
