@@ -140,23 +140,6 @@ def run_tests
   r[:body]["resolved"]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
     fail("Archival object fetch", r)
 
-
-  puts "Add the archival object to a resource"
-  # Note: you could also do this by updating the AO directly
-  r = do_post({
-                :archival_object => "/repositories/#{repo_id}/archival_objects/#{ao_id}",
-                :children => []
-              }.to_json,
-              url("/repositories/#{repo_id}/resources/#{coll_id}/tree"));
-
-  r[:body]["status"] == "Updated" or fail("Add archival object to resource", r)
-
-
-  puts "Verify that the archival object is now in the resource"
-  r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}"))
-  r[:body]["resource"] == "/repositories/#{repo_id}/resources/#{coll_id}" or
-    fail("Archival object in resource", r)
-
 end
 
 
