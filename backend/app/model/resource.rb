@@ -56,7 +56,7 @@ class Resource < Sequel::Model(:resource)
         root_node = ao.id
       end
 
-      properties[ao.id] = {:title => ao.title, :id => ao.id, :jsonmodel_type => :archival_object}
+      properties[ao.id] = {:title => ao.title, :id => ao.id, :node_type => :archival_object}
     end
 
     # Check for empty tree

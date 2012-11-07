@@ -65,14 +65,17 @@ describe 'Digital Objects controller' do
                              "jsonmodel_type" => "digital_object_tree",
                              "digital_object_component" => docs[0].uri,
                              "title" => "digital object component: earth",
+                             "node_type" => "digital_object_component",
                              "children" => [
                                             {
                                               "digital_object_component" => docs[1].uri,
                                               "title" => "digital object component: australia",
+                                              "node_type" => "digital_object_component",
                                               "children" => [
                                                              {
                                                                "digital_object_component" => docs[2].uri,
                                                                "title" => "digital object component: canberra",
+                                                               "node_type" => "digital_object_component",
                                                                "children" => []
                                                              }
                                                             ]
@@ -86,14 +89,17 @@ describe 'Digital Objects controller' do
       "jsonmodel_type" => "digital_object_tree",
       "digital_object_component" => docs[2].uri,
       "title" => "digital object component: canberra",
+      "node_type" => "digital_object_component",
       "children" => [
                      {
                        "digital_object_component" => docs[1].uri,
                        "title" => "digital object component: australia",
+                       "node_type" => "digital_object_component",
                        "children" => [
                                       {
                                         "digital_object_component" => docs[0].uri,
                                         "title" => "digital object component: earth",
+                                        "node_type" => "digital_object_component",
                                         "children" => []
                                       }
                                      ]
@@ -107,6 +113,23 @@ describe 'Digital Objects controller' do
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
 
     tree.to_hash.should eq(changed)
+  end
+
+
+  it "allows a digital object to have multiple direct children" do
+    digital_object = create(:json_digital_object)
+
+    ao1 = build(:json_digital_object_component)
+    ao2 = build(:json_digital_object_component)
+
+    ao1.digital_object = digital_object.uri
+    ao2.digital_object = digital_object.uri
+
+    ao1.save
+    ao2.save
+
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
+    tree.children.length.should eq(2)
   end
 
 end

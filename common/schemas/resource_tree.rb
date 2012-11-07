@@ -7,6 +7,7 @@
       "uri" => {"type" => "string", "required" => false},
       "archival_object" => {"type" => "JSONModel(:archival_object) uri", "required" => false},
       "title" => {"type" => "string", "minLength" => 1, "required" => false},
+      "node_type" => {"type" => "string"},
       "children" => {
         "type" => "array",
         "additionalItems" => false,

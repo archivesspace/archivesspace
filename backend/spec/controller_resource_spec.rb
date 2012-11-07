@@ -372,4 +372,21 @@ describe 'Resources controller' do
     JSONModel(:resource).find(r.id).deaccessions[0]["date"]["begin"].should eq(test_begin_date)
   end
 
+
+  it "allows a resource to have multiple direct children" do
+    resource = create(:json_resource)
+
+    ao1 = build(:json_archival_object)
+    ao2 = build(:json_archival_object)
+
+    ao1.resource = resource.uri
+    ao2.resource = resource.uri
+
+    ao1.save
+    ao2.save
+
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+    tree.children.length.should eq(2)
+  end
+
 end
