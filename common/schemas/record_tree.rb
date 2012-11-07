@@ -4,6 +4,7 @@
     "type" => "object",
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
+      "id" => {"type" => "string", "ifmissing" => "error"},
       "record_uri" => {"type" => "string", "ifmissing" => "error"},
       "title" => {"type" => "string", "minLength" => 1, "required" => false},
       "node_type" => {"type" => "string"},
