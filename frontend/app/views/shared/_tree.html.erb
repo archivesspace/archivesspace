@@ -66,7 +66,7 @@
   ></div>
 
   <script>
-    AS.tree_data = <%= tree.to_json.html_safe %>;
+    AS.tree_data = <%= @tree.to_json.html_safe %>;
   </script>
 
   <div id="tree_template"><!--
@@ -74,8 +74,8 @@
         {if nodes && nodes.length > 0}
         <ul>
            {for node in nodes}
-              <li id="${node.jsonmodel_type}_${node.id}" class="${node.jsonmodel_type} {if node.has_children} jstree-closed{/if}" rel="${node.jsonmodel_type}" data-id="${node.id}">
-                 <a href="#tree::${node.jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+              <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}">
+                 <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
                  ${render_children(node.children)}
               </li>
            {/for}
@@ -84,8 +84,8 @@
      {/macro}
 
      {macro render_parent(node)}
-        <li id="${node.jsonmodel_type}_${node.id}" class="${node.jsonmodel_type}" rel="${node.jsonmodel_type}" data-id="${node.id}">
-           <a href="#tree::${node.jsonmodel_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+        <li id="${node.node_type}_${node.id}" class="${node.node_type}" rel="${node.node_type}" data-id="${node.id}">
+           <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
            {if node.children && node.children.length > 0}
             ${render_children(node.children)}
            {/if}

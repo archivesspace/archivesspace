@@ -10,7 +10,7 @@ $(function() {
   if (AS.tree_data && $tree.length) {
     var config = {
       root_object_id: AS.tree_data.id,
-      root_jsonmodel_type: AS.tree_data.jsonmodel_type,
+      root_node_type: AS.tree_data.node_type,
       read_only: $(".archives-tree").data("read-only"),
       rules: $(".archives-tree").data("rules")
     };
@@ -48,7 +48,7 @@ $(function() {
       var $form = $("form", $container);
 
       $(".btn-cancel", $form).html("Revert Changes");
-      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.root_jsonmodel_type + "s/" + config.root_object_id + location.hash + "'>Finish Editing</a>");
+      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.root_node_type + "s/" + config.root_object_id + location.hash + "'>Finish Editing</a>");
 
       if (location.hash !== "#tree::new") {
         $(".btn-primary", $form).attr("disabled", "disabled");
@@ -64,13 +64,7 @@ $(function() {
       $("#createPlusOne", $form).click(function() {
         var createPlusOne = function(event, data) {
           if (data.success) {
-            // if parent is the top level parent, add +1 as a child
-            if ($(".selected", $tree).parents("li:first").hasClass(config.root_jsonmodel_type)) {
-              $(".archives-tree-container .add-child").trigger("click");
-            } else {
-              // else add +1 as a sibling
-              $(".archives-tree-container .add-sibling").trigger("click");
-            }
+            $(".archives-tree-container .add-sibling").trigger("click");
           }
         };
 
@@ -120,7 +114,7 @@ $(function() {
 
         var params = {};
         params.inline = true;
-        params[config.root_jsonmodel_type+"_id"] = config.root_object_id;
+        params[config.root_node_type+"_id"] = config.root_object_id;
 
         $.ajax({
           url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id"),
@@ -138,13 +132,13 @@ $(function() {
       if (nodeEl.attr("id") === "new") {
 
         var data = {
-          root_object_id: config.root_object_id,
           inline: true
         };
+        data[config.root_node_type + "_id"] = config.root_object_id;
 
         var $parentNodeEl = nodeEl.parents("li:first");
         if ($parentNodeEl.attr("rel") === nodeEl.attr("rel")) {
-          data.parent_node_id = $parentNodeEl.data("id");
+          data[$parentNodeEl.attr("rel") + "_id"] = $parentNodeEl.data("id");
         }
 
         if (nodeEl.data("params")) {
@@ -433,11 +427,7 @@ $(function() {
             "check_move" : function (m) {
 
               // can't move top level parent
-              if ($(m.o[0]).hasClass(config.root_jsonmodel_type)) {
-                return false;
-              }
-              // can't into top level parent
-              if ($(m.np[0]).hasClass(config.root_jsonmodel_type)) {
+              if ($(m.o[0]).hasClass(config.root_node_type)) {
                 return false;
               }
 
@@ -499,11 +489,15 @@ $(function() {
             setHashForNode($nodeToSelect.find("a").attr("href"));
           }
         }).bind("move_node.jstree", function(event, data) {
+          var parent_id = "";
+          if (data.rslt.o.attr("rel") === data.rslt.cr.attr("rel")) {
+            parent_id = data.rslt.cr.data("id");
+          }
           $.ajax({
             url: APP_PATH+data.rslt.o.attr("rel")+"s/"+data.rslt.o.data("id")+"/parent",
             type: "POST",
             data: {
-              parent: data.rslt.cr.data("id")
+              parent: parent_id
             }
           });
         });
