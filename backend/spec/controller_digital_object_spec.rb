@@ -33,7 +33,7 @@ describe 'Digital Objects controller' do
   end
 
 
-  it "lets you query the resource tree of related digital object components" do
+  it "lets you query the record tree of related digital object components" do
 
     digital_object = create(:json_digital_object)
     id = digital_object.id
@@ -61,14 +61,14 @@ describe 'Digital Objects controller' do
   it "allows a digital object to have multiple direct children" do
     digital_object = create(:json_digital_object)
 
-    ao1 = build(:json_digital_object_component)
-    ao2 = build(:json_digital_object_component)
+    doc1 = build(:json_digital_object_component)
+    doc2 = build(:json_digital_object_component)
 
-    ao1.digital_object = digital_object.uri
-    ao2.digital_object = digital_object.uri
+    doc1.digital_object = digital_object.uri
+    doc2.digital_object = digital_object.uri
 
-    ao1.save
-    ao2.save
+    doc1.save
+    doc2.save
 
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
     tree.children.length.should eq(2)
