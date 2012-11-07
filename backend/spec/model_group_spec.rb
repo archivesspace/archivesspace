@@ -71,4 +71,13 @@ describe 'Group model' do
     User[:username => "simon"].can?("manage_repository").should eq(false)
   end
 
+
+  it "doesn't allow you to grant a non-existent permission" do
+    repo1 = create(:repo)
+
+    expect {
+      group = Group.create_from_json(build(:json_group, :grants_permissions => ['fnoob_is_not_seriously_a_perm']), :repo_id => repo1.id)
+    }.to raise_error
+  end
+
 end
