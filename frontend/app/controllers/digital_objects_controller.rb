@@ -14,7 +14,7 @@ class DigitalObjectsController < ApplicationController
       return render :partial => "digital_objects/show_inline"
     end
 
-    fetch_tree(@digital_object)
+    fetch_tree
   end
 
   def new
@@ -28,7 +28,7 @@ class DigitalObjectsController < ApplicationController
       return render :partial => "digital_objects/edit_inline"
     end
 
-    fetch_tree(@digital_object)
+    fetch_tree
   end
 
 
@@ -57,14 +57,8 @@ class DigitalObjectsController < ApplicationController
 
   private
 
-  def fetch_tree(digital_object)
-    tree = JSONModel::HTTP.get_json("#{JSONModel(:digital_object).uri_for(digital_object.id)}/tree")
-
-    @digital_object_tree = {
-      "id" => digital_object.id,
-      "title" => digital_object.title,
-      "children" => tree.empty? ? [] : [tree]
-    }
+  def fetch_tree
+    @tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => @digital_object.id)
   end
 
 end

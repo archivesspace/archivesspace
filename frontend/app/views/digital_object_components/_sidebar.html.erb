@@ -19,9 +19,16 @@
     <% end %>
 
     <% if not controller.action_name === "show" %>
-      <li class="form-actions">
-        <button type="submit" class="btn btn-primary">Save Digital Object Component</button>
-      </li>
+      <div class="form-actions">
+        <% if controller.action_name === "new" or controller.action_name === "create" %>
+          <div class="btn-group btn-submit-group">
+            <button type="submit" class="btn btn-primary">Save Digital Object Component</button>
+            <button type="button" id="createPlusOne" class="btn btn-primary">+1</button>
+          </div>
+        <% else %>
+          <button type="submit" class="btn btn-primary">Save Digital Object Component</button>
+        <% end %>
+      </div>
     <% end %>
   </ul>
 </div>

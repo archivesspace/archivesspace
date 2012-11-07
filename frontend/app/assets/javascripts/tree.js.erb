@@ -9,18 +9,15 @@ $(function() {
 
   if (AS.tree_data && $tree.length) {
     var config = {
-      parent_object: $(".archives-tree").data("parent"),
-      parent_object_id: $(".archives-tree").data("parent-id"),
-      parent_jsonmodel_type: $(".archives-tree").data("parent-jsonmodel-type"),
-      child_jsonmodel_type: $(".archives-tree").data("child-jsonmodel-type"),
-      child_label: $(".archives-tree").data("child-label"),
-      read_only: $(".archives-tree").data("read-only")
+      root_object_id: AS.tree_data.id,
+      root_node_type: AS.tree_data.node_type,
+      read_only: $(".archives-tree").data("read-only"),
+      rules: $(".archives-tree").data("rules")
     };
-
-    config.parent_object.id = config.parent_object_id;
 
     var refreshSelectedNode = function() {
       var currentNodeEl = $(".selected", $tree);
+      var currentNodeType = currentNodeEl.attr("rel");
 
       if (currentNodeEl.attr("id") === "new") {
         // replace the new node with a real AO node
@@ -28,24 +25,18 @@ $(function() {
         var parentNode = currentNodeEl.parents("li:first");
         var child_id = $("#id", $container).val();
 
-        var selected_node_id = config.child_jsonmodel_type + "_" + child_id;
+        var selected_node_id = currentNodeType + "_" + child_id;
 
         currentNodeEl.remove();
 
-        $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": {"title": $("#"+config.child_jsonmodel_type+"_title_", $container).val()}});
-        $("#"+selected_node_id, $tree).addClass(config.child_jsonmodel_type).addClass("selected").attr("rel", config.child_jsonmodel_type).data("id", child_id);
+        $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": {"title": $("#"+currentNodeType+"_title_", $container).val()}});
+        $("#"+selected_node_id, $tree).addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", child_id);
         $("#"+selected_node_id, $tree).find("a").attr("href", "#tree::"+selected_node_id).addClass("jstree-clicked");
 
         loadTreeActionsForNode($("#"+selected_node_id, $tree));
       } else {
         // Simply rename the node (just in case the node's title has changed)
-        var new_title = "";
-        if (currentNodeEl.hasClass(config.parent_jsonmodel_type)) {
-          new_title = $("#"+config.parent_jsonmodel_type+"_title_", $container).val();
-        } else {
-          // an AO
-          new_title = $("#"+config.child_jsonmodel_type+"_title_", $container).val();
-        }
+        var new_title = $("#"+currentNodeType+"_title_", $container).val();
         $tree.jstree("rename_node", currentNodeEl, new_title);
       }
     };
@@ -57,7 +48,7 @@ $(function() {
       var $form = $("form", $container);
 
       $(".btn-cancel", $form).html("Revert Changes");
-      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.parent_jsonmodel_type + "s/" + config.parent_object.id + location.hash + "'>Finish Editing</a>");
+      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.root_node_type + "s/" + config.root_object_id + location.hash + "'>Finish Editing</a>");
 
       if (location.hash !== "#tree::new") {
         $(".btn-primary", $form).attr("disabled", "disabled");
@@ -73,13 +64,7 @@ $(function() {
       $("#createPlusOne", $form).click(function() {
         var createPlusOne = function(event, data) {
           if (data.success) {
-            // if parent is the top level parent, add +1 as a child
-            if ($(".selected", $tree).parents("li:first").hasClass(config.parent_jsonmodel_type)) {
-              $(".archives-tree-container .add-child").trigger("click");
-            } else {
-              // else add +1 as a sibling
-              $(".archives-tree-container .add-sibling").trigger("click");
-            }
+            $(".archives-tree-container .add-sibling").trigger("click");
           }
         };
 
@@ -101,7 +86,7 @@ $(function() {
             $container.triggerHandler("submitted", {success: false});
           } else {
             if (location.hash === "#tree::new") {
-              changeHashSilently("#"+config.child_jsonmodel_type+"_" + $(response).find("#id").val());
+              changeHashSilently("#"+$(".selected", $tree).attr("rel")+"_" + $(response).find("#id").val());
             }
             form_changed = false;
             refreshSelectedNode();
@@ -129,47 +114,39 @@ $(function() {
 
         var params = {};
         params.inline = true;
-        params[config.parent_jsonmodel_type+"_id"] = config.parent_object_id;
+        params[config.root_node_type+"_id"] = config.root_object_id;
 
-        if (nodeEl.attr("rel") === config.child_jsonmodel_type) {
+        $.ajax({
+          url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id"),
+          type: 'GET',
+          data: params,
+          success: function(html) {
+            $container.html(html);
+            AS.resetScrollSpy();
+          }
+        });
 
-          $.ajax({
-            url: APP_PATH+config.child_jsonmodel_type+"s/"+nodeEl.data("id"),
-            type: 'GET',
-            data: params,
-            success: function(html) {
-              $container.html(html);
-              AS.resetScrollSpy();
-            }
-          });
-        } else if (nodeEl.attr("rel") === config.parent_jsonmodel_type) {
-          $.ajax({
-            url: APP_PATH+config.parent_jsonmodel_type+"s/"+nodeEl.data("id"),
-            type: 'GET',
-            data: params,
-            success: function(html) {
-              $container.html(html);
-              AS.resetScrollSpy();
-            }
-          });
-        }
         return;
       }
 
       if (nodeEl.attr("id") === "new") {
 
         var data = {
-          parent_object_id: config.parent_object.id,
           inline: true
         };
+        data[config.root_node_type + "_id"] = config.root_object_id;
 
         var $parentNodeEl = nodeEl.parents("li:first");
-        if ($parentNodeEl.attr("rel") === config.child_jsonmodel_type) {
-          data.parent_node_id = $parentNodeEl.data("id");
+        if ($parentNodeEl.attr("rel") === nodeEl.attr("rel")) {
+          data[$parentNodeEl.attr("rel") + "_id"] = $parentNodeEl.data("id");
+        }
+
+        if (nodeEl.data("params")) {
+          data = $.extend({}, data, nodeEl.data("params"));
         }
 
         $.ajax({
-          url: APP_PATH + config.child_jsonmodel_type + "s/new",
+          url: APP_PATH + nodeEl.attr("rel") + "s/new",
           data: data,
           type: "GET",
           success: function(html) {
@@ -181,19 +158,9 @@ $(function() {
             console.log("ERROR! $('.archives-tree-container').on('click', '.add-child')");
           }
         });
-      } else if (nodeEl.attr("rel") === config.child_jsonmodel_type) {
+      } else if (nodeEl.attr("rel")) {
         $.ajax({
-          url: APP_PATH+config.child_jsonmodel_type+"s/"+nodeEl.data("id")+"/edit?inline=true",
-          success: function(html) {
-            initForm(html);
-          },
-          error: function(obj, errorText, errorDesc) {
-            $container.html("<div class='alert alert-error'><p>An error occurred loading this record.</p><pre>"+errorDesc+"</pre></div>")
-          }
-        });
-      } else if (nodeEl.attr("rel") === config.parent_jsonmodel_type) {
-        $.ajax({
-          url: APP_PATH+config.parent_jsonmodel_type+"s/"+nodeEl.data("id")+"/edit?inline=true",
+          url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id")+"/edit?inline=true",
           success: function(html) {
             initForm(html);
           },
@@ -230,13 +197,9 @@ $(function() {
       // render tree toolbar
       $("#archives_tree_toolbar").html(AS.renderTemplate("tree_toolbar_template"));
       renderTreeNodeNavigation();
-      if (config.read_only != true) {
-        if ((nodeEl.hasClass(config.parent_jsonmodel_type) && nodeEl.find("> ul > li").length === 0) || (nodeEl.hasClass(config.child_jsonmodel_type) && nodeEl.attr("id") != "new")) {
-          $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addchild_template", {config: config}));
-          if (!nodeEl.hasClass(config.parent_jsonmodel_type) && !nodeEl.parents("li:first").hasClass(config.parent_jsonmodel_type)) {
-            $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(AS.renderTemplate("tree_toolbar_addsibling_template", {config: config}));
-          }
-        }
+      if (config.read_only != true && nodeEl.attr("id") != "new") {
+        var toolbar_actions = $(AS.renderTemplate("tree_nodeactions_toolbar_template", config.rules[nodeEl.attr("rel")]));
+        $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(toolbar_actions);
       }
     };
 
@@ -286,9 +249,9 @@ $(function() {
 
 
 
-    var addnewNode = function(parentNode) {
-      $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "new"}, "data": {"title": "New "+config.child_label}});
-      $("#new", $tree).addClass("new").attr("rel", config.child_jsonmodel_type);
+    var addnewNode = function(parentNode, newNodeType,  newNodeConfig, new_object_params) {
+      $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "new"}, "data": {"title": "New "+newNodeConfig.label}});
+      $("#new", $tree).addClass("new").attr("rel", newNodeType).data("params", new_object_params || {});
       $("#new", $tree).find("a").attr("href", "#new");
       setHashForNode("new");
     };
@@ -302,7 +265,7 @@ $(function() {
           return;
         }
 
-        addnewNode($selected);
+        addnewNode($selected, $(this).attr("rel"), config.rules[$(".selected", $tree).attr("rel")]["can_add_child"][$(this).attr("rel")]);
       });
 
       $(".archives-tree-container").on("click", ".add-sibling", function() {
@@ -311,7 +274,21 @@ $(function() {
           return;
         }
 
-        addnewNode($selected.parents("li:first"));
+        addnewNode($selected.parents("li:first"), $(this).attr("rel"), config.rules[$selected.parents("li:first").attr("rel")]["can_add_child"][$(this).attr("rel")]);
+      });
+
+      $(".archives-tree-container").on("click", ".spawn", function() {
+        var $selected = $(".selected", $tree);
+        if ($selected.length === 0) {
+          return;
+        }
+
+        var rules = config.rules[$(".selected", $tree).attr("rel")]["can_spawn"][$(this).attr("rel")];
+
+        var params = {};
+        params[$(".selected", $tree).attr("rel")+"_id"] = $(".selected", $tree).data("id");
+
+        addnewNode($selected, $(this).attr("rel"), rules, params);
       });
 
       $container.on("click", ".btn-cancel", function() {
@@ -450,11 +427,7 @@ $(function() {
             "check_move" : function (m) {
 
               // can't move top level parent
-              if ($(m.o[0]).hasClass(config.parent_jsonmodel_type)) {
-                return false;
-              }
-              // can't into top level parent
-              if ($(m.np[0]).hasClass(config.parent_jsonmodel_type)) {
+              if ($(m.o[0]).hasClass(config.root_node_type)) {
                 return false;
               }
 
@@ -516,11 +489,15 @@ $(function() {
             setHashForNode($nodeToSelect.find("a").attr("href"));
           }
         }).bind("move_node.jstree", function(event, data) {
+          var parent_id = "";
+          if (data.rslt.o.attr("rel") === data.rslt.cr.attr("rel")) {
+            parent_id = data.rslt.cr.data("id");
+          }
           $.ajax({
-            url: APP_PATH+config.child_jsonmodel_type+"s/"+data.rslt.o.data("id")+"/parent",
+            url: APP_PATH+data.rslt.o.attr("rel")+"s/"+data.rslt.o.data("id")+"/parent",
             type: "POST",
             data: {
-              parent: data.rslt.cr.data("id")
+              parent: parent_id
             }
           });
         });

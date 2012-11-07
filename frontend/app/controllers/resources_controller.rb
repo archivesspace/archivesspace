@@ -14,17 +14,18 @@ class ResourcesController < ApplicationController
       return render :partial => "resources/show_inline"
     end
 
-    fetch_resource_tree(@resource)
+    fetch_tree
   end
 
   def new
     @resource = JSONModel(:resource).new({:title => "New Resource"})._always_valid!
     @resource.extents = [JSONModel(:extent).new._always_valid!]
+    return render :partial => "resources/new_inline" if params[:inline]
   end
 
   def edit
     @resource = JSONModel(:resource).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
-    fetch_resource_tree(@resource)
+    fetch_tree
     return render :partial => "resources/edit_inline" if params[:inline]
   end
 
@@ -57,14 +58,8 @@ class ResourcesController < ApplicationController
 
   private
 
-  def fetch_resource_tree(resource)
-    tree = JSONModel::HTTP.get_json("#{JSONModel(:resource).uri_for(params[:id])}/tree")
-
-    @resource_tree = {
-      "id" => resource.id,
-      "title" => resource.title,
-      "children" => tree.empty? ? [] : [tree]
-    }
+  def fetch_tree
+    @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id)
   end
 
 end

@@ -1,6 +1,3 @@
-#
-# Lots of duplication here with resource.rb.  We'll fix that soon!
-#
 class DigitalObject < Sequel::Model(:digital_object)
   plugin :validation_helpers
   include ASModel
@@ -9,7 +6,9 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Dates
   include ExternalDocuments
   include Agents
+  include Trees
 
+  tree_of(:digital_object, :digital_object_component)
   set_model_scope :repository
 
   def link(opts)
@@ -17,72 +16,6 @@ class DigitalObject < Sequel::Model(:digital_object)
     child.digital_object_id = self.id
     child.parent_id = opts[:parent]
     child.save
-  end
-
-
-  def assemble_tree(node, links, properties)
-    result = properties[node].clone
-
-    result['digital_object_component'] = self.class.uri_for(:digital_object_component, result[:id])
-    if links[node]
-      result['children'] = links[node].map do |child_id|
-        assemble_tree(child_id, links, properties)
-      end
-    else
-      result['children'] = []
-    end
-
-    result
-  end
-
-
-  def tree
-    links = {}
-    properties = {}
-
-    root_node = nil
-    DigitalObjectComponent.this_repo.filter(:digital_object_id => self.id).each do |doc|
-      if doc.parent_id
-        links[doc.parent_id] ||= []
-        links[doc.parent_id] << doc.id
-      else
-        root_node = doc.id
-      end
-
-      properties[doc.id] = {:title => doc.title, :id => doc.id}
-    end
-
-    return {} if root_node.nil?
-
-    assemble_tree(root_node, links, properties)
-  end
-
-
-  def update_tree(tree)
-    DigitalObjectComponent.this_repo.
-      filter(:digital_object_id => self.id).
-      update(:parent_id => nil)
-
-    # The root node has a null parent
-    self.link(:parent => nil,
-              :child => JSONModel(:digital_object_component).id_for(tree["digital_object_component"],
-                                                                    :repo_id => self.repo_id))
-
-    nodes = [tree]
-    while not nodes.empty?
-      parent = nodes.pop
-
-      parent_id = JSONModel(:digital_object_component).id_for(parent["digital_object_component"],
-                                                              :repo_id => self.repo_id)
-
-      parent["children"].each do |child|
-        child_id = JSONModel(:digital_object_component).id_for(child["digital_object_component"],
-                                                               :repo_id => self.repo_id)
-
-        self.link(:parent => parent_id, :child => child_id)
-        nodes.push(child)
-      end
-    end
   end
 
 
