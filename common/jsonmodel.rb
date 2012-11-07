@@ -178,13 +178,13 @@ module JSONModel
 
       # Return the JSON schema that defines this JSONModel class
       def self.schema
-        find_ancestor_class_instance(:@schema)record_type
+        find_ancestor_class_instance(:@schema)
       end
 
 
       # Return the type of this JSONModel class (a keyword like
       # :archival_object)
-      def self.
+      def self.record_type
         find_ancestor_class_instance(:@record_type)
       end
 
