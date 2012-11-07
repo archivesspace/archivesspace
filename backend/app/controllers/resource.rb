@@ -52,7 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     resource = Resource.get_or_die(params[:resource_id])
 
-    json_response(resource.tree)
+    json_response(JSONModel(:resource_tree).from_hash(resource.tree).to_hash)
   end
 
 
@@ -65,20 +65,6 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error]) \
   do
     handle_update(Resource, :resource_id, :resource)
-  end
-
-
-  Endpoint.post('/repositories/:repo_id/resources/:resource_id/tree')
-    .description("Update a Resource tree")
-    .params(["resource_id", Integer, "The ID of the resource to retrieve"],
-            ["tree", JSONModel(:resource_tree), "A JSON tree representing the modified hierarchy", :body => true],
-            ["repo_id", :repo_id])
-    .returns([200, :updated]) \
-  do
-    resource = Resource.get_or_die(params[:resource_id])
-    resource.update_tree(params[:tree])
-
-    updated_response(resource, params[:tree])
   end
 
 

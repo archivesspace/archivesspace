@@ -5,23 +5,7 @@ describe 'Resources controller' do
   before(:each) do
     create(:repo)
   end
-  
-  # invert a non-branching resource tree
-  def invert_tree(old_tree, new_tree = nil)
-    if new_tree == nil
-      new_tree = old_tree.clone
-      new_tree['children'] = []
-      old_tree = old_tree['children'][0] ||= nil
-      invert_tree(old_tree, new_tree)
-    elsif old_tree
-      new_tree = old_tree.merge('children' => [new_tree])
-      old_tree = old_tree['children'][0] ||= nil
-      invert_tree(old_tree, new_tree)
-    else
-      new_tree
-    end
-  end
-      
+
 
   it "lets you create a resource and get it back" do
     resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
@@ -29,50 +13,6 @@ describe 'Resources controller' do
 
     JSONModel(:resource).find(id).title.should eq("a resource")
   end
-
-
-  it "lets you manipulate the record hierarchy by rearranging the resource tree" do
-
-    resource = create(:json_resource)
-    id = resource.id
-
-    aos = []
-    ["earth", "australia", "canberra"].each do |name|
-      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
-      if not aos.empty?
-        ao.parent = aos.last.uri
-      end
-
-      ao.resource = resource.uri
-
-      ao.save
-      aos << ao
-    end
-
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id).to_hash
-
-    tree['archival_object'].should eq(aos[0].uri)
-    tree['children'][0]['archival_object'].should eq(aos[1].uri)
-    tree['children'][0]['children'][0]['archival_object'].should eq(aos[2].uri)
-
-    # Now turn it on its head
-    type = tree.delete("jsonmodel_type")
-    changed = invert_tree(tree)
-    changed["jsonmodel_type"] = type
-    
-    JSONModel(:resource_tree).from_hash(changed).save(:resource_id => resource.id)
-    changed.delete("uri")
-    changed["jsonmodel_type"] = "resource_tree"
-
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-
-    tree['archival_object'].should eq(aos[2].uri)
-    tree['children'][0]['archival_object'].should eq(aos[1].uri)
-    tree['children'][0]['children'][0]['archival_object'].should eq(aos[0].uri)
-
-    tree.to_hash.should eq(changed)
-  end
-
 
 
   it "lets you update a resource" do
@@ -94,17 +34,28 @@ describe 'Resources controller' do
   end
 
 
-  it "adds an archival object to a resource when it's added to the tree" do
-    ao = create(:json_archival_object)
+  it "lets you query the resource tree of related archival objects" do
 
     resource = create(:json_resource)
+    id = resource.id
 
-    tree = JSONModel(:resource_tree).from_hash(:archival_object => ao.uri,
-                                               :children => [])
+    aos = []
+    ["earth", "australia", "canberra"].each do |name|
+      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
+      if not aos.empty?
+        ao.parent = aos.last.uri
+      end
 
-    tree.save(:resource_id => resource.id)
+      ao.resource = resource.uri
 
-    JSONModel(:archival_object).find(ao.id).resource == "#{$repo}/resources/#{resource.id}"
+      ao.save
+      aos << ao
+    end
+
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id).to_hash
+
+    tree['children'][0]['record_uri'].should eq(aos[0].uri)
+    tree['children'][0]['children'][0]['record_uri'].should eq(aos[1].uri)
   end
 
 
