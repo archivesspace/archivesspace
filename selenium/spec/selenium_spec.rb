@@ -935,18 +935,18 @@ describe "ArchivesSpace user interface" do
     }
 
     source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /Christmas cards/)
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /Lost mail/)
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express/)
     @driver.action.drag_and_drop(source, target).perform
     @driver.wait_for_ajax
 
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /Lost mail/)
-    target.find_element_with_text("./ul/li/ul/li/a", /Christmas cards/)
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
+    target.find_element_with_text("./ul/li/a", /Christmas cards/)
 
     # refresh the page and verify that the change really stuck
     @driver.navigate.refresh
 
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /Lost mail/)
-    target.find_element_with_text("./ul/li/ul/li/a", /Christmas cards/)
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express/)
+    target.find_element_with_text("./ul/li/a", /Christmas cards/)
   end
 
 
@@ -1274,18 +1274,18 @@ describe "ArchivesSpace user interface" do
 
     #drag to become sibling of parent
     source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /ICO/)
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /JPEG 2000 Verson of Image/)
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /Pony Express Digital Image/)
     @driver.action.drag_and_drop(source, target).perform
     @driver.wait_for_ajax
 
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /JPEG 2000 Verson of Image/)
-    target.find_element_with_text("./ul/li/ul/li/a", /ICO/)
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express Digital Image/)
+    target.find_element_with_text("./ul/li/a", /ICO/)
 
     # refresh the page and verify that the change really stuck
     @driver.navigate.refresh
 
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /JPEG 2000 Verson of Image/)
-    target.find_element_with_text("./ul/li/ul/li/a", /ICO/)
+    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /Pony Express Digital Image/)
+    target.find_element_with_text("./ul/li/a", /ICO/)
   end
 
 
