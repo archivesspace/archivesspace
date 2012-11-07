@@ -64,7 +64,7 @@ module ASModel
 
     id = self.save
 
-    self.class.apply_linked_database_records(self, json, extra_values)
+    self.class.apply_linked_database_records(self, json)
 
     id
   end
@@ -218,7 +218,7 @@ module ASModel
       obj = self.create(prepare_for_db(json.class.schema,
                                        json.to_hash.merge(values)))
 
-      self.apply_linked_database_records(obj, json, extra_values)
+      self.apply_linked_database_records(obj, json)
 
       obj
     end
@@ -284,7 +284,7 @@ module ASModel
     # sense for a one-to-one or one-to-many relationship, where we want to
     # delete the object once it becomes unreferenced.
     #
-    def apply_linked_database_records(obj, json, opts)
+    def apply_linked_database_records(obj, json)
       (ASModel.linked_records[self] or []).each do |linked_record|
 
         # Remove the existing linked records
@@ -325,7 +325,7 @@ module ASModel
                 # Give our classes an opportunity to provide their own logic here
                 db_record = model.ensure_exists(subrecord_json, obj)
               else
-                extra_opts = opts.clone
+                extra_opts = {}
 
                 if linked_record[:association][:key]
                   extra_opts[linked_record[:association][:key]] = obj.id

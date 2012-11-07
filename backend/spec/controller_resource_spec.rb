@@ -340,4 +340,19 @@ describe 'Resources controller' do
     tree.children.length.should eq(2)
   end
 
+
+  it "doesn't mix up resources and archival objects when attaching extents" do
+    resource = create(:json_resource)
+    ao = create(:json_archival_object,
+                :resource => resource.uri)
+
+    ao.extents = [build(:json_extent).to_hash]
+    ao.save
+
+    resource = JSONModel(:resource).find(resource.id)
+
+    # Adding the extent to the archival object shouldn't affect the resource's extents.
+    resource.extents.length.should eq(1)
+  end
+
 end
