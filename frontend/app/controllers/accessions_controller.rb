@@ -25,7 +25,6 @@ class AccessionsController < ApplicationController
     end
 
     return render :partial => "accessions/edit_inline" if params[:inline]
-    fetch_tree
   end
 
   def create
@@ -64,16 +63,5 @@ class AccessionsController < ApplicationController
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
-
-  private
-
-  def fetch_tree
-    @accession_tree = {
-      "id" => @accession.id,
-      "title" => @accession.title,
-      "jsonmodel_type" => "accession",
-      "children" => []
-    }
-  end
 
 end
