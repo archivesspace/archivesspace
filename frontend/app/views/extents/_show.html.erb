@@ -23,30 +23,7 @@
           </div>
         </div>
         <div id="<%= section_id %>_extent_<%= index %>" class="accordion-body collapse">
-          <div class="row-fluid label-and-value">
-            <div class="span3 offset1" ><%= I18n.t('extent.portion') %></div>
-            <div class="span8"><%= I18n.t('extent.portion_'+extent["portion"]) %></div>
-          </div>
-          <div class="row-fluid label-and-value">
-            <div class="span3 offset1"><%= I18n.t('extent.number') %></div>
-            <div class="span8"><%= extent['number'] %></div>
-          </div>
-          <div class="row-fluid label-and-value">
-            <div class="span3 offset1"><%= I18n.t('extent.extent_type') %></div>
-            <div class="span8"><%= I18n.t('extent.extent_type_'+extent["extent_type"]) %></div>
-          </div>
-          <div class="row-fluid label-and-value">
-            <div class="span3 offset1"><%= I18n.t('extent.container_summary') %></div>
-            <div class="span8"><%= extent['container_summary'] %></div>
-          </div>
-          <div class="row-fluid label-and-value">
-            <div class="span3 offset1"><%= I18n.t('extent.physical_details') %></div>
-            <div class="span8"><%= extent['physical_details'] %></div>
-          </div>
-          <div class="row-fluid label-and-value">
-            <div class="span3 offset1"><%= I18n.t('extent.dimensions') %></div>
-            <div class="span8"><%= extent['dimensions'] %></div>
-          </div>
+          <%= read_only_view(extent.to_hash) %>
         </div>
       </div>
     <% end %>

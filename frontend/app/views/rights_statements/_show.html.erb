@@ -27,16 +27,7 @@
           </div>
         </div>
         <div id="rights_statement_<%= index %>" class="accordion-body collapse">
-          <% rights_statement.reject{|k,v| ["lock_version", "external_documents"].include?(k)}.each do |k, v| %>
-            <div class="row-fluid label-and-value">
-              <div class="span3 offset1" ><%= I18n.t("rights_statement.#{k}") %></div>
-              <% if JSONModel(:rights_statement).schema["properties"][k]["enum"] %>
-                <div class="span8"><%= I18n.t("rights_statement.#{k}_#{v}") %></div>
-              <% else  %>
-                <div class="span8"><%= v %></div>
-              <% end %>
-            </div>
-          <% end %>
+          <%= read_only_view(rights_statement.to_hash) %>
           <% if rights_statement["external_documents"].length > 0 %>
             <%= render :partial => "external_documents/show", :locals => { :external_documents => rights_statement["external_documents"], :id => "rights_statement_#{index}_external_documents" } %>
           <% end %>

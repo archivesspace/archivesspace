@@ -47,6 +47,7 @@ en:
     coordinate_2_indicator: Coordinate Indicator 2
     coordinate_3_label: Coordinate Label 3
     coordinate_3_indicator: Coordinate Indicator 3
+    display_string: Display String
   container_location:
     status: Status
     status_current: Current
@@ -396,7 +397,7 @@ en:
       agent_corporate_entity: Corporate Entity
       agent_software: Software
     names: Names
-    _names:
+    _names: &name_attributes
       authority_id: Authority ID
       primary_name: Primary Name
       prefix: Prefix
@@ -429,7 +430,7 @@ en:
       rules_local: Local rules (local)
       rules_aacr: Anglo-American Cataloging Rules (aacr)
       rules_dacs: "Describing Archives: A Content Standard (dacs)"
-    _agent_contacts:
+    _agent_contacts: &agent_contact_attributes
       name: Contact Description
       salutation: Salutation
       address_1: Address Line 1
@@ -453,6 +454,16 @@ en:
     <<: *agent_attributes
   agent_software:
     <<: *agent_attributes
+  name_person:
+    <<: *name_attributes
+  name_family:
+    <<: *name_attributes
+  name_software:
+    <<: *name_attributes
+  name_corporate_entity:
+    <<: *name_attributes
+  agent_contact:
+    <<: *agent_contact_attributes
   archival_object:
     title: Title
     ref_id: Ref ID

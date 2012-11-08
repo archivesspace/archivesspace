@@ -418,4 +418,42 @@ module AspaceFormHelper
 
     s
   end
+
+  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "resolved", "uri"]
+
+  def read_only_view(hash)
+    jsonmodel_type = hash["jsonmodel_type"]
+    schema = JSONModel(jsonmodel_type).schema
+    html = ""
+
+
+    hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
+
+      if schema and schema["properties"].has_key?(property)
+        if schema["properties"][property].has_key?("enum")
+          value = I18n.t("#{jsonmodel_type.to_s}.#{property}_#{value}", value)
+        elsif schema["properties"][property]["type"] === "boolean"
+          value = value === true ? "True" : "False"
+        elsif schema["properties"][property]["type"] === "array"
+          # this view doesn't support arrays
+          next
+        elsif hash.has_key?("resolved") and hash["resolved"].has_key?(property)
+          # don't display a resolved attribute... as it's probably just a URI
+          next
+        elsif value.kind_of? Hash
+          # can't display an object either
+          next
+        end
+      end
+
+      html << "<div class='row-fluid label-and-value'>"
+      html << "<div class='span3 offset1'>#{I18n.t("#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='span8'>#{value}</div>"
+      html << "</div>"
+
+    end
+
+    html.html_safe
+  end
+
 end

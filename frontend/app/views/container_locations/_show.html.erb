@@ -3,16 +3,7 @@
 
   <div class="container-subrecord">
     <% container_locations.each_with_index do |container_location, index| %>
-      <% container_location.reject{|k,v| ["lock_version", "jsonmodel_type", "location", "resolved"].include?(k)}.each do |k, v| %>
-        <div class="row-fluid label-and-value">
-          <div class="span3 offset1" ><%= I18n.t("container_location.#{k}") %></div>
-          <% if JSONModel(:container_location).schema["properties"][k]["enum"] %>
-            <div class="span8"><%= I18n.t("container_location.#{k}_#{v}") %></div>
-          <% else  %>
-            <div class="span8"><%= v %></div>
-          <% end %>
-        </div>
-      <% end %>
+      <%= read_only_view(container_location.to_hash) %>
       <% if container_location["location"] %>
         <div class="row-fluid label-and-value">
           <div class="span3 offset1" ><%= I18n.t("container_location.location") %></div>

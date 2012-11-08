@@ -25,57 +25,61 @@
 
       <div class="row-fluid">
         <section id="primary_name">
-          <h3>Primary Name</h3>
-
-          <% @agent.names[0].to_hash.each do |k,v| %>
-            <div class="row-fluid label-and-value">
-               <div class="span3"><%= I18n.t("agent._names.#{k}") %></div>
-               <div class="span9"><%= v %></div>
-            </div>
-          <% end %>
-        </section>
-      </div>
-
-      <% if @agent.names.length > 1 %>
-        <div class="row-fluid">
-          <section id="secondary_names">
-            <h3>Secondary Name(s)</h3>
-
-            <% @agent.names.each_with_index do |name, i|
-              next if i == 0
-              name.to_hash.each do |k,v| %>
-
-              <div class="row-fluid label-and-value">
-                 <div class="span3"><%= I18n.t("agent._names.#{k}") %></div>
-                 <div class="span9"><%= v %></div>
+          <h3>Names</h3>
+          <div class="accordion details" id="agent_name_accordion">
+            <% @agent.names.each_with_index do | name, index | %>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_name_accordion" href="#agent_name_<%= index %>">
+                    <div class="span1">
+                      <span class="icon-chevron-right"></span>
+                      <span class="icon-chevron-down"></span>
+                    </div>
+                    <div class="span6">
+                      <%= name['sort_name'] %>
+                    </div>
+                    <div class="span4"><%# Primary token can go here %></div>
+                  </div>
+                </div>
+                <div id="agent_name_<%= index %>" class="accordion-body collapse">
+                  <%= read_only_view(name.to_hash) %>
+                </div>
               </div>
             <% end %>
-            <% if i < @agent.names.length-1 %><hr/><% end %>
-            <% end %>
-          </section>
-        </div>
-      <% end %>
+          </div>
+        </section>
+      </div>
 
       <% if @agent.agent_contacts.length > 0 %>
         <div class="row-fluid">
           <section id="contacts">
             <h3>Contact Details</h3>
-
-            <% @agent.agent_contacts.each do |contact| 
-              contact.to_hash.each do |k,v| %>
-
-              <div class="row-fluid label-and-value">
-                 <div class="span3"><%= I18n.t("agent._agent_contacts.#{k}") %></div>
-                 <div class="span9"><%= v %></div>
-              </div>
-            <% end
-              end %>
+            <div class="accordion details" id="agent_contact_accordion">
+              <% @agent.agent_contacts.each_with_index do | contact, index | %>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_contact_accordion" href="#agent_contact_<%= index %>">
+                      <div class="span1">
+                        <span class="icon-chevron-right"></span>
+                        <span class="icon-chevron-down"></span>
+                      </div>
+                      <div class="span7">
+                        <%= contact['name'] %>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="agent_contact_<%= index %>" class="accordion-body collapse">
+                    <%= read_only_view(contact.to_hash) %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
           </section>
         </div>
       <% end %>
 
       <% if @agent.external_documents.length > 0 %>
-        <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents } %>
+        <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "agent_external_documents_" } %>
       <% end %>
 
     </div>
