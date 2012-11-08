@@ -116,7 +116,10 @@ end
 
 require 'factory_girl'
 
-FactoryGirl.find_definitions
+
+# FactoryGirl.definition_file_paths = [File.dirname(__FILE__)]
+# FactoryGirl.find_definitions
+require_relative 'factories'
 include FactoryGirl::Syntax::Methods
 
 

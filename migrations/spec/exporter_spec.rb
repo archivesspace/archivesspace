@@ -1,15 +1,12 @@
 require_relative "spec_helper"
 require 'nokogiri'
-require 'factory_girl'
 require 'tmpdir'
-
-FactoryGirl.find_definitions
 
 
 describe "ASpaceImport and ASpaceExport modules" do
   
   before(:each) do
-    @repo_id = make_test_repo
+    @repo_id = create(:json_repo).id
     puts "Created a new Repo with ID #{@repo_id}"
     @ser = ASpaceExport::serializer(:ead)
     @ser.repo_id = @repo_id
@@ -17,10 +14,11 @@ describe "ASpaceImport and ASpaceExport modules" do
   
   it "should be able to export a Resource and its Tree as EAD" do
 
-    r = FactoryGirl.create(:resource, repo_id: @repo_id) 
-    e = FactoryGirl.create(:extent, resource_id: r.id) 
-    p = FactoryGirl.create(:archival_object, {repo_id: @repo_id, resource_id: r.id})  
-    10.times { FactoryGirl.create(:archival_object, {repo_id: @repo_id, resource_id: r.id, parent_id: p.id}) }
+    r = FactoryGirl.create(:resource, :repo_id => @repo_id) 
+    e = FactoryGirl.create(:extent, :resource_id => r.id) 
+    p = FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :resource_id => r.id})
+
+    10.times { FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :resource_id => r.id, :parent_id => p.id}) }
           
     ead = @ser.serialize(r)
     
@@ -57,12 +55,6 @@ describe "ASpaceImport and ASpaceExport modules" do
       File.open(ead_file, 'w') { |file| file.write(doc) }    
     end
   end
-  
-  it "should be as roundtrippy as possible" do
-    # needs more research 
-    # test the files
-  end
 
-  
 end
 

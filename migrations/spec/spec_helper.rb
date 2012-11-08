@@ -1,5 +1,6 @@
 $test_mode = true
 require_relative "../lib/bootstrap"
+require_relative "../../backend/app/lib/request_context"
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'tmpdir'

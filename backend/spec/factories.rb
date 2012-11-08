@@ -44,6 +44,8 @@ FactoryGirl.define do
   sequence(:container_location_status) { JSONModel(:container_location).schema['properties']['status']['enum'].sample } 
   sequence(:temporary_location_type) { JSONModel(:location).schema['properties']['temporary']['enum'].sample }
   
+  # AS Models
+  
   factory :repo, class: Repository do
     repo_code { generate(:repo_code) }
     description { generate(:generic_description) }
@@ -60,6 +62,30 @@ FactoryGirl.define do
     name { generate(:generic_name) }
     source 'local'
   end
+  
+  factory :resource do
+    title { generate(:generic_title) }
+    id_0 { generate(:alphanumstr) }
+    id_1 { generate(:alphanumstr) }
+  end
+  
+  factory :extent do
+    portion { generate(:portion) }
+    number { generate(:number) }
+    extent_type { generate(:extent_type) }
+    resource_id nil
+    archival_object_id nil
+  end
+  
+  factory :archival_object do
+    title { generate(:generic_title) }
+    repo_id nil
+    ref_id { generate(:alphanumstr) }
+    resource_id nil
+    parent_id nil
+  end
+  
+  # JSON Models:
   
   factory :json_accession, class: JSONModel(:accession) do
     id_0 { generate(:alphanumstr) }

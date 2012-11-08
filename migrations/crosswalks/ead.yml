@@ -26,7 +26,7 @@ entities:
         procedure: "|value| {'portion' => 'whole', 'number' => value, 'extent_type' => 'reels'}"
         
   archival_object: 
-    xpath: ["//dsc", "//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
+    xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
     properties:
       title: 
         xpath: ["child::*/child::unittitle"]
