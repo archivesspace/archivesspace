@@ -99,8 +99,6 @@ module ASpaceImport
               
               mod.class_eval do
                 
-                include JSONModel::Queueable
-                
                 def receivers
                   unless @property_mgr
                     @property_mgr = ASpaceImport::Crosswalk::PropertyMgr.new(self)

@@ -112,6 +112,8 @@ ASpaceImport::Importer.importer :xml do
         @parse_queue.pop            
       end
     end
+    
+    log_save_result(@parse_queue.save)
   end  
 
 

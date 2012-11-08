@@ -5,33 +5,26 @@ module ImportHelpers
     
     RequestContext.put(:repo_id, params[:repo_id])
 
-    batch.process
-    
-    import_response(batch.results)
-  end
-  
-  def import_response(results, status = 200)
-    # [status, {"Content-Type" => "application/json"}, results]
-    json_response({:saved => results[0].join(', '), :failed => results[1].join(', ')}, status)
-  end
-  
+    begin 
+      batch.process
+      json_response({:saved => batch.saved_uris}, 200)
+    rescue ImportException => e
+      json_response({:error => e.to_s}, 400)
+    end
+  end  
   
   class Batch
+    attr_accessor :saved_uris
     
     def initialize(batch_object)
       @json_set = {}
       @as_set = {}
-      @goodsaves = []
-      @failedsaves = []
+      @saved_uris = []
       
       batch_object.batch.each do |item|
          @json_set[item['uri']] = JSONModel::JSONModel(item['jsonmodel_type']).from_hash(item)
       end
       
-    end
-    
-    def results
-      [@goodsaves, @failedsaves]
     end
       
     # 1. Create ASModel objects from the JSONModel objects minus the references
@@ -46,16 +39,13 @@ module ImportHelpers
         unlinked = self.class.unlink(json)
         
         begin
-          obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
-          @as_set[json.uri] = [obj.id, obj.class]
-        
-          # Now update the URI with the real ID
-          json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
+        obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
+        @as_set[json.uri] = [obj.id, obj.class]
+      
+        # Now update the URI with the real ID
+        json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
         rescue Exception => e
-          Log.debug("Can't Save Object #{json.class.record_type}: #{json.uri}, because #{e.message}")
-
-          @failedsaves << json.uri
-          @json_set.delete(ref)
+          raise ImportException.new({:invalid_object => json, :message => e.message})
         end
       end
       
@@ -70,7 +60,7 @@ module ImportHelpers
 
         obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
         obj.save
-        @goodsaves << @json_set[ref].uri
+        @saved_uris << @json_set[ref].uri
       end
       
     end
@@ -105,6 +95,20 @@ module ImportHelpers
     end
   end
 
+
+  class ImportException < StandardError
+    attr_accessor :invalid_object
+    attr_accessor :message
+
+    def initialize(opts)
+      @invalid_object = opts[:invalid_object]
+      @message = opts[:message]
+    end
+
+    def to_s
+      "#<:ImportException: #{{:invalid_object => @invalid_object, :message => @message}.inspect}>"
+    end
+  end
 
 end
 

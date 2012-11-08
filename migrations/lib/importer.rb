@@ -77,53 +77,27 @@ module ASpaceImport
       
       JSONModel::set_repository(opts[:repo_id])
       
-      if opts[:dry] == true
-        
-        JSONModel::Client.module_eval {
-          def save
-            id = rand(100)
-
-            self.uri = self.class.uri_for(id.to_s)
-
-            # If we were able to save successfully, increment our local version
-            # number to match the version on the server.
-            self.lock_version = "1"
-
-            id
-          end
-        }
-      end
-      
       opts.each do |k,v|
         instance_variable_set("@#{k}", v)
       end
       @import_keys = []
       @goodimports = 0
-      @badimports = 0
       @import_log = []
     end
 
-    def log_save_result(result)
-      result[0] ? @goodimports += 1 : @badimports += 1
-      @import_log << result if result
+    def log_save_result(response)
+      @import_log << response
     end
     
     def report_summary
-      "#{@goodimports} records imported\n#{@badimports} records failed to import\n"
+      @import_log.map { |r| "#{r.code} -- #{JSON.parse(r.body)}" }.join('\n')
     end
     
     def report
       report = "Aspace Import Report\n"
       report += "--Executive Summary--\n"
       report += report_summary
-      report += "--Details--\n"
-      @import_log.each do |r|
-        if r[0] 
-          report << "Successful Save: #{r[1]}\n"
-        else
-          report << "Can't Save: #{r[1]}\n"
-        end
-      end        
+      
       report
     end
     
