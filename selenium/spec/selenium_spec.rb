@@ -462,7 +462,7 @@ describe "ArchivesSpace user interface" do
 
   # Accessions
 
-  accession_title = "Exciting new stuff (\u2603)"
+  accession_title = "Exciting new stuff - \u2603"
 
   it "gives option to ignore warnings when creating an Accession" do
     @driver.find_element(:link, "Create").click
