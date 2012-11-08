@@ -19,9 +19,7 @@ describe "Batch Import Controller" do
     
     batch = JSONModel(:batch_import).new
     batch.set_data({:batch => batch_array})
-    
-    puts "BATCH\n#{batch.inspect}"
-    
+        
     uri = "/repositories/#{$repo_id}/batch_imports"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
