@@ -10,7 +10,19 @@ entities:
     properties:
       id_0: 
         xpath: ["descendant::unitid"]
-        procedure: "|value| value.sub(/_.*/, '')"
+        procedure: "|value| value.sub(/[_\\.\\s].*/, '')"
+      
+      id_1:
+        xpath: ["descendant::unitid"]
+        procedure: "|value| value.split(/[_\\-.\\s]/)[1]"
+      
+      id_2:
+        xpath: ["descendant::unitid"]
+        procedure: "|value| value.split(/[_\\-.\\s]/)[2]"
+        
+      id_3:
+        xpath: ["descendant::unitid"]
+        procedure: "|value| value.split(/[_\\-.\\s]/)[3]"
 
       title: 
         xpath: ["descendant::unittitle"]
