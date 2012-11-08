@@ -70,7 +70,7 @@ entities:
   
       names:
         xpath: ["self"]
-        procedure: "|value| {'rules' => 'local', 'primary_name' => value}"
+        procedure: "|value| {'rules' => 'local', 'primary_name' => value, 'sort_name' => value}"
   
       
 

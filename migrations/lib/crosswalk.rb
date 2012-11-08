@@ -137,7 +137,7 @@ module ASpaceImport
         # Set a pre-save URI to be dereferenced by the backend
         # (Using a random number for demonstration - should be
         # incremented by importer)
-        obj.uri = obj.class.uri_for(rand(10000))
+        obj.uri = obj.class.uri_for(rand(100000))
         
         yield obj
         

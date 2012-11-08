@@ -4,6 +4,7 @@ require_relative 'lib/crud_helpers'
 require_relative 'lib/export'
 require_relative 'lib/request_context.rb'
 require_relative 'lib/webrick_fix'
+require_relative 'lib/import_helpers'
 require 'uri'
 
 require 'sinatra/base'
@@ -14,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   include RESTHelpers
   include CrudHelpers
-
+  include ImportHelpers
 
 
   configure :development do |config|

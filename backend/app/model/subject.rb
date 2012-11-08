@@ -49,7 +49,7 @@ class Subject < Sequel::Model(:subject)
     obj = super
 
     # add a terms sha1 hash to allow for uniqueness test
-    obj.terms_sha1 = generate_terms_sha1(json)
+    obj.terms_sha1 = self.class.generate_terms_sha1(json)
     obj.save
 
     obj
