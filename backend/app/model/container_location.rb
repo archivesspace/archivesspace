@@ -3,7 +3,7 @@ class ContainerLocation < Sequel::Model(:container_location)
 
   plugin :validation_helpers
 
-  set_model_scope :repository
+  set_model_scope :global
   many_to_one :location
 
   jsonmodel_hint(:the_property => :location,

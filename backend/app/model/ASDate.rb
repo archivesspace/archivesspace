@@ -2,7 +2,7 @@ class ASDate < Sequel::Model(:date)
   include ASModel
 
   plugin :validation_helpers
-  set_model_scope :repository
+  set_model_scope :global
 
   def validate
     if self[:date_type] === "expression"
