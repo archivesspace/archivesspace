@@ -72,4 +72,11 @@ describe 'Events controller' do
   end
 
 
+  it "does not allow suppression if any linked records are active" do
+    event = create(:json_event, @event_opts)
+    event.suppressed = true
+
+    JSONModel(:event).find(event.id).suppressed.should eq(false)
+  end
+
 end

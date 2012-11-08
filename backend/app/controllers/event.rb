@@ -61,4 +61,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/repositories/:repo_id/events/:event_id/suppressed')
+    .description("Suppress this record from non-managers")
+    .params(["event_id", Integer, "The event ID to update"],
+            ["suppressed", BooleanParam, "Suppression state"],
+            ["repo_id", :repo_id])
+    .preconditions(proc { current_user.can?(:manage_repository) })
+    .returns([200, :updated]) \
+  do
+    Event.get_or_die(params[:event_id]).set_suppressed(params[:suppressed])
+
+    "OK"
+  end
+
+
 end
