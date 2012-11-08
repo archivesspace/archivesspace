@@ -90,13 +90,19 @@ module ASpaceImport
     end
     
     def report_summary
-      @import_log.map { |r| "#{r.code} -- #{JSON.parse(r.body)}" }.join('\n')
+      @import_log.map { |r| 
+        "#{r.code} -- #{r.code == '200' ? JSON.parse(r.body)['saved'].length : 'Error' }" 
+      }.join('\n')
     end
     
     def report
       report = "Aspace Import Report\n"
       report += "--Executive Summary--\n"
       report += report_summary
+      report += "\n--Details--\n"
+      report += @import_log.map { |r| 
+        "#{r.code}\n" + (r.code == '200'  ? JSON.parse(r.body)['saved'].map{ |u| "Saved: #{u}" }.join("\n") : JSON.parse(r.body))
+      }.join('\n')
       
       report
     end

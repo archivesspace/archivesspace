@@ -1,6 +1,5 @@
 module ASpaceImport
   class ParseQueue < Array
-    include JSONModel
 
     def initialize(opts)
       @repo_id = opts[:repo_id] if opts[:repo_id]
@@ -18,7 +17,7 @@ module ASpaceImport
     end
 
     def save
-      batch_object = JSONModel(:batch_import).new
+      batch_object = JSONModel::JSONModel(:batch_import).new
       repo_id = Thread.current[:selected_repo_id]
 
       batch = []
