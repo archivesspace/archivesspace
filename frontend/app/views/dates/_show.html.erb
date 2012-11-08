@@ -32,12 +32,7 @@
           </div>
         </div>
         <div id="<%= section_id %>_date_<%= index %>" class="accordion-body collapse">
-          <% date.reject{|k,v| ["lock_version", "jsonmodel_type"].include?(k)}.each do |k, v| %>
-            <div class="row-fluid label-and-value">
-              <div class="span3 offset1" ><%= I18n.t("date.#{k}") %></div>
-              <div class="span8"><%= v %></div>
-            </div>
-          <% end %>
+          <%= read_only_view(date.to_hash) %>
         </div>
       </div>
     <% end %>

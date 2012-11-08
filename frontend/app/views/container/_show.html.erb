@@ -5,12 +5,7 @@
   <h4>Container</h4>
 
   <div class="container-subrecord">
-    <% container.reject{|k,v| ["lock_version", "jsonmodel_type", "container_locations"].include?(k)}.each do |k, v| %>
-      <div class="row-fluid label-and-value">
-        <div class="span3 offset1" ><%= I18n.t("container.#{k}") %></div>
-        <div class="span8"><%= v %></div>
-      </div>
-    <% end %>
+    <%= read_only_view(container.to_hash, :label_css => "span4") %>
     <% if container["container_locations"].length > 0 %>
       <%= render :partial => "container_locations/show", :locals => { :container_locations => container["container_locations"]} %>
     <% end %>

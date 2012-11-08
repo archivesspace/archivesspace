@@ -12,16 +12,7 @@
 
       <h2><%= @location.id %>  <span class="label label-info">Location</span></h2>
 
-      <% @location.to_hash.reject{|k,v| ["lock_version", "jsonmodel_type", "uri", "display_string"].include?(k)}.each do |k, v| %>
-       <div class="row-fluid label-and-value">
-         <div class="span3 offset1" ><%= I18n.t("location.#{k}") %></div>
-         <% if JSONModel(:location).schema["properties"][k]["enum"] %>
-           <div class="span8"><%= I18n.t("location.#{k}_#{v}") %></div>
-         <% else  %>
-           <div class="span8"><%= v %></div>
-         <% end %>
-       </div>
-     <% end %>
+     <%= read_only_view(@location.to_hash) %>
 
    </div>
 </div>

@@ -24,12 +24,7 @@
           </div>
         </div>
         <div id="instance_<%= index %>" class="accordion-body collapse">
-          <% instance.reject{|k,v| ["lock_version", "container", "jsonmodel_type"].include?(k)}.each do |k, v| %>
-            <div class="row-fluid label-and-value">
-              <div class="span3 offset1" ><%= I18n.t("instance.#{k}") %></div>
-              <div class="span8"><%= v %></div>
-            </div>
-          <% end %>
+          <%= read_only_view(instance.to_hash) %>
           <% if instance["container"].length > 0 %>
             <%= render :partial => "container/show", :locals => { :container => instance["container"], :id => "instance_#{index}_container" } %>
           <% end %>
