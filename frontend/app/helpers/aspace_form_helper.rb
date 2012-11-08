@@ -421,11 +421,13 @@ module AspaceFormHelper
 
   PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "resolved", "uri"]
 
-  def read_only_view(hash)
+  def read_only_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
     schema = JSONModel(jsonmodel_type).schema
     html = ""
 
+    opts[:label_css] = "span3 offset1" if not opts.has_key? :label_css
+    opts[:value_css] = "span8" if not opts.has_key? :value_css
 
     hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
 
@@ -447,8 +449,8 @@ module AspaceFormHelper
       end
 
       html << "<div class='row-fluid label-and-value'>"
-      html << "<div class='span3 offset1'>#{I18n.t("#{jsonmodel_type.to_s}.#{property}")}</div>"
-      html << "<div class='span8'>#{value}</div>"
+      html << "<div class='#{opts[:label_css]}'>#{I18n.t("#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='#{opts[:value_css]}'>#{value}</div>"
       html << "</div>"
 
     end
