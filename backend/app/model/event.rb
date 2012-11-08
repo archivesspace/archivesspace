@@ -121,21 +121,27 @@ class Event < Sequel::Model(:event)
   def set_suppressed(val)
     # An event can be suppressed if all of its linked records are suppressed
 
-    has_active_linked_record = false
+    if val
+      has_active_linked_record = false
 
-    @@record_links.each do |record_type, model|
-      self.send("event_#{record_type}_link".intern).each do |link|
-        linked_record = model[link["#{record_type}_id".intern]]
-
-        if linked_record.values.has_key?(:suppressed) && linked_record[:suppressed] == 0
-          has_active_linked_record = true
-          break
+      @@record_links.each do |record_type, model|
+        self.send("event_#{record_type}_link".intern).each do |link|
+          linked_record = model[link["#{record_type}_id".intern]]
+          if linked_record.values.has_key?(:suppressed) && linked_record[:suppressed] == 0
+            has_active_linked_record = true
+            break
+          end
         end
       end
+      puts "has it? #{has_active_linked_record}"
+      if not has_active_linked_record
+        self.suppressed = 1
+        save
+      end
+    else
+      self.suppressed = 0
+      save
     end
-
-    self.suppressed = has_active_linked_record ? 0 : 1
-    save
   end
 
 
