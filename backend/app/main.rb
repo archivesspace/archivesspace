@@ -217,6 +217,11 @@ class ArchivesSpaceService < Sinatra::Base
       modified_response('Updated', *opts)
     end
 
+
+    def suppressed_response(id, state)
+      json_response({:status => 'Suppressed', :id => id, :suppressed_state => state})
+    end
+
   end
 
 

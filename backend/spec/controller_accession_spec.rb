@@ -139,6 +139,17 @@ describe 'Accession controller' do
   end
 
 
+  it "can suppress an accession and then unsuppress it" do
+    accession = create(:json_accession)
+    accession.suppress
+    accession.suppressed.should eq(true)
+    JSONModel(:accession).find(accession.id).suppressed.should eq(true)
+    accession.unsuppress
+    accession.suppressed.should eq(false)
+    JSONModel(:accession).find(accession.id).suppressed.should eq(false)
+  end
+
+
   it "doesn't show suppressed accessions when listing" do
     3.times do
       create(:json_accession)
@@ -147,7 +158,7 @@ describe 'Accession controller' do
     create_nobody_user
 
     accession = create(:json_accession)
-    accession.suppressed = true
+    accession.suppress
 
     as_test_user('nobody') do
       JSONModel(:accession).all.count.should eq(3)
@@ -157,7 +168,7 @@ describe 'Accession controller' do
 
   it "doesn't give you any schtick if you request a suppressed accession as a manager" do
     accession = create(:json_accession)
-    accession.suppressed = true
+    accession.suppress
 
     returned_accession = JSONModel(:accession).find(accession.id)
 
@@ -185,7 +196,7 @@ describe 'Accession controller' do
       JSONModel(:event).find(event.id).should_not eq(nil)
     end
 
-    test_accession.suppressed = true
+    test_accession.suppress
 
     as_test_user('nobody') do
       JSONModel(:event).find(event.id).should be(nil)
@@ -197,7 +208,7 @@ describe 'Accession controller' do
   it "prevents updates to suppressed accession records" do
     test_accession = create(:json_accession)
 
-    test_accession.suppressed = true
+    test_accession.suppress
 
     test_accession = JSONModel(:accession).find(test_accession.id)
     test_accession.title = "A new update"
@@ -218,19 +229,19 @@ describe 'Accession controller' do
 
     expect {
       as_test_user('nobody') do
-        test_accession.suppressed = true
+        test_accession.suppress
       end
     }.to raise_error(AccessDeniedException)
 
-    test_accession.suppressed = true
+    test_accession.suppress
 
     expect {
       as_test_user('nobody') do
-        test_accession.suppressed = false
+        test_accession.unsuppress
       end
     }.to raise_error(AccessDeniedException)
 
-    test_accession.suppressed = false
+    test_accession.unsuppress
 
     # Sneaky side attack by setting the attribute directly
     as_test_user('nobody') do

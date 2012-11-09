@@ -28,6 +28,7 @@ class Accession < Sequel::Model(:accession)
       link.event.set_suppressed(true)
     end
 
+    val
   end
 
 end

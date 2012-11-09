@@ -206,7 +206,7 @@ module JSONModel
 
 
     # Mark the suppression status of this record
-    def suppressed=(val)
+    def set_suppressed(val)
       response = JSONModel::HTTP.post_form("#{self.uri}/suppressed", :suppressed => val)
 
       if response.code == '403'
@@ -215,8 +215,19 @@ module JSONModel
         raise "Error when setting suppression status for #{self}: #{response.code} -- #{response.body}"
       end
 
-      self["suppressed"] = true
+      self["suppressed"] = JSON(response.body)["suppressed_state"]
     end
+
+
+    def suppress
+      set_suppressed(true)
+    end
+
+
+    def unsuppress
+      set_suppressed(false)
+    end
+
 
     def add_error(field, message)
       @errors ||= {}

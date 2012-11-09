@@ -49,7 +49,7 @@ class AccessionsController < ApplicationController
   end
 
   def suppress
-    Accession.find(params[:id]).suppressed = true
+    Accession.find(params[:id]).set_suppressed(true)
 
     flash[:success] = "Accession Suppressed"
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
@@ -57,7 +57,7 @@ class AccessionsController < ApplicationController
 
 
   def unsuppress
-    Accession.find(params[:id]).suppressed = false
+    Accession.find(params[:id]).set_suppressed(false)
 
     flash[:success] = "Accession Unsuppressed"
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])

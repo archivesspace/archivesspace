@@ -65,7 +65,7 @@ describe 'Events controller' do
 
 
   it "suppressed records aren't candidates for linking" do
-    @test_accession.suppressed = true
+    @test_accession.suppress
     result = JSONModel::HTTP.get_json(JSONModel(:event).uri_for('linkable-records/list'),
                                       :q => @test_accession.title)
     result.length.should eq(0)
@@ -74,7 +74,7 @@ describe 'Events controller' do
 
   it "can unsuppress an event" do
     event = create(:json_event)
-    event.suppressed = true
+    event.suppress
     # it is not currently possible to directly suppress an event
     # this is because events must have linked records and can't
     # be suppressed if any of those records are active, and when
@@ -83,15 +83,15 @@ describe 'Events controller' do
     # so this test is a bit fake, but it does hit the lines in
     # the event model, so leaving it as is for now.
     #JSONModel(:event).find(event.id).suppressed.should eq(true)
-    event.suppressed = false
+    event.unsuppress
     JSONModel(:event).find(event.id).suppressed.should eq(false)
   end
 
 
   it "does not allow suppression if any linked records are active" do
-    event = create(:json_event, @event_opts)
-    event.suppressed = true
-
+    event = create(:json_event)
+    event.suppress
+    event.suppressed.should eq(false)
     JSONModel(:event).find(event.id).suppressed.should eq(false)
   end
 

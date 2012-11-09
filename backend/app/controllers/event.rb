@@ -67,11 +67,11 @@ class ArchivesSpaceService < Sinatra::Base
             ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
     .preconditions(proc { current_user.can?(:manage_repository) })
-    .returns([200, :updated]) \
+    .returns([200, :suppressed]) \
   do
-    Event.get_or_die(params[:event_id]).set_suppressed(params[:suppressed])
+    sup_state = Event.get_or_die(params[:event_id]).set_suppressed(params[:suppressed])
 
-    "OK"
+    suppressed_response(params[:event_id], sup_state)
   end
 
 
