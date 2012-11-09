@@ -84,6 +84,7 @@ describe 'Events controller' do
     # the event model, so leaving it as is for now.
     #JSONModel(:event).find(event.id).suppressed.should eq(true)
     event.unsuppress
+    event.suppressed.should eq(false)
     JSONModel(:event).find(event.id).suppressed.should eq(false)
   end
 
