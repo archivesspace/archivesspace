@@ -133,7 +133,6 @@ class Event < Sequel::Model(:event)
           end
         end
       end
-      puts "has it? #{has_active_linked_record}"
       if not has_active_linked_record
         self.suppressed = 1
         save

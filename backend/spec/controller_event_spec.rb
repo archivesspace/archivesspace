@@ -72,6 +72,22 @@ describe 'Events controller' do
   end
 
 
+  it "can unsuppress an event" do
+    event = create(:json_event)
+    event.suppressed = true
+    # it is not currently possible to directly suppress an event
+    # this is because events must have linked records and can't
+    # be suppressed if any of those records are active, and when
+    # the last active one is suppressed that will cause the event
+    # to be suppressed.
+    # so this test is a bit fake, but it does hit the lines in
+    # the event model, so leaving it as is for now.
+    #JSONModel(:event).find(event.id).suppressed.should eq(true)
+    event.suppressed = false
+    JSONModel(:event).find(event.id).suppressed.should eq(false)
+  end
+
+
   it "does not allow suppression if any linked records are active" do
     event = create(:json_event, @event_opts)
     event.suppressed = true
