@@ -233,19 +233,19 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
+154
+155
+156
+157
 158
 159
 160
 161
 162
-163
-164
-165
-166
-167</pre>
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 154</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_json_obj'>json_obj</span><span class='rparen'>)</span>
   <span class='ivar'>@json_obj</span> <span class='op'>=</span> <span class='id identifier rubyid_json_obj'>json_obj</span>
@@ -284,12 +284,12 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-169
-170
-171</pre>
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
   <span class='ivar'>@receivers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id identifier rubyid_r'>r</span> <span class='rbrace'>}</span>                  
@@ -314,6 +314,10 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
+169
+170
+171
+172
 173
 174
 175
@@ -364,14 +368,10 @@ the parsing context into which the reciever will be yielded)</p>
 220
 221
 222
-223
-224
-225
-226
-227</pre>
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 169</span>
 
 <span class='kw'>def</span> <span class='kw'>for</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:depth</span><span class='rbracket'>]</span>
@@ -438,7 +438,7 @@ the parsing context into which the reciever will be yielded)</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:41 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:47 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

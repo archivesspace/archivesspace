@@ -87,6 +87,8 @@
 			
 				<h3 class="signature"> - (string) <strong>outcome_note</strong></h3>
 			
+				<h3 class="signature"> - (boolean) <strong>suppressed</strong></h3>
+			
 				<h3 class="signature"> - (array (object)) <strong>linked_agents</strong></h3>
 			
 				<h3 class="signature"> - (array (object)) <strong>linked_records</strong></h3>
@@ -164,7 +166,9 @@
 63
 64
 65
-66</pre>
+66
+67
+68</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/event.rb', line 1</span>
@@ -189,6 +193,7 @@
     &quot;date&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:date) object&quot;, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
     &quot;outcome&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
     &quot;outcome_note&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
+     &quot;suppressed&quot; =&gt; {&quot;type&quot; =&gt; &quot;boolean&quot;},
      &quot;linked_agents&quot; =&gt; {
       &quot;type&quot; =&gt; &quot;array&quot;,
       &quot;ifmissing&quot; =&gt; &quot;error&quot;,
@@ -238,7 +243,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:41 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:47 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

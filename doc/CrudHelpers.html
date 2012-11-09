@@ -205,15 +205,13 @@
 12
 13
 14
-15
-16</pre>
+15</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 11</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_handle_create'>handle_create</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span><span class='comma'>,</span> <span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='rbracket'>]</span><span class='comma'>,</span>
-                               <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_created_response'>created_response</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -237,18 +235,22 @@
       <pre class="lines">
 
 
+18
 19
 20
 21
 22
-23</pre>
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_handle_listing'>handle_listing</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_where'>where</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_json_response'>json_response</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_where'>where</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='id identifier rubyid_model'>model</span> <span class='op'>:</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='id identifier rubyid_where'>where</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_acc'>acc</span><span class='op'>|</span>
-                  <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_to_jsonmodel'>to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_acc'>acc</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='symbol'>:any</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span>
+  <span class='id identifier rubyid_dataset'>dataset</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_model_scope'>model_scope</span> <span class='op'>==</span> <span class='symbol'>:repository</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_this_repo'>this_repo</span> <span class='op'>:</span> <span class='id identifier rubyid_model'>model</span>
+
+  <span class='id identifier rubyid_json_response'>json_response</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_where'>where</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='id identifier rubyid_dataset'>dataset</span> <span class='op'>:</span> <span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='id identifier rubyid_where'>where</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_acc'>acc</span><span class='op'>|</span>
+                  <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_to_jsonmodel'>to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_acc'>acc</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span>
                 <span class='rbrace'>}</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -282,7 +284,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/lib/crud_helpers.rb', line 3</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_handle_update'>handle_update</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_update_from_json'>update_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_updated_response'>updated_response</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -297,7 +299,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:33 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:38 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

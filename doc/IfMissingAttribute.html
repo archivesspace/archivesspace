@@ -200,14 +200,7 @@ depending on its value.</p>
 23
 24
 25
-26
-27
-28
-29
-30
-31
-32
-33</pre>
+26</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 6</span>
@@ -230,13 +223,6 @@ depending on its value.</p>
           <span class='id identifier rubyid_validation_error'>validation_error</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_fragments'>fragments</span><span class='comma'>,</span> <span class='id identifier rubyid_current_schema'>current_schema</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:record_errors</span><span class='rbracket'>]</span><span class='rparen'>)</span>
         <span class='kw'>end</span>
       <span class='kw'>end</span>
-
-      <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_property'>property</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_schema'>schema</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='op'>::</span><span class='const'>Schema</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_property_schema'>property_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_current_schema'>current_schema</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='comma'>,</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_fragments'>fragments</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_property'>property</span>
-        <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_validate'>validate</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_property'>property</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_fragments'>fragments</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_fragments'>fragments</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
-      <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -250,7 +236,7 @@ depending on its value.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:41 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:47 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

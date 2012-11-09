@@ -314,6 +314,7 @@ Model.</p>
       <pre class="lines">
 
 
+44
 45
 46
 47
@@ -339,11 +340,10 @@ Model.</p>
 67
 68
 69
-70
-71</pre>
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='id identifier rubyid_xpath'>xpath</span><span class='rparen'>)</span>
   
@@ -405,6 +405,7 @@ object, less the node.depth of the current parsing context.</p>
       <pre class="lines">
 
 
+23
 24
 25
 26
@@ -421,11 +422,10 @@ object, less the node.depth of the current parsing context.</p>
 37
 38
 39
-40
-41</pre>
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_regexify_node'>regexify_node</span><span class='lparen'>(</span><span class='id identifier rubyid_node_name'>node_name</span><span class='comma'>,</span> <span class='id identifier rubyid_depth_offset'>depth_offset</span> <span class='op'>=</span> <span class='int'>0</span><span class='rparen'>)</span>
   
@@ -467,14 +467,12 @@ object, less the node.depth of the current parsing context.</p>
 
 14
 15
-16
-17</pre>
+16</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 14</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_walk'>walk</span>
-  
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_walk'>walk</span>     
   <span class='cvar'>@@walk</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -517,6 +515,7 @@ Model. Return a JSONModel for any match if given a block Example:</p>
       <pre class="lines">
 
 
+78
 79
 80
 81
@@ -584,14 +583,10 @@ Model. Return a JSONModel for any match if given a block Example:</p>
 143
 144
 145
-146
-147
-148
-149
-150</pre>
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_target_objects'>target_objects</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   
@@ -652,9 +647,6 @@ Model. Return a JSONModel for any match if given a block Example:</p>
       <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>def depth; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:depth</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>; end</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='kw'>end</span>
     
-    <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_after_save'>after_save</span> <span class='lbrace'>{</span> <span class='ivar'>@goodimports</span> <span class='op'>+=</span> <span class='int'>1</span> <span class='rbrace'>}</span>
-    <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_after_save'>after_save</span> <span class='lbrace'>{</span> <span class='ivar'>@import_log</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Imported </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-    
     <span class='kw'>yield</span> <span class='id identifier rubyid_obj'>obj</span>
     
   <span class='kw'>elsif</span> <span class='cvar'>@@entity_map</span><span class='lbracket'>[</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:xpath</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
@@ -675,7 +667,7 @@ Model. Return a JSONModel for any match if given a block Example:</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:34 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:40 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

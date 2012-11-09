@@ -154,7 +154,7 @@ and assigned a URI</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#save_or_wait-instance_method" title="#save_or_wait (instance method)">- (Object) <strong>save_or_wait</strong>(opts = {}) </a>
+      <a href="#save_or_wait-instance_method" title="#save_or_wait (instance method)">- (Object) <strong>save_or_wait</strong> </a>
     
 
     
@@ -171,6 +171,29 @@ and assigned a URI</p>
     <span class="summary_desc"><div class='inline'><p>Try to save the JSON object, do some post-save updating
 of related objects if it works, then remove it from the 
 main queue.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unsaveable%3F-instance_method" title="#unsaveable? (instance method)">- (Boolean) <strong>unsaveable?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -254,7 +277,7 @@ before allowing itself to be saved.</p>
       <div class="method_details ">
   <h3 class="signature " id="save_or_wait-instance_method">
   
-    - (<tt>Object</tt>) <strong>save_or_wait</strong>(opts = {}) 
+    - (<tt>Object</tt>) <strong>save_or_wait</strong> 
   
 
   
@@ -294,17 +317,70 @@ main queue.</p>
     <td>
       <pre class="code"><span class="info file"># File 'migrations/lib/jsonmodel_queue.rb', line 29</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_save_or_wait'>save_or_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_try_save'>try_save</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_save_or_wait'>save_or_wait</span>
+  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_try_save'>try_save</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
     <span class='kw'>while</span> <span class='cvar'>@@wait_queue</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='kw'>do</span>
       <span class='cvar'>@@wait_queue</span><span class='period'>.</span><span class='id identifier rubyid_each_index'>each_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>        
-        <span class='cvar'>@@wait_queue</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='cvar'>@@wait_queue</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_try_save'>try_save</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+        <span class='cvar'>@@wait_queue</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='cvar'>@@wait_queue</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_try_save'>try_save</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
       <span class='kw'>end</span>
       <span class='kw'>break</span> <span class='kw'>if</span> <span class='cvar'>@@wait_queue</span><span class='period'>.</span><span class='id identifier rubyid_compact!'>compact!</span> <span class='op'>==</span> <span class='kw'>nil</span>
     <span class='kw'>end</span>
   <span class='kw'>else</span>
     <span class='cvar'>@@wait_queue</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unsaveable?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>unsaveable?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/jsonmodel_queue.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unsaveable?'>unsaveable?</span>
+  <span class='ivar'>@unsaveable</span> <span class='op'>||</span> <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -361,7 +437,7 @@ occurs</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:34 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:40 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

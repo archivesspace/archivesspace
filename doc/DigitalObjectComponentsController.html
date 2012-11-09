@@ -195,6 +195,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#parent-instance_method" title="#parent (instance method)">- (Object) <strong>parent</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#show-instance_method" title="#show (instance method)">- (Object) <strong>show</strong> </a>
     
 
@@ -318,7 +341,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_edit'>edit</span>
-  <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_components/edit_inline</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_inline?'>inline?</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -359,13 +382,71 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span>
   <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid__always_valid!'>_always_valid!</span>
   <span class='ivar'>@digital_object_component</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>New Digital Object Component</span><span class='tstring_end'>&quot;</span></span>
-  <span class='ivar'>@digital_object_component</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:parent</span><span class='rparen'>)</span>
-  <span class='ivar'>@digital_object_component</span><span class='period'>.</span><span class='id identifier rubyid_digital_object'>digital_object</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:digital_object</span><span class='rparen'>)</span>
+  <span class='ivar'>@digital_object_component</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_component_id</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component_id</span><span class='rparen'>)</span>
+  <span class='ivar'>@digital_object_component</span><span class='period'>.</span><span class='id identifier rubyid_digital_object'>digital_object</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_id</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:digital_object_id</span><span class='rparen'>)</span>
 
   <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_components/new_inline</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_inline?'>inline?</span>
 
   <span class='comment'># render the full AO form
 </span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parent-instance_method">
+  
+    - (<tt>Object</tt>) <strong>parent</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parent'>parent</span>
+  <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_component</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='kw'>not</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='comment'># set parent as DOC uri on params
+</span>    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_component</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='comment'>#remove parent from DOC
+</span>    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_component</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+
+
+  <span class='id identifier rubyid_handle_crud'>handle_crud</span><span class='lparen'>(</span><span class='symbol'>:instance</span> <span class='op'>=&gt;</span> <span class='symbol'>:digital_object_component</span><span class='comma'>,</span>
+              <span class='symbol'>:obj</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
+              <span class='symbol'>:replace</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
+              <span class='symbol'>:on_invalid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='tlambeg'>{</span> <span class='id identifier rubyid_throw'>throw</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error setting parent of digital object component</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+              <span class='symbol'>:on_valid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='tlambeg'>{</span> <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>success</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -398,7 +479,7 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show'>show</span>
   <span class='ivar'>@digital_object_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>digital_object_id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
-  <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_components/show_inline</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_inline?'>inline?</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -438,7 +519,7 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='id identifier rubyid_handle_crud'>handle_crud</span><span class='lparen'>(</span><span class='symbol'>:instance</span> <span class='op'>=&gt;</span> <span class='symbol'>:digital_object_component</span><span class='comma'>,</span>
               <span class='symbol'>:obj</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span>
-                                                       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
+                                                       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
               <span class='symbol'>:on_invalid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='tlambeg'>{</span> <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>edit_inline</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
               <span class='symbol'>:on_valid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='tlambeg'>{</span>
                 <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Digital Object Component Saved</span><span class='tstring_end'>&quot;</span></span>
@@ -455,7 +536,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:40 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:46 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

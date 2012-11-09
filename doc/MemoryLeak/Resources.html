@@ -109,6 +109,11 @@
   
     <dl class="constants">
       
+        <dt id="refresh_mutex-classvariable" class="">@@refresh_mutex =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>Mutex</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre></dd>
+      
         <dt id="resources-classvariable" class="">@@resources =
           
         </dt>
@@ -259,18 +264,18 @@
       <pre class="lines">
 
 
-18
-19
-20
 21
 22
 23
 24
 25
-26</pre>
+26
+27
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_stale'>stale</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span>
@@ -301,14 +306,14 @@
       <pre class="lines">
 
 
-39
-40
-41
-42
-43</pre>
+48
+49
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_invalidate_all!'>invalidate_all!</span>
   <span class='cvar'>@@resources</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_atom'>atom</span><span class='op'>|</span>
@@ -335,15 +340,27 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_refresh'>refresh</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='rparen'>)</span>
+  <span class='comment'># Two concurrent users might trigger some resource to be refreshed at
+</span>  <span class='comment'># around the same time (e.g. when two people create a new repository at
+</span>  <span class='comment'># once).  We want both refreshes to run in sequence, so use a mutex to
+</span>  <span class='comment'># serialize them.
+</span>  <span class='cvar'>@@refresh_mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -365,12 +382,12 @@
       <pre class="lines">
 
 
-34
-35
-36</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_swap'>swap</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbrace'>}</span><span class='rparen'>)</span>
@@ -385,7 +402,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:38 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:44 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

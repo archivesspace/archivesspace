@@ -96,7 +96,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span>, <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span></dd>
       
     
   
@@ -108,17 +108,7 @@
 </dl>
 <div class="clear"></div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    <p>Lots of duplication here with resource.rb.  We&#8217;ll fix that soon!</p>
 
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -191,53 +181,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#assemble_tree-instance_method" title="#assemble_tree (instance method)">- (Object) <strong>assemble_tree</strong>(node, links, properties) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#link-instance_method" title="#link (instance method)">- (Object) <strong>link</strong>(opts) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#tree-instance_method" title="#tree (instance method)">- (Object) <strong>tree</strong> </a>
     
 
     
@@ -280,32 +224,31 @@
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#update_tree-instance_method" title="#update_tree (instance method)">- (Object) <strong>update_tree</strong>(tree) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
     </ul>
   
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Trees.html#included-class_method" title="Trees.included (method)">included</a></span>, <span class='object_link'><a href="Trees.html#tree-instance_method" title="Trees#tree (method)">#tree</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Agents.html#included-class_method" title="Agents.included (method)">included</a></span></p>
 
   
   
@@ -393,14 +336,14 @@
       <pre class="lines">
 
 
-88
-89
-90
-91
-92</pre>
+22
+23
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_notes_blob'>notes_blob</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_notes'>notes</span><span class='rparen'>)</span>
@@ -427,17 +370,17 @@
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108
-109</pre>
+36
+37
+38
+39
+40
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_notes'>notes</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_notes'>notes</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[]</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -459,61 +402,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="assemble_tree-instance_method">
-  
-    - (<tt>Object</tt>) <strong>assemble_tree</strong>(node, links, properties) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 21</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_assemble_tree'>assemble_tree</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_links'>links</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_tree</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_properties'>properties</span><span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_digital_object_component'>digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span>
-                                                                                 <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_repo_id'>repo_id</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_links'>links</span><span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_children'>children</span> <span class='op'>=</span> <span class='id identifier rubyid_links'>links</span><span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_child_id'>child_id</span><span class='op'>|</span>
-      <span class='id identifier rubyid_assemble_tree'>assemble_tree</span><span class='lparen'>(</span><span class='id identifier rubyid_child_id'>child_id</span><span class='comma'>,</span> <span class='id identifier rubyid_links'>links</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_children'>children</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="link-instance_method">
+  <h3 class="signature first" id="link-instance_method">
   
     - (<tt>Object</tt>) <strong>link</strong>(opts) 
   
@@ -527,87 +416,21 @@
       <pre class="lines">
 
 
-13
 14
 15
 16
 17
-18</pre>
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_child'>child</span> <span class='op'>=</span> <span class='const'>DigitalObjectComponent</span><span class='period'>.</span><span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:child</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_digital_object_id'>digital_object_id</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
   <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="tree-instance_method">
-  
-    - (<tt>Object</tt>) <strong>tree</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 38</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_tree'>tree</span>
-  <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id identifier rubyid_properties'>properties</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-
-  <span class='id identifier rubyid_root_node'>root_node</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='const'>DigitalObjectComponent</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:digital_object_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_doc'>doc</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span>
-      <span class='id identifier rubyid_links'>links</span><span class='lbracket'>[</span><span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-      <span class='id identifier rubyid_links'>links</span><span class='lbracket'>[</span><span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_root_node'>root_node</span> <span class='op'>=</span> <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
-    <span class='kw'>end</span>
-
-    <span class='id identifier rubyid_properties'>properties</span><span class='lbracket'>[</span><span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:title</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span>
-  <span class='kw'>end</span>
-
-  <span class='comment'># Check for empty tree
-</span>  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_root_node'>root_node</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-
-  <span class='id identifier rubyid_assemble_tree'>assemble_tree</span><span class='lparen'>(</span><span class='id identifier rubyid_root_node'>root_node</span><span class='comma'>,</span> <span class='id identifier rubyid_links'>links</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -629,14 +452,14 @@
       <pre class="lines">
 
 
-95
-96
-97
-98
-99</pre>
+29
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_from_json'>update_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_notes_blob'>notes_blob</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_notes'>notes</span><span class='rparen'>)</span>
@@ -648,88 +471,12 @@
 </table>
 </div>
     
-      <div class="method_details ">
-  <h3 class="signature " id="update_tree-instance_method">
-  
-    - (<tt>Object</tt>) <strong>update_tree</strong>(tree) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 60</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_update_tree'>update_tree</span><span class='lparen'>(</span><span class='id identifier rubyid_tree'>tree</span><span class='rparen'>)</span>
-  <span class='const'>DigitalObject</span><span class='period'>.</span><span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_component</span><span class='rbracket'>]</span><span class='period'>.</span>
-           <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:digital_object_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span>
-           <span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-
-  <span class='comment'># The root node has a null parent
-</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span>
-            <span class='symbol'>:child</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_id_for'>id_for</span><span class='lparen'>(</span><span class='id identifier rubyid_tree'>tree</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_component</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
-                                                                  <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_repo_id'>repo_id</span><span class='rparen'>)</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_nodes'>nodes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_tree'>tree</span><span class='rbracket'>]</span>
-  <span class='kw'>while</span> <span class='kw'>not</span> <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-    <span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
-
-    <span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_id_for'>id_for</span><span class='lparen'>(</span><span class='id identifier rubyid_parent'>parent</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_component</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
-                                                            <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_repo_id'>repo_id</span><span class='rparen'>)</span>
-
-    <span class='id identifier rubyid_parent'>parent</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>children</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_child'>child</span><span class='op'>|</span>
-      <span class='id identifier rubyid_child_id'>child_id</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_id_for'>id_for</span><span class='lparen'>(</span><span class='id identifier rubyid_child'>child</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_component</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
-                                                    <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_repo_id'>repo_id</span><span class='rparen'>)</span>
-
-      <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_parent_id'>parent_id</span><span class='comma'>,</span> <span class='symbol'>:child</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_child_id'>child_id</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_child'>child</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
   </div>
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:37 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:43 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -96,7 +96,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span></dd>
       
     
   
@@ -259,6 +259,17 @@
   
   
   
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Agents.html#included-class_method" title="Agents.included (method)">included</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="ExternalDocuments.html#included-class_method" title="ExternalDocuments.included (method)">included</a></span></p>
 
@@ -337,15 +348,15 @@
       <pre class="lines">
 
 
-28
-29
-30
 31
 32
-33</pre>
+33
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_notes_blob'>notes_blob</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_notes'>notes</span><span class='rparen'>)</span>
@@ -373,9 +384,6 @@
       <pre class="lines">
 
 
-44
-45
-46
 47
 48
 49
@@ -390,10 +398,11 @@
 58
 59
 60
-61</pre>
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_notes'>notes</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_notes'>notes</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[]</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -402,12 +411,10 @@
   <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_notes'>notes</span> <span class='op'>=</span> <span class='id identifier rubyid_notes'>notes</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_digital_object_id'>digital_object_id</span>
-    <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_digital_object'>digital_object</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_digital_object_id'>digital_object_id</span><span class='comma'>,</span>
-                                                             <span class='lbrace'>{</span><span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_repo_id'>repo_id</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_digital_object'>digital_object</span> <span class='op'>=</span> <span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='symbol'>:digital_object</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_digital_object_id'>digital_object_id</span><span class='rparen'>)</span>
 
     <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span>
-      <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span><span class='comma'>,</span>
-                                                                 <span class='lbrace'>{</span><span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_repo_id'>repo_id</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 
@@ -433,9 +440,6 @@
       <pre class="lines">
 
 
-14
-15
-16
 17
 18
 19
@@ -444,10 +448,13 @@
 22
 23
 24
-25</pre>
+25
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_digital_object'>set_digital_object</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -487,15 +494,15 @@
       <pre class="lines">
 
 
-9
-10
-11</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_children'>children</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='const'>DigitalObjectComponent</span><span class='period'>.</span><span class='id identifier rubyid_this_repo'>this_repo</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -517,15 +524,15 @@
       <pre class="lines">
 
 
-36
-37
-38
 39
 40
-41</pre>
+41
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object_component.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_from_json'>update_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_notes_blob'>notes_blob</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_notes'>notes</span><span class='rparen'>)</span>
@@ -543,7 +550,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:38 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:44 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -104,18 +104,27 @@
 </dl>
 <div class="clear"></div>
 
-<h2>Defined Under Namespace</h2>
-<p class="children">
+
+  <h2>Constant Summary</h2>
   
-    
+    <dl class="constants">
+      
+        <dt id="SUPPORTED_DATABASES-constant" class="">SUPPORTED_DATABASES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+ <span class='lbrace'>{</span>
+   <span class='symbol'>:pattern</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>jdbc:mysql</span><span class='regexp_end'>/</span></span><span class='comma'>,</span>
+   <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MySQL</span><span class='tstring_end'>&quot;</span></span>
+ <span class='rbrace'>}</span><span class='comma'>,</span>
+ <span class='lbrace'>{</span>
+   <span class='symbol'>:pattern</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>jdbc:derby</span><span class='regexp_end'>/</span></span><span class='comma'>,</span>
+   <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Apache Derby</span><span class='tstring_end'>&quot;</span></span>
+ <span class='rbrace'>}</span>
+<span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
   
-    
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="DB/RollbackWithResponse.html" title="DB::RollbackWithResponse (class)">RollbackWithResponse</a></span>
-    
-  
-    
-  
-</p>
 
 
 
@@ -130,6 +139,29 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_supported-class_method" title="check_supported (class method)">+ (Object) <strong>check_supported</strong>(url) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -246,29 +278,6 @@
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#rollback_and_return-class_method" title="rollback_and_return (class method)">+ (Object) <strong>rollback_and_return</strong>(response) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
     </ul>
   
 
@@ -279,7 +288,117 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="connect-class_method">
+  <h3 class="signature first" id="check_supported-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_supported</strong>(url) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 100</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_supported'>check_supported</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='const'>SUPPORTED_DATABASES</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span> <span class='id identifier rubyid_url'>url</span> <span class='op'>=~</span> <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:pattern</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='heredoc_beg'>&lt;&lt;eof</span>
+<span class='tstring_content'>
+=======================================================================
+UNSUPPORTED DATABASE
+=======================================================================
+
+The database listed in your configuration:
+
+</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_url'>url</span><span class='rbrace'>}</span><span class='tstring_content'>
+
+is not officially supported by ArchivesSpace.  Although the system may
+still work, there's no guarantee that future versions will continue to
+work, or that it will be possible to upgrade without losing your data.
+
+It is strongly recommended that you run ArchivesSpace against one of
+these supported databases:
+
+</span><span class='heredoc_end'>eof
+</span>
+    <span class='const'>SUPPORTED_DATABASES</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
+      <span class='id identifier rubyid_msg'>msg</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>  * </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_msg'>msg</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_msg'>msg</span> <span class='op'>+=</span> <span class='heredoc_beg'>&lt;&lt;eof</span>
+<span class='tstring_content'>
+To ignore this (very good) advice, you can set the configuration option:
+
+AppConfig[:allow_unsupported_database] = true
+
+
+=======================================================================
+
+</span><span class='heredoc_end'>eof
+</span>
+    <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span><span class='lparen'>(</span><span class='id identifier rubyid_msg'>msg</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Database not supported</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="connect-class_method">
   
     + (<tt>Object</tt>) <strong>connect</strong> 
   
@@ -293,35 +412,47 @@
       <pre class="lines">
 
 
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
 14
 15
 16
 17
 18
 19
-20</pre>
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_connect'>connect</span>
   <span class='kw'>if</span> <span class='kw'>not</span> <span class='ivar'>@pool</span>
+
+    <span class='kw'>if</span> <span class='op'>!</span><span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:allow_unsupported_database</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_check_supported'>check_supported</span><span class='lparen'>(</span><span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:db_url</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
     <span class='kw'>begin</span>
+      <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Connecting to database: </span><span class='embexpr_beg'>#{</span><span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:db_url</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_connect'>connect</span><span class='lparen'>(</span><span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:db_url</span><span class='rbracket'>]</span><span class='comma'>,</span>
                             <span class='symbol'>:max_connections</span> <span class='op'>=&gt;</span> <span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:db_max_connections</span><span class='rbracket'>]</span><span class='comma'>,</span>
                             <span class='symbol'>:test</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
-                            <span class='comment'># :loggers =&gt; [Logger.new($stderr)]
+                            <span class='comment'>#:loggers =&gt; [Logger.new($stderr)]
 </span>                            <span class='rparen'>)</span>
 
       <span class='comment'># Test if any tables exist
@@ -329,7 +460,7 @@
 
       <span class='ivar'>@pool</span> <span class='op'>=</span> <span class='id identifier rubyid_pool'>pool</span>
     <span class='kw'>rescue</span>
-      <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DB connection failed: </span><span class='embexpr_beg'>#{</span><span class='gvar'>$!</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DB connection failed: </span><span class='embexpr_beg'>#{</span><span class='gvar'>$!</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -376,12 +507,12 @@
       <pre class="lines">
 
 
-22
-23
-24</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_connected?'>connected?</span>
   <span class='kw'>not</span> <span class='ivar'>@pool</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -406,12 +537,12 @@
       <pre class="lines">
 
 
-85
-86
-87</pre>
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_disconnect'>disconnect</span>
   <span class='ivar'>@pool</span><span class='period'>.</span><span class='id identifier rubyid_disconnect'>disconnect</span>
@@ -446,12 +577,12 @@
       <pre class="lines">
 
 
-80
-81
-82</pre>
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_integrity_violation'>is_integrity_violation</span><span class='lparen'>(</span><span class='id identifier rubyid_exception'>exception</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_wrapped_exception'>wrapped_exception</span><span class='period'>.</span><span class='id identifier rubyid_cause'>cause</span><span class='period'>.</span><span class='id identifier rubyid_getSQLState'>getSQLState</span><span class='lparen'>(</span><span class='rparen'>)</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^23</span><span class='regexp_end'>/</span></span>
@@ -476,9 +607,6 @@
       <pre class="lines">
 
 
-41
-42
-43
 44
 45
 46
@@ -511,10 +639,20 @@
 73
 74
 75
-76</pre>
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_transaction'>transaction</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_last_err'>last_err</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -522,12 +660,8 @@
   <span class='int'>5</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span>
     <span class='kw'>begin</span>
       <span class='kw'>if</span> <span class='id identifier rubyid_transaction'>transaction</span>
-        <span class='kw'>begin</span>
-          <span class='ivar'>@pool</span><span class='period'>.</span><span class='id identifier rubyid_transaction'>transaction</span> <span class='kw'>do</span>
-            <span class='kw'>return</span> <span class='kw'>yield</span> <span class='ivar'>@pool</span>
-          <span class='kw'>end</span>
-        <span class='kw'>rescue</span> <span class='const'>RollbackWithResponse</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-          <span class='kw'>return</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_response'>response</span>
+        <span class='ivar'>@pool</span><span class='period'>.</span><span class='id identifier rubyid_transaction'>transaction</span> <span class='kw'>do</span>
+          <span class='kw'>return</span> <span class='kw'>yield</span> <span class='ivar'>@pool</span>
         <span class='kw'>end</span>
 
         <span class='comment'># Sometimes we'll make it to here.  That means we threw a
@@ -537,12 +671,23 @@
         <span class='kw'>return</span> <span class='kw'>yield</span> <span class='ivar'>@pool</span>
       <span class='kw'>end</span>
 
+
     <span class='kw'>rescue</span> <span class='const'>Sequel</span><span class='op'>::</span><span class='const'>DatabaseDisconnectError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='comment'># MySQL might have been restarted.
 </span>      <span class='id identifier rubyid_last_err'>last_err</span> <span class='op'>=</span> <span class='id identifier rubyid_e'>e</span>
       <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Connecting to the database failed.  Retrying...</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='id identifier rubyid_sleep'>sleep</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+
+
+    <span class='kw'>rescue</span> <span class='const'>Sequel</span><span class='op'>::</span><span class='const'>DatabaseError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_wrapped_exception'>wrapped_exception</span><span class='period'>.</span><span class='id identifier rubyid_getSQLState'>getSQLState</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^40</span><span class='regexp_end'>/</span></span>
+        <span class='comment'># Transaction was rolled back, but we can retry
+</span>        <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>1</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_e'>e</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
+
   <span class='kw'>end</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_last_err'>last_err</span>
@@ -557,65 +702,12 @@
 </table>
 </div>
     
-      <div class="method_details ">
-  <h3 class="signature " id="rollback_and_return-class_method">
-  
-    + (<tt>Object</tt>) <strong>rollback_and_return</strong>(response) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="DB/RollbackWithResponse.html" title="DB::RollbackWithResponse (class)">RollbackWithResponse</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-36
-37
-38</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db.rb', line 36</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rollback_and_return'>rollback_and_return</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RollbackWithResponse</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
   </div>
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:35 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:41 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

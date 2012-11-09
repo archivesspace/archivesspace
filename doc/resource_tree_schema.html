@@ -77,14 +77,6 @@
 
 			<h2>Properties</h2>
 			
-				<h3 class="signature"> - (string) <strong>uri</strong></h3>
-			
-				<h3 class="signature"> - (JSONModel(:archival_object) uri) <strong>archival_object</strong></h3>
-			
-				<h3 class="signature"> - (string) <strong>title</strong></h3>
-			
-				<h3 class="signature"> - (array (JSONModel(:resource_tree) object)) <strong>children</strong></h3>
-			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
       <table class="source_code">
@@ -100,15 +92,7 @@
 5
 6
 7
-8
-9
-10
-11
-12
-13
-14
-15
-16</pre>
+8</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/resource_tree.rb', line 1</span>
@@ -116,17 +100,9 @@
 :schema =&gt; {
   &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
   &quot;type&quot; =&gt; &quot;object&quot;,
+  &quot;parent&quot; =&gt; &quot;record_tree&quot;,
   &quot;uri&quot; =&gt; &quot;/repositories/:repo_id/resources/:resource_id/tree&quot;,
-  &quot;properties&quot; =&gt; {
-    &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
-    &quot;archival_object&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:archival_object) uri&quot;, &quot;required&quot; =&gt; false},
-    &quot;title&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; false},
-    &quot;children&quot; =&gt; {
-      &quot;type&quot; =&gt; &quot;array&quot;,
-      &quot;additionalItems&quot; =&gt; false,
-      &quot;items&quot; =&gt; { &quot;type&quot; =&gt; &quot;JSONModel(:resource_tree) object&quot; }
-    }
-  },
+  &quot;properties&quot; =&gt; {},
   &quot;additionalProperties&quot; =&gt; false,
 }</pre>
           </td>
@@ -141,7 +117,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:41 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:48 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

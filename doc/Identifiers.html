@@ -515,12 +515,16 @@
 43
 44
 45
-46</pre>
+46
+47
+48</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
+  <span class='kw'>return</span> <span class='kw'>super</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span> <span class='op'>===</span> <span class='symbol'>:resource</span> <span class='kw'>and</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_identifier'>identifier</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
   <span class='id identifier rubyid_validates_unique'>validates_unique</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='comma'>,</span> <span class='symbol'>:identifier</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>That ID is already in use</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_map_validation_to_json_property'>map_validation_to_json_property</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='comma'>,</span> <span class='symbol'>:identifier</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:id_0</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -535,7 +539,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:33 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:39 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

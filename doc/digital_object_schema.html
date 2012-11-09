@@ -103,6 +103,8 @@
 			
 				<h3 class="signature"> - (array (JSONModel(:external_document) object)) <strong>external_documents</strong></h3>
 			
+				<h3 class="signature"> - (array (object)) <strong>linked_agents</strong></h3>
+			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
       <table class="source_code">
@@ -155,7 +157,25 @@
 42
 43
 44
-45</pre>
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/digital_object.rb', line 1</span>
@@ -198,6 +218,22 @@
     &quot;extents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:extent) object&quot;}},
     &quot;dates&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:date) object&quot;}},
     &quot;external_documents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:external_document) object&quot;}},
+     &quot;linked_agents&quot; =&gt; {
+      &quot;type&quot; =&gt; &quot;array&quot;,
+      &quot;items&quot; =&gt; {
+        &quot;type&quot; =&gt; &quot;object&quot;,
+        &quot;properties&quot; =&gt; {
+          &quot;role&quot; =&gt; {
+            &quot;type&quot; =&gt; &quot;string&quot;,
+            &quot;enum&quot; =&gt; [&quot;creator&quot;, &quot;source&quot;, &quot;subject&quot;],
+          },
+           &quot;ref&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:agent_corporate_entity) uri&quot;},
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_family) uri&quot;},
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_person) uri&quot;},
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_software) uri&quot;}]}
+        }
+      }
+    },
    },
    &quot;additionalProperties&quot; =&gt; false
 }</pre>
@@ -213,7 +249,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:41 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:48 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

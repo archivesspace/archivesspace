@@ -93,21 +93,17 @@
   
   
     
-      <dt class="r2">Extended by:</dt>
-      <dd class="r2"><span class='object_link'><a href="AgentMixin.html" title="AgentMixin (module)">AgentMixin</a></span></dd>
-      
-    
   
     
-      <dt class="r1">Includes:</dt>
-      <dd class="r1"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span></dd>
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AgentManager/Mixin.html" title="AgentManager::Mixin (module)">AgentManager::Mixin</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span></dd>
       
     
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/agent_corporate_entity.rb</dd>
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">backend/app/model/agent_corporate_entity.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -119,63 +115,6 @@
 
 
 
-  
-    <h2>
-      Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#records_matching-class_method" title="records_matching (class method)">+ (Object) <strong>records_matching</strong>(query, max = 10) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#sequel_to_jsonmodel-class_method" title="sequel_to_jsonmodel (class method)">+ (Object) <strong>sequel_to_jsonmodel</strong>(obj, type, opts = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
-
 
   
   
@@ -183,10 +122,10 @@
   
   
   
+  <h2>Method Summary</h2>
   
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="AgentMixin.html" title="AgentMixin (module)">AgentMixin</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="AgentMixin.html#agents_matching-instance_method" title="AgentMixin#agents_matching (method)">agents_matching</a></span></p>
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="AgentManager/Mixin.html" title="AgentManager::Mixin (module)">AgentManager::Mixin</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AgentManager/Mixin.html#included-class_method" title="AgentManager::Mixin.included (method)">included</a></span></p>
 
   
   
@@ -222,80 +161,10 @@
   <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
 
 
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="records_matching-class_method">
-  
-    + (<tt>Object</tt>) <strong>records_matching</strong>(query, max = 10) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-31
-32
-33</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_corporate_entity.rb', line 31</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_records_matching'>records_matching</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_max'>max</span> <span class='op'>=</span> <span class='int'>10</span><span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_agents_matching'>agents_matching</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_max'>max</span><span class='comma'>,</span> <span class='symbol'>:name_corporate_entity</span><span class='comma'>,</span> <span class='const'>NameCorporateEntity</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="sequel_to_jsonmodel-class_method">
-  
-    + (<tt>Object</tt>) <strong>sequel_to_jsonmodel</strong>(obj, type, opts = {}) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-24
-25
-26
-27
-28</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_corporate_entity.rb', line 24</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='kw'>super</span>
-  <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_agent_type'>agent_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>agent_corporate_entity</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_json'>json</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:38 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:44 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

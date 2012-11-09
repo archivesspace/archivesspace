@@ -192,9 +192,6 @@
       <pre class="lines">
 
 
-5
-6
-7
 8
 9
 10
@@ -202,10 +199,13 @@
 12
 13
 14
-15</pre>
+15
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/permission.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/permission.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_define'>define</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_description'>description</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:level</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repository</span><span class='tstring_end'>&quot;</span></span>
@@ -215,7 +215,7 @@
                                              <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_description'>description</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
 
   <span class='comment'># Admin users automatically get everything
-</span>  <span class='id identifier rubyid_admins'>admins</span> <span class='op'>=</span> <span class='const'>Group</span><span class='lbracket'>[</span><span class='symbol'>:group_code</span> <span class='op'>=&gt;</span> <span class='const'>Group</span><span class='period'>.</span><span class='const'>ADMIN_GROUP_CODE</span><span class='rbracket'>]</span>
+</span>  <span class='id identifier rubyid_admins'>admins</span> <span class='op'>=</span> <span class='const'>Group</span><span class='period'>.</span><span class='id identifier rubyid_any_repo'>any_repo</span><span class='lbracket'>[</span><span class='symbol'>:group_code</span> <span class='op'>=&gt;</span> <span class='const'>Group</span><span class='period'>.</span><span class='const'>ADMIN_GROUP_CODE</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_admins'>admins</span><span class='period'>.</span><span class='id identifier rubyid_grant'>grant</span><span class='lparen'>(</span><span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_permission_code'>permission_code</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -228,7 +228,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:37 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:43 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

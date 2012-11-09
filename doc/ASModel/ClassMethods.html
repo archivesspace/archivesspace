@@ -125,7 +125,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#apply_linked_database_records-instance_method" title="#apply_linked_database_records (instance method)">- (Object) <strong>apply_linked_database_records</strong>(obj, json, opts) </a>
+      <a href="#active_repository-instance_method" title="#active_repository (instance method)">- (Object) <strong>active_repository</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_linked_database_records-instance_method" title="#apply_linked_database_records (instance method)">- (Object) <strong>apply_linked_database_records</strong>(obj, json) </a>
     
 
     
@@ -172,7 +195,53 @@ separate models in the database (in separate tables).</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_or_die-instance_method" title="#get_or_die (instance method)">- (Object) <strong>get_or_die</strong>(id, repo_id = nil) </a>
+      <a href="#enable_suppression-instance_method" title="#enable_suppression (instance method)">- (Object) <strong>enable_suppression</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enforce_suppression%3F-instance_method" title="#enforce_suppression? (instance method)">- (Boolean) <strong>enforce_suppression?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_or_die-instance_method" title="#get_or_die (instance method)">- (Object) <strong>get_or_die</strong>(id) </a>
     
 
     
@@ -219,6 +288,29 @@ separate models in the database (in separate tables).</p>
   <span class="summary_signature">
     
       <a href="#map_db_types_to_json-instance_method" title="#map_db_types_to_json (instance method)">- (Object) <strong>map_db_types_to_json</strong>(schema, hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#model_scope-instance_method" title="#model_scope (instance method)">- (Object) <strong>model_scope</strong> </a>
     
 
     
@@ -310,7 +402,76 @@ separate models in the database (in separate tables).</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_jsonmodel-instance_method" title="#to_jsonmodel (instance method)">- (Object) <strong>to_jsonmodel</strong>(obj, model, repo_id, opts = {}) </a>
+      <a href="#set_model_scope-instance_method" title="#set_model_scope (instance method)">- (Object) <strong>set_model_scope</strong>(value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#suppressible%3F-instance_method" title="#suppressible? (instance method)">- (Boolean) <strong>suppressible?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_jsonmodel-instance_method" title="#to_jsonmodel (instance method)">- (Object) <strong>to_jsonmodel</strong>(obj, model, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#uri_for-instance_method" title="#uri_for (instance method)">- (Object) <strong>uri_for</strong>(jsonmodel, id, opts = {}) </a>
     
 
     
@@ -340,9 +501,51 @@ separate models in the database (in separate tables).</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="apply_linked_database_records-instance_method">
+  <h3 class="signature first" id="active_repository-instance_method">
   
-    - (<tt>Object</tt>) <strong>apply_linked_database_records</strong>(obj, json, opts) 
+    - (<tt>Object</tt>) <strong>active_repository</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 157</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_active_repository'>active_repository</span>
+  <span class='id identifier rubyid_repo'>repo</span> <span class='op'>=</span> <span class='const'>RequestContext</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='symbol'>:repo_id</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_model_scope'>model_scope</span> <span class='op'>==</span> <span class='symbol'>:repository</span> <span class='kw'>and</span> <span class='id identifier rubyid_repo'>repo</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Missing repo_id for request!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_repo'>repo</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_linked_database_records-instance_method">
+  
+    - (<tt>Object</tt>) <strong>apply_linked_database_records</strong>(obj, json) 
   
 
   
@@ -378,84 +581,84 @@ delete the object once it becomes unreferenced.</p>
       <pre class="lines">
 
 
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263</pre>
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 287</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_apply_linked_database_records'>apply_linked_database_records</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_linked_database_records'>apply_linked_database_records</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
   <span class='lparen'>(</span><span class='const'>ASModel</span><span class='period'>.</span><span class='id identifier rubyid_linked_records'>linked_records</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span> <span class='kw'>or</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_linked_record'>linked_record</span><span class='op'>|</span>
 
     <span class='comment'># Remove the existing linked records
@@ -496,7 +699,7 @@ delete the object once it becomes unreferenced.</p>
             <span class='comment'># Give our classes an opportunity to provide their own logic here
 </span>            <span class='id identifier rubyid_db_record'>db_record</span> <span class='op'>=</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_ensure_exists'>ensure_exists</span><span class='lparen'>(</span><span class='id identifier rubyid_subrecord_json'>subrecord_json</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
           <span class='kw'>else</span>
-            <span class='id identifier rubyid_extra_opts'>extra_opts</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
+            <span class='id identifier rubyid_extra_opts'>extra_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
 
             <span class='kw'>if</span> <span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:association</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span>
               <span class='id identifier rubyid_extra_opts'>extra_opts</span><span class='lbracket'>[</span><span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:association</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
@@ -548,27 +751,39 @@ delete the object once it becomes unreferenced.</p>
       <pre class="lines">
 
 
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128</pre>
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_values'>extra_values</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_strict_param_setting'>strict_param_setting</span> <span class='op'>=</span> <span class='kw'>false</span>
 
-  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_prepare_for_db'>prepare_for_db</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span>
-                                   <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='const'>ASUtils</span><span class='period'>.</span><span class='id identifier rubyid_keys_as_strings'>keys_as_strings</span><span class='lparen'>(</span><span class='id identifier rubyid_extra_values'>extra_values</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='const'>ASUtils</span><span class='period'>.</span><span class='id identifier rubyid_keys_as_strings'>keys_as_strings</span><span class='lparen'>(</span><span class='id identifier rubyid_extra_values'>extra_values</span><span class='rparen'>)</span>
 
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_apply_linked_database_records'>apply_linked_database_records</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_extra_values'>extra_values</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_model_scope'>model_scope</span> <span class='op'>==</span> <span class='symbol'>:repository</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_values'>values</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_active_repository'>active_repository</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_prepare_for_db'>prepare_for_db</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span>
+                                   <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_apply_linked_database_records'>apply_linked_database_records</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_obj'>obj</span>
 <span class='kw'>end</span></pre>
@@ -578,9 +793,9 @@ delete the object once it becomes unreferenced.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="get_or_die-instance_method">
+  <h3 class="signature " id="enable_suppression-instance_method">
   
-    - (<tt>Object</tt>) <strong>get_or_die</strong>(id, repo_id = nil) 
+    - (<tt>Object</tt>) <strong>enable_suppression</strong> 
   
 
   
@@ -592,19 +807,108 @@ delete the object once it becomes unreferenced.</p>
       <pre class="lines">
 
 
-290
-291
-292
-293
-294
-295</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 290</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 92</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_repo_id'>repo_id</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='comment'># For a minute there I lost myself...
-</span>  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_repo_id'>repo_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_repo_id'>repo_id</span><span class='rbracket'>]</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_suppression'>enable_suppression</span>
+  <span class='ivar'>@suppressible</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enforce_suppression?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>enforce_suppression?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 152</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enforce_suppression?'>enforce_suppression?</span>
+  <span class='const'>RequestContext</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='symbol'>:enforce_suppression</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_or_die-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_or_die</strong>(id) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+386
+387
+388
+389
+390
+391
+392
+393
+394</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 386</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_model_scope'>model_scope</span> <span class='op'>==</span> <span class='symbol'>:repository</span>
+          <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_this_repo'>this_repo</span><span class='lbracket'>[</span><span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span>
+        <span class='kw'>else</span>
+          <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span>
+        <span class='kw'>end</span>
 
   <span class='id identifier rubyid_obj'>obj</span> <span class='kw'>or</span> <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotFoundException</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='rbrace'>}</span><span class='tstring_content'> not found</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -672,17 +976,17 @@ response, not just their URI references.</p>
       <pre class="lines">
 
 
-109
-110
-111
-112
-113
-114
-115
-116</pre>
+199
+200
+201
+202
+203
+204
+205
+206</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 199</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_jsonmodel_hint'>jsonmodel_hint</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:association</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_association_reflection'>association_reflection</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:corresponding_to_association</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -712,22 +1016,22 @@ response, not just their URI references.</p>
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172</pre>
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 256</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_map_db_types_to_json'>map_db_types_to_json</span><span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='id identifier rubyid_hash'>hash</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
@@ -741,6 +1045,38 @@ response, not just their URI references.</p>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_hash'>hash</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="model_scope-instance_method">
+  
+    - (<tt>Object</tt>) <strong>model_scope</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_model_scope'>model_scope</span>
+  <span class='ivar'>@model_scope</span> <span class='kw'>or</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>set_model_scope definition missing for model </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -762,27 +1098,27 @@ response, not just their URI references.</p>
       <pre class="lines">
 
 
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157</pre>
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 236</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_prepare_for_db'>prepare_for_db</span><span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='id identifier rubyid_hash'>hash</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
@@ -822,32 +1158,32 @@ response, not just their URI references.</p>
       <pre class="lines">
 
 
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287</pre>
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 361</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_existing_linked_records'>remove_existing_linked_records</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_record'>record</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_record'>record</span><span class='lbracket'>[</span><span class='symbol'>:association</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:class_name</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -892,55 +1228,51 @@ response, not just their URI references.</p>
       <pre class="lines">
 
 
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325</pre>
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 402</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_map_db_types_to_json'>map_db_types_to_json</span><span class='lparen'>(</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='rbrace'>}</span><span class='rparen'>)</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_obj'>obj</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_active_repository'>active_repository</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span> <span class='kw'>if</span> <span class='id identifier rubyid_uri'>uri</span>
 
   <span class='comment'># If there are linked records for this class, grab their URI references too
 </span>  <span class='lparen'>(</span><span class='const'>ASModel</span><span class='period'>.</span><span class='id identifier rubyid_linked_records'>linked_records</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span> <span class='kw'>or</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_linked_record'>linked_record</span><span class='op'>|</span>
-    <span class='comment'># The opts hash will be mutated during URI substitution, so retain our own copy.
-</span>    <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
     <span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:association</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:class_name</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
     <span class='id identifier rubyid_records'>records</span> <span class='op'>=</span> <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:association</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_linked_obj'>linked_obj</span><span class='op'>|</span>
       <span class='kw'>if</span> <span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:always_resolve</span><span class='rbracket'>]</span>
-        <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_to_jsonmodel'>to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_linked_obj'>linked_obj</span><span class='comma'>,</span> <span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:jsonmodel</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:any</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span>
+        <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_to_jsonmodel'>to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_linked_obj'>linked_obj</span><span class='comma'>,</span> <span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:jsonmodel</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span>
       <span class='kw'>else</span>
-        <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:jsonmodel</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_linked_obj'>linked_obj</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span><span class='rparen'>)</span> <span class='kw'>or</span>
+        <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:jsonmodel</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_linked_obj'>linked_obj</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_active_repository'>active_repository</span><span class='rparen'>)</span> <span class='kw'>or</span>
           <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Couldn't produce a URI for record type: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
       <span class='kw'>end</span>
     <span class='rbrace'>}</span>
@@ -958,9 +1290,9 @@ response, not just their URI references.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="to_jsonmodel-instance_method">
+  <h3 class="signature " id="set_model_scope-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_jsonmodel</strong>(obj, model, repo_id, opts = {}) 
+    - (<tt>Object</tt>) <strong>set_model_scope</strong>(value) 
   
 
   
@@ -972,43 +1304,220 @@ response, not just their URI references.</p>
       <pre class="lines">
 
 
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344</pre>
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 328</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 100</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_to_jsonmodel'>to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='comma'>,</span> <span class='id identifier rubyid_repo_id'>repo_id</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
-    <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Can't accept a repo_id of nil:\n</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
-          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>  * If you're getting an object that isn't repository-scoped, use :none\n</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
-          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>  * If you don't care which repository you're fetching from (careful!), use :any\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_repo_id'>repo_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-
-    <span class='comment'># An ID.  Get the Sequel row for it.
-</span>    <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:any</span><span class='comma'>,</span> <span class='symbol'>:none</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_repo_id'>repo_id</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='id identifier rubyid_repo_id'>repo_id</span><span class='rparen'>)</span>
-
-    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Expected object to have a repo_id set: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_repo_id'>repo_id</span> <span class='op'>==</span> <span class='symbol'>:any</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_obj'>obj</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Didn't expect object to have a repo_id set: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_repo_id'>repo_id</span> <span class='op'>==</span> <span class='symbol'>:none</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_obj'>obj</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_set_model_scope'>set_model_scope</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='lbracket'>[</span><span class='symbol'>:repository</span><span class='comma'>,</span> <span class='symbol'>:global</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Failure for </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='rbrace'>}</span><span class='tstring_content'>: Model scope must be set as :repository or :global</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_repo_id'>repo_id</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span> <span class='op'>==</span> <span class='symbol'>:repository</span>
+    <span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='kw'>self</span>
+
+    <span class='id identifier rubyid_orig_ds'>orig_ds</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
+
+    <span class='id identifier rubyid_def_dataset_method'>def_dataset_method</span><span class='lparen'>(</span><span class='symbol'>:this_repo</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_filter'>filter</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_active_repository'>active_repository</span><span class='rbrace'>}</span>
+
+      <span class='kw'>if</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_suppressible?'>suppressible?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_enforce_suppression?'>enforce_suppression?</span>
+        <span class='id identifier rubyid_filter'>filter</span><span class='lbracket'>[</span><span class='symbol'>:suppressed</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>0</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_orig_ds'>orig_ds</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='id identifier rubyid_filter'>filter</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+
+    <span class='id identifier rubyid_def_dataset_method'>def_dataset_method</span><span class='lparen'>(</span><span class='symbol'>:any_repo</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_suppressible?'>suppressible?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_enforce_suppression?'>enforce_suppression?</span>
+        <span class='id identifier rubyid_orig_ds'>orig_ds</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:suppressed</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_orig_ds'>orig_ds</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_orig_row_proc'>orig_row_proc</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_row_proc'>row_proc</span>
+
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_dataset'>dataset</span><span class='period'>.</span><span class='id identifier rubyid_row_proc'>row_proc</span> <span class='op'>=</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:repo_id</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_active_repository'>active_repository</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ASSERTION FAILED: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'> has a repo_id of </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span>
+               <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> but the active repository is </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_active_repository'>active_repository</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_orig_row_proc'>orig_row_proc</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@model_scope</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="suppressible?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>suppressible?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_suppressible?'>suppressible?</span>
+  <span class='ivar'>@suppressible</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_jsonmodel-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_jsonmodel</strong>(obj, model, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+430
+431
+432
+433
+434
+435
+436
+437</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 430</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_jsonmodel'>to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
+    <span class='comment'># An ID.  Get the Sequel row for it.
+</span>    <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 
   <span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="uri_for-instance_method">
+  
+    - (<tt>Object</tt>) <strong>uri_for</strong>(jsonmodel, id, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+397
+398
+399</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 397</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonmodel'>jsonmodel</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_active_repository'>active_repository</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1020,7 +1529,7 @@ response, not just their URI references.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:32 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:38 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -136,7 +136,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Wrap every call in our DB connection management code.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -198,12 +198,12 @@
       <pre class="lines">
 
 
+224
 225
-226
-227</pre>
+226</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 224</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span><span class='rparen'>)</span>
   <span class='ivar'>@app</span> <span class='op'>=</span> <span class='id identifier rubyid_app'>app</span>
@@ -229,24 +229,17 @@
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Wrap every call in our DB connection management code.  This should
-transparently deal with database restarts, and gives us a spot to hang any
-DB connection logic.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+228
+229
+230
+231
+232
 233
 234
 235
@@ -281,19 +274,10 @@ DB connection logic.</p>
 264
 265
 266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276</pre>
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 233</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 228</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -323,13 +307,9 @@ DB connection logic.</p>
       <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='symbol'>:aspace_user</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>||</span>
                            <span class='const'>ANONYMOUS_USER</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
-
-    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='kw'>do</span>
-      <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_end_time'>end_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
 
@@ -349,7 +329,7 @@ DB connection logic.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Oct 26 11:09:35 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:41 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
