@@ -29,6 +29,8 @@ namespace :doc do
 
     JSONModel::init
 
+    require_relative File.dirname(__FILE__) + '/../backend/app/lib/export'
+
     Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file}
 
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}

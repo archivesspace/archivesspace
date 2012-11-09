@@ -26,67 +26,41 @@ ASpaceImport::Importer.importer :xml do
     
     @reader.each do |node|
       
+      node_args = {:xpath => node.name, :depth => node.depth}
+      
       if node.node_type == 1
         
-        puts "Parsing node: #{node.name}" if $DEBUG
-        
-        node_args = {:xpath => node.name, :depth => node.depth}
-        
-        target_objects(node_args) do |tob|
+        handle_node(node_args) do |obj|
           
-          tob.receivers.for(:xpath => "self") do |r|
+          obj.receivers.for(:xpath => "self") do |r|
             r.receive(node.inner_xml)
           end
 
           node.attributes.each do |a|
             
-            tob.receivers.for(:xpath => "@#{a[0]}") do |r|
+            obj.receivers.for(:xpath => "@#{a[0]}") do |r|
               r.receive(a[1])
             end                         
           end
-
-          # Links from current object to ojects in the queue
-
-          @parse_queue.reverse.each do |qdob|
-            tob.receivers.for(:depth => qdob.depth, 
-                              :record_type => qdob.class.record_type) do |r|
-
-              r.receive(qdob.uri)
-            end
-          end
           
-          # Links from objects in the queue to current object
-
-          @parse_queue.reverse.each do |qdob|
-
-            qdob.receivers.for(node_args) do |r|
-              r.receive(tob.uri)
-            end
-
-          end        
-          
-          # Add current object to parsing queue
-          
-          @parse_queue.push(tob)
+          # Add current object to parsing queue          
+          @parse_queue.push(obj)
         end     
                 
         # Does the XML <node> create a property 
         # for an entity in the queue?
-           
-        @parse_queue.reverse.each do |qdob|
-          
-          qdob.receivers.for(node_args) do |r|
-            puts "Node args: #{node_args.inspect} -- Receiver: #{r.to_s}" if $DEBUG
-            r.receive(node.inner_xml)
-          end
+                     
+        @parse_queue.receivers(node_args) do |r|
+          puts "Node args: #{node_args.inspect} -- Receiver: #{r.to_s}" if $DEBUG
+          r.receive(node.inner_xml)
+        end
               
           # TODO (if needed): objects in queue that need attributes of
           # current node
-        end
-            
+
       # Remove objects from the queue once their nodes close
 
-      elsif node.node_type != 1 and target_objects(:xpath => node.name, :depth => node.depth)
+      elsif node.node_type != 1 and handle_node(node_args)
 
         # Set defaults for missing values
         

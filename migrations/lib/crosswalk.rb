@@ -72,10 +72,10 @@ module ASpaceImport
     # Given an xpath, return true if the crosswalk maps it to a JSON
     # Model. Return a JSONModel for any match if given a block Example:
     #
-    #   Crosswalk.target_objects(:xpath => 'c')
+    #   Crosswalk.handle_node(:xpath => 'c')
     #     => true
 
-    def target_objects(opts)
+    def handle_node(opts)
       
       @@entity_map ||= {}
       
@@ -96,6 +96,8 @@ module ASpaceImport
               end
               
               mod = JSONModel::JSONModel(ent)
+              
+              mod.class_eval("def self.xpath; '#{opts[:xpath]}'; end")
               
               mod.class_eval do
                 
@@ -193,35 +195,7 @@ module ASpaceImport
               yield @receivers[p]
             
             end
-          end
-        
-        elsif opts[:record_type]
-
-          if offset == -1
-            regex_test = /^(parent)::([a-z]*)$/
-          elsif offset < -1
-            regex_test = /^(parent|ancestor)::([a-z]*)$/
-          else
-            return
-          end
-          
-          @mapped_props.each do |p, defn|
- 
-            next unless defn['xpath']
-            
-            if defn['xpath'].find { |xp| xp.match(regex_test) }
-
-              if ASpaceImport::Crosswalk::lookup($2).include?(opts[:record_type])
-
-                @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json_obj, p, defn)
-
-                yield @receivers[p]
-                
-              end
-
-            end
-          end
-                      
+          end         
         end
       end
     end
@@ -258,6 +232,7 @@ module ASpaceImport
         return if val == nil
         
         if @type == 'string'
+          
           # Only set once
           unless @json.send("#{@prop}")
             @json.send("#{@prop}=", val)
@@ -279,8 +254,5 @@ module ASpaceImport
         end
       end
     end
-  
-
-    
   end
 end

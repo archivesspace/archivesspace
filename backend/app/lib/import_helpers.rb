@@ -74,6 +74,11 @@ module ImportHelpers
               !v.match(/\/vocabularies\/[0-9]+$/)
 
           data[k] = set[v].uri
+        elsif json.class.schema["properties"][k]["type"] == "array" and \
+              json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/) and \
+              v.is_a? Array
+          Log.debug("ARRAY? #{v.inspect}")
+          data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/)) ? set[u].uri : u }
         end
       end
       
