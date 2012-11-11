@@ -25,7 +25,7 @@ class Accession < Sequel::Model(:accession)
     save
 
     EventAccessionLink.filter(:accession_id => self.id).each do |link|
-      link.event.set_suppressed(true)
+      link.event.maybe_suppress
     end
 
     val

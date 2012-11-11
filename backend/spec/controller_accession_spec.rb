@@ -176,7 +176,7 @@ describe 'Accession controller' do
   end
 
 
-  it "suppresses events that link to the current accession if they don't link to any other record" do
+  it "(un)suppresses events that link solely to a (un)suppressed accession" do
     test_agent = create(:json_agent_person)
     test_accession = create(:json_accession)
 
@@ -193,14 +193,25 @@ describe 'Accession controller' do
     create_nobody_user
 
     as_test_user('nobody') do
-      JSONModel(:event).find(event.id).should_not eq(nil)
+      JSONModel(:event).find(event.id).should_not be(nil)
     end
 
+    # Suppressing the accession suppresses the event too
     test_accession.suppress
 
     as_test_user('nobody') do
       JSONModel(:event).find(event.id).should be(nil)
     end
+
+
+    # and unsuppressing the accession unsuppresses the event
+    test_accession.unsuppress
+
+    as_test_user('nobody') do
+      JSONModel(:event).find(event.id).should_not be(nil)
+    end
+
+
 
   end
 
