@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sequel'
 require 'sequel/plugins/optimistic_locking'
+require 'fileutils'
 
 require_relative 'exceptions'
 require_relative 'logging'
@@ -17,6 +18,8 @@ if ENV["ASPACE_INTEGRATION"] == "true"
 end
 
 if not Thread.current[:test_mode]
+  FileUtils.mkdir_p(AppConfig[:data_directory])
+
   if AppConfig[:db_url] =~ /aspacedemo=true/
     puts "Running database migrations for demo database"
 
