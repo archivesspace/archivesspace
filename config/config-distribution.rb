@@ -9,7 +9,9 @@ class AppConfig
       raise "No value set for config parameter: #{parameter}"
     end
 
-    @@parameters[parameter]
+    val = @@parameters[parameter]
+
+    val.respond_to?(:call) ? val.call : val
   end
 
 
@@ -86,9 +88,9 @@ class AppConfig
 
   def self.load_defaults
     AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
-    AppConfig[:backup_directory] = File.join(AppConfig[:data_directory], "demo_db_backups")
+    AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
 
-    AppConfig[:db_url] = AppConfig.demo_db_url
+    AppConfig[:db_url] = proc { AppConfig.demo_db_url }
     AppConfig[:db_max_connections] = 10
 
     AppConfig[:allow_unsupported_database] = false
