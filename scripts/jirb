@@ -13,4 +13,4 @@ else
 fi
 
 
-$rlwrap "`dirname $0`/jruby" -e "require 'irb'; IRB.start"
+$rlwrap "`dirname $0`/jruby" -e "require 'irb'; IRB.start" ${1+"$@"}
