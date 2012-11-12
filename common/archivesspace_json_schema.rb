@@ -44,7 +44,11 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
          !"#{current_schema.schema["type"]}".include?("JSONModel(:#{data['jsonmodel_type']})"))
 
       # Blow up
-      validation_error("Nope (schema type mismatch)", fragments, current_schema, self, false)
+      msg = "ERROR: Schema type mismatch."
+      msg += " The passed in data has 'jsonmodel_type' set to '#{data["jsonmodel_type"]}'"
+      msg += " but the current schema only supports types: #{current_schema.schema["type"].inspect}."
+
+      validation_error(msg, fragments, current_schema, self, false)
     end
 
     if JSONModel.parse_jsonmodel_ref(types)
