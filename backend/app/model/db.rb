@@ -91,7 +91,7 @@ class DB
 
   # Yeesh.
   def self.is_integrity_violation(exception)
-    return exception.wrapped_exception.cause.getSQLState() =~ /^23/
+    return (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^23/
   end
 
 

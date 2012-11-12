@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'java'
 
 require_relative '../app/lib/webhooks'
 
@@ -44,7 +45,17 @@ class DB
   def self.connect
     if not @pool
       require_relative "../app/model/db_migrator"
-      @pool = Sequel.connect("jdbc:derby:memory:fakedb;create=true",
+
+      test_db_url = "jdbc:derby:memory:fakedb;create=true"
+
+      begin
+        java.lang.Class.for_name("org.h2.Driver")
+        test_db_url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
+      rescue java.lang.ClassNotFoundException
+        # Oh well.  Derby it is!
+      end
+
+      @pool = Sequel.connect(test_db_url,
                              :max_connections => 10,
                              #:loggers => [Logger.new($stderr)]
                              )
