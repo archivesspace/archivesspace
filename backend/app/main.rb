@@ -80,7 +80,7 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
-      if !Thread.current[:test_mode] && !ENV["ASPACE_INTEGRATION"]
+      if !Thread.current[:test_mode] && ENV["ASPACE_INTEGRATION"] != "true"
         # Start the job scheduler
         if !settings.respond_to? :scheduler?
           Log.info("Starting job scheduler")
