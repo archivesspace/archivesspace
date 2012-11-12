@@ -60,6 +60,7 @@ module ImportHelpers
 
         obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
         obj.save
+
         @saved_uris << @json_set[ref].uri
       end
       

@@ -104,7 +104,7 @@ module ASpaceImport
         report += report_summary
         report += "\n--Details--\n"
         report += @import_log.map { |r| 
-          "#{r.code}\n" + (r.code == '200'  ? JSON.parse(r.body)['saved'].map{ |u| "Saved: #{u}" }.join("\n") : JSON.parse(r.body))
+          "#{r.code}\n" + (r.code == '200'  ? JSON.parse(r.body)['saved'].map{ |u| "Saved: #{u}" }.join("\n") : JSON.parse(r.body).to_s)
         }.join('\n')
       
         report
