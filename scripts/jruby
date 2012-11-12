@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Run JRuby with our environment set up.
+#
+# Non-portable!  Just for development purposes...
+
+basedir="`dirname $0`/../"
+
+export GEM_HOME="$basedir/build/gems"
+export GEM_PATH=""
+
+exec java -cp "$basedir/build/*" org.jruby.Main --1.9 ${1+"$@"}

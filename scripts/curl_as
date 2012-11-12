@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# Run a Curl command as a given ArchivesSpace user
+#
+# Non-portable!  Just for development purposes...
+
+user=$1
+pass=$2
+
+# Pick out the last URL base on the command line (yuck)
+url=$(echo $* | sed 's,^.*\(http://[^/]\+\)\(/\|\b\).*,\1,g')
+
+# It gets worse :)
+session=$(curl -s -F password="$pass" "$url/users/$user/login" |
+    sed 's|.*"session":"\([^"]\+\)".*|\1|g')
+
+# throw out the username and password
+shift 2
+
+# and pass the rest to Curl
+exec curl -H "X-ArchivesSpace-Session: $session" ${1+"$@"}
+
