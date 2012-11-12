@@ -146,7 +146,7 @@ eof
 
 
   def self.backups_dir
-    File.join(AppConfig[:data_directory], "demo_db_backups")
+    AppConfig[:backup_directory]
   end
 
 
