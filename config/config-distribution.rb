@@ -86,6 +86,7 @@ class AppConfig
 
   def self.load_defaults
     AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
+    AppConfig[:backup_directory] = File.join(AppConfig[:data_directory], "demo_db_backups")
 
     AppConfig[:db_url] = AppConfig.demo_db_url
     AppConfig[:db_max_connections] = 10
