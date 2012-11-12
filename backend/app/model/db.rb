@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class DB
 
   SUPPORTED_DATABASES = [
@@ -35,6 +37,7 @@ class DB
       end
     end
   end
+
 
   def self.connected?
     not @pool.nil?
@@ -140,4 +143,50 @@ eof
       raise "Database not supported"
     end
   end
+
+
+  def self.backups_dir
+    File.join(AppConfig[:data_directory], "demo_db_backups")
+  end
+
+
+  def self.expire_backups
+
+    backups = []
+    Dir.foreach(backups_dir) do |filename|
+      if filename =~ /^demo_db_backup_[0-9]+_[0-9]+$/
+        backups << File.join(backups_dir, filename)
+      end
+    end
+
+    victims = backups.sort.reverse.drop(AppConfig[:demo_db_backup_number_to_keep])
+
+    victims.each do |backup_dir|
+      # Proudly paranoid
+      if File.exists?(File.join(backup_dir, "archivesspace_demo_db", "BACKUP.HISTORY"))
+        Log.info("Expiring old backup: #{backup_dir}")
+        FileUtils.rm_rf(backup_dir)
+      else
+        Log.warn("Too cowardly to delete: #{backup_dir}")
+      end
+    end
+  end
+
+
+  def self.demo_db_backup
+    # Timestamp must come first here for filenames to sort chronologically
+    this_backup = File.join(backups_dir, "demo_db_backup_#{Time.now.to_i}_#{$$}")
+
+    Log.info("Writing backup to '#{this_backup}'")
+
+    @pool.pool.hold do |c|
+      cs = c.prepare_call("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)")
+      cs.set_string(1, this_backup.to_s)
+      cs.execute
+      cs.close
+    end
+
+    expire_backups
+  end
+
 end

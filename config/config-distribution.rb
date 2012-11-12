@@ -5,6 +5,10 @@ class AppConfig
   @@parameters = {}
 
   def self.[](parameter)
+    if !@@parameters.has_key?(parameter)
+      raise "No value set for config parameter: #{parameter}"
+    end
+
     @@parameters[parameter]
   end
 
@@ -76,13 +80,20 @@ class AppConfig
 
 
   def self.demo_db_url
-    "jdbc:derby:#{File.join(java.lang.System.getProperty("java.io.tmpdir"), "archivesspace_demo_db")};create=true;aspacedemo=true"
+    "jdbc:derby:#{File.join(AppConfig[:data_directory], "archivesspace_demo_db")};create=true;aspacedemo=true"
   end
 
 
   def self.load_defaults
+    AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
+
     AppConfig[:db_url] = AppConfig.demo_db_url
     AppConfig[:db_max_connections] = 10
+
+    AppConfig[:allow_unsupported_database] = false
+
+    AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
+    AppConfig[:demo_db_backup_number_to_keep] = 7
 
     AppConfig[:backend_url] = "http://localhost:4567"
     AppConfig[:frontend_url] = "http://localhost:3000"
