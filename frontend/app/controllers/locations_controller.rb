@@ -4,7 +4,7 @@ class LocationsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @locations = Location.all(:page => selected_page)
+    @search_data = Location.all(:page => selected_page)
   end
 
   def show

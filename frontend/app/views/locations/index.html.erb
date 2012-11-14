@@ -12,7 +12,7 @@
 
       <h2>Locations</h2>
 
-      <% if not @locations.blank? %>
+     <% if @search_data.has_key?('results') && @search_data['results'].length  > 0 %>
        <table class="table table-striped table-bordered table-condensed">
          <thead>
            <tr>
@@ -24,7 +24,7 @@
            </tr>
          </thead>
          <tbody>
-          <% @locations['results'].each do |location| %>
+          <% @search_data['results'].each do |location| %>
              <tr>
               <td>
                 <%= location.building %><% if location.floor %>, <%= location.floor %><% end %><% if location.room %>, <%= location.room %><% end %><% if location.area %>, <%= location.area %><% end %>
@@ -48,6 +48,7 @@
           <% end %>
          </tbody>
        </table>
+       <%= render :partial => "shared/pagination" %>
       <% else %>
          <p class="alert alert-info">
             No Locations.

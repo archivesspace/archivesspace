@@ -5,7 +5,7 @@ class AccessionsController < ApplicationController
   before_filter :user_needs_to_be_a_manager, :only => [:suppress, :unsuppress]
 
   def index
-    @accessions = Accession.all(:page => selected_page)
+    @search_data = Accession.all(:page => selected_page)
   end
 
   def show

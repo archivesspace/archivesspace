@@ -12,7 +12,7 @@
 
       <h2>Digital Objects</h2>
 
-      <% if not @digital_objects.blank? %>
+     <% if @search_data.has_key?('results') && @search_data['results'].length  > 0 %>
        <table class="table table-striped table-bordered table-condensed">
          <thead>
            <tr>
@@ -21,7 +21,7 @@
            </tr>
          </thead>
          <tbody>
-          <% @digital_objects['results'].each do |digital_object| %>
+          <% @search_data['results'].each do |digital_object| %>
              <tr>
               <td><%= digital_object.title %></td>
               <td>
@@ -36,6 +36,7 @@
           <% end %>
          </tbody>
        </table>
+       <%= render :partial => "shared/pagination" %>
       <% else %>
          <p class="alert alert-info">
             There are currently no Digital Objects in this, <strong><%= session[:repo] %></strong>, repository.

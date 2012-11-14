@@ -1,0 +1,34 @@
+<% if @search_data %>
+
+  <div class="pagination pagination-small pagination-centered">
+    <ul>
+      <% if @search_data['this_page'] > 1 %>
+        <li>
+          <%= link_to "&#171;".html_safe, :page => @search_data['this_page'] - 1 %>
+        </li>
+      <% else  %>
+        <li class="disabled"><a href="#">&#171;</a></li>
+      <% end %>
+
+      <% (1..@search_data['last_page']).each do |i| %>
+        <% if @search_data['this_page'] === i %>
+          <li class="active"><a href="#"><%= i %></a></li>
+        <% else %>
+          <li>
+            <%= link_to i, :page => i %>
+          </li>
+        <% end %>
+      <% end %>
+
+      <% if @search_data['this_page'] != @search_data['last_page'] %>
+        <li>
+          <%= link_to "&#187;".html_safe, :page => @search_data['this_page'] + 1 %>
+        </li>
+      <% else %>
+        <li class="disabled"><a href="#">&#187;</a></li>
+      <% end %>
+    </ul>
+  </div>
+
+<% end %>
+
