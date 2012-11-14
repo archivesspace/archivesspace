@@ -52,6 +52,13 @@ class Session
   end
 
 
+  def self.expire(sid)
+    DB.open do |db|
+      db[:session].filter(:session_id => sid).delete
+    end
+  end
+
+
   def []=(key, val)
     @store[key] = val
   end
@@ -69,6 +76,26 @@ class Session
         .update(:session_data => [Marshal.dump(@store)].pack("m*"),
                 :last_modified => Time.now)
     end
+  end
+
+
+  def touch
+    DB.open do |db|
+      db[:session]
+        .filter(:session_id => @id)
+        .update(:last_modified => Time.now)
+    end
+  end
+
+
+  def age
+    last_modified = 0
+    DB.open do |db|
+      last_modified = db[:session]
+        .filter(:session_id => @id)
+        .get(:last_modified)
+    end
+    (Time.now - last_modified).to_i
   end
 
 end

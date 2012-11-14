@@ -75,6 +75,10 @@ module ArchivesSpace
   class SessionGone < StandardError
   end
 
+
+  class SessionExpired < StandardError
+  end
+
 end
 
 

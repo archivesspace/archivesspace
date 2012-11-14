@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   helper :all
 
   rescue_from ArchivesSpace::SessionGone, :with => :destroy_user_session
+  rescue_from ArchivesSpace::SessionExpired, :with => :destroy_user_session
 
 
   # Note: This should be first!
@@ -143,13 +144,13 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def destroy_user_session
+  def destroy_user_session(exception)
     Thread.current[:backend_session] = nil
     Thread.current[:repo_id] = nil
 
     reset_session
 
-    flash[:error] = "Your backend session was not found"
+    flash[:error] = exception.message
     redirect_to :controller => :welcome, :action => :index
   end
 

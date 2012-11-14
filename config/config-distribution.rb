@@ -102,6 +102,8 @@ class AppConfig
     AppConfig[:frontend_url] = "http://localhost:3000"
 
     AppConfig[:frontend_theme] = "default"
+
+    AppConfig[:session_expire_after_seconds] = 3600
   end
 
 

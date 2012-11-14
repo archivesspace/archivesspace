@@ -266,6 +266,19 @@ class ArchivesSpaceService < Sinatra::Base
                      :error => "No session found for #{session_token}"
                    }.to_json]]
         end
+
+        if session.age > AppConfig[:session_expire_after_seconds]
+          Session.expire(session_token)
+          session = nil
+          return [412,
+                  {"Content-Type" => "application/json"},
+                  [{
+                     :code => "SESSION_EXPIRED",
+                     :error => "Session timed out for #{session_token}"
+                   }.to_json]]
+        else
+          session.touch
+        end
       end
 
 
