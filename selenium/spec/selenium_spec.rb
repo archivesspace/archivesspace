@@ -1152,6 +1152,8 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  bibliography_content = "Top-level bibliography content"
+
   it "can add a top-level bibliography too" do
     @driver.find_element(:link, 'Edit').click
 
@@ -1160,8 +1162,11 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => '#notes > .subrecord-form-heading .subrecord-selector .btn').click
 
     @driver.clear_and_send_keys([:id, 'resource_notes__5__label_'], "Top-level bibliography label")
-    @driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').setValue('Top-level bibliography content')")
+    @driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').setValue('#{bibliography_content}')")
     @driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').save()")
+
+    @driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').toTextArea()")
+    @driver.find_element(:id => "resource_notes__5__content_").attribute("value").should eq(bibliography_content)
 
     form = @driver.find_element(:id => 'resource_notes__5__label_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
@@ -1171,6 +1176,21 @@ describe "ArchivesSpace user interface" do
 
     @driver.clear_and_send_keys([:id, 'resource_notes__5__items__6_'], "Top-level bib item 1")
     @driver.clear_and_send_keys([:id, 'resource_notes__5__items__7_'], "Top-level bib item 2")
+
+  end
+
+
+  it "can wrap note content text with EAD mark up" do
+    # select some text
+    @driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').setValue('ABC')")
+    @driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")
+
+    # select a tag to wrap the text
+    sleep 2
+    @driver.find_element(:css => "select.mixed-content-wrap-action").select_option("ref")
+    @driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').save()")
+    @driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').toTextArea()")
+    @driver.find_element(:id => "resource_notes__0__content_").attribute("value").should eq("<ref>ABC</ref>")
 
     # Save the resource
     @driver.find_element(:css => "form#new_resource button[type='submit']").click

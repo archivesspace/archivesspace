@@ -52,6 +52,7 @@ $(function() {
           } else {
             $wrapWithActionSelect.val("");
             $wrapWithAction.hide();
+            $editor.save();
           }
         }
       });
