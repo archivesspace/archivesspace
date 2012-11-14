@@ -1089,8 +1089,8 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, 'resource_notes__2__label_'],
                                 "A multipart note")
 
-    @driver.clear_and_send_keys([:id, 'resource_notes__2__content_'],
-                                "Some note content")
+    @driver.execute_script("$('#resource_notes__2__content_').data('CodeMirror').setValue('Some note content')")
+    @driver.execute_script("$('#resource_notes__2__content_').data('CodeMirror').save()")
 
 
     # Save the resource
@@ -1111,7 +1111,8 @@ describe "ArchivesSpace user interface" do
 
     @driver.find_element(:id => 'resource_notes__0__subnotes__1__label_')
     @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__label_'], "Bibliography label")
-    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__content_'], "Bibliography content")
+    @driver.execute_script("$('#resource_notes__0__subnotes__1__content_').data('CodeMirror').setValue('Bibliography content')")
+    @driver.execute_script("$('#resource_notes__0__subnotes__1__content_').data('CodeMirror').save()")
 
     2.times do
       notes[0].find_element(:css => '.add-item-btn').click
@@ -1126,7 +1127,8 @@ describe "ArchivesSpace user interface" do
     notes[0].find_element(:css => '.add-sub-note-btn').click
 
     @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__4__label_'], "Index item")
-    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__4__content_'], "Index content")
+    @driver.execute_script("$('#resource_notes__0__subnotes__4__content_').data('CodeMirror').setValue('Index content')")
+    @driver.execute_script("$('#resource_notes__0__subnotes__4__content_').data('CodeMirror').save()")
 
     2.times do
       @driver.find_element(:id => 'resource_notes__0__subnotes__4__label_').
@@ -1158,9 +1160,10 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css => '#notes > .subrecord-form-heading .subrecord-selector .btn').click
 
     @driver.clear_and_send_keys([:id, 'resource_notes__5__label_'], "Top-level bibliography label")
-    @driver.clear_and_send_keys([:id, 'resource_notes__5__content_'], "Top-level bibliography content")
+    @driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').setValue('Top-level bibliography content')")
+    @driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').save()")
 
-    form = @driver.find_element(:id => 'resource_notes__5__content_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
+    form = @driver.find_element(:id => 'resource_notes__5__label_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
     2.times do
       form.find_element(:css => '.add-item-btn').click

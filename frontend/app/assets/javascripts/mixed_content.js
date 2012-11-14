@@ -56,6 +56,8 @@ $(function() {
         }
       });
 
+      $this.data("CodeMirror", $editor);
+
       var onWrapActionChange = function(event) {
         if ($editor.somethingSelected() && $wrapWithActionSelect.val() != "") {
           var tag = $wrapWithActionSelect.val();

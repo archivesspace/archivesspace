@@ -42,7 +42,7 @@ $(function() {
           initNoteForm($subsubform);
 
           if (is_subrecord) {
-            $(document).triggerHandler("new.subrecord", ["note", $subsubform]);
+            $(document).triggerHandler("init.subrecord", ["note", $subsubform]);
           }
 
           $this.parents("form:first").triggerHandler("form-changed");
