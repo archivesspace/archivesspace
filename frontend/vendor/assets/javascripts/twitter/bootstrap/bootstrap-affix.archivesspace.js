@@ -1,5 +1,5 @@
 /* ==========================================================
- * bootstrap-affix.js v2.1.1
+ * bootstrap-affix.js v2.2.1
  * http://twitter.github.com/bootstrap/javascript.html#affix
  * ==========================================================
  * Copyright 2012 Twitter, Inc.
@@ -36,10 +36,11 @@
   var Affix = function (element, options) {
     this.options = $.extend({}, $.fn.affix.defaults, options)
 
-    // disable any existing affixing for this element
-    $(window).off('scroll.affix.data-api', $.proxy(this.checkPosition, this))
-
-    this.$window = $(window).on('scroll.affix.data-api', $.proxy(this.checkPosition, this))
+    this.$window = $(window)
+      .off('scroll.affix.data-api', $.proxy(this.checkPosition, this))
+      .on('scroll.affix.data-api', $.proxy(this.checkPosition, this))
+      .off('click.affix.data-api',  $.proxy(function () { setTimeout($.proxy(this.checkPosition, this), 1) }, this))
+      .on('click.affix.data-api',  $.proxy(function () { setTimeout($.proxy(this.checkPosition, this), 1) }, this))
     this.$element = $(element)
     this.checkPosition()
   }
@@ -88,7 +89,7 @@
       var $this = $(this)
         , data = $this.data('affix')
         , options = typeof option == 'object' && option
-      $this.data('affix', (data = new Affix(this, options)))
+      if (!data) $this.data('affix', (data = new Affix(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }
