@@ -37,10 +37,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/accessions')
     .description("Get a list of Accessions for a Repository")
-    .params(["repo_id", :repo_id])
+    .params(["repo_id", :repo_id],
+            *Endpoint.pagination)
     .returns([200, "[(:accession)]"]) \
   do
-    handle_listing(Accession, :accession)
+    handle_listing(Accession, :accession, params[:page], params[:page_size])
   end
 
 

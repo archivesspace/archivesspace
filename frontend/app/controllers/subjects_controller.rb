@@ -4,14 +4,15 @@ class SubjectsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @subjects = Subject.all
+    @subjects = Subject.all(:page => selected_page)
   end
 
   def list
-    @subjects = Subject.all
+    @subjects = Subject.all(:page => selected_page)
 
     if params[:q]
-      @subjects = @subjects.select {|s| s.display_string.downcase.include?(params[:q].downcase)}
+      # FIXME: this filtering belongs in the backend
+      @subjects = @subjects['results'].select {|s| s.display_string.downcase.include?(params[:q].downcase)}
     end
 
     respond_to do |format|

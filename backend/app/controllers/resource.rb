@@ -70,10 +70,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resources')
     .description("Get a list of Resources for a Repository")
-    .params(["repo_id", :repo_id])
+    .params(["repo_id", :repo_id],
+            *Endpoint.pagination)
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(Resource, :resource)
+    handle_listing(Resource, :resource, params[:page], params[:page_size])
   end
 
 end

@@ -24,10 +24,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/events')
     .description("Get a list of Events for a Repository")
-    .params(["repo_id", :repo_id])
+    .params(["repo_id", :repo_id],
+              *Endpoint.pagination)
     .returns([200, "[(:event)]"]) \
   do
-    handle_listing(Event, :event)
+    handle_listing(Event, :event, params[:page], params[:page_size])
   end
 
 

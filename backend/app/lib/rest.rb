@@ -11,6 +11,7 @@ module RESTHelpers
     end
   end
 
+
   def resolve_references(value, properties_to_resolve)
     return value if properties_to_resolve.nil?
 
@@ -61,11 +62,19 @@ module RESTHelpers
       @required_params = []
       @returns = []
     end
-    
+
     def [](key)
       if instance_variable_defined?("@#{key}")
         instance_variable_get("@#{key}")
       end
+    end
+
+    def self.pagination
+      [["page_size",
+        NonNegativeInteger,
+        "The number of results to show per page",
+        :default => 10],
+       ["page", NonNegativeInteger, "The page number to show"]]
     end
 
     def self.all
@@ -161,6 +170,19 @@ module RESTHelpers
   end
 
 
+  class NonNegativeInteger
+    def self.value(s)
+      val = Integer(s)
+
+      if val < 0
+        raise ArgumentError.new("Invalid non-negative integer value: #{s}")
+      end
+
+      val
+    end
+  end
+
+
   class BooleanParam
     def self.value(s)
       if s.nil?
@@ -170,7 +192,7 @@ module RESTHelpers
       elsif s.downcase == 'false'
         false
       else
-        raise "Invalid boolean value: #{s}"
+        raise ArgumentError.new("Invalid boolean value: #{s}")
       end
     end
   end
@@ -185,8 +207,6 @@ module RESTHelpers
       def coerce_type(value, type)
         if type == Integer
           Integer(value)
-        elsif type == BooleanParam
-          BooleanParam.value(value)
         elsif type.respond_to? :from_json
           type.from_json(value)
         elsif type.is_a? Array
@@ -196,8 +216,10 @@ module RESTHelpers
             raise ArgumentError.new("Not an array")
           end
         elsif type.is_a? Regexp
-          raise "Value '#{value}' didn't match #{type}" if value !~ type
+          raise ArgumentError.new("Value '#{value}' didn't match #{type}") if value !~ type
           value
+        elsif type.respond_to? :value
+          type.value(value)
         else
           value
         end

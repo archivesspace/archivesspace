@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Repository controller' do
 
   it "gives a list of all repositories" do
-    
+
     [0,1].each do |n|
       repo_code = create(:repo).repo_code
 
@@ -35,7 +35,7 @@ describe 'Repository controller' do
 
 
   it "Creating a repository automatically creates the standard set of groups" do
-    groups = JSONModel(:group).all.map {|group| group.group_code}
+    groups = JSONModel(:group).all(:page => 1)['results'].map {|group| group.group_code}
 
     groups.include?("repository-managers").should be_true
     groups.include?("repository-archivists").should be_true

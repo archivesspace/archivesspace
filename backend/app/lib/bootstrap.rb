@@ -1,8 +1,9 @@
 require 'rubygems'
 require 'sequel'
 require 'sequel/plugins/optimistic_locking'
-require 'fileutils'
+Sequel.extension :pagination
 
+require 'fileutils'
 require_relative 'exceptions'
 require_relative 'logging'
 require_relative "../../../config/config-distribution"

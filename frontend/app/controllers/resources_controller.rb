@@ -4,7 +4,7 @@ class ResourcesController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @resources = JSONModel(:resource).all
+    @resources = JSONModel(:resource).all(:page => selected_page)
   end
 
   def show

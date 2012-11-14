@@ -53,10 +53,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/digital_object_components')
     .description("Get a list of Digital Object Components for a Repository")
-    .params(["repo_id", :repo_id])
+    .params(["repo_id", :repo_id],
+            *Endpoint.pagination)
     .returns([200, "[(:digital_object_component)]"]) \
   do
-    handle_listing(DigitalObjectComponent, :digital_object_component)
+    handle_listing(DigitalObjectComponent, :digital_object_component, params[:page], params[:page_size])
   end
 
 end

@@ -19,7 +19,7 @@
          </tr>
        </thead>
        <tbody>
-         <% @groups.each do |group| %>
+         <% @groups['results'].each do |group| %>
          <tr>
            <td><%= group.description %> <small>(<%= group.group_code %>)</small></td>
            <td>

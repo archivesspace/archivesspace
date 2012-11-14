@@ -3,7 +3,7 @@ require 'spec_helper'
 def create_nobody_user
   create(:user, :username => 'nobody')
 
-  viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
+  viewers = JSONModel(:group).all(:page => 1, :group_code => "repository-viewers")['results'].first
   viewers.member_usernames = ['nobody']
   viewers.save
 end
@@ -21,7 +21,7 @@ describe 'Accession controller' do
 
   it "lets you list all accessions" do
     create(:json_accession)
-    JSONModel(:accession).all.count.should eq(1)
+    JSONModel(:accession).all(:page => 1)['results'].count.should eq(1)
   end
 
 
@@ -132,10 +132,10 @@ describe 'Accession controller' do
 
   it "doesn't show accessions for other repositories when listing " do
     create(:json_accession)
-    JSONModel(:accession).all.count.should eq(1)
+    JSONModel(:accession).all(:page => 1)['results'].count.should eq(1)
 
     create(:repo)
-    JSONModel(:accession).all.count.should eq(0)
+    JSONModel(:accession).all(:page => 1)['results'].count.should eq(0)
   end
 
 
@@ -161,7 +161,7 @@ describe 'Accession controller' do
     accession.suppress
 
     as_test_user('nobody') do
-      JSONModel(:accession).all.count.should eq(3)
+      JSONModel(:accession).all(:page => 1)['results'].count.should eq(3)
     end
   end
 
@@ -234,7 +234,7 @@ describe 'Accession controller' do
     test_accession = create(:json_accession)
 
     create_nobody_user
-    archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
+    archivists = JSONModel(:group).all(:page => 1, :group_code => "repository-archivists")['results'].first
     archivists.member_usernames = ['nobody']
     archivists.save
 
@@ -263,6 +263,20 @@ describe 'Accession controller' do
       # Attempted change to suppress status got ignored
       JSONModel(:accession).find(test_accession.id).should_not eq(nil)
     end
+  end
+
+
+  it "paginates record listings" do
+    10.times { create(:json_accession) }
+
+    page1_ids = JSONModel(:accession).all(:page => 1, :page_size => 5)['results'].map {|obj| obj.id}
+    page2_ids = JSONModel(:accession).all(:page => 2, :page_size => 5)['results'].map {|obj| obj.id}
+
+    page1_ids.length.should eq(5)
+    page2_ids.length.should eq(5)
+
+    # No overlaps between the contents of our two pages
+    (page1_ids - page2_ids).length.should eq(5)
   end
 
 end

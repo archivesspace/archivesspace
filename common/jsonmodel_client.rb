@@ -311,7 +311,6 @@ module JSONModel
 
 
       # Return all instances of the current JSONModel's record type.
-      # FIXME: This will need some sort of pagination support.
       def all(params = {}, opts = {})
         uri = my_url(nil, opts)
 
@@ -322,7 +321,13 @@ module JSONModel
         if response.code == '200'
           json_list = JSON(response.body)
 
-          json_list.map {|h| self.from_hash(h)}
+          if json_list.is_a?(Hash)
+            json_list["results"] = json_list["results"].map {|h| self.from_hash(h)}
+          else
+            json_list = json_list.map {|h| self.from_hash(h)}
+          end
+
+          json_list
         elsif response.code == '403'
           raise AccessDeniedException.new
         else

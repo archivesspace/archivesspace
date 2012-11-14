@@ -82,7 +82,7 @@ describe 'Resources controller' do
       create(:json_resource, {:title => p})
     end
 
-    resources = JSONModel(:resource).all
+    resources = JSONModel(:resource).all(:page => 1)['results']
     resources.any? { |res| res.title == generate(:generic_title) }.should be_false
 
     powers.each do |p|

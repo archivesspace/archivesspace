@@ -110,6 +110,21 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def selected_page
+    if params[:page]
+      page = Integer(params[:page])
+      if page < 0
+        raise "Invalid page value"
+      end
+
+      page
+    else
+      # Default to showing the first page
+      1
+    end
+  end
+
+
   def user_needs_to_be_a_viewer
     render_403 if not user_can? 'view_repository'
   end

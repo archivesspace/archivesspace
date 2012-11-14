@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @events = JSONModel(:event).all
+    @events = JSONModel(:event).all(:page => selected_page)
   end
 
   def show

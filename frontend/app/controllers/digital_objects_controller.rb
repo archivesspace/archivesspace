@@ -4,7 +4,7 @@ class DigitalObjectsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @digital_objects = JSONModel(:digital_object).all
+    @digital_objects = JSONModel(:digital_object).all(:page => selected_page)
   end
 
   def show

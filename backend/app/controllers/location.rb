@@ -22,10 +22,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/locations')
     .description("Get a list of locations")
-    .params(["repo_id", :repo_id])
+    .params(["repo_id", :repo_id],
+            *Endpoint.pagination)
     .returns([200, "[(:location)]"]) \
   do
-    handle_listing(Location, :location)
+    handle_listing(Location, :location, params[:page], params[:page_size])
   end
 
 

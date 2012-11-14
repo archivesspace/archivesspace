@@ -4,7 +4,7 @@ class LocationsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @locations = Location.all
+    @locations = Location.all(:page => selected_page)
   end
 
   def show
@@ -48,7 +48,7 @@ class LocationsController < ApplicationController
   end
 
   def list
-    locations = Location.all
+    locations = Location.all(:page => selected_page)
 
     if params[:q]
       locations = locations.select {|l| l.display_string.downcase.include?(params[:q].downcase)}

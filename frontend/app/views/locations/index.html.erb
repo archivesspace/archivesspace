@@ -24,7 +24,7 @@
            </tr>
          </thead>
          <tbody>
-          <% @locations.each do |location| %>
+          <% @locations['results'].each do |location| %>
              <tr>
               <td>
                 <%= location.building %><% if location.floor %>, <%= location.floor %><% end %><% if location.room %>, <%= location.room %><% end %><% if location.area %>, <%= location.area %><% end %>

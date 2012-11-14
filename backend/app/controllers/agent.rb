@@ -1,5 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
+  # FIXME: needs pagination
   Endpoint.get('/agents')
     .description("Get all agent records")
     .returns([200, "[(:agent)]"]) \

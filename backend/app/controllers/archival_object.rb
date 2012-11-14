@@ -60,10 +60,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_objects')
     .description("Get a list of Archival Objects for a Repository")
-    .params(["repo_id", :repo_id])
+    .params(["repo_id", :repo_id],
+            *Endpoint.pagination)
     .returns([200, "[(:archival_object)]"]) \
   do
-    handle_listing(ArchivalObject, :archival_object)
+    handle_listing(ArchivalObject, :archival_object, params[:page], params[:page_size])
   end
 
 end

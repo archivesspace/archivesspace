@@ -53,7 +53,7 @@ describe 'Events controller' do
       create(:json_event)
     end
 
-    JSONModel(:event).all.length.should eq(5)
+    JSONModel(:event).all(:page => 1)['results'].length.should eq(5)
   end
 
 

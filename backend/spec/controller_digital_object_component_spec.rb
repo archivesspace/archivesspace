@@ -12,7 +12,7 @@ describe 'Digital Object Component controller' do
 
   it "lets you list all digital object components" do
     create_list(:json_digital_object_component, 5)
-    JSONModel(:digital_object_component).all.count.should eq(5)
+    JSONModel(:digital_object_component).all(:page => 1)['results'].count.should eq(5)
   end
 
 

@@ -19,7 +19,7 @@
              </tr>
            </thead>
            <tbody>
-              <% @events.each do |event| %>
+              <% @events['results'].each do |event| %>
               <tr>
                <td>
                 <% if event.suppressed %><span class="label label-info">Suppressed</span><% end %>

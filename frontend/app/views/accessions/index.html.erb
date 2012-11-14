@@ -21,7 +21,7 @@
              </tr>
            </thead>
            <tbody>
-              <% @accessions.each do |accession| %>
+              <% @accessions['results'].each do |accession| %>
               <tr>
                <td>
                 <% if accession.suppressed %><span class="label label-info">Suppressed</span><% end %>

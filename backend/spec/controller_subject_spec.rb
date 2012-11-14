@@ -29,7 +29,7 @@ describe 'Subject controller' do
 
   it "lets you list all subjects" do
     id = create_subject
-    JSONModel(:subject).all.count.should eq(1)
+    JSONModel(:subject).all(:page => 1)['results'].count.should eq(1)
   end
 
 
