@@ -43,11 +43,13 @@ module TestUtils
   end
 
 
-  def self.start_backend(port, frontend_url = nil)
+  def self.start_backend(port, config = {})
     base = File.dirname(__FILE__)
 
     java_opts = "-Xmx64M -XX:MaxPermSize=64M"
-    java_opts += " -Daspace.config.frontend_url=#{frontend_url}" if frontend_url
+    config.each do |key, value|
+      java_opts += " -Daspace.config.#{key}=#{value}"
+    end
 
     pid = Process.spawn({:JAVA_OPTS => java_opts},
                         "#{base}/../build/run", "backend:devserver:integration",
@@ -60,10 +62,15 @@ module TestUtils
   end
 
 
-  def self.start_frontend(port, backend_url)
+  def self.start_frontend(port, backend_url, config = {})
     base = File.dirname(__FILE__)
 
-    pid = Process.spawn({:JAVA_OPTS => "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}"},
+    java_opts = "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}"
+    config.each do |key, value|
+      java_opts += " -Daspace.config.#{key}=#{value}"
+    end
+
+    pid = Process.spawn({:JAVA_OPTS => java_opts},
                         "#{base}/../build/run", "frontend:devserver:integration",
                         "-Daspace.frontend.port=#{port}")
 

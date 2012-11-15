@@ -10,7 +10,7 @@ $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
 $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
-
+$expire = 30
 
 class RSpec::Core::Example
   def passed?
@@ -255,7 +255,11 @@ def selenium_init
   (@backend, @frontend) = [false, false]
   if standalone
     puts "Starting backend and frontend using #{$backend} and #{$frontend}"
-    $backend_pid = TestUtils::start_backend($backend_port, $frontend)
+    $backend_pid = TestUtils::start_backend($backend_port,
+                                            {
+                                              :frontend_url => $frontend,
+                                              :session_expire_after_seconds => $expire
+                                            })
     $frontend_pid = TestUtils::start_frontend($frontend_port, $backend)
   end
 

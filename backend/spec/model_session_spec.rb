@@ -30,4 +30,33 @@ describe 'Session model' do
     end
   end
 
+
+  it "knows its age" do
+    Time.stub!(:now).and_return(Time.at(0))
+    s = Session.new
+    Time.stub!(:now).and_return(Time.at(10))
+    s.age.should eq(10)
+  end
+
+
+  it "becomes young again when touched" do
+    Time.stub!(:now).and_return(Time.at(0))
+    s = Session.new
+    Time.stub!(:now).and_return(Time.at(10))
+    s.touch
+    Time.stub!(:now).and_return(Time.at(100))
+    s.age.should eq(90)
+    Time.stub!(:now).and_return(Time.at(110))
+    s.touch
+    Time.stub!(:now).and_return(Time.at(111))
+    s.age.should eq(1)
+  end
+
+
+  it "can be expired" do
+    s = Session.new
+    Session.expire(s.id)
+    Session.find(s.id).should be_nil
+  end
+
 end

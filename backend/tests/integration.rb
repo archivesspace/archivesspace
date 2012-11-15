@@ -7,10 +7,10 @@ require_relative '../../common/test_utils'
 
 Dir.chdir(File.dirname(__FILE__))
 
-$port = 3434;
-$url = "http://localhost:#{$port}";
+$port = 3434
+$url = "http://localhost:#{$port}"
 $me = Time.now.to_i
-
+$expire = 3
 
 def url(uri)
   URI("#{$url}#{uri}")
@@ -140,8 +140,12 @@ def run_tests
   r[:body]["resolved"]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
     fail("Archival object fetch", r)
 
-end
+  puts "Expire session after a nap"
+  sleep $expire + 1
+  r = do_get(url("/repositories"))
+  r[:body]["code"] == "SESSION_EXPIRED" or fail("Session expiry", r)
 
+end
 
 
 def main
@@ -157,7 +161,7 @@ def main
 
   if standalone
     # start the backend
-    server = TestUtils::start_backend($port)
+    server = TestUtils::start_backend($port, {:session_expire_after_seconds => $expire})
   end
 
   status = 0

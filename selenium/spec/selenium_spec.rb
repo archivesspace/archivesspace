@@ -1353,6 +1353,19 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  it "expires a session after a nap" do
+    sleep $expire + 1
+    @driver.find_element(:link => 'Browse').click
+    @driver.find_element(:link => 'Subjects').click
+
+    @driver.find_element(:css => "div.alert.alert-error").text.should eq('Your session expired due to inactivity. Please sign in again.')
+
+    @driver.find_element(:link, "Sign In").click
+    @driver.clear_and_send_keys([:id, 'user_username'], @user)
+    @driver.clear_and_send_keys([:id, 'user_password'], "testuser")
+    @driver.find_element(:id, 'login').click
+  end
+
   # Log out
 
   it "can log out once finished" do
