@@ -360,6 +360,8 @@ $(function() {
 
         // rerender toolbar actions!
         loadTreeActionsForNode($selected)
+
+        $("a:first", $selected).focus();
       });
 
       $(window).hashchange(onHashChange);
@@ -518,6 +520,10 @@ $(function() {
           $tree.jstree("select_node", $(".selected", $tree));
 
           loadTreeActionsForNode($(".selected", $tree));
+
+          setTimeout(function() {
+            $(".selected a:first", $tree).focus();
+          }, 0);
 
           if (onTreeLoadCallback) onTreeLoadCallback();
         }).bind("before.jstree", function (event, data) {
