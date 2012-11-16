@@ -1,3 +1,5 @@
+//= require mixed_content.js
+
 $(function() {
 
   $.fn.init_notes_form = function() {
@@ -40,7 +42,7 @@ $(function() {
           initNoteForm($subsubform);
 
           if (is_subrecord) {
-            $(document).triggerHandler("new.subrecord", ["note", $subsubform]);
+            $(document).triggerHandler("init.subrecord", ["note", $subsubform]);
           }
 
           $this.parents("form:first").triggerHandler("form-changed");
@@ -156,7 +158,7 @@ $(function() {
 
         initNoteForm($subform)
 
-        $(document).triggerHandler("new.subrecord", ["note", $subform]);
+        $(document).triggerHandler("init.subrecord", ["note", $subform]);
 
         $(":input:visible:first", $subform).focus();
 
