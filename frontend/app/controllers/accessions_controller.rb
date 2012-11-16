@@ -25,6 +25,8 @@ class AccessionsController < ApplicationController
     end
 
     return render :partial => "accessions/edit_inline" if params[:inline]
+
+    fetch_tree
   end
 
   def create
@@ -61,6 +63,18 @@ class AccessionsController < ApplicationController
 
     flash[:success] = "Accession Unsuppressed"
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
+  end
+
+
+  private
+
+  def fetch_tree
+    @tree = {
+      "id" => @accession.id,
+      "title" => @accession.title,
+      "node_type" => "accession",
+      "children" => []
+    }
   end
 
 

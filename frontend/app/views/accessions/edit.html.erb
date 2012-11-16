@@ -1,3 +1,9 @@
 <%= setup_context(:object => @accession) %>
 
-<%= render :partial => "accessions/edit_inline" %>
+<div class="row-fluid">
+  <div class="span12">
+    <%= render :partial => "shared/tree", :locals => {:tree => @accession_tree} %>
+  </div>
+</div>
+
+<div id="object_container"></div>
