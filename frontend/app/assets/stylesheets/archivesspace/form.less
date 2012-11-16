@@ -374,7 +374,6 @@ section h3 {
   border: 1px solid @inputBorder;
   .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
   overflow: visible;
-  padding-bottom: @baseLineHeight;
 
   .CodeMirror-scroll {
     height: auto;
@@ -386,10 +385,22 @@ section h3 {
     z-index: 10;
     min-width: 336px;
     display: none;
+    font-family: @baseFontFamily;
     .arrow {
       left: 25%;
     }
   }
+
+  .mixed-content-help {
+    background-color: #EEE;
+    text-shadow: 1px 1px 1px white;
+    padding: 0 10px;
+    font-size: 0.9em;
+    margin-top: @baseLineHeight/2;
+    border-top: 1px solid #CCC;
+    font-family: @baseFontFamily;
+  }
+
 }
 
 .CodeMirror-completions {

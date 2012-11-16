@@ -73,7 +73,7 @@ $(function() {
       };
 
       $wrapWithAction.bind("change", onWrapActionChange);
-      $($editor.getWrapperElement()).append($wrapWithAction);
+      $($editor.getWrapperElement()).append($wrapWithAction).append(AS.renderTemplate("mixed_content_help_template"));
     });
   };
 

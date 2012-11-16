@@ -334,7 +334,11 @@ module AspaceFormHelper
     end
 
     def textfield(name = nil, value = "", opts =  {})
-      value
+      CGI::escapeHTML(value)
+    end
+
+    def textarea(name = nil, value = "", opts =  {})
+      CGI::escapeHTML(value)
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
