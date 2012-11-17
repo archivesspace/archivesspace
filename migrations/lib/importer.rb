@@ -83,10 +83,14 @@ module ASpaceImport
       @import_keys = []
       @goodimports = 0
       @import_log = []
+      @uri_map = {}
     end
 
     def log_save_result(response)
       @import_log << response
+      if response.code == '200'
+        @uri_map = JSON.parse(response.body)['saved']
+      end
     end
     
     def report_summary
@@ -104,7 +108,7 @@ module ASpaceImport
         report += report_summary
         report += "\n--Details--\n"
         report += @import_log.map { |r| 
-          "#{r.code}\n" + (r.code == '200'  ? JSON.parse(r.body)['saved'].map{ |u| "Saved: #{u}" }.join("\n") : JSON.parse(r.body).to_s)
+          "#{r.code}\n" + (r.code == '200'  ? JSON.parse(r.body)['saved'].map{ |k,u| "Saved: #{u}" }.join("\n") : JSON.parse(r.body).to_s)
         }.join('\n')
       
         report
@@ -112,7 +116,11 @@ module ASpaceImport
     end
     
     def import_log
-      @import_log.join("\n")
+      @import_log
+    end
+    
+    def uri_map
+      @uri_map
     end
 
     def run

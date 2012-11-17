@@ -138,7 +138,7 @@ module ASpaceImport
         # (Using a random number for demonstration - should be
         # incremented by importer)
         obj.uri = obj.class.uri_for(rand(100000))
-        
+
         yield obj
         
       elsif @@entity_map[opts[:xpath]]
@@ -156,14 +156,14 @@ module ASpaceImport
 
     class PropertyMgr
       
-      def initialize(json_obj)
-        @json_obj = json_obj
-        @mapped_props = ASpaceImport::Crosswalk::walk['entities'][@json_obj.class.record_type]['properties']
-        @depth = @json_obj.depth
+      def initialize(json)
+        @json = json
+        @mapped_props = ASpaceImport::Crosswalk::walk['entities'][@json.class.record_type]['properties']
+        @depth = @json.depth
         @receivers = {}
         
         @mapped_props.each do |p, defn|
-          @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json_obj, p, defn)
+          @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json, p, defn)
         end        
       end
       
@@ -183,6 +183,9 @@ module ASpaceImport
           match_string = ASpaceImport::Crosswalk::regexify_node(opts[:xpath], offset)
         
           @mapped_props.each do |p, defn|
+            
+            # No need to re-set 
+            next if @json.send("#{p}") and @json.class.schema['properties'][p]['type'] == 'string'
  
             next unless defn['xpath']
  
@@ -190,7 +193,7 @@ module ASpaceImport
 
               puts "Matched #{defn['xpath']} using #{match_string}" if $DEBUG
 
-              @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json_obj, p, defn)
+              @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json, p, defn)
             
               yield @receivers[p]
             
@@ -205,14 +208,16 @@ module ASpaceImport
     # receiver refers to
     
     class PropertyReceiver
+      attr_reader :prop
+      attr_reader :json
       
-      def initialize(json_obj, prop, defn)
-        @json, @prop, @defn = json_obj, prop, defn
+      def initialize(json, prop, defn)
+        @json, @prop, @defn = json, prop, defn
         @type = @json.class.schema['properties'][@prop]['type']        
       end
       
       def to_s
-        "Property Receiver for #{@json.class.record_type} -- #{@prop}" if $DEBUG
+        "Property Receiver for #{@json.class.record_type}\##{@prop}" if $DEBUG
       end
       
       def receive(val = nil)
@@ -234,9 +239,9 @@ module ASpaceImport
         if @type == 'string'
           
           # Only set once
-          unless @json.send("#{@prop}")
-            @json.send("#{@prop}=", val)
-          end
+          # unless @json.send("#{@prop}")
+          @json.send("#{@prop}=", val)
+          # end
         elsif @type == 'array'
           
           if @json.send("#{@prop}")

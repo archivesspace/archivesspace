@@ -19,7 +19,7 @@ module ImportHelpers
     def initialize(batch_object)
       @json_set = {}
       @as_set = {}
-      @saved_uris = []
+      @saved_uris = {}
       
       batch_object.batch.each do |item|
          @json_set[item['uri']] = JSONModel::JSONModel(item['jsonmodel_type']).from_hash(item)
@@ -61,7 +61,7 @@ module ImportHelpers
         obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
         obj.save
 
-        @saved_uris << @json_set[ref].uri
+        @saved_uris[ref] = @json_set[ref].uri
       end
       
     end
