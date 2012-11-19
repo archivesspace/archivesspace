@@ -183,6 +183,9 @@ module JSONModel
         # number to match the version on the server.
         self.lock_version = response["lock_version"]
 
+        # Ensure object is up to date
+        self.refetch
+
         return response["id"]
 
       elsif response.code == '403'
@@ -202,6 +205,17 @@ module JSONModel
       else
         raise Exception.new("Unknown response: #{response}")
       end
+    end
+
+
+    def refetch
+      # if a new object, nothing to fetch
+      return self if self.id.nil?
+
+      obj = (self.instance_data.has_key? :find) ?
+                self.class.find(self.instance_data[:find]) : self.class.find(self.id)
+
+      self.set_data(obj.to_hash)
     end
 
 
@@ -280,7 +294,10 @@ module JSONModel
         response = JSONModel::HTTP.get_response(my_url(id, opts))
 
         if response.code == '200'
-          self.from_json(response.body)
+          obj = self.from_json(response.body)
+          # store find params on instance to support #refetch
+          obj.instance_data[:find] = [id, opts]
+          obj
         elsif response.code == '403'
           raise AccessDeniedException.new
         elsif response.code == '404'

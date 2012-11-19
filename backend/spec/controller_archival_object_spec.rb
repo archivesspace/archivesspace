@@ -128,6 +128,7 @@ describe 'Archival Object controller' do
     JSONModel(:archival_object).find(created.id).ref_id.should_not be_nil
   end
 
+
   it "lets you create archival object with a parent" do
 
     resource = create(:json_resource)
@@ -141,6 +142,19 @@ describe 'Archival Object controller' do
 
     children = JSON(last_response.body)
     children[0]['title'].should eq('Child')
+  end
+
+
+  it "can refetch itself to update it's data" do
+    archival_object = build(:json_archival_object, "ref_id" => nil)
+
+    archival_object.save
+
+    archival_object.ref_id.should be_nil
+
+    archival_object.refetch
+
+    archival_object.ref_id.should_not be_nil
   end
 
 end

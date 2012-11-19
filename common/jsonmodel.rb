@@ -344,7 +344,15 @@ module JSONModel
         set_data(params)
         @warnings = warnings
 
+        # a hash to store transient instance data
+        @instance_data = {}
+
         self.class.define_accessors(@data.keys)
+      end
+
+
+      def instance_data
+        @instance_data
       end
 
 
