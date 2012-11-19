@@ -724,7 +724,6 @@ describe "ArchivesSpace user interface" do
     # add a rights sub record
     @driver.find_element(:css => '#accession_rights_statements_ .subrecord-form-heading .btn').click
 
-    @driver.clear_and_send_keys([:id, "accession_rights_statements__0__identifier_"],(Digest::MD5.hexdigest("#{Time.now}")))
     ip_status_select = @driver.find_element(:id => "accession_rights_statements__0__ip_status_")
     ip_status_select.find_elements( :tag_name => "option" ).each do |option|
       option.click if option.attribute("value") === "copyrighted"

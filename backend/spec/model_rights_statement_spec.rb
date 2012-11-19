@@ -110,4 +110,11 @@ describe 'Rights Statement model' do
     RightsStatement[rights_statement[:id]].external_document[0].title.should eq(opts[:external_documents][0]['title'])
   end
 
+
+  it "will generate a ref_id if non is provided" do
+    rights_statement = create_rights_statement(:identifier => nil)
+
+    RightsStatement[rights_statement[:id]].identifier.should_not be_nil
+  end
+
 end

@@ -1,6 +1,10 @@
 <% define_template "rights_statement" do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_textfield "identifier" %>
+    <% if form.obj["identifier"].blank? %>
+      <%= form.label_and_readonly "identifier", "<em>-- auto-generated upon save --</em>" %>
+    <% else %>
+      <%= form.label_with_field "identifier", "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["identifier"]}</span></span>".html_safe %>
+    <% end %>
     <%= form.label_and_select "rights_type", form.jsonmodel_options_for(:rights_statement, "rights_type") %>
     <%= form.label_and_boolean "active", {}, form.jsonmodel_schema_definition(:rights_statement, "active")["default"] %>
     <%= form.label_and_textfield "materials" %>
