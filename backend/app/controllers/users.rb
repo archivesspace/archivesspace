@@ -41,7 +41,9 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/users/:username/login')
     .description("Log in")
     .params(["username", nil, "Your username"],
-            ["password", nil, "Your password"])
+            ["password", nil, "Your password"],
+            ["expiring", BooleanParam, "true if the created session should expire",
+             :default => true])
     .returns([200, "Login accepted"],
              [403, "Login failed"]) \
   do
@@ -50,7 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
     user = User.find(:username => username)
 
     if user and DBAuth.login(username, params[:password])
-      session = create_session_for(username)
+      session = create_session_for(username, params[:expiring])
       json_response({:session => session.id, :permissions => user.permissions})
     else
       json_response({:error => "Login failed"}, 403)

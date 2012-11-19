@@ -6,6 +6,7 @@ Sequel.migration do
       primary_key :id
       String :session_id, :unique => true, :null => false
       DateTime :last_modified, :null => false
+      Integer :expirable, :default => 1
 
       TextBlobField :session_data, :null => true
     end

@@ -267,7 +267,9 @@ class ArchivesSpaceService < Sinatra::Base
                    }.to_json]]
         end
 
-        if session.age > AppConfig[:session_expire_after_seconds].to_i
+        if session.expirable &&
+            AppConfig[:session_expire_after_seconds] >= 0 &&
+            session.age > AppConfig[:session_expire_after_seconds].to_i
           Session.expire(session_token)
           session = nil
           return [412,
