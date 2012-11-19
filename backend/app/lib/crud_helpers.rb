@@ -51,8 +51,12 @@ module CrudHelpers
   end
 
 
-  def handle_listing(model, type, page, page_size, where = {})
+  def handle_listing(model, type, page, page_size, modified_since, where = {})
+
     dataset = CrudHelpers.dataset(model, where)
+
+    modified_since_time = Time.at(modified_since)
+    dataset = dataset.where { last_modified >= modified_since_time }
 
     paginated = dataset.paginate(page, page_size)
 

@@ -5,7 +5,7 @@ describe 'Accession controller' do
 
   it "lets you create an accession and get it back" do
     opts = {:title => 'The accession title'}
-    
+
     id = create(:json_accession, opts).id
     JSONModel(:accession).find(id).title.should eq(opts[:title])
   end
@@ -269,6 +269,20 @@ describe 'Accession controller' do
 
     # No overlaps between the contents of our two pages
     (page1_ids - page2_ids).length.should eq(5)
+  end
+
+
+  it "supports listing accessions that have changed since a given timestamp" do
+
+    test_accession = create(:json_accession)
+    sleep 1
+    ts = Time.now.to_i
+
+    JSONModel(:accession).all(:page => 1, :modified_since => ts)['results'].count.should eq(0)
+
+    test_accession.save
+
+    JSONModel(:accession).all(:page => 1, :modified_since => ts)['results'].count.should eq(1)
   end
 
 end

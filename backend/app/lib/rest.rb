@@ -74,7 +74,11 @@ module RESTHelpers
         NonNegativeInteger,
         "The number of results to show per page",
         :default => 10],
-       ["page", NonNegativeInteger, "The page number to show"]]
+       ["page", NonNegativeInteger, "The page number to show"],
+       ["modified_since",
+        NonNegativeInteger,
+        "The page number to show",
+        :default => 0]]
     end
 
     def self.all

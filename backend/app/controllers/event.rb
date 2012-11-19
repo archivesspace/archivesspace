@@ -28,7 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
               *Endpoint.pagination)
     .returns([200, "[(:event)]"]) \
   do
-    handle_listing(Event, :event, params[:page], params[:page_size])
+    handle_listing(Event, :event, params[:page], params[:page_size], params[:modified_since])
   end
 
 
