@@ -25,7 +25,7 @@ class Resource < Sequel::Model(:resource)
 
 
   def children
-    ArchivalObject.filter(:resource_id => self.id, :parent_id => nil)
+    ArchivalObject.filter(:resource_id => self.id, :parent_id => nil).order(:position)
   end
 
 

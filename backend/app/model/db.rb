@@ -70,8 +70,7 @@ class DB
 
 
       rescue Sequel::DatabaseError => e
-        if e.wrapped_exception.getSQLState =~ /^40/
-          # Transaction was rolled back, but we can retry
+        if is_retriable_exception(e)
           sleep 1
         else
           raise e
@@ -91,7 +90,13 @@ class DB
 
   # Yeesh.
   def self.is_integrity_violation(exception)
-    return (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^23/
+    (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^23/
+  end
+
+
+  def self.is_retriable_exception(exception)
+    # Transaction was rolled back, but we can retry
+    (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^40/
   end
 
 
