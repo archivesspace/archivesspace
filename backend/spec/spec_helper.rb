@@ -69,6 +69,8 @@ end
 
 require 'rack/test'
 require_relative "../app/lib/bootstrap"
+AppConfig[:search_user_secret] = "abc123"
+
 
 JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com')
@@ -157,6 +159,15 @@ class ArchivesSpaceService
   def current_user
     Thread.current[:active_test_user]
   end
+end
+
+
+def create_nobody_user
+  create(:user, :username => 'nobody')
+
+  viewers = JSONModel(:group).all(:group_code => "repository-viewers", :page => 1)['results'].first
+  viewers.member_usernames = ['nobody']
+  viewers.save
 end
 
 

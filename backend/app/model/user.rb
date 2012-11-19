@@ -10,9 +10,15 @@ class User < Sequel::Model(:user)
   end
 
 
+  def self.SEARCH_USERNAME
+    "search_indexer"
+  end
+
+
   def before_save
     self.username = self.username.downcase
   end
+
 
   def validate
     validates_unique(:username,

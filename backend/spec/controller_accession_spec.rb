@@ -1,13 +1,5 @@
 require 'spec_helper'
 
-def create_nobody_user
-  create(:user, :username => 'nobody')
-
-  viewers = JSONModel(:group).all(:page => 1, :group_code => "repository-viewers")['results'].first
-  viewers.member_usernames = ['nobody']
-  viewers.save
-end
-
 
 describe 'Accession controller' do
 

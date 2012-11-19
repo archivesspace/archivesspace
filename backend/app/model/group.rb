@@ -18,6 +18,11 @@ class Group < Sequel::Model(:group)
   end
 
 
+  def self.SEARCHINDEX_GROUP_CODE
+    'searchindex'
+  end
+
+
   def before_save
     self.group_code_norm = self.group_code.downcase
   end
