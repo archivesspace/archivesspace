@@ -1,5 +1,6 @@
 //= require jquery.cookie
 //= require jquery.ba-hashchange
+//= require jquery.hotkeys
 //= require jstree
 
 $(function() {
@@ -350,13 +351,18 @@ $(function() {
         });
       });
 
-      $(".archives-tree-container").on("click", ".move-node", function() {
+      $(".archives-tree-container").on("click", ".move-node", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
         var $selected = $(".selected", $tree);
         if ($selected.length === 0) {
           return;
         }
 
-        $tree.jstree("move_node", "#"+$selected.attr("id"), "#" + $(this).data("target-node-id"), "first");
+        var target_index = $(this).data("target-index") || 0;
+
+        $tree.jstree("move_node", "#"+$selected.attr("id"), "#" + $(this).data("target-node-id"), target_index);
 
         // rerender toolbar actions!
         loadTreeActionsForNode($selected)
@@ -405,7 +411,7 @@ $(function() {
     };
 
 
-    var moveNode = function(nodeEl, targetNodelEl) {
+    var moveNode = function(nodeEl, targetNodelEl, newIndex) {
       var parent_id = "";
       if (nodeEl.attr("rel") === targetNodelEl.attr("rel")) {
         parent_id = targetNodelEl.data("id");
@@ -414,7 +420,8 @@ $(function() {
         url: APP_PATH+nodeEl.attr("rel")+"s/"+nodeEl.data("id")+"/parent",
         type: "POST",
         data: {
-          parent: parent_id
+          parent: parent_id,
+          index: newIndex
         }
       });
     }
@@ -504,7 +511,34 @@ $(function() {
         "cookies": {
           "save_selected": false
         },
-        "plugins": [ "themes", "html_data", "ui", "crrm", "dnd", "cookies"]
+        "hotkeys": {
+          "up": false,
+          "ctrl+up": function() {
+            $(".move-node-up","#archives_tree_toolbar").trigger("click");
+          },
+          "shift+up": false,
+          "down": false,
+          "ctrl+down": function() {
+            $(".move-node-down","#archives_tree_toolbar").trigger("click");
+          },
+          "shift+down": false,
+          "left": false,
+          "ctrl+left": function() {
+            $(".move-node-up-level","#archives_tree_toolbar").trigger("click");
+          },
+          "shift+left": false,
+          "right": false,
+          "ctrl+right": function() {
+            $($(".move-node-down-into","#archives_tree_toolbar")[$(".selected", $tree).index()]).trigger("click");
+          },
+          "shift+right": false,
+          "space": false,
+          "ctrl+space": false,
+          "shift+space": false,
+          "f2": false,
+          "del": false
+        },
+        "plugins": [ "themes", "html_data", "ui", "crrm", "dnd", "cookies","hotkeys"]
       }).one("loaded.jstree", function() {
           $(".selected", $tree).removeClass("selected");
 
@@ -551,7 +585,7 @@ $(function() {
             setHashForNode($nodeToSelect.find("a").attr("href"));
           }
         }).bind("move_node.jstree", function(event, data) {
-          moveNode(data.rslt.o, data.rslt.cr);
+          moveNode(data.rslt.o, data.rslt.cr, data.rslt.o.index());
         });
     };
 

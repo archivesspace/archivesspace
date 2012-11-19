@@ -22,19 +22,27 @@ describe 'Archival Object controller' do
   end
 
 
-  it "lets you create archival object with a parent" do
+  it "lets you reorder sibling archival objects" do
     
     resource = create(:json_resource)
 
-    parent = create(:json_archival_object, :resource => resource.uri)
-    
-    child = create(:json_archival_object, {:title => 'Child', :parent => parent.uri, :resource => resource.uri})
+    ao_1 = create(:json_archival_object, :resource => resource.uri, :title=> "AO1")
+    ao_2 = create(:json_archival_object, :resource => resource.uri, :title=> "AO2")
 
-    get "#{$repo}/archival_objects/#{parent.id}/children"
-    last_response.should be_ok
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
-    children = JSON(last_response.body)
-    children[0]['title'].should eq('Child')
+    tree.children[0]["title"].should eq("AO1")
+    tree.children[1]["title"].should eq("AO2")
+
+    ao_1 = JSONModel(:archival_object).find(ao_1.id)
+    ao_1.position = 1
+    ao_1.save
+
+
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
+
+    tree.children[0]["title"].should eq("AO2")
+    tree.children[1]["title"].should eq("AO1")
   end
 
 
@@ -118,6 +126,21 @@ describe 'Archival Object controller' do
     created =  create(:json_archival_object, "ref_id" => nil)
 
     JSONModel(:archival_object).find(created.id).ref_id.should_not be_nil
+  end
+
+  it "lets you create archival object with a parent" do
+
+    resource = create(:json_resource)
+
+    parent = create(:json_archival_object, :resource => resource.uri)
+
+    child = create(:json_archival_object, {:title => 'Child', :parent => parent.uri, :resource => resource.uri})
+
+    get "#{$repo}/archival_objects/#{parent.id}/children"
+    last_response.should be_ok
+
+    children = JSON(last_response.body)
+    children[0]['title'].should eq('Child')
   end
 
 end
