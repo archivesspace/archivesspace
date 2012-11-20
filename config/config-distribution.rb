@@ -104,6 +104,8 @@ class AppConfig
     AppConfig[:frontend_theme] = "default"
 
     AppConfig[:session_expire_after_seconds] = 3600
+
+    AppConfig[:search_username] = "search_indexer"
   end
 
 

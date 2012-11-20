@@ -124,6 +124,10 @@ module JSONModel
     end
 
 
+    def self.current_backend_session=(val)
+      Thread.current[:backend_session] = val
+    end
+
     def self.do_http_request(url, req)
       req['X-ArchivesSpace-Session'] = current_backend_session
 

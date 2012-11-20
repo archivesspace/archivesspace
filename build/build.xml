@@ -5,12 +5,20 @@
   <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.0/jruby-complete-1.7.0.jar" />
   <property name="jruby_file" value="jruby-complete-1.7.0.jar" />
 
+  <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.0.0/solr-4.0.0.war" />
+  <property name="solr_file" value="solr-4.0.0.war" />
+
+  <property name="winstone_url" value="http://repo1.maven.org/maven2/org/jvnet/hudson/winstone/winstone/0.9.10/winstone-0.9.10.jar" />
+  <property name="winstone_file" value="winstone-0.9.10.jar" />
+
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
+  <property name="aspace.solr.port" value="2999" />
+
   <property environment="env"/>
   <property name="env.JAVA_OPTS" value="" />
-  <property name="default_java_options" value="-Dfile.encoding=UTF-8" />
+  <property name="default_java_options" value="-Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver" />
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
@@ -37,7 +45,10 @@
     <delete>
       <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
     </delete>
+
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${winstone_url}" dest="${winstone_file}" skipexisting="true" verbose="true" usetimestamp="true" />
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
@@ -161,14 +172,23 @@
 
 
   <target name="backend:devserver" depends="set-classpath" description="Start an instance of the ArchivesSpace backend development server">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
-          dir="../backend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options} -Daspace.config.search_user_secret=devserver"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-      <arg line="--1.9 app/main.rb ${aspace.backend.port}" />
-    </java>
+    <parallel>
+      <daemons>
+        <java classpath="${winstone_file}:${solr_file}:../solr"
+              classname="winstone.Launcher">
+          <arg line="--warfile=solr-4.0.0.war --httpPort=${aspace.solr.port} --ajp13Port=-1" />
+        </java>
+      </daemons>
+
+      <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+            dir="../backend">
+        <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+        <env key="GEM_HOME" value="${gem_home}" />
+        <env key="GEM_PATH" value="" />
+        <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
+        <arg line="--1.9 app/main.rb ${aspace.backend.port}" />
+      </java>
+    </parallel>
   </target>
 
 
@@ -181,6 +201,18 @@
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -Iapp scripts/endpoint_doc.rb"/>
       <arg value="${match}"/>
+    </java>
+  </target>
+
+
+  <target name="indexer" depends="set-classpath" description="Run the search indexer">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
+          failonerror="true"
+          dir="../indexer">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 indexer.rb" />
     </java>
   </target>
 

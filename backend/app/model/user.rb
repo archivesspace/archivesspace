@@ -11,7 +11,7 @@ class User < Sequel::Model(:user)
 
 
   def self.SEARCH_USERNAME
-    "search_indexer"
+    AppConfig[:search_username]
   end
 
 
