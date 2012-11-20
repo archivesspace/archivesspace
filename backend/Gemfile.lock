@@ -41,6 +41,8 @@ GEM
       diff-lcs (~> 1.1.3)
     rspec-mocks (2.10.1)
     rubyzip (0.9.9)
+    rufus-scheduler (2.0.17)
+      tzinfo (>= 0.3.23)
     sequel (3.37.0)
     simplecov (0.6.4)
       multi_json (~> 1.0)
@@ -60,6 +62,7 @@ GEM
     sinatra-reloader (1.0)
       sinatra-contrib
     tilt (1.3.3)
+    tzinfo (0.3.35)
     warbler (1.3.5)
       jruby-jars (>= 1.4.0)
       jruby-rack (>= 1.0.0)
@@ -80,6 +83,7 @@ DEPENDENCIES
   nokogiri
   rack-session-sequel (= 0.0.1)
   rspec (= 2.10.0)
+  rufus-scheduler
   simplecov
   sinatra (= 1.3.2)
   sinatra-reloader (= 1.0)

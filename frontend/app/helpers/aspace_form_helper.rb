@@ -334,7 +334,11 @@ module AspaceFormHelper
     end
 
     def textfield(name = nil, value = "", opts =  {})
-      value
+      CGI::escapeHTML(value)
+    end
+
+    def textarea(name = nil, value = "", opts =  {})
+      @parent.preserve_newlines(CGI::escapeHTML(value))
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -456,6 +460,10 @@ module AspaceFormHelper
     end
 
     html.html_safe
+  end
+
+  def preserve_newlines(string)
+    string.gsub(/\n/, '<br>')
   end
 
 end

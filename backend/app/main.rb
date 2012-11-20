@@ -10,6 +10,8 @@ require 'uri'
 require 'sinatra/base'
 require 'json'
 
+require 'rufus/scheduler'
+
 
 class ArchivesSpaceService < Sinatra::Base
 
@@ -75,6 +77,31 @@ class ArchivesSpaceService < Sinatra::Base
       # Load all controllers
       Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).sort.each do |controller|
         load File.absolute_path(controller)
+      end
+
+
+      if !Thread.current[:test_mode] && ENV["ASPACE_INTEGRATION"] != "true"
+        # Start the job scheduler
+        if !settings.respond_to? :scheduler?
+          Log.info("Starting job scheduler")
+          set :scheduler, Rufus::Scheduler.start_new
+        end
+
+
+        if AppConfig[:db_url] == AppConfig.demo_db_url &&
+            settings.scheduler.find_by_tag('demo_db_backup').empty?
+
+          Log.info("Enabling backups for the embedded demo database " +
+                   "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
+
+
+          settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
+                                  :tags => 'demo_db_backup') do
+            Log.info("Starting backup of embedded demo database")
+            DB.demo_db_backup
+            Log.info("Backup of embedded demo database completed!")
+          end
+        end
       end
 
     else

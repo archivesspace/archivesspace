@@ -28,7 +28,7 @@
       <matches pattern=".*:coverage" string="${ant.project.invoked-targets}" />
     </condition>
 
-    <property name="jruby_classpath" value="${jruby_file}" />
+    <property name="jruby_classpath" value="${jruby_file}:../lib/*" />
     <property name="COVERAGE_REPORTS" value="false" />
   </target>
 
@@ -328,6 +328,7 @@
 
     <jar jarfile="../archivesspace.jar" basedir="target">
       <zipfileset src="deps.jar" excludes="META-INF/*.SF" />
+      <zipfileset src="${jruby_file}" />
 
       <zipfileset src="../backend/backend.war" prefix="backend" />
       <zipfileset src="../frontend/frontend.war" prefix="frontend" />

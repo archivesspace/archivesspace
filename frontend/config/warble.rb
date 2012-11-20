@@ -68,10 +68,9 @@ Warbler::Config.new do |config|
   # true, uncomment to turn off.
   # config.gem_dependencies = false
 
-  # Array of regular expressions matching relative paths in gems to be
-  # excluded from the war. Defaults to empty, but you can set it like
-  # below, which excludes test files.
-  # config.gem_excludes = [/^(test|spec)\//]
+  # Don't bundle the JRuby jars twice--Warbler will make sure we get it.
+  config.gem_excludes = [/jruby-(core|stdlib).*jar/]
+
 
   # Pathmaps for controlling how application files are copied into the archive
   # config.pathmaps.application = ["WEB-INF/%p"]

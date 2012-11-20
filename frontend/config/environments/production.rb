@@ -49,6 +49,8 @@ ArchivesSpace::Application.configure do
   config.assets.precompile = [Proc.new {|file|
                                 file =~ /.*\.js$/ or
                                 file =~ /jstree/ or
+                                file =~ /codemirror\/.*/ or
+                                file =~ /codemirror\/util\/.*/ or
                                 file =~ /.*\.(png|jpg|gif)$/ or
                                 file =~ /themes\/.*\/(application|bootstrap).css/
                               }]

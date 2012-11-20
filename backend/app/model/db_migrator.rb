@@ -36,6 +36,8 @@ module Sequel
       def BlobField(field, opts = {})
         if $db_type == :postgres
           Bytea field, opts
+        elsif $db_type == :h2
+          String field, opts
         else
           Blob field, opts
         end

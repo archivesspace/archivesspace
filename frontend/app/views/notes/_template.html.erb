@@ -25,7 +25,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_singlepart") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_select("type", singlepart_note_types.keys, :field_opts => {:class => "note-type"}) %>
-      <%= form.label_and_textfield("content") %>
+      <%= form.label_and_textarea("content", :class => "mixed-content") %>
     </div>
   </div>
 <% end %>
@@ -79,7 +79,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_multipart") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_select("type", multipart_note_types.keys, :field_opts => {:class => "note-type"}) %>
-      <%= form.label_and_textfield("content") %>
+      <%= form.label_and_textarea("content", :class => "mixed-content") %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -149,7 +149,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_index") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_textfield("content") %>
+      <%= form.label_and_textarea("content", :class => "mixed-content") %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -232,7 +232,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_bibliography") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_textfield("content") %>
+      <%= form.label_and_textarea("content", :class => "mixed-content") %>
 
       <div class="control-group">
         <label class="control-label">Items</label>
