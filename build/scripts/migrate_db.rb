@@ -20,6 +20,12 @@ Sequel.connect(AppConfig[:db_url],
                ) do |db|
   if ARGV.length > 0 and ARGV[0] == "nuke"
     DBMigrator.nuke_database(db)
+
+    indexer_state = File.join(AppConfig[:data_directory], "indexer_state")
+    if Dir.exists? (indexer_state)
+      FileUtils.rm_rf(indexer_state)
+    end
+
   end
 
   puts "Running migrations..."
