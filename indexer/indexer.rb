@@ -125,13 +125,22 @@ class ArchivesSpaceIndexer
     end
 
     if !batch.empty?
-      req = Net::HTTP::Post.new("/update?commit=true")
+      req = Net::HTTP::Post.new("/update")
       req['Content-Type'] = 'application/json'
       req.body = {:add => batch}.to_json
 
       puts "Indexing #{batch.length} documents: #{do_http_request(solr_url, req)}"
     end
 
+  end
+
+
+  def send_commit
+    req = Net::HTTP::Post.new("/update")
+    req['Content-Type'] = 'application/json'
+    req.body = {:commit => {}}.to_json
+
+    do_http_request(solr_url, req)
   end
 
 
@@ -159,6 +168,8 @@ class ArchivesSpaceIndexer
         @state.set_last_mtime(repository, type, start)
       end
     end
+
+    send_commit
   end
 
 
