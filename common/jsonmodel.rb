@@ -40,12 +40,13 @@ module JSONModel
   def self.JSONModel(source)
     # Checks if a model exists first; returns the model class
     # if it exists; returns false if it doesn't exist.
-    if @@models.has_key?(source.to_s)
-      @@models[source.to_s]
-    else
-      false
+    if !@@models.has_key?(source.to_s)
+      load_schema(source.to_s)
     end
+
+    @@models[source.to_s]
   end
+
 
   def JSONModel(source)
     JSONModel.JSONModel(source)
@@ -77,15 +78,26 @@ module JSONModel
   end
 
 
+  def self.schema_src(schema_name)
+    # Look on the filesystem first
+    schema = File.join(File.dirname(__FILE__),
+                       "schemas",
+                       "#{schema_name}.rb")
+
+    if File.exists?(schema)
+      return File.open(schema).read
+    else
+      raise "Couldn't find schema file for schema: #{schema_name}"
+    end
+  end
+
+
   def self.load_schema(schema_name)
     if not @@models[schema_name]
-      schema = File.join(File.dirname(__FILE__),
-                         "schemas",
-                         "#{schema_name}.rb")
 
       old_verbose = $VERBOSE
       $VERBOSE = nil
-      entry = eval(File.open(schema).read)
+      entry = eval(schema_src(schema_name))
       $VERBOSE = old_verbose
 
       parent = entry[:schema]["parent"]
