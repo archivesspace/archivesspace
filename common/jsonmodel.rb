@@ -435,6 +435,11 @@ module JSONModel
       end
 
 
+      def reset_from(another_jsonmodel)
+        @data = another_jsonmodel.raw_data
+      end
+
+
       def to_s
         "#<JSONModel(:#{self.class.record_type}) #{@data.inspect}>"
       end
@@ -566,6 +571,12 @@ module JSONModel
 
       ## Supporting methods following from here
       protected
+
+
+      def raw_data
+        @data
+      end
+
 
       def self.drop_unknown_properties(hash, schema = nil)
         fn = proc do |hash, schema|

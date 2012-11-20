@@ -217,7 +217,7 @@ module JSONModel
       obj = (self.instance_data.has_key? :find_opts) ?
                 self.class.find(self.id, self.instance_data[:find_opts]) : self.class.find(self.id)
 
-      self.set_data(obj.to_hash) if not obj.nil?
+      self.reset_from(obj) if not obj.nil?
     end
 
 
