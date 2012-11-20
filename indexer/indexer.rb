@@ -129,7 +129,12 @@ class ArchivesSpaceIndexer
       req['Content-Type'] = 'application/json'
       req.body = {:add => batch}.to_json
 
-      puts "Indexing #{batch.length} documents: #{do_http_request(solr_url, req)}"
+      response = do_http_request(solr_url, req)
+      puts "Indexed #{batch.length} documents: #{response}"
+
+      if response.code != '200'
+        raise "Error when indexing records: #{response.body}"
+      end
     end
 
   end
@@ -140,7 +145,11 @@ class ArchivesSpaceIndexer
     req['Content-Type'] = 'application/json'
     req.body = {:commit => {}}.to_json
 
-    do_http_request(solr_url, req)
+    response = do_http_request(solr_url, req)
+
+    if response.code != '200'
+      raise "Error when committing: #{response.body}"
+    end
   end
 
 
@@ -165,11 +174,11 @@ class ArchivesSpaceIndexer
           page += 1
         end
 
+        send_commit
         @state.set_last_mtime(repository, type, start)
       end
     end
 
-    send_commit
   end
 
 
