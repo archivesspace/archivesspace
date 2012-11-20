@@ -102,6 +102,7 @@ class AppConfig
 
     AppConfig[:backend_url] = "http://localhost:4567"
     AppConfig[:frontend_url] = "http://localhost:3000"
+    AppConfig[:solr_url] = "http://localhost:2999"
 
     AppConfig[:frontend_theme] = "default"
 

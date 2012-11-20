@@ -210,7 +210,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../indexer">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options} -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 indexer.rb" />
