@@ -163,7 +163,7 @@
   <target name="backend:devserver" depends="set-classpath" description="Start an instance of the ArchivesSpace backend development server">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../backend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options} -Daspace.config.search_user_secret=devserver"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
