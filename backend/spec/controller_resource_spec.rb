@@ -25,6 +25,15 @@ describe 'Resources controller' do
   end
 
 
+  it "lets you created resources with no 4-part identifiers" do
+    create(:json_resource,
+           :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
+
+    create(:json_resource,
+           :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
+  end
+
+
   it "can handle asking for the tree of an empty resource" do
     resource = create(:json_resource)
 

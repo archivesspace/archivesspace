@@ -6,7 +6,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "id_0" => {"type" => "string", "ifmissing" => "error", "pattern" => "^[a-zA-Z0-9 ]*$"},
+      "id_0" => {"type" => "string", "pattern" => "^[a-zA-Z0-9 ]*$"},
       "id_1" => {"type" => "string", "pattern" => "^[a-zA-Z0-9 ]*$"},
       "id_2" => {"type" => "string", "pattern" => "^[a-zA-Z0-9 ]*$"},
       "id_3" => {"type" => "string", "pattern" => "^[a-zA-Z0-9 ]*$"},
