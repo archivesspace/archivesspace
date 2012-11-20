@@ -65,18 +65,6 @@ describe 'Archival Object controller' do
   end
 
 
-  it "warns about missing properties" do
-    JSONModel::strict_mode(false)
-    ao = JSONModel(:archival_object).from_hash("ref_id" => "abc")
-    ao.save
-
-    known_warnings = ["title"]
-
-    (known_warnings - ao._exceptions[:warnings].keys).should eq([])
-    JSONModel::strict_mode(true)
-  end
-
-
   it "handles updates for an existing archival object" do
     created = create(:json_archival_object)
     
