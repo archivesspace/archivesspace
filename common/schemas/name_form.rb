@@ -6,9 +6,9 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "kind" => {"type" => "string", "required" => true},
+      "kind" => {"type" => "string", "ifmissing" => "error"},
 
-      "sort_name" => {"type" => "string", "required" => true}
+      "sort_name" => {"type" => "string", "ifmissing" => "error"}
     },
 
     "additionalProperties" => false,

@@ -7,7 +7,7 @@
       "uri" => {"type" => "string", "required" => false},
       "ref_id" => {"type" => "string", "pattern" => "^[a-zA-Z0-9]*$"},
       "component_id" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
-      "title" => {"type" => "string", "minLength" => 1, "required" => true},
+      "title" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
 
       "level" => {"type" => "string", "minLength" => 1, "required" => false},
       "parent" => {"type" => "JSONModel(:archival_object) uri", "required" => false},

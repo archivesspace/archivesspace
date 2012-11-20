@@ -8,7 +8,7 @@
 
       "type" => {
         "type" => "string",
-        "required" => true,
+        "ifmissing" => "error",
         "enum" => [
                    "Accruals",
                    "Appraisal",

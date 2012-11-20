@@ -293,7 +293,7 @@ describe "ArchivesSpace user interface" do
 
     # check messages
     expect {
-      @driver.find_element_with_text('//div[contains(@class, "warning")]', /Term - Property was missing/)
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Term - Property is required but was missing/)
     }.to_not raise_error
   end
 
@@ -825,8 +825,8 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:id, "resource_title_").clear
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
 
-    @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
-    @driver.find_element_with_text('//div[contains(@class, "warning")]', /Number - Property was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Number - Property is required but was missing/)
 
     @driver.find_element(:css, "a.btn.btn-cancel").click
   end
@@ -852,7 +852,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, "resource_title_"],"")
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
     expect {
-      @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
     }.to_not raise_error
     @driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
     @driver.find_element(:css => "form#new_resource button[type='submit']").click
@@ -868,7 +868,7 @@ describe "ArchivesSpace user interface" do
     # False start: create an object without filling it out
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
 
-    @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
   end
 
 
@@ -917,7 +917,7 @@ describe "ArchivesSpace user interface" do
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "")
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
     expect {
-      @driver.find_element_with_text('//div[contains(@class, "warning")]', /Title - Property was missing/)
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
     }.to_not raise_error
     @driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
     @driver.find_element(:css => "form .record-pane button[type='submit']").click

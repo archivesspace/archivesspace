@@ -44,7 +44,7 @@ module JSONModel
       load_schema(source.to_s)
     end
 
-    @@models[source.to_s]
+    @@models[source.to_s] || false
   end
 
 
@@ -87,7 +87,7 @@ module JSONModel
     if File.exists?(schema)
       return File.open(schema).read
     else
-      raise "Couldn't find schema file for schema: #{schema_name}"
+      nil
     end
   end
 
@@ -97,7 +97,11 @@ module JSONModel
 
       old_verbose = $VERBOSE
       $VERBOSE = nil
-      entry = eval(schema_src(schema_name))
+      src = schema_src(schema_name)
+
+      return if !src
+
+      entry = eval(src)
       $VERBOSE = old_verbose
 
       parent = entry[:schema]["parent"]

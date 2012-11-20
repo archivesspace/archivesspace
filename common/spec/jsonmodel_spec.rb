@@ -75,17 +75,19 @@ describe JSONModel do
     }'
 
 
+    JSONModel::init( { :client_mode => true, :url => "http://example.com", :strict_mode => true } )
+
     # main schema
     Dir.stub(:glob){ ['stub', 'child_stub'] }
 
 
     File.stub(:open).with(/stub\.rb/) { StringIO.new(schema) }
     File.stub(:open).with(/child_stub\.rb/) { StringIO.new(child_schema) }
+    File.stub(:exists?).with(/stub\.rb/) { true }
+
 
 
     Net::HTTP.stub(:start){ StubHTTP.new }
-
-    JSONModel::init( { :client_mode => true, :url => "http://example.com", :strict_mode => true } )
 
     @klass = Klass.new
   end

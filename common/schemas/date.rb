@@ -4,8 +4,8 @@
     "type" => "object",
 
     "properties" => {
-      "date_type" => {"type" => "string", "enum" => ["expression", "single", "bulk", "inclusive"], "required" => true},
-      "label" => {"type" => "string", "enum" => ["broadcast", "copyright", "creation", "deaccession", "digitized", "issued", "modified", "publication", "other"], "required" => true},
+      "date_type" => {"type" => "string", "enum" => ["expression", "single", "bulk", "inclusive"], "ifmissing" => "error"},
+      "label" => {"type" => "string", "enum" => ["broadcast", "copyright", "creation", "deaccession", "digitized", "issued", "modified", "publication", "other"], "ifmissing" => "error"},
 
       "uncertain" => {"type" => "string", "enum" => ["approximate", "inferred", "questionable"]},
       "expression" => {"type" => "string"},

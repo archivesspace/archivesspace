@@ -9,7 +9,7 @@
       "title" => {"type" => "string"},
       "direct_order" => {
         "type" => "string",
-        "required" => true,
+        "ifmissing" => "error",
         "enum" => ["standard", "inverted"]
       },
       "prefix" => {"type" => "string"},

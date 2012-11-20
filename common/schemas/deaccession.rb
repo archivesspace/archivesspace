@@ -4,8 +4,8 @@
     "type" => "object",
     "properties" => {
 
-      "whole_part" => {"type" => "boolean", "default" => true, "required" => true},
-      "description" => {"type" => "string", "minLength" => 1, "required" => true},
+      "whole_part" => {"type" => "boolean", "default" => true, "ifmissing" => "error"},
+      "description" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
 
       "reason" => {"type" => "string"},
       "disposition" => {"type" => "string"},

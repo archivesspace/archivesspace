@@ -15,7 +15,7 @@ module JSONModel::Validations
   end
 
 
-  [:archival_object, :accession].each do |type|
+  [:archival_object, :accession, :resource].each do |type|
     if JSONModel(type)
       JSONModel(type).add_validation("#{type}_check_identifier") do |hash|
         check_identifier(hash)

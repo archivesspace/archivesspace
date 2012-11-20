@@ -344,7 +344,7 @@ describe 'JSON model' do
                                                     "vocabulary" => "/vocabularies/1"
                                                   }]})
     rescue JSONModel::ValidationException => e
-      e.warnings.keys.sort.should eq(["terms/0/term"])
+      e.errors.keys.sort.should eq(["terms/0/term"])
     end
 
   end

@@ -6,7 +6,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "building" => {"type" => "string", "minLength" => 1, "required" => true},
+      "building" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
 
       "floor" => {"type" => "string", "required" => false},
       "room" => {"type" => "string", "required" => false},

@@ -7,7 +7,7 @@
     "properties" => {
       "type" => {
         "type" => "string",
-        "required" => true,
+        "ifmissing" => "error",
         "enum" => ["Abstract",
                    "General Physical Description",
                    "Language of Materials",

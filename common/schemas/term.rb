@@ -6,10 +6,10 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "term" => {"type" => "string", "minLength" => 1, "required" => true},
-      "term_type" => {"type" => "string", "minLength" => 1, "required" => true, "enum" => ["Cultural context", "Function", "Geographic", "Genre / form", "Occupation", "Style / period", "Technique", "Temporal", "Topical", "Uniform title"]},
+      "term" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
+      "term_type" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "enum" => ["Cultural context", "Function", "Geographic", "Genre / form", "Occupation", "Style / period", "Technique", "Temporal", "Topical", "Uniform title"]},
 
-      "vocabulary" => {"type" => "JSONModel(:vocabulary) uri", "required" => true}
+      "vocabulary" => {"type" => "JSONModel(:vocabulary) uri", "ifmissing" => "error"}
     },
 
     "additionalProperties" => false,
