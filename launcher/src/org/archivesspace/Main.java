@@ -16,9 +16,9 @@ class AppConfig
 
     public AppConfig()
     {
-        runtime = Ruby.getDefaultInstance();
+        runtime = Ruby.newInstance();
 
-        runtime.evalScriptlet("require 'config-distribution'");
+        runtime.evalScriptlet("require 'config/config-distribution'");
     }
 
     public String getString(String setting)
@@ -51,6 +51,20 @@ public class Main
         server.setHandler(contexts);
 
         return server;
+    }
+
+
+    private static void runIndexer()
+    {
+        Ruby runtime = Ruby.newInstance();
+
+        // Tricky!
+        // Allow the indexer to share the same set of gems as the backend
+        runtime.evalScriptlet("Gem.path << $LOAD_PATH.grep(/^file:.*\\.jar!/)." +
+                              "map {|path| \"#{path.split('!').first}!/backend/WEB-INF/gems\"}." +
+                              "find {|gems| File.exists?(gems) }");
+
+        runtime.evalScriptlet("require 'indexer/indexer'");
     }
 
 
@@ -107,6 +121,8 @@ public class Main
         System.out.println("  Welcome to ArchivesSpace!\n");
         System.out.println("  You can now point your browser to http://localhost:" + frontend_port + "/");
         System.out.println(" ************************************************************\n");
+
+        runIndexer();
 
         backend_server.join();
         frontend_server.join();
