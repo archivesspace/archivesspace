@@ -347,8 +347,7 @@
   </target>
 
 
-  <!-- depends="backend:war, frontend:war"  -->
-  <target name="dist" description="Build a standalone distribution jar of frontend, backend and all components">
+  <target name="dist" depends="backend:war, frontend:war" description="Build a standalone distribution jar of frontend, backend and all components">
 
     <mkdir dir="target" />
 
@@ -364,13 +363,14 @@
       <zipfileset src="deps.jar" excludes="META-INF/*.SF" />
       <zipfileset src="${jruby_file}" />
 
-      <fileset dir="../config" />
+      <fileset dir="../" includes="config/**" />
+      <fileset dir="../solr" />
+      <fileset dir="../" includes="indexer/**" />
+      <fileset dir="../" includes="common/**" />
 
       <zipfileset src="../backend/backend.war" prefix="backend" />
       <zipfileset src="../frontend/frontend.war" prefix="frontend" />
       <zipfileset src="${solr_file}" prefix="solr" />
-
-      <fileset dir="../solr" />
 
       <manifest>
         <attribute name="Main-Class" value="org.archivesspace.Main" />
