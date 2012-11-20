@@ -174,9 +174,9 @@
   <target name="backend:devserver" depends="set-classpath" description="Start an instance of the ArchivesSpace backend development server">
     <parallel>
       <daemons>
-        <java classpath="${winstone_file}:${solr_file}:../solr"
+        <java classpath="${winstone_file}:../solr"
               classname="winstone.Launcher">
-          <arg line="--warfile=solr-4.0.0.war --httpPort=${aspace.solr.port} --ajp13Port=-1" />
+          <arg line="--warfile=${solr_file} --httpPort=${aspace.solr.port} --ajp13Port=-1" />
         </java>
       </daemons>
 
@@ -346,11 +346,12 @@
   </target>
 
 
-  <target name="dist" depends="backend:war, frontend:war" description="Build a standalone distribution jar of frontend, backend and all components">
+  <!-- depends="backend:war, frontend:war"  -->
+  <target name="dist" description="Build a standalone distribution jar of frontend, backend and all components">
 
     <mkdir dir="target" />
 
-    <javac includeAntRuntime="false" fork="true" destdir="target" srcdir="../launcher/src" failonerror="true" classpath="../launcher/libs/*" />
+    <javac includeAntRuntime="false" fork="true" destdir="target" srcdir="../launcher/src" failonerror="true" classpath="../launcher/libs/*:${jruby_file}" />
 
     <jar jarfile="deps.jar">
       <zipgroupfileset dir="../launcher/libs" includes="*.jar" />
@@ -362,8 +363,13 @@
       <zipfileset src="deps.jar" excludes="META-INF/*.SF" />
       <zipfileset src="${jruby_file}" />
 
+      <fileset dir="../config" />
+
       <zipfileset src="../backend/backend.war" prefix="backend" />
       <zipfileset src="../frontend/frontend.war" prefix="frontend" />
+      <zipfileset src="${solr_file}" prefix="solr" />
+
+      <fileset dir="../solr" />
 
       <manifest>
         <attribute name="Main-Class" value="org.archivesspace.Main" />

@@ -89,6 +89,8 @@ class AppConfig
   def self.load_defaults
     AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
     AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
+    AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }
+    AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
 
     AppConfig[:db_url] = proc { AppConfig.demo_db_url }
     AppConfig[:db_max_connections] = 10
