@@ -184,7 +184,9 @@ module JSONModel
         self.lock_version = response["lock_version"]
 
         # Ensure object is up to date
-        self.refetch
+        if response["stale"]
+          self.refetch
+        end
 
         return response["id"]
 
@@ -212,10 +214,10 @@ module JSONModel
       # if a new object, nothing to fetch
       return self if self.id.nil?
 
-      obj = (self.instance_data.has_key? :find) ?
-                self.class.find(self.instance_data[:find]) : self.class.find(self.id)
+      obj = (self.instance_data.has_key? :find_opts) ?
+                self.class.find(self.id, self.instance_data[:find_opts]) : self.class.find(self.id)
 
-      self.set_data(obj.to_hash)
+      self.set_data(obj.to_hash) if not obj.nil?
     end
 
 
@@ -296,7 +298,7 @@ module JSONModel
         if response.code == '200'
           obj = self.from_json(response.body)
           # store find params on instance to support #refetch
-          obj.instance_data[:find] = [id, opts]
+          obj.instance_data[:find_opts] = opts
           obj
         elsif response.code == '403'
           raise AccessDeniedException.new

@@ -23,7 +23,10 @@ module AutoIdGenerator
     def before_create
       super
       AutoIdGenerator.auto_generated_ids(self.class).each do |property|
-        self.send("#{property}=", SecureRandom.hex) if self.send(property).nil?
+        if self.send(property).nil?
+          self.send("#{property}=", SecureRandom.hex)
+          @stale = true
+        end
       end
     end
 

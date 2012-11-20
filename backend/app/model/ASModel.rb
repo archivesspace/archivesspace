@@ -11,6 +11,26 @@ module ASModel
   end
 
 
+  @stale = false
+
+  def stale?
+    return true if @stale
+
+    (ASModel.linked_records[self.class] or []).each do |linked_record|
+      if linked_record[:association][:type] === :one_to_one
+        obj = self.send(linked_record[:association][:name])
+        return true if !obj.nil? and obj.stale?
+      else
+        self.send(linked_record[:association][:name]).each do | record |
+          return true if record.respond_to?("stale?") and record.stale?
+        end
+      end
+    end
+
+    false
+  end
+
+
   def before_create
     self.create_time = Time.now
     self.last_modified = Time.now

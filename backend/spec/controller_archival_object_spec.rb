@@ -145,16 +145,53 @@ describe 'Archival Object controller' do
   end
 
 
-  it "can refetch itself to update it's data" do
+  it "will have the auto-generated ref_id refetched upon save" do
     archival_object = build(:json_archival_object, "ref_id" => nil)
-
-    archival_object.save
 
     archival_object.ref_id.should be_nil
 
-    archival_object.refetch
+    archival_object.save
 
     archival_object.ref_id.should_not be_nil
+  end
+
+
+
+  it "will have the auto-generated rights identifier refetched upon save" do
+    archival_object = build(:json_archival_object, {
+                                                      :rights_statements => [
+                                                                              build(:json_rights_statement, {:identifier => nil}).to_hash
+                                                                            ]
+                                                   })
+
+    archival_object.rights_statements[0]["identifier"].should be_nil
+
+    archival_object.save
+
+    archival_object.rights_statements[0]["identifier"].should_not be_nil
+  end
+
+
+  it "will re-resolve the subrecords upon refetch" do
+    vocab = create(:json_vocab)
+    opts = {:term => generate(:term)}
+    subject = create(:json_subject, {:terms =>
+                                       [build(
+                                          :json_term,
+                                          opts.merge(:vocabulary => vocab.uri)
+                                        ).to_hash
+                                       ],
+                                     :vocabulary => vocab.uri})
+    created = create(:json_archival_object, :subjects => [subject.uri])
+
+
+    ao = JSONModel(:archival_object).find(created.id, "resolve[]" => "subjects")
+
+    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
+
+    ao.refetch
+
+    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
   end
 
 end
