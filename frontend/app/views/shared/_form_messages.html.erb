@@ -36,6 +36,9 @@
              setupErrorMessage(idx, elt, "warning");
            });
          }
+
+        // unbind the event (only needs to run once)
+         $(document).unbind("ajaxComplete", callback);
        };
 
        $(callback);
