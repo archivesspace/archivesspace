@@ -34,7 +34,11 @@ module ASpaceImport
         /^(child|descendant)::#{node_name}$/
       when 2
         /^(child::\*\/child|descendant)::#{node_name}$/
-      when 3..100
+      when 3
+        /^(child::\*\/child::\*\/child|descendant)::#{node_name}$/
+      when 4
+        /^(child::\*\/child::\*\/child::\*\/child|descendant)::#{node_name}$/
+      when 5..100
         /^descendant::#{node_name}$/
       end
     end

@@ -11,32 +11,8 @@ ASpaceImport::Importer.importer :xml do
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
     
-    
-    # TO DO NEXT - Commit working version and try to move the tracer object 
-    # to sit in the importer. Add aliases to the receiver. node.start_trace
-    # will change the current node in the Tracer
-    
-    if $DEBUG
-      require 'tmpdir'
-      @tfile = File.new("#{Dir.tmpdir}/ead-trace.csv", "w")
-      @tfile_buffer = ["'NODE_TYPE', 'XPATH', 'NODE.INNER_XML', 'NODE.VALUE', 'ASPACE DATA'\n"]
-  
-      
-      Nokogiri::XML::Reader.class_eval do
-        alias_method :inner_xml_original, :inner_xml
-        attr_reader :tracer
-        
-        def start_trace
-          @tracer = Tracer.new(self)
-        end
-
-        def inner_xml
-          self.tracer.inner_xml = inner_xml_original
-          self.tracer.inner_xml
-        end
-            
-      end 
-    end
+    # In DEBUG mode, generate a CSV audit trail
+    set_up_tracer if $DEBUG   
       
     super
 
@@ -49,53 +25,36 @@ ASpaceImport::Importer.importer :xml do
 
 
   def run
-    puts "XMLImporter:run" if $DEBUG
     
     @reader.each do |node|
      
-      node_args = {:xpath => node.name, :depth => node.depth}
+      node_args = {:xpath => node.name, :depth => node.depth, :node_type => node.node_type}
       
-      if $DEBUG
-        node.start_trace
-        node_args.merge!(:tracer => node.tracer)
-      end
+      node.start_trace if $DEBUG
 
       if node.node_type == 1
         
         handle_node(node_args) do |obj|
           
-          node.tracer.record_properties.push(obj.uri) if $DEBUG
-          
           obj.receivers.for(:xpath => "self") do |r|
             r.receive(node.inner_xml)
-            node.tracer.record_properties.push("#{r.json.uri}\##{r.prop}") if $DEBUG
           end
 
           node.attributes.each do |a|
             
             obj.receivers.for(:xpath => "@#{a[0]}") do |r|
               r.receive(a[1])
-              node.tracer.record_properties.push("#{r.json.uri}\##{r.prop} << @#{a[0]}") if $DEBUG
             end                         
           end
           
-          # Add current object to parsing queue          
           @parse_queue.push(obj)
         end     
                 
-        # Does the XML <node> create a property 
-        # for an entity in the queue?
+        # Apply the node to the parse queue
                      
         @parse_queue.receivers(node_args) do |r|
-
           r.receive(node.inner_xml)
-          node.tracer.record_properties.push("#{r.json.uri}\##{r.prop}") if $DEBUG 
         end
-              
-          # TODO (if needed): objects in queue that need attributes of
-          # current node
-
-      # Remove objects from the queue once their nodes close
 
       elsif node.node_type != 1 and handle_node(node_args)
 
@@ -123,30 +82,17 @@ ASpaceImport::Importer.importer :xml do
         @parse_queue.pop          
       end
 
-      # @tfile.write(node.tracer.trace) if $DEBUG
-      @tfile_buffer << node.tracer.trace if $DEBUG
     end
     
     log_save_result(@parse_queue.save)
-
-    # puts import_log[0].inspect if $DEBUG
-    # update the CSV file with correct links
-    if $DEBUG
-      @uri_map.each do |posted_uri, actual_uri|
-        @tfile_buffer.map! {|l| l.gsub(posted_uri, actual_uri)}
-      end
-      @tfile_buffer.each do |line|
-        @tfile.write(line)
-      end
-    end
+    $tracer.out(@uri_map)
   end  
 
 
-  # Very rough XSD validation
+  # Very rough XSD validation (Not working yet)
   
   def validate(input_file)
     
-
     open(input_file).read().match(/xsi:schemaLocation="[^"]*(http[^"]*)"/)
     
     require 'net/http'
@@ -163,97 +109,120 @@ ASpaceImport::Importer.importer :xml do
   
   end
   
+  protected
+  
+  def set_up_tracer
+    require 'tmpdir'
+    $tracer = Tracer.new
+    
+    self.instance_eval do
+      alias :handle_node_original :handle_node
+    
+      def handle_node(opts)
+      
+        handle_node_original(opts) do |result|
+          return result unless result.class.method_defined? :jsonmodel_type
+          if opts[:node_type] != 15
+            $tracer.trace(:aspace_data, result.uri)
+          end
+          yield result if block_given?
+
+        end
+      end
+    end
+
+    
+    Nokogiri::XML::Reader.class_eval do
+      alias_method :inner_xml_original, :inner_xml
+
+      def start_trace
+        $tracer.set_node(self)
+      end
+
+      def inner_xml
+        $tracer.trace(:inner_xml, inner_xml_original)
+        inner_xml_original
+      end
+          
+    end
+    
+    ASpaceImport::Crosswalk::PropertyReceiver.class_eval do
+      alias_method :receive_original, :receive
+      
+      def receive(val = nil)
+        receive_original(val)
+        if @json.send("#{@prop}") and @type == 'string'
+          val = @json.send("#{@prop}")
+          $tracer.trace(:aspace_data, "#{json.uri}\##{prop} << #{val}")
+        elsif @json.send("#{@prop}") and @type == 'array'
+          val = @json.send("#{@prop}").last
+          $tracer.trace(:aspace_data, "#{json.uri}\##{prop} << #{val}")
+        elsif @type.match(/^JSONModel/) 
+          $tracer.trace(:aspace_data, "#{json.uri}\##{prop} << #{val}")
+        end
+      end
+    end
+  end
 
 end
 
 class Tracer
+  attr_accessor :registry
   
-  @@xp = "/"
-  @@d = 0
-  
-  attr_accessor :text_used
-  attr_accessor :xpath
-  attr_accessor :record_uri
-  attr_accessor :inner_xml
-  attr_accessor :record_properties
-  
-  def initialize(node)
-    @node = node
-    set_xpath
-    @@d = @node.depth
-    @record_properties = []
+  def initialize(tfile = File.new("#{Dir.tmpdir}/ead-trace.tsv", "w"))
+    @file = tfile
+    @depth, @index, @xpath, @registry = 0, 0, "/", []
   end
   
-  def trace
-    %Q^#{@node.name} (#{@node.node_type}), #{@xpath}, "#{@inner_xml}", "#{@node.value}", "#{record_properties.join("\n")}"\n^
+  def set_node(node)
+    @index += 1 unless @index == 0 and @registry.length == 0
+    @registry[@index] = {
+                          :node_type => node.node_type, 
+                          :node_value => node.value? ? node.value.sub(/[\s\n]*$/, '') : nil,
+                          :xpath => set_xpath(node),
+                          :aspace_data => [],
+                          :inner_xml => []
+                        }
   end
-  
-  def set_xpath
-    if @@d < @node.depth
-      @@xp.concat("/#{@node.name}")
-    elsif @@d == @node.depth
-      @@xp.sub!(/\/[#a-z0-9]*$/, "/#{@node.name}")
-    elsif @@d > @node.depth
-      @@xp.sub!(/\/[#a-z0-9]*\/[#a-z0-9]*$/, "/#{@node.name}")
-    else
-      raise "What"
-    end
-    @xpath = @@xp.clone
-  end 
-end
-  
 
-# class Tracer
-#   def initialize
-#     @tfile = File.new("#{Dir.tmpdir}/ead-trace.xml", "w")
-#     @xpath = ''
-#     @depth = 0
-#     @tfile.write("'XPATH', 'SOURCE VALUE', 'ASPACE RESULT'\n")
-#     @tline = {:xpath => nil, :source_val => nil, :uri => nil}
-#     @node_open = false
-#   end
-#   
-#   def trace_node(node)
-# 
-#     puts "Node #{node.name}: Type #{node.node_type}"
-# 
-#     if node.node_type != 1 and node.node_type != 15
-#       puts "Closing"
-#       @node_open = false
-#       puts @tline.inspect
-#       @tfile.write(@tline.map { |k,v| v }.join(',') << "\n")
-#       @tfile.flush
-#     elsif node.node_type == 3 or node.node_type == 14
-#       @tline[:source_val] = node.value
-#     else
-#       @node_open = true    
-#       if node.depth.to_i == @depth + 1
-#         @xpath << "/#{node.name}"
-#       elsif node.depth.to_i == @depth
-#         @xpath.sub!(/\/[a-z0-9]*$/, '/')
-#         @xpath << node.name
-#       elsif node.depth.to_i == @depth - 1
-#         @xpath.sub!(/\/[a-z0-9]*\/[a-z0-9]*$/, '/')
-#         @xpath << node.name
-#       else
-#         raise "Unexpected difference between node depths #{@depth} -- #{node.depth} -- #{node.name}"
-#       end
-#     
-#       @depth = node.depth
-# 
-#       @tline[:xpath] = @xpath
-#       @tline[:source_val] = node.value if node.value?
-#       @tline[:uri] = "/aspace"
-#     end
-#       
-#     # @tfile.write("#{@xpath}, #{val}, TBD\n")
-#     
-#     # node.depth.to_i.times { @tfile.write("\t") }      
-#     # @tfile.write("<#{node.node_type != 1 ? '/' : ''}#{node.name}>\n")
-# 
-#   end
-#   
-#   def report
-#     puts "TRACER FILE: #{@tfile.path}\n"
-#   end
-# end
+  
+  def trace(key, val)
+    # @registry[@index][key] ||= []
+    @registry[@index][key] << val
+  end
+  
+  def out(map = {})
+    @file.write("'ROW'\t""'NODE_TYPE'\t'XPATH'\t'NODE.INNER_XML'\t'NODE.VALUE'\t'ASPACE DATA'\n")
+    @registry.each_with_index do |l, i|
+
+      [1, l[:aspace_data].length].max.times do |j|
+        if j == 0
+          line = "#{i}\t#{l[:node_type]}\t#{l[:xpath]}\t#{l[:inner_xml][j]}\t#{l[:node_value]}\t#{l[:aspace_data][j]}\n"
+        else
+          line = "#{i}\t\t\t#{l[:inner_xml][j]}\t\t#{l[:aspace_data][j]}\n"
+        end
+        map.each do |posted_uri, actual_uri|
+          line.gsub!(posted_uri, actual_uri)
+        end
+      
+        @file.write(line)
+      end
+    end
+  end 
+  
+   
+  def set_xpath(node)
+    if @depth < node.depth
+      @xpath.concat("/#{node.name}")
+    elsif @depth == node.depth
+      @xpath.sub!(/\/[#a-z0-9]*$/, "/#{node.name}")
+    elsif @depth > node.depth
+      @xpath.sub!(/\/[#a-z0-9]*\/[#a-z0-9]*$/, "/#{node.name}")
+    else
+      raise "Doh!"
+    end
+    @depth = node.depth
+    @xpath.clone
+  end
+end   
+

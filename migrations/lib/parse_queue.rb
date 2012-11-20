@@ -50,7 +50,8 @@ module ASpaceImport
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       
       if @opts[:dry]
-        "POST \n #{batch_object.to_json}"
+        dry_response = Net::HTTPResponse.new(1.0, 200, "OK")
+        dry_response
       else
         response = JSONModel::HTTP.post_json(url, batch_object.to_json)
 
@@ -80,7 +81,7 @@ module ASpaceImport
       nil
     end
     
-    # Merge this into common and generalize for backend import
+    # Merge this into common or import and generalize for backend import
     # helpers
     def self.replace_links(json, link_map)
 
