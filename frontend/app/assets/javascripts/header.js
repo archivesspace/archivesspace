@@ -80,4 +80,15 @@ $(function() {
     $form.submit();
   });
 
+
+  // Repo/User label sizing
+  $(".nav .repository-label:not(.empty), .nav .user-label:not(.empty)").on("focus mouseenter", function() {
+    var width = 5;
+    $(this).find("span").each(function() {
+      width += $(this).width();
+    });
+    $(this).css("width", width);
+  }).on("blur mouseleave", function() {
+      $(this).css("width", "");
+  })
 });

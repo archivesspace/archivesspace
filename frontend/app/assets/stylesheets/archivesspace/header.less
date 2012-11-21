@@ -56,7 +56,7 @@
 .repository-container {
   margin-left: 10px;
   
-  .dropdown-toggle {
+  .dropdown-toggle, .btn {
     margin-top: 5px !important;
   }
 }
@@ -69,6 +69,13 @@
 }
 .user-label,
 .repository-label {
+  -webkit-transition: width 500ms;
+  -moz-transition: width 500ms;
+  -ms-transition: width 500ms;
+  -o-transition: width 500ms;
+  transition: width 500ms;
+
+
   padding: 5px 9px;
   display: inline-block;
   vertical-align: middle;
@@ -80,6 +87,25 @@
   margin-bottom: 0;
   line-height: @baseLineHeight;
   background-color: #e9e9e9;
+
+  overflow: hidden;
+  width: 60px;
+  min-width: 60px;
+  box-shadow: inset -2px 0px 3px #CCC;
+
+  &.empty {
+    width: auto;
+    min-width: auto;
+  }
+}
+
+.user-label:hover,
+.repository-label:hover {
+  -webkit-transition: width 500ms;
+  -moz-transition: width 500ms;
+  -ms-transition: width 500ms;
+  -o-transition: width 500ms;
+  transition: width 500ms;
 }
 
 .dropdown-menu {

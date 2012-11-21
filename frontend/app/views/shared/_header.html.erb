@@ -74,14 +74,6 @@
                 </div>
               </div>
             <% end %>
-            <% if user_can?('manage_repository') %>
-              <li class="dropdown admin-container">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to "Groups", :controller => :groups, :action => :index %></li>
-                </ul>
-              </li>
-            <% end %>
           </ul>         
           <% end %>
           <ul class="nav pull-right">

@@ -166,8 +166,7 @@ describe "ArchivesSpace user interface" do
 
 
   it "can assign the test user to the archivist group" do
-    @driver.find_element(:link, "Admin").click
-    @driver.find_element(:link, "Groups").click
+    @driver.find_element(:link, "Manage Groups").click
 
     row = @driver.find_element_with_text('//tr', /repository-archivists/)
     row.find_element(:css, '.btn').click
@@ -183,8 +182,8 @@ describe "ArchivesSpace user interface" do
     @driver.find_element(:css, '.repository-container .btn').click
     @driver.find_element(:link_text => test_repo_code_1).click
 
-    @driver.find_element(:link, "Admin").click
-    @driver.find_element(:link, "Groups").click
+    @driver.find_element(:css, '.repository-container .btn').click
+    @driver.find_element(:link, "Manage Groups").click
 
     row = @driver.find_element_with_text('//tr', /repository-viewers/)
     row.find_element(:css, '.btn').click
@@ -196,8 +195,8 @@ describe "ArchivesSpace user interface" do
 
 
   it "reports errors when attempting to create a Group with missing data" do
-    @driver.find_element(:link, "Admin").click
-    @driver.find_element(:link, "Groups").click
+    @driver.find_element(:css, '.repository-container .btn').click
+    @driver.find_element(:link, "Manage Groups").click
     @driver.find_element(:link, "Create Group").click
     @driver.find_element(:css => "form#new_group input[type='submit']").click
     expect {

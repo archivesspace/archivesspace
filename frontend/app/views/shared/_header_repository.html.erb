@@ -1,7 +1,8 @@
 <% if session[:user] %>
    <li class="dropdown repository-container">  
      <div class="input-append">
-        <span class="repository-label"><span class=" icon-hdd"></span> <span class="current-repository-id"><% if session[:repo] %><%= session[:repo] %><% end %></span></span><a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <span class="repository-label <% if not session[:repo] %>empty<% end %>"><span class=" icon-hdd"></span> <span class="current-repository-id"><% if session[:repo] %><%= session[:repo] %><% end %></span></span>
+        <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <% if session[:repo] %>
                <%#><li><a href="#">Edit</a></li>
@@ -18,9 +19,13 @@
             <% else %>
               <li><span class="icon-info-sign"></span> No repositories yet</li>
             <% end %>
+            <% if session[:repo] and user_can?('manage_repository') %>
+              <li class="divider"></li>
+              <li><%= link_to "Manage Groups", :controller => :groups, :action => :index %></li>
+            <% end %>
             <% if user_can?('create_repository') %>
-            <li class="divider"></li>
-               <li><%= link_to "Create a Repository", {:controller => :repository, :action => :new}, "data-toggle" => "modal-ajax" %></li>
+              <li class="divider"></li>
+              <li><%= link_to "Create a Repository", {:controller => :repository, :action => :new}, "data-toggle" => "modal-ajax" %></li>
             <% end %>
           </ul>                 
      </div>
