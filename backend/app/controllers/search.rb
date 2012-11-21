@@ -11,7 +11,10 @@ class ArchivesSpaceService < Sinatra::Base
             *Endpoint.pagination)
     .returns([200, "[(:location)]"]) \
   do
-    json_response(Solr.search(params[:q], params[:type]))
+    show_suppressed = !RequestContext.get(:enforce_suppression)
+
+    json_response(Solr.search(params[:q], params[:page], params[:page_size],
+                              params[:type], show_suppressed))
   end
 
 end

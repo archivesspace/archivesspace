@@ -54,11 +54,16 @@ describe 'Solr model' do
     http = MockHTTP.new
     Net::HTTP.stub(:start) { |host, port, &block| http.start(host, port, block) }
 
-    response = Solr.search("hello world")
+    response = Solr.search("hello world", 1, 10)
 
     http.request.path.should match(/hello\+world/)
     http.request.path.should match(/wt=json/)
+    http.request.path.should match(/suppressed%3Afalse/)
 
+    response['offset_first'].should eq(1)
+    response['offset_last'].should eq(1)
+
+    response['total_hits'].should eq(1)
     response['first_page'].should eq(1)
     response['this_page'].should eq(1)
     response['last_page'].should eq(1)
