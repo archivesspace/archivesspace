@@ -60,8 +60,13 @@ class ArchivesSpaceIndexer
   def initialize
     JSONModel::init(:client_mode => true, :url => AppConfig[:backend_url])
     @state = IndexState.new
+    @document_prepare_hooks = []
   end
 
+
+  def add_document_prepare_hook(&block)
+    @document_prepare_hooks << block
+  end
 
   def solr_url
     URI.parse(AppConfig[:solr_url])
@@ -120,6 +125,10 @@ class ArchivesSpaceIndexer
       doc[:type] = type
       doc[:fullrecord] = record.to_json
       doc[:suppressed] = record[:suppressed].to_s
+
+      @document_prepare_hooks.each do |hook|
+        hook.call(doc, record)
+      end
 
       batch << doc
     end
@@ -191,14 +200,19 @@ class ArchivesSpaceIndexer
         puts "#{$!.inspect}"
       end
 
-      # FIXME: make this configurable
-      sleep 30
+      sleep AppConfig[:solr_indexing_frequency_seconds].to_i
     end
   end
 
 
   def self.main
     indexer = ArchivesSpaceIndexer.new
+
+    indexer.add_document_prepare_hook {|doc, record|
+      if record.class.record_type == 'archival_object'
+        doc['resource'] = record['resource']
+      end
+    }
 
     indexer.run
   end
