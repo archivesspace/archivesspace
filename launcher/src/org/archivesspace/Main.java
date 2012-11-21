@@ -6,6 +6,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 
+import java.io.File;
 import java.util.UUID;
 import org.jruby.Ruby;
 
@@ -79,6 +80,11 @@ public class Main
 
         AppConfig config = new AppConfig();
 
+        String tempDir = config.getString("data_directory") + File.separator + "tmp";
+
+        new File(tempDir).mkdirs();
+
+        System.setProperty("java.io.tmpdir", tempDir);
         System.setProperty("solr.data.dir", config.getString("solr_index_directory"));
         System.setProperty("solr.solr.home", config.getString("solr_home_directory"));
         System.setProperty("aspace.config.search_user_secret",
