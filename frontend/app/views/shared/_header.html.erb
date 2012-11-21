@@ -56,7 +56,7 @@
                 </ul>
               </li>
             <% end %>
-            <%= form_tag(url_for(:controller => :search, :action => :all), :method => :get, :class => "navbar-form pull-left") do %>
+            <%= form_tag(url_for(:controller => :search, :action => :do_search), :method => :get, :class => "navbar-form pull-left") do %>
               <div class="input-append">
                 <input type="text" class="span2" placeholder="Search" name="q" value="<%= params[:q] %>"/>
                 <div class="btn-group">
