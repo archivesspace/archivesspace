@@ -60,16 +60,16 @@
               <div class="input-append">
                 <input type="text" class="span2" placeholder="Search" name="q" value="<%= params[:q] %>"/>
                 <div class="btn-group">
-                  <%= hidden_field_tag "scope", "all" %>
+                  <%= hidden_field_tag "type", "" %>
                   <button class="btn"><span class=" icon-search"></span></button>
                   <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><b class="caret"></b></a>
                   <ul class="dropdown-menu scoped-search-options">
-                    <li><a href="#" data-scope="all">All Records</a></li>
+                    <li><a href="#" data-type="">All Records</a></li>
                     <li class="divider"></li>
-                    <li><a href="#" data-scope="accession">Accessions</a></li>
-                    <li><a href="#" data-scope="resource">Resources</a></li>
-                    <li><a href="#" data-scope="resource">Archival Objects</a></li>
-                    <li><a href="#" data-scope="digital_object">Digital Objects</a></li>
+                    <li><a href="#" data-type="accession">Accessions</a></li>
+                    <li><a href="#" data-type="resource">Resources</a></li>
+                    <li><a href="#" data-type="archival_object">Archival Objects</a></li>
+                    <li><a href="#" data-type="digital_object">Digital Objects</a></li>
                   </ul>
                 </div>
               </div>
