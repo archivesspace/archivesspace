@@ -49,12 +49,30 @@
                   <li><%= link_to "Collection Management Record", :controller => :collection_management_records, :action => :new %></li>
                 </ul>
               </li>
-							<li class="dropdown import-container">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Import / Export <b class="caret"></b></a>
-	             	<ul class="dropdown-menu">
-                  <li><%= link_to "Import", :controller => :import, :action => :index %></li>
-								</ul>
-							</li>
+              <li class="dropdown import-container">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "EAD File", :controller => :import, :action => :index %></li>
+                </ul>
+              </li>
+            <% end %>
+            <%= form_tag(url_for(:controller => :search, :action => :all), :method => :get, :class => "navbar-form pull-left") do %>
+              <div class="input-append">
+                <input type="text" class="span2" placeholder="Search" name="q" value="<%= params[:q] %>"/>
+                <div class="btn-group">
+                  <%= hidden_field_tag "scope", "all" %>
+                  <button class="btn"><span class=" icon-search"></span></button>
+                  <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><b class="caret"></b></a>
+                  <ul class="dropdown-menu scoped-search-options">
+                    <li><a href="#" data-scope="all">All Records</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" data-scope="accession">Accessions</a></li>
+                    <li><a href="#" data-scope="resource">Resources</a></li>
+                    <li><a href="#" data-scope="resource">Archival Objects</a></li>
+                    <li><a href="#" data-scope="digital_object">Digital Objects</a></li>
+                  </ul>
+                </div>
+              </div>
             <% end %>
             <% if user_can?('manage_repository') %>
               <li class="dropdown admin-container">

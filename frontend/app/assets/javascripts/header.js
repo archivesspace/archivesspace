@@ -71,4 +71,13 @@ $(function() {
       $("> a", $(this).parents(".dropdown-submenu:first")).focus();
     }
   });
+
+
+  // Search form handling
+  $(".nav .scoped-search-options a").click(function() {
+    var $form = $(this).parents("form:first");
+    $(":input[name='scope']", $form).val($(this).data("scope"));
+    $form.submit();
+  });
+
 });
