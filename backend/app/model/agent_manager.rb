@@ -1,6 +1,7 @@
 module AgentManager
 
-  @@registered_agents = {}
+  @@registered_agents ||= {}
+
 
   def self.register_agent_type(agent_class, opts)
     opts[:model] = agent_class
@@ -13,6 +14,7 @@ module AgentManager
            [agent_type[:jsonmodel], agent_type[:model]]
          }]
   end
+
 
   def self.registered_agents
     @@registered_agents.values
