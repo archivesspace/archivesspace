@@ -71,7 +71,7 @@ module RESTHelpers
 
     def self.pagination
       [["page_size",
-        NonNegativeInteger,
+        PageSize,
         "The number of results to show per page",
         :default => 10],
        ["page", NonNegativeInteger, "The page number to show"],
@@ -181,6 +181,26 @@ module RESTHelpers
 
       if val < 0
         raise ArgumentError.new("Invalid non-negative integer value: #{s}")
+      end
+
+      val
+    end
+  end
+
+
+  class PageSize
+    def self.value(s)
+      val = Integer(s)
+
+      if val < 0
+        raise ArgumentError.new("Invalid non-negative integer value: #{s}")
+      end
+
+      if val > AppConfig[:max_page_size].to_i
+        Log.warn("Requested page size of #{val} exceeds the maximum allowable of #{AppConfig[:max_page_size]}." +
+                 "  It has been reduced to the maximum.")
+
+        val = AppConfig[:max_page_size].to_i
       end
 
       val

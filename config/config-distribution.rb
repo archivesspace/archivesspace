@@ -93,6 +93,8 @@ class AppConfig
     AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
     AppConfig[:solr_indexing_frequency_seconds] = 30
 
+    AppConfig[:max_page_size] = 250
+
     AppConfig[:db_url] = proc { AppConfig.demo_db_url }
     AppConfig[:db_max_connections] = 10
 
