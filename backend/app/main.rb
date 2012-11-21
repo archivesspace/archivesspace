@@ -199,15 +199,19 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   def filter_passwords(params)
-    params = params.clone
+    if params.is_a? String
+      params.gsub(/password=(.*?)(&|$)/, "password=[FILTERED]")
+    else
+      params = params.clone
 
-    ["password", :password].each do|param|
-      if params[param]
-        params[param] = "[FILTERED]"
+      ["password", :password].each do|param|
+        if params[param]
+          params[param] = "[FILTERED]"
+        end
       end
-    end
 
-    params
+      params
+    end
   end
 
 
@@ -288,13 +292,15 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
+      querystring = env['QUERY_STRING'].empty? ? "" : "?#{@app.filter_passwords(env['QUERY_STRING'])}"
+      my_id = "Thread-#{Thread.current.object_id}"
+
+      Log.debug("#{my_id}: #{env['REQUEST_METHOD']} #{env['PATH_INFO']}#{querystring} [session: #{session.inspect}]")
       result = @app.call(env)
 
       end_time = Time.now
 
-      if ArchivesSpaceService.development?
-        Log.debug("Responded with #{result} in #{(end_time - start_time) * 1000}ms")
-      end
+      Log.debug("#{my_id}: Responded with #{result.to_s.gsub(/^(.{1024}).+$/, '\\1...')} in #{(end_time - start_time) * 1000}ms")
 
       result
     end

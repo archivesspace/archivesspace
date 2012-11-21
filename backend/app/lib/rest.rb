@@ -134,10 +134,6 @@ module RESTHelpers
       end
 
       ArchivesSpaceService.send(@method, @uri, {}) do
-        if self.class.development?
-          Log.debug("#{method.to_s.upcase} #{uri}")
-          Log.debug("Request parameters: #{filter_passwords(params).inspect}")
-        end
 
         ensure_params(rp)
 
