@@ -334,6 +334,7 @@ module AspaceFormHelper
     end
 
     def textfield(name = nil, value = "", opts =  {})
+      return "" if value.blank?
       CGI::escapeHTML(value)
     end
 
@@ -485,7 +486,7 @@ module AspaceFormHelper
         {
           :controller => :digital_objects,
           :action => action,
-          :id => JSONModel(:digital_object).id_for(search_result_json["resource"]),
+          :id => JSONModel(:digital_object).id_for(search_result_json["digital_object"]),
           :anchor => "tree::digital_object_component_#{JSONModel(:digital_object_component).id_for(search_result_json["id"])}"
         }
       else
