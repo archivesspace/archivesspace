@@ -477,8 +477,8 @@ module AspaceFormHelper
         {
           :controller => :resources,
           :action => action,
-          :id => JSONModel(:resource).id_for(search_result_json["resource_id"]),
-          :hash => "tree::archival_object_#{JSONModel(:archival_object).id_for(search_result_json["id"])}"
+          :id => JSONModel(:resource).id_for(search_result_json["resource"]),
+          :anchor => "tree::archival_object_#{JSONModel(:archival_object).id_for(search_result_json["id"])}"
         }
       else
         nil
