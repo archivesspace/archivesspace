@@ -214,6 +214,12 @@ class ArchivesSpaceIndexer
       end
     }
 
+    indexer.add_document_prepare_hook {|doc, record|
+      if record.class.record_type == 'digital_object_component'
+        doc['digital_object'] = record['digital_object']
+      end
+    }
+
     indexer.run
   end
 
