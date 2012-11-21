@@ -2,19 +2,6 @@ require 'securerandom'
 
 module AutoIdGenerator
 
-  @@auto_generated_id_map = {}
-
-  def self.register_auto_id(a_class, property)
-    @@auto_generated_id_map[a_class] ||= []
-    @@auto_generated_id_map[a_class].push(property.to_s)
-  end
-
-
-  def self.auto_generated_ids(a_class)
-    @@auto_generated_id_map[a_class] || []
-  end
-
-
   module Mixin
     def self.included(base)
       base.extend(ClassMethods)
@@ -22,7 +9,7 @@ module AutoIdGenerator
 
     def before_create
       super
-      AutoIdGenerator.auto_generated_ids(self.class).each do |property|
+      self.class.properties_to_auto_generate.each do |property|
         if self.send(property).nil?
           self.send("#{property}=", SecureRandom.hex)
           @stale = true
@@ -31,7 +18,7 @@ module AutoIdGenerator
     end
 
     def update_from_json(json, opts = {})
-      AutoIdGenerator.auto_generated_ids(self.class).each do |property|
+      self.class.properties_to_auto_generate.each do |property|
         json[property] = self.send(property)
       end
       super
@@ -39,8 +26,13 @@ module AutoIdGenerator
 
     module ClassMethods
 
-      def register_auto_id(properties)
-        AutoIdGenerator.register_auto_id(self, properties)
+      def register_auto_id(property)
+        @properties_to_auto_generate ||= []
+        @properties_to_auto_generate.push(property)
+      end
+
+      def properties_to_auto_generate
+        @properties_to_auto_generate || []
       end
 
     end
