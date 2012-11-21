@@ -134,14 +134,10 @@ module RESTHelpers
       end
 
       ArchivesSpaceService.send(@method, @uri, {}) do
-        if self.class.development?
-          Log.debug("#{method.to_s.upcase} #{uri}")
-          Log.debug("Request parameters: #{filter_passwords(params).inspect}")
-        end
 
         ensure_params(rp)
 
-        Log.debug("Post-processed params: #{filter_passwords(params).inspect}") if self.class.development?
+        Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}") if self.class.development?
 
         RequestContext.open(:repo_id => params[:repo_id]) do
           unless preconditions.all? { |precondition| self.instance_eval &precondition }

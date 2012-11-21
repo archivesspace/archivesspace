@@ -13,7 +13,7 @@
                    "Accruals",
                    "Appraisal",
                    "Arrangement",
-                   "Biographical / Historical ",
+                   "Biographical / Historical",
                    "Conditions Governing Access",
                    "Conditions Governing Use",
                    "Custodial History",

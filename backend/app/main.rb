@@ -198,19 +198,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  def filter_passwords(params)
-    params = params.clone
-
-    ["password", :password].each do|param|
-      if params[param]
-        params[param] = "[FILTERED]"
-      end
-    end
-
-    params
-  end
-
-
   helpers do
 
     # Redispatch the current request to a different route handler.
@@ -288,13 +275,15 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
+      querystring = env['QUERY_STRING'].empty? ? "" : "?#{Log.filter_passwords(env['QUERY_STRING'])}"
+      my_id = "Thread-#{Thread.current.object_id}"
+
+      Log.debug("#{my_id}: #{env['REQUEST_METHOD']} #{env['PATH_INFO']}#{querystring} [session: #{session.inspect}]")
       result = @app.call(env)
 
       end_time = Time.now
 
-      if ArchivesSpaceService.development?
-        Log.debug("Responded with #{result} in #{(end_time - start_time) * 1000}ms")
-      end
+      Log.debug("#{my_id}: Responded with #{result.to_s.gsub(/^(.{1024}).+$/, '\\1...')} in #{(end_time - start_time) * 1000}ms")
 
       result
     end
