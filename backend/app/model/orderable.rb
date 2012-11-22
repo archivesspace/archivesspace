@@ -31,9 +31,24 @@ module Orderable
       rescue Sequel::DatabaseError => e
         if DB.is_integrity_violation(e)
           # Someone's in our spot!  Move everyone out of the way and retry.
+
+          # Sigh.  Work around:
+          # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
+
+          # Disables the uniqueness constraint
+          siblings_ds.
+            filter { position >= new_position }.
+            update(:parent_name => nil)
+
+          # Do the update we actually wanted
           siblings_ds.
             filter { position >= new_position }.
             update(:position => Sequel.lit('position + 1'))
+
+          # Puts it back again
+          siblings_ds.
+            filter { position >= new_position }.
+            update(:parent_name => self.parent_name)
         end
       end
     end
