@@ -1,3 +1,5 @@
+require_relative 'notes'
+
 class Resource < Sequel::Model(:resource)
   plugin :validation_helpers
   include ASModel
@@ -11,6 +13,7 @@ class Resource < Sequel::Model(:resource)
   include Deaccessions
   include Agents
   include Trees
+  include Notes
 
   tree_of(:resource, :archival_object)
   set_model_scope :repository
@@ -26,30 +29,6 @@ class Resource < Sequel::Model(:resource)
 
   def children
     ArchivalObject.filter(:resource_id => self.id, :parent_id => nil).order(:position)
-  end
-
-
-  def self.create_from_json(json, opts = {})
-    notes_blob = JSON(json.notes)
-    json.notes = nil
-    super(json, opts.merge(:notes => notes_blob))
-  end
-
-
-  def update_from_json(json, opts = {})
-    notes_blob = JSON(json.notes)
-    json.notes = nil
-    super(json, opts.merge(:notes => notes_blob))
-  end
-
-
-  def self.sequel_to_jsonmodel(obj, type, opts = {})
-    notes = JSON.parse(obj.notes || "[]")
-    obj[:notes] = nil
-    json = super
-    json.notes = notes
-
-    json
   end
 
 

@@ -355,4 +355,18 @@ describe 'Resources controller' do
     resource.extents.length.should eq(1)
   end
 
+
+
+  it "can store some notes and get them back" do
+    resource = create(:json_resource)
+
+    notes = build(:json_note_bibliography)
+
+    resource.notes = [notes.to_hash]
+    resource.save
+
+    JSONModel(:resource).find(resource.id)[:notes].first.should eq(notes.to_hash)
+  end
+
+
 end
