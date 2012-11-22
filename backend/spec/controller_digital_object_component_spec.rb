@@ -43,4 +43,27 @@ describe 'Digital Object Component controller' do
     JSONModel(:digital_object_component).find(created.id).title.should eq(opts[:title])
   end
 
+
+  it "lets you reorder sibling digital object components" do
+    digital_object = create(:json_digital_object)
+
+    doc_1 = create(:json_digital_object_component, :digital_object => digital_object.uri, :title=> "DOC1")
+    doc_2 = create(:json_digital_object_component, :digital_object => digital_object.uri, :title=> "DOC2")
+
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
+
+    tree.children[0]["title"].should eq("DOC1")
+    tree.children[1]["title"].should eq("DOC2")
+
+    doc_1 = JSONModel(:digital_object_component).find(doc_1.id)
+    doc_1.position = 1
+    doc_1.save
+
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
+
+    tree.children[0]["title"].should eq("DOC2")
+    tree.children[1]["title"].should eq("DOC1")
+  end
+
+
 end

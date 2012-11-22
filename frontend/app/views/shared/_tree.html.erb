@@ -31,7 +31,8 @@
        :archival_object => {
          :label =>  I18n.t("archival_object._html.singular")
        }
-      }
+      },
+      :can_move => true
     },
     :digital_object => {
       :can_add_child => {
@@ -84,7 +85,7 @@
      {/macro}
 
      {macro render_parent(node)}
-        <li id="${node.node_type}_${node.id}" class="${node.node_type}" rel="${node.node_type}" data-id="${node.id}">
+        <li id="${node.node_type}_${node.id}" class="${node.node_type} root" rel="${node.node_type}" data-id="${node.id}">
            <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
            {if node.children && node.children.length > 0}
             ${render_children(node.children)}
@@ -124,14 +125,14 @@
 
     <div id="tree_nodeactions_toolbar_template"><!--
       <div class="btn-group">
-      {if defined("can_spawn")}
+      {if rules.hasOwnProperty("can_spawn")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Spawn">
             Spawn
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            {for obj in can_spawn}
+            {for obj in rules.can_spawn}
             <li>
               <a href="javascript:void(0);" class="spawn" rel="${obj_index}">
                 <span class='icon-${obj_index}'></span> ${obj.label}
@@ -141,14 +142,14 @@
           </ul>
         </div>
       {/if}
-      {if defined("can_link_to")}
+      {if rules.hasOwnProperty("can_link_to")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Link To">
             Link To
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            {for obj in can_link_to}
+            {for obj in rules.can_link_to}
             <li>
               <a href="javascript:void(0);" class="link" rel="${obj_index}">
                 <span class='icon-${obj_index}'></span> ${obj.label}
@@ -158,14 +159,14 @@
           </ul>
         </div>
       {/if}
-      {if defined("can_add_child")}
+      {if rules.hasOwnProperty("can_add_child")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
             Add Child
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            {for obj in can_add_child}
+            {for obj in rules.can_add_child}
             <li>
               <a href="javascript:void(0);" class="add-child" rel="${obj_index}">
                 <span class='icon-${obj_index}'></span> ${obj.label}
@@ -175,20 +176,54 @@
           </ul>
         </div>
       {/if}
-      {if defined("can_add_sibling")}
+      {if rules.hasOwnProperty("can_add_sibling")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Sibling">
             +1
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            {for obj in can_add_sibling}
+            {for obj in rules.can_add_sibling}
             <li>
               <a href="javascript:void(0);" class="add-sibling" rel="${obj_index}">
                 <span class='icon-${obj_index}'></span> ${obj.label}
               </a>
             </li>
             {/for}
+          </ul>
+        </div>
+      {/if}
+      {if rules.hasOwnProperty("can_move")}
+        <div class="btn-group dropdown move-node-menu">
+          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Move">
+            Move
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {if !parent.hasClass("root")}
+              <li><a href="javascript:void(0);" class="move-node move-node-up-level" data-target-node-id="${parent.parents("li:first").attr("id")}" data-target-index="${parent.index()}"><span class="icon-arrow-left"></span> Up a Level</a></li>
+            {/if}
+
+            {var children_count = parent.find("> ul > li").length}
+            {if children_count > 1}
+              {if node.index() > 0}
+                <li><a href="javascript:void(0);" class="move-node move-node-up" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()-1}"><span class="icon-arrow-up"></span> Up</a></li>
+              {/if}
+              {if node.index() < children_count - 1}
+                <li><a href="javascript:void(0);" class="move-node move-node-down" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()+1}"><span class="icon-arrow-down"></span> Down</a></li>
+              {/if}
+            {/if}
+
+            {if defined('sibling_ids') && sibling_ids.length > 0}
+              <li class="dropdown-submenu">
+                <a href="javascript:void(0);"><span class="icon-arrow-right"></span> Down Into...</a>
+                <ul class="dropdown-menu">
+                {for sibling_id in sibling_ids}
+                  <li><a href="javascript:void(0);" class="move-node move-node-down-into" data-target-node-id="${sibling_id}">${$("a:first", "#"+sibling_id).attr("title")}</a></li>
+                {/for}
+                </ul>
+              </li>
+            {/if}
           </ul>
         </div>
       {/if}

@@ -178,9 +178,11 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
-      Integer :resource_id, :null => true
 
+      Integer :root_record_id, :null => true
       Integer :parent_id, :null => true
+      String :parent_name, :null => true
+      Integer :position, :null => true
 
       String :ref_id, :null => false, :unique => false
       String :component_id, :null => true
@@ -194,10 +196,15 @@ Sequel.migration do
 
     alter_table(:archival_object) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:root_record_id], :resource, :key => :id)
       add_foreign_key([:parent_id], :archival_object, :key => :id)
-      add_index([:resource_id, :ref_id], :unique => true)
+      add_index([:root_record_id, :ref_id], :unique => true)
+
+      add_unique_constraint([:root_record_id, :parent_name, :position])
     end
+
+
+
 
 
     create_table(:digital_object) do
@@ -233,8 +240,10 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
-      Integer :digital_object_id, :null => true
+      Integer :root_record_id, :null => true
       Integer :parent_id, :null => true
+      Integer :position, :null => true
+      String :parent_name, :null => true
 
       String :component_id, :null => false
       String :title
@@ -250,8 +259,10 @@ Sequel.migration do
     alter_table(:digital_object_component) do
       add_foreign_key([:repo_id], :repository, :key => :id)
       add_index([:repo_id, :component_id], :unique => true)
-      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:root_record_id], :digital_object, :key => :id)
       add_foreign_key([:parent_id], :digital_object_component, :key => :id)
+
+      add_unique_constraint([:root_record_id, :parent_name, :position])
     end
 
 
@@ -943,6 +954,12 @@ Sequel.migration do
     alter_table(:container_location) do
       add_foreign_key([:location_id], :location, :key => :id)
       add_foreign_key([:container_id], :container, :key => :id)
+    end
+
+
+    create_table(:sequence) do
+      String :sequence_name, :primary_key => true
+      Integer :value, :null => false
     end
 
   end

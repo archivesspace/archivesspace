@@ -13,12 +13,12 @@ module Trees
     node_type = self.class.node_type
 
     top_nodes = []
-    Kernel.const_get(node_type.to_s.camelize).this_repo.filter("#{root_type}_id".intern => self.id).each do |node|
+    Kernel.const_get(node_type.to_s.camelize).this_repo.filter("root_record_id".intern => self.id).each do |node|
       if node.parent_id
         links[node.parent_id] ||= []
-        links[node.parent_id] << node.id
+        links[node.parent_id] << [node.position, node.id]
       else
-        top_nodes << node.id
+        top_nodes << [node.position, node.id]
       end
 
       properties[node.id] = {
@@ -33,7 +33,7 @@ module Trees
       :title => self.title,
       :id => self.id,
       :node_type => root_type.to_s,
-      :children => top_nodes.map {|node| self.class.assemble_tree(node, links, properties)},
+      :children => top_nodes.sort_by(&:first).map {|position, node| self.class.assemble_tree(node, links, properties)},
       :record_uri => self.class.uri_for(root_type, self.id)
     }
 
@@ -63,7 +63,7 @@ module Trees
       result = properties[node].clone
 
       if links[node]
-        result['children'] = links[node].map do |child_id|
+        result['children'] = links[node].sort_by(&:first).map do |position, child_id|
           assemble_tree(child_id, links, properties)
         end
       else

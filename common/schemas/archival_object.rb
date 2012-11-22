@@ -12,6 +12,7 @@
       "level" => {"type" => "string", "minLength" => 1, "required" => false},
       "parent" => {"type" => "JSONModel(:archival_object) uri", "required" => false},
       "resource" => {"type" => "JSONModel(:resource) uri", "required" => false},
+      "position" => {"type" => "integer", "required" => false},
 
       "subjects" => {"type" => "array", "items" => {"type" => "JSONModel(:subject) uri_or_object"}},
       "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) object"}},

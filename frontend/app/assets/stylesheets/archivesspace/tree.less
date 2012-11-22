@@ -16,7 +16,7 @@
   #gradient > .vertical(#F3F3F3, #EDEDED);
   border-top: 1px solid #EEE;
   border-bottom: 1px solid #FFF;
-  overflow: hidden;
+  overflow: visible;
 
   > .archives-tree-title {
     background-color: #eee;
@@ -91,6 +91,12 @@
 
   #archives_tree_toolbar {
     padding: 0 20px;
+
+    .btn-group.move-node-menu .dropdown-submenu ul {
+      max-width: 400px;
+      max-height: 200px;
+      overflow: auto;
+    }
   }
 
   .ui-resizable-handle.ui-resizable-s {
