@@ -103,12 +103,6 @@ module ImportHelpers
         (
         json.class.schema["properties"][k]["type"] == "array" and \
         json.class.schema["properties"][k]["items"]["type"] == "object"
-        # json.class.schema["properties"][k]["items"]["properties"].is_a? Hash and \
-        # json.class.schema["properties"][k]["items"]["properties"].has_key? "ref" and \
-        # json.class.schema["properties"][k]["items"]["properties"]["ref"].is_a? Hash and \
-        # json.class.schema["properties"][k]["items"]["properties"]["ref"].has_key? "type" and \
-        # json.class.schema["properties"][k]["items"]["properties"]["ref"]["type"].is_a? Array and \
-        # json.class.schema["properties"][k]["items"]["properties"]["ref"]["type"][0].match /uri$/
         )        
       }
       unlinked.set_data(data)

@@ -12,7 +12,7 @@ ASpaceImport::Importer.importer :xml do
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
     
     
-    # In DEBUG mode, generate a CSV audit trail
+    # In DEBUG mode, generate a TSV audit trail
     set_up_tracer if $DEBUG   
       
     super
