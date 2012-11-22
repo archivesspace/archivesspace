@@ -1,0 +1,20 @@
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["New Collection Management Record"]} %>
+
+<%= form_for @collection_management, :as => "collection_management", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+  <%= form_context :collection_management, @collection_management do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "sidebar" %>
+      </div>
+      <div class="span9 record-pane">
+        <h2><%= "New Collection Management Record" %>  <span class="label label-info">Collection Management Record</span></h2>
+
+        <%= render :partial => "collection_management_records/form", :locals => {:form => form} %>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Collection Management Record</button>
+          <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

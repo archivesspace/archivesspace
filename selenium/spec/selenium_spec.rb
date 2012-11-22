@@ -755,6 +755,33 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  # Collection Management Records
+  it "displays validation errors when saving an empty collection management record" do
+    @driver.find_element(:link, "Create").click
+    @driver.find_element(:link, "Collection Management Record").click
+
+    @driver.find_element(:css => "form#new_collection_management button[type='submit']").click
+
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Linked records - must link to one accession, one resource, or one or more digital objects/)
+    }.to_not raise_error
+  end
+
+
+  it "creates a valid collection management record with a record link" do
+    @driver.clear_and_send_keys([:id, "collection_management_cataloged_note_"], "Testing the CMR")
+    @driver.clear_and_send_keys([:id, "collection_management_processing_total_extent_"], "Full")
+    @driver.find_element(:id, "collection_management_processing_total_extent_type_").select_option('sheets')
+
+    @driver.clear_and_send_keys([:css, "#collection_management_linked_records_ input#token-input-"], accession_title)
+    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+    @driver.click_and_wait_until_gone(:css => "form#new_collection_management button[type='submit']")
+
+    # so the subject is here now
+    assert {  @driver.find_element_with_text('//td', /Accession: #{accession_title}/) }
+  end
+
   # Events
 
   it "creates an event and links it to an agent and accession" do

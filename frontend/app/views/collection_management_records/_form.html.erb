@@ -1,0 +1,19 @@
+<%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+
+<section id="basic_information">
+  <h3>Basic Information</h3>
+  <fieldset>
+    <%= form.label_and_textarea "cataloged_note" %>
+    <%= form.label_and_textfield "processing_hours_per_foot_estimate" %>
+    <%= form.label_and_textfield "processing_total_extent" %>
+    <%= form.label_and_select "processing_total_extent_type", form.jsonmodel_options_for(:collection_management, "processing_total_extent_type", true) %>
+    <%= form.label_and_textfield "processing_hours_total" %>
+    <%= form.label_and_textarea "processing_plan" %>
+    <%= form.label_and_select "processing_priority", form.jsonmodel_options_for(:collection_management, "processing_priority", true) %>
+    <%= form.label_and_select "processing_status", form.jsonmodel_options_for(:collection_management, "processing_status", true) %>
+    <%= form.label_and_textarea "processors" %>
+    <%= form.label_and_boolean "rights_determined", {}, form.jsonmodel_schema_definition(:collection_management, "rights_determined")["default"] %>
+  </fieldset>
+</section>
+
+<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>

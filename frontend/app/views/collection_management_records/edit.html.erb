@@ -1,0 +1,28 @@
+<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Collection Management Records", :controller => :collection_management_records, :action => :index ), @collection_management.id]} %>
+
+<%= form_for @collection_management, :as => "collection_management", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
+  <%= form_context :collection_management, @collection_management do |form| %>
+    <div class="row-fluid">
+      <div class="span3">
+        <%= render :partial => "sidebar" %>
+      </div>
+      <div class="span9 record-pane">
+
+        <%=
+          pr = JSONModel.parse_reference(@collection_management.linked_records[0]['ref'])
+          many_lr = @collection_management.linked_records.length > 1 ? true : false
+          rt = I18n.t("#{pr[:type]}._html.#{many_lr ? 'plural' : 'singular'}")
+          nil
+        %>
+        <h2>Processing <%= "#{rt}: #{JSONModel(pr[:type].intern).find(pr[:id]).title}#{many_lr ? ' ...' : ''}"  %> <span
+class="label label-info">Collection Management Record</span></h2>
+
+        <%= render :partial => "collection_management_records/form", :locals => {:form => form} %>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Collection Management Record</button>
+          <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

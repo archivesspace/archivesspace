@@ -74,6 +74,10 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/:type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
 
+  match 'collection_management_records/listrecords' => 'collection_management_records#listrecords', :via => [:get]
+  resources :collection_management_records
+  match 'collection_management_records/:id' => 'collection_management_records#update', :via => [:post]
+
   match 'test/shutdown' => 'tests#shutdown', :via => [:get]
 
 

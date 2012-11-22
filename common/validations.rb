@@ -139,4 +139,55 @@ module JSONModel::Validations
     end
   end
 
+
+  def self.check_collection_management(hash)
+    errors = []
+
+    if !hash["processing_total_extent"].nil? and hash["processing_total_extent_type"].nil?
+      errors << ["processing_total_extent_type", "is required if total extent is specified"]
+    end
+
+    errors
+  end
+
+
+  def self.check_collection_management_linked_records(hash)
+    errors = []
+    err = false
+
+    if !hash.has_key?("linked_records")
+      err = true
+    elsif !hash["linked_records"].is_a? Array
+      err = true
+    elsif hash["linked_records"].length == 0
+      err = true
+    elsif !hash["linked_records"].first.has_key?("ref")
+      err = true
+    elsif hash["linked_records"].length > 1
+      if hash["linked_records"].any? { |lr|
+          ref = JSONModel.parse_reference(lr["ref"])
+          ref.nil? || ref[:type] != "digital_object"
+        }
+        err = true
+      end
+    end
+
+    if err
+      errors << ["linked_records",
+                 "must link to one accession, one resource, or one or more digital objects"]
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:collection_management)
+    JSONModel(:collection_management).add_validation("check_collection_management") do |hash|
+      check_collection_management(hash)
+    end
+    JSONModel(:collection_management).add_validation("check_collection_management_linked_records") do |hash|
+      check_collection_management_linked_records(hash)
+    end
+  end
+
 end

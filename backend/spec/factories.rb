@@ -268,6 +268,10 @@ FactoryGirl.define do
     name { "Vocabulary #{generate(:generic_title)}" }
     ref_id { generate(:alphanumstr) }
   end
-    
-  
+
+
+  factory :json_collection_management, class: JSONModel(:collection_management) do
+    linked_records { [{'ref' => create(:json_accession).uri}] }
+  end
+
 end

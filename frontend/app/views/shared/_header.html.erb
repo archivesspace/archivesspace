@@ -23,6 +23,7 @@
                 <li><%= link_to "Subjects", :controller => :subjects, :action => :index %></li>
                 <li><%= link_to "Agents", :controller => :agents, :action => :index %></li>
                 <li><%= link_to "Locations", :controller => :locations, :action => :index %></li>
+                <li><%= link_to "Collection Management Records", :controller => :collection_management_records, :action => :index %></li>
               </ul>
             </li>
             <% if user_can?('update_repository') %>
@@ -45,6 +46,7 @@
                   </li>
                   <li><%= link_to "Location", :controller => :locations, :action => :new %></li>
                   <li><%= link_to "Event", :controller => :events, :action => :new %></li>
+                  <li><%= link_to "Collection Management Record", :controller => :collection_management_records, :action => :new %></li>
                 </ul>
               </li>
 							<li class="dropdown import-container">

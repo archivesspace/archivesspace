@@ -20,6 +20,9 @@ en:
     digital_object_type_text: Text
     language: Language
     restrictions: Restrictions?
+    _html:
+      singular: Digital Object
+      plural: Digital Objects
   digital_object_component:
     label: Label
     title: Title
@@ -389,6 +392,9 @@ en:
       <<: *external_document_attributes
     _rights_statements:
       <<: *rights_statement_attributes
+    _html:
+      singular: Accession
+      plural: Accessions
   agent: &agent_attributes
     type: Agent Type
     agent_type:
@@ -526,3 +532,40 @@ en:
     name: Your full name
     password: Password
     confirm_password: Confirm your password
+  collection_management:
+    cataloged_note: Cataloged note
+    processing_hours_per_foot_estimate: Processing hrs/ft estimate
+    processing_total_extent: Processing total extent
+    processing_total_extent_type: Extent type
+    processing_total_extent_type_: --
+    processing_total_extent_type_cassettes: Cassettes
+    processing_total_extent_type_cubic_feet: Cubic Feet
+    processing_total_extent_type_leafs: Leafs
+    processing_total_extent_type_linear_feet: Linear Feet
+    processing_total_extent_type_photographic_prints: Photographic Prints
+    processing_total_extent_type_photographic_slides: Photographic Slides
+    processing_total_extent_type_reels: Reels
+    processing_total_extent_type_sheets: Sheets
+    processing_total_extent_type_volumes: Volumes
+    processing_hours_total: Total processing hours
+    processing_plan: Processing plan
+    processing_priority: Priority
+    processing_priority_: --
+    processing_priority_high: High
+    processing_priority_medium: Medium
+    processing_priority_low: Low
+    processing_status: Status
+    processing_status_: --
+    processing_status_new: New
+    processing_status_in_progress: In Progress
+    processing_status_completed: Completed
+    processors: Processors
+    rights_determined: Rights determined
+    linked_records: Linked records
+    _html:
+      singular: Collection Management Record
+      plural: Collection Management Records
+  collection_management_linked_record:
+    _html:
+      singular: Record Link
+      plural: Record Links
