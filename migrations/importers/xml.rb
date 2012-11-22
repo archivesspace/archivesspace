@@ -11,6 +11,7 @@ ASpaceImport::Importer.importer :xml do
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
     
+    
     # In DEBUG mode, generate a CSV audit trail
     set_up_tracer if $DEBUG   
       
@@ -28,35 +29,36 @@ ASpaceImport::Importer.importer :xml do
     
     @reader.each do |node|
      
-      node_args = {:xpath => node.name, :depth => node.depth, :node_type => node.node_type}
+      node_args = [node.name, node.depth, node.node_type]
       
       node.start_trace if $DEBUG
 
       if node.node_type == 1
-        if (json = self.class.object_for_node(node))
+        if (json = self.class.object_for_node(*node_args))
 
-          json.receivers.for(:xpath => "self") do |r|
+          puts 
+          json.receivers.for("self") do |r|
             r.receive(node.inner_xml)
           end
           
-          json.receivers.for(:xpath => "self::name") do |r|
+          json.receivers.for("self::name") do |r|
             r.receive(node.name)
           end
           
           node.attributes.each do |a|        
-            json.receivers.for(:xpath => "@#{a[0]}") do |r|
+            json.receivers.for("@#{a[0]}") do |r|
               r.receive(a[1])
             end                         
           end
           
           @parse_queue.push(json)
         else
-          @parse_queue.receivers.for(node_args) do |r|
+          @parse_queue.receivers.for(*node_args) do |r|
             r.receive(node.inner_xml)
           end
         end
       # If a closing tag matches a node
-      elsif (json = self.class.object_for_node(node, @parse_queue))
+      elsif (json = self.class.object_for_node(*node_args, @parse_queue))
         json.set_default_properties
     
         # Temporary hacks and whatnot:                                          
@@ -77,8 +79,7 @@ ASpaceImport::Importer.importer :xml do
     end
     
     log_save_result(@parse_queue.save)
-    puts "TRACER OUT"
-    $tracer.out(@uri_map)
+    $tracer.out(@uri_map) if $DEBUG
   end  
 
 
@@ -86,19 +87,18 @@ ASpaceImport::Importer.importer :xml do
   
   def validate(input_file)
     
-    open(input_file).read().match(/xsi:schemaLocation="[^"]*(http[^"]*)"/)
-    
-    require 'net/http'
-    
-    uri = URI($1)
-    xsd_file = Net::HTTP.get(uri)
-    
-    xsd = Nokogiri::XML::Schema(xsd_file)
-    doc = Nokogiri::XML(File.read(input_file))
-
-    xsd.validate(doc).each do |error|
-      # @import_log << "Invalid Source: " + error.message
-    end
+    # open(input_file).read().match(/xsi:schemaLocation="[^"]*(http[^"]*)"/)
+    # 
+    # require 'net/http'
+    # 
+    # uri = URI($1)
+    # xsd_file = Net::HTTP.get(uri)
+    # 
+    # xsd = Nokogiri::XML::Schema(xsd_file)
+    # doc = Nokogiri::XML(File.read(input_file))
+    # 
+    # xsd.validate(doc).each do |error|
+    # end
   
   end
   
@@ -108,14 +108,15 @@ ASpaceImport::Importer.importer :xml do
     require 'tmpdir'
     $tracer = Tracer.new
     
-    ASpaceImport::Crosswalk::ClassMethods.module_eval do
+    ASpaceImport::Crosswalk::module_eval do
       alias :object_for_node_original :object_for_node
     
-      def object_for_node(node, *q)
+      def object_for_node(*parseargs)
       
-        if (json = object_for_node_original(node, *q))
-          $tracer.trace(:aspace_data, json, nil) if node.node_type == 1
-
+        if (json = object_for_node_original(*parseargs))
+          nname, ndepth, ntype = *parseargs
+          $tracer.trace(:aspace_data, json, nil) if ntype == 1
+    
           json
         else
           false
@@ -205,7 +206,6 @@ class Tracer
       val = val.uri
     end
 
-
     val.gsub!(/^\s*/, '')
     val.gsub!(/\s*$/, '')
     val.gsub!(/[\t\n\r]/, '')
@@ -215,7 +215,6 @@ class Tracer
   
   def out(map = {})
     @file.write(%w(00000 NODE.TYPE XPATH NODE.XML NODE.TEXT ASPACE.REF ASPACE.VAL).join("\t").concat("\n"))
-    # @file.write("'ROW'\t""'NODE_TYPE'\t'XPATH'\t'NODE.INNER_XML'\t'NODE.VALUE'\t'ASPACE DATA'\n")
     @registry.each_with_index do |l, i|
 
       [1, l[:aspace_data].length].max.times do |j|
@@ -249,7 +248,7 @@ class Tracer
     elsif @depth > node.depth
       @xpath.sub!(/\/[#a-z0-9]*\/[#a-z0-9]*$/, "/#{node.name}")
     else
-      raise "Doh!"
+      raise "Can't parse node depth to create XPATH for tracer"
     end
     @depth = node.depth
     @xpath.clone

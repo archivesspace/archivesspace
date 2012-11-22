@@ -16,9 +16,9 @@ describe "ASpaceImport and ASpaceExport modules" do
 
     r = FactoryGirl.create(:resource, :repo_id => @repo_id) 
     e = FactoryGirl.create(:extent, :resource_id => r.id) 
-    p = FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :resource_id => r.id})
+    p = FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :root_record_id => r.id})
 
-    10.times { FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :resource_id => r.id, :parent_id => p.id}) }
+    10.times { FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :root_record_id => r.id, :parent_id => p.id}) }
           
     ead = @ser.serialize(r)
     

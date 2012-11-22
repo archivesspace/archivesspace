@@ -20,8 +20,6 @@ module ASpaceImport
     end
     
     def dedupe
-      puts "DUPES: #{@dupes.inspect}" if $DEBUG
-
       #1. Remove objects that duplicate earlier objects
       @dupes.each do |uri2drop, uri2keep|
         self.reject! {|obj| obj.uri == uri2drop}
@@ -52,6 +50,7 @@ module ASpaceImport
       
       if @opts[:dry]
         dry_response = Net::HTTPResponse.new(1.0, 200, "OK")
+        
         dry_response
       else
         response = JSONModel::HTTP.post_json(url, batch_object.to_json)
@@ -86,7 +85,6 @@ module ASpaceImport
     # helpers
     def self.replace_links(json, link_map)
 
-      puts json.to_hash(true)
       data = json.to_hash
       data.each do |k, v| 
         if json.class.schema["properties"][k]["type"].match(/JSONModel/) and \
@@ -122,15 +120,11 @@ module ASpaceImport
       self[0...-1].reverse.each do |qdobj|
       
         # Set Links FROM popped object TO other objects in the queue
-        self.last.receivers.for(:depth => qdobj.depth, 
-                          :xpath => qdobj.class.xpath) do |r|
-      
+        self.last.receivers.for(qdobj.class.xpath, qdobj.depth) do |r|  
           r.receive(qdobj)
         end
         # Set Links TO the popped object FROM others in the queue
-        qdobj.receivers.for(:depth => self.last.depth, 
-                            :xpath => self.last.class.xpath) do |r|
-              
+        qdobj.receivers.for(self.last.class.xpath, self.last.depth) do |r|
           r.receive(self.last)
         end          
       end
@@ -148,25 +142,25 @@ module ASpaceImport
     end
     
     def push(obj)
-
       raise "Not a JSON Object" unless obj.class.record_type
-
-      puts "QL #{self.length}"
+      
       super 
     end
+    
     
     # Yield receivers for anything in the parse queue.
     def receivers
       self
     end
     
-    def for(node_args)  
+    
+    def for(*nodeargs)  
       self.reverse.each do |obj|        
-        obj.receivers.for(node_args) { |r| yield r }
+        obj.receivers.for(*nodeargs) { |r| yield r }
       end
     end
     
-      
+ 
     def save
       @batch.save
     end    

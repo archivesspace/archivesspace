@@ -2,6 +2,8 @@ require 'psych'
 
 module ASpaceImport
   module Crosswalk
+    
+    # Part 1: Module Methods and Helpers  
       
     def self.init(opts)
 
@@ -17,10 +19,6 @@ module ASpaceImport
     
     def self.models
       @models
-    end
-    
-    def self.included(base)
-      base.extend(ClassMethods)
     end
     
     def self.mint_id
@@ -58,64 +56,66 @@ module ASpaceImport
       end
     end
     
-    module ClassMethods
+    # Part 2: ClassMethods to mix into an including Importer
+    # Mixing into the class rather than the instance because
+    # certain classes of Importer will require Crosswalks.
       
-      def object_for_node(node, *queue)
-        models = ASpaceImport::Crosswalk.models
-        walk = ASpaceImport::Crosswalk.walk
-        regex = ASpaceImport::Crosswalk.regexify_node(node.name, node.depth)
-        types = walk["entities"].map {|k,v| k if v["xpath"] and v["xpath"].find {|x| x.match(regex)}}.compact
+    def object_for_node(*parseargs)
+      nname, ndepth, ntype, queue = *parseargs
+      models = ASpaceImport::Crosswalk.models
+      walk = ASpaceImport::Crosswalk.walk
+      regex = ASpaceImport::Crosswalk.regexify_node(nname, ndepth)
+      types = walk["entities"].map {|k,v| k if v["xpath"] and v["xpath"].find {|x| x.match(regex)}}.compact
 
-        case types.length
+      case types.length
 
-        when 2..100
-          raise "Too many matched entities"
-        when 1 
-          if node.node_type == 1
-            models[types[0]] ||= wrap_model(JSONModel::JSONModel(types[0]), node.name)
-            tweak_object(models[types[0]].new, node.depth)
-          elsif queue
-            puts "Q-1 type #{queue[0][-1].class.record_type} - T #{types[0]}"
-            raise "Record Type mismatch in parse queue" unless queue[0][-1].class.record_type == types[0]
-            queue[0][-1]
-          end
-        when 0
-          false
-        end  
+      when 2..100
+        raise "Too many matched entities"
+      when 1 
+        if ntype == 1
+          models[types[0]] ||= wrap_model(JSONModel::JSONModel(types[0]), nname)
+          tweak_object(models[types[0]].new, ndepth)
+        elsif queue
+          raise "Record Type mismatch in parse queue" unless queue[-1].class.record_type == types[0]
+          queue[-1]
+        end
+      when 0
+        false
+      end  
+    end
+    
+    def wrap_model(cls, node_name)
+      
+      cls.class_eval("def self.xpath; '#{node_name}'; end")
+      
+      cls.class_eval do
+             
+        def receivers
+          @property_mgr ||= ASpaceImport::Crosswalk::PropertyMgr.new(self)
+          
+          @property_mgr
+        end
+                 
+        def set_default_properties
+          self.receivers.each { |r| r.receive }
+        end
+        
+      end
+
+      cls
+    end  
+    
+    def tweak_object(json, depth)
+      json.instance_eval("def depth; #{depth}; end")
+
+      # Set a pre-save URI to be dereferenced by the backend
+      if json.class.method_defined? :uri
+        json.uri = json.class.uri_for(ASpaceImport::Crosswalk.mint_id) 
       end
       
-      def wrap_model(cls, node_name)
-        
-        cls.class_eval("def self.xpath; '#{node_name}'; end")
-        
-        cls.class_eval do
-               
-          def receivers
-            @property_mgr ||= ASpaceImport::Crosswalk::PropertyMgr.new(self)
-            
-            @property_mgr
-          end
-                   
-          def set_default_properties
-            self.receivers.each { |r| r.receive }
-          end
-          
-        end
-
-        cls
-      end  
-      
-      def tweak_object(json, depth)
-        json.instance_eval("def depth; #{depth}; end")
-
-        # Set a pre-save URI to be dereferenced by the backend
-
-        temporary_id = ASpaceImport::Crosswalk.mint_id
-        json.uri = json.class.uri_for(temporary_id) if json.class.method_defined? :uri
-
-        json
-      end   
-    end  
+      json
+    end   
+    # end  
 
     # Intermediate / chaining class for yielding property receivers given
     # either an xpath or a record_type along with an optional depth (of
@@ -138,16 +138,17 @@ module ASpaceImport
         @receivers.each { |p, r| yield r }                  
       end
       
-      def for(opts)
-        if opts[:depth]
-          offset = opts[:depth] - @depth
+      def for(*nodeargs)
+        nname, ndepth, ntype = *nodeargs
+        if ndepth
+          offset = ndepth - @depth
         else
           offset = 0
         end                 
         
-        if opts[:xpath]
+        if nname
         
-          match_string = ASpaceImport::Crosswalk::regexify_node(opts[:xpath], offset)
+          match_string = ASpaceImport::Crosswalk::regexify_node(nname, offset)
         
           @mapped_props.each do |p, defn|
             
@@ -157,8 +158,6 @@ module ASpaceImport
             next unless defn['xpath']
  
             if defn['xpath'].find { |xp| xp.match(match_string) }
-
-              puts "Matched #{defn['xpath']} using #{match_string}" if $DEBUG
 
               @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json, p, defn)
             
@@ -179,7 +178,6 @@ module ASpaceImport
       attr_reader :json
       
       def initialize(json, prop, defn)
-        puts "JSON #{json.inspect} #{prop}"
         @json, @prop, @defn = json, prop, defn
         @type = @json.class.schema['properties'][@prop]['type']        
       end
@@ -193,33 +191,32 @@ module ASpaceImport
       # instance belongs. Uses the crosswalk definition (defn) to 
       # massage the val as necessary.
       
-      def receive(val = nil)          
+      def receive(val = nil)
 
         if val == nil and @defn['default'] and not @json.send("#{@prop}")
           val = @defn['default']
         end
         
         return false if val == nil
-        
+                
         if @defn['procedure']
           proc = eval "lambda { #{@defn['procedure']} }"
-          val = proc.call(val)
-          puts "Procedure Val: #{val}" if $DEBUG
+          val = proc.call(val)                    
         end
-        
+                        
         return false if val == nil
         
         if val.class.method_defined? :jsonmodel_type
           if @type.match(/^JSON.*(uri|uri_or_object)$/) and val.class.method_defined? :uri
             @json.send("#{@prop}=", val.uri)
-            
+
           elsif @type.match(/^JSON.*object$/)
             @json.send("#{@prop}=", val.to_hash)
-            
+
           elsif @type == 'array' and val.class.method_defined? :uri
             @json.send("#{@prop}=", @json.send("#{@prop}").push(val.uri))
-  
-          elsif @type == 'array'          
+
+          elsif @type == 'array'
             @json.send("#{@prop}=", @json.send("#{@prop}").push(val.to_hash(true)))
           
           else  
@@ -229,7 +226,7 @@ module ASpaceImport
         elsif @type == 'string'
 
           @json.send("#{@prop}=", val)
-          
+
         elsif @type == 'array'
           if @json.send("#{@prop}")
             @json.send("#{@prop}=", @json.send("#{@prop}").push(val))

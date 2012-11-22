@@ -35,7 +35,7 @@ module ASpaceImport
           ASpaceImport::Crosswalk.init(opts)
           
           i.class_eval do
-            include ASpaceImport::Crosswalk
+            extend ASpaceImport::Crosswalk
           end
         end
         i.new opts

@@ -42,10 +42,13 @@ entities:
       rights_statements:
         xpath: ["descendant::accessrestrict"]
         
+      linked_agents:
+        xpath: ["descendant::persname", "descendant::corpname"]
+        procedure: "|val| {'role' => 'subject', 'ref' => val.uri}" #val is a json object (agent)
+        
       notes:
         xpath: [ "descendant::bibliography", "descendant::index", "descendant::accessrestrict", "descendant::accruals", "descendant::acqinfo", "descendant::altformavail", "descendant::appraisal", "descendant::arrangement", "descendant::bioghist", "descendant::custodhist", "descendant::fileplan", "descendant::odd", "descendant::otherfindaid", "descendant::originalsloc", "descendant::phystech", "descendant::prefercite", "descendant::processinfo", "descendant::relatedmaterial", "descendant::scopecontent", "descendant::separatedmaterial", "descendant::userestrict"]
-      
-  
+ 
   note_bibliography:
     xpath: ["//bibliography"]
     properties:
@@ -75,25 +78,7 @@ entities:
         
       type:
         xpath: ["self::name"]
-        procedure: "|value| {'accessrestrict' => 'Conditions Governing Access', 'accruals' => 'Accruals', 'acqinfo' => 'Immediate Source of Acquisition', 'altformavail' => 'Existence and Location of Copies', 'appraisal' => 'Appraisal', 'arrangement' => 'Arrangement', 'bioghist' => 'Biographical / Historical', 'custodhist' => 'Custodial History', 'fileplan' => 'File Plan', 'odd' => 'General', 'otherfindaid' => 'Other Finding Aids', 'originalsloc' => 'Existence and Location of Originals', 'phystech' => 'Physical Characteristics and Technical Requirements', 'prefercite' => 'Preferred Citation', 'processinfo' => 'Processing Information', 'relatedmaterial' => 'Related Archival Materials', 'scopecontent' => 'Scope and Contents', 'separatedmaterial' => 'Separated Materials', 'userestrict' => 'Conditions Governing Use'}[value]" 
-
-  # rights_statement:
-  #   xpath: ["//accessrestrict"]
-  #   properties:
-  #     identifier:
-  #       xpath: ["@id"]
-  #       
-  #     rights_type:
-  #       default: "intellectual_property"
-  #       
-  #     ip_status:
-  #       default: "unknown"
-  #     
-  #     jurisdiction:
-  #       default: "unknown"
-  #       
-  #     restrictions:
-  #       xpath: ["self"]
+        procedure: "|value| {'accessrestrict' => 'Conditions Governing Access', 'accruals' => 'Accruals', 'acqinfo' => 'Immediate Source of Acquisition', 'altformavail' => 'Existence and Location of Copies', 'appraisal' => 'Appraisal', 'arrangement' => 'Arrangement', 'bioghist' => 'Biographical / Historical', 'custodhist' => 'Custodial History', 'fileplan' => 'File Plan', 'odd' => 'General', 'otherfindaid' => 'Other Finding Aids', 'originalsloc' => 'Existence and Location of Originals', 'phystech' => 'Physical Characteristics and Technical Requirements', 'prefercite' => 'Preferred Citation', 'processinfo' => 'Processing Information', 'relatedmaterial' => 'Related Archival Materials', 'scopecontent' => 'Scope and Contents', 'separatedmaterial' => 'Separated Materials', 'userestrict' => 'Conditions Governing Use'}[value]"
 
   archival_object: 
     xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]

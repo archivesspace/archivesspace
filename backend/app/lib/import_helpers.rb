@@ -78,6 +78,11 @@ module ImportHelpers
               json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/) and \
               v.is_a? Array
           data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/)) ? set[u].uri : u }
+        # handles cases like the linked agents array in the resource model:
+        elsif json.class.schema["properties"][k]["type"] == "array" and \
+              json.class.schema["properties"][k]["items"]["type"] == "object" and \
+              v.is_a? Array
+          data[k] = v.map { |hash| hash.merge!("ref" => set[hash["ref"]].uri) }
         end
       end
       
@@ -93,7 +98,18 @@ module ImportHelpers
         json.class.schema["properties"][k]["type"] == "array" and \
         !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
         json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/)
-        )) and v.is_a? String and !v.match(/\/vocabularies\/[0-9]+$/)
+        ) 
+        ) and v.is_a? String and !v.match(/\/vocabularies\/[0-9]+$/) or \
+        (
+        json.class.schema["properties"][k]["type"] == "array" and \
+        json.class.schema["properties"][k]["items"]["type"] == "object"
+        # json.class.schema["properties"][k]["items"]["properties"].is_a? Hash and \
+        # json.class.schema["properties"][k]["items"]["properties"].has_key? "ref" and \
+        # json.class.schema["properties"][k]["items"]["properties"]["ref"].is_a? Hash and \
+        # json.class.schema["properties"][k]["items"]["properties"]["ref"].has_key? "type" and \
+        # json.class.schema["properties"][k]["items"]["properties"]["ref"]["type"].is_a? Array and \
+        # json.class.schema["properties"][k]["items"]["properties"]["ref"]["type"][0].match /uri$/
+        )        
       }
       unlinked.set_data(data)
       unlinked
