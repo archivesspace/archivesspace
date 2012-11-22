@@ -74,6 +74,7 @@ module ImportHelpers
 
           data[k] = set[v].uri
         elsif json.class.schema["properties"][k]["type"] == "array" and \
+              !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
               json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/) and \
               v.is_a? Array
           data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/)) ? set[u].uri : u }
