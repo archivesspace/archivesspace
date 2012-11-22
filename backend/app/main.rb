@@ -147,6 +147,10 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  error ImportException do
+    json_response({:error => request.env['sinatra.error'].to_s}, 400)
+  end
+
   error NotFoundException do
     json_response({:error => request.env['sinatra.error']}, 404)
   end

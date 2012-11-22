@@ -8,8 +8,6 @@ module ImportHelpers
     begin 
       batch.process
       json_response({:saved => batch.saved_uris}, 200)
-    rescue ImportException => e
-      json_response({:error => e.to_s}, 400)
     end
   end  
   
