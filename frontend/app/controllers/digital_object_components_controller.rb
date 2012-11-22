@@ -60,6 +60,7 @@ class DigitalObjectComponentsController < ApplicationController
       params[:digital_object_component][:parent] = nil
     end
 
+    params[:digital_object_component][:position] = params[:index].to_i if params.has_key? :index
 
     handle_crud(:instance => :digital_object_component,
                 :obj => JSONModel(:digital_object_component).find(params[:id]),
