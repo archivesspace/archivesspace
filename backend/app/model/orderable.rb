@@ -9,9 +9,9 @@ module Orderable
 
 
   def set_position_in_list(target_position)
-
     siblings_ds = self.class.dataset.
-                       filter(:parent_id => self.parent_id,
+                       filter(:root_record_id => self.root_record_id,
+                              :parent_id => self.parent_id,
                               ~:position => nil)
 
     # Find the position of the element we'll be inserted after.  If there are no
