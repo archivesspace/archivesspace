@@ -21,6 +21,7 @@ module ASpaceImport
     
     def dedupe
       puts "DUPES: #{@dupes.inspect}" if $DEBUG
+
       #1. Remove objects that duplicate earlier objects
       @dupes.each do |uri2drop, uri2keep|
         self.reject! {|obj| obj.uri == uri2drop}
@@ -85,6 +86,7 @@ module ASpaceImport
     # helpers
     def self.replace_links(json, link_map)
 
+      puts json.to_hash(true)
       data = json.to_hash
       data.each do |k, v| 
         if json.class.schema["properties"][k]["type"].match(/JSONModel/) and \
@@ -95,6 +97,7 @@ module ASpaceImport
 
           data[k] = link_map[v]
         elsif json.class.schema["properties"][k]["type"] == "array" and \
+              !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
               json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/) and \
               v.is_a? Array
           data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/) and link_map.has_key?(u)) ? link_map[u] : u }.uniq
@@ -115,7 +118,32 @@ module ASpaceImport
     end
     
     def pop
-      @batch.push(self.last)
+
+      self[0...-1].reverse.each do |qdobj|
+      
+        # Set Links FROM popped object TO other objects in the queue
+        self.last.receivers.for(:depth => qdobj.depth, 
+                          :xpath => qdobj.class.xpath) do |r|
+      
+          r.receive(qdobj)
+        end
+        # Set Links TO the popped object FROM others in the queue
+        qdobj.receivers.for(:depth => self.last.depth, 
+                            :xpath => self.last.class.xpath) do |r|
+              
+          r.receive(self.last)
+        end          
+      end
+      
+      # Set Default properties
+      self.last.set_default_properties
+      
+      # If the object has a uri, send it to the POST batch; otherwise
+      # it's an inline record.
+      if self.last.class.method_defined? :uri and !self.last.uri.nil?
+        @batch.push(self.last) unless self.last.uri.nil?
+      end
+      
       super
     end
     
@@ -123,34 +151,21 @@ module ASpaceImport
 
       raise "Not a JSON Object" unless obj.class.record_type
 
-      self.reverse.each do |qdobj|
-        
-        # Links FROM incoming object TO other objects in the queue
-        obj.receivers.for(:depth => qdobj.depth, 
-                          :xpath => qdobj.class.xpath) do |r|
-
-          r.receive(qdobj.uri)
-        end
-        
-        # Links TO the incoming object FROM others in the queue
-        qdobj.receivers.for(:depth => obj.depth, 
-                            :xpath => obj.class.xpath) do |r|
-
-          r.receive(obj.uri)
-        end
-        
-      end
-
-      super
+      puts "QL #{self.length}"
+      super 
     end
     
     # Yield receivers for anything in the parse queue.
+    def receivers
+      self
+    end
     
-    def receivers(node_args)  
+    def for(node_args)  
       self.reverse.each do |obj|        
         obj.receivers.for(node_args) { |r| yield r }
       end
     end
+    
       
     def save
       @batch.save

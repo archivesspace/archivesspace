@@ -92,6 +92,7 @@ module ImportHelpers
         (json.class.schema["properties"][k]["type"].match(/JSONModel/) or \
         (
         json.class.schema["properties"][k]["type"] == "array" and \
+        !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
         json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/)
         )) and v.is_a? String and !v.match(/\/vocabularies\/[0-9]+$/)
       }

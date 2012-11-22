@@ -78,7 +78,7 @@ describe "ASpaceImport and ASpaceExport modules" do
     @i = ASpaceImport::Importer.create_importer(@opts)
     @i.run
   
-    File.exist?(File.join(Dir::tmpdir, "ead-trace.csv")).should be_true
+    File.exist?(File.join(Dir::tmpdir, "ead-trace.tsv")).should be_true
   
   end
 
