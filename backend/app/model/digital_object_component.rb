@@ -1,3 +1,6 @@
+require_relative 'orderable'
+require_relative 'notes'
+
 class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   plugin :validation_helpers
   include ASModel
@@ -6,57 +9,16 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Dates
   include ExternalDocuments
   include Agents
+  include Orderable
+  include Notes
+
+  orderable_root_record_type :digital_object, :digital_object_component
 
   set_model_scope :repository
 
-  def children
-    DigitalObjectComponent.this_repo.filter(:parent_id => self.id)
-  end
-
-
-  def self.set_digital_object(json, opts)
-    opts["digital_object_id"] = nil
-    opts["parent_id"] = nil
-
-    if json.digital_object
-      opts["digital_object_id"] = JSONModel::parse_reference(json.digital_object, opts)[:id]
-
-      if json.parent
-        opts["parent_id"] = JSONModel::parse_reference(json.parent, opts)[:id]
-      end
-    end
-  end
-
-
-  def self.create_from_json(json, opts = {})
-    notes_blob = JSON(json.notes)
-    json.notes = nil
-    self.set_digital_object(json, opts)
-    super(json, opts.merge(:notes => notes_blob))
-  end
-
-
-  def update_from_json(json, opts = {})
-    notes_blob = JSON(json.notes)
-    self.class.set_digital_object(json, opts)
-    json.notes = nil
-    super(json, opts.merge(:notes => notes_blob))
-  end
-
 
   def self.sequel_to_jsonmodel(obj, type, opts = {})
-    notes = JSON.parse(obj.notes || "[]")
-    obj[:notes] = nil
     json = super
-    json.notes = notes
-
-    if obj.digital_object_id
-      json.digital_object = uri_for(:digital_object, obj.digital_object_id)
-
-      if obj.parent_id
-        json.parent = uri_for(:digital_object_component, obj.parent_id)
-      end
-    end
 
     json
   end

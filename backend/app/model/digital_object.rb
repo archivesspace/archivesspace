@@ -1,3 +1,5 @@
+require_relative 'notes'
+
 class DigitalObject < Sequel::Model(:digital_object)
   plugin :validation_helpers
   include ASModel
@@ -7,6 +9,8 @@ class DigitalObject < Sequel::Model(:digital_object)
   include ExternalDocuments
   include Agents
   include Trees
+  include Notes
+
 
   tree_of(:digital_object, :digital_object_component)
   set_model_scope :repository
@@ -16,30 +20,6 @@ class DigitalObject < Sequel::Model(:digital_object)
     child.digital_object_id = self.id
     child.parent_id = opts[:parent]
     child.save
-  end
-
-
-  def self.create_from_json(json, opts = {})
-    notes_blob = JSON(json.notes)
-    json.notes = nil
-    super(json, opts.merge(:notes => notes_blob))
-  end
-
-
-  def update_from_json(json, opts = {})
-    notes_blob = JSON(json.notes)
-    json.notes = nil
-    super(json, opts.merge(:notes => notes_blob))
-  end
-
-
-  def self.sequel_to_jsonmodel(obj, type, opts = {})
-    notes = JSON.parse(obj.notes || "[]")
-    obj[:notes] = nil
-    json = super
-    json.notes = notes
-
-    json
   end
 
 end

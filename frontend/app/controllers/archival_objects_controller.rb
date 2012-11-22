@@ -60,10 +60,14 @@ class ArchivalObjectsController < ApplicationController
       params[:archival_object][:parent] = nil
     end
 
+    params[:archival_object][:position] = params[:index].to_i if params.has_key? :index
+
     handle_crud(:instance => :archival_object,
                 :obj => JSONModel(:archival_object).find(params[:id]),
                 :replace => false,
-                :on_invalid => ->(){ throw "Error setting parent of archival object" },
+                :on_invalid => ->(){
+                  raise "Error setting parent of archival object"
+                },
                 :on_valid => ->(id){ return render :text => "success"})
   end
 

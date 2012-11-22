@@ -15,3 +15,7 @@ end
 
 class ReadOnlyException < StandardError
 end
+
+
+class SequenceError < StandardError
+end

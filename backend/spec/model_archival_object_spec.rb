@@ -14,6 +14,11 @@ describe 'ArchivalObject model' do
   end
 
 
+  it "Allow multiple archival objects to be created without conflicts" do
+    create_list(:json_archival_object, 5)
+  end
+
+
   it "Allows archival objects to be created with an extent" do
     
     opts = {:extents => [{

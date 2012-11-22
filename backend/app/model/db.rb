@@ -70,8 +70,7 @@ class DB
 
 
       rescue Sequel::DatabaseError => e
-        if e.wrapped_exception.getSQLState =~ /^40/
-          # Transaction was rolled back, but we can retry
+        if is_retriable_exception(e)
           sleep 1
         else
           raise e
@@ -91,7 +90,13 @@ class DB
 
   # Yeesh.
   def self.is_integrity_violation(exception)
-    return (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^23/
+    (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^23/
+  end
+
+
+  def self.is_retriable_exception(exception)
+    # Transaction was rolled back, but we can retry
+    (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^40/
   end
 
 
@@ -187,6 +192,20 @@ eof
     end
 
     expire_backups
+  end
+
+
+  def self.deblob(s)
+    if s
+      if @pool.database_type == :h2
+        # Interestingy, the H2 database seems to be returning hex-encoded
+        # strings for blobs.  Working around for now, but should look into
+        # what's really happening here later.
+        [s].pack("H*")
+      else
+        s
+      end
+    end
   end
 
 end
