@@ -8,30 +8,32 @@ module Orderable
   end
 
 
-  def set_position_in_list(old_position, target_position)
+  def set_position_in_list(target_position)
+
+    siblings_ds = self.class.dataset.
+                       filter(:parent_id => self.parent_id,
+                              ~:position => nil)
+
+    # Find the position of the element we'll be inserted after.  If there are no
+    # elements, or if our target position is zero, then we'll get inserted at
+    # position zero.
+    predecessor = (target_position > 0) && siblings_ds.order(:position).
+                                                       limit(target_position).
+                                                       select(:position).all
+
+    new_position = (predecessor && !predecessor.empty?) ? (predecessor.last[:position] + 1) : 0
 
     100.times do
       begin
-        self.update(:position => target_position)
+        self.update(:position => new_position)
         self.save
         return
       rescue Sequel::DatabaseError => e
         if DB.is_integrity_violation(e)
-          # Someone's in our spot!  Move everyone out of the way.
-          if old_position && old_position < target_position
-            # Shift everyone left
-            self.class.dataset.
-                 filter(:parent_id => self.parent_id).
-                 filter { position <= target_position }.
-                 update(:position => Sequel.lit('position - 1'))
-
-          else
-            # Shift everyone right
-            self.class.dataset.
-                 filter(:parent_id => self.parent_id).
-                 filter { position >= target_position }.
-                 update(:position => Sequel.lit('position + 1'))
-          end
+          # Someone's in our spot!  Move everyone out of the way and retry.
+          siblings_ds.
+            filter { position >= new_position }.
+            update(:position => Sequel.lit('position + 1'))
         end
       end
     end
@@ -44,10 +46,7 @@ module Orderable
 
     self.class.set_root_record(json, opts)
 
-    # Initially save the object with no position set, and we'll negotiate it afterwards.
-    old_position = self.position
     opts["position"] = nil
-
     obj = super
 
     if json[self.class.root_record_type]
@@ -56,7 +55,7 @@ module Orderable
         json.position = Sequence.get("#{json[self.class.root_record_type]}_#{json.parent}_children_position")
       end
 
-      self.set_position_in_list(old_position, json.position)
+      self.set_position_in_list(json.position)
     end
 
     obj
