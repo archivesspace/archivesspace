@@ -216,7 +216,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
     def modified_response(type, obj, jsonmodel = nil)
-      response = {:status => type, :id => obj[:id], :lock_version => obj[:lock_version]}
+      response = {:status => type, :id => obj[:id], :lock_version => obj[:lock_version], :stale => obj.stale?}
 
       if jsonmodel
         response[:uri] = jsonmodel.class.uri_for(obj[:id], params)

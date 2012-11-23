@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
       model = opts[:model] || JSONModel(opts[:instance])
       obj = opts[:obj] || model.new
 
+      obj.instance_data[:find_opts] = opts[:find_opts] if opts.has_key? :find_opts
 
       fix_arrays = proc do |hash, schema|
         result = hash.clone

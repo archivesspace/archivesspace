@@ -203,9 +203,9 @@ module AspaceFormHelper
       value = obj[name]
 
       if opts.has_key? :controls_class
-        opts[:controls_class] << " label_only"
+        opts[:controls_class] << " label-only"
       else
-        opts[:controls_class] = " label_only"
+        opts[:controls_class] = " label-only"
       end
 
       label_with_field(name, value.blank? ? default : value , opts)

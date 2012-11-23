@@ -1,5 +1,5 @@
-require 'securerandom'
 require_relative 'orderable'
+require_relative 'auto_id_generator'
 
 class ArchivalObject < Sequel::Model(:archival_object)
   plugin :validation_helpers
@@ -12,24 +12,13 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Instances
   include Agents
   include Orderable
+  include AutoIdGenerator::Mixin
 
   orderable_root_record_type :resource, :archival_object
 
   set_model_scope :repository
 
-
-  def before_create
-    super
-    self.ref_id = SecureRandom.hex if self.ref_id.nil?
-  end
-
-
-  def update_from_json(json, opts = {})
-    # don't allow ref_id to be updated
-    json.ref_id = self.ref_id
-
-    super
-  end
+  register_auto_id :ref_id
 
 
   def validate

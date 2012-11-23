@@ -3,6 +3,12 @@ class DigitalObjectComponentsController < ApplicationController
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update, :parent]
 
+
+  FIND_OPTS = {
+    "resolve[]" => ["subjects","ref"]
+  }
+
+
   def new
     @digital_object_component = JSONModel(:digital_object_component).new._always_valid!
     @digital_object_component.title = "New Digital Object Component"
@@ -16,13 +22,14 @@ class DigitalObjectComponentsController < ApplicationController
   end
 
   def edit
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], "resolve[]" => ["subjects","ref"])
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], FIND_OPTS)
     render :partial => "digital_object_components/edit_inline" if inline?
   end
 
 
   def create
     handle_crud(:instance => :digital_object_component,
+                :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
                   flash[:success] = "Digital Object Component Created"
@@ -33,8 +40,7 @@ class DigitalObjectComponentsController < ApplicationController
 
   def update
     handle_crud(:instance => :digital_object_component,
-                :obj => JSONModel(:digital_object_component).find(params[:id],
-                                                         "resolve[]" => ["subjects","ref"]),
+                :obj => JSONModel(:digital_object_component).find(params[:id], FIND_OPTS),
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
                   flash[:success] = "Digital Object Component Saved"
@@ -45,7 +51,7 @@ class DigitalObjectComponentsController < ApplicationController
 
   def show
     @digital_object_id = params['digital_object_id']
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], "resolve[]" => ["subjects","ref"])
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], FIND_OPTS)
     render :partial => "digital_object_components/show_inline" if inline?
   end
 

@@ -344,7 +344,15 @@ module JSONModel
         set_data(params)
         @warnings = warnings
 
+        # a hash to store transient instance data
+        @instance_data = {}
+
         self.class.define_accessors(@data.keys)
+      end
+
+
+      def instance_data
+        @instance_data
       end
 
 
@@ -424,6 +432,11 @@ module JSONModel
         end
 
         set_data(params)
+      end
+
+
+      def reset_from(another_jsonmodel)
+        @data = another_jsonmodel.instance_eval { @data }
       end
 
 
@@ -558,6 +571,7 @@ module JSONModel
 
       ## Supporting methods following from here
       protected
+
 
       def self.drop_unknown_properties(hash, schema = nil)
         fn = proc do |hash, schema|

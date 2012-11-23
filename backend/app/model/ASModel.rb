@@ -11,6 +11,32 @@ module ASModel
   end
 
 
+  @stale = false
+
+  # An object is considered stale if it's been explicitly marked as stale, or if
+  # one of its linked records has been marked as stale.
+  #
+  # THINKME: is this going to be overly expensive in terms of how many objects
+  # it needs to pull back?
+  #
+  def stale?
+    return true if @stale
+
+    (ASModel.linked_records[self.class] or []).each do |linked_record|
+      if [:one_to_one, :many_to_one].include?(linked_record[:association][:type])
+        obj = self.send(linked_record[:association][:name])
+        return true if !obj.nil? and obj.stale?
+      else
+        self.send(linked_record[:association][:name]).each do | record |
+          return true if record.stale?
+        end
+      end
+    end
+
+    false
+  end
+
+
   def before_create
     self.create_time = Time.now
     self.last_modified = Time.now

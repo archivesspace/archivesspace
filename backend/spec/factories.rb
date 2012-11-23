@@ -246,7 +246,6 @@ FactoryGirl.define do
   
   # may need factories for each rights type
   factory :json_rights_statement, class: JSONModel(:rights_statement) do
-    identifier { generate(:alphanumstr) }
     rights_type 'intellectual_property'
     ip_status { generate(:ip_status) }
     jurisdiction { generate(:alphanumstr) }

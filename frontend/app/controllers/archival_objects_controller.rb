@@ -3,6 +3,10 @@ class ArchivalObjectsController < ApplicationController
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update, :parent]
 
+  FIND_OPTS = {
+    "resolve[]" => ["subjects", "location", "ref"]
+  }
+
   def new
     @archival_object = JSONModel(:archival_object).new._always_valid!
     @archival_object.title = "New Archival Object"
@@ -16,13 +20,14 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def edit
-    @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
+    @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
     render :partial => "archival_objects/edit_inline" if inline?
   end
 
 
   def create
     handle_crud(:instance => :archival_object,
+                :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
                   flash[:success] = "Archival Object Created"
@@ -33,8 +38,7 @@ class ArchivalObjectsController < ApplicationController
 
   def update
     handle_crud(:instance => :archival_object,
-                :obj => JSONModel(:archival_object).find(params[:id],
-                                                         "resolve[]" => ["subjects", "location", "ref"]),
+                :obj => JSONModel(:archival_object).find(params[:id], FIND_OPTS),
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
                   flash[:success] = "Archival Object Saved"
@@ -45,7 +49,7 @@ class ArchivalObjectsController < ApplicationController
 
   def show
     @resource_id = params['resource_id']
-    @archival_object = JSONModel(:archival_object).find(params[:id], "resolve[]" => ["subjects", "location", "ref"])
+    @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
     render :partial => "archival_objects/show_inline" if inline?
   end
 
