@@ -39,9 +39,6 @@ entities:
         xpath: ["child::*/child::*/child::unitdate"]
         procedure: "|value| {'date_type' => 'expression', 'expression' => value, 'label' => 'other'}"
         
-      rights_statements:
-        xpath: ["descendant::accessrestrict"]
-        
       linked_agents:
         xpath: ["descendant::persname", "descendant::corpname"]
         procedure: "|val| {'role' => 'subject', 'ref' => val.uri}" #val is a json object (agent)
