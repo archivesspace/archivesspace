@@ -46,24 +46,17 @@ module ImportHelpers
           raise ImportException.new({:invalid_object => json, :message => e.message})
         end
       end
-      
-      
+         
       # Update the linked record pointers in the json set
       @json_set.each do |ref, json|
         self.class.correct_links(json, @json_set)
         
       end
-      
-      
+          
       @as_set.each do |ref, a|
-
         obj = a[1].get_or_die(a[0])
         
         obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
-
-        # Without this line, the Resource object seems to lose 
-        # its Notes and double its Dates.
-        objref = a[1].get_or_die(obj.id)
 
         @saved_uris[ref] = @json_set[ref].uri   
       end
@@ -81,11 +74,11 @@ module ImportHelpers
         when 3
           data[k] = v.map { |hash| hash.merge!("ref" => set[hash["ref"]].uri) }
         end
-
       end
       
       json.set_data(data)
     end
+    
     
     def self.check_data_key(kdef, k, v)
       
