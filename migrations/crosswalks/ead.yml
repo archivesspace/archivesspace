@@ -6,37 +6,80 @@ source:
   schema: "http://www.loc.gov/ead/ead.xsd"
 entities:
   resource: 
-    xpath: ["ead"]
+    xpath: ["/ead"]
     properties:
       id_0: 
-        xpath: ["descendant::unitid"]
+        xpath: ["child::*/child::*/child::unitid"]
         procedure: "|value| value.sub(/[_\\.\\s].*/, '')"
       
       id_1:
-        xpath: ["descendant::unitid"]
+        xpath: ["child::*/child::*/child::unitid"]
         procedure: "|value| value.split(/[_\\-.\\s]/)[1]"
       
       id_2:
-        xpath: ["descendant::unitid"]
+        xpath: ["child::*/child::*/child::unitid"]
         procedure: "|value| value.split(/[_\\-.\\s]/)[2]"
         
       id_3:
-        xpath: ["descendant::unitid"]
+        xpath: ["child::*/child::*/child::unitid"]
         procedure: "|value| value.split(/[_\\-.\\s]/)[3]"
 
       title: 
-        xpath: ["descendant::unittitle"]
+        xpath: ["child::*/child::*/child::unittitle"]
         
       subjects: 
         xpath: ["descendant::subject"]
-        # temporary hack:
-        procedure: "|value| value = nil unless value.include?('/'); value"
         
       extents:
-        xpath: ["descendant::extent"]
+        xpath: ["child::*/child::*/child::*/child::extent"]
         default: "5 or so"
         procedure: "|value| {'portion' => 'whole', 'number' => value, 'extent_type' => 'reels'}"
+      
+      dates:
+        xpath: ["child::*/child::*/child::unitdate"]
+        procedure: "|value| {'date_type' => 'expression', 'expression' => value, 'label' => 'other'}"
         
+      rights_statements:
+        xpath: ["descendant::accessrestrict"]
+        
+      linked_agents:
+        xpath: ["descendant::persname", "descendant::corpname"]
+        procedure: "|val| {'role' => 'subject', 'ref' => val.uri}" #val is a json object (agent)
+        
+      notes:
+        xpath: [ "descendant::bibliography", "descendant::index", "descendant::accessrestrict", "descendant::accruals", "descendant::acqinfo", "descendant::altformavail", "descendant::appraisal", "descendant::arrangement", "descendant::bioghist", "descendant::custodhist", "descendant::fileplan", "descendant::odd", "descendant::otherfindaid", "descendant::originalsloc", "descendant::phystech", "descendant::prefercite", "descendant::processinfo", "descendant::relatedmaterial", "descendant::scopecontent", "descendant::separatedmaterial", "descendant::userestrict"]
+ 
+  note_bibliography:
+    xpath: ["//bibliography"]
+    properties:
+      label:
+        default: "just a default note label"
+        
+      content:
+        xpath: ["self"]
+  
+  note_index:
+    xpath: ["//index"]
+    properties:
+      label:
+        default: "just a default note label"
+      
+      content:
+        xpath: ["self"]
+
+  note_multipart:
+    xpath: [ "//accessrestrict", "//accruals", "//acqinfo", "//altformavail", "//appraisal", "//arrangement", "//bioghist", "//custodhist", "//fileplan", "//odd", "//otherfindaid", "//originalsloc", "//phystech", "//prefercite", "//processinfo", "//relatedmaterial", "//scopecontent", "//separatedmaterial", "//userestrict"]
+    properties: 
+      label:
+        default: "just a default note label"
+      
+      content:
+        xpath: ["self"]
+        
+      type:
+        xpath: ["self::name"]
+        procedure: "|value| {'accessrestrict' => 'Conditions Governing Access', 'accruals' => 'Accruals', 'acqinfo' => 'Immediate Source of Acquisition', 'altformavail' => 'Existence and Location of Copies', 'appraisal' => 'Appraisal', 'arrangement' => 'Arrangement', 'bioghist' => 'Biographical / Historical', 'custodhist' => 'Custodial History', 'fileplan' => 'File Plan', 'odd' => 'General', 'otherfindaid' => 'Other Finding Aids', 'originalsloc' => 'Existence and Location of Originals', 'phystech' => 'Physical Characteristics and Technical Requirements', 'prefercite' => 'Preferred Citation', 'processinfo' => 'Processing Information', 'relatedmaterial' => 'Related Archival Materials', 'scopecontent' => 'Scope and Contents', 'separatedmaterial' => 'Separated Materials', 'userestrict' => 'Conditions Governing Use'}[value]"
+
   archival_object: 
     xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
     properties:
@@ -55,17 +98,17 @@ entities:
         xpath: ["ancestor::ead"]
         
       subjects: 
-        xpath: ["child::subject"]
+        xpath: ["descendant::subject"]
       
   subject:
-    xpath: ["subject"]
+    xpath: ["//subject"]
     properties:
       terms: 
         xpath: ["self"]
         procedure: "|value| {'term' => value, 'term_type' => 'Cultural context'}"
         
   agent_person:
-    xpath: ["persname"]
+    xpath: ["//persname"]
     properties:
       agent_type:
         default: "agent_person"
@@ -75,7 +118,7 @@ entities:
         procedure: "|value| {'rules' => 'local', 'primary_name' => value, 'sort_name' => value, 'direct_order' => 'standard'}"
 
   agent_corporate_entity:
-    xpath: ["corpname"]
+    xpath: ["//corpname"]
     properties:
       agent_type:
         default: "agent_corporate_entity"    

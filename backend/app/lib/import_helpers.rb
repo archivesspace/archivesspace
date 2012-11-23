@@ -17,7 +17,7 @@ module ImportHelpers
     def initialize(batch_object)
       @json_set = {}
       @as_set = {}
-      @saved_uris = []
+      @saved_uris = {}
       
       batch_object.batch.each do |item|
          @json_set[item['uri']] = JSONModel::JSONModel(item['jsonmodel_type']).from_hash(item)
@@ -59,7 +59,7 @@ module ImportHelpers
         obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
         obj.save
 
-        @saved_uris << @json_set[ref].uri
+        @saved_uris[ref] = @json_set[ref].uri
       end
       
     end
@@ -74,9 +74,15 @@ module ImportHelpers
 
           data[k] = set[v].uri
         elsif json.class.schema["properties"][k]["type"] == "array" and \
+              !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
               json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/) and \
               v.is_a? Array
           data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/)) ? set[u].uri : u }
+        # handles cases like the linked agents array in the resource model:
+        elsif json.class.schema["properties"][k]["type"] == "array" and \
+              json.class.schema["properties"][k]["items"]["type"] == "object" and \
+              v.is_a? Array
+          data[k] = v.map { |hash| hash.merge!("ref" => set[hash["ref"]].uri) }
         end
       end
       
@@ -90,8 +96,14 @@ module ImportHelpers
         (json.class.schema["properties"][k]["type"].match(/JSONModel/) or \
         (
         json.class.schema["properties"][k]["type"] == "array" and \
+        !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
         json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/)
-        )) and v.is_a? String and !v.match(/\/vocabularies\/[0-9]+$/)
+        ) 
+        ) and v.is_a? String and !v.match(/\/vocabularies\/[0-9]+$/) or \
+        (
+        json.class.schema["properties"][k]["type"] == "array" and \
+        json.class.schema["properties"][k]["items"]["type"] == "object"
+        )        
       }
       unlinked.set_data(data)
       unlinked

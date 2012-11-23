@@ -10,7 +10,11 @@ ASpaceImport::Importer.importer :xml do
 
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
-
+    
+    
+    # In DEBUG mode, generate a TSV audit trail
+    set_up_tracer if $DEBUG   
+      
     super
 
   end
@@ -22,95 +26,232 @@ ASpaceImport::Importer.importer :xml do
 
 
   def run
-    puts "XMLImporter:run" if $DEBUG
     
     @reader.each do |node|
+     
+      node_args = [node.name, node.depth, node.node_type]
       
-      node_args = {:xpath => node.name, :depth => node.depth}
-      
+      node.start_trace if $DEBUG
+
       if node.node_type == 1
-        
-        handle_node(node_args) do |obj|
-          
-          obj.receivers.for(:xpath => "self") do |r|
+        if (json = self.class.object_for_node(*node_args))
+
+          puts 
+          json.receivers.for("self") do |r|
             r.receive(node.inner_xml)
           end
-
-          node.attributes.each do |a|
-            
-            obj.receivers.for(:xpath => "@#{a[0]}") do |r|
+          
+          json.receivers.for("self::name") do |r|
+            r.receive(node.name)
+          end
+          
+          node.attributes.each do |a|        
+            json.receivers.for("@#{a[0]}") do |r|
               r.receive(a[1])
             end                         
           end
           
-          # Add current object to parsing queue          
-          @parse_queue.push(obj)
-        end     
-                
-        # Does the XML <node> create a property 
-        # for an entity in the queue?
-                     
-        @parse_queue.receivers(node_args) do |r|
-          puts "Node args: #{node_args.inspect} -- Receiver: #{r.to_s}" if $DEBUG
-          r.receive(node.inner_xml)
+          @parse_queue.push(json)
+        else
+          @parse_queue.receivers.for(*node_args) do |r|
+            r.receive(node.inner_xml)
+          end
         end
-              
-          # TODO (if needed): objects in queue that need attributes of
-          # current node
-
-      # Remove objects from the queue once their nodes close
-
-      elsif node.node_type != 1 and handle_node(node_args)
-
-        # Set defaults for missing values
-        
-        @parse_queue[-1].set_default_properties
-
+      # If a closing tag matches a node
+      elsif (json = self.class.object_for_node(*node_args, @parse_queue))
+        json.set_default_properties
+    
         # Temporary hacks and whatnot:                                          
         # Fill in missing values; add supporting records etc.
         # For instance:
+      
+        if ['subject'].include?(json.class.record_type)
         
-        if ['subject'].include?(@parse_queue[-1].class.record_type)
-          
           @vocab_uri ||= "/vocabularies/#{@vocab_id}"
-
-          @parse_queue[-1].vocabulary = @vocab_uri
-          if @parse_queue[-1].terms.is_a?(Array)
-            @parse_queue[-1].terms.each {|t| t['vocabulary'] = @vocab_uri}
-          end
+    
+          json.vocabulary = @vocab_uri
+          json.terms.each {|t| t['vocabulary'] = @vocab_uri}
         end
-
-        # Save or send to waiting area
-        puts "Finished parsing #{node.name}" if $DEBUG
-
-        @parse_queue.pop            
+      
+        @parse_queue.pop
       end
+
     end
     
     log_save_result(@parse_queue.save)
+    $tracer.out(@uri_map) if $DEBUG
   end  
 
 
-  # Very rough XSD validation
+  # Very rough XSD validation (Not working yet)
   
   def validate(input_file)
     
-
-    open(input_file).read().match(/xsi:schemaLocation="[^"]*(http[^"]*)"/)
-    
-    require 'net/http'
-    
-    uri = URI($1)
-    xsd_file = Net::HTTP.get(uri)
-    
-    xsd = Nokogiri::XML::Schema(xsd_file)
-    doc = Nokogiri::XML(File.read(input_file))
-
-    xsd.validate(doc).each do |error|
-      # @import_log << "Invalid Source: " + error.message
-    end
+    # open(input_file).read().match(/xsi:schemaLocation="[^"]*(http[^"]*)"/)
+    # 
+    # require 'net/http'
+    # 
+    # uri = URI($1)
+    # xsd_file = Net::HTTP.get(uri)
+    # 
+    # xsd = Nokogiri::XML::Schema(xsd_file)
+    # doc = Nokogiri::XML(File.read(input_file))
+    # 
+    # xsd.validate(doc).each do |error|
+    # end
   
+  end
+  
+  protected
+  
+  def set_up_tracer
+    require 'tmpdir'
+    $tracer = Tracer.new
+    
+    ASpaceImport::Crosswalk::module_eval do
+      alias :object_for_node_original :object_for_node
+    
+      def object_for_node(*parseargs)
+      
+        if (json = object_for_node_original(*parseargs))
+          nname, ndepth, ntype = *parseargs
+          $tracer.trace(:aspace_data, json, nil) if ntype == 1
+    
+          json
+        else
+          false
+        end
+      end
+    end
+
+    
+    Nokogiri::XML::Reader.class_eval do
+      alias_method :inner_xml_original, :inner_xml
+
+      def start_trace
+        $tracer.set_node(self)
+      end
+
+      def inner_xml
+        $tracer.trace(:inner_xml, inner_xml_original)
+        inner_xml_original
+      end
+          
+    end
+    
+    ASpaceImport::Crosswalk::PropertyReceiver.class_eval do
+      alias_method :receive_original, :receive
+      
+      def receive(val = nil)
+        if receive_original(val)
+          if @json.send("#{@prop}") and @type == 'string'
+            received_val = @json.send("#{@prop}")
+          elsif @json.send("#{@prop}") and @type == 'array'
+            received_val = @json.send("#{@prop}").last
+          end
+
+          $tracer.trace(:aspace_data, json, prop, received_val)
+        end
+      end
+    end
   end
 
 end
+
+class Tracer
+  attr_accessor :registry
+  
+  def initialize(tfile = File.new("#{Dir.tmpdir}/ead-trace.tsv", "w"))
+    @file = tfile
+    @depth, @index, @xpath, @registry = 0, 0, "/", []
+  end
+  
+  def set_node(node)
+    @index += 1 unless @index == 0 and @registry.length == 0
+    @registry[@index] = {
+                          :node_type => node.node_type, 
+                          :node_value => node.value? ? node.value.sub(/[\s\n]*$/, '') : nil,
+                          :xpath => set_xpath(node),
+                          :aspace_data => [],
+                          :inner_xml => []
+                        }
+  end
+
+  
+  def trace(key, *j, val)
+    json, prop = j
+
+    val = sanitize(val)
+
+    if json and json.class.method_defined? :uri
+      ref = prop ? "#{json.uri}\##{prop}" : "#{json.uri}"
+    elsif json
+      ref = prop ? "#{json.class.to_s}\##{prop}" : "#{json.class.to_s}"
+    end
+    raise "STOP" if val.class.method_defined? :jsonmodel_type and val.jsonmodel_type == 'archival_object'
+
+    if key == :aspace_data
+      @registry[@index][key] << [ref, val]
+    else
+      @registry[@index][key] << val
+    end
+  end
+  
+  def sanitize(val)
+
+    return if val.nil? 
+    return val if val.is_a?(Hash)
+
+    if val.class.method_defined? :uri
+      val = val.uri
+    end
+
+    val.gsub!(/^\s*/, '')
+    val.gsub!(/\s*$/, '')
+    val.gsub!(/[\t\n\r]/, '')
+
+    val
+  end
+  
+  def out(map = {})
+    @file.write(%w(00000 NODE.TYPE XPATH NODE.XML NODE.TEXT ASPACE.REF ASPACE.VAL).join("\t").concat("\n"))
+    @registry.each_with_index do |l, i|
+
+      [1, l[:aspace_data].length].max.times do |j|
+        
+        if l[:aspace_data][j].is_a?(Array)
+          aspace_data = "#{l[:aspace_data][j][0]}\t#{l[:aspace_data][j][1]}"
+        else
+          aspace_data = "\t"
+        end
+        
+        if j == 0
+          line = "#{'%05d' % i}-#{j}\t#{l[:node_type]}\t#{l[:xpath]}\t#{l[:inner_xml][j]}\t#{l[:node_value]}\t#{aspace_data}\n"
+        else
+          line = "#{'%05d' % i}-#{j}\t\t\t#{l[:inner_xml][j]}\t\t#{aspace_data}\n"
+        end
+        map.each do |posted_uri, actual_uri|
+          line.gsub!(posted_uri, actual_uri)
+        end
+      
+        @file.write(line)
+      end
+    end
+  end 
+  
+   
+  def set_xpath(node)
+    if @depth < node.depth
+      @xpath.concat("/#{node.name}")
+    elsif @depth == node.depth
+      @xpath.sub!(/\/[#a-z0-9]*$/, "/#{node.name}")
+    elsif @depth > node.depth
+      @xpath.sub!(/\/[#a-z0-9]*\/[#a-z0-9]*$/, "/#{node.name}")
+    else
+      raise "Can't parse node depth to create XPATH for tracer"
+    end
+    @depth = node.depth
+    @xpath.clone
+  end
+end   
 

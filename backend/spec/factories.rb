@@ -81,7 +81,7 @@ FactoryGirl.define do
     title { generate(:generic_title) }
     repo_id nil
     ref_id { generate(:alphanumstr) }
-    resource_id nil
+    root_record_id nil
     parent_id nil
   end
   
