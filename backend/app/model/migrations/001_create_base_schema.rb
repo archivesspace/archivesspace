@@ -169,7 +169,7 @@ Sequel.migration do
 
     alter_table(:resource) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_index([:repo_id, :identifier], :unique => true)
+      add_unique_constraint([:repo_id, :identifier])
     end
 
 
@@ -199,8 +199,8 @@ Sequel.migration do
       add_foreign_key([:repo_id], :repository, :key => :id)
       add_foreign_key([:root_record_id], :resource, :key => :id)
       add_foreign_key([:parent_id], :archival_object, :key => :id)
-      add_index([:root_record_id, :ref_id], :unique => true)
 
+      add_unique_constraint([:root_record_id, :ref_id])
       add_unique_constraint([:root_record_id, :parent_name, :position])
     end
 
@@ -868,7 +868,7 @@ Sequel.migration do
       add_foreign_key([:resource_id], :resource, :key => :id)
 
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_index([:repo_id, :identifier], :unique => true)
+      add_unique_constraint([:repo_id, :identifier])
     end
 
 
