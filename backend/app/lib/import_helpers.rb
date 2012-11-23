@@ -38,8 +38,8 @@ module ImportHelpers
         
         begin
         obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
+        
         @as_set[json.uri] = [obj.id, obj.class]
-      
         # Now update the URI with the real ID
         json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
         rescue Exception => e
@@ -47,64 +47,72 @@ module ImportHelpers
         end
       end
       
+      
       # Update the linked record pointers in the json set
       @json_set.each do |ref, json|
         self.class.correct_links(json, @json_set)
+        
       end
+      
       
       @as_set.each do |ref, a|
 
         obj = a[1].get_or_die(a[0])
-
+        
         obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
-        obj.save
 
-        @saved_uris[ref] = @json_set[ref].uri
+        # Without this line, the Resource object seems to lose 
+        # its Notes and double its Dates.
+        objref = a[1].get_or_die(obj.id)
+
+        @saved_uris[ref] = @json_set[ref].uri   
       end
-      
     end
+      
     
     def self.correct_links(json, set)
       data = json.to_hash
       data.each do |k, v| 
-        if json.class.schema["properties"][k]["type"].match(/JSONModel/) and \
-              v.is_a? String and \
-              v.match(/\/.*[0-9]$/) and \
-              !v.match(/\/vocabularies\/[0-9]+$/)
-
+        case self.check_data_key(json.class.schema["properties"][k], k, v)
+        when 1
           data[k] = set[v].uri
-        elsif json.class.schema["properties"][k]["type"] == "array" and \
-              !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
-              json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/) and \
-              v.is_a? Array
+        when 2
           data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/)) ? set[u].uri : u }
-        # handles cases like the linked agents array in the resource model:
-        elsif json.class.schema["properties"][k]["type"] == "array" and \
-              json.class.schema["properties"][k]["items"]["type"] == "object" and \
-              v.is_a? Array
+        when 3
           data[k] = v.map { |hash| hash.merge!("ref" => set[hash["ref"]].uri) }
         end
+
       end
       
       json.set_data(data)
     end
     
+    def self.check_data_key(kdef, k, v)
+      
+      if kdef["type"].match(/JSONModel\(:[a-z_]*\) uri$/) && v.is_a?(String) &&
+        !v.match(/\/vocabularies\/[0-9]+$/) 
+        return 1
+          
+      elsif kdef["type"] == "array" && kdef["items"]["type"].is_a?(String)
+        
+        if kdef["items"]["type"].match(/JSONModel\(:[a-z_]*\) uri_or_object$/) && v[0].is_a?(String)
+          return 2
+
+        elsif kdef["items"]["type"] == "object"
+          return 3
+
+        end
+      end
+      0
+    end
+ 
+        
     def self.unlink(json)
       unlinked = json.clone
-      data = unlinked.to_hash
+      data = unlinked.to_hash        
       data.each { |k, v| data.delete(k) if \
-        (json.class.schema["properties"][k]["type"].match(/JSONModel/) or \
-        (
-        json.class.schema["properties"][k]["type"] == "array" and \
-        !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
-        json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/)
-        ) 
-        ) and v.is_a? String and !v.match(/\/vocabularies\/[0-9]+$/) or \
-        (
-        json.class.schema["properties"][k]["type"] == "array" and \
-        json.class.schema["properties"][k]["items"]["type"] == "object"
-        )        
-      }
+        0 != self.check_data_key(json.class.schema["properties"][k], k, v) }     
+
       unlinked.set_data(data)
       unlinked
     end
