@@ -53,7 +53,7 @@ class ArchivesSpaceIndexer
 
   include JSONModel
 
-  @@record_types = [:accession, :archival_object, :resource, :digital_object, :digital_object_component]
+  @@record_types = [:accession, :archival_object, :resource, :digital_object, :digital_object_component, :collection_management]
   @current_session = nil
 
 

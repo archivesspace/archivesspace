@@ -26,10 +26,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/collection_management_records')
     .description("Get a list of Collection Management Records for a Repository")
-    .params(["repo_id", :repo_id])
+    .params(["repo_id", :repo_id],
+            *Endpoint.pagination)
     .returns([200, "[(:collection_management)]"]) \
   do
-    handle_listing(CollectionManagement, :collection_management)
+    handle_listing(CollectionManagement, :collection_management, params[:page], params[:page_size], params[:modified_since])
   end
 
 

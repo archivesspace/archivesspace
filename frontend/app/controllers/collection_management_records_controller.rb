@@ -4,7 +4,7 @@ class CollectionManagementRecordsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @collection_managements = JSONModel(:collection_management).all
+    @search_data = JSONModel(:collection_management).all(:page => 1)
   end
 
   def show
