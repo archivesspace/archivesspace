@@ -10,7 +10,7 @@ $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
 $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
-$expire = 30
+$expire = 300
 
 class RSpec::Core::Example
   def passed?
