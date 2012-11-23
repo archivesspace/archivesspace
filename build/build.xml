@@ -17,8 +17,8 @@
   <property name="aspace.solr.port" value="2999" />
 
   <property environment="env"/>
-  <property name="env.JAVA_OPTS" value="" />
-  <property name="default_java_options" value="-Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver" />
+  <property name="env.JAVA_OPTS" value="-Dfile.encoding=UTF-8 -XX:MaxPermSize=128m -Xmx256m" />
+  <property name="default_java_options" value="-Daspace.config.search_user_secret=devserver" />
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
