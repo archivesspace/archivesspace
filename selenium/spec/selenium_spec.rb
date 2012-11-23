@@ -1376,6 +1376,7 @@ describe "ArchivesSpace user interface" do
 
   it "can log out once finished" do
     logout(@driver)
+    report_sleep
   end
 
 end

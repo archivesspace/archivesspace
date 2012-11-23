@@ -5,6 +5,7 @@ require "digest"
 require "rspec"
 require_relative '../../common/test_utils'
 
+$sleep_time = 0.0
 
 $backend_port = TestUtils::free_port_from(3636)
 $frontend_port = TestUtils::free_port_from(4545)
@@ -40,7 +41,7 @@ module Selenium
 
   module Config
     def self.retries
-      20
+      40
     end
   end
 
@@ -51,7 +52,7 @@ class Selenium::WebDriver::Driver
   def wait_for_ajax
     while (self.execute_script("return document.readyState") != "complete" or
            not self.execute_script("return window.$ == undefined || $.active == 0"))
-      sleep(0.2)
+      sleep(0.1)
     end
   end
 
@@ -72,7 +73,8 @@ class Selenium::WebDriver::Driver
       rescue Selenium::WebDriver::Error::NoSuchElementError => e
         if try < Selenium::Config.retries
           try += 1
-          sleep 0.5
+          $sleep_time += 0.1
+          sleep 0.1
         else
           puts "Failed to find #{selectors}"
 
@@ -112,7 +114,8 @@ class Selenium::WebDriver::Driver
       while self.find_element_orig(*selector).equal? element
         if try < Selenium::Config.retries
           try += 1
-          sleep 0.5
+          $sleep_time += 0.1
+          sleep 0.1
         else
           raise Selenium::WebDriver::Error::NoSuchElementError.new(selector.inspect)
         end
@@ -144,7 +147,8 @@ class Selenium::WebDriver::Driver
         elt.send_keys(keys)
         break
       rescue
-        sleep 0.5
+          $sleep_time += 0.1
+        sleep 0.1
       end
     end
   end
@@ -201,7 +205,8 @@ class Selenium::WebDriver::Element
         return nil
       end
 
-      sleep 0.5
+          $sleep_time += 0.1
+      sleep 0.1
     end
 
     return nil if noError
@@ -276,11 +281,17 @@ def assert(&block)
     block.call
   rescue
     try += 1
-    if try < 20
-      sleep 0.5
+    if try < Selenium::Config.retries
+      $sleep_time += 0.1
+      sleep 0.1
       retry
     else
       raise $!
     end
   end
+end
+
+
+def report_sleep
+  puts "Total time spent sleeping: #{$sleep_time.inspect}"
 end
