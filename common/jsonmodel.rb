@@ -436,7 +436,7 @@ module JSONModel
 
 
       def reset_from(another_jsonmodel)
-        @data = another_jsonmodel.raw_data
+        @data = another_jsonmodel.instance_eval { @data }
       end
 
 
@@ -571,11 +571,6 @@ module JSONModel
 
       ## Supporting methods following from here
       protected
-
-
-      def raw_data
-        @data
-      end
 
 
       def self.drop_unknown_properties(hash, schema = nil)
