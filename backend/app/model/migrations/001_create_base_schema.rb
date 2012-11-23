@@ -981,11 +981,17 @@ Sequel.migration do
     end
 
     create_join_table({:collection_management_id => :collection_management,
-                        :accession_id => :accession}, :name => "collection_management_accession")
+                        :accession_id => :accession},
+                      :name => "collection_management_accession",
+                      :index_options => { :name => 'c_m_acc_index'})
     create_join_table({:collection_management_id => :collection_management,
-                        :resource_id => :resource}, :name => "collection_management_resource")
+                        :resource_id => :resource},
+                      :name => "collection_management_resource",
+                      :index_options => { :name => 'c_m_res_index'})
     create_join_table({:collection_management_id => :collection_management,
-                        :digital_object_id => :digital_object}, :name => "collection_management_digital_object")
+                        :digital_object_id => :digital_object},
+                      :name => "collection_management_digital_object",
+                      :index_options => { :name => 'c_m_do_index'})
 
 
     create_table(:sequence) do
