@@ -12,10 +12,15 @@ class Log
     @@logger.error("\n#{e}\n#{backtrace}")
   end
 
-  def self.debug(s) @@logger.debug(s) end
-  def self.info(s) @@logger.info(s) end
-  def self.warn(s) @@logger.warn(s) end
-  def self.error(s) @@logger.error(s) end
+  def self.prepare(s)
+    my_id = "Thread-#{Thread.current.object_id}"
+    "#{my_id}: #{s}"
+  end
+
+  def self.debug(s) @@logger.debug(prepare(s)) end
+  def self.info(s) @@logger.info(prepare(s)) end
+  def self.warn(s) @@logger.warn(prepare(s)) end
+  def self.error(s) @@logger.error(prepare(s)) end
 
 
   def self.filter_passwords(params)

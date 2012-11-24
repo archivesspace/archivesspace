@@ -295,14 +295,13 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
       querystring = env['QUERY_STRING'].empty? ? "" : "?#{Log.filter_passwords(env['QUERY_STRING'])}"
-      my_id = "Thread-#{Thread.current.object_id}"
 
-      Log.debug("#{my_id}: #{env['REQUEST_METHOD']} #{env['PATH_INFO']}#{querystring} [session: #{session.inspect}]")
+      Log.debug("#{env['REQUEST_METHOD']} #{env['PATH_INFO']}#{querystring} [session: #{session.inspect}]")
       result = @app.call(env)
 
       end_time = Time.now
 
-      Log.debug("#{my_id}: Responded with #{result.to_s.gsub(/^(.{1024}).+$/, '\\1...')} in #{(end_time - start_time) * 1000}ms")
+      Log.debug("Responded with #{result.to_s.gsub(/^(.{1024}).+$/, '\\1...')} in #{(end_time - start_time) * 1000}ms")
 
       result
     end
