@@ -8,7 +8,7 @@ class SubjectsController < ApplicationController
   end
 
   def list
-    @subjects = Subject.all(:page => selected_page)
+    @subjects = Subject.all(:page => selected_page, :page_size => AppConfig[:max_page_size])
 
     if params[:q]
       # FIXME: this filtering belongs in the backend
