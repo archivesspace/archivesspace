@@ -267,7 +267,7 @@ module JSONModel
 
       # Create an instance of this JSONModel from a JSON string.
       def self.from_json(s, raise_errors = true)
-        self.from_hash(JSON(s), raise_errors)
+        self.from_hash(JSON.parse(s, :max_nesting => false), raise_errors)
       end
 
 
@@ -482,8 +482,8 @@ module JSONModel
 
       # Produce a JSON string from the values of this JSONModel.  Any values
       # that don't appear in the JSON schema will not appear in the result.
-      def to_json
-        self.to_hash.to_json
+      def to_json(opts = {})
+        self.to_hash.to_json(opts.merge(:max_nesting => false))
       end
 
 

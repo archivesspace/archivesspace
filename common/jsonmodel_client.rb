@@ -109,7 +109,7 @@ module JSONModel
       response = get_response(uri)
 
       if response.is_a?(Net::HTTPSuccess) || response.status == 200
-        JSON(response.body)
+        JSON.parse(response.body, :max_nesting => false)
       else
         nil
       end
@@ -135,7 +135,7 @@ module JSONModel
         response = http.request(req)
 
         if response.code =~ /^4/
-          JSONModel::handle_error(JSON.parse(response.body))
+          JSONModel::handle_error(JSON.parse(response.body, :max_nesting => false))
         end
 
         response
@@ -176,10 +176,11 @@ module JSONModel
       @errors = nil
 
       type = self.class.record_type
-      response = JSONModel::HTTP.post_json(self.class.my_url(self.id, opts), self.to_json)
+      response = JSONModel::HTTP.post_json(self.class.my_url(self.id, opts),
+                                           self.to_json)
 
       if response.code == '200'
-        response = JSON.parse(response.body)
+        response = JSON.parse(response.body, :max_nesting => false)
 
         self.uri = self.class.uri_for(response["id"], opts)
 
@@ -235,7 +236,7 @@ module JSONModel
         raise "Error when setting suppression status for #{self}: #{response.code} -- #{response.body}"
       end
 
-      self["suppressed"] = JSON(response.body)["suppressed_state"]
+      self["suppressed"] = JSON.parse(response.body)["suppressed_state"]
     end
 
 
@@ -323,7 +324,7 @@ module JSONModel
         response = JSONModel::HTTP.get_response(uri)
 
         if response.code == '200'
-          json_list = JSON(response.body)
+          json_list = JSON.parse(response.body, :max_nesting => false)
 
           if json_list.is_a?(Hash)
             json_list["results"] = json_list["results"].map {|h| self.from_hash(h)}

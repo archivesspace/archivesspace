@@ -5,7 +5,7 @@ module RESTHelpers
 
   def resolve_reference(uri)
     if !JSONModel.parse_reference(uri).nil?
-      JSON(redirect_internal(uri)[2].join(""))
+      JSON.parse(redirect_internal(uri)[2].join(""), :max_nesting => false)
     else
       uri
     end

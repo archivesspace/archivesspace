@@ -123,7 +123,7 @@ class ArchivesSpaceIndexer
       doc[:id] = record.uri
       doc[:title] = record[:title]
       doc[:type] = type
-      doc[:fullrecord] = record.to_json
+      doc[:fullrecord] = record.to_json(:max_nesting => false)
       doc[:suppressed] = record[:suppressed].to_s
 
       @document_prepare_hooks.each do |hook|

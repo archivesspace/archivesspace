@@ -38,7 +38,7 @@ class Solr
       solr_response = http.request(req)
 
       if solr_response.code == '200'
-        json = JSON.parse(solr_response.body)
+        json = JSON.parse(solr_response.body, :max_nesting => false)
 
         result = {}
 

@@ -211,7 +211,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
     def json_response(obj, status = 200)
-      [status, {"Content-Type" => "application/json"}, [obj.to_json + "\n"]]
+      [status, {"Content-Type" => "application/json"}, [obj.to_json(:max_nesting => false) + "\n"]]
     end
 
 
