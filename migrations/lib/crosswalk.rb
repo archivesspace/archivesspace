@@ -198,10 +198,15 @@ module ASpaceImport
         end
         
         return false if val == nil
+        
+        if val.is_a? String
+          val.gsub!(/^[\s\t\n]*/, '')
+          val.gsub!(/[\s\t\n]*$/, '')
+        end  
                 
         if @defn['procedure']
           proc = eval "lambda { #{@defn['procedure']} }"
-          val = proc.call(val)                    
+          val = proc.call(val)
         end
                         
         return false if val == nil

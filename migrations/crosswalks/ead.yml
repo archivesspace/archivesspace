@@ -80,23 +80,48 @@ entities:
   archival_object: 
     xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
     properties:
-      title: 
-        xpath: ["child::*/child::unittitle"]
-        default: "Archival Objects"
+      dates:
+        xpath: ["child::*/child::unitdate"]
+        procedure: "|value| {'date_type' => 'expression', 'expression' => value, 'label' => 'other'}"
+
+      component_id:
+        xpath: ["child::*/child::unitid"]
+        procedure: "|val| val.gsub!(/-/, '_')"
+        
+      extents:
+        xpath: ["child::*/child::*/child::extent"]
+        default: "5 or so"
+        procedure: "|value| {'portion' => 'whole', 'number' => value, 'extent_type' => 'reels'}"
+        
+      instances:
+        xpath: ["child::did"]
+        procedure: "|val| if val.match(/container.*?type=\"([a-zA-Z]*)\"/);  c = {}; val.scan(/container.*?type=\"([a-zA-Z]*)\"/).each_with_index {|t, i| c.merge!({\"type_#{i+1}\" => t[0], \"indicator_#{i+1}\" => '1', \"barcode_#{i+1}\" => '10001'})}; {'instance_type' => 'text', 'container' => c}; end"
+        # if val.match(/container.*?type=([a-zA-Z]*)/); {'instance_type' => 'text', 'container' => {'type_1' => val.match(/container.*?type=([a-zA-Z]*)/)[0], 'indicator_1' => '1', 'barcode_1' => '10001'}}; end"
+
+      level:
+        xpath: ["@level"]
+        
+      linked_agents:
+        xpath: ["child::*/child::*/child::persname", "child::*/child::*/child::corpname"]
+        procedure: "|val| {'role' => 'subject', 'ref' => val.uri}" #val is a json object (agent)
+        
+      parent: 
+        xpath: ["parent::c"]
 
       ref_id: 
         xpath: ["@id"]
         default: "1"
-        
-      parent: 
-        xpath: ["parent::c"]
 
       resource: 
         xpath: ["ancestor::ead"]
         
       subjects: 
         xpath: ["descendant::subject"]
-      
+        
+      title: 
+        xpath: ["child::*/child::unittitle"]
+        default: "Archival Objects"
+    
   subject:
     xpath: ["//subject"]
     properties:

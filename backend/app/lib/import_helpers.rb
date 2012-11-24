@@ -15,9 +15,7 @@ module ImportHelpers
     attr_accessor :saved_uris
     
     def initialize(batch_object)
-      @json_set = {}
-      @as_set = {}
-      @saved_uris = {}
+      @json_set, @as_set, @saved_uris = {}, {}, {}
       
       batch_object.batch.each do |item|
          @json_set[item['uri']] = JSONModel::JSONModel(item['jsonmodel_type']).from_hash(item)
@@ -38,8 +36,8 @@ module ImportHelpers
         
         begin
         obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
-        
         @as_set[json.uri] = [obj.id, obj.class]
+        
         # Now update the URI with the real ID
         json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
         rescue Exception => e
@@ -54,15 +52,12 @@ module ImportHelpers
       end
           
       @as_set.each do |ref, a|
-        obj = a[1].get_or_die(a[0])
-        
+        obj = a[1].get_or_die(a[0])    
         obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
-
         @saved_uris[ref] = @json_set[ref].uri   
       end
     end
       
-    
     def self.correct_links(json, set)
       data = json.to_hash
       data.each do |k, v| 
@@ -81,11 +76,11 @@ module ImportHelpers
     
     
     def self.check_data_key(kdef, k, v)
-      
+
       if kdef["type"].match(/JSONModel\(:[a-z_]*\) uri$/) && v.is_a?(String) &&
         !v.match(/\/vocabularies\/[0-9]+$/) 
         return 1
-          
+              
       elsif kdef["type"] == "array" && kdef["items"]["type"].is_a?(String)
         
         if kdef["items"]["type"].match(/JSONModel\(:[a-z_]*\) uri_or_object$/) && v[0].is_a?(String)
@@ -98,11 +93,10 @@ module ImportHelpers
       end
       0
     end
- 
-        
+
     def self.unlink(json)
       unlinked = json.clone
-      data = unlinked.to_hash        
+      data = unlinked.to_hash
       data.each { |k, v| data.delete(k) if \
         0 != self.check_data_key(json.class.schema["properties"][k], k, v) }     
 
