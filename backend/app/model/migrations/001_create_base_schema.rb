@@ -169,7 +169,7 @@ Sequel.migration do
 
     alter_table(:resource) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_unique_constraint([:repo_id, :identifier])
+      add_unique_constraint([:repo_id, :identifier], :name => "resource_unique_identifier")
     end
 
 
@@ -200,8 +200,8 @@ Sequel.migration do
       add_foreign_key([:root_record_id], :resource, :key => :id)
       add_foreign_key([:parent_id], :archival_object, :key => :id)
 
-      add_unique_constraint([:root_record_id, :ref_id])
-      add_unique_constraint([:root_record_id, :parent_name, :position])
+      add_unique_constraint([:root_record_id, :ref_id], :name => "ao_unique_refid")
+      add_unique_constraint([:root_record_id, :parent_name, :position], :name => "ao_unique_position")
     end
 
 
@@ -263,7 +263,7 @@ Sequel.migration do
       add_foreign_key([:root_record_id], :digital_object, :key => :id)
       add_foreign_key([:parent_id], :digital_object_component, :key => :id)
 
-      add_unique_constraint([:root_record_id, :parent_name, :position])
+      add_unique_constraint([:root_record_id, :parent_name, :position], :name => "do_unique_position")
     end
 
 
@@ -868,7 +868,7 @@ Sequel.migration do
       add_foreign_key([:resource_id], :resource, :key => :id)
 
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_unique_constraint([:repo_id, :identifier])
+      add_unique_constraint([:repo_id, :identifier], :name => "rights_unique_identifier")
     end
 
 
