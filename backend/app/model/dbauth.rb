@@ -9,20 +9,18 @@ class DBAuth
     username = username.downcase
 
     DB.open do |db|
-      begin
+      DB.attempt {
         db[:auth_db].insert(:username => username,
                             :pwhash => pwhash,
                             :create_time => Time.now,
                             :last_modified => Time.now)
-      rescue Sequel::DatabaseError => ex
-        if DB.is_integrity_violation(ex)
-          db[:auth_db].
-            filter(:username => username).
-            update(:username => username,
-                   :pwhash => pwhash,
-                   :last_modified => Time.now)
-        end
-      end
+      }.and_if_constraint_fails {
+        db[:auth_db].
+        filter(:username => username).
+        update(:username => username,
+               :pwhash => pwhash,
+               :last_modified => Time.now)
+      }
     end
   end
 

@@ -24,12 +24,11 @@ module Orderable
     new_position = (predecessor && !predecessor.empty?) ? (predecessor.last[:position] + 1) : 0
 
     100.times do
-      begin
+      DB.attempt {
         self.update(:position => new_position)
         self.save
         return
-      rescue Sequel::DatabaseError => e
-        if DB.is_integrity_violation(e)
+      }.and_if_constraint_fails {
           # Someone's in our spot!  Move everyone out of the way and retry.
 
           # Sigh.  Work around:
@@ -49,8 +48,7 @@ module Orderable
           siblings_ds.
             filter { position >= new_position }.
             update(:parent_name => self.parent_name)
-        end
-      end
+      }
     end
 
     raise "Failed to set the position for #{self}"

@@ -15,18 +15,17 @@ class Session
         while true
           sid = SecureRandom.hex(SESSION_ID_LENGTH)
 
-          begin
+          completed = DB.attempt {
             db[:session].insert(:session_id => sid,
                                 :session_data => [Marshal.dump({})].pack("m*"),
                                 :last_modified => Time.now)
-            break
-          rescue Sequel::DatabaseError => ex
-            if not DB.is_integrity_violation(ex)
-              raise ex
-            end
+            true
+          }.and_if_constraint_fails {
+            # Retry with a different session ID.
+            false
+          }
 
-            # Otherwise, retry with a different session ID.
-          end
+          break if completed
         end
 
         @id = sid

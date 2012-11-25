@@ -44,13 +44,19 @@ class DB
   end
 
 
+  def self.transaction(*args)
+    @pool.transaction(*args) do
+      yield
+    end
+  end
+
   def self.open(transaction = true)
     last_err = false
 
     5.times do
       begin
         if transaction
-          @pool.transaction do
+          self.transaction do
             return yield @pool
           end
 
@@ -85,6 +91,37 @@ class DB
 
       raise "Failed to connect to the database: #{last_err}"
     end
+  end
+
+
+  class DBAttempt
+
+    def initialize(happy_path)
+      @happy_path = happy_path
+    end
+
+    def and_if_constraint_fails(&failed_path)
+      begin
+        # Postgres needs a savepoint for any statement that might fail
+        # (otherwise the whole transaction becomes invalid).  Use a savepoint to
+        # run the happy case, since we're half expecting it to fail.
+        DB.transaction(:savepoint => true) do
+          @happy_path.call
+        end
+      rescue Sequel::DatabaseError => ex
+        if DB.is_integrity_violation(ex)
+          failed_path.call
+        else
+          raise ex
+        end
+      end
+    end
+
+  end
+
+
+  def self.attempt(&block)
+    DBAttempt.new(block)
   end
 
 

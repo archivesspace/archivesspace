@@ -12,14 +12,12 @@ class Sequence
   def self.get(sequence)
     DB.open(true) do |db|
 
-      begin
+      DB.attempt {
         init(sequence, 0)
         return 0
-      rescue Sequel::DatabaseError => e
-        if DB.is_integrity_violation(e)
-          # Sequence is already defined, which is fine
-        end
-      end
+      }.and_if_constraint_fails {
+        # Sequence is already defined, which is fine
+      }
 
 
       # If we make it to here, the sequence already exists and needs to be incremented
