@@ -91,6 +91,8 @@
 			
 				<h3 class="signature"> - (JSONModel(:resource) uri) <strong>resource</strong></h3>
 			
+				<h3 class="signature"> - (integer) <strong>position</strong></h3>
+			
 				<h3 class="signature"> - (array (JSONModel(:subject) uri_or_object)) <strong>subjects</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:extent) object)) <strong>extents</strong></h3>
@@ -155,7 +157,8 @@
 40
 41
 42
-43</pre>
+43
+44</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/archival_object.rb', line 1</span>
@@ -167,11 +170,12 @@
   &quot;properties&quot; =&gt; {
     &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
     &quot;ref_id&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
-    &quot;component_id&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false, &quot;default&quot; =&gt; &quot;&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9]*$&quot;},
-    &quot;title&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
+    &quot;component_id&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false, &quot;default&quot; =&gt; &quot;&quot;, &quot;pattern&quot; =&gt; &quot;^[a-zA-Z0-9_]*$&quot;},
+    &quot;title&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
      &quot;level&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; false},
     &quot;parent&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:archival_object) uri&quot;, &quot;required&quot; =&gt; false},
     &quot;resource&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:resource) uri&quot;, &quot;required&quot; =&gt; false},
+    &quot;position&quot; =&gt; {&quot;type&quot; =&gt; &quot;integer&quot;, &quot;required&quot; =&gt; false},
      &quot;subjects&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:subject) uri_or_object&quot;}},
     &quot;extents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:extent) object&quot;}},
     &quot;dates&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:date) object&quot;}},
@@ -209,7 +213,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:48 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:20 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

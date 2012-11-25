@@ -121,9 +121,9 @@
   &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
   &quot;type&quot; =&gt; &quot;object&quot;,
    &quot;properties&quot; =&gt; {
-    &quot;portion&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true, &quot;enum&quot; =&gt; [&quot;whole&quot;, &quot;part&quot;]},
-    &quot;number&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
-    &quot;extent_type&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true, &quot;enum&quot; =&gt; [&quot;cassettes&quot;, &quot;cubic_feet&quot;, &quot;leafs&quot;, &quot;linear_feet&quot;, &quot;photographic_prints&quot;, &quot;photographic_slides&quot;, &quot;reels&quot;, &quot;sheets&quot;, &quot;volumes&quot;]},
+    &quot;portion&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;, &quot;enum&quot; =&gt; [&quot;whole&quot;, &quot;part&quot;]},
+    &quot;number&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
+    &quot;extent_type&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;, &quot;enum&quot; =&gt; [&quot;cassettes&quot;, &quot;cubic_feet&quot;, &quot;leafs&quot;, &quot;linear_feet&quot;, &quot;photographic_prints&quot;, &quot;photographic_slides&quot;, &quot;reels&quot;, &quot;sheets&quot;, &quot;volumes&quot;]},
      &quot;container_summary&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
     &quot;physical_details&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
     &quot;dimensions&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
@@ -142,7 +142,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:47 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:19 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

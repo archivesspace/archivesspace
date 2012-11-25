@@ -220,14 +220,14 @@
       <pre class="lines">
 
 
-68
-69
 70
 71
-72</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_agents_matching'>agents_matching</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_max'>max</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='id identifier rubyid_my_agent_type'>my_agent_type</span><span class='lbracket'>[</span><span class='symbol'>:name_type</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_my_agent_type'>my_agent_type</span><span class='lbracket'>[</span><span class='symbol'>:name_model</span><span class='rbracket'>]</span><span class='period'>.</span>
@@ -254,12 +254,12 @@
       <pre class="lines">
 
 
-56
-57
-58</pre>
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_my_agent_type'>my_agent_type</span>
   <span class='const'>AgentManager</span><span class='period'>.</span><span class='id identifier rubyid_agent_type_of'>agent_type_of</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
@@ -284,8 +284,6 @@
       <pre class="lines">
 
 
-37
-38
 39
 40
 41
@@ -300,10 +298,12 @@
 50
 51
 52
-53</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_register_agent_type'>register_agent_type</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='const'>AgentManager</span><span class='period'>.</span><span class='id identifier rubyid_register_agent_type'>register_agent_type</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
@@ -342,14 +342,14 @@
       <pre class="lines">
 
 
-61
-62
 63
 64
-65</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='kw'>super</span>
@@ -366,7 +366,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:39 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:43:58 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

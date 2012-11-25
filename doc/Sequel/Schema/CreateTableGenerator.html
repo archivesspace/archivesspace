@@ -218,7 +218,9 @@
 39
 40
 41
-42</pre>
+42
+43
+44</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/db_migrator.rb', line 36</span>
@@ -226,6 +228,8 @@
 <span class='kw'>def</span> <span class='const'>BlobField</span><span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='gvar'>$db_type</span> <span class='op'>==</span> <span class='symbol'>:postgres</span>
     <span class='const'>Bytea</span> <span class='id identifier rubyid_field'>field</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
+  <span class='kw'>elsif</span> <span class='gvar'>$db_type</span> <span class='op'>==</span> <span class='symbol'>:h2</span>
+    <span class='const'>String</span> <span class='id identifier rubyid_field'>field</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
   <span class='kw'>else</span>
     <span class='const'>Blob</span> <span class='id identifier rubyid_field'>field</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
   <span class='kw'>end</span>
@@ -316,7 +320,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:43 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:09 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

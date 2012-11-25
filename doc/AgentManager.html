@@ -102,18 +102,6 @@
   
 </p>
 
-  <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="registered_agents-classvariable" class="">@@registered_agents =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrace'>{</span><span class='rbrace'>}</span></pre></dd>
-      
-    </dl>
-  
-
 
 
 
@@ -244,12 +232,12 @@
       <pre class="lines">
 
 
-22
-23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_agent_type_of'>agent_type_of</span><span class='lparen'>(</span><span class='id identifier rubyid_agent_class'>agent_class</span><span class='rparen'>)</span>
   <span class='cvar'>@@registered_agents</span><span class='lbracket'>[</span><span class='id identifier rubyid_agent_class'>agent_class</span><span class='rbracket'>]</span>
@@ -274,13 +262,13 @@
       <pre class="lines">
 
 
-5
 6
 7
-8</pre>
+8
+9</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 6</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_register_agent_type'>register_agent_type</span><span class='lparen'>(</span><span class='id identifier rubyid_agent_class'>agent_class</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:model</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_agent_class'>agent_class</span>
@@ -306,12 +294,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_registered_agents'>registered_agents</span>
   <span class='cvar'>@@registered_agents</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span>
@@ -336,14 +324,14 @@
       <pre class="lines">
 
 
-11
 12
 13
 14
-15</pre>
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_type_to_model_map'>type_to_model_map</span>
   <span class='const'>Hash</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_registered_agents'>registered_agents</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_agent_type'>agent_type</span><span class='op'>|</span>
@@ -360,7 +348,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:39 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:43:58 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

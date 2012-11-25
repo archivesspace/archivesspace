@@ -194,18 +194,18 @@
       <pre class="lines">
 
 
+28
+29
 30
 31
 32
 33
 34
 35
-36
-37
-38</pre>
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/dbauth.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/dbauth.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_login'>login</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_username'>username</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
@@ -254,9 +254,7 @@
 22
 23
 24
-25
-26
-27</pre>
+25</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/dbauth.rb', line 7</span>
@@ -266,20 +264,18 @@
   <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_username'>username</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
 
   <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
-    <span class='kw'>begin</span>
+    <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_attempt'>attempt</span> <span class='lbrace'>{</span>
       <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:auth_db</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='comma'>,</span>
                           <span class='symbol'>:pwhash</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_pwhash'>pwhash</span><span class='comma'>,</span>
                           <span class='symbol'>:create_time</span> <span class='op'>=&gt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span>
                           <span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
-    <span class='kw'>rescue</span> <span class='const'>Sequel</span><span class='op'>::</span><span class='const'>DatabaseError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_ex'>ex</span>
-      <span class='kw'>if</span> <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_is_integrity_violation'>is_integrity_violation</span><span class='lparen'>(</span><span class='id identifier rubyid_ex'>ex</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:auth_db</span><span class='rbracket'>]</span><span class='period'>.</span>
-          <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span><span class='period'>.</span>
-          <span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='comma'>,</span>
-                 <span class='symbol'>:pwhash</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_pwhash'>pwhash</span><span class='comma'>,</span>
-                 <span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_and_if_constraint_fails'>and_if_constraint_fails</span> <span class='lbrace'>{</span>
+      <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:auth_db</span><span class='rbracket'>]</span><span class='period'>.</span>
+      <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span><span class='period'>.</span>
+      <span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='comma'>,</span>
+             <span class='symbol'>:pwhash</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_pwhash'>pwhash</span><span class='comma'>,</span>
+             <span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -292,7 +288,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:42 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:06 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

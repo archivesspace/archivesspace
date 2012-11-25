@@ -95,6 +95,8 @@
 			
 				<h3 class="signature"> - (JSONModel(:digital_object) uri) <strong>digital_object</strong></h3>
 			
+				<h3 class="signature"> - (integer) <strong>position</strong></h3>
+			
 				<h3 class="signature"> - (array (JSONModel(:subject) uri_or_object)) <strong>subjects</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:extent) object)) <strong>extents</strong></h3>
@@ -162,7 +164,8 @@
 47
 48
 49
-50</pre>
+50
+51</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/digital_object_component.rb', line 1</span>
@@ -187,6 +190,7 @@
     },
      &quot;parent&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:digital_object_component) uri&quot;, &quot;required&quot; =&gt; false},
     &quot;digital_object&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:digital_object) uri&quot;, &quot;required&quot; =&gt; false},
+    &quot;position&quot; =&gt; {&quot;type&quot; =&gt; &quot;integer&quot;, &quot;required&quot; =&gt; false},
      &quot;subjects&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:subject) uri_or_object&quot;}},
     &quot;extents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:extent) object&quot;}},
     &quot;dates&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:date) object&quot;}},
@@ -222,7 +226,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:48 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:20 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

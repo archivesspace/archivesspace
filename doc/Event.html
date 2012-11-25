@@ -266,7 +266,53 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_suppressed-instance_method" title="#set_suppressed (instance method)">- (Object) <strong>set_suppressed</strong>(val) </a>
+      <a href="#has_active_linked_records%3F-instance_method" title="#has_active_linked_records? (instance method)">- (Boolean) <strong>has_active_linked_records?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#maybe_suppress-instance_method" title="#maybe_suppress (instance method)">- (Object) <strong>maybe_suppress</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Suppress this record if it does not have active linked records.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_suppressed-instance_method" title="#set_suppressed (instance method)">- (Object) <strong>set_suppressed</strong>(suppress) </a>
     
 
     
@@ -333,7 +379,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ASModel.html#before_create-instance_method" title="ASModel#before_create (method)">#before_create</a></span>, <span class='object_link'><a href="ASModel.html#before_update-instance_method" title="ASModel#before_update (method)">#before_update</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#linked_records-class_method" title="ASModel.linked_records (method)">linked_records</a></span>, <span class='object_link'><a href="ASModel.html#map_validation_to_json_property-instance_method" title="ASModel#map_validation_to_json_property (method)">#map_validation_to_json_property</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ASModel.html#before_create-instance_method" title="ASModel#before_create (method)">#before_create</a></span>, <span class='object_link'><a href="ASModel.html#before_update-instance_method" title="ASModel#before_update (method)">#before_update</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#linked_records-class_method" title="ASModel.linked_records (method)">linked_records</a></span>, <span class='object_link'><a href="ASModel.html#map_validation_to_json_property-instance_method" title="ASModel#map_validation_to_json_property (method)">#map_validation_to_json_property</a></span>, <span class='object_link'><a href="ASModel.html#stale%3F-instance_method" title="ASModel#stale? (method)">#stale?</a></span></p>
 
   
   
@@ -344,7 +390,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
 
 
   <div id="class_method_details" class="method_details_list">
@@ -578,15 +624,38 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="set_suppressed-instance_method">
+  <h3 class="signature first" id="has_active_linked_records?-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_suppressed</strong>(val) 
-  
-
+    - (<tt>Boolean</tt>) <strong>has_active_linked_records?</strong> 
   
 
   
-</h3><table class="source_code">
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -606,33 +675,107 @@
 132
 133
 134
-135
-136
-137
-138
-139</pre>
+135</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 121</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_set_suppressed'>set_suppressed</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
-  <span class='comment'># An event can be suppressed if all of its linked records are suppressed
-</span>
-  <span class='id identifier rubyid_has_active_linked_record'>has_active_linked_record</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_has_active_linked_records?'>has_active_linked_records?</span>
+  <span class='id identifier rubyid_has_active_linked_records'>has_active_linked_records</span> <span class='op'>=</span> <span class='kw'>false</span>
 
   <span class='cvar'>@@record_links</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_record_type'>record_type</span><span class='comma'>,</span> <span class='id identifier rubyid_model'>model</span><span class='op'>|</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>event_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_record_type'>record_type</span><span class='rbrace'>}</span><span class='tstring_content'>_link</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_intern'>intern</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_link'>link</span><span class='op'>|</span>
       <span class='id identifier rubyid_linked_record'>linked_record</span> <span class='op'>=</span> <span class='id identifier rubyid_model'>model</span><span class='lbracket'>[</span><span class='id identifier rubyid_link'>link</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_record_type'>record_type</span><span class='rbrace'>}</span><span class='tstring_content'>_id</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_intern'>intern</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-
       <span class='kw'>if</span> <span class='id identifier rubyid_linked_record'>linked_record</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:suppressed</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_linked_record'>linked_record</span><span class='lbracket'>[</span><span class='symbol'>:suppressed</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='int'>0</span>
-        <span class='id identifier rubyid_has_active_linked_record'>has_active_linked_record</span> <span class='op'>=</span> <span class='kw'>true</span>
+        <span class='id identifier rubyid_has_active_linked_records'>has_active_linked_records</span> <span class='op'>=</span> <span class='kw'>true</span>
         <span class='kw'>break</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_suppressed'>suppressed</span> <span class='op'>=</span> <span class='id identifier rubyid_has_active_linked_record'>has_active_linked_record</span> <span class='op'>?</span> <span class='int'>0</span> <span class='op'>:</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_has_active_linked_records'>has_active_linked_records</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="maybe_suppress-instance_method">
+  
+    - (<tt>Object</tt>) <strong>maybe_suppress</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Suppress this record if it does not have active linked records</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+139
+140
+141
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 139</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_maybe_suppress'>maybe_suppress</span>
+  <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_has_active_linked_records?'>has_active_linked_records?</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_suppressed'>set_suppressed</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_suppressed-instance_method">
+  
+    - (<tt>Object</tt>) <strong>set_suppressed</strong>(suppress) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/event.rb', line 147</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_suppressed'>set_suppressed</span><span class='lparen'>(</span><span class='id identifier rubyid_suppress'>suppress</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_suppressed'>suppressed</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_suppress'>suppress</span> <span class='op'>?</span> <span class='int'>1</span> <span class='op'>:</span> <span class='int'>0</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_save'>save</span>
+
+  <span class='id identifier rubyid_suppress'>suppress</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -678,7 +821,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:42 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:06 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

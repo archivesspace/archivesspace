@@ -115,8 +115,8 @@
   &quot;uri&quot; =&gt; &quot;/agents/:agent_id/name_forms&quot;,
   &quot;properties&quot; =&gt; {
     &quot;uri&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; false},
-     &quot;kind&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; true},
-     &quot;sort_name&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;required&quot; =&gt; true}
+     &quot;kind&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
+     &quot;sort_name&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;ifmissing&quot; =&gt; &quot;error&quot;}
   },
    &quot;additionalProperties&quot; =&gt; false,
 }</pre>
@@ -132,7 +132,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:47 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:19 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

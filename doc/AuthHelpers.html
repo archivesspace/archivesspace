@@ -111,7 +111,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_session_for-instance_method" title="#create_session_for (instance method)">- (Object) <strong>create_session_for</strong>(username) </a>
+      <a href="#create_session_for-instance_method" title="#create_session_for (instance method)">- (Object) <strong>create_session_for</strong>(username, expiring_session) </a>
     
 
     
@@ -143,7 +143,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="create_session_for-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_session_for</strong>(username) 
+    - (<tt>Object</tt>) <strong>create_session_for</strong>(username, expiring_session) 
   
 
   
@@ -164,17 +164,19 @@
 9
 10
 11
-12</pre>
+12
+13</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/auth_helpers.rb', line 3</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_create_session_for'>create_session_for</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_create_session_for'>create_session_for</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_expiring_session'>expiring_session</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_username'>username</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
 
   <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='const'>Session</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:login_time</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:expirable</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_expiring_session'>expiring_session</span>
   <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
 
   <span class='id identifier rubyid_session'>session</span>
@@ -189,7 +191,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:38 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:43:58 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

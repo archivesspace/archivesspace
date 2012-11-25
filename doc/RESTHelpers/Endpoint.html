@@ -129,6 +129,7 @@
         <dd><pre class="code"><span class='lbrace'>{</span>
   <span class='symbol'>:created</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
   <span class='symbol'>:updated</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{:status =&gt; &quot;Updated&quot;, :id =&gt; (id of updated object)}</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
+  <span class='symbol'>:suppressed</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{:status =&gt; &quot;Suppressed&quot;, :id =&gt; (id of updated object), :suppressed_state =&gt; (true|false)}</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
   <span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{:error =&gt; (description of error)}</span><span class='tstring_end'>'</span></span>
 <span class='rbrace'>}</span></pre></dd>
       
@@ -199,6 +200,29 @@
   <span class="summary_signature">
     
       <a href="#method-class_method" title="method (class method)">+ (Object) <strong>method</strong>(method) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pagination-class_method" title="pagination (class method)">+ (Object) <strong>pagination</strong> </a>
     
 
     
@@ -444,17 +468,17 @@
       <pre class="lines">
 
 
-55
-56
 57
 58
 59
 60
 61
-62</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 57</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span>
   <span class='ivar'>@method</span> <span class='op'>=</span> <span class='id identifier rubyid_method'>method</span>
@@ -491,22 +515,22 @@
       <pre class="lines">
 
 
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82</pre>
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
   <span class='cvar'>@@endpoints</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
@@ -541,10 +565,10 @@
       <pre class="lines">
 
 
-84</pre>
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='symbol'>:get</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -567,12 +591,58 @@
       <pre class="lines">
 
 
-86</pre>
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pagination-class_method">
+  
+    + (<tt>Object</tt>) <strong>pagination</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_pagination'>pagination</span>
+  <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>page_size</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='const'>PageSize</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The number of results to show per page</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='symbol'>:default</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='comma'>,</span>
+   <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>page</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>NonNegativeInteger</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The page number to show</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+   <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>modified_since</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='const'>NonNegativeInteger</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The page number to show</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='symbol'>:default</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -593,10 +663,10 @@
       <pre class="lines">
 
 
-85</pre>
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='symbol'>:post</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uri'>uri</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -625,14 +695,14 @@
       <pre class="lines">
 
 
-64
-65
 66
 67
-68</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_instance_variable_defined?'>instance_variable_defined?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -659,10 +729,10 @@
       <pre class="lines">
 
 
-89</pre>
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_description'>description</span><span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='ivar'>@description</span> <span class='op'>=</span> <span class='id identifier rubyid_description'>description</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -685,27 +755,27 @@
       <pre class="lines">
 
 
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
 106
 107
 108
-109</pre>
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_params'>params</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='ivar'>@required_params</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
@@ -745,10 +815,10 @@
       <pre class="lines">
 
 
-90</pre>
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_preconditions'>preconditions</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_preconditions'>preconditions</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='ivar'>@preconditions</span> <span class='op'>+=</span> <span class='id identifier rubyid_preconditions'>preconditions</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -771,20 +841,6 @@
       <pre class="lines">
 
 
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
 125
 126
 127
@@ -823,10 +879,21 @@
 160
 161
 162
-163</pre>
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_returns'>returns</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_returns'>returns</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@returns</span> <span class='op'>=</span> <span class='id identifier rubyid_returns'>returns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='cvar'>@@return_types</span><span class='lbracket'>[</span><span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_r'>r</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='semicolon'>;</span> <span class='id identifier rubyid_r'>r</span> <span class='rbrace'>}</span>
@@ -853,14 +920,10 @@
   <span class='kw'>end</span>
 
   <span class='const'>ArchivesSpaceService</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@method</span><span class='comma'>,</span> <span class='ivar'>@uri</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span>
-    <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_development?'>development?</span>
-      <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method'>method</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-      <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Request parameters: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_filter_passwords'>filter_passwords</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
 
     <span class='id identifier rubyid_ensure_params'>ensure_params</span><span class='lparen'>(</span><span class='id identifier rubyid_rp'>rp</span><span class='rparen'>)</span>
 
-    <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Post-processed params: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_filter_passwords'>filter_passwords</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_development?'>development?</span>
+    <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Post-processed params: </span><span class='embexpr_beg'>#{</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_filter_passwords'>filter_passwords</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
     <span class='const'>RequestContext</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
       <span class='kw'>unless</span> <span class='id identifier rubyid_preconditions'>preconditions</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_precondition'>precondition</span><span class='op'>|</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span> <span class='op'>&amp;</span><span class='id identifier rubyid_precondition'>precondition</span> <span class='rbrace'>}</span>
@@ -873,7 +936,8 @@
 </span>        <span class='comment'># too.
 </span>        <span class='kw'>if</span> <span class='const'>RequestContext</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='symbol'>:repo_id</span><span class='rparen'>)</span>
           <span class='const'>RequestContext</span><span class='period'>.</span><span class='id identifier rubyid_put'>put</span><span class='lparen'>(</span><span class='symbol'>:enforce_suppression</span><span class='comma'>,</span>
-                             <span class='op'>!</span><span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:manage_repository</span><span class='rparen'>)</span><span class='rparen'>)</span>
+                             <span class='op'>!</span><span class='lparen'>(</span><span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:manage_repository</span><span class='rparen'>)</span> <span class='op'>||</span>
+                               <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:view_suppressed</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='kw'>end</span>
 
         <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_instance_eval'>instance_eval</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span>
@@ -901,10 +965,10 @@
       <pre class="lines">
 
 
-88</pre>
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_uri'>uri</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='ivar'>@uri</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='semicolon'>;</span> <span class='kw'>self</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -917,7 +981,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:41 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:04 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

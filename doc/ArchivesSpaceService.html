@@ -98,7 +98,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="AuthHelpers.html" title="AuthHelpers (module)">AuthHelpers</a></span>, <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span>, <span class='object_link'><a href="ExportHelpers.html" title="ExportHelpers (module)">ExportHelpers</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="AuthHelpers.html" title="AuthHelpers (module)">AuthHelpers</a></span>, <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span>, <span class='object_link'><a href="ExportHelpers.html" title="ExportHelpers (module)">ExportHelpers</a></span>, <span class='object_link'><a href="ImportHelpers.html" title="ImportHelpers (module)">ImportHelpers</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span></dd>
       
     
   
@@ -106,7 +106,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">backend/app/main.rb<span class="defines">,<br />
-  backend/app/controllers/event.rb,<br /> backend/app/controllers/agent.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/setup.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/webhooks.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
+  backend/app/controllers/event.rb,<br /> backend/app/controllers/agent.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/setup.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/webhooks.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
 </dd>
   
 </dl>
@@ -207,6 +207,50 @@
 		
  
   <div class="method_details">
+    	<h3>/repositories/:repo_id/events/:event_id/suppressed</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/event.rb', line 65</span>
+
+<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/repositories/:repo_id/events/:event_id/suppressed</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Suppress this record from non-managers</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>event_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Integer</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The event ID to update</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>suppressed</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>BooleanParam</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Suppression state</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .preconditions'>  .preconditions</span><span class='lparen'>(</span><span class='id identifier rubyid_proc'>proc</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:manage_repository</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:suppressed</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+<span class='kw'>do</span>
+  <span class='id identifier rubyid_sup_state'>sup_state</span> <span class='op'>=</span> <span class='const'>Event</span><span class='period'>.</span><span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:event_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_set_suppressed'>set_suppressed</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:suppressed</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_suppressed_response'>suppressed_response</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:event_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_sup_state'>sup_state</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+		
+ 
+  <div class="method_details">
     	<h3>/users</h3>
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -281,7 +325,9 @@
 55
 56
 57
-58</pre>
+58
+59
+60</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'backend/app/controllers/users.rb', line 41</span>
@@ -289,7 +335,9 @@
 <span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/users/:username/login</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Log in</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>username</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Your username</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
-          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>password</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Your password</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>password</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Your password</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>expiring</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>BooleanParam</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true if the created session should expire</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+           <span class='symbol'>:default</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Login accepted</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
            <span class='lbracket'>[</span><span class='int'>403</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Login failed</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> \
 <span class='kw'>do</span>
@@ -298,7 +346,7 @@
   <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span> <span class='kw'>and</span> <span class='const'>DBAuth</span><span class='period'>.</span><span class='id identifier rubyid_login'>login</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='id identifier rubyid_create_session_for'>create_session_for</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='id identifier rubyid_create_session_for'>create_session_for</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:expiring</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_json_response'>json_response</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:session</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:permissions</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_permissions'>permissions</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_json_response'>json_response</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Login failed</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='int'>403</span><span class='rparen'>)</span>
@@ -696,11 +744,11 @@
           <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>suppressed</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>BooleanParam</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Suppression state</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
           <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .preconditions'>  .preconditions</span><span class='lparen'>(</span><span class='id identifier rubyid_proc'>proc</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:manage_repository</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:updated</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:suppressed</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
 <span class='kw'>do</span>
-  <span class='const'>Accession</span><span class='period'>.</span><span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:accession_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_set_suppressed'>set_suppressed</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:suppressed</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sup_state'>sup_state</span> <span class='op'>=</span> <span class='const'>Accession</span><span class='period'>.</span><span class='id identifier rubyid_get_or_die'>get_or_die</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:accession_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_set_suppressed'>set_suppressed</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:suppressed</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>OK</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_suppressed_response'>suppressed_response</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:accession_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_sup_state'>sup_state</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
           </td>
         </tr>
@@ -847,6 +895,46 @@
 </span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:created</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
 <span class='kw'>do</span>
   <span class='id identifier rubyid_handle_create'>handle_create</span><span class='lparen'>(</span><span class='const'>Vocabulary</span><span class='comma'>,</span> <span class='symbol'>:vocabulary</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+		
+ 
+  <div class="method_details">
+    	<h3>/repositories/:repo_id/batch_imports</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/batch_import.rb', line 3</span>
+
+<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/repositories/:repo_id/batch_imports</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Import a batch of records</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>batch_import</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:batch_import</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The batch of records</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:created</span><span class='rbracket'>]</span><span class='comma'>,</span>
+           <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='comma'>,</span>
+           <span class='lbracket'>[</span><span class='int'>409</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+<span class='kw'>do</span>
+  <span class='id identifier rubyid_handle_import'>handle_import</span>
 <span class='kw'>end</span></pre>
           </td>
         </tr>
@@ -1003,6 +1091,80 @@
 		
  
   <div class="method_details">
+    	<h3>/agents/software</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+3
+4
+5
+6
+7
+8
+9
+10</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/agent_software.rb', line 3</span>
+
+<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/agents/software</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Create a software agent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>agent</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:agent_software</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The software to create</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:created</span><span class='rbracket'>]</span><span class='comma'>,</span>
+           <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+<span class='kw'>do</span>
+  <span class='id identifier rubyid_handle_create'>handle_create</span><span class='lparen'>(</span><span class='const'>AgentSoftware</span><span class='comma'>,</span> <span class='symbol'>:agent</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+		
+ 
+  <div class="method_details">
+    	<h3>/agents/software/:agent_id</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/agent_software.rb', line 13</span>
+
+<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/agents/software/:agent_id</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Update a software agent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>agent_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Integer</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The ID of the software to update</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>agent</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:agent_software</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The software to create</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:updated</span><span class='rbracket'>]</span><span class='comma'>,</span>
+           <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+<span class='kw'>do</span>
+  <span class='id identifier rubyid_handle_update'>handle_update</span><span class='lparen'>(</span><span class='const'>AgentSoftware</span><span class='comma'>,</span> <span class='symbol'>:agent_id</span><span class='comma'>,</span> <span class='symbol'>:agent</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+		
+ 
+  <div class="method_details">
     	<h3>/repositories/:repo_id/digital_objects</h3>
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -1090,7 +1252,6 @@
             <pre class="lines">
 
 
-61
 62
 63
 64
@@ -1101,10 +1262,11 @@
 69
 70
 71
-72</pre>
+72
+73</pre>
           </td>
           <td>
-            <pre class="code"><span class="info file"># File 'backend/app/controllers/digital_object.rb', line 61</span>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/digital_object.rb', line 62</span>
 
 <span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/repositories/:repo_id/digital_objects/:digital_object_id/tree</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Update a Digital Object tree</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
@@ -1117,80 +1279,6 @@
   <span class='id identifier rubyid_digital_object'>digital_object</span><span class='period'>.</span><span class='id identifier rubyid_update_tree'>update_tree</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:tree</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_updated_response'>updated_response</span><span class='lparen'>(</span><span class='id identifier rubyid_digital_object'>digital_object</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:tree</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-          </td>
-        </tr>
-      </table>
-    </div>
-		
- 
-  <div class="method_details">
-    	<h3>/agents/software</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-
-      <table class="source_code">
-        <tr>
-          <td>
-            <pre class="lines">
-
-
-3
-4
-5
-6
-7
-8
-9
-10</pre>
-          </td>
-          <td>
-            <pre class="code"><span class="info file"># File 'backend/app/controllers/agent_software.rb', line 3</span>
-
-<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/agents/software</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Create a software agent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>agent</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:agent_software</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The software to create</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:created</span><span class='rbracket'>]</span><span class='comma'>,</span>
-           <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
-<span class='kw'>do</span>
-  <span class='id identifier rubyid_handle_create'>handle_create</span><span class='lparen'>(</span><span class='const'>AgentSoftware</span><span class='comma'>,</span> <span class='symbol'>:agent</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-          </td>
-        </tr>
-      </table>
-    </div>
-		
- 
-  <div class="method_details">
-    	<h3>/agents/software/:agent_id</h3>
-		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
-
-      <table class="source_code">
-        <tr>
-          <td>
-            <pre class="lines">
-
-
-13
-14
-15
-16
-17
-18
-19
-20
-21</pre>
-          </td>
-          <td>
-            <pre class="code"><span class="info file"># File 'backend/app/controllers/agent_software.rb', line 13</span>
-
-<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/agents/software/:agent_id</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Update a software agent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>agent_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Integer</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The ID of the software to update</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
-          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>agent</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:agent_software</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The software to create</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:updated</span><span class='rbracket'>]</span><span class='comma'>,</span>
-           <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
-<span class='kw'>do</span>
-  <span class='id identifier rubyid_handle_update'>handle_update</span><span class='lparen'>(</span><span class='const'>AgentSoftware</span><span class='comma'>,</span> <span class='symbol'>:agent_id</span><span class='comma'>,</span> <span class='symbol'>:agent</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
           </td>
         </tr>
@@ -1228,7 +1316,7 @@
           <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:created</span><span class='rbracket'>]</span><span class='comma'>,</span>
            <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='comma'>,</span>
-           <span class='lbracket'>[</span><span class='int'>409</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{&quot;error&quot;:{&quot;[:resource_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+           <span class='lbracket'>[</span><span class='int'>409</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{&quot;error&quot;:{&quot;[:root_record_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> \
 <span class='kw'>do</span>
   <span class='id identifier rubyid_handle_create'>handle_create</span><span class='lparen'>(</span><span class='const'>ArchivalObject</span><span class='comma'>,</span> <span class='symbol'>:archival_object</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -1270,9 +1358,89 @@
           <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:updated</span><span class='rbracket'>]</span><span class='comma'>,</span>
            <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='comma'>,</span>
-           <span class='lbracket'>[</span><span class='int'>409</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{&quot;error&quot;:{&quot;[:resource_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+           <span class='lbracket'>[</span><span class='int'>409</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{&quot;error&quot;:{&quot;[:root_record_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> \
 <span class='kw'>do</span>
   <span class='id identifier rubyid_handle_update'>handle_update</span><span class='lparen'>(</span><span class='const'>ArchivalObject</span><span class='comma'>,</span> <span class='symbol'>:archival_object_id</span><span class='comma'>,</span> <span class='symbol'>:archival_object</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+		
+ 
+  <div class="method_details">
+    	<h3>/repositories/:repo_id/collection_management_records</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/collection_management.rb', line 3</span>
+
+<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/repositories/:repo_id/collection_management_records</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Create a Collection Management Record</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>collection_management</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:collection_management</span><span class='rparen'>)</span><span class='comma'>,</span>
+           <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The Collection Management record to create</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:created</span><span class='rbracket'>]</span><span class='comma'>,</span>
+           <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+<span class='kw'>do</span>
+  <span class='id identifier rubyid_handle_create'>handle_create</span><span class='lparen'>(</span><span class='const'>CollectionManagement</span><span class='comma'>,</span> <span class='symbol'>:collection_management</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+		
+ 
+  <div class="method_details">
+    	<h3>/repositories/:repo_id/collection_management_records/:collection_management_id</h3>
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/collection_management.rb', line 15</span>
+
+<span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/repositories/:repo_id/collection_management_records/:collection_management_id</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Update a Collection Management Record</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>collection_management_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Integer</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The Collection Management ID to update</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>collection_management</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:collection_management</span><span class='rparen'>)</span><span class='comma'>,</span>
+           <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The collection management data to update</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repo_id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:updated</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
+<span class='kw'>do</span>
+  <span class='id identifier rubyid_handle_update'>handle_update</span><span class='lparen'>(</span><span class='const'>CollectionManagement</span><span class='comma'>,</span> <span class='symbol'>:collection_management_id</span><span class='comma'>,</span> <span class='symbol'>:collection_management</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
           </td>
         </tr>
@@ -1470,6 +1638,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#create_search_user-class_method" title="create_search_user (class method)">+ (Object) <strong>create_search_user</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#set_up_base_permissions-class_method" title="set_up_base_permissions (class method)">+ (Object) <strong>set_up_base_permissions</strong> </a>
     
 
@@ -1549,29 +1740,6 @@
   <span class="summary_signature">
     
       <a href="#extract_settings-instance_method" title="#extract_settings (instance method)">- (Object) <strong>extract_settings</strong>(params) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#filter_passwords-instance_method" title="#filter_passwords (instance method)">- (Object) <strong>filter_passwords</strong>(params) </a>
     
 
     
@@ -1763,8 +1931,19 @@
   
   
   
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ImportHelpers.html" title="ImportHelpers (module)">ImportHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ImportHelpers.html#handle_import-instance_method" title="ImportHelpers#handle_import (method)">#handle_import</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="CrudHelpers.html#handle_create-instance_method" title="CrudHelpers#handle_create (method)">#handle_create</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_listing-instance_method" title="CrudHelpers#handle_listing (method)">#handle_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_update-instance_method" title="CrudHelpers#handle_update (method)">#handle_update</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="CrudHelpers.html#_listing_response-instance_method" title="CrudHelpers#_listing_response (method)">#_listing_response</a></span>, <span class='object_link'><a href="CrudHelpers.html#dataset-class_method" title="CrudHelpers.dataset (method)">dataset</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_create-instance_method" title="CrudHelpers#handle_create (method)">#handle_create</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_listing-instance_method" title="CrudHelpers#handle_listing (method)">#handle_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_unlimited_listing-instance_method" title="CrudHelpers#handle_unlimited_listing (method)">#handle_unlimited_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_update-instance_method" title="CrudHelpers#handle_update (method)">#handle_update</a></span></p>
 
   
   
@@ -1786,7 +1965,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
 
   
 
@@ -1795,7 +1974,81 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="set_up_base_permissions-class_method">
+  <h3 class="signature first" id="create_search_user-class_method">
+  
+    + (<tt>Object</tt>) <strong>create_search_user</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 61</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_search_user'>create_search_user</span>
+
+  <span class='comment'># Create the searchindex user
+</span>  <span class='kw'>if</span> <span class='const'>User</span><span class='lbracket'>[</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='const'>User</span><span class='period'>.</span><span class='const'>SEARCH_USERNAME</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:user</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='const'>User</span><span class='period'>.</span><span class='const'>SEARCH_USERNAME</span><span class='comma'>,</span>
+                                                     <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Search Indexer</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+                          <span class='symbol'>:source</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>local</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='const'>DBAuth</span><span class='period'>.</span><span class='id identifier rubyid_set_password'>set_password</span><span class='lparen'>(</span><span class='const'>User</span><span class='period'>.</span><span class='const'>SEARCH_USERNAME</span><span class='comma'>,</span> <span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:search_user_secret</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_global_repo'>global_repo</span> <span class='op'>=</span> <span class='const'>Repository</span><span class='lbracket'>[</span><span class='symbol'>:repo_code</span> <span class='op'>=&gt;</span> <span class='const'>Group</span><span class='period'>.</span><span class='const'>GLOBAL</span><span class='rbracket'>]</span>
+
+  <span class='const'>RequestContext</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='symbol'>:repo_id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_global_repo'>global_repo</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='kw'>if</span> <span class='const'>Group</span><span class='lbracket'>[</span><span class='symbol'>:group_code</span> <span class='op'>=&gt;</span> <span class='const'>Group</span><span class='period'>.</span><span class='const'>SEARCHINDEX_GROUP_CODE</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_created_group'>created_group</span> <span class='op'>=</span> <span class='const'>Group</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:group</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='symbol'>:group_code</span> <span class='op'>=&gt;</span> <span class='const'>Group</span><span class='period'>.</span><span class='const'>SEARCHINDEX_GROUP_CODE</span><span class='comma'>,</span>
+                                                                         <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Search index</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_created_group'>created_group</span><span class='period'>.</span><span class='id identifier rubyid_add_user'>add_user</span><span class='lparen'>(</span><span class='const'>User</span><span class='lbracket'>[</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='const'>User</span><span class='period'>.</span><span class='const'>SEARCH_USERNAME</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+      <span class='id identifier rubyid_created_group'>created_group</span><span class='period'>.</span><span class='id identifier rubyid_grant'>grant</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>view_repository</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_created_group'>created_group</span><span class='period'>.</span><span class='id identifier rubyid_grant'>grant</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>view_suppressed</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_up_base_permissions-class_method">
   
     + (<tt>Object</tt>) <strong>set_up_base_permissions</strong> 
   
@@ -1861,7 +2114,10 @@
 52
 53
 54
-55</pre>
+55
+56
+57
+58</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 3</span>
@@ -1881,15 +2137,14 @@
   <span class='kw'>end</span>
 
 
-  <span class='kw'>if</span> <span class='const'>User</span><span class='lbracket'>[</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='comment'># Create the admin user
+</span>  <span class='kw'>if</span> <span class='const'>User</span><span class='lbracket'>[</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='const'>User</span><span class='period'>.</span><span class='const'>ADMIN_USERNAME</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:user</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='const'>User</span><span class='period'>.</span><span class='const'>ADMIN_USERNAME</span><span class='comma'>,</span>
                                                      <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Administrator</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
                           <span class='symbol'>:source</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>local</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='const'>DBAuth</span><span class='period'>.</span><span class='id identifier rubyid_set_password'>set_password</span><span class='lparen'>(</span><span class='const'>User</span><span class='period'>.</span><span class='const'>ADMIN_USERNAME</span><span class='comma'>,</span> <span class='const'>User</span><span class='period'>.</span><span class='const'>ADMIN_USERNAME</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-
-  <span class='id identifier rubyid_created_group'>created_group</span> <span class='op'>=</span> <span class='kw'>nil</span>
 
   <span class='id identifier rubyid_global_repo'>global_repo</span> <span class='op'>=</span> <span class='const'>Repository</span><span class='lbracket'>[</span><span class='symbol'>:repo_code</span> <span class='op'>=&gt;</span> <span class='const'>Group</span><span class='period'>.</span><span class='const'>GLOBAL</span><span class='rbracket'>]</span>
 
@@ -1912,7 +2167,11 @@
                     <span class='symbol'>:level</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repository</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
   <span class='const'>Permission</span><span class='period'>.</span><span class='id identifier rubyid_define'>define</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>update_repository</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-                    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The ability to view a given repository</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The ability to create and modify records in a given repository</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                    <span class='symbol'>:level</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repository</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+  <span class='const'>Permission</span><span class='period'>.</span><span class='id identifier rubyid_define'>define</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>view_suppressed</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The ability to view suppressed records in a given repository</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
                     <span class='symbol'>:level</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repository</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
   <span class='const'>Permission</span><span class='period'>.</span><span class='id identifier rubyid_define'>define</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>view_repository</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -1987,12 +2246,12 @@
       <pre class="lines">
 
 
-168
-169
-170</pre>
+200
+201
+202</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 200</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_current_user'>current_user</span>
   <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='symbol'>:aspace_user</span><span class='rbracket'>]</span>
@@ -2045,52 +2304,6 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="filter_passwords-instance_method">
-  
-    - (<tt>Object</tt>) <strong>filter_passwords</strong>(params) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 173</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_filter_passwords'>filter_passwords</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
-
-  <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>password</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:password</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span><span class='op'>|</span><span class='id identifier rubyid_param'>param</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_param'>param</span><span class='rbracket'>]</span>
-      <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_param'>param</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[FILTERED]</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_params'>params</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="handle_exception!-instance_method">
   
     - (<tt>Object</tt>) <strong>handle_exception!</strong>(boom) 
@@ -2105,23 +2318,23 @@
       <pre class="lines">
 
 
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119</pre>
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_handle_exception!'>handle_exception!</span><span class='lparen'>(</span><span class='id identifier rubyid_boom'>boom</span><span class='rparen'>)</span>
   <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>sinatra.error</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_boom'>boom</span>
@@ -2329,12 +2542,12 @@
       <pre class="lines">
 
 
-163
-164
-165</pre>
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 195</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_session'>session</span>
   <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='symbol'>:aspace_session</span><span class='rbracket'>]</span>
@@ -2389,7 +2602,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:41 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:03 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

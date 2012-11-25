@@ -198,12 +198,12 @@
       <pre class="lines">
 
 
-224
-225
-226</pre>
+248
+249
+250</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 248</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span><span class='rparen'>)</span>
   <span class='ivar'>@app</span> <span class='op'>=</span> <span class='id identifier rubyid_app'>app</span>
@@ -235,30 +235,6 @@
       <pre class="lines">
 
 
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
 252
 253
 254
@@ -274,10 +250,50 @@
 264
 265
 266
-267</pre>
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -296,6 +312,21 @@
                  <span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No session found for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session_token'>session_token</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
                <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:expirable</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span>
+        <span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:session_expire_after_seconds</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>&gt;=</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span>
+        <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_age'>age</span> <span class='op'>&gt;</span> <span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:session_expire_after_seconds</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+      <span class='const'>Session</span><span class='period'>.</span><span class='id identifier rubyid_expire'>expire</span><span class='lparen'>(</span><span class='id identifier rubyid_session_token'>session_token</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='kw'>nil</span>
+      <span class='kw'>return</span> <span class='lbracket'>[</span><span class='int'>412</span><span class='comma'>,</span>
+              <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>application/json</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+              <span class='lbracket'>[</span><span class='lbrace'>{</span>
+                 <span class='symbol'>:code</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SESSION_EXPIRED</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                 <span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Session timed out for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session_token'>session_token</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+               <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_touch'>touch</span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
 
 
@@ -309,13 +340,14 @@
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 
+  <span class='id identifier rubyid_querystring'>querystring</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>QUERY_STRING</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_filter_passwords'>filter_passwords</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>QUERY_STRING</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PATH_INFO</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_querystring'>querystring</span><span class='rbrace'>}</span><span class='tstring_content'> [session: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_end_time'>end_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
 
-  <span class='kw'>if</span> <span class='const'>ArchivesSpaceService</span><span class='period'>.</span><span class='id identifier rubyid_development?'>development?</span>
-    <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Responded with </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_result'>result</span><span class='rbrace'>}</span><span class='tstring_content'> in </span><span class='embexpr_beg'>#{</span><span class='lparen'>(</span><span class='id identifier rubyid_end_time'>end_time</span> <span class='op'>-</span> <span class='id identifier rubyid_start_time'>start_time</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='int'>1000</span><span class='rbrace'>}</span><span class='tstring_content'>ms</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+  <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Responded with </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^(.{1024}).+$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>\\1...</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'> in </span><span class='embexpr_beg'>#{</span><span class='lparen'>(</span><span class='id identifier rubyid_end_time'>end_time</span> <span class='op'>-</span> <span class='id identifier rubyid_start_time'>start_time</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='int'>1000</span><span class='rbrace'>}</span><span class='tstring_content'>ms</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_result'>result</span>
 <span class='kw'>end</span></pre>
@@ -329,7 +361,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:41 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:03 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -176,7 +176,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#start_backend-class_method" title="start_backend (class method)">+ (Object) <strong>start_backend</strong>(port, frontend_url = nil) </a>
+      <a href="#start_backend-class_method" title="start_backend (class method)">+ (Object) <strong>start_backend</strong>(port, config = {}) </a>
     
 
     
@@ -199,7 +199,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#start_frontend-class_method" title="start_frontend (class method)">+ (Object) <strong>start_frontend</strong>(port, backend_url) </a>
+      <a href="#start_frontend-class_method" title="start_frontend (class method)">+ (Object) <strong>start_frontend</strong>(port, backend_url, config = {}) </a>
     
 
     
@@ -266,20 +266,20 @@
       <pre class="lines">
 
 
-76
-77
-78
-79
-80
-81
-82
 83
 84
 85
-86</pre>
+86
+87
+88
+89
+90
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_free_port_from'>free_port_from</span><span class='lparen'>(</span><span class='id identifier rubyid_port'>port</span><span class='rparen'>)</span>
   <span class='kw'>begin</span>
@@ -378,7 +378,7 @@
       <div class="method_details ">
   <h3 class="signature " id="start_backend-class_method">
   
-    + (<tt>Object</tt>) <strong>start_backend</strong>(port, frontend_url = nil) 
+    + (<tt>Object</tt>) <strong>start_backend</strong>(port, config = {}) 
   
 
   
@@ -404,16 +404,20 @@
 57
 58
 59
-60</pre>
+60
+61
+62</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 46</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_start_backend'>start_backend</span><span class='lparen'>(</span><span class='id identifier rubyid_port'>port</span><span class='comma'>,</span> <span class='id identifier rubyid_frontend_url'>frontend_url</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_start_backend'>start_backend</span><span class='lparen'>(</span><span class='id identifier rubyid_port'>port</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_java_opts'>java_opts</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-Xmx64M -XX:MaxPermSize=64M</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_java_opts'>java_opts</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> -Daspace.config.frontend_url=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_frontend_url'>frontend_url</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_frontend_url'>frontend_url</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_java_opts'>java_opts</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> -Daspace.config.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 
   <span class='id identifier rubyid_pid'>pid</span> <span class='op'>=</span> <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_spawn'>spawn</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:JAVA_OPTS</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_java_opts'>java_opts</span><span class='rbrace'>}</span><span class='comma'>,</span>
                       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base'>base</span><span class='rbrace'>}</span><span class='tstring_content'>/../build/run</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>backend:devserver:integration</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -432,7 +436,7 @@
       <div class="method_details ">
   <h3 class="signature " id="start_frontend-class_method">
   
-    + (<tt>Object</tt>) <strong>start_frontend</strong>(port, backend_url) 
+    + (<tt>Object</tt>) <strong>start_frontend</strong>(port, backend_url, config = {}) 
   
 
   
@@ -444,8 +448,6 @@
       <pre class="lines">
 
 
-63
-64
 65
 66
 67
@@ -454,15 +456,27 @@
 70
 71
 72
-73</pre>
+73
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 65</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_start_frontend'>start_frontend</span><span class='lparen'>(</span><span class='id identifier rubyid_port'>port</span><span class='comma'>,</span> <span class='id identifier rubyid_backend_url'>backend_url</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_start_frontend'>start_frontend</span><span class='lparen'>(</span><span class='id identifier rubyid_port'>port</span><span class='comma'>,</span> <span class='id identifier rubyid_backend_url'>backend_url</span><span class='comma'>,</span> <span class='id identifier rubyid_config'>config</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_pid'>pid</span> <span class='op'>=</span> <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_spawn'>spawn</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:JAVA_OPTS</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_backend_url'>backend_url</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='id identifier rubyid_java_opts'>java_opts</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_backend_url'>backend_url</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_java_opts'>java_opts</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> -Daspace.config.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_key'>key</span><span class='rbrace'>}</span><span class='tstring_content'>=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_pid'>pid</span> <span class='op'>=</span> <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_spawn'>spawn</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:JAVA_OPTS</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_java_opts'>java_opts</span><span class='rbrace'>}</span><span class='comma'>,</span>
                       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base'>base</span><span class='rbrace'>}</span><span class='tstring_content'>/../build/run</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>frontend:devserver:integration</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
                       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-Daspace.frontend.port=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
@@ -542,7 +556,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:39 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:00 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

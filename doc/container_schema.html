@@ -128,9 +128,9 @@
   &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
   &quot;type&quot; =&gt; &quot;object&quot;,
   &quot;properties&quot; =&gt; {
-    &quot;type_1&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
-    &quot;indicator_1&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
-    &quot;barcode_1&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;required&quot; =&gt; true},
+    &quot;type_1&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
+    &quot;indicator_1&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
+    &quot;barcode_1&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;minLength&quot; =&gt; 1, &quot;ifmissing&quot; =&gt; &quot;error&quot;},
      &quot;type_2&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
     &quot;indicator_2&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
      &quot;type_3&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
@@ -151,7 +151,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:47 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:19 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

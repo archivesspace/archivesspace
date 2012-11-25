@@ -96,7 +96,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Instances.html" title="Instances (module)">Instances</a></span>, <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="AutoIdGenerator/Mixin.html" title="AutoIdGenerator::Mixin (module)">AutoIdGenerator::Mixin</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Instances.html" title="Instances (module)">Instances</a></span>, <span class='object_link'><a href="Orderable.html" title="Orderable (module)">Orderable</a></span>, <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span></dd>
       
     
   
@@ -126,76 +126,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_from_json-class_method" title="create_from_json (class method)">+ (Object) <strong>create_from_json</strong>(json, opts = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#records_matching-class_method" title="records_matching (class method)">+ (Object) <strong>records_matching</strong>(query, max) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#sequel_to_jsonmodel-class_method" title="sequel_to_jsonmodel (class method)">+ (Object) <strong>sequel_to_jsonmodel</strong>(obj, type, opts = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#set_resource-class_method" title="set_resource (class method)">+ (Object) <strong>set_resource</strong>(json, opts) </a>
     
 
     
@@ -223,98 +154,6 @@
     </h2>
 
     <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#before_create-instance_method" title="#before_create (instance method)">- (Object) <strong>before_create</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#children-instance_method" title="#children (instance method)">- (Object) <strong>children</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#has_children%3F-instance_method" title="#has_children? (instance method)">- (Boolean) <strong>has_children?</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">- (Object) <strong>update_from_json</strong>(json, opts = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
       
         <li class="public ">
   <span class="summary_signature">
@@ -351,8 +190,30 @@
   
   
   
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="AutoIdGenerator/Mixin.html" title="AutoIdGenerator::Mixin (module)">AutoIdGenerator::Mixin</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AutoIdGenerator/Mixin.html#before_create-instance_method" title="AutoIdGenerator::Mixin#before_create (method)">#before_create</a></span>, <span class='object_link'><a href="AutoIdGenerator/Mixin.html#included-class_method" title="AutoIdGenerator::Mixin.included (method)">included</a></span>, <span class='object_link'><a href="AutoIdGenerator/Mixin.html#update_from_json-instance_method" title="AutoIdGenerator::Mixin#update_from_json (method)">#update_from_json</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Orderable.html" title="Orderable (module)">Orderable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Orderable.html#children-instance_method" title="Orderable#children (method)">#children</a></span>, <span class='object_link'><a href="Orderable.html#has_children%3F-instance_method" title="Orderable#has_children? (method)">#has_children?</a></span>, <span class='object_link'><a href="Orderable.html#included-class_method" title="Orderable.included (method)">included</a></span>, <span class='object_link'><a href="Orderable.html#set_position_in_list-instance_method" title="Orderable#set_position_in_list (method)">#set_position_in_list</a></span>, <span class='object_link'><a href="Orderable.html#update_from_json-instance_method" title="Orderable#update_from_json (method)">#update_from_json</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Agents.html#included-class_method" title="Agents.included (method)">included</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Agents.html#included-class_method" title="Agents.included (method)">included</a></span>, <span class='object_link'><a href="Agents.html#update_from_json-instance_method" title="Agents#update_from_json (method)">#update_from_json</a></span></p>
 
   
   
@@ -429,7 +290,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ASModel.html#before_update-instance_method" title="ASModel#before_update (method)">#before_update</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#linked_records-class_method" title="ASModel.linked_records (method)">linked_records</a></span>, <span class='object_link'><a href="ASModel.html#map_validation_to_json_property-instance_method" title="ASModel#map_validation_to_json_property (method)">#map_validation_to_json_property</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ASModel.html#before_create-instance_method" title="ASModel#before_create (method)">#before_create</a></span>, <span class='object_link'><a href="ASModel.html#before_update-instance_method" title="ASModel#before_update (method)">#before_update</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#linked_records-class_method" title="ASModel.linked_records (method)">linked_records</a></span>, <span class='object_link'><a href="ASModel.html#map_validation_to_json_property-instance_method" title="ASModel#map_validation_to_json_property (method)">#map_validation_to_json_property</a></span>, <span class='object_link'><a href="ASModel.html#stale%3F-instance_method" title="ASModel#stale? (method)">#stale?</a></span>, <span class='object_link'><a href="ASModel.html#update_from_json-instance_method" title="ASModel#update_from_json (method)">#update_from_json</a></span></p>
 
   
   
@@ -440,7 +301,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
 
 
   <div id="class_method_details" class="method_details_list">
@@ -448,39 +309,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="create_from_json-class_method">
-  
-    + (<tt>Object</tt>) <strong>create_from_json</strong>(json, opts = {}) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-47
-48
-49
-50</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 47</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_set_resource'>set_resource</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='kw'>super</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="records_matching-class_method">
+  <h3 class="signature first" id="records_matching-class_method">
   
     + (<tt>Object</tt>) <strong>records_matching</strong>(query, max) 
   
@@ -494,115 +323,17 @@
       <pre class="lines">
 
 
-85
-86
-87
-88</pre>
+32
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_records_matching'>records_matching</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_max'>max</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_this_repo'>this_repo</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_like'>like</span><span class='lparen'>(</span><span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_function'>function</span><span class='lparen'>(</span><span class='symbol'>:lower</span><span class='comma'>,</span> <span class='symbol'>:title</span><span class='rparen'>)</span><span class='comma'>,</span>
                                    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query'>query</span><span class='rbrace'>}</span><span class='tstring_content'>%</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='lparen'>(</span><span class='id identifier rubyid_max'>max</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="sequel_to_jsonmodel-class_method">
-  
-    + (<tt>Object</tt>) <strong>sequel_to_jsonmodel</strong>(obj, type, opts = {}) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 62</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='kw'>super</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_resource_id'>resource_id</span>
-    <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_resource'>resource</span> <span class='op'>=</span> <span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_resource_id'>resource_id</span><span class='rparen'>)</span>
-
-    <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span>
-      <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='symbol'>:archival_object</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_json'>json</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_resource-class_method">
-  
-    + (<tt>Object</tt>) <strong>set_resource</strong>(json, opts) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 33</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_resource'>set_resource</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resource_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>parent_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_resource'>resource</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resource_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='op'>::</span><span class='id identifier rubyid_parse_reference'>parse_reference</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
-
-    <span class='kw'>if</span> <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span>
-      <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>parent_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='op'>::</span><span class='id identifier rubyid_parse_reference'>parse_reference</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -616,160 +347,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="before_create-instance_method">
-  
-    - (<tt>Object</tt>) <strong>before_create</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-17
-18
-19
-20</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 17</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_before_create'>before_create</span>
-  <span class='kw'>super</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ref_id'>ref_id</span> <span class='op'>=</span> <span class='const'>SecureRandom</span><span class='period'>.</span><span class='id identifier rubyid_hex'>hex</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ref_id'>ref_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="children-instance_method">
-  
-    - (<tt>Object</tt>) <strong>children</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-23
-24
-25</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 23</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_children'>children</span>
-  <span class='const'>ArchivalObject</span><span class='period'>.</span><span class='id identifier rubyid_this_repo'>this_repo</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="has_children?-instance_method">
-  
-    - (<tt>Boolean</tt>) <strong>has_children?</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-28
-29
-30</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 28</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_has_children?'>has_children?</span>
-  <span class='const'>ArchivalObject</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='op'>&gt;</span> <span class='int'>0</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="update_from_json-instance_method">
-  
-    - (<tt>Object</tt>) <strong>update_from_json</strong>(json, opts = {}) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-53
-54
-55
-56
-57
-58
-59</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 53</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_update_from_json'>update_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='comment'># don't allow ref_id to be updated
-</span>  <span class='id identifier rubyid_json'>json</span><span class='period'>.</span><span class='id identifier rubyid_ref_id'>ref_id</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ref_id'>ref_id</span>
-
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_set_resource'>set_resource</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='kw'>super</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="validate-instance_method">
+  <h3 class="signature first" id="validate-instance_method">
   
     - (<tt>Object</tt>) <strong>validate</strong> 
   
@@ -783,20 +361,20 @@
       <pre class="lines">
 
 
-77
-78
-79
-80
-81
-82</pre>
+24
+25
+26
+27
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
-  <span class='id identifier rubyid_validates_unique'>validates_unique</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:resource_id</span><span class='comma'>,</span> <span class='symbol'>:ref_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='id identifier rubyid_validates_unique'>validates_unique</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:root_record_id</span><span class='comma'>,</span> <span class='symbol'>:ref_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
                    <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An Archival Object Ref ID must be unique to its resource</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_map_validation_to_json_property'>map_validation_to_json_property</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:resource_id</span><span class='comma'>,</span> <span class='symbol'>:ref_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:ref_id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_map_validation_to_json_property'>map_validation_to_json_property</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:root_record_id</span><span class='comma'>,</span> <span class='symbol'>:ref_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:ref_id</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -809,7 +387,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:43 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:11 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

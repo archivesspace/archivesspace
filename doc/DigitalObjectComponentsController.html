@@ -109,6 +109,20 @@
 <div class="clear"></div>
 
 
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="FIND_OPTS-constant" class="">FIND_OPTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
 
 
 
@@ -292,20 +306,22 @@
       <pre class="lines">
 
 
-24
-25
-26
-27
-28
-29
 30
-31</pre>
+31
+32
+33
+34
+35
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
   <span class='id identifier rubyid_handle_crud'>handle_crud</span><span class='lparen'>(</span><span class='symbol'>:instance</span> <span class='op'>=&gt;</span> <span class='symbol'>:digital_object_component</span><span class='comma'>,</span>
+              <span class='symbol'>:find_opts</span> <span class='op'>=&gt;</span> <span class='const'>FIND_OPTS</span><span class='comma'>,</span>
               <span class='symbol'>:on_invalid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='tlambeg'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>new_inline</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
               <span class='symbol'>:on_valid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='tlambeg'>{</span>
                 <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Digital Object Component Created</span><span class='tstring_end'>&quot;</span></span>
@@ -332,16 +348,16 @@
       <pre class="lines">
 
 
-18
-19
-20
-21</pre>
+24
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_edit'>edit</span>
-  <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>FIND_OPTS</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_components/edit_inline</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_inline?'>inline?</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -364,20 +380,20 @@
       <pre class="lines">
 
 
-6
-7
-8
-9
-10
-11
 12
 13
 14
 15
-16</pre>
+16
+17
+18
+19
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span>
   <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid__always_valid!'>_always_valid!</span>
@@ -410,12 +426,6 @@
       <pre class="lines">
 
 
-53
-54
-55
-56
-57
-58
 59
 60
 61
@@ -426,10 +436,17 @@
 66
 67
 68
-69</pre>
+69
+70
+71
+72
+73
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parent'>parent</span>
   <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_component</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -441,6 +458,7 @@
 </span>    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_component</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>end</span>
 
+  <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:digital_object_component</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:position</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:index</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:index</span>
 
   <span class='id identifier rubyid_handle_crud'>handle_crud</span><span class='lparen'>(</span><span class='symbol'>:instance</span> <span class='op'>=&gt;</span> <span class='symbol'>:digital_object_component</span><span class='comma'>,</span>
               <span class='symbol'>:obj</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -468,18 +486,18 @@
       <pre class="lines">
 
 
-46
-47
-48
-49
-50</pre>
+52
+53
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show'>show</span>
   <span class='ivar'>@digital_object_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>digital_object_id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
-  <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@digital_object_component</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>FIND_OPTS</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>digital_object_components/show_inline</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_inline?'>inline?</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -502,24 +520,22 @@
       <pre class="lines">
 
 
-34
-35
-36
-37
-38
-39
-40
 41
 42
-43</pre>
+43
+44
+45
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='id identifier rubyid_handle_crud'>handle_crud</span><span class='lparen'>(</span><span class='symbol'>:instance</span> <span class='op'>=&gt;</span> <span class='symbol'>:digital_object_component</span><span class='comma'>,</span>
-              <span class='symbol'>:obj</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span>
-                                                       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolve[]</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subjects</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
+              <span class='symbol'>:obj</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>FIND_OPTS</span><span class='rparen'>)</span><span class='comma'>,</span>
               <span class='symbol'>:on_invalid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='tlambeg'>{</span> <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>edit_inline</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
               <span class='symbol'>:on_valid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='tlambeg'>{</span>
                 <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Digital Object Component Saved</span><span class='tstring_end'>&quot;</span></span>
@@ -536,7 +552,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Nov  9 10:20:46 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:17 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
