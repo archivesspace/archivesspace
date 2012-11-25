@@ -46,7 +46,7 @@ module TestUtils
   def self.start_backend(port, config = {})
     base = File.dirname(__FILE__)
 
-    java_opts = "-Xmx64M -XX:MaxPermSize=64M"
+    java_opts = "-Xmx96M -XX:MaxPermSize=64M"
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
