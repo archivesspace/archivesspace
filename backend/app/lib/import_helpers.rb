@@ -62,11 +62,11 @@ module ImportHelpers
       data = json.to_hash
       data.each do |k, v| 
         case self.check_data_key(json.class.schema["properties"][k], k, v)
-        when 1
+        when :non_vocabulary_jsonmodel_uri
           data[k] = set[v].uri
-        when 2
+        when :array_of_uris
           data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/)) ? set[u].uri : u }
-        when 3
+        when :array_of_objects
           data[k] = v.map { |hash| hash.merge!("ref" => set[hash["ref"]].uri) }
         end
       end
@@ -79,26 +79,27 @@ module ImportHelpers
 
       if kdef["type"].match(/JSONModel\(:[a-z_]*\) uri$/) && v.is_a?(String) &&
         !v.match(/\/vocabularies\/[0-9]+$/) 
-        return 1
+        return :non_vocabulary_jsonmodel_uri
               
       elsif kdef["type"] == "array" && kdef["items"]["type"].is_a?(String)
         
         if kdef["items"]["type"].match(/JSONModel\(:[a-z_]*\) uri_or_object$/) && v[0].is_a?(String)
-          return 2
+          return :array_of_uris
 
         elsif kdef["items"]["type"] == "object"
-          return 3
+          return :array_of_objects
 
         end
       end
-      0
+
+      :unknown
     end
 
     def self.unlink(json)
       unlinked = json.clone
       data = unlinked.to_hash
       data.each { |k, v| data.delete(k) if \
-        0 != self.check_data_key(json.class.schema["properties"][k], k, v) }     
+        :unknown != self.check_data_key(json.class.schema["properties"][k], k, v) }     
 
       unlinked.set_data(data)
       unlinked
