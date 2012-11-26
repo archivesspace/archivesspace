@@ -7,10 +7,10 @@
          <% trail.each_with_index do |crumb, i| %>
             <% if i < trail.length - 1%>         
                <li>
-                  <%= crumb %><span class="divider">/</span>
+                  <%= link_to crumb[0], crumb[1] %><span class="divider">/</span>
                </li>
             <% else %>
-               <li class="active"><%= crumb %></li>
+               <li class="active"><%= crumb[0] %></li>
             <% end %>
          <% end %>
       </ul>

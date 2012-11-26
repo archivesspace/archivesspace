@@ -25,4 +25,38 @@ module ApplicationHelper
     @title = title
   end
 
+  def setup_context(options)
+
+    breadcrumb_trail = []
+
+    if options.has_key? :object
+      object = options[:object]
+
+      type = options[:type] || object["jsonmodel_type"]
+      controller = options[:controller] || type.to_s.pluralize
+
+      title = options[:title] || object["title"]
+
+      breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._html.plural")}", {:controller => controller, :action => :index}])
+
+      if object.id
+        breadcrumb_trail.push([title, {:controller => controller, :action => :show, :id => object.id}])
+        if ["edit", "update"].include? action_name
+          breadcrumb_trail.push(["Edit"])
+          set_title("#{I18n.t("#{type}._html.plural")} | #{title} | Edit")
+        else
+          set_title("#{I18n.t("#{type}._html.plural")} | #{title}")
+        end
+      else # new object
+        breadcrumb_trail.push([options[:title] || "New #{I18n.t("#{type}._html.singular")}"])
+        set_title("#{I18n.t("#{controller.to_s.singularize}._html.plural")} | #{options[:title] || "New"}")
+      end
+    elsif options.has_key? :title
+        set_title(options[:title])
+        breadcrumb_trail.push([options[:title]])
+    end
+
+    render(:partial =>"shared/breadcrumb", :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
+  end
+
 end

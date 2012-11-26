@@ -1,6 +1,4 @@
-<% set_title "Import an EAD File" %>
-
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["Import"]} %>
+<%= setup_context :title => "Import an EAD File" %>
 
 <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal' do %>
   <div class="row-fluid">

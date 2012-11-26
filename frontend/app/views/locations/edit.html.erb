@@ -1,6 +1,4 @@
-<% set_title "Locations | #{@location.id} | Edit" %>
-
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Locations", :controller => :locations, :action => :index),"New Location"]} %>
+<%= setup_context :object => @location, :title => @location.id %>
 
 <%= form_for @location, :as => "location", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
   <%= form_context :location, @location do |form| %>

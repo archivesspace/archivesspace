@@ -1,6 +1,4 @@
-<% set_title "Events | #{@event.id} | Edit" %>
-
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Events", :controller => :events, :action => :index ), "New Event"]} %>
+<%= setup_context :object => @event, :title => @event.id %>
 
 <%= form_for @event, :as => "event", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
   <%= form_context :event, @event do |form| %>

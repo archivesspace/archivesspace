@@ -1,6 +1,4 @@
-<% set_title "Groups | New" %>
-
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Manage Groups", :controller => :groups, :action => :index), "New Group"]} %>
+<%= setup_context :object => @group %>
 
 <div class="row-fluid">
   <div class="span3"></div>

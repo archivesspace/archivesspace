@@ -1,4 +1,12 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Collection Management Records", :controller => :collection_management_records, :action => :index), @collection_management.id]} %>
+<%
+   pr = JSONModel.parse_reference(@collection_management.linked_records[0]['ref'])
+   many_lr = @collection_management.linked_records.length > 1 ? true : false
+   rt = I18n.t("#{pr[:type]}._html.#{many_lr ? 'plural' : 'singular'}")
+   title = "#{rt}: #{JSONModel(pr[:type].intern).find(pr[:id]).title}#{many_lr ? ' ...' : ''}"
+%>
+
+<%= setup_context(:object => @collection_management, :controller => :collection_management_records, :title => title) %>
+
 <div class="row-fluid">
    <div class="span3">
       <%= render :partial => "sidebar" %>
@@ -11,13 +19,6 @@
           </div>
         <% end %>
 
-        <%
-          pr = JSONModel.parse_reference(@collection_management.linked_records[0]['ref'])
-          many_lr = @collection_management.linked_records.length > 1 ? true : false
-          rt = I18n.t("#{pr[:type]}._html.#{many_lr ? 'plural' : 'singular'}")
-          title = "#{rt}: #{JSONModel(pr[:type].intern).find(pr[:id]).title}#{many_lr ? ' ...' : ''}"
-          set_title("Collection Management Records | #{title}")
-        %>
         <h2>Processing <%= title %> <span class="label label-info">Collection Management Record</span></h2>
 
        <%= render :partial => "shared/flash_messages" %>

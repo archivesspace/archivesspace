@@ -51,6 +51,9 @@ en:
     coordinate_3_label: Coordinate Label 3
     coordinate_3_indicator: Coordinate Indicator 3
     display_string: Display String
+    _html:
+      singular: Location
+      plural: Locations
   container_location:
     status: Status
     status_current: Current
@@ -130,6 +133,9 @@ en:
     event_type_resource component transfer: Resource Component Transfer
     event_type_validation: Validation
     event_type_virus check: Virus Check
+    _html:
+      singular: Event
+      plural: Events
   deaccession:
     whole_part: Whole (or Part)
     description: Description
@@ -452,6 +458,9 @@ en:
       email: Email Address
     _external_documents:
       <<: *external_document_attributes
+    _html:
+      singular: Agent
+      plural: Agents
   agent_person:
     <<: *agent_attributes
   agent_family:
@@ -491,9 +500,12 @@ en:
     members: Members
     permissions: "Members can:"
     permission_types:
-        manage_repository: manage this repository (change groups and other settings)
-        update_repository: create/modify/delete records in this repository
-        view_repository: view the records in this repository
+      manage_repository: manage this repository (change groups and other settings)
+      update_repository: create/modify/delete records in this repository
+      view_repository: view the records in this repository
+    _html:
+      singular: Group
+      plural: Groups
   resource:
     title: Title
     id_0: Identifier
@@ -527,12 +539,15 @@ en:
       <<: *term_attributes
     _external_documents:
       <<: *external_document_attributes
+    _html:
+      singular: Subject
+      plural: Subjects
   user:
     username: Username
     name: Your full name
     password: Password
     confirm_password: Confirm your password
-  collection_management:
+  collection_management: &collection_management_attributes
     cataloged_note: Cataloged note
     processing_hours_per_foot_estimate: Processing hrs/ft estimate
     processing_total_extent: Processing total extent
@@ -569,3 +584,5 @@ en:
     _html:
       singular: Record Link
       plural: Record Links
+  collection_management_record:
+    <<: *collection_management_attributes

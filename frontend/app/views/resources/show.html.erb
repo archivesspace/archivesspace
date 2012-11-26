@@ -1,6 +1,5 @@
-<% set_title "Resources | #{@resource.title}" %>
+<%= setup_context :object => @resource %>
 
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Resources", :controller => :resources, :action => :index), @resource.title]} %>
 <div class="row-fluid">
   <div class="span12">
     <%= render :partial => "shared/tree", :locals => {:read_only => true} %>

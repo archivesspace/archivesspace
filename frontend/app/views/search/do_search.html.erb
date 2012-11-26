@@ -9,8 +9,8 @@
       title << " in #{params[:type].map{|t| I18n.t("#{t}._html.plural")}.join(",")}"
     end
   end
-
-  set_title(title)
 %>
+
+<%= setup_context :title => title %>
 
 <%= render :partial => "results" %>

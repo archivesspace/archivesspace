@@ -1,6 +1,5 @@
-<% set_title "Locations | #{@location.id}" %>
+<%= setup_context :object => @location, :title => @location.id %>
 
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Locations", :controller => :locations, :action => :index), @location.id]} %>
 <div class="row-fluid">
    <div class="span3">
      <%= render :partial => "locations/sidebar" %>

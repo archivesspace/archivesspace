@@ -1,6 +1,4 @@
-<% set_title "Subjects | #{@subject.display_string} | Edit" %>
-
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Subjects", :controller => :subjects, :action => :index),"New Subject"]} %>
+<%= setup_context :object => @subject, :title => @subject.display_string %>
 
 <%= form_for @subject, :as => "subject", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
   <%= form_context :subject, @subject do |form| %>

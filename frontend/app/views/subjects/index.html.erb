@@ -1,6 +1,5 @@
-<% set_title "Subjects" %>
+<%= setup_context :title => I18n.t("subject._html.plural") %>
 
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["Browse Subjects"]} %>
 <div class="row-fluid">
    <div class="span3">
       The facets/search filters will go here.

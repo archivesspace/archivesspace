@@ -1,6 +1,4 @@
-<% set_title "Resources | New" %>
-
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Resources", :controller => :resources, :action => :index),"New Resource"]} %>
+<%= setup_context :object => @resource %>
 
 <%= form_for @resource, :as => "resource", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
   <%= form_context :resource, @resource.to_hash(true) do |form| %>
