@@ -10,19 +10,19 @@ entities:
     properties:
       id_0: 
         xpath: ["child::*/child::*/child::unitid"]
-        procedure: "|value| value.sub(/[_\\.\\s].*/, '')"
+        procedure: "|value| value.sub(/[\\/_\\.\\s].*/, '')"
       
       id_1:
         xpath: ["child::*/child::*/child::unitid"]
-        procedure: "|value| value.split(/[_\\-.\\s]/)[1]"
+        procedure: "|value| value.split(/[\\/_\\-.\\s]/)[1]"
       
       id_2:
         xpath: ["child::*/child::*/child::unitid"]
-        procedure: "|value| value.split(/[_\\-.\\s]/)[2]"
+        procedure: "|value| value.split(/[\\/_\\-.\\s]/)[2]"
         
       id_3:
         xpath: ["child::*/child::*/child::unitid"]
-        procedure: "|value| value.split(/[_\\-.\\s]/)[3]"
+        procedure: "|value| value.split(/[\\/_\\-.\\s]/)[3]"
 
       title: 
         xpath: ["child::*/child::*/child::unittitle"]
@@ -106,7 +106,7 @@ entities:
         procedure: "|val| {'role' => 'subject', 'ref' => val.uri}" #val is a json object (agent)
         
       parent: 
-        xpath: ["parent::c"]
+        xpath: ["parent::c", "parent::c01", "parent::c02", "parent::c03", "parent::c04", "parent::c05", "parent::c06", "parent::c07", "parent::c08", "parent::c09", "parent::c10", "parent::c11", "parent::c12"]
 
       ref_id: 
         xpath: ["@id"]
