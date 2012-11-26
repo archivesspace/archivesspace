@@ -1,3 +1,5 @@
+<% set_title "Resources | #{@resource.title} | Edit" %>
+
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Resources", :controller => :resources, :action => :index), link_to(@resource.title, :controller => :resources, :action => :show, :id => @resource.id), "Edit"]} %>
 
 <div class="row-fluid">

@@ -1,3 +1,5 @@
+<% set_title("Agents | New #{I18n.t("agent.agent_type.#{@agent.agent_type}")}") %>
+
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index),"New #{I18n.t("agent.agent_type.#{@agent.agent_type}")}"]} %>
 
 <%= form_for @agent, :as => "agent", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "agent_form"} do |f| %>

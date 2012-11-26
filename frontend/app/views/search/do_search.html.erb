@@ -1,1 +1,16 @@
+<%
+  title = "Search"
+  title << " for \"#{params[:q]}\"" if params.has_key?(:q) and not params[:q].blank?
+
+  if params.has_key?(:type) and not params[:type].blank?
+    if params[:type].kind_of? String
+      title << " in #{I18n.t("#{params[:type]}._html.plural")}"
+    else # an array
+      title << " in #{params[:type].map{|t| I18n.t("#{t}._html.plural")}.join(",")}"
+    end
+  end
+
+  set_title(title)
+%>
+
 <%= render :partial => "results" %>

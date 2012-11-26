@@ -1,3 +1,5 @@
+<% set_title("Agents | #{@agent.names[0]["sort_name"]} (#{I18n.t("agent.agent_type.#{@agent.agent_type}")}) | Edit") %>
+
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), link_to(@agent.names[0]["sort_name"], :id => @agent.id, :controller => :agents, :action => :show, :type => @agent.agent_type), "Edit"]} %>
 
 <%= form_for @agent, :as => "agent", :url => {:action => :update}, :html => {:class => 'form-horizontal', :id => "agent_form"} do |f| %>

@@ -8,13 +8,14 @@
       </div>
       <div class="span9 record-pane">
 
-        <%=
+        <%
           pr = JSONModel.parse_reference(@collection_management.linked_records[0]['ref'])
           many_lr = @collection_management.linked_records.length > 1 ? true : false
           rt = I18n.t("#{pr[:type]}._html.#{many_lr ? 'plural' : 'singular'}")
-          nil
+          title = "#{rt}: #{JSONModel(pr[:type].intern).find(pr[:id]).title}#{many_lr ? ' ...' : ''}"
+          set_title("Collection Management Records | #{title} | Edit")
         %>
-        <h2>Processing <%= "#{rt}: #{JSONModel(pr[:type].intern).find(pr[:id]).title}#{many_lr ? ' ...' : ''}"  %> <span
+        <h2>Processing <%= title %> <span
 class="label label-info">Collection Management Record</span></h2>
 
         <%= render :partial => "collection_management_records/form", :locals => {:form => form} %>

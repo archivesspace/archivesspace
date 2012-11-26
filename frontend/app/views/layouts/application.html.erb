@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ArchivesSpace | <%= controller.class.name %> >> <%= controller.action_name %></title>
+  <title>ArchivesSpace | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= include_theme_css %>
   <%= csrf_meta_tags %>

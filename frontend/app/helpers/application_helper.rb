@@ -21,4 +21,8 @@ module ApplicationHelper
     css.html_safe
   end
 
+  def set_title(title)
+    @title = title
+  end
+
 end

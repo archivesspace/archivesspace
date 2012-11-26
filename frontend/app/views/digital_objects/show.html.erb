@@ -1,3 +1,5 @@
+<% set_title "Digital Objects | #{@digital_object.title}" %>
+
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Digital Objects", :controller => :digital_objects, :action => :index), @digital_object.title]} %>
 <div class="row-fluid">
   <div class="span12">

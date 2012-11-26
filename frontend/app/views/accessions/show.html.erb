@@ -1,3 +1,4 @@
+<% set_title("Accessions | #{@accession.title}") %>
 <%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index), @accession.title]} %>
 <div class="row-fluid">
    <div class="span3">
