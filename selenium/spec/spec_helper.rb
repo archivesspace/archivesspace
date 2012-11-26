@@ -127,7 +127,8 @@ class Selenium::WebDriver::Driver
 
 
   def complete_4part_id(pattern)
-    accession_id = Digest::MD5.hexdigest("#{Time.now}#{$$}").scan(/.{6}/)[0...4]
+    # Was 4, but now that the input boxes are disabled this wasn't filling out the last 3.
+    accession_id = Digest::MD5.hexdigest("#{Time.now}#{$$}").scan(/.{6}/)[0...1]
     accession_id.each_with_index do |elt, i|
       self.clear_and_send_keys([:id, sprintf(pattern, i)], elt)
     end
@@ -147,7 +148,7 @@ class Selenium::WebDriver::Driver
         elt.send_keys(keys)
         break
       rescue
-          $sleep_time += 0.1
+        $sleep_time += 0.1
         sleep 0.1
       end
     end
@@ -205,7 +206,7 @@ class Selenium::WebDriver::Element
         return nil
       end
 
-          $sleep_time += 0.1
+      $sleep_time += 0.1
       sleep 0.1
     end
 
@@ -217,11 +218,23 @@ end
 
 
 
-def logout(driver)
+def login(user, pass)
+  $driver.navigate.to $frontend
+
+  $driver.find_element(:link, "Sign In").click
+  $driver.clear_and_send_keys([:id, 'user_username'], user)
+  $driver.clear_and_send_keys([:id, 'user_password'], pass)
+  $driver.find_element(:id, 'login').click
+end
+
+
+def logout
   ## Complete the logout process
-  driver.find_element(:css, '.user-container .btn').click
-  driver.find_element(:link, "Logout").click
-  driver.find_element(:link, "Sign In")
+  if $driver.find_element(:css, 'body').find_element(:css, '.user-container .btn')
+    $driver.find_element(:css, 'body').find_element(:css, '.user-container .btn').click
+    $driver.find_element(:link, "Logout").click
+    $driver.find_element(:link, "Sign In")
+  end
 end
 
 
@@ -231,7 +244,7 @@ end
 
 
 def cleanup
-  @driver.quit if @driver
+  $driver.quit if $driver
 
   if ENV["COVERAGE_REPORTS"] == 'true'
     begin
@@ -269,8 +282,7 @@ def selenium_init
   end
 
   @user = "testuser#{Time.now.to_i}_#{$$}"
-  @driver = Selenium::WebDriver.for :firefox
-  @driver.navigate.to $frontend
+  $driver = Selenium::WebDriver.for :firefox
 end
 
 
@@ -292,6 +304,142 @@ def assert(&block)
 end
 
 
+def admin_backend_request(req)
+  res = Net::HTTP.post_form(URI("#{$backend}/users/admin/login"), :password => "admin")
+  admin_session = JSON(res.body)["session"]
+
+  req["X-ARCHIVESSPACE-SESSION"] = admin_session
+
+  uri = URI("#{$backend}")
+
+  Net::HTTP.start(uri.hostname, uri.port) do |http|
+    res = http.request(req)
+
+    if res.code != "200"
+      raise "Bad response: #{res.body}"
+    end
+
+    res
+  end
+end
+
+
+def create_test_repo(code, description, wait = true)
+  create_repo = URI("#{$backend}/repositories")
+
+  req = Net::HTTP::Post.new(create_repo.path)
+  req.body = "{\"repo_code\": \"#{code}\", \"description\": \"#{description}\"}"
+
+  response = admin_backend_request(req)
+  repo_uri = JSON.parse(response.body)['uri']
+
+
+  # Give the webhook time to fire
+  sleep 5 if wait
+
+  [code, repo_uri]
+end
+
+
+def create_user
+  user = "user_#{Time.now.to_i}_#{$$}"
+  pass = "pass_#{Time.now.to_i}_#{$$}"
+
+  req = Net::HTTP::Post.new("/users?password=#{pass}")
+  req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\"}"
+
+  admin_backend_request(req)
+
+  [user, pass]
+end
+
+
+def select_repo(code)
+  $driver.find_element(:css, '.repository-container .btn').click
+
+  if not $driver.find_element_with_text('//span', /#{code}/, true, true)
+    # Select it
+    $driver.find_element(:link_text => code).click
+  else
+    $driver.find_element(:css, '.repository-container .btn').click
+  end
+end
+
+
+def add_user_to_managers(user, repo)
+  req = Net::HTTP::Get.new("#{repo}/groups?page=1")
+
+  groups = admin_backend_request(req)
+
+  uri = JSON.parse(groups.body)['results'].find {|group| group['group_code'] == 'repository-archivists'}['uri']
+
+  req = Net::HTTP::Get.new(uri)
+  group = JSON.parse(admin_backend_request(req).body)
+  group['member_usernames'] = [user]
+
+  req = Net::HTTP::Post.new(uri)
+  req.body = group.to_json
+
+  admin_backend_request(req)
+end
+
+
+def create_accession(title)
+  req = Net::HTTP::Post.new("#{$test_repo_uri}/accessions")
+  req.body = {:title => title, :id_0 => "#{Time.now.to_i}#{$$}", :accession_date => "2000-01-01"}.to_json
+
+  response = admin_backend_request(req)
+
+  raise response.body if response.code != '200'
+
+  title
+end
+
+
+def create_agent(name)
+  req = Net::HTTP::Post.new("/agents/people")
+  req.body = {
+    "agent_contacts" => [],
+    "agent_type" => "agent_person",
+    "names" => [
+              {
+                "direct_order" => "inverted",
+                "authority_id" => "authid123",
+                "primary_name" => name,
+                "rest_of_name" => name,
+                "sort_name" => name,
+                "source" => "local"
+              }
+             ],
+  }.to_json
+
+
+  response = admin_backend_request(req)
+
+  raise response.body if response.code != '200'
+
+  name
+end
+
+
+# A few globals here to allow things to be re-used between nested suites.
+def login_as_archivist
+  if !$test_repo
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+  end
+
+  if !$archivist_user
+    ($archivist_user, $archivist_pass) = create_user
+    add_user_to_managers($archivist_user, $test_repo_uri)
+  end
+
+
+  login($archivist_user, $archivist_pass)
+
+  select_repo($test_repo)
+end
+
+
 def report_sleep
-  puts "Total time spent sleeping: #{$sleep_time.inspect}"
+  puts "Total time spent sleeping: #{$sleep_time.inspect} seconds"
 end
