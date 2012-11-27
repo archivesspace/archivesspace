@@ -34,7 +34,7 @@ Sequel.migration do
 
       String :username, :null => false, :unique => true
       String :name, :null => false
-      String :source, :null => false
+      String :source, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false

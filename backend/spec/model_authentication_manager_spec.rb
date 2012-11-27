@@ -6,10 +6,14 @@ class MockAuthenticationSource
     @opts = opts
   end
 
-  def authenticate(user, pass)
+  def authenticate(user, pass, callback)
     user = @opts[:users][user]
 
-    user if (user && user[:password] == pass)
+    callback.call("Mark") if (user && user[:password] == pass)
+  end
+
+  def name
+    "MockAuthenticationSource"
   end
 
 end
@@ -17,20 +21,30 @@ end
 
 describe 'Authentication manager' do
 
-  it "Can be configured to authenticate against a custom provider" do
-    auth_source = {
+  let(:auth_source) do
+    {
       :model => 'MockAuthenticationSource',
       :users => {
         'hello' => {:password => 'world'}
       }
     }
+  end
 
-    AppConfig.should_receive(:[]).twice.
+
+  before(:each) do
+    AppConfig.should_receive(:[]).once.
               with(:authentication_sources).
               and_return([auth_source])
+  end
 
-    AuthenticationManager.authenticate("hello", "wrongpass").should eq(nil)
+
+  it "successfully logs in to a custom provider" do
     AuthenticationManager.authenticate("hello", "world").should_not eq(nil)
+  end
+
+
+  it "handles failed logins against a custom provider" do
+    AuthenticationManager.authenticate("hello", "wrongpass").should eq(nil)
   end
 
 end

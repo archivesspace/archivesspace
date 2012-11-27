@@ -25,14 +25,18 @@ class DBAuth
   end
 
 
-  def self.authenticate(username, password)
+  def self.authenticate(username, password, callback)
     username = username.downcase
 
     DB.open do |db|
       pwhash = db[:auth_db].filter(:username => username).get(:pwhash)
 
       if pwhash and (Password.new(pwhash) == password)
-        User.find(:username => username)
+        user = User.find(:username => username)
+
+        callback.call(user.name)
+      else
+        nil
       end
 
     end
