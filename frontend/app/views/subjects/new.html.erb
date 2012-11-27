@@ -1,4 +1,4 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Subjects", :controller => :subjects, :action => :index),"New Subject"]} %>
+<%= setup_context :object => @subject %>
 
 <%= form_for @subject, :as => "subject", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
   <%= form_context :subject, @subject do |form| %>

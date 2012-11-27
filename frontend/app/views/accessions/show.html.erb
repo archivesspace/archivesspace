@@ -1,4 +1,5 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index), @accession.title]} %>
+<%= setup_context(:object => @accession) %>
+
 <div class="row-fluid">
    <div class="span3">
       <%= render :partial => "sidebar" %>

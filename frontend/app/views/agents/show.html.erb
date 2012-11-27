@@ -1,4 +1,5 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Agents", :controller => :agents, :action => :index), @agent.names[0]['sort_name']]} %>
+<%= setup_context :object => @agent, :controller => :agents, :type => @agent.agent_type, :title => @agent.names[0]["sort_name"] %>
+
 <div class="row-fluid">
    <div class="span3">
       <%= render :partial => "agents/sidebar" %>

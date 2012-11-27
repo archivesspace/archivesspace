@@ -1,9 +1,9 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["Import"]} %>
+<%= setup_context :title => "Import an EAD File" %>
 
 <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal' do %>
   <div class="row-fluid">
     <div class="span12 record-pane">
-      <h2>Import an EAD File</h2>
+      <h2><%= @title %></h2>
 
       <% if flash[:success] %>
         <div class="alert alert-success">

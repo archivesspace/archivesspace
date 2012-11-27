@@ -437,7 +437,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "displays the agent in the agent's index page" do
-      $driver.find_element(:link, 'Browse Agents').click
+      $driver.find_element(:link, 'Agents').click
       expect {
         $driver.find_element_with_text('//td', /Johnny Allen Hendrix/)
       }.to_not raise_error
