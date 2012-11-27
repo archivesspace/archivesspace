@@ -642,7 +642,7 @@ Sequel.migration do
       Integer :digital_object_id, :null => true
       Integer :digital_object_component_id, :null => true
 
-      String :date_type, :null => false
+      String :date_type, :null => true
       String :label, :null => false
 
       String :uncertain, :null => true

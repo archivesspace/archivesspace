@@ -51,8 +51,8 @@ module JSONModel::Validations
   def self.check_date(hash)
     errors = []
 
-    if hash["date_type"] === "expression"
-      errors << ["expression", "is required"] if hash["expression"].nil?
+    if hash["expression"].nil? and hash["date_type"].nil?
+      errors << ["date_type", "is required"]
     elsif hash["date_type"] === "single"
       errors << ["begin", "is required"] if hash["begin"].nil?
     elsif hash["date_type"] === "inclusive" || hash["date_type"] === "bulk"
