@@ -1,152 +1,78 @@
+<% define_template "date_type_single" do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="single">
+    <%= form.label_and_date "begin", {
+      :field_opts => {
+        :placeholder => "YYYY-MM-DD"
+      }
+    } %>
+    <%= form.label_and_textfield "begin_time", {
+      :field_opts => {
+        :placeholder => "HH:MM:SS"
+      }
+    } %>
+  </div>
+<% end %>
+
+<% define_template "date_type_inclusive" do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="inclusive">
+    <%= form.label_and_date "begin", {
+      :field_opts => {
+        :placeholder => "YYYY-MM-DD"
+      }
+    } %>
+    <%= form.label_and_textfield "begin_time", {
+      :field_opts => {
+        :placeholder => "HH:MM:SS"
+      }
+    } %>
+    <%= form.label_and_date "end", {
+      :field_opts => {
+        :placeholder => "HH:MM:SS"
+      }
+    } %>
+    <%= form.label_and_textfield "end_time", {
+      :field_opts => {
+        :placeholder => "HH:MM:SS"
+      }
+    } %>
+  </div>
+<% end %>
+
+<% define_template "date_type_bulk" do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="bulk">
+    <%= form.label_and_date "begin", {
+      :field_opts => {
+        :placeholder => "YYYY-MM-DD"
+      }
+    } %>
+    <%= form.label_and_textfield "begin_time", {
+      :field_opts => {
+        :placeholder => "HH:MM:SS"
+      }
+    } %>
+    <%= form.label_and_date "end", {
+      :field_opts => {
+        :placeholder => "HH:MM:SS"
+      }
+    } %>
+    <%= form.label_and_textfield "end_time", {
+      :field_opts => {
+        :placeholder => "HH:MM:SS"
+      }
+    } %>
+  </div>
+<% end %>
+
 <% define_template "date" do |form| %>
   <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_select "label", form.options_for("label", JSONModel(:date).schema['properties']['label']['enum']) %>
+      <%= form.label_and_textfield "expression", {:field_opts => {:placeholder => "Describe the date or date range"}} %>
+      <%= form.label_and_select "date_type", form.jsonmodel_options_for(:date, "date_type", true) %>
 
-      <div class="control-group">
-        <label class="control-label" id="<%= form.id_for("date_type") %>"><%= I18n.t(form.i18n_for("date_type"))%></label>
-        <div class="controls">
-          <div class="accordion controls-accordion date-type-accordion" id="<%= form.id_for("date_type_accordion") %>">
-            <div class="accordion-group">
-              <label class="radio in" data-toggle="collapse" data-parent="#<%= form.id_for("date_type_accordion") %>" href="#<%= form.id_for("date_type_expression") %>">
-                <%= form.radio "date_type", "expression" %> Expression
-              </label>
-              <div id="<%= form.id_for("date_type_expression") %>" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <%= form.label_and_textfield "expression", {:field_opts => {:placeholder => "Describe the date or date range"}} %>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-group">
-              <label class="radio" data-toggle="collapse" data-parent="#<%= form.id_for("date_type_accordion") %>" href="#<%= form.id_for("date_type_single") %>">
-                <%= form.radio "date_type", "single" %> Single Date
-              </label>
-              <div id="<%= form.id_for("date_type_single") %>" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <%= form.label_and_date "begin", {
-                    :label_opts => {
-                      :id => "#{form.id_for("begin")}_single"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("begin")}_single",
-                      :"data-real-id" => form.id_for("begin"),
-                      :placeholder => "YYYY-MM-DD"
-                    }
-                  } %>
-                  <%= form.label_and_textfield "begin_time", {
-                    :label_opts => {
-                      :id => "#{form.path("begin_time")}_single"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("begin_time")}_single",
-                      :"data-real-id" => form.id_for("begin_time"),
-                      :placeholder => "HH:MM:SS"
-                    }
-                  } %>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-group">
-              <label class="radio" data-toggle="collapse" data-parent="#<%= form.id_for("date_type_accordion") %>" href="#<%= form.id_for("date_type_inclusive") %>">
-                <%= form.radio "date_type", "inclusive" %> Inclusive Dates
-              </label>
-              <div id="<%= form.id_for("date_type_inclusive") %>" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <%= form.label_and_date "begin", {
-                    :label_opts => {
-                      :id => "#{form.id_for("begin")}_inclusive"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("begin")}_inclusive",
-                      :placeholder => "YYYY-MM-DD",
-                      :"data-real-id" => form.id_for("begin")
-                    }
-                  } %>
-                  <%= form.label_and_textfield "begin_time", {
-                    :label_opts => {
-                      :id => "#{form.id_for("begin_time")}_inclusive"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("begin_time")}_inclusive",
-                      :"data-real-id" => form.id_for("begin_time"),
-                      :placeholder => "HH:MM:SS"
-                    }
-                  } %>
-                  <%= form.label_and_date "end", {
-                    :label_opts => {
-                      :id => "#{form.id_for("end")}_inclusive"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("end")}_inclusive",
-                      :"data-real-id" => form.id_for("end"),
-                      :placeholder => "HH:MM:SS"
-                    }
-                  } %>
-                  <%= form.label_and_textfield "end_time", {
-                    :label_opts => {
-                      :id => "#{form.id_for("end_time")}_inclusive"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("end_time")}_inclusive",
-                      :"data-real-id" => form.id_for("end_time"),
-                      :placeholder => "HH:MM:SS"
-                    }
-                  } %>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-group">
-              <label class="radio" data-toggle="collapse" data-parent="#<%= form.id_for("date_type_accordion") %>" href="#<%= form.id_for("date_type_bulk") %>">
-                <%= form.radio "date_type", "bulk" %> Bulk Dates
-              </label>
-              <div id="<%= form.id_for("date_type_bulk") %>" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <%= form.label_and_date "begin", {
-                    :label_opts => {
-                      :id => "#{form.id_for("begin")}_bulk"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("begin")}_bulk",
-                      :"data-real-id" => form.id_for("begin"),
-                      :placeholder => "YYYY-MM-DD"
-                    }
-                  } %>
-                  <%= form.label_and_textfield "begin_time", {
-                    :label_opts => {
-                      :id => "#{form.id_for("begin_time")}_bulk"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("begin_time")}_bulk",
-                      :"data-real-id" => form.id_for("begin_time"),
-                      :placeholder => "HH:MM:SS"
-                    }
-                  } %>
-                  <%= form.label_and_date "end", {
-                    :label_opts => {
-                      :id => "#{form.id_for("end")}_bulk"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("end")}_bulk",
-                      :"data-real-id" => form.id_for("end"),
-                      :placeholder => "HH:MM:SS"
-                    }
-                  } %>
-                  <%= form.label_and_textfield "end_time", {
-                    :label_opts => {
-                      :id => "#{form.id_for("end_time")}_bulk"
-                    },
-                    :field_opts => {
-                      :id => "#{form.id_for("end_time")}_bulk",
-                      :"data-real-id" => form.id_for("end_time"),
-                      :placeholder => "HH:MM:SS"
-                    }
-                  } %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <% if not form.obj["date_type"].blank? %>
+        <% form.emit_template("date_type_#{form.obj["date_type"]}", form.obj) %>
+      <% end %>
 
       <%= form.label_and_select("uncertain", form.jsonmodel_options_for(:date, "uncertain", true)) %>
       <%= form.label_and_select("era", form.jsonmodel_options_for(:date, "era", true)) %>

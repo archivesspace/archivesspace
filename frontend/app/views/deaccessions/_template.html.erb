@@ -11,7 +11,7 @@
       <section id="deaccession_date" class="subrecord-form">
         <h4>Deaccession Date</h4>
         <div class="subrecord-form-container">
-          <% form.push("date", form.obj["date"] || {"label" => "deaccession"}) do %>
+          <%= form.fields_for(form.obj["date"] || {"label" => "deaccession"}, "date") do | date | %>
             <% render :partial => "dates/template", :locals => {:form => form} %>
             <% form.emit_template("date") %>
           <% end %>

@@ -70,6 +70,7 @@ en:
     role_source: Source
     role_outcome: Outcome
     role_transfer: Transfer
+    ref: Record
     _html:
       singular: Record Link
       plural: Record Links
@@ -380,6 +381,12 @@ en:
     _html:
       plural: Dates
       singular: Date
+  date_type_single:
+    <<: *date_attributes
+  date_type_bulk:
+    <<: *date_attributes
+  date_type_inclusive:
+    <<: *date_attributes
   accession:
     accession_date: Accession Date
     accession_id: Identifier

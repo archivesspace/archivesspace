@@ -165,22 +165,38 @@ AS.openCustomModal = function(id, title, contents) {
 };
 
 
-$.fn.serializeObject = function()
-{
+$.fn.serializeObject = function() {
     var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
+
+    if ($(this).is("form")) {
+      var a = this.serializeArray();
+      $.each(a, function() {
         if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+          o[this.name].push(this.value || '');
         } else {
-            o[this.name] = this.value || '';
+          o[this.name] = this.value || '';
         }
-    });
+      });
+    } else {
+      // NOTE: THIS DOESN'T WORK FOR RADIO ELEMENTS (YET)
+      $(":input", this).each(function() {
+        o[this.name] = $(this).val();
+      });
+    }
+
     return o;
 };
+
+$.fn.setValuesFromObject = function(obj) {
+  // NOTE: THIS DOESN'T WORK FOR RADIO ELEMENTS (YET)
+  var $this = this;
+  $.each(obj, function(name, value) {
+    $("[name='"+name+"']", $this).val(value);
+  });
+}
 
 
 AS.addControlGroupHighlighting = function(parent) {
