@@ -13,3 +13,4 @@ coverage
 selenium/webdriver-profile*
 /archivesspace.jar
 build/target
+build/solr
