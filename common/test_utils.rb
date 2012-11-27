@@ -43,12 +43,16 @@ module TestUtils
   end
 
 
-  def self.start_backend(port, config = {})
+  def self.start_backend(port, config = {}, config_file = nil)
     base = File.dirname(__FILE__)
 
     java_opts = "-Xmx96M -XX:MaxPermSize=64M"
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
+    end
+
+    if config_file
+      java_opts += " -Daspace.config=#{config_file}"
     end
 
     pid = Process.spawn({:JAVA_OPTS => java_opts},
