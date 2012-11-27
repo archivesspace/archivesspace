@@ -364,7 +364,7 @@ en:
     date_type_expression: Expression
     date_type_single: Single
     date_type_bulk: Bulk Dates
-    date_type_inclusive: inclusive Dates
+    date_type_inclusive: Inclusive Dates
     expression: Expression
     begin: Begin
     begin_time: Begin Time
