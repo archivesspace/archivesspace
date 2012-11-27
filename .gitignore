@@ -1,4 +1,5 @@
 build/*.jar
+build/*.war
 build/gems
 derby.log
 frontend/doc
