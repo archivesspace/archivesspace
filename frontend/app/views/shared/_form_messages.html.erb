@@ -1,5 +1,4 @@
 <div class="form-messages">
-<% puts @exceptions.inspect %>
 <% if @exceptions %>
    <script>
      $(function () {
@@ -24,7 +23,7 @@
        };
 
        var _errors = <%= form.exceptions_for_js(@exceptions) %>;
-        console.log(_errors);
+
        var callback = function () {
          if (_errors.errors) {
            $(_errors.errors).each(function (idx, elt) {
