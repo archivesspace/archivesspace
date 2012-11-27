@@ -19,26 +19,39 @@ class AuthenticationManager
   # Return a User object if successful, nil otherwise
   def self.authenticate(username, password)
     authentication_sources.each do |source|
-      user = source.authenticate(username, password,
-                                 proc { |name|
-                                   user = User.find(:username => username)
+      begin
+        user = source.authenticate(username, password,
+                                   proc { |name|
+                                     user = User.find(:username => username)
 
-                                   if user
-                                     # Update them from the authentication source
-                                     user.update(:name => name,
-                                                 :source => source.name)
-                                   else
-                                     # Create a new record for this user
-                                     User.create(:name => name,
-                                                 :source => source.name,
-                                                 :username => username)
-                                   end
-                                 })
+                                     if user
+                                       # Update them from the authentication source
+                                       user.update(:name => name,
+                                                   :source => source.name)
 
-      return user if user
+                                       user
+                                     else
+                                       # Create a new record for this user
+                                       User.create(:name => name,
+                                                   :source => source.name,
+                                                   :username => username)
+                                     end
+                                   })
+
+        return user if user
+      rescue
+        Log.error("Error communicating with authentication source #{source.inspect}: #{$!}")
+        Log.exception($!)
+        next
+      end
     end
 
     nil
   end
 
+
+  ArchivesSpaceService.loaded_hook do
+    # Fire this at load time to sanity check our source definitions
+    self.authentication_sources
+  end
 end

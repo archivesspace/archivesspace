@@ -7,6 +7,8 @@ class MockAuthenticationSource
   end
 
   def authenticate(user, pass, callback)
+    raise "Boom" if @opts[:blowup]
+
     user = @opts[:users][user]
 
     callback.call("Mark") if (user && user[:password] == pass)
@@ -31,20 +33,37 @@ describe 'Authentication manager' do
   end
 
 
-  before(:each) do
-    AppConfig.should_receive(:[]).once.
-              with(:authentication_sources).
-              and_return([auth_source])
+  context "Authentication" do
+    before(:each) do
+      AppConfig.should_receive(:[]).once.
+                with(:authentication_sources).
+                and_return([auth_source])
+    end
+
+
+    it "successfully logs in to a custom provider" do
+      AuthenticationManager.authenticate("hello", "world").should_not eq(nil)
+    end
+
+
+    it "handles failed logins against a custom provider" do
+      AuthenticationManager.authenticate("hello", "wrongpass").should eq(nil)
+    end
   end
 
 
-  it "successfully logs in to a custom provider" do
-    AuthenticationManager.authenticate("hello", "world").should_not eq(nil)
+  context "Error handling" do
+
+    it "ignores errors thrown by any single provider" do
+      AppConfig.should_receive(:[]).once.
+                with(:authentication_sources).
+                and_return([{
+                              :model => 'MockAuthenticationSource',
+                              :blowup => true,
+                            }, auth_source])
+
+      # Still fine
+      AuthenticationManager.authenticate("hello", "world").should_not eq(nil)
+    end
   end
-
-
-  it "handles failed logins against a custom provider" do
-    AuthenticationManager.authenticate("hello", "wrongpass").should eq(nil)
-  end
-
 end
