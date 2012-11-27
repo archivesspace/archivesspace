@@ -63,14 +63,26 @@
   </div>
 <% end %>
 
+<% define_template "date_type_nil" do %>
+  <div class="date-type-subform">
+    <div class="control-group">
+      <div class="control-label"></div>
+      <div class="controls"><em>Select a Type to enter normalized date or date range</em></div>
+    </div>
+  </div>
+<% end %>
+
 <% define_template "date" do |form| %>
   <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_select "label", form.options_for("label", JSONModel(:date).schema['properties']['label']['enum']) %>
       <%= form.label_and_textfield "expression", {:field_opts => {:placeholder => "Describe the date or date range"}} %>
+
       <%= form.label_and_select "date_type", form.jsonmodel_options_for(:date, "date_type", true) %>
 
-      <% if not form.obj["date_type"].blank? %>
+      <% if form.obj["date_type"].blank? %>
+        <% form.emit_template("date_type_nil") %>
+      <% else %>
         <% form.emit_template("date_type_#{form.obj["date_type"]}", form.obj) %>
       <% end %>
 

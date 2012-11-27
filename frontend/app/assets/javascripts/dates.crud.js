@@ -13,6 +13,7 @@ $(function() {
       }
 
       if (type === "") {
+        $(this).parents(".control-group:first").after(AS.renderTemplate("template_date_type_nil"));
         return;
       }
 
@@ -26,7 +27,7 @@ $(function() {
 
       var $date_type_subform = $(AS.renderTemplate("template_date_type_"+type, template_data));
 
-      $(this).after($date_type_subform);
+      $(this).parents(".control-group:first").after($date_type_subform);
 
       $date_type_subform.setValuesFromObject(values);
 
