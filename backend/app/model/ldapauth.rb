@@ -5,6 +5,9 @@ end
 
 class LDAPAuth
 
+  extend JSONModel
+
+
   def initialize(definition)
     required = [:hostname, :port, :base_dn, :username_attribute, :attribute_map]
     optional = [:bind_dn, :bind_password, :encryption, :extra_filter]
@@ -63,7 +66,7 @@ class LDAPAuth
   end
 
 
-  def authenticate(username, password, callback)
+  def authenticate(username, password)
     bind
 
     user = find_user(username.downcase)
@@ -73,7 +76,7 @@ class LDAPAuth
                           [aspace_attribute, user[ldap_attribute].first]
                         }]
 
-      callback.call(attributes[:name])
+      JSONModel(:user).from_hash(attributes.merge(:username => username))
     end
 
   end

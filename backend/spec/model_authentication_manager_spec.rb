@@ -6,12 +6,14 @@ class MockAuthenticationSource
     @opts = opts
   end
 
-  def authenticate(user, pass, callback)
+  def authenticate(username, pass)
     raise "Boom" if @opts[:blowup]
 
-    user = @opts[:users][user]
+    user = @opts[:users][username]
 
-    callback.call("Mark") if (user && user[:password] == pass)
+    if (user && user[:password] == pass)
+      JSONModel(:user).from_hash(:username => username, :name => "Mark")
+    end
   end
 
   def name

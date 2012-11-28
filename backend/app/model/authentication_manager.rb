@@ -18,27 +18,28 @@ class AuthenticationManager
   # Attempt to authenticate `user' with the provided `password'.
   # Return a User object if successful, nil otherwise
   def self.authenticate(username, password)
+
+    username = username.downcase
+
     authentication_sources.each do |source|
       begin
-        user = source.authenticate(username, password,
-                                   proc { |name|
-                                     user = User.find(:username => username)
+        jsonmodel_user = source.authenticate(username, password)
 
-                                     if user
-                                       # Update them from the authentication source
-                                       user.update(:name => name,
-                                                   :source => source.name)
+        if !jsonmodel_user
+          next
+        end
 
-                                       user
-                                     else
-                                       # Create a new record for this user
-                                       User.create(:name => name,
-                                                   :source => source.name,
-                                                   :username => username)
-                                     end
-                                   })
+        user = User.find(:username => username)
 
-        return user if user
+        if user
+          user.update_from_json(jsonmodel_user,
+                                :source => source.name,
+                                :lock_version => user.lock_version)
+        else
+          user = User.create_from_json(jsonmodel_user, :source => source.name)
+        end
+
+        return user
       rescue
         Log.error("Error communicating with authentication source #{source.inspect}: #{$!}")
         Log.exception($!)
