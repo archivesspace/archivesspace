@@ -13,3 +13,5 @@ coverage
 selenium/webdriver-profile*
 /archivesspace.jar
 build/target
+build/solr
+backend/tests/ladle-server*

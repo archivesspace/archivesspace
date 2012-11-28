@@ -1,0 +1,58 @@
+require_relative 'dbauth'
+
+class AuthenticationManager
+
+  def self.prepare_sources(sources)
+    sources.map { |source|
+      model = Kernel.const_get(source[:model].intern)
+
+      model.new(source)
+    }
+  end
+
+  def self.authentication_sources
+    [DBAuth] + prepare_sources(AppConfig[:authentication_sources])
+  end
+
+
+  # Attempt to authenticate `user' with the provided `password'.
+  # Return a User object if successful, nil otherwise
+  def self.authenticate(username, password)
+
+    username = username.downcase
+
+    authentication_sources.each do |source|
+      begin
+        jsonmodel_user = source.authenticate(username, password)
+
+        if !jsonmodel_user
+          next
+        end
+
+        user = User.find(:username => username)
+
+        if user
+          user.update_from_json(jsonmodel_user,
+                                :source => source.name,
+                                :lock_version => user.lock_version)
+        else
+          user = User.create_from_json(jsonmodel_user, :source => source.name)
+        end
+
+        return user
+      rescue
+        Log.error("Error communicating with authentication source #{source.inspect}: #{$!}")
+        Log.exception($!)
+        next
+      end
+    end
+
+    nil
+  end
+
+
+  ArchivesSpaceService.loaded_hook do
+    # Fire this at load time to sanity check our source definitions
+    self.authentication_sources
+  end
+end

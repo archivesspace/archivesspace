@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
+require 'tmpdir'
+require 'tempfile'
 require 'json'
 require 'net/http'
 require_relative '../../common/test_utils'
+require 'ladle'
 
 Dir.chdir(File.dirname(__FILE__))
-
+$ldap_port = 3897
 $port = 3434
 $url = "http://localhost:#{$port}"
 $me = Time.now.to_i
@@ -47,7 +50,18 @@ def fail(msg, response)
 end
 
 
-def run_tests
+def start_ldap
+  Ladle::Server.new(:tmpdir => Dir.tmpdir,
+                    :port   => $ldap_port,
+                    :ldif   => File.absolute_path("data/aspace.ldif"),
+                    :domain => "dc=archivesspace,dc=org").tap do |s|
+    s.start
+  end
+end
+
+
+
+def run_tests(opts)
 
   puts "Create an admin session"
   r = do_post(URI.encode_www_form(:password => "admin"),
@@ -140,6 +154,27 @@ def run_tests
   r[:body]["resolved"]["subjects"][0]["terms"][0]["term"] == "Some term #{$me}" or
     fail("Archival object fetch", r)
 
+
+  if opts[:check_ldap]
+    puts "Check LDAP authentication"
+
+    r = do_post(URI.encode_www_form(:password => "wrongpassword"),
+                url("/users/marktriggs/login"))
+
+    (r[:status] == '403') or fail("LDAP login with incorrect password", r)
+
+
+    r = do_post(URI.encode_www_form(:password => "testuser"),
+                url("/users/marktriggs/login"))
+
+    r[:body]["session"] or fail("LDAP login with correct password", r)
+
+
+    r = do_get(url("/users/marktriggs"))
+    (r[:body]['name'] == 'Mark Triggs') or fail("User attributes from LDAP", r)
+  end
+
+
   puts "Expire session after a nap"
   sleep $expire + 1
   r = do_get(url("/repositories"))
@@ -158,15 +193,38 @@ def main
   end
 
   server = nil
+  ldap = nil
 
   if standalone
     # start the backend
-    server = TestUtils::start_backend($port, {:session_expire_after_seconds => $expire})
+    ldap = start_ldap
+
+    # Configure LDAP auth
+    config = Tempfile.new('aspace_integration_config')
+    config.write <<EOF
+
+AppConfig[:authentication_sources] = [
+                                      {
+                                        :model => 'LDAPAuth',
+                                        :hostname => 'localhost',
+                                        :port => 3897,
+                                        :base_dn => 'ou=people,dc=archivesspace,dc=org',
+                                        :username_attribute => 'uid',
+                                        :attribute_map => {:cn => :name}
+                                      }
+                                     ]
+
+EOF
+    config.close
+
+    server = TestUtils::start_backend($port,
+                                      {:session_expire_after_seconds => $expire},
+                                      config.path)
   end
 
   status = 0
   begin
-    run_tests
+    run_tests(:check_ldap => ldap)
     puts "ALL OK"
   rescue
     puts "TEST FAILED: #{$!}"
@@ -174,6 +232,7 @@ def main
   end
 
   if server
+    ldap.stop
     TestUtils::kill(server)
   end
 

@@ -2,6 +2,7 @@ require 'bcrypt'
 
 class DBAuth
 
+  extend JSONModel
   include BCrypt
 
   def self.set_password(username, password)
@@ -25,13 +26,20 @@ class DBAuth
   end
 
 
-  def self.login(username, password)
+  def self.authenticate(username, password)
     username = username.downcase
 
     DB.open do |db|
       pwhash = db[:auth_db].filter(:username => username).get(:pwhash)
 
-      return (pwhash and (Password.new(pwhash) == password))
+      if pwhash and (Password.new(pwhash) == password)
+        user = User.find(:username => username)
+
+        JSONModel(:user).from_hash(:username => username,
+                                   :name => user.name)
+      else
+        nil
+      end
     end
   end
 end
