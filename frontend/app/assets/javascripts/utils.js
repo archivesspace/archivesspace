@@ -253,6 +253,28 @@ AS.resetScrollSpy = function() {
   });
 }
 
+// Sub Record Sorting
+AS.initSubRecordSorting = function($list) {
+  if ($list.length) {
+    $list.children("li").each(function() {
+      var $child = $(this);
+      if (!$child.hasClass("sort-enabled")) {
+        var $handle = $("<div class='drag-handle'></div>");
+        if ($list.parent().hasClass("controls")) {
+          $handle.addClass("inline");
+        }
+        $(this).append($handle);
+        $(this).addClass("sort-enabled");
+      }
+    });
+    $list.sortable('destroy').sortable({
+      items: 'li',
+      handle: ' > .drag-handle',
+      forcePlaceholderSize: true
+    });
+  }
+}
+
 // Add confirmation btn behaviour
 $(function() {
   $.fn.initConfirmationAction = function() {

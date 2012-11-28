@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
 
         schema['properties'].each do |property, definition|
           if definition['type'] == 'array' and result[property].is_a?(Hash)
-            result[property] = result[property].sort_by {|k, _| k}.map {|_, v| v}
+            result[property] = result[property].map {|_, v| v}
           end
         end
 

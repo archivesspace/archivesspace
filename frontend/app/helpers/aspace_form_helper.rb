@@ -39,16 +39,16 @@ module AspaceFormHelper
 
       objects.each_with_index do |object, idx|
         push(set_index(context_name, idx), object) do
-          result << "<div class=\"subrecord-form-wrapper\" data-index=\"#{idx}\" data-object-name=\"#{context_name.gsub(/\[\]/,"").singularize}\">"
+          result << "<li class=\"subrecord-form-wrapper\" data-index=\"#{idx}\" data-object-name=\"#{context_name.gsub(/\[\]/,"").singularize}\">"
           result << hidden_input("lock_version")
           result << @parent.capture(object, &block)
-          result << "</div>"
+          result << "</li>"
         end
       end
 
-      ("<div data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
+      ("<ul data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
        " data-id-path=\"#{id_for(set_index(self.path(context_name), '${index}'), false)}\" " +
-       " class=\"subrecord-form-list\">#{result}</div>").html_safe
+       " class=\"subrecord-form-list\">#{result}</ul>").html_safe
 
     end
 

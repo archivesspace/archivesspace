@@ -1,3 +1,4 @@
+//= require jquery.sortable
 //= require mixed_content.js
 
 $(function() {
@@ -37,7 +38,11 @@ $(function() {
             index: "${index}"
           }));
 
+          $subsubform = $("<li>").data("type", $subsubform.data("type")).append($subsubform);
+          $subsubform.attr("data-index", index);
           $target_subrecord_list.append($subsubform);
+
+          AS.initSubRecordSorting($target_subrecord_list);
 
           initNoteForm($subsubform);
 
@@ -129,9 +134,12 @@ $(function() {
         }
         $noteform.addClass("initialised")
 
+
         initRemoveActionForSubRecord($noteform);
 
         dropdownFocusFix($noteform);
+
+        AS.initSubRecordSorting($("ul.subrecord-form-list:first", $noteform));
 
         var note_type = $noteform.data("type");
         if (initialisers[note_type]) {
@@ -151,10 +159,15 @@ $(function() {
           index: "${index}"
         }));
 
+        $subform = $("<li>").data("type", $subform.data("type")).append($subform);
+        $subform.attr("data-index", index);
+
         // set the note type
         $(".note-type", $subform).val(selected.text());
 
         $target_subrecord_list.append($subform);
+
+        AS.initSubRecordSorting($target_subrecord_list);
 
         initNoteForm($subform)
 
@@ -170,6 +183,7 @@ $(function() {
       $(".add-note-for-type-btn", $this).click(createTopLevelNote);
 
       // initialising forms
+      AS.initSubRecordSorting($("ul.subrecord-form-list:first", $this));
       if ($(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).length) {
         $(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).each(function() {
           initNoteForm($(this));
@@ -178,7 +192,8 @@ $(function() {
           initRemoveActionForSubRecord($(this));
         });
       }
-    })
+
+    });
   };
 
 
