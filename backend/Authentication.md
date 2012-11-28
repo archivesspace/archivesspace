@@ -42,6 +42,10 @@ its values will be used to create an ArchivesSpace user (if a user by
 that name didn't exist already), or update the existing user (if they
 were already known).
 
+**Note**: The JSONModel(:user) class validates the values you give it
+against its JSON schema and throws an JSONModel::ValidationException
+if anything isn't right.  If this happens within your handler, the
+exception will be logged and the authentication request will fail.
 
 ### A skeleton implementation
 
