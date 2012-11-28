@@ -5,7 +5,7 @@ end
 
 class LDAPAuth
 
-  extend JSONModel
+  include JSONModel
 
 
   def initialize(definition)
