@@ -63,8 +63,8 @@ for authentication.
 
 
         def initialize(definition)
-          # Connect to the database using the database connection details
-          # specified in our configuration file.
+          # Store the database connection details for use at
+          # authentication time.
           @db_url = definition[:db_url] or raise "Need a value for :db_url"
         end
 
