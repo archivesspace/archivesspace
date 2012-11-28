@@ -256,6 +256,7 @@ module AspaceFormHelper
       values.each do |v|
         options.push([I18n.t(i18n_for("#{property}_#{v}"), :default => v), v])
       end
+      options.sort! {|a, b| a[0] <=> b[0]}
       options
     end
 

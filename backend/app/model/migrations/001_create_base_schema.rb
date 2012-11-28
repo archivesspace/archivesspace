@@ -139,6 +139,7 @@ Sequel.migration do
       String :title, :null => true
       TextField :content_description, :null => true
       TextField :condition_description, :null => true
+      String :language, :null => true
 
       DateTime :accession_date, :null => true
 
