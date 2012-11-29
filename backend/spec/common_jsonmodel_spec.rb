@@ -306,6 +306,7 @@ describe 'JSON model' do
     begin
       JSONModel(:resource).from_hash({"title" => "New Resource",
                                        "id_0" => "",
+                                       "language" => "eng",
                                        "notes" => [{"jsonmodel_type" => "note_singlepart",
                                                      "type" => "Abstract",
                                                      "label" => "moo",

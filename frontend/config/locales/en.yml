@@ -505,6 +505,7 @@ en:
     digital_object_type_still_image: Still Image
     digital_object_type_text: Text
     language: Language
+    <<: *language_attributes
     restrictions: Restrictions?
     _html:
       singular: Digital Object
@@ -515,6 +516,7 @@ en:
     component_id: Identifier
     publish: Publish
     language: Language
+    <<: *language_attributes
     _html:
       singular: Digital Object Component
       plural: Digital Object Components
@@ -883,8 +885,6 @@ en:
     publish_help: Check this if you wish to publish this accession to the public.
     restrictions: Restrictions?
     title: Title
-    language: Language
-    <<: *language_attributes
     _extents:
       <<: *extent_attributes
     _dates:
@@ -977,6 +977,8 @@ en:
   archival_object:
     title: Title
     ref_id: Ref ID
+    language: Language
+    <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
     _extents:
       <<: *extent_attributes
@@ -1009,6 +1011,8 @@ en:
     identifier: Identifier
     ref_id: Ref ID
     extents: Extents
+    language: Language
+    <<: *language_attributes
     _extents:
       <<: *extent_attributes
     _dates:
