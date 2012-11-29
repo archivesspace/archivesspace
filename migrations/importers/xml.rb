@@ -11,6 +11,7 @@ ASpaceImport::Importer.importer :xml do
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
     
+    @xpath, @depth = "/", 0
     
     # In DEBUG mode, generate a TSV audit trail
     set_up_tracer if $DEBUG   
@@ -28,15 +29,15 @@ ASpaceImport::Importer.importer :xml do
   def run
     
     @reader.each do |node|
-     
-      node_args = [node.name, node.depth, node.node_type]
-      
-      node.start_trace if $DEBUG
+
+
+      node_args = [xpath(node), node.depth, node.node_type]
+            
+      node.start_trace(*node_args) if $DEBUG
 
       if node.node_type == 1
         if (json = self.class.object_for_node(*node_args))
 
-          puts 
           json.receivers.for("self") do |r|
             r.receive(node.inner_xml)
           end
@@ -57,6 +58,12 @@ ASpaceImport::Importer.importer :xml do
             r.receive(node.inner_xml)
           end
         end
+
+      elsif node.node_type == 3
+        @parse_queue.receivers.for(*node_args) do |r|
+          r.receive(node.value.sub(/[\s\n]*$/, ''))
+        end
+      
       # If a closing tag matches a node
       elsif (json = self.class.object_for_node(*node_args, @parse_queue))
         json.set_default_properties
@@ -104,6 +111,30 @@ ASpaceImport::Importer.importer :xml do
   
   protected
   
+  def xpath(node)
+    # puts "XP #{@xpath}"
+    # puts "NN #{node.name}"
+    
+    name = node.name.gsub(/#text/, "text()")
+
+
+    if @depth < node.depth
+      @xpath.concat("/#{name}")
+    elsif @depth == node.depth
+      @xpath.sub!(/\/[#()a-z0-9]*$/, "/#{name}")
+    elsif @depth > node.depth
+      @xpath.sub!(/\/[#()a-z0-9]*\/[#()a-z0-9]*$/, "/#{name}")
+    else
+      raise "Can't parse node depth to create XPATH"
+    end
+    
+    # puts "XP 2 #{@xpath}"
+    
+    # raise "STOP" if @xpath.split('/').length > 5
+    @depth = node.depth
+    @xpath.clone
+  end
+  
   def set_up_tracer
     require 'tmpdir'
     $tracer = Tracer.new
@@ -128,8 +159,8 @@ ASpaceImport::Importer.importer :xml do
     Nokogiri::XML::Reader.class_eval do
       alias_method :inner_xml_original, :inner_xml
 
-      def start_trace
-        $tracer.set_node(self)
+      def start_trace(*parseargs)
+        $tracer.set_node(self, parseargs[0])
       end
 
       def inner_xml
@@ -156,6 +187,7 @@ ASpaceImport::Importer.importer :xml do
     end
   end
 
+
 end
 
 class Tracer
@@ -163,15 +195,15 @@ class Tracer
   
   def initialize(tfile = File.new("#{Dir.tmpdir}/ead-trace.tsv", "w"))
     @file = tfile
-    @depth, @index, @xpath, @registry = 0, 0, "/", []
+    @index, @registry = 0, []
   end
   
-  def set_node(node)
+  def set_node(node, xpath)
     @index += 1 unless @index == 0 and @registry.length == 0
     @registry[@index] = {
                           :node_type => node.node_type, 
                           :node_value => node.value? ? node.value.sub(/[\s\n]*$/, '') : nil,
-                          :xpath => set_xpath(node),
+                          :xpath => xpath,
                           :aspace_data => [],
                           :inner_xml => []
                         }
@@ -188,7 +220,6 @@ class Tracer
     elsif json
       ref = prop ? "#{json.class.to_s}\##{prop}" : "#{json.class.to_s}"
     end
-    raise "STOP" if val.class.method_defined? :jsonmodel_type and val.jsonmodel_type == 'archival_object'
 
     if key == :aspace_data
       @registry[@index][key] << [ref, val]
@@ -238,20 +269,5 @@ class Tracer
       end
     end
   end 
-  
-   
-  def set_xpath(node)
-    if @depth < node.depth
-      @xpath.concat("/#{node.name}")
-    elsif @depth == node.depth
-      @xpath.sub!(/\/[#a-z0-9]*$/, "/#{node.name}")
-    elsif @depth > node.depth
-      @xpath.sub!(/\/[#a-z0-9]*\/[#a-z0-9]*$/, "/#{node.name}")
-    else
-      raise "Can't parse node depth to create XPATH for tracer"
-    end
-    @depth = node.depth
-    @xpath.clone
-  end
 end   
 

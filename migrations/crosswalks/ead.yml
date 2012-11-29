@@ -6,7 +6,7 @@ source:
   schema: "http://www.loc.gov/ead/ead.xsd"
 entities:
   resource: 
-    xpath: ["/ead"]
+    xpath: ["//ead"]
     properties:
       id_0: 
         xpath: ["child::*/child::*/child::unitid"]
@@ -25,7 +25,8 @@ entities:
         procedure: "|value| value.split(/[\\/_\\-.\\s]/)[3]"
 
       title: 
-        xpath: ["child::*/child::*/child::unittitle"]
+        xpath: ["child::*/child::*/child::unittitle/text()"]
+        # xpath: ["child::*/child::*/child::unittitle"]
         
       subjects: 
         xpath: ["descendant::subject"]
@@ -81,11 +82,11 @@ entities:
     xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
     properties:
       dates:
-        xpath: ["child::*/child::unitdate"]
+        xpath: ["*/unitdate"]
         procedure: "|value| {'date_type' => 'expression', 'expression' => value, 'label' => 'other'}"
 
       component_id:
-        xpath: ["child::*/child::unitid"]
+        xpath: ["*/unitid"]
         procedure: "|val| val.gsub!(/-/, '_')"
         
       extents:
@@ -94,8 +95,8 @@ entities:
         procedure: "|value| {'portion' => 'whole', 'number' => value, 'extent_type' => 'reels'}"
         
       instances:
-        xpath: ["child::did"]
-        procedure: "|val| if val.match(/container.*?type=\"([a-zA-Z]*)\"/);  c = {}; val.scan(/container.*?type=\"([a-zA-Z]*)\"/).each_with_index {|t, i| c.merge!({\"type_#{i+1}\" => t[0], \"indicator_#{i+1}\" => '1', \"barcode_#{i+1}\" => '10001'})}; {'instance_type' => 'text', 'container' => c}; end"
+        xpath: ["child::*/child::container"]
+        # procedure: "|val| if val.match(/container.*?type=\"([a-zA-Z]*)\"/);  c = {}; val.scan(/container.*?type=\"([a-zA-Z]*)\"/).each_with_index {|t, i| c.merge!({\"type_#{i+1}\" => t[0], \"indicator_#{i+1}\" => '1', \"barcode_#{i+1}\" => '10001'})}; {'instance_type' => 'text', 'container' => c}; end"
         # if val.match(/container.*?type=([a-zA-Z]*)/); {'instance_type' => 'text', 'container' => {'type_1' => val.match(/container.*?type=([a-zA-Z]*)/)[0], 'indicator_1' => '1', 'barcode_1' => '10001'}}; end"
 
       level:
@@ -110,7 +111,6 @@ entities:
 
       ref_id: 
         xpath: ["@id"]
-        default: "1"
 
       resource: 
         xpath: ["ancestor::ead"]
@@ -121,6 +121,22 @@ entities:
       title: 
         xpath: ["child::*/child::unittitle"]
         default: "Archival Objects"
+        
+  container:
+    xpath: ["//container"]
+    properties:
+      type_1: 
+        xpath: ["@type"]
+
+      indicator_1:
+        xpath: ["@id"]
+        default: "default_indicator"
+        
+      barcode_1: 
+        default: "10101010"
+    # a provisional attribute:
+      # _parent:
+        # xpath: ["@parent"]
     
   subject:
     xpath: ["//subject"]

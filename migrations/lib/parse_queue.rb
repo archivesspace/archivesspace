@@ -85,6 +85,7 @@ module ASpaceImport
     # helpers
     def self.replace_links(json, link_map)
 
+      puts "J #{json.inspect}"
       data = json.to_hash
       data.each do |k, v| 
         if json.class.schema["properties"][k]["type"].match(/JSONModel/) and \
@@ -120,11 +121,11 @@ module ASpaceImport
       self[0...-1].reverse.each do |qdobj|
       
         # Set Links FROM popped object TO other objects in the queue
-        self.last.receivers.for(qdobj.class.xpath, qdobj.depth) do |r|  
+        self.last.receivers.for(qdobj.xpath, qdobj.depth) do |r|  
           r.receive(qdobj)
         end
         # Set Links TO the popped object FROM others in the queue
-        qdobj.receivers.for(self.last.class.xpath, self.last.depth) do |r|
+        qdobj.receivers.for(self.last.xpath, self.last.depth) do |r|
           r.receive(self.last)
         end          
       end

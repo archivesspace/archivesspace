@@ -56,15 +56,47 @@ module ASpaceImport
       end
     end
     
+    # Offset of nil indicates a root perspective
+    # Offset of 0 indicates a node perspective
+    
+    def self.regexify_xpath(xp, offset = nil)
+      
+      unless offset.nil? || offset < 1
+        puts xp
+        xp = xp.scan(/[^\/]+/)[offset*-1..-1].join('/')
+        xp.gsub!(/\(\)/, '[(]{1}[)]{1}')
+      end
+      
+      case offset
+        
+      when nil
+        Regexp.new "^(/|/" << xp.split("/")[1..-2].map { |n| "(child::)?(#{n}|\\*)" }.join('/') << ")" << xp.gsub(/.*\//, '/') << "$"
+      when 0
+        /^[\/]?#{xp.gsub(/.*\//, '')}$/
+
+      when 1..100
+        puts Regexp.new("^(descendant::|" << xp.scan(/[a-zA-Z_]+/)[offset*-1..-2].map { |n| "(child::)?(#{n}|\\*)" }.join('/') << "/(child::)?)" << xp.gsub(/.*\//, '') << "$").inspect
+        
+        Regexp.new "^(descendant::|" << xp.scan(/[a-zA-Z_]+/)[offset*-1..-2].map { |n| "(child::)?(#{n}|\\*)" }.join('/') << "/(child::)?)" << xp.gsub(/.*\//, '') << "$"
+      
+      when -100..-1
+
+        Regexp.new "^(ancestor::|" << ((offset-1)*-1).times.map {|i| "parent::\\*/"}.join << "parent::)#{xp.gsub(/.*\//, '')}"
+
+      end
+      
+    end
+    
     # Part 2: ClassMethods to mix into an including Importer
     # Mixing into the class rather than the instance because
     # certain classes of Importer will require Crosswalks.
       
     def object_for_node(*parseargs)
-      nname, ndepth, ntype, queue = *parseargs
+      xpath, ndepth, ntype, queue = *parseargs
+      nname = xpath.gsub(/.*\//, '')
       models = ASpaceImport::Crosswalk.models
       walk = ASpaceImport::Crosswalk.walk
-      regex = ASpaceImport::Crosswalk.regexify_node(nname, ndepth)
+      regex = ASpaceImport::Crosswalk.regexify_xpath(xpath)
       types = walk["entities"].map {|k,v| k if v["xpath"] and v["xpath"].find {|x| x.match(regex)}}.compact
 
       case types.length
@@ -74,7 +106,7 @@ module ASpaceImport
       when 1 
         if ntype == 1
           models[types[0]] ||= wrap_model(JSONModel::JSONModel(types[0]), nname)
-          tweak_object(models[types[0]].new, ndepth)
+          tweak_object(models[types[0]].new, *parseargs)
         elsif queue
           raise "Record Type mismatch in parse queue" unless queue[-1].class.record_type == types[0]
           queue[-1]
@@ -100,13 +132,31 @@ module ASpaceImport
           self.receivers.each { |r| r.receive }
         end
         
+        def tmp_vals
+          @tmp_vals ||= {}
+        end
+        
+
+        
+        def depth
+          @depth ||= 0
+        end
+        
+        def xpath
+          @xpath ||= nil
+        end
+        
+        attr_accessor :depth
+        attr_accessor :xpath
+        
       end
 
       cls
     end  
     
-    def tweak_object(json, depth)
-      json.instance_eval("def depth; #{depth}; end")
+    def tweak_object(json, *parseargs)
+      json.xpath, json.depth, ntype, queue = *parseargs
+      # json.instance_eval("def depth; #{depth}; end")
 
       # Set a pre-save URI to be dereferenced by the backend
       if json.class.method_defined? :uri
@@ -139,16 +189,17 @@ module ASpaceImport
       end
       
       def for(*nodeargs)
-        nname, ndepth, ntype = *nodeargs
+        xpath, ndepth, ntype = *nodeargs
+        # nname = xpath.gsub(/.*\//, '')
         if ndepth
           offset = ndepth - @depth
         else
           offset = 0
         end                 
         
-        if nname
+        if xpath
         
-          match_string = ASpaceImport::Crosswalk::regexify_node(nname, offset)
+          match_string = ASpaceImport::Crosswalk::regexify_xpath(xpath, offset)
         
           @mapped_props.each do |p, defn|
             
@@ -157,13 +208,15 @@ module ASpaceImport
  
             next unless defn['xpath']
  
+
             if defn['xpath'].find { |xp| xp.match(match_string) }
 
               @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json, p, defn)
             
               yield @receivers[p]
-            
+              
             end
+
           end         
         end
       end
@@ -179,7 +232,7 @@ module ASpaceImport
       
       def initialize(json, prop, defn)
         @json, @prop, @defn = json, prop, defn
-        @type = @json.class.schema['properties'][@prop]['type']        
+        @type = prop.match(/^_/) ? 'string' : @json.class.schema['properties'][@prop]['type']        
       end
       
       def to_s
@@ -220,6 +273,10 @@ module ASpaceImport
 
           elsif @type == 'array' and val.class.method_defined? :uri
             @json.send("#{@prop}=", @json.send("#{@prop}").push(val.uri))
+            
+          elsif @type == 'array' and val.jsonmodel_type == 'container'
+            
+            @json.instances << {"instance_type" => "text", "container" => val.to_hash}
 
           elsif @type == 'array'
             @json.send("#{@prop}=", @json.send("#{@prop}").push(val.to_hash(true)))
@@ -230,8 +287,12 @@ module ASpaceImport
              
         elsif @type == 'string'
 
-          @json.send("#{@prop}=", val)
-
+          if @prop.match(/^_[a-zA-Z_]+/)
+            @json.tmp_vals[@prop.to_s] = val
+          else
+            @json.send("#{@prop}=", val)
+          end  
+            
         elsif @type == 'array'
           if @json.send("#{@prop}")
             @json.send("#{@prop}=", @json.send("#{@prop}").push(val))

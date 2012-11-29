@@ -1,14 +1,6 @@
-- Add rescued JSONValidation Exceptions to the report, send to rails flash
+- containers not showing up in tracer spreadsheet rightmost column
+- looks like instances aren't showing up in front end after import
 
-- hook up agents to archival objects and resources on import
-
-- create helper methods to render reports and other messages
-	appropriate for context (HTML, CLI, etc.)
-	
-- address problem of circular waiting among json objects
-	- write the test (a -b -c)
-	- http://en.wikipedia.org/wiki/Dependency_graph
-	- http://en.wikipedia.org/wiki/Cycle_detection_(graph_theory)
 
 - validate XML files against schema (using libxml)
 	- where to do this?
