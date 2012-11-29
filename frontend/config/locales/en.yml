@@ -573,6 +573,7 @@ en:
     role_recipient: Recipient
     role_transmitter: Transmitter
     role_validator: Validator
+    ref: Agent
     _html:
       singular: Agent Link
       plural: Agent Links

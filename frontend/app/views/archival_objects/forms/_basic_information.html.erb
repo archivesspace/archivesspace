@@ -1,9 +1,0 @@
-<%= form.label_and_textfield "title" %>
-<% if form.obj["ref_id"].blank? %>
-  <%= form.label_and_readonly "ref_id", "<em>-- auto-generated upon save --</em>" %>
-<% else %>
-  <%= form.label_with_field "ref_id", "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
-<% end %>
-<%= form.hidden_input "ref_id" %>
-<%= form.label_and_select "language", form.jsonmodel_options_for(:archival_object, "language", true) %>
-<%= render :partial => "subjects/linker", :locals => { :form => form }%>

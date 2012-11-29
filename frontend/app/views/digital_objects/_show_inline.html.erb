@@ -21,19 +21,10 @@
         <%= readonly.label_and_select "language", readonly.jsonmodel_options_for(:digital_object, "language") %>
         <%= readonly.label_and_boolean "restrictions" %>
 
-         <% if not @digital_object.subjects.blank? %>
-         <hr/>
-         <div class="row-fluid label-and-value">
-            <div class="span3">Subjects</div>
-            <div class="span9">
-               <% @digital_object["resolved"]["subjects"].each do | subject | %>
-                  <div class="token">
-                     <%= Subject.from_hash(subject).display_string %>
-                  </div>
-               <% end %>
-            </div>
-         </div>
-         <% end %>
+        <% if not @digital_object.subjects.blank? %>
+          <hr/>
+          <%= render :partial => "subjects/show", :locals => {:subjects => @digital_object["resolved"]["subjects"]} %>
+        <% end %>
       </section>
 
       <% if @digital_object.linked_agents.length > 0 %>

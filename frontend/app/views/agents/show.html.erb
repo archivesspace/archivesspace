@@ -5,83 +5,85 @@
       <%= render :partial => "agents/sidebar" %>
    </div>
    <div class="span9 record-pane">
-     <div class="btn-group" style="float: right">
-       <% if user_can?('update_repository') %>
-         <%= link_to "Edit", {:controller => :agents, :action => :edit, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
-       <% end %>
-     </div>
+     <%= readonly_context @agent.agent_type.intern, @agent.to_hash(true) do |readonly| %>
 
-      <h2><%= @agent.names[0]['sort_name'] %>  <span class="label label-info">Agent</span></h2>
+       <div class="btn-group" style="float: right">
+         <% if user_can?('update_repository') %>
+           <%= link_to "Edit", {:controller => :agents, :action => :edit, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
+         <% end %>
+       </div>
 
-      <div class="row-fluid">
-        <section id="agent_details">
-          <h3>Agent Details</h3>
+        <h2><%= @agent.names[0]['sort_name'] %>  <span class="label label-info">Agent</span></h2>
 
-          <div class="row-fluid label-and-value">
-             <div class="span3">Type</div>
-             <div class="span9"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
-          </div>
-        </section>
-      </div>
-
-      <div class="row-fluid">
-        <section id="primary_name">
-          <h3>Names</h3>
-          <div class="accordion details" id="agent_name_accordion">
-            <% @agent.names.each_with_index do | name, index | %>
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_name_accordion" href="#agent_name_<%= index %>">
-                    <div class="span1">
-                      <span class="icon-chevron-right"></span>
-                      <span class="icon-chevron-down"></span>
-                    </div>
-                    <div class="span6">
-                      <%= name['sort_name'] %>
-                    </div>
-                    <div class="span4"><%# Primary token can go here %></div>
-                  </div>
-                </div>
-                <div id="agent_name_<%= index %>" class="accordion-body collapse">
-                  <%= read_only_view(name.to_hash) %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </section>
-      </div>
-
-      <% if @agent.agent_contacts.length > 0 %>
         <div class="row-fluid">
-          <section id="contacts">
-            <h3>Contact Details</h3>
-            <div class="accordion details" id="agent_contact_accordion">
-              <% @agent.agent_contacts.each_with_index do | contact, index | %>
+          <section id="agent_details">
+            <h3>Agent Details</h3>
+
+            <div class="control-group">
+               <div class="control-label">Type</div>
+               <div class="controls label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="row-fluid">
+          <section id="primary_name">
+            <h3>Names</h3>
+            <div class="accordion details" id="agent_name_accordion">
+              <% @agent.names.each_with_index do | name, index | %>
                 <div class="accordion-group">
                   <div class="accordion-heading">
-                    <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_contact_accordion" href="#agent_contact_<%= index %>">
+                    <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_name_accordion" href="#agent_name_<%= index %>">
                       <div class="span1">
                         <span class="icon-chevron-right"></span>
                         <span class="icon-chevron-down"></span>
                       </div>
-                      <div class="span7">
-                        <%= contact['name'] %>
+                      <div class="span6">
+                        <%= name['sort_name'] %>
                       </div>
+                      <div class="span4"><%# Primary token can go here %></div>
                     </div>
                   </div>
-                  <div id="agent_contact_<%= index %>" class="accordion-body collapse">
-                    <%= read_only_view(contact.to_hash) %>
+                  <div id="agent_name_<%= index %>" class="accordion-body collapse">
+                    <%= read_only_view(name.to_hash) %>
                   </div>
                 </div>
               <% end %>
             </div>
           </section>
         </div>
-      <% end %>
 
-      <% if @agent.external_documents.length > 0 %>
-        <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "agent_external_documents_" } %>
-      <% end %>
+        <% if @agent.agent_contacts.length > 0 %>
+          <div class="row-fluid">
+            <section id="contacts">
+              <h3>Contact Details</h3>
+              <div class="accordion details" id="agent_contact_accordion">
+                <% @agent.agent_contacts.each_with_index do | contact, index | %>
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_contact_accordion" href="#agent_contact_<%= index %>">
+                        <div class="span1">
+                          <span class="icon-chevron-right"></span>
+                          <span class="icon-chevron-down"></span>
+                        </div>
+                        <div class="span7">
+                          <%= contact['name'] %>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="agent_contact_<%= index %>" class="accordion-body collapse">
+                      <%= read_only_view(contact.to_hash) %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </section>
+          </div>
+        <% end %>
 
+        <% if @agent.external_documents.length > 0 %>
+          <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "agent_external_documents_" } %>
+        <% end %>
+      <% end %>
     </div>
 </div>

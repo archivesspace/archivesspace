@@ -683,7 +683,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-      assert { $driver.find_element(:css => ".label-and-value .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
+      assert { $driver.find_element(:css => ".token-list .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
     end
 
 

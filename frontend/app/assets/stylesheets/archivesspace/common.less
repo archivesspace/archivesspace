@@ -99,8 +99,13 @@ h2 > .label {
     margin-right: 4px;
     min-width: 60px;
     float: left;
-    height: 1.2em;
+    height: @baseLineHeight;
+    line-height: @baseLineHeight;
   }
+}
+
+.label-only .identifier-display-part {
+  margin-top: -6px;
 }
 
 .tab-content {

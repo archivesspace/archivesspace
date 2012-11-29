@@ -3,39 +3,56 @@
     <%= render :partial => "sidebar" %>
   </div>
   <div class="span9 record-pane">
-    <div class="btn-group" style="float: right">
-       <% if @resource_id %>
-          <% if user_can?('update_repository') %>
-            <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
-          <% end %>
-       <% end %>
-    </div>
+    <%= readonly_context :archival_object, @archival_object.to_hash(true) do |readonly| %>
 
-    <h2><%= @archival_object.title %> <span class="label label-info">Archival Object</span></h2>
-    <section id="basic_information">
-      <h3>Basic Information</h3>
-      <%= render :partial => "archival_objects/display/basic_information" %>
-    </section>
+      <div class="btn-group" style="float: right">
+         <% if @resource_id %>
+            <% if user_can?('update_repository') %>
+              <%= link_to "Edit", {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
+            <% end %>
+         <% end %>
+      </div>
 
-    <% if @archival_object.linked_agents.length > 0 %>
-      <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
+      <h2><%= @archival_object.title %> <span class="label label-info">Archival Object</span></h2>
+      <section id="basic_information">
+        <h3>Basic Information</h3>
+        <%= readonly.label_and_textfield "title" %>
+        <%= readonly.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{readonly["ref_id"]}</div></div>" %>
+
+        <% if not @archival_object.language.blank? %>
+          <%= readonly.label_and_select "language", readonly.jsonmodel_options_for(:archival_object, "language", true) %>
+        <% end %>
+
+        <% if not @archival_object.subjects.blank? %>
+          <hr/>
+          <%= render :partial => "subjects/show", :locals => {:subjects => @archival_object["resolved"]["subjects"]} %>
+        <% end %>
+
+      </section>
+
+      <% if @archival_object.linked_agents.length > 0 %>
+        <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
+      <% end %>
+
+      <% if @archival_object.extents.length > 0 %>
+        <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents, :section_id => "archival_object_extents_" } %>
+      <% end %>
+
+      <% if @archival_object.dates.length > 0 %>
+        <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates, :section_id => "archival_object_dates_" } %>
+      <% end %>
+
+      <% if @archival_object.external_documents.length > 0 %>
+        <%= render :partial => "external_documents/show", :locals => { :external_documents => @archival_object.external_documents, :section_id => "archival_object_external_documents_" } %>
+      <% end %>
+
+      <% if @archival_object.rights_statements.length > 0 %>
+        <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @archival_object.rights_statements, :section_id => "archival_object_rights_statements_" } %>
+      <% end %>
+
+      <% if @archival_object.instances.length > 0 %>
+        <%= render :partial => "instances/show", :locals => { :instances => @archival_object.instances, :section_id => "archival_object_instances_"  } %>
+      <% end %>
     <% end %>
-
-    <% if @archival_object.extents.length > 0 %>
-      <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents, :section_id => "archival_object_extents_" } %>
-    <% end %>
-
-    <% if @archival_object.dates.length > 0 %>
-      <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates, :section_id => "archival_object_dates_" } %>
-    <% end %>
-
-    <% if @archival_object.external_documents.length > 0 %>
-      <%= render :partial => "external_documents/show", :locals => { :external_documents => @archival_object.external_documents, :section_id => "archival_object_external_documents_" } %>
-    <% end %>
-
-    <% if @archival_object.rights_statements.length > 0 %>
-      <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @archival_object.rights_statements, :section_id => "archival_object_rights_statements_" } %>
-    <% end %>
-
   </div>
 </div>

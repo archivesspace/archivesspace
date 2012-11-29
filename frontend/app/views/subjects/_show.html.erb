@@ -1,0 +1,14 @@
+<div class="control-group">
+  <div class="control-label"><%= I18n.t("subject._html.plural") %></div>
+  <div class="controls label-only">
+    <ul class="token-list">
+      <% subjects.each do | subject | %>
+        <li>
+          <div class="token">
+            <%= Subject.from_hash(subject).display_string %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

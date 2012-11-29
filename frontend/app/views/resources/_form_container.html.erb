@@ -7,7 +7,12 @@
 <fieldset>
   <section id="basic_information">
     <h3>Basic Information</h3>
-    <%= render :partial => "resources/forms/basic_information", :locals => {:form => form} %>
+
+    <%= form.label_and_textfield "title" %>
+    <%= form.label_and_fourpartid %>
+    <%= form.label_and_select "language", form.jsonmodel_options_for(:resource, "language", true) %>
+    <%= render :partial => "subjects/linker", :locals => { :form => form }%>
+
   </section>
 
 

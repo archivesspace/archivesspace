@@ -13,38 +13,19 @@
       <h2><%= @resource.title %> <span class="label label-info">Resource</span></h2>
       <section id="basic_information">
         <h3>Basic Information</h3>
-        <div class="row-fluid label-and-value">
-            <div class="span3">Title</div>
-            <div class="span9"><%= @resource.title %></div>
-         </div>
+
+        <%= readonly.label_and_textfield "title" %>
 
         <% if @resource.id_0 %>
-         <div class="row-fluid label-and-value">
-            <div class="span3">Identifier</div>
-            <div class="span9 identifier-display">
-               <span class="identifier-display-part"><%= @resource.id_0 %></span><span class="identifier-display-part"><%= @resource.id_1 %></span><span class="identifier-display-part"><%= @resource.id_2 %></span><span class="identifier-display-part"><%= @resource.id_3 %></span>
-            </div>
-         </div>
+          <%= readonly.label_and_fourpartid %>
         <% end %>
 
-        <div class="row-fluid label-and-value">
-          <div class="span3">Language</div>
-          <div class="span9"><%= I18n.t("resource.language_#{@resource.language}") %></div>
-        </div>
+        <%= readonly.label_and_select "language", readonly.jsonmodel_options_for(:resource, "language", true) %>
 
-         <% if not @resource.subjects.blank? %>
-         <hr/>
-         <div class="row-fluid label-and-value">
-            <div class="span3">Subjects</div>
-            <div class="span9">
-               <% @resource["resolved"]["subjects"].each do | subject | %>
-                  <div class="token">
-                     <%= Subject.from_hash(subject).display_string %>
-                  </div>
-               <% end %>
-            </div>
-         </div>
-         <% end %>
+        <% if not @resource.subjects.blank? %>
+          <hr/>
+          <%= render :partial => "subjects/show", :locals => {:subjects => @resource["resolved"]["subjects"]} %>
+        <% end %>
       </section>
 
       <% if @resource.linked_agents.length > 0 %>
