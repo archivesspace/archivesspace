@@ -59,7 +59,7 @@ class LDAPAuth
     filter = Net::LDAP::Filter.eq(@username_attribute, username)
 
     if @extra_filter
-      filter = Net::LDAP::Filter.construct(@extra_filter).join(filter)
+      filter = Net::LDAP::Filter.join(Net::LDAP::Filter.construct(@extra_filter), filter)
     end
 
     @connection.search(:base => @base_dn, :filter => filter).first
