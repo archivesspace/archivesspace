@@ -161,6 +161,8 @@ Sequel.migration do
 
       String :identifier
 
+      String :language, :null => false
+
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -190,6 +192,8 @@ Sequel.migration do
 
       TextField :title, :null => true
       String :level, :null => true
+
+      String :language, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false

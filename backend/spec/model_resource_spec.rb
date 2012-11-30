@@ -71,4 +71,13 @@ describe 'Resource model' do
     Resource[resource[:id]].instance[0].container.first.type_1.should eq(opts[:instances][0]['container']['type_1'])
   end
 
+
+  it "throws an error when no language is provided" do
+
+    opts = {:language => nil}
+
+    expect { create_resource(opts) }.to raise_error
+  end
+
+
 end

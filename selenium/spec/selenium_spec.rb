@@ -683,7 +683,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-      assert { $driver.find_element(:css => ".label-and-value .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
+      assert { $driver.find_element(:css => ".token-list .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
     end
 
 
@@ -833,6 +833,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Number - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Language - Property is required but was missing/)
 
       $driver.find_element(:css, "a.btn.btn-cancel").click
     end
@@ -846,6 +847,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
       $driver.complete_4part_id("resource_id_%d_")
+      $driver.find_element(:id, "resource_language_").select_option("eng")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:css => "form#new_resource button[type='submit']").click
 
@@ -1068,6 +1070,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource with notes")
       $driver.complete_4part_id("resource_id_%d_")
+      $driver.find_element(:id, "resource_language_").select_option("eng")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
 
       add_note = proc do |type|
