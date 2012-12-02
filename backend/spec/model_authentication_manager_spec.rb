@@ -37,7 +37,7 @@ describe 'Authentication manager' do
 
   context "Authentication" do
     before(:each) do
-      AppConfig.should_receive(:[]).once.
+      AppConfig.should_receive(:[]).at_least(1).times.
                 with(:authentication_sources).
                 and_return([auth_source])
     end
@@ -51,6 +51,18 @@ describe 'Authentication manager' do
     it "handles failed logins against a custom provider" do
       AuthenticationManager.authenticate("hello", "wrongpass").should eq(nil)
     end
+
+
+    it "handles lots of simultaneous logins for the same user with grace" do
+      threads = (0...4).map do
+        Thread.new do
+          50.times.map { AuthenticationManager.authenticate("hello", "world") }
+        end
+      end
+
+      threads.map(&:value).flatten.find_all(&:nil?).count.should eq(0)
+    end
+
   end
 
 

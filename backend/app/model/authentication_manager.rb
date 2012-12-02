@@ -36,15 +36,21 @@ class AuthenticationManager
             user.update_from_json(jsonmodel_user,
                                   :source => source.name,
                                   :lock_version => user.lock_version)
-          rescue Sequel::Plugins::OptimisticLocking::Error => e
+          rescue Sequel::NoExistingObject => e
             # We'll swallow these because they only really mean that the user
             # logged in twice simultaneously.  As long as one of the updates
             # succeeded it doesn't really matter.
             Log.warn("Got an optimistic locking error when updating user: #{e}")
             Log.exception(e)
+
+            user = User.find(:username => username)
           end
         else
-          user = User.create_from_json(jsonmodel_user, :source => source.name)
+          DB.attempt {
+            user = User.create_from_json(jsonmodel_user, :source => source.name)
+          }.and_if_constraint_fails {
+            return authenticate(username, password)
+          }
         end
 
         return user
