@@ -32,9 +32,16 @@ class AuthenticationManager
         user = User.find(:username => username)
 
         if user
-          user.update_from_json(jsonmodel_user,
-                                :source => source.name,
-                                :lock_version => user.lock_version)
+          begin
+            user.update_from_json(jsonmodel_user,
+                                  :source => source.name,
+                                  :lock_version => user.lock_version)
+          rescue Sequel::Plugins::OptimisticLocking::Error => e
+            # We'll swallow these because they only really mean that the user
+            # logged in twice simultaneously.  As long as one of the updates
+            # succeeded it doesn't really matter.
+            Log.warn("Got an optimistic locking error when updating user: #{e}")
+            Log.exception(e)
         else
           user = User.create_from_json(jsonmodel_user, :source => source.name)
         end
