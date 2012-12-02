@@ -42,6 +42,7 @@ class AuthenticationManager
             # succeeded it doesn't really matter.
             Log.warn("Got an optimistic locking error when updating user: #{e}")
             Log.exception(e)
+          end
         else
           user = User.create_from_json(jsonmodel_user, :source => source.name)
         end
