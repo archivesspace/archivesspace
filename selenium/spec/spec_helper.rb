@@ -75,6 +75,7 @@ class Selenium::WebDriver::Driver
           try += 1
           $sleep_time += 0.1
           sleep 0.1
+          puts "find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
         else
           puts "Failed to find #{selectors}"
 
@@ -116,6 +117,7 @@ class Selenium::WebDriver::Driver
           try += 1
           $sleep_time += 0.1
           sleep 0.1
+          puts "click_and_wait_until_gone: #{try} hits selector '#{selectors}'.  Retrying..." if (try % 5) == 0
         else
           raise Selenium::WebDriver::Error::NoSuchElementError.new(selector.inspect)
         end
@@ -191,7 +193,7 @@ class Selenium::WebDriver::Element
 
 
   def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
-    Selenium::Config.retries.times do
+    Selenium::Config.retries.times do |try|
 
       matches = self.find_elements(:xpath => xpath)
       begin
@@ -208,6 +210,7 @@ class Selenium::WebDriver::Element
 
       $sleep_time += 0.1
       sleep 0.1
+      puts "find_element_with_text: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
     end
 
     return nil if noError
