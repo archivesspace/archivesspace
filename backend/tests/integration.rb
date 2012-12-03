@@ -147,7 +147,7 @@ def run_tests(opts)
                 :subjects => ["/subjects/#{subject_id}"],
                 :level => "item"
               }.to_json,
-              url("/repositories/#{repo_id}/archival_objects"));
+              url("/repositories/#{repo_id}/archival_objects"))
 
   ao_id = r[:body]["id"] or fail("Archival Object creation", r)
 
