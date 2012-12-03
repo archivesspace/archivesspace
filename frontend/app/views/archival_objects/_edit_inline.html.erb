@@ -1,4 +1,4 @@
-<%= form_for @archival_object, :as => "archival_object", :url => {:action => :update, :id => @archival_object.id}, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @archival_object, :as => "archival_object", :url => {:action => :update, :id => @archival_object.id}, :html => {:class => 'form-horizontal', :id => 'archival_object_form'} do |f| %>
   <%= form_context :archival_object, @archival_object.to_hash(true) do |form| %>
     <div class="row-fluid">
       <div class="span3">

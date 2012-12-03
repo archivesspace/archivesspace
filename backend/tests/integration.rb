@@ -144,7 +144,8 @@ def run_tests(opts)
   r = do_post({
                 :ref_id => "test#{$me}",
                 :title => "integration test archival object",
-                :subjects => ["/subjects/#{subject_id}"]
+                :subjects => ["/subjects/#{subject_id}"],
+                :level => "item"
               }.to_json,
               url("/repositories/#{repo_id}/archival_objects"));
 

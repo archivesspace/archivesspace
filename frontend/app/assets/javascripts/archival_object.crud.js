@@ -1,15 +1,5 @@
-//= require tree
-//= require agents.crud
-//= require subjects.crud
-//= require dates.crud
-//= require notes.crud
-//= require instances.crud
-//= require deaccessions.crud
-//= require subrecord.crud
-//= require archival_object.crud
-
 $(function() {
-  $.fn.init_resource_form = function() {
+  $.fn.init_archival_object_form = function() {
     $(this).each(function() {
       var $this = $(this);
 
@@ -17,8 +7,8 @@ $(function() {
         return;
       };
 
-      var $levelSelect = $("#resource_level_", $this);
-      var $otherLevel = $("#resource_other_level_", $this);
+      var $levelSelect = $("#archival_object_level_", $this);
+      var $otherLevel = $("#archival_object_other_level_", $this);
 
       var handleLevelChange = function(initialising) {
         if ($levelSelect.val() === "otherlevel") {
@@ -44,9 +34,9 @@ $(function() {
   };
 
   $(document).ajaxComplete(function() {
-    $("#resource_form:not(.initialised)").init_resource_form();
+    $("#archival_object_form:not(.initialised)").init_archival_object_form();
   });
 
-  $("#resource_form:not(.initialised)").init_resource_form();
+  $("#archival_object_form:not(.initialised)").init_archival_object_form();
 
 });

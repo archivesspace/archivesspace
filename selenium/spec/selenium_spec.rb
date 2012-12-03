@@ -878,6 +878,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Level - Property is required but was missing/)
     end
 
 
@@ -885,6 +886,8 @@ describe "ArchivesSpace user interface" do
 
     it "can populate the archival object tree" do
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Lost mail")
+      $driver.find_element(:id, "archival_object_level_").select_option("item")
+
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
       ["January", "February", "December"]. each do |month|
@@ -895,6 +898,7 @@ describe "ArchivesSpace user interface" do
         $driver.find_element(:xpath, "//input[@value='New Archival Object']")
 
         $driver.clear_and_send_keys([:id, "archival_object_title_"],(month))
+        $driver.find_element(:id, "archival_object_level_").select_option("item")
 
         old_element = $driver.find_element(:id, "archival_object_title_")
         $driver.click_and_wait_until_gone(:id => "createPlusOne")
@@ -945,6 +949,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Add Child").click
       $driver.find_element(:link, "Archival Object").click
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Christmas cards")
+      $driver.find_element(:id, "archival_object_level_").select_option("item")
 
       $driver.find_element(:css, ".linker-wrapper a.btn").click
       $driver.find_element(:css, "a.linker-create-btn").click
@@ -963,7 +968,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects_"], "#{$$}FooTerm456")
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
-      $driver.click_and_wait_until_gone(:css, "form#new_archival_object button[type='submit']")
+      $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
 
       # so the subject is here now
       assert { $driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }

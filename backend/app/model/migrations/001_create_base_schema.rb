@@ -218,7 +218,9 @@ Sequel.migration do
       String :component_id, :null => true
 
       TextField :title, :null => true
-      String :level, :null => true
+
+      String :level, :null => false
+      String :other_level
 
       String :language, :null => true
 
