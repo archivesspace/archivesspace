@@ -26,10 +26,9 @@ entities:
 
       title: 
         xpath: ["child::*/child::*/child::unittitle/text()"]
-        # xpath: ["child::*/child::*/child::unittitle"]
         
       subjects: 
-        xpath: ["descendant::subject"]
+        axis: "descendant"
         
       extents:
         xpath: ["child::*/child::*/child::*/child::extent"]
@@ -45,7 +44,7 @@ entities:
         procedure: "|val| {'role' => 'subject', 'ref' => val.uri}" #val is a json object (agent)
         
       notes:
-        xpath: [ "descendant::bibliography", "descendant::index", "descendant::accessrestrict", "descendant::accruals", "descendant::acqinfo", "descendant::altformavail", "descendant::appraisal", "descendant::arrangement", "descendant::bioghist", "descendant::custodhist", "descendant::fileplan", "descendant::odd", "descendant::otherfindaid", "descendant::originalsloc", "descendant::phystech", "descendant::prefercite", "descendant::processinfo", "descendant::relatedmaterial", "descendant::scopecontent", "descendant::separatedmaterial", "descendant::userestrict"]
+        axis: "descendant"
  
   note_bibliography:
     xpath: ["//bibliography"]
@@ -96,6 +95,7 @@ entities:
         
       instances:
         xpath: ["child::*/child::container"]
+        procedure: "|val| {'instance_type' => 'text', 'container' => val.to_hash}"
         # procedure: "|val| if val.match(/container.*?type=\"([a-zA-Z]*)\"/);  c = {}; val.scan(/container.*?type=\"([a-zA-Z]*)\"/).each_with_index {|t, i| c.merge!({\"type_#{i+1}\" => t[0], \"indicator_#{i+1}\" => '1', \"barcode_#{i+1}\" => '10001'})}; {'instance_type' => 'text', 'container' => c}; end"
         # if val.match(/container.*?type=([a-zA-Z]*)/); {'instance_type' => 'text', 'container' => {'type_1' => val.match(/container.*?type=([a-zA-Z]*)/)[0], 'indicator_1' => '1', 'barcode_1' => '10001'}}; end"
 
@@ -107,20 +107,20 @@ entities:
         procedure: "|val| {'role' => 'subject', 'ref' => val.uri}" #val is a json object (agent)
         
       parent: 
-        xpath: ["parent::c", "parent::c01", "parent::c02", "parent::c03", "parent::c04", "parent::c05", "parent::c06", "parent::c07", "parent::c08", "parent::c09", "parent::c10", "parent::c11", "parent::c12"]
+        axis: "parent"
 
       ref_id: 
         xpath: ["@id"]
 
       resource: 
-        xpath: ["ancestor::ead"]
+        axis: "ancestor"
         
       subjects: 
-        xpath: ["descendant::subject"]
+        axis: "descendant"
         
       title: 
         xpath: ["child::*/child::unittitle"]
-        default: "Archival Objects"
+        default: "Archival Object"
         
   container:
     xpath: ["//container"]

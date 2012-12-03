@@ -32,35 +32,36 @@ ASpaceImport::Importer.importer :xml do
 
 
       node_args = [xpath(node), node.depth, node.node_type]
+      puts "#{node_args[0]} -- #{node_args[2]}\n"
             
       node.start_trace(*node_args) if $DEBUG
 
       if node.node_type == 1
         if (json = self.class.object_for_node(*node_args))
 
-          json.receivers.for("self") do |r|
+          json.receivers.for_node("self") do |r|
             r.receive(node.inner_xml)
           end
           
-          json.receivers.for("self::name") do |r|
+          json.receivers.for_node("self::name") do |r|
             r.receive(node.name)
           end
           
           node.attributes.each do |a|        
-            json.receivers.for("@#{a[0]}") do |r|
+            json.receivers.for_node("@#{a[0]}") do |r|
               r.receive(a[1])
             end                         
           end
           
           @parse_queue.push(json)
         else
-          @parse_queue.receivers.for(*node_args) do |r|
+          @parse_queue.receivers.for_node(*node_args) do |r|
             r.receive(node.inner_xml)
           end
         end
 
       elsif node.node_type == 3
-        @parse_queue.receivers.for(*node_args) do |r|
+        @parse_queue.receivers.for_node(*node_args) do |r|
           r.receive(node.value.sub(/[\s\n]*$/, ''))
         end
       
@@ -112,8 +113,6 @@ ASpaceImport::Importer.importer :xml do
   protected
   
   def xpath(node)
-    # puts "XP #{@xpath}"
-    # puts "NN #{node.name}"
     
     name = node.name.gsub(/#text/, "text()")
 
@@ -128,9 +127,7 @@ ASpaceImport::Importer.importer :xml do
       raise "Can't parse node depth to create XPATH"
     end
     
-    # puts "XP 2 #{@xpath}"
-    
-    # raise "STOP" if @xpath.split('/').length > 5
+
     @depth = node.depth
     @xpath.clone
   end
@@ -175,13 +172,14 @@ ASpaceImport::Importer.importer :xml do
       
       def receive(val = nil)
         if receive_original(val)
-          if @json.send("#{@prop}") and @type == 'string'
-            received_val = @json.send("#{@prop}")
-          elsif @json.send("#{@prop}") and @type == 'array'
-            received_val = @json.send("#{@prop}").last
+          set_val = @object.send("#{self.class.property}") 
+          if set_val.is_a? String
+            received_val = @object.send("#{self.class.property}")
+          elsif set_val and set_val.is_a? Array
+            received_val = @object.send("#{self.class.property}").last
           end
 
-          $tracer.trace(:aspace_data, json, prop, received_val)
+          $tracer.trace(:aspace_data, @object, self.class.property, received_val)
         end
       end
     end

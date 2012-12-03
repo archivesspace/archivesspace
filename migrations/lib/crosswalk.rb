@@ -3,7 +3,7 @@ require 'psych'
 module ASpaceImport
   module Crosswalk
     
-    # Part 1: Module Methods and Helpers  
+    # Module methods and helpers  
       
     def self.init(opts)
 
@@ -11,6 +11,8 @@ module ASpaceImport
       @walk = Psych.load(IO.read(File.join(File.dirname(__FILE__),
                                                 "../crosswalks",
                                                 "#{opts[:crosswalk]}.yml")))
+                                                
+      @regex_cache = {}
     end 
   
     def self.walk     
@@ -26,74 +28,57 @@ module ASpaceImport
       @counter += 1
     end
     
-    # Returns a regex object that will be used to determine if a parsing
-    # context is relevant to a JSON object in the queue.  The depth offset
-    # is the node.depth of the parsing context that created the JSON
-    # object, less the node.depth of the current parsing context. If a node
-    # is being tested to see if it yields a JSON object, depth offset is 
-    # just the node.depth.
-
-    def self.regexify_node(node_name, depth_offset = 0)
-
-      case depth_offset
-
-      when -100..-2
-        /^ancestor::#{node_name}$/
-      when -1
-        /^(parent|ancestor)::#{node_name}$/          
-      when 0
-        /^[\/]?#{node_name}$/
-      when 1
-        /^((child|descendant)::|\/\/)#{node_name}$/
-      when 2
-        /^((child::\*\/child|descendant)::|\/\/)#{node_name}$/
-      when 3
-        /^((child::\*\/child::\*\/child|descendant)::|\/\/)#{node_name}$/
-      when 4
-        /^((child::\*\/child::\*\/child::\*\/child|descendant)::|\/\/)#{node_name}$/
-      when 5..100
-        /^(descendant::|\/\/)#{node_name}$/
-      end
-    end
-    
-    # Offset of nil indicates a root perspective
-    # Offset of 0 indicates a node perspective
+    # Returns a regex object that is used to match the xpath of a 
+    # parsed node with an xpath definition in the crosswalk. In the 
+    # case of properties, the offset is the depth of the predicate 
+    # node less the depth of the subject node. An offset of nil
+    # indicates a root perspective.
     
     def self.regexify_xpath(xp, offset = nil)
       
+      # Slice the xpath based on the offset
+      # escape for `text()` nodes
       unless offset.nil? || offset < 1
-        puts xp
         xp = xp.scan(/[^\/]+/)[offset*-1..-1].join('/')
         xp.gsub!(/\(\)/, '[(]{1}[)]{1}')
       end
       
+      @regex_cache[xp] ||= {}
+      
       case offset
         
       when nil
-        Regexp.new "^(/|/" << xp.split("/")[1..-2].map { |n| "(child::)?(#{n}|\\*)" }.join('/') << ")" << xp.gsub(/.*\//, '/') << "$"
+        @regex_cache[xp][offset] ||= Regexp.new "^(/|/" << xp.split("/")[1..-2].map { |n| 
+                                "(child::)?(#{n}|\\*)" 
+                                }.join('/') << ")" << xp.gsub(/.*\//, '/') << "$"
+        
       when 0
-        /^[\/]?#{xp.gsub(/.*\//, '')}$/
+        @regex_cache[xp][offset] ||= /^[\/]?#{xp.gsub(/.*\//, '')}$/
 
       when 1..100
-        puts Regexp.new("^(descendant::|" << xp.scan(/[a-zA-Z_]+/)[offset*-1..-2].map { |n| "(child::)?(#{n}|\\*)" }.join('/') << "/(child::)?)" << xp.gsub(/.*\//, '') << "$").inspect
-        
-        Regexp.new "^(descendant::|" << xp.scan(/[a-zA-Z_]+/)[offset*-1..-2].map { |n| "(child::)?(#{n}|\\*)" }.join('/') << "/(child::)?)" << xp.gsub(/.*\//, '') << "$"
+        @regex_cache[xp][offset] ||= Regexp.new "^(descendant::|" << xp.scan(/[a-zA-Z_]+/)[offset*-1..-2].map { |n| 
+                                "(child::)?(#{n}|\\*)" 
+                                }.join('/') << "/(child::)?)" << xp.gsub(/.*\//, '') << "$"
+
       
       when -100..-1
-
-        Regexp.new "^(ancestor::|" << ((offset-1)*-1).times.map {|i| "parent::\\*/"}.join << "parent::)#{xp.gsub(/.*\//, '')}"
-
+        @regex_cache[xp][offset] ||= Regexp.new "^(ancestor::|" << ((offset-1)*-1).times.map {
+                                  "parent::\\*/"
+                                  }.join << "parent::)#{xp.gsub(/.*\//, '')}"
       end
+
+      @regex_cache[xp][offset]
       
     end
     
-    # Part 2: ClassMethods to mix into an including Importer
-    # Mixing into the class rather than the instance because
-    # certain classes of Importer will require Crosswalks.
+    # class method to mix into an importer class.
+    # analyzes parsing context and returns a new
+    # object, a queued object, or false. also
+    # wraps the object's model so that it can pick
+    # up attributes from the parser.
       
     def object_for_node(*parseargs)
       xpath, ndepth, ntype, queue = *parseargs
-      nname = xpath.gsub(/.*\//, '')
       models = ASpaceImport::Crosswalk.models
       walk = ASpaceImport::Crosswalk.walk
       regex = ASpaceImport::Crosswalk.regexify_xpath(xpath)
@@ -105,7 +90,7 @@ module ASpaceImport
         raise "Too many matched entities"
       when 1 
         if ntype == 1
-          models[types[0]] ||= wrap_model(JSONModel::JSONModel(types[0]), nname)
+          models[types[0]] ||= wrap_model(JSONModel::JSONModel(types[0]))
           tweak_object(models[types[0]].new, *parseargs)
         elsif queue
           raise "Record Type mismatch in parse queue" unless queue[-1].class.record_type == types[0]
@@ -116,15 +101,18 @@ module ASpaceImport
       end  
     end
     
-    def wrap_model(cls, node_name)
-      
-      cls.class_eval("def self.xpath; '#{node_name}'; end")
-      
+    def wrap_model(cls)
+  
       cls.class_eval do
+        
+        @receivers = ASpaceImport::Crosswalk.property_receivers(cls)
+        
+        def self.receivers
+          @receivers
+        end
              
         def receivers
           @property_mgr ||= ASpaceImport::Crosswalk::PropertyMgr.new(self)
-          
           @property_mgr
         end
                  
@@ -135,9 +123,7 @@ module ASpaceImport
         def tmp_vals
           @tmp_vals ||= {}
         end
-        
-
-        
+              
         def depth
           @depth ||= 0
         end
@@ -155,8 +141,7 @@ module ASpaceImport
     end  
     
     def tweak_object(json, *parseargs)
-      json.xpath, json.depth, ntype, queue = *parseargs
-      # json.instance_eval("def depth; #{depth}; end")
+      json.xpath, json.depth = *parseargs
 
       # Set a pre-save URI to be dereferenced by the backend
       if json.class.method_defined? :uri
@@ -165,8 +150,8 @@ module ASpaceImport
       
       json
     end   
-    # end  
 
+    # Part 4.
     # Intermediate / chaining class for yielding property receivers given
     # either an xpath or a record_type along with an optional depth (of
     # the parsing context into which the reciever will be yielded)
@@ -175,131 +160,227 @@ module ASpaceImport
       
       def initialize(json)
         @json = json
-        @mapped_props = ASpaceImport::Crosswalk::walk['entities'][@json.class.record_type]['properties']
         @depth = @json.depth
         @receivers = {}
-        
-        @mapped_props.each do |p, defn|
-          @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json, p, defn)
-        end        
+
+        @json.class.receivers.each do |p, r|
+          @receivers[p] = r.new(@json)
+        end 
       end
       
       def each
         @receivers.each { |p, r| yield r }                  
       end
       
-      def for(*nodeargs)
-        xpath, ndepth, ntype = *nodeargs
-        # nname = xpath.gsub(/.*\//, '')
-        if ndepth
-          offset = ndepth - @depth
-        else
-          offset = 0
-        end                 
-        
-        if xpath
-        
-          match_string = ASpaceImport::Crosswalk::regexify_xpath(xpath, offset)
-        
-          @mapped_props.each do |p, defn|
-            
-            # No need to re-set 
-            next if @json.send("#{p}") and @json.class.schema['properties'][p]['type'] == 'string'
- 
-            next unless defn['xpath']
- 
+      # Given *nodeargs, yield property receivers
+      # that will take data from the parsing context
+      # and apply it to the JSON object
+      
+      def for_node(*nodeargs)
+        xpath, depth, ntype = *nodeargs
 
-            if defn['xpath'].find { |xp| xp.match(match_string) }
+        return unless xpath
 
-              @receivers[p] ||= ASpaceImport::Crosswalk::PropertyReceiver.new(@json, p, defn)
-            
-              yield @receivers[p]
-              
-            end
+        offset = depth ? depth - @depth : 0 
+        xpath_regex = ASpaceImport::Crosswalk::regexify_xpath(xpath, offset) 
 
-          end         
+        @receivers.each do |p, r|          
+          yield r if r.receives_node? xpath_regex
+        end 
+      end
+      
+      # Generate receivers for another json object
+      # parsed earilier or later.
+      
+      def for_obj(json)
+
+        @receivers.each do |p, r|
+          yield r if r.receives_obj? json
         end
+      end
+      
+    end
+    
+    # Generate receiver classes for each property of a 
+    # json model
+
+    def self.property_receivers(model)
+      receivers = {}
+      
+      @walk['entities'][model.record_type]['properties'].each do |p, defn|
+         receivers[p] = self.initialize_receiver(p, self.property_type(model.schema['properties'][p]), model.schema['properties'][p], defn)
+      end
+     
+      receivers
+    end
+
+    # returns a Property Receiver Class for a property of
+    # a JSONModel Class
+    
+    def self.initialize_receiver(p, val_type, schema_def, xwalk_def)
+      Class.new(PropertyReceiver) do
+        
+        class << self
+          attr_reader :property
+          attr_reader :val_type
+          attr_reader :sdef
+          attr_reader :xdef
+          attr_reader :received_jsonmodel_types
+        end
+        
+        @property = p
+        @val_type = val_type
+        @sdef = schema_def
+        @xdef = xwalk_def
+
+        case @val_type 
+          
+        when :uri
+          @received_jsonmodel_types = [@sdef['type'].scan(/:([a-zA-Z_]*)/)[0][0]]
+        when :array_of_uris_or_objects
+          @received_jsonmodel_types = [@sdef['items']['type'].scan(/:([a-zA-Z_]*)/)[0][0]]
+        when :array_of_objects 
+          if @sdef['items']['type'].is_a? Array
+            @received_jsonmodel_types = []
+            puts @sdef['items']['type'].inspect
+            @sdef['items']['type'].each { |t| @received_jsonmodel_types << t['type'].scan(/:([a-zA-Z_]*)/)[0][0]}
+          end
+        end
+
+        
       end
     end
     
-    # Capable of receiving values from a parsing situation
-    # and assigning them to the object and property the 
-    # receiver refers to
+    # Objects to manage the setting of a property of the
+    # master json object (@object)  
     
     class PropertyReceiver
-      attr_reader :prop
-      attr_reader :json
+      attr_reader :object
       
-      def initialize(json, prop, defn)
-        @json, @prop, @defn = json, prop, defn
-        @type = prop.match(/^_/) ? 'string' : @json.class.schema['properties'][@prop]['type']        
+      def initialize(json)
+        @object = json
+        @cache = {}
       end
       
       def to_s
-        "Property Receiver for #{@json.class.record_type}\##{@prop}"
+        "Property Receiver for #{@object.class.record_type}\##{self.class.property}"
       end
       
-      # Takes a string, hash, or JSON object (val) that satisfies
-      # a property of the JSON object to which the PropertyReceiver 
-      # instance belongs. Uses the crosswalk definition (defn) to 
-      # massage the val as necessary.
+      # Determine if this receiver will accept another object 
+      # as a property of the receiver's @object. 
       
-      def receive(val = nil)
-
-        if val == nil and @defn['default'] and not @json.send("#{@prop}")
-          val = @defn['default']
+      def receives_obj?(other_object)
+        if self.class.xdef['axis'] && self.class.received_jsonmodel_types.include?(other_object.jsonmodel_type)
+        
+          if self.class.xdef['axis'] == 'parent' && @object.depth - other_object.depth == 1
+            true
+          elsif self.class.xdef['axis'] == 'ancestor' && @object.depth - other_object.depth >= 1
+            true
+          elsif self.class.xdef['axis'] == 'descendant' && other_object.depth - @object.depth >= 1
+            true
+          else
+            false
+          end
+          
+        else
+          # Fall back to testing the other object's source node
+          offset = other_object.depth - @object.depth 
+          receives_node? ASpaceImport::Crosswalk::regexify_xpath(other_object.xpath, offset)
+        end
+      end
+      
+      # Determine if this receiver will accept a parsed value
+      # at a given xpath (relative to the receiver's @object)
+      
+      def receives_node?(xpath_regex)
+        return false unless self.class.xdef['xpath']
+        
+        unless @cache.has_key?(xpath_regex)
+          @cache[xpath_regex] = self.class.xdef['xpath'].find { |xp| xp.match(xpath_regex) } ? true : false
         end
         
-        return false if val == nil
-        
-        if val.is_a? String
-          val.gsub!(/^[\s\t\n]*/, '')
-          val.gsub!(/[\s\t\n]*$/, '')
-        end  
-                
-        if @defn['procedure']
-          proc = eval "lambda { #{@defn['procedure']} }"
+        @cache[xpath_regex]
+      end
+      
+      # Run defined procedures, apply defaults, and clean up
+      # whitespace padding for a parsed value.
+      
+      def pre_process(val)
+        if self.class.xdef['procedure'] && val
+          proc = eval "lambda { #{self.class.xdef['procedure']} }"
           val = proc.call(val)
         end
-                        
+        
+        if val == nil and self.class.xdef['default'] && !@object.send("#{self.class.property}")
+          val = self.class.xdef['default']
+        end
+        
+        if val.is_a? String
+           val.gsub!(/^[\s\t\n]*/, '')
+           val.gsub!(/[\s\t\n]*$/, '')
+           val = nil if val.empty?
+        end
+        
+        val
+      end
+      
+      # take a string, hash, or JSON object that satisfies
+      # a property of the receiver's @object
+      
+      def receive(val = nil)
+        
+        val = pre_process(val)
+                
         return false if val == nil
         
-        if val.class.method_defined? :jsonmodel_type
-          if @type.match(/^JSON.*(uri|uri_or_object)$/) and val.class.method_defined? :uri
-            @json.send("#{@prop}=", val.uri)
-
-          elsif @type.match(/^JSON.*object$/)
-            @json.send("#{@prop}=", val.to_hash)
-
-          elsif @type == 'array' and val.class.method_defined? :uri
-            @json.send("#{@prop}=", @json.send("#{@prop}").push(val.uri))
-            
-          elsif @type == 'array' and val.jsonmodel_type == 'container'
-            
-            @json.instances << {"instance_type" => "text", "container" => val.to_hash}
-
-          elsif @type == 'array'
-            @json.send("#{@prop}=", @json.send("#{@prop}").push(val.to_hash(true)))
+        case self.class.val_type
+        
+        when :string
           
-          else  
-            raise "Unexpected condition in property receiver"
-          end
-             
-        elsif @type == 'string'
+        when :uri
+          val = val.uri
+        
+        when :array_of_objects
+          val = @object.send("#{self.class.property}").push(val.to_hash)
 
-          if @prop.match(/^_[a-zA-Z_]+/)
-            @json.tmp_vals[@prop.to_s] = val
-          else
-            @json.send("#{@prop}=", val)
-          end  
-            
-        elsif @type == 'array'
-          if @json.send("#{@prop}")
-            @json.send("#{@prop}=", @json.send("#{@prop}").push(val))
+        when :array_of_uris_or_objects          
+          if val.class.method_defined? :uri
+            val = val.uri
+          elsif val.class.method_defined? :to_hash
+            val = val.to_hash
           end
-        end
-        true
+
+          val = @object.send("#{self.class.property}").push(val)
+          
+        end               
+        
+        @object.send("#{self.class.property}=", val)
       end
     end
+    
+    # Classify properties based on JSON schemas.
+    
+    def self.property_type(schema_def)
+      if schema_def['type'] == 'string'
+        :string
+      elsif schema_def['type'].match(/^JSON.*object$/)
+        :object
+      elsif schema_def['type'].match(/^JSON.*(uri|uri_or_object)$/)
+        :uri
+      elsif schema_def['type'] == 'array' && schema_def['items']['type'].is_a?(String)
+        if schema_def['items']['type'].match(/^JSON.*(uri|uri_or_object)$/)
+          :array_of_uris_or_objects
+        elsif schema_def['items']['type'].match(/^JSON.*object$/) || schema_def['items']['type'].match(/^object$/) 
+          :array_of_objects
+        else
+          :array_of_strings
+        end
+      elsif schema_def['type'] == 'array' && schema_def['items']['type'].is_a?(Array)
+        :array_of_objects
+      else
+        :unknown
+      end
+    end
+    
   end
 end
