@@ -121,8 +121,8 @@ module AspaceFormHelper
     end
 
 
-    def push(name, values_from = {}, jsonmodel_type = nil)
-      @context.push([name, values_from, jsonmodel_type])
+    def push(name, values_from = {})
+      @context.push([name, values_from])
       yield(self)
       @context.pop
     end
