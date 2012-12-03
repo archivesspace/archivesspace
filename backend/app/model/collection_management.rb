@@ -72,7 +72,7 @@ class CollectionManagement < Sequel::Model(:collection_management)
     end
 
     (json[json_property] or []).each do |record_link|
-      record_type = JSONModel.parse_reference(record_link["ref"], opts)
+      record_type = parse_reference(record_link["ref"], opts)
 
       model = Kernel.const_get(record_type[:type].camelize)
       record = model[record_type[:id]]

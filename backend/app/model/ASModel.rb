@@ -175,6 +175,23 @@ module ASModel
     end
 
 
+    # Like JSONModel.parse_reference, but enforce repository restrictions
+    def parse_reference(uri, opts)
+      ref = JSONModel.parse_reference(uri, opts)
+
+      # If the current model is repository scoped, and the reference is a
+      # repository-scoped URI, make sure they're talking about the same
+      # repository.
+      if ref && self.model_scope == :repository && uri.start_with?("/repositories/")
+        if !uri.start_with?"/repositories/#{active_repository}/"
+          raise "Invalid URI reference for this repo: '#{uri}'"
+        end
+      end
+
+      ref
+    end
+
+
     def enforce_suppression?
       RequestContext.get(:enforce_suppression)
     end

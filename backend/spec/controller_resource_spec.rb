@@ -377,4 +377,17 @@ describe 'Resources controller' do
     JSONModel(:resource).find(resource.id)[:notes].first.should eq(notes.to_hash)
   end
 
+
+  it "doesn't allow you to link to a URI outside of the current repo" do
+    resource = create(:json_resource)
+    accession = create(:json_accession)
+
+    # Rubbish!
+    resource.related_accession = "/repositories/99999/accessions/#{accession.id}"
+
+    expect {
+      resource.save
+    }.to raise_error(StandardError, /Invalid URI reference/)
+  end
+
 end

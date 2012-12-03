@@ -23,7 +23,7 @@ class Resource < Sequel::Model(:resource)
     opts["accession_id"] = nil
 
     if json.related_accession
-      opts["accession_id"] = JSONModel::parse_reference(json.related_accession, opts)[:id]
+      opts["accession_id"] = parse_reference(json.related_accession, opts)[:id]
     end
   end
 

@@ -21,7 +21,7 @@ class Subject < Sequel::Model(:subject)
     opts["vocab_id"] = nil
 
     if json.vocabulary
-      opts["vocab_id"] = JSONModel::parse_reference(json.vocabulary, opts)[:id]
+      opts["vocab_id"] = parse_reference(json.vocabulary, opts)[:id]
     end
   end
 
