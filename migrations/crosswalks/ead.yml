@@ -24,6 +24,9 @@ entities:
         xpath: ["child::*/child::*/child::unitid"]
         procedure: "|value| value.split(/[\\/_\\-.\\s]/)[3]"
 
+      language:
+        default: "eng"
+
       title: 
         xpath: ["child::*/child::*/child::unittitle/text()"]
         
@@ -37,7 +40,7 @@ entities:
       
       dates:
         xpath: ["child::*/child::*/child::unitdate"]
-        procedure: "|value| {'date_type' => 'expression', 'expression' => value, 'label' => 'other'}"
+        procedure: "|value| {'expression' => value, 'label' => 'other'}"
         
       linked_agents:
         xpath: ["descendant::persname", "descendant::corpname"]
@@ -82,11 +85,11 @@ entities:
     properties:
       dates:
         xpath: ["*/unitdate"]
-        procedure: "|value| {'date_type' => 'expression', 'expression' => value, 'label' => 'other'}"
+        procedure: "|value| {'expression' => value, 'label' => 'other'}"
 
       component_id:
         xpath: ["*/unitid"]
-        procedure: "|val| val.gsub!(/-/, '_')"
+        procedure: "|val| val.gsub!(/[\\/_\\-.]/, '_')"
         
       extents:
         xpath: ["child::*/child::*/child::extent"]
@@ -98,6 +101,9 @@ entities:
         procedure: "|val| {'instance_type' => 'text', 'container' => val.to_hash}"
         # procedure: "|val| if val.match(/container.*?type=\"([a-zA-Z]*)\"/);  c = {}; val.scan(/container.*?type=\"([a-zA-Z]*)\"/).each_with_index {|t, i| c.merge!({\"type_#{i+1}\" => t[0], \"indicator_#{i+1}\" => '1', \"barcode_#{i+1}\" => '10001'})}; {'instance_type' => 'text', 'container' => c}; end"
         # if val.match(/container.*?type=([a-zA-Z]*)/); {'instance_type' => 'text', 'container' => {'type_1' => val.match(/container.*?type=([a-zA-Z]*)/)[0], 'indicator_1' => '1', 'barcode_1' => '10001'}}; end"
+
+      language:
+        default: "eng"
 
       level:
         xpath: ["@level"]
