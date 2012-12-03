@@ -157,6 +157,7 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
+      Integer :accession_id, :null => true
       String :title, :null => false
 
       String :identifier
@@ -197,6 +198,7 @@ Sequel.migration do
 
     alter_table(:resource) do
       add_foreign_key([:repo_id], :repository, :key => :id)
+      add_foreign_key([:accession_id], :accession, :key => :id)
       add_unique_constraint([:repo_id, :identifier], :name => "resource_unique_identifier")
       add_unique_constraint([:repo_id, :ead_id], :name => "resource_unique_ead_id")
     end

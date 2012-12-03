@@ -219,6 +219,23 @@
 
 
   <!-- Frontend -->
+  <target name="frontend:test" depends="set-classpath" description="Run the unit test suite">
+    <property name="spec" value=""/>
+    <property name="example" value=""/>
+    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
+      <isset property="example"/>
+    </condition>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../frontend">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b spec --order rand:1 ${example-arg} spec/${spec}" />
+    </java>
+  </target>
+
+
   <target name="frontend:clean" description="Delete the Rails tmp directory">
     <delete dir="../frontend/tmp" />
     <delete dir="../frontend/public/assets" />
@@ -388,7 +405,7 @@
   </target>
 
 
-  <target name="test" depends="backend:test, backend:integration, common:test, selenium:test"
+  <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test"
           description="Run the full suite of tests">
   </target>
 

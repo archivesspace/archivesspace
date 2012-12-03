@@ -43,9 +43,11 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :obj => JSONModel(:accession).find(params[:id], "resolve[]" => ["subjects", "ref"]),
                 :on_invalid => ->(){
+                  return render :partial => "accessions/edit_inline" if params[:inline]
                   return render action: "edit"
                 },
                 :on_valid => ->(id){
+                  return render :partial => "accessions/edit_inline" if params[:inline]
                   redirect_to :controller => :accessions, :action => :show, :id => id
                 })
   end
@@ -69,12 +71,7 @@ class AccessionsController < ApplicationController
   private
 
   def fetch_tree
-    @tree = {
-      "id" => @accession.id,
-      "title" => @accession.title,
-      "node_type" => "accession",
-      "children" => []
-    }
+    @tree = JSONModel(:accession_tree).find(nil, :accession_id => @accession.id)
   end
 
 

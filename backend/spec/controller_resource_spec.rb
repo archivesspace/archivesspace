@@ -377,5 +377,4 @@ describe 'Resources controller' do
     JSONModel(:resource).find(resource.id)[:notes].first.should eq(notes.to_hash)
   end
 
-
 end
