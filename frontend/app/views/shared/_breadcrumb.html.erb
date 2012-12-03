@@ -7,12 +7,17 @@
          <% trail.each_with_index do |crumb, i| %>
             <% if i < trail.length - 1%>         
                <li>
-                  <%= crumb %><span class="divider">/</span>
+                  <%= link_to crumb[0], crumb[1] %><span class="divider">/</span>
                </li>
             <% else %>
-               <li class="active"><%= crumb %></li>
+               <li class="active"><%= crumb[0] %></li>
             <% end %>
          <% end %>
+        <% if params.has_key?("search_token") and session[:recent_searches] and session[:recent_searches].has_key?(params["search_token"].to_i) %>
+          <li class="return-to-search pull-right">
+            <%= link_to "Return to Search Results", session[:recent_searches][params["search_token"].to_i].delete_if {|k, v| k === "timestamp" }, :class => "btn btn-small" %>
+          </li>
+        <% end %>
       </ul>
    </div>
 </div>

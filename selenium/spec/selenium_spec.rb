@@ -437,7 +437,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "displays the agent in the agent's index page" do
-      $driver.find_element(:link, 'Browse Agents').click
+      $driver.find_element(:link, 'Agents').click
       expect {
         $driver.find_element_with_text('//td', /Johnny Allen Hendrix/)
       }.to_not raise_error
@@ -583,23 +583,14 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn').click
 
       #populate the first date
-      date_label_select = $driver.find_element(:id => "accession_dates__0__label_")
-      date_label_select.find_elements( :tag_name => "option" ).each do |option|
-        option.click if option.attribute("value") === "digitized"
-      end
-      $driver.find_element(:css => "#accession_dates__0__date_type__expression").find_element(:xpath => "./parent::*").click
-      sleep 2 # wait for dropdown/enabling of inputs
+      $driver.find_element(:id => "accession_dates__0__label_").select_option("digitized")
       $driver.clear_and_send_keys([:id, "accession_dates__0__expression_"], "The day before yesterday.")
 
       #populate the second date
-      date_label_select = $driver.find_element(:id => "accession_dates__1__label_")
-      date_label_select.find_elements( :tag_name => "option" ).each do |option|
-        option.click if option.attribute("value") === "other"
-      end
-      $driver.find_element(:css => "#accession_dates__1__date_type__inclusive").find_element(:xpath => "./parent::*").click
-      sleep 2 # wait for dropdown/enabling of inputs
-      $driver.clear_and_send_keys([:id, "accession_dates__1__begin__inclusive"], "2012-05-14")
-      $driver.clear_and_send_keys([:id, "accession_dates__1__end__inclusive"], "2013-05-14")
+      $driver.find_element(:id => "accession_dates__1__label_").select_option("other")
+      $driver.find_element(:id => "accession_dates__1__date_type_").select_option("inclusive")
+      $driver.clear_and_send_keys([:id, "accession_dates__1__begin_"], "2012-05-14")
+      $driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2013-05-14")
 
       # save!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
@@ -692,7 +683,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-      assert { $driver.find_element(:css => ".label-and-value .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
+      assert { $driver.find_element(:css => ".token-list .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
     end
 
 
@@ -763,7 +754,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "collection_management_processing_total_extent_"], "Full")
       $driver.find_element(:id, "collection_management_processing_total_extent_type_").select_option('sheets')
 
-      $driver.clear_and_send_keys([:css, "#collection_management_linked_records_ input#token-input-"], @accession_title)
+      $driver.clear_and_send_keys([:css, "#collection_management_linked_records_ #token-input-collection_management_linked_records__0__ref_"], @accession_title)
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
       $driver.click_and_wait_until_gone(:css => "form#new_collection_management button[type='submit']")
@@ -794,15 +785,15 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "event_outcome_"], "A good outcome")
       $driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's a lie: all test subjects perished.")
 
-      $driver.find_element(:id, "event_date__date_type__single").click
-      $driver.clear_and_send_keys([:id, "event_date__begin__single"], ["2000-01-01", :tab])
+      $driver.find_element(:id, "event_date__date_type_").select_option("single")
+      $driver.clear_and_send_keys([:id, "event_date__begin_"], ["2000-01-01", :tab])
 
       agent_subform = $driver.find_element(:id, "event_linked_agents__0__role_").
                               nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
       $driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
 
-      token_input = agent_subform.find_element(:id, "token-input-")
+      token_input = agent_subform.find_element(:id, "token-input-event_linked_agents__0__ref_")
       token_input.clear
       token_input.click
       token_input.send_keys("Geddy")
@@ -811,7 +802,7 @@ describe "ArchivesSpace user interface" do
       record_subform = $driver.find_element(:id, "event_linked_records__0__role_").
                                nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
-      token_input = record_subform.find_element(:id, "token-input-")
+      token_input = record_subform.find_element(:id, "token-input-event_linked_records__0__ref_")
       token_input.clear
       token_input.click
       token_input.send_keys(@accession_title)
@@ -842,6 +833,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Number - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Language - Property is required but was missing/)
 
       $driver.find_element(:css, "a.btn.btn-cancel").click
     end
@@ -855,6 +847,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
       $driver.complete_4part_id("resource_id_%d_")
+      $driver.find_element(:id, "resource_language_").select_option("eng")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
       $driver.find_element(:css => "form#new_resource button[type='submit']").click
 
@@ -966,7 +959,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".token-input-delete-token").click
 
       # search for the created subject
-      $driver.clear_and_send_keys([:id, "token-input-"], "#{$$}FooTerm456")
+      $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects_"], "#{$$}FooTerm456")
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
       $driver.click_and_wait_until_gone(:css, "form#new_archival_object button[type='submit']")
@@ -1077,6 +1070,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource with notes")
       $driver.complete_4part_id("resource_id_%d_")
+      $driver.find_element(:id, "resource_language_").select_option("eng")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
 
       add_note = proc do |type|
@@ -1238,9 +1232,8 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id => 'resource_deaccessions__0__date__label_').get_select_value.should eq("deaccession")
 
       $driver.clear_and_send_keys([:id, 'resource_deaccessions__0__description_'], "Lalala describing the deaccession")
-      $driver.find_element(:css => "#resource_deaccessions__0__date__date_type__single").find_element(:xpath => "./parent::*").click
-      sleep 2 # wait for dropdown/enabling of inputs
-      $driver.clear_and_send_keys([:id, 'resource_deaccessions__0__date__begin__single'], "2012-05-14")
+      $driver.find_element(:css => "#resource_deaccessions__0__date__date_type_").select_option("single")
+      $driver.clear_and_send_keys([:id, 'resource_deaccessions__0__date__begin_'], "2012-05-14")
 
 
       # Save the resource

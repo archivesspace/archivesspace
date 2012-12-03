@@ -1,4 +1,5 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index), @accession.title]} %>
+<%= setup_context(:object => @accession) %>
+
 <div class="row-fluid">
    <div class="span3">
       <%= render :partial => "sidebar" %>
@@ -30,34 +31,14 @@
         <section id="basic_information">
           <h3>Basic Information</h3>
 
-          <div class="row-fluid label-and-value">
-             <div class="span3">Identifier</div>
-             <div class="span9"><%= @accession.id %></div>
-          </div>
-          <div class="row-fluid label-and-value">
-             <div class="span3">Accession Date</div>
-             <div class="span9"><%= Date.strptime(@accession.accession_date, "%Y-%m-%d") %></div>
-          </div>
-          <div class="row-fluid label-and-value">
-             <div class="span3">Content Description</div>
-             <div class="span9"><%= @accession.content_description %></div>
-          </div>
-          <div class="row-fluid label-and-value">
-             <div class="span3">Condition Description</div>
-             <div class="span9"><%= @accession.condition_description %></div>
-          </div>
+          <%= readonly.label_and_fourpartid %>
+          <%= readonly.label_and_date "accession_date" %>
+          <%= readonly.label_and_textarea "content_description" %>
+          <%= readonly.label_and_textarea "condition_description" %>
+
           <% if not @accession.subjects.blank? %>
-          <hr/>
-          <div class="row-fluid label-and-value">
-             <div class="span3">Subjects</div>
-             <div class="span9">
-                <% @accession["resolved"]["subjects"].each do | subject | %>
-                   <div class="token">
-                      <%= Subject.from_hash(subject).display_string %>
-                   </div>
-                <% end %>
-             </div>
-          </div>
+            <hr/>
+            <%= render :partial => "subjects/show", :locals => {:subjects => @accession["resolved"]["subjects"]} %>
           <% end %>
         </section>
 

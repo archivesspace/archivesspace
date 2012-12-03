@@ -48,6 +48,7 @@ $(function() {
           };
 
           var formEl = $(AS.renderTemplate($this.data("template"), index_data));
+          formEl.attr("data-index", $this.data("form_index"));
           formEl.hide();
 
           $target_subrecord_list.append(formEl);

@@ -29,6 +29,10 @@ ul.token-input-list {
   }
 }
 
+.control-group.error ul.token-input-list {
+  border-color: #ee5f5b;
+}
+
 .input-append ul.token-input-list  {
   .border-radius(@inputBorderRadius 0 0 @inputBorderRadius);
 }
@@ -68,7 +72,7 @@ li.token-input-token {
   overflow: hidden; 
   height: auto !important; 
   height: 1%;
-  margin: 3px;
+  margin: 0 4px 4px 0;
   background: #BEEBFF;
   border: 1px solid #99DEFD;
   padding: 2px;
@@ -77,10 +81,14 @@ li.token-input-token {
   .border-radius(@inputBorderRadius);
 }
 
+li.token-input-token {
+  margin: 2px;
+}
+
 .token {
   width: auto;
   display: inline;
-  padding: 2px 5px;
+  padding: 2px 4px;
 }
 
 li.token-input-token p {
@@ -227,5 +235,14 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 
   ul.token-input-list li input {
     width: 300px;
+  }
+}
+
+.token-list {
+  margin:0;
+  > li {
+    list-style: none;
+    margin-bottom: 4px;
+    float: left;
   }
 }

@@ -4,7 +4,7 @@
     "type" => "object",
 
     "properties" => {
-      "date_type" => {"type" => "string", "enum" => ["expression", "single", "bulk", "inclusive"], "ifmissing" => "error"},
+      "date_type" => {"type" => "string", "enum" => ["single", "bulk", "inclusive"]},
       "label" => {"type" => "string", "enum" => ["broadcast", "copyright", "creation", "deaccession", "digitized", "issued", "modified", "publication", "other"], "ifmissing" => "error"},
 
       "uncertain" => {"type" => "string", "enum" => ["approximate", "inferred", "questionable"]},

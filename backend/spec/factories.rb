@@ -67,6 +67,7 @@ FactoryGirl.define do
     title { generate(:generic_title) }
     id_0 { generate(:alphanumstr) }
     id_1 { generate(:alphanumstr) }
+    language 'eng'
   end
   
   factory :extent do
@@ -237,6 +238,7 @@ FactoryGirl.define do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent).to_hash] }
+    language 'eng'
   end
   
   factory :json_repo, class: JSONModel(:repository) do

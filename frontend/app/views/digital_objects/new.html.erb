@@ -1,4 +1,4 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Digital Objects", :controller => :digital_objects, :action => :index),"New Digital Object"]} %>
+<%= setup_context :object => @digital_object %>
 
 <%= form_for @digital_object, :as => "digital_object", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
   <%= form_context :digital_object, @digital_object.to_hash(true) do |form| %>

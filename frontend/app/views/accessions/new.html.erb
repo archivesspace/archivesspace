@@ -1,4 +1,4 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => [link_to("Browse Accessions", :controller => :accessions, :action => :index),"New Accession"]} %>
+<%= setup_context(:object => @accession) %>
 
 <%= form_for @accession, :as => "accession", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "accession_form"} do |f| %>
   <%= form_context :accession, @accession.to_hash(true) do |form| %>

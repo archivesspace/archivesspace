@@ -39,7 +39,7 @@ module AspaceFormHelper
 
       objects.each_with_index do |object, idx|
         push(set_index(context_name, idx), object) do
-          result << "<div class=\"subrecord-form-wrapper\" data-object-name=\"#{context_name.gsub(/\[\]/,"").singularize}\">"
+          result << "<div class=\"subrecord-form-wrapper\" data-index=\"#{idx}\" data-object-name=\"#{context_name.gsub(/\[\]/,"").singularize}\">"
           result << hidden_input("lock_version")
           result << @parent.capture(object, &block)
           result << "</div>"
@@ -256,6 +256,7 @@ module AspaceFormHelper
       values.each do |v|
         options.push([I18n.t(i18n_for("#{property}_#{v}"), :default => v), v])
       end
+      options.sort! {|a, b| a[0] <=> b[0]}
       options
     end
 
@@ -339,6 +340,7 @@ module AspaceFormHelper
     end
 
     def textarea(name = nil, value = "", opts =  {})
+      return "" if value.blank?
       @parent.preserve_newlines(CGI::escapeHTML(value))
     end
 
@@ -349,6 +351,21 @@ module AspaceFormHelper
     def label_with_field(name, field_html, opts = {})
       return "" if field_html.blank?
       super(name, field_html, opts.merge({:controls_class => "label-only"}))
+    end
+
+    def label_and_fourpartid
+      fourpart_html = "<div class='identifier-display'>"+
+                        "<span class='identifier-display-part'>#{obj["id_0"]}</span>" +
+                        "<span class='identifier-display-part'>#{obj["id_1"]}</span>" +
+                        "<span class='identifier-display-part'>#{obj["id_2"]}</span>" +
+                        "<span class='identifier-display-part'>#{obj["id_3"]}</span>" +
+                      "</div>"
+
+      label_with_field("id_0", fourpart_html)
+    end
+
+    def label_and_date(name, opts = {})
+      label_with_field(name, obj[name].blank? ? "" : Date.strptime(obj[name], "%Y-%m-%d").strftime("%Y-%m-%d"))
     end
   end
 
@@ -429,10 +446,7 @@ module AspaceFormHelper
   def read_only_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
     schema = JSONModel(jsonmodel_type).schema
-    html = ""
-
-    opts[:label_css] = "span3 offset1" if not opts.has_key? :label_css
-    opts[:value_css] = "span8" if not opts.has_key? :value_css
+    html = "<div class='form-horizontal'>"
 
     hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
 
@@ -453,53 +467,20 @@ module AspaceFormHelper
         end
       end
 
-      html << "<div class='row-fluid label-and-value'>"
-      html << "<div class='#{opts[:label_css]}'>#{I18n.t("#{jsonmodel_type.to_s}.#{property}")}</div>"
-      html << "<div class='#{opts[:value_css]}'>#{value}</div>"
+      html << "<div class='control-group'>"
+      html << "<div class='control-label'>#{I18n.t("#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='controls label-only'>#{value}</div>"
       html << "</div>"
 
     end
+
+  html << "</div>"
 
     html.html_safe
   end
 
   def preserve_newlines(string)
     string.gsub(/\n/, '<br>')
-  end
-
-  def jsonmodel_url_for(search_result_json, action)
-    case search_result_json["type"]
-      when "accession"
-        {:controller => :accessions, :action => action, :id => JSONModel(:accession).id_for(search_result_json["id"])}
-      when "resource"
-        {:controller => :resources, :action => action, :id => JSONModel(:resource).id_for(search_result_json["id"])}
-      when "archival_object"
-        {
-          :controller => :resources,
-          :action => action,
-          :id => JSONModel(:resource).id_for(search_result_json["resource"]),
-          :anchor => "tree::archival_object_#{JSONModel(:archival_object).id_for(search_result_json["id"])}"
-        }
-      when "digital_object"
-        {:controller => :digital_objects, :action => action, :id => JSONModel(:digital_object).id_for(search_result_json["id"])}
-      when "digital_object_component"
-        {
-          :controller => :digital_objects,
-          :action => action,
-          :id => JSONModel(:digital_object).id_for(search_result_json["digital_object"]),
-          :anchor => "tree::digital_object_component_#{JSONModel(:digital_object_component).id_for(search_result_json["id"])}"
-        }
-      else
-        nil
-    end
-  end
-
-  def jsonmodel_edit_url_for(search_result_json)
-    jsonmodel_url_for(search_result_json, :show)
-  end
-
-  def jsonmodel_view_url_for(search_result_json)
-    jsonmodel_url_for(search_result_json, :edit)
   end
 
 end

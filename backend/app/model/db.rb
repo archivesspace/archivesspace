@@ -114,6 +114,8 @@ class DB
         else
           raise ex
         end
+      rescue Sequel::ValidationFailed => ex
+        failed_path.call
       end
     end
 

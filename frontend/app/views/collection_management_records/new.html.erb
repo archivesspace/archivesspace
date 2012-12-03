@@ -1,4 +1,4 @@
-<%= render :partial => "shared/breadcrumb", :locals => {:trail => ["New Collection Management Record"]} %>
+<%= setup_context(:object => @collection_management, :controller => :collection_management_records) %>
 
 <%= form_for @collection_management, :as => "collection_management", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
   <%= form_context :collection_management, @collection_management do |form| %>

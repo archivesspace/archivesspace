@@ -19,6 +19,12 @@ class ArchivesSpaceService < Sinatra::Base
   include CrudHelpers
   include ImportHelpers
 
+  @loaded_hooks = []
+
+  def self.loaded_hook(&block)
+    @loaded_hooks << block
+  end
+
 
   configure :development do |config|
     require 'sinatra/reloader'
@@ -104,6 +110,9 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
+      @loaded_hooks.each do |hook|
+        hook.call
+      end
     else
       # Just load the setup controller
       load File.absolute_path(File.join(File.dirname(__FILE__), "controllers", "setup.rb"))

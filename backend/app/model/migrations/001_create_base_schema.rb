@@ -34,7 +34,7 @@ Sequel.migration do
 
       String :username, :null => false, :unique => true
       String :name, :null => false
-      String :source, :null => false
+      String :source, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -161,6 +161,8 @@ Sequel.migration do
 
       String :identifier
 
+      String :language, :null => false
+
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -190,6 +192,8 @@ Sequel.migration do
 
       TextField :title, :null => true
       String :level, :null => true
+
+      String :language, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -642,7 +646,7 @@ Sequel.migration do
       Integer :digital_object_id, :null => true
       Integer :digital_object_component_id, :null => true
 
-      String :date_type, :null => false
+      String :date_type, :null => true
       String :label, :null => false
 
       String :uncertain, :null => true
