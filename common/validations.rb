@@ -190,4 +190,23 @@ module JSONModel::Validations
     end
   end
 
+
+  def self.check_resource(hash)
+    errors = []
+
+    if hash["level"] === "otherlevel"
+      errors << ["other_level", "is required"] if hash["other_level"].nil?
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:resource)
+    JSONModel(:resource).add_validation("check_resource") do |hash|
+      check_resource(hash)
+    end
+  end
+
+
 end

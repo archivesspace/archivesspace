@@ -40,16 +40,23 @@ $(function() {
 
 // add four part indentifier behaviour
 $(function() {
-  $("form").live("keyup", ".identifier-fields :input", function(event) {
-    var currentInputIndex = $(event.target).index();
-    $(event.target).parents(".identifier-fields:first").find(":input:eq("+(currentInputIndex+1)+")").each(function() {
-      if ($(event.target).val().length === 0 && $(this).val().length === 0) {
-        $(this).attr("disabled", "disabled");
-      } else {
-        $(this).removeAttr("disabled");
-      }
+  var initIdentifierFields = function() {
+    $("form:not(.navbar-form) .identifier-fields:not(.initialised)").on("keyup", ":input", function(event) {
+      $(this).addClass("initialised");
+      var currentInputIndex = $(event.target).index();
+      $(event.target).parents(".identifier-fields:first").find(":input:eq("+(currentInputIndex+1)+")").each(function() {
+        if ($(event.target).val().length === 0 && $(this).val().length === 0) {
+          $(this).attr("disabled", "disabled");
+        } else {
+          $(this).removeAttr("disabled");
+        }
+      });
     });
+  }
+  $(document).ajaxComplete(function() {
+    initIdentifierFields();
   });
+  initIdentifierFields();
 });
 
 

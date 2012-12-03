@@ -126,6 +126,7 @@ def run_tests(opts)
                 :id_0 => "abc123",
                 :subjects => ["/subjects/#{subject_id}"],
                 :language => "eng",
+                :level => "collection",
                 :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
               }.to_json,
               url("/repositories/#{repo_id}/resources"))

@@ -829,7 +829,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Resource").click
       $driver.find_element(:id, "resource_title_").clear
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Number - Property is required but was missing/)
@@ -848,8 +848,9 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
       $driver.complete_4part_id("resource_id_%d_")
       $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       # The new Resource shows up on the tree
       assert { $driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(resource_title) }
@@ -858,12 +859,12 @@ describe "ArchivesSpace user interface" do
 
     it "reports warnings when updating a Resource with invalid data" do
       $driver.clear_and_send_keys([:id, "resource_title_"],"")
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
       expect {
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       }.to_not raise_error
       $driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
     end
 
 
@@ -1019,7 +1020,7 @@ describe "ArchivesSpace user interface" do
         option.click if option.attribute("value") === "volumes"
       end
 
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       $driver.find_element_with_text('//div', /Resource Saved/).should_not be_nil
 
@@ -1041,7 +1042,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.blocking_find_elements(:css => '#resource_extents_ .subrecord-form-remove')[1].click
       $driver.find_element(:css => '#resource_extents_ .confirm-removal').click
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       $driver.find_element(:link, 'Finish Editing').click
 
@@ -1071,6 +1072,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "resource_title_"], "a resource with notes")
       $driver.complete_4part_id("resource_id_%d_")
       $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.find_element(:id, "resource_level_").select_option("collection")
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
 
       add_note = proc do |type|
@@ -1120,7 +1122,7 @@ describe "ArchivesSpace user interface" do
 
 
       # Save the resource
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
       $driver.find_element(:link, 'Finish Editing').click
     end
 
@@ -1171,7 +1173,7 @@ describe "ArchivesSpace user interface" do
       end
 
       # Save the resource
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
       $driver.find_element(:link, 'Finish Editing').click
 
       $driver.find_element_with_text("//div", /pogo/)
@@ -1219,7 +1221,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id => "resource_notes__0__content_").attribute("value").should eq("<ref>ABC</ref>")
 
       # Save the resource
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
       $driver.find_element(:link, 'Finish Editing').click
     end
 
@@ -1237,7 +1239,7 @@ describe "ArchivesSpace user interface" do
 
 
       # Save the resource
-      $driver.find_element(:css => "form#new_resource button[type='submit']").click
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
       $driver.find_element(:link, 'Finish Editing').click
 
       $driver.blocking_find_elements(:css => '#resource_deaccessions_').length.should eq(1)

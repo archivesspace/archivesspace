@@ -6,3 +6,46 @@
 //= require instances.crud
 //= require deaccessions.crud
 //= require subrecord.crud
+
+$(function() {
+  $.fn.init_resource_form = function() {
+    $(this).each(function() {
+      var $this = $(this);
+
+      if ($this.hasClass("initialised")) {
+        return;
+      };
+
+      var $levelSelect = $("#resource_level_", $this);
+      var $otherLevel = $("#resource_other_level_", $this);
+
+      var handleLevelChange = function(initialising) {
+        if ($levelSelect.val() === "otherlevel") {
+          $otherLevel.removeAttr("disabled");
+          if (initialising === true) {
+            $otherLevel.closest(".control-group").show();
+          } else {
+            $otherLevel.closest(".control-group").slideDown();
+          }
+        } else {
+          $otherLevel.attr("disabled", "disabled");
+          if (initialising === true) {
+            $otherLevel.closest(".control-group").hide();
+          } else {
+            $otherLevel.closest(".control-group").slideUp();
+          }
+        }
+      };
+
+      handleLevelChange(true);
+      $levelSelect.change(handleLevelChange);
+    });
+  };
+
+  $(document).ajaxComplete(function() {
+    $("#resource_form:not(.initialised)").init_resource_form();
+  });
+
+  $("#resource_form:not(.initialised)").init_resource_form();
+
+});

@@ -8,7 +8,7 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource and get it back" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "language" => "eng", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "level" => "collection", "language" => "eng", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     id = resource.save
 
     JSONModel(:resource).find(id).title.should eq("a resource")
