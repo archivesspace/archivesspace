@@ -1,18 +1,3 @@
-<%
-   all_note_types = {}
-
-   JSONModel(:note_singlepart).schema['properties']['type']['enum'].each do |type|
-     all_note_types[type] = :note_singlepart
-   end
-
-   JSONModel(:note_multipart).schema['properties']['type']['enum'].each do |type|
-     all_note_types[type] = :note_multipart
-   end
-
-   all_note_types["Index"] = :note_index
-   all_note_types["Bibliography"] = :note_bibliography
-%>
-
 <%= render :partial => "notes/template" %>
 
 <section id="notes" class="subrecord-form">

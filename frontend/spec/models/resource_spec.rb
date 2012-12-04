@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'i18n'
-require_relative '../../app/models/resource.rb'
-require_relative '../../app/models/accession.rb'
+require_relative '../../app/models/resource'
+require_relative '../../app/models/accession'
 
 describe "Resource Model" do
   it "can spawn a resource from an accession" do
