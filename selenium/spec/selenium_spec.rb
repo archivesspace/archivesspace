@@ -1337,7 +1337,7 @@ describe "ArchivesSpace user interface" do
       select.find_elements(:tag_name => "option").each do |option|
         if option.text == "Summary"
           option.click
-          return
+          break
         end
       end
       $driver.find_element(:css => '#notes .subrecord-selector .btn').click

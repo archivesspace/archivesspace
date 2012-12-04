@@ -210,7 +210,7 @@ class Selenium::WebDriver::Element
 
       $sleep_time += 0.1
       sleep 0.1
-      puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try % 5) == 0
+      puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try % 10) == 0
     end
 
     return nil if noError
