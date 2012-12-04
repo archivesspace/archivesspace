@@ -46,6 +46,8 @@
       <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
     </delete>
 
+    <delete dir="gems" />
+
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${winstone_url}" dest="${winstone_file}" skipexisting="true" verbose="true" usetimestamp="true" />
