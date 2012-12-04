@@ -279,6 +279,9 @@ AS.initSubRecordSorting = function($list) {
       handle: ' > .drag-handle',
       forcePlaceholderSize: true
     });
+    $list.off("sortupdate").on("sortupdate", function() {
+      $("#object_container form").triggerHandler("form-changed");
+    });
   }
 }
 
