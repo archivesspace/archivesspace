@@ -285,4 +285,22 @@ describe 'Accession controller' do
     JSONModel(:accession).all(:page => 1, :modified_since => ts)['results'].count.should eq(1)
   end
 
+
+  it "can return a list of all related resources" do
+    resource = create(:json_resource)
+    accession = create(:json_accession)
+
+    resource.related_accession = accession.uri
+    resource.save
+
+    JSONModel(:resource).find(resource.id).related_accession.should eq(accession.uri)
+
+    # Now query the tree
+    tree = JSONModel(:accession_tree).find(nil, :accession_id => accession.id)
+    tree.title.should eq(accession.title)
+    tree.children.count.should eq(1)
+    tree.children[0]['title'].should eq(resource.title)
+    tree.children[0]['record_uri'].should eq(resource.uri)
+  end
+
 end

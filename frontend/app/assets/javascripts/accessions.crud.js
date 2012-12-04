@@ -1,4 +1,5 @@
 //= require tree
+//= require resources.crud
 //= require dates.crud
 //= require agents.crud
 //= require subjects.crud

@@ -58,5 +58,8 @@ gem 'nokogiri'
 
 #gem 'delayed_job_active_record'
 
-gem 'simplecov'
 
+group :test do
+  gem 'rspec-rails'
+  gem 'simplecov'
+end

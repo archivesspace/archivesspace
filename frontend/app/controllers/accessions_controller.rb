@@ -25,6 +25,8 @@ class AccessionsController < ApplicationController
     end
 
     return render :partial => "accessions/edit_inline" if params[:inline]
+
+    fetch_tree
   end
 
   def create
@@ -41,9 +43,11 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :obj => JSONModel(:accession).find(params[:id], "resolve[]" => ["subjects", "ref"]),
                 :on_invalid => ->(){
+                  return render :partial => "accessions/edit_inline" if params[:inline]
                   return render action: "edit"
                 },
                 :on_valid => ->(id){
+                  return render :partial => "accessions/edit_inline" if params[:inline]
                   redirect_to :controller => :accessions, :action => :show, :id => id
                 })
   end
@@ -61,6 +65,13 @@ class AccessionsController < ApplicationController
 
     flash[:success] = "Accession Unsuppressed"
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
+  end
+
+
+  private
+
+  def fetch_tree
+    @tree = JSONModel(:accession_tree).find(nil, :accession_id => @accession.id)
   end
 
 
