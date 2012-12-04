@@ -278,8 +278,9 @@ def selenium_init
     ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
   end
 
+  @driver = Selenium::WebDriver.for :firefox
+  @driver.navigate.to $frontend
 
-  $driver = Selenium::WebDriver.for :firefox
 end
 
 
