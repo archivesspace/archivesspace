@@ -5,16 +5,15 @@
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for("subjects") %>"
-            data-object_class="subject" 
-            data-controller="subjects" 
             data-label="Subject"
             data-label_plural="Subjects"
             data-path="<%= form.path %>"
             data-name="subjects"
-            data-url="<%= url_for :controller => :subjects, :action => :list, :format => :json %>" 
+            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
             data-selected='<%= form.obj['subjects'].blank? ? "[]" : form.obj['resolved']['subjects'].collect {|s| Subject.from_hash(s)}.to_json %>'
             data-format_property="display_string"
             data-sortable="true"
+            data-types='["subject"]'
           />
           <div class="btn-group">
              <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>

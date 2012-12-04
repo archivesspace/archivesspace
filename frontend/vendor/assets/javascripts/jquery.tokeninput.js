@@ -67,7 +67,12 @@ var DEFAULT_SETTINGS = {
     idPrefix: "token-input-",
 
     // Keep track if the input is currently in disabled mode
-    disabled: false
+    disabled: false,
+
+    formatQueryParam: function(q, ajax_params) {
+      return q;
+    },
+    caching: true
 };
 
 // Default classes to use when theming
@@ -934,7 +939,7 @@ $.TokenList = function (input, url_or_data, settings) {
                 }
 
                 // Prepare the request
-                ajax_params.data[$(input).data("settings").queryParam] = query;
+                ajax_params.data[$(input).data("settings").queryParam] = $(input).data("settings").formatQueryParam(query, ajax_params);
                 ajax_params.type = $(input).data("settings").method;
                 ajax_params.dataType = $(input).data("settings").contentType;
                 if($(input).data("settings").crossDomain) {
@@ -943,7 +948,9 @@ $.TokenList = function (input, url_or_data, settings) {
 
                 // Attach the success callback
                 ajax_params.success = function(results) {
-                  cache.add(cache_key, $(input).data("settings").jsonContainer ? results[$(input).data("settings").jsonContainer] : results);
+                  if ($(input).data("settings").caching) {
+                    cache.add(cache_key, $(input).data("settings").jsonContainer ? results[$(input).data("settings").jsonContainer] : results);
+                  }
                   if($.isFunction($(input).data("settings").onResult)) {
                       results = $(input).data("settings").onResult.call(hidden_input, results);
                   }

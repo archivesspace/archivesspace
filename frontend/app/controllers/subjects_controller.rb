@@ -1,25 +1,10 @@
 class SubjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :list, :new, :edit, :create, :update]
-  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :list]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
     @search_data = Subject.all(:page => selected_page)
-  end
-
-  def list
-    @subjects = Subject.all(:page => selected_page, :page_size => AppConfig[:max_page_size])
-
-    if params[:q]
-      # FIXME: this filtering belongs in the backend
-      @subjects = @subjects['results'].select {|s| s.display_string.downcase.include?(params[:q].downcase)}
-    end
-
-    respond_to do |format|
-      format.json {
-        render :json => @subjects
-      }
-    end
   end
 
   def show

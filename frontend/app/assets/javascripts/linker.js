@@ -17,14 +17,14 @@ $(function() {
         url: $this.data("url"),
         format_template: $this.data("format_template"),
         format_property: $this.data("format_property"),
-        controller: $this.data("controller"),
         path: $this.data("path"),
         name: $this.data("name"),
         multiplicity: $this.data("multiplicity") || "many",
         label: $this.data("label"),
         label_plural: $this.data("label_plural"),
         modal_id: "linkerModalFor_"+$this.data("class"),
-        sortable: $this.data("sortable") === true
+        sortable: $this.data("sortable") === true,
+        types: $this.data("types")
       };
 
       if (config.format_template && config.format_template.substring(0,2) != "${") {
@@ -134,15 +134,15 @@ $(function() {
       };
 
 
-      var formatResults = function(results) {
+      var formatResults = function(searchData) {
         var formattedResults = [];
         var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
-        $.each(results, function(index, obj) {
+        $.each(searchData.results, function(index, obj) {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
               name: formattedNameForJSON(obj),
-              id: obj.uri,
+              id: obj.id,
               json: obj
             });
           }
@@ -211,6 +211,7 @@ $(function() {
           preventDuplicates: true,
           allowFreeTagging: false,
           tokenLimit: (config.multiplicity==="one"? 1 :null),
+          caching: false,
           onCachedResult: formatResults,
           onResult: formatResults,
           tokenFormatter: function(item) {
@@ -230,6 +231,14 @@ $(function() {
           onAdd:  function(item) {
             enableSorting();
             $this.parents("form:first").triggerHandler("form-changed");
+          },
+          formatQueryParam: function(q, ajax_params) {
+            if ($this.tokenInput("get").length) {
+              ajax_params.data["fq"] = "-id:" + $this.tokenInput("get").map(function(o) {return o.id}).join(",");
+            }
+            ajax_params.data["type"] = config.types.join(",");
+
+            return "*"+q+"*"
           }
         });
 

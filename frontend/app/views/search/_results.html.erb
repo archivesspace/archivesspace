@@ -23,7 +23,7 @@
             </td>
             <td>
               <% if result["suppressed"] %><span class="label label-info">Suppressed</span><% end %>
-              <%=  result["title"] %>
+              <%=  result["title"] || result['display_string'] %>
             </td>
             <td>
               <div class="btn-group" style="float: right">

@@ -11,7 +11,14 @@ class SearchController < ApplicationController
 
     @search_data = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/search", @criteria)
 
-    store_search
+    respond_to do |format|
+      format.json {
+        render :json => @search_data
+      }
+      format.html {
+        store_search
+      }
+    end
   end
 
   private
