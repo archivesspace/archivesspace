@@ -331,6 +331,12 @@
 
   <!-- Selenium -->
   <target name="selenium:test" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
+    <property name="spec" value=""/>
+    <property name="example" value=""/>
+    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
+      <isset property="example"/>
+    </condition>
+
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../selenium">
@@ -338,7 +344,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d spec" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec}" />
     </java>
   </target>
 

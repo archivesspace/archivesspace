@@ -1282,6 +1282,48 @@ describe "ArchivesSpace user interface" do
 
       $driver.blocking_find_elements(:css => '#resource_deaccessions_').length.should eq(1)
     end
+
+
+    it "can attach notes to archival objects" do
+      # Create a resource
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Resource").click
+
+      $driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
+      $driver.complete_4part_id("resource_id_%d_")
+      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.find_element(:id, "resource_level_").select_option("collection")
+      $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
+
+      # Give it a child AO
+      $driver.find_element(:link, "Add Child").click
+      $driver.find_element(:link, "Archival Object").click
+      $driver.clear_and_send_keys([:id, "archival_object_title_"], "An Archival Object with notes")
+      $driver.find_element(:id, "archival_object_level_").select_option("item")
+
+
+      # Add some notes to it
+      add_note = proc do |type|
+        $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
+        $driver.blocking_find_elements(:css => '#notes .subrecord-selector select')[0].select_option(type)
+        $driver.find_element(:css => '#notes .subrecord-selector .btn').click
+      end
+
+      3.times do
+        add_note.call("note_multipart")
+      end
+
+      $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields').length.should eq(3)
+
+      $driver.find_element(:link, "Revert Changes").click
+
+      # Skip over Firefox's "you're navigating away" warning.
+      $driver.switch_to.alert.accept
+    end
+
+
   end
 
 
