@@ -117,7 +117,7 @@ class Selenium::WebDriver::Driver
           try += 1
           $sleep_time += 0.1
           sleep 0.1
-          puts "click_and_wait_until_gone: #{try} hits selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+          puts "click_and_wait_until_gone: #{try} hits selector '#{selector}'.  Retrying..." if (try % 5) == 0
         else
           raise Selenium::WebDriver::Error::NoSuchElementError.new(selector.inspect)
         end
@@ -210,7 +210,7 @@ class Selenium::WebDriver::Element
 
       $sleep_time += 0.1
       sleep 0.1
-      puts "find_element_with_text: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+      puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try % 5) == 0
     end
 
     return nil if noError
