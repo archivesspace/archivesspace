@@ -497,8 +497,7 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "can present an Accession edit form" do
-      $driver.find_element(:link, 'Edit').click
+    it "is presented an Accession edit form" do
       $driver.clear_and_send_keys([:id, 'accession_content_description_'], "Here is a description of this accession.")
       $driver.clear_and_send_keys([:id, 'accession_condition_description_'], "Here we note the condition of this accession.")
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
@@ -620,6 +619,8 @@ describe "ArchivesSpace user interface" do
       # save!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
+      $driver.find_element(:link, 'Finish Editing').click
+
       # check dates
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
       date_headings.length.should eq (2)
@@ -671,6 +672,8 @@ describe "ArchivesSpace user interface" do
 
       # save!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+      $driver.find_element(:link, 'Finish Editing').click
 
       # check external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')

@@ -5,6 +5,7 @@
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <%= form.hidden_input "related_accession" %>
+<%= hidden_field_tag "id", @resource.id %>
 
 <fieldset>
   <section id="basic_information">

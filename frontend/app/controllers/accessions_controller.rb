@@ -34,7 +34,7 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :on_invalid => ->(){ render action: "new" },
                 :on_valid => ->(id){ redirect_to(:controller => :accessions,
-                                                 :action => :show,
+                                                 :action => :edit,
                                                  :id => id) })
   end
 
