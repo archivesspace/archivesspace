@@ -226,6 +226,8 @@ Sequel.migration do
 
       String :language, :null => true
 
+      BlobField :notes, :null => true
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end

@@ -1,3 +1,4 @@
+require_relative 'notes'
 require_relative 'orderable'
 require_relative 'auto_id_generator'
 
@@ -13,6 +14,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Agents
   include Orderable
   include AutoIdGenerator::Mixin
+  include Notes
 
   orderable_root_record_type :resource, :archival_object
 
