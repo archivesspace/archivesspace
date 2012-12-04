@@ -1,5 +1,14 @@
 <% if session[:user] %>
-   <li class="dropdown repository-container">  
+   <li class="dropdown repository-container"
+     <% if user_can?('create_repository') && repositories.length == 0 %>
+       rel="popover"
+       data-placement="bottom"
+       data-trigger="manual"
+       data-title="false"
+       data-html="true"
+       data-content="To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Create a Repository</strong> link."
+     <% end %>
+   >
      <div class="input-append">
         <span class="repository-label <% if not session[:repo] %>empty<% end %>"><span class=" icon-hdd"></span> <span class="current-repository-id"><% if session[:repo] %><%= session[:repo] %><% end %></span></span>
         <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
@@ -8,7 +17,7 @@
                <%#><li><a href="#">Edit</a></li>
                <li class="divider"></li>%>
             <% end %>
-            <% if repositories.length >= 1 %>
+            <% if repositories.length > 0 %>
                <% for repo in repositories %>
                   <% if session[:repo_id] === repo.id %>
                      <li><span class="icon-ok-circle"></span> <%= repo.repo_code %></li>

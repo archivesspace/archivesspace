@@ -305,8 +305,17 @@ module AspaceFormHelper
       @forms.tag("input", options.merge(opts), false, false)
     end
 
+    def required?(name)
+      if obj["jsonmodel_type"]
+        property_schema = jsonmodel_schema_definition(obj["jsonmodel_type"], name)
+        return property_schema && property_schema["ifmissing"] === "error"
+      end
+      false
+    end
+
     def label_with_field(name, field_html, opts = {})
       control_group_classes = "control-group"
+      control_group_classes << " required" if opts["required"] or required?(name)
       control_group_classes << " #{opts[:control_class]}" if opts.has_key? :control_class
 
       controls_classes = "controls"

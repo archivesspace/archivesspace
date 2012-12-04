@@ -80,4 +80,11 @@ describe 'Resource model' do
   end
 
 
+  it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided" do
+
+    opts = {:level => "otherlevel", :other_level => nil}
+
+    expect { create_resource(opts) }.to raise_error
+  end
+
 end

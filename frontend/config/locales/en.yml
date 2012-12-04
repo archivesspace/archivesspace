@@ -978,6 +978,19 @@ en:
   archival_object:
     title: Title
     ref_id: Ref ID
+    level: Level
+    level_class: Class
+    level_collection: Collection
+    level_file: File
+    level_fonds: Fonds
+    level_item: Item
+    level_otherlevel: Other Level
+    level_recordgrp: Record Group
+    level_series: Series
+    level_subfonds: Sub-Fonds
+    level_subgrp: Sub-Group
+    level_subseries: Sub-Series
+    other_level: Other Level
     language: Language
     <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
@@ -1011,7 +1024,48 @@ en:
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
     ref_id: Ref ID
+    level: Level
+    level_class: Class
+    level_collection: Collection
+    level_file: File
+    level_fonds: Fonds
+    level_item: Item
+    level_otherlevel: Other Level
+    level_recordgrp: Record Group
+    level_series: Series
+    level_subfonds: Sub-Fonds
+    level_subgrp: Sub-Group
+    level_subseries: Sub-Series
+    other_level: Other Level
+    container_summary: Container Summary
+    publish: Publish?
+    restrictions: Restrictions?
+    repository_processing_note: Repository Processing Note
+    ead_id: EAD ID
+    ead_location: EAD Location
     extents: Extents
+    finding_aid_title: Title
+    finding_aid_filing_title: Filing Title
+    finding_aid_date: Date
+    finding_aid_author: Author
+    finding_aid_description_rules: Description Rules
+    finding_aid_description_rules_aacr: Anglo-American Cataloguing Rules
+    finding_aid_description_rules_cco: Cataloging Cultural Objects
+    finding_aid_description_rules_dacs: "Describing Archives: A Content Standard"
+    finding_aid_description_rules_rad: Rules for Archival Description
+    finding_aid_description_rules_isadg: International Standard for Archival Description - General
+    finding_aid_language: Languauge
+    finding_aid_sponsor: Sponsor
+    finding_aid_edition_statement: Edition Statement
+    finding_aid_series_statement: Series Statement
+    finding_aid_revision_date: Revision Date
+    finding_aid_revision_description: Revision Description
+    finding_aid_status: Status
+    finding_aid_status_completed: Completed
+    finding_aid_status_in_progress: In Progress
+    finding_aid_status_under_revision: Under Revision
+    finding_aid_status_unprocessed:
+    finding_aid_note: Note
     language: Language
     <<: *language_attributes
     _extents:
