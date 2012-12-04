@@ -1324,6 +1324,34 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "can attach special notes to digital objects" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Digital Object").click
+
+      $driver.clear_and_send_keys([:id, "digital_object_title_"], "A digital object with notes")
+      $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
+
+      # Add a Summary note
+      $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
+      select = $driver.blocking_find_elements(:css => '#notes .subrecord-selector select')[0]
+      select.find_elements(:tag_name => "option").each do |option|
+        if option.text == "Summary"
+          option.click
+          return
+        end
+      end
+      $driver.find_element(:css => '#notes .subrecord-selector .btn').click
+
+      $driver.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")
+      $driver.execute_script("$('#digital_object_notes__0__content_').data('CodeMirror').setValue('Summary content')")
+      $driver.execute_script("$('#digital_object_notes__0__content_').data('CodeMirror').save()")
+
+      $driver.execute_script("$('#digital_object_notes__0__content_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "digital_object_notes__0__content_").attribute("value").should eq("Summary content")
+
+      $driver.find_element(:css => "form#new_digital_object button[type='submit']").click
+    end
+
   end
 
 

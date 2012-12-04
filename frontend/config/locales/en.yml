@@ -726,6 +726,10 @@ en:
       label: Label
       type: Type
       content: Content
+    note_digital_object:
+      label: Label
+      content: Content
+      type: Type
     note_bibliography:
       option: Bibliography
       label: Label
