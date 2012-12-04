@@ -1088,7 +1088,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "confirms before removing a note entry" do
-      notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
+      notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-list > li')
 
       notes[0].find_element(:css => '.subrecord-form-remove').click
 

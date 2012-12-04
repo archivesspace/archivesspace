@@ -1,3 +1,4 @@
+//= require jquery.sortable
 //= require jquery.tokeninput
 
 $(function() {
@@ -22,7 +23,8 @@ $(function() {
         multiplicity: $this.data("multiplicity") || "many",
         label: $this.data("label"),
         label_plural: $this.data("label_plural"),
-        modal_id: "linkerModalFor_"+$this.data("class")
+        modal_id: "linkerModalFor_"+$this.data("class"),
+        sortable: $this.data("sortable") === true
       };
 
       if (config.format_template && config.format_template.substring(0,2) != "${") {
@@ -221,6 +223,13 @@ $(function() {
         });
 
         $this.parent().addClass("multiplicity-"+config.multiplicity);
+
+        if (config.sortable && config.multiplicity == "many") {
+          $(".token-input-list", $linkerWrapper).sortable({
+            items: 'li.token-input-token'
+          });
+          $linkerWrapper.addClass("sortable");
+        }
 
         addEventBindings();
       };

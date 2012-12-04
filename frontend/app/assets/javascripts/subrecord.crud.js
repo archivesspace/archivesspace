@@ -1,3 +1,5 @@
+//= require jquery.sortable
+
 $(function() {
 
   $.fn.init_subrecord_form = function() {
@@ -31,6 +33,8 @@ $(function() {
           });
         });
 
+        AS.initSubRecordSorting($("ul.subrecord-form-list", $subform));
+
         $(document).triggerHandler("init.subrecord", [$subform.data("object-name") || $this.data("object-name"), $subform]);
       };
 
@@ -48,12 +52,16 @@ $(function() {
           };
 
           var formEl = $(AS.renderTemplate($this.data("template"), index_data));
+          formEl = $("<li>").append(formEl);
           formEl.attr("data-index", $this.data("form_index"));
           formEl.hide();
 
           $target_subrecord_list.append(formEl);
 
           formEl.fadeIn();
+
+          // re-init the sortable behaviour
+          AS.initSubRecordSorting($target_subrecord_list);
 
           $this.parents("form:first").triggerHandler("form-changed");
 
@@ -68,6 +76,8 @@ $(function() {
 
           $this.data("form_index", $this.data("form_index")+1);
         });
+
+        AS.initSubRecordSorting($("ul.subrecord-form-list:first", $this));
 
         // init any existing subforms
         $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
