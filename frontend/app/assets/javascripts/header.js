@@ -50,6 +50,14 @@ $(function() {
     });
   });
 
+  // Show Repo popover if there are no repositories
+  if ($(".repository-container[rel=popover]").length) {
+    $(".repository-container[rel=popover]").popover('show');
+    $('.navbar .btn').click(function() {
+      $(".repository-container[rel=popover]").popover('destroy');
+    });
+  }
+
 
   // Keyboard handling for dropdown submenus
   $('.nav a').on("focus", function() {
@@ -90,5 +98,5 @@ $(function() {
     $(this).css("width", width);
   }).on("blur mouseleave", function() {
       $(this).css("width", "");
-  })
+  });
 });
