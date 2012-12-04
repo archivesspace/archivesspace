@@ -285,6 +285,16 @@ def selenium_init
   end
 
   @user = "testuser#{Time.now.to_i}_#{$$}"
+
+
+  if ENV['TRAVIS']
+    puts "Loading stable version of Firefox"
+    system('wget', 'http://aspace.hudmol.com/firefox-16.0.tar.bz2')
+    system('tar', 'xvjf', 'firefox-16.0.tar.bz2')
+    ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
+  end
+
+
   $driver = Selenium::WebDriver.for :firefox
 end
 
