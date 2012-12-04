@@ -1,9 +1,9 @@
-- containers not showing up in tracer spreadsheet rightmost column
-- looks like instances aren't showing up in front end after import
-
 
 - validate XML files against schema (using libxml)
 	- where to do this?
+	- pending nokogiri talk query
+
+STALE:
 
 - class level validator for options?
 	- ensure the backend knows about the vocab, repo
@@ -11,11 +11,7 @@
 	- ensure the crosswalk and the source file match
 	- etc.
 
-- option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
-
-- revisit allow-failures
-	
-- change 'path' to 'key' in import.rb CLI for crosswalk option
+- ? option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
 
 
 

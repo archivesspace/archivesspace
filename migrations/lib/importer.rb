@@ -88,20 +88,24 @@ module ASpaceImport
 
     def log_save_result(response)
       @import_log << response
-      if response.code == '200'
+      if !@dry && response.code == '200'
         @uri_map = JSON.parse(response.body)['saved']
       end
     end
     
     def report_summary
-      @import_log.map { |r| 
-        "#{r.code} -- #{r.code == '200' ? JSON.parse(r.body)['saved'].length : 'Error' }" 
-      }.join('\n')
+      if @dry
+        "DRY RUN -- Records Saved: #{JSON.parse(@import_log[0])['saved'].length}"
+      else
+        @import_log.map { |r| 
+          "#{r.code} -- Records Saved: #{r.code == '200' ? JSON.parse(r.body)['saved'].length : 'Error' }" 
+        }.join('\n')
+      end
     end
     
     def report
       if @dry
-        @import_log[0]
+        report_summary
       else
         report = "Aspace Import Report\n"
         report += "--Executive Summary--\n"

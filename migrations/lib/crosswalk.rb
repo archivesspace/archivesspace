@@ -151,7 +151,6 @@ module ASpaceImport
       json
     end   
 
-    # Part 4.
     # Intermediate / chaining class for yielding property receivers given
     # either an xpath or a record_type along with an optional depth (of
     # the parsing context into which the reciever will be yielded)
@@ -242,7 +241,6 @@ module ASpaceImport
         when :array_of_objects 
           if @sdef['items']['type'].is_a? Array
             @received_jsonmodel_types = []
-            puts @sdef['items']['type'].inspect
             @sdef['items']['type'].each { |t| @received_jsonmodel_types << t['type'].scan(/:([a-zA-Z_]*)/)[0][0]}
           end
         end
@@ -334,9 +332,7 @@ module ASpaceImport
         return false if val == nil
         
         case self.class.val_type
-        
-        when :string
-          
+                  
         when :uri
           val = val.uri
         

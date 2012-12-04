@@ -7,6 +7,8 @@ ASpaceImport::Importer.importer :xml do
 
     # Validate the file first
     # validate(opts[:input_file]) 
+    
+    hack_input_file_for_dumb_nokogiri_exceptions(opts)
 
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
     @parse_queue = ASpaceImport::ParseQueue.new(opts)
@@ -30,9 +32,7 @@ ASpaceImport::Importer.importer :xml do
     
     @reader.each do |node|
 
-
       node_args = [xpath(node), node.depth, node.node_type]
-      puts "#{node_args[0]} -- #{node_args[2]}\n"
             
       node.start_trace(*node_args) if $DEBUG
 
@@ -185,6 +185,25 @@ ASpaceImport::Importer.importer :xml do
     end
   end
 
+  protected
+  
+  def hack_input_file_for_dumb_nokogiri_exceptions(opts)
+    
+    # Workaround for Nokogiri bug:
+    # https://github.com/sparklemotion/nokogiri/pull/805
+    
+    new_file = File.new(opts[:input_file].gsub(/\.xml/, '_no_xlink.xml'), "w")
+    
+    File.open opts[:input_file], 'r' do |f|
+      f.each_line do |line|
+        new_file.puts line.gsub(/\sxlink:href=\".*?\"/, "")
+      end
+    end
+    
+    new_file.close
+    
+    opts[:input_file] = new_file.path
+  end
 
 end
 

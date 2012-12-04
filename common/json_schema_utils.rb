@@ -173,7 +173,6 @@ module JSONSchemaUtils
       SCHEMA_PARSE_RULES.each do |rule|
         if (rule[:failed_attribute].nil? || rule[:failed_attribute].include?(message[:failed_attribute])) and
             message[:message] =~ rule[:pattern]
-          puts "MSG #{message.inspect}"
           rule[:do].call(msgs, message, message[:fragment],
                          *message[:message].scan(rule[:pattern]).flatten)
 
