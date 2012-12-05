@@ -2,13 +2,19 @@ class UsersController < ApplicationController
   skip_before_filter :unauthorised_access
 
   def index
-    @user = JSONModel(:user).new._always_valid!
 
-    return render action: "new"
+    if session['user'] && !user_can?('create_user')
+      redirect_to :controller => :welcome, :action => :index
+    else
+      @user = JSONModel(:user).new._always_valid!
+
+      return render action: "new"
+    end
   end
 
 
   def create
+    
     @user = JSONModel(:user).from_hash(params['user'])
 
     ['password', 'confirm_password'].each do |field|
@@ -29,12 +35,20 @@ class UsersController < ApplicationController
 
     @user.save(:password => params['user']['password'])
 
-    backend_session = User.login(params['user']['username'],
+    if session[:user]
+      flash[:success] = "Created user #{params['user']['username']}"
+      redirect_to :controller => :users, :action => :create
+    else
+      backend_session = User.login(params['user']['username'],
                                  params['user']['password'])
 
-    User.establish_session(session, backend_session, params['user']['username'])
+      User.establish_session(session, backend_session, params['user']['username'])
 
-    redirect_to :controller => :welcome, :action => :index
+      redirect_to :controller => :welcome, :action => :index
+
+    end
+
+
 
   rescue JSONModel::ValidationException => e
     @user = e.invalid_object

@@ -27,8 +27,6 @@ describe 'Repository controller' do
     as_test_user(user.username) do
       expect {
         create(:json_repo)
-        # repo = JSONModel(:repository).from_hash("repo_code" => "regularjoe-repo",
-        #                                         "description" => "A new ArchivesSpace repository").save
       }.to raise_error(AccessDeniedException)
     end
   end

@@ -9,6 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a local user")
     .params(["password", String, "The user's password"],
             ["user", JSONModel(:user), "The user to create", :body => true])
+    .preconditions(proc { current_user.can?(:create_user) || "AnonymousUser" == current_user.class.name })
     .returns([200, :created],
              [400, :error]) \
   do

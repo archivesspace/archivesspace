@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-def create_user
-  user = JSONModel(:user).from_hash(:username => "test1",
-                                    :name => "Tester")
+def create_user(username = "test1", name = "Tester")
+  user = JSONModel(:user).from_hash(:username => username,
+                                    :name => name)
 
   # Probably more realistic than we'd care to think
   user.save(:password => "password")
@@ -13,6 +13,35 @@ describe 'User controller' do
 
   before(:each) do
     create_user
+  end
+  
+  it "doesn't allow regular non-admin users to create new users" do
+
+    ordinary_user = create(:user)
+    
+    expect {
+      as_test_user(ordinary_user.username) do
+
+        build(:json_user).save(:password => '123')
+        
+      end
+    }.to raise_error(AccessDeniedException)
+  end
+  
+  it "does allow regular admin users to create new users" do
+
+    expect {
+      build(:json_user).save(:password => '123')
+    }.to_not raise_error(AccessDeniedException)
+  end
+  
+  it "does allow anonymous users to create new users" do
+    
+    expect {
+      as_anonymous_user do
+        build(:json_user).save(:password => '123')
+      end
+    }.to_not raise_error(AccessDeniedException)
   end
 
   it "rejects an unknown username" do

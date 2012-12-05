@@ -36,6 +36,10 @@
               <li class="divider"></li>
               <li><%= link_to "Create a Repository", {:controller => :repository, :action => :new}, "data-toggle" => "modal-ajax" %></li>
             <% end %>
+            <% if user_can?('create_user') %>
+              <li class="divider"></li>
+              <li><%= link_to "New User Account", :controller => :users, :action => :create %></li>
+            <% end %>
           </ul>                 
      </div>
    </li>

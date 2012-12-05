@@ -1495,6 +1495,30 @@ describe "ArchivesSpace user interface" do
   #   $driver.find_element(:id, 'login').click
   # end
 
+  describe "User management" do
+
+    before(:all) do
+      login("admin", "admin")
+      
+      (@user, @pass) = create_user
+    end
+
+    after(:all) do
+      logout
+    end
+
+    it "can create a user account" do
+      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:link, "New User Account").click
+      $driver.clear_and_send_keys([:id, "user_username_"], @user)
+      $driver.clear_and_send_keys([:id, "user_name_"], @user)
+      $driver.clear_and_send_keys([:id, "user_password_"], @pass)
+      $driver.clear_and_send_keys([:id, "user_confirm_password_"], @pass)
+      
+      $driver.find_element(:id, 'create_account').click
+    end
+  end
+
 
   describe "Users and authentication" do
 

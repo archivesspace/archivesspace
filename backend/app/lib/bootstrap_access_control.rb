@@ -36,6 +36,10 @@ class ArchivesSpaceService
 
 
     ## Standard permissions
+    Permission.define("create_user",
+                      "The ability to create a new user account while logged in",
+                      :level => "global")
+    
     Permission.define("create_repository",
                       "The ability to create new repositories",
                       :level => "global")

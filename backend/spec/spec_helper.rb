@@ -189,6 +189,24 @@ def as_test_user(username)
   end
 end
 
+def as_anonymous_user
+  old_user = Thread.current[:active_test_user]
+  orig = RequestContext.get(:enforce_suppression)
+
+  Thread.current[:active_test_user] = AnonymousUser.new
+  
+  begin
+    if RequestContext.active?
+      RequestContext.put(:enforce_suppression, true)
+    end
+
+    yield
+  ensure
+    RequestContext.put(:enforce_suppression, orig) if RequestContext.active?
+    Thread.current[:active_test_user] = old_user
+  end
+end
+
 
 DB.open(true) do
   RequestContext.open do

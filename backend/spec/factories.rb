@@ -268,6 +268,11 @@ FactoryGirl.define do
     vocabulary { create(:json_vocab).uri }
   end
   
+  factory :json_user, class: JSONModel(:user) do
+    username { generate(:username) }
+    name { generate(:generic_name) }
+  end
+  
   factory :json_vocab, class: JSONModel(:vocabulary) do
     name { "Vocabulary #{generate(:generic_title)}" }
     ref_id { generate(:alphanumstr) }
