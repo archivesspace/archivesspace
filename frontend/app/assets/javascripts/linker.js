@@ -169,6 +169,16 @@ $(function() {
         $this.tokenInput("clear");
       };
 
+
+      var enableSorting = function() {
+        $(".token-input-list", $linkerWrapper).sortable("destroy").sortable({
+          items: 'li.token-input-token'
+        });
+        $(".token-input-list", $linkerWrapper).off("sortupdate").on("sortupdate", function() {
+          $this.parents("form:first").triggerHandler("form-changed");
+        });
+      };
+
       var tokensForPrepopulation = function() {
         if ($this.data("multiplicity") === "one") {
           if ($.isEmptyObject($this.data("selected"))) {
@@ -218,6 +228,7 @@ $(function() {
             $this.parents("form:first").triggerHandler("form-changed");
           },
           onAdd:  function(item) {
+            enableSorting();
             $this.parents("form:first").triggerHandler("form-changed");
           }
         });
@@ -225,9 +236,7 @@ $(function() {
         $this.parent().addClass("multiplicity-"+config.multiplicity);
 
         if (config.sortable && config.multiplicity == "many") {
-          $(".token-input-list", $linkerWrapper).sortable({
-            items: 'li.token-input-token'
-          });
+          enableSorting();
           $linkerWrapper.addClass("sortable");
         }
 
