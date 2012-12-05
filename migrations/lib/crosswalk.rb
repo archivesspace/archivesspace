@@ -132,6 +132,15 @@ module ASpaceImport
           @xpath ||= nil
         end
         
+        def block_further_reception
+          @done_being_received = true
+        end
+
+        def done_being_received?
+          @done_being_received ||= false
+          @done_being_received
+        end
+        
         attr_accessor :depth
         attr_accessor :xpath
         
@@ -268,6 +277,9 @@ module ASpaceImport
       # as a property of the receiver's @object. 
       
       def receives_obj?(other_object)
+
+        return false if other_object.done_being_received?
+        
         if self.class.xdef['axis'] && self.class.received_jsonmodel_types.include?(other_object.jsonmodel_type)
         
           if self.class.xdef['axis'] == 'parent' && @object.depth - other_object.depth == 1
@@ -337,9 +349,13 @@ module ASpaceImport
           val = val.uri
         
         when :array_of_objects
+          val.block_further_reception if val.respond_to? :block_further_reception
+          
           val = @object.send("#{self.class.property}").push(val.to_hash)
 
         when :array_of_uris_or_objects          
+          val.block_further_reception if val.respond_to? :block_further_reception
+
           if val.class.method_defined? :uri
             val = val.uri
           elsif val.class.method_defined? :to_hash

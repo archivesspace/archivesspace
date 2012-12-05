@@ -115,6 +115,9 @@ entities:
       linked_agents:
         xpath: ["child::*/child::*/child::persname", "child::*/child::*/child::corpname"]
         procedure: "|val| {'role' => 'subject', 'ref' => val.uri}" #val is a json object (agent)
+      
+      notes:
+        axis: "descendant"
         
       parent: 
         axis: "parent"
