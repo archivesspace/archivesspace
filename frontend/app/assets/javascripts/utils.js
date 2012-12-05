@@ -63,7 +63,7 @@ $(function() {
 // sidebar action
 $(function() {
   var bindSidebarEvents = function() {
-    $(this).on("click", ".nav a", function(event) {
+    $("#archivesSpaceSidebar .nav-list").on("click", "a", function(event) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -76,12 +76,15 @@ $(function() {
       });
     });
   };
+
   var initSidebar = function() {
     $("#archivesSpaceSidebar .nav-list:not(.initialised)").each(function() {
       $.proxy(bindSidebarEvents, this)();
       $(this).affix({
         offset: {
-          top: $("#archivesSpaceSidebar").offset().top,
+          top: function() {
+            return $("#archivesSpaceSidebar").offset().top;
+          },
           bottom: 100
         }
       });
@@ -91,18 +94,6 @@ $(function() {
 
   initSidebar();
 
-  // If the tree pane resizes, then we need to reset the offsets of the
-  // affixed sidebar.
-  $(window).bind("resize.tree", function() {
-    $("#archivesSpaceSidebar .nav-list.initialised").each(function() {
-      $(this).affix({
-        offset: {
-          top: $("#archivesSpaceSidebar").offset().top,
-          bottom: 100
-        }
-      });
-    });
-  });
   $(document).ajaxComplete(function() {
     initSidebar();
   });
