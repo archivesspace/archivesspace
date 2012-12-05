@@ -52,6 +52,7 @@
    <field name="fullrecord" type="text_general" indexed="true" stored="false" multiValued="false" />
    <field name="suppressed" type="boolean" indexed="true" stored="true" multiValued="false" />
 
+   <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
    <field name="resource" type="string" indexed="true" stored="true" multiValued="false" /> 
