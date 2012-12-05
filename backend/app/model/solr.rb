@@ -9,7 +9,8 @@ class Solr
   end
 
 
-  def self.search(query, page, page_size, record_type = nil, show_suppressed = false)
+  def self.search(query, page, page_size, record_type = nil, show_suppressed = false,
+                  excluded_ids = [])
     url = solr_url
 
     opts = {
@@ -27,6 +28,11 @@ class Solr
 
     if !show_suppressed
       opts << [:fq, "suppressed:false"]
+    end
+
+    if excluded_ids && !excluded_ids.empty?
+      query = excluded_ids.map { |id| "\"#{id}\"" }.join(' OR ')
+      opts << [:fq, "-id:(#{query})"]
     end
 
     url.path = "/select"

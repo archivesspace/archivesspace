@@ -234,11 +234,11 @@ $(function() {
           },
           formatQueryParam: function(q, ajax_params) {
             if ($this.tokenInput("get").length) {
-              ajax_params.data["fq"] = "-id:" + $this.tokenInput("get").map(function(o) {return o.id}).join(",");
+              ajax_params.data["exclude[]"] = $this.tokenInput("get").map(function(o) {return o.id});
             }
             ajax_params.data["type"] = config.types.join(",");
 
-            return "*"+q+"*"
+            return (q+"*").toLowerCase();
           }
         });
 
