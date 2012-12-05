@@ -56,9 +56,15 @@ class AgentsController < ApplicationController
 
   def list
     if params[:q].blank?
-      render :json => JSONModel::all('/agents', :agent_type)
+      render :json => {:results => JSONModel::all('/agents', :agent_type)}
     else
-      render :json => JSONModel::HTTP.get_json("/agents/by-name", params)
+      results = JSONModel::HTTP.get_json("/agents/by-name", {:q => params[:q].gsub(/\*/,"")})
+      render :json => {
+        :results => results.map{|r| {
+          :id => r['uri'],
+          :json => r.to_json
+        }}
+      }
     end
   end
 

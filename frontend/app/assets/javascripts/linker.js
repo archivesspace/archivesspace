@@ -243,7 +243,9 @@ $(function() {
             if ($this.tokenInput("get").length) {
               ajax_params.data["exclude[]"] = $this.tokenInput("get").map(function(o) {return o.id});
             }
-            ajax_params.data["type"] = config.types.join(",");
+            if (config.types && config.types.length) {
+              ajax_params.data["type"] = config.types.join(",");
+            }
 
             return (q+"*").toLowerCase();
           }

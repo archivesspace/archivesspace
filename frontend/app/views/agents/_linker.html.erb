@@ -13,8 +13,6 @@
     <div class="input-append linker-wrapper">
       <input type="text" class="linker"
              id="<%= form.id_for("ref") %>"
-             data-object_class="<%= form.obj["jsonmodel_type"] %>"
-             data-controller="agents"
              data-label="Agent"
              data-label_plural="Agents"
              data-name="ref"
@@ -23,6 +21,7 @@
              data-selected='<%= selected_json %>'
              data-multiplicity="one"
              data-format_template="names[0].sort_name"
+             data-types='[]'
       />
       <div class="btn-group">
         <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
