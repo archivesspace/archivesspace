@@ -42,6 +42,11 @@ class AgentsController < ApplicationController
                 :model => JSONModel(@agent_type),
                 :obj => JSONModel(@agent_type).find(params[:id]),
                 :on_invalid => ->(){
+
+                  if @agent.names.empty?
+                    @agent.names = [@name_type.new._always_valid!]
+                  end
+
                   return render :action => :edit
                 },
                 :on_valid => ->(id){
