@@ -56,7 +56,11 @@ class Solr
         result['offset_last'] = [(json['response']['start'] + page_size), json['response']['numFound']].min
         result['total_hits'] = json['response']['numFound']
 
-        result['results'] = json['response']['docs']
+        result['results'] = json['response']['docs'].map {|doc|
+          doc['uri'] = doc['id']
+          doc['jsonmodel_type'] = doc['type']
+          doc
+        }
 
         return result
       else

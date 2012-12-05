@@ -1,0 +1,20 @@
+<hr/>
+<div class="control-group">
+   <label class="control-label">Accessions</label>
+   <div class="controls">
+       <div class="input-append linker-wrapper">
+          <input type="text" class="linker"
+            id="<%= form.id_for("accessions") %>"
+            data-label="Accession"
+            data-label_plural="Accessions"
+            data-path="<%= form.path %>"
+            data-name="related_accessions"
+            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+            data-selected='<%= form.obj['related_accessions'].blank? ? "[]" : form.obj['resolved']['related_accessions'].to_json %>'
+            data-format_property="title"
+            data-sortable="true"
+            data-types='["accession"]'
+          />
+       </div>
+   </div>
+</div>

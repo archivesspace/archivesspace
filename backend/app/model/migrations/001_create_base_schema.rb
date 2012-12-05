@@ -213,6 +213,9 @@ Sequel.migration do
     end
 
 
+    create_join_table({:accession_id => :accession, :resource_id => :resource}, :name => "accession_resource")
+
+
     create_table(:archival_object) do
       primary_key :id
 
@@ -999,7 +1002,7 @@ Sequel.migration do
      :subject_term, :subject_archival_object, :subject_resource, :subject_accession, :subject, :term,
      :agent_contact, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
-     :session, :auth_db, :group_user, :group_permission, :permission, :user, :group, :accession,
+     :session, :auth_db, :group_user, :group_permission, :permission, :user, :group, :accession_resource, :accession,
      :date, :event, :archival_object, :vocabulary, :extent, :resource, :repository,
      :accession_external_document, :archival_object_external_document,
      :external_document_resource, :external_document_subject, :digital_object,

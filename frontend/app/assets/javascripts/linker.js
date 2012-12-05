@@ -197,7 +197,7 @@ $(function() {
               json: $this.data("selected")
           }];
         } else {
-          if ($this.data("selected").length === 0) {
+          if (!$this.data("selected") || $this.data("selected").length === 0) {
             return [];
           }
 

@@ -9,10 +9,12 @@ module Notes
     notes_blob = JSON(json.notes)
     json.notes = nil
 
-    super
+    obj = super
 
     ps = self.class.dataset.where(:id => self.id).prepare(:update, :update_notes, :notes => :$notes)
     ps.call(:notes => notes_blob.to_sequel_blob)
+
+    obj
   end
 
 

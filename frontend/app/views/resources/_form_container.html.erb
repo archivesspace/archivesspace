@@ -8,6 +8,7 @@
 <%= hidden_field_tag "id", @resource.id %>
 
 <fieldset>
+
   <% define_template("resource", jsonmodel_definition(:resource)) do |form| %>
 
     <section id="basic_information">
@@ -26,6 +27,7 @@
       <%= form.label_and_textfield "ead_id" %>
       <%= form.label_and_textfield "ead_location" %>
       <%= render :partial => "subjects/linker", :locals => { :form => form }%>
+      <%= render :partial => "accessions/linker", :locals => { :form => form }%>
 
     </section>
 
