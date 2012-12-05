@@ -1,3 +1,4 @@
+//= require jquery.sortable
 //= require jquery.tokeninput
 
 $(function() {
@@ -22,7 +23,8 @@ $(function() {
         multiplicity: $this.data("multiplicity") || "many",
         label: $this.data("label"),
         label_plural: $this.data("label_plural"),
-        modal_id: "linkerModalFor_"+$this.data("class")
+        modal_id: "linkerModalFor_"+$this.data("class"),
+        sortable: $this.data("sortable") === true
       };
 
       if (config.format_template && config.format_template.substring(0,2) != "${") {
@@ -167,6 +169,16 @@ $(function() {
         $this.tokenInput("clear");
       };
 
+
+      var enableSorting = function() {
+        $(".token-input-list", $linkerWrapper).sortable("destroy").sortable({
+          items: 'li.token-input-token'
+        });
+        $(".token-input-list", $linkerWrapper).off("sortupdate").on("sortupdate", function() {
+          $this.parents("form:first").triggerHandler("form-changed");
+        });
+      };
+
       var tokensForPrepopulation = function() {
         if ($this.data("multiplicity") === "one") {
           if ($.isEmptyObject($this.data("selected"))) {
@@ -216,11 +228,17 @@ $(function() {
             $this.parents("form:first").triggerHandler("form-changed");
           },
           onAdd:  function(item) {
+            enableSorting();
             $this.parents("form:first").triggerHandler("form-changed");
           }
         });
 
         $this.parent().addClass("multiplicity-"+config.multiplicity);
+
+        if (config.sortable && config.multiplicity == "many") {
+          enableSorting();
+          $linkerWrapper.addClass("sortable");
+        }
 
         addEventBindings();
       };

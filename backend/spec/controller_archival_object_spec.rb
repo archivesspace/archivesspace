@@ -182,4 +182,17 @@ describe 'Archival Object controller' do
     ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
   end
 
+
+  it "can store some notes and get them back" do
+    archival_object = create(:json_archival_object)
+
+    notes = build(:json_note_bibliography)
+
+    archival_object.notes = [notes.to_hash]
+    archival_object.save
+
+    JSONModel(:archival_object).find(archival_object.id)[:notes].first.should eq(notes.to_hash)
+  end
+
+
 end

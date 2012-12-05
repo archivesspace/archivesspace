@@ -215,7 +215,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     # Redispatch the current request to a different route handler.
     def redirect_internal(url)
-      call! env.merge("PATH_INFO" => url)
+      call env.merge("PATH_INFO" => url)
     end
 
 

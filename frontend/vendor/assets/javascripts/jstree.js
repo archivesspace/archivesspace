@@ -3672,13 +3672,19 @@
 						e.preventDefault();
 					} 
 				})
-				.bind("keydown", "esc", function (e) { 
-					$.vakata.context.hide(); 
-					e.preventDefault();
+				.bind("keydown", "esc", function (e) {
+          // ASPACE: only catch event if context menu is visible
+          if($.vakata.context.vis) {
+            $.vakata.context.hide();
+            e.preventDefault();
+          }
 				})
-				.bind("keydown", "space", function (e) { 
-					$.vakata.context.cnt.find(".vakata-hover").last().children("a").click();
-					e.preventDefault();
+				.bind("keydown", "space", function (e) {
+          // ASPACE: only catch event if context menu is active
+          if ($.vakata.context.cnt.find(".vakata-hover").length) {
+            $.vakata.context.cnt.find(".vakata-hover").last().children("a").click();
+            e.preventDefault();
+          }
 				});
 		}
 	});

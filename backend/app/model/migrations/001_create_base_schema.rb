@@ -157,11 +157,38 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
 
       Integer :repo_id, :null => false
+      Integer :accession_id, :null => true
       String :title, :null => false
 
       String :identifier
 
       String :language, :null => false
+
+      String :level, :null => false
+      String :other_level
+
+      Integer :publish
+      Integer :restrictions
+
+      TextField :repository_processing_note
+      TextField :container_summary
+
+      String :ead_id
+      String :ead_location
+
+      String :finding_aid_title
+      String :finding_aid_filing_title
+      String :finding_aid_date
+      String :finding_aid_author
+      String :finding_aid_description_rules
+      String :finding_aid_language
+      String :finding_aid_sponsor
+      TextField :finding_aid_edition_statement
+      TextField :finding_aid_series_statement
+      String :finding_aid_revision_date
+      TextField :finding_aid_revision_description
+      String :finding_aid_status
+      TextField :finding_aid_note
 
       BlobField :notes, :null => true
 
@@ -171,7 +198,9 @@ Sequel.migration do
 
     alter_table(:resource) do
       add_foreign_key([:repo_id], :repository, :key => :id)
+      add_foreign_key([:accession_id], :accession, :key => :id)
       add_unique_constraint([:repo_id, :identifier], :name => "resource_unique_identifier")
+      add_unique_constraint([:repo_id, :ead_id], :name => "resource_unique_ead_id")
     end
 
 
@@ -191,9 +220,13 @@ Sequel.migration do
       String :component_id, :null => true
 
       TextField :title, :null => true
-      String :level, :null => true
+
+      String :level, :null => false
+      String :other_level
 
       String :language, :null => true
+
+      BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false

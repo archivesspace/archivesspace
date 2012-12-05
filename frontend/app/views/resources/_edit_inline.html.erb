@@ -1,4 +1,4 @@
-<%= form_for @resource, :as => "resource", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @resource, :as => "resource", :url => {:action => :update, :id => @resource.id}, :html => {:class => 'form-horizontal', :id => "resource_form"} do |f| %>
   <%= form_context :resource, @resource.to_hash(true) do |form| %>
     <div class="row-fluid">
       <div class="span3">

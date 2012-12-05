@@ -32,6 +32,12 @@ fieldset {
   }
 }
 
+form .control-group.required {
+  .control-label {
+    font-weight: bold;
+  }
+}
+
 .control-group.active {
   border-radius: 4px;
   background-color: #fafcff;
@@ -304,8 +310,42 @@ section h3 {
       display: none;
     }
   }
+
+  .subrecord-form-inline {
+    margin-bottom: 8px;
+  }
 }
 
+ul.subrecord-form-list {
+  margin: 0;
+  > li {
+    list-style: none;
+    position: relative;
+  }
+  .sortable-placeholder {
+    border: 1px dashed #CCC;
+    margin: 10px 0;
+  }
+  .drag-handle {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    height: 30px;
+    width: 30px;
+    background-image: url(../../archivesspace/drag_handle_btn.png);
+    background-repeat: no-repeat;
+    cursor: move;
+
+    &.inline {
+      top: 0;
+    }
+  }
+
+  .sort-enabled > .subrecord-form-fields > .subrecord-form-heading,
+  .sort-enabled > .subrecord-form-inline {
+    padding-left: 40px;
+  }
+}
 
 .alert pre {
   background-color: transparent;

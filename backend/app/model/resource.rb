@@ -19,6 +19,27 @@ class Resource < Sequel::Model(:resource)
   set_model_scope :repository
 
 
+  def self.set_related_accession(json, opts)
+    opts["accession_id"] = nil
+
+    if json.related_accession
+      opts["accession_id"] = parse_reference(json.related_accession, opts)[:id]
+    end
+  end
+
+
+  def self.create_from_json(json, opts = {})
+    set_related_accession(json, opts)
+    super
+  end
+
+
+  def update_from_json(json, opts = {})
+    self.class.set_related_accession(json, opts)
+    super
+  end
+
+
   def link(opts)
     child = ArchivalObject.get_or_die(opts[:child])
     child.resource_id = self.id
@@ -29,6 +50,13 @@ class Resource < Sequel::Model(:resource)
 
   def children
     ArchivalObject.filter(:resource_id => self.id, :parent_id => nil).order(:position)
+  end
+
+
+  def self.sequel_to_jsonmodel(obj, type, opts = {})
+    json = super
+    json.related_accession = uri_for(:accession, obj.accession_id) if obj.accession_id
+    json
   end
 
 

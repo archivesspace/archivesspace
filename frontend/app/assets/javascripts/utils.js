@@ -40,23 +40,30 @@ $(function() {
 
 // add four part indentifier behaviour
 $(function() {
-  $("form").live("keyup", ".identifier-fields :input", function(event) {
-    var currentInputIndex = $(event.target).index();
-    $(event.target).parents(".identifier-fields:first").find(":input:eq("+(currentInputIndex+1)+")").each(function() {
-      if ($(event.target).val().length === 0 && $(this).val().length === 0) {
-        $(this).attr("disabled", "disabled");
-      } else {
-        $(this).removeAttr("disabled");
-      }
+  var initIdentifierFields = function() {
+    $("form:not(.navbar-form) .identifier-fields:not(.initialised)").on("keyup", ":input", function(event) {
+      $(this).addClass("initialised");
+      var currentInputIndex = $(event.target).index();
+      $(event.target).parents(".identifier-fields:first").find(":input:eq("+(currentInputIndex+1)+")").each(function() {
+        if ($(event.target).val().length === 0 && $(this).val().length === 0) {
+          $(this).attr("disabled", "disabled");
+        } else {
+          $(this).removeAttr("disabled");
+        }
+      });
     });
+  }
+  $(document).ajaxComplete(function() {
+    initIdentifierFields();
   });
+  initIdentifierFields();
 });
 
 
 // sidebar action
 $(function() {
   var bindSidebarEvents = function() {
-    $(this).on("click", ".nav a", function(event) {
+    $("#archivesSpaceSidebar .nav-list").on("click", "a", function(event) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -69,12 +76,15 @@ $(function() {
       });
     });
   };
+
   var initSidebar = function() {
     $("#archivesSpaceSidebar .nav-list:not(.initialised)").each(function() {
       $.proxy(bindSidebarEvents, this)();
       $(this).affix({
         offset: {
-          top: $("#archivesSpaceSidebar").offset().top,
+          top: function() {
+            return $("#archivesSpaceSidebar").offset().top;
+          },
           bottom: 100
         }
       });
@@ -84,18 +94,6 @@ $(function() {
 
   initSidebar();
 
-  // If the tree pane resizes, then we need to reset the offsets of the
-  // affixed sidebar.
-  $(window).bind("resize.tree", function() {
-    $("#archivesSpaceSidebar .nav-list.initialised").each(function() {
-      $(this).affix({
-        offset: {
-          top: $("#archivesSpaceSidebar").offset().top,
-          bottom: 100
-        }
-      });
-    });
-  });
   $(document).ajaxComplete(function() {
     initSidebar();
   });
@@ -251,6 +249,31 @@ AS.resetScrollSpy = function() {
     target: "#archivesSpaceSidebar",
     offset: 20
   });
+}
+
+// Sub Record Sorting
+AS.initSubRecordSorting = function($list) {
+  if ($list.length) {
+    $list.children("li").each(function() {
+      var $child = $(this);
+      if (!$child.hasClass("sort-enabled")) {
+        var $handle = $("<div class='drag-handle'></div>");
+        if ($list.parent().hasClass("controls")) {
+          $handle.addClass("inline");
+        }
+        $(this).append($handle);
+        $(this).addClass("sort-enabled");
+      }
+    });
+    $list.sortable('destroy').sortable({
+      items: 'li',
+      handle: ' > .drag-handle',
+      forcePlaceholderSize: true
+    });
+    $list.off("sortupdate").on("sortupdate", function() {
+      $("#object_container form").triggerHandler("form-changed");
+    });
+  }
 }
 
 // Add confirmation btn behaviour

@@ -117,7 +117,7 @@ class Selenium::WebDriver::Driver
           try += 1
           $sleep_time += 0.1
           sleep 0.1
-          puts "click_and_wait_until_gone: #{try} hits selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+          puts "click_and_wait_until_gone: #{try} hits selector '#{selector}'.  Retrying..." if (try % 5) == 0
         else
           raise Selenium::WebDriver::Error::NoSuchElementError.new(selector.inspect)
         end
@@ -210,7 +210,7 @@ class Selenium::WebDriver::Element
 
       $sleep_time += 0.1
       sleep 0.1
-      puts "find_element_with_text: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+      puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try % 10) == 0
     end
 
     return nil if noError
@@ -285,6 +285,16 @@ def selenium_init
   end
 
   @user = "testuser#{Time.now.to_i}_#{$$}"
+
+
+  if ENV['TRAVIS']
+    puts "Loading stable version of Firefox"
+    system('wget', 'http://aspace.hudmol.com/firefox-16.0.tar.bz2')
+    system('tar', 'xvjf', 'firefox-16.0.tar.bz2')
+    ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
+  end
+
+
   $driver = Selenium::WebDriver.for :firefox
 end
 

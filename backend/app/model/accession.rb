@@ -31,4 +31,24 @@ class Accession < Sequel::Model(:accession)
     val
   end
 
+
+  def tree
+    resources = Resource.filter(:accession_id => self.id).all.map {|resource|
+      {
+        :title => resource.title,
+        :id => resource.id,
+        :node_type => 'resource',
+        :record_uri => self.class.uri_for(:resource, resource.id)
+      }
+    }
+
+    {
+      :title => self.title,
+      :id => self.id,
+      :node_type => 'accession',
+      :children => resources,
+      :record_uri => self.class.uri_for(:accession, self.id)
+    }
+  end
+
 end

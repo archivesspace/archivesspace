@@ -78,4 +78,14 @@ describe 'ArchivalObject model' do
   end
 
 
+  it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided" do
+
+    opts = {:level => "otherlevel", :other_level => nil}
+
+    expect { ArchivalObject.create_from_json(
+                                build(:json_archival_object, opts),
+                                :repo_id => $repo_id)
+    }.to raise_error
+  end
+
 end

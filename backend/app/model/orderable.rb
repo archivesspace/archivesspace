@@ -130,10 +130,10 @@ module Orderable
       # the uniqueness check.
 
       if json[root_record_type]
-        opts["root_record_id"] = JSONModel::parse_reference(json[root_record_type], opts)[:id]
+        opts["root_record_id"] = parse_reference(json[root_record_type], opts)[:id]
 
         if json.parent
-          opts["parent_id"] = JSONModel::parse_reference(json.parent, opts)[:id]
+          opts["parent_id"] = parse_reference(json.parent, opts)[:id]
           opts["parent_name"] = opts["parent_id"].to_s
         else
           opts["parent_name"] = "(root)"

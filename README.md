@@ -9,7 +9,7 @@ server with the following commands:
 
      build/run dist
 
-     java -XX:MaxPermSize=128m -Dfile.encoding=UTF-8 -jar archivesspace.jar
+     java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -jar archivesspace.jar
 
 This will start the ArchivesSpace application running on:
 
@@ -21,7 +21,7 @@ and the backend web service running on:
 
 If you'd like to use different ports, you can run:
 
-    java -XX:MaxPermSize=128m -Dfile.encoding=UTF-8 -jar archivesspace.jar [frontend port] [backend port]
+    java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -jar archivesspace.jar [frontend port] [backend port]
 
 To set up the application, browse to http://localhost:8080/ and log in
 using the adminstrator account:
@@ -60,12 +60,12 @@ To explicitly specify the location of your configuration file, you can
 run the application with the 'aspace.config' system property set.  For
 example:
 
-     java -XX:MaxPermSize=128m -Dfile.encoding=UTF-8 -Daspace.config=/path/to/my/config.rb -jar archivesspace.jar
+     java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -Daspace.config=/path/to/my/config.rb -jar archivesspace.jar
 
 You can also override individual configuration options by setting the
 corresponding system property.  The command line:
 
-     java -XX:MaxPermSize=128m -Dfile.encoding=UTF-8 -Daspace.config.data_directory=/path/to/my/data -jar archivesspace.jar
+     java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -Daspace.config.data_directory=/path/to/my/data -jar archivesspace.jar
 
 is equivalent to adding a `config.rb` entry like:
 

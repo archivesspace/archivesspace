@@ -23,7 +23,7 @@ FactoryGirl.define do
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
   
   sequence(:name_rule) { JSONModel(:abstract_name).schema['properties']['rules']['enum'].sample }
-  sequence(:level) { %w(series subseries otherlevel)[rand(3)] }
+  sequence(:level) { %w(series subseries item)[rand(3)] }
   sequence(:term) { |n| "Term #{n}" }
   sequence(:term_type) { JSONModel(:term).schema['properties']['term_type']['enum'].sample }
 
@@ -67,6 +67,7 @@ FactoryGirl.define do
     title { generate(:generic_title) }
     id_0 { generate(:alphanumstr) }
     id_1 { generate(:alphanumstr) }
+    level 'collection'
     language 'eng'
   end
   
@@ -82,6 +83,7 @@ FactoryGirl.define do
     title { generate(:generic_title) }
     repo_id nil
     ref_id { generate(:alphanumstr) }
+    level 'item'
     root_record_id nil
     parent_id nil
   end
@@ -238,6 +240,7 @@ FactoryGirl.define do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent).to_hash] }
+    level 'collection'
     language 'eng'
   end
   
