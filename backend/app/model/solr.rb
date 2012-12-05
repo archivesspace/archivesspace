@@ -9,7 +9,7 @@ class Solr
   end
 
 
-  def self.search(query, page, page_size, record_type = nil, show_suppressed = false,
+  def self.search(query, page, page_size, record_types = nil, show_suppressed = false,
                   excluded_ids = [])
     url = solr_url
 
@@ -22,8 +22,9 @@ class Solr
       :rows => page_size,
     }.to_a
 
-    if record_type
-      opts << [:fq, "type:\"#{record_type}\""]
+    if record_types
+      query = record_types.map { |type| "\"#{type}\"" }.join(' OR ')
+      opts << [:fq, "type:(#{query})"]
     end
 
     if !show_suppressed

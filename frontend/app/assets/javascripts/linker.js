@@ -244,7 +244,7 @@ $(function() {
               ajax_params.data["exclude[]"] = $this.tokenInput("get").map(function(o) {return o.id});
             }
             if (config.types && config.types.length) {
-              ajax_params.data["type"] = config.types.join(",");
+              ajax_params.data["type"] = config.types;
             }
 
             return (q+"*").toLowerCase();

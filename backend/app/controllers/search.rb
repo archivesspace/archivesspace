@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id],
             ["q", String, "A search query string"],
             ["type",
-             String,
+             [String],
              "The record type to search (defaults to all types if not specified)",
              :optional => true],
             ["exclude",
