@@ -49,9 +49,23 @@ module ASpaceImport
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       
       if @opts[:dry]
-        dry_response = Net::HTTPResponse.new(1.0, 200, "OK")
+        # dry_response = Net::HTTPResponse.new(1.0, 200, "OK")
         
-        dry_response
+        
+        res_body = "{\"saved\":{"
+        batch.each_with_index do |hsh, i|
+          res_body << "," unless i == 0
+          res_body << "\"#{hsh['uri']}\":\"#{hsh['uri']}\""
+        end
+        res_body << "}}"
+        
+        res_body
+        
+        # puts "RES #{res_body.inspect}"
+        # j = JSON.parse(res_body)
+        # puts "JSON #{j.inspect}"
+        # dry_response.body = res_body
+        # dry_response
       else
         response = JSONModel::HTTP.post_json(url, batch_object.to_json(:max_nesting => false))
 
@@ -119,18 +133,19 @@ module ASpaceImport
 
       self[0...-1].reverse.each do |qdobj|
       
+
         # Set Links FROM popped object TO other objects in the queue
-        self.last.receivers.for(qdobj.class.xpath, qdobj.depth) do |r|  
+        self.last.receivers.for_obj(qdobj) do |r|  
           r.receive(qdobj)
         end
+
         # Set Links TO the popped object FROM others in the queue
-        qdobj.receivers.for(self.last.class.xpath, self.last.depth) do |r|
+
+        qdobj.receivers.for_obj(self.last) do |r|
           r.receive(self.last)
-        end          
+        end
+         
       end
-      
-      # Set Default properties
-      self.last.set_default_properties
       
       # If the object has a uri, send it to the POST batch; otherwise
       # it's an inline record.
@@ -154,9 +169,9 @@ module ASpaceImport
     end
     
     
-    def for(*nodeargs)  
+    def for_node(*nodeargs)  
       self.reverse.each do |obj|        
-        obj.receivers.for(*nodeargs) { |r| yield r }
+        obj.receivers.for_node(*nodeargs) { |r| yield r }
       end
     end
     

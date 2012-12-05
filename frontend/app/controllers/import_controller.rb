@@ -61,11 +61,10 @@ class ImportController < ApplicationController
                :crosswalk => 'ead',
                :input_file => source_file.path}
     
-    i = ASpaceImport::Importer.create_importer(options)
+    i = ASpaceImport::Importer.create_importer(options)    
     i.run
     
     [i.report_summary, i.report]
-    # i.report_summary
   
   end
     

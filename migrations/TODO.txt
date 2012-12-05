@@ -1,17 +1,9 @@
-- Add rescued JSONValidation Exceptions to the report, send to rails flash
-
-- hook up agents to archival objects and resources on import
-
-- create helper methods to render reports and other messages
-	appropriate for context (HTML, CLI, etc.)
-	
-- address problem of circular waiting among json objects
-	- write the test (a -b -c)
-	- http://en.wikipedia.org/wiki/Dependency_graph
-	- http://en.wikipedia.org/wiki/Cycle_detection_(graph_theory)
 
 - validate XML files against schema (using libxml)
 	- where to do this?
+	- pending nokogiri talk query
+
+STALE:
 
 - class level validator for options?
 	- ensure the backend knows about the vocab, repo
@@ -19,11 +11,7 @@
 	- ensure the crosswalk and the source file match
 	- etc.
 
-- option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
-
-- revisit allow-failures
-	
-- change 'path' to 'key' in import.rb CLI for crosswalk option
+- ? option to create new vocabs based on incoming subject attributes ("lcsh", etc.)
 
 
 
