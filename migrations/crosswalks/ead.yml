@@ -110,7 +110,7 @@ entities:
 
       level:
         xpath: ["@level"]
-        default: "otherlevel"
+        default: "item"
         
       linked_agents:
         xpath: ["child::*/child::*/child::persname", "child::*/child::*/child::corpname"]
