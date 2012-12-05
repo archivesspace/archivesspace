@@ -26,6 +26,9 @@ entities:
 
       language:
         default: "eng"
+        
+      level:
+        default: "collection"
 
       title: 
         xpath: ["child::*/child::*/child::unittitle/text()"]
@@ -107,6 +110,7 @@ entities:
 
       level:
         xpath: ["@level"]
+        default: "otherlevel"
         
       linked_agents:
         xpath: ["child::*/child::*/child::persname", "child::*/child::*/child::corpname"]
