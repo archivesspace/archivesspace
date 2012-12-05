@@ -16,6 +16,7 @@ $(function() {
       var config = {
         url: $this.data("url"),
         format_template: $this.data("format_template"),
+        format_template_id: $this.data("format_template_id"),
         format_property: $this.data("format_property"),
         path: $this.data("path"),
         name: $this.data("name"),
@@ -47,6 +48,8 @@ $(function() {
       var formattedNameForJSON = function(json) {
         if (config.format_template) {
           return AS.quickTemplate(config.format_template, json);
+        } else if (config.format_template_id) {
+          return $(AS.renderTemplate(config.format_template_id, json)).html();
         } else if (config.format_property) {
           return json[config.format_property];
         }
@@ -140,10 +143,14 @@ $(function() {
         $.each(searchData.results, function(index, obj) {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
+            var json = obj;
+            if (obj.hasOwnProperty("json")) {
+              json = JSON.parse(obj.json);
+            }
             formattedResults.push({
-              name: formattedNameForJSON(obj),
+              name: formattedNameForJSON(json),
               id: obj.id,
-              json: obj
+              json: json
             });
           }
         });
