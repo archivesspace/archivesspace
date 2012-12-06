@@ -33,7 +33,9 @@ class AccessionsController < ApplicationController
     handle_crud(:instance => :accession,
                 :model => Accession,
                 :on_invalid => ->(){ render action: "new" },
-                :on_valid => ->(id){ redirect_to(:controller => :accessions,
+                :on_valid => ->(id){
+                    flash[:success] = "Accession Created" 
+                    redirect_to(:controller => :accessions,
                                                  :action => :edit,
                                                  :id => id) })
   end
@@ -47,6 +49,7 @@ class AccessionsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id){
+                  flash[:success] = "Accession Saved"
                   return render :partial => "accessions/edit_inline" if params[:inline]
                   redirect_to :controller => :accessions, :action => :show, :id => id
                 })

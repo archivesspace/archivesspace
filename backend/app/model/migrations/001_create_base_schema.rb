@@ -404,16 +404,22 @@ Sequel.migration do
       add_index([:vocab_id, :term, :term_type], :unique => true)
     end
 
+    # Create subject join tables
+    [:term, :archival_object, :resource, :accession, :digital_object, :digital_object_component].each do |linked_table|
+      table = "subject_#{linked_table}".intern
 
-    create_join_table({:subject_id => :subject, :term_id => :term}, :name => "subject_term")
-    create_join_table({:subject_id => :subject, :archival_object_id => :archival_object}, :name => "subject_archival_object")
-    create_join_table({:subject_id => :subject, :resource_id => :resource}, :name => "subject_resource")
-    create_join_table({:subject_id => :subject, :accession_id => :accession}, :name => "subject_accession")
-    create_join_table({:subject_id => :subject, :digital_object_id => :digital_object}, :name => "subject_digital_object")
-    create_join_table({:subject_id => :subject, :digital_object_component_id => :digital_object_component},
-                      :name => "subject_digital_object_component",
-                      :index_options => { :name => 's_d_o_c_s_id_d_o_c_id_index'})
+      create_table(table) do
+        primary_key :id
 
+        Integer :subject_id, :null => false
+        Integer "#{linked_table}_id".intern, :null => false
+      end
+
+      alter_table(table) do
+        add_foreign_key([:subject_id], :subject, :key => :id)
+        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
+      end
+    end
 
     create_table(:agent_person) do
       primary_key :id
