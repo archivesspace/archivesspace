@@ -1102,9 +1102,9 @@ en:
       plural: Subjects
   user:
     username: Username
-    name: Your full name
+    name: Full name
     password: Password
-    confirm_password: Confirm your password
+    confirm_password: Confirm password
   collection_management: &collection_management_attributes
     cataloged_note: Cataloged note
     processing_hours_per_foot_estimate: Processing hrs/ft estimate
