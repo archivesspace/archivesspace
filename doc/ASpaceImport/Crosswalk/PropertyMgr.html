@@ -157,7 +157,7 @@ the parsing context into which the reciever will be yielded)</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for-instance_method" title="#for (instance method)">- (Object) <strong>for</strong>(*nodeargs) </a>
+      <a href="#for_node-instance_method" title="#for_node (instance method)">- (Object) <strong>for_node</strong>(*nodeargs) </a>
     
 
     
@@ -171,7 +171,33 @@ the parsing context into which the reciever will be yielded)</p>
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Given *nodeargs, yield property receivers
+that will take data from the parsing context
+and apply it to the JSON object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#for_obj-instance_method" title="#for_obj (instance method)">- (Object) <strong>for_obj</strong>(json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Generate receivers for another json object
+parsed earilier or later.</p>
 </div></span>
   
 </li>
@@ -233,29 +259,27 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135</pre>
+169
+170
+171
+172
+173
+174
+175
+176
+177</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 169</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
   <span class='ivar'>@json</span> <span class='op'>=</span> <span class='id identifier rubyid_json'>json</span>
-  <span class='ivar'>@mapped_props</span> <span class='op'>=</span> <span class='const'>ASpaceImport</span><span class='op'>::</span><span class='const'>Crosswalk</span><span class='op'>::</span><span class='id identifier rubyid_walk'>walk</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>entities</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='ivar'>@json</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_record_type'>record_type</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>properties</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
   <span class='ivar'>@depth</span> <span class='op'>=</span> <span class='ivar'>@json</span><span class='period'>.</span><span class='id identifier rubyid_depth'>depth</span>
   <span class='ivar'>@receivers</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  
-  <span class='ivar'>@mapped_props</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_defn'>defn</span><span class='op'>|</span>
-    <span class='ivar'>@receivers</span><span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'>ASpaceImport</span><span class='op'>::</span><span class='const'>Crosswalk</span><span class='op'>::</span><span class='const'>PropertyReceiver</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@json</span><span class='comma'>,</span> <span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_defn'>defn</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>        
+
+  <span class='ivar'>@json</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_receivers'>receivers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='op'>|</span>
+    <span class='ivar'>@receivers</span><span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@json</span><span class='rparen'>)</span>
+  <span class='kw'>end</span> 
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -284,12 +308,12 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-137
-138
-139</pre>
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
   <span class='ivar'>@receivers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id identifier rubyid_r'>r</span> <span class='rbrace'>}</span>                  
@@ -300,80 +324,105 @@ the parsing context into which the reciever will be yielded)</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="for-instance_method">
+  <h3 class="signature " id="for_node-instance_method">
   
-    - (<tt>Object</tt>) <strong>for</strong>(*nodeargs) 
-  
-
+    - (<tt>Object</tt>) <strong>for_node</strong>(*nodeargs) 
   
 
   
-</h3><table class="source_code">
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Given *nodeargs, yield property receivers
+that will take data from the parsing context
+and apply it to the JSON object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169</pre>
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 187</span>
 
-<span class='kw'>def</span> <span class='kw'>for</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_nodeargs'>nodeargs</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_nname'>nname</span><span class='comma'>,</span> <span class='id identifier rubyid_ndepth'>ndepth</span><span class='comma'>,</span> <span class='id identifier rubyid_ntype'>ntype</span> <span class='op'>=</span> <span class='op'>*</span><span class='id identifier rubyid_nodeargs'>nodeargs</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_ndepth'>ndepth</span>
-    <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='id identifier rubyid_ndepth'>ndepth</span> <span class='op'>-</span> <span class='ivar'>@depth</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='int'>0</span>
-  <span class='kw'>end</span>                 
-  
-  <span class='kw'>if</span> <span class='id identifier rubyid_nname'>nname</span>
-  
-    <span class='id identifier rubyid_match_string'>match_string</span> <span class='op'>=</span> <span class='const'>ASpaceImport</span><span class='op'>::</span><span class='const'>Crosswalk</span><span class='op'>::</span><span class='id identifier rubyid_regexify_node'>regexify_node</span><span class='lparen'>(</span><span class='id identifier rubyid_nname'>nname</span><span class='comma'>,</span> <span class='id identifier rubyid_offset'>offset</span><span class='rparen'>)</span>
-  
-    <span class='ivar'>@mapped_props</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_defn'>defn</span><span class='op'>|</span>
-      
-      <span class='comment'># No need to re-set 
-</span>      <span class='kw'>next</span> <span class='kw'>if</span> <span class='ivar'>@json</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_p'>p</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='ivar'>@json</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>properties</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>type</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>string</span><span class='tstring_end'>'</span></span>
- 
-      <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_defn'>defn</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>xpath</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
- 
-      <span class='kw'>if</span> <span class='id identifier rubyid_defn'>defn</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>xpath</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_xp'>xp</span><span class='op'>|</span> <span class='id identifier rubyid_xp'>xp</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='id identifier rubyid_match_string'>match_string</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_for_node'>for_node</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_nodeargs'>nodeargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_xpath'>xpath</span><span class='comma'>,</span> <span class='id identifier rubyid_depth'>depth</span><span class='comma'>,</span> <span class='id identifier rubyid_ntype'>ntype</span> <span class='op'>=</span> <span class='op'>*</span><span class='id identifier rubyid_nodeargs'>nodeargs</span>
 
-        <span class='ivar'>@receivers</span><span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'>ASpaceImport</span><span class='op'>::</span><span class='const'>Crosswalk</span><span class='op'>::</span><span class='const'>PropertyReceiver</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@json</span><span class='comma'>,</span> <span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_defn'>defn</span><span class='rparen'>)</span>
-      
-        <span class='kw'>yield</span> <span class='ivar'>@receivers</span><span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='rbracket'>]</span>
-      
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>         
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_xpath'>xpath</span>
+
+  <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='id identifier rubyid_depth'>depth</span> <span class='op'>?</span> <span class='id identifier rubyid_depth'>depth</span> <span class='op'>-</span> <span class='ivar'>@depth</span> <span class='op'>:</span> <span class='int'>0</span> 
+  <span class='id identifier rubyid_xpath_regex'>xpath_regex</span> <span class='op'>=</span> <span class='const'>ASpaceImport</span><span class='op'>::</span><span class='const'>Crosswalk</span><span class='op'>::</span><span class='id identifier rubyid_regexify_xpath'>regexify_xpath</span><span class='lparen'>(</span><span class='id identifier rubyid_xpath'>xpath</span><span class='comma'>,</span> <span class='id identifier rubyid_offset'>offset</span><span class='rparen'>)</span> 
+
+  <span class='ivar'>@receivers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='op'>|</span>          
+    <span class='kw'>yield</span> <span class='id identifier rubyid_r'>r</span> <span class='kw'>if</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_receives_node?'>receives_node?</span> <span class='id identifier rubyid_xpath_regex'>xpath_regex</span>
+  <span class='kw'>end</span> 
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="for_obj-instance_method">
+  
+    - (<tt>Object</tt>) <strong>for_obj</strong>(json) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Generate receivers for another json object
+parsed earilier or later.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+203
+204
+205
+206
+207
+208</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 203</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_for_obj'>for_obj</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span>
+
+  <span class='ivar'>@receivers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='op'>|</span>
+    <span class='kw'>yield</span> <span class='id identifier rubyid_r'>r</span> <span class='kw'>if</span> <span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_receives_obj?'>receives_obj?</span> <span class='id identifier rubyid_json'>json</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -386,7 +435,7 @@ the parsing context into which the reciever will be yielded)</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:19 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:56:00 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

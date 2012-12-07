@@ -273,7 +273,8 @@
 18
 19
 20
-21</pre>
+21
+22</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'backend/app/controllers/users.rb', line 8</span>
@@ -282,6 +283,7 @@
 </span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Create a local user</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>password</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>String</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The user's password</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
           <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>user</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:user</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The user to create</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:body</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_  .preconditions'>  .preconditions</span><span class='lparen'>(</span><span class='id identifier rubyid_proc'>proc</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:create_user</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>AnonymousUser</span><span class='tstring_end'>&quot;</span></span> <span class='op'>==</span> <span class='id identifier rubyid_current_user'>current_user</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='symbol'>:created</span><span class='rbracket'>]</span><span class='comma'>,</span>
            <span class='lbracket'>[</span><span class='int'>400</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='rparen'>)</span> \
 <span class='kw'>do</span>
@@ -308,7 +310,6 @@
             <pre class="lines">
 
 
-41
 42
 43
 44
@@ -327,15 +328,16 @@
 57
 58
 59
-60</pre>
+60
+61</pre>
           </td>
           <td>
-            <pre class="code"><span class="info file"># File 'backend/app/controllers/users.rb', line 41</span>
+            <pre class="code"><span class="info file"># File 'backend/app/controllers/users.rb', line 42</span>
 
 <span class='const'>Endpoint</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/users/:username/login</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .description'>  .description</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Log in</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>username</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Your username</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
-          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>password</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Your password</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+</span><span class='id identifier rubyid_  .params'>  .params</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>username</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>String</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Your username</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+          <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>password</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>String</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Your password</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
           <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>expiring</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>BooleanParam</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true if the created session should expire</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
            <span class='symbol'>:default</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>
 </span><span class='id identifier rubyid_  .returns'>  .returns</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Login accepted</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -343,9 +345,9 @@
 <span class='kw'>do</span>
   <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
 
-  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>AuthenticationManager</span><span class='period'>.</span><span class='id identifier rubyid_authenticate'>authenticate</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span> <span class='kw'>and</span> <span class='const'>DBAuth</span><span class='period'>.</span><span class='id identifier rubyid_login'>login</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span>
     <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='id identifier rubyid_create_session_for'>create_session_for</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:expiring</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_json_response'>json_response</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:session</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:permissions</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_permissions'>permissions</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
@@ -1661,6 +1663,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#loaded_hook-class_method" title="loaded_hook (class method)">+ (Object) <strong>loaded_hook</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#set_up_base_permissions-class_method" title="set_up_base_permissions (class method)">+ (Object) <strong>set_up_base_permissions</strong> </a>
     
 
@@ -1988,10 +2013,6 @@
       <pre class="lines">
 
 
-61
-62
-63
-64
 65
 66
 67
@@ -2012,10 +2033,14 @@
 82
 83
 84
-85</pre>
+85
+86
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_search_user'>create_search_user</span>
 
@@ -2041,6 +2066,36 @@
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="loaded_hook-class_method">
+  
+    + (<tt>Object</tt>) <strong>loaded_hook</strong>(&amp;block) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_loaded_hook'>loaded_hook</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@loaded_hooks</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_block'>block</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2117,7 +2172,11 @@
 55
 56
 57
-58</pre>
+58
+59
+60
+61
+62</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 3</span>
@@ -2158,7 +2217,11 @@
 
 
   <span class='comment'>## Standard permissions
-</span>  <span class='const'>Permission</span><span class='period'>.</span><span class='id identifier rubyid_define'>define</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>create_repository</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+</span>  <span class='const'>Permission</span><span class='period'>.</span><span class='id identifier rubyid_define'>define</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>create_user</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The ability to create a new user account while logged in</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                    <span class='symbol'>:level</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>global</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  
+  <span class='const'>Permission</span><span class='period'>.</span><span class='id identifier rubyid_define'>define</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>create_repository</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
                     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The ability to create new repositories</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
                     <span class='symbol'>:level</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>global</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
@@ -2246,12 +2309,12 @@
       <pre class="lines">
 
 
-200
-201
-202</pre>
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_current_user'>current_user</span>
   <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='symbol'>:aspace_user</span><span class='rbracket'>]</span>
@@ -2318,23 +2381,23 @@
       <pre class="lines">
 
 
-134
-135
-136
-137
-138
-139
-140
-141
-142
 143
 144
 145
 146
-147</pre>
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_handle_exception!'>handle_exception!</span><span class='lparen'>(</span><span class='id identifier rubyid_boom'>boom</span><span class='rparen'>)</span>
   <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>sinatra.error</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_boom'>boom</span>
@@ -2542,12 +2605,12 @@
       <pre class="lines">
 
 
-195
-196
-197</pre>
+204
+205
+206</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 195</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 204</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_session'>session</span>
   <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='symbol'>:aspace_session</span><span class='rbracket'>]</span>
@@ -2602,7 +2665,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:03 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:52 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

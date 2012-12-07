@@ -96,7 +96,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="AutoIdGenerator/Mixin.html" title="AutoIdGenerator::Mixin (module)">AutoIdGenerator::Mixin</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Instances.html" title="Instances (module)">Instances</a></span>, <span class='object_link'><a href="Orderable.html" title="Orderable (module)">Orderable</a></span>, <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="AutoIdGenerator/Mixin.html" title="AutoIdGenerator::Mixin (module)">AutoIdGenerator::Mixin</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="Instances.html" title="Instances (module)">Instances</a></span>, <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span>, <span class='object_link'><a href="Orderable.html" title="Orderable (module)">Orderable</a></span>, <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span></dd>
       
     
   
@@ -181,6 +181,17 @@
     </ul>
   
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Notes.html#included-class_method" title="Notes.included (method)">included</a></span>, <span class='object_link'><a href="Notes.html#update_from_json-instance_method" title="Notes#update_from_json (method)">#update_from_json</a></span></p>
 
   
   
@@ -323,13 +334,13 @@
       <pre class="lines">
 
 
-32
-33
 34
-35</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_records_matching'>records_matching</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_max'>max</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_this_repo'>this_repo</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_like'>like</span><span class='lparen'>(</span><span class='const'>Sequel</span><span class='period'>.</span><span class='id identifier rubyid_function'>function</span><span class='lparen'>(</span><span class='symbol'>:lower</span><span class='comma'>,</span> <span class='symbol'>:title</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -361,15 +372,15 @@
       <pre class="lines">
 
 
-24
-25
 26
 27
 28
-29</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/archival_object.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
   <span class='id identifier rubyid_validates_unique'>validates_unique</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:root_record_id</span><span class='comma'>,</span> <span class='symbol'>:ref_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -387,7 +398,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:11 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:56 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

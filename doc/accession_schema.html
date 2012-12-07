@@ -107,6 +107,8 @@
 			
 				<h3 class="signature"> - (array (JSONModel(:deaccession) object)) <strong>deaccessions</strong></h3>
 			
+				<h3 class="signature"> - (JSONModel(:resource) uri) <strong>related_resource</strong></h3>
+			
 				<h3 class="signature"> - (boolean) <strong>suppressed</strong></h3>
 			
 				<h3 class="signature"> - (array (object)) <strong>linked_agents</strong></h3>
@@ -168,7 +170,10 @@
 47
 48
 49
-50</pre>
+50
+51
+52
+53</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/accession.rb', line 1</span>
@@ -193,6 +198,7 @@
     &quot;external_documents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:external_document) object&quot;}},
     &quot;rights_statements&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:rights_statement) object&quot;}},
     &quot;deaccessions&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:deaccession) object&quot;}},
+     &quot;related_resource&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:resource) uri&quot;},
      &quot;suppressed&quot; =&gt; {&quot;type&quot; =&gt; &quot;boolean&quot;},
      &quot;linked_agents&quot; =&gt; {
       &quot;type&quot; =&gt; &quot;array&quot;,
@@ -206,7 +212,8 @@
            &quot;ref&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:agent_corporate_entity) uri&quot;},
                                {&quot;type&quot; =&gt; &quot;JSONModel(:agent_family) uri&quot;},
                                {&quot;type&quot; =&gt; &quot;JSONModel(:agent_person) uri&quot;},
-                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_software) uri&quot;}]}
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_software) uri&quot;}],
+                    &quot;ifmissing&quot; =&gt; &quot;error&quot;}
         }
       }
     },
@@ -225,7 +232,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:19 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:56:00 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

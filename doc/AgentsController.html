@@ -423,16 +423,16 @@
       <pre class="lines">
 
 
-52
-53
-54
-55
-56
 57
-58</pre>
+58
+59
+60
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 57</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_list'>list</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
@@ -537,7 +537,12 @@
 47
 48
 49
-50</pre>
+50
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 40</span>
@@ -547,6 +552,11 @@
               <span class='symbol'>:model</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='ivar'>@agent_type</span><span class='rparen'>)</span><span class='comma'>,</span>
               <span class='symbol'>:obj</span> <span class='op'>=&gt;</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='ivar'>@agent_type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
               <span class='symbol'>:on_invalid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='tlambeg'>{</span>
+
+                <span class='kw'>if</span> <span class='ivar'>@agent</span><span class='period'>.</span><span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+                  <span class='ivar'>@agent</span><span class='period'>.</span><span class='id identifier rubyid_names'>names</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='ivar'>@name_type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid__always_valid!'>_always_valid!</span><span class='rbracket'>]</span>
+                <span class='kw'>end</span>
+
                 <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='symbol'>:edit</span>
               <span class='rbrace'>}</span><span class='comma'>,</span>
               <span class='symbol'>:on_valid</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='tlambeg'>{</span>
@@ -563,7 +573,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:14 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:57 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

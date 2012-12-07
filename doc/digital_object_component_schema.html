@@ -89,8 +89,6 @@
 			
 				<h3 class="signature"> - (string) <strong>language</strong></h3>
 			
-				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])) <strong>notes</strong></h3>
-			
 				<h3 class="signature"> - (JSONModel(:digital_object_component) uri) <strong>parent</strong></h3>
 			
 				<h3 class="signature"> - (JSONModel(:digital_object) uri) <strong>digital_object</strong></h3>
@@ -104,6 +102,8 @@
 				<h3 class="signature"> - (array (JSONModel(:date) object)) <strong>dates</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:external_document) object)) <strong>external_documents</strong></h3>
+			
+				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])) <strong>notes</strong></h3>
 			
 				<h3 class="signature"> - (array (object)) <strong>linked_agents</strong></h3>
 			
@@ -165,7 +165,8 @@
 48
 49
 50
-51</pre>
+51
+52</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/digital_object_component.rb', line 1</span>
@@ -180,14 +181,7 @@
     &quot;publish&quot; =&gt; {&quot;type&quot; =&gt; &quot;boolean&quot;, &quot;default&quot; =&gt; true},
     &quot;label&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
     &quot;title&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
-    &quot;language&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
-    &quot;notes&quot; =&gt; {
-      &quot;type&quot; =&gt; &quot;array&quot;,
-      &quot;items&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:note_bibliography) object&quot;},
-                             {&quot;type&quot; =&gt; &quot;JSONModel(:note_index) object&quot;},
-                             {&quot;type&quot; =&gt; &quot;JSONModel(:note_multipart) object&quot;},
-                             {&quot;type&quot; =&gt; &quot;JSONModel(:note_singlepart) object&quot;}]},
-    },
+     &quot;language&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;enum&quot; =&gt; [&quot;aar&quot;,&quot;abk&quot;,&quot;ace&quot;,&quot;ach&quot;,&quot;ada&quot;,&quot;ady&quot;,&quot;afa&quot;,&quot;afh&quot;,&quot;afr&quot;,&quot;ain&quot;,&quot;aka&quot;,&quot;akk&quot;,&quot;alb&quot;,&quot;ale&quot;,&quot;alg&quot;,&quot;alt&quot;,&quot;amh&quot;,&quot;ang&quot;,&quot;anp&quot;,&quot;apa&quot;,&quot;ara&quot;,&quot;arc&quot;,&quot;arg&quot;,&quot;arm&quot;,&quot;arn&quot;,&quot;arp&quot;,&quot;art&quot;,&quot;arw&quot;,&quot;asm&quot;,&quot;ast&quot;,&quot;ath&quot;,&quot;aus&quot;,&quot;ava&quot;,&quot;ave&quot;,&quot;awa&quot;,&quot;aym&quot;,&quot;aze&quot;,&quot;bad&quot;,&quot;bai&quot;,&quot;bak&quot;,&quot;bal&quot;,&quot;bam&quot;,&quot;ban&quot;,&quot;baq&quot;,&quot;bas&quot;,&quot;bat&quot;,&quot;bej&quot;,&quot;bel&quot;,&quot;bem&quot;,&quot;ben&quot;,&quot;ber&quot;,&quot;bho&quot;,&quot;bih&quot;,&quot;bik&quot;,&quot;bin&quot;,&quot;bis&quot;,&quot;bla&quot;,&quot;bnt&quot;,&quot;bos&quot;,&quot;bra&quot;,&quot;bre&quot;,&quot;btk&quot;,&quot;bua&quot;,&quot;bug&quot;,&quot;bul&quot;,&quot;bur&quot;,&quot;byn&quot;,&quot;cad&quot;,&quot;cai&quot;,&quot;car&quot;,&quot;cat&quot;,&quot;cau&quot;,&quot;ceb&quot;,&quot;cel&quot;,&quot;cha&quot;,&quot;chb&quot;,&quot;che&quot;,&quot;chg&quot;,&quot;chi&quot;,&quot;chk&quot;,&quot;chm&quot;,&quot;chn&quot;,&quot;cho&quot;,&quot;chp&quot;,&quot;chr&quot;,&quot;chu&quot;,&quot;chv&quot;,&quot;chy&quot;,&quot;cmc&quot;,&quot;cop&quot;,&quot;cor&quot;,&quot;cos&quot;,&quot;cpe&quot;,&quot;cpf&quot;,&quot;cpp&quot;,&quot;cre&quot;,&quot;crh&quot;,&quot;crp&quot;,&quot;csb&quot;,&quot;cus&quot;,&quot;cze&quot;,&quot;dak&quot;,&quot;dan&quot;,&quot;dar&quot;,&quot;day&quot;,&quot;del&quot;,&quot;den&quot;,&quot;dgr&quot;,&quot;din&quot;,&quot;div&quot;,&quot;doi&quot;,&quot;dra&quot;,&quot;dsb&quot;,&quot;dua&quot;,&quot;dum&quot;,&quot;dut&quot;,&quot;dyu&quot;,&quot;dzo&quot;,&quot;efi&quot;,&quot;egy&quot;,&quot;eka&quot;,&quot;elx&quot;,&quot;eng&quot;,&quot;enm&quot;,&quot;epo&quot;,&quot;est&quot;,&quot;ewe&quot;,&quot;ewo&quot;,&quot;fan&quot;,&quot;fao&quot;,&quot;fat&quot;,&quot;fij&quot;,&quot;fil&quot;,&quot;fin&quot;,&quot;fiu&quot;,&quot;fon&quot;,&quot;fre&quot;,&quot;frm&quot;,&quot;fro&quot;,&quot;frr&quot;,&quot;frs&quot;,&quot;fry&quot;,&quot;ful&quot;,&quot;fur&quot;,&quot;gaa&quot;,&quot;gay&quot;,&quot;gba&quot;,&quot;gem&quot;,&quot;geo&quot;,&quot;ger&quot;,&quot;gez&quot;,&quot;gil&quot;,&quot;gla&quot;,&quot;gle&quot;,&quot;glg&quot;,&quot;glv&quot;,&quot;gmh&quot;,&quot;goh&quot;,&quot;gon&quot;,&quot;gor&quot;,&quot;got&quot;,&quot;grb&quot;,&quot;grc&quot;,&quot;gre&quot;,&quot;grn&quot;,&quot;gsw&quot;,&quot;guj&quot;,&quot;gwi&quot;,&quot;hai&quot;,&quot;hat&quot;,&quot;hau&quot;,&quot;haw&quot;,&quot;heb&quot;,&quot;her&quot;,&quot;hil&quot;,&quot;him&quot;,&quot;hin&quot;,&quot;hit&quot;,&quot;hmn&quot;,&quot;hmo&quot;,&quot;hrv&quot;,&quot;hsb&quot;,&quot;hun&quot;,&quot;hup&quot;,&quot;iba&quot;,&quot;ibo&quot;,&quot;ice&quot;,&quot;ido&quot;,&quot;iii&quot;,&quot;ijo&quot;,&quot;iku&quot;,&quot;ile&quot;,&quot;ilo&quot;,&quot;ina&quot;,&quot;inc&quot;,&quot;ind&quot;,&quot;ine&quot;,&quot;inh&quot;,&quot;ipk&quot;,&quot;ira&quot;,&quot;iro&quot;,&quot;ita&quot;,&quot;jav&quot;,&quot;jbo&quot;,&quot;jpn&quot;,&quot;jpr&quot;,&quot;jrb&quot;,&quot;kaa&quot;,&quot;kab&quot;,&quot;kac&quot;,&quot;kal&quot;,&quot;kam&quot;,&quot;kan&quot;,&quot;kar&quot;,&quot;kas&quot;,&quot;kau&quot;,&quot;kaw&quot;,&quot;kaz&quot;,&quot;kbd&quot;,&quot;kha&quot;,&quot;khi&quot;,&quot;khm&quot;,&quot;kho&quot;,&quot;kik&quot;,&quot;kin&quot;,&quot;kir&quot;,&quot;kmb&quot;,&quot;kok&quot;,&quot;kom&quot;,&quot;kon&quot;,&quot;kor&quot;,&quot;kos&quot;,&quot;kpe&quot;,&quot;krc&quot;,&quot;krl&quot;,&quot;kro&quot;,&quot;kru&quot;,&quot;kua&quot;,&quot;kum&quot;,&quot;kur&quot;,&quot;kut&quot;,&quot;lad&quot;,&quot;lah&quot;,&quot;lam&quot;,&quot;lao&quot;,&quot;lat&quot;,&quot;lav&quot;,&quot;lez&quot;,&quot;lim&quot;,&quot;lin&quot;,&quot;lit&quot;,&quot;lol&quot;,&quot;loz&quot;,&quot;ltz&quot;,&quot;lua&quot;,&quot;lub&quot;,&quot;lug&quot;,&quot;lui&quot;,&quot;lun&quot;,&quot;luo&quot;,&quot;lus&quot;,&quot;mac&quot;,&quot;mad&quot;,&quot;mag&quot;,&quot;mah&quot;,&quot;mai&quot;,&quot;mak&quot;,&quot;mal&quot;,&quot;man&quot;,&quot;mao&quot;,&quot;map&quot;,&quot;mar&quot;,&quot;mas&quot;,&quot;may&quot;,&quot;mdf&quot;,&quot;mdr&quot;,&quot;men&quot;,&quot;mga&quot;,&quot;mic&quot;,&quot;min&quot;,&quot;mis&quot;,&quot;mkh&quot;,&quot;mlg&quot;,&quot;mlt&quot;,&quot;mnc&quot;,&quot;mni&quot;,&quot;mno&quot;,&quot;moh&quot;,&quot;mon&quot;,&quot;mos&quot;,&quot;mul&quot;,&quot;mun&quot;,&quot;mus&quot;,&quot;mwl&quot;,&quot;mwr&quot;,&quot;myn&quot;,&quot;myv&quot;,&quot;nah&quot;,&quot;nai&quot;,&quot;nap&quot;,&quot;nau&quot;,&quot;nav&quot;,&quot;nbl&quot;,&quot;nde&quot;,&quot;ndo&quot;,&quot;nds&quot;,&quot;nep&quot;,&quot;new&quot;,&quot;nia&quot;,&quot;nic&quot;,&quot;niu&quot;,&quot;nno&quot;,&quot;nob&quot;,&quot;nog&quot;,&quot;non&quot;,&quot;nor&quot;,&quot;nqo&quot;,&quot;nso&quot;,&quot;nub&quot;,&quot;nwc&quot;,&quot;nya&quot;,&quot;nym&quot;,&quot;nyn&quot;,&quot;nyo&quot;,&quot;nzi&quot;,&quot;oci&quot;,&quot;oji&quot;,&quot;ori&quot;,&quot;orm&quot;,&quot;osa&quot;,&quot;oss&quot;,&quot;ota&quot;,&quot;oto&quot;,&quot;paa&quot;,&quot;pag&quot;,&quot;pal&quot;,&quot;pam&quot;,&quot;pan&quot;,&quot;pap&quot;,&quot;pau&quot;,&quot;peo&quot;,&quot;per&quot;,&quot;phi&quot;,&quot;phn&quot;,&quot;pli&quot;,&quot;pol&quot;,&quot;pon&quot;,&quot;por&quot;,&quot;pra&quot;,&quot;pro&quot;,&quot;pus&quot;,&quot;qaa-qtz&quot;,&quot;que&quot;,&quot;raj&quot;,&quot;rap&quot;,&quot;rar&quot;,&quot;roa&quot;,&quot;roh&quot;,&quot;rom&quot;,&quot;rum&quot;,&quot;run&quot;,&quot;rup&quot;,&quot;rus&quot;,&quot;sad&quot;,&quot;sag&quot;,&quot;sah&quot;,&quot;sai&quot;,&quot;sal&quot;,&quot;sam&quot;,&quot;san&quot;,&quot;sas&quot;,&quot;sat&quot;,&quot;scn&quot;,&quot;sco&quot;,&quot;sel&quot;,&quot;sem&quot;,&quot;sga&quot;,&quot;sgn&quot;,&quot;shn&quot;,&quot;sid&quot;,&quot;sin&quot;,&quot;sio&quot;,&quot;sit&quot;,&quot;sla&quot;,&quot;slo&quot;,&quot;slv&quot;,&quot;sma&quot;,&quot;sme&quot;,&quot;smi&quot;,&quot;smj&quot;,&quot;smn&quot;,&quot;smo&quot;,&quot;sms&quot;,&quot;sna&quot;,&quot;snd&quot;,&quot;snk&quot;,&quot;sog&quot;,&quot;som&quot;,&quot;son&quot;,&quot;sot&quot;,&quot;spa&quot;,&quot;srd&quot;,&quot;srn&quot;,&quot;srp&quot;,&quot;srr&quot;,&quot;ssa&quot;,&quot;ssw&quot;,&quot;suk&quot;,&quot;sun&quot;,&quot;sus&quot;,&quot;sux&quot;,&quot;swa&quot;,&quot;swe&quot;,&quot;syc&quot;,&quot;syr&quot;,&quot;tah&quot;,&quot;tai&quot;,&quot;tam&quot;,&quot;tat&quot;,&quot;tel&quot;,&quot;tem&quot;,&quot;ter&quot;,&quot;tet&quot;,&quot;tgk&quot;,&quot;tgl&quot;,&quot;tha&quot;,&quot;tib&quot;,&quot;tig&quot;,&quot;tir&quot;,&quot;tiv&quot;,&quot;tkl&quot;,&quot;tlh&quot;,&quot;tli&quot;,&quot;tmh&quot;,&quot;tog&quot;,&quot;ton&quot;,&quot;tpi&quot;,&quot;tsi&quot;,&quot;tsn&quot;,&quot;tso&quot;,&quot;tuk&quot;,&quot;tum&quot;,&quot;tup&quot;,&quot;tur&quot;,&quot;tut&quot;,&quot;tvl&quot;,&quot;twi&quot;,&quot;tyv&quot;,&quot;udm&quot;,&quot;uga&quot;,&quot;uig&quot;,&quot;ukr&quot;,&quot;umb&quot;,&quot;und&quot;,&quot;urd&quot;,&quot;uzb&quot;,&quot;vai&quot;,&quot;ven&quot;,&quot;vie&quot;,&quot;vol&quot;,&quot;vot&quot;,&quot;wak&quot;,&quot;wal&quot;,&quot;war&quot;,&quot;was&quot;,&quot;wel&quot;,&quot;wen&quot;,&quot;wln&quot;,&quot;wol&quot;,&quot;xal&quot;,&quot;xho&quot;,&quot;yao&quot;,&quot;yap&quot;,&quot;yid&quot;,&quot;yor&quot;,&quot;ypk&quot;,&quot;zap&quot;,&quot;zbl&quot;,&quot;zen&quot;,&quot;zha&quot;,&quot;znd&quot;,&quot;zul&quot;,&quot;zun&quot;,&quot;zxx&quot;,&quot;zza&quot;,]},
      &quot;parent&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:digital_object_component) uri&quot;, &quot;required&quot; =&gt; false},
     &quot;digital_object&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:digital_object) uri&quot;, &quot;required&quot; =&gt; false},
     &quot;position&quot; =&gt; {&quot;type&quot; =&gt; &quot;integer&quot;, &quot;required&quot; =&gt; false},
@@ -195,6 +189,11 @@
     &quot;extents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:extent) object&quot;}},
     &quot;dates&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:date) object&quot;}},
     &quot;external_documents&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;, &quot;items&quot; =&gt; {&quot;type&quot; =&gt; &quot;JSONModel(:external_document) object&quot;}},
+     &quot;notes&quot; =&gt; {
+      &quot;type&quot; =&gt; &quot;array&quot;,
+      &quot;items&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:note_bibliography) object&quot;},
+                             {&quot;type&quot; =&gt; &quot;JSONModel(:note_digital_object) object&quot;}]},
+    },
      &quot;linked_agents&quot; =&gt; {
       &quot;type&quot; =&gt; &quot;array&quot;,
       &quot;items&quot; =&gt; {
@@ -207,7 +206,8 @@
            &quot;ref&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:agent_corporate_entity) uri&quot;},
                                {&quot;type&quot; =&gt; &quot;JSONModel(:agent_family) uri&quot;},
                                {&quot;type&quot; =&gt; &quot;JSONModel(:agent_person) uri&quot;},
-                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_software) uri&quot;}]}
+                               {&quot;type&quot; =&gt; &quot;JSONModel(:agent_software) uri&quot;}],
+                    &quot;ifmissing&quot; =&gt; &quot;error&quot;}
         }
       }
     },
@@ -226,7 +226,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:44:20 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:56:00 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

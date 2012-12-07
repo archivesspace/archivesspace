@@ -67,7 +67,7 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><div id='filecontents'><h1 id="archivesspace-rest-api">ArchivesSpace REST API</h1>
-<p>As of 2012-11-25 18:43:24 -0500 the following REST endpoints exist in the master branch of the development repository:</p>
+<p>As of 2012-12-07 09:54:47 -0500 the following REST endpoints exist in the master branch of the development repository:</p>
 
 <h2 id="get-agents">GET /agents</h2>
 
@@ -474,24 +474,22 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Suppressed</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:suppressed_state</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='kw'>true</span><span class='op'>|</span><span class='kw'>false</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="post-repositoriesrepoidarchivalobjects">POST /repositories/:repo_id/archival_objects</h2>
+<h2 id="get-repositoriesrepoidaccessionsaccessionidtree">GET /repositories/:repo_id/accessions/:accession_id/tree</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Create an Archival Object</p>
+<p>Get the tree of resources that relate to an Accession</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code>JSONModel(:archival_object) &lt;request body&gt; -- The Archival Object to create
+<pre class="code ruby"><code>Integer accession_id -- The accession ID
 
 Integer repo_id -- The Repository ID -- The Repository must exist
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
-400 -- {:error =&gt; (description of error)}
-409 -- {&quot;error&quot;:{&quot;[:root_record_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}
+<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lparen'>(</span><span class='symbol'>:accession_tree</span><span class='rparen'>)</span>
 </code></pre>
 
 <h2 id="get-repositoriesrepoidarchivalobjects">GET /repositories/:repo_id/archival_objects</h2>
@@ -516,25 +514,24 @@ RESTHelpers::NonNegativeInteger modified_since -- The page number to show
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:archival_object</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="get-repositoriesrepoidarchivalobjectsarchivalobjectid">GET /repositories/:repo_id/archival_objects/:archival_object_id</h2>
+<h2 id="post-repositoriesrepoidarchivalobjects">POST /repositories/:repo_id/archival_objects</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Get an Archival Object by ID</p>
+<p>Create an Archival Object</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code>Integer archival_object_id -- The Archival Object ID
+<pre class="code ruby"><code>JSONModel(:archival_object) &lt;request body&gt; -- The Archival Object to create
 
 Integer repo_id -- The Repository ID -- The Repository must exist
-
-[String] resolve -- A list of references to resolve and embed in the response
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code>200 -- (:archival_object)
-404 -- {&quot;error&quot;:&quot;ArchivalObject not found&quot;}
+<pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- {&quot;error&quot;:{&quot;[:root_record_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}
 </code></pre>
 
 <h2 id="post-repositoriesrepoidarchivalobjectsarchivalobjectid">POST /repositories/:repo_id/archival_objects/:archival_object_id</h2>
@@ -557,6 +554,27 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code>200 -- {:status =&gt; &quot;Updated&quot;, :id =&gt; (id of updated object)}
 400 -- {:error =&gt; (description of error)}
 409 -- {&quot;error&quot;:{&quot;[:root_record_id, :ref_id]&quot;:[&quot;An Archival Object Ref ID must be unique to its resource&quot;]}}
+</code></pre>
+
+<h2 id="get-repositoriesrepoidarchivalobjectsarchivalobjectid">GET /repositories/:repo_id/archival_objects/:archival_object_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Archival Object by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>Integer archival_object_id -- The Archival Object ID
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code>200 -- (:archival_object)
+404 -- {&quot;error&quot;:&quot;ArchivalObject not found&quot;}
 </code></pre>
 
 <h2 id="get-repositoriesrepoidarchivalobjectsarchivalobjectidchildren">GET /repositories/:repo_id/archival_objects/:archival_object_id/children</h2>
@@ -639,26 +657,6 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 400 -- {:error =&gt; (description of error)}
 </code></pre>
 
-<h2 id="post-repositoriesrepoidcollectionmanagementrecordscollectionmanagementid">POST /repositories/:repo_id/collection_management_records/:collection_management_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Update a Collection Management Record</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code>Integer collection_management_id -- The Collection Management ID to update
-
-JSONModel(:collection_management) &lt;request body&gt; -- The collection management data to update
-
-Integer repo_id -- The Repository ID -- The Repository must exist
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
-</code></pre>
-
 <h2 id="get-repositoriesrepoidcollectionmanagementrecordscollectionmanagementid">GET /repositories/:repo_id/collection_management_records/:collection_management_id</h2>
 
 <p><strong>Description</strong></p>
@@ -680,6 +678,26 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 404 -- {&quot;error&quot;:&quot;CollectionManagement not found&quot;}
 </code></pre>
 
+<h2 id="post-repositoriesrepoidcollectionmanagementrecordscollectionmanagementid">POST /repositories/:repo_id/collection_management_records/:collection_management_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update a Collection Management Record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>Integer collection_management_id -- The Collection Management ID to update
+
+JSONModel(:collection_management) &lt;request body&gt; -- The collection management data to update
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+</code></pre>
+
 <h2 id="get-repositoriesrepoidcollectionmanagementrecordslinkable-recordslist">GET /repositories/:repo_id/collection_management_records/linkable-records/list</h2>
 
 <p><strong>Description</strong></p>
@@ -696,25 +714,6 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code>200 -- A list of matching records
-</code></pre>
-
-<h2 id="post-repositoriesrepoiddigitalobjectcomponents">POST /repositories/:repo_id/digital_object_components</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create an Digital Object Component</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code>JSONModel(:digital_object_component) &lt;request body&gt; -- The Digital Object Component to create
-
-Integer repo_id -- The Repository ID -- The Repository must exist
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
-400 -- {:error =&gt; (description of error)}
 </code></pre>
 
 <h2 id="get-repositoriesrepoiddigitalobjectcomponents">GET /repositories/:repo_id/digital_object_components</h2>
@@ -739,25 +738,23 @@ RESTHelpers::NonNegativeInteger modified_since -- The page number to show
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:digital_object_component</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
-<h2 id="get-repositoriesrepoiddigitalobjectcomponentsdigitalobjectcomponentid">GET /repositories/:repo_id/digital_object_components/:digital_object_component_id</h2>
+<h2 id="post-repositoriesrepoiddigitalobjectcomponents">POST /repositories/:repo_id/digital_object_components</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Get an Digital Object Component by ID</p>
+<p>Create an Digital Object Component</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code>Integer digital_object_component_id -- The Digital Object Component ID
+<pre class="code ruby"><code>JSONModel(:digital_object_component) &lt;request body&gt; -- The Digital Object Component to create
 
 Integer repo_id -- The Repository ID -- The Repository must exist
-
-[String] resolve -- A list of references to resolve and embed in the response
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code>200 -- (:digital_object_component)
-404 -- {&quot;error&quot;:&quot;DigitalObjectComponent not found&quot;}
+<pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
 </code></pre>
 
 <h2 id="post-repositoriesrepoiddigitalobjectcomponentsdigitalobjectcomponentid">POST /repositories/:repo_id/digital_object_components/:digital_object_component_id</h2>
@@ -779,6 +776,27 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 <span class='int'>400</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+</code></pre>
+
+<h2 id="get-repositoriesrepoiddigitalobjectcomponentsdigitalobjectcomponentid">GET /repositories/:repo_id/digital_object_components/:digital_object_component_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Digital Object Component by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>Integer digital_object_component_id -- The Digital Object Component ID
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code>200 -- (:digital_object_component)
+404 -- {&quot;error&quot;:&quot;DigitalObjectComponent not found&quot;}
 </code></pre>
 
 <h2 id="get-repositoriesrepoiddigitalobjectcomponentsdigitalobjectcomponentidchildren">GET /repositories/:repo_id/digital_object_components/:digital_object_component_id/children</h2>
@@ -841,6 +859,26 @@ RESTHelpers::NonNegativeInteger modified_since -- The page number to show
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:digital_object</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
+<h2 id="get-repositoriesrepoiddigitalobjectsdigitalobjectid">GET /repositories/:repo_id/digital_objects/:digital_object_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>Integer digital_object_id -- The ID of the digital object to retrieve
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lparen'>(</span><span class='symbol'>:digital_object</span><span class='rparen'>)</span>
+</code></pre>
+
 <h2 id="post-repositoriesrepoiddigitalobjectsdigitalobjectid">POST /repositories/:repo_id/digital_objects/:digital_object_id</h2>
 
 <p><strong>Description</strong></p>
@@ -862,24 +900,22 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <span class='int'>400</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="get-repositoriesrepoiddigitalobjectsdigitalobjectid">GET /repositories/:repo_id/digital_objects/:digital_object_id</h2>
+<h2 id="get-repositoriesrepoiddigitalobjectsdigitalobjectidtree">GET /repositories/:repo_id/digital_objects/:digital_object_id/tree</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Get a Digital Object</p>
+<p>Get a Digital Object tree</p>
 
 <p><strong>Parameters</strong></p>
 
 <pre class="code ruby"><code>Integer digital_object_id -- The ID of the digital object to retrieve
 
 Integer repo_id -- The Repository ID -- The Repository must exist
-
-[String] resolve -- A list of references to resolve and embed in the response
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lparen'>(</span><span class='symbol'>:digital_object</span><span class='rparen'>)</span>
+<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='const'>OK</span>
 </code></pre>
 
 <h2 id="post-repositoriesrepoiddigitalobjectsdigitalobjectidtree">POST /repositories/:repo_id/digital_objects/:digital_object_id/tree</h2>
@@ -900,24 +936,6 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
-</code></pre>
-
-<h2 id="get-repositoriesrepoiddigitalobjectsdigitalobjectidtree">GET /repositories/:repo_id/digital_objects/:digital_object_id/tree</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a Digital Object tree</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code>Integer digital_object_id -- The ID of the digital object to retrieve
-
-Integer repo_id -- The Repository ID -- The Repository must exist
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='const'>OK</span>
 </code></pre>
 
 <h2 id="get-repositoriesrepoidevents">GET /repositories/:repo_id/events</h2>
@@ -961,26 +979,6 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 400 -- {:error =&gt; (description of error)}
 </code></pre>
 
-<h2 id="post-repositoriesrepoideventseventid">POST /repositories/:repo_id/events/:event_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Update an Event</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code>Integer event_id -- The event ID to update
-
-JSONModel(:event) &lt;request body&gt; -- The event data to update
-
-Integer repo_id -- The Repository ID -- The Repository must exist
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
-</code></pre>
-
 <h2 id="get-repositoriesrepoideventseventid">GET /repositories/:repo_id/events/:event_id</h2>
 
 <p><strong>Description</strong></p>
@@ -1000,6 +998,26 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <pre class="code ruby"><code>200 -- (:event)
 404 -- {&quot;error&quot;:&quot;Event not found&quot;}
+</code></pre>
+
+<h2 id="post-repositoriesrepoideventseventid">POST /repositories/:repo_id/events/:event_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Update an Event</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>Integer event_id -- The event ID to update
+
+JSONModel(:event) &lt;request body&gt; -- The event data to update
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 </code></pre>
 
 <h2 id="post-repositoriesrepoideventseventidsuppressed">POST /repositories/:repo_id/events/:event_id/suppressed</h2>
@@ -1040,26 +1058,6 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 <pre class="code ruby"><code>200 -- A list of matching records
 </code></pre>
 
-<h2 id="post-repositoriesrepoidgroups">POST /repositories/:repo_id/groups</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a group within a repository</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code>JSONModel(:group) &lt;request body&gt; -- The group to create
-
-Integer repo_id -- The Repository ID -- The Repository must exist
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
-400 -- {:error =&gt; (description of error)}
-409 -- conflict
-</code></pre>
-
 <h2 id="get-repositoriesrepoidgroups">GET /repositories/:repo_id/groups</h2>
 
 <p><strong>Description</strong></p>
@@ -1082,6 +1080,26 @@ String group_code -- Get groups by group code
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+</code></pre>
+
+<h2 id="post-repositoriesrepoidgroups">POST /repositories/:repo_id/groups</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a group within a repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>JSONModel(:group) &lt;request body&gt; -- The group to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+400 -- {:error =&gt; (description of error)}
+409 -- conflict
 </code></pre>
 
 <h2 id="post-repositoriesrepoidgroupsgroupid">POST /repositories/:repo_id/groups/:group_id</h2>
@@ -1129,24 +1147,6 @@ RESTHelpers::BooleanParam with_members -- If 'true' (the default) return the lis
 404 -- {&quot;error&quot;:&quot;Group not found&quot;}
 </code></pre>
 
-<h2 id="post-repositoriesrepoidlocations">POST /repositories/:repo_id/locations</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a Location</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code>JSONModel(:location) &lt;request body&gt; -- The location data to create
-
-Integer repo_id -- The Repository ID -- The Repository must exist
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
-</code></pre>
-
 <h2 id="get-repositoriesrepoidlocations">GET /repositories/:repo_id/locations</h2>
 
 <p><strong>Description</strong></p>
@@ -1167,6 +1167,24 @@ RESTHelpers::NonNegativeInteger modified_since -- The page number to show
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:location</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+</code></pre>
+
+<h2 id="post-repositoriesrepoidlocations">POST /repositories/:repo_id/locations</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Location</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>JSONModel(:location) &lt;request body&gt; -- The location data to create
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
 </code></pre>
 
 <h2 id="get-repositoriesrepoidlocationslocationid">GET /repositories/:repo_id/locations/:location_id</h2>
@@ -1266,6 +1284,26 @@ RESTHelpers::NonNegativeInteger modified_since -- The page number to show
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
+<h2 id="get-repositoriesrepoidresourcesresourceid">GET /repositories/:repo_id/resources/:resource_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>Integer resource_id -- The ID of the resource to retrieve
+
+Integer repo_id -- The Repository ID -- The Repository must exist
+
+[String] resolve -- A list of references to resolve and embed in the response
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span>
+</code></pre>
+
 <h2 id="post-repositoriesrepoidresourcesresourceid">POST /repositories/:repo_id/resources/:resource_id</h2>
 
 <p><strong>Description</strong></p>
@@ -1285,26 +1323,6 @@ Integer repo_id -- The Repository ID -- The Repository must exist
 
 <pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Updated</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_updated'>updated</span> <span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 <span class='int'>400</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbrace'>{</span><span class='symbol'>:error</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_description'>description</span> <span class='id identifier rubyid_of'>of</span> <span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span><span class='rbrace'>}</span>
-</code></pre>
-
-<h2 id="get-repositoriesrepoidresourcesresourceid">GET /repositories/:repo_id/resources/:resource_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a Resource</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code>Integer resource_id -- The ID of the resource to retrieve
-
-Integer repo_id -- The Repository ID -- The Repository must exist
-
-[String] resolve -- A list of references to resolve and embed in the response
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span>
 </code></pre>
 
 <h2 id="get-repositoriesrepoidresourcesresourceidchildren">GET /repositories/:repo_id/resources/:resource_id/children</h2>
@@ -1465,9 +1483,9 @@ JSONModel(:user) &lt;request body&gt; -- The user to create
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code> username -- Your username
+<pre class="code ruby"><code>String username -- Your username
 
- password -- Your password
+String password -- Your password
 
 RESTHelpers::BooleanParam expiring -- true if the created session should expire
 </code></pre>
@@ -1476,22 +1494,6 @@ RESTHelpers::BooleanParam expiring -- true if the created session should expire
 
 <pre class="code ruby"><code>200 -- Login accepted
 403 -- Login failed
-</code></pre>
-
-<h2 id="get-vocabularies">GET /vocabularies</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a list of Vocabularies</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code>String ref_id -- An alternate, externally-created ID for the vocabulary
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:vocabulary</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
 <h2 id="post-vocabularies">POST /vocabularies</h2>
@@ -1508,6 +1510,22 @@ RESTHelpers::BooleanParam expiring -- true if the created session should expire
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code>200 -- {:status =&gt; &quot;Created&quot;, :id =&gt; (id of created object), :warnings =&gt; {(warnings)}}
+</code></pre>
+
+<h2 id="get-vocabularies">GET /vocabularies</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Vocabularies</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code>String ref_id -- An alternate, externally-created ID for the vocabulary
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='int'>200</span> <span class='op'>-</span><span class='op'>-</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='symbol'>:vocabulary</span><span class='rparen'>)</span><span class='rbracket'>]</span>
 </code></pre>
 
 <h2 id="post-vocabulariesvocabid">POST /vocabularies/:vocab_id</h2>
@@ -1591,7 +1609,7 @@ JSONModel(:vocabulary) &lt;request body&gt; -- The vocabulary data to update
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Sun Nov 25 18:43:56 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:48 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

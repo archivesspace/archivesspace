@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Schema: batch_import_schema
+  
+    &mdash; Documentation by YARD 0.8.3
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="alpha_index.html">Index (b)</a> &raquo;
+    
+    
+    <span class="title">batch_import_schema</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content">
+
+    	<h1>JSON Schema: Batch_import</h1>
+
+			<h2>URI Template</h2>
+			<h3>/batch_imports</h3>
+
+			<h2>Properties</h2>
+			
+				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:resource) object"}, {"type"=>"JSONModel(:archival_object) object"}, {"type"=>"JSONModel(:subject) object"}, {"type"=>"JSONModel(:agent_corporate_entity) object"}, {"type"=>"JSONModel(:agent_person) object"}])) <strong>batch</strong></h3>
+			
+		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
+
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines">
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16</pre>
+          </td>
+          <td>
+            <pre class="code"><span class="info file"># File 'common/schemas/batch_import.rb', line 1</span>
+
+:schema =&gt; {
+  &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
+  &quot;type&quot; =&gt; &quot;object&quot;,
+  &quot;uri&quot; =&gt; &quot;/batch_imports&quot;,
+  &quot;properties&quot; =&gt; {
+    &quot;batch&quot; =&gt; {&quot;type&quot; =&gt; &quot;array&quot;,
+                &quot;items&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:resource) object&quot;},
+                                       {&quot;type&quot; =&gt; &quot;JSONModel(:archival_object) object&quot;},
+                                       {&quot;type&quot; =&gt; &quot;JSONModel(:subject) object&quot;},
+                                       {&quot;type&quot; =&gt; &quot;JSONModel(:agent_corporate_entity) object&quot;},
+                                       {&quot;type&quot; =&gt; &quot;JSONModel(:agent_person) object&quot;}                 
+                                       ]},
+                                     }
+  },
+  &quot;additionalProperties&quot; =&gt; false,
+}</pre>
+          </td>
+        </tr>
+      </table>
+			<br />
+			<span><a href="batch_import_schema.txt">Plain Text Version</a></span>
+			</div>
+
+
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:56:00 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.3 (ruby-1.9.3).
+</div>
+  </body>
+</html>
