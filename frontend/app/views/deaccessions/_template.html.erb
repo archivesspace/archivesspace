@@ -1,10 +1,10 @@
-<% define_template "deaccession" do |form| %>
+<% define_template "deaccession", jsonmodel_definition(:deaccession) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_boolean "whole_part", {}, form.jsonmodel_schema_definition(:deaccession, "whole_part")["default"] %>
+    <%= form.label_and_boolean "whole_part", {}, form.default_for("whole_part") %>
     <%= form.label_and_textarea "description" %>
     <%= form.label_and_textarea "reason" %>
     <%= form.label_and_textarea "disposition" %>
-    <%= form.label_and_boolean "notification", {}, form.jsonmodel_schema_definition(:deaccession, "notification")["default"] %>
+    <%= form.label_and_boolean "notification", {}, form.default_for("notification") %>
 
     <div class="subrecord-form-container">
       <%# render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>

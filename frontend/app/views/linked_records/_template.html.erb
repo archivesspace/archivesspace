@@ -5,10 +5,10 @@
 
   target_object_type = aliases.has_key?(form.obj["jsonmodel_type"]) ? aliases[form.obj["jsonmodel_type"]] : form.obj["jsonmodel_type"]
 %>
-<% define_template "linked_record" do |form| %>
+<% define_template "linked_record", jsonmodel_definition(:event) do |form| %>
   <div class="subrecord-form-fields">
     <% if target_object_type === "event" %>
-      <%= form.label_and_select("role", form.options_for("role", JSONModel(:event).schema["properties"]["linked_records"]["items"]["properties"]["role"]["enum"])) %>
+      <%= form.label_and_select("role", form.possible_options_for(["linked_records", "role"])) %>
     <% end %>
     <%= render :partial => "#{target_object_type.pluralize}/record_linker", :locals => {:form => form} %>
   </div>

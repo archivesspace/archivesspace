@@ -1,4 +1,4 @@
-<% define_template "date_type_single" do |form| %>
+<% define_template "date_type_single", jsonmodel_definition(:date) do |form| %>
   <div class="inline-subform date-type-subform" data-date-type="single">
     <%= form.label_and_date "begin", {
       :field_opts => {
@@ -13,7 +13,7 @@
   </div>
 <% end %>
 
-<% define_template "date_type_inclusive" do |form| %>
+<% define_template "date_type_inclusive", jsonmodel_definition(:date) do |form| %>
   <div class="inline-subform date-type-subform" data-date-type="inclusive">
     <%= form.label_and_date "begin", {
       :field_opts => {
@@ -38,7 +38,7 @@
   </div>
 <% end %>
 
-<% define_template "date_type_bulk" do |form| %>
+<% define_template "date_type_bulk", jsonmodel_definition(:date) do |form| %>
   <div class="inline-subform date-type-subform" data-date-type="bulk">
     <%= form.label_and_date "begin", {
       :field_opts => {
@@ -63,7 +63,7 @@
   </div>
 <% end %>
 
-<% define_template "date_type_nil" do %>
+<% define_template "date_type_nil", jsonmodel_definition(:date) do %>
   <div class="date-type-subform">
     <div class="control-group">
       <div class="control-label"></div>
@@ -72,13 +72,13 @@
   </div>
 <% end %>
 
-<% define_template "date" do |form| %>
+<% define_template "date", jsonmodel_definition(:date) do |form| %>
   <div class="subrecord-form-fields">
     <div class="date-container">
-      <%= form.label_and_select "label", form.options_for("label", JSONModel(:date).schema['properties']['label']['enum']) %>
+      <%= form.label_and_select "label", form.possible_options_for("label") %>
       <%= form.label_and_textfield "expression", {:field_opts => {:placeholder => "Describe the date or date range"}} %>
 
-      <%= form.label_and_select "date_type", form.jsonmodel_options_for(:date, "date_type", true) %>
+      <%= form.label_and_select "date_type", form.possible_options_for("date_type", true) %>
 
       <% if form.obj["date_type"].blank? %>
         <% form.emit_template("date_type_nil") %>
@@ -86,9 +86,9 @@
         <% form.emit_template("date_type_#{form.obj["date_type"]}", form.obj) %>
       <% end %>
 
-      <%= form.label_and_select("uncertain", form.jsonmodel_options_for(:date, "uncertain", true)) %>
-      <%= form.label_and_select("era", form.jsonmodel_options_for(:date, "era", true)) %>
-      <%= form.label_and_select("calendar", form.jsonmodel_options_for(:date, "calendar", true)) %>
+      <%= form.label_and_select("uncertain", form.possible_options_for("uncertain", true)) %>
+      <%= form.label_and_select("era", form.possible_options_for("era", true)) %>
+      <%= form.label_and_select("calendar", form.possible_options_for("calendar", true)) %>
 
     </div>
   </div>

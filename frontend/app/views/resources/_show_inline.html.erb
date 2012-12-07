@@ -16,9 +16,9 @@
 
         <%= readonly.label_and_textfield "title" %>
         <% if @resource.id_0 %><%= readonly.label_and_fourpartid %><% end %>
-        <%= readonly.label_and_select "level", readonly.jsonmodel_options_for(:resource, "level", true) %>
+        <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
         <%= readonly.label_and_textfield "other_level" %>
-        <%= readonly.label_and_select "language", readonly.jsonmodel_options_for(:resource, "language", true) %>
+        <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
         <%= readonly.label_and_textarea "container_summary" %>
         <%= readonly.label_and_boolean "publish" %>
         <%= readonly.label_and_boolean "restrictions" %>
@@ -44,14 +44,14 @@
             <%= readonly.label_and_textfield "finding_aid_filing_title" %>
             <%= readonly.label_and_textfield "finding_aid_date" %>
             <%= readonly.label_and_textfield "finding_aid_author" %>
-            <%= readonly.label_and_select "finding_aid_description_rules", readonly.jsonmodel_options_for(:resource, "finding_aid_description_rules", true) %>
+            <%= readonly.label_and_select "finding_aid_description_rules", readonly.possible_options_for("finding_aid_description_rules", true) %>
             <%= readonly.label_and_textfield "finding_aid_language" %>
             <%= readonly.label_and_textfield "finding_aid_sponsor" %>
             <%= readonly.label_and_textarea "finding_aid_edition_statement" %>
             <%= readonly.label_and_textarea "finding_aid_series_statement" %>
             <%= readonly.label_and_textfield "finding_aid_revision_date" %>
             <%= readonly.label_and_textarea "finding_aid_revision_description" %>
-            <%= readonly.label_and_select "finding_aid_status", readonly.jsonmodel_options_for(:resource, "finding_aid_status", true) %>
+            <%= readonly.label_and_select "finding_aid_status", readonly.possible_options_for("finding_aid_status", true) %>
             <%= readonly.label_and_textarea "finding_aid_note" %>
           </div>
         </div>

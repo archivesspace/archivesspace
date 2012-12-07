@@ -10,16 +10,20 @@
   <%= form.hidden_input "digital_object" %>
   <%= hidden_field_tag "id", @digital_object_component.id %>
 
-  <section id="basic_information">
-    <h3>Basic Information</h3>
-    <%= form.label_and_textfield "label" %>
-    <%= form.label_and_textfield "title" %>
-    <%= form.label_and_textfield "component_id" %>
-    <%= form.label_and_boolean "publish", {}, form.jsonmodel_schema_definition(:digital_object_component, "publish")["default"] %>
-    <%= form.label_and_select "language", form.jsonmodel_options_for(:digital_object_component, "language", true) %>
+  <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
+    <section id="basic_information">
+      <h3>Basic Information</h3>
+      <%= form.label_and_textfield "label" %>
+      <%= form.label_and_textfield "title" %>
+      <%= form.label_and_textfield "component_id" %>
+      <%= form.label_and_boolean "publish", {}, form.default_for("default") %>
+      <%= form.label_and_select "language", form.possible_options_for("language", true) %>
 
-    <%= render :partial => "subjects/linker", :locals => { :form => form }%>
-  </section>
+      <%= render :partial => "subjects/linker", :locals => { :form => form }%>
+    </section>
+  <% end %>
+
+  <% form.emit_template("digital_object_component") %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "digital_object_component_linked_agent"} %>
 

@@ -16,9 +16,9 @@
         <%= readonly.label_and_textfield "title" %>
         <%= readonly.label_and_textfield "digital_object_id" %>
         <%= readonly.label_and_boolean "publish" %>
-        <%= readonly.label_and_select "level", readonly.jsonmodel_options_for(:digital_object, "level") %>
-        <%= readonly.label_and_select "digital_object_type", readonly.jsonmodel_options_for(:digital_object, "digital_object_type") %>
-        <%= readonly.label_and_select "language", readonly.jsonmodel_options_for(:digital_object, "language") %>
+        <%= readonly.label_and_select "level", readonly.possible_options_for("level") %>
+        <%= readonly.label_and_select "digital_object_type", readonly.possible_options_for("digital_object_type") %>
+        <%= readonly.label_and_select "language", readonly.possible_options_for("language") %>
         <%= readonly.label_and_boolean "restrictions" %>
 
         <% if not @digital_object.subjects.blank? %>

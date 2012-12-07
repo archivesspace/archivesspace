@@ -1,17 +1,21 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @accession, :form => form} %>
 
-<section id="basic_information">
-  <h3>Basic Information</h3>
-  <fieldset>
-     <%= form.label_and_textfield "title" %>
-     <%= form.label_and_fourpartid %>
-     <%= form.label_and_date "accession_date", {:field_opts => {:value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))}} %>
-     <%= form.label_and_textarea "content_description" %>
-     <%= form.label_and_textarea "condition_description" %>
-     <%= render :partial => "subjects/linker", :locals => { :form => form }%>
-  </fieldset>
-</section>
 
+<% define_template("accession", jsonmodel_definition(:accession)) do |form| %>
+  <section id="basic_information">
+    <h3>Basic Information</h3>
+    <fieldset>
+       <%= form.label_and_textfield "title" %>
+       <%= form.label_and_fourpartid %>
+       <%= form.label_and_date "accession_date", {:field_opts => {:value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))}} %>
+       <%= form.label_and_textarea "content_description" %>
+       <%= form.label_and_textarea "condition_description" %>
+       <%= render :partial => "subjects/linker", :locals => { :form => form }%>
+    </fieldset>
+  </section>
+<% end %>
+
+<% form.emit_template("accession") %>
 
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "accession_linked_agent"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
