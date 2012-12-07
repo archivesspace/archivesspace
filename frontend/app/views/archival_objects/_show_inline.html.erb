@@ -33,6 +33,10 @@
         <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
       <% end %>
 
+      <% if @archival_object.notes.length > 0 %>
+        <%= render :partial => "notes/show", :locals => { :notes => @archival_object.notes, :context => readonly } %>
+      <% end %>
+
       <% if @archival_object.extents.length > 0 %>
         <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents, :section_id => "archival_object_extents_" } %>
       <% end %>
