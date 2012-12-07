@@ -16,13 +16,13 @@
       "classification" => {"type" => "string", "required" => false},
 
       "coordinate_1_label" => {"type" => "string", "required" => false},
-      "coordinate_1_indicator" => {"type" => "string", "required" => false, "pattern" => "^[a-zA-Z0-9]*$"},
+      "coordinate_1_indicator" => {"type" => "string", "required" => false},
 
       "coordinate_2_label" => {"type" => "string", "required" => false},
-      "coordinate_2_indicator" => {"type" => "string", "required" => false, "pattern" => "^[a-zA-Z0-9]*$"},
+      "coordinate_2_indicator" => {"type" => "string", "required" => false},
 
       "coordinate_3_label" => {"type" => "string", "required" => false},
-      "coordinate_3_indicator" => {"type" => "string", "required" => false, "pattern" => "^[a-zA-Z0-9]*$"},
+      "coordinate_3_indicator" => {"type" => "string", "required" => false},
 
       "temporary" => {"type" => "string", "enum" => ["conservation", "exhibit", "loan", "reading_room"]},
 
