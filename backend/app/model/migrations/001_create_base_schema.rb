@@ -418,6 +418,11 @@ Sequel.migration do
       alter_table(table) do
         add_foreign_key([:subject_id], :subject, :key => :id)
         add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
+
+        abbrev = linked_table.to_s.split("_").map {|s| s[0...3]}.join("_")
+
+        add_index([:subject_id, "#{linked_table}_id".intern],
+                  :name => "subject_#{abbrev}")
       end
     end
 
