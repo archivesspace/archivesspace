@@ -1,8 +1,8 @@
 <%= render :partial => "container/template" %>
 
-<% define_template "instance" do |form| %>
+<% define_template "instance", jsonmodel_definition(:instance) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select "instance_type", form.jsonmodel_options_for(:instance, "instance_type", true), :field_opts => {:add_empty_option => true} %>
+    <%= form.label_and_select "instance_type", form.possible_options_for("instance_type", true), :field_opts => {:add_empty_option => true} %>
     <br/>
     <div class="instance-container-or-digital-object">
       <div class="alert alert-warning instance-type-nil">Please select an instance type</div>

@@ -10,21 +10,25 @@
   <%= form.hidden_input "resource" %>
   <%= hidden_field_tag "id", @archival_object.id %>
 
-  <section id="basic_information">
-    <h3>Basic Information</h3>
+  <% define_template("archival_object", jsonmodel_definition(:archival_object)) do |form| %>
+    <section id="basic_information">
+      <h3>Basic Information</h3>
 
-    <%= form.label_and_textfield "title" %>
-    <% if form.obj["ref_id"].blank? %>
-      <%= form.label_and_readonly "ref_id", "<em>-- auto-generated upon save --</em>" %>
-    <% else %>
-      <%= form.label_with_field "ref_id", "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
-    <% end %>
-    <%= form.hidden_input "ref_id" %>
-    <%= form.label_and_select "level", form.jsonmodel_options_for(:archival_object, "level", true) %>
-    <%= form.label_and_textfield "other_level" %>
-    <%= form.label_and_select "language", form.jsonmodel_options_for(:archival_object, "language", true) %>
-    <%= render :partial => "subjects/linker", :locals => { :form => form }%>
-  </section>
+      <%= form.label_and_textfield "title" %>
+      <% if form.obj["ref_id"].blank? %>
+        <%= form.label_and_readonly "ref_id", "<em>-- auto-generated upon save --</em>" %>
+      <% else %>
+        <%= form.label_with_field "ref_id", "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
+      <% end %>
+      <%= form.hidden_input "ref_id" %>
+      <%= form.label_and_select "level", form.possible_options_for("level", true) %>
+      <%= form.label_and_textfield "other_level" %>
+      <%= form.label_and_select "language", form.possible_options_for("language", true) %>
+      <%= render :partial => "subjects/linker", :locals => { :form => form }%>
+    </section>
+  <% end %>
+
+  <% form.emit_template("archival_object") %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "archival_object_linked_agent"} %>
   <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>

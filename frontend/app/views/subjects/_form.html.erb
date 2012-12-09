@@ -1,6 +1,6 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
 
-<% define_template "term" do |form| %>
+<% define_template "term", jsonmodel_definition(:term) do |form| %>
   <div class="row-fluid inputs-fill-it-up term-row">
     <div class="span5">
       <div class="control-group">
@@ -9,7 +9,7 @@
     </div>
     <div class="span5">
       <div class="control-group">
-        <%= form.select "term_type", form.jsonmodel_options_for(:term, "term_type") %>
+        <%= form.select "term_type", form.possible_options_for("term_type") %>
       </div>
     </div>
     <div class="span2">

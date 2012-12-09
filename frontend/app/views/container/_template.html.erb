@@ -1,6 +1,6 @@
 <%= render :partial=>"container_locations/template" %>
 
-<% define_template "container" do |form| %>
+<% define_template "container", jsonmodel_definition(:container) do |form| %>
   <section class="subrecord-form">
     <h4 class="subrecord-form-heading">Container</h4>
     <div class="subrecord-form-container">

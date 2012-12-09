@@ -1,8 +1,8 @@
-<% define_template "agent_corporate_entity_name" do |form| %>
+<% define_template "agent_corporate_entity_name", jsonmodel_definition(:name_corporate_entity) do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_textfield "authority_id" %>
-    <%= form.label_and_select "source", JSONModel(:name_corporate_entity).schema['properties']['source']['enum'], :nodefault => true %>
-    <%= form.label_and_select "rules", JSONModel(:name_corporate_entity).schema['properties']['rules']['enum'], :nodefault => true %>
+    <%= form.label_and_select "source", form.possible_options_for('source', true) %>
+    <%= form.label_and_select "rules", form.possible_options_for('rules', true) %>
     <hr/>
     <%= form.label_and_textfield "primary_name" %>
     <%= form.label_and_textfield "subordinate_name_1" %>

@@ -233,24 +233,6 @@ module AspaceFormHelper
                  false, false)
     end
 
-    def jsonmodel_options_for(model, property, add_empty_options = false)
-      options = []
-      options.push(["",""]) if add_empty_options
-      jsonmodel_enum_for(model, property).each do |v|
-        options.push([I18n.t(i18n_for("#{property}_#{v}"), :default => v), v])
-      end
-
-      options
-    end
-
-    def jsonmodel_enum_for(model, property)
-      jsonmodel_schema_definition(model, property)["enum"]
-    end
-
-    def jsonmodel_schema_definition(model, property)
-      JSONModel(model).schema["properties"][property]
-    end
-
     def options_for(property, values)
       options = []
       values.each do |v|
@@ -273,7 +255,7 @@ module AspaceFormHelper
 
       old = @active_template
       @active_template = name
-      @parent.templates[name].call(self, *args)
+      @parent.templates[name][:block].call(self, *args)
       @active_template = old
 
     end
@@ -305,13 +287,34 @@ module AspaceFormHelper
       @forms.tag("input", options.merge(opts), false, false)
     end
 
+
     def required?(name)
-      if obj["jsonmodel_type"]
-        property_schema = jsonmodel_schema_definition(obj["jsonmodel_type"], name)
-        return property_schema && property_schema["ifmissing"] === "error"
+      if @active_template && @parent.templates[@active_template]
+        @parent.templates[@active_template][:definition].required?(name)
+      else
+        false
       end
-      false
     end
+
+
+    def default_for(name)
+      if @active_template && @parent.templates[@active_template]
+        @parent.templates[@active_template][:definition].default_for(name)
+      else
+        nil
+      end
+    end
+
+
+    def possible_options_for(name, add_empty_options = false)
+      if @active_template && @parent.templates[@active_template]
+        @parent.templates[@active_template][:definition].options_for(self, name, add_empty_options)
+      else
+        []
+      end
+    end
+
+
 
     def label_with_field(name, field_html, opts = {})
       control_group_classes = "control-group"
@@ -403,9 +406,100 @@ module AspaceFormHelper
   end
 
 
-  def define_template(name, &block)
+  class BaseDefinition
+    def required?(name)
+      false
+    end
+
+    def options_for(context, property, add_empty_options = false)
+      options = []
+      options.push(["",""]) if add_empty_options
+
+      options
+    end
+
+
+    def default_for(name)
+      nil
+    end
+  end
+
+
+  def jsonmodel_definition(type)
+    JSONModelDefinition.new(JSONModel(type))
+  end
+
+
+  class JSONModelDefinition < BaseDefinition
+    def initialize(jsonmodel)
+      @jsonmodel = jsonmodel
+    end
+
+
+    def required?(name)
+      (jsonmodel_schema_definition(name) &&
+       jsonmodel_schema_definition(name)['ifmissing'] === 'error')
+    end
+
+
+    def default_for(name)
+      if jsonmodel_schema_definition(name)
+        jsonmodel_schema_definition(name)['default']
+      else
+        nil
+      end
+    end
+
+
+    def options_for(context, property, add_empty_options = false)
+      options = []
+      options.push(["",""]) if add_empty_options
+      jsonmodel_enum_for(property).each do |v|
+        options.push([I18n.t(context.i18n_for("#{Array(property).last}_#{v}"), :default => v), v])
+      end
+
+      options
+    end
+
+    private
+
+    def jsonmodel_enum_for(property)
+      jsonmodel_schema_definition(property)["enum"]
+    end
+
+
+    def jsonmodel_schema_definition(property)
+      schema = @jsonmodel.schema
+      properties = Array(property).clone
+
+      while !properties.empty?
+        if schema['type'] == 'object'
+          schema = schema['properties']
+        elsif schema['type'] == 'array'
+          schema = schema['items']
+        else
+          property = properties.shift
+
+          if properties.empty?
+            return schema[property]
+          else
+            schema = schema[property]
+          end
+        end
+      end
+
+      nil
+    end
+
+  end
+
+
+  def define_template(name, definition = nil, &block)
     @templates ||= {}
-    @templates[name] = block
+    @templates[name] = {
+      :block => block,
+      :definition => (definition || BaseDefinition.new),
+    }
   end
 
 
@@ -428,7 +522,7 @@ module AspaceFormHelper
       end
 
       result << "<div id=\"template_#{name}\"><!--"
-      result << capture(context, &template)
+      result << capture(context, &template[:block])
       result << "--></div>"
     end
 

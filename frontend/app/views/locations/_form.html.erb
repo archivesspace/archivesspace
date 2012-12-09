@@ -1,22 +1,26 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
 
-<fieldset>
-  <section id="basic_information">
-    <%= form.label_and_select "temporary", form.jsonmodel_options_for(:location, "temporary", true) %>
-    <hr/>
-    <%= form.label_and_textfield "building" %>
-    <%= form.label_and_textfield "floor" %>
-    <%= form.label_and_textfield "room" %>
-    <%= form.label_and_textfield "area" %>
-    <hr/>
-    <%= form.label_and_textfield "barcode" %>
-    <%= form.label_and_textfield "classification" %>
-    <hr/>
-    <%= form.label_and_textfield "coordinate_1_label" %>
-    <%= form.label_and_textfield "coordinate_1_indicator" %>
-    <%= form.label_and_textfield "coordinate_2_label" %>
-    <%= form.label_and_textfield "coordinate_2_indicator" %>
-    <%= form.label_and_textfield "coordinate_3_label" %>
-    <%= form.label_and_textfield "coordinate_3_indicator" %>
-  </section>
-</fieldset>
+<% define_template("location", jsonmodel_definition(:location)) do |form| %>
+  <fieldset>
+    <section id="basic_information">
+      <%= form.label_and_select "temporary", form.possible_options_for("temporary", true) %>
+      <hr/>
+      <%= form.label_and_textfield "building" %>
+      <%= form.label_and_textfield "floor" %>
+      <%= form.label_and_textfield "room" %>
+      <%= form.label_and_textfield "area" %>
+      <hr/>
+      <%= form.label_and_textfield "barcode" %>
+      <%= form.label_and_textfield "classification" %>
+      <hr/>
+      <%= form.label_and_textfield "coordinate_1_label" %>
+      <%= form.label_and_textfield "coordinate_1_indicator" %>
+      <%= form.label_and_textfield "coordinate_2_label" %>
+      <%= form.label_and_textfield "coordinate_2_indicator" %>
+      <%= form.label_and_textfield "coordinate_3_label" %>
+      <%= form.label_and_textfield "coordinate_3_indicator" %>
+    </section>
+  </fieldset>
+<% end %>
+
+<% form.emit_template("location") %>

@@ -1,6 +1,6 @@
-<% define_template "container_location" do |form| %>
+<% define_template "container_location", jsonmodel_definition(:container_location) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select "status", form.jsonmodel_options_for(:container_location, "status") %>
+    <%= form.label_and_select "status", form.possible_options_for("status") %>
     <%= form.label_and_date "start_date" %>
     <%= form.label_and_date "end_date" %>
     <%= form.label_and_textarea "note" %>

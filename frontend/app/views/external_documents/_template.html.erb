@@ -1,4 +1,4 @@
-<% define_template "external_document" do |form| %>
+<% define_template "external_document", jsonmodel_definition(:external_document) do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_textarea "title" %>
     <%= form.label_and_textfield "location" %>

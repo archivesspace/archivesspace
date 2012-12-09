@@ -1,4 +1,4 @@
-<% define_template "agent_contact_details" do |form| %>
+<% define_template "agent_contact_details", jsonmodel_definition(:agent_contact) do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_textfield "name" %>
     <%= form.label_and_textfield "salutation" %>

@@ -1,10 +1,10 @@
-<% define_template "agent_person_name" do |form| %>
+<% define_template "agent_person_name", jsonmodel_definition(:name_person) do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_textfield "authority_id" %>
-    <%= form.label_and_select "source", JSONModel(:name_person).schema['properties']['source']['enum'], :nodefault => true %>
-    <%= form.label_and_select "rules", JSONModel(:name_person).schema['properties']['rules']['enum'], :nodefault => true %>
+    <%= form.label_and_select "source", form.possible_options_for('source', true) %>
+    <%= form.label_and_select "rules", form.possible_options_for('rules', true) %>
     <hr/>
-    <%= form.label_and_select "direct_order", form.jsonmodel_options_for(:name_person, "direct_order") %>
+    <%= form.label_and_select "direct_order", form.possible_options_for("direct_order") %>
     <%= form.label_and_textfield "prefix" %>
     <%= form.label_and_textfield "title" %>
     <%= form.label_and_textfield "primary_name" %>
