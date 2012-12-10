@@ -1017,6 +1017,15 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "can view a read only Archival Object" do
+      $driver.find_element(:link, 'Finish Editing').click
+
+      assert { $driver.find_element(:css, ".record-pane h2").text.should eq("Christmas cards Archival Object") }
+
+      $driver.find_element(:link => "Edit").click
+    end
+
+
     it "can support dragging and dropping an archival object" do
       # first resize the tree pane (do it incrementally so it doesn't flip out...)
       pane_resize_handle = $driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
