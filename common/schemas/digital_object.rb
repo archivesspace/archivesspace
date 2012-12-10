@@ -27,6 +27,12 @@
 
       "restrictions" => {"type" => "boolean", "default" => false},
 
+      "notes" => {
+            "type" => "array",
+            "items" => {"type" => [{"type" => "JSONModel(:note_bibliography) object"},
+                                   {"type" => "JSONModel(:note_digital_object) object"}]},
+          },
+
     },
 
     "additionalProperties" => false

@@ -45,6 +45,14 @@
       "deaccessions" => {"type" => "array", "items" => {"type" => "JSONModel(:deaccession) object"}},
 
       "related_accession" => {"type" => "JSONModel(:accession) uri"},
+      
+      "notes" => {
+        "type" => "array",
+        "items" => {"type" => [{"type" => "JSONModel(:note_bibliography) object"},
+                               {"type" => "JSONModel(:note_index) object"},
+                               {"type" => "JSONModel(:note_multipart) object"},
+                               {"type" => "JSONModel(:note_singlepart) object"}]},
+      },
 
     },
 
