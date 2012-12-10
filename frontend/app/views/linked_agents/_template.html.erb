@@ -1,41 +1,41 @@
-<% define_template "accession_linked_agent" do |form| %>
+<% define_template "accession_linked_agent", jsonmodel_definition(:accession) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select("role", form.possible_options_for("role")) %>
+    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"], true)) %>
     <%= render :partial => "agents/linker", :locals => {:form => form} %>
   </div>
 <% end %>
 
 <% define_template "event_linked_agent", jsonmodel_definition(:event) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"])) %>
+    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"], true)) %>
     <%= render :partial => "agents/linker", :locals => {:form => form} %>
   </div>
 <% end %>
 
 <% define_template "resource_linked_agent", jsonmodel_definition(:resource) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"])) %>
+    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"], true)) %>
     <%= render :partial => "agents/linker", :locals => {:form => form} %>
   </div>
 <% end %>
 
 <% define_template "archival_object_linked_agent", jsonmodel_definition(:archival_object) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"])) %>
+    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"], true)) %>
     <%= render :partial => "agents/linker", :locals => {:form => form} %>
   </div>
 <% end %>
 
 <% define_template "digital_object_linked_agent", jsonmodel_definition(:digital_object) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"])) %>
+    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"], true)) %>
     <%= render :partial => "agents/linker", :locals => {:form => form} %>
   </div>
 <% end %>
 
 <% define_template "digital_object_component_linked_agent", jsonmodel_definition(:digital_object_component) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"])) %>
+    <%= form.label_and_select("role", form.possible_options_for(["linked_agents", "role"], true)) %>
     <%= render :partial => "agents/linker", :locals => {:form => form} %>
   </div>
 <% end %>

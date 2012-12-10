@@ -33,6 +33,7 @@
             "role" => {
               "type" => "string",
               "enum" => ["creator", "source", "subject"],
+              "ifmissing" => "error",
             },
 
             "ref" => {"type" => [{"type" => "JSONModel(:agent_corporate_entity) uri"},

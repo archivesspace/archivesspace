@@ -36,6 +36,7 @@
             "role" => {
               "type" => "string",
               "enum" => ["authorizer", "executing_program", "implementer", "recipient", "transmitter", "validator"],
+              "ifmissing" => "error",
             },
 
             "ref" => {"type" => [{"type" => "JSONModel(:agent_corporate_entity) uri"},
@@ -57,6 +58,7 @@
             "role" => {
               "type" => "string",
               "enum" => ["source", "outcome", "transfer"],
+              "ifmissing" => "error",
             },
 
             "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"},
