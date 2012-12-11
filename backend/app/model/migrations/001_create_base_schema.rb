@@ -1,7 +1,15 @@
 Sequel.extension :inflector
 
+module MigrationUtils
+  def self.shorten_table(name)
+    name.to_s.split("_").map {|s| s[0...3]}.join("_")
+  end
+end
+
+
 Sequel.migration do
   up do
+
     create_table(:session) do
       primary_key :id
       String :session_id, :unique => true, :null => false
@@ -420,7 +428,7 @@ Sequel.migration do
         add_foreign_key([:subject_id], :subject, :key => :id)
         add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
 
-        abbrev = linked_table.to_s.split("_").map {|s| s[0...3]}.join("_")
+        abbrev = MigrationUtils.shorten_table(linked_table)
 
         add_index([:subject_id, "#{linked_table}_id".intern],
                   :name => "subject_#{abbrev}")
@@ -1052,6 +1060,27 @@ Sequel.migration do
     create_table(:sequence) do
       String :sequence_name, :primary_key => true
       Integer :value, :null => false
+    end
+
+
+
+    # New experimental relationship tables
+    [:accession, :archival_object, :digital_object, :digital_object_component, :event, :resource].each do |record|
+      [:agent_person, :agent_software, :agent_family, :agent_corporate_entity].each do |agent|
+        table = "#{MigrationUtils.shorten_table(record)}_linked_agents_#{MigrationUtils.shorten_table(agent)}".intern
+
+        create_table(table) do
+          primary_key :id
+          Integer "#{record}_id".intern
+          Integer "#{agent}_id".intern
+          String :role
+        end
+
+        alter_table(table) do
+          add_foreign_key(["#{record}_id".intern], record, :key => :id)
+          add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
+        end
+      end
     end
 
   end

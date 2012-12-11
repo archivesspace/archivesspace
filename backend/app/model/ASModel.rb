@@ -496,5 +496,11 @@ module ASModel
 
       sequel_to_jsonmodel(obj, opts)
     end
+
+
+    def shortname
+      self.table_name.to_s.split("_").map {|s| s[0...3]}.join("_")
+    end
+
   end
 end
