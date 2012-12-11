@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
             *Endpoint.pagination)
     .returns([200, "[(:digital_object_component)]"]) \
   do
-    handle_listing(DigitalObjectComponent, :digital_object_component, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(DigitalObjectComponent, params[:page], params[:page_size], params[:modified_since])
   end
 
 end

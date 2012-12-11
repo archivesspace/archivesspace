@@ -24,9 +24,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:vocabulary)]"]) \
   do
     if params[:ref_id]
-      handle_unlimited_listing(Vocabulary, :vocabulary, :ref_id => params[:ref_id])
+      handle_unlimited_listing(Vocabulary, :ref_id => params[:ref_id])
     else
-      handle_unlimited_listing(Vocabulary, :vocabulary)
+      handle_unlimited_listing(Vocabulary)
     end
   end
 
@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["vocab_id", Integer, "The vocabulary ID"])
     .returns([200, "[(:term)]"]) \
   do
-    handle_unlimited_listing(Term, :term, :vocab_id => params[:vocab_id])
+    handle_unlimited_listing(Term, :vocab_id => params[:vocab_id])
   end
 
 

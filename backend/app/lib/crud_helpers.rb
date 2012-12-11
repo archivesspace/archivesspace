@@ -1,17 +1,17 @@
 module CrudHelpers
 
-  def handle_update(model, id, jsonmodel, opts = {})
+  def handle_update(model, id, parameter, opts = {})
     obj = model.get_or_die(params[id])
-    obj.update_from_json(params[jsonmodel], opts)
+    obj.update_from_json(params[parameter], opts)
 
-    updated_response(obj, params[jsonmodel])
+    updated_response(obj, params[parameter])
   end
 
 
-  def handle_create(model, jsonmodel)
-    obj = model.create_from_json(params[jsonmodel])
+  def handle_create(model, parameter)
+    obj = model.create_from_json(params[parameter])
 
-    created_response(obj, params[jsonmodel])
+    created_response(obj, params[parameter])
   end
 
 
@@ -26,7 +26,7 @@ module CrudHelpers
   end
 
 
-  def _listing_response(dataset, model, type)
+  def _listing_response(dataset, model)
     results = dataset.collect {|obj| model.to_jsonmodel(obj).to_hash}
 
     if dataset.respond_to? (:page_range)
@@ -44,14 +44,14 @@ module CrudHelpers
   end
 
 
-  def handle_unlimited_listing(model, type, where = {})
+  def handle_unlimited_listing(model, where = {})
     dataset = CrudHelpers.dataset(model, where)
 
-    _listing_response(dataset, model, type)
+    _listing_response(dataset, model)
   end
 
 
-  def handle_listing(model, type, page, page_size, modified_since, where = {})
+  def handle_listing(model, page, page_size, modified_since, where = {})
 
     dataset = CrudHelpers.dataset(model, where)
 
@@ -60,7 +60,7 @@ module CrudHelpers
 
     paginated = dataset.paginate(page, page_size)
 
-    _listing_response(paginated, model, type)
+    _listing_response(paginated, model)
   end
 
 end

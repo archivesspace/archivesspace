@@ -60,7 +60,7 @@ class ArchivesSpaceService < Sinatra::Base
     .preconditions(proc { current_user.can?(:manage_repository) })
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(Group, :group, params[:page], params[:page_size],
+    handle_listing(Group, params[:page], params[:page_size],
                    params[:modified_since],
                    params.has_key?(:group_code) ? {:group_code => params[:group_code]} : {})
   end
