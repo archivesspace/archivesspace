@@ -1083,7 +1083,24 @@ Sequel.migration do
       end
     end
 
+    # Event relationships
+    [:accession, :resource, :archival_object].each do |record|
+      table = "eve_link_#{MigrationUtils.shorten_table(record)}".intern
+
+      create_table(table) do
+        primary_key :id
+        Integer "#{record}_id".intern
+        Integer :event_id
+        String :role
+      end
+
+      alter_table(table) do
+        add_foreign_key(["#{record}_id".intern], record, :key => :id)
+        add_foreign_key([:event_id], :event, :key => :id)
+      end
+    end
   end
+
 
   down do
 

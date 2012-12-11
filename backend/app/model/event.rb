@@ -1,35 +1,15 @@
-["accession", "resource", "archival_object"].each do |dep|
-  require_relative dep
-end
-
-
-class EventAccessionLink < Sequel::Model(:event_accession)
-  many_to_one :accession
-  many_to_one :event
-end
-
-class EventResourceLink < Sequel::Model(:event_resource)
-  many_to_one :resource
-  many_to_one :event
-end
-
-class EventArchivalObjectLink < Sequel::Model(:event_archival_object)
-  many_to_one :archival_object
-  many_to_one :event
-end
-
-
+require_relative 'relationships'
 
 class Event < Sequel::Model(:event)
 
   include ASModel
-  Sequel.extension :inflector
-
+  include Relationships
   include Agents
 
-  enable_suppression
   set_model_scope :repository
   corresponds_to JSONModel(:event)
+
+  enable_suppression
 
   one_to_many :date, :class => "ASDate"
   jsonmodel_hint(:the_property => :date,
@@ -38,109 +18,38 @@ class Event < Sequel::Model(:event)
                  :is_array => false,
                  :always_resolve => true)
 
-  @@record_links = {
-    :accession => Accession,
-    :resource => Resource,
-    :archival_object => ArchivalObject
-  }
-
-
-  @@record_links.keys.each do |link_type|
-    one_to_many "event_#{link_type}_link".intern
-  end
+  define_relationship(:name => :link,
+                      :json_property => 'linked_records',
+                      :contains_references_to_types => proc {[Accession, Resource, ArchivalObject]})
 
 
   def self.linkable_records_for(prefix)
-    @@record_links.map {|record_type, record_model|
-      [record_type, record_model.records_matching(prefix, 10)]
-    }
-  end
-
-
-
-  def self.create_from_json(json, opts = {})
-    obj = super
-    set_records(json, obj, opts)
-    obj
-  end
-
-
-  def update_from_json(json, opts = {})
-    obj = super
-    self.class.set_records(json, obj, opts)
-    obj
-  end
-
-
-  def self.set_linked_records(json, obj, opts, json_property, linkable_records)
-    linkable_records.keys.each do |link|
-      obj.send("event_#{link}_link_dataset".intern).delete
+    linked_models(:link).map do |model|
+      [model.my_jsonmodel.record_type, model.records_matching(prefix, 10)]
     end
-
-    (json[json_property] or []).each do |record_link|
-      record_type = parse_reference(record_link["ref"], opts)
-
-      model = Kernel.const_get(record_type[:type].camelize)
-      record = model[record_type[:id]]
-
-      link = Kernel.const_get("event_#{record_type[:type]}_link".camelize)
-
-      obj.send("add_event_#{record_type[:type]}_link".intern,
-               link.create(record_type[:type] => record,
-                           :event => obj,
-                           :role => record_link["role"]))
-    end
-
-  end
-
-
-  def self.set_records(json, obj, opts)
-    self.set_linked_records(json, obj, opts, :linked_records, @@record_links)
-  end
-
-
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
-
-    [[:linked_records, @@record_links]].each do |property, linked_records|
-      json[property] = linked_records.keys.map {|record_type|
-        obj.send("event_#{record_type}_link".intern).map {|link|
-          {
-            "role" => link[:role],
-            "ref" => uri_for(record_type, link["#{record_type}_id".intern], opts)
-          }
-        }
-      }.flatten
-    end
-
-
-    json
   end
 
 
   def has_active_linked_records?
-    has_active_linked_records = false
-
-    @@record_links.each do |record_type, model|
-      self.send("event_#{record_type}_link".intern).each do |link|
-        linked_record = model[link["#{record_type}_id".intern]]
-        if linked_record.values.has_key?(:suppressed) && linked_record[:suppressed] == 0
-          has_active_linked_records = true
-          break
-        end
+    linked_records(:link).each do |linked_record|
+      if linked_record.values.has_key?(:suppressed) && linked_record[:suppressed] == 0
+        return true
       end
     end
 
-    has_active_linked_records
+    return false
   end
 
 
-  # Suppress this record if it does not have active linked records
-  def maybe_suppress
-    val = !has_active_linked_records?
-    self.set_suppressed(val)
+  # Look for events that link to a given record.  If we find any, consider
+  # suppressing them if they have no active linked records
+  def self.handle_suppressed(record)
+    events = instances_relating_to(record)
 
-    val
+    events.each do |event|
+      val = !event.has_active_linked_records?
+      event.set_suppressed(val)
+    end
   end
 
 
