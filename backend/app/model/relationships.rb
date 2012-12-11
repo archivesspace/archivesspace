@@ -12,6 +12,8 @@ module Relationships
   end
 
 
+  # Return all object instances that are related to the current record by the
+  # relationship named by 'name'.
   def linked_records(name)
     relationship = self.class.find_relationship(name)
 
@@ -25,6 +27,7 @@ module Relationships
 
   module ClassMethods
 
+    # Define a new relationship.
     def define_relationship(opts)
       [:name, :json_property, :contains_references_to_types].each do |p|
         opts[p] or raise "No #{p} given"
@@ -73,17 +76,21 @@ module Relationships
     end
 
 
+    # Find the relationship named by 'relationship_name'
     def find_relationship(relationship_name)
       @relationships.find {|r| r[:name] == relationship_name} or
         raise "Couldn't find relationship: #{relationship_name}"
     end
 
 
+    # The list of referent models declared by the relationship names by
+    # 'relationship_name'
     def linked_models(relationship_name)
       find_relationship(relationship_name)[:references].keys
     end
 
 
+    # Delete all existing relationships for 'obj'.
     def delete_existing_relationships(obj)
       @relationships.each do |relationship|
         relationship[:references].values.each do |relationship_model|
@@ -99,15 +106,21 @@ module Relationships
       @relationships.each do |relationship|
         property_name = relationship[:json_property]
 
+        # For each record reference in our JSON data
         Array(json[property_name]).each do |reference|
           record_type = parse_reference(reference['ref'], opts)
 
+          # Find the model type of the record it refers to
           referent_model = relationship[:references].keys.find {|model|
             model.my_jsonmodel.record_type == record_type[:type]
           } or raise "Couldn't find model for #{record_type[:type]}"
 
+          # Find the model type that represents the relationship between us and
+          # them
           link_model = relationship[:references][referent_model]
 
+          # Create a new relationship instance linking us and them together, and
+          # add the properties from the JSON request to the relationship
           properties = reference.clone.tap do |properties|
             properties.delete('ref')
           end
@@ -136,10 +149,15 @@ module Relationships
 
         json[property_name] ||= []
 
+        # For each defined relationship
         relationship[:references].each do |linked_model, relationship_model|
+          # Walk over each relationship instance
           json[property_name] += obj.send(relationship_model.table_name).map do |relationship_instance|
+            # Find the object that's related to this one
             referent = relationship_instance.send(linked_model.table_name)
 
+            # Return the relationship properties, plus the URI reference of the
+            # related object
             properties = relationship_instance.values.clone
             properties['ref'] = referent.uri
 
