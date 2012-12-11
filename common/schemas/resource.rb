@@ -13,6 +13,8 @@
 
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
       "other_level" => {"type" => "string"},
+      
+      "language" => {"ifmissing" => "error"},
 
       "publish" => {"type" => "boolean", "default" => true},
       "restrictions" => {"type" => "boolean", "default" => false},
