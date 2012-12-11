@@ -1,54 +1,54 @@
 <% define_template "rights_type_intellectual_property", jsonmodel_definition(:rights_statement) do |form| %>
   <div class="inline-subform rights-type-subform" data-rights-type="intellectual_property">
-    <%= form.label_and_textfield "materials" %>
+    <%= form.label_and_textarea "materials" %>
     <%= form.label_and_select "ip_status", form.possible_options_for("ip_status") %>
     <%= form.label_and_date "ip_expiration_date" %>
     <%= form.label_and_textfield "jurisdiction", {"required" => true} %>
-    <%= form.label_and_textfield "type_note" %>
-    <%= form.label_and_textfield "permissions" %>
-    <%= form.label_and_textfield "restrictions" %>
+    <%= form.label_and_textarea "type_note" %>
+    <%= form.label_and_textarea "permissions" %>
+    <%= form.label_and_textarea "restrictions" %>
     <%= form.label_and_date "restriction_start_date" %>
     <%= form.label_and_date "restriction_end_date" %>
-    <%= form.label_and_textfield "granted_note" %>
+    <%= form.label_and_textarea "granted_note" %>
   </div>
 <% end %>
 
 <% define_template "rights_type_license", jsonmodel_definition(:rights_statement) do |form| %>
   <div class="inline-subform rights-type-subform" data-rights-type="license">
-    <%= form.label_and_textfield "materials" %>
-    <%= form.label_and_textfield "license_identifier_terms", {"required" => true} %>
-    <%= form.label_and_textfield "type_note" %>
-    <%= form.label_and_textfield "permissions" %>
-    <%= form.label_and_textfield "restrictions" %>
+    <%= form.label_and_textarea "materials" %>
+    <%= form.label_and_textarea "license_identifier_terms", {"required" => true} %>
+    <%= form.label_and_textarea "type_note" %>
+    <%= form.label_and_textarea "permissions" %>
+    <%= form.label_and_textarea "restrictions" %>
     <%= form.label_and_date "restriction_start_date" %>
     <%= form.label_and_date "restriction_end_date" %>
-    <%= form.label_and_textfield "granted_note" %>
+    <%= form.label_and_textarea "granted_note" %>
   </div>
 <% end %>
 
 <% define_template "rights_type_statute", jsonmodel_definition(:rights_statement) do |form| %>
   <div class="inline-subform rights-type-subform" data-rights-type="statute">
-    <%= form.label_and_textfield "materials" %>
-    <%= form.label_and_textfield "statute_citation", {"required" => true} %>
+    <%= form.label_and_textarea "materials" %>
+    <%= form.label_and_textarea "statute_citation", {"required" => true} %>
     <%= form.label_and_textfield "jurisdiction", {"required" => true} %>
-    <%= form.label_and_textfield "type_note" %>
-    <%= form.label_and_textfield "permissions" %>
-    <%= form.label_and_textfield "restrictions" %>
+    <%= form.label_and_textarea "type_note" %>
+    <%= form.label_and_textarea "permissions" %>
+    <%= form.label_and_textarea "restrictions" %>
     <%= form.label_and_date "restriction_start_date" %>
     <%= form.label_and_date "restriction_end_date" %>
-    <%= form.label_and_textfield "granted_note" %>
+    <%= form.label_and_textarea "granted_note" %>
   </div>
 <% end %>
 
 <% define_template "rights_type_institutional_policy", jsonmodel_definition(:rights_statement) do |form| %>
   <div class="inline-subform rights-type-subform" data-rights-type="institutional_policy">
-    <%= form.label_and_textfield "materials" %>
-    <%= form.label_and_textfield "type_note" %>
-    <%= form.label_and_textfield "permissions" %>
-    <%= form.label_and_textfield "restrictions" %>
+    <%= form.label_and_textarea "materials" %>
+    <%= form.label_and_textarea "type_note" %>
+    <%= form.label_and_textarea "permissions" %>
+    <%= form.label_and_textarea "restrictions" %>
     <%= form.label_and_date "restriction_start_date" %>
     <%= form.label_and_date "restriction_end_date" %>
-    <%= form.label_and_textfield "granted_note" %>
+    <%= form.label_and_textarea "granted_note" %>
   </div>
 <% end %>
 
