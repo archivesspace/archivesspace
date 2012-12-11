@@ -1093,6 +1093,7 @@ en:
     term_type: Type
   subject:
     terms: Terms
+    ref_id: Subject Heading Identifier
     _terms:
       <<: *term_attributes
     _external_documents:

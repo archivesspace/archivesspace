@@ -5,8 +5,14 @@
       <%= render :partial => "sidebar" %>
    </div>
    <div class="span9 record-pane">
+     <%= readonly_context :subject, @subject.to_hash do |readonly| %>
       <h2><%= @subject.display_string %>  <span class="label label-info">Subject</span></h2>
+      <section id="basic_information">
+        <h3>Basic Information</h3>
 
+        <%= readonly.label_and_textfield "ref_id" %>
+      </section>
+    
       <section id="terms">
         <h3>Terms</h3>
         <div class="row-fluid">
@@ -24,6 +30,6 @@
       <% if @subject.external_documents.length > 0 %>
         <%= render :partial => "external_documents/show", :locals => { :external_documents => @subject.external_documents } %>
       <% end %>
-
+    <% end %>
    </div>
 </div>

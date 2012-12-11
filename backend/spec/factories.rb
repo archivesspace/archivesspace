@@ -258,8 +258,9 @@ FactoryGirl.define do
   end
   
   factory :json_subject, class: JSONModel(:subject) do
-    terms { [build(:json_term)] }
+    terms { [build(:json_term).to_hash] }
     vocabulary { create(:json_vocab).uri }
+    ref_id { generate(:url) }
   end
   
   factory :json_term, class: JSONModel(:term) do
