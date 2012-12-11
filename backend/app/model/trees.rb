@@ -37,7 +37,9 @@ module Trees
       :record_uri => self.class.uri_for(root_type, self.id)
     }
 
-    result
+    # Assumes that the tree's JSONModel type is just the root type with '_tree'
+    # stuck on.  Maybe a bit presumptuous?
+    JSONModel("#{self.class.root_type}_tree".intern).from_hash(result).to_hash
   end
 
 

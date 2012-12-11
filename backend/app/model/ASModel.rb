@@ -49,6 +49,12 @@ module ASModel
   end
 
 
+  def uri
+    # Bleh!
+    self.class.uri_for(self.class.my_jsonmodel.record_type, self.id)
+  end
+
+
   def self.included(base)
     base.instance_eval do
       plugin :optimistic_locking

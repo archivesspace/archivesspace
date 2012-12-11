@@ -36,8 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response(resource.children.map {|child|
                     {
-                      :uri => JSONModel(:archival_object).uri_for(child.id,
-                                                                  :repo_id => params[:repo_id]),
+                      :uri => child.uri,
                       :title => child.title,
                       :has_children => child.has_children?
                     }})
@@ -52,7 +51,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     resource = Resource.get_or_die(params[:resource_id])
 
-    json_response(JSONModel(:resource_tree).from_hash(resource.tree).to_hash)
+    json_response(resource.tree)
   end
 
 

@@ -50,8 +50,7 @@ class ArchivesSpaceService < Sinatra::Base
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     json_response(ao.children.map {|child|
                     {
-                      :uri => JSONModel(:archival_object).uri_for(child.id,
-                                                                  :repo_id => params[:repo_id]),
+                      :uri => child.uri,
                       :title => child.title,
                       :has_children => child.has_children?
                     }})
