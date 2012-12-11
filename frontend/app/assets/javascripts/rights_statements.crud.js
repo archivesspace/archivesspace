@@ -1,66 +1,47 @@
 $(function() {
 
-  $.fn.init_rights_statements_form = function() {
-    $(this).each(function() {
+  var init_rights_statements_form = function(subform) {
 
-      var $this = $(this);
+    // add binding for rights type select
+    $("[name$='[rights_type]']", subform).change(function(event) {
+      var type = $(this).val();
 
-      if ($this.hasClass("initialised")) {
+      var values = {};
+
+      if ($(".rights-type-subform", subform).length) {
+        values = $(".rights-type-subform", subform).serializeObject();
+        $(".rights-type-subform", subform).remove();
+      }
+
+      if (type === "") {
+        $(this).parents(".control-group:first").after(AS.renderTemplate("template_rights_type_nil"));
         return;
       }
 
-      $this.addClass("initialised");
+      var index = $(this).parents("[data-index]:first").data("index");
 
-      var form_index = $(".subform.rights-statement-fields", $this).length;
-
-
-      var init_subform = function() {
-        var $subform = $(this);
-
-        $(".subform-remove", $subform).on("click", function() {
-          AS.confirmSubFormDelete($(this), function() {
-            $subform.remove();
-            $this.parents("form:first").triggerHandler("form-changed");
-            if ($(".subform.rights-statement-fields", $this).length === 0) {
-              $(".alert", $this).show();
-            }
-          });
-        });
-
-        $(document).triggerHandler("new.subrecord", ["note", $subform]);
+      var template_data = {
+        path: AS.quickTemplate($(this).parents("[data-name-path]:first").data("name-path"), {index: index}),
+        id_path: AS.quickTemplate($(this).parents("[data-id-path]:first").data("id-path"), {index: index}),
+        index: index
       };
 
+      var $rights_type_subform = $(AS.renderTemplate("template_rights_type_"+type, template_data));
 
-      var init = function() {
-        // add binding for creation of subforms
-        $("h3 > .btn", $this).on("click", function() {
-          var formEl = $(AS.renderTemplate("rights_statement_form_template", {index: form_index++}));
-          formEl.hide();
-          $("#rights_statements_container", $this).append(formEl);
-          formEl.fadeIn();
-          $(".alert", $this).hide();
-          $this.parents("form:first").triggerHandler("form-changed");
-          $.proxy(init_subform, formEl)();
-          $(":input:visible:first", formEl).focus();
-        });
+      $(this).parents(".control-group:first").after($rights_type_subform);
 
-        // init any existing subforms
-        $(document).bind("init.subrecord", function(event, object_name, subform) {
-          $.proxy(init_subform, subform)();
-        });
-      };
+      $rights_type_subform.setValuesFromObject(values);
 
-      init();
-    })
+      $(document).triggerHandler("init.subrecord", ["rights_type", $rights_type_subform]);
+    });
+
   };
 
 
-  $(document).ready(function() {
-    $(document).ajaxComplete(function() {
-      $("#rights_statements:not(.initialised)").init_rights_statements_form();
-    });
-
-    $("#rights_statements:not(.initialised)").init_rights_statements_form();
+  $(document).bind("new.subrecord, init.subrecord", function(event, object_name, subform) {
+    if (object_name === "rights_statement") {
+      init_rights_statements_form($(subform));
+    }
   });
 
 });

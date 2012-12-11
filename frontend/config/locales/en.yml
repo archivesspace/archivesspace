@@ -842,6 +842,14 @@ en:
     _html:
       plural: Rights Statements
       singular: Rights Statement
+  rights_type_intellectual_property:
+    <<: *rights_statement_attributes
+  rights_type_license:
+    <<: *rights_statement_attributes
+  rights_type_statute:
+    <<: *rights_statement_attributes
+  rights_type_institutional_policy:
+    <<: *rights_statement_attributes
   date: &date_attributes
     label: Label
     label_broadcast: Broadcast

@@ -5,6 +5,7 @@
 //= require subjects.crud
 //= require deaccessions.crud
 //= require subrecord.crud
+//= require rights_statements.crud
 
 $(function() {
 

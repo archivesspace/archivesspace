@@ -165,7 +165,7 @@ module AspaceFormHelper
 
 
     def label_and_textfield(name, opts = {})
-      label_with_field(name, textfield(name, obj[name], opts[:field_opts] || {}))
+      label_with_field(name, textfield(name, obj[name], opts[:field_opts] || {}), opts)
     end
 
     def label_and_date(name, opts = {})
@@ -179,7 +179,7 @@ module AspaceFormHelper
     end
 
     def label_and_textarea(name, opts = {})
-      label_with_field(name, textarea(name, obj[name], opts))
+      label_with_field(name, textarea(name, obj[name], opts), opts)
     end
 
 
