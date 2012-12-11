@@ -69,7 +69,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     accession = Accession.get_or_die(params[:accession_id])
 
-    json_response(JSONModel(:accession_tree).from_hash(accession.tree).to_hash)
+    json_response(accession.tree)
   end
 
 end

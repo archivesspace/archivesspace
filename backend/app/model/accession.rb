@@ -42,13 +42,12 @@ class Accession < Sequel::Model(:accession)
       }
     }
 
-    {
-      :title => self.title,
-      :id => self.id,
-      :node_type => 'accession',
-      :children => resources,
-      :record_uri => self.class.uri_for(:accession, self.id)
-    }
+    JSONModel(:accession_tree).
+        from_hash(:title => self.title,
+                  :id => self.id,
+                  :node_type => 'accession',
+                  :children => resources,
+                  :record_uri => self.class.uri_for(:accession, self.id)).to_hash
   end
 
 end
