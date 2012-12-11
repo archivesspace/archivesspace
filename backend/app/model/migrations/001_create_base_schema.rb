@@ -928,6 +928,8 @@ Sequel.migration do
       String :title, :null => false
       String :location, :null => false
 
+      Integer :publish
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
