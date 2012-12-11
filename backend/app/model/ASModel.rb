@@ -488,7 +488,6 @@ module ASModel
 
 
     def to_jsonmodel(obj, opts = {})
-      raise "REFACTORING" if !opts.is_a? Hash
       if obj.is_a? Integer
         # An ID.  Get the Sequel row for it.
         obj = get_or_die(obj)
