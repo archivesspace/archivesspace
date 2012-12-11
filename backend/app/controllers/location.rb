@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id])
     .returns([200, "(:location)"]) \
   do
-    json_response(Location.to_jsonmodel(params[:location_id], :location))
+    json_response(Location.to_jsonmodel(params[:location_id]))
   end
 
 end

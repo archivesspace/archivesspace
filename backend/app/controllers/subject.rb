@@ -24,6 +24,6 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["subject_id", Integer, "The subject ID"])
     .returns([200, "(:subject)"]) \
   do
-    json_response(Subject.to_jsonmodel(params[:subject_id], :subject).to_hash)
+    json_response(Subject.to_jsonmodel(params[:subject_id]).to_hash)
   end
 end

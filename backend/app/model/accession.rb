@@ -1,5 +1,4 @@
 class Accession < Sequel::Model(:accession)
-  plugin :validation_helpers
   include ASModel
   include Identifiers
   include Extents
@@ -11,6 +10,7 @@ class Accession < Sequel::Model(:accession)
   include Agents
 
   enable_suppression
+  corresponds_to JSONModel(:accession)
   set_model_scope :repository
 
   def self.records_matching(query, max)

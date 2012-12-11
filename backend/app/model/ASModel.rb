@@ -3,7 +3,6 @@ module ASModel
 
   Sequel.extension :inflector
 
-
   @@linked_records = {}
 
   def self.linked_records
@@ -53,6 +52,7 @@ module ASModel
   def self.included(base)
     base.instance_eval do
       plugin :optimistic_locking
+      plugin :validation_helpers
     end
 
     base.extend(ClassMethods)
@@ -183,7 +183,7 @@ module ASModel
       # repository-scoped URI, make sure they're talking about the same
       # repository.
       if ref && self.model_scope == :repository && uri.start_with?("/repositories/")
-        if !uri.start_with?"/repositories/#{active_repository}/"
+        if !uri.start_with?("/repositories/#{active_repository}/")
           raise "Invalid URI reference for this repo: '#{uri}'"
         end
       end
@@ -233,7 +233,7 @@ module ASModel
     # associated with the subject as it is stored, and these replace any
     # previous terms.
     #
-    # The definition also causes Subject.to_jsonmodel(obj, :subject) to
+    # The definition also causes Subject.to_jsonmodel(obj) to
     # automatically pull back the list of terms associated with the object and
     # include them in the response.  Here, the :always_resolve parameter
     # indicates that we want the actual JSON objects to be included in the
@@ -442,8 +442,19 @@ module ASModel
     end
 
 
-    def sequel_to_jsonmodel(obj, model, opts = {})
-      json = JSONModel(model).new(map_db_types_to_json(JSONModel(model).schema, obj.values.reject {|k, v| v.nil? }))
+    def corresponds_to(jsonmodel)
+      @jsonmodel = jsonmodel
+    end
+
+
+    # Return the JSONModel class that maps to this backend model
+    def my_jsonmodel
+      @jsonmodel or raise "No corresponding JSONModel set for model #{self.inspect}"
+    end
+
+
+    def sequel_to_jsonmodel(obj, opts = {})
+      json = my_jsonmodel.new(map_db_types_to_json(my_jsonmodel.schema, obj.values.reject {|k, v| v.nil? }))
 
       uri = json.class.uri_for(obj.id, :repo_id => active_repository)
       json.uri = uri if uri
@@ -454,7 +465,7 @@ module ASModel
 
         records = Array(obj.send(linked_record[:association][:name])).map {|linked_obj|
           if linked_record[:always_resolve]
-            model.to_jsonmodel(linked_obj, linked_record[:jsonmodel]).to_hash
+            model.to_jsonmodel(linked_obj).to_hash
           else
             JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id, :repo_id => active_repository) or
               raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
@@ -470,13 +481,14 @@ module ASModel
     end
 
 
-    def to_jsonmodel(obj, model, opts = {})
+    def to_jsonmodel(obj, opts = {})
+      raise "REFACTORING" if !opts.is_a? Hash
       if obj.is_a? Integer
         # An ID.  Get the Sequel row for it.
         obj = get_or_die(obj)
       end
 
-      sequel_to_jsonmodel(obj, model, opts)
+      sequel_to_jsonmodel(obj, opts)
     end
   end
 end

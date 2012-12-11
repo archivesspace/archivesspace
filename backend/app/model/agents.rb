@@ -77,7 +77,7 @@ module Agents
     end
 
 
-    def sequel_to_jsonmodel(obj, type, opts = {})
+    def sequel_to_jsonmodel(obj, opts = {})
       json = super
 
       [[:linked_agents, @@agent_links]].each do |property, linked_records|

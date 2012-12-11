@@ -2,6 +2,6 @@ require_relative 'name_mixin'
 
 class NameSoftware < Sequel::Model(:name_software)
   include ASModel
-  plugin :validation_helpers
+  corresponds_to JSONModel(:name_software)
   include NameMixin
 end

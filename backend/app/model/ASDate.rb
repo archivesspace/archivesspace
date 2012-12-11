@@ -1,8 +1,9 @@
 class ASDate < Sequel::Model(:date)
   include ASModel
 
-  plugin :validation_helpers
   set_model_scope :global
+  corresponds_to JSONModel(:date)
+
 
   def validate
     if self[:date_type] === "expression"

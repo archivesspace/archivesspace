@@ -1,9 +1,9 @@
 class ContainerLocation < Sequel::Model(:container_location)
   include ASModel
 
-  plugin :validation_helpers
 
   set_model_scope :global
+  corresponds_to JSONModel(:container_location)
   many_to_one :location
 
   jsonmodel_hint(:the_property => :location,

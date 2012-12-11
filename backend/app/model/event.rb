@@ -21,7 +21,6 @@ end
 
 
 class Event < Sequel::Model(:event)
-  plugin :validation_helpers
 
   include ASModel
   Sequel.extension :inflector
@@ -30,6 +29,7 @@ class Event < Sequel::Model(:event)
 
   enable_suppression
   set_model_scope :repository
+  corresponds_to JSONModel(:event)
 
   one_to_many :date, :class => "ASDate"
   jsonmodel_hint(:the_property => :date,
@@ -99,7 +99,7 @@ class Event < Sequel::Model(:event)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, type, opts = {})
+  def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
 
     [[:linked_records, @@record_links]].each do |property, linked_records|

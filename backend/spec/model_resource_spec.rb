@@ -55,7 +55,7 @@ describe 'Resource model' do
 
     expect {
       RequestContext.put(:repo_id, nil)
-      Resource.to_jsonmodel(resource[:id], :resource)
+      Resource.to_jsonmodel(resource[:id])
     }.to raise_error
   end
 

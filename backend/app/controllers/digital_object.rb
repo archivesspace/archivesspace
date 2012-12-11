@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
              :optional => true])
     .returns([200, "(:digital_object)"]) \
   do
-    json = DigitalObject.to_jsonmodel(params[:digital_object_id], :digital_object)
+    json = DigitalObject.to_jsonmodel(params[:digital_object_id])
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end

@@ -34,7 +34,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:archival_object)"],
              [404, '{"error":"ArchivalObject not found"}']) \
   do
-    json = ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object)
+    json = ArchivalObject.to_jsonmodel(params[:archival_object_id])
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end

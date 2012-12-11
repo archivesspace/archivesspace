@@ -7,6 +7,8 @@ class AgentFamily < Sequel::Model(:agent_family)
   include ExternalDocuments
   include AgentManager::Mixin
 
+  corresponds_to JSONModel(:agent_family)
+
   register_agent_type(:jsonmodel => :agent_family,
                       :name_type => :name_family,
                       :name_model => NameFamily)

@@ -32,7 +32,7 @@ module Notes
     end
 
 
-    def sequel_to_jsonmodel(obj, type, opts = {})
+    def sequel_to_jsonmodel(obj, opts = {})
       notes = JSON.parse(DB.deblob(obj.notes) || "[]")
       obj[:notes] = nil
       json = super

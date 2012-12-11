@@ -2,7 +2,7 @@ class Container < Sequel::Model(:container)
   include ASModel
 
   set_model_scope :global
-  plugin :validation_helpers
+  corresponds_to JSONModel(:container)
 
   one_to_many :container_location
 

@@ -3,7 +3,6 @@ require_relative 'orderable'
 require_relative 'auto_id_generator'
 
 class ArchivalObject < Sequel::Model(:archival_object)
-  plugin :validation_helpers
   include ASModel
   include Subjects
   include Extents
@@ -19,6 +18,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   orderable_root_record_type :resource, :archival_object
 
   set_model_scope :repository
+  corresponds_to JSONModel(:archival_object)
 
   register_auto_id :ref_id
 

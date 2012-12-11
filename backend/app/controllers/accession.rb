@@ -55,7 +55,7 @@ class ArchivesSpaceService < Sinatra::Base
              :optional => true])
     .returns([200, "(:accession)"]) \
   do
-    json = Accession.to_jsonmodel(params[:accession_id], :accession)
+    json = Accession.to_jsonmodel(params[:accession_id])
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end

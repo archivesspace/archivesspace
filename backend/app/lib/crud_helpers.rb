@@ -27,7 +27,7 @@ module CrudHelpers
 
 
   def _listing_response(dataset, model, type)
-    results = dataset.collect {|obj| model.to_jsonmodel(obj, type).to_hash}
+    results = dataset.collect {|obj| model.to_jsonmodel(obj).to_hash}
 
     if dataset.respond_to? (:page_range)
       response = {

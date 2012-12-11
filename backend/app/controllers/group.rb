@@ -44,7 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:group)"],
              [404, '{"error":"Group not found"}']) \
   do
-    json = Group.to_jsonmodel(params[:group_id], :group,
+    json = Group.to_jsonmodel(params[:group_id],
                               :with_members => params[:with_members])
 
     json_response(json)

@@ -60,7 +60,7 @@ module AgentManager
       end
 
 
-      def sequel_to_jsonmodel(obj, type, opts = {})
+      def sequel_to_jsonmodel(obj, opts = {})
         json = super
         json.agent_type = my_agent_type[:jsonmodel].to_s
         json

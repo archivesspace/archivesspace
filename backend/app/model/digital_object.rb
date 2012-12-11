@@ -1,7 +1,6 @@
 require_relative 'notes'
 
 class DigitalObject < Sequel::Model(:digital_object)
-  plugin :validation_helpers
   include ASModel
   include Subjects
   include Extents
@@ -15,6 +14,7 @@ class DigitalObject < Sequel::Model(:digital_object)
 
   tree_of(:digital_object, :digital_object_component)
   set_model_scope :repository
+  corresponds_to JSONModel(:digital_object)
 
   def link(opts)
     child = DigitalObjectComponent.get_or_die(opts[:child])

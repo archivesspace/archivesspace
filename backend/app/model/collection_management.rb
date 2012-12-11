@@ -23,8 +23,8 @@ class CollectionManagement < Sequel::Model(:collection_management)
   include ASModel
 
   set_model_scope :repository
+  corresponds_to JSONModel(:collection_management)
 
-  plugin :validation_helpers
 
   def validate
     if self[:processing_total_extent]
@@ -91,7 +91,7 @@ class CollectionManagement < Sequel::Model(:collection_management)
     self.set_linked_records(json, obj, opts, :linked_records, @@record_links)
   end
 
-  def self.sequel_to_jsonmodel(obj, type, opts = {})
+  def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
 
     [[:linked_records, @@record_links]].each do |property, linked_records|
