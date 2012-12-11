@@ -7,6 +7,7 @@
    <div class="span9 record-pane">
      <%= readonly_context :subject, @subject.to_hash do |readonly| %>
       <h2><%= @subject.display_string %>  <span class="label label-info">Subject</span></h2>
+
       <section id="basic_information">
         <h3>Basic Information</h3>
 
@@ -28,7 +29,7 @@
       </section>
 
       <% if @subject.external_documents.length > 0 %>
-        <%= render :partial => "external_documents/show", :locals => { :external_documents => @subject.external_documents } %>
+        <%= render :partial => "external_documents/show", :locals => { :external_documents => @subject.external_documents, :section_id => "subject_external_documents_" } %>
       <% end %>
     <% end %>
    </div>
