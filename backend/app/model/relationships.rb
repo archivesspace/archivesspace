@@ -60,8 +60,7 @@ module Relationships
 
           Object.const_set(table_name.to_s.classify, clz)
 
-          # FIXME: add ordering by id
-          self.one_to_many(table_name)
+          self.one_to_many(table_name, :order => "#{table_name}__id".intern)
 
           clz
         end
