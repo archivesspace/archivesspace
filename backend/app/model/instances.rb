@@ -6,10 +6,10 @@ module Instances
   def self.included(base)
     base.one_to_many :instance
 
-    base.jsonmodel_hint(:the_property => :instances,
-                        :contains_records_of_type => :instance,
-                        :corresponding_to_association => :instance,
-                        :always_resolve => true)
+    base.def_nested_record(:the_property => :instances,
+                           :contains_records_of_type => :instance,
+                           :corresponding_to_association => :instance,
+                           :always_resolve => true)
   end
 
 end

@@ -6,10 +6,10 @@ class ContainerLocation < Sequel::Model(:container_location)
   corresponds_to JSONModel(:container_location)
   many_to_one :location
 
-  jsonmodel_hint(:the_property => :location,
-                 :is_array => false,
-                 :contains_records_of_type => :location,
-                 :corresponding_to_association => :location)
+  def_nested_record(:the_property => :location,
+                    :is_array => false,
+                    :contains_records_of_type => :location,
+                    :corresponding_to_association => :location)
 
   def validate
     if self.location_id and self.status === "previous"

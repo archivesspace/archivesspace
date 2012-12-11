@@ -11,10 +11,10 @@ class Subject < Sequel::Model(:subject)
   many_to_many :term, :join_table => :subject_term
   many_to_many :archival_object, :join_table => :subject_archival_object
 
-  jsonmodel_hint(:the_property => :terms,
-                 :contains_records_of_type => :term,
-                 :corresponding_to_association  => :term,
-                 :always_resolve => true)
+  def_nested_record(:the_property => :terms,
+                    :contains_records_of_type => :term,
+                    :corresponding_to_association  => :term,
+                    :always_resolve => true)
 
 
   def self.set_vocabulary(json, opts)

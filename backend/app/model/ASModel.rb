@@ -228,10 +228,10 @@ module ASModel
     #
     # For example, this definition from subject.rb:
     #
-    #   jsonmodel_hint(:the_property => :terms,
-    #                  :contains_records_of_type => :term,
-    #                  :corresponding_to_association  => :term,
-    #                  :always_resolve => true)
+    #   def_nested_record(:the_property => :terms,
+    #                     :contains_records_of_type => :term,
+    #                     :corresponding_to_association  => :term,
+    #                     :always_resolve => true)
     #
     # Causes an incoming JSONModel(:subject) to have each of the objects in its
     # "terms" array to be coerced into a Sequel model (based on the :terms
@@ -245,7 +245,7 @@ module ASModel
     # indicates that we want the actual JSON objects to be included in the
     # response, not just their URI references.
 
-    def jsonmodel_hint(opts)
+    def def_nested_record(opts)
       opts[:association] = self.association_reflection(opts[:corresponding_to_association])
       opts[:jsonmodel] = opts[:contains_records_of_type]
       opts[:json_property] = opts[:the_property]

@@ -14,10 +14,10 @@ module ExternalDocuments
                       },
                       :join_table => "#{base.table_name}_external_document")
 
-    base.jsonmodel_hint(:the_property => :external_documents,
-                        :contains_records_of_type => :external_document,
-                        :corresponding_to_association  => :external_document,
-                        :always_resolve => true)
+    base.def_nested_record(:the_property => :external_documents,
+                           :contains_records_of_type => :external_document,
+                           :corresponding_to_association  => :external_document,
+                           :always_resolve => true)
   end
 
 end

@@ -12,11 +12,11 @@ class Event < Sequel::Model(:event)
   enable_suppression
 
   one_to_many :date, :class => "ASDate"
-  jsonmodel_hint(:the_property => :date,
-                 :contains_records_of_type => :date,
-                 :corresponding_to_association => :date,
-                 :is_array => false,
-                 :always_resolve => true)
+  def_nested_record(:the_property => :date,
+                    :contains_records_of_type => :date,
+                    :corresponding_to_association => :date,
+                    :is_array => false,
+                    :always_resolve => true)
 
   define_relationship(:name => :link,
                       :json_property => 'linked_records',
