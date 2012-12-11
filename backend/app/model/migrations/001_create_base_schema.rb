@@ -879,6 +879,8 @@ Sequel.migration do
       Integer :accession_id, :null => true
       Integer :archival_object_id, :null => true
       Integer :resource_id, :null => true
+      Integer :digital_object_id, :null => true
+      Integer :digital_object_component_id, :null => true
 
       Integer :repo_id, :null => false
 
@@ -914,6 +916,8 @@ Sequel.migration do
       add_foreign_key([:accession_id], :accession, :key => :id)
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
       add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
 
       add_foreign_key([:repo_id], :repository, :key => :id)
       add_unique_constraint([:repo_id, :identifier], :name => "rights_unique_identifier")

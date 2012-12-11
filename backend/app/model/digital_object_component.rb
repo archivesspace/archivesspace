@@ -11,6 +11,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Agents
   include Orderable
   include Notes
+  include RightsStatements
 
   orderable_root_record_type :digital_object, :digital_object_component
 
