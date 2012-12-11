@@ -98,13 +98,10 @@ module Relationships
       delete_existing_relationships(obj)
 
       @relationships.each do |relationship|
-
         property_name = relationship[:json_property]
 
         Array(json[property_name]).each do |reference|
-          uri = reference[:ref]
-
-          record_type = parse_reference(reference["ref"], opts)
+          record_type = parse_reference(reference['ref'], opts)
 
           referent_model = relationship[:references].keys.find {|model|
             model.my_jsonmodel.record_type == record_type[:type]
@@ -145,7 +142,7 @@ module Relationships
             referent = relationship_instance.send(linked_model.table_name)
 
             properties = relationship_instance.values.clone
-            properties[:ref] = referent.uri
+            properties['ref'] = referent.uri
 
             properties.delete(:id)
             properties.delete("#{self.table_name}_id".intern)
