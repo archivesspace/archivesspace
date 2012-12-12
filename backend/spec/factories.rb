@@ -40,6 +40,7 @@ FactoryGirl.define do
  
   sequence(:rights_type) { JSONModel(:rights_statement).schema['properties']['rights_type']['enum'].sample }
   sequence(:ip_status) { JSONModel(:rights_statement).schema['properties']['ip_status']['enum'].sample }
+  sequence(:jurisdiction) { JSONModel(:rights_statement).schema['properties']['jurisdiction']['enum'].sample }
   
   sequence(:container_location_status) { JSONModel(:container_location).schema['properties']['status']['enum'].sample } 
   sequence(:temporary_location_type) { JSONModel(:location).schema['properties']['temporary']['enum'].sample }
@@ -253,7 +254,7 @@ FactoryGirl.define do
   factory :json_rights_statement, class: JSONModel(:rights_statement) do
     rights_type 'intellectual_property'
     ip_status { generate(:ip_status) }
-    jurisdiction { generate(:alphanumstr) }
+    jurisdiction { generate(:jurisdiction) }
     active true
   end
   
