@@ -2,6 +2,8 @@
 
 module Identifiers
 
+  MAX_LENGTH = 50
+
   def id_0=(v); @id_0 = v; self.modified!; end
   def id_1=(v); @id_1 = v; self.modified!; end
   def id_2=(v); @id_2 = v; self.modified!; end
@@ -12,7 +14,7 @@ module Identifiers
     # Split the identifier into its components and add the individual pieces as
     # variables on this instance.
     if self[:identifier]
-      identifier = self[:identifier].split("_")
+      identifier = JSON.parse(self[:identifier] || "[]")
 
       4.times do |i|
         self.instance_eval {
@@ -28,11 +30,13 @@ module Identifiers
 
   def before_validation
     # Combine the identifier into a single string and remove the instance variables we added previously.
-    self.identifier = (0...4).map {|i| instance_variable_get("@id_#{i}")}.join("_")
-
-    if self.identifier =~ /^_+$/
+    values = (0...4).map {|i| instance_variable_get("@id_#{i}")}
+  
+    if (values.reject{|v| v.nil? || v.empty?}.empty?)
       # None of the id_* fields were set, so the whole identifier is NULL.
       self.identifier = nil
+    else
+      self.identifier = JSON(values)
     end
 
     4.times do |i|
@@ -47,6 +51,11 @@ module Identifiers
 
   def validate
     return super if self.class.table_name === :resource and self.identifier.nil?
+
+    (0...4).each do |i| 
+      val = instance_variable_get("@id_#{i}")
+      errors.add("id_#{i}".intern, "Max length is #{MAX_LENGTH} characters") if val && val.length > MAX_LENGTH
+    end
 
     validates_unique([:repo_id, :identifier], :message => "That ID is already in use")
     map_validation_to_json_property([:repo_id, :identifier], :id_0)
