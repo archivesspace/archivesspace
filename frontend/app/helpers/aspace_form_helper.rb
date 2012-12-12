@@ -185,7 +185,7 @@ module AspaceFormHelper
 
     def label_and_select(name, options, opts = {})
       options = ([""] + options) if opts[:nodefault]
-      label_with_field(name, select(name, options, opts[:field_opts] || {}))
+      label_with_field(name, select(name, options, opts[:field_opts] || {}), opts)
     end
 
 
@@ -233,10 +233,12 @@ module AspaceFormHelper
                  false, false)
     end
 
-    def options_for(property, values)
+    def options_for(property, values, opts = {})
       options = []
       values.each do |v|
-        options.push([I18n.t(i18n_for("#{property}_#{v}"), :default => v), v])
+        i18n_path = opts.has_key?(:i18n_prefix) ? "#{opts[:i18n_prefix]}.#{v}" : i18n_for("#{property}_#{v}")
+
+        options.push([I18n.t(i18n_path, :default => v), v])
       end
       options.sort! {|a, b| a[0] <=> b[0]}
       options
@@ -306,9 +308,9 @@ module AspaceFormHelper
     end
 
 
-    def possible_options_for(name, add_empty_options = false)
+    def possible_options_for(name, add_empty_options = false, opts = {})
       if @active_template && @parent.templates[@active_template]
-        @parent.templates[@active_template][:definition].options_for(self, name, add_empty_options)
+        @parent.templates[@active_template][:definition].options_for(self, name, add_empty_options, opts)
       else
         []
       end
@@ -451,11 +453,13 @@ module AspaceFormHelper
     end
 
 
-    def options_for(context, property, add_empty_options = false)
+    def options_for(context, property, add_empty_options = false, opts = {})
       options = []
       options.push(["",""]) if add_empty_options
       jsonmodel_enum_for(property).each do |v|
-        options.push([I18n.t(context.i18n_for("#{Array(property).last}_#{v}"), :default => v), v])
+        i18n_path = opts.has_key?(:i18n_prefix) ? "#{opts[:i18n_prefix]}.#{v}" : context.i18n_for("#{Array(property).last}_#{v}")
+
+        options.push([I18n.t(i18n_path, :default => v), v])
       end
 
       options

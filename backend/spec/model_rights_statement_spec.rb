@@ -76,7 +76,7 @@ describe 'Rights Statement model' do
     expect { create_rights_statement(opts) }.to raise_error(JSONModel::ValidationException)
 
     opts.delete(:statute_citation)
-    opts[:jurisdiction] = generate(:alphanumstr)
+    opts[:jurisdiction] = generate(:jurisdiction)
 
     expect { create_rights_statement(opts) }.to raise_error(JSONModel::ValidationException)
 

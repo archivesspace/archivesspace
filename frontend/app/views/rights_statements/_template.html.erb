@@ -3,7 +3,7 @@
     <%= form.label_and_textarea "materials" %>
     <%= form.label_and_select "ip_status", form.possible_options_for("ip_status") %>
     <%= form.label_and_date "ip_expiration_date" %>
-    <%= form.label_and_textfield "jurisdiction", {"required" => true} %>
+    <%= form.label_and_select "jurisdiction",  form.possible_options_for("jurisdiction", true, :i18n_prefix => "iso_3166."), {"required" => true} %>
     <%= form.label_and_textarea "type_note" %>
     <%= form.label_and_textarea "permissions" %>
     <%= form.label_and_textarea "restrictions" %>
@@ -30,7 +30,7 @@
   <div class="inline-subform rights-type-subform" data-rights-type="statute">
     <%= form.label_and_textarea "materials" %>
     <%= form.label_and_textarea "statute_citation", {"required" => true} %>
-    <%= form.label_and_textfield "jurisdiction", {"required" => true} %>
+    <%= form.label_and_select "jurisdiction",  form.possible_options_for("jurisdiction", true, :i18n_prefix => "iso_3166."), {"required" => true} %>
     <%= form.label_and_textarea "type_note" %>
     <%= form.label_and_textarea "permissions" %>
     <%= form.label_and_textarea "restrictions" %>

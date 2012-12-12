@@ -729,7 +729,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("intellectual_property")
       $driver.find_element(:id => "accession_rights_statements__0__ip_status_").select_option("copyrighted")
-      $driver.clear_and_send_keys([:id, "accession_rights_statements__0__jurisdiction_"], "AU")
+      $driver.find_element(:id => "accession_rights_statements__0__jurisdiction_").select_option("AU")
       $driver.find_element(:id, "accession_rights_statements__0__active_").click
 
       # add an external document
