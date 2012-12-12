@@ -110,7 +110,6 @@ module JSONModel
 
         base = @@models[parent].schema["properties"].clone
         properties = self.deep_merge(base, entry[:schema]["properties"])
-        # properties = base.merge(entry[:schema]["properties"])
 
         entry[:schema]["properties"] = properties
       end
@@ -165,7 +164,7 @@ module JSONModel
     end
   end
 
-      
+  # Recursively overlays hash2 onto hash 1 
   def self.deep_merge(hash1, hash2)
     target = hash1.dup 
     hash2.keys.each do |key|

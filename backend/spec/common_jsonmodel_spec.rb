@@ -350,5 +350,25 @@ describe 'JSON model' do
     end
 
   end
+  
+  it "allows a schema to override the ifmissing key of its abstract parent" do
+    
+    # Resources don't allow language to be nil
+    begin
+      create(:json_resource, {:language => nil})      
+    rescue ValidationException => ve
+      ve.to_s.should match /^\#<:ValidationException: /
+    end
+    
+    # Abstract archival object don't allow language to be klingon
+    expect {
+      create(:json_resource, {:language => "klingon"}) 
+    }.to raise_error
+    
+    # Abstract archival objects do allow language to be nil
+    expect {
+      create(:json_archival_object, {:language => nil})
+    }.to_not raise_error
+  end
 
 end
