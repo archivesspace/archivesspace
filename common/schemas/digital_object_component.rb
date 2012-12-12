@@ -13,7 +13,7 @@
       "parent" => {"type" => "JSONModel(:digital_object_component) uri", "required" => false},
       "digital_object" => {"type" => "JSONModel(:digital_object) uri", "required" => false},
       "position" => {"type" => "integer", "required" => false},
-      
+
       "notes" => {
             "type" => "array",
             "items" => {"type" => [{"type" => "JSONModel(:note_bibliography) object"},

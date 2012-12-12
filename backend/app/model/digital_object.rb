@@ -10,6 +10,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Agents
   include Trees
   include Notes
+  include RightsStatements
 
 
   tree_of(:digital_object, :digital_object_component)

@@ -29,6 +29,11 @@
 <fieldset>
    <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
 
+   <section id="basic_information">
+     <h3>Basic Information</h3>
+     <%= form.label_and_textfield "ref_id" %>
+   </section>
+
    <section id="terms">
      <h3>Terms</h3>
      <div class="row-fluid">

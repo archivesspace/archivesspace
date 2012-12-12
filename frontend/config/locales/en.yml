@@ -809,6 +809,7 @@ en:
   external_document: &external_document_attributes
     title: Title
     location: Location
+    publish: Publish?
     _html:
       plural: External Documents
       singular: External Document
@@ -1093,6 +1094,7 @@ en:
     term_type: Type
   subject:
     terms: Terms
+    ref_id: Subject Heading Identifier
     _terms:
       <<: *term_attributes
     _external_documents:

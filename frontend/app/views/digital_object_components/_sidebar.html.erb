@@ -22,6 +22,10 @@
       <li><a href="#digital_object_component_external_documents_">External Documents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
+    <% if not controller.action_name === "show" or @digital_object_component.rights_statements.length > 0 %>
+      <li><a href="#digital_object_component_rights_statements_">Rights Statements <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <% if not controller.action_name === "show" %>
       <div class="form-actions">
         <% if controller.action_name === "new" or controller.action_name === "create" %>
