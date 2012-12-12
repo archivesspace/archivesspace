@@ -30,6 +30,19 @@ describe 'Accession model' do
   end
 
 
+  it "Enforces ID max length" do
+    lambda {
+      2.times do
+        Accession.create_from_json(build(:json_accession,
+                                         {
+                                           :id_0 => "x" * 51
+                                         }),
+                                   :repo_id => $repo_id)
+      end
+    }.should raise_error(Sequel::ValidationFailed)
+  end
+
+
   it "Allows long condition descriptions" do
     long_string = "x" * 1024
     
