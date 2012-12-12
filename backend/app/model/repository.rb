@@ -2,8 +2,8 @@ class Repository < Sequel::Model(:repository)
   include ASModel
 
   set_model_scope :global
+  corresponds_to JSONModel(:repository)
 
-  plugin :validation_helpers
 
   def validate
     super

@@ -30,7 +30,7 @@ class ArchivesSpaceService < Sinatra::Base
             *Endpoint.pagination)
     .returns([200, "[(:collection_management)]"]) \
   do
-    handle_listing(CollectionManagement, :collection_management, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(CollectionManagement, params[:page], params[:page_size], params[:modified_since])
   end
 
 
@@ -44,7 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:collection_management)"],
              [404, '{"error":"CollectionManagement not found"}']) \
   do
-    json = CollectionManagement.to_jsonmodel(params[:collection_management_id], :collection_management)
+    json = CollectionManagement.to_jsonmodel(params[:collection_management_id])
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end
@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "A list of matching records"]) \
   do
     result = CollectionManagement.linkable_records_for(params[:q]).map {|record_type, records|
-      records.map {|record| record.class.to_jsonmodel(record, record_type).to_hash}
+      records.map {|record| record.class.to_jsonmodel(record).to_hash}
     }.flatten
 
     json_response(result)

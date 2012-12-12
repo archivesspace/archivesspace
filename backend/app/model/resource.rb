@@ -1,7 +1,6 @@
 require_relative 'notes'
 
 class Resource < Sequel::Model(:resource)
-  plugin :validation_helpers
   include ASModel
   include Identifiers
   include Subjects
@@ -17,6 +16,7 @@ class Resource < Sequel::Model(:resource)
 
   tree_of(:resource, :archival_object)
   set_model_scope :repository
+  corresponds_to JSONModel(:resource)
 
 
   def self.set_related_accession(json, opts)
@@ -53,7 +53,7 @@ class Resource < Sequel::Model(:resource)
   end
 
 
-  def self.sequel_to_jsonmodel(obj, type, opts = {})
+  def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
     json.related_accession = uri_for(:accession, obj.accession_id) if obj.accession_id
     json

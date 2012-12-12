@@ -6,10 +6,10 @@ class RightsStatement < Sequel::Model(:rights_statement)
   include AutoIdGenerator::Mixin
 
   set_model_scope :repository
+  corresponds_to JSONModel(:rights_statement)
 
   register_auto_id :identifier
 
-  plugin :validation_helpers
 
   def validate
     if self[:rights_type] === "intellectual_property"

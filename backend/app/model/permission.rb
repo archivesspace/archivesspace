@@ -1,8 +1,8 @@
 class Permission < Sequel::Model(:permission)
   include ASModel
-  plugin :validation_helpers
 
   set_model_scope :global
+  corresponds_to JSONModel(:permission)
 
 
   def self.define(code, description, opts = {})

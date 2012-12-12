@@ -1,9 +1,9 @@
 class Term < Sequel::Model(:term)
-  plugin :validation_helpers
   include ASModel
 
   many_to_many :subject, :join_table => "subject_term"
   set_model_scope :global
+  corresponds_to JSONModel(:term)
 
 
   def validate
@@ -28,7 +28,7 @@ class Term < Sequel::Model(:term)
     super
   end
 
-  def self.sequel_to_jsonmodel(obj, type, opts = {})
+  def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
     json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
 

@@ -34,7 +34,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:archival_object)"],
              [404, '{"error":"ArchivalObject not found"}']) \
   do
-    json = ArchivalObject.to_jsonmodel(params[:archival_object_id], :archival_object)
+    json = ArchivalObject.to_jsonmodel(params[:archival_object_id])
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end
@@ -50,8 +50,7 @@ class ArchivesSpaceService < Sinatra::Base
     ao = ArchivalObject.get_or_die(params[:archival_object_id])
     json_response(ao.children.map {|child|
                     {
-                      :uri => JSONModel(:archival_object).uri_for(child.id,
-                                                                  :repo_id => params[:repo_id]),
+                      :uri => child.uri,
                       :title => child.title,
                       :has_children => child.has_children?
                     }})
@@ -64,7 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
             *Endpoint.pagination)
     .returns([200, "[(:archival_object)]"]) \
   do
-    handle_listing(ArchivalObject, :archival_object, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(ArchivalObject, params[:page], params[:page_size], params[:modified_since])
   end
 
 end

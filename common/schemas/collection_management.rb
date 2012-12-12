@@ -23,10 +23,12 @@
         "minItems" => 1,
         "items" => {
           "type" => "object",
-          "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"},
-                               {"type" => "JSONModel(:resource) uri"},
-                               {"type" => "JSONModel(:digital_object) uri"}],
-                    "ifmissing" => "error"}
+          "properties" => {
+            "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"},
+                                 {"type" => "JSONModel(:resource) uri"},
+                                 {"type" => "JSONModel(:digital_object) uri"}],
+              "ifmissing" => "error"}
+          }
         }
       }
     },

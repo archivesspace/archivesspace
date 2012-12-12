@@ -1,5 +1,4 @@
 class Accession < Sequel::Model(:accession)
-  plugin :validation_helpers
   include ASModel
   include Identifiers
   include Extents
@@ -11,6 +10,7 @@ class Accession < Sequel::Model(:accession)
   include Agents
 
   enable_suppression
+  corresponds_to JSONModel(:accession)
   set_model_scope :repository
 
   def self.records_matching(query, max)
@@ -24,9 +24,7 @@ class Accession < Sequel::Model(:accession)
     self.suppressed = val ? 1 : 0
     save
 
-    EventAccessionLink.filter(:accession_id => self.id).each do |link|
-      link.event.maybe_suppress
-    end
+    Event.handle_suppressed(self)
 
     val
   end
@@ -38,17 +36,16 @@ class Accession < Sequel::Model(:accession)
         :title => resource.title,
         :id => resource.id,
         :node_type => 'resource',
-        :record_uri => self.class.uri_for(:resource, resource.id)
+        :record_uri => resource.uri,
       }
     }
 
-    {
-      :title => self.title,
-      :id => self.id,
-      :node_type => 'accession',
-      :children => resources,
-      :record_uri => self.class.uri_for(:accession, self.id)
-    }
+    JSONModel(:accession_tree).
+        from_hash(:title => self.title,
+                  :id => self.id,
+                  :node_type => 'accession',
+                  :children => resources,
+                  :record_uri => self.uri).to_hash
   end
 
 end

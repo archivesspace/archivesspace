@@ -1,8 +1,8 @@
 class User < Sequel::Model(:user)
   include ASModel
-  plugin :validation_helpers
 
   set_model_scope :global
+  corresponds_to JSONModel(:user)
 
 
   def self.ADMIN_USERNAME

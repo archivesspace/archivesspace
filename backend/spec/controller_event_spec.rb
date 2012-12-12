@@ -21,7 +21,6 @@ describe 'Events controller' do
 
 
   it "can save an event and get it back" do
-
     e = create(:json_event, @event_opts)
 
     event = JSONModel(:event).find(e.id, "resolve[]" => "ref")
@@ -31,9 +30,26 @@ describe 'Events controller' do
   end
 
 
+  it "can replace the list of linked records" do
+    e = create(:json_event, @event_opts)
+
+    new_accession = create(:json_accession)
+
+    event = JSONModel(:event).find(e.id, "resolve[]" => "ref")
+    event['linked_records'] = [{
+                                 'ref' => new_accession.uri,
+                                 'role' => generate(:record_role)
+                               }]
+    event.save
+
+    JSONModel(:event).find(event.id)['linked_records'].count.should eq(1)
+    JSONModel(:event).find(event.id)['linked_records'][0]['ref'].should eq(new_accession.uri)
+  end
+
+
   it "can update an event" do
     e = create(:json_event, @event_opts)
-    
+
     new_type = generate(:event_type)
     new_begin_date = generate(:yyyy_mm_dd)
 

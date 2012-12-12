@@ -44,7 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:group)"],
              [404, '{"error":"Group not found"}']) \
   do
-    json = Group.to_jsonmodel(params[:group_id], :group,
+    json = Group.to_jsonmodel(params[:group_id],
                               :with_members => params[:with_members])
 
     json_response(json)
@@ -60,7 +60,7 @@ class ArchivesSpaceService < Sinatra::Base
     .preconditions(proc { current_user.can?(:manage_repository) })
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(Group, :group, params[:page], params[:page_size],
+    handle_listing(Group, params[:page], params[:page_size],
                    params[:modified_since],
                    params.has_key?(:group_code) ? {:group_code => params[:group_code]} : {})
   end

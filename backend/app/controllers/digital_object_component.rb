@@ -32,7 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:digital_object_component)"],
              [404, '{"error":"DigitalObjectComponent not found"}']) \
   do
-    json = DigitalObjectComponent.to_jsonmodel(params[:digital_object_component_id], :digital_object_component)
+    json = DigitalObjectComponent.to_jsonmodel(params[:digital_object_component_id])
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end
@@ -47,7 +47,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     digital_object = DigitalObjectComponent.get_or_die(params[:digital_object_component_id])
     json_response(digital_object.children.map {|child|
-                    DigitalObjectComponent.to_jsonmodel(child, :digital_object_component).to_hash})
+                    DigitalObjectComponent.to_jsonmodel(child).to_hash})
   end
 
 
@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
             *Endpoint.pagination)
     .returns([200, "[(:digital_object_component)]"]) \
   do
-    handle_listing(DigitalObjectComponent, :digital_object_component, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(DigitalObjectComponent, params[:page], params[:page_size], params[:modified_since])
   end
 
 end

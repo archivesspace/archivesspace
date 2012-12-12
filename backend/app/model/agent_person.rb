@@ -7,6 +7,8 @@ class AgentPerson < Sequel::Model(:agent_person)
   include ExternalDocuments
   include AgentManager::Mixin
 
+  corresponds_to JSONModel(:agent_person)
+
   register_agent_type(:jsonmodel => :agent_person,
                       :name_type => :name_person,
                       :name_model => NamePerson)

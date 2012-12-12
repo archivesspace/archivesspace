@@ -28,7 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
               *Endpoint.pagination)
     .returns([200, "[(:event)]"]) \
   do
-    handle_listing(Event, :event, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(Event, params[:page], params[:page_size], params[:modified_since])
   end
 
 
@@ -42,7 +42,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:event)"],
              [404, '{"error":"Event not found"}']) \
   do
-    json = Event.to_jsonmodel(params[:event_id], :event)
+    json = Event.to_jsonmodel(params[:event_id])
 
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end
@@ -55,7 +55,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "A list of matching records"]) \
   do
     result = Event.linkable_records_for(params[:q]).map {|record_type, records|
-      records.map {|record| record.class.to_jsonmodel(record, record_type).to_hash}
+      records.map {|record| record.class.to_jsonmodel(record).to_hash}
     }.flatten
 
     json_response(result)

@@ -3,15 +3,12 @@ class Deaccession < Sequel::Model(:deaccession)
   include Extents
 
   set_model_scope :repository
-  Sequel.extension :inflector
+  corresponds_to JSONModel(:deaccession)
 
   one_to_one :date, :class => "ASDate"
-  jsonmodel_hint(:the_property => :date,
-                 :contains_records_of_type => :date,
-                 :corresponding_to_association => :date,
-                 :is_array => false,
-                 :always_resolve => true)
-
-  plugin :validation_helpers
-
+  def_nested_record(:the_property => :date,
+                    :contains_records_of_type => :date,
+                    :corresponding_to_association => :date,
+                    :is_array => false,
+                    :always_resolve => true)
 end

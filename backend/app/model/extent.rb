@@ -1,6 +1,5 @@
 class Extent < Sequel::Model(:extent)
   include ASModel
   set_model_scope :global
-
-  plugin :validation_helpers
+  corresponds_to JSONModel(:extent)
 end

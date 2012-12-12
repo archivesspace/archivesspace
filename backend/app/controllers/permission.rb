@@ -11,7 +11,7 @@ class ArchivesSpaceService < Sinatra::Base
                              ->(v){ ALLOWED_PERMISSION_LEVELS.include?(v) }]])
     .returns([200, "[(:permission)]"]) \
   do
-    handle_unlimited_listing(Permission, :permission,
+    handle_unlimited_listing(Permission,
                              (params[:level] == "all") ? {} : {:level => params[:level]})
   end
 

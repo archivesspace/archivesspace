@@ -6,10 +6,10 @@ module RightsStatements
   def self.included(base)
     base.one_to_many :rights_statement
 
-    base.jsonmodel_hint(:the_property => :rights_statements,
-                        :contains_records_of_type => :rights_statement,
-                        :corresponding_to_association  => :rights_statement,
-                        :always_resolve => true)
+    base.def_nested_record(:the_property => :rights_statements,
+                           :contains_records_of_type => :rights_statement,
+                           :corresponding_to_association  => :rights_statement,
+                           :always_resolve => true)
   end
 
 end

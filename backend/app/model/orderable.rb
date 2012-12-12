@@ -142,7 +142,7 @@ module Orderable
     end
 
 
-    def sequel_to_jsonmodel(obj, type, opts = {})
+    def sequel_to_jsonmodel(obj, opts = {})
       json = super
 
       if obj.root_record_id

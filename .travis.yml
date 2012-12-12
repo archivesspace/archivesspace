@@ -21,8 +21,8 @@ before_script:
   - sleep 3 
 
 branches:
-  except:
-    - gh-pages
+  only:
+    - master
 
 script:
   - build/run bootstrap

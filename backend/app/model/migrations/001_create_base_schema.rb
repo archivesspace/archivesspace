@@ -1,7 +1,15 @@
 Sequel.extension :inflector
 
+module MigrationUtils
+  def self.shorten_table(name)
+    name.to_s.split("_").map {|s| s[0...3]}.join("_")
+  end
+end
+
+
 Sequel.migration do
   up do
+
     create_table(:session) do
       primary_key :id
       String :session_id, :unique => true, :null => false
@@ -420,7 +428,7 @@ Sequel.migration do
         add_foreign_key([:subject_id], :subject, :key => :id)
         add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
 
-        abbrev = linked_table.to_s.split("_").map {|s| s[0...3]}.join("_")
+        abbrev = MigrationUtils.shorten_table(linked_table)
 
         add_index([:subject_id, "#{linked_table}_id".intern],
                   :name => "subject_#{abbrev}")
@@ -739,139 +747,6 @@ Sequel.migration do
     end
 
 
-    event_links = [:agent_person, :agent_corporate_entity,
-                   :agent_family, :agent_software,
-                   :archival_object, :resource, :accession]
-
-    event_links.each do |linked_table|
-      table = "event_#{linked_table}".intern
-
-      create_table(table) do
-        primary_key :id
-
-        Integer :event_id, :null => false
-        Integer "#{linked_table}_id".intern, :null => false
-        String :role, :null => false
-      end
-
-
-      alter_table(table) do
-        add_foreign_key([:event_id], :event, :key => :id)
-        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
-      end
-    end
-
-
-    accession_links = [:agent_person, :agent_corporate_entity,
-                   :agent_family, :agent_software]
-
-    accession_links.each do |linked_table|
-      table = "accession_#{linked_table}".intern
-
-      create_table(table) do
-        primary_key :id
-
-        Integer :accession_id, :null => false
-        Integer "#{linked_table}_id".intern, :null => false
-        String :role, :null => false
-      end
-
-
-      alter_table(table) do
-        add_foreign_key([:accession_id], :accession, :key => :id)
-        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
-      end
-    end
-
-
-    resource_links = [:agent_person, :agent_corporate_entity,
-                       :agent_family, :agent_software]
-
-    resource_links.each do |linked_table|
-      table = "resource_#{linked_table}".intern
-
-      create_table(table) do
-        primary_key :id
-
-        Integer :resource_id, :null => false
-        Integer "#{linked_table}_id".intern, :null => false
-        String :role, :null => false
-      end
-
-
-      alter_table(table) do
-        add_foreign_key([:resource_id], :resource, :key => :id)
-        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
-      end
-    end
-
-
-    archival_object_links = [:agent_person, :agent_corporate_entity,
-                      :agent_family, :agent_software]
-
-    archival_object_links.each do |linked_table|
-      table = "archival_object_#{linked_table}".intern
-
-      create_table(table) do
-        primary_key :id
-
-        Integer :archival_object_id, :null => false
-        Integer "#{linked_table}_id".intern, :null => false
-        String :role, :null => false
-      end
-
-
-      alter_table(table) do
-        add_foreign_key([:archival_object_id], :archival_object, :key => :id)
-        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
-      end
-    end
-
-
-    digital_object_links = [:agent_person, :agent_corporate_entity,
-                             :agent_family, :agent_software]
-
-    digital_object_links.each do |linked_table|
-      table = "digital_object_#{linked_table}".intern
-
-      create_table(table) do
-        primary_key :id
-
-        Integer :digital_object_id, :null => false
-        Integer "#{linked_table}_id".intern, :null => false
-        String :role, :null => false
-      end
-
-
-      alter_table(table) do
-        add_foreign_key([:digital_object_id], :digital_object, :key => :id)
-        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
-      end
-    end
-
-
-    digital_object_component_links = [:agent_person, :agent_corporate_entity,
-                            :agent_family, :agent_software]
-
-    digital_object_component_links.each do |linked_table|
-      table = "digital_object_component_#{linked_table}".intern
-
-      create_table(table) do
-        primary_key :id
-
-        Integer :digital_object_component_id, :null => false
-        Integer "#{linked_table}_id".intern, :null => false
-        String :role, :null => false
-      end
-
-
-      alter_table(table) do
-        add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
-        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
-      end
-    end
-
-
     create_table(:rights_statement) do
       primary_key :id
 
@@ -1054,7 +929,64 @@ Sequel.migration do
       Integer :value, :null => false
     end
 
+
+
+    # Relationship tables
+    [:accession, :archival_object, :digital_object, :digital_object_component, :event, :resource].each do |record|
+      [:agent_person, :agent_software, :agent_family, :agent_corporate_entity].each do |agent|
+        table = "#{MigrationUtils.shorten_table(record)}_linked_agents_#{MigrationUtils.shorten_table(agent)}".intern
+
+        create_table(table) do
+          primary_key :id
+          Integer "#{record}_id".intern
+          Integer "#{agent}_id".intern
+          String :role
+        end
+
+        alter_table(table) do
+          add_foreign_key(["#{record}_id".intern], record, :key => :id)
+          add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
+        end
+      end
+    end
+
+    # Event relationships
+    [:accession, :resource, :archival_object].each do |record|
+      table = "eve_link_#{MigrationUtils.shorten_table(record)}".intern
+
+      create_table(table) do
+        primary_key :id
+        Integer "#{record}_id".intern
+        Integer :event_id
+        String :role
+      end
+
+      alter_table(table) do
+        add_foreign_key(["#{record}_id".intern], record, :key => :id)
+        add_foreign_key([:event_id], :event, :key => :id)
+      end
+    end
+
+
+    # Collection management relationships
+    [:accession, :resource, :digital_object].each do |record|
+      table = "col_man_link_#{MigrationUtils.shorten_table(record)}".intern
+
+      create_table(table) do
+        primary_key :id
+        Integer "#{record}_id".intern
+        Integer :collection_management_id
+      end
+
+      alter_table(table) do
+        add_foreign_key(["#{record}_id".intern], record, :key => :id)
+        add_foreign_key([:collection_management_id], :collection_management, :key => :id)
+      end
+    end
+
   end
+
+
 
   down do
 

@@ -42,16 +42,15 @@ module AgentManager
         self.one_to_many my_agent_type[:name_type]
         self.one_to_many :agent_contact
 
-        self.jsonmodel_hint(:the_property => :names,
-                            :contains_records_of_type => my_agent_type[:name_type],
-                            :corresponding_to_association => my_agent_type[:name_type],
-                            :always_resolve => true)
+        self.def_nested_record(:the_property => :names,
+                               :contains_records_of_type => my_agent_type[:name_type],
+                               :corresponding_to_association => my_agent_type[:name_type],
+                               :always_resolve => true)
 
-        self.jsonmodel_hint(:the_property => :agent_contacts,
-                            :contains_records_of_type => :agent_contact,
-                            :corresponding_to_association => :agent_contact,
-                            :always_resolve => true)
-
+        self.def_nested_record(:the_property => :agent_contacts,
+                               :contains_records_of_type => :agent_contact,
+                               :corresponding_to_association => :agent_contact,
+                               :always_resolve => true)
       end
 
 
@@ -60,7 +59,7 @@ module AgentManager
       end
 
 
-      def sequel_to_jsonmodel(obj, type, opts = {})
+      def sequel_to_jsonmodel(obj, opts = {})
         json = super
         json.agent_type = my_agent_type[:jsonmodel].to_s
         json
