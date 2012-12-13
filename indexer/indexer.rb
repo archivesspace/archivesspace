@@ -53,13 +53,13 @@ class ArchivesSpaceIndexer
 
   include JSONModel
 
-  @@record_types = [:accession, :archival_object, :resource, :digital_object, :digital_object_component, :collection_management, :subject, :location]
+  @@record_types = [:accession, :archival_object, :resource, :digital_object, :digital_object_component, :collection_management]
   @current_session = nil
 
 
-  def initialize
+  def initialize(state = nil)
     JSONModel::init(:client_mode => true, :url => AppConfig[:backend_url])
-    @state = IndexState.new
+    @state = state || IndexState.new
     @document_prepare_hooks = []
   end
 
@@ -205,8 +205,8 @@ class ArchivesSpaceIndexer
   end
 
 
-  def self.main
-    indexer = ArchivesSpaceIndexer.new
+  def self.get_indexer(state = nil)
+    indexer = ArchivesSpaceIndexer.new(state)
 
     indexer.add_document_prepare_hook {|doc, record|
       if record.class.record_type == 'archival_object'
@@ -220,16 +220,18 @@ class ArchivesSpaceIndexer
       end
     }
 
-    indexer.add_document_prepare_hook {|doc, record|
-      if ['subject', 'location'].include?(record.class.record_type)
-        doc['json'] = record.to_json
-      end
-    }
+    indexer
+  end
 
+
+  def self.main
+    indexer = get_indexer
     indexer.run
   end
 
 end
 
 
-ArchivesSpaceIndexer.main
+if $0 == __FILE__
+  ArchivesSpaceIndexer.main
+end

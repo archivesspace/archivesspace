@@ -1,10 +1,18 @@
 require_relative 'spec_helper'
+require_relative '../../indexer/indexer'
 
 describe "ArchivesSpace user interface" do
 
   # Start the dev servers and Selenium
   before(:all) do
     selenium_init
+    state = Object.new
+    def state.get_last_mtime(*args)
+      0
+    end
+    def state.set_last_mtime(*args)
+    end
+    @indexer = ArchivesSpaceIndexer.get_indexer(state)
   end
 
 
@@ -1004,8 +1012,11 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".token-input-delete-token").click
 
       # search for the created subject
-      $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects_"], "#{$$}FooTerm456")
-      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      assert {
+        @indexer.run_index_round
+        $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects_"], "#{$$}FooTerm456")
+        $driver.find_element(:css, "li.token-input-dropdown-item2").click
+      }
 
       $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
 

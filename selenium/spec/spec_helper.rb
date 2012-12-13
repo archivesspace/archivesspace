@@ -273,6 +273,8 @@ def selenium_init
     standalone = false
   end
 
+  AppConfig[:backend_url] = $backend
+
   (@backend, @frontend) = [false, false]
   if standalone
     puts "Starting backend and frontend using #{$backend} and #{$frontend}"
