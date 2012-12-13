@@ -6,10 +6,10 @@
     "uri" => "/repositories/:repo_id/resources",
     "properties" => {
 
-      "id_0" => {"type" => "string", "pattern" => "^[a-zA-Z0-9 ]*$"},
-      "id_1" => {"type" => "string", "pattern" => "^[a-zA-Z0-9 ]*$"},
-      "id_2" => {"type" => "string", "pattern" => "^[a-zA-Z0-9 ]*$"},
-      "id_3" => {"type" => "string", "pattern" => "^[a-zA-Z0-9 ]*$"},
+      "id_0" => {"type" => "string"},
+      "id_1" => {"type" => "string"},
+      "id_2" => {"type" => "string"},
+      "id_3" => {"type" => "string"},
 
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
       "other_level" => {"type" => "string"},
