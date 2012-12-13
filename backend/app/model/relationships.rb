@@ -128,7 +128,7 @@ module Relationships
           properties[self.table_name] = obj
           properties[referent_model.table_name] = referent_model[record_type[:id]]
 
-          relationship = link_model.create(properties)
+          link_model.create(properties)
         end
       end
     end

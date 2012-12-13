@@ -303,4 +303,31 @@ describe 'Accession controller' do
     tree.children[0]['record_uri'].should eq(resource.uri)
   end
 
+
+  it "Allows accessions to be created with an agent link" do
+
+    agent1 = create(:json_agent_person)
+    agent2 = create(:json_agent_person)
+
+    accession = Accession.create_from_json(build(:json_accession,
+                                                 :linked_agents => [
+                                                                    {
+                                                                      "role" => 'creator',
+                                                                      "ref" => agent1.uri
+                                                                    },
+                                                                    {
+                                                                      "role" => 'creator',
+                                                                      "ref" => agent2.uri
+                                                                    }
+                                                                   ]
+                                                 ),
+                                           :repo_id => $repo_id)
+
+    acc = JSONModel(:accession).find(accession.id)
+
+    acc.linked_agents.length.should eq(2)
+    acc.linked_agents[0]['ref'].should eq(agent1.uri)
+    acc.linked_agents[1]['ref'].should eq(agent2.uri)
+  end
+
 end
