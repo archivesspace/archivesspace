@@ -20,9 +20,14 @@ class ArchivesSpaceService < Sinatra::Base
   include ImportHelpers
 
   @loaded_hooks = []
+  @archivesspace_loaded = false
 
   def self.loaded_hook(&block)
-    @loaded_hooks << block
+    if @archivesspace_loaded
+      block.call
+    else
+      @loaded_hooks << block
+    end
   end
 
 
@@ -113,6 +118,8 @@ class ArchivesSpaceService < Sinatra::Base
       @loaded_hooks.each do |hook|
         hook.call
       end
+      @archivesspace_loaded = true
+
     else
       # Just load the setup controller
       load File.absolute_path(File.join(File.dirname(__FILE__), "controllers", "setup.rb"))

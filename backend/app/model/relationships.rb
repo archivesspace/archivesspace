@@ -48,20 +48,23 @@ module Relationships
         classes = linked_models.map do |referent|
           # Generate an ugly table name by combining the referring table, the
           # link name and the table it refers to.
-          table_name = "#{self.shortname}_#{relationship[:name]}_#{referent.shortname}".intern
-
+          table_name = [self.shortname, referent.shortname].sort.join("_#{relationship[:name]}_").intern
           referrer_table = self.table_name
 
-          clz = Class.new(Sequel::Model(table_name)) do
-            many_to_one referrer_table
-            many_to_one referent.table_name
+          begin
+            clz = Object.const_get(table_name.to_s.classify)
+          rescue NameError
+            clz = Class.new(Sequel::Model(table_name)) do
+              many_to_one referrer_table
+              many_to_one referent.table_name
 
-            if !self.db.table_exists?(self.table_name)
-              Log.warn("Table doesn't exist: #{self.table_name}")
+              if !self.db.table_exists?(self.table_name)
+                Log.warn("Table doesn't exist: #{self.table_name}")
+              end
             end
-          end
 
-          Object.const_set(table_name.to_s.classify, clz)
+            Object.const_set(table_name.to_s.classify, clz)
+          end
 
           self.one_to_many(table_name, :order => "#{table_name}__id".intern)
 
@@ -158,7 +161,7 @@ module Relationships
 
             # Return the relationship properties, plus the URI reference of the
             # related object
-            properties = relationship_instance.values.clone
+            properties = ASUtils.keys_as_strings(relationship_instance.values.clone)
             properties['ref'] = referent.uri
 
             properties.delete(:id)

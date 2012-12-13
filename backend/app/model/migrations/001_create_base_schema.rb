@@ -938,7 +938,8 @@ Sequel.migration do
     # Relationship tables
     [:accession, :archival_object, :digital_object, :digital_object_component, :event, :resource].each do |record|
       [:agent_person, :agent_software, :agent_family, :agent_corporate_entity].each do |agent|
-        table = "#{MigrationUtils.shorten_table(record)}_linked_agents_#{MigrationUtils.shorten_table(agent)}".intern
+        table = [MigrationUtils.shorten_table(record),
+                 MigrationUtils.shorten_table(agent)].sort.join("_linked_agents_").intern
 
         create_table(table) do
           primary_key :id
@@ -956,7 +957,8 @@ Sequel.migration do
 
     # Event relationships
     [:accession, :resource, :archival_object].each do |record|
-      table = "eve_link_#{MigrationUtils.shorten_table(record)}".intern
+      table = [MigrationUtils.shorten_table("event"),
+               MigrationUtils.shorten_table(record)].sort.join("_link_").intern
 
       create_table(table) do
         primary_key :id
@@ -974,7 +976,9 @@ Sequel.migration do
 
     # Collection management relationships
     [:accession, :resource, :digital_object].each do |record|
-      table = "col_man_link_#{MigrationUtils.shorten_table(record)}".intern
+      table = [MigrationUtils.shorten_table("collection_management"),
+               MigrationUtils.shorten_table(record)].sort.join("_link_").intern
+
 
       create_table(table) do
         primary_key :id
