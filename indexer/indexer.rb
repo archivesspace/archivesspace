@@ -53,7 +53,7 @@ class ArchivesSpaceIndexer
 
   include JSONModel
 
-  @@record_types = [:accession, :archival_object, :resource, :digital_object, :digital_object_component, :collection_management]
+  @@record_types = [:accession, :archival_object, :resource, :digital_object, :digital_object_component, :collection_management, :subject, :location]
   @current_session = nil
 
 
@@ -217,6 +217,12 @@ class ArchivesSpaceIndexer
     indexer.add_document_prepare_hook {|doc, record|
       if record.class.record_type == 'digital_object_component'
         doc['digital_object'] = record['digital_object']
+      end
+    }
+
+    indexer.add_document_prepare_hook {| doc, record|
+      if ['subject', 'location'].include?(record.class.record_type)
+        doc['json'] = record.to_json
       end
     }
 

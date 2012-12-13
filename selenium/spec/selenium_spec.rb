@@ -68,7 +68,6 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "repository_repo_code_"], @test_repo_code_1)
       $driver.clear_and_send_keys([:id, "repository_description_"], @test_repo_name_1)
       $driver.find_element(:css => "form#new_repository input[type='submit']").click
-
     end
 
 
@@ -87,10 +86,12 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link_text => @test_repo_code_2).click
       assert { $driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_2 }
 
+
       $driver.find_element(:css, '.repository-container .btn').click
       assert { $driver.find_element(:link_text => @test_repo_code_1).text.should eq @test_repo_code_1 }
       $driver.find_element(:link_text => @test_repo_code_1).click
       assert { $driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_1 }
+
 
       $driver.find_element(:css, '.repository-container .btn').click
       $driver.find_element(:link_text => @test_repo_code_2).click
@@ -127,6 +128,7 @@ describe "ArchivesSpace user interface" do
       sleep 5
       login("admin", "admin")
     end
+
 
     after(:all) do
       logout
@@ -181,6 +183,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'group_description_'], "Goo group to group goo")
       $driver.find_element(:id, "view_repository").click
       $driver.find_element(:css => "form#new_group input[type='submit']").click
+
 
       expect {
         $driver.find_element_with_text('//tr', /goo/)
@@ -291,6 +294,7 @@ describe "ArchivesSpace user interface" do
 
   end
 
+
   describe "Agents" do
 
     before(:all) do
@@ -385,6 +389,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "agent_names__1__suffix_"], "woo")
       $driver.find_element(:id => "agent_names__1__suffix_").clear
 
+
       assert {
         $driver.find_element(:id => "agent_names__1__sort_name_").attribute("value").should eq("Hendrix, Jimi")
       }
@@ -475,9 +480,11 @@ describe "ArchivesSpace user interface" do
       @accession_title = "Exciting new stuff - \u2603"
     end
 
+
     after(:all) do
       logout
     end
+
 
     it "gives option to ignore warnings when creating an Accession" do
       $driver.find_element(:link, "Create").click
@@ -754,7 +761,6 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link, 'Finish Editing').click
 
-
       # check the show page
       $driver.find_element(:id, "accession_rights_statements_")
       $driver.find_element(:id, "rights_statement_0")
@@ -770,11 +776,13 @@ describe "ArchivesSpace user interface" do
     end
   end
 
+
   describe "Collection Management Records" do
 
     before(:all) do
       login_as_archivist
       @accession_title = create_accession("CMRs link to this accession")
+      @indexer.run_index_round
     end
 
 
@@ -818,12 +826,14 @@ describe "ArchivesSpace user interface" do
       login_as_archivist
       @accession_title = create_accession("Events link to this accession")
       @agent_name = create_agent("Geddy Lee")
+      @indexer.run_index_round
     end
 
 
     after(:all) do
       logout
     end
+
 
     it "creates an event and links it to an agent and accession" do
       $driver.find_element(:link, "Create").click
@@ -854,6 +864,7 @@ describe "ArchivesSpace user interface" do
       token_input.click
       token_input.send_keys(@accession_title)
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
+
 
       $driver.find_element(:css => "form#new_event button[type='submit']").click
     end
@@ -1014,7 +1025,7 @@ describe "ArchivesSpace user interface" do
       # search for the created subject
       assert {
         @indexer.run_index_round
-        $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects_"], "#{$$}FooTerm456")
+        $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects_"], "#{$$}TestTerm123")
         $driver.find_element(:css, "li.token-input-dropdown-item2").click
       }
 
