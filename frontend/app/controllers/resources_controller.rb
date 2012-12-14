@@ -46,9 +46,6 @@ class ResourcesController < ApplicationController
                 :on_valid => ->(id){
                   flash[:success] = "Resource Created"
 
-                  puts @resource.inspect
-                  puts "ID: #{@resource.id}"
-
                   return render :partial => "resources/edit_inline" if params[:inline]
                   redirect_to(:controller => :resources,
                               :action => :edit,
