@@ -28,7 +28,7 @@
 
 ## Using an already running instance of ArchivesSpace:
 
-  * By default the selenium task will start up it's own instances of the backend and frontend. To use instances already running, set the following environment variables:
+  * By default the selenium task will start up its own instances of the backend and frontend. To use instances already running, set the following environment variables:
 
         $ export ASPACE_BACKEND_URL=http://localhost:xxxx
         $ export ASPACE_FRONTEND_URL=http://localhost:xxxx
