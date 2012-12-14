@@ -9,7 +9,7 @@ class AccessionsController < ApplicationController
   end
 
   def show
-    @accession = Accession.find(params[:id], "resolve[]" => ["subjects", "ref"])
+    @accession = Accession.find(params[:id], "resolve[]" => ["subjects", "ref", "related_resources"])
     flash[:info] = "Accession is suppressed and cannot be edited." if @accession.suppressed
   end
 
@@ -18,7 +18,7 @@ class AccessionsController < ApplicationController
   end
 
   def edit
-    @accession = Accession.find(params[:id], "resolve[]" => ["subjects", "ref"])
+    @accession = Accession.find(params[:id], "resolve[]" => ["subjects", "ref", "related_resources"])
 
     if @accession.suppressed
       redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
@@ -30,20 +30,24 @@ class AccessionsController < ApplicationController
   end
 
   def create
+    munge_related(params[:accession], :related_resources)
+
     handle_crud(:instance => :accession,
                 :model => Accession,
                 :on_invalid => ->(){ render action: "new" },
                 :on_valid => ->(id){
-                    flash[:success] = "Accession Created" 
+                    flash[:success] = "Accession Created"
                     redirect_to(:controller => :accessions,
                                                  :action => :edit,
                                                  :id => id) })
   end
 
   def update
+    munge_related(params[:accession], :related_resources)
+
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :obj => JSONModel(:accession).find(params[:id], "resolve[]" => ["subjects", "ref"]),
+                :obj => JSONModel(:accession).find(params[:id], "resolve[]" => ["subjects", "ref", "related_resources"]),
                 :on_invalid => ->(){
                   return render :partial => "accessions/edit_inline" if params[:inline]
                   return render action: "edit"

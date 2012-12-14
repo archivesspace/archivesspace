@@ -11,6 +11,7 @@
        <%= form.label_and_textarea "content_description" %>
        <%= form.label_and_textarea "condition_description" %>
        <%= render :partial => "subjects/linker", :locals => { :form => form }%>
+       <%= render :partial => "resources/linker", :locals => { :form => form }%>
     </fieldset>
   </section>
 <% end %>

@@ -1,0 +1,20 @@
+<hr/>
+<div class="control-group">
+   <label class="control-label">Resources</label>
+   <div class="controls">
+       <div class="input-append linker-wrapper">
+          <input type="text" class="linker"
+            id="<%= form.id_for("resources") %>"
+            data-label="Resource"
+            data-label_plural="Resources"
+            data-path="<%= form.path %>"
+            data-name="related_resources"
+            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+            data-selected='<%= form.obj['related_resources'].blank? ? "[]" : form.obj['resolved']['related_resources'].to_json %>'
+            data-format_property="title"
+            data-sortable="true"
+            data-types='["resource"]'
+          />
+       </div>
+   </div>
+</div>
