@@ -992,9 +992,23 @@ Sequel.migration do
       end
     end
 
+
+    # Accession/resource "spawned from" relationships
+    table = [MigrationUtils.shorten_table("accession"),
+             MigrationUtils.shorten_table("resource")].sort.join("_spawned_").intern
+
+    create_table(table) do
+      primary_key :id
+      Integer :accession_id
+      Integer :resource_id
+    end
+
+    alter_table(table) do
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+    end
+
   end
-
-
 
   down do
 

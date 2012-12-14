@@ -26,7 +26,7 @@ describe "Resource Model" do
 
     resource.notes.map {|note| note['content']}.sort.should eq(['My condition', 'My content'])
 
-    resource.related_accession.should eq("/stub/uri")
+    resource.related_accessions[0]['ref'].should eq("/stub/uri")
 
   end
 end

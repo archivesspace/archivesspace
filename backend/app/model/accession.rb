@@ -8,10 +8,18 @@ class Accession < Sequel::Model(:accession)
   include RightsStatements
   include Deaccessions
   include Agents
+  include Relationships
 
   enable_suppression
   corresponds_to JSONModel(:accession)
   set_model_scope :repository
+
+
+  define_relationship(:name => :spawned,
+                      :json_property => 'related_resources',
+                      :contains_references_to_types => proc {[Resource]})
+
+
 
   def self.records_matching(query, max)
     self.this_repo.filter(:suppressed => 0).
@@ -31,7 +39,7 @@ class Accession < Sequel::Model(:accession)
 
 
   def tree
-    resources = Resource.filter(:accession_id => self.id).all.map {|resource|
+    resources = self.linked_records(:spawned).map {|resource|
       {
         :title => resource.title,
         :id => resource.id,

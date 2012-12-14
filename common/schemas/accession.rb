@@ -25,7 +25,16 @@
       "rights_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:rights_statement) object"}},
       "deaccessions" => {"type" => "array", "items" => {"type" => "JSONModel(:deaccession) object"}},
 
-      "related_resource" => {"type" => "JSONModel(:resource) uri"},
+      "related_resources" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "properties" => {
+            "ref" => {"type" => [{"type" => "JSONModel(:resource) uri"}],
+                      "ifmissing" => "error"}
+          }
+        }
+      },
 
       "suppressed" => {"type" => "boolean"},
 

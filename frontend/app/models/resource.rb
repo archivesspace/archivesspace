@@ -37,7 +37,7 @@ class Resource < JSONModel(:resource)
                                                      :content => accession.condition_description).to_hash
     end
 
-    self.related_accession = accession.uri
+    self.related_accessions = [{'ref' => accession.uri}]
 
     self.notes = notes
 

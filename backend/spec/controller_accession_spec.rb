@@ -290,10 +290,10 @@ describe 'Accession controller' do
     resource = create(:json_resource)
     accession = create(:json_accession)
 
-    resource.related_accession = accession.uri
+    resource.related_accessions = [{'ref' => accession.uri}]
     resource.save
 
-    JSONModel(:resource).find(resource.id).related_accession.should eq(accession.uri)
+    JSONModel(:resource).find(resource.id).related_accessions[0]['ref'].should eq(accession.uri)
 
     # Now query the tree
     tree = JSONModel(:accession_tree).find(nil, :accession_id => accession.id)

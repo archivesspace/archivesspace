@@ -383,7 +383,7 @@ describe 'Resources controller' do
     accession = create(:json_accession)
 
     # Rubbish!
-    resource.related_accession = "/repositories/99999/accessions/#{accession.id}"
+    resource.related_accessions = [{'ref' => "/repositories/99999/accessions/#{accession.id}"}]
 
     expect {
       resource.save

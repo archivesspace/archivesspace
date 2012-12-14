@@ -13,31 +13,16 @@ class Resource < Sequel::Model(:resource)
   include Agents
   include Trees
   include Notes
+  include Relationships
 
   tree_of(:resource, :archival_object)
   set_model_scope :repository
   corresponds_to JSONModel(:resource)
 
+  define_relationship(:name => :spawned,
+                      :json_property => 'related_accessions',
+                      :contains_references_to_types => proc {[Accession]})
 
-  def self.set_related_accession(json, opts)
-    opts["accession_id"] = nil
-
-    if json.related_accession
-      opts["accession_id"] = parse_reference(json.related_accession, opts)[:id]
-    end
-  end
-
-
-  def self.create_from_json(json, opts = {})
-    set_related_accession(json, opts)
-    super
-  end
-
-
-  def update_from_json(json, opts = {})
-    self.class.set_related_accession(json, opts)
-    super
-  end
 
 
   def link(opts)
@@ -50,13 +35,6 @@ class Resource < Sequel::Model(:resource)
 
   def children
     ArchivalObject.filter(:resource_id => self.id, :parent_id => nil).order(:position)
-  end
-
-
-  def self.sequel_to_jsonmodel(obj, opts = {})
-    json = super
-    json.related_accession = uri_for(:accession, obj.accession_id) if obj.accession_id
-    json
   end
 
 
