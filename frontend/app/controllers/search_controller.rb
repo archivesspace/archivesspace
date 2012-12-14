@@ -7,13 +7,8 @@ class SearchController < ApplicationController
       :q => params[:q],
       :page => params[:page] || 1
     }
-    if not params[:type].blank?
-      if params[:type].kind_of? Array
-        @criteria['type[]'] = params[:type]
-      else
-        @criteria['type[]'] = [params[:type]]
-      end
-    end
+
+    @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
 
     @search_data = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/search", @criteria)
