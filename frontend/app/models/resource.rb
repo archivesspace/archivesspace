@@ -18,12 +18,10 @@ class Resource < JSONModel(:resource)
     # properties)
     values = JSONModel(:accession).map_hash_with_schema(values, nil,
                                                         [proc { |hash, schema|
-                                                           hash = hash.clone
-                                                           hash.delete_if {|k, v| k.to_s =~ /^(id_[0-9]|lock_version)$/}
-                                                           hash
-                                                         }])
-    self.update(values)
-
+                                                          hahs = hash.clone
+                                                          hash.delete_if {|k, v| k.to_s =~ /^(id_[0-9]|lock_version)$/}
+                                                          hash
+                                                        }])
 
     notes ||= []
 
@@ -39,13 +37,11 @@ class Resource < JSONModel(:resource)
                                                      :content => accession.condition_description).to_hash
     end
 
-    self.related_accessions = [accession.uri]
-    self['resolved'] ||= {}
-    self['resolved']['related_accessions'] = [accession.to_hash]
+    self.related_accession = accession.uri
 
     self.notes = notes
 
-    self
+    self.update(values)
   end
 
 

@@ -18,31 +18,25 @@ class Resource < Sequel::Model(:resource)
   set_model_scope :repository
   corresponds_to JSONModel(:resource)
 
-  many_to_many :accession, :join_table => :accession_resource
 
+  def self.set_related_accession(json, opts)
+    opts["accession_id"] = nil
 
-  def self.set_related_accessions(obj, json, opts)
-    if json.related_accessions
-      json.related_accessions.each do |uri|
-        accession_id = parse_reference(uri, opts)[:id]
-
-        obj.add_accession(Accession[accession_id])
-      end
+    if json.related_accession
+      opts["accession_id"] = parse_reference(json.related_accession, opts)[:id]
     end
   end
 
 
   def self.create_from_json(json, opts = {})
-    obj = super
-    set_related_accessions(obj, json, opts)
-    obj
+    set_related_accession(json, opts)
+    super
   end
 
 
   def update_from_json(json, opts = {})
-    obj = super
-    self.class.set_related_accessions(obj, json, opts)
-    obj
+    self.class.set_related_accession(json, opts)
+    super
   end
 
 
@@ -61,7 +55,7 @@ class Resource < Sequel::Model(:resource)
 
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
-    json.related_accessions = obj.accession.map { |acc| self.uri_for(:accession, acc.id) }
+    json.related_accession = uri_for(:accession, obj.accession_id) if obj.accession_id
     json
   end
 
