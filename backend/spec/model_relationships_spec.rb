@@ -4,8 +4,39 @@ require_relative '../app/model/relationships'
 
 describe 'Relationships' do
 
-  it "Can represent relationships with properties" do
+  before(:each) do
+    ## Database setup
+    DB.open do |db|
+      [:apple, :banana].each do |table|
+        db.create_table table do
+          primary_key :id
+          String :name
+          Integer :lock_version, :default => 0
+          Date :create_time
+          Date :last_modified
+        end
+      end
 
+      db.create_table :app_fruit_salad_ban do
+        primary_key :id
+        String :sauce
+        Integer :banana_id
+        Integer :apple_id
+      end
+    end
+  end
+
+
+  after(:each) do
+    DB.open do |db|
+      db.drop_table(:apple)
+      db.drop_table(:banana)
+      db.drop_table(:app_fruit_salad_ban)
+    end
+  end
+
+
+  before(:each) do
     ## Some minimal JSONModel instances
     JSONModel.stub(:schema_src).with('apple').and_return('{
       :schema => {
@@ -48,28 +79,6 @@ describe 'Relationships' do
     }')
 
 
-
-    ## Database setup
-    DB.open do |db|
-      [:apple, :banana].each do |table|
-        db.create_table table do
-          primary_key :id
-          String :name
-          Date :create_time
-          Date :last_modified
-        end
-      end
-
-      db.create_table :app_fruit_salad_ban do
-        primary_key :id
-        String :sauce
-        Integer :banana_id
-        Integer :apple_id
-      end
-    end
-
-
-
     class Apple < Sequel::Model(:apple)
       include ASModel
       include Relationships
@@ -98,7 +107,10 @@ describe 'Relationships' do
                           :json_property => 'bananas',
                           :contains_references_to_types => proc {[Banana]})
     end
+  end
 
+
+  it "can represent relationships with properties" do
 
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
 
@@ -117,5 +129,31 @@ describe 'Relationships' do
     Apple.to_jsonmodel(apple).bananas[0]['sauce'].should eq('yogurt')
   end
 
+
+  it "doesn't differentiate between updates made from opposing sides of the relationship" do
+
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
+
+    # Create a fruit salad relationship by adding an apple to a banana
+    #
+    # Hopefully that's the strangest thing I'll type today...
+    banana_json = JSONModel(:banana).new(:apples => [{
+                                                       :ref => apple.uri,
+                                                       :sauce => "yogurt"
+                                                     }])
+    banana = Banana.create_from_json(banana_json)
+
+    # Check the forwards relationship
+    Banana.to_jsonmodel(banana).apples[0]['ref'].should eq(apple.uri)
+    Banana.to_jsonmodel(banana).apples[0]['sauce'].should eq('yogurt')
+
+    # Clear the relationship by updating the apple to remove the banana
+    apple.update_from_json(JSONModel(:apple).new(:name => "granny smith",
+                                                 :lock_version => 0))
+
+    # Now the banana has no apples listed
+    banana.refresh
+    Banana.to_jsonmodel(banana).apples.should eq([])
+  end
 
 end
