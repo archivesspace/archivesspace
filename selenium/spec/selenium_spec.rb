@@ -6,12 +6,20 @@ describe "ArchivesSpace user interface" do
   # Start the dev servers and Selenium
   before(:all) do
     selenium_init
-    state = Object.new
-    def state.get_last_mtime(*args)
-      0
+    state = Object.new.instance_eval do
+      @store = {}
+
+      def get_last_mtime(repo, record_type)
+        @store[[repo[:repo_code], record_type]].to_i || 0
+      end
+
+      def set_last_mtime(repo, record_type, time)
+        @store[[repo[:repo_code], record_type]] = time
+      end
+
+      self
     end
-    def state.set_last_mtime(*args)
-    end
+
     @indexer = ArchivesSpaceIndexer.get_indexer(state)
   end
 
