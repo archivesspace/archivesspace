@@ -18,7 +18,7 @@ class Resource < JSONModel(:resource)
     # properties)
     values = JSONModel(:accession).map_hash_with_schema(values, nil,
                                                         [proc { |hash, schema|
-                                                          hahs = hash.clone
+                                                          hash = hash.clone
                                                           hash.delete_if {|k, v| k.to_s =~ /^(id_[0-9]|lock_version)$/}
                                                           hash
                                                         }])
@@ -42,6 +42,15 @@ class Resource < JSONModel(:resource)
     self.notes = notes
 
     self.update(values)
+
+    if !self.extents || self.extents.empty?
+      self.extents = [JSONModel(:extent).new._always_valid!]
+    end
+
+    self['resolved'] ||= {}
+    self['resolved']['related_accessions'] = [accession.to_hash]
+
+    puts self.inspect
   end
 
 

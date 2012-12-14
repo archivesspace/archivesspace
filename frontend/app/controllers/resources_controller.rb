@@ -37,7 +37,20 @@ class ResourcesController < ApplicationController
   end
 
 
+  # FIXME: a gross workaround while we reconcile the differences between the way
+  # accessions are linked and the way subjects are linked.  Soon we'll move
+  # everything over to use this new 'ref' syntax.
+  def munge_related_accessions
+    if params[:resource][:related_accessions]
+      params[:resource][:related_accessions] = params[:resource][:related_accessions].map {|uri|
+        {'ref' => uri}
+      }
+    end
+  end
+
   def create
+    munge_related_accessions
+
     handle_crud(:instance => :resource,
                 :on_invalid => ->(){
                   return render :partial => "resources/new_inline" if params[:inline]
@@ -55,6 +68,8 @@ class ResourcesController < ApplicationController
 
 
   def update
+    munge_related_accessions
+
     handle_crud(:instance => :resource,
                 :obj => JSONModel(:resource).find(params[:id],
                                                   "resolve[]" => ["subjects", "location", "ref", "related_accessions"]),

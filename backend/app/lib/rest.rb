@@ -4,6 +4,10 @@ module RESTHelpers
 
 
   def resolve_reference(uri)
+    if uri.is_a? Hash
+      uri = uri['ref']
+    end
+
     if !JSONModel.parse_reference(uri).nil?
       JSON.parse(redirect_internal(uri)[2].join(""), :max_nesting => false)
     else
@@ -13,7 +17,8 @@ module RESTHelpers
 
 
   def resolve_references(value, properties_to_resolve)
-    return value if properties_to_resolve.nil?
+    # If ASPACE_REENTRANT is set, don't resolve anything or we risk creating loops.
+    return value if (properties_to_resolve.nil? || env['ASPACE_REENTRANT'])
 
     if value.is_a? Hash
       resolved = {}
