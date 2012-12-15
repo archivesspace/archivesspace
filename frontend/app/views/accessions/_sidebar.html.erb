@@ -2,16 +2,16 @@
   <ul class="nav nav-list as-nav-list">
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
 
-    <% if controller.action_name != "show" || @accession.linked_agents.length > 0 %>
-      <li><a href="#accession_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
     <% if controller.action_name != "show" || @accession.extents.length > 0 %>
       <li><a href="#accession_extents_">Extents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.dates.length > 0 %>
       <li><a href="#accession_dates_">Dates <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if controller.action_name != "show" || @accession.linked_agents.length > 0 %>
+      <li><a href="#accession_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.external_documents.length > 0 %>

@@ -29,11 +29,13 @@
   <% end %>
 
   <% form.emit_template("archival_object") %>
+  
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "archival_object_linked_agent"} %>
   <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
+
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances"} %>

@@ -37,6 +37,12 @@
 
       </section>
 
+      <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
+
+      <% if @resource.dates.length > 0 %>
+        <%= render :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
+      <% end %>
+      
       <section id="finding_aid" class="subrecord-form-dummy">
         <h3>Finding Aid</h3>
         <div class="subrecord-form-container">
@@ -64,12 +70,6 @@
 
       <% if @resource.notes.length > 0 %>
         <%= render :partial => "notes/show", :locals => { :notes => @resource.notes, :context => readonly } %>
-      <% end %>
-
-      <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
-
-      <% if @resource.dates.length > 0 %>
-        <%= render :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
       <% end %>
 
       <% if @resource.external_documents.length > 0 %>

@@ -138,6 +138,8 @@ AS.renderTemplate = function(templateId, data) {
       AS.templateCache[templateId] = TrimPath.parseTemplate(template, templateId);
     }
   }
+	console.log("Data to trim path");
+	console.log(data);
   return AS.templateCache[templateId].process(data);
 };
 

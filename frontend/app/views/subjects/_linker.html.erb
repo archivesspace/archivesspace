@@ -1,17 +1,53 @@
+<%
+  Rails.logger.debug("DATA PATH RAW#{form.path.inspect}")
+  resolved_obj = form.resolved_obj
+  Rails.logger.debug("RESOLVED #{resolved_obj.inspect}")  
+  
+   if resolved_obj.nil?
+     selected_json = "{}"
+  elsif resolved_obj.is_a?(String)
+    selected_json = JSON(resolved_obj).to_json
+  else
+    selected_json = Subject.from_hash(resolved_obj).to_json
+    # selected_json = Subject.from_hash(resolved_obj).to_json
+  end
+  
+  Rails.logger.debug("SELECTED JSON #{selected_json.inspect}")
+  # if form.obj['ref'].blank?
+  #   selected_json = "{}"
+  # elsif  form.obj['resolved']['ref'].is_a?(String)
+  #   selected_json =  JSON(form.obj['resolved']['ref']).to_json
+  # else
+  #   selected_json =  form.obj['resolved']['ref'].to_json
+  # end
+  # 
+  
+  # data_path = form.path.gsub(/\[subjects\]\[([0-9]*)\]$/, "")
+  # data_path = form.path.gsub(/\[([0-9]*)\]$/, "")
+  data_path = form.path
+  # data_name = "subjects"
+  # data_name = ''
+  # data_index = $1
+  data_resolved_level = 'parent'
+  # data_resolved_path = form.path.gsub(/\[subjects\]/, "[resolved][subjects]")
+  
+%>
+
 <hr/>
 <div class="control-group">
-   <label class="control-label">Subjects</label>
+   <label class="control-label">Subject</label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for("subjects") %>"
             data-label="Subject"
             data-label_plural="Subjects"
-            data-path="<%= form.path %>"
-            data-name="subjects"
+            data-path="<%= data_path %>"
+            data-resolved_level="<%= data_resolved_level %>"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
-            data-selected='<%= form.obj['subjects'].blank? ? "[]" : form.obj['resolved']['subjects'].collect {|s| Subject.from_hash(s)}.to_json %>'
-            data-format_template_id="linker_subject_template"
+            data-selected='<%= selected_json %>'
+            data-multiplicity="one"
+            data-format_property="display_string"
             data-sortable="true"
             data-types='["subject"]'
           />

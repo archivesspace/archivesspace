@@ -1,6 +1,13 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list as-nav-list">
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
+    
+    <li><a href="#resource_extents_">Extents <span class="icon-chevron-right"></span></a></li>
+
+    <% if controller.action_name != "show" || @resource.dates.length > 0 %>
+      <li><a href="#resource_dates_">Dates <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+    
     <li><a href="#finding_aid">Finding Aid <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @resource.linked_agents.length > 0 %>
@@ -11,11 +18,6 @@
       <li><a href="#notes">Notes <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <li><a href="#resource_extents_">Extents <span class="icon-chevron-right"></span></a></li>
-
-    <% if controller.action_name != "show" || @resource.dates.length > 0 %>
-      <li><a href="#resource_dates_">Dates <span class="icon-chevron-right"></span></a></li>
-    <% end %>
 
     <% if not controller.action_name === "show" or @resource.external_documents.length > 0 %>
       <li><a href="#resource_external_documents_">External Documents <span class="icon-chevron-right"></span></a></li>

@@ -3,6 +3,7 @@
 
 $(function() {
   $.fn.linker = function() {
+		console.log("Linker FN");
     $(this).each(function() {
       var $this = $(this);
       var $linkerWrapper = $this.parents(".linker-wrapper:first");
@@ -20,6 +21,7 @@ $(function() {
         format_property: $this.data("format_property"),
         path: $this.data("path"),
         name: $this.data("name"),
+				resolved_path: $this.data("resolved_path") || $this.data("path") + "[resolved]",
         multiplicity: $this.data("multiplicity") || "many",
         label: $this.data("label"),
         label_plural: $this.data("label_plural"),
@@ -27,7 +29,6 @@ $(function() {
         sortable: $this.data("sortable") === true,
         types: $this.data("types")
       };
-
       if (config.format_template && config.format_template.substring(0,2) != "${") {
         config.format_template = "${" + config.format_template + "}";
       }
@@ -213,6 +214,8 @@ $(function() {
 
 
       var init = function() {
+				console.log("Init Function");
+				console.log(config);
         $this.tokenInput(config.url, {
           animateDropdown: false,
           preventDuplicates: true,
