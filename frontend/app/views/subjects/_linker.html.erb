@@ -1,36 +1,16 @@
 <%
-  Rails.logger.debug("DATA PATH RAW#{form.path.inspect}")
   resolved_obj = form.resolved_obj
-  Rails.logger.debug("RESOLVED #{resolved_obj.inspect}")  
   
-   if resolved_obj.nil?
+  if resolved_obj.nil?
      selected_json = "{}"
   elsif resolved_obj.is_a?(String)
     selected_json = JSON(resolved_obj).to_json
   else
     selected_json = Subject.from_hash(resolved_obj).to_json
-    # selected_json = Subject.from_hash(resolved_obj).to_json
   end
-  
-  Rails.logger.debug("SELECTED JSON #{selected_json.inspect}")
-  # if form.obj['ref'].blank?
-  #   selected_json = "{}"
-  # elsif  form.obj['resolved']['ref'].is_a?(String)
-  #   selected_json =  JSON(form.obj['resolved']['ref']).to_json
-  # else
-  #   selected_json =  form.obj['resolved']['ref'].to_json
-  # end
-  # 
-  
-  # data_path = form.path.gsub(/\[subjects\]\[([0-9]*)\]$/, "")
-  # data_path = form.path.gsub(/\[([0-9]*)\]$/, "")
+
   data_path = form.path
-  # data_name = "subjects"
-  # data_name = ''
-  # data_index = $1
-  data_resolved_level = 'parent'
-  # data_resolved_path = form.path.gsub(/\[subjects\]/, "[resolved][subjects]")
-  
+  data_name = "ref" # De-referenced by the backend if the schema def calls for an item array
 %>
 
 <hr/>
@@ -43,7 +23,7 @@
             data-label="Subject"
             data-label_plural="Subjects"
             data-path="<%= data_path %>"
-            data-resolved_level="<%= data_resolved_level %>"
+            data-name="<%= data_name %>"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
             data-selected='<%= selected_json %>'
             data-multiplicity="one"

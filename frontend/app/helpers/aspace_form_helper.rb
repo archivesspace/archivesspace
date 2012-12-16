@@ -35,7 +35,6 @@ module AspaceFormHelper
     def list_for(objects, context_name, &block)
 
       objects ||= []
-
       result = ""
 
       objects.each_with_index do |object, idx|
@@ -111,12 +110,10 @@ module AspaceFormHelper
       form_top
     end
 
-    # Sometimes the subrecord form builder needs a resolved 
-    # version of the subrecord data (this is here to support
-    # subjects). I know this is bad form...it's the best I
-    # can do for now
+    # Sometimes the subrecord form builder needs to get a resolved 
+    # version of the subrecord data from the parent (this was made to 
+    # support subjects).
     def resolved_obj
-        Rails.logger.debug("CONTEXT #{@context.inspect}")
         @context[-2].last['resolved'][@context.last[0].gsub(/\[([0-9])\]$/, "")][$1.to_i]
       rescue 
         nil

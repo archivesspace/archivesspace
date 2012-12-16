@@ -15,7 +15,6 @@ $(function() {
 
       $this.data("form_index", $("> .subrecord-form-container .subrecord-form-fields", $this).length);
 
-			console.log("Init Subrecord Form");
       var init_subform = function() {
         var $subform = $(this);
 
@@ -45,24 +44,14 @@ $(function() {
         $("> .subrecord-form-heading > .btn", $this).on("click", function() {
 
           var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
-					console.log("Target Subrecord:");
-					console.log($target_subrecord_list.data("name-path"));
 
           var index_data = {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: $this.data("form_index")}),
             id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: $this.data("form_index")}),
             index: "${index}"
           };
-					console.log("Index Data:");
-					console.log(index_data);
-					
-					console.log("This data:");
-					console.log($this.data);
 
           var formEl = $(AS.renderTemplate($this.data("template"), index_data));
-
-					console.log("subform rendered:");
-					console.log(formEl);
           formEl = $("<li>").append(formEl);
           formEl.attr("data-index", $this.data("form_index"));
           formEl.hide();

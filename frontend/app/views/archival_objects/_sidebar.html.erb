@@ -14,6 +14,10 @@
       <li><a href="#archival_object_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
     <% end %>
     
+    <% if controller.action_name != "show" || @archival_object.subjects.length > 0 %>
+      <li><a href="#archival_object_subjects_">Subject Headings <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+    
     <% if not controller.action_name === "show" or @archival_object.notes.length > 0 %>
       <li><a href="#notes">Notes <span class="icon-chevron-right"></span></a></li>
     <% end %>

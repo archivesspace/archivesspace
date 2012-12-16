@@ -1,6 +1,5 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @accession, :form => form} %>
 
-<% Rails.logger.debug(form.obj.inspect << "<-- Form Object Start") %>
 <% define_template("accession", jsonmodel_definition(:accession)) do |form| %>
   <section id="basic_information">
     <h3>Basic Information</h3>
@@ -21,7 +20,7 @@
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
 
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "accession_linked_agent"} %>
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "accession_subject"} %>
+<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>

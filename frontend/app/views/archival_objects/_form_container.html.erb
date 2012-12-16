@@ -24,7 +24,6 @@
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level" %>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>
-      <%= render :partial => "subjects/linker", :locals => { :form => form }%>
     </section>
   <% end %>
 
@@ -34,6 +33,8 @@
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "archival_object_linked_agent"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
+
   <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>

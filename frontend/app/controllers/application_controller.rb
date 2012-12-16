@@ -37,7 +37,6 @@ class ApplicationController < ActionController::Base
   #
   def handle_crud(opts)
     begin
-      Rails.logger.debug("RESOLVED PARAMS #{params[opts[:instance]]['resolved']}")
       # The UI may pass JSON blobs for linked resources for the purposes of displaying its form.
       # Deserialise these so the corresponding objects are stored on the JSONModel.
       (params[opts[:instance]]["resolved"] or []).each do |property, value|
@@ -64,10 +63,13 @@ class ApplicationController < ActionController::Base
         result = hash.clone
 
         schema['properties'].each do |property, definition|
-          if definition['type'] == 'array' and result[property].is_a?(Hash)
-            result[property] = result[property].map {|_, v| v}
-            if result['resolved'] && result['resolved'][property].is_a?(Hash)
-              result['resolved'][property] = result['resolved'][property].map {|_, v| v}
+          if definition['type'] == 'array' && result[property].is_a?(Hash)
+            if definition['items']['type'].is_a?(String) && definition['items']['type'].match(/^JSON.*(uri|uri_or_object)$/)
+              result['resolved'] ||= {}
+              result['resolved'][property] = result[property].map {|_, v| v['resolved'] ? JSON(v['resolved']['ref']) : nil}
+              result[property] = result[property].map {|_, v| v['ref'] || v}
+            else
+              result[property] = result[property].map {|_, v| v}
             end
           end
         end
@@ -92,8 +94,6 @@ class ApplicationController < ActionController::Base
         result
       end
       
-      Rails.logger.debug("OBJ BEFORE UPDATE #{obj.inspect}")
-
       instance = model.map_hash_with_schema(params[opts[:instance]],
                                                                  nil,
                                                                  [fix_arrays, set_false_for_checkboxes])

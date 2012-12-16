@@ -102,8 +102,8 @@
 <div id="linker_selectedtoken_template"><!--
    <li id="${item.id.replace(/\//g,'_')}" class="${item.json.jsonmodel_type}">
       <span class="icon-token"></span>
-      <input type="hidden" name="${config.resolved_path}{if config.name}[${config.name}]{/if}{if config.multiplicity != 'one'}[]{/if}{if config.index != null}[${config.index}]{/if}" />
-      <input type="hidden" name="${config.path}{if config.name}[${config.name}]{/if}{if config.multiplicity != 'one'}[]{/if}{if config.index != null}[${config.index}]{/if}" value="${item.id}" />
+      <input type="hidden" name="${config.path}[resolved][${config.name}]{if config.multiplicity != 'one'}[]{/if}" />
+      <input type="hidden" name="${config.path}[${config.name}]{if config.multiplicity != 'one'}[]{/if}" value="${item.id}" />
       ${item.name}
    </li>
 --></div>

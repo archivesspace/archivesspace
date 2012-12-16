@@ -26,7 +26,6 @@
       <hr/>
       <%= form.label_and_textfield "ead_id" %>
       <%= form.label_and_textfield "ead_location" %>
-      <%= render :partial => "subjects/linker", :locals => { :form => form }%>
       <%= render :partial => "accessions/linker", :locals => { :form => form }%>
 
     </section>
@@ -61,6 +60,7 @@
   <% form.emit_template("resource") %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "resource_linked_agent"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
   <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>

@@ -19,13 +19,13 @@
       <%= form.label_and_boolean "publish", {}, form.default_for("default") %>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>
 
-      <%= render :partial => "subjects/linker", :locals => { :form => form }%>
     </section>
   <% end %>
 
   <% form.emit_template("digital_object_component") %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "digital_object_component_linked_agent"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
   <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
 

@@ -30,11 +30,6 @@
           <%= readonly.label_and_textfield "ead_location" %>
         <% end %>
 
-        <% if not @resource.subjects.blank? %>
-          <hr/>
-          <%= render :partial => "subjects/show", :locals => {:subjects => @resource["resolved"]["subjects"]} %>
-        <% end %>
-
       </section>
 
       <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
@@ -66,6 +61,10 @@
 
       <% if @resource.linked_agents.length > 0 %>
         <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @resource.linked_agents, :section_id => "resource_linked_agents_" } %>
+      <% end %>
+      
+      <% if not @resource.subjects.blank? %>
+        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @resource["resolved"]["subjects"]} %>
       <% end %>
 
       <% if @resource.notes.length > 0 %>

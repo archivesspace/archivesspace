@@ -36,10 +36,6 @@
           <%= readonly.label_and_textarea "content_description" %>
           <%= readonly.label_and_textarea "condition_description" %>
 
-          <% if not @accession.subjects.blank? %>
-            <hr/>
-            <%= render :partial => "subjects/show", :locals => {:subjects => @accession["resolved"]["subjects"]} %>
-          <% end %>
         </section>
         
         <% if @accession.extents.length > 0 %>
@@ -52,6 +48,10 @@
 
        <% if @accession.linked_agents.length > 0 %>
          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
+       <% end %>
+       
+       <% if not @accession.subjects.blank? %>
+         <%= render :partial => "subjects/show_inline", :locals => {:subjects => @accession["resolved"]["subjects"]} %>
        <% end %>
 
         <% if @accession.external_documents.length > 0 %>

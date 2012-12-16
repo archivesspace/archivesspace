@@ -1,0 +1,25 @@
+<%
+   section_id = "subjects" if section_id.blank?
+%>
+
+<% Rails.logger.debug("Subject local var #{subjects.inspect}") %>
+
+<section id="<%= section_id %>">
+  <h3>Subject Headings</h3>
+  <div class="row-fluid">
+    <div class="span3"><strong>Identifier</strong></div>
+    <div class="span8"><strong>Subject Heading</strong></div>
+  </div>
+  <% subjects.each_with_index do | subject, index | %>
+    <div class="row-fluid">
+      <div class="span3 pull1">
+        <%= subject["ref_id"] %>
+      </div>
+      <div class="span8">
+        <div class="token">
+          <%= Subject.from_hash(subject).display_string %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</section>

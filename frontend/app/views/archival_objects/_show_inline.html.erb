@@ -22,11 +22,6 @@
         <%= readonly.label_and_textfield "other_level" %>
         <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
 
-        <% if not @archival_object.subjects.blank? %>
-          <hr/>
-          <%= render :partial => "subjects/show", :locals => {:subjects => @archival_object["resolved"]["subjects"]} %>
-        <% end %>
-
       </section>
       
       <% if @archival_object.extents.length > 0 %>
@@ -39,6 +34,11 @@
 
       <% if @archival_object.linked_agents.length > 0 %>
         <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
+      <% end %>
+      
+      <% if not @archival_object.subjects.blank? %>
+        <hr/>
+        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @archival_object["resolved"]["subjects"]} %>
       <% end %>
 
       <% if @archival_object.notes.length > 0 %>

@@ -23,15 +23,15 @@
         <%= readonly.label_and_boolean "publish" %>
         <%= readonly.label_and_select "language", readonly.possible_options_for("language") %>
 
-        <% if not @digital_object_component.subjects.blank? %>
-          <hr/>
-          <%= render :partial => "subjects/show", :locals => {:subjects => @digital_object_component["resolved"]["subjects"]} %>
-        <% end %>
-
       </section>
 
       <% if @digital_object_component.linked_agents.length > 0 %>
         <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @digital_object_component.linked_agents, :section_id => "digital_object_component_linked_agents_" } %>
+      <% end %>
+      
+      <% if not @digital_object_component.subjects.blank? %>
+        <hr/>
+        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @digital_object_component["resolved"]["subjects"]} %>
       <% end %>
       
       <% if @digital_object_component.notes.length > 0 %>
