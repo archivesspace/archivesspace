@@ -371,4 +371,19 @@ describe 'JSON model' do
     }.to_not raise_error
   end
 
+
+  it "supports a magic 'other_unmapped' enum value which is always acceptable" do
+    term = build(:json_term)
+
+    term.term_type = 'garbage'
+    expect {
+      term.save
+    }.to raise_error(ValidationException)
+
+    term.term_type = 'other_unmapped'
+    expect {
+      term.save
+    }.to_not raise_error(ValidationException)
+  end
+
 end

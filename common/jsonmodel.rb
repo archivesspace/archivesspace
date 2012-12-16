@@ -92,6 +92,21 @@ module JSONModel
   end
 
 
+  def self.allow_unmapped_enum_value(val, magic_value = 'other_unmapped')
+    if val.is_a? Array
+      val.each { |elt| allow_unmapped_enum_value(elt) }
+    elsif val.is_a? Hash
+      val.each do |k, v|
+        if k == 'enum'
+          v << magic_value
+        else
+          allow_unmapped_enum_value(v)
+        end
+      end
+    end
+  end
+
+
   def self.load_schema(schema_name)
     if not @@models[schema_name]
 
@@ -120,6 +135,9 @@ module JSONModel
       # All records must indicate their model type
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
+      if AppConfig[:allow_other_unmapped]
+        allow_unmapped_enum_value(entry[:schema]['properties'])
+      end
 
       self.create_model_for(schema_name, entry[:schema])
     end

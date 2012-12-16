@@ -95,6 +95,8 @@ class AppConfig
 
     AppConfig[:max_page_size] = 250
 
+    AppConfig[:allow_other_unmapped] = false
+
     AppConfig[:db_url] = proc { AppConfig.demo_db_url }
     AppConfig[:db_max_connections] = 10
 

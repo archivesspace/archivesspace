@@ -70,6 +70,7 @@ end
 require 'rack/test'
 require_relative "../app/lib/bootstrap"
 AppConfig[:search_user_secret] = "abc123"
+AppConfig[:allow_other_unmapped] = true
 
 
 JSONModel::init(:client_mode => true, :strict_mode => true,
