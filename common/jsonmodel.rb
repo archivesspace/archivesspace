@@ -135,7 +135,7 @@ module JSONModel
       # All records must indicate their model type
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
-      if AppConfig[:allow_other_unmapped]
+      if @@init_args[:allow_other_unmapped]
         allow_unmapped_enum_value(entry[:schema]['properties'])
       end
 

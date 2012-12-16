@@ -40,7 +40,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   configure do
 
-    JSONModel::init
+    JSONModel::init(:allow_other_unmapped => AppConfig[:allow_other_unmapped])
 
     require_relative "model/db"
 

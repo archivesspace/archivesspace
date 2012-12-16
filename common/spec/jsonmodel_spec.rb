@@ -75,7 +75,10 @@ describe JSONModel do
     }'
 
 
-    JSONModel::init( { :client_mode => true, :url => "http://example.com", :strict_mode => true } )
+    JSONModel::init(:client_mode => true,
+                    :url => "http://example.com",
+                    :strict_mode => true,
+                    :allow_other_unmapped => true)
 
     # main schema
     Dir.stub(:glob){ ['stub', 'child_stub'] }
