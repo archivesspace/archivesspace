@@ -6,9 +6,11 @@ require 'tempfile'
 require 'json'
 require 'net/http'
 require_relative '../../common/test_utils'
+require_relative '../../indexer/indexer.rb'
 require 'ladle'
 
 Dir.chdir(File.dirname(__FILE__))
+$solr_port = 2999
 $ldap_port = 3897
 $port = 3434
 $url = "http://localhost:#{$port}"
@@ -72,17 +74,27 @@ def run_tests(opts)
   puts "Create a repository"
   r = do_post({
                 :repo_code => "test#{$me}",
-                :description => "integration test repository"
+                :description => "integration test repository #{$$}"
               }.to_json,
               url("/repositories"))
 
   repo_id = r[:body]["id"] or fail("Repository creation", r)
 
 
+  puts "Create a second repository"
+  r = do_post({
+                :repo_code => "another#{$me}",
+                :description => "another integration test repository #{$$}"
+              }.to_json,
+              url("/repositories"))
+
+  second_repo_id = r[:body]["id"] or fail("Second repository creation", r)
+
+
   puts "Create an accession"
   r = do_post({
                 :id_0 => "test#{$me}",
-                :title => "integration test accession",
+                :title => "integration test accession #{$$}",
                 :accession_date => "2011-01-01"
               }.to_json,
               url("/repositories/#{repo_id}/accessions"));
@@ -95,6 +107,18 @@ def run_tests(opts)
 
   r[:body]["title"] =~ /integration test accession/ or
     fail("Accession fetch", r)
+
+
+
+  puts "Create an accession in the second repository"
+  r = do_post({
+                :id_0 => "another#{$me}",
+                :title => "ANOTHER integration test accession #{$$}",
+                :accession_date => "2011-01-01"
+              }.to_json,
+              url("/repositories/#{second_repo_id}/accessions"));
+
+  r[:body]["id"] or fail("Second accession creation", r)
 
 
   puts "Create a subject with no terms"
@@ -122,7 +146,7 @@ def run_tests(opts)
 
   puts "Create a resource"
   r = do_post({
-                :title => "integration test resource",
+                :title => "integration test resource #{$$}",
                 :id_0 => "abc123",
                 :subjects => ["/subjects/#{subject_id}"],
                 :language => "eng",
@@ -143,7 +167,7 @@ def run_tests(opts)
   puts "Create an archival object"
   r = do_post({
                 :ref_id => "test#{$me}",
-                :title => "integration test archival object",
+                :title => "integration test archival object #{$$}",
                 :subjects => ["/subjects/#{subject_id}"],
                 :level => "item"
               }.to_json,
@@ -176,6 +200,25 @@ def run_tests(opts)
     r = do_get(url(r[:body]["user"]["uri"]))
     (r[:body]['name'] == 'Mark Triggs') or fail("User attributes from LDAP", r)
   end
+
+
+  puts "Check that search indexing works"
+  state = Object.new
+  def state.set_last_mtime(*args); end
+  def state.get_last_mtime(*args); 0; end
+
+  AppConfig[:backend_url] = $url
+  indexer = ArchivesSpaceIndexer.get_indexer(state)
+  indexer.run_index_round
+
+  r = do_get(url("/repositories/#{repo_id}/search?q=integration+test+accession+#{$$}&page=1"))
+  (Integer(r[:body]['total_hits']) > 0) or fail("Search indexing", r)
+
+
+  puts "Check that search results are repository-scoped"
+  # This accession was created in repository #2, so shouldn't be found
+  r = do_get(url("/repositories/#{repo_id}/search?q=%22ANOTHER+integration+test+accession+#{$$}%22&page=1"))
+  (Integer(r[:body]['total_hits']) == 0) or fail("Repository scoping", r)
 
 
   puts "Expire session after a nap"
@@ -223,6 +266,8 @@ EOF
     server = TestUtils::start_backend($port,
                                       {:session_expire_after_seconds => $expire},
                                       config.path)
+
+    TestUtils::wait_for_url("http://localhost:#{$solr_port}/")
   end
 
   status = 0
@@ -231,6 +276,7 @@ EOF
     puts "ALL OK"
   rescue
     puts "TEST FAILED: #{$!}"
+    puts $@.join("\n")
     status = 1
   end
 

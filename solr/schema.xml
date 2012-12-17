@@ -49,6 +49,7 @@
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
    <field name="title" type="text_general" indexed="true" stored="true" multiValued="false"/>
    <field name="type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="repository" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="fullrecord" type="text_general" indexed="true" stored="false" multiValued="false" />
    <field name="suppressed" type="boolean" indexed="true" stored="true" multiValued="false" />
 

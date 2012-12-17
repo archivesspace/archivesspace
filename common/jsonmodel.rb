@@ -59,13 +59,22 @@ module JSONModel
   end
 
 
+  def self.repository_for(reference)
+    if reference =~ /^(\/repositories\/[0-9]+)\//
+      return $1
+    else
+      return nil
+    end
+  end
+
+
   # Parse a URI reference like /repositories/123/archival_objects/500 into
   # {:id => 500, :type => :archival_object}
   def self.parse_reference(reference, opts = {})
     @@models.each do |type, model|
       id = model.id_for(reference, opts, true)
       if id
-        return {:id => id, :type => type}
+        return {:id => id, :type => type, :repository => repository_for(reference)}
       end
     end
 

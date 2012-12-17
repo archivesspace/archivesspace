@@ -114,6 +114,11 @@ class ArchivesSpaceIndexer
   end
 
 
+  def get_record_scope(uri)
+    JSONModel.parse_reference(uri)[:repository] || "global"
+  end
+
+
   def index_records(records, type)
     batch = []
 
@@ -125,6 +130,7 @@ class ArchivesSpaceIndexer
       doc[:type] = type
       doc[:fullrecord] = record.to_json(:max_nesting => false)
       doc[:suppressed] = record[:suppressed].to_s
+      doc[:repository] = get_record_scope(record.uri)
 
       @document_prepare_hooks.each do |hook|
         hook.call(doc, record)

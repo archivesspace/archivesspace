@@ -9,7 +9,8 @@ class Solr
   end
 
 
-  def self.search(query, page, page_size, record_types = nil, show_suppressed = false,
+  def self.search(query, page, page_size, repo_id,
+                  record_types = nil, show_suppressed = false,
                   excluded_ids = [])
     url = solr_url
 
@@ -20,6 +21,7 @@ class Solr
       :qf => "title^2 fullrecord",
       :start => (page - 1) * page_size,
       :rows => page_size,
+      :fq => "repository:\"/repositories/#{repo_id}\" OR repository:global"
     }.to_a
 
     if record_types

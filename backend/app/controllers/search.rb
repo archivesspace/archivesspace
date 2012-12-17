@@ -18,6 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
     json_response(Solr.search(params[:q], params[:page], params[:page_size],
+                              params[:repo_id],
                               params[:type], show_suppressed, params[:exclude]))
   end
 

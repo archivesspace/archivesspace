@@ -54,7 +54,7 @@ describe 'Solr model' do
     http = MockHTTP.new
     Net::HTTP.stub(:start) { |host, port, &block| http.start(host, port, block) }
 
-    response = Solr.search("hello world", 1, 10)
+    response = Solr.search("hello world", 1, 10, 2)
 
     http.request.path.should match(/hello\+world/)
     http.request.path.should match(/wt=json/)
