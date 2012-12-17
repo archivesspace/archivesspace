@@ -142,7 +142,7 @@ Sequel.migration do
       Integer :repo_id, :null => false
       Integer :suppressed, :default => 0, :null => false
 
-      TextField :identifier, :null => false, :unique => true
+      String :identifier, :null => false, :unique => true
 
       String :title, :null => true
       TextField :content_description, :null => true
@@ -168,7 +168,7 @@ Sequel.migration do
       Integer :accession_id, :null => true
       String :title, :null => false
 
-      TextField :identifier
+      String :identifier
 
       String :language, :null => false
 
