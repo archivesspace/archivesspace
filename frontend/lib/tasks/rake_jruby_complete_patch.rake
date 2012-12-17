@@ -4,6 +4,7 @@
 jruby = Dir.glob(File.join(Rails.root, "..", "build", "jruby*complete*.jar")).first
 
 $rake_cmd = ["java",
+             "-XX:MaxPermSize=128m", "-Xmx256m",
              "-cp", jruby,
              "org.jruby.Main", "--1.9", "-S", "rake"]
 
