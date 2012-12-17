@@ -37,7 +37,6 @@
       <% end %>
       
       <% if not @archival_object.subjects.blank? %>
-        <hr/>
         <%= render :partial => "subjects/show_inline", :locals => {:subjects => @archival_object["resolved"]["subjects"]} %>
       <% end %>
 

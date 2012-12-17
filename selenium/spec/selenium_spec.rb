@@ -733,7 +733,10 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link, 'Edit').click
 
-      $driver.find_element(:css, ".linker-wrapper a.btn").click
+      $driver.find_element(:css => '#accession_subjects_ .subrecord-form-heading .btn').click
+
+      $driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
+
       $driver.find_element(:css, "a.linker-create-btn").click
       $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "#{me}AccessionTermABC")
       $driver.find_element(:css, "form#new_subject .row-fluid:first-child .add-term-btn").click
@@ -744,7 +747,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link, 'Finish Editing').click
 
-      assert { $driver.find_element(:css => ".token-list .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
+      assert { $driver.find_element(:css => "#subjects .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
     end
 
 

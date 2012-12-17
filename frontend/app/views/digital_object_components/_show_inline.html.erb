@@ -30,7 +30,6 @@
       <% end %>
       
       <% if not @digital_object_component.subjects.blank? %>
-        <hr/>
         <%= render :partial => "subjects/show_inline", :locals => {:subjects => @digital_object_component["resolved"]["subjects"]} %>
       <% end %>
       
