@@ -5,7 +5,9 @@
   template = singular if template.blank?
   js_template_name = "template_#{template}" if js_template_name.blank?
 %>
+
 <%= render :partial=>"#{name.to_s}/template", :locals => {:form => form} %>
+
 <section id="<%= section_id %>" class="subrecord-form" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>">
 
   <<%= heading_size %> class="subrecord-form-heading">
@@ -15,9 +17,7 @@
 
   <div class="subrecord-form-container">
     <%= form.list_for(form[name], "#{name}[]") do |item| %>
-      <% 
-        form.emit_template(template, item) 
-      %>
+      <% form.emit_template(template, item) %>
     <% end %>
   </div>
 

@@ -93,11 +93,11 @@ class ApplicationController < ActionController::Base
 
         result
       end
-      
+
+
       instance = model.map_hash_with_schema(params[opts[:instance]],
                                                                  nil,
-                                                                 [fix_arrays, set_false_for_checkboxes])
-                                                                
+                                                                 [fix_arrays, set_false_for_checkboxes])                                                          
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
