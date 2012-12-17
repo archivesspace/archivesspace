@@ -390,4 +390,32 @@ describe 'Resources controller' do
     }.to raise_error(StandardError, /Invalid URI reference/)
   end
 
+
+  it "retains order of linked agents" do
+
+    agent_a = create(:json_agent_person)
+    agent_b = create(:json_agent_family)
+
+    resource = create(:json_resource, :linked_agents => [
+                                                         {:ref => agent_a.uri, :role => 'creator'},
+                                                         {:ref => agent_b.uri, :role => 'creator'},
+                                                        ])
+
+    JSONModel(:resource).find(resource.id).linked_agents[0]['ref'].should eq(agent_a.uri)
+    JSONModel(:resource).find(resource.id).linked_agents[1]['ref'].should eq(agent_b.uri)
+
+    agent_c = create(:json_agent_corporate_entity)
+
+    resource.linked_agents = [
+      {:ref => agent_c.uri, :role => 'creator'},
+      {:ref => agent_b.uri, :role => 'creator'},
+      {:ref => agent_a.uri, :role => 'creator'},
+    ]
+    resource.save
+
+    JSONModel(:resource).find(resource.id).linked_agents[0]['ref'].should eq(agent_c.uri)
+    JSONModel(:resource).find(resource.id).linked_agents[1]['ref'].should eq(agent_b.uri)
+    JSONModel(:resource).find(resource.id).linked_agents[2]['ref'].should eq(agent_a.uri)
+  end
+
 end

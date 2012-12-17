@@ -22,6 +22,7 @@ describe 'Relationships' do
         String :sauce
         Integer :banana_id
         Integer :apple_id
+        Integer :aspace_relationship_position
       end
     end
   end

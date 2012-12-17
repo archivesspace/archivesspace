@@ -110,7 +110,7 @@ module Relationships
         property_name = relationship[:json_property]
 
         # For each record reference in our JSON data
-        Array(json[property_name]).each do |reference|
+        Array(json[property_name]).each_with_index do |reference, idx|
           record_type = parse_reference(reference['ref'], opts)
 
           # Find the model type of the record it refers to
@@ -130,6 +130,7 @@ module Relationships
 
           properties[self.table_name] = obj
           properties[referent_model.table_name] = referent_model[record_type[:id]]
+          properties[:aspace_relationship_position] = idx
 
           link_model.create(properties)
         end
@@ -150,27 +151,26 @@ module Relationships
       @relationships.each do |relationship|
         property_name = relationship[:json_property]
 
-        json[property_name] ||= []
-
         # For each defined relationship
-        relationship[:references].each do |linked_model, relationship_model|
+        linked_objects = relationship[:references].map {|linked_model, relationship_model|
           # Walk over each relationship instance
-          json[property_name] += obj.send(relationship_model.table_name).map do |relationship_instance|
-            # Find the object that's related to this one
-            referent = relationship_instance.send(linked_model.table_name)
+          (obj.send(relationship_model.table_name) or []).map {|relationship_instance|
+            [relationship_instance.values, relationship_instance.send(linked_model.table_name)]
+          }
+        }.flatten(1)
 
-            # Return the relationship properties, plus the URI reference of the
-            # related object
-            properties = ASUtils.keys_as_strings(relationship_instance.values.clone)
-            properties['ref'] = referent.uri
+        linked_objects = linked_objects.sort_by {|relationship_properties, _|
+          relationship_properties[:aspace_relationship_position]
+        }
 
-            properties.delete(:id)
-            properties.delete("#{self.table_name}_id".intern)
-            properties.delete("#{linked_model.table_name}_id".intern)
+        json[property_name] = linked_objects.map {|relationship_properties, referent|
+          # Return the relationship properties, plus the URI reference of the
+          # related object
+          values = ASUtils.keys_as_strings(relationship_properties.clone)
+          values['ref'] = referent.uri
 
-            properties
-          end
-        end
+          values
+        }
       end
 
       json
