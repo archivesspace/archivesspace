@@ -1,7 +1,6 @@
 class Term < Sequel::Model(:term)
   include ASModel
 
-  many_to_many :subject, :join_table => "subject_term"
   set_model_scope :global
   corresponds_to JSONModel(:term)
 
