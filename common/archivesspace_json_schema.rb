@@ -98,7 +98,10 @@ class ArchivesSpaceSchema < JSON::Schema::Validator
 
 
   def validate(current_schema, data, fragments, options = {})
-    if current_schema.schema.has_key?("validations")
+    super
+
+    # Run any custom validations if we've made it this far with no errors
+    if JSON::Validator.validation_errors.empty? && current_schema.schema.has_key?("validations")
       current_schema.schema["validations"].each do |name|
         errors = JSONModel::custom_validations[name].call(data)
 
@@ -111,8 +114,6 @@ class ArchivesSpaceSchema < JSON::Schema::Validator
         end
       end
     end
-
-    super
   end
 
   JSON::Validator.register_validator(self.new)
