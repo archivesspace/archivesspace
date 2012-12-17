@@ -24,7 +24,8 @@ end
 
 JSONModel::init(:client_mode => true,
                 :mixins => [RailsFormMixin],
-                :url => AppConfig[:backend_url])
+                :url => AppConfig[:backend_url],
+                :allow_other_unmapped => AppConfig[:allow_other_unmapped])
 
 
 if not ENV['DISABLE_STARTUP']
