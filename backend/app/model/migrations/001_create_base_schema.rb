@@ -213,9 +213,6 @@ Sequel.migration do
     end
 
 
-    create_join_table({:accession_id => :accession, :resource_id => :resource}, :name => "accession_resource")
-
-
     create_table(:archival_object) do
       primary_key :id
 
@@ -830,12 +827,18 @@ Sequel.migration do
                                              :digital_object_component]
 
     records_supporting_external_documents.each do |record|
-      create_join_table({
-                          "#{record}_id".intern => record,
-                          :external_document_id => :external_document
-                        },
-                        :name => "#{record}_external_document",
-                        :index_options => {:name => "ed_#{record}_idx"})
+      table = "#{record}_external_document".intern
+
+      create_table(table) do
+        primary_key :id
+        Integer "#{record}_id".intern
+        Integer :external_document_id => :external_document
+      end
+
+      alter_table(table) do
+        add_foreign_key(["#{record}_id".intern], record, :key => :id)
+        add_foreign_key(:external_document_id, :external_document, :key => :id)
+      end
     end
 
 
@@ -913,19 +916,6 @@ Sequel.migration do
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
-
-    create_join_table({:collection_management_id => :collection_management,
-                        :accession_id => :accession},
-                      :name => "collection_management_accession",
-                      :index_options => { :name => 'c_m_acc_index'})
-    create_join_table({:collection_management_id => :collection_management,
-                        :resource_id => :resource},
-                      :name => "collection_management_resource",
-                      :index_options => { :name => 'c_m_res_index'})
-    create_join_table({:collection_management_id => :collection_management,
-                        :digital_object_id => :digital_object},
-                      :name => "collection_management_digital_object",
-                      :index_options => { :name => 'c_m_do_index'})
 
 
     create_table(:sequence) do
@@ -1024,13 +1014,13 @@ Sequel.migration do
      :subject_term, :subject_archival_object, :subject_resource, :subject_accession, :subject, :term,
      :agent_contact, :name_person, :name_family, :agent_person, :agent_family,
      :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
-     :session, :auth_db, :group_user, :group_permission, :permission, :user, :group, :accession_resource, :accession,
+     :session, :auth_db, :group_user, :group_permission, :permission, :user, :group, :accession,
      :date, :event, :archival_object, :vocabulary, :extent, :resource, :repository,
-     :accession_external_document, :archival_object_external_document,
-     :external_document_resource, :external_document_subject, :digital_object,
-     :agent_people_external_document, :agent_family_external_document,
-     :agent_corporate_entity_external_document,
-     :agent_software_external_document, :collection_management].each do |table|
+     :digital_object, :collection_management,
+     :accession_external_document, :archival_object_external_document, :resource_external_document, :subject_external_document,
+     :agent_person_external_document, :agent_family_external_document, :agent_corporate_entity_external_document,
+     :agent_software_external_document, :rights_statement_external_document, :digital_object_external_document, :digital_object_component_external_document
+     ].each do |table|
       puts "Dropping #{table}"
       drop_table?(table)
     end

@@ -8,8 +8,7 @@ class Subject < Sequel::Model(:subject)
   set_model_scope :global
   corresponds_to JSONModel(:subject)
 
-  many_to_many :term, :join_table => :subject_term
-  many_to_many :archival_object, :join_table => :subject_archival_object
+  many_to_many :term, :join_table => :subject_term, :order => :subject_term__id
 
   def_nested_record(:the_property => :terms,
                     :contains_records_of_type => :term,
