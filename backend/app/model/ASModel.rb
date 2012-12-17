@@ -1,3 +1,5 @@
+require_relative '../lib/realtime_indexing'
+
 module ASModel
   include JSONModel
 
@@ -46,6 +48,11 @@ module ASModel
   def before_update
     self.last_modified = Time.now
     super
+  end
+
+
+  def after_save
+    RealtimeIndexing.record_update(self)
   end
 
 
