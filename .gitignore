@@ -8,7 +8,7 @@ doc
 config/config.rb
 *.swp
 .idea
-lib
+/lib
 coverage
 selenium/webdriver-profile*
 /archivesspace.jar
