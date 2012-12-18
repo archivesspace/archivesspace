@@ -20,8 +20,8 @@ describe 'Realtime indexing' do
 
       updates.count.should eq(2)
 
-      updates[0][:record].id.should eq(acc.id)
-      updates[1][:record].id.should eq(acc2.id)
+      updates[0][:uri].should eq(acc.uri)
+      updates[1][:uri].should eq(acc2.uri)
     end
 
 
@@ -57,15 +57,28 @@ describe 'Realtime indexing' do
 
   context "concurrency" do
 
+    class FakeRecord
+      def self.uri_for(id)
+        "/something/#{id}"
+      end
+
+      def to_hash
+        {}
+      end
+    end
+
+
     it "is thread safe" do
       thread_count = 5
       count = 100
       threads = []
 
+      dummy_record = FakeRecord.new
+
       thread_count.times do
         threads << Thread.new do
           count.times do
-            RealtimeIndexing.record_update(self)
+            RealtimeIndexing.record_update(dummy_record, 1)
           end
         end
       end
@@ -89,7 +102,7 @@ describe 'Realtime indexing' do
       result = waiter.join
 
       result.value[0].should_not be(nil)
-      result.value[0][:record].id.should eq(acc.id)
+      result.value[0][:uri].should eq(acc.uri)
     end
 
   end

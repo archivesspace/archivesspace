@@ -193,7 +193,7 @@ def as_anonymous_user
   orig = RequestContext.get(:enforce_suppression)
 
   Thread.current[:active_test_user] = AnonymousUser.new
-  
+
   begin
     if RequestContext.active?
       RequestContext.put(:enforce_suppression, true)

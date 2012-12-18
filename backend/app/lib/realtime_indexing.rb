@@ -9,12 +9,13 @@ class RealtimeIndexing
   end
 
 
-  def self.record_update(obj)
+  def self.record_update(json, uri)
     @lock.synchronize do
       @sequence += 1
       @updates << {
         :sequence => @sequence,
-        :record => obj,
+        :uri => uri,
+        :record => json,
         :timestamp => (Time.now.to_f * 1000).to_i
       }
 

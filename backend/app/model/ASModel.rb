@@ -51,11 +51,6 @@ module ASModel
   end
 
 
-  def after_save
-    RealtimeIndexing.record_update(self)
-  end
-
-
   def uri
     # Bleh!
     self.class.uri_for(self.class.my_jsonmodel.record_type, self.id)
@@ -101,11 +96,13 @@ module ASModel
 
     self.update(self.class.prepare_for_db(json.class.schema, updated))
 
-    id = self.save
+    obj = self.save
 
     self.class.apply_linked_database_records(self, json)
 
-    id
+    self.class.fire_update(json.to_hash, obj.uri)
+
+    obj
   end
 
 
@@ -257,6 +254,8 @@ module ASModel
       opts[:jsonmodel] = opts[:contains_records_of_type]
       opts[:json_property] = opts[:the_property]
 
+      opts[:is_array] = true if !opts.has_key?(:is_array)
+
       ASModel.linked_records[self] ||= []
       ASModel.linked_records[self] << opts
     end
@@ -276,7 +275,14 @@ module ASModel
 
       self.apply_linked_database_records(obj, json)
 
+      fire_update(json.to_hash, obj.uri)
+
       obj
+    end
+
+
+    def fire_update(hash, uri)
+      RealtimeIndexing.record_update(hash, uri)
     end
 
 
@@ -358,13 +364,15 @@ module ASModel
           add_record_method = "add_#{linked_record[:association][:name].to_s.singularize}"
         end
 
+        records = json[linked_record[:json_property]]
+
         is_array = true
         if linked_record[:association][:type] === :one_to_one || linked_record[:is_array] === false
           is_array = false
-          json[linked_record[:json_property]] = [json[linked_record[:json_property]]]
+          records = [records]
         end
 
-        (json[linked_record[:json_property]] or []).each_with_index do |json_or_uri, i|
+        (records or []).each_with_index do |json_or_uri, i|
           next if json_or_uri.nil?
 
           db_record = nil
@@ -485,7 +493,7 @@ module ASModel
           end
         }
 
-        is_array = (linked_record[:is_array] != false) && ![:many_to_one, :one_to_one].include?(linked_record[:association][:type])
+        is_array = linked_record[:is_array] && ![:many_to_one, :one_to_one].include?(linked_record[:association][:type])
 
         json[linked_record[:json_property]] = (is_array ? records : records[0])
       end
