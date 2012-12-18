@@ -24,5 +24,34 @@ describe 'User model' do
 
     user.permissions['ARCHIVESSPACE'].sort.should eq(["create_repository", "manage_repository"])
   end
+  
+  it "Can assign a password to a user and authenticate that user" do
+    password = generate(:alphanumstr)
+    new_user = create(:user)
+    
+    DBAuth.set_password(new_user.username, password)
+    
+    AuthenticationManager.authenticate(new_user.username, 'badpass').should be nil
+    
+    AuthenticationManager.authenticate(new_user.username, password).username.should eq(new_user.username)
+  end
+  
+  it "Can update a user's password" do
+    pass1 = generate(:alphanumstr)
+    pass2 = generate(:alphanumstr)
+    new_user = create(:user)
+    
+    DBAuth.set_password(new_user.username, pass1)
+    
+    AuthenticationManager.authenticate(new_user.username, pass1).username.should eq(new_user.username)
+    
+    DBAuth.set_password(new_user.username, pass2)
+    
+    AuthenticationManager.authenticate(new_user.username, pass1).should be nil
+    
+    AuthenticationManager.authenticate(new_user.username, pass2).username.should eq(new_user.username)
+    
+  end
+    
 
 end

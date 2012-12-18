@@ -35,12 +35,14 @@ module ApplicationHelper
       type = options[:type] || object["jsonmodel_type"]
       controller = options[:controller] || type.to_s.pluralize
 
-      title = options[:title] || object["title"]
+      title = options[:title] || object["title"] || object["username"]
 
       breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._html.plural")}", {:controller => controller, :action => :index}])
 
       if object.id
-        breadcrumb_trail.push([title, {:controller => controller, :action => :show, :id => object.id}])
+        breadcrumb_trail.push([title, {:controller => controller, :action => :show}])
+        breadcrumb_trail.last.last[:id] = object.id unless object['username']
+
         if ["edit", "update"].include? action_name
           breadcrumb_trail.push(["Edit"])
           set_title("#{I18n.t("#{type}._html.plural")} | #{title} | Edit")

@@ -51,6 +51,9 @@ class ApplicationController < ActionController::Base
 
       obj.instance_data[:find_opts] = opts[:find_opts] if opts.has_key? :find_opts
 
+      # Param validations that don't have to do with the JSON validator
+      opts[:params_check].call(obj, params) if opts[:params_check]
+
       fix_arrays = proc do |hash, schema|
         result = hash.clone
 
@@ -99,8 +102,17 @@ class ApplicationController < ActionController::Base
         instance_variable_set("@exceptions".intern, obj._exceptions)
         return opts[:on_invalid].call
       end
+      
+      if obj._exceptions[:errors]      
+        instance_variable_set("@exceptions".intern, obj._exceptions)
+        return opts[:on_invalid].call 
+      end
 
-      id = obj.save
+      if opts[:instance] == :user and !params['user']['password'].blank?
+        id = obj.save(:password => params['user']['password'])
+      else
+        id = obj.save
+      end
       opts[:on_valid].call(id)
     rescue JSONModel::ValidationException => e
       # Throw the form back to the user to display error messages.

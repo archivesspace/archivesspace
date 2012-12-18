@@ -28,14 +28,27 @@ describe 'User controller' do
     }.to raise_error(AccessDeniedException)
   end
   
-  it "does allow regular admin users to create new users" do
+  it "allows admin users to create new users" do
 
     expect {
       build(:json_user).save(:password => '123')
     }.to_not raise_error(AccessDeniedException)
   end
   
-  it "does allow anonymous users to create new users" do
+  it "allows admin users to update existing usernames" do
+    new_username = generate(:username) 
+    
+    otheruser = build(:json_user)
+    otheruser.save(:password => '123')
+    otheruser.username.should_not eq(new_username)
+    
+    updated = build(:json_user, {:username => new_username})
+    otheruser.update(updated)
+    otheruser.username.should eq(new_username)
+  end 
+
+
+  it "does allow anonymous users to create new users and hence become non-anonymous users" do
     
     expect {
       as_anonymous_user do

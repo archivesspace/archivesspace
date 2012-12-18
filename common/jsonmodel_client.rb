@@ -278,7 +278,6 @@ module JSONModel
       # Given the ID of a JSONModel instance, return its full URL (including the
       # URL of the backend)
       def my_url(id = nil, opts = {})
-
         uri, remaining_opts = self.uri_and_remaining_options_for(id, opts)
 
         url = URI("#{JSONModel::HTTP.backend_url}#{uri}")

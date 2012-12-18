@@ -1,0 +1,20 @@
+<%= setup_context :object => @user, :title => @user.username %>
+
+<div class="row-fluid">
+   <div class="span3">
+
+   </div>
+   <div class="span9 record-pane">
+     <%= readonly_context :user, @user.to_hash do |readonly| %>
+      <h2><%= @user.name %>  <span class="label label-info">User</span></h2>
+
+      <section id="basic_information">
+        <h3>Profile</h3>
+        <p>User info to be seen by system administrators.</p>
+        <p>User info to be seen by other users.</p>
+        
+      </section>
+    <% end %>
+    
+   </div>
+</div>

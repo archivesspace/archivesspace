@@ -313,6 +313,10 @@ module JSONModel
         if not id.nil?
           uri += "/#{id}"
         end
+        
+        if id.nil? && opts[:username]
+          uri += "/#{opts[:username]}"
+        end
 
         self.substitute_parameters(uri, opts)
       end

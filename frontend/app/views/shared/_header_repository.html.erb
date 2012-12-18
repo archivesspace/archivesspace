@@ -38,7 +38,7 @@
             <% end %>
             <% if user_can?('create_user') %>
               <li class="divider"></li>
-              <li><%= link_to "New User Account", :controller => :users, :action => :create %></li>
+              <li><%= link_to "Manage Users", :controller => :users, :action => :create %></li>
             <% end %>
           </ul>                 
      </div>

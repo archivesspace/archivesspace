@@ -1,14 +1,14 @@
-<%= setup_context :type => :user, :title => "New Account" %>
+<%= setup_context :object => @user %>
 
 <div class="row-fluid">
    <div class="span12">
-      <h2>New Account</h2>
-     <%= form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
+      <h2>Edit Account</h2>
+     <%= form_for @user, :as => "createuser", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
        <%= form_context :user, @user.to_hash(true) do |form| %>
          <%= render :partial => "users/form", :locals => {:form => form} %>
 
          <div class="form-actions">
-           <button id="create_account" type="submit" class="btn btn-primary">Create account</button>
+           <button id="create_account" type="submit" class="btn btn-primary">Update account</button>
            <%= link_to "Cancel", {:controller => :welcome}, :class => "btn btn-cancel" %>
          </div>
        <% end %>
