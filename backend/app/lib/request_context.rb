@@ -6,18 +6,18 @@ class RequestContext
 
 
   def self.open(context = {})
-    set_context = Thread.current[:request_context].nil?
+    # Stash the original context
+    original_context = Thread.current[:request_context]
 
-    if set_context
-      Thread.current[:request_context] = context
-    end
+    # Add in the bits we care about
+    Thread.current[:request_context] ||= {}
+    Thread.current[:request_context] = Thread.current[:request_context].merge(context)
 
     begin
       yield
     ensure
-      if set_context
-        Thread.current[:request_context] = nil
-      end
+      # And restore the old context once done
+      Thread.current[:request_context] = original_context
     end
   end
 

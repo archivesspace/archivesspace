@@ -73,8 +73,7 @@ describe 'Group controller' do
     repo_two = create(:repo, :repo_code => 'RepoTwo')
     create(:json_group, {:group_code => "group-in-repo2"})
 
-    RequestContext.put(:repo_id, repo_one.id)
-    groups = JSONModel(:group).all(:page => 1)['results']
+    groups = JSONModel(:group).all({:page => 1}, {:repo_id => repo_one.id})['results']
 
     groups.map(&:group_code).include?("group-in-repo2").should be_false
   end
