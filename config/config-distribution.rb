@@ -116,6 +116,8 @@ class AppConfig
     AppConfig[:search_username] = "search_indexer"
 
     AppConfig[:authentication_sources] = []
+
+    AppConfig[:realtime_index_backlog_ms] = 60000
   end
 
 

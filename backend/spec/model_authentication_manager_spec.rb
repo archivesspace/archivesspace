@@ -37,9 +37,7 @@ describe 'Authentication manager' do
 
   context "Authentication" do
     before(:each) do
-      AppConfig.should_receive(:[]).at_least(1).times.
-                with(:authentication_sources).
-                and_return([auth_source])
+      AppConfig[:authentication_sources] = [auth_source]
     end
 
 
@@ -69,12 +67,13 @@ describe 'Authentication manager' do
   context "Error handling" do
 
     it "ignores errors thrown by any single provider" do
-      AppConfig.should_receive(:[]).once.
-                with(:authentication_sources).
-                and_return([{
-                              :model => 'MockAuthenticationSource',
-                              :blowup => true,
-                            }, auth_source])
+      AppConfig[:authentication_sources] = [
+                                             {
+                                               :model => 'MockAuthenticationSource',
+                                               :blowup => true,
+                                             },
+                                            auth_source
+                                            ]
 
       # Still fine
       AuthenticationManager.authenticate("hello", "world").should_not eq(nil)

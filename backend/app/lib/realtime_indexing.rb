@@ -12,12 +12,15 @@ class RealtimeIndexing
   def self.record_update(json, uri)
     @lock.synchronize do
       @sequence += 1
+      now = (Time.now.to_f * 1000).to_i
       @updates << {
         :sequence => @sequence,
         :uri => uri,
         :record => json,
-        :timestamp => (Time.now.to_f * 1000).to_i
+        :timestamp => now
       }
+
+      expire_older_than(now - AppConfig[:realtime_index_backlog_ms])
 
       # Wake up any threads waiting for updates
       @waiting_list.broadcast
@@ -26,9 +29,7 @@ class RealtimeIndexing
 
 
   def self.expire_older_than(timestamp)
-    @lock.synchronize do
-      @updates = @updates.reject {|elt| elt[:timestamp] <= timestamp}
-    end
+    @updates = @updates.reject {|elt| elt[:timestamp] <= timestamp}
   end
 
 
