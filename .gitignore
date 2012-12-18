@@ -1,5 +1,5 @@
-build/*.jar
-build/*.war
+*.jar
+*.war
 build/gems
 derby.log
 frontend/doc
