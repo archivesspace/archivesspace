@@ -1277,6 +1277,7 @@ en:
       manage_repository: manage this repository (change groups and other settings)
       update_repository: create/modify/delete records in this repository
       view_repository: view the records in this repository
+      view_suppressed: view suppressed records in this repository
     _html:
       singular: Group
       plural: Groups
