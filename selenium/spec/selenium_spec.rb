@@ -299,13 +299,17 @@ describe "ArchivesSpace user interface" do
       $driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()");
       $driver.find_element(:link, 'Person').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Sort Name - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
     end
 
 
     it "reports an error when Authority ID is provided without a Source" do
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
+      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix", :tab])
+      assert {
+        $driver.find_element(:id => "agent_names__0__sort_name_").attribute("value").should eq("Hendrix")
+      }
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
     end
@@ -358,7 +362,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#names .subrecord-form-heading .btn').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Sort Name - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
 
       rules_select = $driver.find_element(:id => "agent_names__1__rules_")
