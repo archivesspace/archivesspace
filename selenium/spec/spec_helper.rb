@@ -50,9 +50,15 @@ end
 
 class Selenium::WebDriver::Driver
   def wait_for_ajax
+    try = 0
     while (self.execute_script("return document.readyState") != "complete" or
            not self.execute_script("return window.$ == undefined || $.active == 0"))
+      if (try > Selenium::Config.retries)
+        raise "Retry limit hit on wait_for_ajax"
+      end
+
       sleep(0.1)
+      try += 1
     end
   end
 

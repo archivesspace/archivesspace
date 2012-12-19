@@ -1,5 +1,5 @@
 require_relative 'spec_helper'
-require_relative '../../indexer/indexer'
+require_relative '../../indexer/periodic_indexer'
 
 describe "ArchivesSpace user interface" do
 
@@ -20,7 +20,7 @@ describe "ArchivesSpace user interface" do
       self
     end
 
-    @indexer = ArchivesSpaceIndexer.get_indexer(state)
+    @indexer = PeriodicIndexer.get_indexer(state)
   end
 
 

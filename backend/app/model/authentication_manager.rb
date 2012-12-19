@@ -41,7 +41,6 @@ class AuthenticationManager
             # logged in twice simultaneously.  As long as one of the updates
             # succeeded it doesn't really matter.
             Log.warn("Got an optimistic locking error when updating user: #{e}")
-            Log.exception(e)
 
             user = User.find(:username => username)
           end

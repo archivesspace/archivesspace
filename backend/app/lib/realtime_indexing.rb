@@ -45,8 +45,8 @@ class RealtimeIndexing
       updates = updates_after(seq)
 
       if updates.empty?
-        # Block until an update wakes us up
-        @waiting_list.wait(@lock)
+        # Block until an update wakes us up (or until we time out)
+        @waiting_list.wait(@lock, AppConfig[:realtime_index_backlog_ms] / 1000)
         updates_after(seq)
       else
         updates
