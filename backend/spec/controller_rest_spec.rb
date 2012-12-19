@@ -5,7 +5,7 @@ require 'spec_helper'
 
 describe 'REST interface' do
 
-  it "Requires view_repository access when performing GETs within a repo" do
+  it "requires view_repository access when performing GETs within a repo" do
     create(:repo, :repo_code => 'ARCHIVESSPACE')
 
     create(:user, :username => 'spongebob')
@@ -40,6 +40,80 @@ describe 'REST interface' do
                                         "accession_date" => "2012-05-03").save
       end
     }.to_not raise_error(AccessDeniedException)
+  end
+
+
+  it "handles bad pagination arguments" do
+    create(:repo)
+
+    nice_amount = 10
+    AppConfig[:max_page_size] = nice_amount
+    too_many = nice_amount + 1
+
+    too_many.times {
+       create(:json_group)
+    }
+
+    expect {
+      JSONModel(:group).all(:page => 1, :page_size => -1)
+    }.to raise_error
+
+    expect {
+      JSONModel(:group).all(:page => -1)
+    }.to raise_error
+
+    expect {
+      JSONModel(:group).all(:modified_since => -1)
+    }.to raise_error
+
+    JSONModel(:group).all(:page => 1, :page_size => too_many)['results'].size.should eq(nice_amount)
+
+    JSONModel(:group).all(:page => 10, :page_size => nice_amount)['results'].size.should eq(0)
+  end
+
+
+  it "reports an error if a bad value is given for a boolean argument" do
+    create(:repo)
+
+    id = create(:json_group).id
+
+    expect {
+      JSONModel(:group).find(id, 'with_members' => 'moo')
+    }.to raise_error
+
+    expect {
+      JSONModel(:group).find(id, 'with_members' => nil)
+    }.to_not raise_error
+
+  end
+
+
+  it "reports an error if a bad value is given for an integer argument" do
+    create(:repo)
+
+    id = create(:json_group).id
+
+    expect {
+      JSONModel(:group).find('not an integer')
+    }.to raise_error
+  end
+
+
+  it "returns a list of all Endpoints" do
+    expect {
+      endpoint = RESTHelpers::Endpoint.all.first
+      endpoint[:uri].nil?.should be_false
+      endpoint[:method].nil?.should be_false
+      endpoint[:returns].nil?.should be_false
+    }.to_not raise_error
+  end
+
+
+  it "supports querying Endpoints" do
+    endpoint = RESTHelpers::Endpoint.get("/moo")
+
+    endpoint['method'].should eq(:get)
+    endpoint['uri'].should eq('/moo')
   end
 
 end
