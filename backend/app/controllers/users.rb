@@ -21,6 +21,7 @@ class ArchivesSpaceService < Sinatra::Base
     created_response(user, params[:user])
   end
 
+
   Endpoint.get('/users')
     .description("Get a list of system users")
     .params(*Endpoint.pagination)
@@ -30,12 +31,13 @@ class ArchivesSpaceService < Sinatra::Base
     handle_listing(User, params[:page], params[:page_size], params[:modified_since], {:exclude => {:id => User.unlisted_user_ids}})
   end
 
-  Endpoint.get('/users/:username')
+
+  Endpoint.get('/users/:id')
     .description("Get a user's details (including their current permissions)")
-    .params(["username", nil, "The username of interest"])
+    .params(["id", Integer, "The username id to fetch"],)
     .returns([200, "(:user)"]) \
   do
-    user = User[:username => params[:username].downcase]
+    user = User[params[:id]]
 
     if user
       json = User.to_jsonmodel(user)
@@ -45,14 +47,12 @@ class ArchivesSpaceService < Sinatra::Base
       raise NotFoundException.new("User wasn't found")
     end
   end
-  
-  # We probably need to review when :username vs :id is used 
-  # in REST calls. See GET /users/:username
-  # frontend is using /users/:username pattern
+
+
   Endpoint.post('/users/:id')
     .description("Update a user's account")
     .params(["id", Integer, "The username id to update"],
-            ["password", String, "The user's password"],
+            ["password", String, "The user's password", :optional => true],
             ["user", JSONModel(:user), "The user to create", :body => true])
     .preconditions(proc { current_user.can?(:manage_users) })
     .returns([200, :updated],
@@ -66,7 +66,7 @@ class ArchivesSpaceService < Sinatra::Base
     if params[:password]
       DBAuth.set_password(params[:user].username, params[:password])
     end
-    
+
     updated_response(obj, params[:user])
   end
 

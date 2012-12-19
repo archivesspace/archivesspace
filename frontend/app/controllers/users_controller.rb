@@ -9,8 +9,8 @@ class UsersController < ApplicationController
   end
   
   def show 
-    @user = JSONModel(:user).find(params[:username])
-    render action: "show"  
+    @user = JSONModel(:user).find(params[:id])
+    render action: "show"
   end
 
   def new 
@@ -19,16 +19,14 @@ class UsersController < ApplicationController
   end
 
   def edit
-    username = params[:username] #|| params[:id] # I'm not sure why 
-
-    @user = JSONModel(:user).find(username)    
+    @user = JSONModel(:user).find(params[:id])
     render action: "edit"
   end
   
   def update
 
     handle_crud(:instance => :user,
-                :obj => JSONModel(:user).find(params[:username]),
+                :obj => JSONModel(:user).find(params[:id]),
                 :params_check => ->(obj, params){
                   if params['user']['password'] || params['user']['confirm_password']
                     if params['user']['password'] != params['user']['confirm_password']
