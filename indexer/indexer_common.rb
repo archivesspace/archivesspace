@@ -27,19 +27,19 @@ class CommonIndexer
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc[:type] == 'archival_object'
-        doc['resource'] = record['resource']
+        doc['resource'] = record['record']['resource']
       end
     }
 
     add_document_prepare_hook {|doc, record|
       if doc[:type] == 'digital_object_component'
-        doc['digital_object'] = record['digital_object']
+        doc['digital_object'] = record['record']['digital_object']
       end
     }
 
     add_document_prepare_hook {|doc, record|
       if ['subject', 'location'].include?(doc[:type])
-        doc['json'] = record.to_json
+        doc['json'] = record['record'].to_json
       end
     }
   end
