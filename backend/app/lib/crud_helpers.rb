@@ -18,7 +18,12 @@ module CrudHelpers
   def self.dataset(model, where_clause)
     dataset = (model.model_scope == :repository) ? model.this_repo : model
 
-    if !where_clause.empty?
+    if where_clause.has_key?(:exclude)
+      dataset = dataset.exclude(where_clause[:exclude])
+      where_clause.delete(:exclude)
+    end
+    
+    if !where_clause.empty?    
       dataset = dataset.filter(where_clause)
     end
 

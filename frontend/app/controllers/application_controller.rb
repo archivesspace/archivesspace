@@ -148,6 +148,18 @@ class ApplicationController < ActionController::Base
   def user_needs_to_be_a_manager
     render_403 if not user_can? 'manage_repository'
   end
+  
+  def user_needs_to_be_a_user
+    render_403 if not session['user']
+  end
+  
+  def user_needs_to_be_a_user_manager
+    render_403 if not user_can? 'manage_users'
+  end
+  
+  def user_needs_to_be_a_user_manager_or_new_user
+    render_403 if session['user'] and not user_can? 'manage_users'
+  end
 
   helper_method :user_can?
   def user_can?(permission, repository = nil)

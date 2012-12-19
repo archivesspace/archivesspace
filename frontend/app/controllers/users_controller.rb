@@ -1,37 +1,28 @@
 class UsersController < ApplicationController
-  skip_before_filter :unauthorised_access
-  
+  skip_before_filter :unauthorised_access, :only => [:new, :edit, :index, :create, :update, :show]
+  before_filter :user_needs_to_be_a_user_manager, :only => [:index, :edit, :update]
+  before_filter :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
+  before_filter :user_needs_to_be_a_user, :only => [:show]
 
   def index
-
-    if session['user'] && !user_can?('create_user')
-      redirect_to :controller => :welcome, :action => :index
-    else
-      @search_data = JSONModel(:user).all(:page => selected_page)
-    end
+    @search_data = JSONModel(:user).all(:page => selected_page)
   end
   
-  def show
-    
-    @user = JSONModel(:user).find(params[:id])
-    return render action: "show"  
+  def show 
+    @user = JSONModel(:user).find(params[:username])
+    render action: "show"  
   end
 
   def new 
     @user = JSONModel(:user).new._always_valid!
-
-    return render action: "new"
+    render action: "new"
   end
 
   def edit
-    if !user_can?('create_user')
-      return redirect_to :controller => :welcome, :action => :index
-    end
-      
-    username = params[:username] || params[:id] # I'm not sure why 
+    username = params[:username] #|| params[:id] # I'm not sure why 
 
     @user = JSONModel(:user).find(username)    
-    return render action: "edit"
+    render action: "edit"
   end
   
   def update

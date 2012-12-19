@@ -12,9 +12,7 @@
    </div>
    <div class="span9 record-pane">
       <div class="btn-group">
-        <% if user_can?('create_user') %>
-          <%= link_to "Create User", {:controller => :users, :action => :new}, :class => "btn" %>
-        <% end %>
+        <%= link_to "Create User", {:controller => :users, :action => :new}, :class => "btn" %>
       </div>
 
       <h2>Users</h2>

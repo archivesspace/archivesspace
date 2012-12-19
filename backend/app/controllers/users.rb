@@ -9,7 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a local user")
     .params(["password", String, "The user's password"],
             ["user", JSONModel(:user), "The user to create", :body => true])
-    .preconditions(proc { current_user.can?(:create_user) || "AnonymousUser" == current_user.class.name })
+    .preconditions(proc { current_user.can?(:manage_users) || "AnonymousUser" == current_user.class.name })
     .returns([200, :created],
              [400, :error]) \
   do
@@ -24,9 +24,10 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/users')
     .description("Get a list of system users")
     .params(*Endpoint.pagination)
+    .preconditions(proc { current_user.can?(:manage_users) })
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(User, params[:page], params[:page_size], params[:modified_since])
+    handle_listing(User, params[:page], params[:page_size], params[:modified_since], {:exclude => {:id => User.unlisted_user_ids}})
   end
 
   Endpoint.get('/users/:username')
@@ -53,7 +54,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", Integer, "The username id to update"],
             ["password", String, "The user's password"],
             ["user", JSONModel(:user), "The user to create", :body => true])
-    .preconditions(proc { current_user.can?(:create_user) })
+    .preconditions(proc { current_user.can?(:manage_users) })
     .returns([200, :updated],
              [400, :error]) \
   do

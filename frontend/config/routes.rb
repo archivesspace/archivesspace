@@ -26,10 +26,10 @@ ArchivesSpace::Application.routes.draw do
   end
   match 'repository/select/:id' => 'repository#select', :via => [:post]
 
-  resources :users
   match 'users/:username/edit' => 'users#edit', :via => [:get]
   match 'users/:username' => 'users#show', :via => [:get]
   match 'users/:username' => 'users#update', :via => [:post]
+  resources :users
 
   resources :groups
   match 'groups/:id' => 'groups#update', :via => [:post]
