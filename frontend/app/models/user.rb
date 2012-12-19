@@ -5,14 +5,15 @@ class User < JSONModel(:user)
 
   def self.establish_session(session, backend_session, username)
     session[:session] = backend_session["session"]
-    session[:permissions] = backend_session["permissions"]
+    session[:permissions] = backend_session["user"]["permissions"]
     session[:last_permission_refresh] = Time.now.to_i
+    session[:user_uri] = backend_session["user"]["uri"]
     session[:user] = username
   end
 
 
   def self.refresh_permissions(session)
-    user = self.find(session[:user])
+    user = self.find_by_uri(session[:user_uri])
 
     if user
       session[:permissions] = user.permissions
@@ -22,9 +23,9 @@ class User < JSONModel(:user)
 
 
   def self.login(username, password)
-    uri = JSONModel(:user).uri_for(username)
+    uri = JSONModel(:user).uri_for("#{username}/login")
 
-    response = JSONModel::HTTP.post_form("#{uri}/login", :password => password)
+    response = JSONModel::HTTP.post_form(uri, :password => password)
 
     if response.code == '200'
       JSON.parse(response.body)

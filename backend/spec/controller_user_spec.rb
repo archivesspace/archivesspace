@@ -112,10 +112,11 @@ describe 'User controller' do
     # as a part of the login process...
     post '/users/test1/login', params = { "password" => "password"}
     last_response.should be_ok
-    JSON(last_response.body)["permissions"][repo.repo_code].should eq(["manage_repository"])
+    auth_response = JSON(last_response.body)
+    auth_response["user"]["permissions"][repo.repo_code].should eq(["manage_repository"])
 
     # But also with the user
-    user = JSONModel(:user).find('test1')
+    user = JSONModel(:user).find_by_uri(auth_response["user"]["uri"])
     user.permissions[repo.repo_code].should eq(["manage_repository"])
   end
 

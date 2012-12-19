@@ -314,6 +314,11 @@ module JSONModel
       end
 
 
+      def find_by_uri(uri)
+        self.find(self.id_for(uri))
+      end
+
+
       # Return all instances of the current JSONModel's record type.
       def all(params = {}, opts = {})
         uri = my_url(nil, opts)
