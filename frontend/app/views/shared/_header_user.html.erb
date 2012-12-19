@@ -21,7 +21,7 @@
          </div>
          <input class="btn btn-primary" type="submit" name="commit" value="Sign In" id="login" />
        <% end %>
-       <p>Need an account?  <%= link_to "Register now", {:controller => "users"}, :class => "boring-link" %></p>
+       <p>Need an account?  <%= link_to "Register now", {:controller => "users", :action => "new"}, :class => "boring-link" %></p>
     </div>
   </li>
 <% end %>

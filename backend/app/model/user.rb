@@ -14,6 +14,11 @@ class User < Sequel::Model(:user)
     AppConfig[:search_username]
   end
 
+  
+  def self.unlisted_user_ids
+    [2]
+  end
+
 
   def before_save
     self.username = self.username.downcase
@@ -45,7 +50,7 @@ class User < Sequel::Model(:user)
                                  :permission_id => permission.id,
                                  :repo_id => [self.class.active_repository, global_repo.id].reject(&:nil?)).
                           count) >= 1)
-  end
+  end 
 
 
   def permissions

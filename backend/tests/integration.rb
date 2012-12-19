@@ -173,7 +173,7 @@ def run_tests(opts)
     r[:body]["session"] or fail("LDAP login with correct password", r)
 
 
-    r = do_get(url("/users/marktriggs"))
+    r = do_get(url(r[:body]["user"]["uri"]))
     (r[:body]['name'] == 'Mark Triggs') or fail("User attributes from LDAP", r)
   end
 
