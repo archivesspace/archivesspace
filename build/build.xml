@@ -41,6 +41,16 @@
   </target>
 
 
+  <target name="setup-solr" description="Set Solr system properties">
+    <condition property="solr.properties" value="-Dsolr.data.dir=integration.tmp -Dsolr.solr.home=integration.tmp">
+      <matches pattern="true" string="${aspace.integration}" />
+    </condition>
+
+    <property name="solr.properties" value="" />
+  </target>
+
+
+
   <target name="bootstrap" description="Download JRuby and install all required gems">
     <delete>
       <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
@@ -175,11 +185,13 @@
   </target>
 
 
-  <target name="backend:devserver" depends="set-classpath" description="Start an instance of the ArchivesSpace backend development server">
+  <target name="backend:devserver" depends="set-classpath, setup-solr" description="Start an instance of the ArchivesSpace backend development server">
+    <delete dir="integration.tmp" />
     <parallel>
       <daemons>
         <java classpath="${winstone_file}:../solr"
-              classname="winstone.Launcher">
+              classname="winstone.Launcher" fork="true">
+          <jvmarg line="${solr.properties}" />
           <arg line="--warfile=${solr_file} --httpPort=${aspace.solr.port} --ajp13Port=-1" />
         </java>
       </daemons>
