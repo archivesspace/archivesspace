@@ -27,6 +27,7 @@ ArchivesSpace::Application.routes.draw do
   match 'repository/select/:id' => 'repository#select', :via => [:post]
 
   match 'users/:username/edit' => 'users#edit', :via => [:get]
+  match 'users/new' => 'users#new', :via => [:get]
   match 'users/:username' => 'users#show', :via => [:get]
   match 'users/:username' => 'users#update', :via => [:post]
   resources :users
