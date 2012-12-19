@@ -128,8 +128,22 @@ module JSONModel
       Thread.current[:backend_session] = val
     end
 
+
+    def self.high_priority?
+      if Thread.current[:request_priority]
+        Thread.current[:request_priority] == :high
+      else
+        JSONModel::init_args[:priority] == :high
+      end
+    end
+
+
     def self.do_http_request(url, req)
       req['X-ArchivesSpace-Session'] = current_backend_session
+
+      if high_priority?
+        req['X-ArchivesSpace-Priority'] = "high"
+      end
 
       Net::HTTP.start(url.host, url.port) do |http|
         response = http.request(req)
@@ -139,6 +153,17 @@ module JSONModel
         end
 
         response
+      end
+    end
+
+
+    def self.with_request_priority(priority)
+      old = Thread.current[:request_priority]
+      Thread.current[:request_priority] = priority
+      begin
+        yield
+      ensure
+        Thread.current[:request_priority] = old
       end
     end
 

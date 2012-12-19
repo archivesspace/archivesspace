@@ -67,9 +67,9 @@ module ASpaceImport
         # dry_response.body = res_body
         # dry_response
       else
-        response = JSONModel::HTTP.post_json(url, batch_object.to_json(:max_nesting => false))
-
-        response
+        JSONModel::HTTP.with_request_priority(:low) do
+          JSONModel::HTTP.post_json(url, batch_object.to_json(:max_nesting => false))
+        end
       end
     end
     

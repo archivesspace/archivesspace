@@ -207,6 +207,10 @@ module ASModel
     end
 
 
+    def high_priority?
+      RequestContext.get(:is_high_priority)
+    end
+
     def active_repository
       repo = RequestContext.get(:repo_id)
 
@@ -282,7 +286,9 @@ module ASModel
 
 
     def fire_update(hash, uri)
-      RealtimeIndexing.record_update(hash, uri)
+      if high_priority?
+        RealtimeIndexing.record_update(hash, uri)
+      end
     end
 
 

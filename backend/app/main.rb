@@ -218,6 +218,11 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  def high_priority_request?
+    env["HTTP_X_ARCHIVESSPACE_PRIORITY"] && (env["HTTP_X_ARCHIVESSPACE_PRIORITY"].downcase == "high")
+  end
+
+
   helpers do
 
     # Redispatch the current request to a different route handler.

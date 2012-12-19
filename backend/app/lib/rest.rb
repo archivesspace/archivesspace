@@ -157,7 +157,8 @@ module RESTHelpers
 
         Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
 
-        RequestContext.open(:repo_id => params[:repo_id]) do
+        RequestContext.open(:repo_id => params[:repo_id],
+                            :is_high_priority => high_priority_request?) do
           unless preconditions.all? { |precondition| self.instance_eval &precondition }
             raise AccessDeniedException.new("Access denied")
           end
