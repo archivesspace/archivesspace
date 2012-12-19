@@ -57,12 +57,18 @@ class PeriodicIndexer < CommonIndexer
     JSONModel(:repository).all.each do |repository|
       JSONModel.set_repository(repository.id)
 
+      did_something = false
+
       @@record_types.each do |type|
         start = Time.now
         page = 1
         while true
           records = JSONModel(type).all(:page => page,
                                         :modified_since => @state.get_last_mtime(repository, type))
+
+          if !records['results'].empty?
+            did_something = true
+          end
 
           index_records(records['results'].map {|record|
                           {
@@ -75,9 +81,10 @@ class PeriodicIndexer < CommonIndexer
           page += 1
         end
 
-        send_commit
         @state.set_last_mtime(repository, type, start)
       end
+
+      send_commit if did_something
     end
 
   end
