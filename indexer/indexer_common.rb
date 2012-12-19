@@ -16,10 +16,13 @@ class CommonIndexer
                     :digital_object, :digital_object_component,
                     :collection_management, :subject, :location]
 
-  def initialize
-    JSONModel::init(:client_mode => true, :url => AppConfig[:backend_url])
+  def initialize(backend_url)
+    @backend_url = backend_url
     @document_prepare_hooks = []
     @current_session = nil
+
+    JSONModel::init(:client_mode => true, :url => @backend_url)
+
     configure_doc_rules
   end
 
@@ -77,7 +80,7 @@ class CommonIndexer
     username = AppConfig[:search_username]
     password = AppConfig[:search_user_secret]
 
-    url = URI.parse(AppConfig[:backend_url] + "/users/#{username}/login")
+    url = URI.parse(@backend_url + "/users/#{username}/login")
 
     request = Net::HTTP::Post.new(url.request_uri)
     request.set_form_data("expiring" => "false",

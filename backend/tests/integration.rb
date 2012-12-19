@@ -6,7 +6,7 @@ require 'tempfile'
 require 'json'
 require 'net/http'
 require_relative '../../common/test_utils'
-require_relative '../../indexer/indexer.rb'
+require_relative '../../indexer/periodic_indexer.rb'
 require 'ladle'
 
 Dir.chdir(File.dirname(__FILE__))
@@ -208,7 +208,7 @@ def run_tests(opts)
   def state.get_last_mtime(*args); 0; end
 
   AppConfig[:backend_url] = $url
-  indexer = ArchivesSpaceIndexer.get_indexer(state)
+  indexer = PeriodicIndexer.get_indexer(state)
   indexer.run_index_round
 
   r = do_get(url("/repositories/#{repo_id}/search?q=integration+test+accession+#{$$}&page=1"))

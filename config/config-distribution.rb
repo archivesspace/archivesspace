@@ -109,6 +109,16 @@ class AppConfig
     AppConfig[:frontend_url] = "http://localhost:3000"
     AppConfig[:solr_url] = "http://localhost:2999"
 
+    # If you have multiple instances of the backend running behind a load
+    # balancer, list the URL of each backend instance here.  This is used by the
+    # real-time indexing, which needs to connect directly to each running
+    # instance.
+    #
+    # By default we assume you're not using a load balancer, so we just connect
+    # to the regular backend URL.
+    #
+    AppConfig[:backend_instance_urls] = proc { [AppConfig[:backend_url]] }
+
     AppConfig[:frontend_theme] = "default"
 
     AppConfig[:session_expire_after_seconds] = 3600

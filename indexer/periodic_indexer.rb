@@ -44,7 +44,7 @@ end
 class PeriodicIndexer < CommonIndexer
 
   def initialize(state = nil)
-    super()
+    super(AppConfig[:backend_url])
     @state = state || IndexState.new
   end
 

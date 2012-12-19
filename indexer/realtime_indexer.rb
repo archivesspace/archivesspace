@@ -3,12 +3,14 @@ require 'net/http'
 
 class RealtimeIndexer < CommonIndexer
 
-  def initialize
+  def initialize(backend_url)
     super
+
+    @backend_url = backend_url
   end
 
   def get_updates(last_sequence = 0)
-    response = do_http_request(URI.parse(AppConfig[:backend_url]),
+    response = do_http_request(URI.parse(@backend_url),
                                Net::HTTP::Get.new("/update-feed?last_sequence=#{last_sequence}"))
 
     if response.code != '200'
