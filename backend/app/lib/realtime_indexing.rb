@@ -28,11 +28,6 @@ class RealtimeIndexing
   end
 
 
-  def self.expire_older_than(timestamp)
-    @updates = @updates.reject {|elt| elt[:timestamp] <= timestamp}
-  end
-
-
   def self.updates_since(seq)
     @lock.synchronize do
       updates_after(seq)
@@ -59,6 +54,10 @@ class RealtimeIndexing
 
   def self.updates_after(seq)
     @updates.drop_while {|entry| entry[:sequence] <= seq}
+  end
+
+  def self.expire_older_than(timestamp)
+    @updates = @updates.reject {|elt| elt[:timestamp] <= timestamp}
   end
 
 
