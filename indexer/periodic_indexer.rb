@@ -58,6 +58,7 @@ class PeriodicIndexer < CommonIndexer
       JSONModel.set_repository(repository.id)
 
       did_something = false
+      checkpoints = []
 
       @@record_types.each do |type|
         start = Time.now
@@ -81,10 +82,14 @@ class PeriodicIndexer < CommonIndexer
           page += 1
         end
 
-        @state.set_last_mtime(repository, type, start)
+        checkpoints << [repository, type, start]
       end
 
       send_commit if did_something
+
+      checkpoints.each do |repository, type, start|
+        @state.set_last_mtime(repository, type, start)
+      end
     end
 
   end
