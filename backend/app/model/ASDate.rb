@@ -6,9 +6,7 @@ class ASDate < Sequel::Model(:date)
 
 
   def validate
-    if self[:date_type] === "expression"
-      validates_presence([:expression])
-    elsif self[:date_type] === "single"
+    if self[:date_type] === "single"
        validates_presence([:begin])
     elsif self[:date_type] === "bulk" || self[:date_type] === "inclusive"
       validates_presence([:begin])
