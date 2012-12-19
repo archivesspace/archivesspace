@@ -9,6 +9,19 @@ describe 'Collection Management model' do
   end
 
 
+  it "requires processing_total_extent_type if processing_total_extent is specified" do
+    expect {
+      create(:json_collection_management, :processing_total_extent => "200")
+    }.to raise_error(ValidationException)
+
+    expect {
+      create(:json_collection_management,
+             :processing_total_extent => "200",
+             :processing_total_extent_type => "cassettes")
+    }.to_not raise_error(ValidationException)
+  end
+
+
   it "enforces one linked accession or resource, or one or more digital objects" do
 
     expect {
