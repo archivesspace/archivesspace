@@ -23,8 +23,6 @@ describe 'Date model' do
 
     5.times do
       json = build(:json_date, opts)
-      next if json.date_type === 'other_unmapped'
-
       expect { ASDate.create_from_json(json) }.to raise_error(JSONModel::ValidationException)
     end
   end
