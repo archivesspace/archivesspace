@@ -327,9 +327,8 @@ describe "ArchivesSpace user interface" do
     it "reports an error when Authority ID is provided without a Source" do
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix", :tab])
-      assert {
-        $driver.find_element(:id => "agent_names__0__sort_name_").attribute("value").should eq("Hendrix")
-      }
+      check_sort_name_eq("agent_names__0__sort_name_", "Hendrix")
+
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
     end
