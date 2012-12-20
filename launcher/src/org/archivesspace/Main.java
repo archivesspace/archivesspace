@@ -87,8 +87,11 @@ public class Main
         System.setProperty("java.io.tmpdir", tempDir);
         System.setProperty("solr.data.dir", config.getString("solr_index_directory"));
         System.setProperty("solr.solr.home", config.getString("solr_home_directory"));
-        System.setProperty("aspace.config.search_user_secret",
-                           UUID.randomUUID().toString());
+
+        if (System.getProperty("aspace.config.search_user_secret") == null) {
+            System.setProperty("aspace.config.search_user_secret",
+                               UUID.randomUUID().toString());
+        }
 
 
         if (args.length >= 1) {
