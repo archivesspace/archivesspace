@@ -1002,6 +1002,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Christmas cards")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
+      $driver.find_element(:css => '#archival_object_subjects_ .subrecord-form-heading .btn').click
+
       $driver.find_element(:css, ".linker-wrapper a.btn").click
       $driver.find_element(:css, "a.linker-create-btn").click
       $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "#{$$}TestTerm123")
@@ -1018,7 +1020,7 @@ describe "ArchivesSpace user interface" do
       # search for the created subject
       assert {
         @indexer.run_index_round
-        $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects_"], "#{$$}TestTerm123")
+        $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects__0__ref_"], "#{$$}TestTerm123")
         $driver.find_element(:css, "li.token-input-dropdown-item2").click
       }
 
