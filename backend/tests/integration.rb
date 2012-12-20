@@ -67,7 +67,7 @@ def run_tests(opts)
 
   puts "Create an admin session"
   r = do_post(URI.encode_www_form(:password => "admin"),
-              url("/users/admin/login"))
+              url("/users/admin/login?expiring=false"))
 
   @session = r[:body]["session"] or fail("Admin login", r)
 
@@ -227,6 +227,12 @@ def run_tests(opts)
   rescue TypeError
     puts "Response: #{r.inspect}"
   end
+
+  puts "Create an expiring admin session"
+  r = do_post(URI.encode_www_form(:password => "admin"),
+              url("/users/admin/login"))
+
+  @session = r[:body]["session"] or fail("Admin login", r)
 
   puts "Expire session after a nap"
   sleep $expire + 1
