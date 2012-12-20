@@ -30,6 +30,24 @@ describe 'Accession model' do
   end
 
 
+  it "Doesn't enforce ID uniqueness between repositories" do
+    repo1 = make_test_repo("REPO1")
+    repo2 = make_test_repo("REPO2")
+
+    expect {
+      [repo1, repo2].each do |repo_id|
+        Accession.create_from_json(build(:json_accession,
+                                         {:id_0 => "1234",
+                                          :id_1 => "5678",
+                                          :id_2 => "9876",
+                                          :id_3 => "5432"
+                                          }),
+                                   :repo_id => repo_id)
+      end
+    }.to_not raise_error
+  end
+
+
   it "Enforces ID max length" do
     lambda {
       2.times do
