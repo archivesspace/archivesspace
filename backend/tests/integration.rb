@@ -212,14 +212,21 @@ def run_tests(opts)
   indexer.run_index_round
 
   r = do_get(url("/repositories/#{repo_id}/search?q=integration+test+accession+#{$$}&page=1"))
-  (Integer(r[:body]['total_hits']) > 0) or fail("Search indexing", r)
+  begin
+    (Integer(r[:body]['total_hits']) > 0) or fail("Search indexing", r)
+  rescue TypeError
+    puts "Response: #{r.inspect}"
+  end
 
 
   puts "Check that search results are repository-scoped"
   # This accession was created in repository #2, so shouldn't be found
   r = do_get(url("/repositories/#{repo_id}/search?q=%22ANOTHER+integration+test+accession+#{$$}%22&page=1"))
-  (Integer(r[:body]['total_hits']) == 0) or fail("Repository scoping", r)
-
+  begin
+    (Integer(r[:body]['total_hits']) == 0) or fail("Repository scoping", r)
+  rescue TypeError
+    puts "Response: #{r.inspect}"
+  end
 
   puts "Expire session after a nap"
   sleep $expire + 1
