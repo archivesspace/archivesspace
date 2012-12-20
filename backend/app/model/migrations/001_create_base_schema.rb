@@ -832,12 +832,12 @@ Sequel.migration do
       create_table(table) do
         primary_key :id
         Integer "#{record}_id".intern
-        Integer :external_document_id => :external_document
+        Integer :external_document_id
       end
 
       alter_table(table) do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
-        add_foreign_key(:external_document_id, :external_document, :key => :id)
+        add_foreign_key([:external_document_id], :external_document, :key => :id)
       end
     end
 
