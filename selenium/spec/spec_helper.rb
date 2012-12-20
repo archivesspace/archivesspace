@@ -319,6 +319,7 @@ def assert(&block)
       sleep 0.1
       retry
     else
+      puts "Assert giving up"
       raise $!
     end
   end
@@ -463,4 +464,21 @@ end
 
 def report_sleep
   puts "Total time spent sleeping: #{$sleep_time.inspect} seconds"
+end
+
+
+def check_sort_name_eq(id, value)
+  $driver.execute_script("$('##{id.gsub('sort_name', 'primary_name')}').trigger('change');")
+
+  $driver.wait_for_ajax
+
+  assert do
+    elt = $driver.find_element(:id => id).attribute("value")
+
+    if !elt || elt.empty?
+      raise "Retrying"
+    else
+      elt.should eq(value)
+    end
+  end
 end
