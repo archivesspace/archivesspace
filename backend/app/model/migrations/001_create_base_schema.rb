@@ -142,7 +142,7 @@ Sequel.migration do
       Integer :repo_id, :null => false
       Integer :suppressed, :default => 0, :null => false
 
-      String :identifier, :null => false, :unique => true
+      String :identifier, :null => false
 
       String :title, :null => true
       TextField :content_description, :null => true
@@ -156,6 +156,7 @@ Sequel.migration do
 
     alter_table(:accession) do
       add_foreign_key([:repo_id], :repository, :key => :id)
+      add_unique_constraint([:repo_id, :identifier], :name => "accession_unique_identifier")
       add_index(:suppressed)
     end
 
