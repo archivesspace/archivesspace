@@ -72,7 +72,8 @@ require_relative "../app/lib/bootstrap"
 AppConfig[:search_user_secret] = "abc123"
 
 JSONModel::init(:client_mode => true, :strict_mode => true,
-                :url => 'http://example.com', :allow_other_unmapped => true)
+                :url => 'http://example.com', :allow_other_unmapped => true,
+                :priority => :high)
 
 module JSONModel
   module HTTP
@@ -158,6 +159,13 @@ class ArchivesSpaceService
   def current_user
     Thread.current[:active_test_user]
   end
+
+  def high_priority_request?
+    # Always treat the request as high priority to make sure updates get sent to
+    # the realtime indexer.
+    true
+  end
+
 end
 
 
