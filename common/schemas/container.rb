@@ -5,7 +5,7 @@
     "properties" => {
       "type_1" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
       "indicator_1" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
-      "barcode_1" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
+      "barcode_1" => {"type" => "string", "minLength" => 1},
 
       "type_2" => {"type" => "string"},
       "indicator_2" => {"type" => "string"},
