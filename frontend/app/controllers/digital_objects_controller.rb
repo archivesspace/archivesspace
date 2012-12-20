@@ -35,9 +35,12 @@ class DigitalObjectsController < ApplicationController
   def create
     handle_crud(:instance => :digital_object,
                 :on_invalid => ->(){ render action: "new" },
-                :on_valid => ->(id){ redirect_to(:controller => :digital_objects,
+                :on_valid => ->(id){ 
+                  flash[:success] = "Digital Object Created"
+                  redirect_to(:controller => :digital_objects,
                                                  :action => :edit,
-                                                 :id => id) })
+                                                 :id => id) 
+                })
   end
 
 
@@ -49,7 +52,7 @@ class DigitalObjectsController < ApplicationController
                   render :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  flash[:success] = "Resource Saved"
+                  flash[:success] = "Digital Object Saved"
                   render :partial => "edit_inline"
                 })
   end
