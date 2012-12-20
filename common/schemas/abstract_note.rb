@@ -3,7 +3,7 @@
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
     "properties" => {
-      "label" => {"type" => "string", "ifmissing" => "error"},
+      "label" => {"type" => "string"},
       "content" => {"type" => "string", "ifmissing" => "error"},
       "publish" => {"type" => "boolean", "default" => true},
       "persistent_id" => {"type" => "string"},

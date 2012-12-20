@@ -331,8 +331,7 @@ describe 'JSON model' do
 
     rescue JSONModel::ValidationException => e
       e.errors.keys.sort.should eq(["notes/0/content",
-                                    "notes/1/subnotes/0/content",
-                                    "notes/1/subnotes/0/label"])
+                                    "notes/1/subnotes/0/content"])
     end
   end
 
