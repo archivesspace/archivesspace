@@ -777,8 +777,8 @@ Sequel.migration do
       String :jurisdiction, :null => true
       String :type_note, :null => true
 
-      String :permission, :null => true
-      String :restrictions, :null => true
+      TextField :permissions, :null => true
+      TextField :restrictions, :null => true
       DateTime :restriction_start_date, :null => true
       DateTime :restriction_end_date, :null => true
 
