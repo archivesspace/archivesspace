@@ -18,12 +18,13 @@
               <%= I18n.t("date.label_#{date['label']}") %>
             </div>
             <div class="span6">
-              <% if date['date_type'] === "single" %>
+              <!--https://www.pivotaltracker.com/story/show/41527633 -->
+              <% if date['expression'] %>
+                <%= date['expression']%>
+              <% elsif date['date_type'] === "single" %>
                 <%= date['begin'] %> <%= date['begin_time'] %>
               <% elsif date['date_type'] %>
                 <%= date['begin'] %> <%= date['begin_time'] %> &ndash; <%= date['end'] %> <%= date['end_time'] %>
-              <% else %>
-                <%= date['expression']%>
               <% end %>
             </div>
             <div class="span3">
