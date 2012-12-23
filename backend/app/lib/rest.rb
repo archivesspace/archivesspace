@@ -41,6 +41,48 @@ module RESTHelpers
   end
 
 
+  module ResponseHelpers
+
+    # Redispatch the current request to a different route handler.
+    def redirect_internal(url)
+      call env.merge("PATH_INFO" => url, "ASPACE_REENTRANT" => true)
+    end
+
+
+    def json_response(obj, status = 200)
+      [status, {"Content-Type" => "application/json"}, [obj.to_json(:max_nesting => false) + "\n"]]
+    end
+
+
+    def modified_response(type, obj, jsonmodel = nil)
+      response = {:status => type, :id => obj[:id], :lock_version => obj[:lock_version], :stale => obj.stale?}
+
+      if jsonmodel
+        response[:uri] = jsonmodel.class.uri_for(obj[:id], params)
+        response[:warnings] = jsonmodel._warnings
+      end
+
+      json_response(response)
+    end
+
+
+    def created_response(*opts)
+      modified_response('Created', *opts)
+    end
+
+
+    def updated_response(*opts)
+      modified_response('Updated', *opts)
+    end
+
+
+    def suppressed_response(id, state)
+      json_response({:status => 'Suppressed', :id => id, :suppressed_state => state})
+    end
+
+  end
+
+
   class Endpoint
 
     @@endpoints = []
