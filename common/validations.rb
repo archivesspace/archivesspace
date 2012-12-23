@@ -23,17 +23,18 @@ module JSONModel::Validations
     end
   end
 
+  # Specification:
+  # https://www.pivotaltracker.com/story/show/41430143
   def self.check_source(hash)
     errors = []
 
-    if hash["authority_id"].nil? && hash["source"].nil?
-      if hash["rules"].nil?
-        errors << ["rules", "is required"]
+    if hash["source"].nil?
+      if hash["rules"].nil? 
+        errors << ["rules", "is required when 'source' is blank"]
+        errors << ["source", "is required when 'rules' is blank"]
+      elsif hash["authority_id"]
+        errors << ["source", "is required if there is an authority id"]
       end
-    elsif hash["authority_id"].nil?
-      errors << ["authority_id", "is required"]
-    elsif hash["source"].nil?
-      errors << ["source", "is required"]
     end
 
     errors

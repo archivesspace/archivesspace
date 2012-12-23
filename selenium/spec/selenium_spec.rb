@@ -324,25 +324,26 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "reports an error when neither Source nor Rules is provided" do
+      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix"])
+      check_sort_name_eq("agent_names__0__sort_name_", "Hendrix")
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
+    end
+
+
     it "reports an error when Authority ID is provided without a Source" do
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix", :tab])
       check_sort_name_eq("agent_names__0__sort_name_", "Hendrix")
+      
+      rules_select = $driver.find_element(:id => "agent_names__0__rules_")
+      rules_select.select_option("local")
 
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
-    end
-
-
-    it "reports an error when Source is provided without an Authority ID" do
-      $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "")
-      source_select = $driver.find_element(:id => "agent_names__0__source_")
-
-      source_select.select_option("local")
-
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
-
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Authority ID - is required/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /^Source - is required .*?authority id$/)
     end
 
 
@@ -401,6 +402,8 @@ describe "ArchivesSpace user interface" do
 
 
     it "can save a person and view readonly view of person" do
+      source_select = $driver.find_element(:id => "agent_names__0__source_")
+      source_select.select_option("local")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
       assert { $driver.find_element(:css => '.record-pane h2').text.should eq("Johnny Allen Hendrix Agent") }
