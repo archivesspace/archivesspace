@@ -108,7 +108,7 @@ module JSONModel
       val.each do |k, v|
         if k == 'enum'
           v << magic_value
-        else
+         else
           allow_unmapped_enum_value(v)
         end
       end
@@ -449,7 +449,6 @@ module JSONModel
       end
 
 
-      # Zap this?  A bit arbitrary
       def _warnings
         exceptions = self._exceptions
 
@@ -537,7 +536,14 @@ module JSONModel
         end
       end
 
-
+      # Given a hash representing a record tree, map across the hash and this
+      # model's schema in lock step.
+      #
+      # Each proc in the 'transformations' array is called with the current node
+      # in the record tree as its first argument, and the part of the schema
+      # that corresponds to it.  Whatever the proc returns is used to replace
+      # the node in the record tree.
+      #
       def self.map_hash_with_schema(hash, schema = nil, transformations = [])
         if schema.nil?
           return self.map_hash_with_schema(hash, self.schema, transformations)
