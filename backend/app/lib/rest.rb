@@ -82,7 +82,7 @@ module RESTHelpers
        ["page", NonNegativeInteger, "The page number to show"],
        ["modified_since",
         NonNegativeInteger,
-        "The page number to show",
+        "Only include results with a modified date after this timestamp",
         :default => 0]]
     end
 
