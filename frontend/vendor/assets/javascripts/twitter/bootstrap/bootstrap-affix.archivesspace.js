@@ -1,5 +1,5 @@
 /* ==========================================================
- * bootstrap-affix.js v2.2.1
+ * bootstrap-affix.js v2.2.2
  * http://twitter.github.com/bootstrap/javascript.html#affix
  * ==========================================================
  * Copyright 2012 Twitter, Inc.
@@ -35,11 +35,10 @@
 
   var Affix = function (element, options) {
     this.options = $.extend({}, $.fn.affix.defaults, options)
-
     this.$window = $(window)
-      .off('scroll.affix.data-api', $.proxy(this.checkPosition, this))
+      .off('scroll.affix.data-api', $.proxy(this.checkPosition, this)) //ArchivesSpace change
       .on('scroll.affix.data-api', $.proxy(this.checkPosition, this))
-      .off('click.affix.data-api',  $.proxy(function () { setTimeout($.proxy(this.checkPosition, this), 1) }, this))
+      .off('click.affix.data-api',  $.proxy(function () { setTimeout($.proxy(this.checkPosition, this), 1) }, this)) //ArchivesSpace change
       .on('click.affix.data-api',  $.proxy(function () { setTimeout($.proxy(this.checkPosition, this), 1) }, this))
     this.$element = $(element)
     this.checkPosition()
@@ -62,10 +61,11 @@
     if (typeof offsetBottom == 'function') offsetBottom = offset.bottom()
 
     affix = this.unpin != null && (scrollTop + this.unpin <= position.top) ?
-      false    : offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom - (this.affixed === 'bottom' ? offsetTop : 0)) ?
+      false    : offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom - (this.affixed === 'bottom' ? offsetTop : 0)) ? //ArchivesSpace change
       'bottom' : offsetTop != null && scrollTop <= offsetTop ?
       'top'    : false
 
+    //ArchivesSpace change
     if (offsetTop && affix === false) {
       this.$element.css("top", "10px");
     } else {
@@ -84,6 +84,8 @@
  /* AFFIX PLUGIN DEFINITION
   * ======================= */
 
+  var old = $.fn.affix
+
   $.fn.affix = function (option) {
     return this.each(function () {
       var $this = $(this)
@@ -98,6 +100,15 @@
 
   $.fn.affix.defaults = {
     offset: 0
+  }
+
+
+ /* AFFIX NO CONFLICT
+  * ================= */
+
+  $.fn.affix.noConflict = function () {
+    $.fn.affix = old
+    return this
   }
 
 
