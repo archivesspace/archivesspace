@@ -23,11 +23,11 @@
              data-format_template="names[0].sort_name"
              data-types='[]'
       />
-      <div class="btn-group">
+      <div class="btn-group pull-right">
         <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:void(0);" class="linker-browse-btn">Browse</a></li>
-          <li class="dropdown-submenu">
+          <li class="dropdown-submenu pull-left">
             <a href="javascript:void(0);">Create</a>
             <ul class="dropdown-menu">
               <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :type => :agent_person, :inline => true %>" class="linker-create-btn">Person</a></li>
