@@ -87,12 +87,13 @@
           <h3>Record Links</h3>
           <div class="row-fluid label-and-value">
              <div class="span3">Record Links</div>
-             <div class="span9">
-                <% @collection_management.linked_records.each do | ref | %>
-                   <div class="token">
-                      <%= ref["resolved"]["ref"]["title"] %>
-                   </div>
-                <% end %>
+             <div class="span9 token-list">
+               <% @collection_management.linked_records.each do | ref | %>
+                <%= render_token :object => ref["resolved"]["ref"],
+                                  :label => ref["resolved"]["ref"]["title"],
+                                  :type => ref["resolved"]["ref"]["jsonmodel_type"],
+                                  :uri => ref["ref"] %>
+               <% end %>
              </div>
           </div>
 

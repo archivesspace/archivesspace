@@ -259,6 +259,8 @@ $(function() {
           $linkerWrapper.addClass("sortable");
         }
 
+        $(document).triggerHandler("init.popovers");
+
         addEventBindings();
       };
 
