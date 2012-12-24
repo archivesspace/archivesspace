@@ -4,7 +4,7 @@ ul.token-input-list {
   overflow: hidden; 
   height: auto !important; 
   height: 1%;
-  width: 380px;
+  width: 80%;
   cursor: text;
   font-size: 12px;
   font-family: Verdana, sans-serif;
@@ -184,15 +184,17 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 .linker-list label:hover {
   background-color: #F1f1f1;
 }
+.linker-wrapper {
+  width: 100%;
+  max-width: 440px;
+  display:block !important;
+}
 .linker-wrapper.input-append {
-  float: left;
-  width: 420px;
   .token-input-list {
     float: left;
   }
   .btn-group {
     float: left;
-    left: -1px;
     .btn {
       .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
     }
@@ -226,16 +228,6 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   .accession .icon-token {background-position: -168px -24px;}
   .subject .icon-token {display: none;}
   .location .icon-token {background-position: -24px -72px;}
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-  ul.token-input-list {
-    width: 300px;
-  }
-
-  ul.token-input-list li input {
-    width: 300px;
-  }
 }
 
 .linker-wrapper.sortable {
