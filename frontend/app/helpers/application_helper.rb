@@ -61,4 +61,22 @@ module ApplicationHelper
     render(:partial =>"shared/breadcrumb", :layout => false , :locals => { :trail => breadcrumb_trail }).to_s if options[:suppress_breadcrumb] != true
   end
 
+  def render_token(opts)
+    popover = "<div class='btn-group'>"
+    popover += "<a href='#{root_path}resolve/readonly?uri=#{opts[:uri]}'"
+    popover += " target='_blank'" if opts[:inside_token_editor]
+    popover += " class='btn btn-mini'>View</a>"
+    popover += "</div>"
+
+    popover_template = "<div class='popover token-popover'><div class='arrow'></div><div class='popover-inner'><div class='popover-content'><p></p></div></div></div>"
+
+    html = "<div class='"
+    html += "token " if not opts[:inside_token_editor] 
+    html += "#{opts[:type]} has-popover' data-trigger='#{opts[:trigger] || "focus"}' data-html='true' data-placement='bottom' data-content=\"#{CGI.escape_html(popover)}\" data-template=\"#{popover_template}\" tabindex='1'>"
+    html += "<span class='icon-token'></span>"
+    html += opts[:label]
+    html += "</div>"
+    html.html_safe
+  end
+
 end

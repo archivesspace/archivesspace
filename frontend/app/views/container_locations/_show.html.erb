@@ -7,8 +7,11 @@
       <% if container_location["location"] %>
         <div class="row-fluid label-and-value">
           <div class="span4" ><%= I18n.t("container_location.location") %></div>
-          <div class="span8">
-            <div class="token"><%= Location.from_hash(container_location["resolved"]["location"]).display_string %></div>
+          <div class="span8 token-list">
+            <%= render_token :object => container_location["resolved"],
+                             :label => Location.from_hash(container_location["resolved"]["location"]).display_string,
+                             :type => "location",
+                             :uri => container_location["location"] %>
           </div>
         </div>
       <% end %>

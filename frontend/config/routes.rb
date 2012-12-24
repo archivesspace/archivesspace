@@ -86,6 +86,9 @@ ArchivesSpace::Application.routes.draw do
 
   match 'search' => 'search#do_search', :via => [:get]
 
+  match 'resolve/edit' => 'resolver#resolve_edit', :via => [:get]
+  match 'resolve/readonly' => 'resolver#resolve_readonly', :via => [:get]
+
 
   # Sample resource route with options:
   #   resources :products do

@@ -13,10 +13,11 @@
       <div class="span3 pull1">
         <%= subject["ref_id"] %>
       </div>
-      <div class="span8">
-        <div class="token">
-          <%= Subject.from_hash(subject).display_string %>
-        </div>
+      <div class="span8 token-list">
+        <%= render_token :object => subject,
+                         :label => Subject.from_hash(subject).display_string,
+                         :type => "subject",
+                         :uri => subject['uri'] %>
       </div>
     </div>
   <% end %>

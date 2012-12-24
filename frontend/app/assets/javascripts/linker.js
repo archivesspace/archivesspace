@@ -238,6 +238,7 @@ $(function() {
           onAdd:  function(item) {
             enableSorting();
             $this.parents("form:first").triggerHandler("form-changed");
+            $(document).triggerHandler("init.popovers");
           },
           formatQueryParam: function(q, ajax_params) {
             if ($this.tokenInput("get").length) {
@@ -257,6 +258,8 @@ $(function() {
           enableSorting();
           $linkerWrapper.addClass("sortable");
         }
+
+        $(document).triggerHandler("init.popovers");
 
         addEventBindings();
       };
