@@ -118,6 +118,23 @@ $(function() {
 });
 
 
+// any element with a popover!
+$(function() {
+  var initPopovers = function() {
+    $(".has-popover:not(.initialised)")
+      .popover()
+      .click(function(e) {
+        e.preventDefault()
+      }).addClass("initialised");
+  };
+  initPopovers();
+  $(document).ajaxComplete(function() {
+    initPopovers();
+  });
+  $(document).bind("new.subrecord, init.subrecord, init.popovers", initPopovers);
+});
+
+
 var AS = {};
 
 

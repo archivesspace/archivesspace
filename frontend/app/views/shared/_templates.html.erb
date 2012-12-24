@@ -81,30 +81,14 @@
       {/for}
    </ul>
 --></div>
-<div id="linker_selected_template"><!--
-   {if config.multiplicity === "many" || (config.multiplicity === "one" && items.length === 0)}
-      <button type="button" class="btn btn-mini linker-add-button">Add ${config.label}</button>
-   {/if}
-   {if items.length > 0}
-      <ul>
-         {for item in items} 
-            <li class="${item.json.jsonmodel_type}">
-               <span class="icon-token"></span>
-               <input type="hidden" name="${config.path}[${config.name}][]" value="${item}" />
-               ${item}
-            </li>
-         {/for}
-      </ul>
-   {else}
-      
-   {/if}
---></div>
 <div id="linker_selectedtoken_template"><!--
-   <li id="${item.id.replace(/\//g,'_')}" class="${item.json.jsonmodel_type}">
-      <span class="icon-token"></span>
+   <li id="${item.id.replace(/\//g,'_')}">
       <input type="hidden" name="${config.path}[resolved][${config.name}]{if config.multiplicity != 'one'}[]{/if}" />
       <input type="hidden" name="${config.path}[${config.name}]{if config.multiplicity != 'one'}[]{/if}" value="${item.id}" />
-      ${item.name}
+      <%= render_token :label => "${item.name}",
+                       :type => "${item.json.jsonmodel_type}",
+                       :uri => "${item.id}",
+                       :inside_token_editor => true %>
    </li>
 --></div>
 
@@ -141,7 +125,6 @@
   </div>
 --></div>
 
-
 <div id="linker_subject_template"><!--
   <span>
     {for t in terms}
@@ -155,4 +138,10 @@
   <span>
     ${building}{if defined("floor")}, ${floor}{/if}{if defined("room")}, ${room}{/if}{if defined("area")}, ${area}{/if}
   </span>
+--></div>
+
+<div id="foobar_template"><!--
+  <%= render_token :label => "${label}",
+                   :type => "${type}",
+                   :uri => "${uri}" %>
 --></div>
