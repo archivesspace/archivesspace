@@ -27,7 +27,6 @@
             </td>
             <td>
               <div class="btn-group" style="float: right">
-                <% puts result.inspect %>
                 <%= link_to "View", {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-mini" %>
                 <% if user_can?('update_repository') %>
                   <%= link_to "Edit", {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini" %>

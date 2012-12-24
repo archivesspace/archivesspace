@@ -44,7 +44,6 @@ class Resolver
     elsif @jsonmodel_type === "archival_object"
       ao = JSONModel(:archival_object).find(@id)
       uri_properties[:controller] = :resources
-      puts ao.inspect
       uri_properties[:id] = JSONModel(:resource).id_for(ao["resource"])
       uri_properties[:anchor] = "tree::archival_object_#{@id}"
     elsif @jsonmodel_type === "digital_object_component"
