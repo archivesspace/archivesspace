@@ -886,11 +886,20 @@ en:
     _html:
       plural: Deaccessions
       singular: Deaccession
-  agent_person_name:
+  agent_name: &agent_name_attributes
     authority_id: Authority ID
     source: Source
+    source_local: Local sources
+    source_naf: NACO Authority File
+    source_nad: "NAD / ARK II Name Authority Database"
+    source_ulan: Union List of Artist Names
     rules: Rules
+    rules_local: Local rules
+    rules_aacr: Anglo-American Cataloging Rules
+    rules_dacs: "Describing Archives: A Content Standard"
     direct_order: Direct Order
+    direct_order_standard: Standard
+    direct_order_inverted: Inverted
     prefix: Prefix
     title: Title
     primary_name: Primary Name
@@ -904,45 +913,20 @@ en:
     description_type: Description Type
     description_note: Description Note
     description_citation: Description Citation
+  agent_person_name:
+    <<: *agent_name_attributes
   agent_family_name:
-    authority_id: Authority ID
-    source: Source
-    rules: Rules
-    prefix: Prefix
+    <<: *agent_name_attributes
     family_name: Family Name
-    dates: Dates
-    qualifier: Qualifier
-    sort_name: Sort Name
-    description_type: Description Type
-    description_note: Description Note
-    description_citation: Description Citation
   agent_corporate_entity_name:
-    authority_id: Authority ID
-    source: Source
-    rules: Rules
-    primary_name: Primary Name
+    <<: *agent_name_attributes
     subordinate_name_1: Subordinate Name 1
     subordinate_name_2: Subordinate Name 2
-    number: Number
-    dates: Dates
-    qualifier: Qualifier
-    sort_name: Sort Name
-    description_type: Description Type
-    description_note: Description Note
-    description_citation: Description Citation
   agent_software_name:
-    authority_id: Authority ID
-    source: Source
-    rules: Rules
+    <<: *agent_name_attributes
     software_name: Software Name
     version: Version
     manufacturer: Manufacturer
-    dates: Dates
-    qualifier: Qualifier
-    sort_name: Sort Name
-    description_type: Description Type
-    description_note: Description Note
-    description_citation: Description Citation
   agent_contact_details:
     name: Contact Description
     salutation: Salutation
@@ -1030,8 +1014,6 @@ en:
     instance_type_moving_images: Moving Images
     instance_type_realia: Realia
     instance_type_text: Text
-    _container:
-      <<: *container_attributes
     _html:
       plural: Instances
       singular: Instance
@@ -1088,8 +1070,6 @@ en:
     restriction_start_date: Restrictions Start Date
     restriction_end_date: Restrictions End Date
     granted_note: Granted Note
-    _external_documents:
-      <<: *external_document_attributes
     _html:
       plural: Rights Statements
       singular: Rights Statement
@@ -1149,14 +1129,6 @@ en:
     publish_help: Check this if you wish to publish this accession to the public.
     restrictions: Restrictions?
     title: Title
-    _extents:
-      <<: *extent_attributes
-    _dates:
-      <<: *date_attributes
-    _external_documents:
-      <<: *external_document_attributes
-    _rights_statements:
-      <<: *rights_statement_attributes
     _html:
       singular: Accession
       plural: Accessions
@@ -1168,76 +1140,9 @@ en:
       agent_corporate_entity: Corporate Entity
       agent_software: Software
     names: Names
-    _names: &name_attributes
-      authority_id: Authority ID
-      primary_name: Primary Name
-      prefix: Prefix
-      title: Title
-      rest_of_name: Rest of Name
-      suffix: Suffix
-      fuller_form: Fuller Form      
-      number: Number
-      dates: Dates
-      qualifier: Qualifier
-      sort_name: Sort Name
-      description_type: Description Type
-      description_note: Description Note
-      description_citation: Description Citation
-      family_name: Family Name
-      direct_order: Direct Order
-      direct_order_standard: Primary Name, Rest of Name
-      direct_order_inverted: Rest of Name _ Primary Name
-      subordinate_name_1: Subordinate Name 1
-      subordinate_name_2: Subordinate Name 2
-      software_name: Software Name
-      version: Version
-      manufacturer: Manufacturer
-      source: Source
-      source_local: Local sources (local)
-      source_naf: NACO Authority File (naf)
-      source_nad: NAD / ARK II Name Authority Database (nad)
-      source_ulan: Union List of Artist Names (ulan)
-      rules: Rules
-      rules_local: Local rules (local)
-      rules_aacr: Anglo-American Cataloging Rules (aacr)
-      rules_dacs: "Describing Archives: A Content Standard (dacs)"
-    _agent_contacts: &agent_contact_attributes
-      name: Contact Description
-      salutation: Salutation
-      address_1: Address Line 1
-      address_2: Address Line 2
-      address_3: Address Line 3
-      city: City
-      region: Region
-      country: Country
-      post_code: Mail Code
-      telephone: Telephone Number
-      telephone_ext: Telephone Ext.
-      fax: Fax Number
-      email: Email Address
-    _external_documents:
-      <<: *external_document_attributes
     _html:
       singular: Agent
       plural: Agents
-  agent_person:
-    <<: *agent_attributes
-  agent_family:
-    <<: *agent_attributes
-  agent_corporate_entity:
-    <<: *agent_attributes
-  agent_software:
-    <<: *agent_attributes
-  name_person:
-    <<: *name_attributes
-  name_family:
-    <<: *name_attributes
-  name_software:
-    <<: *name_attributes
-  name_corporate_entity:
-    <<: *name_attributes
-  agent_contact:
-    <<: *agent_contact_attributes
   archival_object:
     title: Title
     ref_id: Ref ID
@@ -1257,14 +1162,6 @@ en:
     language: Language
     <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
-    _extents:
-      <<: *extent_attributes
-    _dates:
-      <<: *date_attributes
-    _external_documents:
-      <<: *external_document_attributes
-    _rights_statements:
-      <<: *rights_statement_attributes
     _html:
       singular: Archival Object
       plural: Archival Objects
@@ -1332,16 +1229,6 @@ en:
     finding_aid_note: Note
     language: Language
     <<: *language_attributes
-    _extents:
-      <<: *extent_attributes
-    _dates:
-      <<: *date_attributes
-    _external_documents:
-      <<: *external_document_attributes
-    _rights_statements:
-      <<: *rights_statement_attributes
-    _instances:
-      <<: *instance_attributes
     _html:
       singular: Resource
       plural: Resources
@@ -1354,10 +1241,6 @@ en:
   subject:
     terms: Terms
     ref_id: Subject Heading Identifier
-    _terms:
-      <<: *term_attributes
-    _external_documents:
-      <<: *external_document_attributes
     _html:
       singular: Subject
       plural: Subjects
