@@ -43,7 +43,7 @@ class SubjectsController < ApplicationController
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = "Subject Saved"
-                  render :action => :show
+                  redirect_to :controller => :subjects, :action => :show, :id => id
                 })
   end
 

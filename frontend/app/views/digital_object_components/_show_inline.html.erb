@@ -25,24 +25,24 @@
 
       </section>
 
-      <% if @digital_object_component.linked_agents.length > 0 %>
-        <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @digital_object_component.linked_agents, :section_id => "digital_object_component_linked_agents_" } %>
-      <% end %>
-      
-      <% if not @digital_object_component.subjects.blank? %>
-        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @digital_object_component["resolved"]["subjects"]} %>
-      <% end %>
-      
-      <% if @digital_object_component.notes.length > 0 %>
-        <%= render :partial => "notes/show", :locals => { :notes => @digital_object_component.notes, :context => readonly } %>
-      <% end %>
-
       <% if @digital_object_component.extents.length > 0 %>
         <%= render :partial => "extents/show", :locals => { :extents => @digital_object_component.extents, :section_id => "digital_object_component_extents_" } %>
       <% end %>
 
       <% if @digital_object_component.dates.length > 0 %>
         <%= render :partial => "dates/show", :locals => { :dates => @digital_object_component.dates, :section_id => "digital_object_component_dates_" } %>
+      <% end %>
+
+      <% if @digital_object_component.linked_agents.length > 0 %>
+        <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @digital_object_component.linked_agents, :section_id => "digital_object_component_linked_agents_" } %>
+      <% end %>
+      
+      <% if not @digital_object_component.subjects.blank? %>
+        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @digital_object_component["resolved"]["subjects"], :section_id => "digital_object_component_subjects_"} %>
+      <% end %>
+      
+      <% if @digital_object_component.notes.length > 0 %>
+        <%= render :partial => "notes/show", :locals => { :notes => @digital_object_component.notes, :context => readonly } %>
       <% end %>
 
       <% if @digital_object_component.external_documents.length > 0 %>

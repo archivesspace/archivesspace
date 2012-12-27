@@ -732,7 +732,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link, 'Finish Editing').click
 
-      assert { $driver.find_element(:css => "#subjects .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
+      assert { $driver.find_element(:css => "#accession_subjects_ .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
     end
 
 

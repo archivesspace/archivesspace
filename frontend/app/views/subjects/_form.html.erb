@@ -34,24 +34,28 @@
      <%= form.label_and_textfield "ref_id" %>
    </section>
 
-   <section id="terms">
+   <section id="terms" class="subrecord-form">
      <h3>Terms</h3>
-     <div class="row-fluid">
-        <div class="span5">Term</div>
-        <div class="span5">Type</div>
-        <div class="span2"></div>
-     </div>
-     <div class="terms-container">
-       <%= form.list_for(form["terms"], "terms[]") do |term| %>
-         <% form.emit_template("term") %>
-       <% end %>
-     </div>
+     <div class="subrecord-form-container">
+       <div class="subrecord-form-fields">
+         <div class="row-fluid">
+            <div class="span5">Term</div>
+            <div class="span5">Type</div>
+            <div class="span2"></div>
+         </div>
+         <div class="terms-container">
+           <%= form.list_for(form["terms"], "terms[]") do |term| %>
+             <% form.emit_template("term") %>
+           <% end %>
+         </div>
 
-     <hr/>
+         <hr/>
 
-     <div class="well">
-        <div class="subject-preview"><em>Subject Preview</em></div>
-     </div>
+         <div class="well">
+           <div class="subject-preview"><em>Subject Preview</em></div>
+         </div>
+        </div>
+      </div>
      
    </section>
 
