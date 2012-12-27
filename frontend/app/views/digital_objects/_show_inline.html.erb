@@ -28,7 +28,7 @@
       <% end %>
       
       <% if not @digital_object.subjects.blank? %>
-        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @digital_object["resolved"]["subjects"]} %>
+        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @digital_object["resolved"]["subjects"], :section_id => "digital_object_subjects_"} %>
       <% end %>
 
       <% if @digital_object.notes.length > 0 %>

@@ -38,4 +38,13 @@ describe 'Subject controller' do
     JSONModel(:subject).find(id).uri.should eq("/subjects/#{id}")
   end
 
+
+  it "lets you create a subject and update it" do
+    id = create_subject
+    subject = JSONModel(:subject).find(id)
+    subject['ref_id'] = "CustomIdentifier123"
+    subject.save
+
+    JSONModel(:subject).find(id).ref_id.should eq("CustomIdentifier123")
+  end
 end

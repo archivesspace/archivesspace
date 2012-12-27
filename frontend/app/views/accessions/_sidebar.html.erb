@@ -14,6 +14,10 @@
       <li><a href="#accession_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
+    <% if controller.action_name != "show" || @accession.subjects.length > 0 %>
+      <li><a href="#accession_subjects_">Subjects <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <% if not controller.action_name === "show" or @accession.external_documents.length > 0 %>
       <li><a href="#accession_external_documents_">External Documents <span class="icon-chevron-right"></span></a></li>
     <% end %>

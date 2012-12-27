@@ -2,20 +2,25 @@
   <ul class="nav nav-list as-nav-list">
     <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
 
-    <% if controller.action_name != "show" || @digital_object.linked_agents.length > 0 %>
-      <li><a href="#digital_object_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
-    <% if not controller.action_name === "show" or @digital_object.notes.length > 0 %>
-      <li><a href="#notes">Notes <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
     <% if not controller.action_name === "show" or @digital_object.extents.length > 0 %>
       <li><a href="#digital_object_extents_">Extents <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @digital_object.dates.length > 0 %>
       <li><a href="#digital_object_dates_">Dates <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+
+    <% if controller.action_name != "show" || @digital_object.linked_agents.length > 0 %>
+      <li><a href="#digital_object_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if controller.action_name != "show" || @digital_object.subjects.length > 0 %>
+      <li><a href="#digital_object_subjects_">Subjects <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if not controller.action_name === "show" or @digital_object.notes.length > 0 %>
+      <li><a href="#notes">Notes <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @digital_object.external_documents.length > 0 %>
