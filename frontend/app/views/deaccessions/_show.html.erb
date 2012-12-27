@@ -16,7 +16,7 @@
               <span class="icon-chevron-down"></span>
             </div>
             <div class="span1">
-              <% if deaccession["whole_part"] %>Whole<% else %>Part<% end %>
+              <%= I18n.t("deaccession.scope_#{deaccession["scope"]}") %>
             </div>
             <div class="span3">
               <% if deaccession["date"]['date_type'] === "expression" %>

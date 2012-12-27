@@ -320,7 +320,7 @@ describe 'Resources controller' do
     
     r = create(:json_resource, 
                :deaccessions => [build(:json_deaccession, {
-                 :whole_part => test_boolean,
+                 :scope => "whole",
                  :date => build(:json_date, {
                    :begin => test_begin_date
                  }).to_hash
@@ -328,7 +328,7 @@ describe 'Resources controller' do
                )
     
     JSONModel(:resource).find(r.id).deaccessions.length.should eq(1)
-    JSONModel(:resource).find(r.id).deaccessions[0]["whole_part"].should eq(test_boolean)
+    JSONModel(:resource).find(r.id).deaccessions[0]["scope"].should eq("whole")
     JSONModel(:resource).find(r.id).deaccessions[0]["date"]["begin"].should eq(test_begin_date)
   end
 

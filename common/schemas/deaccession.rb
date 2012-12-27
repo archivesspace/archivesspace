@@ -4,7 +4,7 @@
     "type" => "object",
     "properties" => {
 
-      "whole_part" => {"type" => "boolean", "default" => true, "ifmissing" => "error"},
+      "scope" => {"type" => "string", "default" => "whole", "enum" => ["whole", "part"], "ifmissing" => "error"},
       "description" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
 
       "reason" => {"type" => "string"},

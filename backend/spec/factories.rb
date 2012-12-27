@@ -165,7 +165,7 @@ FactoryGirl.define do
   end
   
   factory :json_deaccession, class: JSONModel(:deaccession) do
-    whole_part { rand(2) == 1?true:false }
+    scope { "whole" }
     description { generate(:generic_description) }
     date { build(:json_date).to_hash }
   end
