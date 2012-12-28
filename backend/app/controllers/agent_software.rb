@@ -10,6 +10,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/agents/software')
+  .description("List all software agents")
+  .params(*Endpoint.pagination)
+  .returns([200, "[(:agent_software)]"]) \
+  do
+    handle_listing(AgentSoftware, params[:page], params[:page_size], params[:modified_since])
+  end
+
+
   Endpoint.post('/agents/software/:agent_id')
     .description("Update a software agent")
     .params(["agent_id", Integer, "The ID of the software to update"],

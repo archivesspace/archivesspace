@@ -927,6 +927,22 @@ en:
     software_name: Software Name
     version: Version
     manufacturer: Manufacturer
+  agent_person:
+    _html:
+      singular: Person
+      plural: People
+  agent_family:
+    _html:
+      singular: Family
+      plural: Families
+  agent_software:
+    _html:
+      singular: Software
+      plural: Software
+  agent_corporate_entity:
+    _html:
+      singular: Corporate Entity
+      plural: Corporate Entities
   agent_contact_details:
     name: Contact Description
     salutation: Salutation

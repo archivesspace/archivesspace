@@ -64,7 +64,7 @@ module ApplicationHelper
   def render_token(opts)
     popover = "<div class='btn-group'>"
     popover += "<a href='#{root_path}resolve/readonly?uri=#{opts[:uri]}'"
-    popover += " target='_blank'" if opts[:inside_token_editor]
+    popover += " target='_blank'" if opts[:inside_token_editor] || opts[:inside_linker_browse]
     popover += " class='btn btn-mini'>View</a>"
     popover += "</div>"
 

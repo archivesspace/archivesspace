@@ -10,6 +10,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/agents/corporate_entities')
+  .description("List all corporate entity agents")
+  .params(*Endpoint.pagination)
+  .returns([200, "[(:agent_corporate_entity)]"]) \
+  do
+    handle_listing(AgentCorporateEntity, params[:page], params[:page_size], params[:modified_since])
+  end
+
+
   Endpoint.post('/agents/corporate_entities/:agent_id')
     .description("Update a corporate entity agent")
     .params(["agent_id", Integer, "The ID of the agent to update"],

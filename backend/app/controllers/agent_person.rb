@@ -10,6 +10,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/agents/people')
+  .description("List all person agents")
+  .params(*Endpoint.pagination)
+  .returns([200, "[(:agent_person)]"]) \
+  do
+    handle_listing(AgentPerson, params[:page], params[:page_size], params[:modified_since])
+  end
+
+
   Endpoint.post('/agents/people/:agent_id')
     .description("Update a person agent")
     .params(["agent_id", Integer, "The ID of the agent to update"],
