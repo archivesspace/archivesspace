@@ -126,7 +126,7 @@ $(function() {
         $(".linker-list :input:checked", "#"+config.modal_id).each(function() {
           var item = $(this).data("object");
           $this.tokenInput("add", {
-            id: item.uri,
+            id: $(this).val(),
             name: formattedNameForJSON(item),
             json: item
           });
