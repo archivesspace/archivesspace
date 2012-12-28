@@ -32,14 +32,20 @@ $(function() {
         config.format_template = "${" + config.format_template + "}";
       }
 
-      var renderItemsInModal = function() {
+      var renderItemsInModal = function(page) {
+        page = page || 1;
         var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
         $.ajax({
           url: config.url,
+          data: {
+            page: page,
+            type: config.types,
+            q: "*"
+          },
           type: "GET",
           dataType: "json",
           success: function(json) {
-            $("#"+config.modal_id).find(".linker-list").html(AS.renderTemplate("linker_browse_template", {items: json, config: config, selected: currentlySelectedIds}));
+            $("#"+config.modal_id).find(".linker-list").html(AS.renderTemplate("linker_browse_template", {search_data: json, config: config, selected: currentlySelectedIds}));
           }
         });
       };
@@ -134,6 +140,9 @@ $(function() {
         AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config));
         renderItemsInModal();
         $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
+        $("#"+config.modal_id).on("click", ".linker-list .pagination .navigation a", function() {
+          renderItemsInModal($(this).attr("rel"));
+        });
       };
 
 

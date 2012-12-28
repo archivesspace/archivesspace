@@ -189,6 +189,31 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 
 .linker-list {
   max-height: 240px;
+
+  .token-list > li {
+    float: none;
+    clear: both;
+
+    label {
+      overflow: hidden;
+    }
+
+    label > input {
+      float: left;
+      margin-right: 10px;
+    }
+  }
+
+  .pagination {
+    color: #666;
+    background-color: #FAFAFA;
+    padding: 4px 6px;
+    border-bottom: 1px solid #EEE;
+
+    .navigation {
+      float: right;
+    }
+  }
 }
 
 .linker-list ul {
@@ -199,7 +224,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   padding:0;
 }
 .linker-list label {
-  padding: 5px;
+  padding: 4px 10px 0;
 }
 .linker-list label:hover {
   background-color: #F1f1f1;
