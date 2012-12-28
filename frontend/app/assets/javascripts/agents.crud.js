@@ -93,7 +93,7 @@ $(function() {
 
         var sort_name_template = agent_type+"_sort_name";
         if (agent_type === "agent_person") {
-          sort_name_template += "_"+data["direct_order"];
+          sort_name_template += "_"+data["name_order"];
         }
         sort_name_template += "_template";
 

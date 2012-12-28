@@ -426,7 +426,7 @@ def create_agent(name)
     "agent_type" => "agent_person",
     "names" => [
               {
-                "direct_order" => "inverted",
+                "name_order" => "inverted",
                 "authority_id" => "authid123",
                 "primary_name" => name,
                 "rest_of_name" => name,

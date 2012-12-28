@@ -360,11 +360,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "changing Direct Order updates Sort Name" do
-      direct_order_select = $driver.find_element(:id => "agent_names__0__direct_order_")
-      direct_order_select.find_elements( :tag_name => "option" ).each do |option|
-        option.click if option.attribute("value") === "inverted"
-      end
-
+      $driver.find_element(:id => "agent_names__0__name_order_").select_option("inverted")
       check_sort_name_eq("agent_names__0__sort_name_", "Johnny Allen Hendrix")
     end
 
