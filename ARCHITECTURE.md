@@ -438,12 +438,59 @@ automatically makes use of the appropriate join tables in the database
 to store this relationship and retrieve it later as needed. 
 
 
+## Validations
+
+As records are added to and updated within the ArchivesSpace system,
+they are validated against a number of rules to make sure they are
+well-formed and don't conflict with other records.  There are two
+types of record validation:
+
+  * Record-level validations check that a record is self-consistent:
+    that it contains all required fields, that its values are of the
+    appropriate type and format, and that its fields don't contradict
+    one another.
+
+  * System-level validations check that a record makes sense in a
+    broader context: that it doesn't share a unique identifier with
+    another record, and that any record it references actually exists.
+
+Essentially, record-level validations can be performed in isolation,
+while system-level records require comparing the record being
+validated to others in the database.
+
+By their nature, validations are difficult to capture in one place.
+System-level validations need to be implemented in the database itself
+(as integrity constraints), but record-level validations are often too
+complex to be expressed this way.  As a result, validations in
+ArchivesSpace can appear in one or both of the following layers:
+
+  * At the JSONModel level, validations are captured by JSON schema
+    documents.  Where more flexibility is needed, custom validations
+    are added to the `common/validations.rb` file, allowing validation
+    logic to be expressed using arbitrary Ruby code.
+
+  * At the database level, validations are captured using database
+    constraints.  Since the error messages yielded by these
+    constraints generally aren't useful for users, database
+    constraints are also replicated in the backend's model layer using
+    Sequel validations, which give more targeted error messages.
+
+As a general rule, record-level validations are handled by the
+JSONModel validations (either through the JSON schema or custom
+validations), while system-level validations are handled by the model
+and the database schema.  One notable exception is mandatory fields,
+which are generally checked by both JSONModel and database
+validations.
+
+
+
+
+
 =======================================================================
 
 Topics worth talking about:
 
   - optimistic concurrency control
-  - validations
   - the global repository
   - the permissions model
   - webhooks
