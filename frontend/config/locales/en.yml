@@ -877,7 +877,9 @@ en:
       singular: Event
       plural: Events
   deaccession:
-    whole_part: Whole (or Part)
+    scope: Scope
+    scope_whole: Whole
+    scope_part: Part
     description: Description
     reason: Reason
     disposition: Disposition

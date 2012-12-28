@@ -635,7 +635,7 @@ Sequel.migration do
       Integer :accession_id, :null => true
       Integer :resource_id, :null => true
 
-      Integer :whole_part, :default => 1
+      String :scope, :null => false
       String :description, :null => false
 
       String :reason

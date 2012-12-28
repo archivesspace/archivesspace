@@ -1,6 +1,6 @@
 <% define_template "deaccession", jsonmodel_definition(:deaccession) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_boolean "whole_part", {}, form.default_for("whole_part") %>
+    <%= form.label_and_select "scope",  form.possible_options_for("scope") %>
     <%= form.label_and_textarea "description" %>
     <%= form.label_and_textarea "reason" %>
     <%= form.label_and_textarea "disposition" %>
