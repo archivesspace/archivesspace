@@ -26,6 +26,9 @@ class CollectionManagementRecordsController < ApplicationController
                   render :action => :new
                 },
                 :on_valid => ->(id){
+                  flash[:success] = "Collection Management Record Saved"
+                  return redirect_to :controller => :collection_management_records, :action => :new if params.has_key?(:plus_one)
+
                   redirect_to :controller => :collection_management_records, :action => :index, :id => id
                 })
   end

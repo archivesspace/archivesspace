@@ -31,6 +31,8 @@ class SubjectsController < ApplicationController
                   if inline?
                     render :json => @subject.to_hash if inline?
                   else
+                    flash[:success] = "Subject Saved"
+                    return redirect_to :controller => :subjects, :action => :new if params.has_key?(:plus_one)
                     redirect_to :controller => :subjects, :action => :show, :id => id
                   end
                 })

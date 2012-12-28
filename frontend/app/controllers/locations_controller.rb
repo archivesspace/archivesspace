@@ -28,11 +28,12 @@ class LocationsController < ApplicationController
                   return render :action => :new
                 },
                 :on_valid => ->(id){
-                  if inline?
-                    render :json => @location.to_hash if inline?
-                  else
-                    redirect_to :controller => :locations, :action => :show, :id => id
-                  end
+                  return render :json => @location.to_hash if inline?
+
+                  flash[:success] = "Location Saved"
+                  return redirect_to :controller => :locations, :action => :new if params.has_key?(:plus_one)
+
+                  redirect_to :controller => :locations, :action => :show, :id => id
                 })
   end
 
