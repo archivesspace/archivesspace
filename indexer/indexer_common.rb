@@ -14,7 +14,8 @@ class CommonIndexer
 
   @@record_types = [:accession, :archival_object, :resource,
                     :digital_object, :digital_object_component,
-                    :collection_management, :subject, :location]
+                    :collection_management, :subject, :location,
+                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
 
   def initialize(backend_url)
     @backend_url = backend_url
@@ -43,6 +44,13 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if ['subject', 'location'].include?(doc[:type])
         doc['json'] = record['record'].to_json
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc[:type])
+        doc['json'] = record['record'].to_json
+        doc[:title] = record['record']['names'][0]['sort_name']
       end
     }
   end

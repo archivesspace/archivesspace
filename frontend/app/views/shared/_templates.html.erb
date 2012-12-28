@@ -84,7 +84,7 @@
                 {elseif config.format_template_id}
                   {var token_title = $(AS.renderTemplate(config.format_template_id, json)).html()} 
                 {else}
-                  {var token_title =  AS.quickTemplate(config.format_template, item)}
+                  {var token_title =  AS.quickTemplate(config.format_template, json)}
                 {/if}
                <%= render_token :label => "${token_title}",
                                 :type => "${item.type}",
