@@ -11,7 +11,10 @@
         <br/>
         <%= render :partial => "subjects/form", :locals => {:form => form} %>
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Save Subject</button>
+          <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Save Subject</button>
+            <button type="submit" name="plus_one" class="btn btn-primary">+1</button>
+          </div>
           <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
         </div>
       </div>

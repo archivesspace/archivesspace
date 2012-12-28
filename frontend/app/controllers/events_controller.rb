@@ -28,6 +28,9 @@ class EventsController < ApplicationController
                   render :action => :new
                 },
                 :on_valid => ->(id){
+                  flash[:success] = "Event Saved"
+                  return redirect_to :controller => :events, :action => :new if params.has_key?(:plus_one)
+
                   redirect_to :controller => :events, :action => :index, :id => id
                 })
   end
