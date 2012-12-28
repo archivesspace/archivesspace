@@ -498,7 +498,7 @@ Sequel.migration do
       Integer :agent_person_id, :null => false
 
       String :primary_name, :null => false
-      String :direct_order, :null => false
+      String :name_order, :null => false
 
       TextField :title, :null => true
       TextField :prefix, :null => true

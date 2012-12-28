@@ -166,7 +166,7 @@ entities:
       
       names:
         xpath: ["self"]
-        procedure: "|value| {'rules' => 'local', 'primary_name' => value, 'sort_name' => value, 'direct_order' => 'standard'}"
+        procedure: "|value| {'rules' => 'local', 'primary_name' => value, 'sort_name' => value, 'name_order' => 'direct'}"
 
   agent_corporate_entity:
     xpath: ["//corpname"]

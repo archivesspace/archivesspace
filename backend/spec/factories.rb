@@ -233,7 +233,7 @@ FactoryGirl.define do
     rules { generate(:name_rule) }
     primary_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
-    direct_order 'standard'
+    name_order 'direct'
   end
   
   factory :json_name_software, class: JSONModel(:name_software) do

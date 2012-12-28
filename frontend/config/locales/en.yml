@@ -899,9 +899,9 @@ en:
     rules_local: Local rules
     rules_aacr: Anglo-American Cataloging Rules
     rules_dacs: "Describing Archives: A Content Standard"
-    direct_order: Direct Order
-    direct_order_standard: Standard
-    direct_order_inverted: Inverted
+    name_order: Name Order
+    name_order_direct: Direct
+    name_order_inverted: Inverted
     prefix: Prefix
     title: Title
     primary_name: Primary Name
