@@ -601,13 +601,47 @@ Solr and indexed immediately.  This avoids the delays associated with
 polling and keeps indexing latency low where it matters.
 
 
+## Webhooks
 
+In most cases, the relationship between the frontend and the backend
+is a client/server relationship: the frontend (or any other client)
+initiates requests to the backend, which triggers the backend to
+respond.
+
+A goal in the design of the ArchivesSpace API is to reduce the number
+of requests that a client must of the backend to perform common tasks.
+Since every request to the backend involves a HTTP request that
+potentially crosses the network, keeping the number of requests small
+is important for ensuring that the frontend performs well.
+
+There are a handful of places where the strict client/server model
+isn't a good fit.  For example, the frontend displays a list of
+repositories at the top of every page in the application, so it needs
+to know the current list of active repositories.  Another example is
+permissions, where the frontend needs to know the access granted to
+the logged in user to selectively show and hide UI elements.  The
+frontend could query the backend to obtain these lists of values, but
+this would require a number of requests to be sent to the backend for
+each logical request coming from the user.
+
+For these cases, ArchivesSpace avoids the need for lots of additional
+requests by using [Webhooks](http://en.wikipedia.org/wiki/Webhook).
+When the frontend fetches the list of active repositories, or the list
+of the current user's permissions, it caches that list for a period of
+time.  Should the list change (due to an update against the backend),
+the backend notifies the frontend of the change, and it invalidates
+its cache an refetches from the backend.
+
+Webhooks provide the mechanism for the backend to send notifications
+to the frontend, effectively turning the client/server model on its
+head.  The frontend (or any other client) can register a notification
+URL, and the backend sends `POST` requests to this URL to notify of
+certain events. 
 
 
 =======================================================================
 
 Topics worth talking about:
 
-  - webhooks
   - migrations
   - suppression
