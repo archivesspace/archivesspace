@@ -58,7 +58,7 @@ hashes:
      obj = JSONModel(:digital_object).from_hash(myhash)
 
      obj.title  # or obj['title']
-     obj.title = 'a new title'  # or obj['title'] = 'a new title']
+     obj.title = 'a new title'  # or obj['title'] = 'a new title'
 
      obj._exceptions  # Validates the object and reports any issues
 
@@ -509,10 +509,9 @@ the latest version before applying their update.
 
 ## The ArchivesSpace permissions model
 
-The ArchivesSpace backend enforces access control over the records in
-the system, defining which users are allowed to create, read, update
-and delete the records in the system.  The major actors in the
-permissions model are:
+The ArchivesSpace backend enforces access control, defining which
+users are allowed to create, read, update and delete the records in
+the system.  The major actors in the permissions model are:
 
   * Repositories -- The main mechanism for partitioning the
     ArchivesSpace system.  For example, an instance might contain one
@@ -520,9 +519,9 @@ permissions model are:
     for each major collection.
 
   * Users -- An entity that uses the system--often a person, but
-    perhaps a consumer of the ArchivesSpace API.  The set of users are
-    global to the system, with one user potentially being able to
-    access multiple repositories.
+    perhaps a consumer of the ArchivesSpace API.  The set of users is
+    global to the system, and a single user may have access to
+    multiple repositories.
 
   * Records -- A unit of information in the system.  Some records are
     global (existing outside of any given repository), while some are
@@ -543,10 +542,10 @@ perform that action.
 
 ### Conceptual trickery
 
-Since they're repository-scoped, groups govern access to the contents
-of repositories.  However, there are several record types that exist
-at the top-level of the system (such as the repositories themselves),
-and the permissions model must be able to accommodate these.
+Since they're repository-scoped, groups govern access to repositories.
+However, there are several record types that exist at the top-level of
+the system (such as the repositories themselves), and the permissions
+model must be able to accommodate these.
 
 To get around this, we invent a concept: the "global" repository
 conceptually contains the whole ArchivesSpace universe.  As with other
@@ -560,8 +559,8 @@ not update or delete) any record in the system.
 
 ## Search indexing
 
-The ArchivesSpace system makes use of Solr for its full-text search.
-As records are added/updated/delete by the backend, the corresponding
+The ArchivesSpace system uses Solr for its full-text search.  As
+records are added/updated/delete by the backend, the corresponding
 changes are made to the Solr index to keep them (roughly)
 synchronised.
 
@@ -569,14 +568,14 @@ Keeping the backend and Solr in sync is the job of the "indexer", a
 separate process that runs in the background and watches for record
 updates.  The indexer operates in two modes simultaneously:
 
-  * It polls the backend periodically to get a list of records that
+  * It periodically polls the backend to get a list of records that
     were added/modified/deleted since it last checked.  These changes
     are propagate to the Solr index.  This generally happens every 30
     to 60 seconds.
 
-  * It responds to updates as they happen, applying changes as soon as
-    they're applied to the backend.  This aims to propagate changes to
-    Solr within milliseconds or seconds.
+  * It responds to updates as they happen, applying changes to Solr as
+    soon as they're applied to the backend.  This aims to reflect
+    updates within the search indexes in milliseconds or seconds.
 
 The two modes of operation overlap somewhat, but they serve different
 purposes.  The mode that polls every few minutes ensures that records
