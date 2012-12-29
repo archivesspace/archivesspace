@@ -1,4 +1,3 @@
-
 # The ArchivesSpace API
 
 ArchivesSpace is implemented as two major pieces: the backend, which
@@ -484,15 +483,88 @@ validations.
 
 
 
+## Optimistic concurrency control
+
+Updating a record using the ArchivesSpace API is a two part process:
+
+  * Perform a GET against the desired record to fetch its JSON
+    representation:
+
+      GET /repositories/5/accessions/2
+
+  * Manipulate the JSON representation as required, and then POST it
+    back to replace the original:
+
+      POST /repositories/5/accessions/2
+
+If two people do this simultaneously, there's a risk that one person
+would silently overwrite the changes made by the other.  To prevent
+this, every record is marked with a version number that it carries in
+the `lock_version` property.  When the system receives the updated
+copy of a record, it checks that the version it carries is still
+current; if the version number doesn't match the one stored in the
+database, the update request is rejected and the user must re-fetch
+the latest version before applying their update.
+
+
+## The ArchivesSpace permissions model
+
+The ArchivesSpace backend enforces access control over the records in
+the system, defining which users are allowed to create, read, update
+and delete the records in the system.  The major actors in the
+permissions model are:
+
+  * Repositories -- The main mechanism for partitioning the
+    ArchivesSpace system.  For example, an instance might contain one
+    repository for each section of an organisation, or one repository
+    for each major collection.
+
+  * Users -- An entity that uses the system--often a person, but
+    perhaps a consumer of the ArchivesSpace API.  The set of users are
+    global to the system, with one user potentially being able to
+    access multiple repositories.
+
+  * Records -- A unit of information in the system.  Some records are
+    global (existing outside of any given repository), while some are
+    repository-scoped (belonging to a single repository).
+
+  * Groups -- A set of users *within* a repository.  Each group is
+    assigned zero or more permissions, which it confers upon its
+    members.
+
+  * Permissions -- An action that a user can perform.  For example,
+    A user with the `can_manage` permission is allowed to manage the
+    group memberships for a repository.
+
+To summarise, a user can perform an action within a repository if
+they're a member of a group that has been assigned permission to
+perform that action.
+
+
+### Conceptual trickery
+
+Since they're repository-scoped, groups govern access to the contents
+of repositories.  However, there are several record types that exist
+at the top-level of the system (such as the repositories themselves),
+and the permissions model must be able to accommodate these.
+
+To get around this, we invent a concept: the "global" repository
+conceptually contains the whole ArchivesSpace universe.  As with other
+repositories, the global repository contains groups, and users can be
+made members of these groups to grant them permissions across the
+entire system.  One example of this is the "admin" user, which is
+granted all permissions by the "administrators" group of global
+repository; another is the "search indexer" user, which can read (but
+not update or delete) any record in the system.
+
+
 
 
 =======================================================================
 
 Topics worth talking about:
 
-  - optimistic concurrency control
-  - the global repository
-  - the permissions model
   - webhooks
   - the indexer
   - migrations
+  - suppression
