@@ -48,20 +48,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/events/linkable-records/list')
-    .description("Get a list of records matching some search criteria that can be linked to an event")
-    .params(["repo_id", :repo_id],
-            ["q", /[\w0-9 -.]/, "The record title prefix to match"])
-    .returns([200, "A list of matching records"]) \
-  do
-    result = Event.linkable_records_for(params[:q]).map {|record_type, records|
-      records.map {|record| record.class.to_jsonmodel(record).to_hash}
-    }.flatten
-
-    json_response(result)
-  end
-
-
   Endpoint.post('/repositories/:repo_id/events/:event_id/suppressed')
     .description("Suppress this record from non-managers")
     .params(["event_id", Integer, "The event ID to update"],

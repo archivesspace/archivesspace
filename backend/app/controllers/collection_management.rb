@@ -49,18 +49,4 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(resolve_references(json.to_hash, params[:resolve]))
   end
 
-
-  Endpoint.get('/repositories/:repo_id/collection_management_records/linkable-records/list')
-    .description("Get a list of records matching some search criteria that can be linked to a collection management record")
-    .params(["repo_id", :repo_id],
-            ["q", /[\w0-9 -.]/, "The record title prefix to match"])
-    .returns([200, "A list of matching records"]) \
-  do
-    result = CollectionManagement.linkable_records_for(params[:q]).map {|record_type, records|
-      records.map {|record| record.class.to_jsonmodel(record).to_hash}
-    }.flatten
-
-    json_response(result)
-  end
-
 end

@@ -64,7 +64,6 @@ ArchivesSpace::Application.routes.draw do
   resources :locations
   match 'locations/:id' => 'locations#update', :via => [:post]
 
-  match 'events/listrecords' => 'events#listrecords', :via => [:get]
   resources :events
   match 'events/:id' => 'events#update', :via => [:post]
 
@@ -78,7 +77,6 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/:type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
 
-  match 'collection_management_records/listrecords' => 'collection_management_records#listrecords', :via => [:get]
   resources :collection_management_records
   match 'collection_management_records/:id' => 'collection_management_records#update', :via => [:post]
 

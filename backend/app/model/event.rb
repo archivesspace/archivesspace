@@ -23,13 +23,6 @@ class Event < Sequel::Model(:event)
                       :contains_references_to_types => proc {[Accession, Resource, ArchivalObject]})
 
 
-  def self.linkable_records_for(prefix)
-    linked_models(:link).map do |model|
-      [model.my_jsonmodel.record_type, model.records_matching(prefix, 10)]
-    end
-  end
-
-
   def has_active_linked_records?
     linked_records(:link).each do |linked_record|
       if linked_record.values.has_key?(:suppressed) && linked_record[:suppressed] == 0
