@@ -124,12 +124,21 @@ module JSONSchemaUtils
        }
      },
 
+     {
+       :failed_attribute => ['custom_validation'],
+       :pattern => /Validation error code: (.*?) in schema /,
+       :do => ->(msgs, message, path, error_code) {
+         msgs[:errors]['coded_errors'] = [error_code]
+       }
+     },
+
+
      # Catch all
      {
        :failed_attribute => nil,
        :pattern => /^(.*)$/,
        :do => ->(msgs, message, path, msg) {
-         msgs[:errors][:unknown] = [msg]
+         msgs[:errors]['unknown'] = [msg]
        }
      }
     ]

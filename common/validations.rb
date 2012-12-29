@@ -101,18 +101,17 @@ module JSONModel::Validations
   def self.check_location(hash)
     errors = []
 
-    if hash["coordinate_1_indicator"].nil? and hash["coordinate_1_label"].nil?
-      errors << ["barcode", "is required"] if hash["barcode"].nil? and hash["classification"].nil?
-      errors << ["classification", "is required"] if hash["classification"].nil? and hash["barcode"].nil?
-    end
+    # When creating a location, a minimum of one of the following is required:
+    #   * Barcode
+    #   * Classification
+    #   * Coordinate 1 Label AND Coordinate 1 Indicator
+    required_location_fields = [["barcode"],
+                                ["classification"],
+                                ["coordinate_1_indicator", "coordinate_1_label"]]
 
-    if hash["barcode"].nil? and hash["classification"].nil?
-      errors << ["coordinate_1_label", "is required"] if hash["coordinate_1_label"].nil?
+    if !required_location_fields.any? { |fieldset| fieldset.all? {|field| hash[field]} }
+      errors << :location_fields_error
     end
-
-    errors << ["coordinate_1_indicator", "is required"] if hash["coordinate_1_indicator"].nil? and not hash["coordinate_1_label"].nil?
-    errors << ["coordinate_2_indicator", "is required"] if hash["coordinate_2_indicator"].nil? and not hash["coordinate_2_label"].nil?
-    errors << ["coordinate_3_indicator", "is required"] if hash["coordinate_3_indicator"].nil? and not hash["coordinate_3_label"].nil?
 
     errors
   end
