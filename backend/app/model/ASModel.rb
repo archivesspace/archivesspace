@@ -12,29 +12,19 @@ module ASModel
   end
 
 
-  @stale = false
-
-  # An object is considered stale if it's been explicitly marked as stale, or if
-  # one of its linked records has been marked as stale.
+  # True if this record has been modified by some mechanism other than a request
+  # from the client.  Used to send a status back to the client to let them know
+  # that they'll need to fetch the latest representation.
   #
-  # THINKME: is this going to be overly expensive in terms of how many objects
-  # it needs to pull back?
-  #
-  def stale?
-    return true if @stale
+  # For example, this flag is used when the user's data is combined with a
+  # system-generated ID to create a record.  The user needs to refetch to ensure
+  # that their local copy of the record includes the system-generated data too.
+  def system_modified?
+    @system_modified
+  end
 
-    (ASModel.linked_records[self.class] or []).each do |linked_record|
-      if [:one_to_one, :many_to_one].include?(linked_record[:association][:type])
-        obj = self.send(linked_record[:association][:name])
-        return true if !obj.nil? and obj.stale?
-      else
-        self.send(linked_record[:association][:name]).each do | record |
-          return true if record.stale?
-        end
-      end
-    end
-
-    false
+  def mark_as_system_modified
+    @system_modified = true
   end
 
 
@@ -386,7 +376,7 @@ module ASModel
           begin
             if json_or_uri.kind_of? String
               # A URI.  Just grab its database ID and look it up.
-                      db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
+              db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
             else
               # Create a database record for the JSON blob and return its ID
               subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri)
@@ -403,6 +393,12 @@ module ASModel
 
                 db_record = model.create_from_json(subrecord_json, extra_opts)
               end
+            end
+
+            if db_record.system_modified?
+              # If the subrecord got changed by the system, mark ourselves as
+              # modified too.
+              obj.mark_as_system_modified
             end
 
             obj.send(add_record_method, db_record) if db_record
