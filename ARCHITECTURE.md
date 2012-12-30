@@ -437,6 +437,49 @@ automatically makes use of the appropriate join tables in the database
 to store this relationship and retrieve it later as needed. 
 
 
+### Agents and `agent_manager.rb`
+
+Agents present a bit of a representational challenge.  There are four
+types of agents (person, family, corporate entity, software), and at a
+high-level they're structured in the same way: each type can contain
+one or more name records, zero or more contact records, and a number
+of properties.  Records that link to agents (via a relationship, for
+example) can link to any of the four types so, in some sense, each
+agent type implements a common `Agent` interface.
+
+However, the different agent types differ in their details.  Agents
+contain name records, but the types of those name records correspond
+to the type of the agent: a person agent contains a person name
+record, for example.  So, in spite of their similarities, the
+different agents need to be modelled as separate record types.
+
+The `agent_manager` module captures the high-level similarities
+between agents.  Each agent model includes the agent manager mixin:
+
+     include AgentManager::Mixin
+
+and then defines itself declaratively by the provided class method:
+
+     register_agent_type(:jsonmodel => :agent_person,
+                         :name_type => :name_person,
+                         :name_model => NamePerson)
+
+This definition sets up the properties of that agent.  It:
+
+  * sets up a one_to_many relationship with the corresponding name
+    type of the agent.
+
+  * sets up a one_to_many relationship with the agent_contact table.
+
+  * adds a nested record definition which defines the names list of
+    the agent (so the list of names for the agent are automatically
+    stored in and retrieved from the database)
+
+  * sets up a nested record definition which sets up the contact list
+    of the agent.
+
+
+
 ## Validations
 
 As records are added to and updated within the ArchivesSpace system,
