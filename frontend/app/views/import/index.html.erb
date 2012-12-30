@@ -1,6 +1,6 @@
 <%= setup_context :title => "Import an EAD File" %>
 
-<%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal' do %>
+<%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal', :id => "import" do %>
   <div class="row-fluid">
     <div class="span12 record-pane">
       <h2><%= @title %></h2>
@@ -35,7 +35,10 @@
       </fieldset>
 
       <div class="form-actions">
-        <%= submit_tag('Import', :class=>"btn btn-primary") %>
+        <button type="submit" class="btn btn-primary"><%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %> 
+          <span class="btn-label">Import</span>
+          <span class="btn-busy-label">Importing...</span>
+        </button>
         <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
       </div>
     </div>
