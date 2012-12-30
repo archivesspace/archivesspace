@@ -96,6 +96,13 @@ module ASModel
   end
 
 
+  # When reporting a Sequel validation error against the set of 'columns',
+  # report it against the JSONModel 'property' instead.
+  #
+  # For example, an identifier that must be unique to a repository might have a
+  # constraint against the columns [:repository, :identifier], but when we
+  # report this to the client we just want to tell them that the value for
+  # 'identifier' was incorrect.
   def map_validation_to_json_property(columns, property)
     errors = self.errors.clone
 
@@ -113,8 +120,6 @@ module ASModel
 
   module ClassMethods
 
-    @suppressible = false
-
     def enable_suppression
       @suppressible = true
     end
@@ -130,7 +135,6 @@ module ASModel
 
       if value == :repository
         model = self
-
         orig_ds = self.dataset.clone
 
         def_dataset_method(:this_repo) do
