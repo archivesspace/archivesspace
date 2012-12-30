@@ -66,7 +66,7 @@
     <% if form.obj["identifier"].blank? %>
       <%= form.label_and_readonly "identifier", "<em>-- auto-generated upon save --</em>" %>
     <% else %>
-      <%= form.label_with_field "identifier", "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["identifier"]}</span></span>".html_safe %>
+      <%= form.label_with_field "identifier", form.hidden_input("identifier") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["identifier"]}</span></span>".html_safe %>
     <% end %>
 
     <%= form.label_and_boolean "active", {}, form.default_for("active") %>
