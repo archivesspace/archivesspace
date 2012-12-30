@@ -55,19 +55,15 @@ ArchivesSpace::Application.routes.draw do
   match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
   match 'resources/:id' => 'resources#update', :via => [:post]
 
-
-  match 'subjects/list' => 'subjects#list', :via => [:get]
   resources :subjects
   match 'subjects/:id' => 'subjects#update', :via => [:post]
 
-  match 'locations/list' => 'locations#list', :via => [:get]
   resources :locations
   match 'locations/:id' => 'locations#update', :via => [:post]
 
   resources :events
   match 'events/:id' => 'events#update', :via => [:post]
 
-  match 'agents/list' => 'agents#list', :via => [:get]
   match 'agents/contact_form' => 'agents#contact_form', :via => [:get]
   match 'agents/:type/name_form' => 'agents#name_form', :via => [:get]
   match 'agents/:type/create' => 'agents#create', :via => [:post]

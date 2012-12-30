@@ -1,6 +1,6 @@
 class AgentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :list]
-  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :list]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   before_filter :assign_types
@@ -56,19 +56,6 @@ class AgentsController < ApplicationController
                 })
   end
 
-  def list
-    if params[:q].blank?
-      render :json => {:results => JSONModel::all('/agents', :agent_type)}
-    else
-      results = JSONModel::HTTP.get_json("/agents/by-name", {:q => params[:q].gsub(/\*/,"")})
-      render :json => {
-        :results => results.map{|r| {
-          :id => r['uri'],
-          :json => r.to_json
-        }}
-      }
-    end
-  end
 
   private
 
