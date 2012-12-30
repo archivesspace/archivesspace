@@ -105,11 +105,21 @@ class ArchivesSpaceSchema < JSON::Schema::Validator
       current_schema.schema["validations"].each do |name|
         errors = JSONModel::custom_validations[name].call(data)
 
-        errors.each do |field, msg|
-          err = JSON::Schema::ValidationError.new("Validation failed for '#{field}': #{msg}",
+        errors.each do |error|
+          error_string = nil
+
+          if error.is_a? Symbol
+            error_string = "Validation error code: #{error}"
+          else
+            field, msg = error
+            error_string = "Validation failed for '#{field}': #{msg}"
+          end
+
+          err = JSON::Schema::ValidationError.new(error_string,
                                                   fragments,
                                                   "custom_validation",
                                                   current_schema)
+
           JSON::Validator.validation_error(err)
         end
       end

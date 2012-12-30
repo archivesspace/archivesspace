@@ -51,7 +51,15 @@
          <% @exceptions[:errors].each do |attr, messages| %>
             <div class="errors-for-attribute">
               <% messages.each do |msg| %>
-                <div class="error" data-target="<%= form.id_for_javascript(attr) %>"><%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %></div>
+                <div class="error"
+                     data-target="<%= form.id_for_javascript(attr) %>">
+                  <% if attr === 'coded_errors' %>
+                    <%# Special errors that we pull from the YML instead of inserting verbatim %>
+                    <%= I18n.t(form.path(msg)) %>
+                  <% else %>
+                    <%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %>
+                  <% end %>
+                </div>
               <% end %>
             </div>
          <% end %>

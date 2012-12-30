@@ -789,9 +789,15 @@ en:
     coordinate_3_label: Coordinate Label 3
     coordinate_3_indicator: Coordinate Indicator 3
     display_string: Display String
+
+    location_fields_error: >
+      You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
+
+
     _html:
       singular: Location
       plural: Locations
+
   container_location:
     status: Status
     status_current: Current

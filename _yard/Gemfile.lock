@@ -1,0 +1,12 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    kramdown (0.14.1)
+    yard (0.8.3)
+
+PLATFORMS
+  java
+
+DEPENDENCIES
+  kramdown
+  yard

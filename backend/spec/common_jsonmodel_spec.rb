@@ -224,7 +224,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:shorty] = "meep"
-    ts._exceptions[:errors].keys.should eq ([:unknown])
+    ts._exceptions[:errors].keys.should eq (['unknown'])
 
   end
 
