@@ -20,11 +20,4 @@ class CollectionManagement < Sequel::Model(:collection_management)
     super
   end
 
-
-  def self.linkable_records_for(prefix)
-    linked_models(:link).map do |model|
-      [model.my_jsonmodel.record_type, model.records_matching(prefix, 10)]
-    end
-  end
-
 end

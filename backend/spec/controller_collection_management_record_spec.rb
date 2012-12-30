@@ -29,12 +29,4 @@ describe 'Collection Management Record controller' do
     JSONModel(:collection_management).all(:page => 1)["results"].size.should eq(3)
   end
 
-
-  it "can get a list of records that are candidates for linking" do
-    accession = create(:json_accession)
-    result = JSONModel::HTTP.get_json(JSONModel(:collection_management).uri_for('linkable-records/list'),
-                                      :q => accession.title)
-    result[0]["title"].should eq(accession.title)
-  end
-
 end
