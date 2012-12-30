@@ -12,7 +12,7 @@ module AutoIdGenerator
       self.class.properties_to_auto_generate.each do |property|
         if self.send(property).nil?
           self.send("#{property}=", SecureRandom.hex)
-          @stale = true
+          self.mark_as_system_modified
         end
       end
     end

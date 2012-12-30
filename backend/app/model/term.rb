@@ -41,7 +41,7 @@ class Term < Sequel::Model(:term)
     rescue Sequel::ValidationFailed
       Term.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
                 :term => json.term,
-                :term_type => json.term_type).id
+                :term_type => json.term_type)
     end
   end
 
