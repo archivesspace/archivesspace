@@ -6,7 +6,7 @@
 <title>
   Class: MockAuthenticationSource
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -228,9 +228,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/spec/model_authentication_manager_spec.rb', line 5</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='ivar'>@opts</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_@opts ivar id'>@opts</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -271,15 +272,16 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/spec/model_authentication_manager_spec.rb', line 9</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_authenticate'>authenticate</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_pass'>pass</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Boom</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@opts</span><span class='lbracket'>[</span><span class='symbol'>:blowup</span><span class='rbracket'>]</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_authenticate identifier id'>authenticate</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_pass identifier id'>pass</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Boom&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@opts ivar id'>@opts</span><span class='lbrack token'>[</span><span class='symbol val'>:blowup</span><span class='rbrack token'>]</span>
 
-  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='ivar'>@opts</span><span class='lbracket'>[</span><span class='symbol'>:users</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_username'>username</span><span class='rbracket'>]</span>
+  <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_@opts ivar id'>@opts</span><span class='lbrack token'>[</span><span class='symbol val'>:users</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_username identifier id'>username</span><span class='rbrack token'>]</span>
 
-  <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_user'>user</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_pass'>pass</span><span class='rparen'>)</span>
-    <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:user</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_from_hash'>from_hash</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Mark</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_user identifier id'>user</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_user identifier id'>user</span><span class='lbrack token'>[</span><span class='symbol val'>:password</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_pass identifier id'>pass</span><span class='rparen token'>)</span>
+    <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Mark&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -307,9 +309,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/spec/model_authentication_manager_spec.rb', line 19</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MockAuthenticationSource</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='string val'>&quot;MockAuthenticationSource&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -320,9 +323,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:52 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:24 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

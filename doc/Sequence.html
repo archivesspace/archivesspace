@@ -6,7 +6,7 @@
 <title>
   Class: Sequence
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -223,36 +223,37 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/sequence.rb', line 12</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_sequence'>sequence</span><span class='rparen'>)</span>
-  <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span>
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
 
-    <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_attempt'>attempt</span> <span class='lbrace'>{</span>
-      <span class='id identifier rubyid_init'>init</span><span class='lparen'>(</span><span class='id identifier rubyid_sequence'>sequence</span><span class='comma'>,</span> <span class='int'>0</span><span class='rparen'>)</span>
-      <span class='kw'>return</span> <span class='int'>0</span>
-    <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_and_if_constraint_fails'>and_if_constraint_fails</span> <span class='lbrace'>{</span>
-      <span class='comment'># Sequence is already defined, which is fine
-</span>    <span class='rbrace'>}</span>
+    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='rubyid_sequence identifier id'>sequence</span><span class='comma token'>,</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+      <span class='rubyid_return return kw'>return</span> <span class='integer val'>0</span>
+    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span>
+      <span class='comment val'># Sequence is already defined, which is fine</span>
+    <span class='rbrace token'>}</span>
 
 
-    <span class='comment'># If we make it to here, the sequence already exists and needs to be incremented
-</span>    <span class='int'>100</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_old_value'>old_value</span> <span class='op'>=</span> <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:sequence</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:sequence_name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_sequence'>sequence</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='symbol'>:value</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_updated_count'>updated_count</span> <span class='op'>=</span> <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:sequence</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='symbol'>:sequence_name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_sequence'>sequence</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_old_value'>old_value</span><span class='rparen'>)</span><span class='period'>.</span>
-                                    <span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_old_value'>old_value</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span>
+    <span class='comment val'># If we make it to here, the sequence already exists and needs to be incremented</span>
+    <span class='float val'>100</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_old_value identifier id'>old_value</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:sequence</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:sequence_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:value</span><span class='rparen token'>)</span>
+      <span class='rubyid_updated_count identifier id'>updated_count</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:sequence</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:sequence_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_old_value identifier id'>old_value</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+                                    <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_old_value identifier id'>old_value</span> <span class='plus op'>+</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
 
-      <span class='kw'>if</span> <span class='id identifier rubyid_updated_count'>updated_count</span> <span class='op'>==</span> <span class='int'>0</span>
-        <span class='comment'># Need to retry
-</span>        <span class='id identifier rubyid_sleep'>sleep</span> <span class='float'>0.5</span>
-      <span class='kw'>elsif</span> <span class='id identifier rubyid_updated_count'>updated_count</span> <span class='op'>==</span> <span class='int'>1</span>
-        <span class='kw'>return</span> <span class='id identifier rubyid_old_value'>old_value</span> <span class='op'>+</span> <span class='int'>1</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='const'>SequenceError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unrecognised response from SQL update when generating next element in sequence '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sequence'>sequence</span><span class='rbrace'>}</span><span class='tstring_content'>': </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_updated_count'>updated_count</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_updated_count identifier id'>updated_count</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
+        <span class='comment val'># Need to retry</span>
+        <span class='rubyid_sleep identifier id'>sleep</span> <span class='integer val'>0</span><span class='integer val'>.5</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_updated_count identifier id'>updated_count</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
+        <span class='rubyid_return return kw'>return</span> <span class='rubyid_old_value identifier id'>old_value</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_SequenceError constant id'>SequenceError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Unrecognised response from SQL update when generating next element in sequence '#{sequence}': #{updated_count}&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
 
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>SequenceError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Gave up trying to generate a sequence number for: '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sequence'>sequence</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_SequenceError constant id'>SequenceError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Gave up trying to generate a sequence number for: '#{sequence}'&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -284,13 +285,14 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/sequence.rb', line 3</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_init'>init</span><span class='lparen'>(</span><span class='id identifier rubyid_sequence'>sequence</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
-  <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_db'>db</span><span class='op'>|</span>
-    <span class='kw'>begin</span>
-      <span class='id identifier rubyid_db'>db</span><span class='lbracket'>[</span><span class='symbol'>:sequence</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='symbol'>:sequence_name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_sequence'>sequence</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='rubyid_sequence identifier id'>sequence</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:sequence</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span><span class='lparen token'>(</span><span class='symbol val'>:sequence_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -301,9 +303,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:54 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:17 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

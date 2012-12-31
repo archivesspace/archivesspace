@@ -6,7 +6,7 @@
 <title>
   Schema: note_multipart_schema
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -134,53 +134,62 @@
 43
 44
 45
-46</pre>
+46
+47
+48</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/note_multipart.rb', line 1</span>
 
-:schema =&gt; {
-  &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
-  &quot;type&quot; =&gt; &quot;object&quot;,
-  &quot;parent&quot; =&gt; &quot;abstract_note&quot;,
-   &quot;properties&quot; =&gt; {
-     &quot;type&quot; =&gt; {
-      &quot;type&quot; =&gt; &quot;string&quot;,
-      &quot;ifmissing&quot; =&gt; &quot;error&quot;,
-      &quot;enum&quot; =&gt; [
-                 &quot;Accruals&quot;,
-                 &quot;Appraisal&quot;,
-                 &quot;Arrangement&quot;,
-                 &quot;Biographical / Historical&quot;,
-                 &quot;Conditions Governing Access&quot;,
-                 &quot;Conditions Governing Use&quot;,
-                 &quot;Custodial History&quot;,
-                 &quot;Dimensions&quot;,
-                 &quot;Existence and Location of Copies&quot;,
-                 &quot;Existence and Location of Originals&quot;,
-                 &quot;File Plan&quot;,
-                 &quot;General&quot;,
-                 &quot;Immediate Source of Acquisition&quot;,
-                 &quot;Legal Status&quot;,
-                 &quot;Other Finding Aids&quot;,
-                 &quot;Physical Characteristics and Technical Requirements&quot;,
-                 &quot;Preferred Citation&quot;,
-                 &quot;Processing Information&quot;,
-                 &quot;Related Archival Materials&quot;,
-                 &quot;Scope and Contents&quot;,
-                 &quot;Separated Materials&quot;]
-    },
-     &quot;subnotes&quot; =&gt; {
-      &quot;type&quot; =&gt; &quot;array&quot;,
-      &quot;items&quot; =&gt; {&quot;type&quot; =&gt; [{&quot;type&quot; =&gt; &quot;JSONModel(:note_bibliography) object&quot;},
-                             {&quot;type&quot; =&gt; &quot;JSONModel(:note_chronology) object&quot;},
-                             {&quot;type&quot; =&gt; &quot;JSONModel(:note_index) object&quot;},
-                             {&quot;type&quot; =&gt; &quot;JSONModel(:note_orderedlist) object&quot;},
-                             {&quot;type&quot; =&gt; &quot;JSONModel(:note_definedlist) object&quot;}]},
-    },
-  },
-   &quot;additionalProperties&quot; =&gt; false,
-}</pre>
+<span class='lbrace token'>{</span>
+  <span class='symbol val'>:schema</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&quot;$schema&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://www.archivesspace.org/archivesspace.json&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;parent&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;abstract_note&quot;</span><span class='comma token'>,</span>
+
+    <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+
+      <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span>
+                   <span class='string val'>&quot;Accruals&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Appraisal&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Arrangement&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Biographical / Historical&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Conditions Governing Access&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Conditions Governing Use&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Custodial History&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Dimensions&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Existence and Location of Copies&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Existence and Location of Originals&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;File Plan&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;General&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Immediate Source of Acquisition&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Legal Status&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Other Finding Aids&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Physical Characteristics and Technical Requirements&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Preferred Citation&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Processing Information&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Related Archival Materials&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Scope and Contents&quot;</span><span class='comma token'>,</span>
+                   <span class='string val'>&quot;Separated Materials&quot;</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;subnotes&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_bibliography) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_chronology) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_index) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_orderedlist) object&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                               <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_definedlist) object&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+    <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+    <span class='string val'>&quot;additionalProperties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span><span class='comma token'>,</span>
+<span class='rbrace token'>}</span>
+</pre>
           </td>
         </tr>
       </table>
@@ -193,9 +202,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:56:00 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:26 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

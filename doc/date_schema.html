@@ -6,7 +6,7 @@
 <title>
   Schema: date_schema
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -124,28 +124,36 @@
 17
 18
 19
-20</pre>
+20
+21
+22</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/date.rb', line 1</span>
 
-:schema =&gt; {
-  &quot;$schema&quot; =&gt; &quot;http://www.archivesspace.org/archivesspace.json&quot;,
-  &quot;type&quot; =&gt; &quot;object&quot;,
-   &quot;properties&quot; =&gt; {
-    &quot;date_type&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;enum&quot; =&gt; [&quot;single&quot;, &quot;bulk&quot;, &quot;inclusive&quot;]},
-    &quot;label&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;enum&quot; =&gt; [&quot;broadcast&quot;, &quot;copyright&quot;, &quot;creation&quot;, &quot;deaccession&quot;, &quot;digitized&quot;, &quot;issued&quot;, &quot;modified&quot;, &quot;publication&quot;, &quot;other&quot;], &quot;ifmissing&quot; =&gt; &quot;error&quot;},
-     &quot;uncertain&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;enum&quot; =&gt; [&quot;approximate&quot;, &quot;inferred&quot;, &quot;questionable&quot;]},
-    &quot;expression&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;},
-    &quot;begin&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;pattern&quot; =&gt; &quot;^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$&quot;},
-    &quot;begin_time&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;pattern&quot; =&gt; &quot;^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$&quot;},
-    &quot;end&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;pattern&quot; =&gt; &quot;^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$&quot;},
-    &quot;end_time&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;pattern&quot; =&gt; &quot;^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$&quot;},
-    &quot;era&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;enum&quot; =&gt; [&quot;ce&quot;]},
-    &quot;calendar&quot; =&gt; {&quot;type&quot; =&gt; &quot;string&quot;, &quot;enum&quot; =&gt; [&quot;gregorian&quot;]},
-  },
-   &quot;additionalProperties&quot; =&gt; false,
-}</pre>
+<span class='lbrace token'>{</span>
+  <span class='symbol val'>:schema</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&quot;$schema&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://www.archivesspace.org/archivesspace.json&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+
+    <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;date_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;single&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;bulk&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;inclusive&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;label&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;broadcast&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;copyright&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;creation&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;deaccession&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;digitized&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;issued&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;modified&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;publication&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;other&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;uncertain&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;approximate&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;inferred&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;questionable&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;expression&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;begin&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;pattern&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;begin_time&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;pattern&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;end&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;pattern&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;end_time&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;pattern&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;era&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;ce&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;calendar&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;gregorian&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+    <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+    <span class='string val'>&quot;additionalProperties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span><span class='comma token'>,</span>
+<span class='rbrace token'>}</span>
+</pre>
           </td>
         </tr>
       </table>
@@ -158,9 +166,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:56:00 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:25 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

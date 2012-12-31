@@ -6,7 +6,7 @@
 <title>
   Class: Solr
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -122,7 +122,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(query, page, page_size, record_type = nil, show_suppressed = false) </a>
+      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, excluded_ids = []) </a>
     
 
     
@@ -177,7 +177,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="search-class_method">
   
-    + (<tt>Object</tt>) <strong>search</strong>(query, page, page_size, record_type = nil, show_suppressed = false) 
+    + (<tt>Object</tt>) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, excluded_ids = []) 
   
 
   
@@ -237,60 +237,87 @@
 57
 58
 59
-60</pre>
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 12</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_page'>page</span><span class='comma'>,</span> <span class='id identifier rubyid_page_size'>page_size</span><span class='comma'>,</span> <span class='id identifier rubyid_record_type'>record_type</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_show_suppressed'>show_suppressed</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='id identifier rubyid_solr_url'>solr_url</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span>
+                <span class='rubyid_record_types identifier id'>record_types</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+                <span class='rubyid_excluded_ids identifier id'>excluded_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_solr_url identifier id'>solr_url</span>
 
-  <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-    <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_query'>query</span><span class='comma'>,</span>
-    <span class='symbol'>:wt</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>json</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='symbol'>:defType</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>edismax</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='symbol'>:qf</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>title^2 fullrecord</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='symbol'>:start</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_page'>page</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='id identifier rubyid_page_size'>page_size</span><span class='comma'>,</span>
-    <span class='symbol'>:rows</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_page_size'>page_size</span><span class='comma'>,</span>
-  <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span>
+  <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:q</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span>
+    <span class='symbol val'>:wt</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;json&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:defType</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;edismax&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:qf</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;title^2 fullrecord&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:start</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_page identifier id'>page</span> <span class='minus op'>-</span> <span class='integer val'>1</span><span class='rparen token'>)</span> <span class='mult op'>*</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span>
+    <span class='symbol val'>:rows</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span>
+    <span class='symbol val'>:fq</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;repository:\&quot;/repositories/#{repo_id}\&quot; OR repository:global&quot;</span>
+  <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_to_a identifier id'>to_a</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_record_type'>record_type</span>
-    <span class='id identifier rubyid_opts'>opts</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='symbol'>:fq</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type:\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_record_type'>record_type</span><span class='rbrace'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_record_types identifier id'>record_types</span>
+    <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_record_types identifier id'>record_types</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;\&quot;#{type}\&quot;&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' OR '</span><span class='rparen token'>)</span>
+    <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;type:(#{query})&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_show_suppressed'>show_suppressed</span>
-    <span class='id identifier rubyid_opts'>opts</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='symbol'>:fq</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>suppressed:false</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_show_suppressed identifier id'>show_suppressed</span>
+    <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='string val'>&quot;suppressed:false&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/select</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_excluded_ids identifier id'>excluded_ids</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_excluded_ids identifier id'>excluded_ids</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_excluded_ids identifier id'>excluded_ids</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;\&quot;#{id}\&quot;&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' OR '</span><span class='rparen token'>)</span>
+    <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;-id:(#{query})&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Get</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_request_uri'>request_uri</span><span class='rparen'>)</span>
+  <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span> <span class='assign token'>=</span> <span class='string val'>&quot;/select&quot;</span>
+  <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_encode_www_form identifier id'>encode_www_form</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
 
-  <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span><span class='comma'>,</span> <span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_http'>http</span><span class='op'>|</span>
-    <span class='id identifier rubyid_solr_response'>solr_response</span> <span class='op'>=</span> <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_req'>req</span><span class='rparen'>)</span>
+  <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Get constant id'>Get</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='rparen token'>)</span>
 
-    <span class='kw'>if</span> <span class='id identifier rubyid_solr_response'>solr_response</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>200</span><span class='tstring_end'>'</span></span>
-      <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_solr_response'>solr_response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='comma'>,</span> <span class='symbol'>:max_nesting</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_start identifier id'>start</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_host identifier id'>host</span><span class='comma token'>,</span> <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_port identifier id'>port</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_http identifier id'>http</span><span class='bitor op'>|</span>
+    <span class='rubyid_solr_response identifier id'>solr_response</span> <span class='assign token'>=</span> <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_request identifier id'>request</span><span class='lparen token'>(</span><span class='rubyid_req identifier id'>req</span><span class='rparen token'>)</span>
 
-      <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_solr_response identifier id'>solr_response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='eq op'>==</span> <span class='string val'>'200'</span>
+      <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_solr_response identifier id'>solr_response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='comma token'>,</span> <span class='symbol val'>:max_nesting</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
 
-      <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>first_page</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>1</span>
-      <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>last_page</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>response</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>numFound</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>/</span> <span class='id identifier rubyid_page_size'>page_size</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_floor'>floor</span> <span class='op'>+</span> <span class='int'>1</span>
-      <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>this_page</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>response</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>start</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>/</span> <span class='id identifier rubyid_page_size'>page_size</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>1</span>
+      <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
-      <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>offset_first</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>response</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>start</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='int'>1</span>
-      <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>offset_last</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>response</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>start</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_page_size'>page_size</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>response</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>numFound</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span>
-      <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>total_hits</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>response</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>numFound</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'first_page'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'last_page'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'numFound'</span><span class='rbrack token'>]</span> <span class='div op'>/</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='dot token'>.</span><span class='rubyid_to_f identifier id'>to_f</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_floor identifier id'>floor</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'this_page'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'start'</span><span class='rbrack token'>]</span> <span class='div op'>/</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
 
-      <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>results</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>response</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>docs</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'offset_first'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'start'</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'offset_last'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'start'</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'numFound'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'total_hits'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'numFound'</span><span class='rbrack token'>]</span>
 
-      <span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Solr search failed: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_solr_response'>solr_response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'results'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'docs'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_doc identifier id'>doc</span><span class='bitor op'>|</span>
+        <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_doc identifier id'>doc</span>
+      <span class='rbrace token'>}</span>
+
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_result identifier id'>result</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Solr search failed: #{solr_response.body}&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -318,9 +345,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 7</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_solr_url'>solr_url</span>
-  <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:solr_url</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_solr_url identifier id'>solr_url</span>
+  <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -331,9 +359,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:53 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:12 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

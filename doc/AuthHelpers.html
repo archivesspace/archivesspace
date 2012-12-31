@@ -6,7 +6,7 @@
 <title>
   Module: AuthHelpers
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -170,17 +170,18 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/auth_helpers.rb', line 3</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_create_session_for'>create_session_for</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_expiring_session'>expiring_session</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_username'>username</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_create_session_for identifier id'>create_session_for</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_expiring_session identifier id'>expiring_session</span><span class='rparen token'>)</span>
+  <span class='rubyid_username identifier id'>username</span> <span class='assign token'>=</span> <span class='rubyid_username identifier id'>username</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span>
 
-  <span class='id identifier rubyid_session'>session</span> <span class='op'>=</span> <span class='const'>Session</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:login_time</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
-  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:expirable</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_expiring_session'>expiring_session</span>
-  <span class='id identifier rubyid_session'>session</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+  <span class='rubyid_session identifier id'>session</span> <span class='assign token'>=</span> <span class='rubyid_Session constant id'>Session</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span><span class='rbrack token'>]</span>
+  <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:login_time</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+  <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:expirable</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_expiring_session identifier id'>expiring_session</span>
+  <span class='rubyid_session identifier id'>session</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
-  <span class='id identifier rubyid_session'>session</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_session identifier id'>session</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -191,9 +192,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:49 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:07 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

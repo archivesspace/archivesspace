@@ -6,7 +6,7 @@
 <title>
   Class: MemoryLeak::Resources
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -112,24 +112,27 @@
         <dt id="refresh_mutex-classvariable" class="">@@refresh_mutex =
           
         </dt>
-        <dd><pre class="code"><span class='const'>Mutex</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span></pre></dd>
+        <dd><pre class="code"><span class='rubyid_Mutex constant id'>Mutex</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+</pre></dd>
       
         <dt id="resources-classvariable" class="">@@resources =
           
         </dt>
-        <dd><pre class="code"><span class='lbrace'>{</span>
-  <span class='symbol'>:repository</span> <span class='op'>=&gt;</span> <span class='const'>Atomic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='rparen'>)</span><span class='comma'>,</span>
-  <span class='symbol'>:vocabulary</span> <span class='op'>=&gt;</span> <span class='const'>Atomic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='rparen'>)</span><span class='comma'>,</span>
-  <span class='symbol'>:acl_last_modified</span> <span class='op'>=&gt;</span> <span class='const'>Atomic</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='comma'>,</span> <span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='rbrace'>}</span></pre></dd>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:repository</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+  <span class='symbol val'>:vocabulary</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+  <span class='symbol val'>:acl_last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
       
         <dt id="expiration_seconds-classvariable" class="">@@expiration_seconds =
           
         </dt>
-        <dd><pre class="code"><span class='lbrace'>{</span>
-  <span class='symbol'>:repository</span> <span class='op'>=&gt;</span> <span class='int'>60</span><span class='comma'>,</span>
-  <span class='symbol'>:vocabulary</span> <span class='op'>=&gt;</span> <span class='int'>60</span>
-<span class='rbrace'>}</span></pre></dd>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='symbol val'>:repository</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>60</span><span class='comma token'>,</span>
+  <span class='symbol val'>:vocabulary</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>60</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
       
     </dl>
   
@@ -277,15 +280,16 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 21</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_stale'>stale</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span>
-           <span class='lparen'>(</span><span class='cvar'>@@expiration_seconds</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span>
-            <span class='lparen'>(</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>-</span> <span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='lbracket'>[</span><span class='symbol'>:last_modified</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='cvar'>@@expiration_seconds</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span>
+  <span class='rubyid_stale identifier id'>stale</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_@@resources ivar id'>@@resources</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span>
+           <span class='lparen token'>(</span><span class='rubyid_@@expiration_seconds ivar id'>@@expiration_seconds</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
+            <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='minus op'>-</span> <span class='rubyid_@@resources ivar id'>@@resources</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lbrack token'>[</span><span class='symbol val'>:last_modified</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='gt op'>&gt;</span> <span class='rubyid_@@expiration_seconds ivar id'>@@expiration_seconds</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_refresh'>refresh</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_stale'>stale</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_stale identifier id'>stale</span>
 
-  <span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_@@resources ivar id'>@@resources</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -315,11 +319,12 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 48</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_invalidate_all!'>invalidate_all!</span>
-  <span class='cvar'>@@resources</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_atom'>atom</span><span class='op'>|</span>
-    <span class='id identifier rubyid_atom'>atom</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_val'>val</span><span class='op'>|</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='rbrace'>}</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_invalidate_all! fid id'>invalidate_all!</span>
+  <span class='rubyid_@@resources ivar id'>@@resources</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_atom identifier id'>atom</span><span class='bitor op'>|</span>
+    <span class='rubyid_atom identifier id'>atom</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -353,15 +358,16 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 32</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_refresh'>refresh</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
-  <span class='comment'># Two concurrent users might trigger some resource to be refreshed at
-</span>  <span class='comment'># around the same time (e.g. when two people create a new repository at
-</span>  <span class='comment'># once).  We want both refreshes to run in sequence, so use a mutex to
-</span>  <span class='comment'># serialize them.
-</span>  <span class='cvar'>@@refresh_mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span>
+  <span class='comment val'># Two concurrent users might trigger some resource to be refreshed at</span>
+  <span class='comment val'># around the same time (e.g. when two people create a new repository at</span>
+  <span class='comment val'># once).  We want both refreshes to run in sequence, so use a mutex to</span>
+  <span class='comment val'># serialize them.</span>
+  <span class='rubyid_@@refresh_mutex ivar id'>@@refresh_mutex</span><span class='dot token'>.</span><span class='rubyid_synchronize identifier id'>synchronize</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -389,9 +395,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 43</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
-  <span class='cvar'>@@resources</span><span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_swap'>swap</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='symbol'>:last_modified</span> <span class='op'>=&gt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@resources ivar id'>@@resources</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_swap identifier id'>swap</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -402,9 +409,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:56 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:19 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

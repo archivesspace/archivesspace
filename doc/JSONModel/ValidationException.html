@@ -6,7 +6,7 @@
 <title>
   Exception: JSONModel::ValidationException
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -293,11 +293,12 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 28</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='ivar'>@invalid_object</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:invalid_object</span><span class='rbracket'>]</span>
-  <span class='ivar'>@errors</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:errors</span><span class='rbracket'>]</span>
-  <span class='ivar'>@warnings</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:warnings</span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_@invalid_object ivar id'>@invalid_object</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:invalid_object</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@errors ivar id'>@errors</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@warnings ivar id'>@warnings</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:warnings</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -342,9 +343,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 25</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_errors'>errors</span>
-  <span class='ivar'>@errors</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_errors identifier id'>errors</span>
+  <span class='rubyid_@errors ivar id'>@errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -384,9 +386,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 24</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_invalid_object'>invalid_object</span>
-  <span class='ivar'>@invalid_object</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_invalid_object identifier id'>invalid_object</span>
+  <span class='rubyid_@invalid_object ivar id'>@invalid_object</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -426,9 +429,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 26</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_warnings'>warnings</span>
-  <span class='ivar'>@warnings</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_warnings identifier id'>warnings</span>
+  <span class='rubyid_@warnings ivar id'>@warnings</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -463,9 +467,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 34</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;:ValidationException: </span><span class='embexpr_beg'>#{</span><span class='lbrace'>{</span><span class='symbol'>:errors</span> <span class='op'>=&gt;</span> <span class='ivar'>@errors</span><span class='comma'>,</span> <span class='symbol'>:warnings</span> <span class='op'>=&gt;</span> <span class='ivar'>@warnings</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='dstring node'>&quot;#&lt;:ValidationException: #{{:errors =&gt; @errors, :warnings =&gt; @warnings}.inspect}&gt;&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -476,9 +481,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:59 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:11 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

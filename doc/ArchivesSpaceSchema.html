@@ -6,7 +6,7 @@
 <title>
   Class: ArchivesSpaceSchema
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -212,13 +212,14 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 91</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
-  <span class='kw'>super</span>
-  <span class='id identifier rubyid_extend_schema_definition'>extend_schema_definition</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://json-schema.org/draft-03/schema#</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>ArchivesSpaceTypeAttribute</span>
-  <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>properties</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>IfMissingAttribute</span>
-  <span class='ivar'>@uri</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://www.archivesspace.org/archivesspace.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span>
+  <span class='rubyid_super super kw'>super</span>
+  <span class='rubyid_extend_schema_definition identifier id'>extend_schema_definition</span><span class='lparen token'>(</span><span class='string val'>&quot;http://json-schema.org/draft-03/schema#&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_@attributes ivar id'>@attributes</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_ArchivesSpaceTypeAttribute constant id'>ArchivesSpaceTypeAttribute</span>
+  <span class='rubyid_@attributes ivar id'>@attributes</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_IfMissingAttribute constant id'>IfMissingAttribute</span>
+  <span class='rubyid_@uri ivar id'>@uri</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='string val'>&quot;http://www.archivesspace.org/archivesspace.json&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -262,28 +263,31 @@
 113
 114
 115
-116</pre>
+116
+117</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 100</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span><span class='lparen'>(</span><span class='id identifier rubyid_current_schema'>current_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_fragments'>fragments</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_current_schema'>current_schema</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>validations</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_current_schema'>current_schema</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>validations</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span>
-      <span class='id identifier rubyid_errors'>errors</span> <span class='op'>=</span> <span class='const'>JSONModel</span><span class='op'>::</span><span class='id identifier rubyid_custom_validations'>custom_validations</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span><span class='lparen token'>(</span><span class='rubyid_current_schema identifier id'>current_schema</span><span class='comma token'>,</span> <span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span>
 
-      <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_field'>field</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span><span class='op'>|</span>
-        <span class='id identifier rubyid_err'>err</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='op'>::</span><span class='const'>Schema</span><span class='op'>::</span><span class='const'>ValidationError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Validation failed for '</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field'>field</span><span class='rbrace'>}</span><span class='tstring_content'>': </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_msg'>msg</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-                                                <span class='id identifier rubyid_fragments'>fragments</span><span class='comma'>,</span>
-                                                <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>custom_validation</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-                                                <span class='id identifier rubyid_current_schema'>current_schema</span><span class='rparen'>)</span>
-        <span class='const'>JSON</span><span class='op'>::</span><span class='const'>Validator</span><span class='period'>.</span><span class='id identifier rubyid_validation_error'>validation_error</span><span class='lparen'>(</span><span class='id identifier rubyid_err'>err</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
+  <span class='comment val'># Run any custom validations if we've made it this far with no errors</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_Validator constant id'>Validator</span><span class='dot token'>.</span><span class='rubyid_validation_errors identifier id'>validation_errors</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;validations&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;validations&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_custom_validations identifier id'>custom_validations</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span>
 
-  <span class='kw'>super</span>
-<span class='kw'>end</span></pre>
+      <span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_msg identifier id'>msg</span><span class='bitor op'>|</span>
+        <span class='rubyid_err identifier id'>err</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_Schema constant id'>Schema</span><span class='colon2 op'>::</span><span class='rubyid_ValidationError constant id'>ValidationError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Validation failed for '#{field}': #{msg}&quot;</span><span class='comma token'>,</span>
+                                                <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span>
+                                                <span class='string val'>&quot;custom_validation&quot;</span><span class='comma token'>,</span>
+                                                <span class='rubyid_current_schema identifier id'>current_schema</span><span class='rparen token'>)</span>
+        <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_Validator constant id'>Validator</span><span class='dot token'>.</span><span class='rubyid_validation_error identifier id'>validation_error</span><span class='lparen token'>(</span><span class='rubyid_err identifier id'>err</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -294,9 +298,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:59 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:20 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

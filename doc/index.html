@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -71,13 +71,13 @@
 <p>If you have the Java 1.6.0 SDK (or above) you can build and run a demo
 server with the following commands:</p>
 
-<pre class="code ruby"><code> git clone git://github.com/hudmol/archivesspace.git
+<pre class="code ruby"><code> <span class='rubyid_git identifier id'>git</span> <span class='rubyid_clone identifier id'>clone</span> <span class='rubyid_git identifier id'>git</span><span class='symbol val'>:/</span><span class='regexp val'>/github.com/</span><span class='rubyid_hudmol identifier id'>hudmol</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_git identifier id'>git</span>
 
- cd archivesspace
+ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span>
 
- build/run dist
+ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_dist identifier id'>dist</span>
 
- java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -jar archivesspace.jar
+ <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span> <span class='minus op'>-</span><span class='rubyid_Xmx256m constant id'>Xmx256m</span> <span class='minus op'>-</span><span class='rubyid_Dfile constant id'>Dfile</span><span class='dot token'>.</span><span class='rubyid_encoding identifier id'>encoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span> <span class='minus op'>-</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
 </code></pre>
 
 <p>This will start the ArchivesSpace application running on:</p>
@@ -88,9 +88,9 @@ server with the following commands:</p>
 
 <p>http://localhost:8089/</p>
 
-<p>If you&#8217;d like to use different ports, you can run:</p>
+<p>If you’d like to use different ports, you can run:</p>
 
-<pre class="code ruby"><code>java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -jar archivesspace.jar [frontend port] [backend port]
+<pre class="code ruby"><code><span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span> <span class='minus op'>-</span><span class='rubyid_Xmx256m constant id'>Xmx256m</span> <span class='minus op'>-</span><span class='rubyid_Dfile constant id'>Dfile</span><span class='dot token'>.</span><span class='rubyid_encoding identifier id'>encoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span> <span class='minus op'>-</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span> <span class='lbrack token'>[</span><span class='rubyid_frontend identifier id'>frontend</span> <span class='rubyid_port identifier id'>port</span><span class='rbrack token'>]</span> <span class='lbrack token'>[</span><span class='rubyid_backend identifier id'>backend</span> <span class='rubyid_port identifier id'>port</span><span class='rbrack token'>]</span>
 </code></pre>
 
 <p>To set up the application, browse to http://localhost:8080/ and log in
@@ -101,16 +101,16 @@ using the adminstrator account:</p>
   <li>Password: <code>admin</code></li>
 </ul>
 
-<p>Once logged in, you can create a new repository by selecting &#8220;Create a
-repository&#8221; from the drop-down menu at the top right hand side of the
+<p>Once logged in, you can create a new repository by selecting “Create a
+repository” from the drop-down menu at the top right hand side of the
 screen.  Once you have created a repository, you can log out and
 register new user accounts from the link in the log-in form.</p>
 
 <p>Note: If you have already run the service in demo mode, you may need
 to remove the existing demo database in order to avoid a
-&#8216;java.sql.SQLException: Failed to create database&#8217; error:</p>
+‘java.sql.SQLException: Failed to create database’ error:</p>
 
-<pre class="code ruby"><code>	build/run db:nuke
+<pre class="code ruby"><code>  <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_db identifier id'>db</span><span class='symbol val'>:nuke</span>
 </code></pre>
 
 <h2 id="running-archivesspace-with-a-custom-configuration-file">Running ArchivesSpace with a custom configuration file</h2>
@@ -120,55 +120,55 @@ will look for this file in several locations:</p>
 
 <ul>
   <li>
-    <p>If you&#8217;re running the <code>archivesspace.jar</code> as above, it will
-attempt to load the configuration from the current user&#8217;s home
+    <p>If you’re running the <code>archivesspace.jar</code> as above, it will
+attempt to load the configuration from the current user’s home
 directory: <code>$HOME/.aspace_config.rb</code> </p>
   </li>
   <li>
-    <p>If you&#8217;re running ArchivesSpace under Tomcat, it will attempt to
+    <p>If you’re running ArchivesSpace under Tomcat, it will attempt to
 load <code>$TOMCAT_HOME/conf/config.rb</code></p>
   </li>
   <li>
-    <p>If you&#8217;re running in development mode, it will attempt to load
+    <p>If you’re running in development mode, it will attempt to load
 <code>/path/to/archivesspace/config/config.rb</code> </p>
   </li>
 </ul>
 
 <p>To explicitly specify the location of your configuration file, you can
-run the application with the &#8216;aspace.config&#8217; system property set.  For
+run the application with the ‘aspace.config’ system property set.  For
 example:</p>
 
-<pre class="code ruby"><code> java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -Daspace.config=/path/to/my/config.rb -jar archivesspace.jar
+<pre class="code ruby"><code> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span> <span class='minus op'>-</span><span class='rubyid_Xmx256m constant id'>Xmx256m</span> <span class='minus op'>-</span><span class='rubyid_Dfile constant id'>Dfile</span><span class='dot token'>.</span><span class='rubyid_encoding identifier id'>encoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span> <span class='minus op'>-</span><span class='rubyid_Daspace constant id'>Daspace</span><span class='dot token'>.</span><span class='rubyid_config identifier id'>config</span><span class='assign token'>=</span><span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_my identifier id'>my</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
 </code></pre>
 
 <p>You can also override individual configuration options by setting the
 corresponding system property.  The command line:</p>
 
-<pre class="code ruby"><code> java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -Daspace.config.data_directory=/path/to/my/data -jar archivesspace.jar
+<pre class="code ruby"><code> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span> <span class='minus op'>-</span><span class='rubyid_Xmx256m constant id'>Xmx256m</span> <span class='minus op'>-</span><span class='rubyid_Dfile constant id'>Dfile</span><span class='dot token'>.</span><span class='rubyid_encoding identifier id'>encoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span> <span class='minus op'>-</span><span class='rubyid_Daspace constant id'>Daspace</span><span class='dot token'>.</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_data_directory identifier id'>data_directory</span><span class='assign token'>=</span><span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_my identifier id'>my</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span> <span class='minus op'>-</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
 </code></pre>
 
 <p>is equivalent to adding a <code>config.rb</code> entry like:</p>
 
-<pre class="code ruby"><code> <span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:data_directory</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/path/to/my/data</span><span class='tstring_end'>&quot;</span></span>
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:data_directory</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;/path/to/my/data&quot;</span>
 </code></pre>
 
 <h2 id="configuring-ldap-authentication">Configuring LDAP authentication</h2>
 
 <p>ArchivesSpace can be configured to authenticate against one or more
-LDAP directories by specifying them in the application&#8217;s configuration
+LDAP directories by specifying them in the application’s configuration
 file.  When a user logs in, each authentication source is tried in
 order until one matches or all sources are exhausted.</p>
 
-<p>Here&#8217;s a minimal example of LDAP authentication:</p>
+<p>Here’s a minimal example of LDAP authentication:</p>
 
-<pre class="code ruby"><code> <span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:authentication_sources</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='lbrace'>{</span>
-                                         <span class='symbol'>:model</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>LDAPAuth</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
-                                         <span class='symbol'>:hostname</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ldap.example.com</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
-                                         <span class='symbol'>:port</span> <span class='op'>=&gt;</span> <span class='int'>389</span><span class='comma'>,</span>
-                                         <span class='symbol'>:base_dn</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ou=people,dc=example,dc=com</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
-                                         <span class='symbol'>:username_attribute</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>uid</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
-                                         <span class='symbol'>:attribute_map</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='symbol'>:cn</span> <span class='op'>=&gt;</span> <span class='symbol'>:name</span><span class='rbrace'>}</span><span class='comma'>,</span>
- <span class='rbrace'>}</span><span class='rbracket'>]</span>
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>389</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
 
 <p>With this configuration, ArchivesSpace performs authentication by
@@ -223,9 +223,9 @@ Latest documentation is published at [http://hudmol.github.com/archivesspace/](h
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:48 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:23:59 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

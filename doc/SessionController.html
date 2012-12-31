@@ -6,7 +6,7 @@
 <title>
   Class: SessionController
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -213,15 +213,16 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/session_controller.rb', line 4</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_login'>login</span>
-  <span class='id identifier rubyid_backend_session'>backend_session</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_login'>login</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_login identifier id'>login</span>
+  <span class='rubyid_backend_session identifier id'>backend_session</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_login identifier id'>login</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:password</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_backend_session'>backend_session</span>
-    <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_establish_session'>establish_session</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='comma'>,</span> <span class='id identifier rubyid_backend_session'>backend_session</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_backend_session identifier id'>backend_session</span>
+    <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_establish_session identifier id'>establish_session</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='comma token'>,</span> <span class='rubyid_backend_session identifier id'>backend_session</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:username</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:json</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='symbol'>:session</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_backend_session'>backend_session</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:session</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_backend_session identifier id'>backend_session</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -250,10 +251,11 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/session_controller.rb', line 15</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_logout'>logout</span>
-  <span class='id identifier rubyid_reset_session'>reset_session</span>
-  <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:root</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_logout identifier id'>logout</span>
+  <span class='rubyid_reset_session identifier id'>reset_session</span>
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:root</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -264,9 +266,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:58 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:23 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

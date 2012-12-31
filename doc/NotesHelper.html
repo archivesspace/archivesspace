@@ -6,7 +6,7 @@
 <title>
   Module: NotesHelper
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -181,32 +181,33 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/notes_helper.rb', line 3</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_note_types_for'>note_types_for</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonmodel_type'>jsonmodel_type</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_note_types'>note_types</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Bibliography</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:note_bibliography</span><span class='rbrace'>}</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_note_types_for identifier id'>note_types_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
+  <span class='rubyid_note_types identifier id'>note_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;Bibliography&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_bibliography</span><span class='rbrace token'>}</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_jsonmodel_type'>jsonmodel_type</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>digital_object</span><span class='regexp_end'>/</span></span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='match op'>=~</span> <span class='regexp val'>/digital_object/</span>
 
-    <span class='comment'># Digital object/digital object component
-</span>    <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:note_digital_object</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>properties</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>type</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>enum</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span>
-      <span class='id identifier rubyid_note_types'>note_types</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:note_digital_object</span>
-    <span class='kw'>end</span>
+    <span class='comment val'># Digital object/digital object component</span>
+    <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'enum'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span>
+      <span class='rubyid_note_types identifier id'>note_types</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='symbol val'>:note_digital_object</span>
+    <span class='rubyid_end end kw'>end</span>
 
-  <span class='kw'>else</span>
+  <span class='rubyid_else else kw'>else</span>
 
-    <span class='comment'># Resource/AO
-</span>    <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:note_singlepart</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>properties</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>type</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>enum</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span>
-      <span class='id identifier rubyid_note_types'>note_types</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:note_singlepart</span>
-    <span class='kw'>end</span>
+    <span class='comment val'># Resource/AO</span>
+    <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_singlepart</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'enum'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span>
+      <span class='rubyid_note_types identifier id'>note_types</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='symbol val'>:note_singlepart</span>
+    <span class='rubyid_end end kw'>end</span>
 
-    <span class='const'>JSONModel</span><span class='lparen'>(</span><span class='symbol'>:note_multipart</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_schema'>schema</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>properties</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>type</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>enum</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span>
-      <span class='id identifier rubyid_note_types'>note_types</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:note_multipart</span>
-    <span class='kw'>end</span>
+    <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_multipart</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'enum'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span>
+      <span class='rubyid_note_types identifier id'>note_types</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='symbol val'>:note_multipart</span>
+    <span class='rubyid_end end kw'>end</span>
 
-    <span class='id identifier rubyid_note_types'>note_types</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Index</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:note_index</span>
-  <span class='kw'>end</span>
+    <span class='rubyid_note_types identifier id'>note_types</span><span class='lbrack token'>[</span><span class='string val'>&quot;Index&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='symbol val'>:note_index</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='id identifier rubyid_note_types'>note_types</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_note_types identifier id'>note_types</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -217,9 +218,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:50 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:09 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

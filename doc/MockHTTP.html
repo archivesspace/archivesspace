@@ -6,7 +6,7 @@
 <title>
   Class: MockHTTP
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -207,16 +207,17 @@
       <pre class="lines">
 
 
-23
 24
-25</pre>
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/spec/model_solr_spec.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'backend/spec/model_solr_spec.rb', line 24</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_request'>request</span>
-  <span class='ivar'>@request</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_request identifier id'>request</span>
+  <span class='rubyid_@request ivar id'>@request</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -244,7 +245,6 @@
       <pre class="lines">
 
 
-25
 26
 27
 28
@@ -265,33 +265,35 @@
 43
 44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/spec/model_solr_spec.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'backend/spec/model_solr_spec.rb', line 26</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_start'>start</span><span class='lparen'>(</span><span class='id identifier rubyid_host'>host</span><span class='comma'>,</span> <span class='id identifier rubyid_port'>port</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_start identifier id'>start</span><span class='lparen token'>(</span><span class='rubyid_host identifier id'>host</span><span class='comma token'>,</span> <span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='rubyid_http identifier id'>http</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_parent='>parent=</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
-      <span class='ivar'>@parent</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
-  <span class='kw'>end</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span><span class='assign token'>=</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+      <span class='rubyid_@parent ivar id'>@parent</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span>
+  <span class='rubyid_end end kw'>end</span>
 
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_req'>req</span><span class='rparen'>)</span>
-    <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='id identifier rubyid_req'>req</span>
-    <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_request identifier id'>request</span><span class='lparen token'>(</span><span class='rubyid_req identifier id'>req</span><span class='rparen token'>)</span>
+    <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_request identifier id'>request</span> <span class='assign token'>=</span> <span class='rubyid_req identifier id'>req</span>
+    <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 
-    <span class='kw'>def</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='semicolon'>;</span> <span class='gvar'>$dummy_data</span><span class='semicolon'>;</span> <span class='kw'>end</span>
-    <span class='kw'>def</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span><span class='semicolon'>;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>200</span><span class='tstring_end'>'</span></span><span class='semicolon'>;</span> <span class='kw'>end</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='semicolon token'>;</span> <span class='rubyid_$dummy_data gvar id'>$dummy_data</span><span class='semicolon token'>;</span> <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span><span class='semicolon token'>;</span> <span class='string val'>'200'</span><span class='semicolon token'>;</span> <span class='rubyid_end end kw'>end</span>
 
-    <span class='id identifier rubyid_response'>response</span>
-  <span class='kw'>end</span>
+    <span class='rubyid_response identifier id'>response</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='kw'>self</span>
+  <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span>
 
-  <span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_http'>http</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_http identifier id'>http</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -302,9 +304,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:52 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:18 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

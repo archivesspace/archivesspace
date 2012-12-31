@@ -6,7 +6,7 @@
 <title>
   Module: JSONModel::Webhooks
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -97,7 +97,8 @@
         <dt id="notification_handlers-classvariable" class="">@@notification_handlers =
           
         </dt>
-        <dd><pre class="code"><span class='lbracket'>[</span><span class='rbracket'>]</span></pre></dd>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+</pre></dd>
       
     </dl>
   
@@ -216,9 +217,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 62</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_notification_handler'>add_notification_handler</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='cvar'>@@notification_handlers</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span><span class='symbol'>:code</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='symbol'>:block</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_block'>block</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_notification_handler identifier id'>add_notification_handler</span><span class='lparen token'>(</span><span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@notification_handlers ivar id'>@@notification_handlers</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='symbol val'>:block</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_block identifier id'>block</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -252,15 +254,16 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 66</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_notify'>notify</span><span class='lparen'>(</span><span class='id identifier rubyid_notification'>notification</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_notification'>notification</span><span class='period'>.</span><span class='id identifier rubyid_events'>events</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_event'>event</span><span class='op'>|</span>
-    <span class='cvar'>@@notification_handlers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_handler'>handler</span><span class='op'>|</span>
-      <span class='kw'>if</span> <span class='id identifier rubyid_handler'>handler</span><span class='lbracket'>[</span><span class='symbol'>:code</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_handler'>handler</span><span class='lbracket'>[</span><span class='symbol'>:code</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_event'>event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>code</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-        <span class='id identifier rubyid_handler'>handler</span><span class='lbracket'>[</span><span class='symbol'>:block</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>code</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_event'>event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>params</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_notify identifier id'>notify</span><span class='lparen token'>(</span><span class='rubyid_notification identifier id'>notification</span><span class='rparen token'>)</span>
+  <span class='rubyid_notification identifier id'>notification</span><span class='dot token'>.</span><span class='rubyid_events identifier id'>events</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_event identifier id'>event</span><span class='bitor op'>|</span>
+    <span class='rubyid_@@notification_handlers ivar id'>@@notification_handlers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_handler identifier id'>handler</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_handler identifier id'>handler</span><span class='lbrack token'>[</span><span class='symbol val'>:code</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_handler identifier id'>handler</span><span class='lbrack token'>[</span><span class='symbol val'>:code</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_event identifier id'>event</span><span class='lbrack token'>[</span><span class='string val'>&quot;code&quot;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_handler identifier id'>handler</span><span class='lbrack token'>[</span><span class='symbol val'>:block</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_event identifier id'>event</span><span class='lbrack token'>[</span><span class='string val'>&quot;code&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_event identifier id'>event</span><span class='lbrack token'>[</span><span class='string val'>&quot;params&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -288,9 +291,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 76</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_webhook_register'>webhook_register</span><span class='lparen'>(</span><span class='id identifier rubyid_endpoint'>endpoint</span><span class='rparen'>)</span>
-  <span class='const'>JSONModel</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='id identifier rubyid_post_form'>post_form</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/webhooks/register</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>url</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_endpoint'>endpoint</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_webhook_register identifier id'>webhook_register</span><span class='lparen token'>(</span><span class='rubyid_endpoint identifier id'>endpoint</span><span class='rparen token'>)</span>
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_post_form identifier id'>post_form</span><span class='lparen token'>(</span><span class='string val'>'/webhooks/register'</span><span class='comma token'>,</span> <span class='string val'>&quot;url&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_endpoint identifier id'>endpoint</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -301,9 +305,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:51 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:04 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

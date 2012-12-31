@@ -6,7 +6,7 @@
 <title>
   Module: AgentManager
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -239,9 +239,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 24</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_agent_type_of'>agent_type_of</span><span class='lparen'>(</span><span class='id identifier rubyid_agent_class'>agent_class</span><span class='rparen'>)</span>
-  <span class='cvar'>@@registered_agents</span><span class='lbracket'>[</span><span class='id identifier rubyid_agent_class'>agent_class</span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_agent_type_of identifier id'>agent_type_of</span><span class='lparen token'>(</span><span class='rubyid_agent_class identifier id'>agent_class</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@registered_agents ivar id'>@@registered_agents</span><span class='lbrack token'>[</span><span class='rubyid_agent_class identifier id'>agent_class</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -270,10 +271,11 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 6</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_register_agent_type'>register_agent_type</span><span class='lparen'>(</span><span class='id identifier rubyid_agent_class'>agent_class</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:model</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_agent_class'>agent_class</span>
-  <span class='cvar'>@@registered_agents</span><span class='lbracket'>[</span><span class='id identifier rubyid_agent_class'>agent_class</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_agent_class identifier id'>agent_class</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent_class identifier id'>agent_class</span>
+  <span class='rubyid_@@registered_agents ivar id'>@@registered_agents</span><span class='lbrack token'>[</span><span class='rubyid_agent_class identifier id'>agent_class</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -301,9 +303,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 19</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_registered_agents'>registered_agents</span>
-  <span class='cvar'>@@registered_agents</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_agents identifier id'>registered_agents</span>
+  <span class='rubyid_@@registered_agents ivar id'>@@registered_agents</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -333,11 +336,12 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 12</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_type_to_model_map'>type_to_model_map</span>
-  <span class='const'>Hash</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_registered_agents'>registered_agents</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_agent_type'>agent_type</span><span class='op'>|</span>
-         <span class='lbracket'>[</span><span class='id identifier rubyid_agent_type'>agent_type</span><span class='lbracket'>[</span><span class='symbol'>:jsonmodel</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_agent_type'>agent_type</span><span class='lbracket'>[</span><span class='symbol'>:model</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-       <span class='rbrace'>}</span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_type_to_model_map identifier id'>type_to_model_map</span>
+  <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_agents identifier id'>registered_agents</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_agent_type identifier id'>agent_type</span><span class='bitor op'>|</span>
+         <span class='lbrack token'>[</span><span class='rubyid_agent_type identifier id'>agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:jsonmodel</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_agent_type identifier id'>agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+       <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -348,9 +352,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:50 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:08 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

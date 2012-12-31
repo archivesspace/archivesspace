@@ -6,7 +6,7 @@
 <title>
   Class: AuthenticationManager
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -267,58 +267,57 @@ Return a User object if successful, nil otherwise</p>
 61
 62
 63
-64
-65</pre>
+64</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 20</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_authenticate'>authenticate</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_authenticate identifier id'>authenticate</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
 
-  <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_username'>username</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+  <span class='rubyid_username identifier id'>username</span> <span class='assign token'>=</span> <span class='rubyid_username identifier id'>username</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span>
 
-  <span class='id identifier rubyid_authentication_sources'>authentication_sources</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_source'>source</span><span class='op'>|</span>
-    <span class='kw'>begin</span>
-      <span class='id identifier rubyid_jsonmodel_user'>jsonmodel_user</span> <span class='op'>=</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_authenticate'>authenticate</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
+  <span class='rubyid_authentication_sources identifier id'>authentication_sources</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_source identifier id'>source</span><span class='bitor op'>|</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_jsonmodel_user identifier id'>jsonmodel_user</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_authenticate identifier id'>authenticate</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
 
-      <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_jsonmodel_user'>jsonmodel_user</span>
-        <span class='kw'>next</span>
-      <span class='kw'>end</span>
+      <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_jsonmodel_user identifier id'>jsonmodel_user</span>
+        <span class='rubyid_next next kw'>next</span>
+      <span class='rubyid_end end kw'>end</span>
 
-      <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
+      <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span>
 
-      <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span>
-        <span class='kw'>begin</span>
-          <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_update_from_json'>update_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonmodel_user'>jsonmodel_user</span><span class='comma'>,</span>
-                                <span class='symbol'>:source</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span>
-                                <span class='symbol'>:lock_version</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_lock_version'>lock_version</span><span class='rparen'>)</span>
-        <span class='kw'>rescue</span> <span class='const'>Sequel</span><span class='op'>::</span><span class='const'>NoExistingObject</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-          <span class='comment'># We'll swallow these because they only really mean that the user
-</span>          <span class='comment'># logged in twice simultaneously.  As long as one of the updates
-</span>          <span class='comment'># succeeded it doesn't really matter.
-</span>          <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Got an optimistic locking error when updating user: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-          <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_exception'>exception</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_user identifier id'>user</span>
+        <span class='rubyid_begin begin kw'>begin</span>
+          <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_user identifier id'>jsonmodel_user</span><span class='comma token'>,</span>
+                                <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span>
+                                <span class='symbol val'>:lock_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_lock_version identifier id'>lock_version</span><span class='rparen token'>)</span>
+        <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_NoExistingObject constant id'>NoExistingObject</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+          <span class='comment val'># We'll swallow these because they only really mean that the user</span>
+          <span class='comment val'># logged in twice simultaneously.  As long as one of the updates</span>
+          <span class='comment val'># succeeded it doesn't really matter.</span>
+          <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Got an optimistic locking error when updating user: #{e}&quot;</span><span class='rparen token'>)</span>
 
-          <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:username</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
-        <span class='kw'>end</span>
-      <span class='kw'>else</span>
-        <span class='const'>DB</span><span class='period'>.</span><span class='id identifier rubyid_attempt'>attempt</span> <span class='lbrace'>{</span>
-          <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonmodel_user'>jsonmodel_user</span><span class='comma'>,</span> <span class='symbol'>:source</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-        <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_and_if_constraint_fails'>and_if_constraint_fails</span> <span class='lbrace'>{</span>
-          <span class='kw'>return</span> <span class='id identifier rubyid_authenticate'>authenticate</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
-        <span class='rbrace'>}</span>
-      <span class='kw'>end</span>
+          <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
+          <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_user identifier id'>jsonmodel_user</span><span class='comma token'>,</span> <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+        <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span>
+          <span class='rubyid_return return kw'>return</span> <span class='rubyid_authenticate identifier id'>authenticate</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
+        <span class='rbrace token'>}</span>
+      <span class='rubyid_end end kw'>end</span>
 
-      <span class='kw'>return</span> <span class='id identifier rubyid_user'>user</span>
-    <span class='kw'>rescue</span>
-      <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error communicating with authentication source </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='gvar'>$!</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-      <span class='const'>Log</span><span class='period'>.</span><span class='id identifier rubyid_exception'>exception</span><span class='lparen'>(</span><span class='gvar'>$!</span><span class='rparen'>)</span>
-      <span class='kw'>next</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_user identifier id'>user</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Error communicating with authentication source #{source.inspect}: #{$!}&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_exception identifier id'>exception</span><span class='lparen token'>(</span><span class='rubyid_$! gvar id'>$!</span><span class='rparen token'>)</span>
+      <span class='rubyid_next next kw'>next</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_nil nil kw'>nil</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -346,9 +345,10 @@ Return a User object if successful, nil otherwise</p>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 13</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_authentication_sources'>authentication_sources</span>
-  <span class='lbracket'>[</span><span class='const'>DBAuth</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_prepare_sources'>prepare_sources</span><span class='lparen'>(</span><span class='const'>AppConfig</span><span class='lbracket'>[</span><span class='symbol'>:authentication_sources</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_authentication_sources identifier id'>authentication_sources</span>
+  <span class='lbrack token'>[</span><span class='rubyid_DBAuth constant id'>DBAuth</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_prepare_sources identifier id'>prepare_sources</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -380,13 +380,14 @@ Return a User object if successful, nil otherwise</p>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/authentication_manager.rb', line 5</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_prepare_sources'>prepare_sources</span><span class='lparen'>(</span><span class='id identifier rubyid_sources'>sources</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_sources'>sources</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_source'>source</span><span class='op'>|</span>
-    <span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='lbracket'>[</span><span class='symbol'>:model</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_intern'>intern</span><span class='rparen'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_prepare_sources identifier id'>prepare_sources</span><span class='lparen token'>(</span><span class='rubyid_sources identifier id'>sources</span><span class='rparen token'>)</span>
+  <span class='rubyid_sources identifier id'>sources</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_source identifier id'>source</span><span class='bitor op'>|</span>
+    <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
 
-    <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
-  <span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
+    <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -397,9 +398,9 @@ Return a User object if successful, nil otherwise</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:56 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:22 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -68,70 +68,63 @@
 
     <div id="content"><div id='filecontents'><h1 id="getting-started">Getting started</h1>
 
-<p>Install nokogiri, json-schema, psych</p>
+<h2 id="if-using-rvm-httpsrvmio">If using RVM (https://rvm.io//)</h2>
 
-<p>Basic usage of import.rb is like this:</p>
+<ul>
+  <li>
+    <p>Install jruby (~&gt; 1.6.7)
+     $ rvm install jruby-1.6.7</p>
+  </li>
+  <li>
+    <p>Create a new gemset</p>
 
-<pre class="code ruby"><code>$ import.rb -i {importer-name} [-s {path/to/your/data/file.ext}] [-x {crosswalk-name}]
+    <pre class="code ruby"><code> $ <span class='rubyid_rvm identifier id'>rvm</span> <span class='rubyid_gemset identifier id'>gemset</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_archivespace identifier id'>archivespace</span><span class='minus op'>-</span><span class='rubyid_frontend identifier id'>frontend</span>
+     
+ $ <span class='rubyid_rvm identifier id'>rvm</span> <span class='rubyid_gemset identifier id'>gemset</span> <span class='rubyid_use identifier id'>use</span> <span class='rubyid_archivespace identifier id'>archivespace</span><span class='minus op'>-</span><span class='rubyid_frontend identifier id'>frontend</span>
 </code></pre>
+  </li>
+  <li>
+    <p>Install the bundler gem</p>
 
-<h1 id="using-the-import-tool">Using the import tool</h1>
-
-<h2 id="running-a-test-import-example">Running a test import (example)</h2>
-
-<p>You can follow the steps below to run an example import</p>
-
-<p>Step 1: Follow the steps in the global README and start the application on port 8089</p>
-
-<p>Step 2: Open the &#8216;migrations&#8217; directory</p>
-
-<pre class="code ruby"><code>$ cd migrations
+    <pre class="code ruby"><code> $ <span class='rubyid_gem identifier id'>gem</span> <span class='rubyid_install identifier id'>install</span> <span class='rubyid_bundler identifier id'>bundler</span>
 </code></pre>
+  </li>
+  <li>
+    <p>Run bundler to install all application gems</p>
 
-<p>Step 3: Create an empty repository and vocabulary and note their IDs</p>
-
-<pre class="code ruby"><code>$ rake import:make_repo
-$ rake import:make_vocab
+    <pre class="code ruby"><code> $ <span class='rubyid_bundle identifier id'>bundle</span> <span class='rubyid_install identifier id'>install</span>
 </code></pre>
+  </li>
+  <li>
+    <p>Run the Rails app</p>
 
-<p>Step 4: Run a test import using the following options</p>
-
-<pre class="code ruby"><code>$./import.rb -r {REPO_ID} -v {VOCAB_ID} -i xml -x ead -s examples/ead/afcu.xml
+    <pre class="code ruby"><code> $ <span class='rubyid_rails identifier id'>rails</span> <span class='rubyid_server identifier id'>server</span>
 </code></pre>
+  </li>
+</ul>
 
-<p>You can see the records that have been created using rake:</p>
+<h2 id="without-rvm">Without RVM</h2>
 
-<pre class="code ruby"><code>$ rake import:list_objects[{REPO_ID}]
-$ rake import:list_subjects[{VOCAB_ID}]
+<ul>
+  <li>
+    <p>Grab jruby and the gem dependencies:</p>
+
+    <pre class="code ruby"><code> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_bootstrap identifier id'>bootstrap</span>
 </code></pre>
+  </li>
+  <li>
+    <p>Run the Rails app:</p>
 
-<p>To see all importer flags, run</p>
-
-<pre class="code ruby"><code>$./import.rb -h
+    <pre class="code ruby"><code> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_frontend identifier id'>frontend</span><span class='symbol val'>:devserver</span>
 </code></pre>
-
-<p>To find out what importers are available, and what to pass them</p>
-
-<pre class="code ruby"><code>$./import.rb -l
-</code></pre>
-
-<h2 id="adding-an-importer">Adding an Importer</h2>
-
-<p>You can create an importer and add it to the importers directory</p>
-
-<p>The first line of your file must be</p>
-
-<pre class="code ruby"><code>ASpaceImporter.importer :foo do # 'foo' is the unique key for this importer
-</code></pre>
-
-<p>You must define two methods, self.profile and run. See examples or contact the development team for more info.</p>
-
+  </li>
+</ul>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:48 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:01 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
 <title>
   Module: Deaccessions
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -167,14 +167,15 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/deaccessions.rb', line 6</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_one_to_many'>one_to_many</span> <span class='symbol'>:deaccession</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
+  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:deaccession</span>
 
-  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_jsonmodel_hint'>jsonmodel_hint</span><span class='lparen'>(</span><span class='symbol'>:the_property</span> <span class='op'>=&gt;</span> <span class='symbol'>:deaccessions</span><span class='comma'>,</span>
-                      <span class='symbol'>:contains_records_of_type</span> <span class='op'>=&gt;</span> <span class='symbol'>:deaccession</span><span class='comma'>,</span>
-                      <span class='symbol'>:corresponding_to_association</span>  <span class='op'>=&gt;</span> <span class='symbol'>:deaccession</span><span class='comma'>,</span>
-                      <span class='symbol'>:always_resolve</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:deaccessions</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:deaccession</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:corresponding_to_association</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:deaccession</span><span class='comma token'>,</span>
+                         <span class='symbol val'>:always_resolve</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -185,9 +186,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:50 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:08 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

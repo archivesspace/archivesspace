@@ -6,7 +6,7 @@
 <title>
   Module: ImportHelpers
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -181,16 +181,17 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 3</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_handle_import'>handle_import</span>
-  <span class='id identifier rubyid_batch'>batch</span> <span class='op'>=</span> <span class='const'>Batch</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:batch_import</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_import identifier id'>handle_import</span>
+  <span class='rubyid_batch identifier id'>batch</span> <span class='assign token'>=</span> <span class='rubyid_Batch constant id'>Batch</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:batch_import</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   
-  <span class='const'>RequestContext</span><span class='period'>.</span><span class='id identifier rubyid_put'>put</span><span class='lparen'>(</span><span class='symbol'>:repo_id</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:repo_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_put identifier id'>put</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
-  <span class='kw'>begin</span> 
-    <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_process'>process</span>
-    <span class='id identifier rubyid_json_response'>json_response</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:saved</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_saved_uris'>saved_uris</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='int'>200</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_begin begin kw'>begin</span> 
+    <span class='rubyid_batch identifier id'>batch</span><span class='dot token'>.</span><span class='rubyid_process identifier id'>process</span>
+    <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:saved</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_batch identifier id'>batch</span><span class='dot token'>.</span><span class='rubyid_saved_uris identifier id'>saved_uris</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>200</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -201,9 +202,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:50 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:08 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

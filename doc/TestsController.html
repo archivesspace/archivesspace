@@ -6,7 +6,7 @@
 <title>
   Class: TestsController
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -190,15 +190,16 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/tests_controller.rb', line 5</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_shutdown'>shutdown</span>
-  <span class='comment'># Used to cleanly shutdown the devserver when running the coverage tests
-</span>  <span class='kw'>if</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>COVERAGE_REPORTS</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>true</span><span class='tstring_end'>'</span></span>
-    <span class='const'>SimpleCov</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_format!'>format!</span>
-    <span class='id identifier rubyid_exit!'>exit!</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_shutdown identifier id'>shutdown</span>
+  <span class='comment val'># Used to cleanly shutdown the devserver when running the coverage tests</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'COVERAGE_REPORTS'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'true'</span>
+    <span class='rubyid_SimpleCov constant id'>SimpleCov</span><span class='dot token'>.</span><span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_format! fid id'>format!</span>
+    <span class='rubyid_exit! fid id'>exit!</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No way</span><span class='tstring_end'>&quot;</span></span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;No way&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -209,9 +210,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:57 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:22 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

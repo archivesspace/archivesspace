@@ -6,7 +6,7 @@
 <title>
   Module: Trees::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.2.1
   
 </title>
 
@@ -220,8 +220,6 @@
       <pre class="lines">
 
 
-62
-63
 64
 65
 66
@@ -232,24 +230,27 @@
 71
 72
 73
-74</pre>
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/trees.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/trees.rb', line 64</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_assemble_tree'>assemble_tree</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_links'>links</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_properties'>properties</span><span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_assemble_tree identifier id'>assemble_tree</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_links identifier id'>links</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_links'>links</span><span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>children</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_links'>links</span><span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sort_by'>sort_by</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:first</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_position'>position</span><span class='comma'>,</span> <span class='id identifier rubyid_child_id'>child_id</span><span class='op'>|</span>
-      <span class='id identifier rubyid_assemble_tree'>assemble_tree</span><span class='lparen'>(</span><span class='id identifier rubyid_child_id'>child_id</span><span class='comma'>,</span> <span class='id identifier rubyid_links'>links</span><span class='comma'>,</span> <span class='id identifier rubyid_properties'>properties</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>children</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_links identifier id'>links</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='rbrack token'>]</span>
+    <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'children'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_links identifier id'>links</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:first</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='rubyid_child_id identifier id'>child_id</span><span class='bitor op'>|</span>
+      <span class='rubyid_assemble_tree identifier id'>assemble_tree</span><span class='lparen token'>(</span><span class='rubyid_child_id identifier id'>child_id</span><span class='comma token'>,</span> <span class='rubyid_links identifier id'>links</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'children'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='id identifier rubyid_result'>result</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -270,16 +271,17 @@
       <pre class="lines">
 
 
-57
-58
-59</pre>
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/trees.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/trees.rb', line 59</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_node_type'>node_type</span>
-  <span class='ivar'>@node_type</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_node_type identifier id'>node_type</span>
+  <span class='rubyid_@node_type ivar id'>@node_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -300,16 +302,17 @@
       <pre class="lines">
 
 
-52
-53
-54</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/trees.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/trees.rb', line 54</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_root_type'>root_type</span>
-  <span class='ivar'>@root_type</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_root_type identifier id'>root_type</span>
+  <span class='rubyid_@root_type ivar id'>@root_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -330,18 +333,19 @@
       <pre class="lines">
 
 
-46
-47
 48
-49</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/trees.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/trees.rb', line 48</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_tree_of'>tree_of</span><span class='lparen'>(</span><span class='id identifier rubyid_root_type'>root_type</span><span class='comma'>,</span> <span class='id identifier rubyid_node_type'>node_type</span><span class='rparen'>)</span>
-  <span class='ivar'>@root_type</span> <span class='op'>=</span> <span class='id identifier rubyid_root_type'>root_type</span>
-  <span class='ivar'>@node_type</span> <span class='op'>=</span> <span class='id identifier rubyid_node_type'>node_type</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_tree_of identifier id'>tree_of</span><span class='lparen token'>(</span><span class='rubyid_root_type identifier id'>root_type</span><span class='comma token'>,</span> <span class='rubyid_node_type identifier id'>node_type</span><span class='rparen token'>)</span>
+  <span class='rubyid_@root_type ivar id'>@root_type</span> <span class='assign token'>=</span> <span class='rubyid_root_type identifier id'>root_type</span>
+  <span class='rubyid_@node_type ivar id'>@node_type</span> <span class='assign token'>=</span> <span class='rubyid_node_type identifier id'>node_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -352,9 +356,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:49 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:04 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.2.1 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -1,0 +1,854 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Relationships::ClassMethods
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../alpha_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Relationships.html" title="Relationships (module)">Relationships</a></span></span>
+     &raquo; 
+    <span class="title">ClassMethods</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: Relationships::ClassMethods
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">backend/app/model/relationships.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_relationships-instance_method" title="#apply_relationships (instance method)">- (Object) <strong>apply_relationships</strong>(obj, json, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_from_json-instance_method" title="#create_from_json (instance method)">- (Object) <strong>create_from_json</strong>(json, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define_relationship-instance_method" title="#define_relationship (instance method)">- (Object) <strong>define_relationship</strong>(opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Define a new relationship.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_existing_relationships-instance_method" title="#delete_existing_relationships (instance method)">- (Object) <strong>delete_existing_relationships</strong>(obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Delete all existing relationships for &#8216;obj&#8217;.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_relationship-instance_method" title="#find_relationship (instance method)">- (Object) <strong>find_relationship</strong>(relationship_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Find the relationship named by &#8216;relationship_name&#8217;.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instances_relating_to-instance_method" title="#instances_relating_to (instance method)">- (Object) <strong>instances_relating_to</strong>(obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Find all instances of the referring class that have a relationship with &#8216;obj&#8217;.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#linked_models-instance_method" title="#linked_models (instance method)">- (Object) <strong>linked_models</strong>(relationship_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The list of referent models declared by the relationship names by
+&#8216;relationship_name&#8217;.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sequel_to_jsonmodel-instance_method" title="#sequel_to_jsonmodel (instance method)">- (Object) <strong>sequel_to_jsonmodel</strong>(obj, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="apply_relationships-instance_method">
+  
+    - (<tt>Object</tt>) <strong>apply_relationships</strong>(obj, json, opts) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 106</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_relationships identifier id'>apply_relationships</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_delete_existing_relationships identifier id'>delete_existing_relationships</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@relationships ivar id'>@relationships</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
+    <span class='rubyid_property_name identifier id'>property_name</span> <span class='assign token'>=</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:json_property</span><span class='rbrack token'>]</span>
+
+    <span class='comment val'># For each record reference in our JSON data</span>
+    <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_property_name identifier id'>property_name</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_reference identifier id'>reference</span><span class='comma token'>,</span> <span class='rubyid_idx identifier id'>idx</span><span class='bitor op'>|</span>
+      <span class='rubyid_record_type identifier id'>record_type</span> <span class='assign token'>=</span> <span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># Find the model type of the record it refers to</span>
+      <span class='rubyid_referent_model identifier id'>referent_model</span> <span class='assign token'>=</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:references</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
+        <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='rubyid_record_type identifier id'>record_type</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn't find model for #{record_type[:type]}&quot;</span>
+
+      <span class='comment val'># Find the model type that represents the relationship between us and</span>
+      <span class='comment val'># them</span>
+      <span class='rubyid_link_model identifier id'>link_model</span> <span class='assign token'>=</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:references</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_referent_model identifier id'>referent_model</span><span class='rbrack token'>]</span>
+
+      <span class='comment val'># Create a new relationship instance linking us and them together, and</span>
+      <span class='comment val'># add the properties from the JSON request to the relationship</span>
+      <span class='rubyid_properties identifier id'>properties</span> <span class='assign token'>=</span> <span class='rubyid_reference identifier id'>reference</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span><span class='dot token'>.</span><span class='rubyid_tap identifier id'>tap</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_properties identifier id'>properties</span><span class='bitor op'>|</span>
+        <span class='rubyid_properties identifier id'>properties</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>'ref'</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span>
+      <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_referent_model identifier id'>referent_model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_referent_model identifier id'>referent_model</span><span class='lbrack token'>[</span><span class='rubyid_record_type identifier id'>record_type</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+      <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_relationship_position</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_idx identifier id'>idx</span>
+
+      <span class='rubyid_link_model identifier id'>link_model</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_from_json-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_from_json</strong>(json, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 141</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
+  <span class='rubyid_apply_relationships identifier id'>apply_relationships</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="define_relationship-instance_method">
+  
+    - (<tt>Object</tt>) <strong>define_relationship</strong>(opts) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Define a new relationship.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 31</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_define_relationship identifier id'>define_relationship</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='comma token'>,</span> <span class='symbol val'>:json_property</span><span class='comma token'>,</span> <span class='symbol val'>:contains_references_to_types</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span>
+    <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='rbrack token'>]</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;No #{p} given&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_ArchivesSpaceService constant id'>ArchivesSpaceService</span><span class='dot token'>.</span><span class='rubyid_loaded_hook identifier id'>loaded_hook</span> <span class='rubyid_do do kw'>do</span>
+    <span class='comment val'># We hold off actually setting anything up until all models have been</span>
+    <span class='comment val'># loaded, since our relationships may need to reference a model that</span>
+    <span class='comment val'># hasn't been loaded yet.</span>
+    <span class='comment val'>#</span>
+    <span class='comment val'># This is also why the :contains_references_to_types property is a proc</span>
+    <span class='comment val'># instead of a regular array--we don't want to blow up with a NameError</span>
+    <span class='comment val'># if the model hasn't been loaded yet.</span>
+
+    <span class='rubyid_relationship identifier id'>relationship</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
+    <span class='rubyid_linked_models identifier id'>linked_models</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:contains_references_to_types</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span>
+
+    <span class='rubyid_classes identifier id'>classes</span> <span class='assign token'>=</span> <span class='rubyid_linked_models identifier id'>linked_models</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_referent identifier id'>referent</span><span class='bitor op'>|</span>
+      <span class='comment val'># Generate an ugly table name by combining the referring table, the</span>
+      <span class='comment val'># link name and the table it refers to.</span>
+      <span class='rubyid_table_name identifier id'>table_name</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_shortname identifier id'>shortname</span><span class='comma token'>,</span> <span class='rubyid_referent identifier id'>referent</span><span class='dot token'>.</span><span class='rubyid_shortname identifier id'>shortname</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='dstring node'>&quot;_#{relationship[:name]}_&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span>
+      <span class='rubyid_referrer_table identifier id'>referrer_table</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span>
+
+      <span class='rubyid_begin begin kw'>begin</span>
+        <span class='rubyid_clz identifier id'>clz</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_table_name identifier id'>table_name</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_classify identifier id'>classify</span><span class='rparen token'>)</span>
+      <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_NameError constant id'>NameError</span>
+        <span class='rubyid_clz identifier id'>clz</span> <span class='assign token'>=</span> <span class='rubyid_Class constant id'>Class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Model constant id'>Model</span><span class='lparen token'>(</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+          <span class='rubyid_many_to_one identifier id'>many_to_one</span> <span class='rubyid_referrer_table identifier id'>referrer_table</span>
+          <span class='rubyid_many_to_one identifier id'>many_to_one</span> <span class='rubyid_referent identifier id'>referent</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span>
+
+          <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_table_exists? fid id'>table_exists?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rparen token'>)</span>
+            <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Table doesn't exist: #{self.table_name}&quot;</span><span class='rparen token'>)</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_end end kw'>end</span>
+
+        <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_set identifier id'>const_set</span><span class='lparen token'>(</span><span class='rubyid_table_name identifier id'>table_name</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_classify identifier id'>classify</span><span class='comma token'>,</span> <span class='rubyid_clz identifier id'>clz</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span><span class='lparen token'>(</span><span class='rubyid_table_name identifier id'>table_name</span><span class='comma token'>,</span> <span class='symbol val'>:order</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{table_name}__id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_clz identifier id'>clz</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:references</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_linked_models identifier id'>linked_models</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_classes identifier id'>classes</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_@relationships ivar id'>@relationships</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@relationships ivar id'>@relationships</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_relationship identifier id'>relationship</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_existing_relationships-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_existing_relationships</strong>(obj) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Delete all existing relationships for &#8216;obj&#8217;.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99
+100
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 97</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_existing_relationships identifier id'>delete_existing_relationships</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_@relationships ivar id'>@relationships</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
+    <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:references</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship_model identifier id'>relationship_model</span><span class='bitor op'>|</span>
+      <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{relationship_model.table_name}_dataset&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="find_relationship-instance_method">
+  
+    - (<tt>Object</tt>) <strong>find_relationship</strong>(relationship_name) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Find the relationship named by &#8216;relationship_name&#8217;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 83</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_find_relationship identifier id'>find_relationship</span><span class='lparen token'>(</span><span class='rubyid_relationship_name identifier id'>relationship_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_@relationships ivar id'>@relationships</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_r identifier id'>r</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_relationship_name identifier id'>relationship_name</span><span class='rbrace token'>}</span> <span class='rubyid_or or kw'>or</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn't find relationship: #{relationship_name}&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="instances_relating_to-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instances_relating_to</strong>(obj) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Find all instances of the referring class that have a relationship with &#8216;obj&#8217;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 181</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_instances_relating_to identifier id'>instances_relating_to</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_@relationships ivar id'>@relationships</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
+    <span class='rubyid_relationship_model identifier id'>relationship_model</span> <span class='assign token'>=</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:references</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_relationship_model identifier id'>relationship_model</span>
+      <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='comment val'># This relationship links to records with the same type as 'obj'</span>
+      <span class='rubyid_relationship_model identifier id'>relationship_model</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{obj.class.table_name}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
+        <span class='comment val'># Yield the instance of self that relates to obj</span>
+        <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="linked_models-instance_method">
+  
+    - (<tt>Object</tt>) <strong>linked_models</strong>(relationship_name) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The list of referent models declared by the relationship names by
+&#8216;relationship_name&#8217;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 91</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_linked_models identifier id'>linked_models</span><span class='lparen token'>(</span><span class='rubyid_relationship_name identifier id'>relationship_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_find_relationship identifier id'>find_relationship</span><span class='lparen token'>(</span><span class='rubyid_relationship_name identifier id'>relationship_name</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:references</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sequel_to_jsonmodel-instance_method">
+  
+    - (<tt>Object</tt>) <strong>sequel_to_jsonmodel</strong>(obj, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 148</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_@relationships ivar id'>@relationships</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
+    <span class='rubyid_property_name identifier id'>property_name</span> <span class='assign token'>=</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:json_property</span><span class='rbrack token'>]</span>
+
+    <span class='comment val'># For each defined relationship</span>
+    <span class='rubyid_linked_objects identifier id'>linked_objects</span> <span class='assign token'>=</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:references</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_linked_model identifier id'>linked_model</span><span class='comma token'>,</span> <span class='rubyid_relationship_model identifier id'>relationship_model</span><span class='bitor op'>|</span>
+      <span class='comment val'># Walk over each relationship instance</span>
+      <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_relationship_model identifier id'>relationship_model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_relationship_instance identifier id'>relationship_instance</span><span class='bitor op'>|</span>
+        <span class='lbrack token'>[</span><span class='rubyid_relationship_instance identifier id'>relationship_instance</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='comma token'>,</span> <span class='rubyid_relationship_instance identifier id'>relationship_instance</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_linked_model identifier id'>linked_model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='lparen token'>(</span><span class='integer val'>1</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_linked_objects identifier id'>linked_objects</span> <span class='assign token'>=</span> <span class='rubyid_linked_objects identifier id'>linked_objects</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_relationship_properties identifier id'>relationship_properties</span><span class='comma token'>,</span> <span class='rubyid__ identifier id'>_</span><span class='bitor op'>|</span>
+      <span class='rubyid_relationship_properties identifier id'>relationship_properties</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_relationship_position</span><span class='rbrack token'>]</span>
+    <span class='rbrace token'>}</span>
+
+    <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_property_name identifier id'>property_name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_linked_objects identifier id'>linked_objects</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_relationship_properties identifier id'>relationship_properties</span><span class='comma token'>,</span> <span class='rubyid_referent identifier id'>referent</span><span class='bitor op'>|</span>
+      <span class='comment val'># Return the relationship properties, plus the URI reference of the</span>
+      <span class='comment val'># related object</span>
+      <span class='rubyid_values identifier id'>values</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_keys_as_strings identifier id'>keys_as_strings</span><span class='lparen token'>(</span><span class='rubyid_relationship_properties identifier id'>relationship_properties</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span><span class='rparen token'>)</span>
+      <span class='rubyid_values identifier id'>values</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_referent identifier id'>referent</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+
+      <span class='rubyid_values identifier id'>values</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_json identifier id'>json</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:09 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.3).
+</div>
+  </body>
+</html>
