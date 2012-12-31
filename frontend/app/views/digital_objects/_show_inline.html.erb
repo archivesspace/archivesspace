@@ -6,12 +6,12 @@
     <%= readonly_context :digital_object, @digital_object.to_hash(true) do |readonly| %>
       <div class="btn-group" style="float: right">
         <% if user_can?('update_repository') %>
-          <%= link_to "Edit", {:controller => :digital_objects, :action => :edit, :id => @digital_object.id, :anchor => "digital_object_#{@digital_object.id}"}, :class => "btn btn-small" %>
+          <%= link_to I18n.t("actions.edit"), {:controller => :digital_objects, :action => :edit, :id => @digital_object.id, :anchor => "digital_object_#{@digital_object.id}"}, :class => "btn btn-small" %>
         <% end %>
       </div>
-      <h2><%= @digital_object.title %> <span class="label label-info">Digital Object</span></h2>
+      <h2><%= @digital_object.title %> <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span></h2>
       <section id="basic_information">
-        <h3>Basic Information</h3>
+        <h3><%= I18n.t("digital_object._html.section.basic_information") %></h3>
 
         <%= readonly.label_and_textfield "title" %>
         <%= readonly.label_and_textfield "digital_object_id" %>

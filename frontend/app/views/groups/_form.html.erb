@@ -8,14 +8,14 @@
       <option id="<%= username %>" value="<%= username %>"><%= username %></option>
       <% end %>
     </select>
-    <button id="remove-member" style="display: none;" class="btn btn-small">remove</button>
+    <button id="remove-member" style="display: none;" class="btn btn-small"><%= I18n.t("actions.remove") %></button>
   </div>
 </div>
 
 <div class="control-group">
   <div class="controls">
     <input id="new-member" class="input-medium" type="text" placeholder="Username" />
-    <button id="add-new-member" class="btn btn-small">add</button>
+    <button id="add-new-member" class="btn btn-small"><%= I18n.t("actions.add") %></button>
   </div>
 </div>
 
@@ -38,6 +38,6 @@
 </div>
 
 <div class="form-actions">
-  <input type="submit" class="btn btn-primary" value="Save group" />
-  <%= link_to "Cancel", {:controller => :groups, :action => :index}, :class => "btn btn-secondary btn-cancel" %>
+  <input type="submit" class="btn btn-primary" value="<%= I18n.t("actions.save_prefix") %> <%= I18n.t("group._html.singular") %>" />
+  <%= link_to I18n.t("actions.cancel"), {:controller => :groups, :action => :index}, :class => "btn btn-secondary btn-cancel" %>
 </div>

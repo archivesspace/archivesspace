@@ -1,5 +1,5 @@
 <h2>
-   <%= @resource.title.blank? ? "New Resource" : @resource.title %>  <span class="label label-info">Resource</span>
+   <%= @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._html.singular")}" : @resource.title %>  <span class="label label-info"><%= I18n.t("resource._html.singular") %></span>
 </h2>
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -12,7 +12,7 @@
   <% define_template("resource", jsonmodel_definition(:resource)) do |form| %>
 
     <section id="basic_information">
-      <h3>Basic Information</h3>
+      <h3><%= I18n.t("resource._html.section.basic_information") %></h3>
 
       <%= form.label_and_textfield "title" %>
       <%= form.label_and_fourpartid %>
@@ -34,7 +34,7 @@
     <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
 
     <section id="finding_aid" class="subrecord-form-dummy">
-      <h3>Finding Aid</h3>
+      <h3><%= I18n.t("resource._html.section.finding_aid") %></h3>
       <div class="subrecord-form-container">
         <div class="subrecord-form-fields">
           <%= form.label_and_textfield "finding_aid_title" %>

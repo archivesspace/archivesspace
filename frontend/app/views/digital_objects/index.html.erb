@@ -7,17 +7,17 @@
    <div class="span9 record-pane">
       <div class="btn-group">
         <% if user_can?('update_repository') %>
-          <%= link_to "Create Digital Object", {:controller => :digital_objects, :action => :new}, :class => "btn" %>
+          <%= link_to "#{I18n.t("actions.create")} #{I18n.t("digital_object._html.singular")}", {:controller => :digital_objects, :action => :new}, :class => "btn" %>
         <% end %>
       </div>
 
-      <h2>Digital Objects</h2>
+      <h2><%= I18n.t("digital_object._html.plural") %></h2>
 
      <% if @search_data.has_key?('results') && @search_data['results'].length  > 0 %>
        <table class="table table-striped table-bordered table-condensed">
          <thead>
            <tr>
-             <th>Title</th>
+             <th><%= I18n.t("digital_object.title") %></th>
              <th width="70px"><!-- actions --></th>
            </tr>
          </thead>
@@ -27,9 +27,9 @@
               <td><%= digital_object.title %></td>
               <td>
                  <div class="btn-group" style="float: right">
-                   <%= link_to "View", {:controller => :digital_objects, :action => :show, :id => digital_object.id}, :class => "btn btn-mini" %>
+                   <%= link_to I18n.t("actions.view"), {:controller => :digital_objects, :action => :show, :id => digital_object.id}, :class => "btn btn-mini" %>
                    <% if user_can?('update_repository') %>
-                     <%= link_to "Edit", {:controller => :digital_objects, :action => :edit, :id => digital_object.id}, :class => "btn btn-mini" %>
+                     <%= link_to I18n.t("actions.edit"), {:controller => :digital_objects, :action => :edit, :id => digital_object.id}, :class => "btn btn-mini" %>
                    <% end %>
                  </div>
               </td>

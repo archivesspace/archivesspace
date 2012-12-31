@@ -1,5 +1,6 @@
 en:
   actions:
+    add: Add
     browse: Browse
     cancel: Cancel
     confirm: Confirm
@@ -17,13 +18,18 @@ en:
     move_up: Up
     move_down: Down
     move_down_into: Down Into...
+    remove: Remove
     new_prefix: New
     save_prefix: Save
     save_plus_one: "+1"
+    save_anyway: Save Anyway
     suppress: Suppress
     suppress_confirm_message: Suppress this Accession?
     unsuppress: Unsuppress
     unsuppress_confirm_message: Unsuppress this Accession?
+    export_ead: Download EAD
+  states:
+    suppressed: Suppressed
   navbar:
     brand: ArchivesSpace
     create: Create
@@ -59,7 +65,11 @@ en:
     page_prefix: Page
     page_connector: of
   search_results:
+    title: Search Results
     no_results: No Records
+    no_results_prefix: There were no search results for
+    result_type: Record Type
+    result_title: Title
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
     save: Save Changes
@@ -70,6 +80,15 @@ en:
   mixed_content:
     wrap_prefix: "Wrap with:"
     help: "Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or highlight text to wrap"
+  import:
+    ead_title: Import an EAD File
+    import_report: Import Report
+    ead_import_another: Import Another EAD File
+    submit: Import
+    submit_busy_message: Importing...
+  errors:
+    403: Unable to Access Page
+    403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
   iso_3166:
     AF: AFGHANISTAN (AF)
     AX: ÅLAND ISLANDS (AX)
@@ -831,6 +850,8 @@ en:
     _html:
       singular: Digital Object
       plural: Digital Objects
+      section:
+        basic_information: Basic Information
   digital_object_component:
     label: Label
     title: Title
@@ -841,6 +862,8 @@ en:
     _html:
       singular: Digital Object Component
       plural: Digital Object Components
+      section:
+        basic_information: Basic Information
   location:
     temporary: Temporary
     temporary_conservation: Conservation
@@ -853,6 +876,7 @@ en:
     area: Area
     barcode: Barcode
     classification: Classification
+    coordinates: Coordinates
     coordinate_1_label: Coordinate Label 1
     coordinate_1_indicator: Coordinate Indicator 1
     coordinate_2_label: Coordinate Label 2
@@ -868,6 +892,8 @@ en:
     _html:
       singular: Location
       plural: Locations
+      section:
+        basic_information: Basic Information
 
   container_location:
     status: Status
@@ -951,9 +977,12 @@ en:
     event_type_resource component transfer: Resource Component Transfer
     event_type_validation: Validation
     event_type_virus check: Virus Check
+    date: Event Date
     _html:
       singular: Event
       plural: Events
+      section:
+        basic_information: Basic Information
   deaccession:
     scope: Scope
     scope_whole: Whole
@@ -1045,6 +1074,14 @@ en:
       singular: Contact
       plural: Contact Details
   note:
+    note_singlepart: Single Part Note
+    note_orderedlist: Ordered List
+    note_multipart: Multipart Note
+    note_definedlist: Defined List
+    note_chronology: Chronology
+    note_index: Index
+    note_bibliography: Bibliography
+    note_digital_object: Digital Object Note
     _html:
       singular: Note
       plural: Notes
@@ -1053,6 +1090,7 @@ en:
     label: Label
     content: Content
     items: Items
+    items_singular: Item
   index_item:
     value: Value
     type: Type
@@ -1066,6 +1104,8 @@ en:
     label: Label
     type: Type
     content: Content
+    sub_notes: Sub Notes
+    sub_notes_singular: Sub Note
   note_digital_object:
     label: Label
     content: Content
@@ -1075,17 +1115,21 @@ en:
     label: Label
     content: Content
     items: Items
+    items_singular: Item
   note_chronology:
     option: Chronology
     title: Title
     items: Items
+    items_singular: Item
   chronology_item:
     event_date: Event Date
     events: Events
+    event_singular: Event
   note_definedlist:
     option: Defined List
     title: Title
     items: Items
+    items_singular: Item
   definedlist_item:
     label: Label
     value: Value
@@ -1094,6 +1138,7 @@ en:
     title: Title
     enumeration: Enumeration
     items: Items
+    items_singular: Item
   container: &container_attributes
     type_1: Type 1
     indicator_1: Indicator 1
@@ -1152,11 +1197,13 @@ en:
       singular: External Document
   rights_statement: &rights_statement_attributes
     identifier: Identifier
+    identifier_auto_generate_message: "-- auto-generated upon save --"
     rights_type: Rights Type
     rights_type_intellectual_property: Intellectual Property
     rights_type_license: License
     rights_type_statute: Statute
     rights_type_institutional_policy: Institutional Policy
+    rights_type_message: Please select a Rights Type
     active: Active
     active_true: Active
     active_false: Inactive
@@ -1347,18 +1394,28 @@ en:
     _html:
       singular: Resource
       plural: Resources
+      section:
+        basic_information: Basic Information
+        finding_aid: Finding Aid
   repository:
     repo_code: Repository code
     description: Description
+    _html:
+      singular: Repository
+      plural: Repositories
   term: &term_attributes
     term: Term
     term_type: Type
   subject:
     terms: Terms
-    ref_id: Subject Heading Identifier
+    ref_id: Identifier
+    heading: Subject Heading
+    subject_preview: Subject Preview
     _html:
       singular: Subject
       plural: Subjects
+      section:
+        basic_information: Basic Information
   user:
     username: Username
     name: Full name
@@ -1367,6 +1424,10 @@ en:
     _html:
       singular: User
       plural: Users
+      section:
+        account: Account
+        edit_account: Edit Account
+        edit_account_submit: Update Account
   collection_management: &collection_management_attributes
     cataloged_note: Cataloged note
     processing_hours_per_foot_estimate: Processing hrs/ft estimate

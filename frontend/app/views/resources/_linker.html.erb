@@ -1,12 +1,12 @@
 <hr/>
 <div class="control-group">
-   <label class="control-label">Resources</label>
+   <label class="control-label"><%= I18n.t("resource._html.plural") %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for("resources") %>"
-            data-label="Resource"
-            data-label_plural="Resources"
+            data-label="<%= I18n.t("resource._html.singular") %>"
+            data-label_plural="<%= I18n.t("resource._html.plural") %>"
             data-path="<%= form.path %>"
             data-name="related_resources"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"

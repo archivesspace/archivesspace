@@ -7,26 +7,26 @@
    <div class="span9 record-pane">
      <div class="btn-group" style="float: right">
        <% if user_can?('update_repository') %>
-         <%= link_to "Edit", {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-small" %>
+         <%= link_to I18n.t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-small" %>
        <% end %>
      </div>
 
      <%= readonly_context :subject, @subject.to_hash do |readonly| %>
-      <h2><%= @subject.display_string %>  <span class="label label-info">Subject</span></h2>
+      <h2><%= @subject.display_string %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
 
       <section id="basic_information">
-        <h3>Basic Information</h3>
+        <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
 
         <%= readonly.label_and_textfield "ref_id" %>
       </section>
     
       <section id="terms" class="subrecord-form-dummy">
-        <h3>Terms</h3>
+        <h3><%= I18n.t("subject.terms") %></h3>
         <div class="subrecord-form-container">
           <div class="subrecord-form-fields">
             <div class="row-fluid">
-              <div class="span6"><strong>Term</strong></div>
-              <div class="span6"><strong>Type</strong></div>
+              <div class="span6"><strong><%= I18n.t("term.term") %></strong></div>
+              <div class="span6"><strong><%= I18n.t("term.term_type") %></strong></div>
             </div>
             <% @subject.terms.each do | term | %>
              <div class="row-fluid">

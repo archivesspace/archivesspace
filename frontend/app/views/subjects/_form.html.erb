@@ -14,7 +14,7 @@
     </div>
     <div class="span2">
       <div class="btn-group">
-        <button type="button" class="btn btn-small add-term-btn">Add</button>
+        <button type="button" class="btn btn-small add-term-btn"><%= I18n.t("actions.add") %></button>
         <button type="button" class="btn btn-small remove-term-btn"><span class="icon-remove-sign"></span></button>
       </div>
       <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
@@ -30,17 +30,17 @@
    <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
 
    <section id="basic_information">
-     <h3>Basic Information</h3>
+     <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
      <%= form.label_and_textfield "ref_id" %>
    </section>
 
    <section id="terms" class="subrecord-form">
-     <h3>Terms</h3>
+     <h3><%= I18n.t("subject.terms") %></h3>
      <div class="subrecord-form-container">
        <div class="subrecord-form-fields">
          <div class="row-fluid">
-            <div class="span5">Term</div>
-            <div class="span5">Type</div>
+            <div class="span5"><%= I18n.t("term.term") %></div>
+            <div class="span5"><%= I18n.t("term.term_type") %></div>
             <div class="span2"></div>
          </div>
          <div class="terms-container">
@@ -52,7 +52,7 @@
          <hr/>
 
          <div class="well">
-           <div class="subject-preview"><em>Subject Preview</em></div>
+           <div class="subject-preview"><em><%= I18n.t("subject.subject_preview") %></em></div>
          </div>
         </div>
       </div>

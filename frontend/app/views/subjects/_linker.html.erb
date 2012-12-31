@@ -14,13 +14,13 @@
 %>
 
 <div class="control-group">
-   <label class="control-label">Subject</label>
+   <label class="control-label"><%= I18n.t("subject._html.singular") %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for(data_name) %>"
-            data-label="Subject"
-            data-label_plural="Subjects"
+            data-label="<%= I18n.t("subject._html.singular") %>"
+            data-label_plural="<%= I18n.t("subject._html.plural") %>"
             data-path="<%= data_path %>"
             data-name="<%= data_name %>"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -33,8 +33,8 @@
           <div class="btn-group pull-right">
              <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
               <ul class="dropdown-menu">
-                 <li><a href="javascript:void(0);" class="linker-browse-btn">Browse</a></li>
-                 <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true %>" class="linker-create-btn">Create</a></li>
+                 <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+                 <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
               </ul>
           </div>
        </div>

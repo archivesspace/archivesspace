@@ -14,7 +14,7 @@
                <%= link_to raw('<span class="icon-home"></span>'), :controller => :welcome, :action => :index %>
             </li>
             <li class="dropdown browse-container">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to I18n.t("accession._html.plural"), :controller => :accessions, :action => :index %></li>
                 <li><%= link_to I18n.t("resource._html.plural"), :controller => :resources, :action => :index %></li>

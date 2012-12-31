@@ -2,7 +2,7 @@
 
 <% define_template("event", jsonmodel_definition(:event)) do |form| %>
   <section id="basic_information">
-    <h3>Basic Information</h3>
+    <h3><%= I18n.t("event._html.section.basic_information") %></h3>
     <fieldset>
       <%= form.label_and_select "event_type", form.possible_options_for("event_type") %>
       <%= form.label_and_textfield "outcome" %>
@@ -14,7 +14,7 @@
 <% form.emit_template("event") %>
 
 <section id="event_date">
-  <h3>Event date</h3>
+  <h3><%= I18n.t("event.date") %></h3>
   <%= form.fields_for(@event.date || {}, "date") do | date | %>
     <% render :partial => "dates/template", :locals => {:form => form} %>
     <% form.emit_template("date") %>

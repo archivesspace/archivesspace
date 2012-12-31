@@ -1,46 +1,46 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list as-nav-list">
-    <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#basic_information"><%= I18n.t("resource._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
     
-    <li><a href="#resource_extents_">Extents <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#resource_extents_"><%= I18n.t("extent._html.plural") %>  <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @resource.dates.length > 0 %>
-      <li><a href="#resource_dates_">Dates <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_dates_"><%= I18n.t("date._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <li><a href="#finding_aid">Finding Aid <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#finding_aid"><%= I18n.t("resource._html.section.finding_aid") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @resource.linked_agents.length > 0 %>
-      <li><a href="#resource_linked_agents_">Agent Links <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_linked_agents_"><%= I18n.t("linked_agent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @resource.subjects.length > 0 %>
-      <li><a href="#resource_subjects_">Subjects <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_subjects_"><%= I18n.t("subject._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.notes.length > 0 %>
-      <li><a href="#notes">Notes <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#notes"><%= I18n.t("note._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.external_documents.length > 0 %>
-      <li><a href="#resource_external_documents_">External Documents <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_external_documents_"><%= I18n.t("external_document._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.rights_statements.length > 0 %>
-      <li><a href="#resource_rights_statements_">Rights Statements <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_rights_statements_"><%= I18n.t("rights_statement._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.instances.length > 0 %>
-      <li><a href="#resource_instances_">Instances <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_instances_"><%= I18n.t("instance._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @resource.deaccessions.length > 0 %>
-      <li><a href="#resource_deaccessions_">Deaccessions <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#resource_deaccessions_"><%= I18n.t("deaccession._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>
       <li class="form-actions">
-        <button type="submit" class="btn btn-primary">Save Resource</button>
+        <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("resource._html.singular") %></button>
       </li>
     <% end %>
   </ul>

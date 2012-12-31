@@ -16,9 +16,9 @@
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("#{form.i18n_for("type")}_#{form.obj["type"]}", :default => form.obj["type"]) %>
-        <span class="label label-info">Single Part</span>
+        <span class="label label-info"><%= I18n.t("note.note_singlepart") %></span>
       <% else %>
-        Single Part Note
+        <%= I18n.t("note.note_singlepart") %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">
@@ -32,20 +32,20 @@
 
 <% define_template "note_orderedlist", jsonmodel_definition(:note_orderedlist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_orderedlist">
-    <h4 class="subrecord-form-heading">Ordered List</h4>
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_orderedlist") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_orderedlist") %>
       <%= form.label_and_textfield("title") %>
       <%= form.label_and_textfield("enumeration") %>
 
       <div class="control-group">
-        <label class="control-label">Items</label>
+        <label class="control-label"><%= I18n.t("note_orderedlist.items") %></label>
         <div class="controls">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("orderedlist_item", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini add-item-btn">Add Item</button>
+            <button class="btn btn-mini add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_orderedlist.item_singular") %></button>
           <% end %>
         </div>
       </div>
@@ -70,9 +70,9 @@
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("#{form.i18n_for("type")}_#{form.obj["type"]}", :default => form.obj["type"]) %>
-        <span class="label label-info">Multipart</span>
+        <span class="label label-info"><%= I18n.t("note.note_multipart") %></span>
       <% else %>
-        Multipart Note
+        <%= I18n.t("note.note_multipart") %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">
@@ -83,10 +83,10 @@
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
-          Sub Notes
+          <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group pull-right">
-              <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Add Sub Note <span class="caret"></span></button>
+              <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %> <span class="caret"></span></button>
               <ul class="dropdown-menu subrecord-selector">
                 <li>
                   <select>
@@ -96,7 +96,7 @@
                   </select>
                 </li>
                 <li class="form-actions">
-                  <button class="btn btn-small add-sub-note-btn">Add Sub Note</button>
+                  <button class="btn btn-small add-sub-note-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %></button>
                 </li>
               </ul>
             </div>
@@ -114,16 +114,16 @@
 
 <% define_template "note_definedlist", jsonmodel_definition(:note_definedlist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_definedlist">
-    <h4 class="subrecord-form-heading">Defined List</h4>
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_definedlist") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_definedlist") %>
       <%= form.label_and_textfield("title") %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
-          Items
+          <%= I18n.t("note_definedlist.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn">Add Item</button>
+            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_definedlist.items_singular") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -145,7 +145,7 @@
 
 <% define_template "note_index", jsonmodel_definition(:note_index) do |form| %>
   <div class="subrecord-form-fields" data-type="note_index">
-    <h4 class="subrecord-form-heading">Index</h4>
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_index") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_index") %>
       <%= form.label_and_textfield("label") %>
@@ -153,9 +153,9 @@
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
-          Items
+          <%= I18n.t("note_index.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn">Add Item</button>
+            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_index.items_singular") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -179,16 +179,16 @@
 
 <% define_template "note_chronology", jsonmodel_definition(:note_chronology) do |form| %>
   <div class="subrecord-form-fields" data-type="note_chronology">
-    <h4 class="subrecord-form-heading">Chronology</h4>
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_chronology") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_chronology") %>
       <%= form.label_and_textfield("title") %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
-          Items
+          <%= I18n.t("note_chronology.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn">Add Item</button>
+            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_chronology.items_singular") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -205,13 +205,13 @@
   <div class="subrecord-form-fields" data-type="chronology_item">
     <%= form.label_and_date "event_date" %>
     <div class="control-group">
-      <label class="control-label">Event Details</label>
+      <label class="control-label"><%= I18n.t("chronology_item.events") %></label>
       <div class="controls">
         <%= form.list_for(form["events"], "events[]") do |event| %>
           <% form.emit_template("chronology_item_event", event) %>
         <% end %>
         <% if not form.readonly? %>
-          <button class="btn btn-mini add-event-btn">Add Event</button>
+          <button class="btn btn-mini add-event-btn"><%= I18n.t("actions.add") %> <%= I18n.t("chronology_item.events_singular") %></button>
         <% end %>
       </div>
     </div>
@@ -228,20 +228,20 @@
 
 <% define_template "note_bibliography", jsonmodel_definition(:note_bibliography) do |form| %>
   <div class="subrecord-form-fields" data-type="note_bibliography">
-    <h4 class="subrecord-form-heading">Bibliography</h4>
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_bibliography") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_bibliography") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_textarea("content", :class => "mixed-content") %>
 
       <div class="control-group">
-        <label class="control-label">Items</label>
+        <label class="control-label"><%= I18n.t("note_bibliography.items") %></label>
         <div class="controls">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("bib_item", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini add-item-btn">Add Item</button>
+            <button class="btn btn-mini add-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_bibliography.items_singular") %></button>
           <% end %>
         </div>
       </div>
@@ -263,9 +263,9 @@
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("#{form.i18n_for("type")}_#{form.obj["type"]}", :default => form.obj["type"]) %>
-        <span class="label label-info">Digital Object</span>
+        <span class="label label-info"><%= I18n.t("note.note_digital_object") %></span>
       <% else %>
-        Digital Object Note
+        <%= I18n.t("note.note_digital_object") %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">

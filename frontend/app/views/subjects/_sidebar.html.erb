@@ -1,18 +1,18 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list as-nav-list">
-    <li><a href="#basic_information">Basic Information <span class="icon-chevron-right"></span></a></li>
-    <li><a href="#terms">Terms <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#basic_information"><%= I18n.t("subject._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#terms"><%= I18n.t("subject.terms") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" or @subject.external_documents.length > 0 %>
-      <li><a href="#subject_external_documents_">External Documents <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#subject_external_documents_"><%= I18n.t("external_document._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>
       <li class="form-actions">
         <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
-          <button type="submit" class="btn btn-primary">Save Subject</button>
+          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("subject._html.singular") %></button>
           <% if ["new", "create"].include?(controller.action_name) %>
-            <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary">+1</button>
+            <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
           <% end %>
         </div>
       </li>

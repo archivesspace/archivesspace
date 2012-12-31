@@ -2,14 +2,14 @@
 
 <div class="row-fluid">
    <div class="span12">
-      <h2>New Account</h2>
+      <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("user._html.section.account") %></h2>
      <%= form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
        <%= form_context :user, @user.to_hash(true) do |form| %>
          <%= render :partial => "users/form", :locals => {:form => form} %>
 
          <div class="form-actions">
-           <button id="create_account" type="submit" class="btn btn-primary">Create account</button>
-           <%= link_to "Cancel", {:controller => :welcome}, :class => "btn btn-cancel" %>
+           <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("actions.create") %> <%= I18n.t("user._html.section.account") %></button>
+           <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel" %>
          </div>
        <% end %>
      <% end %>

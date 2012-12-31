@@ -7,12 +7,12 @@
         <%= render :partial => "sidebar" %>
       </div>
       <div class="span9 record-pane">
-        <h2>Event <%= @event.id %>  <span class="label label-info">Event</span></h2>
+        <h2><%= I18n.t("event._html.singular") %> <%= @event.id %>  <span class="label label-info"><%= I18n.t("event._html.singular") %></span></h2>
 
         <%= render :partial => "events/form", :locals => {:form => form} %>
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Save Event</button>
-          <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("event._html.singular") %></button>
+          <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
         </div>
       </div>
     </div>

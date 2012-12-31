@@ -30,7 +30,7 @@
             <% end %>
             <% if session[:repo] and user_can?('manage_repository') %>
               <li class="divider"></li>
-              <li><%= link_to I18n.t "navbar.manage_groups", :controller => :groups, :action => :index %></li>
+              <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
             <% end %>
             <% if user_can?('create_repository') %>
               <li class="divider"></li>

@@ -1,5 +1,5 @@
 <h2>
-  <%= @digital_object_component.title %> <span class="label label-info">Digital Object Component</span>
+  <%= @digital_object_component.title %> <span class="label label-info"><%= I18n.t("digital_object_component._html.singular") %></span>
 </h2>
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -12,7 +12,7 @@
 
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
     <section id="basic_information">
-      <h3>Basic Information</h3>
+      <h3><%= I18n.t("digital_object_component._html.section.basic_information") %></h3>
       <%= form.label_and_textfield "label" %>
       <%= form.label_and_textfield "title" %>
       <%= form.label_and_textfield "component_id" %>

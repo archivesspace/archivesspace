@@ -7,20 +7,20 @@
    <div class="span9 record-pane">
       <div class="btn-group">
         <% if user_can?('update_repository') %>
-          <%= link_to "Create Location", {:controller => :locations, :action => :new}, :class => "btn" %>
+          <%= link_to "#{I18n.t("actions.create")} #{I18n.t("location._html.singular")}", {:controller => :locations, :action => :new}, :class => "btn" %>
         <% end %>
       </div>
 
-      <h2>Locations</h2>
+      <h2><%= I18n.t("location._html.plural") %></h2>
 
      <% if @search_data.has_key?('results') && @search_data['results'].length  > 0 %>
        <table class="table table-striped table-bordered table-condensed">
          <thead>
            <tr>
-             <th>Location</th>
-             <th>Barcode/Classification</th>
-             <th>Coordinates</th>
-             <th>Termporary</th>
+             <th><%= I18n.t("location._html.singular") %></th>
+             <th><%= I18n.t("location.barcode") %>/<%= I18n.t("location.classification") %></th>
+             <th><%= I18n.t("location.coordinates") %></th>
+             <th><%= I18n.t("location.temporary") %></th>
              <th width="70px"><!-- actions --></th>
            </tr>
          </thead>
@@ -39,9 +39,9 @@
               <td> <% if location.temporary %><%= I18n.t("location.temporary_#{location.temporary}") %><% end %></td>
               <td>
                  <div class="btn-group" style="float: right">
-                   <%= link_to "View", {:controller => :locations, :action => :show, :id => location.id}, :class => "btn btn-mini" %>
+                   <%= link_to I18n.t("actions.view"), {:controller => :locations, :action => :show, :id => location.id}, :class => "btn btn-mini" %>
                    <% if user_can?('update_repository') %>
-                     <%= link_to "Edit", {:controller => :locations, :action => :edit, :id => location.id}, :class => "btn btn-mini" %>
+                     <%= link_to I18n.t("actions.edit"), {:controller => :locations, :action => :edit, :id => location.id}, :class => "btn btn-mini" %>
                    <% end %>
                  </div>
               </td>

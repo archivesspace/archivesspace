@@ -12,7 +12,7 @@
 
   <<%= heading_size %> class="subrecord-form-heading">
     <%= I18n.t("#{singular}._html.plural") %>
-    <input type="button" class="btn btn-small pull-right" value="Add <%= I18n.t("#{singular}._html.singular") %>"/>
+    <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._html.singular") %>"/>
   </<%= heading_size %>>
 
   <div class="subrecord-form-container">

@@ -7,10 +7,10 @@
    <div class="span9 record-pane">
       <div class="btn-group">
         <% if user_can?('update_repository') %>
-          <%= link_to "Create Event", {:controller => :events, :action => :new}, :class => "btn" %>
+          <%= link_to "#{I18n.t("actions.create")} #{I18n.t("event._html.singular")}", {:controller => :events, :action => :new}, :class => "btn" %>
         <% end %>
       </div>
-      <h2>Events</h2>
+      <h2><%= I18n.t("event._html.plural") %></h2>
       <% if @events.length > 0 %>
          <table class="table table-striped table-bordered table-condensed">
            <thead>
@@ -23,13 +23,13 @@
               <% @events['results'].each do |event| %>
               <tr>
                <td>
-                <% if event.suppressed %><span class="label label-info">Suppressed</span><% end %>
+                <% if event.suppressed %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
                 <%= event.id %>
                </td>
                <td>
                   <div class="btn-group" style="float: right">
                     <% if user_can?('update_repository') and not event.suppressed %>
-                      <%= link_to "Edit", {:controller => :events, :action => :edit, :id => event.id}, :class => "btn btn-mini" %>
+                      <%= link_to I18n.t("actions.edit"), {:controller => :events, :action => :edit, :id => event.id}, :class => "btn btn-mini" %>
                     <% end %>
                   </div>
                </td>
