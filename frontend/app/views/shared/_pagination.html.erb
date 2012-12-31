@@ -13,16 +13,16 @@
     <ul>
       <% if not page_range.cover?(1) %>
         <li>
-          <%= link_to "First".html_safe, params.merge(:page => 1) %>
+          <%= link_to I18n.t("pagination.first"), params.merge(:page => 1) %>
         </li>
       <% end %>
 
       <% if @search_data['this_page'] > 1 %>
         <li>
-          <%= link_to "&#171;".html_safe, params.merge(:page => @search_data['this_page'] - 1) %>
+          <%= link_to I18n.t("pagination.previous").html_safe, params.merge(:page => @search_data['this_page'] - 1) %>
         </li>
       <% else  %>
-        <li class="disabled"><a href="#">&#171;</a></li>
+        <li class="disabled"><a href="#"><%= I18n.t("pagination.previous").html_safe %></a></li>
       <% end %>
 
       <% page_range.each do |i| %>
@@ -37,14 +37,14 @@
 
       <% if @search_data['this_page'] != @search_data['last_page'] %>
         <li>
-          <%= link_to "&#187;".html_safe, params.merge(:page => @search_data['this_page'] + 1) %>
+          <%= link_to I18n.t("pagination.next").html_safe, params.merge(:page => @search_data['this_page'] + 1) %>
         </li>
       <% else %>
-        <li class="disabled"><a href="#">&#187;</a></li>
+        <li class="disabled"><a href="#"><%= I18n.t("pagination.next").html_safe %></a></li>
       <% end %>
       <% if not page_range.cover?(@search_data['last_page']) %>
         <li>
-          <%= link_to "Last".html_safe, params.merge(:page => @search_data['last_page']) %>
+          <%= link_to I18n.t("pagination.last"), params.merge(:page => @search_data['last_page']) %>
         </li>
       <% end %>
     </ul>

@@ -1,4 +1,69 @@
 en:
+  actions:
+    cancel: Cancel
+    confirm: Confirm
+    confirm_removal: Confirm Removal
+    edit: Edit
+    view: View
+    spawn: Spawn
+    link_to: Link To
+    add_child: Add Child
+    add_sibling: "+1"
+    move: Move
+    move_up_a_level: Up a Level
+    move_up: Up
+    move_down: Down
+    move_down_into: Down Into...
+    new_prefix: New
+    save_prefix: Save
+    suppress: Suppress
+    suppress_confirm_message: Suppress this Accession?
+    unsuppress: Unsuppress
+    unsuppress_confirm_message: Unsuppress this Accession?
+  navbar:
+    brand: ArchivesSpace
+    create: Create
+    import: Import
+    import_ead: EAD file
+    search_all: All Records
+    search_placeholder: Search
+    create_repository_tooltip: "To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Create a Repository</strong> link."
+    repositories_none: No repositories yet
+    repositories_create: Create a Repository
+    manage_groups: Manage Groups
+    manage_users: Manage Users
+    logout: Logout
+    login: Sign In
+    login_fail: Login attempt failed
+    login_success: Login Successful. Redirecting...
+    register: Register now
+    register_prefix: Need an account?
+  welcome:
+    heading: Welcome to ArchivesSpace
+    message: Your friendly archives management tool.
+  breadcrumb:
+    home: Home
+  pagination:
+    first: First
+    last: Last
+    previous: "&#171;"
+    next: "&#187;"
+    summary_prefix: Showing
+    summary_offset_connector: "-"
+    summary_total_connector: of
+    summary_suffix: Results
+    page_prefix: Page
+    page_connector: of
+  save_changes_modal:
+    body: You have some outstanding changes.  Please save or dismiss these changes to continue.
+    save: Save Changes
+    dismiss: Dismiss Changes
+  linker:
+    link_to_prefix: Link to
+    create_and_link_to_prefix: Create and Link to
+  mixed_content:
+    wrap_prefix: "Wrap with:"
+    help: "Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or highlight text to wrap"
   iso_3166:
     AF: AFGHANISTAN (AF)
     AX: ÅLAND ISLANDS (AX)
@@ -1156,6 +1221,8 @@ en:
     _html:
       singular: Accession
       plural: Accessions
+      section:
+        basic_information: Basic Information
   agent: &agent_attributes
     type: Agent Type
     agent_type:

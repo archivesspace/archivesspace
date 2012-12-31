@@ -11,25 +11,25 @@
           <% if @accession.suppressed %>
             <% if user_can?('manage_repository') %>
               <div class="btn btn-inline-form">
-                <%= button_to 'Unsuppress', {:controller => :accessions, :action => :unsuppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-primary",  :"data-confirmation" => true, :"data-title" => "Unsuppress this Accession?" %>
+                <%= button_to I18n.t("actions.unsuppress"), {:controller => :accessions, :action => :unsuppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-primary",  :"data-confirmation" => true, :"data-title" => I18n.t("actions.suppress_confirm_message") %>
               </div>
             <% end %>
           <% else %>
-            <%= link_to "Edit", {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-small" %>
+            <%= link_to I18n.t("actions.edit"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-small" %>
             <% if user_can?('manage_repository') %>
               <div class="btn btn-inline-form">
-                <%= button_to 'Suppress', {:controller => :accessions, :action => :suppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-danger", :"data-confirmation" => true, :"data-title" => "Suppress this Accession?" %>
+                <%= button_to I18n.t("actions.suppress"), {:controller => :accessions, :action => :suppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-danger", :"data-confirmation" => true, :"data-title" => I18n.t("actions.unsuppress_confirm_message") %>
               </div>
             <% end %>
           <% end %>
           </div>
         <% end %>
-        <h2><%= @accession.title %> <span class="label label-info">Accession</span></h2>
+        <h2><%= @accession.title %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
 
        <%= render :partial => "shared/flash_messages" %>
 
         <section id="basic_information">
-          <h3>Basic Information</h3>
+          <h3><%= I18n.t "accession._html.section.basic_information" %></h3>
 
           <%= readonly.label_and_fourpartid %>
           <%= readonly.label_and_date "accession_date" %>

@@ -44,14 +44,14 @@ module ApplicationHelper
         breadcrumb_trail.last.last[:id] = object.id unless object['username']
 
         if ["edit", "update"].include? action_name
-          breadcrumb_trail.push(["Edit"])
-          set_title("#{I18n.t("#{type}._html.plural")} | #{title} | Edit")
+          breadcrumb_trail.push([I18n.t("actions.edit")])
+          set_title("#{I18n.t("#{type}._html.plural")} | #{title} | #{I18n.t("actions.edit")}")
         else
           set_title("#{I18n.t("#{type}._html.plural")} | #{title}")
         end
       else # new object
-        breadcrumb_trail.push([options[:title] || "New #{I18n.t("#{type}._html.singular")}"])
-        set_title("#{I18n.t("#{controller.to_s.singularize}._html.plural")} | #{options[:title] || "New"}")
+        breadcrumb_trail.push([options[:title] || "#{I18n.t("actions.new_prefix")} #{I18n.t("#{type}._html.singular")}"])
+        set_title("#{I18n.t("#{controller.to_s.singularize}._html.plural")} | #{options[:title] || I18n.t("actions.new_prefix")}")
       end
     elsif options.has_key? :title
         set_title(options[:title])
@@ -65,7 +65,7 @@ module ApplicationHelper
     popover = "<div class='btn-group'>"
     popover += "<a href='#{root_path}resolve/readonly?uri=#{opts[:uri]}'"
     popover += " target='_blank'" if opts[:inside_token_editor] || opts[:inside_linker_browse]
-    popover += " class='btn btn-mini'>View</a>"
+    popover += " class='btn btn-mini'>#{I18n.t("actions.view")}</a>"
     popover += "</div>"
 
     popover_template = "<div class='popover token-popover'><div class='arrow'></div><div class='popover-inner'><div class='popover-content'><p></p></div></div></div>"

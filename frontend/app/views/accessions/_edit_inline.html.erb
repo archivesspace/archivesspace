@@ -5,7 +5,7 @@
         <%= render :partial => "sidebar" %>
       </div>
       <div class="span9 record-pane">
-        <h2><%= @accession.title%> <span class="label label-info">Accession</span></h2>
+        <h2><%= @accession.title%> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
         <input type="hidden" name="_method" value="put" />
         <%= render :partial => "accessions/form", :locals => {:form => form} %>
       </div>

@@ -6,7 +6,7 @@
        data-trigger="manual"
        data-title="false"
        data-html="true"
-       data-content="To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Create a Repository</strong> link."
+       data-content="<%= I18n.t("navbar.create_repository_tooltip") %>"
      <% end %>
    >
      <div class="input-append">
@@ -26,19 +26,19 @@
                   <% end %>
                <% end %>
             <% else %>
-              <li><span class="icon-info-sign"></span> No repositories yet</li>
+              <li><span class="icon-info-sign"></span> <%= I18n.t "navbar.repositories_none" %></li>
             <% end %>
             <% if session[:repo] and user_can?('manage_repository') %>
               <li class="divider"></li>
-              <li><%= link_to "Manage Groups", :controller => :groups, :action => :index %></li>
+              <li><%= link_to I18n.t "navbar.manage_groups", :controller => :groups, :action => :index %></li>
             <% end %>
             <% if user_can?('create_repository') %>
               <li class="divider"></li>
-              <li><%= link_to "Create a Repository", {:controller => :repository, :action => :new}, "data-toggle" => "modal-ajax" %></li>
+              <li><%= link_to I18n.t("navbar.repositories_create"), {:controller => :repository, :action => :new}, "data-toggle" => "modal-ajax" %></li>
             <% end %>
             <% if user_can?('manage_users') %>
               <li class="divider"></li>
-              <li><%= link_to "Manage Users", :controller => :users, :action => :create %></li>
+              <li><%= link_to I18n.t "navbar.manage_users", :controller => :users, :action => :create %></li>
             <% end %>
           </ul>                 
      </div>

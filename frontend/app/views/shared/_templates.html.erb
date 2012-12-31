@@ -10,12 +10,12 @@
 
 <div id="save_changes_modal_template"><!--
    <div class="modal-body">
-      You have some outstanding changes.  Please save or dismiss these changes to continue.
+      <%= I18n.t "save_changes_modal.body" %>
    </div>
    <div class="modal-footer">
-      <button id="saveChangesButton" class="btn btn-primary">Save Changes</button>
-      <button id="dismissChangesButton" class="btn">Dismiss Changes</button>
-      <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+      <button id="saveChangesButton" class="btn btn-primary"><%= I18n.t "save_changes_modal.body" %></button>
+      <button id="dismissChangesButton" class="btn"><%= I18n.t "save_changes_modal.dismiss" %></button>
+      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 
@@ -26,8 +26,8 @@
       {/if}
    </div>
    <div class="modal-footer">
-      <button id="confirmButton" class="btn btn-primary">Confirm</button>
-      <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+      <button id="confirmButton" class="btn btn-primary"><%= I18n.t "actions.confirm" %></button>
+      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 
@@ -36,24 +36,24 @@
       <div class="linker-list"></div>
    </div>
    <div class="modal-footer">
-      <button id="addSelectedButton" class="btn btn-primary">Link to ${label_plural}</button>
-      <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+      <button id="addSelectedButton" class="btn btn-primary"><%= I18n.t "linker.link_to_prefix" %> ${label_plural}</button>
+      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 <div id="linker_createmodal_template"><!--
    <div class="modal-body linker-container"></div>
    <div class="modal-footer">
-      <button id="createAndLinkButton" class="btn btn-primary">Create and Link to ${label}</button>
-      <button class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+      <button id="createAndLinkButton" class="btn btn-primary"><%= I18n.t "linker.create_and_link_to_prefix" %> ${label}</button>
+      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>
 <div id="linker_browse_template"><!--
    <div class="pagination">
-    Page ${search_data.this_page} of ${search_data.last_page}
+    <%= I18n.t "pagination.page_prefix" %> ${search_data.this_page} <%= I18n.t "pagination.page_connector" %> ${search_data.last_page}
     <div class="navigation">
-      {if search_data.this_page > search_data.first_page}<a href="javascript:void(0);" rel="${search_data.this_page - 1}">&#171; Previous</a>{/if}
+      {if search_data.this_page > search_data.first_page}<a href="javascript:void(0);" rel="${search_data.this_page - 1}"><%= I18n.t "pagination.previous" %></a>{/if}
       {if search_data.this_page > search_data.first_page && search_data.this_page < search_data.last_page} | {/if}
-      {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" rel="${search_data.this_page + 1}">Next &#187;</a>{/if}
+      {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" rel="${search_data.this_page + 1}"><%= I18n.t "pagination.next" %></a>{/if}
     </div>
    </div>
    <ul class="token-list">
@@ -95,11 +95,11 @@
       {/for}
    </ul>
    <div class="pagination">
-    Page ${search_data.this_page} of ${search_data.last_page}
+    <%= I18n.t "pagination.page_prefix" %> ${search_data.this_page} <%= I18n.t "pagination.page_connector" %> ${search_data.last_page}
     <div class="navigation">
-      {if search_data.this_page > search_data.first_page}<a href="javascript:void(0);" class="previous-page">&#171; Previous</a>{/if}
+      {if search_data.this_page > search_data.first_page}<a href="javascript:void(0);" class="previous-page"><%= I18n.t "pagination.previous" %></a>{/if}
       {if search_data.this_page > search_data.first_page && search_data.this_page < search_data.last_page} | {/if}
-      {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" class="next-page">Next &#187;</a>{/if}
+      {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" class="next-page"><%= I18n.t "pagination.next" %></a>{/if}
     </div>
    </div>
 --></div>
@@ -117,8 +117,8 @@
 <div id="subform_remove_confirmation_template"><!--
    <div class="pull-right subrecord-form-removal-confirmation">
     <div class="btn-group">
-      <button class="btn btn-small cancel-removal">Cancel</button>
-      <button class="btn btn-small btn-primary confirm-removal">Confirm Removal</button>
+      <button class="btn btn-small cancel-removal"><%= I18n.t "actions.cancel" %></button>
+      <button class="btn btn-small btn-primary confirm-removal"><%= I18n.t "actions.confirm_removal" %></button>
      </div>
    </div>
 --></div>
@@ -128,7 +128,7 @@
     <div class="arrow"></div>
     <div class="popover-inner">
       <div class="popover-content">
-        <label>Wrap with:
+        <label><%= I18n.t "mixed_content.wrap_prefix" %>
           <select class="mixed-content-wrap-action">
             <option></option>
             {for tag in tags}
@@ -143,7 +143,7 @@
 
 <div id="mixed_content_help_template"><!--
   <div class="mixed-content-help">
-    Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or highlight text to wrap
+    <%= I18n.t("mixed_content.help").html_safe %>
   </div>
 --></div>
 

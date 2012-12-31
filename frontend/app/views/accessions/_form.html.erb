@@ -2,7 +2,7 @@
 
 <% define_template("accession", jsonmodel_definition(:accession)) do |form| %>
   <section id="basic_information">
-    <h3>Basic Information</h3>
+    <h3><%= I18n.t "accession._html.section.basic_information" %></h3>
     <fieldset>
        <%= form.label_and_textfield "title" %>
        <%= form.label_and_fourpartid %>
@@ -27,6 +27,6 @@
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
 
 <div class="form-actions">            
-  <button type="submit" class="btn btn-primary">Save Accession</button>
-  <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+  <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t "accession._html.singular" %></button>
+  <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
 </div>

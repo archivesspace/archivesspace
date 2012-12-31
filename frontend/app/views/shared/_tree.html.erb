@@ -128,7 +128,7 @@
       {if rules.hasOwnProperty("can_spawn")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Spawn">
-            Spawn
+            <%= I18n.t "actions.spawn" %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -145,7 +145,7 @@
       {if rules.hasOwnProperty("can_link_to")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Link To">
-            Link To
+            <%= I18n.t "actions.link_to" %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -162,7 +162,7 @@
       {if rules.hasOwnProperty("can_add_child")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
-            Add Child
+            <%= I18n.t "actions.add_child" %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -179,7 +179,7 @@
       {if rules.hasOwnProperty("can_add_sibling")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Sibling">
-            +1
+            <%= I18n.t "actions.add_sibling" %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -196,27 +196,27 @@
       {if rules.hasOwnProperty("can_move")}
         <div class="btn-group dropdown move-node-menu">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Move">
-            Move
+            <%= I18n.t "actions.move" %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
             {if !parent.hasClass("root")}
-              <li><a href="javascript:void(0);" class="move-node move-node-up-level" data-target-node-id="${parent.parents("li:first").attr("id")}" data-target-index="${parent.index()}"><span class="icon-arrow-left"></span> Up a Level</a></li>
+              <li><a href="javascript:void(0);" class="move-node move-node-up-level" data-target-node-id="${parent.parents("li:first").attr("id")}" data-target-index="${parent.index()}"><span class="icon-arrow-left"></span> <%= I18n.t "actions.move_up_a_level" %></a></li>
             {/if}
 
             {var children_count = parent.find("> ul > li").length}
             {if children_count > 1}
               {if node.index() > 0}
-                <li><a href="javascript:void(0);" class="move-node move-node-up" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()-1}"><span class="icon-arrow-up"></span> Up</a></li>
+                <li><a href="javascript:void(0);" class="move-node move-node-up" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()-1}"><span class="icon-arrow-up"></span> <%= I18n.t "actions.move_up" %></a></li>
               {/if}
               {if node.index() < children_count - 1}
-                <li><a href="javascript:void(0);" class="move-node move-node-down" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()+1}"><span class="icon-arrow-down"></span> Down</a></li>
+                <li><a href="javascript:void(0);" class="move-node move-node-down" data-target-node-id="${parent.attr("id")}" data-target-index="${node.index()+1}"><span class="icon-arrow-down"></span> <%= I18n.t "actions.move_down" %></a></li>
               {/if}
             {/if}
 
             {if defined('sibling_ids') && sibling_ids.length > 0}
               <li class="dropdown-submenu">
-                <a href="javascript:void(0);"><span class="icon-arrow-right"></span> Down Into...</a>
+                <a href="javascript:void(0);"><span class="icon-arrow-right"></span> <%= I18n.t "actions.move_down_into" %>.</a>
                 <ul class="dropdown-menu">
                 {for sibling_id in sibling_ids}
                   <li><a href="javascript:void(0);" class="move-node move-node-down-into" data-target-node-id="${sibling_id}">${$("a:first", "#"+sibling_id).attr("title")}</a></li>
