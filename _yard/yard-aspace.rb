@@ -14,4 +14,4 @@ Dir[File.dirname(__FILE__) + '../backend/app/model/*.rb'].each {|file| require f
 
 require_relative 'handler'
 require_relative 'schema_object'
-require_relative 'endpoint_object'
+# require_relative 'endpoint_object'

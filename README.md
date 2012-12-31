@@ -92,8 +92,9 @@ Here's a minimal example of LDAP authentication:
 
 With this configuration, ArchivesSpace performs authentication by
 connecting to `ldap://ldap.example.com:389/`, binding anonymously,
-searching the `ou=people,dc=example,dc=com` tree for `uid =
-<username>`. If the user is found, ArchivesSpace authenticates them by
+searching the `ou=people,dc=example,dc=com` tree for `uid = <username>`. 
+
+If the user is found, ArchivesSpace authenticates them by
 binding using the password specified.  Finally, the `:attribute_map`
 entry specifies how LDAP attributes should be mapped to ArchivesSpace
 user attributes (mapping LDAP's `cn` to ArchivesSpace's `name` in the
