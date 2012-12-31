@@ -1,25 +1,25 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list as-nav-list">
-    <li><a href="#agent_details">Agent Details <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#agent_details"><%= I18n.t("agent._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" or @agent.names.length > 0 %>
-      <li><a href="#names">Names <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#names"><%= I18n.t("agent_name._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @agent.agent_contacts.length > 0 %>
-      <li><a href="#contacts">Contact Details <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#contacts"><%= I18n.t("agent_contact_details._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @agent.external_documents.length > 0 %>
-      <li><a href="#agent_external_documents_">External Documents <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#agent_external_documents_"><%= I18n.t "external_document._html.plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>
       <li class="form-actions">
         <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
-          <button type="submit" class="btn btn-primary">Save <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
+          <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
           <% if ["new", "create"].include?(controller.action_name) %>
-            <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary">+1</button>
+            <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
           <% end %>
         </div>
       </li>

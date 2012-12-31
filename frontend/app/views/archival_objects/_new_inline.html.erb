@@ -8,10 +8,10 @@
         <%= render :partial => "archival_objects/form_container", :locals => {:form => form} %>
         <div class="form-actions">
           <div class="btn-group btn-submit-group">
-            <button type="submit" class="btn btn-primary">Save Archival Object</button>
-            <button type="button" id="createPlusOne" class="btn btn-primary">+1</button>
+            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._html.singular") %></button>
+            <button type="button" id="createPlusOne" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
           </div>
-          <%= link_to "Cancel", :back, :class => "btn btn-cancel" %>
+          <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
         </div>
       </div>
     </div>

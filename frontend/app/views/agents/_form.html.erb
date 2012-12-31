@@ -5,9 +5,9 @@
 
 <fieldset>
   <section id="agent_details">
-    <h3>Agent Details</h3>
+    <h3><%= I18n.t("agent._html.section.basic_information") %></h3>
     <div class="control-group">
-       <label class="control-label">Type</label>
+       <label class="control-label"><%= I18n.t("agent.type") %></label>
        <div class="controls label-only">
           <%= form.hidden_input "agent_type", @agent.agent_type %>
           <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
@@ -17,8 +17,8 @@
 
   <section id="names" class="subrecord-form">
     <h3 class="subrecord-form-heading">
-      Names
-      <input type="button" class="btn btn-small pull-right" value="Add Name" />
+      <%= I18n.t("agent_name._html.plural") %>
+      <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add_prefix") %> <%= I18n.t("agent_name._html.singular") %>" />
     </h3>
     <div class="subrecord-form-container">
       <%= form.list_for(form["names"], "names[]") do |name| %>
@@ -29,8 +29,8 @@
 
   <section id="contacts" class="subrecord-form">
     <h3 class="subrecord-form-heading">
-      Contact Details
-      <input type="button" class="btn btn-small pull-right" value="Add Contact" />
+      <%= I18n.t("agent_contact_details._html.plural") %>
+      <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add_prefix") %> <%= I18n.t("agent_contact_details._html.singular") %>" />
     </h3>
     <div class="subrecord-form-container">
       <%= form.list_for(form["agent_contacts"], "agent_contacts[]") do |name| %>

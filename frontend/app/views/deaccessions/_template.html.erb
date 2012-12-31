@@ -7,9 +7,8 @@
     <%= form.label_and_boolean "notification", {}, form.default_for("notification") %>
 
     <div class="subrecord-form-container">
-      <%# render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
       <section id="deaccession_date" class="subrecord-form">
-        <h4>Deaccession Date</h4>
+        <h4><%= I18n.t("deaccession.dates") %></h4>
         <div class="subrecord-form-container">
           <%= form.fields_for(form.obj["date"] || {"label" => "deaccession"}, "date") do | date | %>
             <% render :partial => "dates/template", :locals => {:form => form} %>

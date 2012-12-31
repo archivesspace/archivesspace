@@ -64,10 +64,10 @@
 <% end %>
 
 <% define_template "date_type_nil", jsonmodel_definition(:date) do %>
-  <div class="date-type-subform">
+  <div class="inline-subform date-type-subform">
     <div class="control-group">
       <div class="control-label"></div>
-      <div class="controls"><em>Select a Type to enter normalized date or date range</em></div>
+      <div class="controls"><em><%= I18n.t("date.date_type_message") %></em></div>
     </div>
   </div>
 <% end %>

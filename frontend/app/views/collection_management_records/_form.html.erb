@@ -2,7 +2,7 @@
 
 <% define_template("collection_management", jsonmodel_definition(:collection_management)) do |form| %>
   <section id="basic_information">
-    <h3>Basic Information</h3>
+    <h3><%= I18n.t("collection_management_record._html.section.basic_information") %></h3>
     <fieldset>
       <%= form.label_and_textarea "cataloged_note" %>
       <%= form.label_and_textfield "processing_hours_per_foot_estimate" %>

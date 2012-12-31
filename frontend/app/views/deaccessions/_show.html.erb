@@ -5,7 +5,7 @@
 <%= render :partial => "deaccessions/template" %>
 
 <section id="<%= section_id %>">
-  <h3>Deaccessions</h3>
+  <h3><%= I18n.t("deaccession._html.plural") %></h3>
   <div class="accordion details" id="deaccessions_accordion">
     <%= context.list_for(context["deaccessions"], "deaccessions[]") do |deaccession, index| %>
       <div class="accordion-group">
@@ -38,7 +38,7 @@
         <div id="deaccession_<%= index %>" class="accordion-body collapse">
           <div class="subrecord-form-container">
             <%= read_only_view(deaccession.to_hash) %>
-            <%= render :partial => "dates/show", :locals => { :dates =>[deaccession["date"]], :section_id => "deaccession_#{index}_date_", :section_title => "Deaccession Date" } %>
+            <%= render :partial => "dates/show", :locals => { :dates =>[deaccession["date"]], :section_id => "deaccession_#{index}_date_", :section_title => I18n.t("deaccession.dates") } %>
             <% if deaccession["extents"].length > 0 %>
               <%= render :partial => "extents/show", :locals => { :extents => deaccession["extents"], :section_id => "deaccession_#{index}_extents_" } %>
             <% end %>

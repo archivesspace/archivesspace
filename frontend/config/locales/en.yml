@@ -1,14 +1,17 @@
 en:
   actions:
+    browse: Browse
     cancel: Cancel
     confirm: Confirm
     confirm_removal: Confirm Removal
+    create: Create
     edit: Edit
     view: View
     spawn: Spawn
     link_to: Link To
     add_child: Add Child
     add_sibling: "+1"
+    add_prefix: Add
     move: Move
     move_up_a_level: Up a Level
     move_up: Up
@@ -16,6 +19,7 @@ en:
     move_down_into: Down Into...
     new_prefix: New
     save_prefix: Save
+    save_plus_one: "+1"
     suppress: Suppress
     suppress_confirm_message: Suppress this Accession?
     unsuppress: Unsuppress
@@ -54,6 +58,8 @@ en:
     summary_suffix: Results
     page_prefix: Page
     page_connector: of
+  search_results:
+    no_results: No Records
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
     save: Save Changes
@@ -880,6 +886,7 @@ en:
     role_outcome: Outcome
     role_transfer: Transfer
     ref: Record
+    ref_plural: Records
     _html:
       singular: Record Link
       plural: Record Links
@@ -955,7 +962,7 @@ en:
     reason: Reason
     disposition: Disposition
     notification: Notification Given?
-    dates: Dates
+    dates: Deaccession Date
     _html:
       plural: Deaccessions
       singular: Deaccession
@@ -983,9 +990,13 @@ en:
     dates: Dates
     qualifier: Qualifier
     sort_name: Sort Name
+    sort_name_auto_generate: Automatically generate?
     description_type: Description Type
     description_note: Description Note
     description_citation: Description Citation
+    _html:
+      singular: Name
+      plural: Names
   agent_person_name:
     <<: *agent_name_attributes
   agent_family_name:
@@ -1030,54 +1041,59 @@ en:
     telephone_ext: Telephone Extension
     fax: Fax
     email: Email
-  notes: &note_attributes
-    note_index:
-      option: Index
-      label: Label
-      content: Content
-      items: Items
-    index_item:
-      value: Value
-      type: Type
-      reference: Reference
-      reference_text: Reference Text
-    note_singlepart:
-      label: Label
-      content: Content
-      type: Type
-    note_multipart:
-      label: Label
-      type: Type
-      content: Content
-    note_digital_object:
-      label: Label
-      content: Content
-      type: Type
-    note_bibliography:
-      option: Bibliography
-      label: Label
-      content: Content
-      items: Items
-    note_chronology:
-      option: Chronology
-      title: Title
-      items: Items
-    chronology_item:
-      event_date: Event Date
-      events: Events
-    note_definedlist:
-      option: Defined List
-      title: Title
-      items: Items
-    definedlist_item:
-      label: Label
-      value: Value
-    note_orderedlist:
-      option: Ordered List
-      title: Title
-      enumeration: Enumeration
-      items: Items
-  <<: *note_attributes
+    _html:
+      singular: Contact
+      plural: Contact Details
+  note:
+    _html:
+      singular: Note
+      plural: Notes
+  note_index:
+    option: Index
+    label: Label
+    content: Content
+    items: Items
+  index_item:
+    value: Value
+    type: Type
+    reference: Reference
+    reference_text: Reference Text
+  note_singlepart:
+    label: Label
+    content: Content
+    type: Type
+  note_multipart:
+    label: Label
+    type: Type
+    content: Content
+  note_digital_object:
+    label: Label
+    content: Content
+    type: Type
+  note_bibliography:
+    option: Bibliography
+    label: Label
+    content: Content
+    items: Items
+  note_chronology:
+    option: Chronology
+    title: Title
+    items: Items
+  chronology_item:
+    event_date: Event Date
+    events: Events
+  note_definedlist:
+    option: Defined List
+    title: Title
+    items: Items
+  definedlist_item:
+    label: Label
+    value: Value
+  note_orderedlist:
+    option: Ordered List
+    title: Title
+    enumeration: Enumeration
+    items: Items
   container: &container_attributes
     type_1: Type 1
     indicator_1: Indicator 1
@@ -1186,6 +1202,7 @@ en:
     date_type_single: Single
     date_type_bulk: Bulk Dates
     date_type_inclusive: Inclusive Dates
+    date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
     begin: Begin
     begin_time: Begin Time
@@ -1234,9 +1251,14 @@ en:
     _html:
       singular: Agent
       plural: Agents
+      section:
+        basic_information: Basic Information
+        name: Names
+        contacts: Contact Details
   archival_object:
     title: Title
     ref_id: Ref ID
+    ref_id_auto_generation_message: "-- auto-generated upon save --"
     level: Level
     level_class: Class
     level_collection: Collection
@@ -1256,6 +1278,8 @@ en:
     _html:
       singular: Archival Object
       plural: Archival Objects
+      section:
+        basic_information: Basic Information
   group:
     group_code: Group code
     description: Description
@@ -1372,10 +1396,15 @@ en:
     processing_status_completed: Completed
     processors: Processors
     rights_determined: Rights determined
+    rights_determined_true: Yes
+    rights_determined_false: No
     linked_records: Linked records
     _html:
       singular: Collection Management Record
       plural: Collection Management Records
+      title_prefix: Processing 
+      section:
+        basic_information: Basic Information
   collection_management_linked_record:
     _html:
       singular: Record Link

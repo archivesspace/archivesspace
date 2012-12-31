@@ -1,5 +1,5 @@
 <h2>
-  <%= @archival_object.title %> <span class="label label-info">Archival Object</span>
+  <%= @archival_object.title %> <span class="label label-info"><%= I18n.t("archival_object._html.singular") %></span>
 </h2>
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -12,11 +12,11 @@
 
   <% define_template("archival_object", jsonmodel_definition(:archival_object)) do |form| %>
     <section id="basic_information">
-      <h3>Basic Information</h3>
+      <h3><%= I18n.t("archival_object._html.section.basic_information") %></h3>
 
       <%= form.label_and_textfield "title" %>
       <% if form.obj["ref_id"].blank? %>
-        <%= form.label_and_readonly "ref_id", "<em>-- auto-generated upon save --</em>" %>
+        <%= form.label_and_readonly "ref_id", "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
       <% else %>
         <%= form.label_with_field "ref_id", form.hidden_input("ref_id") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
       <% end %>

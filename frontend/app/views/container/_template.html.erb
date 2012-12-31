@@ -2,7 +2,7 @@
 
 <% define_template "container", jsonmodel_definition(:container) do |form| %>
   <section class="subrecord-form">
-    <h4 class="subrecord-form-heading">Container</h4>
+    <h4 class="subrecord-form-heading"><%= I18n.t("container._html.singular") %></h4>
     <div class="subrecord-form-container">
       <div class="subrecord-form-fields">
         <%= form.label_and_textfield "type_1" %>
