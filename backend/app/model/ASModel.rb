@@ -11,7 +11,7 @@ module ASModel
 
     base.extend(JSONModel)
 
-    base.include(ASModel::CRUD)
+    base.include(CRUD)
     base.include(DatabaseMapping)
     base.include(SequelHooks)
     base.include(ModelScoping)
