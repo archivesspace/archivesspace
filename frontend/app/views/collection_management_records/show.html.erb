@@ -19,7 +19,7 @@
           </div>
         <% end %>
 
-        <h2>Processing <%= title %> <span class="label label-info"><%= I18n.t("collection_management_record._html.singular") %></span></h2>
+        <h2><%= I18n.t("collection_management_record._html.title_prefix") %> <%= title %> <span class="label label-info"><%= I18n.t("collection_management_record._html.singular") %></span></h2>
 
        <%= render :partial => "shared/flash_messages" %>
 
@@ -102,6 +102,7 @@
                <% end %>
              </div>
           </div>
+        </section>
 
      <% end %>
    </div>
