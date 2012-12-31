@@ -38,7 +38,7 @@
             <% end %>
             <% if user_can?('manage_users') %>
               <li class="divider"></li>
-              <li><%= link_to I18n.t "navbar.manage_users", :controller => :users, :action => :create %></li>
+              <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
             <% end %>
           </ul>                 
      </div>
