@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index</a> &raquo; 
+    <a href="_index.html">Index</a> &raquo; 
     <span class="title">File: README</span>
   
 
@@ -173,57 +173,56 @@ order until one matches or all sources are exhausted.</p>
 
 <p>With this configuration, ArchivesSpace performs authentication by
 connecting to <code>ldap://ldap.example.com:389/</code>, binding anonymously,
-searching the <code>ou=people,dc=example,dc=com</code> tree for `uid =</p>
-<username>`. If the user is found, ArchivesSpace authenticates them by
-binding using the password specified.  Finally, the `:attribute_map`
-entry specifies how LDAP attributes should be mapped to ArchivesSpace
-user attributes (mapping LDAP's `cn` to ArchivesSpace's `name` in the
-above example).
+searching the <code>ou=people,dc=example,dc=com</code> tree for <code>uid = &lt;username&gt;</code>. </p>
 
-Many LDAP directories don't support anonymous binding.  To integrate
+<p>If the user is found, ArchivesSpace authenticates them by
+binding using the password specified.  Finally, the <code>:attribute_map</code>
+entry specifies how LDAP attributes should be mapped to ArchivesSpace
+user attributes (mapping LDAP’s <code>cn</code> to ArchivesSpace’s <code>name</code> in the
+above example).</p>
+
+<p>Many LDAP directories don’t support anonymous binding.  To integrate
 with such a directory, you will need to specify the username and
 password of a user with permission to connect to the directory and
 search for other users.  Modifying the previous example for this case
-looks like this:
+looks like this:</p>
 
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>389</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span>
+                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid=archivesspace_auth,ou=system,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'secretsquirrel'</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
 
-     AppConfig[:authentication_sources] = [{
-                                             :model =&gt; 'LDAPAuth',
-                                             :hostname =&gt; 'ldap.example.com',
-                                             :port =&gt; 389,
-                                             :base_dn =&gt; 'ou=people,dc=example,dc=com',
-                                             :username_attribute =&gt; 'uid',
-                                             :attribute_map =&gt; =&gt; :name
-                                             :bind_dn =&gt; 'uid=archivesspace_auth,ou=system,dc=example,dc=com',
-                                             :bind_password =&gt; 'secretsquirrel',
-     }]
-
-
-Finally, some LDAP directories enforce the use of SSL encryption.  To
+<p>Finally, some LDAP directories enforce the use of SSL encryption.  To
 configure ArchivesSpace to connect via LDAPS, change the port as
-appropriate and specify the `encryption` option:
+appropriate and specify the <code>encryption</code> option:</p>
 
-     AppConfig[:authentication_sources] = [{
-                                             :model =&gt; 'LDAPAuth',
-                                             :hostname =&gt; 'ldap.example.com',
-                                             :port =&gt; 636,
-                                             :base_dn =&gt; 'ou=people,dc=example,dc=com',
-                                             :username_attribute =&gt; 'uid',
-                                             :attribute_map =&gt; =&gt; :name
-                                             :bind_dn =&gt; 'uid=archivesspace_auth,ou=system,dc=example,dc=com',
-                                             :bind_password =&gt; 'secretsquirrel',
-                                             :encryption =&gt; :simple_tls,
-     }]
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>636</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span>
+                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid=archivesspace_auth,ou=system,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'secretsquirrel'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:encryption</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:simple_tls</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
 
+<h1 id="further-documentation">Further documentation</h1>
 
-# Further documentation
-
-Latest documentation is published at [http://hudmol.github.com/archivesspace/](http://hudmol.github.com/archivesspace/)
-</username>
+<p>Latest documentation is published at <a href="http://hudmol.github.com/archivesspace/">http://hudmol.github.com/archivesspace/</a></p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:23:59 2012 by
+  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:34:48 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.3).
 </div>
