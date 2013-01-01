@@ -1,4 +1,3 @@
-
 namespace :doc do
   
   desc "Generate the documentation"
@@ -29,7 +28,7 @@ namespace :doc do
 
     JSONModel::init
 
-    require_relative File.dirname(__FILE__) + '/../backend/app/lib/export'
+    require_relative '../backend/app/lib/export'
 
     Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file}
 

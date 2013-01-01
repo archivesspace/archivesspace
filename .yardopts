@@ -13,4 +13,6 @@
 'migrations/lib/*.rb'
 -
 API.md
+ARCHITECTURE.md
 migrations/README.md
+frontend/README.md
