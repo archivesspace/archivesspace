@@ -36,12 +36,4 @@ class Resource < Sequel::Model(:resource)
   def children
     ArchivalObject.filter(:resource_id => self.id, :parent_id => nil).order(:position)
   end
-
-
-  def self.records_matching(query, max)
-    self.this_repo.where(Sequel.like(Sequel.function(:lower, :title),
-                                     "#{query}%".downcase)).first(max)
-  end
-
-
 end
