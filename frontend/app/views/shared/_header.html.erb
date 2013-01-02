@@ -56,24 +56,26 @@
                 </ul>
               </li>
             <% end %>
-            <%= form_tag(url_for(:controller => :search, :action => :do_search), :method => :get, :class => "navbar-form pull-left") do %>
-              <div class="input-append">
-                <input type="text" class="span2" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
-                <div class="btn-group">
-                  <%= hidden_field_tag "type", "" %>
-                  <button class="btn"><span class=" icon-search"></span></button>
-                  <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><b class="caret"></b></a>
-                  <ul class="dropdown-menu scoped-search-options">
-                    <li><a href="#" data-type=""><%= I18n.t("navbar.search_all") %></a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" data-type="accession"><%= I18n.t("accession._html.plural") %></a></li>
-                    <li><a href="#" data-type="resource"><%= I18n.t("resource._html.plural") %></a></li>
-                    <li><a href="#" data-type="archival_object"><%= I18n.t("archival_object._html.plural") %></a></li>
-                    <li><a href="#" data-type="digital_object"><%= I18n.t("digital_object._html.plural") %></a></li>
-                  </ul>
+            <li>
+              <%= form_tag(url_for(:controller => :search, :action => :do_search), :method => :get, :class => "navbar-form pull-left") do %>
+                <div class="input-append">
+                  <input type="text" class="span2" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+                  <div class="btn-group">
+                    <%= hidden_field_tag "type", "" %>
+                    <button class="btn"><span class=" icon-search"></span></button>
+                    <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><b class="caret"></b></a>
+                    <ul class="dropdown-menu scoped-search-options">
+                      <li><a href="#" data-type=""><%= I18n.t("navbar.search_all") %></a></li>
+                      <li class="divider"></li>
+                      <li><a href="#" data-type="accession"><%= I18n.t("accession._html.plural") %></a></li>
+                      <li><a href="#" data-type="resource"><%= I18n.t("resource._html.plural") %></a></li>
+                      <li><a href="#" data-type="archival_object"><%= I18n.t("archival_object._html.plural") %></a></li>
+                      <li><a href="#" data-type="digital_object"><%= I18n.t("digital_object._html.plural") %></a></li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            <% end %>
+              <% end %>
+            </li>
           </ul>         
           <% end %>
           <ul class="nav pull-right">
