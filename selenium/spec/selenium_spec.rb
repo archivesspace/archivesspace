@@ -879,6 +879,50 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "can spawn a resource from an existing accession" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+
+      # populate mandatory fields
+      $driver.clear_and_send_keys([:id, "accession_title_"], "A box of enraged guinea pigs")
+
+      $driver.complete_4part_id("accession_id_%d_")
+
+      $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
+      $driver.clear_and_send_keys([:id, "accession_content_description_"], "9 guinea pigs")
+      $driver.clear_and_send_keys([:id, "accession_condition_description_"], "furious")
+
+      # save
+      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+      # Spawn a resource from the accession we just created
+      $driver.find_element(:link, "Spawn").click
+      $driver.find_element(:link, "Resource").click
+
+      # The relationship back to the original accession is prepopulated
+      $driver.find_element(:css => 'div.accession').text.should match(/enraged guinea pigs/)
+
+      $driver.complete_4part_id("resource_id_%d_")
+      $driver.find_element(:id, "resource_language_").select_option("eng")
+      $driver.find_element(:id, "resource_level_").select_option("collection")
+
+      # condition and content descriptions have come across as notes fields
+      $driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "resource_notes__0__content_").attribute("value").should eq("9 guinea pigs")
+
+      $driver.execute_script("$('#resource_notes__1__content_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "resource_notes__1__content_").attribute("value").should eq("furious")
+
+      $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
+
+      $driver.find_element(:css => "form#resource_form button[type='submit']").click
+
+      # Success!
+      assert {
+        $driver.find_element_with_text('//div', /Resource Created/).should_not be_nil
+      }
+    end
+
     it "reports errors and warnings when creating an invalid Resource" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Resource").click
