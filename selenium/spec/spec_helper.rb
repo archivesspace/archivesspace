@@ -307,6 +307,7 @@ def selenium_init
 
 
   $driver = Selenium::WebDriver.for :firefox
+  $driver.manage.window.maximize
 end
 
 
