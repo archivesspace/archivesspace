@@ -71,7 +71,7 @@ class DigitalObjectComponentsController < ApplicationController
     handle_crud(:instance => :digital_object_component,
                 :obj => JSONModel(:digital_object_component).find(params[:id]),
                 :replace => false,
-                :on_invalid => ->(){ throw "Error setting parent of digital object component" },
+                :on_invalid => ->(){ raise "Error setting parent of digital object component" },
                 :on_valid => ->(id){ return render :text => "success"})
   end
 
