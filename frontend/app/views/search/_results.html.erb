@@ -19,7 +19,7 @@
         <% @search_data['results'].each do |result| %>
           <tr>
             <td>
-              <%=  I18n.t("#{result["type"]}._html.singular") %>
+              <%=  I18n.t("#{result["primary_type"]}._html.singular") %>
             </td>
             <td>
               <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>

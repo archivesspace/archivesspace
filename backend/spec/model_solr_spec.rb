@@ -59,7 +59,7 @@ describe 'Solr model' do
     http.request.path.should match(/hello\+world/)
     http.request.path.should match(/wt=json/)
     http.request.path.should match(/suppressed%3Afalse/)
-    http.request.path.should match(/fq=type%3A%28]?%22optional_record_type/)
+    http.request.path.should match(/fq=types%3A%28]?%22optional_record_type/)
 
     response['offset_first'].should eq(1)
     response['offset_last'].should eq(1)

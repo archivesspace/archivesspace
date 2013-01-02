@@ -26,7 +26,7 @@ class Solr
 
     if record_types
       query = record_types.map { |type| "\"#{type}\"" }.join(' OR ')
-      opts << [:fq, "type:(#{query})"]
+      opts << [:fq, "types:(#{query})"]
     end
 
     if !show_suppressed
@@ -61,7 +61,7 @@ class Solr
 
         result['results'] = json['response']['docs'].map {|doc|
           doc['uri'] = doc['id']
-          doc['jsonmodel_type'] = doc['type']
+          doc['jsonmodel_type'] = doc['primary_type']
           doc
         }
 
