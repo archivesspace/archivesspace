@@ -240,7 +240,8 @@ end
 
 def logout
   ## Complete the logout process
-  if !$driver.find_elements(:css, '.user-container .dropdown-menu.pull-right').first.displayed?
+  user_menu = $driver.find_elements(:css, '.user-container .dropdown-menu.pull-right').first
+  if !user_menu || !user_menu.displayed?
     $driver.find_element(:css, 'body').find_element(:css, '.user-container .btn')
     $driver.find_element(:css, 'body').find_element(:css, '.user-container .btn').click
   end
