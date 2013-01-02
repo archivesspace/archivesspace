@@ -123,9 +123,6 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:id, 'select_repo').click
       assert { $driver.find_element(:link_text => new_repo_code).text.should eq(new_repo_code) }
-
-      # Close the menu 
-      $driver.find_element(:css, '.user-container .btn').click
     end
   end
 
@@ -1591,9 +1588,6 @@ describe "ArchivesSpace user interface" do
     it "but they have no repositories yet!" do
       $driver.find_element(:css, '.user-container .btn').click
       assert { $driver.find_element(:css, '.user-container .dropdown-menu .empty').text.should match(/No Repositories Available/) }
-
-      # Close the menu 
-      $driver.find_element(:css, '.user-container .btn').click
     end
 
   end
