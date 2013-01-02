@@ -29,11 +29,4 @@ class ArchivalObject < Sequel::Model(:archival_object)
     map_validation_to_json_property([:root_record_id, :ref_id], :ref_id)
     super
   end
-
-
-  def self.records_matching(query, max)
-    self.this_repo.where(Sequel.like(Sequel.function(:lower, :title),
-                                     "#{query}%".downcase)).first(max)
-  end
-
 end

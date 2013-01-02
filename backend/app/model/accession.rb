@@ -21,13 +21,6 @@ class Accession < Sequel::Model(:accession)
 
 
 
-  def self.records_matching(query, max)
-    self.this_repo.filter(:suppressed => 0).
-         where(Sequel.like(Sequel.function(:lower, :title),
-                           "#{query}%".downcase)).first(max)
-  end
-
-
   def set_suppressed(val)
     self.suppressed = val ? 1 : 0
     save
