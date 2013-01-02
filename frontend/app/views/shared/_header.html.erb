@@ -7,7 +7,7 @@
           <span class="icon-bar"></span>
         </button>
         <%= link_to I18n.t("navbar.brand"), {:controller => :welcome, :action => :index}, :class => "brand" %>
-        <div class="nav-collapse">
+        <div class="nav-collapse collapse">
           <% if session[:user] and session[:repo_id] %>
           <ul class="nav">
             <li <% if controller_name === "welcome" %>class="active"<% end %>>
