@@ -38,8 +38,10 @@ en:
     search_all: All Records
     search_placeholder: Search
     create_repository_tooltip: "To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Create a Repository</strong> link."
-    repositories_none: No repositories yet
+    repositories_none: No Repositories Available
+    repositories_none_tooltip: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
     repositories_create: Create a Repository
+    repositories_select: Select a Repository
     manage_groups: Manage Groups
     manage_users: Manage Users
     logout: Logout

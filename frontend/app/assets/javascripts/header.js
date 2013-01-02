@@ -51,10 +51,16 @@ $(function() {
   });
 
   // Show Repo popover if there are no repositories
-  if ($(".repository-container[rel=popover]").length) {
-    $(".repository-container[rel=popover]").popover('show');
+  if ($(".repository-label.has-popover.empty").length) {
+    $(".repository-label.has-popover.empty").popover('show');
+    $(".user-container .navbar-inset-label .popover .btn.btn-mini.dropdown-toggle").click(function() {
+      $(".user-container > .input-append > .btn").trigger("click");
+      setTimeout(function() {
+        $(".user-container > .input-append").addClass("open");
+      });
+    });
     $('.navbar .btn').click(function() {
-      $(".repository-container[rel=popover]").popover('destroy');
+      $(".repository-label.has-popover.empty").popover('destroy');
     });
   }
 
@@ -88,15 +94,4 @@ $(function() {
     $form.submit();
   });
 
-
-  // Repo/User label sizing
-  $(".nav .repository-label:not(.empty), .nav .user-label:not(.empty)").on("focus mouseenter", function() {
-    var width = 5;
-    $(this).find("span").each(function() {
-      width += $(this).width();
-    });
-    $(this).css("width", width);
-  }).on("blur mouseleave", function() {
-      $(this).css("width", "");
-  });
 });

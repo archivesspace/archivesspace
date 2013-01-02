@@ -60,7 +60,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "flags errors when creating a repository with missing fields" do
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Create a Repository").click
       $driver.clear_and_send_keys([:id, "repository_description_"], "missing repo code")
       $driver.find_element(:css => "form#new_repository input[type='submit']").click
@@ -71,7 +71,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can create a repository" do
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Create a Repository").click
       $driver.clear_and_send_keys([:id, "repository_repo_code_"], @test_repo_code_1)
       $driver.clear_and_send_keys([:id, "repository_description_"], @test_repo_name_1)
@@ -80,7 +80,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can create a second repository" do
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Create a Repository").click
       $driver.clear_and_send_keys([:id, "repository_repo_code_"], @test_repo_code_2)
       $driver.clear_and_send_keys([:id, "repository_description_"], @test_repo_name_2)
@@ -89,19 +89,23 @@ describe "ArchivesSpace user interface" do
 
 
     it "can select either of the created repositories" do
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
+      $driver.find_element(:id, 'select_repo').click
+      $driver.execute_script("$('.nav #select_repo').focus()");
       assert { $driver.find_element(:link_text => @test_repo_code_2).text.should eq @test_repo_code_2 }
       $driver.find_element(:link_text => @test_repo_code_2).click
       assert { $driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_2 }
 
 
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
+      $driver.find_element(:id, 'select_repo').click
       assert { $driver.find_element(:link_text => @test_repo_code_1).text.should eq @test_repo_code_1 }
       $driver.find_element(:link_text => @test_repo_code_1).click
       assert { $driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_1 }
 
-
-      $driver.find_element(:css, '.repository-container .btn').click
+      
+      $driver.find_element(:css, '.user-container .btn').click
+      $driver.find_element(:id, 'select_repo').click
       $driver.find_element(:link_text => @test_repo_code_2).click
       assert { $driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_2 }
     end
@@ -116,8 +120,12 @@ describe "ArchivesSpace user interface" do
       $driver.navigate.refresh
 
       # Verify that the new repo has shown up
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
+      $driver.find_element(:id, 'select_repo').click
       assert { $driver.find_element(:link_text => new_repo_code).text.should eq(new_repo_code) }
+
+      # Close the menu 
+      $driver.find_element(:css, '.user-container .btn').click
     end
   end
 
@@ -146,7 +154,7 @@ describe "ArchivesSpace user interface" do
     it "can assign a user to the archivist group" do
       select_repo(@can_manage_repo)
 
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Manage Groups").click
 
       row = $driver.find_element_with_text('//tr', /repository-archivists/)
@@ -161,7 +169,7 @@ describe "ArchivesSpace user interface" do
     it "can assign the test user to the viewers group of the first repository" do
       select_repo(@can_view_repo)
 
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Manage Groups").click
 
       row = $driver.find_element_with_text('//tr', /repository-viewers/)
@@ -174,7 +182,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports errors when attempting to create a Group with missing data" do
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Manage Groups").click
       $driver.find_element(:link, "Create Group").click
       $driver.find_element(:css => "form#new_group input[type='submit']").click
@@ -1534,7 +1542,7 @@ describe "ArchivesSpace user interface" do
     end
 
     it "can create a user account" do
-      $driver.find_element(:css, '.repository-container .btn').click
+      $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Manage Users").click
       
       $driver.find_element(:link, "Create User").click
@@ -1581,8 +1589,11 @@ describe "ArchivesSpace user interface" do
 
 
     it "but they have no repositories yet!" do
-      $driver.find_element(:css, '.repository-container .btn').click
-      assert { $driver.find_element(:css, '.repository-container .dropdown-menu').text.should match(/No repositories/) }
+      $driver.find_element(:css, '.user-container .btn').click
+      assert { $driver.find_element(:css, '.user-container .dropdown-menu .empty').text.should match(/No Repositories Available/) }
+
+      # Close the menu 
+      $driver.find_element(:css, '.user-container .btn').click
     end
 
   end

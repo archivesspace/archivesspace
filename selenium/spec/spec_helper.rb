@@ -378,13 +378,14 @@ end
 
 
 def select_repo(code)
-  $driver.find_element(:css, '.repository-container .btn').click
+  $driver.find_element(:css, '.user-container .btn').click
+  $driver.find_element(:id, 'select_repo').click
 
   if not $driver.find_element_with_text('//span', /#{code}/, true, true)
     # Select it
     $driver.find_element(:link_text => code).click
   else
-    $driver.find_element(:css, '.repository-container .btn').click
+    $driver.find_element(:css, '.user-container .btn').click
   end
 end
 

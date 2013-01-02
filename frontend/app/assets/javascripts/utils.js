@@ -135,6 +135,23 @@ $(function() {
 });
 
 
+// allow click of a submenu link
+$(function() {
+  var initSubmenuLink = function() {
+    $(".dropdown-submenu > a:not(.initialised)").click(function(e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      $(this).focus();
+    }).addClass("initialised");
+  };
+  initSubmenuLink();
+  $(document).ajaxComplete(function() {
+    initSubmenuLink();
+  });
+  $(document).bind("new.subrecord, init.subrecord, init.popovers", initSubmenuLink);
+});
+
+
 var AS = {};
 
 

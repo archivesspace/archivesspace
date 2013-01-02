@@ -1,12 +1,64 @@
 <% if session[:user] %>
+  <%
+    selected_repo = @repositories.select {|repo| repo.id === session[:repo_id]}.first if @repositories.length
+  %>
   <li class="dropdown user-container">
-     <div class="input-append">
-        <span class="user-label"><span class="icon-user"></span> <%= session[:user] %></span>
-        <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
-          </ul>
-     </div>
+    <div class="input-append">
+      <span class="navbar-inset-label">
+        <% if session[:repo] %>
+          <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(session[:repo]) %>" data-content="<%= CGI::escapeHTML(selected_repo.description) %>">
+            <span class="icon-hdd"></span><span class="current-repository-id"><% if session[:repo] %><%= session[:repo] %><% end %></span>
+          </span>
+        <% else %>
+          <span class="repository-label has-popover empty"
+            data-placement="bottom"
+            data-trigger="manual"
+            data-title="false"
+            data-html="true"
+            <% if user_can?('create_repository') && @repositories.length == 0 %>
+              data-content="<%= I18n.t("navbar.create_repository_tooltip") %>"
+            <% else %>
+              data-content="<%= I18n.t("navbar.repositories_none_tooltip") %>"
+            <% end %>
+          ><span class='icon-hdd'></span></span>
+        <% end %>
+        <span class="user-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title='<span class="icon-user"></span> <%= CGI::escapeHTML(session[:user]) %>'>
+          <span class="icon-user"></span><%= session[:user] %>
+        </span>
+      </span>
+      <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+      <ul class="dropdown-menu pull-right">
+        <% if @repositories.length > 0 %>
+          <li class="dropdown-submenu pull-left">
+            <a href="javascript:void(0);" id="select_repo"><%= I18n.t("navbar.repositories_select") %></a>
+            <ul class="dropdown-menu repo-selector">
+            <% for repo in @repositories %>
+              <% if session[:repo_id] === repo.id %>
+                <li class="selected has-popover"  data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.description) %>"><span class="icon-ok-circle"></span> <%= repo.repo_code %></li>
+              <% else %>
+                <li class="has-popover" data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.description) %>"><%= link_to repo.repo_code, {:controller => :repository, :action => :select, :id => repo.id}, :class => "select-repo" %></li>
+              <% end %>
+            <% end %>
+            </ul>
+          </li>
+        <% else %>
+          <li class="empty"><span class="icon-info-sign"></span> <%= I18n.t "navbar.repositories_none" %></li>
+        <% end %>
+        <% if user_can?('create_repository') %>
+          <li class="divider"></li>
+          <li><%= link_to I18n.t("navbar.repositories_create"), {:controller => :repository, :action => :new}, "data-toggle" => "modal-ajax" %></li>
+          <% if session[:repo] %>
+            <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
+          <% end %>
+        <% end %>
+        <% if user_can?('manage_users') %>
+          <li class="divider"></li>
+          <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
+        <% end %>
+        <li class="divider"></li>
+        <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
+      </ul>
+    </div>
   </li>
 <% else %>
   <li class="dropdown">
