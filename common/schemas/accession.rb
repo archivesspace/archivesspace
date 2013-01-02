@@ -18,7 +18,17 @@
 
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
 
-      "subjects" => {"type" => "array", "items" => {"type" => "JSONModel(:subject) uri_or_object"}},
+      "subjects" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "properties" => {
+            "ref" => {"type" => "JSONModel(:subject) uri",
+              "ifmissing" => "error"}
+          }
+        }
+      },
+
       "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) object"}},
       "dates" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},

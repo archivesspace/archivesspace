@@ -77,9 +77,9 @@ describe 'Resources controller' do
                     :vocabulary => vocab_uri
                     )
 
-    resource = create(:json_resource, :subjects => [subject.uri])
+    resource = create(:json_resource, :subjects => [{:ref => subject.uri}])
 
-    JSONModel(:resource).find(resource.id).subjects[0].should eq(subject.uri)
+    JSONModel(:resource).find(resource.id).subjects[0]['ref'].should eq(subject.uri)
   end
 
 
@@ -293,17 +293,17 @@ describe 'Resources controller' do
 
 
     r = create(:json_resource, {
-          :subjects => [subject.uri],
-          :instances => [build(:json_instance, {
-            :container => build(:json_container, {
-              :container_locations => [build(:json_container_location, {
-                :start_date => generate(:yyyy_mm_dd),
-                :end_date => generate(:yyyy_mm_dd),
-                :location => location.uri
-              }).to_hash]
-            }).to_hash
-          }).to_hash]
-    })
+                 :subjects => [{:ref => subject.uri}],
+                 :instances => [build(:json_instance, {
+                                        :container => build(:json_container, {
+                                                              :container_locations => [build(:json_container_location, {
+                                                                                               :start_date => generate(:yyyy_mm_dd),
+                                                                                               :end_date => generate(:yyyy_mm_dd),
+                                                                                               :location => location.uri
+                                                                                             }).to_hash]
+                                                            }).to_hash
+                                      }).to_hash]
+               })
 
     resource = JSONModel(:resource).find(r.id, "resolve[]" => ["subjects", "location"])
 

@@ -1,14 +1,17 @@
 # Handling for models that require Subjects
 require_relative 'subject'
+require_relative 'relationships'
 
 module Subjects
 
   def self.included(base)
     base.many_to_many :subject, :join_table => "subject_#{base.table_name}", :order => "subject_#{base.table_name}__id".intern
 
-    base.def_nested_record(:the_property => :subjects,
-                           :contains_records_of_type => :subject,
-                           :corresponding_to_association  => :subject)
+    base.include(Relationships)
+
+    base.define_relationship(:name => :subject,
+                             :json_property => 'subjects',
+                             :contains_references_to_types => proc {[Subject]})
   end
 
 end

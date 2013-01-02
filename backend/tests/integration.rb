@@ -148,7 +148,7 @@ def run_tests(opts)
   r = do_post({
                 :title => "integration test resource #{$$}",
                 :id_0 => "abc123",
-                :subjects => ["/subjects/#{subject_id}"],
+                :subjects => [{"ref" => "/subjects/#{subject_id}"}],
                 :language => "eng",
                 :level => "collection",
                 :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
@@ -168,7 +168,7 @@ def run_tests(opts)
   r = do_post({
                 :ref_id => "test#{$me}",
                 :title => "integration test archival object #{$$}",
-                :subjects => ["/subjects/#{subject_id}"],
+                :subjects => [{"ref" => "/subjects/#{subject_id}"}],
                 :level => "item"
               }.to_json,
               url("/repositories/#{repo_id}/archival_objects"))

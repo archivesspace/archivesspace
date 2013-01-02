@@ -83,9 +83,9 @@ describe 'Archival Object controller' do
 
     subject = create(:json_subject, {:terms => [build(:json_term, :vocabulary => vocab.uri).to_hash], :vocabulary => vocab.uri})
 
-    created = create(:json_archival_object, :subjects => [subject.uri])
+    created = create(:json_archival_object, :subjects => [{:ref => subject.uri}])
 
-    JSONModel(:archival_object).find(created.id).subjects[0].should eq(subject.uri)
+    JSONModel(:archival_object).find(created.id).subjects[0]['ref'].should eq(subject.uri)
   end
 
 
@@ -102,7 +102,7 @@ describe 'Archival Object controller' do
                                         ], 
                                      :vocabulary => vocab.uri})
 
-    created = create(:json_archival_object, :subjects => [subject.uri])
+    created = create(:json_archival_object, :subjects => [{:ref => subject.uri}])
 
     ao = JSONModel(:archival_object).find(created.id, "resolve[]" => "subjects")
 
@@ -170,7 +170,7 @@ describe 'Archival Object controller' do
                                         ).to_hash
                                        ],
                                      :vocabulary => vocab.uri})
-    created = create(:json_archival_object, :subjects => [subject.uri])
+    created = create(:json_archival_object, :subjects => [{:ref => subject.uri}])
 
 
     ao = JSONModel(:archival_object).find(created.id, "resolve[]" => "subjects")

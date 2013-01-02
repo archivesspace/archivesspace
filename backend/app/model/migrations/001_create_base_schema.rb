@@ -1002,7 +1002,27 @@ Sequel.migration do
       add_foreign_key([:resource_id], :resource, :key => :id)
     end
 
+
+    # Subject relationships
+    [:accession, :archival_object, :resource, :digital_object, :digital_object_component].each do |record|
+      table = [MigrationUtils.shorten_table("subject"),
+               MigrationUtils.shorten_table(record)].sort.join("_subject_").intern
+
+
+      create_table(table) do
+        primary_key :id
+        Integer "#{record}_id".intern
+        Integer :subject_id
+        Integer :aspace_relationship_position
+      end
+
+      alter_table(table) do
+        add_foreign_key(["#{record}_id".intern], record, :key => :id)
+        add_foreign_key([:subject_id], :subject, :key => :id)
+      end
+    end
   end
+
 
   down do
 
