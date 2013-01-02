@@ -464,6 +464,16 @@ describe "ArchivesSpace user interface" do
       }.to_not raise_error
     end
 
+
+    it "returns agents in search results and shows their types correctly" do
+      @indexer.run_index_round
+
+      $driver.clear_and_send_keys([:id, "global-search-box"], "Hendrix")
+      $driver.find_element(:id => 'global-search-button').click
+
+      $driver.find_element_with_text('//td', /Johnny Allen Hendrix/)
+      $driver.find_element_with_text('//td', /Person/)
+    end
   end
 
 

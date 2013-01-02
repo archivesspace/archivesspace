@@ -30,30 +30,30 @@ class CommonIndexer
 
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
-      if doc[:type] == 'archival_object'
+      if doc[:primary_type] == 'archival_object'
         doc['resource'] = record['record']['resource']
       end
     }
 
     add_document_prepare_hook {|doc, record|
-      if doc[:type] == 'digital_object_component'
+      if doc[:primary_type] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']
       end
     }
 
     add_document_prepare_hook {|doc, record|
-      if ['subject', 'location'].include?(doc[:type])
+      if ['subject', 'location'].include?(doc[:primary_type])
         doc['json'] = record['record'].to_json
       end
     }
 
     add_document_prepare_hook {|doc, record|
-      if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc[:type])
+      if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc[:primary_type])
         doc['json'] = record['record'].to_json
         doc[:title] = record['record']['names'][0]['sort_name']
 
         # Assign the additional type of 'agent'
-        doc[:type] = ['agent', doc[:type]]
+        doc[:types] << 'agent'
       end
     }
   end
@@ -133,7 +133,8 @@ class CommonIndexer
 
       doc[:id] = uri
       doc[:title] = values['title']
-      doc[:type] = record_type
+      doc[:primary_type] = record_type
+      doc[:types] = [record_type]
       doc[:fullrecord] = values.to_json(:max_nesting => false)
       doc[:suppressed] = values['suppressed'].to_s
       doc[:repository] = get_record_scope(uri)
