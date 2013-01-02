@@ -241,17 +241,6 @@ module AspaceFormHelper
                  false, false)
     end
 
-    def options_for(property, values, opts = {})
-      options = []
-      values.each do |v|
-        i18n_path = opts.has_key?(:i18n_prefix) ? "#{opts[:i18n_prefix]}.#{v}" : i18n_for("#{property}_#{v}")
-
-        options.push([I18n.t(i18n_path, :default => v), v])
-      end
-      options.sort! {|a, b| a[0] <=> b[0]}
-      options
-    end
-
     def hidden_input(name, value = nil)
       value = obj[name] if value.nil?
       @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => value, :name => path(name)},
@@ -281,13 +270,6 @@ module AspaceFormHelper
 
     def label(name, opts = {})
       "<label class=\"control-label\" for=\"#{id_for(name)}\">#{I18n.t(i18n_for(name))}</label>".html_safe
-    end
-
-    def radio(name, value)
-      options = {:id => "#{id_for(name)}_#{value}", :type => "radio", :value => value, :name => path(name)}
-      options[:checked] = "checked" if obj[name] == value
-
-      @forms.tag("input", options, false, false)
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -419,18 +401,6 @@ module AspaceFormHelper
   class BaseDefinition
     def required?(name)
       false
-    end
-
-    def options_for(context, property, add_empty_options = false)
-      options = []
-      options.push(["",""]) if add_empty_options
-
-      options
-    end
-
-
-    def default_for(name)
-      nil
     end
   end
 
