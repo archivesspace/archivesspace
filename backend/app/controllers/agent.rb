@@ -1,6 +1,7 @@
 class ArchivesSpaceService < Sinatra::Base
 
   # FIXME: needs pagination
+  # We'll likely get rid of this soon in favour of running browses from the Solr indexes.
   Endpoint.get('/agents')
     .description("Get all agent records")
     .returns([200, "[(:agent)]"]) \
@@ -11,18 +12,4 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response(agents.flatten)
   end
-
-
-  Endpoint.get('/agents/by-name')
-    .description("Get all agent records by their sort name")
-    .params(["q", /[\w0-9 -.]/, "The name prefix to match"])
-    .returns([200, "[(:agent)]"]) \
-  do
-    json_response(AgentManager.type_to_model_map.map {|agent_type, agent_model|
-                    agent_model.agents_matching(params[:q], 10).map {|agent|
-                      agent_model.to_jsonmodel(agent).to_hash
-                    }
-                  }.flatten)
-  end
-
 end

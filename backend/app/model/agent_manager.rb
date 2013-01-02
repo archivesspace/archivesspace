@@ -64,13 +64,6 @@ module AgentManager
         json.agent_type = my_agent_type[:jsonmodel].to_s
         json
       end
-
-
-      def agents_matching(query, max)
-        self.where(my_agent_type[:name_type] => my_agent_type[:name_model].
-                   where(Sequel.like(Sequel.function(:lower, :sort_name),
-                                     "#{query}%".downcase))).first(max)
-      end
     end
   end
 end
