@@ -95,9 +95,9 @@
              </div>
              <div class="span9 token-list">
                <% @collection_management.linked_records.each do | ref | %>
-                <%= render_token :object => ref["resolved"]["ref"],
-                                  :label => ref["resolved"]["ref"]["title"],
-                                  :type => ref["resolved"]["ref"]["jsonmodel_type"],
+                <%= render_token :object => ref,
+                                  :label => ref["_resolved"]["title"],
+                                  :type => ref["_resolved"]["jsonmodel_type"],
                                   :uri => ref["ref"] %>
                <% end %>
              </div>

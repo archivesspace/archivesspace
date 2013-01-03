@@ -52,13 +52,7 @@ class ApplicationController < ActionController::Base
 
         schema['properties'].each do |property, definition|
           if definition['type'] == 'array' && result[property].is_a?(Hash)
-            if definition['items']['type'].is_a?(String) && definition['items']['type'].match(/^JSON.*(uri|uri_or_object)$/)
-              result['resolved'] ||= {}
-              result['resolved'][property] = result[property].map {|_, v| v['resolved'] ? JSON(v['resolved']['ref']) : nil}
-              result[property] = result[property].map {|_, v| v['ref'] || v}
-            else
               result[property] = result[property].map {|_, v| v}
-            end
           end
         end
 
@@ -85,7 +79,7 @@ class ApplicationController < ActionController::Base
 
       instance = model.map_hash_with_schema(params[opts[:instance]],
                                                                  nil,
-                                                                 [fix_arrays, set_false_for_checkboxes])                                                          
+                                                                 [fix_arrays, set_false_for_checkboxes])
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)

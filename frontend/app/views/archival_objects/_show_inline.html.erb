@@ -37,7 +37,7 @@
       <% end %>
       
       <% if not @archival_object.subjects.blank? %>
-        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @archival_object["resolved"]["subjects"], :section_id => "archival_object_subjects_"} %>
+        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @archival_object.subjects, :section_id => "archival_object_subjects_"} %>
       <% end %>
 
       <% if @archival_object.notes.length > 0 %>

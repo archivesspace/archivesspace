@@ -51,7 +51,7 @@
        <% end %>
        
        <% if not @accession.subjects.blank? %>
-         <%= render :partial => "subjects/show_inline", :locals => {:subjects => @accession["resolved"]["subjects"], :section_id => "accession_subjects_"} %>
+         <%= render :partial => "subjects/show_inline", :locals => {:subjects => @accession.subjects, :section_id => "accession_subjects_"} %>
        <% end %>
 
         <% if @accession.external_documents.length > 0 %>

@@ -10,7 +10,7 @@
             data-path="<%= form.path %>"
             data-name="related_accessions"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
-            data-selected='<%= form.obj['related_accessions'].blank? ? "[]" : form.obj['resolved']['related_accessions'].to_json %>'
+            data-selected='<%= form.obj['related_accessions'].blank? ? "[]" : form.obj['related_accessions']['_resolved'].to_json %>'
             data-format_property="title"
             data-sortable="true"
             data-types='["accession"]'

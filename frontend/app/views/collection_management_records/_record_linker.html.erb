@@ -1,10 +1,8 @@
 <%
    if form.obj['ref'].blank?
      selected_json = "{}"
-   elsif  form.obj['resolved']['ref'].is_a?(String)
-     selected_json =  JSON(form.obj['resolved']['ref']).to_json
    else
-     selected_json =  form.obj['resolved']['ref'].to_json
+     selected_json =  form.obj['_resolved'].to_json
    end
 %>
 <div class="control-group">

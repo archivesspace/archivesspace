@@ -110,15 +110,6 @@ module AspaceFormHelper
       form_top
     end
 
-    # Sometimes the subrecord form builder needs to get a resolved 
-    # version of the subrecord data from the parent (this was made to 
-    # support subjects).
-    def resolved_obj
-        @context[-2].last['resolved'][@context.last[0].gsub(/\[([0-9])\]$/, "")][$1.to_i]
-      rescue 
-        nil
-    end
-
     def obj
       @context.last.second
     end
@@ -542,9 +533,6 @@ module AspaceFormHelper
           value = value === true ? "True" : "False"
         elsif schema["properties"][property]["type"] === "array"
           # this view doesn't support arrays
-          next
-        elsif hash.has_key?("resolved") and hash["resolved"].has_key?(property)
-          # don't display a resolved attribute... as it's probably just a URI
           next
         elsif value.kind_of? Hash
           # can't display an object either

@@ -14,10 +14,10 @@
         <%= I18n.t("linked_agent.role_#{link["role"]}") %>
       </div>
       <div class="span8 token-list">
-        <%= render_token :object => link["resolved"]["ref"], 
-                         :label => link["resolved"]["ref"]["names"][0]["sort_name"], 
-                         :type => link["resolved"]["ref"]["agent_type"], 
-                         :uri => link["resolved"]["ref"]["uri"] %>
+        <%= render_token :object => link, 
+                         :label => link["_resolved"]["names"][0]["sort_name"], 
+                         :type => link["_resolved"]["agent_type"], 
+                         :uri => link["_resolved"]["uri"] %>
       </div>
     </div>
   <% end %>
