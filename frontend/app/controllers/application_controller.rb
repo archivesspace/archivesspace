@@ -77,9 +77,24 @@ class ApplicationController < ActionController::Base
       end
 
 
+      deserialise_resolved_json_blobs = proc do |hash, schema|
+        # The linker widget sends us the full blob of each record being linked
+        # to as a JSON blob.  Make this available as a regular hash by walking
+        # the document and deserialising these blobs.
+
+        if hash.has_key?('_resolved') && hash['_resolved'].is_a?(String)
+          hash.merge('_resolved' => JSON.parse(hash['_resolved']))
+        else
+          hash
+        end
+      end
+
+
       instance = model.map_hash_with_schema(params[opts[:instance]],
                                                                  nil,
-                                                                 [fix_arrays, set_false_for_checkboxes])
+                                                                 [fix_arrays,
+                                                                  set_false_for_checkboxes,
+                                                                  deserialise_resolved_json_blobs])
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
@@ -95,10 +110,10 @@ class ApplicationController < ActionController::Base
         instance_variable_set("@exceptions".intern, obj._exceptions)
         return opts[:on_invalid].call
       end
-      
-      if obj._exceptions[:errors]      
+
+      if obj._exceptions[:errors]
         instance_variable_set("@exceptions".intern, obj._exceptions)
-        return opts[:on_invalid].call 
+        return opts[:on_invalid].call
       end
 
       if opts[:instance] == :user and !params['user']['password'].blank?
