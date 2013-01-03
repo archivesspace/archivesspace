@@ -3,15 +3,15 @@ module RESTHelpers
   include JSONModel
 
 
-  def resolve_reference(uri)
-    if uri.is_a? Hash
-      uri = uri['ref']
+  def resolve_reference(reference)
+    if !reference.is_a? Hash
+      raise "Argument must be a {'ref' => '/uri'} hash (not: #{reference})"
     end
 
-    if !JSONModel.parse_reference(uri).nil?
-      JSON.parse(redirect_internal(uri)[2].join(""), :max_nesting => false)
+    if JSONModel.parse_reference(reference['ref'])
+      JSON.parse(redirect_internal(reference['ref'])[2].join(""), :max_nesting => false)
     else
-      uri
+      raise "Couldn't parse ref: #{reference.inspect}"
     end
   end
 

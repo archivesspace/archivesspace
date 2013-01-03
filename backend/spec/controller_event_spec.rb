@@ -23,10 +23,10 @@ describe 'Events controller' do
   it "can save an event and get it back" do
     e = create(:json_event, @event_opts)
 
-    event = JSONModel(:event).find(e.id, "resolve[]" => "ref")
+    event = JSONModel(:event).find(e.id, "resolve[]" => ["linked_agents", "linked_records"])
 
-    event.linked_agents[0]['resolved']['ref']['names'][0]['primary_name'].should eq(@test_agent.names[0]['primary_name'])
-    event.linked_records[0]['resolved']['ref']['title'].should eq(@test_accession.title)
+    event['resolved']['linked_agents'][0]['names'][0]['primary_name'].should eq(@test_agent.names[0]['primary_name'])
+    event['resolved']['linked_records'][0]['title'].should eq(@test_accession.title)
   end
 
 
@@ -35,7 +35,7 @@ describe 'Events controller' do
 
     new_accession = create(:json_accession)
 
-    event = JSONModel(:event).find(e.id, "resolve[]" => "ref")
+    event = JSONModel(:event).find(e.id)
     event['linked_records'] = [{
                                  'ref' => new_accession.uri,
                                  'role' => generate(:record_role)
