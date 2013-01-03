@@ -14,7 +14,8 @@
             <%= render_token :object => resolved[index],
                              :label => Location.from_hash(resolved[index]).display_string,
                              :type => "location",
-                             :uri => container_location["ref"] %>
+                             :uri => container_location["ref"],
+                             :placement => "top" %>
           </div>
         </div>
       <% end %>
