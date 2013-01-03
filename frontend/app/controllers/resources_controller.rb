@@ -3,7 +3,7 @@ class ResourcesController < ApplicationController
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
-  FIND_OPTS = ["subjects", "location", "ref", "related_accessions"]
+  FIND_OPTS = ["subjects", "container_locations", "related_accessions"]
 
   def index
     @search_data = JSONModel(:resource).all(:page => selected_page)
@@ -24,7 +24,7 @@ class ResourcesController < ApplicationController
 
     if params[:accession_id]
       acc = Accession.find(params[:accession_id],
-                           "resolve[]" => ["subjects", "location", "ref"])
+                           "resolve[]" => FIND_OPTS)
       @resource.populate_from_accession(acc) if acc
     end
 

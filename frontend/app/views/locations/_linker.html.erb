@@ -1,21 +1,22 @@
 <%
-  if form.obj['location'].blank?
+   resolved_obj = form.resolved_obj
+
+  if resolved_obj.blank?
     selected_json = "{}"
-  elsif  form.obj['resolved']['location'].is_a?(String)
-    selected_json =  Location.from_hash(JSON(form.obj['resolved']['location'])).to_json
   else
-    selected_json =  Location.from_hash(form.obj['resolved']['location']).to_json
+    selected_json =  Location.from_hash(resolved_obj).to_json
   end
 %>
 <hr/>
 <div class="control-group">
-   <label class="control-label">Location</label>
+   <label class="control-label"><%= I18n.t("location._html.singular") %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
-          <input type="text" class="linker" 
+          <input type="text" class="linker"
+            id="<%= form.id_for("ref") %>"
             data-label="<%= I18n.t("location._html.singular") %>"
             data-label_plural="<%= I18n.t("location._html.plural") %>"
-            data-name="location"
+            data-name="ref"
             data-path="<%= form.path %>"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
             data-selected='<%= selected_json %>'
@@ -24,11 +25,11 @@
             data-types='["location"]'
           />
           <div class="btn-group pull-right">
-             <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
-                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :locations, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
-              </ul>
+            <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+              <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :locations, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
+            </ul>
           </div>
        </div>
    </div>
