@@ -8,7 +8,7 @@ class CollectionManagementRecordsController < ApplicationController
   end
 
   def show
-    @collection_management = JSONModel(:collection_management).find(params[:id], "resolve[]" => ["ref"])
+    @collection_management = JSONModel(:collection_management).find(params[:id], "resolve[]" => ["linked_records"])
   end
 
   def new
@@ -17,7 +17,7 @@ class CollectionManagementRecordsController < ApplicationController
   end
 
   def edit
-    @collection_management = JSONModel(:collection_management).find(params[:id], "resolve[]" => ["ref"])
+    @collection_management = JSONModel(:collection_management).find(params[:id], "resolve[]" => ["linked_records"])
   end
 
   def create

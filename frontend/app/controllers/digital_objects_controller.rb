@@ -3,12 +3,14 @@ class DigitalObjectsController < ApplicationController
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :tree]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
+  FIND_OPTS = ["subjects", "linked_agents"]
+
   def index
     @search_data = JSONModel(:digital_object).all(:page => selected_page)
   end
 
   def show
-    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => ["subjects","ref"])
+    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
 
     if params[:inline]
       return render :partial => "digital_objects/show_inline"
@@ -22,7 +24,7 @@ class DigitalObjectsController < ApplicationController
   end
 
   def edit
-    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => ["subjects","ref"])
+    @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
 
     if params[:inline]
       return render :partial => "digital_objects/edit_inline"
@@ -47,7 +49,7 @@ class DigitalObjectsController < ApplicationController
   def update
     handle_crud(:instance => :digital_object,
                 :obj => JSONModel(:digital_object).find(params[:id],
-                                                  "resolve[]" => ["subjects","ref"]),
+                                                  "resolve[]" => FIND_OPTS),
                 :on_invalid => ->(){
                   render :partial => "edit_inline"
                 },

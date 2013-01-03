@@ -4,12 +4,14 @@ class AccessionsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
   before_filter :user_needs_to_be_a_manager, :only => [:suppress, :unsuppress]
 
+  FIND_OPTS = ["subjects", "ref", "related_resources", "linked_agents"]
+
   def index
     @search_data = Accession.all(:page => selected_page)
   end
 
   def show
-    @accession = Accession.find(params[:id], "resolve[]" => ["subjects", "ref", "related_resources"])
+    @accession = Accession.find(params[:id], "resolve[]" => FIND_OPTS)
     flash[:info] = "Accession is suppressed and cannot be edited." if @accession.suppressed
   end
 
@@ -18,7 +20,7 @@ class AccessionsController < ApplicationController
   end
 
   def edit
-    @accession = Accession.find(params[:id], "resolve[]" => ["subjects", "ref", "related_resources"])
+    @accession = Accession.find(params[:id], "resolve[]" => FIND_OPTS)
 
     if @accession.suppressed
       redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
@@ -47,7 +49,7 @@ class AccessionsController < ApplicationController
 
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :obj => JSONModel(:accession).find(params[:id], "resolve[]" => ["subjects", "ref", "related_resources"]),
+                :obj => JSONModel(:accession).find(params[:id], "resolve[]" => FIND_OPTS),
                 :on_invalid => ->(){
                   return render :partial => "accessions/edit_inline" if params[:inline]
                   return render action: "edit"

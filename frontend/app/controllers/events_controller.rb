@@ -18,7 +18,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = JSONModel(:event).find(params[:id], "resolve[]" => ["ref"])
+    @event = JSONModel(:event).find(params[:id], "resolve[]" => ["linked_agents", "linked_records"])
   end
 
   def create

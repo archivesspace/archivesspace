@@ -5,7 +5,7 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   FIND_OPTS = {
-    "resolve[]" => ["subjects","ref"]
+    "resolve[]" => ["subjects","linked_agents"]
   }
 
 
