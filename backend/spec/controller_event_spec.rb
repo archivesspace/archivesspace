@@ -25,8 +25,8 @@ describe 'Events controller' do
 
     event = JSONModel(:event).find(e.id, "resolve[]" => ["linked_agents", "linked_records"])
 
-    event['resolved']['linked_agents'][0]['names'][0]['primary_name'].should eq(@test_agent.names[0]['primary_name'])
-    event['resolved']['linked_records'][0]['title'].should eq(@test_accession.title)
+    event['linked_agents'][0]['_resolved']['names'][0]['primary_name'].should eq(@test_agent.names[0]['primary_name'])
+    event['linked_records'][0]['_resolved']['title'].should eq(@test_accession.title)
   end
 
 

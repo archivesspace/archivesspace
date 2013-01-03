@@ -9,7 +9,7 @@ module RESTHelpers
     end
 
     if JSONModel.parse_reference(reference['ref'])
-      JSON.parse(redirect_internal(reference['ref'])[2].join(""), :max_nesting => false)
+      reference.clone.merge('_resolved' => JSON.parse(redirect_internal(reference['ref'])[2].join(""), :max_nesting => false))
     else
       raise "Couldn't parse ref: #{reference.inspect}"
     end
@@ -21,23 +21,23 @@ module RESTHelpers
     return value if (properties_to_resolve.nil? || env['ASPACE_REENTRANT'])
 
     if value.is_a? Hash
-      resolved = {}
+      result = value.clone
 
       value.each do |k, v|
         if properties_to_resolve.include?(k)
-          resolved[k] = (v.is_a? Array) ? v.map {|elt| resolve_reference(elt)} : resolve_reference(v)
+          result[k] = (v.is_a? Array) ? v.map {|elt| resolve_reference(elt)} : resolve_reference(v)
         else
-          resolve_references(v, properties_to_resolve)
+          result[k] = resolve_references(v, properties_to_resolve)
         end
       end
 
-      value['resolved'] = resolved if !resolved.empty?
+      result
 
     elsif value.is_a? Array
-      value.each {|elt| resolve_references(elt, properties_to_resolve)}
+      value.map {|elt| resolve_references(elt, properties_to_resolve)}
+    else
+      value
     end
-
-    value
   end
 
 

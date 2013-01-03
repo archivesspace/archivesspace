@@ -106,7 +106,7 @@ describe 'Archival Object controller' do
 
     ao = JSONModel(:archival_object).find(created.id, "resolve[]" => "subjects")
 
-    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
+    ao['subjects'][0]['_resolved']["terms"][0]["term"].should eq(opts[:term])
   end
 
 
@@ -175,11 +175,11 @@ describe 'Archival Object controller' do
 
     ao = JSONModel(:archival_object).find(created.id, "resolve[]" => "subjects")
 
-    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
+    ao['subjects'][0]['_resolved']["terms"][0]["term"].should eq(opts[:term])
 
     ao.refetch
 
-    ao['resolved']['subjects'][0]["terms"][0]["term"].should eq(opts[:term])
+    ao['subjects'][0]['_resolved']["terms"][0]["term"].should eq(opts[:term])
   end
 
 

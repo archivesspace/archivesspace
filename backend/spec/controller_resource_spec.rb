@@ -173,7 +173,7 @@ describe 'Resources controller' do
     obj = JSONModel(:resource).find(resource.id, "resolve[]" => "container_locations")
 
     obj.instances[0]["container"]["container_locations"][0]["status"].should eq(status)
-    obj.instances[0]["container"]["resolved"]["container_locations"][0]["building"].should eq(location.building)
+    obj.instances[0]["container"]["container_locations"][0]["_resolved"]["building"].should eq(location.building)
   end
 
 
@@ -262,7 +262,7 @@ describe 'Resources controller' do
       obj = JSONModel(:resource).find(id, "resolve[]" => "container_locations")
 
       obj.instances[0]["container"]["container_locations"][0]["status"].should eq(status)
-      obj.instances[0]["container"]["resolved"]["container_locations"][0]["temporary"].should eq(temp)
+      obj.instances[0]["container"]["container_locations"][0]["_resolved"]["temporary"].should eq(temp)
   end
 
 
@@ -336,8 +336,8 @@ describe 'Resources controller' do
     resource = JSONModel(:resource).find(r.id, "resolve[]" => ["subjects", "container_locations"])
 
     # yowza!
-    resource["instances"][0]["container"]["resolved"]["container_locations"][0]["barcode"].should eq(test_barcode)
-    resource["resolved"]["subjects"][0]["terms"][0]["term"].should eq(test_subject_term)
+    resource["instances"][0]["container"]["container_locations"][0]["_resolved"]["barcode"].should eq(test_barcode)
+    resource["subjects"][0]["_resolved"]["terms"][0]["term"].should eq(test_subject_term)
   end
 
 
