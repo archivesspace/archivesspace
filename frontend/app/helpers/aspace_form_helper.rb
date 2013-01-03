@@ -526,7 +526,7 @@ module AspaceFormHelper
     s
   end
 
-  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "resolved", "uri"]
+  PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW = ["jsonmodel_type", "lock_version", "resolved", "uri", "ref"]
 
   def read_only_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
