@@ -164,7 +164,8 @@ describe 'Resources controller' do
                           :container => build(:json_container, {
                             :container_locations => [{'ref' => location.uri,
                                                       'status' => status,
-                                                      'start_date' => generate(:yyyy_mm_dd)}]
+                                                      'start_date' => generate(:yyyy_mm_dd),
+                                                      'end_date' => generate(:yyyy_mm_dd)}]
                             }).to_hash
                         }).to_hash]
                       })
@@ -190,7 +191,8 @@ describe 'Resources controller' do
                               :container_locations => [{
                                  'ref' => location.uri,
                                  'status' => 'previous',
-                                 'start_date' => generate(:yyyy_mm_dd)
+                                 'start_date' => generate(:yyyy_mm_dd),
+                                 'end_date' => generate(:yyyy_mm_dd)
                                }]
                             }).to_hash
                           }).to_hash]
@@ -227,6 +229,7 @@ describe 'Resources controller' do
                             :container_locations => [{
                               'status' => status,
                               'start_date' => generate(:yyyy_mm_dd),
+                              'end_date' => generate(:yyyy_mm_dd),
                               'ref' => location.uri
                             }]
                           }).to_hash

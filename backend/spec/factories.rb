@@ -47,7 +47,7 @@ FactoryGirl.define do
   sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']['enum']) }
   sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']['enum']) }
   
-  sequence(:container_location_status) { sample(JSONModel(:container).schema['properties']['container_locations']['items']['properties']['status']['enum']) } 
+  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']['enum']) }
   sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']['enum']) }
   
   # AS Models
