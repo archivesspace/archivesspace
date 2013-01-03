@@ -37,18 +37,6 @@ class ApplicationController < ActionController::Base
   #
   def handle_crud(opts)
     begin
-      # The UI may pass JSON blobs for linked resources for the purposes of displaying its form.
-      # Deserialise these so the corresponding objects are stored on the JSONModel.
-      (params[opts[:instance]]["resolved"] or []).each do |property, value|
-        if value.is_a?(Hash)
-          values = {}
-          value.each_pair {|k,json| values[k] = JSON(json) if json and not json.empty?}
-        else
-          values =  value.collect {|json| JSON(json) if json and not json.empty?}.reject {|e| e.nil?}
-        end
-        params[opts[:instance]]["resolved"][property] = values
-      end
-
       # Start with the JSONModel object provided, or an empty one if none was
       # given.  Update it from the user's parameters
       model = opts[:model] || JSONModel(opts[:instance])
