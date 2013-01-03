@@ -5,6 +5,21 @@ module Relationships
   end
 
 
+  def self.relationship_instances(relationship, obj)
+    linked_objects = relationship[:references].map {|linked_model, relationship_model|
+      # Walk over each relationship instance
+      (obj.send(relationship_model.table_name) or []).map {|relationship_instance|
+        [relationship_instance.values, relationship_instance.send(linked_model.table_name)]
+      }
+    }.flatten(1)
+
+    linked_objects.sort_by {|relationship_properties, _|
+      relationship_properties[:aspace_relationship_position]
+    }
+  end
+
+
+
   def update_from_json(json, opts = {})
     obj = super
     self.class.apply_relationships(obj, json, opts)
@@ -12,16 +27,18 @@ module Relationships
   end
 
 
+  # Return all instances of the relationship named by 'name'.
+  def my_relationships(name)
+    relationship = self.class.find_relationship(name)
+
+    Relationships::relationship_instances(relationship, self)
+  end
+
+
   # Return all object instances that are related to the current record by the
   # relationship named by 'name'.
   def linked_records(name)
-    relationship = self.class.find_relationship(name)
-
-    relationship[:references].map do |linked_model, relationship_model|
-      self.send(relationship_model.table_name).map do |relationship_instance|
-        relationship_instance.send(linked_model.table_name)
-      end
-    end.flatten
+    my_relationships(name).map {|instance| instance[1]}
   end
 
 
@@ -152,16 +169,7 @@ module Relationships
         property_name = relationship[:json_property]
 
         # For each defined relationship
-        linked_objects = relationship[:references].map {|linked_model, relationship_model|
-          # Walk over each relationship instance
-          (obj.send(relationship_model.table_name) or []).map {|relationship_instance|
-            [relationship_instance.values, relationship_instance.send(linked_model.table_name)]
-          }
-        }.flatten(1)
-
-        linked_objects = linked_objects.sort_by {|relationship_properties, _|
-          relationship_properties[:aspace_relationship_position]
-        }
+        linked_objects = Relationships::relationship_instances(relationship, obj)
 
         json[property_name] = linked_objects.map {|relationship_properties, referent|
           # Return the relationship properties, plus the URI reference of the

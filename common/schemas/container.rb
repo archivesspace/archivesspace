@@ -13,7 +13,22 @@
       "type_3" => {"type" => "string"},
       "indicator_3" => {"type" => "string"},
 
-      "container_locations" => {"type" => "array", "items" => {"type" => "JSONModel(:container_location) uri_or_object"}},
+      "container_locations" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "properties" => {
+
+            "status" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "enum" => ["current", "previous"]},
+            "start_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
+            "end_date" => {"type" => "date"},
+            "note" => {"type" => "string"},
+
+            "ref" => {"type" => "JSONModel(:location) uri",
+                      "ifmissing" => "error"}
+          }
+        }
+      }
     },
 
     "additionalProperties" => false,
