@@ -303,8 +303,12 @@ module ASModel
             end
           end
 
+          # Delete any relationships involving the objects from the other table (since we're about to delete them)
+          dataset = obj.send("#{record[:association][:name]}_dataset")
+          model.prepare_for_deletion(dataset)
+
           # Delete the objects from the other table
-          obj.send("#{record[:association][:name]}_dataset").delete
+          dataset.delete
         elsif record[:association][:type] === :many_to_many
           # Just remove the links
           obj.send("remove_all_#{record[:association][:name]}".intern)
@@ -375,6 +379,11 @@ module ASModel
         sequel_to_jsonmodel(obj, opts)
       end
 
+
+      def prepare_for_deletion(dataset)
+        # Provide a hook for models to do something in response to a dataset being deleted.
+        # We won't do anything here, but mixins can add to this.
+      end
     end
   end
 

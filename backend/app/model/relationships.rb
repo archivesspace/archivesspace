@@ -35,6 +35,11 @@ module Relationships
   end
 
 
+  def delete_all_relationships
+    self.class.delete_existing_relationships(self)
+  end
+
+
   # Return all object instances that are related to the current record by the
   # relationship named by 'name'.
   def linked_records(name)
@@ -200,6 +205,14 @@ module Relationships
           }
         end
       end.flatten
+    end
+
+    def prepare_for_deletion(dataset)
+      dataset.each do |obj|
+        obj.delete_all_relationships
+      end
+
+      super
     end
 
   end
