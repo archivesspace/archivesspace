@@ -157,4 +157,26 @@ describe 'Relationships' do
     Banana.to_jsonmodel(banana).apples.should eq([])
   end
 
+
+  it "deletes relationships if one side of the relationship is deleted" do
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
+    banana_json = JSONModel(:banana).new(:apples => [{
+                                                       :ref => apple.uri,
+                                                       :sauce => "yogurt"
+                                                     }])
+    banana = Banana.create_from_json(banana_json)
+
+
+    # Now you see it
+    banana.my_relationships(:fruit_salad).count.should_not be(0)
+
+    Apple.prepare_for_deletion(Apple.filter(:id => apple.id))
+
+    # Now you don't
+    banana.reload
+    banana.my_relationships(:fruit_salad).count.should eq(0)
+  end
+
 end
+
+

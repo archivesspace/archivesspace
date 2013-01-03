@@ -119,7 +119,8 @@ module Relationships
     def delete_existing_relationships(obj)
       @relationships.each do |relationship|
         relationship[:references].values.each do |relationship_model|
-          obj.send("#{relationship_model.table_name}_dataset".intern).delete
+          ds = obj.send("#{relationship_model.table_name}_dataset".intern)
+          ds.delete
         end
       end
     end

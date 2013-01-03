@@ -80,9 +80,9 @@ describe 'Resource model' do
 
 
   it "can be created with an instance" do
-    
+
     opts = {:instances => [build(:json_instance).to_hash]}
-    
+
     resource = create_resource(opts)
 
     Resource[resource[:id]].instance.length.should eq(1)

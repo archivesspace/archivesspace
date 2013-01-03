@@ -177,6 +177,28 @@ describe 'Resources controller' do
   end
 
 
+  it "lets you create a resource with an instance/container/location, and then update the location" do
+    location = create(:json_location, :temporary => generate(:temporary_location_type))
+    status = generate(:container_location_status)
+
+    resource = create(:json_resource, {
+                        :instances => [build(:json_instance, {
+                          :container => build(:json_container, {
+                            :container_locations => [{'ref' => location.uri,
+                                                      'status' => status,
+                                                      'start_date' => generate(:yyyy_mm_dd),
+                                                      'end_date' => generate(:yyyy_mm_dd)}]
+                            }).to_hash
+                        }).to_hash]
+                      })
+
+    obj = JSONModel(:resource).find(resource.id)
+
+    obj['instances'][0]['container']['container_locations'][0]['status'] = 'current'
+    obj.save
+  end
+
+
   it "does not permit a resource's instance's container to be linked to a location with a status of 'previous' unless the location is designated 'temporary'" do
 
     # create a location
