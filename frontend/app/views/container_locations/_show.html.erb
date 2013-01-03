@@ -7,12 +7,12 @@
         container_location["jsonmodel_type"] = "container_location"
       %>
       <%= read_only_view(container_location, :label_css => "span4") %>
-      <% if resolved[index] %>
+      <% if container_location['_resolved'] %>
         <div class="control-group">
           <div class="control-label"><%= I18n.t("container_location.location") %></div>
           <div class="controls token-list">
-            <%= render_token :object => resolved[index],
-                             :label => Location.from_hash(resolved[index]).display_string,
+            <%= render_token :object => container_location['_resolved'],
+                             :label => Location.from_hash(container_location['_resolved']).display_string,
                              :type => "location",
                              :uri => container_location["ref"],
                              :placement => "top" %>

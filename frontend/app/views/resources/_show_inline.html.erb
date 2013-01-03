@@ -64,7 +64,7 @@
       <% end %>
       
       <% if not @resource.subjects.blank? %>
-        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @resource["resolved"]["subjects"], :section_id => "resource_subjects_"} %>
+        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @resource.subjects, :section_id => "resource_subjects_"} %>
       <% end %>
 
       <% if @resource.notes.length > 0 %>

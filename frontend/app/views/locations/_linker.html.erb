@@ -1,10 +1,8 @@
 <%
-   resolved_obj = form.resolved_obj
-
-  if resolved_obj.blank?
-    selected_json = "{}"
+  if form.obj.has_key?('_resolved')
+    selected_json =  Location.from_hash(form.obj['_resolved']).to_json
   else
-    selected_json =  Location.from_hash(resolved_obj).to_json
+    selected_json = "{}"
   end
 %>
 <hr/>
