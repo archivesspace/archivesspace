@@ -87,7 +87,7 @@
                   {var token_title =  AS.quickTemplate(config.format_template, json)}
                 {/if}
                <%= render_token :label => "${token_title}",
-                                :type => "${item.type}",
+                                :type => "${item.primary_type}",
                                 :uri => "${item.uri}",
                                 :inside_linker_browse => true %>
             </label>
