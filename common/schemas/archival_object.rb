@@ -11,8 +11,22 @@
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
       "other_level" => {"type" => "string"},
 
-      "parent" => {"type" => "JSONModel(:archival_object) uri", "required" => false},
-      "resource" => {"type" => "JSONModel(:resource) uri", "required" => false},
+      "parent" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {"type" => "JSONModel(:archival_object) uri"}
+        }
+      },
+
+      "resource" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {"type" => "JSONModel(:resource) uri"}
+        }
+      },
+
       "position" => {"type" => "integer", "required" => false},
 
       "instances" => {"type" => "array", "items" => {"type" => "JSONModel(:instance) object"}},

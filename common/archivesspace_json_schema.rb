@@ -35,7 +35,7 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
   def self.validate(current_schema, data, fragments, validator, options = {})
     types = current_schema.schema['type']
 
-    if types == 'object' && data.has_key?('ref') && current_schema.schema['subtype'] != 'ref'
+    if types == 'object' && data.is_a?(Hash) && data.has_key?('ref') && current_schema.schema['subtype'] != 'ref'
       # Provide a helpful warning about potentially missing subtype definitions
       $stderr.puts("WARNING: Schema #{current_schema.inspect} appears to be missing a subtype definition of 'ref'")
     end
@@ -95,9 +95,9 @@ end
 class ArchivesSpaceSubTypeAttribute < JSON::Schema::TypeAttribute
 
   def self.validate(current_schema, data, fragments, validator, options = {})
-    if !data.has_key?('ref')
-      validation_error("Schema is marked as a subtype of 'ref' but has no 'ref' property",
-                       fragments, current_schema, self, options[:record_errors])
+    if data.is_a?(Hash) && !data.has_key?('ref')
+      message = "ERROR: The property '#{build_fragment(fragments)}' did not contain a required property of 'ref'"
+      validation_error(message, fragments, current_schema, self, options[:record_errors])
     end
   end
 

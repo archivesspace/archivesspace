@@ -12,8 +12,8 @@ class DigitalObjectComponentsController < ApplicationController
   def new
     @digital_object_component = JSONModel(:digital_object_component).new._always_valid!
     @digital_object_component.title = "New Digital Object Component"
-    @digital_object_component.parent = JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id]) if params.has_key?(:digital_object_component_id)
-    @digital_object_component.digital_object = JSONModel(:digital_object).uri_for(params[:digital_object_id]) if params.has_key?(:digital_object_id)
+    @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
+    @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
 
     return render :partial => "digital_object_components/new_inline" if inline?
 
@@ -60,7 +60,7 @@ class DigitalObjectComponentsController < ApplicationController
     params[:digital_object_component] ||= {}
     if params[:parent] and not params[:parent].blank?
       # set parent as DOC uri on params
-      params[:digital_object_component][:parent] = JSONModel(:digital_object_component).uri_for(params[:parent])
+      params[:digital_object_component][:parent] = {'ref' => JSONModel(:digital_object_component).uri_for(params[:parent])}
     else
       #remove parent from DOC
       params[:digital_object_component][:parent] = nil

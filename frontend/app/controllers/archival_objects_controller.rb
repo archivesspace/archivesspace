@@ -10,8 +10,8 @@ class ArchivalObjectsController < ApplicationController
   def new
     @archival_object = JSONModel(:archival_object).new._always_valid!
     @archival_object.title = "New Archival Object"
-    @archival_object.parent = JSONModel(:archival_object).uri_for(params[:archival_object_id]) if params.has_key?(:archival_object_id)
-    @archival_object.resource = JSONModel(:resource).uri_for(params[:resource_id]) if params.has_key?(:resource_id)
+    @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
+    @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
 
     return render :partial => "archival_objects/new_inline" if inline?
 
@@ -58,7 +58,7 @@ class ArchivalObjectsController < ApplicationController
     params[:archival_object] ||= {}
     if params[:parent] and not params[:parent].blank?
       # set parent as AO uri on params
-      params[:archival_object][:parent] = JSONModel(:archival_object).uri_for(params[:parent])
+      params[:archival_object][:parent] = {'ref' => JSONModel(:archival_object).uri_for(params[:parent])}
     else
       #remove parent from AO
       params[:archival_object][:parent] = nil

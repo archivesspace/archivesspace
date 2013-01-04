@@ -19,9 +19,13 @@ describe 'Digital Object Component controller' do
   it "lets you create an digital object component with a parent" do
     digital_object = create(:json_digital_object)
 
-    parent = create(:json_digital_object_component, :digital_object => digital_object.uri)
+    parent = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
 
-    child = create(:json_digital_object_component, {:title => 'Child', :parent => parent.uri, :digital_object => digital_object.uri})
+    child = create(:json_digital_object_component, {
+                     :title => 'Child',
+                     :parent => {:ref => parent.uri},
+                     :digital_object => {:ref => digital_object.uri}
+                   })
 
     get "#{$repo}/digital_object_components/#{parent.id}/children"
     last_response.should be_ok
@@ -47,8 +51,8 @@ describe 'Digital Object Component controller' do
   it "lets you reorder sibling digital object components" do
     digital_object = create(:json_digital_object)
 
-    doc_1 = create(:json_digital_object_component, :digital_object => digital_object.uri, :title=> "DOC1")
-    doc_2 = create(:json_digital_object_component, :digital_object => digital_object.uri, :title=> "DOC2")
+    doc_1 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri}, :title=> "DOC1")
+    doc_2 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri}, :title=> "DOC2")
 
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
 

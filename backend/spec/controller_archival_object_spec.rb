@@ -26,8 +26,8 @@ describe 'Archival Object controller' do
     
     resource = create(:json_resource)
 
-    ao_1 = create(:json_archival_object, :resource => resource.uri, :title=> "AO1")
-    ao_2 = create(:json_archival_object, :resource => resource.uri, :title=> "AO2")
+    ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1")
+    ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
@@ -53,14 +53,14 @@ describe 'Archival Object controller' do
 
     opts = {:ref_id => 'xyz'}
 
-    create(:json_archival_object, opts.merge(:resource => alpha.uri))
+    create(:json_archival_object, opts.merge(:resource => {:ref => alpha.uri}))
     
     expect { 
-      create(:json_archival_object, opts.merge(:resource => beta.uri))
+      create(:json_archival_object, opts.merge(:resource => {:ref => beta.uri}))
     }.to_not raise_error
 
     expect { 
-      create(:json_archival_object, opts.merge(:resource => alpha.uri))
+      create(:json_archival_object, opts.merge(:resource => {:ref => alpha.uri}))
     }.to raise_error
   end
 
@@ -121,9 +121,13 @@ describe 'Archival Object controller' do
 
     resource = create(:json_resource)
 
-    parent = create(:json_archival_object, :resource => resource.uri)
+    parent = create(:json_archival_object, :resource => {:ref => resource.uri})
 
-    child = create(:json_archival_object, {:title => 'Child', :parent => parent.uri, :resource => resource.uri})
+    child = create(:json_archival_object, {
+                     :title => 'Child',
+                     :parent => {:ref => parent.uri},
+                     :resource => {:ref => resource.uri}
+                   })
 
     get "#{$repo}/archival_objects/#{parent.id}/children"
     last_response.should be_ok

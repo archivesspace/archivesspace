@@ -234,7 +234,15 @@ module AspaceFormHelper
 
     def hidden_input(name, value = nil)
       value = obj[name] if value.nil?
-      @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => value, :name => path(name)},
+
+      full_name = path(name)
+
+      if value && value.is_a?(Hash) && value.has_key?('ref')
+        full_name += '[ref]'
+        value = value['ref']
+      end
+
+      @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => value, :name => full_name},
                  false, false)
     end
 

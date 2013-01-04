@@ -130,10 +130,10 @@ module Orderable
       # the uniqueness check.
 
       if json[root_record_type]
-        opts["root_record_id"] = parse_reference(json[root_record_type], opts)[:id]
+        opts["root_record_id"] = parse_reference(json[root_record_type]['ref'], opts)[:id]
 
         if json.parent
-          opts["parent_id"] = parse_reference(json.parent, opts)[:id]
+          opts["parent_id"] = parse_reference(json.parent['ref'], opts)[:id]
           opts["parent_name"] = opts["parent_id"].to_s
         else
           opts["parent_name"] = "(root)"
@@ -146,10 +146,10 @@ module Orderable
       json = super
 
       if obj.root_record_id
-        json[root_record_type] = uri_for(root_record_type, obj.root_record_id)
+        json[root_record_type] = {:ref => uri_for(root_record_type, obj.root_record_id)}
 
         if obj.parent_id
-          json.parent = uri_for(node_record_type, obj.parent_id)
+          json.parent = {:ref => uri_for(node_record_type, obj.parent_id)}
         end
       end
 

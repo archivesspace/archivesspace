@@ -52,10 +52,10 @@ describe 'Resources controller' do
     ["earth", "australia", "canberra"].each do |name|
       ao = create(:json_archival_object, {:title => "archival object: #{name}"})
       if not aos.empty?
-        ao.parent = aos.last.uri
+        ao.parent = {:ref => aos.last.uri}
       end
 
-      ao.resource = resource.uri
+      ao.resource = {:ref => resource.uri}
 
       ao.save
       aos << ao
@@ -367,8 +367,8 @@ describe 'Resources controller' do
     ao1 = build(:json_archival_object)
     ao2 = build(:json_archival_object)
 
-    ao1.resource = resource.uri
-    ao2.resource = resource.uri
+    ao1.resource = {:ref => resource.uri}
+    ao2.resource = {:ref => resource.uri}
 
     ao1.save
     ao2.save
@@ -381,7 +381,7 @@ describe 'Resources controller' do
   it "doesn't mix up resources and archival objects when attaching extents" do
     resource = create(:json_resource)
     ao = create(:json_archival_object,
-                :resource => resource.uri)
+                :resource => {:ref => resource.uri})
 
     ao.extents = [build(:json_extent).to_hash]
     ao.save
