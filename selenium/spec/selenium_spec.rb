@@ -816,6 +816,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "collection_management_processing_total_extent_"], "Full")
       $driver.find_element(:id, "collection_management_processing_total_extent_type_").select_option('sheets')
 
+      $driver.find_element(:css => '#collection_management_linked_records_ .subrecord-form-heading .btn').click
+
       $driver.clear_and_send_keys([:css, "#collection_management_linked_records_ #token-input-collection_management_linked_records__0__ref_"], @accession_title)
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
