@@ -1403,6 +1403,10 @@ en:
     _html:
       singular: Related Accession
       plural: Related Accessions
+  related_resource:
+    _html:
+      singular: Related Resource
+      plural: Related Resources
   repository:
     repo_code: Repository code
     description: Description

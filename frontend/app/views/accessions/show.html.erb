@@ -46,6 +46,10 @@
            <%= render :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
          <% end %>
 
+       <% if @accession.related_resources.length > 0 %>
+         <%= render :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
+       <% end %>
+
        <% if @accession.linked_agents.length > 0 %>
          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
        <% end %>
