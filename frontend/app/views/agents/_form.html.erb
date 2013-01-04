@@ -22,19 +22,19 @@
     </h3>
     <div class="subrecord-form-container">
       <%= form.list_for(form["names"], "names[]") do |name| %>
-        <% form.emit_template("#{@agent.agent_type}_name") %>
+        <% form.emit_template("#{@agent.agent_type.to_s.sub("agent_", "name_")}") %>
       <% end %>
     </div>
   </section>
 
   <section id="contacts" class="subrecord-form">
     <h3 class="subrecord-form-heading">
-      <%= I18n.t("agent_contact_details._html.plural") %>
-      <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add_prefix") %> <%= I18n.t("agent_contact_details._html.singular") %>" />
+      <%= I18n.t("agent_contact._html.plural") %>
+      <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add_prefix") %> <%= I18n.t("agent_contact._html.singular") %>" />
     </h3>
     <div class="subrecord-form-container">
       <%= form.list_for(form["agent_contacts"], "agent_contacts[]") do |name| %>
-        <% form.emit_template("agent_contact_details") %>
+        <% form.emit_template("agent_contact") %>
       <% end %>
     </div>
   </section>

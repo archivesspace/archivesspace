@@ -1028,16 +1028,16 @@ en:
     _html:
       singular: Name
       plural: Names
-  agent_person_name:
+  name_person:
     <<: *agent_name_attributes
-  agent_family_name:
+  name_family:
     <<: *agent_name_attributes
     family_name: Family Name
-  agent_corporate_entity_name:
+  name_corporate_entity0:
     <<: *agent_name_attributes
     subordinate_name_1: Subordinate Name 1
     subordinate_name_2: Subordinate Name 2
-  agent_software_name:
+  name_software:
     <<: *agent_name_attributes
     software_name: Software Name
     version: Version
@@ -1058,7 +1058,7 @@ en:
     _html:
       singular: Corporate Entity
       plural: Corporate Entities
-  agent_contact_details:
+  agent_contact:
     name: Contact Description
     salutation: Salutation
     address_1: Address 1

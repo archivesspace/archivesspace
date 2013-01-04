@@ -1,4 +1,4 @@
-<% define_template "agent_corporate_entity_name", jsonmodel_definition(:name_corporate_entity) do |form| %>
+<% define_template "name_corporate_entity", jsonmodel_definition(:name_corporate_entity) do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_textfield "authority_id" %>
     <%= form.label_and_select "source", form.possible_options_for('source', true) %>
