@@ -422,6 +422,11 @@ module JSONModel
       end
 
 
+      def has_key?(key)
+        @data.has_key?(key)
+      end
+
+
       # Validate the current JSONModel instance and return a list of exceptions
       # produced.
       def _exceptions
