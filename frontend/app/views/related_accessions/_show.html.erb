@@ -10,9 +10,9 @@
     <div class="controls token-list">
       <% related_accessions.each_with_index do | accession, index | %>
         <%= render_token :object => accession["_resolved"],
-                         :label => link["_resolved"]["title"],
+                         :label => accession["_resolved"]["title"],
                          :type => "accession",
-                         :uri => link["ref"] %>
+                         :uri => accession["ref"] %>
       <% end %>
     </div>
   </div>
