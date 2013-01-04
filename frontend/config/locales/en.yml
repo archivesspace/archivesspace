@@ -1033,7 +1033,7 @@ en:
   name_family:
     <<: *agent_name_attributes
     family_name: Family Name
-  name_corporate_entity0:
+  name_corporate_entity:
     <<: *agent_name_attributes
     subordinate_name_1: Subordinate Name 1
     subordinate_name_2: Subordinate Name 2
