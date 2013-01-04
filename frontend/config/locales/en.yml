@@ -1469,7 +1469,7 @@ en:
     rights_determined: Rights determined
     rights_determined_true: Yes
     rights_determined_false: No
-    linked_records: Linked records
+    linked_records: Record Links
     _html:
       singular: Collection Management Record
       plural: Collection Management Records

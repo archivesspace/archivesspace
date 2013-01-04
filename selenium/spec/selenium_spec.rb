@@ -805,7 +805,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form#new_collection_management button[type='submit']").click
 
       expect {
-        $driver.find_element_with_text('//div[contains(@class, "error")]', /Record - Property is required/)
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Record Links - Property is required/)
       }.to_not raise_error
     end
 
