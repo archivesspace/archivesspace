@@ -32,8 +32,6 @@ class AccessionsController < ApplicationController
   end
 
   def create
-    munge_related(params[:accession], :related_resources)
-
     handle_crud(:instance => :accession,
                 :model => Accession,
                 :on_invalid => ->(){ render action: "new" },
@@ -45,8 +43,6 @@ class AccessionsController < ApplicationController
   end
 
   def update
-    munge_related(params[:accession], :related_resources)
-
     handle_crud(:instance => :accession,
                 :model => Accession,
                 :obj => JSONModel(:accession).find(params[:id], "resolve[]" => FIND_OPTS),

@@ -268,15 +268,4 @@ class ApplicationController < ActionController::Base
     render "/403"
   end
 
-
-  # FIXME: a gross workaround while we reconcile the differences between the way
-  # accessions are linked and the way subjects are linked.  Soon we'll move
-  # everything over to use this new 'ref' syntax.
-  def munge_related(hash, property)
-    if hash[property]
-      hash[property] = hash[property].map {|uri| {'ref' => uri}}
-    end
-  end
-
-
 end

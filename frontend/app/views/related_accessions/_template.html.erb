@@ -1,4 +1,4 @@
-<% define_template("resource_related_accessions") do |form| %>
+<% define_template("resource_related_accessions",  jsonmodel_definition(:resource)) do |form| %>
   <div class="subrecord-form-fields">
     <%= render :partial => "accessions/linker", :locals => { :form => form }%>
   </div>

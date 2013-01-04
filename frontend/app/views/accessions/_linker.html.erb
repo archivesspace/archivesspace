@@ -6,7 +6,7 @@
    end
 %>
 <div class="control-group">
-   <label class="control-label"><%= I18n.t "accession._html.plural" %></label>
+   <label class="control-label"><%= I18n.t "accession._html.singular" %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
@@ -16,7 +16,7 @@
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
-            data-selected='<%= selected_json %>'
+            data-selected='<%= selected_json.to_json %>'
             data-format_property="title"
             data-multiplicity="one"
             data-types='["accession"]'

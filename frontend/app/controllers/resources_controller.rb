@@ -40,8 +40,6 @@ class ResourcesController < ApplicationController
 
 
   def create
-    munge_related(params[:resource], :related_accessions)
-
     handle_crud(:instance => :resource,
                 :on_invalid => ->(){
                   return render :partial => "resources/new_inline" if params[:inline]
@@ -59,8 +57,6 @@ class ResourcesController < ApplicationController
 
 
   def update
-    munge_related(params[:resource], :related_accessions)
-
     handle_crud(:instance => :resource,
                 :obj => JSONModel(:resource).find(params[:id],
                                                   "resolve[]" => FIND_OPTS),
