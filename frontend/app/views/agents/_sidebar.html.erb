@@ -7,7 +7,7 @@
     <% end %>
 
     <% if not controller.action_name === "show" or @agent.agent_contacts.length > 0 %>
-      <li><a href="#contacts"><%= I18n.t("agent_contact_details._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#contacts"><%= I18n.t("agent_contact._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @agent.external_documents.length > 0 %>

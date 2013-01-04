@@ -43,7 +43,7 @@ $(function() {
           id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: form_index}),
           index: "${index}"
         };
-        var $subform = $(AS.renderTemplate("template_"+$("#agent_agent_type_").val()+"_name", index_data));
+        var $subform = $(AS.renderTemplate("template_"+$("#agent_agent_type_").val().replace("agent_", "name_")+"", index_data));
         $subform.hide();
         $target_subrecord_list.append($subform);
         $subform.fadeIn();
@@ -64,7 +64,7 @@ $(function() {
           id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: form_index}),
           index: "${index}"
         };
-        var $subform = $(AS.renderTemplate("template_agent_contact_details", index_data));
+        var $subform = $(AS.renderTemplate("template_agent_contact", index_data));
         $subform.hide();
         $target_subrecord_list.append($subform);
         $subform.fadeIn();
