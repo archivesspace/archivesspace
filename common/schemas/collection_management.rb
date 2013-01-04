@@ -23,6 +23,7 @@
         "minItems" => 1,
         "items" => {
           "type" => "object",
+          "subtype" => "ref",
           "properties" => {
             "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"},
                                  {"type" => "JSONModel(:resource) uri"},

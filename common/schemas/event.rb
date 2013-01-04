@@ -32,6 +32,7 @@
         "minItems" => 1,
         "items" => {
           "type" => "object",
+          "subtype" => "ref",
           "properties" => {
             "role" => {
               "type" => "string",
@@ -54,6 +55,7 @@
         "minItems" => 1,
         "items" => {
           "type" => "object",
+          "subtype" => "ref",
           "properties" => {
             "role" => {
               "type" => "string",

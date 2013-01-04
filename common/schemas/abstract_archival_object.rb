@@ -11,6 +11,7 @@
         "type" => "array",
         "items" => {
           "type" => "object",
+          "subtype" => "ref",
           "properties" => {
             "ref" => {
               "type" => "JSONModel(:subject) uri",
@@ -28,6 +29,7 @@
         "type" => "array",
         "items" => {
           "type" => "object",
+          "subtype" => "ref",
           "properties" => {
             "role" => {
               "type" => "string",

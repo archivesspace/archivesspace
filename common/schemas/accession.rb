@@ -22,6 +22,7 @@
         "type" => "array",
         "items" => {
           "type" => "object",
+          "subtype" => "ref",
           "properties" => {
             "ref" => {"type" => "JSONModel(:subject) uri",
               "ifmissing" => "error"}
@@ -39,6 +40,7 @@
         "type" => "array",
         "items" => {
           "type" => "object",
+          "subtype" => "ref",
           "properties" => {
             "ref" => {"type" => [{"type" => "JSONModel(:resource) uri"}],
                       "ifmissing" => "error"}
@@ -52,6 +54,7 @@
         "type" => "array",
         "items" => {
           "type" => "object",
+          "subtype" => "ref",
           "properties" => {
             "role" => {
               "type" => "string",

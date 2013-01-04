@@ -50,6 +50,7 @@ describe 'Relationships' do
             "type" => "array",
             "items" => {
               "type" => "object",
+              "subtype" => "ref",
               "properties" => {
                 "ref" => {"type" => [{"type" => "JSONModel(:banana) uri"}]}
               }
@@ -70,6 +71,7 @@ describe 'Relationships' do
             "type" => "array",
             "items" => {
               "type" => "object",
+              "subtype" => "ref",
               "properties" => {
                 "ref" => {"type" => [{"type" => "JSONModel(:apple) uri"}]}
               }
