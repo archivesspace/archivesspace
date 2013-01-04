@@ -59,6 +59,10 @@
         </div>
       </section>
 
+      <% if @resource.related_accessions.length > 0 %>
+        <%= render :partial => "related_accessions/show", :locals => { :related_accessions => @resource.related_accessions, :section_id => "resource_related_accessions_" } %>
+      <% end %>
+
       <% if @resource.linked_agents.length > 0 %>
         <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @resource.linked_agents, :section_id => "resource_linked_agents_" } %>
       <% end %>

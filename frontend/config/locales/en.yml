@@ -1399,6 +1399,10 @@ en:
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid
+  related_accession:
+    _html:
+      singular: Related Accession
+      plural: Related Accessions
   repository:
     repo_code: Repository code
     description: Description

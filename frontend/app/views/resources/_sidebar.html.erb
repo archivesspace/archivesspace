@@ -10,6 +10,10 @@
 
     <li><a href="#finding_aid"><%= I18n.t("resource._html.section.finding_aid") %> <span class="icon-chevron-right"></span></a></li>
 
+    <% if controller.action_name != "show" || @resource.related_accessions.length > 0 %>
+      <li><a href="#resource_related_accessions_"><%= I18n.t("related_accession._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <% if controller.action_name != "show" || @resource.linked_agents.length > 0 %>
       <li><a href="#resource_linked_agents_"><%= I18n.t("linked_agent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
