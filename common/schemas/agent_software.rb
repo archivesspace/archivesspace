@@ -7,7 +7,7 @@
     "properties" => {
       "names" => {
         "type" => "array",
-        "items" => {"type" => "JSONModel(:name_software) uri_or_object"},
+        "items" => {"type" => "JSONModel(:name_software) object"},
         "ifmissing" => "error",
         "minItems" => 1
       },

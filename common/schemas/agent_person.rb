@@ -7,7 +7,7 @@
     "properties" => {
       "names" => {
         "type" => "array",
-        "items" => {"type" => "JSONModel(:name_person) uri_or_object"},
+        "items" => {"type" => "JSONModel(:name_person) object"},
         "ifmissing" => "error",
         "minItems" => 1
       },
