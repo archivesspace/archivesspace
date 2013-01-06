@@ -414,27 +414,21 @@ Sequel.migration do
       add_index([:vocab_id, :term, :term_type], :unique => true)
     end
 
-    # Create subject join tables
-    [:term, :archival_object, :resource, :accession, :digital_object, :digital_object_component].each do |linked_table|
-      table = "subject_#{linked_table}".intern
 
-      create_table(table) do
+    create_table(:subject_term) do
         primary_key :id
 
         Integer :subject_id, :null => false
-        Integer "#{linked_table}_id".intern, :null => false
+        Integer :term_id, :null => false
       end
 
-      alter_table(table) do
-        add_foreign_key([:subject_id], :subject, :key => :id)
-        add_foreign_key(["#{linked_table}_id".intern], linked_table.intern, :key => :id)
+    alter_table(:subject_term) do
+      add_foreign_key([:subject_id], :subject, :key => :id)
+      add_foreign_key([:term_id], :term, :key => :id)
 
-        abbrev = MigrationUtils.shorten_table(linked_table)
-
-        add_index([:subject_id, "#{linked_table}_id".intern],
-                  :name => "subject_#{abbrev}")
-      end
+      add_index([:subject_id, :term_id], :name => "subject_term")
     end
+
 
     create_table(:agent_person) do
       primary_key :id
