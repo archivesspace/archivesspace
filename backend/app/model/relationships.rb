@@ -155,6 +155,8 @@ module Relationships
           properties[referent_model.table_name] = referent_model[record_type[:id]]
           properties[:aspace_relationship_position] = idx
 
+          properties[:last_modified] = Time.now
+
           link_model.create(properties)
         end
       end

@@ -23,6 +23,7 @@ describe 'Relationships' do
         Integer :banana_id
         Integer :apple_id
         Integer :aspace_relationship_position
+        DateTime :last_modified, :null => false
       end
     end
   end
@@ -179,6 +180,18 @@ describe 'Relationships' do
     banana.my_relationships(:fruit_salad).count.should eq(0)
   end
 
+
+  it "stores a last modified time on each relationship" do
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
+    banana_json = JSONModel(:banana).new(:apples => [{
+                                                       :ref => apple.uri,
+                                                       :sauce => "yogurt"
+                                                     }])
+    time = Time.now.to_f
+    banana = Banana.create_from_json(banana_json)
+
+    banana.my_relationships(:fruit_salad)[0][0][:last_modified].to_f.should be >= time
+  end
 end
 
 

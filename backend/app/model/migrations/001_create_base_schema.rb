@@ -908,6 +908,7 @@ Sequel.migration do
           Integer "#{record}_id".intern
           Integer "#{agent}_id".intern
           Integer :aspace_relationship_position
+          DateTime :last_modified, :null => false
           String :role
         end
 
@@ -928,6 +929,7 @@ Sequel.migration do
         Integer "#{record}_id".intern
         Integer :event_id
         Integer :aspace_relationship_position
+        DateTime :last_modified, :null => false
         String :role
       end
 
@@ -949,6 +951,7 @@ Sequel.migration do
         Integer "#{record}_id".intern
         Integer :collection_management_id
         Integer :aspace_relationship_position
+        DateTime :last_modified, :null => false
       end
 
       alter_table(table) do
@@ -967,6 +970,7 @@ Sequel.migration do
       Integer :accession_id
       Integer :resource_id
       Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
     end
 
     alter_table(table) do
@@ -986,6 +990,7 @@ Sequel.migration do
         Integer "#{record}_id".intern
         Integer :subject_id
         Integer :aspace_relationship_position
+        DateTime :last_modified, :null => false
       end
 
       alter_table(table) do
@@ -1003,6 +1008,7 @@ Sequel.migration do
       Integer :container_id
       Integer :location_id
       Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
 
       String :status
       String :start_date
