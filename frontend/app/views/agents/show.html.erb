@@ -4,15 +4,10 @@
    <div class="span3">
       <%= render :partial => "agents/sidebar" %>
    </div>
-   <div class="span9 record-pane">
+   <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
      <%= readonly_context @agent.agent_type.intern, @agent.to_hash(true) do |readonly| %>
-
-       <div class="btn-group" style="float: right">
-         <% if user_can?('update_repository') %>
-           <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-small" %>
-         <% end %>
-       </div>
-
         <h2><%= @agent.names[0]['sort_name'] %>  <span class="label label-info"><%= I18n.t("agent._html.singular") %></span></h2>
 
         <div class="row-fluid">
@@ -86,4 +81,5 @@
         <% end %>
       <% end %>
     </div>
+  </div>
 </div>

@@ -6,6 +6,7 @@
 //= require deaccessions.crud
 //= require subrecord.crud
 //= require rights_statements.crud
+//= require detect_form_changes
 
 $(function() {
 
@@ -17,11 +18,25 @@ $(function() {
         return;
       }
 
+      var form_changed = false;
+
       $this.addClass("initialised");
 
 
       var addEventBindings = function() {
+        $this.bind("form-changed", function() {
+          form_changed = true;
+        });
 
+        $this.bind("submit", function() {
+          form_changed = false;
+        });
+
+        $(window).bind("beforeunload", function(event) {
+          if (form_changed) {
+            return 'Please note you have some unsaved changes.';
+          }
+        });
       };
 
       addEventBindings();

@@ -4,13 +4,9 @@
    <div class="span3">
       <%= render :partial => "sidebar" %>
    </div>
-   <div class="span9 record-pane">
-     <div class="btn-group" style="float: right">
-       <% if user_can?('update_repository') %>
-         <%= link_to I18n.t("actions.edit"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-small" %>
-       <% end %>
-     </div>
-
+   <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
      <%= readonly_context :subject, @subject.to_hash do |readonly| %>
       <h2><%= @subject.display_string %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
 
@@ -43,4 +39,5 @@
       <% end %>
     <% end %>
    </div>
+  </div>
 </div>

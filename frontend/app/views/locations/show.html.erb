@@ -4,16 +4,12 @@
    <div class="span3">
      <%= render :partial => "locations/sidebar" %>
    </div>
-   <div class="span9 record-pane">
-     <div class="btn-group" style="float: right">
-       <% if user_can?('update_repository') %>
-         <%= link_to I18n.t("actions.edit"), {:controller => :locations, :action => :edit, :id => @location.id}, :class => "btn btn-small" %>
-       <% end %>
-     </div>
-
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
       <h2><%= @location.id %>  <span class="label label-info"><%= I18n.t("location._html.singular") %></span></h2>
 
-     <%= read_only_view(@location.to_hash) %>
-
-   </div>
+      <%= read_only_view(@location.to_hash) %>
+    </div>
+  </div>
 </div>

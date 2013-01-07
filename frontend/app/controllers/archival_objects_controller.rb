@@ -30,7 +30,7 @@ class ArchivalObjectsController < ApplicationController
                 :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
-                  flash[:success] = "Archival Object Created"
+                  flash.now[:success] = "Archival Object Created"
                   render :partial => "archival_objects/edit_inline"
                 })
   end
@@ -41,7 +41,7 @@ class ArchivalObjectsController < ApplicationController
                 :obj => JSONModel(:archival_object).find(params[:id], FIND_OPTS),
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  flash[:success] = "Archival Object Saved"
+                  flash.now[:success] = "Archival Object Saved"
                   render :partial => "edit_inline"
                 })
   end

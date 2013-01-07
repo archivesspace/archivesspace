@@ -26,9 +26,9 @@ class DigitalObjectsController < ApplicationController
   def edit
     @digital_object = JSONModel(:digital_object).find(params[:id], "resolve[]" => FIND_OPTS)
 
-    if params[:inline]
-      return render :partial => "digital_objects/edit_inline"
-    end
+    flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
+
+    return render :partial => "digital_objects/edit_inline" if params[:inline]
 
     fetch_tree
   end
@@ -39,9 +39,12 @@ class DigitalObjectsController < ApplicationController
                 :on_invalid => ->(){ render action: "new" },
                 :on_valid => ->(id){ 
                   flash[:success] = "Digital Object Created"
-                  redirect_to(:controller => :digital_objects,
-                                                 :action => :edit,
-                                                 :id => id) 
+                  redirect_to({
+                                :controller => :digital_objects,
+                                :action => :edit,
+                                :id => id
+                              },
+                              :flash => {:success => "Digital Object Created"}) 
                 })
   end
 
@@ -54,7 +57,7 @@ class DigitalObjectsController < ApplicationController
                   render :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  flash[:success] = "Digital Object Saved"
+                  flash.now[:success] = "Digital Object Saved"
                   render :partial => "edit_inline"
                 })
   end

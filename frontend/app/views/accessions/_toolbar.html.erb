@@ -1,0 +1,41 @@
+<% if user_can?('update_repository') %>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="record-toolbar">
+        <div class="pull-right">
+          <% if @accession.suppressed %>
+            <% if user_can?('manage_repository') %>
+              <div class="btn-group">
+                <div class="btn btn-small btn-inline-form">
+                  <%= button_to I18n.t("actions.unsuppress"), {:controller => :accessions, :action => :unsuppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-primary",  :"data-confirmation" => true, :"data-title" => I18n.t("actions.unsuppress_confirm_message") %>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="btn-group">
+              <% if controller.action_name === "show" %>
+                <%= link_to I18n.t("actions.edit"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-small" %>
+              <% end %>
+              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+                <%= I18n.t "actions.spawn" %>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to "<span class='icon-resource'></span> #{I18n.t("resource._html.singular")}".html_safe, :controller => :resources, :action => :new, :accession_id => @accession.id %>
+                </li>
+              </ul>
+            </div>
+            <% if controller.action_name === "show" and user_can?('manage_repository') %>
+              <div class="btn-group">
+                <div class="btn btn-inline-form">
+                  <%= button_to I18n.t("actions.suppress"), {:controller => :accessions, :action => :suppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-danger", :"data-confirmation" => true, :"data-title" => I18n.t("actions.suppress_confirm_message") %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

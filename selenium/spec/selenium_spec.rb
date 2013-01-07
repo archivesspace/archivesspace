@@ -521,11 +521,11 @@ describe "ArchivesSpace user interface" do
 
 
     it "is presented an Accession edit form" do
+      $driver.find_element(:link, 'Edit').click
+
       $driver.clear_and_send_keys([:id, 'accession_content_description_'], "Here is a description of this accession.")
       $driver.clear_and_send_keys([:id, 'accession_condition_description_'], "Here we note the condition of this accession.")
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
-
-      $driver.find_element(:link, 'Finish Editing').click
 
       assert { $driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/) }
     end
@@ -534,12 +534,10 @@ describe "ArchivesSpace user interface" do
     it "can edit an Accession but cancel the edit" do
       $driver.find_element(:link, 'Edit').click
       $driver.clear_and_send_keys([:id, 'accession_content_description_'], " moo")
-      $driver.find_element(:link, "Revert Changes").click
+      $driver.find_element(:link, "Cancel").click
 
       # Skip over Firefox's "you're navigating away" warning.
       $driver.switch_to.alert.accept
-
-      $driver.find_element(:link, 'Finish Editing').click
 
       assert { $driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/) }
     end
@@ -553,19 +551,11 @@ describe "ArchivesSpace user interface" do
         $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       }.to_not raise_error
       # cancel first to back out bad change
-      $driver.find_element(:link, "Revert Changes").click
-
-      # Skip over Firefox's "you're navigating away" warning.
-      $driver.switch_to.alert.accept
-
-      # cancel second to leave edit mode
-      $driver.find_element(:link, 'Finish Editing').click
+      $driver.find_element(:link, "Cancel").click
     end
 
 
     it "can edit an Accession and two Extents" do
-      $driver.find_element(:link, 'Edit').click
-
       # add the first extent
       $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn').click
 
@@ -580,8 +570,6 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'accession_extents__1__number_'], "10")
 
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
-
-      $driver.find_element(:link, 'Finish Editing').click
 
       assert { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
     end
@@ -603,8 +591,6 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_extents_ .confirm-removal').click
 
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
-
-      $driver.find_element(:link, 'Finish Editing').click
 
       extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
       extent_headings.length.should eq (1)
@@ -642,8 +628,6 @@ describe "ArchivesSpace user interface" do
       # save!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-      $driver.find_element(:link, 'Finish Editing').click
-
       # check dates
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
       date_headings.length.should eq (2)
@@ -659,8 +643,6 @@ describe "ArchivesSpace user interface" do
 
       # save!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
-
-      $driver.find_element(:link, 'Finish Editing').click
 
       # check remaining date
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
@@ -696,8 +678,6 @@ describe "ArchivesSpace user interface" do
       # save!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-      $driver.find_element(:link, 'Finish Editing').click
-
       # check external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
       external_document_sections.length.should eq (2)
@@ -714,8 +694,6 @@ describe "ArchivesSpace user interface" do
 
       # save!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
-
-      $driver.find_element(:link, 'Finish Editing').click
 
       # check remaining external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
@@ -741,8 +719,6 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-      $driver.find_element(:link, 'Finish Editing').click
-
       assert { $driver.find_element(:css => "#accession_subjects_ .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
     end
 
@@ -765,8 +741,6 @@ describe "ArchivesSpace user interface" do
 
       # save changes
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
-
-      $driver.find_element(:link, 'Finish Editing').click
 
       # check the show page
       $driver.find_element(:id, "accession_rights_statements_")

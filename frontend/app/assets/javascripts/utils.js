@@ -21,23 +21,6 @@ $(function() {
 });
 
 
-// add form change detection
-$(function() {
-  var ignoredKeycodes = [37,39,9];
-  var onFormElementChange = function(event) {
-    $("#object_container form").triggerHandler("form-changed");
-  };
-  $("#object_container form :input").live("change keyup", function(event) {
-    if ($(this).data("original_value") && ($(this).data("original_value") !== $(this).val())) {
-      onFormElementChange();
-    } else if ($.inArray(event.keyCode, ignoredKeycodes) === -1) {
-      onFormElementChange();
-    }
-  });
-  $("#object_container form :radio, .object-container form :checkbox").live("click", onFormElementChange);
-});
-
-
 // add four part indentifier behaviour
 $(function() {
   var initIdentifierFields = function() {

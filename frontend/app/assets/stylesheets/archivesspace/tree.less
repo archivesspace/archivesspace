@@ -62,36 +62,14 @@
     background-position: -384px -120px !important;
   }
 
-  .jstree-open > a > .jstree-icon {
-    background-position: -408px -120px !important;
-  }
-
-  .archival_object > a > .jstree-icon,
-  .icon-archival_object {
-    background-position: -24px  -24px !important;
-  }
-
-  .digital_object_component > a > .jstree-icon,
-  .icon-digital_object_component {
-    background-position: -456px -24px !important;
-  }
-
-  .new > a > .jstree-icon {
-    background-position: -456px -96px !important;
-  }
-
-  .resource > a > .jstree-icon,
-  .icon-resource  {
-    background-position: -264px -24px !important;
-  }
-
-  .accession > a > .jstree-icon,
-  .icon-accession {
-    background-position: -168px -24px !important;
-  }
-
   #archives_tree_toolbar {
     padding: 0 20px;
+
+    > .btn-toolbar {
+      border-bottom: 1px solid #E6E6E6;
+      padding-bottom: 5px;
+      margin-bottom: 6px;
+    }
 
     .btn-group.move-node-menu .dropdown-submenu ul {
       max-width: 400px;
@@ -128,6 +106,34 @@
   }
 }
 
+.jstree-open > a > .jstree-icon {
+  background-position: -408px -120px !important;
+}
+
+.archival_object > a > .jstree-icon,
+.icon-archival_object {
+  background-position: -24px  -24px !important;
+}
+
+.digital_object_component > a > .jstree-icon,
+.icon-digital_object_component {
+  background-position: -456px -24px !important;
+}
+
+.new > a > .jstree-icon {
+  background-position: -456px -96px !important;
+}
+
+.resource > a > .jstree-icon,
+.icon-resource  {
+  background-position: -264px -24px !important;
+}
+
+.accession > a > .jstree-icon,
+.icon-accession {
+  background-position: -168px -24px !important;
+}
+
 .archives-tree-container.expanded {
   .box-shadow(1px 1px 5px rgba(0, 0, 0, 0.4));
   .opacity(95);
@@ -146,4 +152,17 @@
 .tree-navigation {
   float: right;
   margin: 0 0 0 4px;
+}
+
+.tree-loading-notice {
+  width: 300px;
+  height: 2em;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  margin-left: -150px;
+  text-align: center;
+  padding-top: 1em;
+  .opacity(95);
+  .box-shadow(3px 3px 10px rgba(0, 0, 0, 0.6))
 }

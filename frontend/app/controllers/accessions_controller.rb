@@ -38,7 +38,7 @@ class AccessionsController < ApplicationController
                 :on_valid => ->(id){
                     flash[:success] = "Accession Created"
                     redirect_to(:controller => :accessions,
-                                                 :action => :edit,
+                                                 :action => :show,
                                                  :id => id) })
   end
 

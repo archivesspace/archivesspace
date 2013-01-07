@@ -25,7 +25,12 @@ class ResourcesController < ApplicationController
     if params[:accession_id]
       acc = Accession.find(params[:accession_id],
                            "resolve[]" => FIND_OPTS)
-      @resource.populate_from_accession(acc) if acc
+
+      if acc
+        @resource.populate_from_accession(acc)
+        flash.now[:info] = "Resource spawned from Accession: #{acc.title}"
+        flash[:spawned_from_accession] = acc.id
+      end
     end
 
     return render :partial => "resources/new_inline" if params[:inline]
@@ -35,23 +40,25 @@ class ResourcesController < ApplicationController
   def edit
     @resource = JSONModel(:resource).find(params[:id], "resolve[]" => FIND_OPTS)
     fetch_tree
+    flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
     return render :partial => "resources/edit_inline" if params[:inline]
   end
 
 
   def create
+    flash.keep(:spawned_from_accession)
+
     handle_crud(:instance => :resource,
                 :on_invalid => ->(){
-                  return render :partial => "resources/new_inline" if params[:inline]
                   render action: "new"
                 },
                 :on_valid => ->(id){
-                  flash[:success] = "Resource Created"
-
-                  return render :partial => "resources/edit_inline" if params[:inline]
-                  redirect_to(:controller => :resources,
-                              :action => :edit,
-                              :id => id)
+                  redirect_to({
+                                :controller => :resources,
+                                :action => :edit,
+                                :id => id
+                              },
+                              :flash => {:success => "Resource Created"})
                  })
   end
 
@@ -64,7 +71,7 @@ class ResourcesController < ApplicationController
                   render :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  flash[:success] = "Resource Saved"
+                  flash.now[:success] = "Resource Saved"
                   render :partial => "edit_inline"
                 })
   end

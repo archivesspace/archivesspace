@@ -4,8 +4,9 @@
    <div class="span3">
       The facets/search filters will go here.
    </div>
-   <div class="span9 record-pane">
-      <div class="btn-group">
+    <div class="span9">
+     <div class="record-pane">
+      <div class="btn-group pull-right">
         <div class="btn-group">
           <% if user_can?('update_repository') %>
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -55,5 +56,6 @@
             <%= I18n.t("search_results.no_results") %>
          </p>
       <% end %>
+     </div>
    </div>
 </div>

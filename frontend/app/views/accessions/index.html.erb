@@ -1,11 +1,12 @@
 <%= setup_context(:title => I18n.t("accession._html.plural")) %>
 
 <div class="row-fluid">
-   <div class="span3">
-      The facets/search filters will go here.
-   </div>
-   <div class="span9 record-pane">
-      <div class="btn-group">
+  <div class="span3">
+    The facets/search filters will go here.
+  </div>
+  <div class="span9">
+    <div class="record-pane">
+      <div class="btn-group pull-right">
         <% if user_can?('update_repository') %>
           <%= link_to "Create Accession", {:controller => :accessions, :action => :new}, :class => "btn" %>
         <% end %>
@@ -48,5 +49,6 @@
             There are currently no accessions in this, <strong><%= session[:repo] %></strong>, repository.
          </p>
       <% end %>
-   </div>
+    </div>
+  </div>
 </div>

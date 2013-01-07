@@ -6,12 +6,14 @@
       <div class="span3">
         <%= render :partial => "sidebar", :locals => {:form => form} %>
       </div>
-      <div class="span9 record-pane">
-        <h2><%= @agent.names[0]["sort_name"] %>  <span class="label label-info"><%= I18n.t("agent._html.singular") %></span></h2>
-        <%= render :partial => "agents/form", :locals => {:form => form} %>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
-          <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+      <div class="span9">
+        <div class="record-pane">
+          <h2><%= @agent.names[0]["sort_name"] %>  <span class="label label-info"><%= I18n.t("agent._html.singular") %></span></h2>
+          <%= render :partial => "agents/form", :locals => {:form => form} %>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+          </div>
         </div>
       </div>
     </div>

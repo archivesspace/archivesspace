@@ -6,9 +6,11 @@
       <div class="span3">
         <%= render :partial => "sidebar" %>
       </div>
-      <div class="span9 record-pane">
-        <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("accession._html.singular") %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
-        <%= render :partial => "accessions/form", :locals => {:form => form} %>
+      <div class="span9">
+        <div class="record-pane">
+          <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("accession._html.singular") %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
+          <%= render :partial => "accessions/form", :locals => {:form => form} %>
+        </div>
       </div>
     </div>
   <% end %>
