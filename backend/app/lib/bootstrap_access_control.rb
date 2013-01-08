@@ -40,6 +40,10 @@ class ArchivesSpaceService
                       "The ability to manage user accounts while logged in",
                       :level => "global")
 
+    Permission.define("view_all_records",
+                      "The ability to view any record in the system",
+                      :level => "global")
+
     Permission.define("create_repository",
                       "The ability to create new repositories",
                       :level => "global")
