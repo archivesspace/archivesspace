@@ -56,6 +56,12 @@ class CommonIndexer
         doc['types'] << 'agent'
       end
     }
+
+    add_document_prepare_hook {|doc, record|
+      doc['external_id'] = Array(record['record']['external_ids']).map do |eid|
+        eid['external_id']
+      end
+    }
   end
 
 
