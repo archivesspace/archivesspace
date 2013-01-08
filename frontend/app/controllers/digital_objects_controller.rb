@@ -20,7 +20,7 @@ class DigitalObjectsController < ApplicationController
   end
 
   def new
-    @digital_object = JSONModel(:digital_object).new({:title => "New Digital Object"})._always_valid!
+    @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default")})._always_valid!
   end
 
   def edit
@@ -38,13 +38,12 @@ class DigitalObjectsController < ApplicationController
     handle_crud(:instance => :digital_object,
                 :on_invalid => ->(){ render action: "new" },
                 :on_valid => ->(id){ 
-                  flash[:success] = "Digital Object Created"
                   redirect_to({
                                 :controller => :digital_objects,
                                 :action => :edit,
                                 :id => id
                               },
-                              :flash => {:success => "Digital Object Created"}) 
+                              :flash => {:success => I18n.t("digital_object._html.messages.created")}) 
                 })
   end
 
@@ -57,7 +56,7 @@ class DigitalObjectsController < ApplicationController
                   render :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  flash.now[:success] = "Digital Object Saved"
+                  flash.now[:success] = I18n.t("digital_object._html.messages.updated")
                   render :partial => "edit_inline"
                 })
   end

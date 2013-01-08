@@ -33,9 +33,8 @@ class AgentsController < ApplicationController
                 },
                 :on_valid => ->(id){
                   return render :json => @agent.to_hash if inline?
-                  flash[:success] = "Agent Saved"
-                  return redirect_to :controller => :agents, :action => :new, :type => @agent_type if params.has_key?(:plus_one)
-                  redirect_to :controller => :agents, :action => :show, :id => id, :type => @agent_type
+                  return redirect_to({:controller => :agents, :action => :new, :type => @agent_type}, :flash => {:success => I18n.t("agent._html.messages.created")}) if params.has_key?(:plus_one)
+                  redirect_to({:controller => :agents, :action => :show, :id => id, :type => @agent_type}, :flash => {:success => I18n.t("agent._html.messages.created")})
                 })
   end
 
@@ -49,6 +48,7 @@ class AgentsController < ApplicationController
                     @agent.names = [@name_type.new._always_valid!]
                   end
 
+                  flash.now[:success] = I18n.t("agent._html.messages.updated")
                   return render :action => :edit
                 },
                 :on_valid => ->(id){

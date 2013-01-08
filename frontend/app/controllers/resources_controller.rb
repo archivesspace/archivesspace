@@ -20,7 +20,7 @@ class ResourcesController < ApplicationController
   end
 
   def new
-    @resource = Resource.new(:title => "New Resource")._always_valid!
+    @resource = Resource.new(:title => I18n.t("resource.title_default"))._always_valid!
 
     if params[:accession_id]
       acc = Accession.find(params[:accession_id],
@@ -28,7 +28,7 @@ class ResourcesController < ApplicationController
 
       if acc
         @resource.populate_from_accession(acc)
-        flash.now[:info] = "Resource spawned from Accession: #{acc.title}"
+        flash.now[:info] = "#{I18n.t("resource._html.messages.spawned")}: #{acc.title}"
         flash[:spawned_from_accession] = acc.id
       end
     end
@@ -58,7 +58,7 @@ class ResourcesController < ApplicationController
                                 :action => :edit,
                                 :id => id
                               },
-                              :flash => {:success => "Resource Created"})
+                              :flash => {:success => I18n.t("resource._html.messages.created")})
                  })
   end
 
@@ -71,7 +71,7 @@ class ResourcesController < ApplicationController
                   render :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  flash.now[:success] = "Resource Saved"
+                  flash.now[:success] = I18n.t("resource._html.messages.updated")
                   render :partial => "edit_inline"
                 })
   end

@@ -31,7 +31,7 @@ class SubjectsController < ApplicationController
                   if inline?
                     render :json => @subject.to_hash if inline?
                   else
-                    flash[:success] = "Subject Saved"
+                    flash[:success] = I18n.t("subject._html.messages.created")
                     return redirect_to :controller => :subjects, :action => :new if params.has_key?(:plus_one)
                     redirect_to :controller => :subjects, :action => :show, :id => id
                   end
@@ -44,7 +44,7 @@ class SubjectsController < ApplicationController
                 :obj => Subject.find(params[:id]),
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
-                  flash[:success] = "Subject Saved"
+                  flash[:success] = I18n.t("subject._html.messages.updated")
                   redirect_to :controller => :subjects, :action => :show, :id => id
                 })
   end

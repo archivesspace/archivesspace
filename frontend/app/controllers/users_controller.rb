@@ -35,11 +35,11 @@ class UsersController < ApplicationController
                   end
                 },
                 :on_invalid => ->(){
-                  flash[:error] = "User not saved"
+                  flash[:error] = I18n.t("user._html.messages.error_update")
                   render :action => "edit"
                 },
                 :on_valid => ->(id){
-                  flash[:success] = "User Saved"
+                  flash[:success] = I18n.t("user._html.messages.updated")
                   redirect_to :action => :index
                 })
   end  
@@ -60,13 +60,13 @@ class UsersController < ApplicationController
                   end
                 },
                 :on_invalid => ->(){
-                  flash[:error] = "User not saved"
+                  flash[:error] = I18n.t("user._html.messages.error_create")
                   render :action => "new"
                 },
                 :on_valid => ->(id){
                   
                   if session[:user]
-                    flash[:success] = "Created user #{params['user']['username']}"
+                    flash[:success] = "#{I18n.t("user._html.messages.created")}: #{params['user']['username']}"
                     redirect_to :controller => :users, :action => :index
                   else
                     backend_session = User.login(params['user']['username'],

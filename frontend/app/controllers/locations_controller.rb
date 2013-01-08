@@ -30,7 +30,7 @@ class LocationsController < ApplicationController
                 :on_valid => ->(id){
                   return render :json => @location.to_hash if inline?
 
-                  flash[:success] = "Location Saved"
+                  flash[:success] = I18n.t("location._html.messages.created")
                   return redirect_to :controller => :locations, :action => :new if params.has_key?(:plus_one)
 
                   redirect_to :controller => :locations, :action => :show, :id => id
@@ -43,7 +43,7 @@ class LocationsController < ApplicationController
                 :obj => Location.find(params[:id]),
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
-                  flash[:success] = "Location Saved"
+                  flash[:success] = I18n.t("location._html.messages.updated")
                   redirect_to :controller => :locations, :action => :show, :id => id
                 })
   end

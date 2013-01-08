@@ -12,7 +12,7 @@ class AccessionsController < ApplicationController
 
   def show
     @accession = Accession.find(params[:id], "resolve[]" => FIND_OPTS)
-    flash[:info] = "Accession is suppressed and cannot be edited." if @accession.suppressed
+    flash[:info] = I18n.t("accession._html.messages.suppressed_info") if @accession.suppressed
   end
 
   def new
@@ -36,7 +36,7 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :on_invalid => ->(){ render action: "new" },
                 :on_valid => ->(id){
-                    flash[:success] = "Accession Created"
+                    flash[:success] = I18n.t("accession._html.messages.created")
                     redirect_to(:controller => :accessions,
                                                  :action => :show,
                                                  :id => id) })
@@ -51,7 +51,7 @@ class AccessionsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id){
-                  flash[:success] = "Accession Saved"
+                  flash[:success] = I18n.t("accession._html.messages.updated")
                   return render :partial => "accessions/edit_inline" if params[:inline]
                   redirect_to :controller => :accessions, :action => :show, :id => id
                 })
@@ -60,7 +60,7 @@ class AccessionsController < ApplicationController
   def suppress
     Accession.find(params[:id]).set_suppressed(true)
 
-    flash[:success] = "Accession Suppressed"
+    flash[:success] = I18n.t("accession._html.messages.suppressed")
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -68,7 +68,7 @@ class AccessionsController < ApplicationController
   def unsuppress
     Accession.find(params[:id]).set_suppressed(false)
 
-    flash[:success] = "Accession Unsuppressed"
+    flash[:success] = I18n.t("accession._html.messages.unsuppressed")
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
