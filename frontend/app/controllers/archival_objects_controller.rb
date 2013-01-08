@@ -9,7 +9,7 @@ class ArchivalObjectsController < ApplicationController
 
   def new
     @archival_object = JSONModel(:archival_object).new._always_valid!
-    @archival_object.title = "New Archival Object"
+    @archival_object.title = I18n.t("archival_object.title_default")
     @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
     @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
 
@@ -30,7 +30,7 @@ class ArchivalObjectsController < ApplicationController
                 :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
-                  flash.now[:success] = "Archival Object Created"
+                  flash.now[:success] = I18n.t("archival_object._html.messages.created")
                   render :partial => "archival_objects/edit_inline"
                 })
   end
@@ -41,7 +41,7 @@ class ArchivalObjectsController < ApplicationController
                 :obj => JSONModel(:archival_object).find(params[:id], FIND_OPTS),
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  flash.now[:success] = "Archival Object Saved"
+                  flash.now[:success] = I18n.t("archival_object._html.messages.updated")
                   render :partial => "edit_inline"
                 })
   end

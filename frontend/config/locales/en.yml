@@ -91,6 +91,10 @@ en:
     ead_import_another: Import Another EAD File
     submit: Import
     submit_busy_message: Importing...
+    messages:
+      missing_repo: You need to select a repository before importing
+      missing_file: Please select an EAD file to upload
+      error_prefix: Error importing file
   errors:
     403: Unable to Access Page
     403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
@@ -832,6 +836,7 @@ en:
     language_zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
   digital_object:
     title: Title
+    title_default: New Digital Object
     digital_object_id: Identifier
     publish: Publish?
     level: Level
@@ -855,11 +860,15 @@ en:
     _html:
       singular: Digital Object
       plural: Digital Objects
+      messages:
+        created: Digital Object Created
+        updated: Digital Object Saved
       section:
         basic_information: Basic Information
   digital_object_component:
     label: Label
     title: Title
+    title_default: New Digital Object Component
     component_id: Identifier
     publish: Publish
     language: Language
@@ -867,6 +876,9 @@ en:
     _html:
       singular: Digital Object Component
       plural: Digital Object Components
+      messages:
+        created: Digital Object Component Created
+        updated: Digital Object Component Saved
       section:
         basic_information: Basic Information
   location:
@@ -897,6 +909,9 @@ en:
     _html:
       singular: Location
       plural: Locations
+      messages:
+        created: Location Created
+        updated: Location Saved
       section:
         basic_information: Basic Information
 
@@ -986,6 +1001,9 @@ en:
     _html:
       singular: Event
       plural: Events
+      messages:
+        created: Event Created
+        updated: Event Saved
       section:
         basic_information: Basic Information
   deaccession:
@@ -1290,6 +1308,12 @@ en:
     _html:
       singular: Accession
       plural: Accessions
+      messages:
+        created: Accession Created
+        unsuppressed: Accession Unsuppressed
+        updated: Accession Saved
+        suppressed: Accession Suppressed
+        suppressed_info: Accession is suppressed and cannot be edited
       section:
         basic_information: Basic Information
   agent: &agent_attributes
@@ -1303,12 +1327,16 @@ en:
     _html:
       singular: Agent
       plural: Agents
+      messages:
+        created: Agent Created
+        updated: Agent Saved
       section:
         basic_information: Basic Information
         name: Names
         contacts: Contact Details
   archival_object:
     title: Title
+    title_default: New Archival Object
     ref_id: Ref ID
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     level: Level
@@ -1330,6 +1358,9 @@ en:
     _html:
       singular: Archival Object
       plural: Archival Objects
+      messages:
+        created: Archival Object Created
+        updated: Archival Object Saved
       section:
         basic_information: Basic Information
   group:
@@ -1347,6 +1378,7 @@ en:
       plural: Groups
   resource:
     title: Title
+    title_default: New Resource
     id_0: Identifier
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
@@ -1399,6 +1431,10 @@ en:
     _html:
       singular: Resource
       plural: Resources
+      messages:
+        created: Resource Created
+        updated: Resource Saved
+        spawned: Resource spawned from Accession
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid
@@ -1427,6 +1463,9 @@ en:
     _html:
       singular: Subject
       plural: Subjects
+      messages:
+        created: Subject Created
+        updated: Subject Saved
       section:
         basic_information: Basic Information
   user:
@@ -1437,6 +1476,11 @@ en:
     _html:
       singular: User
       plural: Users
+      messages:
+        created: User Created
+        updated: User Saved
+        error_update: User not saved
+        error_create:
       section:
         account: Account
         edit_account: Edit Account
@@ -1477,6 +1521,9 @@ en:
       singular: Collection Management Record
       plural: Collection Management Records
       title_prefix: Processing 
+      messages:
+        created: Collection Management Record Created
+        updated: Collection Management Record Saved
       section:
         basic_information: Basic Information
   collection_management_linked_record:

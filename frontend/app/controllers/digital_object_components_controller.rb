@@ -11,7 +11,7 @@ class DigitalObjectComponentsController < ApplicationController
 
   def new
     @digital_object_component = JSONModel(:digital_object_component).new._always_valid!
-    @digital_object_component.title = "New Digital Object Component"
+    @digital_object_component.title = I18n.t("digital_object_component.title_default")
     @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
     @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
 
@@ -32,7 +32,7 @@ class DigitalObjectComponentsController < ApplicationController
                 :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
-                  flash.now[:success] = "Digital Object Component Created"
+                  flash.now[:success] = I18n.t("digital_object_component._html.messages.created")
                   render :partial => "digital_object_components/edit_inline"
                 })
   end
@@ -43,7 +43,7 @@ class DigitalObjectComponentsController < ApplicationController
                 :obj => JSONModel(:digital_object_component).find(params[:id], FIND_OPTS),
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  flash.now[:success] = "Digital Object Component Saved"
+                  flash.now[:success] = I18n.t("digital_object_component._html.messages.updated")
                   render :partial => "edit_inline"
                 })
   end

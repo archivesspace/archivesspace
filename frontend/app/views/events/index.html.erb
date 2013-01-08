@@ -6,12 +6,15 @@
    </div>
    <div class="span9">
     <div class="record-pane">
-      <div class="btn-group">
+      <div class="btn-group pull-right">
         <% if user_can?('update_repository') %>
           <%= link_to "#{I18n.t("actions.create")} #{I18n.t("event._html.singular")}", {:controller => :events, :action => :new}, :class => "btn" %>
         <% end %>
       </div>
       <h2><%= I18n.t("event._html.plural") %></h2>
+
+      <%= render :partial => "shared/flash_messages" %>
+
       <% if @events.length > 0 %>
          <table class="table table-striped table-bordered table-condensed">
            <thead>

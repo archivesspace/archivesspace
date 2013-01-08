@@ -12,6 +12,9 @@
         <% end %>
       </div>
       <h2><%= I18n.t("collection_management_record._html.plural") %></h2>
+
+      <%= render :partial => "shared/flash_messages" %>
+
      <% if @search_data.has_key?('results') && @search_data['results'].length  > 0 %>
          <table class="table table-striped table-bordered table-condensed">
            <thead>

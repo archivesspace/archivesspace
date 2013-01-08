@@ -5,7 +5,7 @@ class ImportController < ApplicationController
   def index
     
     unless session[:repo_id] and session[:repo_id] > 1
-      flash[:notice] = "You need to select a repository before importing"
+      flash.now[:notice] = I18n.t("import.messages.missing_repo")
     end
     @importer_list = ASpaceImport::Importer.list
 
@@ -14,7 +14,7 @@ class ImportController < ApplicationController
   def upload
 
     if params[:upload].blank?
-      flash[:error] = "Please select an EAD file to upload"
+      flash.now[:error] = I18n.t("import.messages.missing_file")
     else
       source_file = ImportFile.new(params[:upload])
 
@@ -28,15 +28,15 @@ class ImportController < ApplicationController
 
         source_file.delete
 
-        flash[:success] = results[0]
+        flash.now[:success] = results[0]
         @import_results = results[1]
 
       rescue ValidationException => e
         errors_str = e.errors.collect.map{|attr, err| "#{e.invalid_object.class.record_type}/#{attr} #{err.join(', ')}"}.join("")
-        flash[:error] = "Error importing file: <br/> <div class='offset1'>#{errors_str}</div>".html_safe
+        flash.now[:error] = "#{I18n.t("import.messages.error_prefix")}: <br/> <div class='offset1'>#{errors_str}</div>".html_safe
       rescue Exception => e
         Rails.logger.debug("Exception raised on file import: #{e.inspect}")
-        flash[:error] = "Error importing file: <br/> <div class='offset1'>#{e.class.name} #{e.inspect}</div>".html_safe
+        flash.now[:error] = "#{I18n.t("import.messages.error_prefix")}: <br/> <div class='offset1'>#{e.class.name} #{e.inspect}</div>".html_safe
       end
 
     end

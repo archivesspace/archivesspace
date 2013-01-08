@@ -9,6 +9,8 @@
     <div class="record-pane">
       <h2><%= @location.id %>  <span class="label label-info"><%= I18n.t("location._html.singular") %></span></h2>
 
+      <%= render :partial => "shared/flash_messages" %>
+
       <%= read_only_view(@location.to_hash) %>
     </div>
   </div>
