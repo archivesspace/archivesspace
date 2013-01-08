@@ -6,6 +6,17 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
+      "external_ids" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "properties" => {
+            "external_id" => {"type" => "string"},
+            "source" => {"type" => "string"},
+          }
+        }
+      },
+
       "event_type" => {
         "type" => "string",
         "ifmissing" => "error",

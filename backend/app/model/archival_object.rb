@@ -14,6 +14,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Orderable
   include AutoIdGenerator::Mixin
   include Notes
+  include ExternalIDs
 
   orderable_root_record_type :resource, :archival_object
 

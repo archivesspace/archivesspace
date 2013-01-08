@@ -10,7 +10,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Trees
   include Notes
   include RightsStatements
-
+  include ExternalIDs
 
   tree_of(:digital_object, :digital_object_component)
   set_model_scope :repository

@@ -9,6 +9,7 @@ class Accession < Sequel::Model(:accession)
   include Deaccessions
   include Agents
   include Relationships
+  include ExternalIDs
 
   enable_suppression
   corresponds_to JSONModel(:accession)

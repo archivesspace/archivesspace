@@ -21,8 +21,11 @@ class Solr
       :qf => "title^2 fullrecord",
       :start => (page - 1) * page_size,
       :rows => page_size,
-      :fq => "repository:\"/repositories/#{repo_id}\" OR repository:global"
     }.to_a
+
+    if repo_id
+      opts << [:fq, "repository:\"/repositories/#{repo_id}\" OR repository:global"]
+    end
 
     if record_types
       query = record_types.map { |type| "\"#{type}\"" }.join(' OR ')

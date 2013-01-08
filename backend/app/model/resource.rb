@@ -14,6 +14,7 @@ class Resource < Sequel::Model(:resource)
   include Trees
   include Notes
   include Relationships
+  include ExternalIDs
 
   tree_of(:resource, :archival_object)
   set_model_scope :repository
