@@ -151,8 +151,14 @@ module Relationships
             properties.delete('ref')
           end
 
+          referent = referent_model[record_type[:id]]
+
+          if !referent
+            raise ReferenceError.new("Can't link to non-existent record: #{reference['ref']}")
+          end
+
           properties[self.table_name] = obj
-          properties[referent_model.table_name] = referent_model[record_type[:id]]
+          properties[referent_model.table_name] = referent
           properties[:aspace_relationship_position] = idx
 
           properties[:last_modified] = Time.now

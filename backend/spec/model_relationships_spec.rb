@@ -192,6 +192,15 @@ describe 'Relationships' do
 
     banana.my_relationships(:fruit_salad)[0][0][:last_modified].to_f.should be >= time
   end
+
+
+  it "blows up if you link to a non-existent URI" do
+    expect {
+    Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith",
+                                                 :bananas => [{
+                                                                :ref => "/bananas/12345",
+                                                                :sauce => "rasberry"
+                                                              }]))
+    }.to raise_error(ReferenceError)
+  end
 end
-
-

@@ -19,3 +19,6 @@ end
 
 class SequenceError < StandardError
 end
+
+class ReferenceError < StandardError
+end

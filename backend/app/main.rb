@@ -201,6 +201,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => request.env['sinatra.error'].errors}, 400)
   end
 
+  error ReferenceError do
+    json_response({:error => request.env['sinatra.error']}, 400)
+  end
+
   error Sequel::DatabaseError do
     json_response({:error => {:db_error => ["Database integrity constraint conflict: #{request.env['sinatra.error']}"]}}, 400)
   end
