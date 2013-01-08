@@ -2,59 +2,53 @@
   <div class="span3">
     <%= render :partial => "sidebar" %>
   </div>
-  <div class="span9 record-pane">
-    <%= readonly_context :archival_object, @archival_object.to_hash(true) do |readonly| %>
-
-      <div class="btn-group" style="float: right">
-         <% if @resource_id %>
-            <% if user_can?('update_repository') %>
-              <%= link_to I18n.t("actions.edit"), {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
-            <% end %>
-         <% end %>
-      </div>
-
-      <h2><%= @archival_object.title %> <span class="label label-info"><%= I18n.t("archival_object._html.singular") %></span></h2>
-      <section id="basic_information">
-        <h3><%= I18n.t("archival_object._html.section.basic_information") %></h3>
-        <%= readonly.label_and_textfield "title" %>
-        <%= readonly.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{readonly["ref_id"]}</div></div>" %>
-        <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
-        <%= readonly.label_and_textfield "other_level" %>
-        <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
-
-      </section>
-      
-      <% if @archival_object.extents.length > 0 %>
-        <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents, :section_id => "archival_object_extents_" } %>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+      <%= readonly_context :archival_object, @archival_object.to_hash(true) do |readonly| %>
+        <h2><%= @archival_object.title %> <span class="label label-info"><%= I18n.t("archival_object._html.singular") %></span></h2>
+        <section id="basic_information">
+          <h3><%= I18n.t("archival_object._html.section.basic_information") %></h3>
+          <%= readonly.label_and_textfield "title" %>
+          <%= readonly.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{readonly["ref_id"]}</div></div>" %>
+          <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
+          <%= readonly.label_and_textfield "other_level" %>
+          <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
+  
+        </section>
+        
+        <% if @archival_object.extents.length > 0 %>
+          <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents, :section_id => "archival_object_extents_" } %>
+        <% end %>
+  
+        <% if @archival_object.dates.length > 0 %>
+          <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates, :section_id => "archival_object_dates_" } %>
+        <% end %>
+  
+        <% if @archival_object.linked_agents.length > 0 %>
+          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
+        <% end %>
+        
+        <% if not @archival_object.subjects.blank? %>
+          <%= render :partial => "subjects/show_inline", :locals => {:subjects => @archival_object.subjects, :section_id => "archival_object_subjects_"} %>
+        <% end %>
+  
+        <% if @archival_object.notes.length > 0 %>
+          <%= render :partial => "notes/show", :locals => { :notes => @archival_object.notes, :context => readonly } %>
+        <% end %>
+  
+        <% if @archival_object.external_documents.length > 0 %>
+          <%= render :partial => "external_documents/show", :locals => { :external_documents => @archival_object.external_documents, :section_id => "archival_object_external_documents_" } %>
+        <% end %>
+  
+        <% if @archival_object.rights_statements.length > 0 %>
+          <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @archival_object.rights_statements, :section_id => "archival_object_rights_statements_" } %>
+        <% end %>
+  
+        <% if @archival_object.instances.length > 0 %>
+          <%= render :partial => "instances/show", :locals => { :instances => @archival_object.instances, :section_id => "archival_object_instances_"  } %>
+        <% end %>
       <% end %>
-
-      <% if @archival_object.dates.length > 0 %>
-        <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates, :section_id => "archival_object_dates_" } %>
-      <% end %>
-
-      <% if @archival_object.linked_agents.length > 0 %>
-        <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @archival_object.linked_agents, :section_id => "archival_object_linked_agents_" } %>
-      <% end %>
-      
-      <% if not @archival_object.subjects.blank? %>
-        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @archival_object.subjects, :section_id => "archival_object_subjects_"} %>
-      <% end %>
-
-      <% if @archival_object.notes.length > 0 %>
-        <%= render :partial => "notes/show", :locals => { :notes => @archival_object.notes, :context => readonly } %>
-      <% end %>
-
-      <% if @archival_object.external_documents.length > 0 %>
-        <%= render :partial => "external_documents/show", :locals => { :external_documents => @archival_object.external_documents, :section_id => "archival_object_external_documents_" } %>
-      <% end %>
-
-      <% if @archival_object.rights_statements.length > 0 %>
-        <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @archival_object.rights_statements, :section_id => "archival_object_rights_statements_" } %>
-      <% end %>
-
-      <% if @archival_object.instances.length > 0 %>
-        <%= render :partial => "instances/show", :locals => { :instances => @archival_object.instances, :section_id => "archival_object_instances_"  } %>
-      <% end %>
-    <% end %>
+    </div>
   </div>
 </div>

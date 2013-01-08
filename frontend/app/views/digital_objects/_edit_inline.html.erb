@@ -4,11 +4,13 @@
       <div class="span3">
         <%= render :partial => "digital_objects/sidebar" %>
       </div>
-      <div class="span9 record-pane">
-         <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>
-         <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object._html.singular") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+      <div class="span9">
+        <div class="record-pane">
+           <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>
+           <div class="form-actions">
+              <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object._html.singular") %></button>
+              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+           </div>
          </div>
       </div>
     </div>

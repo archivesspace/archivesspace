@@ -1,0 +1,15 @@
+<% if user_can?('update_repository') %>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="record-toolbar">
+        <div class="pull-right">
+          <div class="btn-group">
+            <% if @resource_id %>
+              <%= link_to I18n.t("actions.edit"), {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

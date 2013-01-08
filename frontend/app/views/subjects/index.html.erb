@@ -4,8 +4,9 @@
    <div class="span3">
       The facets/search filters will go here.
    </div>
-   <div class="span9 record-pane">
-      <div class="btn-group">
+   <div class="span9">
+    <div class="record-pane">
+      <div class="btn-group pull-right">
         <% if user_can?('update_repository') %>
           <%= link_to "#{I18n.t("actions.create")} #{I18n.t("subject._html.singular")}", {:controller => :subjects, :action => :new}, :class => "btn" %>
         <% end %>
@@ -43,5 +44,6 @@
            <%= I18n.t("search_results.no_results") %>
          </p>
       <% end %>
+     </div>
    </div>
 </div>

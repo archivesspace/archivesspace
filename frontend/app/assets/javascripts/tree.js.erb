@@ -4,8 +4,7 @@
 //= require jstree
 
 $(function() {
-  var form_changed = false,
-    $tree = $("#archives_tree"),
+  var $tree = $("#archives_tree"),
     $container = $("#object_container");
 
   if (AS.tree_data && $tree.length) {
@@ -48,16 +47,17 @@ $(function() {
 
       var $form = $("form", $container);
 
-      $(".btn-cancel", $form).html("Revert Changes");
-      $(".btn-cancel", $form).before("<a id='save_and_finish_editing' class='btn btn-success' href='" + APP_PATH + config.root_node_type + "s/" + config.root_object_id + location.hash + "'>Finish Editing</a>");
+      $(".btn-cancel", $form).html(AS.renderTemplate("tree_revert_changes_label_template"));
 
       if (location.hash !== "#tree::new") {
+        $form.data("form_changed", false);
         $(".btn-primary", $form).attr("disabled", "disabled");
         $(".btn-cancel", $form).attr("disabled", "disabled");
+      } else {
+        $form.data("form_changed", true);
       }
 
       $form.bind("form-changed", function() {
-        form_changed = true;
         $(".btn-primary", $form).removeAttr("disabled");
         $(".btn-cancel", $form).removeAttr("disabled");
       });
@@ -73,6 +73,11 @@ $(function() {
         $form.triggerHandler("submit");
       });
 
+      $(".btn-cancel", $form).click(function() {
+        // scroll back to the top
+        $("header").ScrollTo();
+      });
+
       $form.ajaxForm({
         data: {
           inline: true
@@ -81,18 +86,21 @@ $(function() {
           $(".btn-primary", $form).attr("disabled","disabled");
         },
         success: function(response, status, xhr) {
-          initForm(response);
+          var $form = initForm(response);
 
           if ($container.find(".form-messages .alert-error:first, .form-messages .alert-warning:first").length) {
             $container.triggerHandler("submitted", {success: false});
+            $form.data("form_changed", true);
+            $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
           } else {
             if (location.hash === "#tree::new") {
               changeHashSilently("#"+$(".selected", $tree).attr("rel")+"_" + $(response).find("#id").val());
+              $form.data("form_changed", false);
             }
-            form_changed = false;
             refreshSelectedNode();
             $container.triggerHandler("submitted", {success: true});
           }
+
           // scroll back to the top
           $("header").ScrollTo();
         },
@@ -106,10 +114,23 @@ $(function() {
       AS.resetScrollSpy();
 
       $container.triggerHandler("form.loaded");
+
+      return $form;
+    };
+
+
+    var insertLoadingMessage = function() {
+      var loadingMsgEl = $(AS.renderTemplate("tree_loading_notice_template"));
+      loadingMsgEl.hide();
+      $container.prepend(loadingMsgEl);
+      loadingMsgEl.fadeIn();
+      $(":input", $container).attr("disabled","disabled");
     };
 
 
     var loadPaneForNode = function(nodeEl) {
+
+      insertLoadingMessage();
 
       if (config.read_only) {
 
@@ -200,6 +221,7 @@ $(function() {
       renderTreeNodeNavigation();
       if (config.read_only != true && nodeEl.attr("id") != "new") {
         var data_for_toolbar = {
+          config: config,
           rules: config.rules[nodeEl.attr("rel")],
           node: nodeEl
         };
@@ -209,6 +231,9 @@ $(function() {
         }
         var toolbar_actions = $(AS.renderTemplate("tree_nodeactions_toolbar_template", data_for_toolbar));
         $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(toolbar_actions);
+
+        var finish_action = $(AS.renderTemplate("tree_finish_action_template", data_for_toolbar));
+        $(".btn-toolbar", "#archives_tree_toolbar").append(finish_action);
 
         $('a', "#archives_tree_toolbar").on("focus", function() {
           if ($(this).parents("li.dropdown-submenu").length) {
@@ -260,7 +285,7 @@ $(function() {
 
       var id_from_hash = location.hash.replace("tree::", "");
 
-      if (form_changed) {
+      if ($("form", $container).data("form_changed")) {
         confirmChanges($(id_from_hash));
         changeHashSilently("#tree::"+$(".selected", $tree).attr("id"));
         return;
@@ -305,20 +330,6 @@ $(function() {
         }
 
         addnewNode($selected.parents("li:first"), $(this).attr("rel"), config.rules[$selected.parents("li:first").attr("rel")]["can_add_child"][$(this).attr("rel")]);
-      });
-
-      $(".archives-tree-container").on("click", ".spawn", function() {
-        var $selected = $(".selected", $tree);
-        if ($selected.length === 0) {
-          return;
-        }
-
-        var rules = config.rules[$(".selected", $tree).attr("rel")]["can_spawn"][$(this).attr("rel")];
-
-        var params = {};
-        params[$(".selected", $tree).attr("rel")+"_id"] = $(".selected", $tree).data("id");
-
-        addnewNode($selected, $(this).attr("rel"), rules, params);
       });
 
       $container.on("click", ".btn-cancel", function() {
@@ -371,11 +382,6 @@ $(function() {
       });
 
       $(window).hashchange(onHashChange);
-      $(window).bind("beforeunload", function(event) {
-        if (form_changed) {
-          return 'Please note you have some unsaved changes.';
-        }
-      });
 
 
       var resizeArchivesTree = function() {
@@ -437,15 +443,13 @@ $(function() {
       AS.openCustomModal("saveYourChangesModal", "Save Your Changes", AS.renderTemplate("save_changes_modal_template"));
 
       $("#saveChangesButton", "#saveYourChangesModal").on("click", function() {
-        $("form", $container).triggerHandler("submit");
+        var $form = $("form", $container);
+
+        $form.triggerHandler("submit");
 
         var onSubmitSuccess = function() {
-          form_changed = false;
-          if (targetNodeEl.attr("id") === "new") {
-            addnewNode($("#"+parentIdFornew));
-          } else {
-            setHashForNode(targetNodeEl.attr("id"));
-          }
+          $form.data("form_changed", false);
+          setHashForNode(targetNodeEl.attr("id"));
           $("#saveYourChangesModal").modal("hide");
         };
 
@@ -463,12 +467,18 @@ $(function() {
       });
 
       $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
-        form_changed = false;
+        $("form", $container).data("form_changed", false);
         if (targetNodeEl.attr("id") != "new") {
           $tree.jstree("delete_node", $('#new', $tree));
         }
         setHashForNode(targetNodeEl.attr("id"));
         $("#saveYourChangesModal").modal("hide");
+      });
+
+      $(".btn-cancel", "#saveYourChangesModal").on("click", function() {
+        if (targetNodeEl.attr("id") === "new") {
+          $tree.jstree("delete_node", $('#new', $tree));
+        }
       });
     };
 
@@ -562,7 +572,8 @@ $(function() {
           if (onTreeLoadCallback) onTreeLoadCallback();
         }).bind("before.jstree", function (event, data) {
           // check current form
-          if (form_changed && data.func === "select_node") {
+          if (data.func === "select_node") {
+          if ($("form", $container).data("form_changed")) {
             event.preventDefault();
             event.stopImmediatePropagation();
 
@@ -573,6 +584,7 @@ $(function() {
 
             confirmChanges($(data.args[0]).parent());
             return false;
+          }
           }
         }).bind("select_node.jstree", function (event, data) {
           var $nodeToSelect = $(data.rslt.obj);

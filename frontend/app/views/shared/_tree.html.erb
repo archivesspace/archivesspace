@@ -2,18 +2,6 @@
    read_only = false if read_only.blank?
 
    hierarchy_rules = {
-    :accession => {
-      :can_spawn => {
-        :resource => {
-          :label =>  I18n.t("resource._html.singular")
-        }
-      },
-      #:can_link_to => {
-      #  :resource => {
-      #    :label =>  I18n.t("resource._html.singular")
-      #  }
-      #}
-    },
     :resource => {
       :can_add_child => {
         :archival_object => {
@@ -125,40 +113,6 @@
 
     <div id="tree_nodeactions_toolbar_template"><!--
       <div class="btn-group">
-      {if rules.hasOwnProperty("can_spawn")}
-        <div class="btn-group dropdown">
-          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Spawn">
-            <%= I18n.t "actions.spawn" %>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            {for obj in rules.can_spawn}
-            <li>
-              <a href="javascript:void(0);" class="spawn" rel="${obj_index}">
-                <span class='icon-${obj_index}'></span> ${obj.label}
-              </a>
-            </li>
-            {/for}
-          </ul>
-        </div>
-      {/if}
-      {if rules.hasOwnProperty("can_link_to")}
-        <div class="btn-group dropdown">
-          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Link To">
-            <%= I18n.t "actions.link_to" %>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            {for obj in rules.can_link_to}
-            <li>
-              <a href="javascript:void(0);" class="link" rel="${obj_index}">
-                <span class='icon-${obj_index}'></span> ${obj.label}
-              </a>
-            </li>
-            {/for}
-          </ul>
-        </div>
-      {/if}
       {if rules.hasOwnProperty("can_add_child")}
         <div class="btn-group dropdown">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
@@ -216,7 +170,7 @@
 
             {if defined('sibling_ids') && sibling_ids.length > 0}
               <li class="dropdown-submenu">
-                <a href="javascript:void(0);"><span class="icon-arrow-right"></span> <%= I18n.t "actions.move_down_into" %>.</a>
+                <a href="javascript:void(0);"><span class="icon-arrow-right"></span> <%= I18n.t "actions.move_down_into" %></a>
                 <ul class="dropdown-menu">
                 {for sibling_id in sibling_ids}
                   <li><a href="javascript:void(0);" class="move-node move-node-down-into" data-target-node-id="${sibling_id}">${$("a:first", "#"+sibling_id).attr("title")}</a></li>
@@ -230,6 +184,22 @@
       </div>
     --></div>
 
+    <div id="tree_finish_action_template"><!--
+      <div class="pull-right">
+        <a href="${APP_PATH}${config.root_node_type}s/${config.root_object_id}${location.hash}" class="btn btn-mini btn-success"><%= I18n.t "actions.finish_editing" %></a>
+      </div>
+    --></div>
+
+    <div id="tree_revert_changes_label_template"><!--
+      <%= I18n.t ("actions.revert") %>
+    --></div>
+
   <% end  %>
+
+  <div id="tree_loading_notice_template"><!--
+    <div class="alert alert-info tree-loading-notice">
+      <%= I18n.t ("actions.loading") %>
+    </div>
+  --></div>
 
 </div>

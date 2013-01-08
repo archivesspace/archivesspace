@@ -2,95 +2,92 @@
   <div class="span3">
     <%= render :partial => "resources/sidebar" %>
   </div>
-  <div class="span9 record-pane">
-    <%= readonly_context :resource, @resource.to_hash(true) do |readonly| %>
-      <div class="btn-group" style="float: right">
-        <%= link_to I18n.t("actions.export_ead"), {:controller => :exports, :action => :download_ead, :id => @resource.id}, :class => "btn btn-small" %>
-        <% if user_can?('update_repository') %>
-          <%= link_to I18n.t("actions.edit"), {:controller => :resources, :action => :edit, :id => @resource.id, :anchor => "resource_#{@resource.id}"}, :class => "btn btn-small" %>
+  <div class="span9">
+    <%= render :partial => "toolbar" %>
+    <div class="record-pane">
+      <%= readonly_context :resource, @resource.to_hash(true) do |readonly| %>
+        <h2><%= @resource.title %> <span class="label label-info"><%= I18n.t("resource._html.singular") %></span></h2>
+        <section id="basic_information">
+          <h3><%= I18n.t("resource._html.section.basic_information") %></h3>
+  
+          <%= readonly.label_and_textfield "title" %>
+          <% if @resource.id_0 %><%= readonly.label_and_fourpartid %><% end %>
+          <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
+          <%= readonly.label_and_textfield "other_level" %>
+          <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
+          <%= readonly.label_and_textarea "container_summary" %>
+          <%= readonly.label_and_boolean "publish" %>
+          <%= readonly.label_and_boolean "restrictions" %>
+          <%= readonly.label_and_textarea "repository_processing_note" %>
+  
+          <% if @resource.ead_id or @resource.ead_location %>
+            <hr/>
+            <%= readonly.label_and_textfield "ead_id" %>
+            <%= readonly.label_and_textfield "ead_location" %>
+          <% end %>
+  
+        </section>
+  
+        <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
+  
+        <% if @resource.dates.length > 0 %>
+          <%= render :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
         <% end %>
-      </div>
-      <h2><%= @resource.title %> <span class="label label-info"><%= I18n.t("resource._html.singular") %></span></h2>
-      <section id="basic_information">
-        <h3><%= I18n.t("resource._html.section.basic_information") %></h3>
-
-        <%= readonly.label_and_textfield "title" %>
-        <% if @resource.id_0 %><%= readonly.label_and_fourpartid %><% end %>
-        <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
-        <%= readonly.label_and_textfield "other_level" %>
-        <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
-        <%= readonly.label_and_textarea "container_summary" %>
-        <%= readonly.label_and_boolean "publish" %>
-        <%= readonly.label_and_boolean "restrictions" %>
-        <%= readonly.label_and_textarea "repository_processing_note" %>
-
-        <% if @resource.ead_id or @resource.ead_location %>
-          <hr/>
-          <%= readonly.label_and_textfield "ead_id" %>
-          <%= readonly.label_and_textfield "ead_location" %>
-        <% end %>
-
-      </section>
-
-      <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
-
-      <% if @resource.dates.length > 0 %>
-        <%= render :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
-      <% end %>
-      
-      <section id="finding_aid" class="subrecord-form-dummy">
-        <h3><%= I18n.t("resource._html.section.finding_aid") %></h3>
-        <div class="subrecord-form-container">
-          <div class="subrecord-form-fields">
-            <%= readonly.label_and_textfield "finding_aid_title" %>
-            <%= readonly.label_and_textfield "finding_aid_filing_title" %>
-            <%= readonly.label_and_textfield "finding_aid_date" %>
-            <%= readonly.label_and_textfield "finding_aid_author" %>
-            <%= readonly.label_and_select "finding_aid_description_rules", readonly.possible_options_for("finding_aid_description_rules", true) %>
-            <%= readonly.label_and_textfield "finding_aid_language" %>
-            <%= readonly.label_and_textfield "finding_aid_sponsor" %>
-            <%= readonly.label_and_textarea "finding_aid_edition_statement" %>
-            <%= readonly.label_and_textarea "finding_aid_series_statement" %>
-            <%= readonly.label_and_textfield "finding_aid_revision_date" %>
-            <%= readonly.label_and_textarea "finding_aid_revision_description" %>
-            <%= readonly.label_and_select "finding_aid_status", readonly.possible_options_for("finding_aid_status", true) %>
-            <%= readonly.label_and_textarea "finding_aid_note" %>
+        
+        <section id="finding_aid" class="subrecord-form-dummy">
+          <h3><%= I18n.t("resource._html.section.finding_aid") %></h3>
+          <div class="subrecord-form-container">
+            <div class="subrecord-form-fields">
+              <%= readonly.label_and_textfield "finding_aid_title" %>
+              <%= readonly.label_and_textfield "finding_aid_filing_title" %>
+              <%= readonly.label_and_textfield "finding_aid_date" %>
+              <%= readonly.label_and_textfield "finding_aid_author" %>
+              <%= readonly.label_and_select "finding_aid_description_rules", readonly.possible_options_for("finding_aid_description_rules", true) %>
+              <%= readonly.label_and_textfield "finding_aid_language" %>
+              <%= readonly.label_and_textfield "finding_aid_sponsor" %>
+              <%= readonly.label_and_textarea "finding_aid_edition_statement" %>
+              <%= readonly.label_and_textarea "finding_aid_series_statement" %>
+              <%= readonly.label_and_textfield "finding_aid_revision_date" %>
+              <%= readonly.label_and_textarea "finding_aid_revision_description" %>
+              <%= readonly.label_and_select "finding_aid_status", readonly.possible_options_for("finding_aid_status", true) %>
+              <%= readonly.label_and_textarea "finding_aid_note" %>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <% if @resource.related_accessions.length > 0 %>
-        <%= render :partial => "related_accessions/show", :locals => { :related_accessions => @resource.related_accessions, :section_id => "resource_related_accessions_" } %>
-      <% end %>
+        <% if @resource.related_accessions.length > 0 %>
+          <%= render :partial => "related_accessions/show", :locals => { :related_accessions => @resource.related_accessions, :section_id => "resource_related_accessions_" } %>
+        <% end %>
 
-      <% if @resource.linked_agents.length > 0 %>
-        <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @resource.linked_agents, :section_id => "resource_linked_agents_" } %>
-      <% end %>
-      
-      <% if not @resource.subjects.blank? %>
-        <%= render :partial => "subjects/show_inline", :locals => {:subjects => @resource.subjects, :section_id => "resource_subjects_"} %>
-      <% end %>
+        <% if @resource.linked_agents.length > 0 %>
+          <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @resource.linked_agents, :section_id => "resource_linked_agents_" } %>
+        <% end %>
 
-      <% if @resource.notes.length > 0 %>
-        <%= render :partial => "notes/show", :locals => { :notes => @resource.notes, :context => readonly } %>
-      <% end %>
+        <% if not @resource.subjects.blank? %>
+          <%= render :partial => "subjects/show_inline", :locals => {:subjects => @resource.subjects, :section_id => "resource_subjects_"} %>
+        <% end %>
 
-      <% if @resource.external_documents.length > 0 %>
-        <%= render :partial => "external_documents/show", :locals => { :external_documents => @resource.external_documents, :section_id => "resource_external_documents_"  } %>
-      <% end %>
+        <% if @resource.notes.length > 0 %>
+          <%= render :partial => "notes/show", :locals => { :notes => @resource.notes, :context => readonly } %>
+        <% end %>
 
-      <% if @resource.rights_statements.length > 0 %>
-        <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @resource.rights_statements, :section_id => "resource_rights_statements_"  } %>
-      <% end %>
+        <% if @resource.external_documents.length > 0 %>
+          <%= render :partial => "external_documents/show", :locals => { :external_documents => @resource.external_documents, :section_id => "resource_external_documents_"  } %>
+        <% end %>
 
-      <% if @resource.instances.length > 0 %>
-        <%= render :partial => "instances/show", :locals => { :instances => @resource.instances, :section_id => "resource_instances_"  } %>
-      <% end %>
+        <% if @resource.rights_statements.length > 0 %>
+          <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @resource.rights_statements, :section_id => "resource_rights_statements_"  } %>
+        <% end %>
 
-      <% if @resource.deaccessions.length > 0 %>
-        <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @resource.deaccessions, :context => readonly, :section_id => "resource_deaccessions_" } %>
-      <% end %>
+        <% if @resource.instances.length > 0 %>
+          <%= render :partial => "instances/show", :locals => { :instances => @resource.instances, :section_id => "resource_instances_"  } %>
+        <% end %>
 
-    <% end %>
+        <% if @resource.deaccessions.length > 0 %>
+          <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @resource.deaccessions, :context => readonly, :section_id => "resource_deaccessions_" } %>
+        <% end %>
+
+      <% end %>
+    </div>
   </div>
 </div>

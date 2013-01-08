@@ -32,7 +32,7 @@ class DigitalObjectComponentsController < ApplicationController
                 :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
-                  flash[:success] = "Digital Object Component Created"
+                  flash.now[:success] = "Digital Object Component Created"
                   render :partial => "digital_object_components/edit_inline"
                 })
   end
@@ -43,7 +43,7 @@ class DigitalObjectComponentsController < ApplicationController
                 :obj => JSONModel(:digital_object_component).find(params[:id], FIND_OPTS),
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  flash[:success] = "Digital Object Component Saved"
+                  flash.now[:success] = "Digital Object Component Saved"
                   render :partial => "edit_inline"
                 })
   end

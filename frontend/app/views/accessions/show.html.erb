@@ -4,71 +4,59 @@
    <div class="span3">
       <%= render :partial => "sidebar" %>
    </div>
-   <div class="span9 record-pane">
-    <%= readonly_context :accession, @accession.to_hash(true) do |readonly| %>
-      <% if user_can?('update_repository') %>
-        <div class="btn-group" style="float: right">
-          <% if @accession.suppressed %>
-            <% if user_can?('manage_repository') %>
-              <div class="btn btn-inline-form">
-                <%= button_to I18n.t("actions.unsuppress"), {:controller => :accessions, :action => :unsuppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-primary",  :"data-confirmation" => true, :"data-title" => I18n.t("actions.suppress_confirm_message") %>
-              </div>
-            <% end %>
-          <% else %>
-            <%= link_to I18n.t("actions.edit"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-small" %>
-            <% if user_can?('manage_repository') %>
-              <div class="btn btn-inline-form">
-                <%= button_to I18n.t("actions.suppress"), {:controller => :accessions, :action => :suppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-danger", :"data-confirmation" => true, :"data-title" => I18n.t("actions.unsuppress_confirm_message") %>
-              </div>
-            <% end %>
+   <div class="span9">
+    <%= render :partial => "accessions/toolbar" %>
+    <div class="record-pane">
+      <%= readonly_context :accession, @accession.to_hash(true) do |readonly| %>
+          <h2><%= @accession.title %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
+  
+          <%= render :partial => "shared/flash_messages" %>
+  
+          <section id="basic_information">
+            <h3><%= I18n.t "accession._html.section.basic_information" %></h3>
+  
+            <%= readonly.label_and_fourpartid %>
+            <%= readonly.label_and_date "accession_date" %>
+            <%= readonly.label_and_textarea "content_description" %>
+            <%= readonly.label_and_textarea "condition_description" %>
+          </section>
+
+          <% if @accession.extents.length > 0 %>
+            <%= render :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>
           <% end %>
-          </div>
-        <% end %>
-        <h2><%= @accession.title %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
 
-       <%= render :partial => "shared/flash_messages" %>
-
-        <section id="basic_information">
-          <h3><%= I18n.t "accession._html.section.basic_information" %></h3>
-
-          <%= readonly.label_and_fourpartid %>
-          <%= readonly.label_and_date "accession_date" %>
-          <%= readonly.label_and_textarea "content_description" %>
-          <%= readonly.label_and_textarea "condition_description" %>
-
-        </section>
-        
-        <% if @accession.extents.length > 0 %>
-          <%= render :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>
-        <% end %>
-
-         <% if @accession.dates.length > 0 %>
-           <%= render :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
+           <% if @accession.dates.length > 0 %>
+             <%= render :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
+           <% end %>
+  
+         <% if @accession.linked_agents.length > 0 %>
+           <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
          <% end %>
 
-       <% if @accession.related_resources.length > 0 %>
-         <%= render :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
-       <% end %>
+         <% if @accession.related_resources.length > 0 %>
+           <%= render :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
+         <% end %>
+  
+         <% if @accession.linked_agents.length > 0 %>
+           <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
+         <% end %>
+         
+         <% if not @accession.subjects.blank? %>
+           <%= render :partial => "subjects/show_inline", :locals => {:subjects => @accession.subjects, :section_id => "accession_subjects_"} %>
+         <% end %>
 
-       <% if @accession.linked_agents.length > 0 %>
-         <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
-       <% end %>
-       
-       <% if not @accession.subjects.blank? %>
-         <%= render :partial => "subjects/show_inline", :locals => {:subjects => @accession.subjects, :section_id => "accession_subjects_"} %>
-       <% end %>
+          <% if @accession.external_documents.length > 0 %>
+            <%= render :partial => "external_documents/show", :locals => { :external_documents => @accession.external_documents, :section_id => "accession_external_documents_" } %>
+          <% end %>
 
-        <% if @accession.external_documents.length > 0 %>
-          <%= render :partial => "external_documents/show", :locals => { :external_documents => @accession.external_documents, :section_id => "accession_external_documents_" } %>
-        <% end %>
+         <% if @accession.rights_statements.length > 0 %>
+           <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements, :section_id => "accession_rights_statements_" } %>
+         <% end %>
 
-       <% if @accession.rights_statements.length > 0 %>
-         <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements, :section_id => "accession_rights_statements_" } %>
+         <% if @accession.deaccessions.length > 0 %>
+           <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @accession.deaccessions, :context => readonly, :section_id => "accession_deaccessions_" } %>
+         <% end %>
        <% end %>
-
-       <% if @accession.deaccessions.length > 0 %>
-         <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @accession.deaccessions, :context => readonly, :section_id => "accession_deaccessions_" } %>
-       <% end %>
-     <% end %>
+     </div>
    </div>
 </div>

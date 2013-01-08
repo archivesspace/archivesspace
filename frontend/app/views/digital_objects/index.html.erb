@@ -4,8 +4,9 @@
    <div class="span3">
       The facets/search filters will go here.
    </div>
-   <div class="span9 record-pane">
-      <div class="btn-group">
+   <div class="span9">
+    <div class="record-pane">
+      <div class="btn-group pull-right">
         <% if user_can?('update_repository') %>
           <%= link_to "#{I18n.t("actions.create")} #{I18n.t("digital_object._html.singular")}", {:controller => :digital_objects, :action => :new}, :class => "btn" %>
         <% end %>
@@ -43,5 +44,6 @@
             There are currently no Digital Objects in this, <strong><%= session[:repo] %></strong>, repository.
          </p>
       <% end %>
+    </div>
    </div>
 </div>

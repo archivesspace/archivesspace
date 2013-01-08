@@ -28,6 +28,9 @@ en:
     unsuppress: Unsuppress
     unsuppress_confirm_message: Unsuppress this Accession?
     export_ead: Download EAD
+    loading: Loading...
+    revert: Revert Changes
+    finish_editing: Finish Editing
   states:
     suppressed: Suppressed
   navbar:
