@@ -1021,6 +1021,23 @@ Sequel.migration do
       add_foreign_key([:location_id], :location, :key => :id)
     end
 
+
+    [:subject, :accession, :archival_object, :collection_management, :digital_object,
+     :digital_object_component, :event, :location, :resource].each do |record|
+      table = "#{record}_ext_id".intern
+
+      create_table(table) do
+        primary_key :id
+        Integer "#{record}_id".intern, :null => false
+        String :external_id, :null => false
+        String :source, :null => false
+      end
+
+      alter_table(table) do
+        add_foreign_key(["#{record}_id".intern], record, :key => :id)
+      end
+    end
+
   end
 
 

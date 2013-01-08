@@ -304,7 +304,7 @@ describe 'Accession controller' do
   end
 
 
-  it "Allows accessions to be created with an agent link" do
+  it "allows accessions to be created with an agent link" do
 
     agent1 = create(:json_agent_person)
     agent2 = create(:json_agent_person)
@@ -330,4 +330,14 @@ describe 'Accession controller' do
     acc.linked_agents[1]['ref'].should eq(agent2.uri)
   end
 
+
+  it "supports saving and retrieving external IDs" do
+    accession = create(:json_accession,
+                       :external_ids => [{
+                                           'source' => 'brain',
+                                           'external_id' => '12345'
+                                         }])
+
+    JSONModel(:accession).find(accession.id).external_ids[0]['source'].should eq('brain')
+  end
 end

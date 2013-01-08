@@ -5,13 +5,18 @@ module ExternalIDs
     # Generate a class for the external IDs
     table_name = "#{base.table_name}_ext_id".intern
 
-    clz = Class.new(Sequel::Model(table_name)) do
-      if !self.db.table_exists?(self.table_name)
-        Log.warn("Table doesn't exist: #{self.table_name}")
+    begin
+      clz = Object.const_get(table_name.to_s.classify)
+    rescue NameError
+      clz = Class.new(Sequel::Model(table_name)) do
+        if !self.db.table_exists?(self.table_name)
+          Log.warn("Table doesn't exist: #{self.table_name}")
+        end
       end
+
+      Object.const_set(table_name.to_s.classify, clz)
     end
 
-    Object.const_set(table_name.to_s.classify, clz)
 
     base.one_to_many(table_name, :order => "#{table_name}__id".intern)
 
@@ -52,12 +57,10 @@ module ExternalIDs
     end
 
 
-    private
-
     def save_external_ids(obj, json, opts)
       obj.remove_all_external_id
 
-      json['external_ids'].each do |external_id|
+      Array(json['external_ids']).each do |external_id|
         obj.add_external_id(external_id)
       end
     end

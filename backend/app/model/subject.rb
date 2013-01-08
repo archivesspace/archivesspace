@@ -4,6 +4,7 @@ require 'digest/sha1'
 class Subject < Sequel::Model(:subject)
   include ASModel
   include ExternalDocuments
+  include ExternalIDs
 
   set_model_scope :global
   corresponds_to JSONModel(:subject)

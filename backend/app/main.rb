@@ -76,6 +76,7 @@ class ArchivesSpaceService < Sinatra::Base
       require_relative "model/ASModel"
       require_relative "model/identifiers"
       require_relative "model/external_documents"
+      require_relative "model/external_ids"
       require_relative "model/subjects"
       require_relative "model/extents"
       require_relative "model/dates"
