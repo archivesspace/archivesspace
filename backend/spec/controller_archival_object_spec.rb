@@ -31,21 +31,23 @@ describe 'Archival Object controller' do
 
     ao_1 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1")
     ao_2 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO2")
+    ao_3 = create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO3")
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
     tree.children[0]["title"].should eq("AO1")
     tree.children[1]["title"].should eq("AO2")
+    tree.children[2]["title"].should eq("AO3")
 
     ao_1 = JSONModel(:archival_object).find(ao_1.id)
-    ao_1.position = 1
+    ao_1.position = 1  # the second position
     ao_1.save
-
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
     tree.children[0]["title"].should eq("AO2")
     tree.children[1]["title"].should eq("AO1")
+    tree.children[2]["title"].should eq("AO3")
   end
 
 
