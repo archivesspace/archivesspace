@@ -177,6 +177,13 @@ module JSONModel
     end
 
 
+    def self.delete_request(url)
+      req = Net::HTTP::Delete.new(url.request_uri)
+
+      do_http_request(url, req)
+    end
+
+
     def self.get_response(url)
       req = Net::HTTP::Get.new(url.request_uri)
 
@@ -250,6 +257,20 @@ module JSONModel
       self.reset_from(obj) if not obj.nil?
     end
 
+
+    def delete
+      response = JSONModel::HTTP.delete_request(self.class.my_url(self.id))
+
+      if response.code == '200'
+        true
+      elsif response.code == '403'
+        raise AccessDeniedException.new
+      elsif response.code == '404'
+        nil
+      else
+        raise Exception.new("Unknown response: #{response}")
+      end
+    end
 
     # Mark the suppression status of this record
     def set_suppressed(val)

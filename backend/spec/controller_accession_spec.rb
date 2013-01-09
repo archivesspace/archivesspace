@@ -340,4 +340,29 @@ describe 'Accession controller' do
 
     JSONModel(:accession).find(accession.id).external_ids[0]['source'].should eq('brain')
   end
+
+
+  it "allows accessions to be deleted" do
+    resource = create(:json_resource)
+
+    accession = create(:json_accession,
+                       :external_ids => [{
+                                           'source' => 'brain',
+                                           'external_id' => '12345'
+                                         }],
+                       :extents => [build(:json_extent).to_hash],
+                       :related_resources => [{'ref' => resource.uri}])
+
+    resource.related_accessions = [{'ref' => accession.uri}]
+    resource.save
+
+    accession.delete
+
+    JSONModel(:accession).find(accession.id).should eq(nil)
+    resource = JSONModel(:resource).find(resource.id)
+    resource.should_not eq(nil)
+    resource.related_accessions.count.should be(0)
+  end
+
+
 end
