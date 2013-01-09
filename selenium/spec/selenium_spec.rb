@@ -9,12 +9,12 @@ describe "ArchivesSpace user interface" do
     state = Object.new.instance_eval do
       @store = {}
 
-      def get_last_mtime(repo, record_type)
-        @store[[repo[:repo_code], record_type]].to_i || 0
+      def get_last_mtime(repo_id, record_type)
+        @store[[repo_id, record_type]].to_i || 0
       end
 
-      def set_last_mtime(repo, record_type, time)
-        @store[[repo[:repo_code], record_type]] = time
+      def set_last_mtime(repo_id, record_type, time)
+        @store[[repo_id, record_type]] = time
       end
 
       self

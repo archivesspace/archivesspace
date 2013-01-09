@@ -212,6 +212,8 @@ module RESTHelpers
 
           result = DB.open do
 
+            RequestContext.put(:current_username, current_user.username)
+
             # If the current user is a manager, show them suppressed records
             # too.
             if RequestContext.get(:repo_id)

@@ -74,7 +74,11 @@ module ASModel
 
       self.class.prepare_for_deletion([self])
 
+      uri = self.uri
+
       super
+
+      Tombstone.create(:uri => uri)
     end
 
 

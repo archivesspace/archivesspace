@@ -122,6 +122,22 @@ class CommonIndexer
   end
 
 
+  def delete_records(records)
+    return if records.empty?
+
+    req = Net::HTTP::Post.new("/update")
+    req['Content-Type'] = 'application/json'
+    req.body = {:delete => records.map {|id| {"id" => id}}}.to_json
+
+    response = do_http_request(solr_url, req)
+    puts "Deleted #{records.length} documents: #{response}"
+
+    if response.code != '200'
+      raise "Error when deleting records: #{response.body}"
+    end
+  end
+
+
   def index_records(records)
     batch = []
 
