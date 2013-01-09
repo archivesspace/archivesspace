@@ -63,6 +63,8 @@ module ExternalIDs
           obj.external_id.map(&:delete)
         end
       end
+
+      super
     end
 
 
