@@ -17,7 +17,7 @@
           </div>
           <div class="span8 token-list">
             <%= render_token :object => subject['_resolved'],
-                             :label => Subject.from_hash(subject['_resolved']).display_string,
+                             :label => subject['_resolved']['title'],
                              :type => "subject",
                              :uri => subject['ref'] %>
           </div>

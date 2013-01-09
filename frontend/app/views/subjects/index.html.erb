@@ -25,7 +25,7 @@
          <tbody>
           <% @search_data['results'].each do |subject| %>
              <tr>
-              <td><%= subject.display_string %></td>
+              <td><%= subject.title %></td>
               <td>
                  <div class="btn-group" style="float: right">
                    <%= link_to I18n.t("actions.view"), {:controller => :subjects, :action => :show, :id => subject.id}, :class => "btn btn-mini" %>

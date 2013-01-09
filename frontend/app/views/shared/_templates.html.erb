@@ -147,15 +147,6 @@
   </div>
 --></div>
 
-<div id="linker_subject_template"><!--
-  <span>
-    {for t in terms}
-      ${t.term}
-      {if t_index < terms.length - 1} -- {/if}
-    {/for}
-  </span>
---></div>
-
 <div id="linker_location_template"><!--
   <span>
     ${building}{if defined("floor")}, ${floor}{/if}{if defined("room")}, ${room}{/if}{if defined("area")}, ${area}{/if}

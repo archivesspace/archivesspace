@@ -1,4 +1,4 @@
-<%= setup_context :object => @subject, :title => @subject.display_string %>
+<%= setup_context :object => @subject, :title => @subject.title %>
 
 <%= form_for @subject, :as => "subject", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
   <%= form_context :subject, @subject do |form| %>
@@ -8,7 +8,7 @@
       </div>
       <div class="span9">
         <div class="record-pane">
-          <h2><%= @subject.display_string %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
+          <h2><%= @subject.title %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
           <br/>
           <%= render :partial => "subjects/form", :locals => {:form => form} %>
           <div class="form-actions">

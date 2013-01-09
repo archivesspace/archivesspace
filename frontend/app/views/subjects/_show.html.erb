@@ -5,7 +5,7 @@
       <% subjects.each do | subject | %>
         <li>
           <%= render_token :object => subject,
-                           :label => Subject.from_hash(subject).display_string,
+                           :label => subject['title'],
                            :type => "subject",
                            :uri => subject['uri'] %>
         </li>

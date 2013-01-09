@@ -1,4 +1,4 @@
-<%= setup_context :object => @subject, :title => @subject.display_string %>
+<%= setup_context :object => @subject, :title => @subject.title %>
 
 <div class="row-fluid">
    <div class="span3">
@@ -8,7 +8,7 @@
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context :subject, @subject.to_hash do |readonly| %>
-      <h2><%= @subject.display_string %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
+      <h2><%= @subject.title %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
 
       <%= render :partial => "shared/flash_messages" %>
 

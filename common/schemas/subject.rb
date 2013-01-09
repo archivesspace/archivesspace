@@ -6,6 +6,8 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
+      "title" => {"type" => "string", "readonly" => true},
+
       "external_ids" => {
         "type" => "array",
         "items" => {
