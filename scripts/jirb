@@ -13,4 +13,6 @@ else
 fi
 
 
-$rlwrap "`dirname $0`/jruby" -e "require 'irb'; IRB.start" ${1+"$@"}
+JAVA_OPTS="$JAVA_OPTS -Daspace.config.search_user_secret=devserver"
+export JAVA_OPTS
+$rlwrap "`dirname $0`/jruby" -I. -e "require 'backend/app/main'; require 'irb'; IRB.start" ${1+"$@"}
