@@ -25,6 +25,15 @@ describe 'Relationships' do
         Integer :aspace_relationship_position
         DateTime :last_modified, :null => false
       end
+
+      db.create_table :app_friends_ban do
+        primary_key :id
+        Integer :banana_id
+        Integer :apple_id
+        Integer :aspace_relationship_position
+        DateTime :last_modified, :null => false
+      end
+
     end
   end
 
@@ -34,6 +43,7 @@ describe 'Relationships' do
       db.drop_table(:apple)
       db.drop_table(:banana)
       db.drop_table(:app_fruit_salad_ban)
+      db.drop_table(:app_friends_ban)
     end
   end
 
@@ -77,6 +87,16 @@ describe 'Relationships' do
                 "ref" => {"type" => [{"type" => "JSONModel(:apple) uri"}]}
               }
             }
+          },
+          "friends" => {
+            "type" => "array",
+            "items" => {
+              "type" => "object",
+              "subtype" => "ref",
+              "properties" => {
+                "ref" => {"type" => "JSONModel(:apple) uri"}
+              }
+            }
           }
         },
       },
@@ -88,6 +108,7 @@ describe 'Relationships' do
       include Relationships
       set_model_scope :global
       corresponds_to JSONModel(:apple)
+      clear_relationships
     end
 
 
@@ -97,10 +118,16 @@ describe 'Relationships' do
       set_model_scope :global
       corresponds_to JSONModel(:banana)
 
+      clear_relationships
       define_relationship(:name => :fruit_salad,
                           :json_property => 'apples',
                           :contains_references_to_types => proc {[Apple]})
 
+      # Do bananas have friends?  I don't know.  But for the sake of this test
+      # they do.
+      define_relationship(:name => :friends,
+                          :json_property => 'friends',
+                          :contains_references_to_types => proc {[Apple]})
     end
 
 
@@ -203,4 +230,15 @@ describe 'Relationships' do
                                                               }]))
     }.to raise_error(ReferenceError)
   end
+
+  it "deletes reciprocal relationship instances when deleting a record" do
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
+    banana = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => apple.uri}]))
+
+    banana.linked_records(:friends).count.should eq(1)
+    apple.delete
+    banana.reload
+    banana.linked_records(:friends).count.should eq(0)
+  end
+
 end
