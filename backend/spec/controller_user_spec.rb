@@ -120,4 +120,32 @@ describe 'User controller' do
     user.permissions[repo.repo_code].should eq(["manage_repository"])
   end
 
+
+  it "allows admin users to create a user with a set of groups" do
+
+    group_a = JSONModel(:group).from_hash("group_code" => "testgroup_a",
+                                        "description" => "Test group: A")
+    group_a.save  
+
+    group_b = JSONModel(:group).from_hash("group_code" => "testgroup_b",
+                                          "description" => "Test group: B")
+    group_b.save
+
+    user = build(:json_user)
+    user.save(:password => '123', "groups[]" => [group_a.uri, group_b.uri])
+
+    JSONModel(:group).find(group_a.id).member_usernames.should include(user.username)
+    JSONModel(:group).find(group_b.id).member_usernames.should include(user.username)
+
+  end
+
+
+  it "throws an exception when a user is created with an invalid group" do
+
+    expect {
+      build(:json_user).save(:password => '123', "groups[]" => ["/repositories/0/groups/999999999"])
+    }.to_not raise_error(NotFoundException)
+
+  end
+
 end
