@@ -2,18 +2,22 @@
    section_id = "related_accessions" if section_id.blank?
 %>
 
-<section id="<%= section_id %>">
+<section id="<%= section_id %>" class="subrecord-form-dummy">
   <h3><%= I18n.t("related_accession._html.plural") %></h3>
 
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t "accession._html.plural" %></label>
-    <div class="controls token-list">
-      <% related_accessions.each_with_index do | accession, index | %>
-        <%= render_token :object => accession["_resolved"],
-                         :label => accession["_resolved"]["title"],
-                         :type => "accession",
-                         :uri => accession["ref"] %>
-      <% end %>
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <div class="control-group">
+        <label class="control-label"><%= I18n.t "accession._html.plural" %></label>
+        <div class="controls token-list">
+          <% related_accessions.each_with_index do | accession, index | %>
+            <%= render_token :object => accession["_resolved"],
+                             :label => accession["_resolved"]["title"],
+                             :type => "accession",
+                             :uri => accession["ref"] %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 

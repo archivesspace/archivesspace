@@ -79,24 +79,28 @@
             </div>
           </section>
   
-          <section id="collection_management_linked_records_">
+          <section id="collection_management_linked_records_" class="subrecord-form-dummy">
             <h3><%= I18n.t("linked_record._html.plural") %></h3>
-            <div class="row-fluid label-and-value">
-               <div class="span3">
-                <% if @collection_management.linked_records.length > 1 %>
-                  <%= I18n.t("linked_record.ref_plural") %>
-                <% else %>
-                  <%= I18n.t("linked_record.ref") %>
-                <% end %>
-               </div>
-               <div class="span9 token-list">
-                 <% @collection_management.linked_records.each do | ref | %>
-                  <%= render_token :object => ref,
-                                    :label => ref["_resolved"]["title"],
-                                    :type => ref["_resolved"]["jsonmodel_type"],
-                                    :uri => ref["ref"] %>
-                 <% end %>
-               </div>
+            <div class="subrecord-form-container">
+              <div class="subrecord-form-fields">
+                <div class="row-fluid label-and-value">
+                   <div class="span3">
+                    <% if @collection_management.linked_records.length > 1 %>
+                      <%= I18n.t("linked_record.ref_plural") %>
+                    <% else %>
+                      <%= I18n.t("linked_record.ref") %>
+                    <% end %>
+                   </div>
+                   <div class="span9 token-list">
+                     <% @collection_management.linked_records.each do | ref | %>
+                      <%= render_token :object => ref,
+                                        :label => ref["_resolved"]["title"],
+                                        :type => ref["_resolved"]["jsonmodel_type"],
+                                        :uri => ref["ref"] %>
+                     <% end %>
+                   </div>
+                </div>
+              </div>
             </div>
           </section>
        <% end %>

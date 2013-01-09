@@ -2,18 +2,23 @@
    section_id = "related_resources" if section_id.blank?
 %>
 
-<section id="<%= section_id %>">
+<section id="<%= section_id %>" class="subrecord-form-dummy">
   <h3><%= I18n.t("related_resource._html.plural") %></h3>
 
-  <div class="control-group">
-    <label class="control-label"><%= I18n.t "resource._html.plural" %></label>
-    <div class="controls token-list">
-      <% related_resources.each_with_index do | resource, index | %>
-        <%= render_token :object => resource["_resolved"],
-                         :label => resource["_resolved"]["title"],
-                         :type => "resource",
-                         :uri => resource["ref"] %>
-      <% end %>
+
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <div class="control-group">
+        <label class="control-label"><%= I18n.t "resource._html.plural" %></label>
+        <div class="controls token-list">
+          <% related_resources.each_with_index do | resource, index | %>
+            <%= render_token :object => resource["_resolved"],
+                             :label => resource["_resolved"]["title"],
+                             :type => "resource",
+                             :uri => resource["ref"] %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 
