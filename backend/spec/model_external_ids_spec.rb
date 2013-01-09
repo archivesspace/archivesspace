@@ -57,6 +57,14 @@ describe 'External ID mixin' do
   end
 
 
+  after(:each) do
+    DB.open do |db|
+      db.drop_table(:test_record)
+      db.drop_table(:test_record_ext_id)
+    end
+  end
+
+
   it "stores external IDs and gives them back" do
     obj = JSONModel(:test_record).
       from_hash('external_ids' => [{
@@ -69,4 +77,23 @@ describe 'External ID mixin' do
     TestRecord.to_jsonmodel(record).external_ids.first['external_id'].should eq('40440444')
   end
 
+
+  it "deletes external IDs when the referenced object is deleted" do
+    obj = JSONModel(:test_record).
+      from_hash('external_ids' => [{
+                                     'source' => 'MyILMS',
+                                     'external_id' => '40440444'
+                                   }])
+
+    record = TestRecord.create_from_json(obj)
+
+    record.external_id.count.should eq(1)
+    external_id = record.external_id.first
+
+    record.delete
+
+    # Gone now, so raises an error on reload.
+    expect { external_id.reload }.to raise_error
+
+  end
 end
