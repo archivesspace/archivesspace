@@ -1,6 +1,6 @@
 <%
    if form.obj.has_key?('_resolved')
-     selected_json =  JSONModel(:subject).from_hash(form.obj['_resolved']).to_json
+     selected_json =  form.obj['_resolved'].to_json
    else
      selected_json = "{}"
    end

@@ -32,4 +32,15 @@ describe 'Location model' do
     Location[location[:id]].building.should eq("129 West 81st Street")
     Location[location[:id]].classification.should eq("Foo Foo Foo Foo")
   end
+
+
+  it "generates a title" do
+
+    building = "1 Testing Street"
+    barcode = "011011001"
+
+    location = Location.create_from_json(build(:json_location, {:building => building, :barcode => barcode, :floor => nil, :room => nil}), :repo_id => $repo_id)
+
+    Location[location[:id]].title.should eq("#{building} [#{barcode}]")
+  end
 end

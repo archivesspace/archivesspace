@@ -846,6 +846,8 @@ Sequel.migration do
 
       String :building, :null => false
 
+      String :title
+
       String :floor
       String :room
       String :area
