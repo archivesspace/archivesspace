@@ -75,6 +75,10 @@ module RESTHelpers
       modified_response('Updated', *opts)
     end
 
+    def deleted_response(id)
+      json_response({:status => 'Deleted', :id => id})
+    end
+
 
     def suppressed_response(id, state)
       json_response({:status => 'Suppressed', :id => id, :suppressed_state => state})
@@ -144,6 +148,7 @@ module RESTHelpers
 
     def self.get(uri); self.method(:get).uri(uri); end
     def self.post(uri); self.method(:post).uri(uri); end
+    def self.delete(uri); self.method(:delete).uri(uri); end
     def self.method(method); Endpoint.new(method); end
 
     def uri(uri); @uri = uri; self; end
@@ -206,6 +211,8 @@ module RESTHelpers
           end
 
           result = DB.open do
+
+            RequestContext.put(:current_username, current_user.username)
 
             # If the current user is a manager, show them suppressed records
             # too.

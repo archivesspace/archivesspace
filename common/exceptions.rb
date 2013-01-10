@@ -9,3 +9,6 @@ class ConflictException < StandardError
     @conflicts = conflicts
   end
 end
+
+class RecordNotFound < StandardError
+end

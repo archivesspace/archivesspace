@@ -32,7 +32,16 @@ class RealtimeIndexer < CommonIndexer
         updates = get_updates(last_sequence)
 
         if !updates.empty?
-          index_records(updates)
+
+          # Pick out updates that represent deleted records
+          deletes = updates.find_all { |update| update['record'] == 'deleted' }
+
+          # Add the records that were created/updated
+          index_records(updates - deletes)
+
+          # Delete records that were deleted
+          delete_records(deletes.map { |record| record['uri'] })
+
           send_commit(:soft)
           last_sequence = updates.last['sequence']
         end

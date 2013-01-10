@@ -896,6 +896,14 @@ Sequel.migration do
     end
 
 
+    create_table(:deleted_records) do
+      primary_key :id
+
+      String :uri, :null => false
+      String :operator, :null => false
+      DateTime :timestamp, :null => false
+    end
+
 
     # Relationship tables
     [:accession, :archival_object, :digital_object, :digital_object_component, :event, :resource].each do |record|

@@ -72,4 +72,14 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(accession.tree)
   end
 
+  Endpoint.delete('/repositories/:repo_id/accessions/:accession_id')
+    .description("Delete an Accession")
+    .params(["accession_id", Integer, "The accession ID to delete"],
+            ["repo_id", :repo_id])
+    .preconditions(proc { current_user.can?(:manage_repository) })
+    .returns([200, :deleted]) \
+  do
+    handle_delete(Accession, params[:accession_id])
+  end
+
 end

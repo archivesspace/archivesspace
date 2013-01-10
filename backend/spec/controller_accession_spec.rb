@@ -192,7 +192,9 @@ describe 'Accession controller' do
     test_accession.suppress
 
     as_test_user('nobody') do
-      JSONModel(:event).find(event.id).should be(nil)
+      expect {
+        JSONModel(:event).find(event.id)
+      }.to raise_error(RecordNotFound)
     end
 
 
@@ -340,4 +342,33 @@ describe 'Accession controller' do
 
     JSONModel(:accession).find(accession.id).external_ids[0]['source'].should eq('brain')
   end
+
+
+  it "allows accessions to be deleted" do
+    resource = create(:json_resource)
+
+    accession = create(:json_accession,
+                       :external_ids => [{
+                                           'source' => 'brain',
+                                           'external_id' => '12345'
+                                         }],
+                       :deaccessions => [build(:json_deaccession,
+                                               :extents => [build(:json_extent).to_hash]).to_hash],
+                       :related_resources => [{'ref' => resource.uri}])
+
+    resource.related_accessions = [{'ref' => accession.uri}]
+    resource.save
+
+    accession.delete
+
+    expect {
+      JSONModel(:accession).find(accession.id)
+    }.to raise_error(RecordNotFound)
+
+    resource = JSONModel(:resource).find(resource.id)
+    resource.should_not eq(nil)
+    resource.related_accessions.count.should be(0)
+  end
+
+
 end

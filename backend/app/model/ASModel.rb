@@ -65,6 +65,25 @@ module ASModel
     end
 
 
+    # Delete the current record using Sequel's delete method, but clean up
+    # dependencies first.
+    def delete
+      (self.class.linked_records[self.class] or []).each do |linked_record|
+        self.class.remove_existing_linked_records(self, linked_record)
+      end
+
+      self.class.prepare_for_deletion([self])
+
+      uri = self.uri
+
+      super
+
+      Tombstone.create(:uri => uri)
+
+      RealtimeIndexing.record_delete(uri)
+    end
+
+
     # When reporting a Sequel validation error against the set of 'columns',
     # report it against the JSONModel 'property' instead.
     #

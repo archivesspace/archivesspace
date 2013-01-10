@@ -1,6 +1,11 @@
 module Relationships
 
   def self.included(base)
+    base.instance_eval do
+      @relationships ||= []
+      @reciprocal_relationships ||= []
+    end
+
     base.extend(ClassMethods)
   end
 
@@ -49,6 +54,12 @@ module Relationships
 
   module ClassMethods
 
+    def clear_relationships
+      @relationships = []
+      @reciprocal_relationships = []
+    end
+
+
     # Define a new relationship.
     def define_relationship(opts)
       [:name, :json_property, :contains_references_to_types].each do |p|
@@ -89,6 +100,10 @@ module Relationships
           end
 
           self.one_to_many(table_name, :order => "#{table_name}__id".intern)
+
+
+          referent.include(Relationships)
+          referent.add_reciprocal_relationship(self, relationship)
 
           clz
         end
@@ -199,6 +214,20 @@ module Relationships
     end
 
 
+    # Find all relationships that include 'obj'
+    def relationships_relating_to(obj)
+      @relationships.map do |relationship|
+        relationship_model = relationship[:references][obj.class]
+
+        if !relationship_model
+          []
+        else
+          relationship_model.filter("#{obj.class.table_name}_id".intern => obj.id).all
+        end
+      end.flatten
+    end
+
+
     # Find all instances of the referring class that have a relationship with 'obj'
     def instances_relating_to(obj)
       @relationships.map do |relationship|
@@ -218,10 +247,22 @@ module Relationships
 
     def prepare_for_deletion(dataset)
       dataset.each do |obj|
+        # Delete all the relationships created against this object
         obj.delete_all_relationships
+
+        # And delete all the relationships that other classes hold that reference
+        # this object
+        @reciprocal_relationships.each do |referrer, relationship|
+          referrer.relationships_relating_to(obj).map(&:delete)
+        end
       end
 
       super
+    end
+
+
+    def add_reciprocal_relationship(referrer, relationship)
+      @reciprocal_relationships << [referrer, relationship]
     end
 
   end

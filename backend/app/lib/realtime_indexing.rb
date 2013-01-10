@@ -9,6 +9,11 @@ class RealtimeIndexing
   end
 
 
+  def self.record_delete(uri)
+    record_update(:deleted, uri)
+  end
+
+
   def self.record_update(json, uri)
     @lock.synchronize do
       @sequence += 1

@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ArchivesSpace::SessionGone, :with => :destroy_user_session
   rescue_from ArchivesSpace::SessionExpired, :with => :destroy_user_session
+  rescue_from RecordNotFound, :with => :render_404
 
 
   # Note: This should be first!
@@ -266,6 +267,11 @@ class ApplicationController < ActionController::Base
 
   def render_403
     render "/403"
+  end
+
+
+  def render_404
+    render "/404"
   end
 
 end

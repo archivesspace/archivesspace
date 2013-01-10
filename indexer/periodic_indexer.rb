@@ -9,13 +9,13 @@ class IndexState
   end
 
 
-  def path_for(repository, record_type)
-    File.join(@state_dir, "#{repository.id}_#{record_type}")
+  def path_for(repository_id, record_type)
+    File.join(@state_dir, "#{repository_id}_#{record_type}")
   end
 
 
-  def set_last_mtime(repository, record_type, time)
-    path = path_for(repository, record_type)
+  def set_last_mtime(repository_id, record_type, time)
+    path = path_for(repository_id, record_type)
 
     File.open("#{path}.tmp", "w") do |fh|
       fh.puts(time.to_i)
@@ -25,15 +25,15 @@ class IndexState
   end
 
 
-  def get_last_mtime(repository, record_type)
-    path = path_for(repository, record_type)
+  def get_last_mtime(repository_id, record_type)
+    path = path_for(repository_id, record_type)
 
     begin
       File.open("#{path}.dat", "r") do |fh|
         fh.readline.to_i
       end
     rescue Errno::ENOENT
-      # If we've never run against this repository/type before, just index
+      # If we've never run against this repository_id/type before, just index
       # everything.
       0
     end
@@ -46,6 +46,32 @@ class PeriodicIndexer < CommonIndexer
   def initialize(state = nil)
     super(AppConfig[:backend_url])
     @state = state || IndexState.new
+  end
+
+
+  def handle_deletes
+    start = Time.now
+    last_mtime = @state.get_last_mtime('_deletes', 'deletes')
+    did_something = false
+
+    page = 1
+    while true
+      deletes = JSONModel::HTTP.get_json("/delete-feed", :modified_since => last_mtime, :page => page)
+
+      if !deletes['results'].empty?
+        did_something = true
+      end
+
+      delete_records(deletes['results'])
+
+      break if deletes['last_page'] <= page
+
+      page += 1
+    end
+
+    send_commit if did_something
+
+    @state.set_last_mtime('_deletes', 'deletes', start)
   end
 
 
@@ -65,7 +91,7 @@ class PeriodicIndexer < CommonIndexer
         page = 1
         while true
           records = JSONModel(type).all(:page => page,
-                                        :modified_since => @state.get_last_mtime(repository, type))
+                                        :modified_since => @state.get_last_mtime(repository.id, type))
 
           if !records['results'].empty?
             did_something = true
@@ -88,9 +114,11 @@ class PeriodicIndexer < CommonIndexer
       send_commit if did_something
 
       checkpoints.each do |repository, type, start|
-        @state.set_last_mtime(repository, type, start)
+        @state.set_last_mtime(repository.id, type, start)
       end
     end
+
+    handle_deletes
 
   end
 

@@ -57,6 +57,17 @@ module ExternalIDs
     end
 
 
+    def prepare_for_deletion(dataset)
+      dataset.each do |obj|
+        if obj.respond_to?(:external_id)
+          obj.external_id.map(&:delete)
+        end
+      end
+
+      super
+    end
+
+
     def save_external_ids(obj, json, opts)
       obj.remove_all_external_id
 

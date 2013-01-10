@@ -13,7 +13,10 @@ describe 'Archival Object controller' do
     created = create(:json_archival_object).id
 
     repo = create(:repo, :repo_code => 'OTHERREPO')
-    JSONModel(:archival_object).find(created).should eq nil
+
+    expect {
+      JSONModel(:archival_object).find(created)
+    }.to raise_error(RecordNotFound)
   end
 
   it "lets you list all archival objects" do
