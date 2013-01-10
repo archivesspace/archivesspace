@@ -1,8 +1,8 @@
 class AccessionsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress, :delete]
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
-  before_filter :user_needs_to_be_a_manager, :only => [:suppress, :unsuppress]
+  before_filter :user_needs_to_be_a_manager, :only => [:suppress, :unsuppress, :delete]
 
   FIND_OPTS = ["subjects", "ref", "related_resources", "linked_agents"]
 
@@ -70,6 +70,14 @@ class AccessionsController < ApplicationController
 
     flash[:success] = I18n.t("accession._html.messages.unsuppressed")
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
+  end
+
+
+  def delete
+    Accession.find(params[:id]).delete
+
+    flash[:success] = I18n.t("accession._html.messages.deleted")
+    redirect_to(:controller => :accessions, :action => :index)
   end
 
 

@@ -24,9 +24,14 @@ en:
     save_plus_one: "+1"
     save_anyway: Save Anyway
     suppress: Suppress
-    suppress_confirm_message: Suppress this Accession?
+    suppress_confirm_title: Suppress this Record?
+    suppress_confirm_message: While a suppressed record will remain in the database, it will become hidden to most users and unavailable to most functions.
     unsuppress: Unsuppress
-    unsuppress_confirm_message: Unsuppress this Accession?
+    unsuppress_confirm_title: Unsuppress this Record?
+    unsuppress_confirm_message: false
+    delete: Delete
+    delete_confirm_title: Delete this Record?
+    delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
     export_ead: Download EAD
     loading: Loading...
     revert: Revert Changes
@@ -1314,6 +1319,7 @@ en:
         updated: Accession Saved
         suppressed: Accession Suppressed
         suppressed_info: Accession is suppressed and cannot be edited
+        deleted: Accession Deleted
       section:
         basic_information: Basic Information
   agent: &agent_attributes

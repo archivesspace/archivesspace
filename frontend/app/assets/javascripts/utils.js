@@ -308,7 +308,9 @@ $(function() {
 
       var template_data = {
         message: $this.data("message") || "",
-        title: $this.data("title") || "Are you sure?"
+        title: $this.data("title") || "Are you sure?",
+        confirm_label: $this.data("confirm-btn-label") || false,
+        confirm_class: $this.data("confirm-btn-class") || false
       };
 
       var confirmInlineFormAction = function() {
@@ -335,7 +337,7 @@ $(function() {
         event.stopImmediatePropagation();
 
         AS.openCustomModal("confirmChangesModal", template_data.title , AS.renderTemplate("confirmation_modal_template", template_data));
-        $("#confirmButton", confirmChangesModal).click(function() {
+        $("#confirmButton", "#confirmChangesModal").click(function() {
           if ($this.parents(".btn-inline-form:first").length) {
             confirmInlineFormAction();
           } else {
