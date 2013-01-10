@@ -58,7 +58,7 @@ module ASpaceImport
       when 1..100
         @regex_cache[xp][offset] ||= Regexp.new "^(descendant::|" << xp.scan(/[a-zA-Z_]+/)[offset*-1..-2].map { |n| 
                                 "(child::)?(#{n}|\\*)" 
-                                }.join('/') << "/(child::)?)" << xp.gsub(/.*\//, '') << "$"
+                                }.join('/') << (offset > 1 ? "/" : "") << "(child::)?)" << xp.gsub(/.*\//, '') << "$"
 
       
       when -100..-1
@@ -83,6 +83,7 @@ module ASpaceImport
       walk = ASpaceImport::Crosswalk.walk
       regex = ASpaceImport::Crosswalk.regexify_xpath(xpath)
       types = walk["entities"].map {|k,v| k if v["xpath"] and v["xpath"].find {|x| x.match(regex)}}.compact
+      
 
       case types.length
 
@@ -101,18 +102,14 @@ module ASpaceImport
       end  
     end
     
+    # @param cls - a JSONModel class
+    
     def wrap_model(cls)
   
       cls.class_eval do
-        
-        @receivers = ASpaceImport::Crosswalk.property_receivers(cls)
-        
-        def self.receivers
-          @receivers
-        end
              
         def receivers
-          @property_mgr ||= ASpaceImport::Crosswalk::PropertyMgr.new(self)
+          @property_mgr ||= ASpaceImport::Crosswalk::PropertyReceiverDispatcher.new(self)
           @property_mgr
         end
                  
@@ -164,14 +161,13 @@ module ASpaceImport
     # either an xpath or a record_type along with an optional depth (of
     # the parsing context into which the reciever will be yielded)
 
-    class PropertyMgr
+    class PropertyReceiverDispatcher
       
       def initialize(json)
         @json = json
         @depth = @json.depth
         @receivers = {}
-
-        @json.class.receivers.each do |p, r|
+        ASpaceImport::Crosswalk.property_receivers(@json.class).each do |p, r|
           @receivers[p] = r.new(@json)
         end 
       end
@@ -216,47 +212,61 @@ module ASpaceImport
       receivers = {}
       
       @walk['entities'][model.record_type]['properties'].each do |p, defn|
-         receivers[p] = self.initialize_receiver(p, self.property_type(model.schema['properties'][p]), model.schema['properties'][p], defn)
+         receivers[p] = self.initialize_receiver(p, model.schema['properties'][p], defn)
       end
      
       receivers
     end
 
-    # returns a Property Receiver Class for a property of
-    # a JSONModel Class
+    # @param property_name - [String] the name of the property
+    # @param def_from_schema - [Hash] the schema fragement that defines the property
+    # @param def_from_xwalk - [Hash] the crosswalk fragment that maps source data to 
+    #  the property
     
-    def self.initialize_receiver(p, val_type, schema_def, xwalk_def)
+    def self.initialize_receiver(property_name, def_from_schema, def_from_xwalk)
+      
       Class.new(PropertyReceiver) do
         
         class << self
           attr_reader :property
-          attr_reader :val_type
+          attr_reader :property_type
           attr_reader :sdef
           attr_reader :xdef
           attr_reader :received_jsonmodel_types
         end
         
-        @property = p
-        @val_type = val_type
-        @sdef = schema_def
-        @xdef = xwalk_def
-
-        case @val_type 
-          
-        when :uri
-          @received_jsonmodel_types = [@sdef['type'].scan(/:([a-zA-Z_]*)/)[0][0]]
-        when :array_of_uris_or_objects
-          @received_jsonmodel_types = [@sdef['items']['type'].scan(/:([a-zA-Z_]*)/)[0][0]]
-        when :array_of_objects 
-          if @sdef['items']['type'].is_a? Array
-            @received_jsonmodel_types = []
-            @sdef['items']['type'].each { |t| @received_jsonmodel_types << t['type'].scan(/:([a-zA-Z_]*)/)[0][0]}
-          end
-        end
-
+        @property = property_name
+        @property_type, @received_jsonmodel_types = ASpaceImport::Crosswalk.get_property_type(def_from_schema)
+        @sdef, @xdef = def_from_schema, def_from_xwalk
         
+        if @property_type.match /^record/ 
+          if @received_jsonmodel_types.empty?
+            raise CrosswalkException.new(:property => @property, :val_type => @property_type) 
+          end
+        end        
       end
     end
+    
+    class CrosswalkException < StandardError
+      attr_accessor :property
+      attr_accessor :val_type
+      attr_accessor :property_def
+
+      def initialize(opts)
+        @property = opts[:property]
+        @val_type = opts[:val_type]
+        @property_def = opts[:property_def]
+      end
+
+      def to_s
+        if @property_def
+          "#<:CrosswalkException: Can't classify the property schema: #{property_def.inspect}>"
+        else
+          "#<:CrosswalkException: Can't identify a Model for property #{property} of type #{val_type}>"
+        end
+      end
+    end
+    
     
     # Objects to manage the setting of a property of the
     # master json object (@object)  
@@ -279,7 +289,7 @@ module ASpaceImport
       def receives_obj?(other_object)
 
         return false if other_object.done_being_received?
-        
+
         if self.class.xdef['axis'] && self.class.received_jsonmodel_types.include?(other_object.jsonmodel_type)
         
           if self.class.xdef['axis'] == 'parent' && @object.depth - other_object.depth == 1
@@ -334,8 +344,7 @@ module ASpaceImport
         val
       end
       
-      # take a string, hash, or JSON object that satisfies
-      # a property of the receiver's @object
+      # @param val - string, hash, or JSON object
       
       def receive(val = nil)
         
@@ -343,56 +352,128 @@ module ASpaceImport
                 
         return false if val == nil
         
-        case self.class.val_type
-                  
-        when :uri
-          val = val.uri
-        
-        when :array_of_objects
-          val.block_further_reception if val.respond_to? :block_further_reception
-          
-          val = @object.send("#{self.class.property}").push(val.to_hash)
+        case self.class.property_type
 
-        when :array_of_uris_or_objects          
+        when /^record_uri_or_record_inline/
           val.block_further_reception if val.respond_to? :block_further_reception
-
           if val.class.method_defined? :uri
             val = val.uri
           elsif val.class.method_defined? :to_hash
             val = val.to_hash
           end
-
-          val = @object.send("#{self.class.property}").push(val)
+                  
+        when /^record_uri/
+          val = val.uri
           
-        end               
+        when /^record_inline/
+          val.block_further_reception if val.respond_to? :block_further_reception
+          val = val.to_hash
+        
+        when /^record_ref/
+          if val.class.method_defined? :uri
+            val = {'ref' => val.uri}
+          end  
+        end
+        
+        if self.class.property_type.match /list$/       
+          val = @object.send("#{self.class.property}").push(val)
+        end
         
         @object.send("#{self.class.property}=", val)
       end
     end
-    
-    # Classify properties based on JSON schemas.
-    
-    def self.property_type(schema_def)
-      if schema_def['type'] == 'string'
-        :string
-      elsif schema_def['type'].match(/^JSON.*object$/)
-        :object
-      elsif schema_def['type'].match(/^JSON.*(uri|uri_or_object)$/)
-        :uri
-      elsif schema_def['type'] == 'array' && schema_def['items']['type'].is_a?(String)
-        if schema_def['items']['type'].match(/^JSON.*(uri|uri_or_object)$/)
-          :array_of_uris_or_objects
-        elsif schema_def['items']['type'].match(/^JSON.*object$/) || schema_def['items']['type'].match(/^object$/) 
-          :array_of_objects
-        else
-          :array_of_strings
-        end
-      elsif schema_def['type'] == 'array' && schema_def['items']['type'].is_a?(Array)
-        :array_of_objects
-      else
-        :unknown
+
+
+    # Helpers that should probably be relocated:
+
+    def self.ref_type_list(property_ref_type)
+      if property_ref_type.is_a? Array
+        property_ref_type.map { |t| t['type'].scan(/:([a-zA-Z_]*)/)[0][0] }
+      else  
+        property_ref_type.scan(/:([a-zA-Z_]*)/)[0][0]
       end
     end
     
+    # @param property_def - property fragment from a json schema
+    # @returns - [property_typ_code, array_of_qualified_json_types]
+    
+    def self.get_property_type(property_def)
+
+      # subrecord slots taking more than one type
+
+      if property_def['type'].is_a? Array
+        if property_def['type'].reject {|t| t['type'].match(/object$/)}.length != 0
+          raise CrosswalkException.new(:property_def => property_def)
+        end
+        
+        return [:record_inline, property_def['type'].map {|t| t['type'].scan(/:([a-zA-Z_]*)/)[0][0] }]
+      end
+
+      # all other cases
+
+      case property_def['type']
+
+      when 'boolean'
+        [:boolean, nil]
+        
+      when 'string'
+        [:string, nil]
+        
+      when 'object'
+        if property_def['subtype'] == 'ref'          
+          [:record_ref, ref_type_list(property_def['properties']['ref']['type'])]
+        else
+          raise CrosswalkException.new(:property_def => property_def)
+        end
+        
+      when 'array'
+        arr = get_property_type(property_def['items'])
+        [(arr[0].to_s + '_list').to_sym, arr[1]]
+        
+      when /^JSONModel\(:([a-z_]*)\)\s(uri)$/
+        [:record_uri, [$1]]
+        
+      when /^JSONModel\(:([a-z_]*)\)\s(uri_or_object)$/
+        [:record_uri_or_record_inline, [$1]]
+        
+      when /^JSONModel\(:([a-z_]*)\)\sobject$/
+        [:record_inline, [$1]]
+  
+      else
+        
+        raise CrosswalkException.new(:property_def => property_def)
+      end
+    end
+    
+    # @param json - JSON Object to be modified
+    # @param ref_source - a hash mapping old uris to new uris
+    # The ref_source values are evaluated by a block
+    
+    def self.update_record_references(json, ref_source)
+      data = json.to_hash
+      data.each do |k, v|
+
+        property_type = get_property_type(json.class.schema["properties"][k])[0]
+
+        if property_type == :record_ref && ref_source.has_key?(v['ref'])
+          data[k]['ref'] = yield ref_source[v['ref']]
+          
+        elsif property_type == :record_ref_list
+          v.each {|li| li['ref'] = yield ref_source[li['ref']] if ref_source.has_key?(li['ref'])}
+                 
+        elsif property_type.match(/^record_uri(_or_record_inline)?$/) \
+          and v.is_a? String \
+          and !v.match(/\/vocabularies\/[0-9]+$/) \
+          and ref_source.has_key?(v)
+
+          data[k] = yield ref_source[v]
+          
+        elsif property_type.match(/^record_uri(_or_record_inline)?_list$/) && v[0].is_a?(String)
+          data[k] = v.map { |vn| (vn.is_a? String && vn.match(/\/.*[0-9]$/)) && ref_source.has_key?(vn) ? (yield ref_source[vn]) : vn }
+        end    
+      end
+      
+      json.set_data(data)
+    end
   end
 end
