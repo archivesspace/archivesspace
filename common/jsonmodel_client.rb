@@ -353,7 +353,7 @@ module JSONModel
         elsif response.code == '403'
           raise AccessDeniedException.new
         elsif response.code == '404'
-          nil
+          raise RecordNotFound.new
         else
           raise response.body
         end

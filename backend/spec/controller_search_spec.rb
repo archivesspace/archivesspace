@@ -9,7 +9,9 @@ describe 'Search controller' do
     create_nobody_user
 
     as_test_user("nobody") do
-      JSONModel(:accession).find(accession.id).should eq(nil)
+      expect {
+        JSONModel(:accession).find(accession.id)
+      }.to raise_error(RecordNotFound)
     end
 
     as_test_user(User.SEARCH_USERNAME) do

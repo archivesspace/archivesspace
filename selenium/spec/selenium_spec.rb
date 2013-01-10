@@ -758,6 +758,48 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  describe "Record Lifecycle" do
+
+    before(:all) do
+      login_as_repo_manager
+      @accession_title = create_accession("My accession to test the record lifecycle")
+      @indexer.run_index_round
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    it "can delete an Accession" do
+      # Navigate to the Accession
+      $driver.clear_and_send_keys([:id, "global-search-box"], @accession_title)
+      $driver.find_element(:id, "global-search-button").click
+      $driver.find_element(:link, "View").click
+
+      accession_url = $driver.current_url
+
+      # Delete the accession
+      $driver.find_element(:css, ".delete-record.btn").click
+      $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+
+      #Ensure Accession no longer exists
+      assert { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Deleted') }
+      expect {
+        $driver.find_element_with_text('//td', /#{@accession_title}/)
+      }.to raise_error
+
+      # Navigate back to the accession's page
+      $driver.get(accession_url)
+      assert {
+        $driver.find_element_with_text('//h2', /Record Not Found/)
+      }
+    end
+
+  end
+
+
   describe "Collection Management Records" do
 
     before(:all) do

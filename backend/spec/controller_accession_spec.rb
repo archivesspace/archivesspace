@@ -192,7 +192,9 @@ describe 'Accession controller' do
     test_accession.suppress
 
     as_test_user('nobody') do
-      JSONModel(:event).find(event.id).should be(nil)
+      expect {
+        JSONModel(:event).find(event.id)
+      }.to raise_error(RecordNotFound)
     end
 
 
@@ -359,7 +361,10 @@ describe 'Accession controller' do
 
     accession.delete
 
-    JSONModel(:accession).find(accession.id).should eq(nil)
+    expect {
+      JSONModel(:accession).find(accession.id)
+    }.to raise_error(RecordNotFound)
+
     resource = JSONModel(:resource).find(resource.id)
     resource.should_not eq(nil)
     resource.related_accessions.count.should be(0)

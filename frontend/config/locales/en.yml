@@ -101,8 +101,10 @@ en:
       missing_file: Please select an EAD file to upload
       error_prefix: Error importing file
   errors:
-    403: Unable to Access Page
-    403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
+    error_403: Unable to Access Page
+    error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
+    error_404: Record Not Found
+    error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
   iso_3166:
     AF: AFGHANISTAN (AF)
     AX: ÅLAND ISLANDS (AX)

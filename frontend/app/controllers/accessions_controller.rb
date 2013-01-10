@@ -12,6 +12,7 @@ class AccessionsController < ApplicationController
 
   def show
     @accession = Accession.find(params[:id], "resolve[]" => FIND_OPTS)
+    
     flash[:info] = I18n.t("accession._html.messages.suppressed_info") if @accession.suppressed
   end
 
