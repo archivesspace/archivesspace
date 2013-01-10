@@ -79,6 +79,10 @@ module ASModel
       super
 
       Tombstone.create(:uri => uri)
+
+      if self.class.high_priority?
+        RealtimeIndexing.record_delete(uri)
+      end
     end
 
 
