@@ -459,6 +459,7 @@ module ASpaceImport
           data[k]['ref'] = yield ref_source[v['ref']]
           
         elsif property_type == :record_ref_list
+
           v.each {|li| li['ref'] = yield ref_source[li['ref']] if ref_source.has_key?(li['ref'])}
                  
         elsif property_type.match(/^record_uri(_or_record_inline)?$/) \

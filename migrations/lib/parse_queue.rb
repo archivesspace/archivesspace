@@ -1,9 +1,7 @@
 module ASpaceImport
   
   # Manages the JSON object batch set
-  # Could be folded into the JSONModel 
-  # namespace.
-  # Could be serialized to a file.
+  
   class Batch < Array
     attr_accessor :links
     @must_be_unique = ['subject']
@@ -27,7 +25,7 @@ module ASpaceImport
       
       #2. Update links in the remaining set
       self.each do |json|
-        self.class.replace_links(json, @dupes)
+        ASpaceImport::Crosswalk.update_record_references(json, @dupes) {|uri| uri}
       end
       
     end
@@ -48,9 +46,7 @@ module ASpaceImport
       uri = "/repositories/#{repo_id}/batch_imports"
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       
-      if @opts[:dry]
-        # dry_response = Net::HTTPResponse.new(1.0, 200, "OK")
-        
+      if @opts[:dry]        
         
         res_body = "{\"saved\":{"
         batch.each_with_index do |hsh, i|
@@ -61,11 +57,6 @@ module ASpaceImport
         
         res_body
         
-        # puts "RES #{res_body.inspect}"
-        # j = JSON.parse(res_body)
-        # puts "JSON #{j.inspect}"
-        # dry_response.body = res_body
-        # dry_response
       else
         JSONModel::HTTP.with_request_priority(:low) do
           JSONModel::HTTP.post_json(url, batch_object.to_json(:max_nesting => false))
@@ -74,8 +65,7 @@ module ASpaceImport
     end
     
     # Check the batch to see if any record
-    # is a match for the added record. This
-    # might need to be abstracted better.    
+    # is a match for the added record.   
     def self.find_dupe(json, batch)
 
       return nil unless @must_be_unique.include?(json.jsonmodel_type.to_s)
@@ -93,31 +83,6 @@ module ASpaceImport
         end
       end
       nil
-    end
-    
-    # Merge this into common or import and generalize for backend import
-    # helpers
-    def self.replace_links(json, link_map)
-
-      data = json.to_hash
-      data.each do |k, v| 
-        if json.class.schema["properties"][k]["type"].match(/JSONModel/) and \
-              v.is_a? String and \
-              link_map.has_key?(v) and \
-              v.match(/\/.*[0-9]$/) and \
-              !v.match(/\/vocabularies\/[0-9]+$/)
-
-          data[k] = link_map[v]
-        elsif json.class.schema["properties"][k]["type"] == "array" and \
-              !json.class.schema["properties"][k]["items"]["type"].is_a? Array and \
-              json.class.schema["properties"][k]["items"]["type"].match(/JSONModel/) and \
-              v.is_a? Array
-          data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/) and link_map.has_key?(u)) ? link_map[u] : u }.uniq
-        end
-      end
-
-      json.set_data(data)     
-      
     end
   end
   
@@ -175,7 +140,7 @@ module ASpaceImport
       end
     end
     
- 
+
     def save
       @batch.save
     end    
