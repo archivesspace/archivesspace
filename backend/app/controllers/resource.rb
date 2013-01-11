@@ -25,24 +25,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/resources/:resource_id/children')
-    .description("Get the children of a Resource")
-    .params(["resource_id", Integer, "The Resource ID"],
-            ["repo_id", :repo_id])
-    .returns([200, "a list of archival object references"],
-             [404, '{"error":"ArchivalObject not found"}']) \
-  do
-    resource = Resource.get_or_die(params[:resource_id], params[:repo_id])
-
-    json_response(resource.children.map {|child|
-                    {
-                      :uri => child.uri,
-                      :title => child.title,
-                      :has_children => child.has_children?
-                    }})
-  end
-
-
   Endpoint.get('/repositories/:repo_id/resources/:resource_id/tree')
     .description("Get a Resource tree")
     .params(["resource_id", Integer, "The ID of the resource to retrieve"],
