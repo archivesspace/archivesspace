@@ -29,6 +29,10 @@
             "ref" => {
               "type" => "JSONModel(:subject) uri",
               "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
             }
           }
         }
@@ -54,7 +58,11 @@
                                  {"type" => "JSONModel(:agent_family) uri"},
                                  {"type" => "JSONModel(:agent_person) uri"},
                                  {"type" => "JSONModel(:agent_software) uri"}],
-                      "ifmissing" => "error"}
+                      "ifmissing" => "error"},
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       },

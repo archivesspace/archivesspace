@@ -55,22 +55,6 @@ describe 'JSON model' do
   end
 
 
-  it "provides accessors for non-schema properties but doesn't serialise them" do
-
-    obj = JSONModel(:testschema).from_hash({
-                                             "elt_0" => "helloworld",
-                                             "special" => "some string"
-                                           })
-
-    obj.elt_0.should eq ("helloworld")
-    obj.special.should eq ("some string")
-
-    obj.to_hash.has_key?("special").should be_false
-    JSON[obj.to_json].has_key?("special").should be_false
-
-  end
-
-
   it "allows for updates" do
 
     obj = JSONModel(:testschema).from_hash({

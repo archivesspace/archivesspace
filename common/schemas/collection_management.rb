@@ -39,7 +39,11 @@
             "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"},
                                  {"type" => "JSONModel(:resource) uri"},
                                  {"type" => "JSONModel(:digital_object) uri"}],
-              "ifmissing" => "error"}
+              "ifmissing" => "error"},
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       }
