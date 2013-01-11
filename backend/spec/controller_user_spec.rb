@@ -16,7 +16,6 @@ describe 'User controller' do
   end
   
   it "doesn't allow regular non-admin users to create new users" do
-
     ordinary_user = create(:user)
     
     expect {
@@ -27,14 +26,31 @@ describe 'User controller' do
       end
     }.to raise_error(AccessDeniedException)
   end
+
   
   it "allows admin users to create new users" do
-
     expect {
       build(:json_user).save(:password => '123')
     }.to_not raise_error(AccessDeniedException)
   end
+
+
+  it "reports an error when requesting a nonexistent user" do
+    resp = get "/users/343439"
+    resp.status.should eq (404)
+  end
   
+
+  it "can give a list of users" do
+    a_user = create(:user)
+    users = JSONModel(:user).all(:page => 1)['results']
+
+    users.any? { |user| user.username == "admin" }.should be_true
+    users.any? { |user| user.username == "test1" }.should be_true
+    users.any? { |user| user.username == a_user.username }.should be_true
+  end
+
+
   it "allows admin users to update existing usernames" do
     new_username = generate(:username) 
     
@@ -45,11 +61,13 @@ describe 'User controller' do
     updated = build(:json_user, {:username => new_username})
     otheruser.update(updated)
     otheruser.username.should eq(new_username)
+    otheruser.save(:password => '456')
+    user = JSONModel(:user).find(otheruser.id)
+    user.username.should eq(new_username)
   end 
 
 
   it "does allow anonymous users to create new users and hence become non-anonymous users" do
-    
     expect {
       as_anonymous_user do
         build(:json_user).save(:password => '123')
@@ -57,7 +75,8 @@ describe 'User controller' do
     }.to_not raise_error(AccessDeniedException)
   end
 
-  it "rejects an unknown username" do
+
+  it "rejects a login attempt against an unknown username" do
     post '/users/notauserXXXXXX/login', params = { "password" => "wrongpwXXXXX"}
     last_response.should_not be_ok
     last_response.status.should eq(403)
@@ -85,14 +104,14 @@ describe 'User controller' do
   end
 
 
-  it "Treats the username as case insensitive" do
+  it "treats the username as case insensitive" do
     post '/users/TEST1/login', params = { "password" => "password"}
     last_response.should be_ok
     last_response.status.should eq(200)
   end
 
 
-  it "Rejects an invalid session" do
+  it "rejects an invalid session" do
     get '/', params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => "rubbish"}
 
     last_response.status.should eq(412)
