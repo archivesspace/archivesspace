@@ -88,6 +88,10 @@ module JSONModel
 
 
   def self.schema_src(schema_name)
+    if schema_name.to_s !~ /^[0-9A-Za-z_-]+$/
+      raise "Invalid schema name: #{schema_name}"
+    end
+
     # Look on the filesystem first
     schema = File.join(File.dirname(__FILE__),
                        "schemas",
