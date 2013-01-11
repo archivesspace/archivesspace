@@ -383,6 +383,7 @@ Sequel.migration do
 
       Integer :vocab_id, :null => false
 
+      String :title
       String :terms_sha1, :unique => true
       String :ref_id, :unique => true
 
@@ -844,6 +845,8 @@ Sequel.migration do
       Integer :repo_id, :null => false
 
       String :building, :null => false
+
+      String :title
 
       String :floor
       String :room

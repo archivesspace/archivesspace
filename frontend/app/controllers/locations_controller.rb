@@ -4,11 +4,11 @@ class LocationsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @search_data = Location.all(:page => selected_page)
+    @search_data = JSONModel(:location).all(:page => selected_page)
   end
 
   def show
-    @location = Location.find(params[:id])
+    @location = JSONModel(:location).find(params[:id])
   end
 
   def new
@@ -17,12 +17,12 @@ class LocationsController < ApplicationController
   end
 
   def edit
-    @location = Location.find(params[:id])
+    @location = JSONModel(:location).find(params[:id])
   end
 
   def create
     handle_crud(:instance => :location,
-                :model => Location,
+                :model => JSONModel(:location),
                 :on_invalid => ->(){
                   return render :partial => "locations/new" if inline?
                   return render :action => :new
@@ -39,27 +39,13 @@ class LocationsController < ApplicationController
 
   def update
     handle_crud(:instance => :location,
-                :model => Location,
-                :obj => Location.find(params[:id]),
+                :model => JSONModel(:location),
+                :obj => JSONModel(:location).find(params[:id]),
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("location._html.messages.updated")
                   redirect_to :controller => :locations, :action => :show, :id => id
                 })
-  end
-
-  def list
-    locations = Location.all(:page => selected_page)
-
-    if params[:q]
-      locations = locations.select {|l| l.display_string.downcase.include?(params[:q].downcase)}
-    end
-
-    respond_to do |format|
-      format.json {
-        render :json => locations
-      }
-    end
   end
 
 end

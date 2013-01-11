@@ -12,7 +12,7 @@
           <div class="control-label"><%= I18n.t("container_location.location") %></div>
           <div class="controls token-list">
             <%= render_token :object => container_location['_resolved'],
-                             :label => Location.from_hash(container_location['_resolved']).display_string,
+                             :label => container_location['_resolved']['title'],
                              :type => "location",
                              :uri => container_location["ref"],
                              :placement => "top" %>

@@ -42,12 +42,6 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
-      if ['subject', 'location'].include?(doc['primary_type'])
-        doc['json'] = record['record'].to_json
-      end
-    }
-
-    add_document_prepare_hook {|doc, record|
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
         doc['json'] = record['record'].to_json
         doc['title'] = record['record']['names'][0]['sort_name']

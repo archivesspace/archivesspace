@@ -4,25 +4,25 @@ class SubjectsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
   def index
-    @search_data = Subject.all(:page => selected_page)
+    @search_data = JSONModel(:subject).all(:page => selected_page)
   end
 
   def show
-    @subject = Subject.find(params[:id])
+    @subject = JSONModel(:subject).find(params[:id])
   end
 
   def new
-    @subject = Subject.new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"])})._always_valid!
+    @subject = JSONModel(:subject).new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"])})._always_valid!
     render :partial => "subjects/new" if inline?
   end
 
   def edit
-    @subject = Subject.find(params[:id])
+    @subject = JSONModel(:subject).find(params[:id])
   end
 
   def create
     handle_crud(:instance => :subject,
-                :model => Subject,
+                :model => JSONModel(:subject),
                 :on_invalid => ->(){
                   return render :partial => "subjects/new" if inline?
                   return render :action => :new
@@ -40,8 +40,8 @@ class SubjectsController < ApplicationController
 
   def update
     handle_crud(:instance => :subject,
-                :model => Subject,
-                :obj => Subject.find(params[:id]),
+                :model => JSONModel(:subject),
+                :obj => JSONModel(:subject).find(params[:id]),
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("subject._html.messages.updated")

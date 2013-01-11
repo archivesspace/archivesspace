@@ -102,7 +102,26 @@ describe 'Subject model' do
     }.to raise_error(JSONModel::ValidationException)
     
     
-  end    
+  end
+
+
+  it "generates a subject title" do
+    term_id_0 = createTerm
+    term_id_1 = createTerm
+
+    subject = Subject.create_from_json(JSONModel(:subject).
+                                         from_hash({
+                                                     "terms" => [
+                                                       JSONModel(:term).uri_for(term_id_0.id),
+                                                       JSONModel(:term).uri_for(term_id_1.id)
+                                                     ],
+                                                     "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
+                                                   }))
+
+    #term_id_2 = createTerm
+
+    Subject[subject[:id]].title.should eq("#{term_id_0.term} -- #{term_id_1.term}")
+  end
 
 
 end

@@ -26,6 +26,18 @@ class Subject < Sequel::Model(:subject)
   end
 
 
+  def self.generate_title(json)
+    # I'm really sorry... but this is only required until we 
+    # refactor subjects to no longer refer to term uri's
+    json["terms"].map do |t| 
+      if t.kind_of? String
+        Term[JSONModel(:term).id_for(t)].term
+      else
+        t["term"]
+      end
+    end.join(" -- ")
+  end
+
   def self.generate_terms_sha1(json)
     return nil if json.terms.empty?
     Digest::SHA1.hexdigest(json.terms.inspect)
@@ -36,8 +48,9 @@ class Subject < Sequel::Model(:subject)
     set_vocabulary(json, opts)
     obj = super
 
-    # add a terms sha1 hash to allow for uniqueness test
-    obj.terms_sha1 = generate_terms_sha1(json)
+    obj.terms_sha1 = generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
+    obj.title = generate_title(json)
+
     obj.save
 
     obj
@@ -48,8 +61,9 @@ class Subject < Sequel::Model(:subject)
     self.class.set_vocabulary(json, opts)
     obj = super
 
-    # add a terms sha1 hash to allow for uniqueness test
-    obj.terms_sha1 = self.class.generate_terms_sha1(json)
+    obj.terms_sha1 = self.class.generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
+    obj.title = self.class.generate_title(json)
+
     obj.save
 
     obj

@@ -889,6 +889,7 @@ en:
       section:
         basic_information: Basic Information
   location:
+    title: Title
     temporary: Temporary
     temporary_conservation: Conservation
     temporary_exhibit: Exhibit
