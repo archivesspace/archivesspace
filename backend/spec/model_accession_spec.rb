@@ -8,14 +8,14 @@ end
 
 describe 'Accession model' do
 
-  it "Allows accessions to be created" do
+  it "allows accessions to be created" do
     accession = create_accession
 
     Accession[accession[:id]].title.should eq("Papers of Mark Triggs")
   end
 
 
-  it "Enforces ID uniqueness" do
+  it "enforces ID uniqueness" do
     lambda {
       2.times do
         Accession.create_from_json(build(:json_accession,
@@ -30,7 +30,20 @@ describe 'Accession model' do
   end
 
 
-  it "Doesn't enforce ID uniqueness between repositories" do
+  it "does not allow a gap in an id sequence" do
+    expect {
+      Accession.create_from_json(build(:json_accession,
+                                       {:id_0 => "1234",
+                                         :id_1 => "5678",
+                                         :id_2 => "",
+                                         :id_3 => "5432"
+                                       }), 
+                                 :repo_id => $repo_id)
+    }.to raise_error(ValidationException)
+  end
+
+
+  it "doesn't enforce ID uniqueness between repositories" do
     repo1 = make_test_repo("REPO1")
     repo2 = make_test_repo("REPO2")
 
@@ -48,7 +61,7 @@ describe 'Accession model' do
   end
 
 
-  it "Enforces ID max length" do
+  it "enforces ID max length" do
     lambda {
       2.times do
         Accession.create_from_json(build(:json_accession,
@@ -61,7 +74,7 @@ describe 'Accession model' do
   end
 
 
-  it "Allows long condition descriptions" do
+  it "allows long condition descriptions" do
     long_string = "x" * 1024
     
     accession = Accession.create_from_json(build(:json_accession,
@@ -73,7 +86,7 @@ describe 'Accession model' do
   end
 
 
-  it "Allows accessions to be created with a date" do
+  it "allows accessions to be created with a date" do
     accession = Accession.create_from_json(build(:json_accession,
                                                  :dates => [
                                                    {
@@ -92,7 +105,7 @@ describe 'Accession model' do
   end
 
 
-  it "Allows accessions to be created with an external document" do
+  it "allows accessions to be created with an external document" do
     
     accession = Accession.create_from_json(build(:json_accession,
                                                  :external_documents => [
@@ -131,7 +144,7 @@ describe 'Accession model' do
   end
 
 
-  it "Allows accessions to be created with a rights statement" do
+  it "allows accessions to be created with a rights statement" do
     
     accession = Accession.create_from_json(build(:json_accession,
                                                  :rights_statements => [
@@ -150,7 +163,7 @@ describe 'Accession model' do
   end
 
 
-  it "Allows accessions to be created with a deaccession" do
+  it "allows accessions to be created with a deaccession" do
     
     accession = Accession.create_from_json(build(:json_accession,
                                                  :deaccessions => [
@@ -171,7 +184,7 @@ describe 'Accession model' do
   end
 
 
-  it "Can suppress an accession record" do
+  it "can suppress an accession record" do
     accession = create_accession
     accession.set_suppressed(true)
 
