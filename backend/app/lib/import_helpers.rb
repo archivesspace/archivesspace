@@ -1,3 +1,5 @@
+require_relative "../../../migrations/lib/crosswalk"
+
 module ImportHelpers
   
   def handle_import
@@ -41,14 +43,14 @@ module ImportHelpers
         # Now update the URI with the real ID
         json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
         rescue Exception => e
+          Log.debug("JSON #{json.inspect}")
           raise ImportException.new({:invalid_object => json, :message => e.message})
         end
       end
          
       # Update the linked record pointers in the json set
       @json_set.each do |ref, json|
-        self.class.correct_links(json, @json_set)
-        
+        ASpaceImport::Crosswalk.update_record_references(json, @json_set) {|referenced| referenced.uri}
       end
           
       @as_set.each do |ref, a|
@@ -57,49 +59,22 @@ module ImportHelpers
         @saved_uris[ref] = @json_set[ref].uri   
       end
     end
-      
-    def self.correct_links(json, set)
-      data = json.to_hash
-      data.each do |k, v| 
-        case self.check_data_key(json.class.schema["properties"][k], k, v)
-        when :non_vocabulary_jsonmodel_uri
-          data[k] = set[v].uri
-        when :array_of_uris
-          data[k] = v.map { |u| (u.is_a? String and u.match(/\/.*[0-9]$/)) ? set[u].uri : u }
-        when :array_of_objects
-          data[k] = v.map { |hash| hash.merge!("ref" => set[hash["ref"]].uri) }
-        end
-      end
-      
-      json.set_data(data)
-    end
     
     
-    def self.check_data_key(kdef, k, v)
-
-      if kdef["type"].match(/JSONModel\(:[a-z_]*\) uri$/) && v.is_a?(String) &&
-        !v.match(/\/vocabularies\/[0-9]+$/) 
-        return :non_vocabulary_jsonmodel_uri
-              
-      elsif kdef["type"] == "array" && kdef["items"]["type"].is_a?(String)
-        
-        if kdef["items"]["type"].match(/JSONModel\(:[a-z_]*\) uri_or_object$/) && v[0].is_a?(String)
-          return :array_of_uris
-
-        elsif kdef["items"]["type"] == "object"
-          return :array_of_objects
-
-        end
-      end
-
-      :unknown
+    def self.unlink_key?(kdef, v)
+      key_type = ASpaceImport::Crosswalk.get_property_type(kdef)[0]
+      return true if key_type == :record_uri && v.is_a?(String) && !v.match(/\/vocabularies\/[0-9]+$/)
+      return true if key_type == :record_uri_or_record_inline && v.is_a?(String)
+      return true if key_type == :record_uri_or_record_inline_list && v[0].is_a?(String)
+      return true if key_type.match(/^record_ref/)
+      false
     end
+
 
     def self.unlink(json)
       unlinked = json.clone
       data = unlinked.to_hash
-      data.each { |k, v| data.delete(k) if \
-        :unknown != self.check_data_key(json.class.schema["properties"][k], k, v) }     
+      data.each { |k, v| data.delete(k) if self.unlink_key?(json.class.schema["properties"][k], v) }
 
       unlinked.set_data(data)
       unlinked
