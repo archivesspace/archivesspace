@@ -596,7 +596,7 @@ module JSONModel
 
           if schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "object")
             result[k] = self.map_hash_with_schema(v, schema["properties"][k], transformations)
-          elsif schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "array")
+          elsif v.is_a?(Array) && schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "array")
 
             if schema["properties"][k]["items"]["type"].is_a?(Array)
               # A list of multiple valid types.  Match them up based on the value of the 'jsonmodel_type' property
