@@ -183,6 +183,11 @@ module JSONModel
   end
 
 
+  def self.client_mode?
+    @@init_args[:client_mode]
+  end
+
+
   def self.parse_jsonmodel_ref(ref)
     if ref.is_a? String and ref =~ /JSONModel\(:([a-zA-Z_\-]+)\) (.*)/
       [$1.intern, $2]
@@ -295,7 +300,11 @@ module JSONModel
       def self.from_hash(hash, raise_errors = true)
         hash["jsonmodel_type"] = self.record_type.to_s
 
-        cleaned = self.drop_unknown_properties(hash)
+        # If we're running in client mode, leave 'readonly' properties in place,
+        # since they're intended for use by clients.  Otherwise, we drop them.
+        drop_system_properties = !JSONModel.client_mode?
+
+        cleaned = self.drop_unknown_properties(hash, drop_system_properties)
         validate(cleaned, raise_errors)
 
         self.new(cleaned)
@@ -636,13 +645,22 @@ module JSONModel
       ## Supporting methods following from here
       protected
 
-      def self.drop_unknown_properties(hash, schema = nil)
+
+      # Drop any keys from 'hash' that aren't defined in the JSON schema.
+      #
+      # If drop_readonly is true, also drop any values where the schema has
+      # 'readonly' set to true.  These values are produced by the system for the
+      # client, but are not part of the data model.
+      #
+      def self.drop_unknown_properties(hash, drop_readonly = false)
         fn = proc do |hash, schema|
           result = {}
 
           hash.each do |k, v|
             if schema["properties"].has_key?(k.to_s) and v != "" and !v.nil?
-              result[k] = v
+              if !drop_readonly || !schema["properties"][k.to_s]["readonly"]
+                result[k] = v
+              end
             end
           end
 
@@ -735,7 +753,7 @@ module JSONModel
 
       # In client mode, mix in some extra convenience methods for querying the
       # ArchivesSpace backend service via HTTP.
-      if @@init_args[:client_mode]
+      if JSONModel.client_mode?
         require_relative 'jsonmodel_client'
         include JSONModel::Client
       end
