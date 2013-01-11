@@ -769,17 +769,65 @@ describe "ArchivesSpace user interface" do
 
     after(:all) do
       logout
+      $accession_url = nil
     end
 
 
-    it "can delete an Accession" do
+    it "can suppress an Accession" do
       # Navigate to the Accession
       $driver.clear_and_send_keys([:id, "global-search-box"], @accession_title)
       $driver.find_element(:id, "global-search-button").click
       $driver.find_element(:link, "View").click
+      $accession_url = $driver.current_url
 
-      accession_url = $driver.current_url
+      # Suppress the Accession
+      $driver.find_element(:css, ".suppress-record.btn").click
+      $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
+      assert { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Suppressed') }
+      assert { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
+
+      # Try to navigate to the edit form
+      $driver.get("#{$accession_url}/edit")
+
+      assert { $driver.current_url.should eq($accession_url) }
+      assert { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
+
+      logout
+      login_as_archivist
+    end
+
+
+    it "an archivist can't see a suppressed Accession" do
+      # check the listing
+      $driver.find_element(:link, "Browse").click
+      $driver.find_element(:link, "Accessions").click
+      expect {
+        $driver.find_element_with_text('//td', /#{@accession_title}/)
+      }.to raise_error
+
+      # check the accession url
+      $driver.get($accession_url)
+      $driver.find_element_with_text('//h2', /Record Not Found/)
+
+      logout
+    end
+
+
+    it "can unsuppress an Accession" do
+      login_as_repo_manager
+
+      $driver.get($accession_url)
+
+      # Unsuppress the Accession
+      $driver.find_element(:css, ".unsuppress-record.btn").click
+      $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+
+      assert { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Unsuppressed') }
+    end
+
+
+    it "can delete an Accession" do
       # Delete the accession
       $driver.find_element(:css, ".delete-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
@@ -791,7 +839,7 @@ describe "ArchivesSpace user interface" do
       }.to raise_error
 
       # Navigate back to the accession's page
-      $driver.get(accession_url)
+      $driver.get($accession_url)
       assert {
         $driver.find_element_with_text('//h2', /Record Not Found/)
       }
