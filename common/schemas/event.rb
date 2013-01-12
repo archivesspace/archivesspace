@@ -4,7 +4,7 @@
     "type" => "object",
     "uri" => "/repositories/:repo_id/events",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false},
+      "uri" => {"type" => "string", "required" => false, "readonly" => true},
 
       "external_ids" => {
         "type" => "array",
