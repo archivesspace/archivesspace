@@ -308,7 +308,7 @@ module JSONModel
         # since they're intended for use by clients.  Otherwise, we drop them.
         drop_system_properties = !JSONModel.client_mode?
 
-        cleaned = self.drop_unknown_properties(hash, drop_system_properties)
+        cleaned = JSONSchemaUtils.drop_unknown_properties(hash, self.schema, drop_system_properties)
         validate(cleaned, raise_errors)
 
         self.new(cleaned)
@@ -401,7 +401,7 @@ module JSONModel
       def set_data(data)
         hash = ASUtils.keys_as_strings(data)
         hash["jsonmodel_type"] = self.class.record_type.to_s
-        hash = self.class.apply_schema_defaults(hash)
+        hash = JSONSchemaUtils.apply_schema_defaults(hash, self.class.schema)
 
         @data = hash
       end
@@ -527,7 +527,7 @@ module JSONModel
 
         @validated = false
 
-        cleaned = self.class.drop_unknown_properties(@data)
+        cleaned = JSONSchemaUtils.drop_unknown_properties(@data, self.class.schema)
         self.class.validate(cleaned)
 
         cleaned
@@ -552,146 +552,6 @@ module JSONModel
         end
       end
 
-      # Given a hash representing a record tree, map across the hash and this
-      # model's schema in lock step.
-      #
-      # Each proc in the 'transformations' array is called with the current node
-      # in the record tree as its first argument, and the part of the schema
-      # that corresponds to it.  Whatever the proc returns is used to replace
-      # the node in the record tree.
-      #
-      def self.map_hash_with_schema(hash, schema = nil, transformations = [])
-        if schema.nil?
-          return self.map_hash_with_schema(hash, self.schema, transformations)
-        end
-
-        return hash if not hash.is_a?(Hash)
-
-        if schema.is_a?(String)
-          ref = JSONModel.parse_jsonmodel_ref(schema)
-
-          if ref
-            # A nested reference to another data type.  Validate against it.
-            schema = JSONModel.JSONModel(ref[0]).schema
-          else
-            raise "Invalid schema given: #{schema}"
-          end
-        end
-
-        if schema["$ref"] == "#"
-          # A recursive schema.  Back to the beginning.
-          schema = self.schema
-        end
-
-        return hash if not schema.has_key?("properties")
-
-        transformations.each do |transform|
-          hash = transform.call(hash, schema)
-        end
-
-        result = {}
-
-        hash.each do |k, v|
-          k = k.to_s
-
-          if schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "object")
-            result[k] = self.map_hash_with_schema(v, schema["properties"][k], transformations)
-          elsif v.is_a?(Array) && schema["properties"].has_key?(k) and (schema["properties"][k]["type"] == "array")
-
-            if schema["properties"][k]["items"]["type"].is_a?(Array)
-              # A list of multiple valid types.  Match them up based on the value of the 'jsonmodel_type' property
-              schema_types = schema["properties"][k]["items"]["type"].map {|type| type["type"]}
-
-              result[k] = v.collect {|elt|
-
-                if elt.is_a?(Hash)
-                  jsonmodel_type = elt["jsonmodel_type"]
-
-                  if !jsonmodel_type
-                    raise("Can't unambiguously match #{elt.inspect} against schema types: #{schema_types.inspect}. " +
-                          "Resolve this by adding a 'jsonmodel_type' property to #{elt.inspect}")
-                  end
-
-                  next_schema = schema_types.find {|type|
-                    (type.is_a?(String) && type.include?("JSONModel(:#{jsonmodel_type})")) ||
-                    (type.is_a?(Hash) && type["jsonmodel_type"] === jsonmodel_type)
-                  }
-
-                  if next_schema.nil?
-                    raise "Couldn't determine type of '#{elt.inspect}'.  Must be one of: #{schema_types.inspect}"
-                  end
-
-                  self.map_hash_with_schema(elt, next_schema, transformations)
-                elsif elt.is_a?(Array)
-                  raise "Nested arrays aren't supported here (yet)"
-                else
-                  elt
-                end
-              }
-            elsif schema["properties"][k]["items"]["type"] === "object"
-              result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"], transformations)}
-            else
-              # Just one valid type
-              result[k] = v.collect {|elt| self.map_hash_with_schema(elt, schema["properties"][k]["items"]["type"], transformations)}
-            end
-
-          elsif schema["properties"].has_key?(k) and JSONModel.parse_jsonmodel_ref(schema["properties"][k]["type"])
-            result[k] = self.map_hash_with_schema(v, schema["properties"][k]["type"], transformations)
-          else
-            result[k] = v
-          end
-        end
-
-        result
-      end
-
-
-      ## Supporting methods following from here
-      protected
-
-
-      # Drop any keys from 'hash' that aren't defined in the JSON schema.
-      #
-      # If drop_readonly is true, also drop any values where the schema has
-      # 'readonly' set to true.  These values are produced by the system for the
-      # client, but are not part of the data model.
-      #
-      def self.drop_unknown_properties(hash, drop_readonly = false)
-        fn = proc do |hash, schema|
-          result = {}
-
-          hash.each do |k, v|
-            if schema["properties"].has_key?(k.to_s) and v != "" and !v.nil?
-              if !drop_readonly || !schema["properties"][k.to_s]["readonly"]
-                result[k] = v
-              end
-            end
-          end
-
-          result
-        end
-
-        self.map_hash_with_schema(hash, schema, [fn])
-      end
-
-
-      def self.apply_schema_defaults(hash, schema = nil)
-        fn = proc do |hash, schema|
-          result = hash.clone
-
-          schema["properties"].each do |property, definition|
-
-            if definition.has_key?("default") and !hash.has_key?(property.to_s) and !hash.has_key?(property.intern)
-              result[property] = definition["default"]
-            end
-          end
-
-          result
-        end
-
-        self.map_hash_with_schema(hash, schema, [fn])
-      end
-
 
       # Validate the supplied hash using the JSON schema for this model.  Raise
       # a ValidationException if there are any fatal validation problems, or if
@@ -701,7 +561,7 @@ module JSONModel
         JSON::Validator.cache_schemas = true
 
         validator = JSON::Validator.new(self.schema,
-                                        self.drop_unknown_properties(hash),
+                                        JSONSchemaUtils.drop_unknown_properties(hash, self.schema),
                                         :errors_as_objects => true,
                                         :record_errors => true)
 

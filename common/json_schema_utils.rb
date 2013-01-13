@@ -4,7 +4,7 @@ module JSONSchemaUtils
     fragment = fragment.gsub(/^#\//, "")
     property = property.gsub(/^#\//, "") if property
 
-    if property and fragment != "" and fragment !~ /\/$/
+    if property && fragment != "" && fragment !~ /\/$/
       fragment = "#{fragment}/"
     end
 
@@ -43,7 +43,7 @@ module JSONSchemaUtils
 
          schema = ::JSON::Validator.schemas[message[:schema].to_s].schema
 
-         if type and type =~ /ERROR/
+         if type && type =~ /ERROR/
            msgs[:errors][fragment_join(path, property)] = ["Property is required but was missing"]
          else
            msgs[:warnings][fragment_join(path, property)] = ["Property was missing"]
@@ -193,5 +193,157 @@ module JSONSchemaUtils
 
     msgs
   end
+
+
+  # Given a hash representing a record tree, map across the hash and this
+  # model's schema in lockstep.
+  #
+  # Each proc in the 'transformations' array is called with the current node
+  # in the record tree as its first argument, and the part of the schema
+  # that corresponds to it.  Whatever the proc returns is used to replace
+  # the node in the record tree.
+  #
+  def self.map_hash_with_schema(record, schema, transformations = [])
+    return record if not record.is_a?(Hash)
+
+    if schema.is_a?(String)
+      schema = resolve_schema_reference(schema)
+    end
+
+    # Sometimes a schema won't specify anything other than the required type
+    # (like {'type' => 'object'}).  If there's nothing more to check, we're
+    # done.
+    return record if !schema.has_key?("properties")
+
+
+    # Apply transformations to the current level of the tree
+    transformations.each do |transform|
+      record = transform.call(record, schema)
+    end
+
+    # Now figure out how to traverse the remainder of the tree...
+    result = {}
+
+    record.each do |k, v|
+      k = k.to_s
+      properties = schema['properties']
+
+      if properties.has_key?(k) && (properties[k]["type"] == "object")
+        result[k] = self.map_hash_with_schema(v, properties[k], transformations)
+
+      elsif v.is_a?(Array) && properties.has_key?(k) && (properties[k]["type"] == "array")
+
+        # Arrays are tricky because they can either consist of a single type, or
+        # a number of different types.
+
+        if properties[k]["items"]["type"].is_a?(Array)
+          result[k] = v.map {|elt|
+
+            if elt.is_a?(Hash)
+              next_schema = determine_schema_for(elt, properties[k]["items"]["type"])
+              self.map_hash_with_schema(elt, next_schema, transformations)
+            elsif elt.is_a?(Array)
+              raise "Nested arrays aren't supported here (yet)"
+            else
+              elt
+            end
+          }
+
+        # The array contains a single type of object
+        elsif properties[k]["items"]["type"] === "object"
+          result[k] = v.map {|elt| self.map_hash_with_schema(elt, properties[k]["items"], transformations)}
+        else
+          # Just one valid type
+          result[k] = v.map {|elt| self.map_hash_with_schema(elt, properties[k]["items"]["type"], transformations)}
+        end
+
+      elsif properties.has_key?(k) && JSONModel.parse_jsonmodel_ref(properties[k]["type"])
+        result[k] = self.map_hash_with_schema(v, properties[k]["type"], transformations)
+      else
+        result[k] = v
+      end
+    end
+
+    result
+  end
+
+
+  # Drop any keys from 'hash' that aren't defined in the JSON schema.
+  #
+  # If drop_readonly is true, also drop any values where the schema has
+  # 'readonly' set to true.  These values are produced by the system for the
+  # client, but are not part of the data model.
+  #
+  def self.drop_unknown_properties(hash, schema, drop_readonly = false)
+    fn = proc do |hash, schema|
+      result = {}
+
+      hash.each do |k, v|
+        if schema["properties"].has_key?(k.to_s) && v != "" && !v.nil?
+          if !drop_readonly || !schema["properties"][k.to_s]["readonly"]
+            result[k] = v
+          end
+        end
+      end
+
+      result
+    end
+
+    map_hash_with_schema(hash, schema, [fn])
+  end
+
+
+  def self.apply_schema_defaults(hash, schema)
+    fn = proc do |hash, schema|
+      result = hash.clone
+
+      schema["properties"].each do |property, definition|
+
+        if definition.has_key?("default") && !hash.has_key?(property.to_s) && !hash.has_key?(property.intern)
+          result[property] = definition["default"]
+        end
+      end
+
+      result
+    end
+
+    map_hash_with_schema(hash, schema, [fn])
+  end
+
+
+  private
+
+  def self.resolve_schema_reference(schema_reference)
+    # This should be a reference to a different JSONModel type.  Resolve it
+    # and return its schema.
+    ref = JSONModel.parse_jsonmodel_ref(schema_reference)
+    raise "Invalid schema given: #{schema_reference}" if !ref
+
+    JSONModel.JSONModel(ref[0]).schema
+  end
+
+
+  def self.determine_schema_for(elt, possible_schemas)
+    # A number of different types.  Match them up based on the value of the 'jsonmodel_type' property
+    schema_types = possible_schemas.map {|type| type["type"]}
+    jsonmodel_type = elt["jsonmodel_type"]
+
+    if !jsonmodel_type
+      raise("Can't unambiguously match #{elt.inspect} against schema types: #{schema_types.inspect}. " +
+            "Resolve this by adding a 'jsonmodel_type' property to #{elt.inspect}")
+    end
+
+    next_schema = schema_types.find {|type|
+      (type.is_a?(String) && type.include?("JSONModel(:#{jsonmodel_type})")) ||
+      (type.is_a?(Hash) && type["jsonmodel_type"] === jsonmodel_type)
+    }
+
+    if next_schema.nil?
+      raise "Couldn't determine type of '#{elt.inspect}'.  Must be one of: #{schema_types.inspect}"
+    end
+
+    next_schema
+  end
+
 
 end
