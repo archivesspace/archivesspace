@@ -1,4 +1,5 @@
 require 'json-schema'
+require_relative 'json_schema_concurrency_fix'
 require_relative 'json_schema_utils'
 require_relative 'asutils'
 

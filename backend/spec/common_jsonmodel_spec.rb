@@ -332,4 +332,51 @@ describe 'JSON model' do
     }.to_not raise_error(ValidationException)
   end
 
+
+  it "supports validations across multiple threads" do
+    threads = []
+
+    threads << Thread.new do
+      1000.times do
+        build(:json_archival_object).to_hash
+      end
+
+      :ok
+    end
+
+    threads << Thread.new do
+      1000.times do
+        build(:json_resource).to_hash
+      end
+
+      :ok
+    end
+
+    threads << Thread.new do
+      1000.times do
+        build(:json_accession).to_hash
+      end
+
+      :ok
+    end
+
+    threads << Thread.new do
+      1000.times do
+        begin
+          build(:json_accession, :title => nil).to_hash
+        rescue JSONModel::ValidationException => e
+          e.errors.keys == ["title"] or raise "Oops: #{e.inspect}"
+        end
+      end
+
+      :ok
+    end
+
+
+    threads.each do |t|
+      t.join
+      t.value.should eq(:ok)
+    end
+  end
+
 end
