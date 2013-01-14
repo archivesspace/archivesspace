@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'User controller' do
+describe 'Location controller' do
 
   it "can update a location" do
     loc = create(:json_location)
