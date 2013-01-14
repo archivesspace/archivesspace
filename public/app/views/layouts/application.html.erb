@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= I18n.t("brand.title") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
+  <title><%= I18n.t("brand.title") %> | <% if @repository %><%= @repository.repo_code %> | <% end %><% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,9 +12,10 @@
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20">
 
   <header>
-    <div class="container">
+    <div class="branding-container container">
       <div class="row-fluid">
         <%= render "site/branding" %>
+        <%= render "site/repo_selector" %>
       </div>
     </div>
     <div class="container">

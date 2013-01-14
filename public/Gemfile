@@ -23,6 +23,8 @@ gem 'jquery-rails'
 
 gem 'json-schema'
 
+gem 'atomic'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
