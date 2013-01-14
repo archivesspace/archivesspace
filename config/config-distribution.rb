@@ -108,6 +108,7 @@ class AppConfig
     AppConfig[:backend_url] = "http://localhost:4567"
     AppConfig[:frontend_url] = "http://localhost:3000"
     AppConfig[:solr_url] = "http://localhost:2999"
+    AppConfig[:public_url] = "http://localhost:3001"
 
     # If you have multiple instances of the backend running behind a load
     # balancer, list the URL of each backend instance here.  This is used by the
@@ -120,6 +121,7 @@ class AppConfig
     AppConfig[:backend_instance_urls] = proc { [AppConfig[:backend_url]] }
 
     AppConfig[:frontend_theme] = "default"
+    AppConfig[:public_theme] = "default"
 
     AppConfig[:session_expire_after_seconds] = 3600
 

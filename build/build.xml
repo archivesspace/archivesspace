@@ -14,6 +14,7 @@
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
+  <property name="aspace.public.port" value="3001" />
   <property name="aspace.solr.port" value="2999" />
 
   <property environment="env"/>
@@ -103,6 +104,13 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../migrations/Gemfile'" />
+    </java>
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='../public/Gemfile'" />
     </java>
   </target>
 
@@ -438,5 +446,46 @@
           description="Run the full suite of tests">
   </target>
 
+
+  <!-- Public Interface -->
+  <target name="public:clean" description="Delete the Rails tmp directory">
+    <delete dir="../public/tmp" />
+  </target>
+
+
+  <target name="public:devserver" depends="set-classpath, public:clean" description="Start an instance of the ArchivesSpacePublic development server">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+          dir="../public">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 script/rails server --port=${aspace.public.port}" />
+    </java>
+  </target>
+
+
+  <target name="public:war" depends="set-classpath, frontend:clean, bootstrap" description="Deploy the public application as a .war file">
+    <echo message="Precompiling Rails assets (this can take a little while...)" />
+
+    <delete dir="../public/tmp" />
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../public">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}" />
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 -S rake assets:precompile" />
+    </java>
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../public">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ../build/gems/bin/warble war" />
+    </java>
+  </target>
 
 </project>
