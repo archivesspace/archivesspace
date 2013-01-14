@@ -14,7 +14,11 @@
         "type" => "object",
         "subtype" => "ref",
         "properties" => {
-          "ref" => {"type" => "JSONModel(:digital_object_component) uri"}
+          "ref" => {"type" => "JSONModel(:digital_object_component) uri"},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
         }
       },
 
@@ -22,7 +26,11 @@
         "type" => "object",
         "subtype" => "ref",
         "properties" => {
-          "ref" => {"type" => "JSONModel(:digital_object) uri"}
+          "ref" => {"type" => "JSONModel(:digital_object) uri"},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
         }
       },
 

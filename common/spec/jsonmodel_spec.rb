@@ -116,7 +116,7 @@ describe JSONModel do
 
   it "should be able to save an instance of a model" do
     jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
-    jo.save()
+    jo.save("repo_id" => 2)
     jo.to_hash.has_key?('uri').should be_true
   end
 
@@ -136,7 +136,7 @@ describe JSONModel do
   it "should inherit properties from the inherited object via extend/$ref" do
     @klass.JSONModel(:child_stub).to_s.should eq('JSONModel(:child_stub)')
     child_jo = @klass.JSONModel(:child_stub).from_hash({:title => "hello", :ref_id => "abc", :childproperty => "yeah", :ignoredproperty => "oh no"})
-    child_jo.save
+    child_jo.save("repo_id" => 2)
     child_jo.to_hash.has_key?('childproperty').should be_true
     child_jo.to_hash.has_key?('uri').should be_true
     child_jo.to_hash.has_key?('ignoredproperty').should be_false

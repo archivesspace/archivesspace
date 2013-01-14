@@ -4,7 +4,7 @@
     "type" => "object",
     "uri" => "/repositories/:repo_id/collection_management_records",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false},
+      "uri" => {"type" => "string", "required" => false, "readonly" => true},
 
       "external_ids" => {
         "type" => "array",
@@ -39,7 +39,11 @@
             "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"},
                                  {"type" => "JSONModel(:resource) uri"},
                                  {"type" => "JSONModel(:digital_object) uri"}],
-              "ifmissing" => "error"}
+              "ifmissing" => "error"},
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       }

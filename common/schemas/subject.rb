@@ -4,7 +4,7 @@
     "type" => "object",
     "uri" => "/subjects",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false},
+      "uri" => {"type" => "string", "required" => false, "readonly" => true},
 
       "title" => {"type" => "string", "readonly" => true},
 

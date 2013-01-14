@@ -16,7 +16,7 @@ class Resource < JSONModel(:resource)
 
     # Recursively remove bits that don't make sense to copy (like "lock_version"
     # properties)
-    values = JSONModel(:accession).map_hash_with_schema(values, nil,
+    values = JSONSchemaUtils.map_hash_with_schema(values, JSONModel(:accession).schema,
                                                         [proc { |hash, schema|
                                                           hash = hash.clone
                                                           hash.delete_if {|k, v| k.to_s =~ /^(id_[0-9]|lock_version)$/}

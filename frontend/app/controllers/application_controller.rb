@@ -91,11 +91,11 @@ class ApplicationController < ActionController::Base
       end
 
 
-      instance = model.map_hash_with_schema(params[opts[:instance]],
-                                                                 nil,
-                                                                 [fix_arrays,
-                                                                  set_false_for_checkboxes,
-                                                                  deserialise_resolved_json_blobs])
+      instance = JSONSchemaUtils.map_hash_with_schema(params[opts[:instance]],
+                                                      model.schema,
+                                                      [fix_arrays,
+                                                       set_false_for_checkboxes,
+                                                       deserialise_resolved_json_blobs])
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)

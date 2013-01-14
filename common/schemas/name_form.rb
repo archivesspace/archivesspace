@@ -4,7 +4,7 @@
     "type" => "object",
     "uri" => "/agents/:agent_id/name_forms",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false},
+      "uri" => {"type" => "string", "required" => false, "readonly" => true},
 
       "kind" => {"type" => "string", "ifmissing" => "error"},
 

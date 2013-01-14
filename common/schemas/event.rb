@@ -4,7 +4,7 @@
     "type" => "object",
     "uri" => "/repositories/:repo_id/events",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false},
+      "uri" => {"type" => "string", "required" => false, "readonly" => true},
 
       "external_ids" => {
         "type" => "array",
@@ -55,7 +55,11 @@
                                  {"type" => "JSONModel(:agent_family) uri"},
                                  {"type" => "JSONModel(:agent_person) uri"},
                                  {"type" => "JSONModel(:agent_software) uri"}],
-                      "ifmissing" => "error"}
+              "ifmissing" => "error"},
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       },
@@ -73,15 +77,21 @@
               "enum" => ["source", "outcome", "transfer"],
               "ifmissing" => "error",
             },
-
-            "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"},
-                                 {"type" => "JSONModel(:resource) uri"},
-                                 {"type" => "JSONModel(:archival_object) uri"}],
-                      "ifmissing" => "error"}}
+            "ref" => {
+              "type" => [{"type" => "JSONModel(:accession) uri"},
+                         {"type" => "JSONModel(:resource) uri"},
+                         {"type" => "JSONModel(:archival_object) uri"}],
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
         }
-      }
+      },
     },
 
     "additionalProperties" => false
-  },
+  }
 }

@@ -4,7 +4,7 @@
     "type" => "object",
     "uri" => "/repositories/:repo_id/accessions",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false},
+      "uri" => {"type" => "string", "required" => false, "readonly" => true},
 
       "external_ids" => {
         "type" => "array",
@@ -35,8 +35,14 @@
           "type" => "object",
           "subtype" => "ref",
           "properties" => {
-            "ref" => {"type" => "JSONModel(:subject) uri",
-              "ifmissing" => "error"}
+            "ref" => {
+              "type" => "JSONModel(:subject) uri",
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       },
@@ -53,8 +59,14 @@
           "type" => "object",
           "subtype" => "ref",
           "properties" => {
-            "ref" => {"type" => [{"type" => "JSONModel(:resource) uri"}],
-                      "ifmissing" => "error"}
+            "ref" => {
+              "type" => [{"type" => "JSONModel(:resource) uri"}],
+                      "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       },
@@ -77,7 +89,11 @@
                                  {"type" => "JSONModel(:agent_family) uri"},
                                  {"type" => "JSONModel(:agent_person) uri"},
                                  {"type" => "JSONModel(:agent_software) uri"}],
-                      "ifmissing" => "error"}
+                      "ifmissing" => "error"},
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       },

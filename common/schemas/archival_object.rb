@@ -15,7 +15,11 @@
         "type" => "object",
         "subtype" => "ref",
         "properties" => {
-          "ref" => {"type" => "JSONModel(:archival_object) uri"}
+          "ref" => {"type" => "JSONModel(:archival_object) uri"},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
         }
       },
 
@@ -23,7 +27,11 @@
         "type" => "object",
         "subtype" => "ref",
         "properties" => {
-          "ref" => {"type" => "JSONModel(:resource) uri"}
+          "ref" => {"type" => "JSONModel(:resource) uri"},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
         }
       },
 

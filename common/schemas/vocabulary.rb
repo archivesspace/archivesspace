@@ -4,7 +4,7 @@
     "type" => "object",
     "uri" => "/vocabularies",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false},
+      "uri" => {"type" => "string", "required" => false, "readonly" => true},
       "ref_id" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
       "name" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
 

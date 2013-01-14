@@ -310,9 +310,9 @@ module JSONModel
           alias :_substitute_parameters :substitute_parameters
 
           def substitute_parameters(uri, opts = {})
-            if not opts.has_key?(:repo_id)
-              opts = opts.clone
-              opts[:repo_id] = Thread.current[:selected_repo_id]
+            opts = ASUtils.keys_as_strings(opts)
+            if Thread.current[:selected_repo_id]
+              opts = {'repo_id' => Thread.current[:selected_repo_id]}.merge(opts)
             end
 
             _substitute_parameters(uri, opts)

@@ -53,7 +53,11 @@
           "subtype" => "ref",
           "properties" => {
             "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"}],
-                      "ifmissing" => "error"}
+                      "ifmissing" => "error"},
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       },
