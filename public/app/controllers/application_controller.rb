@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
       # Make sure the user's selected repository still exists.
       if params[:repo] 
-        repo = @repositories.detect(false) {|repo| repo.repo_code == params[:repo]}
+        repo = @repositories.detect(false) {|repo| repo.repo_code.downcase == params[:repo].downcase}
         if repo
           @repository = repo
         else

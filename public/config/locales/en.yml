@@ -5,3 +5,19 @@ en:
     browse: Browse
   navbar:
     search_placeholder: Search the Archive
+    search_all: All Records
+  accession:
+    _html:
+      plural: Accessions
+  resource:
+    _html:
+      plural: Resources
+  archival_object:
+    _html:
+      plural: Archival Objects
+  digital_object:
+      _html:
+        plural: Digital Objects
+  digital_object_component:
+      _html:
+        plural: Digital Object Components
