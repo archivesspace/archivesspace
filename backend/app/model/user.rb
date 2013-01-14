@@ -75,5 +75,12 @@ class User < Sequel::Model(:user)
   end
 
 
+  def add_to_groups(groups)
+    Array(groups).each do |group|
+      group.add_user(self)
+    end
+  end
+
+
   many_to_many :group, :join_table => "group_user"
 end

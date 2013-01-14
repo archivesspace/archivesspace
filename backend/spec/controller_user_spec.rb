@@ -120,4 +120,39 @@ describe 'User controller' do
     user.permissions[repo.repo_code].should eq(["manage_repository"])
   end
 
+
+  it "allows admin users to create a user with a set of groups" do
+
+    group_a = create(:json_group)
+    group_b = create(:json_group)
+
+    user = build(:json_user)
+    user.save(:password => '123', "groups[]" => [group_a.uri, group_b.uri])
+
+    JSONModel(:group).find(group_a.id).member_usernames.should include(user.username)
+    JSONModel(:group).find(group_b.id).member_usernames.should include(user.username)
+
+  end
+  
+  
+  it "does not allow anonymous users to place themselves in groups" do
+    
+    group_a = create(:json_group)
+    
+    expect {
+      as_anonymous_user do
+        build(:json_user).save(:password => '123', "groups[]" => [group_a.uri])
+      end
+    }.to raise_error(AccessDeniedException)
+  end
+
+
+  it "throws an exception when a user is created with an invalid group" do
+
+    expect {
+      build(:json_user).save(:password => '123', "groups[]" => ["/repositories/0/groups/999999999"])
+    }.to raise_error(JSONModel::ValidationException)
+
+  end
+
 end

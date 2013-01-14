@@ -8,8 +8,9 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/users')
     .description("Create a local user")
     .params(["password", String, "The user's password"],
+            ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["user", JSONModel(:user), "The user to create", :body => true])
-    .preconditions(proc { current_user.can?(:manage_users) || "AnonymousUser" == current_user.class.name })
+    .preconditions(proc { current_user.can?(:manage_users) || ("AnonymousUser" == current_user.class.name && !params[:groups]) })
     .returns([200, :created],
              [400, :error]) \
   do
@@ -17,6 +18,9 @@ class ArchivesSpaceService < Sinatra::Base
 
     user = User.create_from_json(params[:user], :source => "local")
     DBAuth.set_password(params[:user].username, params[:password])
+
+    groups = Array(params[:groups]).map {|uri| Group.any_repo[JSONModel(:group).id_for(uri)] || raise(NotFoundException.new("Group not found"))}
+    user.add_to_groups(groups)
 
     created_response(user, params[:user])
   end
@@ -34,7 +38,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/users/:id')
     .description("Get a user's details (including their current permissions)")
-    .params(["id", Integer, "The username id to fetch"],)
+    .params(["id", Integer, "The username id to fetch"])
     .returns([200, "(:user)"]) \
   do
     user = User[params[:id]]

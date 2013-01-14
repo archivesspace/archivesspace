@@ -52,6 +52,13 @@ describe 'User model' do
     AuthenticationManager.authenticate(new_user.username, pass2).username.should eq(new_user.username)
     
   end
-    
 
+  it "can add groups to a user" do
+    group = Group.create_from_json(build(:json_group), :repo_id => $repo_id)
+
+    new_user = create(:user)
+    new_user.add_to_groups(group)
+
+    Group[group[:id]].user.should include(new_user)
+  end
 end
