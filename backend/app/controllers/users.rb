@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["password", String, "The user's password"],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["user", JSONModel(:user), "The user to create", :body => true])
-    .preconditions(proc { current_user.can?(:manage_users) || "AnonymousUser" == current_user.class.name })
+    .preconditions(proc { current_user.can?(:manage_users) || ("AnonymousUser" == current_user.class.name && !params[:groups]) })
     .returns([200, :created],
              [400, :error]) \
   do

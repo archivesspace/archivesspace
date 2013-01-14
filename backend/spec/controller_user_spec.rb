@@ -123,13 +123,8 @@ describe 'User controller' do
 
   it "allows admin users to create a user with a set of groups" do
 
-    group_a = JSONModel(:group).from_hash("group_code" => "testgroup_a",
-                                        "description" => "Test group: A")
-    group_a.save  
-
-    group_b = JSONModel(:group).from_hash("group_code" => "testgroup_b",
-                                          "description" => "Test group: B")
-    group_b.save
+    group_a = create(:json_group)
+    group_b = create(:json_group)
 
     user = build(:json_user)
     user.save(:password => '123', "groups[]" => [group_a.uri, group_b.uri])
@@ -138,13 +133,25 @@ describe 'User controller' do
     JSONModel(:group).find(group_b.id).member_usernames.should include(user.username)
 
   end
+  
+  
+  it "does not allow anonymous users to place themselves in groups" do
+    
+    group_a = create(:json_group)
+    
+    expect {
+      as_anonymous_user do
+        build(:json_user).save(:password => '123', "groups[]" => [group_a.uri])
+      end
+    }.to raise_error(AccessDeniedException)
+  end
 
 
   it "throws an exception when a user is created with an invalid group" do
 
     expect {
       build(:json_user).save(:password => '123', "groups[]" => ["/repositories/0/groups/999999999"])
-    }.to_not raise_error(NotFoundException)
+    }.to raise_error(JSONModel::ValidationException)
 
   end
 
