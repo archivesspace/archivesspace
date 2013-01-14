@@ -12,5 +12,7 @@ class SiteController < ApplicationController
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
 
     @search_data = JSONModel::HTTP::get_json("/repositories/#{@repository.id}/search", @criteria)
+
+    render "search/results"
   end
 end

@@ -23,6 +23,11 @@ class Group < Sequel::Model(:group)
   end
 
 
+  def self.PUBLIC_GROUP_CODE
+    'publicanonymous'
+  end
+
+
   def before_save
     self.group_code_norm = self.group_code.downcase
   end

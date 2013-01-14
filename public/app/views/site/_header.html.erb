@@ -16,6 +16,11 @@
             <li class="dropdown browse-container">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
               <ul class="dropdown-menu">
+                <li><%= link_to I18n.t("accession._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "accession" %></li>
+                <li><%= link_to I18n.t("resource._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "resource" %></li>
+                <li><%= link_to I18n.t("archival_object._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "archival_object" %></li>
+                <li><%= link_to I18n.t("digital_object._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "digital_object" %></li>
+                <li><%= link_to I18n.t("digital_object_component._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "digital_object_component" %></li>
               </ul>
             </li>
             <li>

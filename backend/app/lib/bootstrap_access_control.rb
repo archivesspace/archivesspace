@@ -124,6 +124,33 @@ class ArchivesSpaceService
   end
 
 
+  def self.create_public_user
+
+    # Create the public_anonymous user
+    if User[:username => User.PUBLIC_USERNAME].nil?
+      User.create_from_json(JSONModel(:user).from_hash(:username => User.PUBLIC_USERNAME,
+                                                       :name => "Public Interface Anonymous"),
+                            :source => "local")
+    end
+
+    DBAuth.set_password(User.PUBLIC_USERNAME, AppConfig[:public_user_secret])
+
+    global_repo = Repository[:repo_code => Group.GLOBAL]
+
+    RequestContext.open(:repo_id => global_repo.id) do
+      if Group[:group_code => Group.PUBLIC_GROUP_CODE].nil?
+        created_group = Group.create_from_json(JSONModel(:group).from_hash(:group_code => Group.PUBLIC_GROUP_CODE,
+                                                                           :description => "Public Anonymous"))
+        created_group.add_user(User[:username => User.PUBLIC_USERNAME])
+
+        created_group.grant("view_repository")
+      end
+    end
+
+  end
+
+
   set_up_base_permissions
   create_search_user
+  create_public_user
 end

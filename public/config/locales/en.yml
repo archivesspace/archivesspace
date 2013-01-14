@@ -6,18 +6,40 @@ en:
   navbar:
     search_placeholder: Search the Archive
     search_all: All Records
+  pagination:
+    first: First
+    last: Last
+    previous: "&#171;"
+    next: "&#187;"
+    summary_prefix: Showing
+    summary_offset_connector: "-"
+    summary_total_connector: of
+    summary_suffix: Results
+    page_prefix: Page
+    page_connector: of
+  search_results:
+    title: All Records
+    no_results: No Records
+    no_results_prefix: There were no search results for
+    result_type: Record Type
+    result_title: Title
   accession:
     _html:
       plural: Accessions
+      singular: Accession
   resource:
     _html:
       plural: Resources
+      singular: Resource
   archival_object:
     _html:
       plural: Archival Objects
+      singular: Archival Object
   digital_object:
       _html:
         plural: Digital Objects
+        singular: Digital Object
   digital_object_component:
       _html:
         plural: Digital Object Components
+        singular: Digital Object Component
