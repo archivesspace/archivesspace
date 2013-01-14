@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["collection_management", JSONModel(:collection_management),
              "The Collection Management record to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_repository])
+    .permissions([:update_archival_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -19,7 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["collection_management", JSONModel(:collection_management),
              "The collection management data to update", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_repository])
+    .permissions([:update_archival_record])
     .returns([200, :updated]) \
   do
     handle_update(CollectionManagement, :collection_management_id, :collection_management)

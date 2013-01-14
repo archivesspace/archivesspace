@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["location_id", Integer, "The ID of the location to update"],
           ["location", JSONModel(:location), "The location data to update", :body => true],
           ["repo_id", :repo_id])
-    .permissions([:update_repository])
+    .permissions([:update_location])
   .returns([200, :updated]) \
   do
     handle_update(Location, :location_id, :location)
@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Location")
     .params(["location", JSONModel(:location), "The location data to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_repository])
+    .permissions([:update_location])
     .returns([200, :created]) \
   do
     handle_create(Location, :location)

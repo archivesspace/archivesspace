@@ -19,7 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a Digital Object")
     .params(["digital_object", JSONModel(:digital_object), "The digital object to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_repository])
+    .permissions([:update_archival_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -32,7 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["digital_object_id", Integer, "The ID of the digital object to retrieve"],
             ["digital_object", JSONModel(:digital_object), "The digital object to update", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_repository])
+    .permissions([:update_archival_record])
     .returns([200, :updated],
              [400, :error]) \
   do

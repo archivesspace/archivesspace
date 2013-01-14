@@ -151,7 +151,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_needs_to_be_an_archivist
-    render_403 if not user_can? 'update_repository'
+    render_403 if not user_can? 'update_archival_record'
   end
 
   def user_needs_to_be_a_manager

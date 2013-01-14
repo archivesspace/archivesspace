@@ -1318,7 +1318,10 @@ en:
     permissions: "Members can:"
     permission_types:
       manage_repository: manage this repository (change groups and other settings)
-      update_repository: create/modify/delete records in this repository
+      update_location: create/modify/delete location records in this repository
+      update_subject_record: FIXME
+      update_agent_record: FIXME
+      update_archival_record: create/modify/delete the major record types in this repository
       view_repository: view the records in this repository
       view_suppressed: view suppressed records in this repository
     _html:

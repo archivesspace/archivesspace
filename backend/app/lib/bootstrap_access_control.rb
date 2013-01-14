@@ -60,8 +60,22 @@ class ArchivesSpaceService
                       "The ability to manage a given repository",
                       :level => "repository")
 
-    Permission.define("update_repository",
-                      "The ability to create and modify records in a given repository",
+    Permission.define("update_location",
+                      "The ability to create and modify location records in a given repository",
+                      :level => "repository")
+
+    # This doesn't really make sense since subjects aren't repository-scoped.  Needs revisiting.
+    Permission.define("update_subject_record",
+                      "The ability to create and modify subject records",
+                      :level => "repository")
+
+    # This doesn't really make sense since agents aren't repository-scoped.  Needs revisiting.
+    Permission.define("update_agent_record",
+                      "The ability to create and modify agent records",
+                      :level => "repository")
+
+    Permission.define("update_archival_record",
+                      "The ability to create and modify the major archival record types: accessions/resources/digital objects/components/collection management/events",
                       :level => "repository")
 
     Permission.define("view_suppressed",

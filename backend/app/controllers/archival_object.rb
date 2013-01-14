@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Archival Object")
     .params(["archival_object", JSONModel(:archival_object), "The Archival Object to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_repository])
+    .permissions([:update_archival_record])
     .returns([200, :created],
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}']) \
@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["archival_object_id", Integer, "The Archival Object ID to update"],
             ["archival_object", JSONModel(:archival_object), "The Archival Object data to update", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_repository])
+    .permissions([:update_archival_record])
     .returns([200, :updated],
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}']) \
