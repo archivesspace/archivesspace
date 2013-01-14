@@ -68,10 +68,10 @@ describe 'Collection Management model' do
              :linked_records => nil)
     }.to raise_error(JSONModel::ValidationException)
 
-#    expect {
-#      create(:json_collection_management,
-#             :linked_records => "not an array")
-#    }.to raise_error(JSONModel::ValidationException)
+    expect {
+      create(:json_collection_management,
+             :linked_records => "not an array")
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
       create(:json_collection_management,
