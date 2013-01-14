@@ -3,6 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/agents/corporate_entities')
     .description("Create a corporate entity agent")
     .params(["agent", JSONModel(:agent_corporate_entity), "The corporate entity to create", :body => true])
+    .nopermissionsyet
     .returns([200, :created],
              [400, :error]) \
   do
@@ -11,9 +12,10 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/agents/corporate_entities')
-  .description("List all corporate entity agents")
-  .params(*Endpoint.pagination)
-  .returns([200, "[(:agent_corporate_entity)]"]) \
+    .description("List all corporate entity agents")
+    .params(*Endpoint.pagination)
+    .nopermissionsyet
+    .returns([200, "[(:agent_corporate_entity)]"]) \
   do
     handle_listing(AgentCorporateEntity, params[:page], params[:page_size], params[:modified_since])
   end
@@ -23,6 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Update a corporate entity agent")
     .params(["agent_id", Integer, "The ID of the agent to update"],
             ["agent", JSONModel(:agent_corporate_entity), "The corporate entity to create", :body => true])
+    .nopermissionsyet
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -33,6 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/agents/corporate_entities/:id')
     .description("Get a corporate entity by ID")
     .params(["id", Integer, "ID of the corporate entity agent"])
+    .nopermissionsyet
     .returns([200, "(:agent)"],
              [404, '{"error":"Agent not found"}']) \
   do

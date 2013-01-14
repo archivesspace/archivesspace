@@ -4,6 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Archival Object")
     .params(["archival_object", JSONModel(:archival_object), "The Archival Object to create", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_repository])
     .returns([200, :created],
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}']) \
@@ -17,6 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["archival_object_id", Integer, "The Archival Object ID to update"],
             ["archival_object", JSONModel(:archival_object), "The Archival Object data to update", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_repository])
     .returns([200, :updated],
              [400, :error],
              [409, '{"error":{"[:root_record_id, :ref_id]":["An Archival Object Ref ID must be unique to its resource"]}}']) \
@@ -31,6 +33,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
+    .permissions([:view_repository])
     .returns([200, "(:archival_object)"],
              [404, '{"error":"ArchivalObject not found"}']) \
   do
@@ -44,6 +47,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get the children of an Archival Object")
     .params(["archival_object_id", Integer, "The Archival Object ID"],
             ["repo_id", :repo_id])
+    .permissions([:view_repository])
     .returns([200, "a list of archival object references"],
              [404, '{"error":"ArchivalObject not found"}']) \
   do
@@ -61,6 +65,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a list of Archival Objects for a Repository")
     .params(["repo_id", :repo_id],
             *Endpoint.pagination)
+    .permissions([:view_repository])
     .returns([200, "[(:archival_object)]"]) \
   do
     handle_listing(ArchivalObject, params[:page], params[:page_size], params[:modified_since])

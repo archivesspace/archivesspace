@@ -3,6 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/agents/software')
     .description("Create a software agent")
     .params(["agent", JSONModel(:agent_software), "The software to create", :body => true])
+    .nopermissionsyet
     .returns([200, :created],
              [400, :error]) \
   do
@@ -11,9 +12,10 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/agents/software')
-  .description("List all software agents")
-  .params(*Endpoint.pagination)
-  .returns([200, "[(:agent_software)]"]) \
+    .description("List all software agents")
+    .params(*Endpoint.pagination)
+    .nopermissionsyet
+    .returns([200, "[(:agent_software)]"]) \
   do
     handle_listing(AgentSoftware, params[:page], params[:page_size], params[:modified_since])
   end
@@ -23,6 +25,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Update a software agent")
     .params(["agent_id", Integer, "The ID of the software to update"],
             ["agent", JSONModel(:agent_software), "The software to create", :body => true])
+    .nopermissionsyet
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -33,6 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/agents/software/:id')
     .description("Get a software by ID")
     .params(["id", Integer, "ID of the software agent"])
+    .nopermissionsyet
     .returns([200, "(:agent)"],
              [404, '{"error":"Agent not found"}']) \
   do

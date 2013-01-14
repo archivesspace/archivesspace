@@ -4,6 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Digital Object Component")
     .params(["digital_object_component", JSONModel(:digital_object_component), "The Digital Object Component to create", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_repository])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -16,6 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["digital_object_component_id", Integer, "The Digital Object Component ID to update"],
             ["digital_object_component", JSONModel(:digital_object_component), "The Digital Object Component data to update", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_repository])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -29,6 +31,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
+    .permissions([:view_repository])
     .returns([200, "(:digital_object_component)"],
              [404, '{"error":"DigitalObjectComponent not found"}']) \
   do
@@ -42,6 +45,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get the children of an Digital Object Component")
     .params(["digital_object_component_id", Integer, "The Digital Object Component ID"],
             ["repo_id", :repo_id])
+    .permissions([:view_repository])
     .returns([200, "[(:digital_object_component)]"],
              [404, '{"error":"DigitalObjectComponent not found"}']) \
   do
@@ -55,6 +59,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a list of Digital Object Components for a Repository")
     .params(["repo_id", :repo_id],
             *Endpoint.pagination)
+    .permissions([:view_repository])
     .returns([200, "[(:digital_object_component)]"]) \
   do
     handle_listing(DigitalObjectComponent, params[:page], params[:page_size], params[:modified_since])
