@@ -39,11 +39,20 @@ module JSONModel::Validations
 
     errors
   end
+  
+  def self.check_name(hash)
+    errors = []
+    errors << ["sort_name", "cannot be empty"] if !hash["sort_name"].nil? and hash["sort_name"].empty?
+    errors
+  end
 
   [:name_person, :name_family, :name_corporate_entity, :name_software].each do |type|
     if JSONModel(type)
       JSONModel(type).add_validation("#{type}_check_source") do |hash|
         check_source(hash)
+      end
+      JSONModel(type).add_validation("#{type}_check_name") do |hash|
+        check_name(hash)
       end
     end
   end
@@ -212,4 +221,5 @@ module JSONModel::Validations
       check_archival_object(hash)
     end
   end
+
 end

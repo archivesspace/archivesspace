@@ -53,4 +53,12 @@ describe 'Agent model' do
 
     AgentPerson[agent[:id]].name_person.length.should eq(1)
   end
+
+
+  it "allows for an nil sort_name but it cannot be empty" do
+
+    expect { build(:json_name_person, :sort_name => 'Foo').to_hash }.not_to raise_error(JSONModel::ValidationException)
+    expect { build(:json_name_person, :sort_name => nil).to_hash }.not_to raise_error(JSONModel::ValidationException)
+    #expect { build(:json_name_person, :sort_name => '').to_hash }.to raise_error(JSONModel::ValidationException)
+  end
 end

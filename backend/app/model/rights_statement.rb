@@ -1,12 +1,18 @@
-require_relative 'auto_id_generator'
+require_relative 'auto_generator'
+require 'securerandom'
 
 class RightsStatement < Sequel::Model(:rights_statement)
   include ASModel
   include ExternalDocuments
-  include AutoIdGenerator::Mixin
+  include AutoGenerator
 
   set_model_scope :repository
   corresponds_to JSONModel(:rights_statement)
 
-  register_auto_id :identifier
+  auto_generate :property => :identifier,
+                :generator => proc  { |json|
+                  SecureRandom.hex
+                },
+                :only_on_create => true
+
 end
