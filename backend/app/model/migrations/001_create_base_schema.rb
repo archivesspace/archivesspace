@@ -20,6 +20,14 @@ Sequel.migration do
     end
 
 
+    create_table(:enumerations) do
+      primary_key :id
+
+      String :enum_name, :null => false, :index => true
+      String :enum_value, :null => false, :index => true
+    end
+
+
     create_table(:auth_db) do
       primary_key :id
       String :username, :unique => true, :null => false
@@ -480,8 +488,8 @@ Sequel.migration do
         TextField :description_note, :null => true
         TextField :description_citation, :null => true
         TextField :qualifier, :null => true
-        String :source, :null => true
-        String :rules, :null => true
+        Integer :source_id, :null => true
+        Integer :rules_id, :null => true
         TextField :sort_name, :null => false
         Integer :sort_name_auto_generate
       end
@@ -513,6 +521,8 @@ Sequel.migration do
 
     alter_table(:name_person) do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:rules_id], :enumerations, :key => :id)
+      add_foreign_key([:source_id], :enumerations, :key => :id)
     end
 
 
@@ -536,6 +546,8 @@ Sequel.migration do
 
     alter_table(:name_family) do
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:rules_id], :enumerations, :key => :id)
+      add_foreign_key([:source_id], :enumerations, :key => :id)
     end
 
 
@@ -561,6 +573,8 @@ Sequel.migration do
 
     alter_table(:name_corporate_entity) do
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:rules_id], :enumerations, :key => :id)
+      add_foreign_key([:source_id], :enumerations, :key => :id)
     end
 
 
@@ -585,6 +599,8 @@ Sequel.migration do
 
     alter_table(:name_software) do
       add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+      add_foreign_key([:rules_id], :enumerations, :key => :id)
+      add_foreign_key([:source_id], :enumerations, :key => :id)
     end
 
 
@@ -910,6 +926,33 @@ Sequel.migration do
     end
 
 
+    ['creator', 'source', 'subject'].each do |role|
+      self[:enumerations].insert(:enum_name => 'linked_agent_archival_record_roles',
+                                 :enum_value => role)
+    end
+
+
+    ['source', 'outcome', 'transfer'].each do |role|
+      self[:enumerations].insert(:enum_name => 'linked_event_archival_record_roles',
+                                 :enum_value => role)
+    end
+
+
+    ["authorizer", "executing_program", "implementer", "recipient",
+     "transmitter", "validator"].each do |role|
+      self[:enumerations].insert(:enum_name => 'linked_agent_event_roles',
+                                 :enum_value => role)
+    end
+
+    ["local", "naf", "nad", "ulan"].each do |name_source|
+      self[:enumerations].insert(:enum_name => 'name_source', :enum_value => name_source)
+    end
+
+    ["local", "aacr", "dacs"].each do |name_rules|
+      self[:enumerations].insert(:enum_name => 'name_rule', :enum_value => name_rules)
+    end
+
+
     # Relationship tables
     [:accession, :archival_object, :digital_object, :digital_object_component, :event, :resource].each do |record|
       [:agent_person, :agent_software, :agent_family, :agent_corporate_entity].each do |agent|
@@ -922,12 +965,13 @@ Sequel.migration do
           Integer "#{agent}_id".intern
           Integer :aspace_relationship_position
           DateTime :last_modified, :null => false
-          String :role
+          Integer :role_id
         end
 
         alter_table(table) do
           add_foreign_key(["#{record}_id".intern], record, :key => :id)
           add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
+          add_foreign_key([:role_id], :enumerations, :key => :id)
         end
       end
     end
@@ -943,12 +987,13 @@ Sequel.migration do
         Integer :event_id
         Integer :aspace_relationship_position
         DateTime :last_modified, :null => false
-        String :role
+        Integer :role_id
       end
 
       alter_table(table) do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
         add_foreign_key([:event_id], :event, :key => :id)
+        add_foreign_key(["role_id".intern], :enumerations, :key => :id)
       end
     end
 

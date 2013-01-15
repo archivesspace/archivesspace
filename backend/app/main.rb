@@ -74,6 +74,7 @@ class ArchivesSpaceService < Sinatra::Base
     if DB.connected?
       # Load all models
       require_relative "model/ASModel"
+      require_relative "model/dynamic_enums"
       require_relative "model/identifiers"
       require_relative "model/external_documents"
       require_relative "model/external_ids"
