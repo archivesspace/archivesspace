@@ -28,7 +28,7 @@ class LocationsController < ApplicationController
                   return render :action => :new
                 },
                 :on_valid => ->(id){
-                  return render :json => @location.to_hash if inline?
+                  return render :json => JSONModel(:location).find(id).to_hash if inline?
 
                   flash[:success] = I18n.t("location._html.messages.created")
                   return redirect_to :controller => :locations, :action => :new if params.has_key?(:plus_one)
