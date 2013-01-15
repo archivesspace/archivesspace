@@ -42,7 +42,7 @@ module JSONModel::Validations
   
   def self.check_name(hash)
     errors = []
-    errors << ["sort_name", "cannot be empty"] if !hash["sort_name"].nil? and hash["sort_name"].empty?
+    errors << ["sort_name", "cannot be empty"] if hash["sort_name"].nil? and !hash["sort_name_auto_generate"]
     errors
   end
 

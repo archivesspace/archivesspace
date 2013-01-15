@@ -23,6 +23,6 @@ class NameCorporateEntity < Sequel::Model(:name_corporate_entity)
 
                   result
                 },
-                :only_if_nil => true
+                :only_if => proc { |json| json["sort_name_auto_generate"] }
 
 end

@@ -6,6 +6,8 @@ module AutoGenerator
 
   def update_from_json(json, opts = {})
     self.class.properties_to_auto_generate.each do |generate_opts|
+      next if generate_opts[:only_if] and not generate_opts[:only_if].call(json)
+
       if generate_opts[:only_on_create]
         # force the value back to the original value from the DB
         json[generate_opts[:property]] = self.send(generate_opts[:property])
@@ -28,7 +30,7 @@ module AutoGenerator
       modified = false
 
       properties_to_auto_generate.each do |generate_opts|
-        if json[generate_opts[:property]].nil?
+        if (generate_opts[:only_if] and generate_opts[:only_if].call(json)) or json[generate_opts[:property]].nil?
           json[generate_opts[:property]] = generate_opts[:generator].call(json)
           modified = true
         end

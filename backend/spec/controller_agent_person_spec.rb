@@ -40,7 +40,7 @@ describe 'Person agent controller' do
 
 
   it "sets the sort name if one is provided" do
-    opts = {:names => [build(:json_name_person, :sort_name => "Custom Sort Name").to_hash]}
+    opts = {:names => [build(:json_name_person, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false).to_hash]}
 
     id = create_person(opts).id
     JSONModel(:agent_person).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
@@ -48,14 +48,13 @@ describe 'Person agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_person({:names => [build(:json_name_person,{:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name => nil}).to_hash]}).id
+    id = create_person({:names => [build(:json_name_person,{:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true}).to_hash]}).id
 
     agent = JSONModel(:agent_person).find(id)
 
     agent.names.first['sort_name'].should eq("Hendrix, Jimi, Mr")
 
     agent.names.first['name_order'] = "inverted"
-    agent.names.first['sort_name'] = nil
     agent.save
 
     JSONModel(:agent_person).find(id).names.first['sort_name'].should eq("Jimi Hendrix, Mr")

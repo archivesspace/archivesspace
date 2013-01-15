@@ -19,6 +19,6 @@ class NameSoftware < Sequel::Model(:name_software)
 
                   result
                 },
-                :only_if_nil => true
+                :only_if => proc { |json| json["sort_name_auto_generate"] }
 
 end

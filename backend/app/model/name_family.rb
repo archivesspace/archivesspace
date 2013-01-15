@@ -19,5 +19,5 @@ class NameFamily < Sequel::Model(:name_family)
 
                   result
                 },
-                :only_if_nil => true
+                :only_if => proc { |json| json["sort_name_auto_generate"] }
 end

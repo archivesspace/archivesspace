@@ -56,7 +56,7 @@ describe 'Corporate entity agent controller' do
 
 
   it "sets the sort name if one is provided" do
-    opts = {:names => [build(:json_name_corporate_entity, :sort_name => "Custom Sort Name").to_hash]}
+    opts = {:names => [build(:json_name_corporate_entity, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false).to_hash]}
 
     id = create_corporate_entity(opts).id
     JSONModel(:agent_corporate_entity).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
@@ -64,14 +64,13 @@ describe 'Corporate entity agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_corporate_entity({:names => [build(:json_name_corporate_entity,{:primary_name => "ArchivesSpace", :sort_name => nil}).to_hash]}).id
+    id = create_corporate_entity({:names => [build(:json_name_corporate_entity,{:primary_name => "ArchivesSpace", :sort_name_auto_generate => true}).to_hash]}).id
 
     agent = JSONModel(:agent_corporate_entity).find(id)
 
     agent.names.first['sort_name'].should eq("ArchivesSpace.")
 
     agent.names.first['qualifier'] = "Global"
-    agent.names.first['sort_name'] = nil
     agent.save
 
     JSONModel(:agent_corporate_entity).find(id).names.first['sort_name'].should eq("ArchivesSpace. (Global)")

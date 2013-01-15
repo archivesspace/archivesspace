@@ -38,7 +38,7 @@ describe 'Software agent controller' do
 
 
   it "sets the sort name if one is provided" do
-    opts = {:names => [build(:json_name_software, :sort_name => "Custom Sort Name").to_hash]}
+    opts = {:names => [build(:json_name_software, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false).to_hash]}
 
     id = create_software(opts).id
     JSONModel(:agent_software).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
@@ -46,14 +46,13 @@ describe 'Software agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_software({:names => [build(:json_name_software,{:software_name => "ArchivesSpace", :sort_name => nil}).to_hash]}).id
+    id = create_software({:names => [build(:json_name_software,{:software_name => "ArchivesSpace", :sort_name_auto_generate => true}).to_hash]}).id
 
     agent = JSONModel(:agent_software).find(id)
 
     agent.names.first['sort_name'].should eq("ArchivesSpace")
 
     agent.names.first['version'] = "1.0"
-    agent.names.first['sort_name'] = nil
     agent.save
 
     JSONModel(:agent_software).find(id).names.first['sort_name'].should eq("ArchivesSpace 1.0")

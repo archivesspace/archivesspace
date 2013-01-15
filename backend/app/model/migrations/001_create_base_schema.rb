@@ -482,6 +482,7 @@ Sequel.migration do
         String :source, :null => true
         String :rules, :null => true
         TextField :sort_name, :null => false
+        Integer :sort_name_auto_generate
       end
     end
 
