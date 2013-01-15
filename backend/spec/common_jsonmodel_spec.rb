@@ -177,6 +177,35 @@ describe 'JSON model' do
   end
 
 
+  it "supports adding errors to objects" do
+    ts = JSONModel(:testschema).from_hash({
+                                            "elt_0" => "helloworld",
+                                            "elt_1" => "thisisatest"
+                                          })
+    ts.add_error("elt_0", "'hello world' is two words, you squashed them together")
+    ts._exceptions[:errors]["elt_0"].include?("'hello world' is two words, you squashed them together")
+      .should be_true
+  end
+
+
+  it "supports adding custom error handlers" do
+    JSONModel::add_error_handler do |error|
+      if error["code"] == "OUTTOLUNCH"
+        raise NotFoundException.new("Seriously not good enough")
+      end
+    end
+    expect {
+      JSONModel::handle_error({"code" => "OUTTOLUNCH"})
+    }.to raise_error(NotFoundException)
+  end
+
+
+  it "can set the current backend session token and get it back" do
+    JSONModel::HTTP.current_backend_session = 'moo'
+    JSONModel::HTTP.current_backend_session.should eq('moo')
+  end
+
+
   it "enforces minimum length of property values" do
 
     ts = JSONModel(:testschema).from_hash({
