@@ -49,9 +49,4 @@ module DynamicEnums
       end
     end
   end
-
-
-  class Enumeration < Sequel::Model(:enumerations)
-  end
-
 end
