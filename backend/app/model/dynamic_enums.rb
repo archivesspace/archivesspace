@@ -1,3 +1,5 @@
+require_relative 'enumeration'
+
 module DynamicEnums
 
   def self.included(base)
@@ -7,6 +9,10 @@ module DynamicEnums
   module ClassMethods
 
     def uses_enums(*definitions)
+      definitions.each do |definition|
+        Enumeration.register_enumeration_user(definition, self)
+      end
+
       self.instance_eval do
 
         definitions.each do |definition|
