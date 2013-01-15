@@ -21,6 +21,26 @@ describe 'Update feed controller' do
   end
 
 
+  it "provides a feed of deleted records" do
+
+    acc1 = create(:json_accession)
+    acc1.delete
+    sleep 1
+    atime = Time.now
+    sleep 1
+    acc2 = create(:json_accession)
+    acc2.delete
+
+    resp = as_test_user("admin") do
+      get "/delete-feed?page=1&modified_since=#{atime.to_i}"
+      JSON(last_response.body)
+    end
+
+    resp['results'].length.should eq(1)
+    resp['results'].first.should eq(acc2.uri)
+  end
+
+
   it "requires special permission" do
     as_anonymous_user do
       get '/update-feed'
