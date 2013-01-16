@@ -4,7 +4,7 @@
     "type" => "object",
     "uri" => "/repositories/:repo_id/groups",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false, "readonly" => true},
+      "uri" => {"type" => "string", "required" => false},
 
       "group_code" => {"type" => "string", "ifmissing" => "error", "minLength" => 1},
       "description" => {"type" => "string", "ifmissing" => "error", "default" => ""},

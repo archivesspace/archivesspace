@@ -3,7 +3,7 @@
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
     "properties" => {
-      "uri" => {"type" => "string", "required" => false, "readonly" => true},
+      "uri" => {"type" => "string", "required" => false},
 
       "external_ids" => {
         "type" => "array",
