@@ -1,5 +1,6 @@
-require 'sinatra'
-require 'java'
+require 'bundler'
+
+Bundler.require
 
 require_relative '../app/lib/webhooks'
 

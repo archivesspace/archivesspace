@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from RecordNotFound, :with => :handle_404
   rescue_from Errno::ECONNREFUSED, :with => :handle_backend_down
+  rescue_from ArchivesSpacePublic::SessionGone, :with => :reestablish_session
+  rescue_from ArchivesSpacePublic::SessionExpired, :with => :reestablish_session
 
   def load_repository_list
     unless request.path == '/webhook/notify'
@@ -63,6 +65,13 @@ class ApplicationController < ActionController::Base
     else
       raise "Authentication to backend failed: #{response.body}"
     end
+  end
+
+  def reestablish_session
+    session[:session] = nil
+    Thread.current[:backend_session] = nil
+    establish_session
+    redirect_to request.url
   end
 
 end

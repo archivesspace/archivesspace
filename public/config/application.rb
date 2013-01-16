@@ -67,4 +67,13 @@ module ArchivesSpacePublic
     # ArchivesSpace Configuration
     AppConfig.load_into(config)
   end
+
+
+  class SessionGone < StandardError
+  end
+
+
+  class SessionExpired < StandardError
+  end
+
 end
