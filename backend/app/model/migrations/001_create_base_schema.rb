@@ -144,7 +144,7 @@ Sequel.migration do
 
       String :identifier, :null => false
 
-      String :title, :null => true
+      TextField :title, :null => true
       TextField :content_description, :null => true
       TextField :condition_description, :null => true
 
@@ -167,7 +167,7 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
       Integer :accession_id, :null => true
-      String :title, :null => false
+      TextField :title, :null => false
 
       String :identifier
 
@@ -185,8 +185,8 @@ Sequel.migration do
       String :ead_id
       String :ead_location
 
-      String :finding_aid_title
-      String :finding_aid_filing_title
+      TextField :finding_aid_title
+      TextField :finding_aid_filing_title
       String :finding_aid_date
       String :finding_aid_author
       String :finding_aid_description_rules
@@ -261,7 +261,7 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
       String :digital_object_id, :null => false
-      String :title
+      TextField :title
       String :level
       String :digital_object_type
       String :language
@@ -293,7 +293,7 @@ Sequel.migration do
       String :parent_name, :null => true
 
       String :component_id, :null => false
-      String :title
+      TextField :title
       String :label
       String :language
 
@@ -383,7 +383,7 @@ Sequel.migration do
 
       Integer :vocab_id, :null => false
 
-      String :title
+      TextField :title
       String :terms_sha1, :unique => true
       String :ref_id, :unique => true
 
@@ -801,7 +801,7 @@ Sequel.migration do
 
       Integer :lock_version, :default => 0, :null => false
 
-      String :title, :null => false
+      TextField :title, :null => false
       String :location, :null => false
 
       Integer :publish
@@ -846,7 +846,7 @@ Sequel.migration do
 
       String :building, :null => false
 
-      String :title
+      TextField :title
 
       String :floor
       String :room

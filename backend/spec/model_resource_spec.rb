@@ -98,4 +98,11 @@ describe 'Resource model' do
     expect { create_resource(opts) }.to raise_error
   end
 
+
+  it "allows long titles" do
+    expect {
+      res = create(:resource, {:repo_id => $repo_id, :title => 200.times.map { 'moo'}.join})
+    }.to_not raise_error
+  end
+
 end
