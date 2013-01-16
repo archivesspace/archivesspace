@@ -1,6 +1,5 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @agent, :form => form} %>
 
-<%= render :partial => "agents/name_forms/#{@agent.agent_type}", :locals => {:form => form} %>
 <%= render :partial => "agents/contact_details", :locals => {:form => form} %>
 
 <fieldset>
@@ -15,30 +14,8 @@
     </div>
   </section>
 
-  <section id="names" class="subrecord-form">
-    <h3 class="subrecord-form-heading">
-      <%= I18n.t("agent_name._html.plural") %>
-      <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add_prefix") %> <%= I18n.t("agent_name._html.singular") %>" />
-    </h3>
-    <div class="subrecord-form-container">
-      <%= form.list_for(form["names"], "names[]") do |name| %>
-        <% form.emit_template("#{@agent.agent_type.to_s.sub("agent_", "name_")}") %>
-      <% end %>
-    </div>
-  </section>
-
-  <section id="contacts" class="subrecord-form">
-    <h3 class="subrecord-form-heading">
-      <%= I18n.t("agent_contact._html.plural") %>
-      <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add_prefix") %> <%= I18n.t("agent_contact._html.singular") %>" />
-    </h3>
-    <div class="subrecord-form-container">
-      <%= form.list_for(form["agent_contacts"], "agent_contacts[]") do |name| %>
-        <% form.emit_template("agent_contact") %>
-      <% end %>
-    </div>
-  </section>
-
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "names", :template_erb => "agents/name_forms/#{@agent.agent_type}", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}" } %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "contacts", :template_erb => "agents/contact_details", :template => "agent_contact" } %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "agent_external_documents_"} %>
 
 </fieldset>

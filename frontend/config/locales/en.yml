@@ -1071,6 +1071,10 @@ en:
     software_name: Software Name
     version: Version
     manufacturer: Manufacturer
+  name:
+    _html:
+      singular: Name
+      plural: Names
   agent_person:
     _html:
       singular: Person
