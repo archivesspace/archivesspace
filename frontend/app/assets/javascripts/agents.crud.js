@@ -32,7 +32,33 @@ $(function() {
             $this.parents("form:first").triggerHandler("form-changed");
           });
         });
+
+        // if a #names form then setup the sort_name behaviour
+        if ($subform.closest("#names").length) {
+          setupSortNameBehaviour($subform);
+        }
       };
+
+
+      var setupSortNameBehaviour = function($subform) {
+        var $checkbox = $(":checkbox[name$=\"[sort_name_auto_generate]\"]", $subform);
+        var $sortNameField = $(":input[name$=\"[sort_name]\"]", $subform);
+        if ($checkbox.is(":checked")) {
+          $sortNameField.attr("readonly","readonly");
+          $sortNameField.closest(".control-group").hide();
+        }
+
+        $checkbox.change(function() {
+          if ($checkbox.is(":checked")) {
+            $sortNameField.attr("readonly","readonly");
+            $sortNameField.closest(".control-group").hide();
+          } else {
+            $sortNameField.removeAttr("readonly");
+            $sortNameField.closest(".control-group").show();
+          }
+        });
+      };
+
 
       var addNameForm = function() {
         $("#names .alert-info", $this).hide();
@@ -49,7 +75,7 @@ $(function() {
         $subform.fadeIn();
         $(":input:visible:first", $subform).focus();
 
-        initSubForm($subform)
+        initSubForm($subform);
       };
 
       $("#names > h3 input[type=button]").click(addNameForm);
@@ -74,67 +100,6 @@ $(function() {
       };
       $("#contacts > h3 input[type=button]").click(addContactDetailsForm);
 
-
-      var handleSortNameType = function() {
-        var sortNameInput = $(":input[name$=\"[sort_name]\"]", $(this).parents(".controls:first"));
-        if ($(this).is(":checked")) {          
-          sortNameInput.attr("readonly","readonly");
-          $.proxy(updateAutomaticSortName, this)();
-        } else {
-          sortNameInput.removeAttr("readonly");
-        }
-      };
-      $this.on("click", ".sort-name-generation-type", handleSortNameType);
-
-      var sortNameTemplate = function(nameFormEl) {
-        var agent_type = $("#agent_agent_type_", $this).val();
-
-        var data = serializeNameFields(nameFormEl);
-
-        var sort_name_template = agent_type+"_sort_name";
-        if (agent_type === "agent_person") {
-          sort_name_template += "_"+data["name_order"];
-        }
-        sort_name_template += "_template";
-
-        return sort_name_template;
-      }
-
-      var serializeNameFields = function(nameFormEl) {
-        var agentFields = $(":input", nameFormEl);
-        var template_data = {};
-        agentFields.each(function() {
-          var tmp = $(this).attr("name").split("[");
-          var method = tmp[tmp.length-1].slice(0,-1);
-          template_data[method] = $(this).val();
-        });
-        return template_data;
-      };
-
-      var updateAutomaticSortName = function() {
-        var agentFieldsContainer = $(this).parents(".subrecord-form-fields:first");
-        if ($(":input[name$=\"[automatic]\"]",agentFieldsContainer).is(":checked")) {
-          var autoSortName = $.trim(AS.renderTemplate(
-                                    sortNameTemplate(agentFieldsContainer), 
-                                    serializeNameFields(agentFieldsContainer)));
-          $(":input[name$=\"[sort_name]\"]", agentFieldsContainer).val(autoSortName);
-        }
-      };
-      $this.on("change", ":input:not([name~='sort_name'])", updateAutomaticSortName);
-
-      var initSortNameType = function() {
-        $(":input[name$=\"[sort_name]\"]", $this).each(function() {
-          var $subform = $(this).parents(".subrecord-form-fields:first");
-          // should automatic should be checked?
-          var autoSortName = $.trim(AS.renderTemplate(sortNameTemplate($subform), serializeNameFields($subform)));
-          var currentSortName = $(this).val();
-          if (autoSortName != currentSortName) {
-            $(":input[name$=\"[automatic]\"]", $subform).removeAttr("checked");
-            $(":input[name$=\"[sort_name]\"]", $subform).removeAttr("readonly");
-          }
-        });
-      }
-      initSortNameType();
 
       $("#names .subrecord-form-fields:not(.initialised), #contacts .subrecord-form-fields:not(.initialised)", $this).each(function() {
         initSubForm($(this));

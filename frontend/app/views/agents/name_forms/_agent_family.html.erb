@@ -9,13 +9,8 @@
     <%= form.label_and_textfield "dates" %>
     <hr/>
     <%= form.label_and_textfield "qualifier" %>
-    <div class="control-group">
-      <%= form.label("sort_name") %>
-      <div class="controls">
-        <%= form.textfield "sort_name", form["sort_name"], :readonly => "readonly" %>
-        <label><%= form.checkbox "automatic", {:class => "sort-name-generation-type"}, true, true %> <small><%= I18n.t("agent_name.sort_name_auto_generate") %></small></label>
-      </div>
-    </div>
+    <%= form.label_and_boolean "sort_name_auto_generate", {}, form.default_for("sort_name_auto_generate") %>
+    <%= form.label_and_textfield "sort_name" %>
     <hr/>
     <%= form.label_and_textfield "description_type" %>
     <%= form.label_and_textarea "description_note" %>

@@ -1050,7 +1050,7 @@ en:
     dates: Dates
     qualifier: Qualifier
     sort_name: Sort Name
-    sort_name_auto_generate: Automatically generate?
+    sort_name_auto_generate: Auto Generate Sort Name?
     description_type: Description Type
     description_note: Description Note
     description_citation: Description Citation
