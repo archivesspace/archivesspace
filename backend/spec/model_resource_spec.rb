@@ -7,8 +7,7 @@ describe 'Resource model' do
   end
 
 
-  it "Allows resources to be created" do
-    
+  it "allows resources to be created" do
     opts = {:title => generate(:generic_title)}
     
     resource = create_resource(opts)
@@ -17,8 +16,7 @@ describe 'Resource model' do
   end
 
 
-  it "Prevents duplicate IDs " do
-    
+  it "prevents duplicate IDs " do
     opts = {:id_0 => generate(:alphanumstr)}
     
     create_resource(opts)
@@ -27,7 +25,7 @@ describe 'Resource model' do
   end
 
 
-  it "Doesn't enforce ID uniqueness between repositories" do
+  it "doesn't enforce ID uniqueness between repositories" do
     repo1 = make_test_repo("REPO1")
     repo2 = make_test_repo("REPO2")
 
@@ -46,8 +44,7 @@ describe 'Resource model' do
   end
 
 
-  it "Allows resources to be created with a date" do
-    
+  it "allows resources to be created with a date" do
     opts = {:dates => [build(:json_date).to_hash]}
     
     resource = create_resource(opts)
@@ -57,14 +54,12 @@ describe 'Resource model' do
   end
 
 
-  it "Throws an exception if extents is nil" do
-    
+  it "throws an exception if extents is nil" do
     expect { create_resource({:extents => nil}) }.to raise_error    
   end
 
 
-  it "Throws an exception if extents is empty" do
-    
+  it "throws an exception if extents is empty" do
     expect { create_resource({:extents => []}) }.to raise_error
   end
 
@@ -80,7 +75,6 @@ describe 'Resource model' do
 
 
   it "can be created with an instance" do
-
     opts = {:instances => [build(:json_instance).to_hash]}
 
     resource = create_resource(opts)
@@ -92,7 +86,6 @@ describe 'Resource model' do
 
 
   it "throws an error when no language is provided" do
-
     opts = {:language => nil}
 
     expect { create_resource(opts) }.to raise_error
@@ -100,7 +93,6 @@ describe 'Resource model' do
 
 
   it "throws an error if 'level' is 'otherlevel' and 'other level' isn't provided" do
-
     opts = {:level => "otherlevel", :other_level => nil}
 
     expect { create_resource(opts) }.to raise_error

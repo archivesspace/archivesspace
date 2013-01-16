@@ -26,6 +26,7 @@ class Location < Sequel::Model(:location)
     title
   end
 
+
   def self.create_from_json(json, opts = {})
     json['title'] = generate_title(json)
     super
@@ -33,7 +34,7 @@ class Location < Sequel::Model(:location)
 
 
   def update_from_json(json, opts = {})
-    json['title'] = generate_title(json)
+    json['title'] = Location.generate_title(json)
     super
   end
 

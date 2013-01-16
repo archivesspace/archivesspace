@@ -33,8 +33,14 @@ describe 'Digital Objects controller' do
   end
 
 
-  it "lets you query the record tree of related digital object components" do
+  it "can give a list of digital objects" do
+    create(:json_digital_object)
+    create(:json_digital_object)
+    JSONModel(:digital_object).all(:page => 1)['results'].count.should eq(2)
+  end
 
+
+  it "lets you query the record tree of related digital object components" do
     digital_object = create(:json_digital_object)
     id = digital_object.id
 

@@ -3,7 +3,6 @@ require 'spec_helper'
 describe 'Repository controller' do
 
   it "gives a list of all repositories" do
-
     [0,1].each do |n|
       repo_code = create(:repo).repo_code
 
@@ -13,6 +12,14 @@ describe 'Repository controller' do
       repos.any? { |repo| repo.repo_code == generate(:repo_code) }.should be_false
     end
   end
+
+
+  it "supports creating a repository" do
+    repo = create(:json_repo)
+
+    JSONModel(:repository).find(repo.id).repo_code.should eq(repo.repo_code)
+  end
+
 
   it "can get back a single repository" do
     repo = create(:repo)
@@ -32,13 +39,12 @@ describe 'Repository controller' do
   end
 
 
-  it "Creating a repository automatically creates the standard set of groups" do
+  it "creating a repository automatically creates the standard set of groups" do
     groups = JSONModel(:group).all(:page => 1)['results'].map {|group| group.group_code}
 
     groups.include?("repository-managers").should be_true
     groups.include?("repository-archivists").should be_true
     groups.include?("repository-viewers").should be_true
   end
-
 
 end

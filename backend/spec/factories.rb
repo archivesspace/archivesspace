@@ -69,6 +69,17 @@ FactoryGirl.define do
     source 'local'
   end
   
+  factory :accession do
+    id_0 { generate(:alphanumstr) }
+    id_1 { generate(:alphanumstr) }
+    id_2 { generate(:alphanumstr) }
+    id_3 { generate(:alphanumstr) }
+    title { "Accession " + generate(:generic_title) }
+    content_description { generate(:generic_description) }
+    condition_description { generate(:generic_description) }
+    accession_date { generate(:yyyy_mm_dd) }
+  end
+  
   factory :resource do
     title { generate(:generic_title) }
     id_0 { generate(:alphanumstr) }

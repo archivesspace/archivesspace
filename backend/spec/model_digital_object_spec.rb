@@ -2,8 +2,7 @@ require 'spec_helper'
 
 describe 'Digital object model' do
 
-  it "Allows digital objects to be created" do
-    
+  it "allows digital objects to be created" do
     json = build(:json_digital_object)
     
     digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
@@ -12,8 +11,7 @@ describe 'Digital object model' do
   end
 
 
-  it "Prevents duplicate IDs " do
-  
+  it "prevents duplicate IDs " do
     json1 = build(:json_digital_object, :digital_object_id => '123')
     
     json2 = build(:json_digital_object, :digital_object_id => '123')
@@ -21,7 +19,5 @@ describe 'Digital object model' do
     expect { DigitalObject.create_from_json(json1, :repo_id => $repo_id) }.to_not raise_error
     expect { DigitalObject.create_from_json(json2, :repo_id => $repo_id) }.to raise_error
   end
-
-
 
 end

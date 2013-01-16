@@ -153,28 +153,15 @@ module JSONModel::Validations
 
   def self.check_collection_management_linked_records(hash)
     errors = []
-    err = false
 
-    if !hash.has_key?("linked_records")
-      err = true
-    elsif !hash["linked_records"].is_a? Array
-      err = true
-    elsif hash["linked_records"].length == 0
-      err = true
-    elsif !hash["linked_records"].first.has_key?("ref")
-      err = true
-    elsif hash["linked_records"].length > 1
+    if hash["linked_records"].length > 1
       if hash["linked_records"].any? { |lr|
           ref = JSONModel.parse_reference(lr["ref"])
           ref.nil? || ref[:type] != "digital_object"
         }
-        err = true
+        errors << ["linked_records",
+                   "must link to one accession, one resource, or one or more digital objects"]
       end
-    end
-
-    if err
-      errors << ["linked_records",
-                 "must link to one accession, one resource, or one or more digital objects"]
     end
 
     errors

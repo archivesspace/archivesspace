@@ -63,6 +63,21 @@ describe 'Collection Management model' do
                                  {'ref' => create(:json_digital_object).uri}])
     }.to raise_error(JSONModel::ValidationException)
 
+    expect {
+      create(:json_collection_management,
+             :linked_records => nil)
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      create(:json_collection_management,
+             :linked_records => "not an array")
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      create(:json_collection_management,
+             :linked_records => [{'not_ref' => create(:json_accession).uri}])
+    }.to raise_error(JSONModel::ValidationException)
+
   end
 
 end

@@ -58,18 +58,4 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(digital_object.tree)
   end
 
-
-  Endpoint.post('/repositories/:repo_id/digital_objects/:digital_object_id/tree')
-    .description("Update a Digital Object tree")
-    .params(["digital_object_id", Integer, "The ID of the digital object to retrieve"],
-            ["tree", JSONModel(:digital_object_tree), "A JSON tree representing the modified hierarchy", :body => true],
-            ["repo_id", :repo_id])
-    .returns([200, :updated]) \
-  do
-    digital_object = DigitalObject.get_or_die(params[:digital_object_id])
-    digital_object.update_tree(params[:tree])
-
-    updated_response(digital_object, params[:tree])
-  end
-
 end

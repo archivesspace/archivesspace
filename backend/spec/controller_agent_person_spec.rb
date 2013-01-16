@@ -14,6 +14,7 @@ describe 'Person agent controller' do
     JSONModel(:agent_person).find(id).names.first['primary_name'].should eq(opts[:names][0]['primary_name'])
   end
 
+
   it "lets you update someone by adding contacts" do
     id = create_person(:agent_contacts => nil).id
 
@@ -29,5 +30,12 @@ describe 'Person agent controller' do
     end
   end
 
+
+  it "can give a list of person agents" do
+    create_person
+    create_person
+
+    JSONModel(:agent_person).all(:page => 1)['results'].count.should eq(2)
+  end
 
 end
