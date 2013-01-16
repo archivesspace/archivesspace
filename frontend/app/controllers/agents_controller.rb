@@ -48,10 +48,10 @@ class AgentsController < ApplicationController
                     @agent.names = [@name_type.new._always_valid!]
                   end
 
-                  flash.now[:success] = I18n.t("agent._html.messages.updated")
                   return render :action => :edit
                 },
                 :on_valid => ->(id){
+                  flash[:success] = I18n.t("agent._html.messages.updated")
                   redirect_to :controller => :agents, :action => :show, :id => id, :type => @agent_type
                 })
   end
