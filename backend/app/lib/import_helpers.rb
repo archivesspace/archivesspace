@@ -41,9 +41,11 @@ module ImportHelpers
         @as_set[json.uri] = [obj.id, obj.class]
         
         # Now update the URI with the real ID
+        Log.debug("JSON #{json.to_s}")
+        Log.debug("URI #{json.uri}")
         json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
         rescue Exception => e
-          Log.debug("JSON #{json.inspect}")
+          Log.debug("Exception At: #{e.backtrace[0].to_s}")
           raise ImportException.new({:invalid_object => json, :message => e.message})
         end
       end

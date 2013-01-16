@@ -1,6 +1,7 @@
 en:
   actions:
     add: Add
+    automate: Automate
     browse: Browse
     cancel: Cancel
     confirm: Confirm
@@ -1366,6 +1367,7 @@ en:
     level_subseries: Sub-Series
     other_level: Other Level
     language: Language
+    automate_title: Automate
     <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
     _html:

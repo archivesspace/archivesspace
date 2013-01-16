@@ -30,6 +30,31 @@ $(function() {
 
       handleLevelChange(true);
       $levelSelect.change(handleLevelChange);
+
+			
+			
+			var $autoTitleChecker = $("#archival_object_title_automatic_");
+			var $checked = $autoTitleChecker[0].checked;
+			
+			var $titleInput = $("#archival_object_title_");
+			// Let's the title come back if the user toggles in error
+			var $userEnteredTitleValue = $titleInput[0].value;
+			
+			$autoTitleChecker.live('change', function() {
+				if ($(this).is(':checked')){
+
+					$titleInput.prop('disabled', true);
+					$userEnteredTitleValue = $titleInput[0].value;
+					$titleInput[0].value = "Automatic for the people";
+					$titleInput.attr("readonly","readonly");
+					
+				} else {
+					$titleInput.prop('disabled', false);
+					$titleInput[0].value = $userEnteredTitleValue;
+				}
+			});
+
+
     });
   };
 

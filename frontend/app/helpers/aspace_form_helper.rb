@@ -167,7 +167,6 @@ module AspaceFormHelper
       name.gsub(/[\[\]]/, '_')
     end
 
-
     def label_and_textfield(name, opts = {})
       label_with_field(name, textfield(name, obj[name], opts[:field_opts] || {}), opts)
     end
@@ -227,8 +226,20 @@ module AspaceFormHelper
 
 
     def textfield(name = nil, value = "", opts =  {})
-      @forms.tag("input", {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}.merge(opts),
+      value = @forms.tag("input", {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}.merge(opts),
                  false, false)
+
+      if opts[:automatable]
+        # name = "#{name}_automate"
+        Rails.logger.debug(id_for(name));
+        
+        value << "<label>".html_safe
+        value << checkbox("#{name}_automatic", {:class => "automate-field-toggle"}, false, false)
+        value << "&#160;<small>".html_safe
+        value << I18n.t("actions.automate")
+        value << "</small></label>".html_safe
+      end
+      value
     end
 
 

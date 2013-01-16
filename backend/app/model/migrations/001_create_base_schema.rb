@@ -229,6 +229,7 @@ Sequel.migration do
       String :component_id, :null => true
 
       TextField :title, :null => true
+      Integer :title_auto_generate
 
       String :level, :null => false
       String :other_level

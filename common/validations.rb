@@ -211,6 +211,17 @@ module JSONModel::Validations
     if hash["level"] === "otherlevel"
       errors << ["other_level", "is required"] if hash["other_level"].nil?
     end
+    
+    if hash.has_key?("title")
+      # Rails.logger.debug("Hash #{hash.inspect}")
+      if hash["title"].empty?
+        errors << ["title", "must not be an empty string"]
+      end
+    else
+      if !hash.has_key?("dates")
+        errors << ["dates", "one or more are required in order to generate a title"]
+      end
+    end
 
     errors
   end

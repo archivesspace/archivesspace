@@ -14,7 +14,8 @@
     <section id="basic_information">
       <h3><%= I18n.t("archival_object._html.section.basic_information") %></h3>
 
-      <%= form.label_and_textfield "title" %>
+      <%= form.label_and_textfield("title", :field_opts => {:automatable => true})%>
+    
       <% if form.obj["ref_id"].blank? %>
         <%= form.label_and_readonly "ref_id", "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
       <% else %>

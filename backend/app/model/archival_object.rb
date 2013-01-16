@@ -23,10 +23,16 @@ class ArchivalObject < Sequel::Model(:archival_object)
   corresponds_to JSONModel(:archival_object)
 
   auto_generate :property => :ref_id,
-                :generator => proc  { |json|
+                :generator => proc { |json|
                   SecureRandom.hex
                 },
                 :only_on_create => true
+                
+  auto_generate :property => :title,
+                :generator => proc { |json|
+                  "Auto Title"
+                },
+                :only_if => proc { |json| json.title_auto_generate }
 
 
   def validate

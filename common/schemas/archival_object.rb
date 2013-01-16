@@ -11,6 +11,9 @@
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
       "other_level" => {"type" => "string"},
 
+      "title" => {"ifmissing" => nil},
+      "title_auto_generate" => {"type" => "boolean", "default" => false},
+
       "parent" => {
         "type" => "object",
         "subtype" => "ref",
