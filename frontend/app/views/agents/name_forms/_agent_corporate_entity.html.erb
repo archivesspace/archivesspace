@@ -11,8 +11,7 @@
     <%= form.label_and_textfield "dates" %>
     <hr/>
     <%= form.label_and_textfield "qualifier" %>
-    <%= form.label_and_boolean "sort_name_auto_generate", {}, form.default_for("sort_name_auto_generate") %>
-    <%= form.label_and_textfield "sort_name" %>
+    <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}}%>
     <hr/>
     <%= form.label_and_textfield "description_type" %>
     <%= form.label_and_textarea "description_note" %>
