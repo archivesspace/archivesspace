@@ -33,23 +33,31 @@ $(function() {
 
 			
 			
-			var $autoTitleChecker = $("#archival_object_title_automatic_");
+			var $autoTitleChecker = $("#archival_object_title_auto_generate_");
 			var $checked = $autoTitleChecker[0].checked;
 			
 			var $titleInput = $("#archival_object_title_");
-			// Let's the title come back if the user toggles in error
+			// Lets the title come back if the user toggles in error
 			var $userEnteredTitleValue = $titleInput[0].value;
+			
+			// Disable the title if it's getting auto generated
+			var disableTitle = function(){
+				$titleInput.prop('disabled', true);
+				$titleInput.attr("readonly","readonly");
+				$userEnteredTitleValue = $titleInput[0].value;
+				$titleInput[0].value = "System generates when saved";
+			}
+			
+			if ($checked){
+				disableTitle();
+			}
 			
 			$autoTitleChecker.live('change', function() {
 				if ($(this).is(':checked')){
-
-					$titleInput.prop('disabled', true);
-					$userEnteredTitleValue = $titleInput[0].value;
-					$titleInput[0].value = "Automatic for the people";
-					$titleInput.attr("readonly","readonly");
-					
+					disableTitle();
 				} else {
 					$titleInput.prop('disabled', false);
+					$titleInput.removeAttr("readonly");
 					$titleInput[0].value = $userEnteredTitleValue;
 				}
 			});

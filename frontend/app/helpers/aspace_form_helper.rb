@@ -230,11 +230,8 @@ module AspaceFormHelper
                  false, false)
 
       if opts[:automatable]
-        # name = "#{name}_automate"
-        Rails.logger.debug(id_for(name));
-        
         value << "<label>".html_safe
-        value << checkbox("#{name}_automatic", {:class => "automate-field-toggle"}, false, false)
+        value << checkbox("#{name}_auto_generate", {:class => "automate-field-toggle"}, false, false)
         value << "&#160;<small>".html_safe
         value << I18n.t("actions.automate")
         value << "</small></label>".html_safe

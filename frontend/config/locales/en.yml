@@ -1368,6 +1368,7 @@ en:
     other_level: Other Level
     language: Language
     automate_title: Automate
+    dates: Dates
     <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
     _html:

@@ -30,7 +30,15 @@ class ArchivalObject < Sequel::Model(:archival_object)
                 
   auto_generate :property => :title,
                 :generator => proc { |json|
-                  "Auto Title"
+                  lambda {|date|
+                    if date['expression']
+                      date['expression']
+                    elsif date['begin'] and date['end']
+                      "#{date['begin']} -- #{date['end']}"
+                    else
+                      date['begin']
+                    end
+                  }.call(json[:dates].first)
                 },
                 :only_if => proc { |json| json.title_auto_generate }
 
