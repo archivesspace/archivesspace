@@ -17,6 +17,11 @@ module AspaceFormHelper
     end
 
 
+    def h(str)
+      ERB::Util.html_escape(str)
+    end
+
+
     def readonly?
       false
     end
@@ -217,18 +222,18 @@ module AspaceFormHelper
 
 
     def textarea(name = nil, value = "", opts =  {})
-      @forms.text_area_tag(path(name), value,  {:id => id_for(name), :rows => 3}.merge(opts))
+      @forms.text_area_tag(path(name), h(value),  {:id => id_for(name), :rows => 3}.merge(opts))
     end
 
 
     def textfield(name = nil, value = "", opts =  {})
-      @forms.tag("input", {:id => id_for(name), :type => "text", :value => value, :name => path(name)}.merge(opts),
+      @forms.tag("input", {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}.merge(opts),
                  false, false)
     end
 
 
     def password(name = nil, value = "", opts =  {})
-      @forms.tag("input", {:id => id_for(name), :type => "password", :value => value, :name => path(name)}.merge(opts),
+      @forms.tag("input", {:id => id_for(name), :type => "password", :value => h(value), :name => path(name)}.merge(opts),
                  false, false)
     end
 
@@ -242,7 +247,7 @@ module AspaceFormHelper
         value = value['ref']
       end
 
-      @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => value, :name => full_name},
+      @forms.tag("input", {:id => id_for(name), :type => "hidden", :value => h(value), :name => full_name},
                  false, false)
     end
 
@@ -274,6 +279,8 @@ module AspaceFormHelper
     def checkbox(name, opts = {}, default = true, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "1"}
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name] === "true") or (obj[name].nil? and default)
+
+      opts[:value] = h(opts[:value])
 
       @forms.tag("input", options.merge(opts), false, false)
     end
