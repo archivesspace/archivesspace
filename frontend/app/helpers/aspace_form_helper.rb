@@ -231,7 +231,9 @@ module AspaceFormHelper
 
       if opts[:automatable]
         value << "<label>".html_safe
-        value << checkbox("#{name}_auto_generate", {:class => "automate-field-toggle"}, false, false)
+        value << checkbox("#{name}_auto_generate", {
+          :class => "automate-field-toggle", :display_text_when_checked => I18n.t("states.auto_generated")
+          }, false, false)
         value << "&#160;<small>".html_safe
         value << I18n.t("actions.automate")
         value << "</small></label>".html_safe

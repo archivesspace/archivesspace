@@ -39,6 +39,7 @@ en:
     finish_editing: Finish Editing
   states:
     suppressed: Suppressed
+    auto_generated: System generates when saved
   navbar:
     brand: ArchivesSpace
     create: Create

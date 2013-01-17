@@ -45,7 +45,7 @@ $(function() {
 				$titleInput.prop('disabled', true);
 				$titleInput.attr("readonly","readonly");
 				$userEnteredTitleValue = $titleInput[0].value;
-				$titleInput[0].value = "System generates when saved";
+				$titleInput[0].value = $autoTitleChecker.attr("display_text_when_checked");
 			}
 			
 			if ($checked){
