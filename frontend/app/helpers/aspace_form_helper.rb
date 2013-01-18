@@ -288,11 +288,8 @@ module AspaceFormHelper
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
-      Rails.logger.debug(name.inspect)
-      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "1"}
+      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => 1}
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name] === "true") or (obj[name].nil? and default)
-
-      opts[:value] = h(opts[:value])
 
       @forms.tag("input", options.merge(opts), false, false)
     end
