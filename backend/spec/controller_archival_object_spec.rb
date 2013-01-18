@@ -118,7 +118,15 @@ describe 'Archival Object controller' do
   it "will won't allow a ref_id to be changed upon update" do
     created =  create(:json_archival_object, "ref_id" => nil)
 
-    JSONModel(:archival_object).find(created.id).ref_id.should_not be_nil
+    ao = JSONModel(:archival_object).find(created.id)
+    ref_id = ao.ref_id
+
+    ref_id.should_not be_nil
+
+    ao.ref_id = "foo"
+    ao.save
+
+    JSONModel(:archival_object).find(created.id).ref_id.should eq(ref_id)
   end
 
 

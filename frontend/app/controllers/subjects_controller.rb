@@ -29,7 +29,7 @@ class SubjectsController < ApplicationController
                 },
                 :on_valid => ->(id){
                   if inline?
-                    render :json => JSONModel(:subject).find(id).to_hash if inline?
+                    render :json => @subject.to_hash if inline?
                   else
                     flash[:success] = I18n.t("subject._html.messages.created")
                     return redirect_to :controller => :subjects, :action => :new if params.has_key?(:plus_one)

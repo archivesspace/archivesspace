@@ -32,7 +32,7 @@ class AgentsController < ApplicationController
                   return render :action => :new
                 },
                 :on_valid => ->(id){
-                  return render :json => JSONModel(@agent_type).find(id).to_hash if inline?
+                  return render :json => @agent.to_hash if inline?
                   return redirect_to({:controller => :agents, :action => :new, :type => @agent_type}, :flash => {:success => I18n.t("agent._html.messages.created")}) if params.has_key?(:plus_one)
                   redirect_to({:controller => :agents, :action => :show, :id => id, :type => @agent_type}, :flash => {:success => I18n.t("agent._html.messages.created")})
                 })
@@ -48,10 +48,10 @@ class AgentsController < ApplicationController
                     @agent.names = [@name_type.new._always_valid!]
                   end
 
-                  flash.now[:success] = I18n.t("agent._html.messages.updated")
                   return render :action => :edit
                 },
                 :on_valid => ->(id){
+                  flash[:success] = I18n.t("agent._html.messages.updated")
                   redirect_to :controller => :agents, :action => :show, :id => id, :type => @agent_type
                 })
   end

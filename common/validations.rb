@@ -39,11 +39,20 @@ module JSONModel::Validations
 
     errors
   end
+  
+  def self.check_name(hash)
+    errors = []
+    errors << ["sort_name", "Property is required but was missing"] if hash["sort_name"].nil? and !hash["sort_name_auto_generate"]
+    errors
+  end
 
   [:name_person, :name_family, :name_corporate_entity, :name_software].each do |type|
     if JSONModel(type)
       JSONModel(type).add_validation("#{type}_check_source") do |hash|
         check_source(hash)
+      end
+      JSONModel(type).add_validation("#{type}_check_name") do |hash|
+        check_name(hash)
       end
     end
   end
@@ -202,6 +211,17 @@ module JSONModel::Validations
     if hash["level"] === "otherlevel"
       errors << ["other_level", "is required"] if hash["other_level"].nil?
     end
+    
+    if hash.has_key?("title_auto_generate") && hash["title_auto_generate"]
+
+      if !hash.has_key?("dates")
+        errors << ["dates", "one or more are required in order to generate a title"]
+      end
+    else
+      if !hash.has_key?("title") || hash["title"].empty?
+        errors << ["title", "must not be an empty string"]
+      end
+    end
 
     errors
   end
@@ -212,4 +232,5 @@ module JSONModel::Validations
       check_archival_object(hash)
     end
   end
+
 end

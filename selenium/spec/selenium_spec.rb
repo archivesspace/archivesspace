@@ -324,14 +324,13 @@ describe "ArchivesSpace user interface" do
       $driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()");
       $driver.find_element(:link, 'Person').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Sort Name - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
     end
 
 
     it "reports an error when neither Source nor Rules is provided" do
-      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix"])
-      check_sort_name_eq("agent_names__0__sort_name_", "Hendrix")
+      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
+
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
@@ -341,8 +340,7 @@ describe "ArchivesSpace user interface" do
 
     it "reports an error when Authority ID is provided without a Source" do
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
-      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix", :tab])
-      check_sort_name_eq("agent_names__0__sort_name_", "Hendrix")
+      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
       
       rules_select = $driver.find_element(:id => "agent_names__0__rules_")
       rules_select.select_option("local")
@@ -352,42 +350,64 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "updates Sort Name when other name fields are updated" do
+    it "auto generates Sort Name when other name fields upon save" do
+      $driver.find_element(:id => "agent_names__0__source_").select_option("local")
+
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
-      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix", :tab])
+      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
 
-      check_sort_name_eq("agent_names__0__sort_name_", "Hendrix")
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
-      $driver.clear_and_send_keys([:id, "agent_names__0__rest_of_name_"], ["Johnny Allen", :tab])
+      $driver.find_element_with_text('//h2', /Hendrix/)
 
-      check_sort_name_eq("agent_names__0__sort_name_", "Hendrix, Johnny Allen")
+      $driver.find_element(:link => "Edit").click
+
+      $driver.clear_and_send_keys([:id, "agent_names__0__rest_of_name_"], "Johnny Allen")
+
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+
+      $driver.find_element_with_text('//h2', /Hendrix, Johnny Allen/)
     end
 
 
     it "changing Direct Order updates Sort Name" do
+      $driver.find_element(:link => "Edit").click
+
       $driver.find_element(:id => "agent_names__0__name_order_").select_option("inverted")
-      check_sort_name_eq("agent_names__0__sort_name_", "Johnny Allen Hendrix")
+
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+
+      $driver.find_element_with_text('//h2', /Johnny Allen Hendrix/)
+    end
+
+
+    it "throws an error if no sort name is provided and auto gen is false" do
+      $driver.find_element(:link => "Edit").click
+      $driver.find_element(:id, "agent_names__0__sort_name_auto_generate_").click
+      $driver.clear_and_send_keys([:id, "agent_names__0__sort_name_"], "")
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Sort Name - Property is required but was missing/)
+    end
+
+
+    it "allows setting of a custom sort name" do
+      $driver.clear_and_send_keys([:id, "agent_names__0__sort_name_"], "My Custom Sort Name")
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+
+      $driver.find_element_with_text('//h2', /My Custom Sort Name/)
     end
 
 
     it "can add a secondary name and validations match index of name form" do
+      $driver.find_element(:link => "Edit").click
       $driver.find_element(:css => '#names .subrecord-form-heading .btn').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Sort Name - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
 
-      rules_select = $driver.find_element(:id => "agent_names__1__rules_")
-
-      rules_select.find_elements( :tag_name => "option" ).each do |option|
-        option.click if option.attribute("value") === "local"
-      end
-
       $driver.clear_and_send_keys([:id, "agent_names__1__primary_name_"], "Hendrix")
+      $driver.clear_and_send_keys([:id, "agent_names__1__rest_of_name_"], "Jimi")
 
-      $driver.clear_and_send_keys([:id, "agent_names__1__rest_of_name_"], ["Jimi", :tab])
-
-      check_sort_name_eq("agent_names__1__sort_name_", "Hendrix, Jimi")
     end
 
 
@@ -403,27 +423,20 @@ describe "ArchivesSpace user interface" do
 
 
     it "can save a person and view readonly view of person" do
-      source_select = $driver.find_element(:id => "agent_names__0__source_")
-      source_select.select_option("local")
+      $driver.find_element(:id => "agent_names__1__source_").select_option("local")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
-      assert { $driver.find_element(:css => '.record-pane h2').text.should eq("Johnny Allen Hendrix Agent") }
-    end
-
-
-    it "can present a person edit form" do
-      $driver.find_element(:link, 'Edit').click
-      assert { $driver.find_element(:css => "form .record-pane button[type='submit']").text.should eq("Save Person") }
+      assert { $driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }
     end
 
 
     it "reports errors when updating a Person Agent with invalid data" do
+      $driver.find_element(:link, 'Edit').click
+
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
-      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], ["Hendrix", :tab])
-
-      check_sort_name_eq("agent_names__0__sort_name_", "Johnny Allen Hendrix")
+      $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
     end
 
 
@@ -460,7 +473,7 @@ describe "ArchivesSpace user interface" do
     it "displays the agent in the agent's index page" do
       $driver.find_element(:link, 'Agents').click
       expect {
-        $driver.find_element_with_text('//td', /Johnny Allen Hendrix/)
+        $driver.find_element_with_text('//td', /My Custom Sort Name/)
       }.to_not raise_error
     end
 
@@ -471,7 +484,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "global-search-box"], "Hendrix")
       $driver.find_element(:id => 'global-search-button').click
 
-      $driver.find_element_with_text('//td', /Johnny Allen Hendrix/)
+      $driver.find_element_with_text('//td', /My Custom Sort Name/)
       $driver.find_element_with_text('//td', /Person/)
     end
   end
@@ -1051,14 +1064,25 @@ describe "ArchivesSpace user interface" do
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Level - Property is required but was missing/)
+    end
+
+
+    it "reports error if title is to auto generate and no date is provided" do
+      $driver.find_element(:id, "archival_object_level_").select_option("item")
+      $driver.find_element(:id, "archival_object_title_auto_generate_").click
+
+      # False start: create an object without filling it out
+      $driver.click_and_wait_until_gone(:id => "createPlusOne")
+
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Dates - one or more are required in order to generate a title/)
     end
 
 
     # Archival Object Trees
 
     it "can populate the archival object tree" do
+      $driver.find_element(:id, "archival_object_title_auto_generate_").click
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Lost mail")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
@@ -1102,7 +1126,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       expect {
-        $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
       }.to_not raise_error
       $driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
       $driver.find_element(:css => "form .record-pane button[type='submit']").click

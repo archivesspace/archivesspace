@@ -1,6 +1,7 @@
 en:
   actions:
     add: Add
+    automate: Automate
     browse: Browse
     cancel: Cancel
     confirm: Confirm
@@ -38,6 +39,7 @@ en:
     finish_editing: Finish Editing
   states:
     suppressed: Suppressed
+    auto_generated: System generates when saved
   navbar:
     brand: ArchivesSpace
     create: Create
@@ -1050,7 +1052,7 @@ en:
     dates: Dates
     qualifier: Qualifier
     sort_name: Sort Name
-    sort_name_auto_generate: Automatically generate?
+    sort_name_auto_generate: Auto Generate Sort Name?
     description_type: Description Type
     description_note: Description Note
     description_citation: Description Citation
@@ -1071,6 +1073,10 @@ en:
     software_name: Software Name
     version: Version
     manufacturer: Manufacturer
+  name:
+    _html:
+      singular: Name
+      plural: Names
   agent_person:
     _html:
       singular: Person
@@ -1362,6 +1368,8 @@ en:
     level_subseries: Sub-Series
     other_level: Other Level
     language: Language
+    automate_title: Automate
+    dates: Dates
     <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
     _html:

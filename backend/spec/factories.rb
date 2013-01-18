@@ -226,12 +226,14 @@ FactoryGirl.define do
     rules { generate(:name_rule) }
     primary_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
+    sort_name_auto_generate true
   end
   
   factory :json_name_family, class: JSONModel(:name_family) do
     rules { generate(:name_rule) }
     family_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
+    sort_name_auto_generate true
   end
 
   factory :json_name_person, class: JSONModel(:name_person) do
@@ -239,12 +241,14 @@ FactoryGirl.define do
     primary_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     name_order 'direct'
+    sort_name_auto_generate true
   end
   
   factory :json_name_software, class: JSONModel(:name_software) do
     rules { generate(:name_rule) }
     software_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
+    sort_name_auto_generate true
   end
  
   factory :json_resource, class: JSONModel(:resource) do

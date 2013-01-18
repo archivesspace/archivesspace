@@ -53,4 +53,11 @@ describe 'Agent model' do
 
     AgentPerson[agent[:id]].name_person.length.should eq(1)
   end
+
+
+  it "requires a sort_name if sort_name_auto_generate is false" do
+    expect { build(:json_name_person, :sort_name => nil, :sort_name_auto_generate => false).to_hash }.to raise_error(JSONModel::ValidationException)
+  end
+
+
 end

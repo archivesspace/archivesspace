@@ -1,6 +1,7 @@
 require_relative 'notes'
 require_relative 'orderable'
-require_relative 'auto_id_generator'
+require_relative 'auto_generator'
+require 'securerandom'
 
 class ArchivalObject < Sequel::Model(:archival_object)
   include ASModel
@@ -12,7 +13,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Instances
   include Agents
   include Orderable
-  include AutoIdGenerator::Mixin
+  include AutoGenerator
   include Notes
   include ExternalIDs
 
@@ -21,7 +22,25 @@ class ArchivalObject < Sequel::Model(:archival_object)
   set_model_scope :repository
   corresponds_to JSONModel(:archival_object)
 
-  register_auto_id :ref_id
+  auto_generate :property => :ref_id,
+                :generator => proc { |json|
+                  SecureRandom.hex
+                },
+                :only_on_create => true
+                
+  auto_generate :property => :title,
+                :generator => proc { |json|
+                  lambda {|date|
+                    if date['expression']
+                      date['expression']
+                    elsif date['begin'] and date['end']
+                      "#{date['begin']} -- #{date['end']}"
+                    else
+                      date['begin']
+                    end
+                  }.call(json[:dates].first)
+                },
+                :only_if => proc { |json| json.title_auto_generate }
 
 
   def validate

@@ -3,10 +3,11 @@
   section_id = form.id_for(name) if section_id.blank?
   heading_size = "h3" if heading_size.blank?
   template = singular if template.blank?
+  template_erb = "#{name.to_s}/template" if template_erb.blank?
   js_template_name = "template_#{template}" if js_template_name.blank?
 %>
 
-<%= render :partial=>"#{name.to_s}/template", :locals => {:form => form} %>
+<%= render :partial=>template_erb, :locals => {:form => form} %>
 
 <section id="<%= section_id %>" class="subrecord-form" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>">
 
