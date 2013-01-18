@@ -5,6 +5,12 @@ namespace :doc do
     puts "Generating YARD documentation"
     system(File.join("..", "build", "run"), "doc:yardoc")
   end
+  
+  # desc "Generate the supplementary txt files"
+  # task :yard do
+  #   puts "Generating txt versions of the schemas"
+  #   system(File.join("..", "build", "run"), "doc:yardoc -f txt")
+  # end
 
   desc "Create the API.md file"
   task :api do
@@ -64,6 +70,7 @@ namespace :doc do
   task :gen do
     Rake::Task["doc:api"].invoke
     Rake::Task["doc:yard"].invoke
+    # Rake::Task["doc:yard-txt"].invoke
     Rake::Task["doc:rename_index"].invoke
   end
   

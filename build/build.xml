@@ -382,6 +382,14 @@
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 build/gems/bin/yardoc" />
     </java>
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="..">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 build/gems/bin/yardoc -f txt" />
+    </java>
   </target>
 
 

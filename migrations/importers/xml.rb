@@ -30,6 +30,8 @@ ASpaceImport::Importer.importer :xml do
 
   def run
     
+    puts Nokogiri::VERSION if $DEBUG
+    
     @reader.each do |node|
 
       node_args = [xpath(node), node.depth, node.node_type]
