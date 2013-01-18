@@ -6,7 +6,7 @@
 <title>
   Class: Solr
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -250,7 +250,10 @@
 70
 71
 72
-73</pre>
+73
+74
+75
+76</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 12</span>
@@ -267,12 +270,15 @@
     <span class='symbol val'>:qf</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;title^2 fullrecord&quot;</span><span class='comma token'>,</span>
     <span class='symbol val'>:start</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_page identifier id'>page</span> <span class='minus op'>-</span> <span class='integer val'>1</span><span class='rparen token'>)</span> <span class='mult op'>*</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span>
     <span class='symbol val'>:rows</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span>
-    <span class='symbol val'>:fq</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;repository:\&quot;/repositories/#{repo_id}\&quot; OR repository:global&quot;</span>
   <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_to_a identifier id'>to_a</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_repo_id identifier id'>repo_id</span>
+    <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;repository:\&quot;/repositories/#{repo_id}\&quot; OR repository:global&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record_types identifier id'>record_types</span>
     <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_record_types identifier id'>record_types</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;\&quot;#{type}\&quot;&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' OR '</span><span class='rparen token'>)</span>
-    <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;type:(#{query})&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;types:(#{query})&quot;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_show_suppressed identifier id'>show_suppressed</span>
@@ -307,7 +313,7 @@
 
       <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'results'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'docs'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_doc identifier id'>doc</span><span class='bitor op'>|</span>
         <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span>
-        <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='string val'>'primary_type'</span><span class='rbrack token'>]</span>
         <span class='rubyid_doc identifier id'>doc</span>
       <span class='rbrace token'>}</span>
 
@@ -359,9 +365,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:12 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:28 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

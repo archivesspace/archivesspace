@@ -2,31 +2,27 @@ JSON Schema: Archival_object
 /repositories/:repo_id/archival_objects
 Properties
 
-string	uri
-
 string	ref_id
 
 string	component_id
 
-string	title
-
 string	level
 
-JSONModel(:archival_object) uri	parent
+string	other_level
 
-JSONModel(:resource) uri	resource
+	title
 
-array (JSONModel(:subject) uri_or_object)	subjects
+boolean	title_auto_generate
 
-array (JSONModel(:extent) object)	extents
+object	parent
 
-array (JSONModel(:date) object)	dates
+object	resource
 
-array (JSONModel(:external_document) object)	external_documents
-
-array (JSONModel(:rights_statement) object)	rights_statements
+integer	position
 
 array (JSONModel(:instance) object)	instances
+
+array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
 
 
 

@@ -2,7 +2,7 @@ JSON Schema: Deaccession
 
 Properties
 
-boolean	whole_part
+string	scope
 
 string	description
 

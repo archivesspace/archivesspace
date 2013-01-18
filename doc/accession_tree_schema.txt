@@ -1,0 +1,8 @@
+JSON Schema: Accession_tree
+/repositories/:repo_id/accessions/:accession_id/tree
+Properties
+
+
+
+
+

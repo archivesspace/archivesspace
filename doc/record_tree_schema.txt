@@ -1,0 +1,20 @@
+JSON Schema: Record_tree
+
+Properties
+
+string	uri
+
+integer	id
+
+string	record_uri
+
+string	title
+
+string	node_type
+
+array (JSONModel(:record_tree) object)	children
+
+
+
+
+

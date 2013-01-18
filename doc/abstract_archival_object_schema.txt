@@ -1,0 +1,28 @@
+JSON Schema: Abstract_archival_object
+
+Properties
+
+string	uri
+
+array (object)	external_ids
+
+string	title
+
+string	language
+
+array (object)	subjects
+
+array (JSONModel(:extent) object)	extents
+
+array (JSONModel(:date) object)	dates
+
+array (JSONModel(:external_document) object)	external_documents
+
+array (JSONModel(:rights_statement) object)	rights_statements
+
+array (object)	linked_agents
+
+
+
+
+

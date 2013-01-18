@@ -6,7 +6,7 @@
 <title>
   Schema: accession_schema
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -79,6 +79,8 @@
 			
 				<h3 class="signature"> - (string) <strong>uri</strong></h3>
 			
+				<h3 class="signature"> - (array (object)) <strong>external_ids</strong></h3>
+			
 				<h3 class="signature"> - (string) <strong>title</strong></h3>
 			
 				<h3 class="signature"> - (string) <strong>id_0</strong></h3>
@@ -95,7 +97,7 @@
 			
 				<h3 class="signature"> - (date) <strong>accession_date</strong></h3>
 			
-				<h3 class="signature"> - (array (JSONModel(:subject) uri_or_object)) <strong>subjects</strong></h3>
+				<h3 class="signature"> - (array (object)) <strong>subjects</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:extent) object)) <strong>extents</strong></h3>
 			
@@ -185,7 +187,47 @@
 62
 63
 64
-65</pre>
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/accession.rb', line 1</span>
@@ -197,6 +239,17 @@
     <span class='string val'>&quot;uri&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;/repositories/:repo_id/accessions&quot;</span><span class='comma token'>,</span>
     <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='string val'>&quot;uri&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;external_ids&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+            <span class='string val'>&quot;external_id&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+            <span class='string val'>&quot;source&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+          <span class='rbrace token'>}</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;minLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
@@ -210,7 +263,24 @@
 
       <span class='string val'>&quot;accession_date&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;date&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;minLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
-      <span class='string val'>&quot;subjects&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:subject) uri_or_object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;subjects&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;subtype&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+            <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+              <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:subject) uri&quot;</span><span class='comma token'>,</span>
+              <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span>
+            <span class='rbrace token'>}</span><span class='comma token'>,</span>
+            <span class='string val'>&quot;_resolved&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+              <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+              <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span>
+            <span class='rbrace token'>}</span>
+          <span class='rbrace token'>}</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
       <span class='string val'>&quot;extents&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:extent) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;dates&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:date) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;external_documents&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:external_document) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -221,9 +291,16 @@
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
           <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;subtype&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span>
           <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
-            <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:resource) uri&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                      <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span>
+            <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+              <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:resource) uri&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                      <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span>
+            <span class='rbrace token'>}</span><span class='comma token'>,</span>
+            <span class='string val'>&quot;_resolved&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+              <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+              <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span>
+            <span class='rbrace token'>}</span>
           <span class='rbrace token'>}</span>
         <span class='rbrace token'>}</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -234,6 +311,7 @@
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
           <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+          <span class='string val'>&quot;subtype&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span>
           <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
             <span class='string val'>&quot;role&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
               <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
@@ -245,7 +323,11 @@
                                  <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_family) uri&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
                                  <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_person) uri&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
                                  <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:agent_software) uri&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                      <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span>
+                      <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+            <span class='string val'>&quot;_resolved&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+              <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
+              <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span>
+            <span class='rbrace token'>}</span>
           <span class='rbrace token'>}</span>
         <span class='rbrace token'>}</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -268,9 +350,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:26 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

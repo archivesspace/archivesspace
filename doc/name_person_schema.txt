@@ -6,7 +6,7 @@ string	primary_name
 
 string	title
 
-string	direct_order
+string	name_order
 
 string	prefix
 

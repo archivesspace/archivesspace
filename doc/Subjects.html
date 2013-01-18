@@ -6,7 +6,7 @@
 <title>
   Module: Subjects
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -155,23 +155,27 @@
       <pre class="lines">
 
 
-6
 7
 8
 9
 10
 11
-12</pre>
+12
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subjects.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subjects.rb', line 7</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_many_to_many identifier id'>many_to_many</span> <span class='symbol val'>:subject</span><span class='comma token'>,</span> <span class='symbol val'>:join_table</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;subject_#{base.table_name}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:order</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;subject_#{base.table_name}__id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span>
 
-  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subjects</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subject</span><span class='comma token'>,</span>
-                         <span class='symbol val'>:corresponding_to_association</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subject</span><span class='rparen token'>)</span>
+  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span><span class='lparen token'>(</span><span class='rubyid_Relationships constant id'>Relationships</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_define_relationship identifier id'>define_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:subject</span><span class='comma token'>,</span>
+                           <span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'subjects'</span><span class='comma token'>,</span>
+                           <span class='symbol val'>:contains_references_to_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='lbrack token'>[</span><span class='rubyid_Subject constant id'>Subject</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -184,9 +188,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:07 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:17 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceImport::ParseQueue
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -293,14 +293,14 @@
       <pre class="lines">
 
 
-126
-127
-128
-129
-130</pre>
+91
+92
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 91</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@repo_id ivar id'>@repo_id</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span>
@@ -335,14 +335,14 @@
       <pre class="lines">
 
 
-172
-173
-174
-175
-176</pre>
+137
+138
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 137</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_for_node identifier id'>for_node</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_nodeargs identifier id'>nodeargs</span><span class='rparen token'>)</span>  
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>        
@@ -370,35 +370,35 @@
       <pre class="lines">
 
 
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157</pre>
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 97</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pop identifier id'>pop</span>
 
@@ -447,14 +447,14 @@
       <pre class="lines">
 
 
-159
-160
-161
-162
-163</pre>
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 124</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Not a JSON Object&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span>
@@ -492,12 +492,12 @@
       <pre class="lines">
 
 
-167
-168
-169</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 132</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_receivers identifier id'>receivers</span>
   <span class='rubyid_self self kw'>self</span>
@@ -523,12 +523,12 @@
       <pre class="lines">
 
 
-179
-180
-181</pre>
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 144</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span>
   <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
@@ -544,9 +544,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:17 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

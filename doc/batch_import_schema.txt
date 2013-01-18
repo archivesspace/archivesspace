@@ -1,0 +1,10 @@
+JSON Schema: Batch_import
+/batch_imports
+Properties
+
+array ([{"type"=>"JSONModel(:resource) object"}, {"type"=>"JSONModel(:archival_object) object"}, {"type"=>"JSONModel(:subject) object"}, {"type"=>"JSONModel(:agent_corporate_entity) object"}, {"type"=>"JSONModel(:agent_person) object"}])	batch
+
+
+
+
+

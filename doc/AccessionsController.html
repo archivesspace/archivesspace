@@ -6,7 +6,7 @@
 <title>
   Class: AccessionsController
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -109,6 +109,19 @@
 <div class="clear"></div>
 
 
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="FIND_OPTS-constant" class="">FIND_OPTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;related_resources&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;linked_agents&quot;</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+    </dl>
+  
+
 
 
 
@@ -127,6 +140,29 @@
   <span class="summary_signature">
     
       <a href="#create-instance_method" title="#create (instance method)">- (Object) <strong>create</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">- (Object) <strong>delete</strong> </a>
     
 
     
@@ -338,9 +374,6 @@
       <pre class="lines">
 
 
-32
-33
-34
 35
 36
 37
@@ -349,22 +382,58 @@
 40
 41
 42
-43</pre>
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
-  <span class='rubyid_munge_related identifier id'>munge_related</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:accession</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:related_resources</span><span class='rparen token'>)</span>
-
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accession</span><span class='comma token'>,</span>
               <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Accession constant id'>Accession</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='rubyid_render identifier id'>render</span> <span class='rubyid_action identifier id'>action</span><span class='colon op'>:</span> <span class='string val'>&quot;new&quot;</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
-                  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;Accession Created&quot;</span>
+                  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;accession._html.messages.created&quot;</span><span class='rparen token'>)</span>
                   <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accessions</span><span class='comma token'>,</span>
-                                               <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span>
+                                               <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span>
                                                <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 77</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
+  <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;accession._html.messages.deleted&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accessions</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:index</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -387,9 +456,6 @@
       <pre class="lines">
 
 
-20
-21
-22
 23
 24
 25
@@ -397,13 +463,16 @@
 27
 28
 29
-30</pre>
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
-  <span class='rubyid_@accession ivar id'>@accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;related_resources&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_@accession ivar id'>@accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FIND_OPTS constant id'>FIND_OPTS</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@accession ivar id'>@accession</span><span class='dot token'>.</span><span class='rubyid_suppressed identifier id'>suppressed</span>
     <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accessions</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -434,12 +503,12 @@
       <pre class="lines">
 
 
-7
-8
-9</pre>
+9
+10
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_selected_page identifier id'>selected_page</span><span class='rparen token'>)</span>
@@ -465,12 +534,12 @@
       <pre class="lines">
 
 
-16
-17
-18</pre>
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@accession ivar id'>@accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:accession_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_today identifier id'>today</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>'%Y-%m-%d'</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
@@ -496,17 +565,19 @@
       <pre class="lines">
 
 
-11
-12
 13
-14</pre>
+14
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 13</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
-  <span class='rubyid_@accession ivar id'>@accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;related_resources&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;Accession is suppressed and cannot be edited.&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@accession ivar id'>@accession</span><span class='dot token'>.</span><span class='rubyid_suppressed identifier id'>suppressed</span>
+  <span class='rubyid_@accession ivar id'>@accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FIND_OPTS constant id'>FIND_OPTS</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;accession._html.messages.suppressed_info&quot;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@accession ivar id'>@accession</span><span class='dot token'>.</span><span class='rubyid_suppressed identifier id'>suppressed</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -529,20 +600,20 @@
       <pre class="lines">
 
 
+61
 62
 63
 64
 65
-66
-67</pre>
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 61</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_set_suppressed identifier id'>set_suppressed</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;Accession Suppressed&quot;</span>
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;accession._html.messages.suppressed&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accessions</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -566,20 +637,20 @@
       <pre class="lines">
 
 
+69
 70
 71
 72
 73
-74
-75</pre>
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_set_suppressed identifier id'>set_suppressed</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;Accession Unsuppressed&quot;</span>
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;accession._html.messages.unsuppressed&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accessions</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -603,7 +674,6 @@
       <pre class="lines">
 
 
-45
 46
 47
 48
@@ -617,24 +687,21 @@
 56
 57
 58
-59
-60</pre>
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
-  <span class='rubyid_munge_related identifier id'>munge_related</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:accession</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:related_resources</span><span class='rparen token'>)</span>
-
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accession</span><span class='comma token'>,</span>
               <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Accession constant id'>Accession</span><span class='comma token'>,</span>
-              <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ref&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;related_resources&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+              <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FIND_OPTS constant id'>FIND_OPTS</span><span class='rparen token'>)</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
                 <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;accessions/edit_inline&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:inline</span><span class='rbrack token'>]</span>
                 <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='rubyid_action identifier id'>action</span><span class='colon op'>:</span> <span class='string val'>&quot;edit&quot;</span>
               <span class='rbrace token'>}</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
-                <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;Accession Saved&quot;</span>
+                <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;accession._html.messages.updated&quot;</span><span class='rparen token'>)</span>
                 <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;accessions/edit_inline&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:inline</span><span class='rbrack token'>]</span>
                 <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accessions</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span>
               <span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -650,9 +717,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:24 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:38 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -4,9 +4,15 @@ Properties
 
 string	uri
 
+string	title
+
+array (object)	external_ids
+
 array (JSONModel(:term) uri_or_object)	terms
 
 JSONModel(:vocabulary) uri	vocabulary
+
+string	ref_id
 
 array (JSONModel(:external_document) object)	external_documents
 

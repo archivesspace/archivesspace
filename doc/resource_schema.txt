@@ -2,8 +2,6 @@ JSON Schema: Resource
 /repositories/:repo_id/resources
 Properties
 
-string	uri
-
 string	id_0
 
 string	id_1
@@ -12,21 +10,57 @@ string	id_2
 
 string	id_3
 
-string	title
+string	level
 
-array (JSONModel(:subject) uri_or_object)	subjects
+string	other_level
+
+	language
+
+boolean	publish
+
+boolean	restrictions
+
+string	repository_processing_note
+
+string	container_summary
+
+string	ead_id
+
+string	ead_location
+
+string	finding_aid_title
+
+string	finding_aid_filing_title
+
+string	finding_aid_date
+
+string	finding_aid_author
+
+string	finding_aid_description_rules
+
+string	finding_aid_language
+
+string	finding_aid_sponsor
+
+string	finding_aid_edition_statement
+
+string	finding_aid_series_statement
+
+string	finding_aid_revision_date
+
+string	finding_aid_revision_description
+
+string	finding_aid_status
+
+string	finding_aid_note
 
 array (JSONModel(:extent) object)	extents
-
-array (JSONModel(:date) object)	dates
-
-array (JSONModel(:external_document) object)	external_documents
-
-array (JSONModel(:rights_statement) object)	rights_statements
 
 array (JSONModel(:instance) object)	instances
 
 array (JSONModel(:deaccession) object)	deaccessions
+
+array (object)	related_accessions
 
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
 

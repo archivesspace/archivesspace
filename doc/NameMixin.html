@@ -6,7 +6,7 @@
 <title>
   Module: NameMixin
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -133,38 +133,6 @@
       
     </ul>
   
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#validate-instance_method" title="#validate (instance method)">- (Object) <strong>validate</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
 
 
 
@@ -187,12 +155,12 @@
       <pre class="lines">
 
 
-12
-13
-14</pre>
+3
+4
+5</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/name_mixin.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/name_mixin.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_set_model_scope identifier id'>set_model_scope</span> <span class='symbol val'>:global</span>
@@ -205,57 +173,12 @@
     
   </div>
 
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="validate-instance_method">
-  
-    - (<tt>Object</tt>) <strong>validate</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-3
-4
-5
-6
-7
-8
-9</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/name_mixin.rb', line 3</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
-  <span class='rubyid_is_using_source identifier id'>is_using_source</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:source</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:authority_id</span><span class='rbrack token'>]</span>
-
-  <span class='rubyid_validates_presence identifier id'>validates_presence</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:rules</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_is_using_source identifier id'>is_using_source</span>
-  <span class='rubyid_validates_presence identifier id'>validates_presence</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:source</span><span class='comma token'>,</span> <span class='symbol val'>:authority_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_is_using_source identifier id'>is_using_source</span>
-  <span class='rubyid_super super kw'>super</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:07 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:18 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -2,31 +2,19 @@ JSON Schema: Digital_object_component
 /repositories/:repo_id/digital_object_components
 Properties
 
-string	uri
-
 string	component_id
 
 boolean	publish
 
 string	label
 
-string	title
+object	parent
 
-string	language
+object	digital_object
 
-array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
+integer	position
 
-JSONModel(:digital_object_component) uri	parent
-
-JSONModel(:digital_object) uri	digital_object
-
-array (JSONModel(:subject) uri_or_object)	subjects
-
-array (JSONModel(:extent) object)	extents
-
-array (JSONModel(:date) object)	dates
-
-array (JSONModel(:external_document) object)	external_documents
+array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])	notes
 
 
 

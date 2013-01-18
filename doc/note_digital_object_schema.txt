@@ -1,0 +1,10 @@
+JSON Schema: Note_digital_object
+
+Properties
+
+string	type
+
+
+
+
+

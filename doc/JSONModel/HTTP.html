@@ -6,7 +6,7 @@
 <title>
   Module: JSONModel::HTTP
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -155,6 +155,29 @@ requests.</p>
   <span class="summary_signature">
     
       <a href="#current_backend_session%3D-class_method" title="current_backend_session= (class method)">+ (Object) <strong>current_backend_session=</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_request-class_method" title="delete_request (class method)">+ (Object) <strong>delete_request</strong>(url) </a>
     
 
     
@@ -459,6 +482,41 @@ requests.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="delete_request-class_method">
+  
+    + (<tt>Object</tt>) <strong>delete_request</strong>(url) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+180
+181
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 180</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_delete_request identifier id'>delete_request</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
+  <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Delete constant id'>Delete</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_do_http_request identifier id'>do_http_request</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='rubyid_req identifier id'>req</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="do_http_request-class_method">
   
     + (<tt>Object</tt>) <strong>do_http_request</strong>(url, req) 
@@ -581,14 +639,14 @@ requests.</p>
       <pre class="lines">
 
 
-180
-181
-182
-183
-184</pre>
+187
+188
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 187</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_response identifier id'>get_response</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
   <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Get constant id'>Get</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='rparen token'>)</span>
@@ -801,9 +859,9 @@ requests.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:05 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:23 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

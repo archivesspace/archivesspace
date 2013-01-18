@@ -20,6 +20,8 @@ string	rules
 
 string	sort_name
 
+boolean	sort_name_auto_generate
+
 
 
 

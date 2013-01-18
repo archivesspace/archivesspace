@@ -6,6 +6,8 @@ string	title
 
 string	location
 
+boolean	publish
+
 
 
 

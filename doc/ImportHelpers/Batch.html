@@ -6,7 +6,7 @@
 <title>
   Class: ImportHelpers::Batch
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -153,53 +153,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_data_key-class_method" title="check_data_key (class method)">+ (Object) <strong>check_data_key</strong>(kdef, k, v) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#correct_links-class_method" title="correct_links (class method)">+ (Object) <strong>correct_links</strong>(json, set) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#unlink-class_method" title="unlink (class method)">+ (Object) <strong>unlink</strong>(json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unlink_key%3F-class_method" title="unlink_key? (class method)">+ (Boolean) <strong>unlink_key?</strong>(kdef, v) </a>
     
 
     
@@ -307,17 +284,17 @@
       <pre class="lines">
 
 
-17
-18
 19
 20
 21
 22
 23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_batch_object identifier id'>batch_object</span><span class='rparen token'>)</span>
   <span class='rubyid_@json_set ivar id'>@json_set</span><span class='comma token'>,</span> <span class='rubyid_@as_set ivar id'>@as_set</span><span class='comma token'>,</span> <span class='rubyid_@saved_uris ivar id'>@saved_uris</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -365,12 +342,12 @@
       <pre class="lines">
 
 
-15
-16
-17</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 17</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_saved_uris identifier id'>saved_uris</span>
   <span class='rubyid_@saved_uris ivar id'>@saved_uris</span>
@@ -389,125 +366,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="check_data_key-class_method">
-  
-    + (<tt>Object</tt>) <strong>check_data_key</strong>(kdef, k, v) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 78</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_data_key identifier id'>check_data_key</span><span class='lparen token'>(</span><span class='rubyid_kdef identifier id'>kdef</span><span class='comma token'>,</span> <span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_kdef identifier id'>kdef</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/JSONModel\(:[a-z_]*\) uri$/</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
-    <span class='notop op'>!</span><span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/\/vocabularies\/[0-9]+$/</span><span class='rparen token'>)</span> 
-    <span class='rubyid_return return kw'>return</span> <span class='symbol val'>:non_vocabulary_jsonmodel_uri</span>
-          
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_kdef identifier id'>kdef</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;array&quot;</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_kdef identifier id'>kdef</span><span class='lbrack token'>[</span><span class='string val'>&quot;items&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
-    
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_kdef identifier id'>kdef</span><span class='lbrack token'>[</span><span class='string val'>&quot;items&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/JSONModel\(:[a-z_]*\) uri_or_object$/</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
-      <span class='rubyid_return return kw'>return</span> <span class='symbol val'>:array_of_uris</span>
-
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_kdef identifier id'>kdef</span><span class='lbrack token'>[</span><span class='string val'>&quot;items&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;object&quot;</span>
-      <span class='rubyid_return return kw'>return</span> <span class='symbol val'>:array_of_objects</span>
-
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='symbol val'>:unknown</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="correct_links-class_method">
-  
-    + (<tt>Object</tt>) <strong>correct_links</strong>(json, set) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 61</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_correct_links identifier id'>correct_links</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_set identifier id'>set</span><span class='rparen token'>)</span>
-  <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
-  <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> 
-    <span class='rubyid_case case kw'>case</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_data_key identifier id'>check_data_key</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
-    <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:non_vocabulary_jsonmodel_uri</span>
-      <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_set identifier id'>set</span><span class='lbrack token'>[</span><span class='rubyid_v identifier id'>v</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
-    <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:array_of_uris</span>
-      <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_u identifier id'>u</span><span class='bitor op'>|</span> <span class='lparen token'>(</span><span class='rubyid_u identifier id'>u</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_u identifier id'>u</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/\/.*[0-9]$/</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_set identifier id'>set</span><span class='lbrack token'>[</span><span class='rubyid_u identifier id'>u</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span> <span class='colon op'>:</span> <span class='rubyid_u identifier id'>u</span> <span class='rbrace token'>}</span>
-    <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:array_of_objects</span>
-      <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='bitor op'>|</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_merge! fid id'>merge!</span><span class='lparen token'>(</span><span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span><span class='lbrack token'>[</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;ref&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-  
-  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_set_data identifier id'>set_data</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="unlink-class_method">
+  <h3 class="signature first" id="unlink-class_method">
   
     + (<tt>Object</tt>) <strong>unlink</strong>(json) 
   
@@ -521,27 +380,89 @@
       <pre class="lines">
 
 
-98
-99
-100
-101
-102
-103
-104
-105
-106</pre>
+73
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_unlinked identifier id'>unlinked</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
   <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span> <span class='rubyid_unlinked identifier id'>unlinked</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
-  <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> \
-    <span class='symbol val'>:unknown</span> <span class='neq op'>!=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_data_key identifier id'>check_data_key</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>     
+  <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_unlink_key? fid id'>unlink_key?</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
 
   <span class='rubyid_unlinked identifier id'>unlinked</span><span class='dot token'>.</span><span class='rubyid_set_data identifier id'>set_data</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span>
   <span class='rubyid_unlinked identifier id'>unlinked</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unlink_key?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>unlink_key?</strong>(kdef, v) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65
+66
+67
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 63</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_unlink_key? fid id'>unlink_key?</span><span class='lparen token'>(</span><span class='rubyid_kdef identifier id'>kdef</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+  <span class='rubyid_key_type identifier id'>key_type</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_kdef identifier id'>kdef</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_key_type identifier id'>key_type</span> <span class='eq op'>==</span> <span class='symbol val'>:record_uri</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/\/vocabularies\/[0-9]+$/</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_key_type identifier id'>key_type</span> <span class='eq op'>==</span> <span class='symbol val'>:record_uri_or_record_inline</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_key_type identifier id'>key_type</span> <span class='eq op'>==</span> <span class='symbol val'>:record_uri_or_record_inline_list</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_key_type identifier id'>key_type</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/^record_ref/</span><span class='rparen token'>)</span>
+  <span class='rubyid_false false kw'>false</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -585,8 +506,6 @@
       <pre class="lines">
 
 
-31
-32
 33
 34
 35
@@ -613,10 +532,11 @@
 56
 57
 58
-59</pre>
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 33</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process identifier id'>process</span>
 
@@ -637,8 +557,7 @@
      
   <span class='comment val'># Update the linked record pointers in the json set</span>
   <span class='rubyid_@json_set ivar id'>@json_set</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ref identifier id'>ref</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='bitor op'>|</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_correct_links identifier id'>correct_links</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_@json_set ivar id'>@json_set</span><span class='rparen token'>)</span>
-    
+    <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_update_record_references identifier id'>update_record_references</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_@json_set ivar id'>@json_set</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_referenced identifier id'>referenced</span><span class='bitor op'>|</span> <span class='rubyid_referenced identifier id'>referenced</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
       
   <span class='rubyid_@as_set ivar id'>@as_set</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ref identifier id'>ref</span><span class='comma token'>,</span> <span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span>
@@ -658,9 +577,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:19 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:33 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

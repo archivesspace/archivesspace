@@ -6,7 +6,7 @@
 <title>
   Schema: abstract_name_schema
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -95,6 +95,8 @@
 			
 				<h3 class="signature"> - (string) <strong>sort_name</strong></h3>
 			
+				<h3 class="signature"> - (boolean) <strong>sort_name_auto_generate</strong></h3>
+			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
       <table class="source_code">
@@ -119,7 +121,8 @@
 16
 17
 18
-19</pre>
+19
+20</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/abstract_name.rb', line 3</span>
@@ -137,7 +140,8 @@
       <span class='string val'>&quot;qualifier&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;source&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;local&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;naf&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;nad&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ulan&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;rules&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;local&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;aacr&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;dacs&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;sort_name&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;sort_name&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;sort_name_auto_generate&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;default&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
 <span class='rbrace token'>}</span>
@@ -154,9 +158,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:26 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -4,6 +4,8 @@ Properties
 
 string	uri
 
+array (object)	external_ids
+
 string	event_type
 
 JSONModel(:date) object	date
@@ -11,6 +13,8 @@ JSONModel(:date) object	date
 string	outcome
 
 string	outcome_note
+
+boolean	suppressed
 
 array (object)	linked_agents
 

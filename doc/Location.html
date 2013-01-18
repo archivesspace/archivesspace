@@ -6,7 +6,7 @@
 <title>
   Class: Location
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -78,12 +78,12 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></span>
+      <span class="inheritName">Sequel::Model</span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></li>
+            <li class="next">Sequel::Model</li>
           
             <li class="next">Location</li>
           
@@ -98,16 +98,14 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span></dd>
       
     
   
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/location.rb<span class="defines">,<br />
-  frontend/app/models/location.rb</span>
-</dd>
+    <dd class="r1 last">backend/app/model/location.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -116,74 +114,31 @@
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#display_string-instance_method" title="#display_string (instance method)">- (Object) <strong>display_string</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute display_string.</p>
-</div></span>
-  
-</li>
-
-    
-  </ul>
 
 
 
 
   
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#to_hash-instance_method" title="#to_hash (instance method)">- (Object) <strong>to_hash</strong> </a>
-    
-
-    
-  </span>
   
   
   
   
   
+  <h2>Method Summary</h2>
   
-  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AutoGenerator.html#included-class_method" title="AutoGenerator.included (method)">included</a></span>, <span class='object_link'><a href="AutoGenerator.html#update_from_json-instance_method" title="AutoGenerator#update_from_json (method)">#update_from_json</a></span></p>
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
   
-</li>
-
-      
-    </ul>
   
-
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ExternalIDs.html#included-class_method" title="ExternalIDs.included (method)">included</a></span>, <span class='object_link'><a href="ExternalIDs.html#update_from_json-instance_method" title="ExternalIDs#update_from_json (method)">#update_from_json</a></span></p>
 
   
   
@@ -194,7 +149,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ASModel.html#before_create-instance_method" title="ASModel#before_create (method)">#before_create</a></span>, <span class='object_link'><a href="ASModel.html#before_update-instance_method" title="ASModel#before_update (method)">#before_update</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#linked_records-class_method" title="ASModel.linked_records (method)">linked_records</a></span>, <span class='object_link'><a href="ASModel.html#map_validation_to_json_property-instance_method" title="ASModel#map_validation_to_json_property (method)">#map_validation_to_json_property</a></span>, <span class='object_link'><a href="ASModel.html#stale%3F-instance_method" title="ASModel#stale? (method)">#stale?</a></span>, <span class='object_link'><a href="ASModel.html#update_from_json-instance_method" title="ASModel#update_from_json (method)">#update_from_json</a></span>, <span class='object_link'><a href="ASModel.html#uri-instance_method" title="ASModel#uri (method)">#uri</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span></p>
 
   
   
@@ -205,104 +160,16 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#deep_merge-class_method" title="JSONModel.deep_merge (method)">deep_merge</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
-
-  <div id="instance_attr_details" class="attr_details">
-    <h2>Instance Attribute Details</h2>
-    
-      
-      <span id="display_string=-instance_method"></span>
-      <div class="method_details first">
-  <h3 class="signature first" id="display_string-instance_method">
-  
-    - (<tt>Object</tt>) <strong>display_string</strong> 
-  
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#deep_merge-class_method" title="JSONModel.deep_merge (method)">deep_merge</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
 
   
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Returns the value of attribute display_string</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-5
-6
-7</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/location.rb', line 5</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_display_string identifier id'>display_string</span>
-  <span class='rubyid_@display_string ivar id'>@display_string</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="to_hash-instance_method">
-  
-    - (<tt>Object</tt>) <strong>to_hash</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-32
-33
-34
-35
-36</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/location.rb', line 32</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_hash identifier id'>to_hash</span>
-  <span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;display_string&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_display_string identifier id'>display_string</span>
-  <span class='rubyid_hash identifier id'>hash</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:16 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:31 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceImport::Crosswalk::PropertyReceiver
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -229,8 +229,7 @@ whitespace padding for a parsed value.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>take a string, hash, or JSON object that satisfies
-a property of the receiver&#8217;s @object.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -338,13 +337,13 @@ as a property of the receiver&#8217;s @object.</p>
       <pre class="lines">
 
 
-267
-268
-269
-270</pre>
+277
+278
+279
+280</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 267</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 277</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_@object ivar id'>@object</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span>
@@ -388,12 +387,12 @@ as a property of the receiver&#8217;s @object.</p>
       <pre class="lines">
 
 
-265
-266
-267</pre>
+275
+276
+277</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 275</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_object identifier id'>object</span>
   <span class='rubyid_@object ivar id'>@object</span>
@@ -437,16 +436,6 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
 328
 329
 330
@@ -454,10 +443,20 @@ whitespace padding for a parsed value.</p>
 332
 333
 334
-335</pre>
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 318</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 328</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pre_process identifier id'>pre_process</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'procedure'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_val identifier id'>val</span>
@@ -494,14 +493,36 @@ whitespace padding for a parsed value.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>take a string, hash, or JSON object that satisfies
-a property of the receiver&#8217;s @object</p>
+    
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'></span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><ul>
+  <li>string, hash, or JSON object</li>
+</ul>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -509,15 +530,6 @@ a property of the receiver&#8217;s @object</p>
       <pre class="lines">
 
 
-340
-341
-342
-343
-344
-345
-346
-347
-348
 349
 350
 351
@@ -539,10 +551,23 @@ a property of the receiver&#8217;s @object</p>
 367
 368
 369
-370</pre>
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 340</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 349</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_receive identifier id'>receive</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   
@@ -550,28 +575,32 @@ a property of the receiver&#8217;s @object</p>
           
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span>
   
-  <span class='rubyid_case case kw'>case</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_val_type identifier id'>val_type</span>
-            
-  <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:uri</span>
-    <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
-  
-  <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:array_of_objects</span>
-    <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_block_further_reception identifier id'>block_further_reception</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='symbol val'>:block_further_reception</span>
-    
-    <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_case case kw'>case</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_property_type identifier id'>property_type</span>
 
-  <span class='rubyid_when when kw'>when</span> <span class='symbol val'>:array_of_uris_or_objects</span>          
+  <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_uri_or_record_inline/</span>
     <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_block_further_reception identifier id'>block_further_reception</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='symbol val'>:block_further_reception</span>
-
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span>
       <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='symbol val'>:to_hash</span>
       <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
     <span class='rubyid_end end kw'>end</span>
-
-    <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+            
+  <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_uri/</span>
+    <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
     
-  <span class='rubyid_end end kw'>end</span>               
+  <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_inline/</span>
+    <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_block_further_reception identifier id'>block_further_reception</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='symbol val'>:block_further_reception</span>
+    <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
+  
+  <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_ref/</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span>
+      <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>  
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_property_type identifier id'>property_type</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span> <span class='regexp val'>/list$/</span>       
+    <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
   
   <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -620,18 +649,18 @@ at a given xpath (relative to the receiver&#8217;s @object)</p>
       <pre class="lines">
 
 
-305
-306
-307
-308
-309
-310
-311
-312
-313</pre>
+315
+316
+317
+318
+319
+320
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 305</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 315</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_receives_node? fid id'>receives_node?</span><span class='lparen token'>(</span><span class='rubyid_xpath_regex identifier id'>xpath_regex</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'xpath'</span><span class='rbrack token'>]</span>
@@ -687,16 +716,6 @@ as a property of the receiver&#8217;s @object.</p>
       <pre class="lines">
 
 
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
 289
 290
 291
@@ -708,15 +727,25 @@ as a property of the receiver&#8217;s @object.</p>
 297
 298
 299
-300</pre>
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 279</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 289</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_receives_obj? fid id'>receives_obj?</span><span class='lparen token'>(</span><span class='rubyid_other_object identifier id'>other_object</span><span class='rparen token'>)</span>
 
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_done_being_received? fid id'>done_being_received?</span>
-  
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'axis'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_received_jsonmodel_types identifier id'>received_jsonmodel_types</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
   
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'axis'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'parent'</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='minus op'>-</span> <span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
@@ -756,12 +785,12 @@ as a property of the receiver&#8217;s @object.</p>
       <pre class="lines">
 
 
-272
-273
-274</pre>
+282
+283
+284</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 272</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 282</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;Property Receiver for #{@object.class.record_type}\##{self.class.property}&quot;</span>
@@ -777,9 +806,9 @@ as a property of the receiver&#8217;s @object.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:15 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

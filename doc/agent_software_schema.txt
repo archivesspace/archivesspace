@@ -2,7 +2,7 @@ JSON Schema: Agent_software
 /agents/software
 Properties
 
-array (JSONModel(:name_software) uri_or_object)	names
+array (JSONModel(:name_software) object)	names
 
 
 

@@ -6,7 +6,7 @@
 <title>
   Module: AgentManager::Mixin::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -107,29 +107,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#agents_matching-instance_method" title="#agents_matching (instance method)">- (Object) <strong>agents_matching</strong>(query, max) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#my_agent_type-instance_method" title="#my_agent_type (instance method)">- (Object) <strong>my_agent_type</strong> </a>
     
 
@@ -206,42 +183,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="agents_matching-instance_method">
-  
-    - (<tt>Object</tt>) <strong>agents_matching</strong>(query, max) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-69
-70
-71
-72
-73</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 69</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_agents_matching identifier id'>agents_matching</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='rubyid_max identifier id'>max</span><span class='rparen token'>)</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_model</span><span class='rbrack token'>]</span><span class='dot token'>.</span>
-             <span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_like identifier id'>like</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_function identifier id'>function</span><span class='lparen token'>(</span><span class='symbol val'>:lower</span><span class='comma token'>,</span> <span class='symbol val'>:sort_name</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                               <span class='dstring node'>&quot;#{query}%&quot;</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lparen token'>(</span><span class='rubyid_max identifier id'>max</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="my_agent_type-instance_method">
+  <h3 class="signature first" id="my_agent_type-instance_method">
   
     - (<tt>Object</tt>) <strong>my_agent_type</strong> 
   
@@ -368,9 +310,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:08 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:19 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

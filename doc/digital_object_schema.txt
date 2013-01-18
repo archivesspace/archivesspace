@@ -2,31 +2,17 @@ JSON Schema: Digital_object
 /repositories/:repo_id/digital_objects
 Properties
 
-string	uri
-
 string	digital_object_id
 
 boolean	publish
 
 string	level
 
-string	title
-
 string	digital_object_type
-
-string	language
 
 boolean	restrictions
 
-array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
-
-array (JSONModel(:subject) uri_or_object)	subjects
-
-array (JSONModel(:extent) object)	extents
-
-array (JSONModel(:date) object)	dates
-
-array (JSONModel(:external_document) object)	external_documents
+array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])	notes
 
 
 

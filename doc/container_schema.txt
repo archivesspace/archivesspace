@@ -16,7 +16,7 @@ string	type_3
 
 string	indicator_3
 
-array (JSONModel(:container_location) uri_or_object)	container_locations
+array (JSONModel(:container_location) object)	container_locations
 
 
 

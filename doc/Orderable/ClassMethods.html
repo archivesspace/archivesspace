@@ -6,7 +6,7 @@
 <title>
   Module: Orderable::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -427,10 +427,10 @@
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span>
-    <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:ref</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span>
-      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_node_record_type identifier id'>node_record_type</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:ref</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_node_record_type identifier id'>node_record_type</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -503,10 +503,10 @@
   <span class='comment val'># the uniqueness check.</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span>
-    <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;root_record_id&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+    <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;root_record_id&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span>
-      <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;parent_id&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+      <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;parent_id&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
       <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;parent_name&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;parent_id&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;parent_name&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;(root)&quot;</span>
@@ -524,9 +524,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:07 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:18 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>

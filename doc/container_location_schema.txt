@@ -10,7 +10,9 @@ date	end_date
 
 string	note
 
-JSONModel(:location) uri_or_object	location
+JSONModel(:location) uri	ref
+
+object	_resolved
 
 
 

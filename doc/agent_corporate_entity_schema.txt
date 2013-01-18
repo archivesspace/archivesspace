@@ -2,7 +2,7 @@ JSON Schema: Agent_corporate_entity
 /agents/corporate_entities
 Properties
 
-array (JSONModel(:name_corporate_entity) uri_or_object)	names
+array (JSONModel(:name_corporate_entity) object)	names
 
 
 

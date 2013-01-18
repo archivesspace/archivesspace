@@ -4,6 +4,10 @@ Properties
 
 string	uri
 
+string	title
+
+array (object)	external_ids
+
 string	building
 
 string	floor

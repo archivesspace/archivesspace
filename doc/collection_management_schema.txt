@@ -1,0 +1,34 @@
+JSON Schema: Collection_management
+/repositories/:repo_id/collection_management_records
+Properties
+
+string	uri
+
+array (object)	external_ids
+
+string	cataloged_note
+
+string	processing_hours_per_foot_estimate
+
+string	processing_total_extent
+
+string	processing_total_extent_type
+
+string	processing_hours_total
+
+string	processing_plan
+
+string	processing_priority
+
+string	processing_status
+
+string	processors
+
+boolean	rights_determined
+
+array (object)	linked_records
+
+
+
+
+

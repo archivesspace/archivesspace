@@ -6,7 +6,7 @@
 <title>
   Class: RealtimeIndexing
   
-    &mdash; Documentation by YARD 0.8.2.1
+    &mdash; Documentation by YARD 0.8.3
   
 </title>
 
@@ -145,6 +145,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#record_delete-class_method" title="record_delete (class method)">+ (Object) <strong>record_delete</strong>(uri) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#record_update-class_method" title="record_update (class method)">+ (Object) <strong>record_update</strong>(json, uri) </a>
     
 
@@ -235,11 +258,6 @@
       <pre class="lines">
 
 
-38
-39
-40
-41
-42
 43
 44
 45
@@ -247,10 +265,15 @@
 47
 48
 49
-50</pre>
+50
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blocking_updates_since identifier id'>blocking_updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
   <span class='rubyid_@lock ivar id'>@lock</span><span class='dot token'>.</span><span class='rubyid_synchronize identifier id'>synchronize</span> <span class='rubyid_do do kw'>do</span>
@@ -264,6 +287,37 @@
       <span class='rubyid_updates identifier id'>updates</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="record_delete-class_method">
+  
+    + (<tt>Object</tt>) <strong>record_delete</strong>(uri) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 12</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_delete identifier id'>record_delete</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+  <span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='symbol val'>:deleted</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -286,11 +340,6 @@
       <pre class="lines">
 
 
-12
-13
-14
-15
-16
 17
 18
 19
@@ -302,10 +351,15 @@
 25
 26
 27
-28</pre>
+28
+29
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 17</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_@lock ivar id'>@lock</span><span class='dot token'>.</span><span class='rubyid_synchronize identifier id'>synchronize</span> <span class='rubyid_do do kw'>do</span>
@@ -380,14 +434,14 @@
       <pre class="lines">
 
 
-31
-32
-33
-34
-35</pre>
+36
+37
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_updates_since identifier id'>updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
   <span class='rubyid_@lock ivar id'>@lock</span><span class='dot token'>.</span><span class='rubyid_synchronize identifier id'>synchronize</span> <span class='rubyid_do do kw'>do</span>
@@ -405,9 +459,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Mon Dec 31 16:24:20 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:34 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.3).
+  0.8.3 (ruby-1.9.3).
 </div>
   </body>
 </html>
