@@ -1064,14 +1064,25 @@ describe "ArchivesSpace user interface" do
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Level - Property is required but was missing/)
+    end
+
+
+    it "reports error if title is to auto generate and no date is provided" do
+      $driver.find_element(:id, "archival_object_level_").select_option("item")
+      $driver.find_element(:id, "archival_object_title_auto_generate_").click
+
+      # False start: create an object without filling it out
+      $driver.click_and_wait_until_gone(:id => "createPlusOne")
+
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Dates - one or more are required in order to generate a title/)
     end
 
 
     # Archival Object Trees
 
     it "can populate the archival object tree" do
+      $driver.find_element(:id, "archival_object_title_auto_generate_").click
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Lost mail")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
@@ -1115,7 +1126,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       expect {
-        $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
       }.to_not raise_error
       $driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
