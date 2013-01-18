@@ -230,10 +230,11 @@ module AspaceFormHelper
                  false, false)
 
       if opts[:automatable]
+        by_default = default_for("#{name}_auto_generate") || false
         value << "<label>".html_safe
         value << checkbox("#{name}_auto_generate", {
           :class => "automate-field-toggle", :display_text_when_checked => I18n.t("states.auto_generated")
-          }, false, false)
+          }, by_default, false)
         value << "&#160;<small>".html_safe
         value << I18n.t("actions.automate")
         value << "</small></label>".html_safe
@@ -287,6 +288,7 @@ module AspaceFormHelper
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
+      Rails.logger.debug(name.inspect)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "1"}
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name] === "true") or (obj[name].nil? and default)
 
