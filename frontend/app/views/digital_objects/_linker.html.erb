@@ -1,0 +1,34 @@
+<%
+  puts "********** #{form.obj.inspect}"
+   if form.obj.has_key?('_resolved')
+     selected_json =  form.obj['_resolved'].to_json
+   else
+     selected_json = "{}"
+   end
+%>
+<div class="control-group">
+  <label class="control-label"><%= I18n.t("digital_object._html.singular") %></label>
+  <div class="controls">
+    <div class="input-append linker-wrapper">
+      <input type="text" class="linker"
+             id="<%= form.id_for("ref") %>"
+             data-label="<%= I18n.t("digital_object._html.singular") %>"
+             data-label_plural="<%= I18n.t("digital_object._html.plural") %>"
+             data-path="<%= form.path %>"
+             data-name="ref"
+             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+             data-selected="<%= selected_json %>"
+             data-format_property="title"
+             data-multiplicity="one"
+             data-types='["digital_object"]'
+      />
+      <div class="btn-group pull-right">
+        <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+          <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
