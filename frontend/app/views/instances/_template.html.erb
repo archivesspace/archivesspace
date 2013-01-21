@@ -1,18 +1,44 @@
 <%= render :partial => "container/template" %>
 
+<% define_template "instance_digital_object", jsonmodel_definition(:instance) do |form| %>
+  <section class="subrecord-form">
+    <h4 class="subrecord-form-heading"><%= I18n.t("digital_object._html.singular") %></h4>
+    <div class="subrecord-form-container">
+      <div class="subrecord-form-fields">
+        Wooo
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<% define_template "instance_empty" do |form| %>
+  <div class="alert alert-warning">Please select an instance type</div>
+<% end %>
+
 <% define_template "instance", jsonmodel_definition(:instance) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_select "instance_type", form.possible_options_for("instance_type", true), :field_opts => {:add_empty_option => true} %>
+    <% if form.obj["instance_type"] %>
+      <div class="control-group required">
+        <label class="control-label"><%= I18n.t("instance.instance_type") %></label>
+        <div class="controls  label-only">
+          <%= I18n.t("instance.instance_type_#{form.obj["instance_type"]}") %>
+          <%= form.hidden_input "instance_type" %>
+        </div>
+      </div>
+    <% else %>
+      <%= form.label_and_select "instance_type", form.possible_options_for("instance_type", true), :field_opts => {:add_empty_option => true} %>
+    <% end %>
     <br/>
     <div class="instance-container-or-digital-object">
-      <div class="alert alert-warning instance-type-nil">Please select an instance type</div>
-      <div class="alert alert-info instance-type-digital-object">TODO</div>
-      <div class="alert alert-info instance-type-digital-object-link">TODO</div>
-      <div class="instance-type-with-container">
-        <%= form.fields_for(form["container"] || {}, "container") do |item| %>
+      <% if form["container"] %>
+        <%= form.fields_for(form["container"], "container") do |item| %>
           <% form.emit_template("container", item) %>
         <% end %>
-      </div>
+      <% elsif  %>
+        <% form.emit_template("instance_digital_object", form.obj) %>
+      <% else %>
+        <% form.emit_template("instance_empty") %>
+      <% end %>
     </div>
   </div>
 <% end %>

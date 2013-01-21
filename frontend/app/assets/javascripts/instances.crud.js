@@ -1,46 +1,23 @@
 $(function() {
 
-  var renderContainer = function() {
-    if ($(".container-form-wrapper:visible", this).length) {
-      // container already rendered
-      return;
-    }
-
-    $(".instance-container-or-digital-object > div", this).hide();
-    $(".instance-container-or-digital-object .instance-type-with-container", this).show();
-    $(".instance-container-or-digital-object :input:hidden", this).attr("disabled", "disabled");
-    $(".instance-container-or-digital-object .instance-type-with-container :input", this).removeAttr("disabled");
-  };
-
-  var renderDigitalObject = function() {
-    $(".instance-container-or-digital-object > div", this).hide();
-    $(".instance-container-or-digital-object .instance-type-digital-object", this).show();
-    $(".instance-container-or-digital-object :input:hidden", this).attr("disabled", "disabled");
-    $(".instance-container-or-digital-object  .instance-type-digital-object :input", this).removeAttr("disabled");
-  };
-
-  var renderDigitalObjectLink = function() {
-    $(".instance-container-or-digital-object > div", this).hide();
-    $(".instance-container-or-digital-object .instance-type-digital-object-link", this).show();
-    $(".instance-container-or-digital-object :input:hidden", this).attr("disabled", "disabled");
-    $(".instance-container-or-digital-object  .instance-type-digital-object-link :input", this).removeAttr("disabled");
-  };
-
-  var renderNilValue =function() {
-    $(".instance-container-or-digital-object > div", this).hide();
-    $(".instance-container-or-digital-object .instance-type-nil", this).show();
-    $(".instance-container-or-digital-object :input", this).attr("disabled", "disabled");
-  }
-
   var initInstance = function(subform) {
+    var $target = $(".instance-container-or-digital-object", subform);
+
+    var index_data = {
+      path: AS.quickTemplate($target.closest(".subrecord-form-list").data("name-path"), {index: $target.closest("li").data("index")}),
+      id_path: AS.quickTemplate($target.closest(".subrecord-form-list").data("id-path"), {index: $target.closest("li").data("index")}),
+      index: "${index}"
+    };
+
     if ($(this).val() === "digital_object") {
-      $.proxy(renderDigitalObject, subform)();
-    } else if ($(this).val() === "digital_object_link") {
-      $.proxy(renderDigitalObjectLink, subform)();
+      $target.html(AS.renderTemplate("template_instance_digital_object", index_data));
     } else if ($(this).val() === "") {
-      $.proxy(renderNilValue, subform)();
-    } else {
-      $.proxy(renderContainer, subform)();
+      $target.html(AS.renderTemplate("template_instance_empty"));
+    } else if ($(".container-fields", $target).length === 0) {  
+      index_data.path += "[container]" 
+      index_data.id_path += "_container_" 
+      $target.html(AS.renderTemplate("template_container", index_data));
+      $(document).triggerHandler("monkeypatch.subrecord", [$target]);
     }
   }
 
