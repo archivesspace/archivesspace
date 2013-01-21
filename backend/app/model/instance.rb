@@ -1,5 +1,6 @@
 class Instance < Sequel::Model(:instance)
   include ASModel
+  include Relationships
 
   set_model_scope :global
   corresponds_to JSONModel(:instance)
@@ -11,5 +12,10 @@ class Instance < Sequel::Model(:instance)
                     :contains_records_of_type => :container,
                     :corresponding_to_association => :container,
                     :always_resolve => true)
+
+  define_relationship(:name => :link,
+                      :json_property => 'digital_object',
+                      :contains_references_to_types => proc {[DigitalObject]})
+
 
 end

@@ -8,6 +8,8 @@
        </div> <!-- span3 -->
       <div class="span9">
         <div class="record-pane" id="object_container">
+          <h2><%= @digital_object.title %>  <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span></h2>
+
            <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>
 
            <div class="form-actions">

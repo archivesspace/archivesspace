@@ -6,7 +6,10 @@
       </div>
       <div class="span9">
         <div class="record-pane">
-           <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>
+          <h2>
+            <%= @digital_object.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("digital_object._html.singular")}" : @digital_object.title %>  <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span>
+          </h2>
+          <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>
            <div class="form-actions">
               <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object._html.singular") %></button>
               <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>

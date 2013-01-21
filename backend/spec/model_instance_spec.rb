@@ -16,4 +16,17 @@ describe 'Instance model' do
   end
 
 
+  it "Allows an instance to be created with a digital object link" do
+    digital_object =  create(:json_digital_object)
+
+    opts = {:instance_type => generate(:instance_type),
+            :digital_object => {:ref => digital_object.uri}
+    }
+
+    instance = Instance.create_from_json(build(:json_instance, opts))
+
+    Instance[instance[:id]].instance_type.should eq(opts[:instance_type])
+    Instance[instance[:id]].digital_object.ref.should eq(opts[:digital_object]['ref'])
+  end
+
 end

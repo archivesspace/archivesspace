@@ -8,16 +8,19 @@
       "container" => {"type" => "JSONModel(:container) object"},
 
       "digital_object" => {
-        "type" => "object",
-        "subtype" => "ref",
-        "properties" => {
-          "ref" => {
-            "type" => "JSONModel(:digital_object) uri",
-            "ifmissing" => "error"
-          },
-          "_resolved" => {
-            "type" => "object",
-            "readonly" => "true"
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => "JSONModel(:digital_object) uri",
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
           }
         }
       },
