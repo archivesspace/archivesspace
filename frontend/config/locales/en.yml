@@ -37,6 +37,7 @@ en:
     loading: Loading...
     revert: Revert Changes
     finish_editing: Finish Editing
+    merge: Merge
   states:
     suppressed: Suppressed
     auto_generated: System generates when saved
@@ -54,6 +55,7 @@ en:
     repositories_select: Select a Repository
     manage_groups: Manage Groups
     manage_users: Manage Users
+    manage_enumerations: Manage Enumerations
     logout: Logout
     login: Sign In
     login_fail: Login attempt failed
@@ -1031,14 +1033,7 @@ en:
   agent_name: &agent_name_attributes
     authority_id: Authority ID
     source: Source
-    source_local: Local sources
-    source_naf: NACO Authority File
-    source_nad: "NAD / ARK II Name Authority Database"
-    source_ulan: Union List of Artist Names
     rules: Rules
-    rules_local: Local rules
-    rules_aacr: Anglo-American Cataloging Rules
-    rules_dacs: "Describing Archives: A Content Standard"
     name_order: Name Order
     name_order_direct: Direct
     name_order_inverted: Inverted
@@ -1549,3 +1544,13 @@ en:
       plural: Record Links
   collection_management_record:
     <<: *collection_management_attributes
+  enumeration:
+    name: Name
+    value: Value
+    _html:
+      singular: Enumeration
+      plural: Enumerations
+      messages:
+        no_selection: Please select an Enumeration Name
+        name_selector: Enumeration Name
+        no_name_provided: Select an Enumeration Name before creating a new value

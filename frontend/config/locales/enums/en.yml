@@ -1,0 +1,26 @@
+en:
+  enumerations:
+    linked_agent_archival_record_roles:
+      creator: Creator
+      source: Source
+      subject: Subject
+    linked_event_archival_record_roles:
+      source: Source
+      outcome: Outcome
+      transfer: Transfer
+    linked_agent_event_roles:
+      authorizer: Authorizer
+      executing_program: Executing Program
+      implementer: Implementer
+      recipient: Recipient
+      transmitter: Transmitter
+      validator: Validator
+    name_source:
+      local: Local sources
+      naf: NACO Authority File
+      nad: "NAD / ARK II Name Authority Database"
+      ulan: Union List of Artist Names
+    name_rule:
+      local: Local rules
+      aacr: Anglo-American Cataloging Rules
+      dacs: "Describing Archives: A Content Standard"

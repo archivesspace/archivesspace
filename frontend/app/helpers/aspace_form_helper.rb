@@ -449,8 +449,17 @@ module AspaceFormHelper
     def options_for(context, property, add_empty_options = false, opts = {})
       options = []
       options.push(["",""]) if add_empty_options
+
+      defn = jsonmodel_schema_definition(property)
+
       jsonmodel_enum_for(property).each do |v|
-        i18n_path = opts.has_key?(:i18n_prefix) ? "#{opts[:i18n_prefix]}.#{v}" : context.i18n_for("#{Array(property).last}_#{v}")
+        if opts.has_key?(:i18n_prefix)
+          i18n_path =  "#{opts[:i18n_prefix]}.#{v}"
+        elsif defn.has_key?('dynamic_enum')
+          i18n_path = "enumerations.#{defn['dynamic_enum']}.#{v}"
+        else
+          i18n_path =context.i18n_for("#{Array(property).last}_#{v}")
+        end
 
         options.push([I18n.t(i18n_path, :default => v), v])
       end
@@ -559,7 +568,9 @@ module AspaceFormHelper
     hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
 
       if schema and schema["properties"].has_key?(property)
-        if schema["properties"][property].has_key?("enum")
+        if (schema["properties"][property].has_key?('dynamic_enum'))
+          value = I18n.t("enumerations.#{schema["properties"][property]["dynamic_enum"]}.#{value}", value)
+        elsif schema["properties"][property].has_key?("enum")
           value = I18n.t("#{jsonmodel_type.to_s}.#{property}_#{value}", value)
         elsif schema["properties"][property]["type"] === "boolean"
           value = value === true ? "True" : "False"

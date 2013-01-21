@@ -1,0 +1,31 @@
+<%= setup_context :title => I18n.t("enumeration._html.plural") %>
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="record-pane">
+
+      <%= render :partial => "shared/flash_messages" %>
+
+      <div class="form-horizontal">
+        <fieldset>
+          <div class="control-group required">
+            <label class="control-label" for="enum_selector"><%= I18n.t("enumeration._html.messages.name_selector") %></label>
+            <div class="controls">
+              <%= select_tag "enum_selector", options_for_select([""].concat(@enumerations.collect{|e| e["name"]}), params[:enum_name]), :style => "width: auto; max-with: 100%;" %>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <div id="enum_list">
+
+        <% if @enumeration %>
+          <%= render :partial => "list" %>
+        <% else %>
+          <%= render :partial => "empty_list" %>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
