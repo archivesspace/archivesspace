@@ -36,6 +36,10 @@ class ArchivesSpaceService
 
 
     ## Standard permissions
+    Permission.define("system_config",
+                      "The ability to manage system configuration options",
+                      :level => "global")
+
     Permission.define("manage_users",
                       "The ability to manage user accounts while logged in",
                       :level => "global")
