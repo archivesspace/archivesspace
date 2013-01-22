@@ -4,7 +4,7 @@ def sample(enum)
   values = if enum.has_key?('enum')
              enum['enum']
            elsif enum.has_key?('dynamic_enum')
-             Enumeration.values_for(enum['dynamic_enum'])
+             BackendEnumSource.values_for(enum['dynamic_enum'])
            else
              raise "Not sure how to sample this: #{enum.inspect}"
            end

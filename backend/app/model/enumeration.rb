@@ -29,8 +29,15 @@ class Enumeration < Sequel::Model(:enumerations)
   end
 
 
-  def self.values_for(enum_name)
-    Enumeration.filter(:enum_name => enum_name).all.map {|e| e[:enum_value]}
+  def self.as_hash
+    result = {}
+
+    self.all.each do |row|
+      result[row[:enum_name]] ||= []
+      result[row[:enum_name]] << row[:enum_value]
+    end
+
+    result
   end
 
 end

@@ -53,9 +53,9 @@ class ArchivesSpaceService < Sinatra::Base
     require_relative "model/db"
     DB.connect
 
-    require_relative "model/enumeration"
+    require_relative "model/backend_enum_source"
     JSONModel::init(:allow_other_unmapped => AppConfig[:allow_other_unmapped],
-                    :enum_source => Enumeration)
+                    :enum_source => BackendEnumSource)
 
 
     unless DB.connected?
