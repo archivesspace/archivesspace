@@ -173,6 +173,15 @@ module JSONModel
 
     @@init_args = opts
 
+    if !opts.has_key?(:enum_source)
+      if opts[:client_mode]
+        require_relative 'jsonmodel_client'
+        opts[:enum_source] = JSONModel::Client::EnumSource.new
+      else
+        raise "Required JSONModel.init arg :enum_source was missing"
+      end
+    end
+
     # Load all JSON schemas from the schemas subdirectory
     # Create a model class for each one.
     Dir.glob(File.join(File.dirname(__FILE__),
@@ -196,6 +205,11 @@ module JSONModel
     end
 
     true
+  end
+
+
+  def self.enum_values(name)
+    @@init_args[:enum_source].values_for(name)
   end
 
 

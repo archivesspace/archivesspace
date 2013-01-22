@@ -1,5 +1,7 @@
 require "jsonmodel"
 require "memoryleak"
+require "frontend_enum_source"
+
 
 module RailsFormMixin
 
@@ -27,6 +29,7 @@ JSONModel::init(:client_mode => true,
                 :priority => :high,
                 :mixins => [RailsFormMixin],
                 :url => AppConfig[:backend_url],
+                :enum_source => FrontendEnumSource.new,
                 :allow_other_unmapped => AppConfig[:allow_other_unmapped])
 
 

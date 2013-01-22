@@ -461,7 +461,15 @@ module AspaceFormHelper
     private
 
     def jsonmodel_enum_for(property)
-      jsonmodel_schema_definition(property)["enum"]
+      defn = jsonmodel_schema_definition(property)
+
+      if defn.has_key?('enum')
+        defn["enum"]
+      elsif defn.has_key?('dynamic_enum')
+        JSONModel.enum_values(defn['dynamic_enum'])
+      else
+        raise "No enum found for #{property}"
+      end
     end
 
 
