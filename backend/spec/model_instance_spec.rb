@@ -26,10 +26,8 @@ describe 'Instance model' do
 
     instance = Instance.create_from_json(build(:json_instance, opts))
 
-    puts Instance[instance[:id]].inspect
-
     Instance[instance[:id]].instance_type.should eq(opts["instance_type"])
-    Instance[instance[:id]].digital_object.ref.should eq(opts["digital_object"]['ref'])
+    Instance[instance[:id]].linked_records(:link).id.should eq(digital_object.id)
   end
 
 end

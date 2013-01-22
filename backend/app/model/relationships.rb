@@ -48,7 +48,9 @@ module Relationships
   # Return all object instances that are related to the current record by the
   # relationship named by 'name'.
   def linked_records(name)
-    my_relationships(name).map {|instance| instance[1]}
+    records = my_relationships(name).map {|instance| instance[1]}
+
+    self.class.find_relationship(name)[:singular] ? records.first : records
   end
 
 
