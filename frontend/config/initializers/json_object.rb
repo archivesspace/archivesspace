@@ -67,6 +67,10 @@ if not ENV['DISABLE_STARTUP']
     MemoryLeak::Resources.refresh(:acl_last_modified)
   end
 
+  JSONModel::Webhooks::add_notification_handler("ENUMERATION_CHANGED") do |msg, params|
+    MemoryLeak::Resources.refresh(:enumerations)
+  end
+
 end
 
 

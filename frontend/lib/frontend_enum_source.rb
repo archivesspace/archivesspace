@@ -1,3 +1,4 @@
+require "jsonmodel"
 require "memoryleak"
 
 class FrontendEnumSource
