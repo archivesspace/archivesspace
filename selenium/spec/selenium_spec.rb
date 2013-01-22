@@ -636,9 +636,20 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id => "accession_dates__1__label_").select_option("other")
       $driver.find_element(:id => "accession_dates__1__date_type_").select_option("inclusive")
       $driver.clear_and_send_keys([:id, "accession_dates__1__begin_"], "2012-05-14")
-      $driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2013-05-14")
+      $driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2011-05-14")
 
       # save!
+      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+      # fail!
+      expect {
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /must not be before begin/)
+      }.to_not raise_error
+
+      # fix!
+      $driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2013-05-14")
+
+      # save again!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
       # check dates
