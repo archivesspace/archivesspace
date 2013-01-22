@@ -8,17 +8,14 @@ describe 'Date model' do
 
 
   it "allows an expression date to created" do
-
     opts = {:expression => generate(:alphanumstr)}
-
     date = create_date(opts)
 
     ASDate[date[:id]].expression.should eq(opts[:expression])
   end
 
 
-  it "throws a validation error if date begin is missing (applies any date type)" do
-
+  it "throws a validation error if date begin is missing (applies to any date type)" do
     opts = {:begin => nil}
 
     5.times do
@@ -29,7 +26,6 @@ describe 'Date model' do
 
 
   it "allows a single date to be created" do
-    
     opts = {:begin => generate(:yyyy_mm_dd), 
             :expression => generate(:alphanumstr)
             }
@@ -41,7 +37,6 @@ describe 'Date model' do
 
 
   it "throws a validation error when a begin time is set but no end time is set" do
-
     opts = {:date_type => 'bulk',
             :begin_time => generate(:hh_mm), 
             :end_time => nil
@@ -51,46 +46,44 @@ describe 'Date model' do
   end
 
 
+  it "allows incomplete dates in compliance with ISO 8601" do
+    opts = {:begin => '0123', :end => '0123'}
+    expect { create_date(opts) }.to_not raise_error(JSONModel::ValidationException)
+
+    opts = {:begin => '2012-12', :end => '2012-12'}
+    expect { create_date(opts) }.to_not raise_error(JSONModel::ValidationException)
+  end
+
+
   it "throws a validation error when begin is not a valid ISO Date" do
-
     opts = {:begin => '123', :end => '123'}
-
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
     opts = {:begin => '2012-13', :end => '2012-14'}
-
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
     
     opts = {:begin => '2012-12-32', :end => '2012-12-32'}
-
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
     opts = {:begin => 'FOOBAR', :end => 'FOOBAR'}
-
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
   end
 
 
   it "throws a validation error when begin time is not a valid ISO Date" do
-
     opts = {:begin_time => '12', :end_time => '12'}
-
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
     
     opts = {:begin_time => '25:00', :end_time => '25:00'}
-
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
     opts = {:begin_time => '23:72', :end_time => '23:72'}
-
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
     opts = {:begin_time => '23:40:61', :end_time => '23:40:61'}
-
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
     opts = {:begin_time => '23:40:40', :end_time => '03:01:00'}
-
     date = create_date(opts)
 
     ASDate[date[:id]].begin_time.should eq("23:40:40")
@@ -99,7 +92,6 @@ describe 'Date model' do
 
 
   it "creates a bulk date with begin and end times" do
-    
     opts = {:date_type => 'bulk',
             :begin_time => generate(:hh_mm), 
             :end_time => generate(:hh_mm)
@@ -110,7 +102,6 @@ describe 'Date model' do
 
 
   it "reports an error if a bulk date lacks a begin date" do
-    
     opts = {:date_type => 'bulk',
             :begin => nil, 
             }
@@ -120,7 +111,6 @@ describe 'Date model' do
 
 
   it "reports an error if a bulk date lacks an end date" do
-    
     opts = {:date_type => 'bulk',
             :end => nil
             }
@@ -130,7 +120,6 @@ describe 'Date model' do
 
 
   it "reports an error if a bulk date has a begin time and lacks an end time" do
-    
     opts = {:date_type => 'bulk',
             :begin_time => generate(:hh_mm), 
             :end_time => nil
@@ -141,7 +130,6 @@ describe 'Date model' do
 
 
   it "reports an error if a bulk date has an end time and lacks a begin time" do
-    
     opts = {:date_type => 'bulk',
             :begin_time => nil, 
             :end_time => generate(:hh_mm)
@@ -152,7 +140,6 @@ describe 'Date model' do
 
 
   it "ensures end is not before begin" do
-    
     # ok if begin and end are the same
     opts = {:date_type => 'bulk', :begin => "2000-01-01", :end => "2000-01-01"}
     expect { create_date(opts) }.to_not raise_error
