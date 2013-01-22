@@ -127,6 +127,23 @@ describe 'Resources controller' do
   end
 
 
+  it "lets you create a resource with an instance linked to a digital object" do
+    digital_object = create(:json_digital_object)
+
+    opts = {:instance_type => "digital_object",
+            :digital_object => {:ref => digital_object.uri}
+    }
+
+    id = create(:json_resource,
+                :instances => [build(:json_instance, opts).to_hash]
+    ).id
+
+    JSONModel(:resource).find(id).instances.length.should eq(1)
+    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq(opts[:instance_type])
+    JSONModel(:resource).find(id).instances[0]["digital_object"]["ref"].should eq(opts[:digital_object][:ref])
+  end
+
+
   it "lets you edit an instance of a resource" do
     
     opts = {:instance_type => generate(:instance_type),

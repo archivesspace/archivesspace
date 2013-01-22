@@ -50,7 +50,7 @@ module Relationships
   def linked_records(name)
     records = my_relationships(name).map {|instance| instance[1]}
 
-    self.class.find_relationship(name)[:singular] ? records.first : records
+    self.class.find_relationship(name)[:is_array] === false ? records.first : records
   end
 
 
@@ -213,7 +213,7 @@ module Relationships
           values
         }
 
-        json[property_name] = json[property_name].first if relationship[:singular]
+        json[property_name] = json[property_name].first if relationship[:is_array] === false
       end
 
       json

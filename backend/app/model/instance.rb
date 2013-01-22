@@ -16,7 +16,7 @@ class Instance < Sequel::Model(:instance)
   define_relationship(:name => :link,
                       :json_property => 'digital_object',
                       :contains_references_to_types => proc {[DigitalObject]},
-                      :singular => true)
+                      :is_array => false)
 
 
 end
