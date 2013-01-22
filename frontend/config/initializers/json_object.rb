@@ -1,4 +1,5 @@
 require "jsonmodel"
+require "memoryleak"
 
 module RailsFormMixin
 
@@ -40,6 +41,12 @@ if not ENV['DISABLE_STARTUP']
   end
 
 
+  MemoryLeak::Resources.define(:repository, proc { JSONModel(:repository).all }, 60)
+  MemoryLeak::Resources.define(:vocabulary, proc { JSONModel(:vocabulary).all }, 60)
+  MemoryLeak::Resources.define(:acl_last_modified, proc { Time.now.to_i }, 60,
+                               :init => 0)
+
+
   JSONModel::Webhooks::add_notification_handler("REPOSITORY_CHANGED") do |msg, params|
     MemoryLeak::Resources.refresh(:repository)
   end
@@ -54,7 +61,7 @@ if not ENV['DISABLE_STARTUP']
   end
 
   JSONModel::Webhooks::add_notification_handler("REFRESH_ACLS") do |msg, params|
-    MemoryLeak::Resources.set(:acl_last_modified, Time.now.to_i)
+    MemoryLeak::Resources.refresh(:acl_last_modified)
   end
 
 end
