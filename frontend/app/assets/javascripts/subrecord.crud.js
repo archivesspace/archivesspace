@@ -40,19 +40,9 @@ $(function() {
 
 
       var init = function() {
-        // add binding for creation of subforms
-        $("> .subrecord-form-heading > .btn", $this).on("click", function() {
 
-          var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
-
-          var index_data = {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: $this.data("form_index")}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: $this.data("form_index")}),
-            index: "${index}"
-          };
-
-          var formEl = $(AS.renderTemplate($this.data("template"), index_data));
-          formEl = $("<li>").append(formEl);
+        var addAndInitForm = function(formHtml, $target_subrecord_list) {
+          var formEl = $("<li>").append(formHtml);
           formEl.attr("data-index", $this.data("form_index"));
           formEl.hide();
 
@@ -75,13 +65,51 @@ $(function() {
           $(":input:visible:first", formEl).focus();
 
           $this.data("form_index", $this.data("form_index")+1);
-        });
+        };
+
+        // add binding for creation of subforms
+        if ($this.data("custom-action")) {
+          $("> .subrecord-form-heading > .custom-action .subrecord-selector .btn", $this).on("click", function(event) {
+             event.preventDefault();
+
+            var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
+
+            var index_data = {
+              path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: $this.data("form_index")}),
+              id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: $this.data("form_index")}),
+              index: "${index}"
+            };
+
+            var selected = {
+              label: $("option:selected", $(this).parents(".dropdown-menu")).html(),
+              value: $("option:selected", $(this).parents(".dropdown-menu")).val()
+            };
+
+            $(document).triggerHandler("create.subrecord", [$this.data("object-name"), selected, index_data, $target_subrecord_list, addAndInitForm]);
+          });
+        } else {
+
+          $("> .subrecord-form-heading > .btn", $this).on("click", function() {
+
+            var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
+
+            var index_data = {
+              path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: $this.data("form_index")}),
+              id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: $this.data("form_index")}),
+              index: "${index}"
+            };
+
+            var formEl = $(AS.renderTemplate($this.data("template"), index_data));
+            addAndInitForm(formEl, $target_subrecord_list);
+          });
+        };
 
         AS.initSubRecordSorting($("ul.subrecord-form-list:first", $this));
 
         // init any existing subforms
         $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);
-      };
+
+      }
 
       init();
     })
