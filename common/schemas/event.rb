@@ -47,7 +47,7 @@
           "properties" => {
             "role" => {
               "type" => "string",
-              "enum" => ["authorizer", "executing_program", "implementer", "recipient", "transmitter", "validator"],
+              "dynamic_enum" => "linked_agent_event_roles",
               "ifmissing" => "error",
             },
 
@@ -74,7 +74,7 @@
           "properties" => {
             "role" => {
               "type" => "string",
-              "enum" => ["source", "outcome", "transfer"],
+              "dynamic_enum" => "linked_event_archival_record_roles",
               "ifmissing" => "error",
             },
             "ref" => {

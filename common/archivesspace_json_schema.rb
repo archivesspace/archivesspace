@@ -104,12 +104,29 @@ class ArchivesSpaceSubTypeAttribute < JSON::Schema::TypeAttribute
 end
 
 
+class ArchivesSpaceDynamicEnumAttribute < JSON::Schema::TypeAttribute
+
+  def self.validate(current_schema, data, fragments, validator, options = {})
+    enum_name = current_schema.schema['dynamic_enum']
+    possible_values = JSONModel.init_args[:enum_source].values_for(enum_name)
+
+    if !possible_values.include?(data)
+      message = ("The property '#{build_fragment(fragments)}' value #{data.inspect} " +
+                 "did not match one of the following values: #{possible_values.join(', ')}")
+      validation_error(message, fragments, current_schema, self, options[:record_errors])
+    end
+  end
+
+end
+
+
 class ArchivesSpaceSchema < JSON::Schema::Validator
   def initialize
     super
     extend_schema_definition("http://json-schema.org/draft-03/schema#")
     @attributes["type"] = ArchivesSpaceTypeAttribute
     @attributes["subtype"] = ArchivesSpaceSubTypeAttribute
+    @attributes["dynamic_enum"] = ArchivesSpaceDynamicEnumAttribute
     @attributes["properties"] = IfMissingAttribute
     @uri = URI.parse("http://www.archivesspace.org/archivesspace.json")
   end

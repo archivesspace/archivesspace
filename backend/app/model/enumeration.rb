@@ -28,4 +28,9 @@ class Enumeration < Sequel::Model(:enumerations)
     src.delete
   end
 
+
+  def self.values_for(enum_name)
+    Enumeration.filter(:enum_name => enum_name).all.map {|e| e[:enum_value]}
+  end
+
 end

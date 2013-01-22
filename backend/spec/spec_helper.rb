@@ -73,8 +73,11 @@ require 'rack/test'
 require_relative "../app/lib/bootstrap"
 AppConfig[:search_user_secret] = "abc123"
 
+DB.connect
+require_relative "../app/model/enumeration"
 JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com', :allow_other_unmapped => true,
+                :enum_source => Enumeration,
                 :priority => :high)
 
 module JSONModel

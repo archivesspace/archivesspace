@@ -184,6 +184,17 @@ module JSONModel
 
     require_relative "validations"
 
+    # For dynamic enums, automatically slot in the 'other_unmapped' string as an allowable value
+    if @@init_args[:allow_other_unmapped]
+      enum_wrapper = Struct.new(:enum_source).new(@@init_args[:enum_source])
+
+      def enum_wrapper.values_for(name)
+        enum_source.values_for(name) + ['other_unmapped']
+      end
+
+      @@init_args[:enum_source] = enum_wrapper
+    end
+
     true
   end
 
