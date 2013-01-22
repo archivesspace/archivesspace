@@ -150,7 +150,7 @@ module Relationships
         property_name = relationship[:json_property]
 
         # For each record reference in our JSON data
-        Array(json[property_name]).each_with_index do |reference, idx|
+        ASUtils.as_array(json[property_name]).each_with_index do |reference, idx|
           record_type = parse_reference(reference['ref'], opts)
 
           # Find the model type of the record it refers to
@@ -210,6 +210,8 @@ module Relationships
 
           values
         }
+
+        json[property_name] = json[property_name].first if relationship[:singular]
       end
 
       json
