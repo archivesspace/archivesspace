@@ -70,6 +70,23 @@ module JSONModel::Validations
       errors << ["end", "is required"] if hash["end"].nil?
       errors << ["begin_time", "is required"] if not hash["end_time"].nil? and hash["begin_time"].nil?
       errors << ["end_time", "is required"] if not hash["begin_time"].nil? and hash["end_time"].nil?
+
+      # check that end isn't before begin
+      # need to expand to full date+time - choosing to use rfc3339, though just doing a string compare
+      bt = "#{hash["begin"]}"
+      2.times { bt << '-01' if bt !~ /\-\d\d\-\d\d/ }
+      bt << "T#{hash["begin_time"] || '00:00:00'}"
+      2.times { bt << ':00' if bt !~ /T\d\d\:\d\d\:\d\d/ } 
+      bt << "+00:00"
+
+      et = "#{hash["end"]}"
+      et << '-12' if et !~ /\-\d\d/
+      et << '-31' if et !~ /\-\d\d\-\d\d/
+      et << "T#{hash["end_time"] || '23:59:59'}"
+      2.times { et << ':59' if et !~ /T\d\d\:\d\d\:\d\d/ } 
+      et << "+00:00"
+
+      errors << ["end", "must not be before begin"] if et < bt
     end
 
     errors
