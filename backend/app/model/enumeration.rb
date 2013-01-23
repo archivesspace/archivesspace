@@ -35,6 +35,8 @@ class Enumeration < Sequel::Model(:enumeration)
     end
 
     old_enum_value.delete
+
+    self.class.broadcast_changes
   end
 
 
@@ -59,6 +61,8 @@ class Enumeration < Sequel::Model(:enumeration)
       }
     end
 
+    broadcast_changes
+
     obj.refresh
     obj
   end
@@ -79,5 +83,11 @@ class Enumeration < Sequel::Model(:enumeration)
     json['values'] = obj.enumeration_value.map {|val| val[:value]}
     json
   end
+
+
+  def self.broadcast_changes
+    Webhooks.notify("ENUMERATION_CHANGED")
+  end
+
 
 end
