@@ -87,6 +87,7 @@ ArchivesSpace::Application.routes.draw do
   match 'enumerations/list' => 'enumerations#list', :via => [:get]
   match 'enumerations/delete' => 'enumerations#delete', :via => [:get]
   match 'enumerations/destroy/:id' => 'enumerations#destroy', :via => [:post]
+  match 'enumerations/merge/:id' => 'enumerations#merge', :via => [:post]
   resources :enumerations
 
   # Sample resource route with options:
