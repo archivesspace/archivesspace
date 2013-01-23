@@ -30,7 +30,8 @@ class Enumeration < Sequel::Model(:enumeration)
 
     self.class.users_of(self.name).each do |definition, model|
       property_id = "#{definition[:property]}_id".intern
-      model.filter(property_id => old_enum_value.id).update(property_id => new_enum_value.id)
+      model.filter(property_id => old_enum_value.id).update(property_id => new_enum_value.id,
+                                                            :last_modified => Time.now)
     end
 
     old_enum_value.delete
@@ -48,9 +49,14 @@ class Enumeration < Sequel::Model(:enumeration)
       obj.add_enumeration_value(:value => value)
     end
 
+
     removed_values.each do |value|
-      EnumerationValue.filter(:enumeration_id => obj.id,
-                              :value => value).delete
+      DB.attempt {
+        EnumerationValue.filter(:enumeration_id => obj.id,
+                                :value => value).delete
+      }.and_if_constraint_fails {
+        raise ConflictException.new("Can't delete a value that's in use: #{value}")
+      }
     end
 
     obj.refresh

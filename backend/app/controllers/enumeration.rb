@@ -19,6 +19,21 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/config/enumerations/migration')
+    .description("Migrate all records from using one value to another")
+    .params(["migration", JSONModel(:enumeration_migration), "The migration request", :body => true])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    enum_id = Enumeration.parse_reference(params[:migration].enum_uri, {})[:id]
+    enum = Enumeration.get_or_die(enum_id)
+
+    enum.migrate(params[:migration].from, params[:migration].to)
+
+     json_response(Enumeration.to_jsonmodel(enum_id).to_hash)
+  end
+
+
   Endpoint.post('/config/enumerations/:enum_id')
     .description("Update an enumeration")
     .params(["enum_id", Integer, "The ID of the enumeration to update"],
