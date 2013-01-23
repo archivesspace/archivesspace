@@ -6,7 +6,7 @@
     "uri" => "/repositories/:repo_id/resources",
     "properties" => {
 
-      "id_0" => {"type" => "string"},
+      "id_0" => {"type" => "string", "ifmissing" => "error"},
       "id_1" => {"type" => "string"},
       "id_2" => {"type" => "string"},
       "id_3" => {"type" => "string"},

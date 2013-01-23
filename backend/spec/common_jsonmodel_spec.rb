@@ -281,7 +281,7 @@ describe 'JSON model' do
   it "reports errors correctly for complicated resources with notes" do
     begin
       JSONModel(:resource).from_hash({"title" => "New Resource",
-                                       "id_0" => "",
+                                       "id_0" => "ABCD",
                                        "language" => "eng",
                                        "level" => "collection",
                                        "notes" => [{"jsonmodel_type" => "note_singlepart",
