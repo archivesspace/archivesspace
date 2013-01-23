@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="control-group required">
-          <label class="control-label" for="enum_selector">Merge Into</label>
+          <label class="control-label" for="enum_selector"><%= I18n.t("enumeration.merge_into") %></label>
           <div class="controls">
             <%= select_tag "merge_into", options_for_select(@enumeration["values"].reject{|v| v === @value}, @merge) %>
           </div>

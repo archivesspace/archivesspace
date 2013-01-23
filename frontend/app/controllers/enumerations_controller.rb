@@ -35,15 +35,15 @@ class EnumerationsController < ApplicationController
       @enumeration.values -= [@value]
       @enumeration.save
 
-      flash[:success] = "Enumeration Value Deleted"
+      flash[:success] = I18n.t("enumeration._html.messages.deleted")
       render :text => "Success"
     rescue ConflictException
-      flash.now[:error] = "Unable to delete Enumeration as it's currently being referenced by a record"
-      flash.now[:info] = "This Value may be merged with another."
+      flash.now[:error] = I18n.t("enumeration._html.messages.delete_conflict")
+      flash.now[:info] = I18n.t("enumeration._html.messages.merge_tip")
 
       render :partial => "merge"
     rescue
-      flash.now[:error] = "Failed to delete Enumeration"
+      flash.now[:error] = I18n.t("enumeration._html.messages.delete_error")
       render :partial => "delete"
     end
   end
@@ -55,10 +55,10 @@ class EnumerationsController < ApplicationController
     @merge = params["merge_into"]
 
     if @merge.blank?
-      flash.now[:error] = "Merge Into is required"
+      flash.now[:error] = "#{I18n.t("enumeration.merge_into")} - is required"
       return render :partial => "merge"
     elsif @value.blank?
-      flash.now[:error] = "Value is required"
+      flash.now[:error] = "#{I18n.t("enumeration.value")} - is required"
       return render :partial => "merge"
     end
 
@@ -68,10 +68,10 @@ class EnumerationsController < ApplicationController
                                                             :to => @merge)
       request.save
 
-      flash[:success] = "Enumeration Value Merged"
+      flash[:success] = I18n.t("enumeration._html.messages.merged")
       render :text => "Success"
     rescue
-      flash.now[:error] = "Failed to Merge Enumeration"
+      flash.now[:error] = I18n.t("enumeration._html.messages.merge_error")
       render :partial => "merge"
     end
   end
@@ -80,7 +80,7 @@ class EnumerationsController < ApplicationController
     @enumeration = JSONModel(:enumeration).find(params[:id])
 
     if params[:enumeration].blank? or params[:enumeration][:value].blank?
-      flash.now[:error] = "Value is required"
+      flash.now[:error] = "#{I18n.t("enumeration.value")} is required"
       return render :partial => "new"
     end
 
@@ -88,10 +88,10 @@ class EnumerationsController < ApplicationController
       @enumeration.values += [params[:enumeration][:value]]
       @enumeration.save
 
-      flash[:success] = "Enumeration Value Created"
+      flash[:success] = I18n.t("enumeration._html.messages.created")
       render :text => "Success"
     rescue
-      flash.now[:error] = "Failed to save Enumeration"
+      flash.now[:error] = I18n.t("enumeration._html.messages.create_error")
       render :partial => "new"
     end
 

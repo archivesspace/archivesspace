@@ -1547,10 +1547,21 @@ en:
   enumeration:
     name: Name
     value: Value
+    translation: Translation
+    merge_into: Merge Into
     _html:
       singular: Enumeration
       plural: Enumerations
       messages:
+        deleted: Enumeration Value Deleted
+        delete_error: Failed to delete Enumeration Value
+        delete_conflict: "Unable to delete Enumeration as it's currently being referenced by a record"
+        created: Enumeration Value Created
+        create_error: Failed to create Enumeration Value
+        merged: Enumeration Value Merged
+        merge_tip: This Value may be merged with another
+        merge_error: Failed to merge Enumeration Value
         no_selection: Please select an Enumeration Name
         name_selector: Enumeration Name
         no_name_provided: Select an Enumeration Name before creating a new value
+        

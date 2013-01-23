@@ -1,6 +1,6 @@
 <hr/>
 <div class="btn-group pull-right">
-  <%= link_to "#{I18n.t("actions.create")} Value", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn" %>
+  <%= link_to "#{I18n.t("actions.create")} #{I18n.t("enumeration.value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn" %>
 </div>
 
 <h2><%= I18n.t("enumeration._html.singular") %>: <%= @enumeration["name"] %></h2>
@@ -9,8 +9,8 @@
   <table class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-      <th width="30%">Value</th>
-      <th>Translation</th>
+      <th width="30%"><%= I18n.t("enumeration.value") %></th>
+      <th><%= I18n.t("enumeration.translation") %></th>
       <th width="70px"><!-- actions --></th>
     </tr>
     </thead>
