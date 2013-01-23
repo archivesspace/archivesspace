@@ -83,11 +83,11 @@ describe 'Date model' do
     opts = {:begin_time => '23:40:61', :end_time => '23:40:61'}
     expect { create_date(opts) }.to raise_error(JSONModel::ValidationException)
 
-    opts = {:begin_time => '23:40:40', :end_time => '03:01:00'}
+    opts = {:begin_time => '23:40:40', :end_time => '23:40:41'}
     date = create_date(opts)
 
     ASDate[date[:id]].begin_time.should eq("23:40:40")
-    ASDate[date[:id]].end_time.should eq("03:01:00")
+    ASDate[date[:id]].end_time.should eq("23:40:41")
   end
 
 
