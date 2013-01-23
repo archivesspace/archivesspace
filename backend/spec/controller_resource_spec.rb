@@ -25,12 +25,11 @@ describe 'Resources controller' do
   end
 
 
-  it "lets you created resources with no 4-part identifiers" do
-    create(:json_resource,
-           :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
-
-    create(:json_resource,
-           :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
+  it "doesn't let you create a resource without a 4-part identifier" do
+    expect {
+      create(:json_resource,
+             :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
+    }.to raise_error
   end
 
 

@@ -25,6 +25,13 @@ describe 'Resource model' do
   end
 
 
+  it "reports an error if id_0 has no value" do
+    opts = {:id_0 => nil}
+    
+    expect { create_resource(opts) }.to raise_error
+  end
+
+
   it "doesn't enforce ID uniqueness between repositories" do
     repo1 = make_test_repo("REPO1")
     repo2 = make_test_repo("REPO2")
