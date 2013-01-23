@@ -165,7 +165,7 @@ FactoryGirl.define do
     date_type { generate(:date_type) }
     label 'creation'
     self.begin { generate(:yyyy_mm_dd) }
-    self.end { generate(:yyyy_mm_dd) }
+    self.end { self.begin }
     expression { generate(:alphanumstr) }
   end
   
