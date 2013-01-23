@@ -1,6 +1,6 @@
 require 'factory_girl'
 
-def sample(enum)
+def sample(enum, exclude = [])
   values = if enum.has_key?('enum')
              enum['enum']
            elsif enum.has_key?('dynamic_enum')
@@ -9,7 +9,9 @@ def sample(enum)
              raise "Not sure how to sample this: #{enum.inspect}"
            end
 
-  values.reject {|i| i === 'other_unmapped' }.sample
+  exclude += ['other_unmapped']
+
+  values.reject{|i| exclude.include?(i) }.sample
 end
   
 
@@ -49,7 +51,7 @@ FactoryGirl.define do
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
   sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
-  sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type']) }
+  sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type'], ['digital_object']) }
  
   sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
   sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']) }
