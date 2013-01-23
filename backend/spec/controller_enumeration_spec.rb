@@ -3,8 +3,8 @@ require 'spec_helper'
 describe "Enumeration controller" do
 
   before(:each) do
-    Enumeration.create(:enum_name => "test_enum", :enum_value => "abc")
-    Enumeration.create(:enum_name => "test_enum", :enum_value => "def")
+    @enum_id = JSONModel(:enumeration).from_hash(:name => "test_enum",
+                                                 :values => ["abc", "def"]).save
   end
 
 
@@ -12,8 +12,19 @@ describe "Enumeration controller" do
     JSONModel(:enumeration).all.find {|obj| obj.name == 'test_enum'}.values.count.should eq(2)
   end
 
-  it "can return a single enumberation" do
-    JSONModel(:enumeration).find("test_enum").values.count.should eq(2)
+
+  it "can return a single enumeration by ID" do
+    enum = JSONModel(:enumeration).all.find {|obj| obj.name == 'test_enum'}
+    JSONModel(:enumeration).find(enum.id).values.count.should eq(2)
+  end
+
+
+  it "can remove an enum value if it isn't used" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.values -= ["def"]
+    obj.save
+
+    JSONModel(:enumeration).find(@enum_id).values.count.should eq(1)
   end
 
 end

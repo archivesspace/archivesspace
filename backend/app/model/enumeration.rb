@@ -1,4 +1,11 @@
-class Enumeration < Sequel::Model(:enumerations)
+class Enumeration < Sequel::Model(:enumeration)
+
+  include ASModel
+
+  set_model_scope :global
+  corresponds_to JSONModel(:enumeration)
+
+  one_to_many :enumeration_value
 
   @enumeration_users = {}
 
@@ -10,34 +17,61 @@ class Enumeration < Sequel::Model(:enumerations)
   end
 
 
-  # Find all database records that refer to the enumeration identified by
-  # 'source_id' and repoint them to 'destination_id'.
-  def self.migrate(source_id, target_id)
-    src = self[source_id]
-    target = self[target_id]
-
-    if src.enum_name != target.enum_name
-      raise "Can't migrate records from between enumerations (from #{src.enum_name} to #{target.enum_name})"
-    end
-
-    @enumeration_users[src.enum_name].each do |definition, model|
-      property_id = "#{definition[:property]}_id".intern
-      model.filter(property_id => src.id).update(property_id => target.id)
-    end
-
-    src.delete
+  def self.users_of(enum_name)
+    @enumeration_users[enum_name]
   end
 
 
-  def self.as_hash
-    result = {}
+  # Find all database records that refer to the enumeration value identified by
+  # 'source_id' and repoint them to 'destination_id'.
+  def migrate(old_value, new_value)
+    old_enum_value = self.enumeration_value.find {|val| val[:value] == old_value}
+    new_enum_value = self.enumeration_value.find {|val| val[:value] == new_value}
 
-    self.all.each do |row|
-      result[row[:enum_name]] ||= []
-      result[row[:enum_name]] << row[:enum_value]
+    self.class.users_of(self.name).each do |definition, model|
+      property_id = "#{definition[:property]}_id".intern
+      model.filter(property_id => old_enum_value.id).update(property_id => new_enum_value.id)
     end
 
-    result
+    old_enum_value.delete
+  end
+
+
+  def self.apply_values(obj, json, opts = {})
+    incoming_values = Array(json['values'])
+    existing_values = obj.enumeration_value.map {|val| val[:value]}
+
+    added_values = incoming_values - existing_values
+    removed_values = existing_values - incoming_values
+
+    added_values.each do |value|
+      obj.add_enumeration_value(:value => value)
+    end
+
+    removed_values.each do |value|
+      EnumerationValue.filter(:enumeration_id => obj.id,
+                              :value => value).delete
+    end
+
+    obj.refresh
+    obj
+  end
+
+
+  def self.create_from_json(json, opts = {})
+    self.apply_values(super, json, opts)
+  end
+
+
+  def update_from_json(json, opts = {})
+    self.class.apply_values(super, json, opts)
+  end
+
+
+  def self.sequel_to_jsonmodel(obj, opts = {})
+    json = super
+    json['values'] = obj.enumeration_value.map {|val| val[:value]}
+    json
   end
 
 end

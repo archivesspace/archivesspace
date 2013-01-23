@@ -20,19 +20,19 @@ module DynamicEnums
           property_id = "#{definition[:property]}_id".intern
 
           define_method("#{property}=".intern) do |value|
-            enum = Enumeration[:enum_name => definition[:uses_enum],
-                               :enum_value => value]
+            enum = Enumeration[:name => definition[:uses_enum]]
+            enum_value = EnumerationValue[:enumeration_id => enum.id, :value => value]
 
-            raise "Invalid value: #{value}" if !enum
+            raise "Invalid value: #{value}" if !enum_value
 
-            self[property_id] = enum.id
+            self[property_id] = enum_value.id
           end
 
 
           define_method("#{property}".intern) do
             if self[property_id]
-              enum = Enumeration[self[property_id]] or raise "Couldn't find enum for #{self[property_id]}"
-              enum[:enum_value]
+              enum = EnumerationValue[self[property_id]] or raise "Couldn't find enum for #{self[property_id]}"
+              enum[:value]
             else
               nil
             end

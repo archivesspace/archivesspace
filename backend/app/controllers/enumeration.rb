@@ -5,20 +5,37 @@ class ArchivesSpaceService < Sinatra::Base
     .params()
     .returns([200, "[(:enumeration)]"]) \
   do
-    enumerations = Enumeration.as_hash
-
-    json_response(enumerations.map { |name, values| JSONModel(:enumeration).
-                               from_hash(:name => name, :values => values).to_hash })
+    handle_unlimited_listing(Enumeration)
   end
 
 
-  Endpoint.get('/config/enumerations/:name')
-    .description("List a single enumeration")
-    .params(["name", /\A[a-z_]+\z/, "The name of the enumeration"])
+  Endpoint.post('/config/enumerations')
+    .description("Create an enumeration")
+    .params(["enumeration", JSONModel(:enumeration), "The enumeration to create", :body => true])
+    .returns([200, :created],
+             [400, :error]) \
+  do
+    handle_create(Enumeration, :enumeration)
+  end
+
+
+  Endpoint.post('/config/enumerations/:enum_id')
+    .description("Update an enumeration")
+    .params(["enum_id", Integer, "The ID of the enumeration to update"],
+            ["enumeration", JSONModel(:enumeration), "The enumeration to update", :body => true])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    handle_update(Enumeration, :enum_id, :enumeration)
+  end
+
+
+  Endpoint.get('/config/enumerations/:enum_id')
+    .description("Get an Enumeration")
+    .params(["enum_id", Integer, "The ID of the enumeration to retrieve"])
     .returns([200, "(:enumeration)"]) \
   do
-    json_response(JSONModel(:enumeration).from_hash(:name => params[:name],
-                                                    :values => BackendEnumSource.values_for(params[:name])))
+     json_response(Enumeration.to_jsonmodel(params[:enum_id]).to_hash)
   end
 
 end

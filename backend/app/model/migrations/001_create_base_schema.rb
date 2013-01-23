@@ -20,12 +20,30 @@ Sequel.migration do
     end
 
 
-    create_table(:enumerations) do
+    create_table(:enumeration) do
       primary_key :id
 
-      String :enum_name, :null => false, :index => true
-      String :enum_value, :null => false, :index => true
+      Integer :lock_version, :default => 0, :null => false
+
+      String :name, :null => false, :unique => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
     end
+
+
+    create_table(:enumeration_value) do
+      primary_key :id
+
+      Integer :enumeration_id, :null => false, :index => true
+      String :value, :null => false, :index => true
+    end
+
+    alter_table(:enumeration_value) do
+      add_foreign_key([:enumeration_id], :enumeration, :key => :id)
+      add_index([:enumeration_id, :value], :unique => true)
+    end
+
 
 
     create_table(:auth_db) do
@@ -495,6 +513,18 @@ Sequel.migration do
       end
     end
 
+
+    def create_enum(name, values)
+      id = self[:enumeration].insert(:name => name,
+                                     :create_time => Time.now,
+                                     :last_modified => Time.now)
+
+      values.each do |value|
+        self[:enumeration_value].insert(:enumeration_id => id, :value => value)
+      end
+    end
+
+
     create_table(:name_person) do
       primary_key :id
 
@@ -521,8 +551,8 @@ Sequel.migration do
 
     alter_table(:name_person) do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
-      add_foreign_key([:rules_id], :enumerations, :key => :id)
-      add_foreign_key([:source_id], :enumerations, :key => :id)
+      add_foreign_key([:rules_id], :enumeration_value, :key => :id)
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
     end
 
 
@@ -546,8 +576,8 @@ Sequel.migration do
 
     alter_table(:name_family) do
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
-      add_foreign_key([:rules_id], :enumerations, :key => :id)
-      add_foreign_key([:source_id], :enumerations, :key => :id)
+      add_foreign_key([:rules_id], :enumeration_value, :key => :id)
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
     end
 
 
@@ -573,8 +603,8 @@ Sequel.migration do
 
     alter_table(:name_corporate_entity) do
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
-      add_foreign_key([:rules_id], :enumerations, :key => :id)
-      add_foreign_key([:source_id], :enumerations, :key => :id)
+      add_foreign_key([:rules_id], :enumeration_value, :key => :id)
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
     end
 
 
@@ -599,8 +629,8 @@ Sequel.migration do
 
     alter_table(:name_software) do
       add_foreign_key([:agent_software_id], :agent_software, :key => :id)
-      add_foreign_key([:rules_id], :enumerations, :key => :id)
-      add_foreign_key([:source_id], :enumerations, :key => :id)
+      add_foreign_key([:rules_id], :enumeration_value, :key => :id)
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
     end
 
 
@@ -926,31 +956,21 @@ Sequel.migration do
     end
 
 
-    ['creator', 'source', 'subject'].each do |role|
-      self[:enumerations].insert(:enum_name => 'linked_agent_archival_record_roles',
-                                 :enum_value => role)
-    end
+    create_enum('linked_agent_archival_record_roles',
+                ['creator', 'source', 'subject'])
 
 
-    ['source', 'outcome', 'transfer'].each do |role|
-      self[:enumerations].insert(:enum_name => 'linked_event_archival_record_roles',
-                                 :enum_value => role)
-    end
+    create_enum('linked_event_archival_record_roles',
+                ['source', 'outcome', 'transfer'])
 
 
-    ["authorizer", "executing_program", "implementer", "recipient",
-     "transmitter", "validator"].each do |role|
-      self[:enumerations].insert(:enum_name => 'linked_agent_event_roles',
-                                 :enum_value => role)
-    end
+    create_enum('linked_agent_event_roles',
+                ["authorizer", "executing_program", "implementer", "recipient",
+                 "transmitter", "validator"])
 
-    ["local", "naf", "nad", "ulan"].each do |name_source|
-      self[:enumerations].insert(:enum_name => 'name_source', :enum_value => name_source)
-    end
+    create_enum('name_source', ["local", "naf", "nad", "ulan"])
 
-    ["local", "aacr", "dacs"].each do |name_rules|
-      self[:enumerations].insert(:enum_name => 'name_rule', :enum_value => name_rules)
-    end
+    create_enum('name_rule', ["local", "aacr", "dacs"])
 
 
     # Relationship tables
@@ -971,7 +991,7 @@ Sequel.migration do
         alter_table(table) do
           add_foreign_key(["#{record}_id".intern], record, :key => :id)
           add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
-          add_foreign_key([:role_id], :enumerations, :key => :id)
+          add_foreign_key([:role_id], :enumeration_value, :key => :id)
         end
       end
     end
@@ -993,7 +1013,7 @@ Sequel.migration do
       alter_table(table) do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
         add_foreign_key([:event_id], :event, :key => :id)
-        add_foreign_key(["role_id".intern], :enumerations, :key => :id)
+        add_foreign_key(["role_id".intern], :enumeration_value, :key => :id)
       end
     end
 
