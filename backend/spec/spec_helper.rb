@@ -237,7 +237,8 @@ RSpec.configure do |config|
 
   # Roll back the database after each test
   config.around(:each) do |example|
-    DB.open(true) do
+    DB.open(true) do |db|
+      $testdb = db
       as_test_user("admin") do
         RequestContext.open do
           $repo_id = $default_repo

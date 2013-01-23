@@ -3,10 +3,8 @@ require 'spec_helper'
 describe 'ASModel' do
 
   before(:all) do
-    DB.open(true) do |db|
-      db.create_table(:asmodel_spec) do
-        primary_key :id
-      end
+    $testdb.create_table(:asmodel_spec) do
+      primary_key :id
     end
 
     class TestModel < Sequel::Model(:asmodel_spec)

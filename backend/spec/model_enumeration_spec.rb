@@ -16,14 +16,12 @@ describe 'Enumerations model' do
 
 
   before(:each) do
-    DB.open do |db|
-      db.create_table :model_with_enums do
-        primary_key :id
-        Integer :role_id
-        Integer :lock_version, :default => 0
-        Date :create_time
-        Date :last_modified
-      end
+    $testdb.create_table :model_with_enums do
+      primary_key :id
+      Integer :role_id
+      Integer :lock_version, :default => 0
+      Date :create_time
+      Date :last_modified
     end
 
     @model = Class.new(Sequel::Model(:model_with_enums)) do
@@ -36,9 +34,7 @@ describe 'Enumerations model' do
 
 
   after(:each) do
-    DB.open do |db|
-      db.drop_table(:model_with_enums)
-    end
+    $testdb.drop_table(:model_with_enums)
   end
 
 

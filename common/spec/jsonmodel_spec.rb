@@ -1,4 +1,5 @@
 require_relative "../jsonmodel"
+require_relative "../jsonmodel_client"
 require 'net/http'
 require 'json'
 
@@ -27,6 +28,8 @@ describe JSONModel do
 
 
   before(:each) do
+
+    JSONModel::Client::EnumSource.stub(:fetch_enumerations) do {} end
 
     schema = '{
       :schema => {

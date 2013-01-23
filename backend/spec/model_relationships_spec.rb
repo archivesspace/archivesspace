@@ -6,45 +6,40 @@ describe 'Relationships' do
 
   before(:each) do
     ## Database setup
-    DB.open do |db|
-      [:apple, :banana].each do |table|
-        db.create_table table do
-          primary_key :id
-          String :name
-          Integer :lock_version, :default => 0
-          Date :create_time
-          Date :last_modified
-        end
-      end
-
-      db.create_table :app_fruit_salad_ban do
+    [:apple, :banana].each do |table|
+      $testdb.create_table table do
         primary_key :id
-        String :sauce
-        Integer :banana_id
-        Integer :apple_id
-        Integer :aspace_relationship_position
-        DateTime :last_modified, :null => false
+        String :name
+        Integer :lock_version, :default => 0
+        Date :create_time
+        Date :last_modified
       end
+    end
 
-      db.create_table :app_friends_ban do
-        primary_key :id
-        Integer :banana_id
-        Integer :apple_id
-        Integer :aspace_relationship_position
-        DateTime :last_modified, :null => false
-      end
+    $testdb.create_table :app_fruit_salad_ban do
+      primary_key :id
+      String :sauce
+      Integer :banana_id
+      Integer :apple_id
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
+    end
 
+    $testdb.create_table :app_friends_ban do
+      primary_key :id
+      Integer :banana_id
+      Integer :apple_id
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
     end
   end
 
 
   after(:each) do
-    DB.open do |db|
-      db.drop_table(:apple)
-      db.drop_table(:banana)
-      db.drop_table(:app_fruit_salad_ban)
-      db.drop_table(:app_friends_ban)
-    end
+    $testdb.drop_table(:apple)
+    $testdb.drop_table(:banana)
+    $testdb.drop_table(:app_fruit_salad_ban)
+    $testdb.drop_table(:app_friends_ban)
   end
 
 
