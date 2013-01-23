@@ -6,22 +6,20 @@ require_relative '../app/model/external_ids'
 describe 'External ID mixin' do
 
   before(:each) do
-    DB.open do |db|
-      db.create_table :test_record do
-        primary_key :id
-        String :name
-        Integer :lock_version, :default => 0
-        Date :create_time
-        Date :last_modified
-      end
+    $testdb.create_table :test_record do
+      primary_key :id
+      String :name
+      Integer :lock_version, :default => 0
+      Date :create_time
+      Date :last_modified
+    end
 
 
-      db.create_table :test_record_ext_id do
-        primary_key :id
-        Integer :test_record_id, :null => false
-        String :external_id, :null => false
-        String :source, :null => false
-      end
+    $testdb.create_table :test_record_ext_id do
+      primary_key :id
+      Integer :test_record_id, :null => false
+      String :external_id, :null => false
+      String :source, :null => false
     end
 
 
@@ -58,10 +56,8 @@ describe 'External ID mixin' do
 
 
   after(:each) do
-    DB.open do |db|
-      db.drop_table(:test_record)
-      db.drop_table(:test_record_ext_id)
-    end
+    $testdb.drop_table(:test_record)
+    $testdb.drop_table(:test_record_ext_id)
   end
 
 

@@ -97,6 +97,8 @@ module Relationships
             end
 
             Object.const_set(table_name.to_s.classify, clz)
+
+            opts[:class_callback].call(clz) if opts[:class_callback]
           end
 
           self.one_to_many(table_name, :order => "#{table_name}__id".intern)

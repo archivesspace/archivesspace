@@ -173,6 +173,15 @@ module JSONModel
 
     @@init_args = opts
 
+    if !opts.has_key?(:enum_source)
+      if opts[:client_mode]
+        require_relative 'jsonmodel_client'
+        opts[:enum_source] = JSONModel::Client::EnumSource.new
+      else
+        raise "Required JSONModel.init arg :enum_source was missing"
+      end
+    end
+
     # Load all JSON schemas from the schemas subdirectory
     # Create a model class for each one.
     Dir.glob(File.join(File.dirname(__FILE__),
@@ -184,7 +193,23 @@ module JSONModel
 
     require_relative "validations"
 
+    # For dynamic enums, automatically slot in the 'other_unmapped' string as an allowable value
+    if @@init_args[:allow_other_unmapped]
+      enum_wrapper = Struct.new(:enum_source).new(@@init_args[:enum_source])
+
+      def enum_wrapper.values_for(name)
+        enum_source.values_for(name) + ['other_unmapped']
+      end
+
+      @@init_args[:enum_source] = enum_wrapper
+    end
+
     true
+  end
+
+
+  def self.enum_values(name)
+    @@init_args[:enum_source].values_for(name)
   end
 
 

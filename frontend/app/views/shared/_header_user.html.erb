@@ -56,6 +56,8 @@
           <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
         <% end %>
         <li class="divider"></li>
+        <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
+        <li class="divider"></li>
         <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
       </ul>
     </div>

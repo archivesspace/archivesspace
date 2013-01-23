@@ -1,0 +1,63 @@
+<%= form_for @enumeration, :as => "enumeration", :url => {:action => :destroy, :id => @enumeration["name"]}, :html => {:class => 'form-horizontal', :id => "delete_enumeration"} do |f| %>
+  <%= form_context :enumeration, @enumeration do |form| %>
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">×</button>
+      <h3>
+        <% if @merge %><%= I18n.t("actions.merge") %><% else %><%= I18n.t("actions.delete") %><% end %> <%= I18n.t("enumeration._html.singular") %>
+      </h3>
+    </div>
+    <div class="modal-body">
+      <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
+      <fieldset>
+        <div class="control-group required">
+          <label class="control-label" for="enum_selector"><%= I18n.t("enumeration.name") %></label>
+          <div class="controls label-only">
+            <%= @enumeration["name"] %>
+            <%= form.hidden_input :name %>
+          </div>
+        </div>
+        <div class="control-group required">
+          <label class="control-label" for="enum_selector"><%= I18n.t("enumeration.value") %></label>
+          <div class="controls label-only">
+            <%= params["value"] %>
+            <%= form.hidden_input :value, params["value"] %>
+          </div>
+        </div>
+        <% if @merge %>
+          <div class="control-group required">
+            <label class="control-label" for="enum_selector">Merge Into</label>
+            <div class="controls">
+              <%= select_tag "enum_selector", options_for_select(@enumeration["values"].reject{|v| v === params["value"]}, params[:enum_name]) %>
+            </div>
+          </div>
+        <% end %>
+      </fieldset>
+    </div>
+    <div class="modal-footer">
+      <% if @merge %>
+        <input class="btn btn-warning" type="submit" name="commit" value="<%= I18n.t("actions.merge") %> <%= I18n.t("enumeration._html.singular") %>" />
+      <% else %>
+        <input class="btn btn-danger" type="submit" name="commit" value="<%= I18n.t("actions.delete") %> <%= I18n.t("enumeration._html.singular") %>" />
+      <% end %>
+      <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+  <% end %>
+<% end %>
+
+<script>
+  $('form#delete_enumeration').ajaxForm({
+    beforeSubmit: function() {
+      $(".btn-danger", 'form#delete_enumeration').attr("disabled","disabled");
+    },
+    success: function(response, status, xhr) {
+      if (response === "Success") {
+        document.location.reload(true);
+      } else {
+        $('form#delete_enumeration').replaceWith(response);
+      }
+    },
+    error: function(obj, errorText, errorDesc) {
+      $(".btn-danger", 'form#delete_enumeration').removeAttr("disabled");
+    }
+  });
+</script>

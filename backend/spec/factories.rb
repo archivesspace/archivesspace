@@ -1,7 +1,15 @@
 require 'factory_girl'
 
 def sample(enum)
-  enum.reject {|i| i === 'other_unmapped' }.sample
+  values = if enum.has_key?('enum')
+             enum['enum']
+           elsif enum.has_key?('dynamic_enum')
+             BackendEnumSource.values_for(enum['dynamic_enum'])
+           else
+             raise "Not sure how to sample this: #{enum.inspect}"
+           end
+
+  values.reject {|i| i === 'other_unmapped' }.sample
 end
   
 
@@ -27,28 +35,28 @@ FactoryGirl.define do
   sequence(:barcode) { 20.times.map { rand(2)}.join }
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
   
-  sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']['enum']) }
+  sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
   sequence(:level) { %w(series subseries item)[rand(3)] }
   sequence(:term) { |n| "Term #{n}" }
-  sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']['enum']) }
+  sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
 
-  sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']['enum']) }
-  sequence(:record_role) { sample(JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']['enum']) }
+  sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']) }
+  sequence(:record_role) { sample(JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']) }
   
-  sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']['enum']) }
-  sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']['enum']) }
+  sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']) }
+  sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
   
-  sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']['enum']) }
-  sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']['enum']) }
-  sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']['enum']) }
-  sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type']['enum']) }
+  sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
+  sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
+  sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
+  sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type']) }
  
-  sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']['enum']) }
-  sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']['enum']) }
-  sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']['enum']) }
+  sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
+  sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']) }
+  sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']) }
   
-  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']['enum']) }
-  sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']['enum']) }
+  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']) }
+  sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']) }
   
   # AS Models
   

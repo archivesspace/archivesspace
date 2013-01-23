@@ -6,6 +6,8 @@ class Event < Sequel::Model(:event)
   include Relationships
   include Agents
 
+  agent_role_enum("linked_agent_event_roles")
+
   set_model_scope :repository
   corresponds_to JSONModel(:event)
 
@@ -20,7 +22,17 @@ class Event < Sequel::Model(:event)
 
   define_relationship(:name => :link,
                       :json_property => 'linked_records',
-                      :contains_references_to_types => proc {[Accession, Resource, ArchivalObject]})
+                      :contains_references_to_types => proc {[Accession, Resource, ArchivalObject]},
+                      :class_callback => proc { |clz|
+                        clz.instance_eval do
+                          include DynamicEnums
+
+                          uses_enums({
+                                       :property => 'role',
+                                       :uses_enum => 'linked_event_archival_record_roles'
+                                     })
+                        end
+                      })
 
 
   def has_active_linked_records?
