@@ -350,7 +350,15 @@ module AspaceFormHelper
 
     def select(name, options, opts = {})
       return nil if obj[name].blank?
-      I18n.t("#{i18n_for(name)}_#{obj[name]}", :default => obj[name])
+
+      # Attempt a match in the options to give dynamic enums a chance.
+      match = options.find {|label, value| value == obj[name]}
+
+      if match
+        match[0]
+      else
+        I18n.t("#{i18n_for(name)}_#{obj[name]}", :default => obj[name])
+      end
     end
 
     def textfield(name = nil, value = "", opts =  {})

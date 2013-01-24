@@ -13,8 +13,10 @@
 
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
       "other_level" => {"type" => "string"},
-      
+
       "language" => {"ifmissing" => "error"},
+
+      "resource_type" => {"type" => "string", "dynamic_enum" => "resource_resource_type"},
 
       "publish" => {"type" => "boolean", "default" => true},
       "restrictions" => {"type" => "boolean", "default" => false},
@@ -30,14 +32,14 @@
       "finding_aid_filing_title" => {"type" => "string"},
       "finding_aid_date" => {"type" => "string"},
       "finding_aid_author" => {"type" => "string"},
-      "finding_aid_description_rules" => {"type" => "string", "enum" => ["aacr", "cco", "dacs", "rad", "isadg"]},
+      "finding_aid_description_rules" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_description_rules"},
       "finding_aid_language" => {"type" => "string"},
       "finding_aid_sponsor" => {"type" => "string"},
       "finding_aid_edition_statement" => {"type" => "string"},
       "finding_aid_series_statement" => {"type" => "string"},
       "finding_aid_revision_date" => {"type" => "string"},
       "finding_aid_revision_description" => {"type" => "string"},
-      "finding_aid_status" => {"type" => "string", "enum" => ["completed", "in_progress", "under_revision", "unprocessed"]},
+      "finding_aid_status" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_status"},
       "finding_aid_note" => {"type" => "string"},
 
       # Extents (overrides abstract schema)

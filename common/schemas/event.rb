@@ -20,17 +20,9 @@
       "event_type" => {
         "type" => "string",
         "ifmissing" => "error",
-        "enum" => ["accession", "accumulation", "acknowledgement", "agreement received",
-                   "agreement sent", "appraisal", "assessment", "capture", "cataloging",
-                   "collection", "compression", "contribution", "custody transfer", "deaccession",
-                   "decompression", "decryption", "deletion", "digital signature validation",
-                   "fixity check", "ingestion", "message digest calculation", "migration",
-                   "normalization", "processing", "publication", "replication", "resource merge",
-                   "resource component transfer", "validation", "virus check"]
-
-
-
+        "dynamic_enum" => "event_event_type"
       },
+
       "date" => {"type" => "JSONModel(:date) object", "ifmissing" => "error"},
       "outcome" => {"type" => "string"},
       "outcome_note" => {"type" => "string"},

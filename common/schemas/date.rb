@@ -13,8 +13,8 @@
       "begin_time" => {"type" => "string", "pattern" => "^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"},
       "end" => {"type" => "string", "pattern" => "^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$"},
       "end_time" => {"type" => "string", "pattern" => "^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"},
-      "era" => {"type" => "string", "enum" => ["ce"]},
-      "calendar" => {"type" => "string", "enum" => ["gregorian"]},
+      "era" => {"type" => "string", "dynamic_enum" => "date_era"},
+      "calendar" => {"type" => "string", "dynamic_enum" => "date_calendar"},
     },
 
     "additionalProperties" => false,

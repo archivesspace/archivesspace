@@ -3,8 +3,8 @@
   <ul class="dropdown-menu subrecord-selector">
     <li>
       <select>
-        <% JSONModel(:instance).schema["properties"]["instance_type"]["enum"].each do | value | %>
-          <option value="<%= value %>"><%= I18n.t("instance.instance_type_#{value}") %></option>
+        <% JSONModel.enum_values(JSONModel(:instance).schema["properties"]["instance_type"]["dynamic_enum"]).each do | value | %>
+          <option value="<%= value %>"><%= I18n.t("enumerations.instance_instance_type.#{value}") %></option>
         <% end %>
       </select>
     </li>

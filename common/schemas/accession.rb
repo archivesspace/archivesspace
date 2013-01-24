@@ -73,6 +73,8 @@
 
       "suppressed" => {"type" => "boolean"},
 
+      "acquisition_type" => {"type" => "string", "dynamic_enum" => "accession_acquisition_type"},
+
       "linked_agents" => {
         "type" => "array",
         "items" => {

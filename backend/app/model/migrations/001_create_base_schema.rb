@@ -174,6 +174,8 @@ Sequel.migration do
       TextField :content_description, :null => true
       TextField :condition_description, :null => true
 
+      String :acquisition_type, :null => true
+
       DateTime :accession_date, :null => true
 
       DateTime :create_time, :null => false
@@ -201,6 +203,8 @@ Sequel.migration do
 
       String :level, :null => false
       String :other_level
+
+      String :resource_type, :null => true
 
       Integer :publish
       Integer :restrictions
@@ -433,6 +437,8 @@ Sequel.migration do
       TextField :title
       String :terms_sha1, :unique => true
       String :ref_id, :unique => true
+
+      String :source, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -991,6 +997,36 @@ Sequel.migration do
     create_enum('name_source', ["local", "naf", "nad", "ulan"])
 
     create_enum('name_rule', ["local", "aacr", "dacs"])
+
+
+    create_enum('accession_acquisition_type', ["deposit", "gift", "purchase", "transfer"])
+
+    create_enum('collection_management_processing_priority', ["high", "medium", "low"])
+
+    create_enum('collection_management_processing_status', ["new", "in_progress", "completed"])
+
+    create_enum('date_era', ["ce"])
+
+    create_enum('date_calendar', ["gregorian"])
+
+    create_enum('digital_object_digital_object_type', ["cartographic", "mixed_materials", "moving_image", "notated_music", "software_multimedia", "sound_recording", "sound_recording_musical", "sound_recording_nonmusical", "still_image", "text"])
+
+    create_enum('digital_object_level', ["collection", "work", "image"])
+
+    create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leafs", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
+
+    create_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "agreement received", "agreement sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "custody transfer", "deaccession", "decompression", "decryption", "deletion", "digital signature validation", "fixity check", "ingestion", "message digest calculation", "migration", "normalization", "processing", "publication", "replication", "resource merge", "resource component transfer", "validation", "virus check"])
+
+    create_enum('resource_resource_type', ["collection", "publications", "papers", "records"])
+
+    create_enum('resource_finding_aid_description_rules', ["aacr", "cco", "dacs", "rad", "isadg"])
+
+    create_enum('resource_finding_aid_status', ["completed", "in_progress", "under_revision", "unprocessed"])
+
+    create_enum('instance_instance_type', ["audio", "books", "computer_disks", "digital_object","graphic_materials", "maps", "microform", "mixed_materials", "moving_images", "realia", "text"])
+
+    create_enum('subject_source', ["aat", "rbgenr", "tgn", "lcsh", "local", "mesh", "gmgpc"])
+
 
 
     # Relationship tables

@@ -29,10 +29,16 @@
 <fieldset>
    <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
 
-   <section id="basic_information">
-     <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
-     <%= form.label_and_textfield "ref_id" %>
-   </section>
+   <% define_template "subject", jsonmodel_definition(:subject) do |form| %>
+     <section id="basic_information">
+       <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
+       <%= form.label_and_textfield "ref_id" %>
+       <%= form.label_and_select "source", form.possible_options_for("source", true) %>
+     </section>
+   <% end %>
+
+   <% form.emit_template("subject") %>
+   
 
    <section id="terms" class="subrecord-form">
      <h3><%= I18n.t("subject.terms") %></h3>

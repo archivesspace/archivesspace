@@ -851,20 +851,7 @@ en:
     digital_object_id: Identifier
     publish: Publish?
     level: Level
-    level_collection: Collection
-    level_work: Work
-    level_image: Image
     digital_object_type: Type
-    digital_object_type_cartographic: Cartographic
-    digital_object_type_mixed_materials: Mixed Materials
-    digital_object_type_moving_image: Moving Image
-    digital_object_type_notated_music: Notated Music
-    digital_object_type_software_multimedia: Software, Multimedia
-    digital_object_type_sound_recording: Sound Recording
-    digital_object_type_sound_recording_musical: Sound Recording (Musical)
-    digital_object_type_sound_recording_nonmusical: Sound Recording (Non-musical)
-    digital_object_type_still_image: Still Image
-    digital_object_type_text: Text
     language: Language
     <<: *language_attributes
     restrictions: Restrictions?
@@ -979,36 +966,6 @@ en:
     event_type: Type
     outcome: Outcome
     outcome_note: Outcome Note
-    event_type_accession: Accession
-    event_type_accumulation: Accumulation
-    event_type_acknowledgement: Acknowledgement
-    event_type_agreement received: Agreement Received
-    event_type_agreement sent: Agreement Sent
-    event_type_appraisal: Appraisal
-    event_type_assessment: Assessment
-    event_type_capture: Capture
-    event_type_cataloging: Cataloging
-    event_type_collection: Collection
-    event_type_compression: Compression
-    event_type_contribution: Contribution
-    event_type_custody transfer: Custody Transfer
-    event_type_deaccession: Deaccession
-    event_type_decompression: Decompression
-    event_type_decryption: Decryption
-    event_type_deletion: Deletion
-    event_type_digital signature validation: Digital Signature Validation
-    event_type_fixity check: Fixity Check
-    event_type_ingestion: Ingestion
-    event_type_message digest calculation: Message Digest Calculation
-    event_type_migration: Migration
-    event_type_normalization: Normalization
-    event_type_processing: Processing
-    event_type_publication: Publication
-    event_type_replication: Replication
-    event_type_resource merge: Resource Merge
-    event_type_resource component transfer: Resource Component Transfer
-    event_type_validation: Validation
-    event_type_virus check: Virus Check
     date: Event Date
     _html:
       singular: Event
@@ -1184,18 +1141,6 @@ en:
       singular: Container
   instance: &instance_attributes
     instance_type: Type
-    instance_type_audio: Audio
-    instance_type_books: Books
-    instance_type_computer_disks: Computer Disks
-    instance_type_digital_object: Digital Object
-    instance_type_digital_object_link: Digital Object Link
-    instance_type_graphic_materials: Graphic Materials
-    instance_type_maps: Maps
-    instance_type_microform: Microform
-    instance_type_mixed_materials: Mixed Materials
-    instance_type_moving_images: Moving Images
-    instance_type_realia: Realia
-    instance_type_text: Text
     digital_object: Digital Object
     _html:
       plural: Instances
@@ -1206,15 +1151,6 @@ en:
     portion_part: Part
     number: Number
     extent_type: Type
-    extent_type_cassettes: Cassettes
-    extent_type_cubic_feet: Cubic Feet
-    extent_type_leafs: Leafs
-    extent_type_linear_feet: Linear Feet
-    extent_type_photographic_prints: Photographic Prints
-    extent_type_photographic_slides: Photographic Slides
-    extent_type_reels: Reels
-    extent_type_sheets: Sheets
-    extent_type_volumes: Volumes
     container_summary: Container Summary
     physical_details: Physical Details
     dimensions: Dimensions
@@ -1293,9 +1229,7 @@ en:
     uncertain_inferred: Inferred
     uncertain_questionable: Questionable
     era: Era
-    era_ce: ce
     calendar: Calendar
-    calendar_gregorian: Gregorian
     _html:
       plural: Dates
       singular: Date
@@ -1311,6 +1245,7 @@ en:
     id_0: Identifier
     content_description: Content Description
     condition_description: Condition Description
+    acquisition_type: Acquisition Type
     publish: Publish?
     publish_help: Check this if you wish to publish this accession to the public.
     restrictions: Restrictions?
@@ -1397,6 +1332,7 @@ en:
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
     ref_id: Ref ID
+    resource_type: Resource Type
     level: Level
     level_class: Class
     level_collection: Collection
@@ -1422,11 +1358,6 @@ en:
     finding_aid_date: Date
     finding_aid_author: Author
     finding_aid_description_rules: Description Rules
-    finding_aid_description_rules_aacr: Anglo-American Cataloguing Rules
-    finding_aid_description_rules_cco: Cataloging Cultural Objects
-    finding_aid_description_rules_dacs: "Describing Archives: A Content Standard"
-    finding_aid_description_rules_rad: Rules for Archival Description
-    finding_aid_description_rules_isadg: International Standard for Archival Description - General
     finding_aid_language: Language
     finding_aid_sponsor: Sponsor
     finding_aid_edition_statement: Edition Statement
@@ -1434,10 +1365,6 @@ en:
     finding_aid_revision_date: Revision Date
     finding_aid_revision_description: Revision Description
     finding_aid_status: Status
-    finding_aid_status_completed: Completed
-    finding_aid_status_in_progress: In Progress
-    finding_aid_status_under_revision: Under Revision
-    finding_aid_status_unprocessed:
     finding_aid_note: Note
     language: Language
     <<: *language_attributes
@@ -1471,6 +1398,7 @@ en:
   subject:
     terms: Terms
     ref_id: Identifier
+    source: Source
     heading: Subject Heading
     subject_preview: Subject Preview
     _html:
@@ -1504,27 +1432,10 @@ en:
     processing_total_extent: Processing total extent
     processing_total_extent_type: Extent type
     processing_total_extent_type_: --
-    processing_total_extent_type_cassettes: Cassettes
-    processing_total_extent_type_cubic_feet: Cubic Feet
-    processing_total_extent_type_leafs: Leafs
-    processing_total_extent_type_linear_feet: Linear Feet
-    processing_total_extent_type_photographic_prints: Photographic Prints
-    processing_total_extent_type_photographic_slides: Photographic Slides
-    processing_total_extent_type_reels: Reels
-    processing_total_extent_type_sheets: Sheets
-    processing_total_extent_type_volumes: Volumes
     processing_hours_total: Total processing hours
     processing_plan: Processing plan
     processing_priority: Priority
-    processing_priority_: --
-    processing_priority_high: High
-    processing_priority_medium: Medium
-    processing_priority_low: Low
     processing_status: Status
-    processing_status_: --
-    processing_status_new: New
-    processing_status_in_progress: In Progress
-    processing_status_completed: Completed
     processors: Processors
     rights_determined: Rights determined
     rights_determined_true: Yes

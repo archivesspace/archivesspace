@@ -12,6 +12,7 @@
   
           <%= render :partial => "shared/flash_messages" %>
   
+          <% define_template "accession", jsonmodel_definition(:accession) do |form| %>
           <section id="basic_information">
             <h3><%= I18n.t "accession._html.section.basic_information" %></h3>
   
@@ -19,7 +20,12 @@
             <%= readonly.label_and_date "accession_date" %>
             <%= readonly.label_and_textarea "content_description" %>
             <%= readonly.label_and_textarea "condition_description" %>
+            <%= readonly.label_and_select "acquisition_type", readonly.possible_options_for("acquisition_type", true) %>
           </section>
+          <% end %>
+
+          <% readonly.emit_template("accession") %>
+
 
           <% if @accession.extents.length > 0 %>
             <%= render :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>
