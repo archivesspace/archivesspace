@@ -21,7 +21,13 @@ module DynamicEnums
 
           define_method("#{property}=".intern) do |value|
             enum = Enumeration[:name => definition[:uses_enum]]
+
             enum_value = EnumerationValue[:enumeration_id => enum.id, :value => value]
+
+            if !enum_value && value == 'other_unmapped' && AppConfig[:allow_other_unmapped]
+              # Ensure this value exists for this enumeration
+              enum_value = EnumerationValue.create(:enumeration_id => enum.id, :value => 'other_unmapped')
+            end
 
             raise "Invalid value: #{value}" if !enum_value
 
