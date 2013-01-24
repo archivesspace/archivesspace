@@ -33,6 +33,24 @@
                                    {"type" => "JSONModel(:note_digital_object) object"}]},
           },
 
+      "linked_instances" => {
+        "type" => "array",
+        "readonly" => "true",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => ["JSONModel(:resource) uri", "JSONModel(:archival_object) object"],
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        },
+      },
     },
 
     "additionalProperties" => false

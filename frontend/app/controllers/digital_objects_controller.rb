@@ -3,7 +3,7 @@ class DigitalObjectsController < ApplicationController
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :tree]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
-  FIND_OPTS = ["subjects", "linked_agents"]
+  FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
 
   def index
     @search_data = JSONModel(:digital_object).all(:page => selected_page)

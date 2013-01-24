@@ -4,7 +4,7 @@ class ArchivalObjectsController < ApplicationController
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update, :parent]
 
   FIND_OPTS = {
-    "resolve[]" => ["subjects", "location", "linked_agents"]
+    "resolve[]" => ["subjects", "location", "linked_agents", "digital_object"]
   }
 
   def new
