@@ -29,7 +29,7 @@ class DigitalObject < Sequel::Model(:digital_object)
 
     obj.linked_records(:link).each do |link|
       json["linked_instances"].push({
-          "ref" => link.resource ? JSONModel(:resource).uri_for(link.resource_id) : JSONModel(:archival_object).uri_for(link.archival_object_id) 
+          "ref" => link.resource ? link.resource.uri : link.archival_object.uri 
       })
     end
 
