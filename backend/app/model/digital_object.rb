@@ -17,4 +17,23 @@ class DigitalObject < Sequel::Model(:digital_object)
   set_model_scope :repository
   corresponds_to JSONModel(:digital_object)
 
+  define_relationship(:name => :link,
+                      :json_property => 'linked_instances',
+                      :contains_references_to_types => proc {[Instance]})
+
+
+  def self.sequel_to_jsonmodel(obj, opts = {})
+    json = super
+
+    json["linked_instances"] = []
+
+    obj.linked_records(:link).each do |link|
+      json["linked_instances"].push({
+          "ref" => link.resource ? JSONModel(:resource).uri_for(link.resource_id) : JSONModel(:archival_object).uri_for(link.archival_object_id) 
+      })
+    end
+
+    json
+  end
+
 end
