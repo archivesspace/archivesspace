@@ -360,6 +360,26 @@ Sequel.migration do
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
     end
 
+    # Instance relationships
+    [:digital_object].each do |record|
+      table = [MigrationUtils.shorten_table("instance"),
+               MigrationUtils.shorten_table(record)].sort.join("_link_").intern
+
+
+      create_table(table) do
+        primary_key :id
+        Integer "#{record}_id".intern
+        Integer :instance_id
+        Integer :aspace_relationship_position
+        DateTime :last_modified, :null => false
+      end
+
+      alter_table(table) do
+        add_foreign_key(["#{record}_id".intern], record, :key => :id)
+        add_foreign_key([:instance_id], :instance, :key => :id)
+      end
+    end
+
 
     create_table(:container) do
       primary_key :id

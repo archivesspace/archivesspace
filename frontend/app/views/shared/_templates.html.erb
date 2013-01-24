@@ -48,6 +48,7 @@
    </div>
 --></div>
 <div id="linker_browse_template"><!--
+  {if search_data.results.length > 0}
    <div class="pagination">
     <%= I18n.t "pagination.page_prefix" %> ${search_data.this_page} <%= I18n.t "pagination.page_connector" %> ${search_data.last_page}
     <div class="navigation">
@@ -102,6 +103,9 @@
       {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" class="next-page"><%= I18n.t "pagination.next" %></a>{/if}
     </div>
    </div>
+  {else}
+    <div class="alert alert-info"><%= I18n.t("search_results.no_results") %></div>
+  {/if}
 --></div>
 <div id="linker_selectedtoken_template"><!--
    <li id="${item.id.replace(/\//g,'_')}">

@@ -10,4 +10,9 @@ module ASUtils
     result
   end
 
+  def self.as_array(thing)
+    return [] if thing.nil?
+    thing.kind_of?(Array) ? thing : [thing] 
+  end
+
 end

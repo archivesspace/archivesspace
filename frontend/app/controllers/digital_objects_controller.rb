@@ -21,6 +21,8 @@ class DigitalObjectsController < ApplicationController
 
   def new
     @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default")})._always_valid!
+
+    return render :partial => "digital_objects/new" if params[:inline]
   end
 
   def edit
@@ -36,8 +38,12 @@ class DigitalObjectsController < ApplicationController
 
   def create
     handle_crud(:instance => :digital_object,
-                :on_invalid => ->(){ render action: "new" },
-                :on_valid => ->(id){ 
+                :on_invalid => ->(){
+                  return render :partial => "new" if inline? 
+                  render :action => "new" 
+                },
+                :on_valid => ->(id){
+                  return render :json => @digital_object.to_hash if inline?
                   redirect_to({
                                 :controller => :digital_objects,
                                 :action => :edit,

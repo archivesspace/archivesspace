@@ -3,7 +3,7 @@ class ResourcesController < ApplicationController
   before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
   before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
 
-  FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents"]
+  FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object"]
 
   def index
     @search_data = JSONModel(:resource).all(:page => selected_page)

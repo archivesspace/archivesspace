@@ -23,7 +23,7 @@ $(function() {
         multiplicity: $this.data("multiplicity") || "many",
         label: $this.data("label"),
         label_plural: $this.data("label_plural"),
-        modal_id: "linkerModalFor_"+$this.data("class"),
+        modal_id: $this.data("modal_id") || ($this.attr("id") + "_modal"),
         sortable: $this.data("sortable") === true,
         types: $this.data("types")
       };

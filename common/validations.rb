@@ -162,6 +162,26 @@ module JSONModel::Validations
   end
 
 
+  def self.check_instance(hash)
+    errors = []
+
+    if hash["instance_type"] === "digital_object"
+      errors << ["digital_object", "is required"] if hash["digital_object"].nil?
+    elsif hash["instance_type"]
+      errors << ["container", "is required"] if hash["container"].nil?
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:instance)
+    JSONModel(:instance).add_validation("check_instance") do |hash|
+      check_instance(hash)
+    end
+  end
+
+
   def self.check_collection_management(hash)
     errors = []
 

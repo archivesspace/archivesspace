@@ -1196,6 +1196,7 @@ en:
     instance_type_moving_images: Moving Images
     instance_type_realia: Realia
     instance_type_text: Text
+    digital_object: Digital Object
     _html:
       plural: Instances
       singular: Instance
