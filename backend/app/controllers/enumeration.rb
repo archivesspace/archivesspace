@@ -32,7 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     enum.migrate(params[:migration].from, params[:migration].to)
 
-     json_response(Enumeration.to_jsonmodel(enum_id).to_hash)
+     json_response(Enumeration.to_jsonmodel(enum_id))
   end
 
 
@@ -53,7 +53,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["enum_id", Integer, "The ID of the enumeration to retrieve"])
     .returns([200, "(:enumeration)"]) \
   do
-     json_response(Enumeration.to_jsonmodel(params[:enum_id]).to_hash)
+     json_response(Enumeration.to_jsonmodel(params[:enum_id]))
   end
 
 end
