@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'Event model' do
 
-  before(:all) do
-    @test_date = build(:json_date).to_hash
-  end
-
-
   it "enforces at least one linked agent and one linked record via its schema" do
 
     expect {

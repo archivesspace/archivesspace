@@ -26,7 +26,7 @@
           </div>
         </div>
         <div id="instance_<%= index %>" class="accordion-body collapse">
-          <%= read_only_view(instance.to_hash) %>
+          <%= read_only_view(instance) %>
           <% if instance["instance_type"] === "digital_object" %>
             <div class="control-group">
               <div class="control-label"><%= I18n.t("instance.digital_object") %></div>

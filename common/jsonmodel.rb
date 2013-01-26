@@ -245,6 +245,15 @@ module JSONModel
 
   protected
 
+
+  def self.clean_data(data)
+    data = ASUtils.keys_as_strings(data) if data.is_a?(Hash)
+    data = ASUtils.jsonmodels_to_hashes(data)
+
+    data
+  end
+
+
   # Create and return a new JSONModel class called 'type', based on the
   # JSONSchema 'schema'
   def self.create_model_for(type, schema)
@@ -304,7 +313,7 @@ module JSONModel
           if not method_defined? "#{attribute}="
             define_method "#{attribute}=" do |value|
               @validated = false
-              @data[attribute] = value
+              @data[attribute] = JSONModel.clean_data(value)
             end
           end
         end
@@ -339,6 +348,7 @@ module JSONModel
         drop_system_properties = !JSONModel.client_mode?
 
         cleaned = JSONSchemaUtils.drop_unknown_properties(hash, self.schema, drop_system_properties)
+        cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
         validate(cleaned, raise_errors)
 
         self.new(cleaned)
@@ -429,12 +439,13 @@ module JSONModel
 
 
       def set_data(data)
-        hash = ASUtils.keys_as_strings(data)
+        hash = JSONModel.clean_data(data)
         hash["jsonmodel_type"] = self.class.record_type.to_s
         hash = JSONSchemaUtils.apply_schema_defaults(hash, self.class.schema)
 
         @data = hash
       end
+
 
       def initialize(params = {}, warnings = [])
         set_data(params)
@@ -558,6 +569,7 @@ module JSONModel
         @validated = false
 
         cleaned = JSONSchemaUtils.drop_unknown_properties(@data, self.class.schema)
+        cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
         self.class.validate(cleaned)
 
         cleaned

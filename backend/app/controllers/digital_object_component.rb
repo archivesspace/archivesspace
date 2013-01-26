@@ -47,7 +47,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     digital_object = DigitalObjectComponent.get_or_die(params[:digital_object_component_id])
     json_response(digital_object.children.map {|child|
-                    DigitalObjectComponent.to_jsonmodel(child).to_hash})
+                    DigitalObjectComponent.to_jsonmodel(child)})
   end
 
 

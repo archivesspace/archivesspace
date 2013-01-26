@@ -353,7 +353,7 @@ describe 'Accession controller' do
                                            'external_id' => '12345'
                                          }],
                        :deaccessions => [build(:json_deaccession,
-                                               :extents => [build(:json_extent).to_hash]).to_hash],
+                                               :extents => [build(:json_extent)])],
                        :related_resources => [{'ref' => resource.uri}])
 
     resource.related_accessions = [{'ref' => accession.uri}]

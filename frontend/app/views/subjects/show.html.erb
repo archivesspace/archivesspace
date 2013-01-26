@@ -7,7 +7,7 @@
    <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-     <%= readonly_context :subject, @subject.to_hash do |readonly| %>
+     <%= readonly_context :subject, @subject do |readonly| %>
       <h2><%= @subject.title %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
 
       <%= render :partial => "shared/flash_messages" %>

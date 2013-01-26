@@ -8,7 +8,7 @@ describe 'Software agent controller' do
 
 
   it "lets you create a software agent and get them back" do
-    opts = {:names => [build(:json_name_software, :manufacturer => generate(:generic_name)).to_hash]}
+    opts = {:names => [build(:json_name_software, :manufacturer => generate(:generic_name))]}
 
     id = create_software(opts).id
     JSONModel(:agent_software).find(id).names.first['manufacturer'].should eq(opts[:names][0]['manufacturer'])
@@ -22,7 +22,7 @@ describe 'Software agent controller' do
     [0,1].each do |n|
       opts = {:name => generate(:generic_name)}
 
-      software.agent_contacts << build(:json_agent_contact, opts).to_hash
+      software.agent_contacts << build(:json_agent_contact, opts)
       software.save
 
       JSONModel(:agent_software).find(id).agent_contacts[n]['name'].should eq(opts[:name])
@@ -38,7 +38,7 @@ describe 'Software agent controller' do
 
 
   it "sets the sort name if one is provided" do
-    opts = {:names => [build(:json_name_software, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false).to_hash]}
+    opts = {:names => [build(:json_name_software, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
 
     id = create_software(opts).id
     JSONModel(:agent_software).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
@@ -46,7 +46,7 @@ describe 'Software agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_software({:names => [build(:json_name_software,{:software_name => "ArchivesSpace", :sort_name_auto_generate => true}).to_hash]}).id
+    id = create_software({:names => [build(:json_name_software,{:software_name => "ArchivesSpace", :sort_name_auto_generate => true})]}).id
 
     agent = JSONModel(:agent_software).find(id)
 

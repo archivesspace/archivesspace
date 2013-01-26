@@ -48,7 +48,7 @@ class Accession < Sequel::Model(:accession)
                   :id => self.id,
                   :node_type => 'accession',
                   :children => resources,
-                  :record_uri => self.uri).to_hash
+                  :record_uri => self.uri)
   end
 
 end

@@ -52,7 +52,7 @@ describe 'Resource model' do
 
 
   it "allows resources to be created with a date" do
-    opts = {:dates => [build(:json_date).to_hash]}
+    opts = {:dates => [build(:json_date)]}
     
     resource = create_resource(opts)
 
@@ -82,7 +82,7 @@ describe 'Resource model' do
 
 
   it "can be created with an instance" do
-    opts = {:instances => [build(:json_instance).to_hash]}
+    opts = {:instances => [build(:json_instance)]}
 
     resource = create_resource(opts)
 

@@ -6,7 +6,7 @@ describe 'Instance model' do
   it "allows an instance to be created" do
 
     opts = {:instance_type => generate(:instance_type), 
-            :container => build(:json_container).to_hash
+            :container => build(:json_container)
             }
 
     instance = Instance.create_from_json(build(:json_instance, opts))

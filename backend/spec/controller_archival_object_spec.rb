@@ -86,7 +86,7 @@ describe 'Archival Object controller' do
   it "lets you create an archival object with a subject" do
     vocab = create(:json_vocab)
 
-    subject = create(:json_subject, {:terms => [build(:json_term, :vocabulary => vocab.uri).to_hash], :vocabulary => vocab.uri})
+    subject = create(:json_subject, {:terms => [build(:json_term, :vocabulary => vocab.uri)], :vocabulary => vocab.uri})
 
     created = create(:json_archival_object, :subjects => [{:ref => subject.uri}])
 
@@ -103,7 +103,7 @@ describe 'Archival Object controller' do
                                         [build(
                                           :json_term, 
                                           opts.merge(:vocabulary => vocab.uri)
-                                          ).to_hash
+                                          )
                                         ], 
                                      :vocabulary => vocab.uri})
 
@@ -165,7 +165,7 @@ describe 'Archival Object controller' do
   it "will have the auto-generated rights identifier refetched upon save" do
     archival_object = build(:json_archival_object, {
                                                       :rights_statements => [
-                                                                              build(:json_rights_statement, {:identifier => nil}).to_hash
+                                                                              build(:json_rights_statement, {:identifier => nil})
                                                                             ]
                                                    })
 
@@ -184,7 +184,7 @@ describe 'Archival Object controller' do
                                        [build(
                                           :json_term,
                                           opts.merge(:vocabulary => vocab.uri)
-                                        ).to_hash
+                                        )
                                        ],
                                      :vocabulary => vocab.uri})
     created = create(:json_archival_object, :subjects => [{:ref => subject.uri}])
@@ -205,7 +205,7 @@ describe 'Archival Object controller' do
 
     notes = build(:json_note_bibliography)
 
-    archival_object.notes = [notes.to_hash]
+    archival_object.notes = [notes]
     archival_object.save
 
     JSONModel(:archival_object).find(archival_object.id)[:notes].first.should eq(notes.to_hash)

@@ -27,7 +27,7 @@ describe 'Agent model' do
     
     contact_name = 'Business hours contact'
 
-    test_opts = {:agent_contacts => [build(:json_agent_contact, :name => contact_name).to_hash]}
+    test_opts = {:agent_contacts => [build(:json_agent_contact, :name => contact_name)]}
 
     agent = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, test_opts))
 

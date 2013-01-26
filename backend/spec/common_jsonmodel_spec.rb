@@ -367,7 +367,7 @@ describe 'JSON model' do
 
     threads << Thread.new do
       1000.times do
-        build(:json_archival_object).to_hash
+        build(:json_archival_object)
       end
 
       :ok
@@ -375,7 +375,7 @@ describe 'JSON model' do
 
     threads << Thread.new do
       1000.times do
-        build(:json_resource).to_hash
+        build(:json_resource)
       end
 
       :ok
@@ -383,7 +383,7 @@ describe 'JSON model' do
 
     threads << Thread.new do
       1000.times do
-        build(:json_accession).to_hash
+        build(:json_accession)
       end
 
       :ok
@@ -392,7 +392,7 @@ describe 'JSON model' do
     threads << Thread.new do
       1000.times do
         begin
-          build(:json_accession, :title => nil).to_hash
+          build(:json_accession, :title => nil)
         rescue JSONModel::ValidationException => e
           e.errors.keys == ["title"] or raise "Oops: #{e.inspect}"
         end

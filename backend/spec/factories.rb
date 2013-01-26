@@ -135,22 +135,22 @@ FactoryGirl.define do
 
   factory :json_agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
     agent_type 'agent_corporate_entity'
-    names { [build(:json_name_corporate_entity).to_hash] }
+    names { [build(:json_name_corporate_entity)] }
   end
   
   factory :json_agent_family, class: JSONModel(:agent_family) do
     agent_type 'agent_family'
-    names { [build(:json_name_family).to_hash] }
+    names { [build(:json_name_family)] }
   end
   
   factory :json_agent_person, class: JSONModel(:agent_person) do
     agent_type 'agent_person'
-    names { [build(:json_name_person).to_hash] }
+    names { [build(:json_name_person)] }
   end
   
   factory :json_agent_software, class: JSONModel(:agent_software) do
     agent_type 'agent_software'
-    names { [build(:json_name_software).to_hash] }
+    names { [build(:json_name_software)] }
   end
   
   factory :json_archival_object, class: JSONModel(:archival_object) do
@@ -182,13 +182,13 @@ FactoryGirl.define do
   factory :json_deaccession, class: JSONModel(:deaccession) do
     scope { "whole" }
     description { generate(:generic_description) }
-    date { build(:json_date).to_hash }
+    date { build(:json_date) }
   end
   
   factory :json_digital_object, class: JSONModel(:digital_object) do
     title { "Digital Object #{generate(:generic_title)}" }
     digital_object_id { generate(:alphanumstr) }
-    extents { [build(:json_extent).to_hash] }
+    extents { [build(:json_extent)] }
   end
   
   factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
@@ -197,7 +197,7 @@ FactoryGirl.define do
   end
 
   factory :json_event, class: JSONModel(:event) do
-    date { build(:json_date).to_hash }
+    date { build(:json_date) }
     event_type { generate(:event_type) }
     linked_agents { [{'ref' => create(:json_agent_person).uri, 'role' => generate(:agent_role)}] }
     linked_records { [{'ref' => create(:json_accession).uri, 'role' => generate(:record_role)}] }
@@ -221,7 +221,7 @@ FactoryGirl.define do
   
   factory :json_instance, class: JSONModel(:instance) do
     instance_type { generate(:instance_type) }
-    container { build(:json_container).to_hash }
+    container { build(:json_container) }
   end
   
   factory :json_location, class: JSONModel(:location) do
@@ -264,7 +264,7 @@ FactoryGirl.define do
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
-    extents { [build(:json_extent).to_hash] }
+    extents { [build(:json_extent)] }
     level 'collection'
     language 'eng'
   end
@@ -283,7 +283,7 @@ FactoryGirl.define do
   end
   
   factory :json_subject, class: JSONModel(:subject) do
-    terms { [build(:json_term).to_hash] }
+    terms { [build(:json_term)] }
     vocabulary { create(:json_vocab).uri }
     ref_id { generate(:url) }
   end

@@ -7,7 +7,7 @@ describe 'Agent model' do
     n1 = build(:json_name_software)
     n2 = build(:json_name_software)
 
-    agent = AgentSoftware.create_from_json(build(:json_agent_software, :names => [n1.to_hash, n2.to_hash]))
+    agent = AgentSoftware.create_from_json(build(:json_agent_software, :names => [n1, n2]))
 
     AgentSoftware[agent[:id]].name_software.length.should eq(2)
   end
@@ -26,7 +26,7 @@ describe 'Agent model' do
     
     c1 = build(:json_agent_contact, opts)
 
-    agent = AgentSoftware.create_from_json(build(:json_agent_software, {:agent_contacts => [c1.to_hash]}))
+    agent = AgentSoftware.create_from_json(build(:json_agent_software, {:agent_contacts => [c1]}))
 
     AgentSoftware[agent[:id]].agent_contact.length.should eq(1)
     AgentSoftware[agent[:id]].agent_contact[0][:name].should eq(opts[:name])
