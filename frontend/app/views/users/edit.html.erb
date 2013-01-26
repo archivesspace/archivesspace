@@ -4,7 +4,7 @@
    <div class="span12">
       <h2><%= I18n.t("user._html.section.edit_account") %></h2>
      <%= form_for @user, :as => "createuser", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
-       <%= form_context :user, @user.to_hash(true) do |form| %>
+       <%= form_context :user, @user do |form| %>
          <%= render :partial => "users/form", :locals => {:form => form} %>
 
          <div class="form-actions">

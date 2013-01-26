@@ -14,7 +14,7 @@
   <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-      <%= readonly_context :collection_management, @collection_management.to_hash(true) do |readonly| %>
+      <%= readonly_context :collection_management, @collection_management do |readonly| %>
          <h2><%= I18n.t("collection_management_record._html.title_prefix") %> <%= title %> <span class="label label-info"><%= I18n.t("collection_management_record._html.singular") %></span></h2>
   
          <%= render :partial => "shared/flash_messages" %>

@@ -7,7 +7,7 @@
    <div class="span9">
     <%= render :partial => "accessions/toolbar" %>
     <div class="record-pane">
-      <%= readonly_context :accession, @accession.to_hash(true) do |readonly| %>
+      <%= readonly_context :accession, @accession do |readonly| %>
           <h2><%= @accession.title %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
   
           <%= render :partial => "shared/flash_messages" %>

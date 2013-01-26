@@ -2,9 +2,12 @@ module AspaceFormHelper
   class FormContext
 
     def initialize(name, values_from, parent)
+
+      values = values_from.is_a?(JSONModelType) ? values_from.to_hash(true) : values_from
+
       @forms = Object.new
       @parent = parent
-      @context = [[name, values_from]]
+      @context = [[name, values]]
       @path_to_i18n_map = {}
 
       class << @forms

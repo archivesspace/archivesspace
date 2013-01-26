@@ -1,5 +1,5 @@
 <%= form_for @digital_object, :as => "digital_object", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
-  <%= form_context :digital_object, @digital_object.to_hash(true) do |form| %>
+  <%= form_context :digital_object, @digital_object do |form| %>
     <div class="row-fluid">
       <div class="span12">
         <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>

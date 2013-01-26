@@ -5,7 +5,7 @@
   <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-      <%= readonly_context :digital_object, @digital_object.to_hash(true) do |readonly| %>
+      <%= readonly_context :digital_object, @digital_object do |readonly| %>
         <h2><%= @digital_object.title %> <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span></h2>
         <section id="basic_information">
           <h3><%= I18n.t("digital_object._html.section.basic_information") %></h3>

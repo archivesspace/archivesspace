@@ -1,5 +1,5 @@
 <%= form_for @agent, :as => "agent", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "agent_form"} do |f| %>
-  <%= form_context :agent, @agent.to_hash(true) do |form| %>
+  <%= form_context :agent, @agent do |form| %>
     <%= render :partial => "agents/form", :locals => {:form => form} %>
   <% end %>
 <% end %>

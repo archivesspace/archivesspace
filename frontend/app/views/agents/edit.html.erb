@@ -1,7 +1,7 @@
 <%= setup_context :object => @agent, :controller => :agents, :type => @agent.agent_type, :title => @agent.names[0]["sort_name"] %>
 
 <%= form_for @agent, :as => "agent", :url => {:action => :update}, :html => {:class => 'form-horizontal', :id => "agent_form"} do |f| %>
-  <%= form_context :agent, @agent.to_hash(true) do |form| %>
+  <%= form_context :agent, @agent do |form| %>
     <div class="row-fluid">
       <div class="span3">
         <%= render :partial => "sidebar", :locals => {:form => form} %>

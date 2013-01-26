@@ -38,6 +38,10 @@ module JSONModel
   end
 
 
+  # A common base class for all JSONModel classes
+  class JSONModelType; end
+
+
   def self.JSONModel(source)
     # Checks if a model exists first; returns the model class
     # if it exists; returns false if it doesn't exist.
@@ -245,7 +249,7 @@ module JSONModel
   # JSONSchema 'schema'
   def self.create_model_for(type, schema)
 
-    cls = Class.new do
+    cls = Class.new(JSONModelType) do
 
       # Class instance variables store the bits specific to this model
       def self.init(type, schema)
