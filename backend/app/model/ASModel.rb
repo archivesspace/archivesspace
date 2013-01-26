@@ -59,7 +59,7 @@ module ASModel
 
       self.class.apply_linked_database_records(self, json)
 
-      self.class.fire_update(json.to_hash, obj.uri)
+      self.class.fire_update(json, obj.uri)
 
       obj
     end
@@ -141,7 +141,7 @@ module ASModel
 
         self.apply_linked_database_records(obj, json)
 
-        fire_update(json.to_hash, obj.uri)
+        fire_update(json, obj.uri)
 
         obj
       end
@@ -153,9 +153,9 @@ module ASModel
 
 
       # (Potentially) notify the real-time indexer that an update is available.
-      def fire_update(hash, uri)
+      def fire_update(json, uri)
         if high_priority?
-          RealtimeIndexing.record_update(hash, uri)
+          RealtimeIndexing.record_update(json.to_hash, uri)
         end
       end
 
