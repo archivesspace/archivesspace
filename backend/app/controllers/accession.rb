@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     json = Accession.to_jsonmodel(params[:accession_id])
 
-    json_response(resolve_references(json.to_hash, params[:resolve]))
+    json_response(resolve_references(json, params[:resolve]))
   end
 
 

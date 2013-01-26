@@ -17,6 +17,8 @@ module RESTHelpers
 
 
   def resolve_references(value, properties_to_resolve)
+    value = value.to_hash if value.respond_to?(:to_hash)
+
     # If ASPACE_REENTRANT is set, don't resolve anything or we risk creating loops.
     return value if (properties_to_resolve.nil? || env['ASPACE_REENTRANT'])
 

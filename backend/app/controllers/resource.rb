@@ -21,7 +21,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     json = Resource.to_jsonmodel(params[:resource_id])
 
-    json_response(resolve_references(json.to_hash, params[:resolve]))
+    json_response(resolve_references(json, params[:resolve]))
   end
 
 

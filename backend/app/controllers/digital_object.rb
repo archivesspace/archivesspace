@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     json = DigitalObject.to_jsonmodel(params[:digital_object_id])
 
-    json_response(resolve_references(json.to_hash, params[:resolve]))
+    json_response(resolve_references(json, params[:resolve]))
   end
 
 
