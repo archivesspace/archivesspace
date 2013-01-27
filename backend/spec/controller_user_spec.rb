@@ -16,19 +16,6 @@ describe 'User controller' do
   end
 
 
-  xit "doesn't allow regular non-admin users to create new users" do
-    ordinary_user = create(:user)
-    
-    expect {
-      as_test_user(ordinary_user.username) do
-
-        build(:json_user).save(:password => '123')
-        
-      end
-    }.to raise_error(AccessDeniedException)
-  end
-
-  
   it "allows admin users to create new users" do
     expect {
       build(:json_user).save(:password => '123')

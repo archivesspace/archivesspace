@@ -22,7 +22,19 @@ class ArchivesSpaceService < Sinatra::Base
     user = User.create_from_json(params[:user], :source => "local")
     DBAuth.set_password(params[:user].username, params[:password])
 
-    groups = Array(params[:groups]).map {|uri| Group.any_repo[JSONModel(:group).id_for(uri)] || raise(NotFoundException.new("Group not found"))}
+    groups = Array(params[:groups]).map {|uri|
+      group_ref = JSONModel.parse_reference(uri)
+      repo_id = JSONModel.parse_reference(group_ref[:repository])[:id]
+
+      RequestContext.open(:repo_id => repo_id) do
+        if current_user.can?(:manage_repository)
+          Group.get_or_die(group_ref[:id])
+        else
+          raise AccessDeniedException.new
+        end
+      end
+    }
+
     user.add_to_groups(groups)
 
     created_response(user, params[:user])
