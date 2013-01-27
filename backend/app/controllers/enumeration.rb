@@ -3,6 +3,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/config/enumerations')
     .description("List all defined enumerations")
     .params()
+    .permissions([])
     .returns([200, "[(:enumeration)]"]) \
   do
     handle_unlimited_listing(Enumeration)
@@ -12,7 +13,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/config/enumerations')
     .description("Create an enumeration")
     .params(["enumeration", JSONModel(:enumeration), "The enumeration to create", :body => true])
-    .preconditions(proc { current_user.can?(:system_config) })
+    .permissions([:system_config])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -23,7 +24,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/config/enumerations/migration')
     .description("Migrate all records from using one value to another")
     .params(["migration", JSONModel(:enumeration_migration), "The migration request", :body => true])
-    .preconditions(proc { current_user.can?(:system_config) })
+    .permissions([:system_config])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -40,7 +41,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Update an enumeration")
     .params(["enum_id", Integer, "The ID of the enumeration to update"],
             ["enumeration", JSONModel(:enumeration), "The enumeration to update", :body => true])
-    .preconditions(proc { current_user.can?(:system_config) })
+    .permissions([:system_config])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -51,6 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/config/enumerations/:enum_id')
     .description("Get an Enumeration")
     .params(["enum_id", Integer, "The ID of the enumeration to retrieve"])
+    .permissions([])
     .returns([200, "(:enumeration)"]) \
   do
      json_response(Enumeration.to_jsonmodel(params[:enum_id]))
