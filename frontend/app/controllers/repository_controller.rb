@@ -1,7 +1,7 @@
 class RepositoryController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:new, :create, :select]
-  before_filter :user_needs_to_be_a_viewer, :only => [:select]
-  before_filter :user_needs_to_be_a_manager, :only => [:new, :create]
+  before_filter(:only => [:select]) {|c| user_must_have("view_repository")}
+  before_filter(:only => [:new, :create]) {|c| user_must_have("manage_repository")}
 
   def new
     @repository = JSONModel(:repository).new._always_valid!

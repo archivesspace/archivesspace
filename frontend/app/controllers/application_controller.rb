@@ -146,18 +146,11 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def user_needs_to_be_a_viewer
-    render_403 if not user_can? 'view_repository'
+  def user_must_have(permission)
+    render_403 if !session['user'] || !user_can?(permission)
   end
 
-  def user_needs_to_be_an_archivist
-    render_403 if not user_can? 'update_archival_record'
-  end
 
-  def user_needs_to_be_a_manager
-    render_403 if not user_can? 'manage_repository'
-  end
-  
   def user_needs_to_be_a_user
     render_403 if not session['user']
   end
@@ -168,19 +161,6 @@ class ApplicationController < ActionController::Base
   
   def user_needs_to_be_a_user_manager_or_new_user
     render_403 if session['user'] and not user_can? 'manage_users'
-  end
-
-  # THINKME: Maybe we could generate these using a bit of metaprogramming magic?
-  def user_needs_to_have_update_location
-    render_403 if session['user'] and not user_can? 'update_location_record'
-  end
-
-  def user_needs_to_have_update_agent
-    render_403 if session['user'] and not user_can? 'update_agent_record'
-  end
-
-  def user_needs_to_have_update_subject
-    render_403 if session['user'] and not user_can? 'update_subject_record'
   end
 
 

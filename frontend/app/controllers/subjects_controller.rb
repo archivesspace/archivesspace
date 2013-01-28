@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
-  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
-  before_filter :user_needs_to_have_update_subject, :only => [:new, :edit, :create, :update]
+  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
+  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_subject_record")}
 
   def index
     @search_data = JSONModel(:subject).all(:page => selected_page)

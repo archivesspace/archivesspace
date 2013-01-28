@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:do_search]
-  before_filter :user_needs_to_be_a_viewer, :only => [:do_search]
+  before_filter(:only => [:do_search]) {|c| user_must_have("view_repository")}
 
   def do_search
     @criteria = {
