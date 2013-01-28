@@ -35,6 +35,11 @@ class Repository < Sequel::Model(:repository)
                          :grants_permissions => ["update_location", "update_subject_record", "update_agent_record", "update_archival_record", "view_repository"]
                        },
                        {
+                         :group_code => "repository-project-managers",
+                         :description => "Project managers of the #{repo_code} repository",
+                         :grants_permissions => ["view_repository", "update_archival_record", "update_subject_record", "update_agent_record"]
+                       },
+                       {
                          :group_code => "repository-viewers",
                          :description => "Viewers of the #{repo_code} repository",
                          :grants_permissions => ["view_repository"]
