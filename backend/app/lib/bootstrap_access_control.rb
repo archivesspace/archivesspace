@@ -78,6 +78,14 @@ class ArchivesSpaceService
                       "The ability to create and modify the major archival record types: accessions/resources/digital objects/components/collection management/events",
                       :level => "repository")
 
+    Permission.define("suppress_archival_record",
+                      "The ability to suppress the major archival record types: accessions/resources/digital objects/components/collection management/events",
+                      :level => "repository")
+
+    Permission.define("delete_archival_record",
+                      "The ability to delete the major archival record types: accessions/resources/digital objects/components/collection management/events",
+                      :level => "repository")
+
     Permission.define("view_suppressed",
                       "The ability to view suppressed records in a given repository",
                       :level => "repository")

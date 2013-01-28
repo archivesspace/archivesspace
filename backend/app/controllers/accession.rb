@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["accession_id", Integer, "The accession ID to update"],
             ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
-    .permissions([:manage_repository])
+    .permissions([:suppress_archival_record])
     .returns([200, :suppressed]) \
   do
     sup_state = Accession.get_or_die(params[:accession_id]).set_suppressed(params[:suppressed])
@@ -81,7 +81,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Delete an Accession")
     .params(["accession_id", Integer, "The accession ID to delete"],
             ["repo_id", :repo_id])
-    .permissions([:manage_repository])
+    .permissions([:delete_archival_record])
     .returns([200, :deleted]) \
   do
     handle_delete(Accession, params[:accession_id])

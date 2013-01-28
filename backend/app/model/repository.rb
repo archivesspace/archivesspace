@@ -27,7 +27,9 @@ class Repository < Sequel::Model(:repository)
     standard_groups = [{
                          :group_code => "repository-managers",
                          :description => "Managers of the #{repo_code} repository",
-                         :grants_permissions => ["manage_repository", "update_location_record", "update_subject_record", "update_agent_record", "update_archival_record", "view_repository"]
+                         :grants_permissions => ["manage_repository", "update_location_record", "update_subject_record",
+                                                 "update_agent_record", "update_archival_record", "view_repository",
+                                                 "delete_archival_record", "suppress_archival_record"]
                        },
                        {
                          :group_code => "repository-archivists",
@@ -37,7 +39,8 @@ class Repository < Sequel::Model(:repository)
                        {
                          :group_code => "repository-project-managers",
                          :description => "Project managers of the #{repo_code} repository",
-                         :grants_permissions => ["view_repository", "update_archival_record", "update_subject_record", "update_agent_record"]
+                         :grants_permissions => ["view_repository", "update_archival_record", "update_subject_record", "update_agent_record",
+                                                 "delete_archival_record", "suppress_archival_record"]
                        },
                        {
                          :group_code => "repository-viewers",

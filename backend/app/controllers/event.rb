@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["event_id", Integer, "The event ID to update"],
             ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
-    .permissions([:manage_repository])
+    .permissions([:suppress_archival_record])
     .returns([200, :suppressed]) \
   do
     sup_state = Event.get_or_die(params[:event_id]).set_suppressed(params[:suppressed])
