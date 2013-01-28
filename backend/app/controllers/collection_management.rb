@@ -5,6 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["collection_management", JSONModel(:collection_management),
              "The Collection Management record to create", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -18,6 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["collection_management", JSONModel(:collection_management),
              "The collection management data to update", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
     .returns([200, :updated]) \
   do
     handle_update(CollectionManagement, :collection_management_id, :collection_management)
@@ -28,6 +30,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a list of Collection Management Records for a Repository")
     .params(["repo_id", :repo_id],
             *Endpoint.pagination)
+    .permissions([:view_repository])
     .returns([200, "[(:collection_management)]"]) \
   do
     handle_listing(CollectionManagement, params[:page], params[:page_size], params[:modified_since])
@@ -41,6 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true]
             )
+    .permissions([:view_repository])
     .returns([200, "(:collection_management)"],
              [404, '{"error":"CollectionManagement not found"}']) \
   do

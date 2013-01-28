@@ -31,6 +31,11 @@ class User < Sequel::Model(:user)
   end
 
 
+  def anonymous?
+    false
+  end
+
+
   # True if a user has access to perform 'permission' in 'repo_id'
   def can?(permission_code, opts = {})
     permission = Permission[:permission_code => permission_code.to_s]

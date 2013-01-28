@@ -6,6 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get an EAD representation of a Resource ")
     .params(["resource_id", Integer, "The ID of the resource to retrieve"],
             ["repo_id", :repo_id])
+    .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
     ead = generate_ead(params[:resource_id], :resource, params[:repo_id])

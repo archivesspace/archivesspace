@@ -5,12 +5,15 @@ class ArchivesSpaceService < Sinatra::Base
   include AuthHelpers
 
 
+  # FIXME: no restrictions on account creation just now because it's useful
+  # for testing, but it feels like we shouldn't really let people create their
+  # own accounts like this.
   Endpoint.post('/users')
     .description("Create a local user")
     .params(["password", String, "The user's password"],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["user", JSONModel(:user), "The user to create", :body => true])
-    .preconditions(proc { current_user.can?(:manage_users) || ("AnonymousUser" == current_user.class.name && !params[:groups]) })
+    .permissions([])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -19,7 +22,19 @@ class ArchivesSpaceService < Sinatra::Base
     user = User.create_from_json(params[:user], :source => "local")
     DBAuth.set_password(params[:user].username, params[:password])
 
-    groups = Array(params[:groups]).map {|uri| Group.any_repo[JSONModel(:group).id_for(uri)] || raise(NotFoundException.new("Group not found"))}
+    groups = Array(params[:groups]).map {|uri|
+      group_ref = JSONModel.parse_reference(uri)
+      repo_id = JSONModel.parse_reference(group_ref[:repository])[:id]
+
+      RequestContext.open(:repo_id => repo_id) do
+        if current_user.can?(:manage_repository)
+          Group.get_or_die(group_ref[:id])
+        else
+          raise AccessDeniedException.new
+        end
+      end
+    }
+
     user.add_to_groups(groups)
 
     created_response(user, params[:user])
@@ -29,16 +44,34 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/users')
     .description("Get a list of system users")
     .params(*Endpoint.pagination)
-    .preconditions(proc { current_user.can?(:manage_users) })
+    .permissions([:manage_users])
     .returns([200, "[(:resource)]"]) \
   do
     handle_listing(User, params[:page], params[:page_size], params[:modified_since], {:exclude => {:id => User.unlisted_user_ids}})
   end
 
 
+  Endpoint.get('/users/current-user')
+    .description("Get the currently logged in user")
+    .params()
+    .permissions([])
+    .returns([200, "(:user)"],
+             [404, "Not logged in"]) \
+  do
+    if current_user.anonymous?
+      raise NotFoundException.new
+    else
+      json = User.to_jsonmodel(current_user)
+      json.permissions = current_user.permissions
+      json_response(json)
+    end
+  end
+
+
   Endpoint.get('/users/:id')
     .description("Get a user's details (including their current permissions)")
     .params(["id", Integer, "The username id to fetch"])
+    .permissions([:manage_users])
     .returns([200, "(:user)"]) \
   do
     user = User[params[:id]]
@@ -58,7 +91,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", Integer, "The username id to update"],
             ["password", String, "The user's password", :optional => true],
             ["user", JSONModel(:user), "The user to create", :body => true])
-    .preconditions(proc { current_user.can?(:manage_users) })
+    .permissions([:manage_users])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -81,6 +114,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["password", String, "Your password"],
             ["expiring", BooleanParam, "true if the created session should expire",
              :default => true])
+    .permissions([])
     .returns([200, "Login accepted"],
              [403, "Login failed"]) \
   do

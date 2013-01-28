@@ -5,6 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["accession_id", Integer, "The accession ID to update"],
             ["accession", JSONModel(:accession), "The accession data to update", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
     .returns([200, :updated]) \
   do
     handle_update(Accession, :accession_id, :accession)
@@ -16,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["accession_id", Integer, "The accession ID to update"],
             ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
-    .preconditions(proc { current_user.can?(:manage_repository) })
+    .permissions([:suppress_archival_record])
     .returns([200, :suppressed]) \
   do
     sup_state = Accession.get_or_die(params[:accession_id]).set_suppressed(params[:suppressed])
@@ -29,6 +30,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Accession")
     .params(["accession", JSONModel(:accession), "The accession to create", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
     .returns([200, :created]) \
   do
     handle_create(Accession, :accession)
@@ -39,6 +41,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a list of Accessions for a Repository")
     .params(["repo_id", :repo_id],
             *Endpoint.pagination)
+    .permissions([:view_repository])
     .returns([200, "[(:accession)]"]) \
   do
     handle_listing(Accession,
@@ -53,6 +56,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
+    .permissions([:view_repository])
     .returns([200, "(:accession)"]) \
   do
     json = Accession.to_jsonmodel(params[:accession_id])
@@ -65,6 +69,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get the tree of resources that relate to an Accession")
     .params(["accession_id", Integer, "The accession ID"],
             ["repo_id", :repo_id])
+    .permissions([:view_repository])
     .returns([200, "(:accession_tree)"]) \
   do
     accession = Accession.get_or_die(params[:accession_id])
@@ -76,7 +81,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Delete an Accession")
     .params(["accession_id", Integer, "The accession ID to delete"],
             ["repo_id", :repo_id])
-    .preconditions(proc { current_user.can?(:manage_repository) })
+    .permissions([:delete_archival_record])
     .returns([200, :deleted]) \
   do
     handle_delete(Accession, params[:accession_id])

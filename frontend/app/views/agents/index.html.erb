@@ -8,7 +8,7 @@
      <div class="record-pane">
       <div class="btn-group pull-right">
         <div class="btn-group">
-          <% if user_can?('update_repository') %>
+          <% if user_can?('update_agent_record') %>
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
               <%= I18n.t("actions.create") %> <%= I18n.t("agent._html.singular") %>
               <span class="caret"></span>
@@ -41,7 +41,7 @@
               <td><%= I18n.t("agent.agent_type.#{agent.agent_type}") %></td>
               <td>
                  <div class="btn-group" style="float: right">
-                   <% if user_can?('update_repository') %>
+                   <% if user_can?('update_agent_record') %>
                      <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => agent.id, :type => agent.agent_type}, :class => "btn btn-mini" %>
                    <% end %>
                    <%= link_to I18n.t("actions.view"), {:controller => :agents, :action => :show, :id => agent.id, :type => agent.agent_type}, :class => "btn btn-mini" %>

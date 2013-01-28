@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:new, :edit, :index, :create, :update, :show]
-  before_filter :user_needs_to_be_a_user_manager, :only => [:index, :edit, :update]
+  before_filter(:only => [:index, :edit, :update]) {|c| user_must_have("manage_users")}
   before_filter :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
   before_filter :user_needs_to_be_a_user, :only => [:show]
 

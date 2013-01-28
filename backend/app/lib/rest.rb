@@ -111,6 +111,7 @@ module RESTHelpers
       @method = method
       @uri = ""
       @description = "-- No description provided --"
+      @permissions = []
       @preconditions = []
       @required_params = []
       @returns = []
@@ -157,26 +158,38 @@ module RESTHelpers
     def description(description); @description = description; self; end
     def preconditions(*preconditions); @preconditions += preconditions; self; end
 
-    def params(*params)
-      @required_params = params.map do |p|
-        @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
-      end
 
-      # A special case for repo_id since it's so prevalent: if the repo_id is
-      # provided, add a check to make sure the requesting user has permission
-      # to view this repository
-      if @required_params.any?{|param| param.first == 'repo_id'}
-        if @method == :get
-          @preconditions << proc { |request| current_user.can?(:view_repository) }
-        elsif @method == :post
-          @preconditions << proc { |request| current_user.can?(:update_repository) }
-        end
+    def permissions(permissions)
+      @has_permissions = true
+
+      permissions.each do |permission|
+        @preconditions << proc { |request| current_user.can?(permission) }
       end
 
       self
     end
 
+
+    # Just some scaffolding until everything has permissions specified
+    def nopermissionsyet
+      @has_permissions = true
+      Log.warn("No permissions defined for #{@method.upcase} #{@uri}")
+      self
+    end
+
+
+    def params(*params)
+      @required_params = params.map do |p|
+        @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
+      end
+
+      self
+    end
+
+
     def returns(*returns, &block)
+      raise "No .permissions declaration for endpoint #{@method.to_s.upcase} #{@uri}" if !@has_permissions
+
       @returns = returns.map { |r| r[1] = @@return_types[r[1]] || r[1]; r }
 
       @@endpoints << self
@@ -221,7 +234,8 @@ module RESTHelpers
             if RequestContext.get(:repo_id)
               RequestContext.put(:enforce_suppression,
                                  !(current_user.can?(:manage_repository) ||
-                                   current_user.can?(:view_suppressed)))
+                                   current_user.can?(:view_suppressed) ||
+                                   current_user.can?(:suppress_archival_record)))
             end
 
             self.instance_eval &block
