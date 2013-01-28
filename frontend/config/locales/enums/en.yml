@@ -126,3 +126,11 @@ en:
       gift: Gift
       purchase: Purchase
       transfer: Transfer
+    subject_source:
+      aat: "Art & Architecture Thesaurus"
+      gmgpc: "TGM II, Genre and physical characteristic terms"
+      lcsh: Library of Congress Subject Headings
+      local: Local sources
+      mesh: Medical Subject Headings
+      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
+      tgn: "Getty Thesaurus of Geographic Names"
