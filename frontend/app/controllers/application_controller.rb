@@ -170,6 +170,20 @@ class ApplicationController < ActionController::Base
     render_403 if session['user'] and not user_can? 'manage_users'
   end
 
+  # THINKME: Maybe we could generate these using a bit of metaprogramming magic?
+  def user_needs_to_have_update_location
+    render_403 if session['user'] and not user_can? 'update_location_record'
+  end
+
+  def user_needs_to_have_update_agent
+    render_403 if session['user'] and not user_can? 'update_agent_record'
+  end
+
+  def user_needs_to_have_update_subject
+    render_403 if session['user'] and not user_can? 'update_subject_record'
+  end
+
+
   helper_method :user_can?
   def user_can?(permission, repository = nil)
     repository ||= session[:repo]

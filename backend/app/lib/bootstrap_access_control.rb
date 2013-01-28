@@ -60,7 +60,7 @@ class ArchivesSpaceService
                       "The ability to manage a given repository",
                       :level => "repository")
 
-    Permission.define("update_location",
+    Permission.define("update_location_record",
                       "The ability to create and modify location records in a given repository",
                       :level => "repository")
 

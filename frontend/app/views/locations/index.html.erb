@@ -7,7 +7,7 @@
    <div class="span9">
     <div class="record-pane">
       <div class="btn-group pull-right">
-        <% if user_can?('update_location') %>
+        <% if user_can?('update_location_record') %>
           <%= link_to "#{I18n.t("actions.create")} #{I18n.t("location._html.singular")}", {:controller => :locations, :action => :new}, :class => "btn" %>
         <% end %>
       </div>
@@ -41,7 +41,7 @@
               <td>
                  <div class="btn-group" style="float: right">
                    <%= link_to I18n.t("actions.view"), {:controller => :locations, :action => :show, :id => location.id}, :class => "btn btn-mini" %>
-                   <% if user_can?('update_location') %>
+                   <% if user_can?('update_location_record') %>
                      <%= link_to I18n.t("actions.edit"), {:controller => :locations, :action => :edit, :id => location.id}, :class => "btn btn-mini" %>
                    <% end %>
                  </div>
