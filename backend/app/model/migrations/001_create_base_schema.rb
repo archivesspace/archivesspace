@@ -480,7 +480,7 @@ Sequel.migration do
       add_foreign_key([:subject_id], :subject, :key => :id)
       add_foreign_key([:term_id], :term, :key => :id)
 
-      add_index([:subject_id, :term_id], :name => "subject_term")
+      add_index([:subject_id, :term_id], :name => "subject_term_idx")
     end
 
 
