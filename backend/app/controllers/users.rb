@@ -51,6 +51,23 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/users/current-user')
+    .description("Get the currently logged in user")
+    .params()
+    .permissions([])
+    .returns([200, "(:user)"],
+             [404, "Not logged in"]) \
+  do
+    if current_user.anonymous?
+      raise NotFoundException.new
+    else
+      json = User.to_jsonmodel(current_user)
+      json.permissions = current_user.permissions
+      json_response(json)
+    end
+  end
+
+
   Endpoint.get('/users/:id')
     .description("Get a user's details (including their current permissions)")
     .params(["id", Integer, "The username id to fetch"])
