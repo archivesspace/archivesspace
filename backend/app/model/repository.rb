@@ -43,6 +43,11 @@ class Repository < Sequel::Model(:repository)
                                                  "delete_archival_record", "suppress_archival_record"]
                        },
                        {
+                         :group_code => "repository-advanced-data-entry",
+                         :description => "Advanced Data Entry users of the #{repo_code} repository",
+                         :grants_permissions => ["view_repository", "update_archival_record", "update_subject_record", "update_agent_record"]
+                       },
+                       {
                          :group_code => "repository-viewers",
                          :description => "Viewers of the #{repo_code} repository",
                          :grants_permissions => ["view_repository"]
