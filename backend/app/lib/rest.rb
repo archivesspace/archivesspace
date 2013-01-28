@@ -234,7 +234,8 @@ module RESTHelpers
             if RequestContext.get(:repo_id)
               RequestContext.put(:enforce_suppression,
                                  !(current_user.can?(:manage_repository) ||
-                                   current_user.can?(:view_suppressed)))
+                                   current_user.can?(:view_suppressed) ||
+                                   current_user.can?(:suppress_archival_record)))
             end
 
             self.instance_eval &block
