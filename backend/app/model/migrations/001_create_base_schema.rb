@@ -998,6 +998,7 @@ Sequel.migration do
 
     create_enum('name_rule', ["local", "aacr", "dacs"])
 
+    create_enum('name_description_type', ["biographical statement", "administrative history"])
 
     create_enum('accession_acquisition_type', ["deposit", "gift", "purchase", "transfer"])
 
@@ -1016,6 +1017,12 @@ Sequel.migration do
     create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leafs", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
 
     create_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "agreement received", "agreement sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "custody transfer", "deaccession", "decompression", "decryption", "deletion", "digital signature validation", "fixity check", "ingestion", "message digest calculation", "migration", "normalization", "processing", "publication", "replication", "resource merge", "resource component transfer", "validation", "virus check"])
+
+    create_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "page", "reel", "volume"])
+
+    create_enum('agent_contact_salutation', ["mr", "mrs", "ms", "madame", "sir"])
+
+    create_enum('event_outcome', ["pass", "partial pass", "fail"])
 
     create_enum('resource_resource_type', ["collection", "publications", "papers", "records"])
 

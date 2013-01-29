@@ -17,7 +17,7 @@
     <%= form.label_and_textfield "qualifier" %>
     <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}}%>
     <hr/>
-    <%= form.label_and_textfield "description_type" %>
+    <%= form.label_and_select "description_type", form.possible_options_for('description_type', true) %>
     <%= form.label_and_textarea "description_note" %>
     <%= form.label_and_textfield "description_citation" %>
   </div>

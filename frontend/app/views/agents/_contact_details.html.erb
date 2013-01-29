@@ -1,7 +1,7 @@
 <% define_template "agent_contact", jsonmodel_definition(:agent_contact) do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_textfield "name" %>
-    <%= form.label_and_textfield "salutation" %>
+    <%= form.label_and_select "salutation", form.possible_options_for('salutation', true) %>
     <%= form.label_and_textfield "address_1" %>
     <%= form.label_and_textfield "address_2" %>
     <%= form.label_and_textfield "address_3" %>

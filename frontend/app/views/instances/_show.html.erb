@@ -20,7 +20,7 @@
               <% if instance["instance_type"] === "digital_object" %>
                 <%= instance["digital_object"]["_resolved"]["title"] %>
               <% elsif instance["container"] and instance["container"].length > 0 %>
-                <%= instance["container"]["type_1"] %>
+                <%= I18n.t("enumerations.container_type.#{instance['container']['type_1']}") %>
               <% end %>
             </div>
           </div>
