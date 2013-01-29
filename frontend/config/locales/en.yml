@@ -1250,7 +1250,7 @@ en:
     publish_help: Check this if you wish to publish this accession to the public.
     restrictions: Restrictions?
     title: Title
-    title_tooltip: The title provided for the accession
+    title_tooltip: The title of the accession
     _html:
       singular: Accession
       plural: Accessions
@@ -1332,7 +1332,6 @@ en:
       plural: Groups
   resource:
     title: Title
-    title_tooltip: The title of the resource
     title_default: New Resource
     id_0: Identifier
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
