@@ -5,7 +5,7 @@
 
     "properties" => {
       "name" => {"type" => "string", "ifmissing" => "error"},
-      "salutation" => {"type" => "string"},
+      "salutation" => {"type" => "string", "dynamic_enum" => "agent_contact_salutation"},
       "address_1" => {"type" => "string"},
       "address_2" => {"type" => "string"},
       "address_3" => {"type" => "string"},

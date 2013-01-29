@@ -24,7 +24,7 @@
       },
 
       "date" => {"type" => "JSONModel(:date) object", "ifmissing" => "error"},
-      "outcome" => {"type" => "string"},
+      "outcome" => {"type" => "string", "dynamic_enum" => "event_outcome"},
       "outcome_note" => {"type" => "string"},
 
       "suppressed" => {"type" => "boolean"},
