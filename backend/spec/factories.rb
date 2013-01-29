@@ -26,7 +26,7 @@ FactoryGirl.define do
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:generic_description) {|n| "Description: #{n}"}
   sequence(:generic_name) {|n| "Name Number #{n}"}
-  sequence(:container_type) {|n| "Container Type #{n}"}
+  sequence(:container_type) {|n| sample(JSONModel(:container).schema['properties']['type_1'])}
   sequence(:sort_name) { |n| "SORT #{('a'..'z').to_a[rand(26)]} - #{n}" }
   
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
