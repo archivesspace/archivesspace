@@ -154,6 +154,7 @@ DEPENDENCIES
   jquery-rails
   jruby-jars (= 1.7.0)
   jruby-openssl
+  json
   json-schema
   less-rails
   markaby
