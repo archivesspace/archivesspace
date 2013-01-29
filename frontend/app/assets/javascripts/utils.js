@@ -118,6 +118,21 @@ $(function() {
 });
 
 
+// any element with a tooltip!
+$(function() {
+  var initTooltips = function() {
+    $(".has-tooltip:not(.initialised)")
+      .tooltip()
+      .addClass("initialised");
+  };
+  initTooltips();
+  $(document).ajaxComplete(function() {
+    initTooltips();
+  });
+  $(document).bind("new.subrecord, init.subrecord, init.tooltips", initTooltips);
+});
+
+
 // allow click of a submenu link
 $(function() {
   var initSubmenuLink = function() {
