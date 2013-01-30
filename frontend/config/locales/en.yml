@@ -1319,9 +1319,9 @@ en:
     permission_types:
       manage_repository: manage this repository (change groups and other settings)
       update_location_record: create/modify/delete location records in this repository
-      update_subject_record: update subject records
-      update_agent_record: update agent records
-      update_archival_record: create/modify/delete the major record types in this repository
+      update_subject_record: create/update subject records
+      update_agent_record: create/update agent records
+      update_archival_record: create/update the major record types in this repository
       view_repository: view the records in this repository
       view_suppressed: view suppressed records in this repository
       suppress_archival_record: suppress the major record types in this repository
