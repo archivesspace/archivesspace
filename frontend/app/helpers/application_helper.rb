@@ -79,4 +79,23 @@ module ApplicationHelper
     html.html_safe
   end
 
+  def link_to_help(opts = {})
+    return if not ArchivesSpaceHelp.enabled?
+    return if opts.has_key?(:topic) and not ArchivesSpaceHelp.topic?(opts[:topic])
+
+    href = (opts.has_key? :topic) ? ArchivesSpaceHelp.url_for_topic(opts[:topic]) : ArchivesSpaceHelp.base_url
+
+    label = opts[:label] || I18n.t("help.icon")
+
+    title = (opts.has_key? :topic) ? I18n.t("help.topics.#{opts[:topic]}", :default => I18n.t("help.default_tooltip", :default => "")) : I18n.t("help.default_tooltip", :default => "")
+
+    link_to(
+            label.html_safe, 
+            href, 
+            :target => "_blank", 
+            :title => title,
+            :class => "context-help has-tooltip"
+           )
+  end
+
 end

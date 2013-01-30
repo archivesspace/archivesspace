@@ -114,6 +114,14 @@ module AspaceFormHelper
       "#{names.first}#{path}"
     end
 
+
+    def help_path_for(name)
+      names = @context.map(&:first)
+      return "#{names[-1].to_s.gsub(/\[.*\]/, "").singularize}_#{name}" if names.length > 0
+      name
+    end
+
+
     def parent_context
       form_top
     end

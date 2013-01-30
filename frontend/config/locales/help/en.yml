@@ -1,0 +1,8 @@
+en:
+  help:
+    icon: "<span class='context-help-icon icon-question-sign'></span>"
+    help_center: Help Center
+    default_tooltip: Get Help on using ArchivesSpace
+    topics:
+      accession: Help for Accessions
+      accession_basic_information: Help for Accession's Basic Information

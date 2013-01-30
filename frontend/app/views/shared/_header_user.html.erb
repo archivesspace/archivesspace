@@ -52,14 +52,14 @@
           <% end %>
         <% end %>
         <% if user_can?('manage_users') %>
-          <li class="divider"></li>
           <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
         <% end %>
-        <li class="divider"></li>
         <% if user_can?('manage_users') %>
           <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
-          <li class="divider"></li>
         <% end %>
+        <li class="divider"></li>
+        <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
+        <li class="divider"></li>
         <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
       </ul>
     </div>

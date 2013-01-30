@@ -1,0 +1,18 @@
+enabled: true
+base_url: "http://www.archivesspace.org/help"
+topics:
+  accession: "#Accessions/Index.htm"
+  accession_basic_information: "#Accessions/BasicInformation.htm"
+  accession_extents: "#Accessions/Extents.htm"
+  accession_dates: "#Accessions/Dates.htm"
+  accession_related_resources: "#Accessions/RelatedResources.htm"
+  accession_linked_agents: "#Accessions/AgentLinks.htm"
+  accession_subjects: "#Accessions/Subjects.htm"
+  accession_external_documents: "#Accessions/ExternalDocuments.htm"
+  accession_rights_statements: "#Accessions/Rights.htm"
+  accession_deaccessions: "#Accessions/Deaccessions.htm"
+  accession_: "#Accessions/.htm"
+  accession_: "#Accessions/.htm"
+  deaccession_deaccession_date: "#Deaccession/Date.htm"
+  deaccession_extents: "#Deaccession/Extents.htm"
+  rights_statement_external_documents: "#Rights/ExternalDocuments.htm"

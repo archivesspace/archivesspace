@@ -8,6 +8,7 @@
       </div>
       <div class="span9">
         <div class="record-pane">
+          <%= link_to_help :topic => "accession" %>
           <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("accession._html.singular") %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
           <%= render :partial => "accessions/form", :locals => {:form => form} %>
         </div>
