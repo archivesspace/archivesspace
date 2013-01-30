@@ -224,12 +224,22 @@ module AspaceFormHelper
 
 
     def textarea(name = nil, value = "", opts =  {})
-      @forms.text_area_tag(path(name), h(value),  {:id => id_for(name), :rows => 3}.merge(opts))
+      options = {:id => id_for(name), :rows => 3}
+
+      placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
+      options[:placeholder] = placeholder if not placeholder.empty?
+
+      @forms.text_area_tag(path(name), h(value),  options.merge(opts))
     end
 
 
     def textfield(name = nil, value = "", opts =  {})
-      value = @forms.tag("input", {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}.merge(opts),
+      options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
+
+      placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
+      options[:placeholder] = placeholder if not placeholder.empty?
+
+      value = @forms.tag("input", options.merge(opts),
                  false, false)
 
       if opts[:automatable]
@@ -242,6 +252,7 @@ module AspaceFormHelper
         value << I18n.t("actions.automate")
         value << "</small></label>".html_safe
       end
+
       value
     end
 
@@ -287,7 +298,17 @@ module AspaceFormHelper
     end
 
     def label(name, opts = {})
-      "<label class=\"control-label\" for=\"#{id_for(name)}\">#{I18n.t(i18n_for(name))}</label>".html_safe
+      options = {:class => "control-label", :for => id_for(name)}
+
+      tooltip = I18n.t("#{i18n_for(name)}_tooltip", :default => '')
+      if not tooltip.empty?
+        options[:title] = tooltip
+        options["data-placement"] = "bottom"
+        options["data-html"] = true
+        options[:class] += " has-tooltip"
+      end 
+
+      @forms.content_tag(:label, I18n.t(i18n_for(name)), options.merge(opts || {}))
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)

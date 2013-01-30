@@ -1241,15 +1241,66 @@ en:
     <<: *date_attributes
   accession:
     accession_date: Accession Date
+    accession_date_tooltip: |
+        <p>REQUIRED FIELD: The date the accession took place. It is not 
+        necessarily the same date as when the record is created.</p>
     accession_id: Identifier
+    accession_id_tooltip: |
+        <p>The internal database number for a specific accession record.</p>
     id_0: Identifier
+    id_0_tooltip: |
+        <p>REQUIRED FIELD:  The unique identifier for an accession within a
+        repository.</p>
+        <p>In ArchivesSpace, four fields are provided for parsing out an
+        accession identifier into its component parts. Each segment is
+        limited to 50 characters, or 200 characters total for the identifier.
+        At least the first part must be used for a valid accession record.</p>
+        <p>Default values may be used to populate the component parts that are
+        the same across all accession numbers.</p>
+        <p>See DACS 5.2.5</p>
     content_description: Content Description
+    content_description_tooltip: |
+        <p>A description of the document types and topical contents of the
+        accession.</p>
+        <p>See DACS 3.1.4-3.1.7</p>
+        <p>Examples:</p>
+        <p>Ten cartons of materials containing field notes, diaries, and
+        drafts of maps documenting Mr. Smith's 10 years in residence at the
+        Otay Mesa Ranch.</p>
     condition_description: Condition Description
+    condition_description_tooltip: |
+        <p>A description of the physical condition of the contents of the
+        accession, including any special handling requirements.</p>
+        <p>Examples:</p>
+        <p>The maps in box 4 are brittle and several are covered with mold.
+        Inhalation guards should be worn during processing.</p>
     acquisition_type: Acquisition Type
+    acquisition_type_tooltip: |
+        <p>A categorical descriptor for the type of acquisition. Repositories
+        may customize the list of data values.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Gift</li>
+        <li>Purchase</li>
+        <li>Transfer</li>
+        </ul>
     publish: Publish?
     publish_help: Check this if you wish to publish this accession to the public.
+    publish_tooltip: |
+        <p>Determines whether this accession record will be published to
+        public (patron) interfaces.</p>
     restrictions: Restrictions?
+    restrictions_tooltip: |
+        <p>Indication if restrictions apply to the accession.</p>
+        <p>See DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
     title: Title
+    title_tooltip: |
+        <p>The title assigned to an accession or resource. The accession title
+        need not be the same as the resource title. Moreover, a title need not
+        be expressed for the accession record, as it can be implicitly 
+        inherited from the resource record to which the accession is
+        linked.</p>
+        <p>See DACS 2.3.18-2.3.22</p>
     _html:
       singular: Accession
       plural: Accessions
