@@ -128,9 +128,54 @@ $(function() {
 $(function() {
   var initTooltips = function(scope) {
     scope = scope || $(document.body);
-    $(".has-tooltip:not(.initialised)", scope)
-      .tooltip()
-      .addClass("initialised");
+    $(".has-tooltip:not(.initialised)", scope).each(function() {
+      var $this = $(this);
+      $this.tooltip().addClass("initialised");
+
+      // for manual ArchiveSpace help tooltips
+      if ($this.data("trigger") === "manual" && $this.is("label.control-label")) {
+        var openedViaClick = false;
+        var showTimeout, hideTimeout;
+
+        $this.click(function() {
+          clearTimeout(showTimeout);
+
+          if (openedViaClick) {
+            $this.tooltip("hide");
+            openedViaClick = false;
+            return;
+          }
+
+          $this.off("mouseleave");
+
+          $this.tooltip("show");
+          $(".tooltip-inner", $this.data("tooltip").$tip).prepend('<span class="tooltip-close icon-remove-circle icon-white"></span>');
+          $(".tooltip-close", $this.data("tooltip").$tip).click(function() {
+            $this.trigger("click");
+          });
+          openedViaClick = true;
+        });
+
+        $this.bind("mouseenter", function() {
+          if (openedViaClick) return;
+
+          clearTimeout(hideTimeout);
+          showTimeout = setTimeout(function() {
+            showTimeout = null;
+            $this.tooltip("show");
+          }, $this.data("delay") || 500);
+          $this.off("mouseleave").on("mouseleave", function() {
+            if (showTimeout) {
+              clearTimeout(showTimeout);
+            } else {
+              hideTimeout = setTimeout(function() {
+                $this.tooltip("hide");
+              }, 100);
+            }
+          });
+        });
+      }
+    });
   };
   initTooltips();
   $(document).ajaxComplete(function() {
