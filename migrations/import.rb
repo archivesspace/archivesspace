@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'optparse'
-require File.join(File.dirname(__FILE__), "lib", "bootstrap")
+require_relative "config/config"
 
 options = {:dry => false, 
            :debug => false,
@@ -50,6 +50,9 @@ optparse = OptionParser.new do|opts|
 end
 
 optparse.parse!
+
+$dry_mode = true if options[:dry]
+require File.join(File.dirname(__FILE__), "lib", "bootstrap")
 
 if options[:list]
   ASpaceImport::Importer.list

@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ead audience="external" 
+     xmlns="urn:isbn:1-931666-22-9"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.loc.gov/ead/ http://www.loc.gov/ead/ead.xsd">
+   <eadheader langencoding="iso639-2b" audience="external" countryencoding="iso3166-1" dateencoding="iso8601" repositoryencoding="iso15511" scriptencoding="iso15924" relatedencoding="MARC21">
+      <eadid encodinganalog="856$u" mainagencycode="US-ole" countrycode="US" identifier="ArchonInternalCollectionID:1">01/CollectionMgr.CollectionID-Archon</eadid>
+      <filedesc>
+                  <titlestmt>
+               <titleproper encodinganalog="245">Guide to the CollectionMgr.Title-Archon</titleproper>
+               <titleproper type="filing">CollectionMgr.SortTitle-Archon</titleproper>
+                        <author encodinganalog="245$c">Finding Aid Authors: CollectionMgr.FindingAidAuthor-Archon.</author>
+                  </titlestmt>
+         <publicationstmt>
+            <p>&#x00A9; Copyright 2012 Archon Migration Tracer.  All rights reserved.</p>
+                           <publisher encodinganalog="260$b">Archon Migration Tracer</publisher>
+                        <date encodinganalog="260$c" type="publication" normal="2012-01-01">2012-01-01</date>
+
+                           <address>
+                  <addressline>Address1-Archon</addressline>
+                                 <addressline>Address2-Archon</addressline>
+                                 <addressline>City-Archon, CA, 11111-1111</addressline>
+                                 <addressline>URL: http://ec2-107-20-90-230.compute-1.amazonaws.com/3.21-r1/Archon</addressline>
+                                 <addressline>Email: email@archon</addressline>
+                                 <addressline>Phone: 111-111-1111</addressline>
+                                 <addressline>Fax: 111-111-1111</addressline>
+                           </address>
+               
+         </publicationstmt>
+      </filedesc>
+
+      <profiledesc>
+         <creation encodinganalog="500">This finding aid was encoding in EAD by Archon 3.21 from an SQL database source on <date type="encoded" normal="2012-12-03">December 3rd, 2012</date>.</creation>
+                           <langusage encodinganalog="546">The collection description/finding aid is written in <language encodinganalog="041" langcode="eng">English</language></langusage>
+                     </profiledesc>
+
+
+                        <revisiondesc>
+            <change encodinganalog="583">
+               <date type="encoded" normal="2012-12-03">December 3rd, 2012</date>
+                                       <item>CollectionMgr.FindingAidInfo.RevisionHistory-Archon</item>
+                             </change>
+          </revisiondesc>
+
+      </eadheader>
+
+      <frontmatter>
+         <titlepage>
+            <titleproper encodinganalog="245">Guide to the CollectionMgr.Title-Archon
+                              <date normal="1999" encodinganalog="260$c">1999</date>
+                        </titleproper>
+               <publisher encodinganalog="260$b">Archon Migration Tracer</publisher>
+               </titlepage>
+            </frontmatter>
+
+            <archdesc level="collection" type="inventory" audience="external" relatedencoding="MARC21">
+               <did>
+                  <head>Overview of the Collection</head>
+                           <unittitle label="Collection Title" encodinganalog="245">CollectionMgr.Title-Archon                              <unitdate label="Dates" encodinganalog="245$f" type="inclusive" normal="1999">CollectionMgr.InclusiveDate-Archon</unitdate>
+                              <unitdate label="Bulk Dates" encodinganalog="245$g" type="bulk">CollectionMgr.PredomDate-Archon</unitdate>
+                  </unittitle>
+                  <unitid encodinganalog="035" label="Identification" repositorycode="US-ole" countrycode="US">01/CollectionMgr.CollectionID-Archon</unitid>
+                     <origination label="Creator" encodinganalog="245$c">
+                     <corpname encodinganalog="110" normal="Creator.Corpname-Archon" source="CreSrcAbbr" role="Collector">Creator.Corpname-Archon</corpname>
+                           </origination>
+                           <physdesc label="Physical Description"><extent encodinganalog="300" type="Boxes">1.00</extent></physdesc>
+                           <physdesc label="Alternate Extent Statement" encodinganalog="300$a">CollectionMgr.Description.AltExtentStmt-Archon</physdesc>
+         
+               <langmaterial encodinganalog="546" label="Language of Materials">
+            		<language encodinganalog="041" langcode="eng">English</language>
+               </langmaterial>
+                        <repository encodinganalog="852$b" label="Repository">
+                              <corpname>Archon Migration Tracer</corpname>
+                              <address>
+                     <addressline>Address1-Archon</addressline>
+                                    <addressline>Address2-Archon</addressline>
+                                       <addressline>City-Archon, CA, 11111-1111</addressline>
+                                    <addressline>URL: http://ec2-107-20-90-230.compute-1.amazonaws.com/3.21-r1/Archon</addressline>
+                                    <addressline>Email: email@archon</addressline>
+                                    <addressline>Phone: 111-111-1111</addressline>
+                                    <addressline>Fax: 111-111-1111</addressline>
+                              </address>
+            </repository>
+
+
+                              <abstract encodinganalog="520$a" label="Abstract">CollectionMgr.Description.Abstract-Archon</abstract>
+                                    <note encodinganalog="500" label="Note">
+                  <p>Other Information:</p>
+                                       <p>CollectionMgr.OtherInfo.OtherNote-Archon</p>
+                                 <p>Additional information may be found at http://CollectionMgr.OtherInfo.OtherURL-Archon</p>
+                           </note>
+               
+      </did>
+
+
+      <!--COLLECTION LEVEL METADATA: -->
+               <bioghist altrender="Administrative History" encodinganalog="545"><head>Administrative History:</head>
+                                       <p>CollectionMgr.Description.Biographical/HistoricalNote-Archon</p>
+                           </bioghist>
+            
+
+            <!-- CONTROLLED ACCESS / SUBJECT TERMS -->
+
+                        <controlaccess>
+                     <head>Access Terms</head>
+
+                     <p>This Collection is indexed under the following controlled access subject terms.</p>
+                                 <controlaccess>
+                              <head>Corporate Name:</head>
+                                       <corpname encodinganalog="610" source="lcnaf" role="subject">Subject.CorpName-Archon</corpname>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Date:</head>
+                                       <date encodinganalog="245$f" source="lcsh">Subject.Date-Archon</date>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Family Name:</head>
+                                       <famname encodinganalog="600" source="lcnaf" role="subject">Subject.FamName-Archon</famname>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Function:</head>
+                                       <function encodinganalog="657" source="lcsh">Subject.Function-Archon</function>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Genre/Form of Material:</head>
+                                       <genreform encodinganalog="655" source="lcsh">Subject.Genreform-Archon</genreform>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Geographic Name:</head>
+                                       <geogname encodinganalog="651" source="lcnaf" role="subject">Subject.Geogname-Archon</geogname>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Occupation:</head>
+                                       <occupation encodinganalog="656" source="lcsh">Subject.Occupation-Archon</occupation>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Personal Name:</head>
+                                       <persname encodinganalog="600" source="lcnaf" role="subject">Subject.Persname-Archon</persname>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Title:</head>
+                                       <title encodinganalog="630" source="lcsh">Subject.Title-Archon</title>
+                                 </controlaccess>
+                           <controlaccess>
+                              <head>Topical Term:</head>
+                                       <subject encodinganalog="650" source="lcsh">Subject.Topic-Archon</subject>
+                                 </controlaccess>
+            </controlaccess>
+            
+
+         <!-- END CONTROLLED ACCESS TERMS -->
+
+            
+            <!-- DIGITAL ARCHIVAL OBJECTS -->
+                              <!-- END DIGITAL ARCHIVAL OBJECTS -->
+                     <!-- ADMINISTRATIVE INFORMATION -->
+
+                  <descgrp>
+                     <head>Administrative Information</head>
+                              <acqinfo encodinganalog="541">
+                           <head>Acquisition Information:</head>
+                           <p>CollectionMgr.Acquisitions.Method-Archon</p>
+                        </acqinfo>
+                     <custodhist encodinganalog="561">
+                        <head>Custodial History:</head>
+                                          <p>CollectionMgr.Acquisitions.Custodial History-Archon</p>
+                  </custodhist>
+                              <accruals encodinganalog="584">
+                     <head>Accruals:</head>
+                                          <p>CollectionMgr.Acquisitions.Accural/Additions-Archon</p>
+                                 </accruals>
+                                 <processinfo encodinganalog="583">
+                           <head>Processing Information:</head>
+                                    <p>CollectionMgr.FindingAidInfo.ProcessingInfo-Archon</p>
+                              </processinfo>
+                              <separatedmaterial encodinganalog="544 0">
+                           <head>Separated Materials:</head>
+                                          <p>CollectionMgr.RelatedMaterials.SeparatedMat&#039;s-Archon</p>
+                        </separatedmaterial>
+                           <appraisal encodinganalog="583">
+                        <head>Appraisal Information:</head>
+                                 <p>CollectionMgr.Acquisitions.Appraisal Info-Archon</p>
+                                 </appraisal>
+                              <userestrict encodinganalog="540">
+                           <head>Conditions Governing Use:</head>
+                                          <p>CollectionMgr.Restrictions.Use/Rights-Archon</p>
+                              </userestrict>
+                     <accessrestrict encodinganalog="506">
+                        <head>Conditions Governing Access:</head>
+                                          <p>CollectionMgr.Restrictions.Access/General-Archon</p>
+                           </accessrestrict>
+                              <altformavail encodinganalog="530">
+                     <head>Electronic Format:</head>
+                                             <p>CollectionMgr.RelatedMaterials.Orig/CopyNote-Archon</p>
+                                             <p>http://CollectionMgr.RelatedMaterials.Org/CopyURL-Archon</p>
+                              </altformavail>
+                  <prefercite encodinganalog="524">
+                     <head>Preferred Citation:</head>
+                     <p>CollectionMgr.RelatedMaterials.PreferredCit-Archon</p>
+                     </prefercite>
+                              <relatedmaterial encodinganalog="544 1">
+                        <head>Related Materials:</head>
+                                          <p>CollectionMgr.RelatedMaterials.RelatedMat&#039;s-Archon</p>
+                                    <p>Information about related materials is available at http://CollectionMgr.RelatedMaterials.RelatedMatURL-Archon</p>
+                              </relatedmaterial>
+                              <phystech encodinganalog="340">
+                        <head>Physical Characteristics or Technical Requirements:</head>
+                                             <p>CollectionMgr.Restrictions.Physical-Archon</p>
+                                                <p>CollectionMgr.Restrictions.Technical-Archon</p>
+                              </phystech>
+                        </descgrp>
+
+                           <arrangement encodinganalog="351">
+                  <head>Arrangement of Materials:</head>
+                                 <p>CollectionMgr.Description.Arrangement-Archon</p>
+                        </arrangement>
+            <scopecontent>
+               <head>Scope and Contents</head>
+                                 <p>CollectionMgr.Description.Scope-Archon</p>
+                                 <p>Here is an example of bold text: <emph render="bold">bold text</emph></p>
+                                 <p>Here is an example of italicized text: <emph render="italic">italicized text</emph></p>
+                                 <p>Here is an example of italicized text:<emph render="italic"> </emph><emph render="underline">underlined text</emph></p>
+                                 <p>Here is an example of subscript text: <emph render="sub">subscript text</emph></p>
+                                 <p>Here is an example of superscript text: <emph render="super">superscript text</emph></p>
+                                 <p>Here is an example of a URL link: <extref linktype="simple" audience="external" show="embed" actuate="onrequest" href="http://www.archivesspace.org">http://www.archivesspace.org</extref></p>
+                                 <p>Here is an example of an e-mail link: <extref linktype="simple" audience="external" show="embed" actuate="onrequest" href="mailto:test@archivesspace.org?subject=Test&amp;body=Test%20message">test@archivesspace.org</extref></p>
+                                 <p>Here is an example of an anchor link: <extref linktype="simple" audience="external" show="embed" actuate="onrequest" href="#">anchor</extref></p>
+                                 <p>Here is an example of a special character (copyright symbol): ©</p>
+                        </scopecontent>
+            
+
+
+         <!-- END ADMINISTRATIVE INFORMATION -->
+
+         <!-- END COLLECTION LEVEL METADATA -->
+
+                        <!-- BEGIN SUBORDINATE COMPONENTS -->
+            <dsc type="combined">
+               <head>Detailed List of Contents</head>
+               <c01 level="">
+   <did>
+      <unitid label="ArchonID" audience="internal">id1</unitid>
+         	<container type="Intellectual and physical">File</container>
+      <unittitle>CollectionMgr.C01Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C01InternalTitle-Archon</unittitle>
+                  <unitdate>CollectionMgr.C01Date-Archon</unitdate>
+            		<dao xlink:type="simple" xlink:href="http://DigitalLibMgr.ContentURL-Archon" xlink:actuate="onRequest" xlink:show="new">
+			<daodesc>
+			<head>Title:</head>
+				<p>DigitalLibMgr.Title-Archon</p>
+			</daodesc>
+		</dao>
+		<origination label="Creator" encodinganalog="245$c">
+			<persname normal="Creator.Persnamelast-Archon, Creator.Persnamefirst-Archon" encodinganalog="100" source="CreSrcAbbr" role="Collector">Creator.Persnamelast-Archon, Creator.Persnamefirst-Archon, 1999-2000</persname>
+		</origination>
+			<origination label="CollectionMgr.C01CreatorHead-Archon">CollectionMgr.C01CreatorValue-Archon			</origination>
+			<langmaterial label="CollectionMgr.C01LangmaterialHead-Archon">CollectionMgr.C01LangmaterialValue-Archon			</langmaterial>
+			<materialspec label="CollectionMgr.C01MaterialspecHead-Archon">CollectionMgr.C01MaterialspecValue-Archon			</materialspec>
+			<note label="CollectionMgr.C01NoteHead-Archon">
+				<p>CollectionMgr.C01NoteValue-Archon</p>
+			</note>
+			<physdesc label="CollectionMgr.C01PhysdescHead-Archon">CollectionMgr.C01PhysdescValue-Archon			</physdesc>
+			<unitid label="CollectionMgr.C01UnitidHead-Archon">CollectionMgr.C01UnitidValue-Archon			</unitid>
+		<physdesc>
+				<dimensions label="CollectionMgr.C01DimensionsHead-Archon">CollectionMgr.C01DimensionsValue-Archon				</dimensions>
+				<extent label="CollectionMgr.C01ExtentHead-Archon">CollectionMgr.C01ExtentValue-Archon				</extent>
+				<physfacet label="CollectionMgr.C01PhysfacetHead-Archon">CollectionMgr.C01PhysfacetValue-Archon				</physfacet>
+		</physdesc>
+   </did>
+      		<controlaccess>
+			<head>Access Terms</head>
+			<p>This content is indexed under the following controlled access subject terms.</p>
+			<controlaccess>
+				<head>Corporate Name</head>
+				<corpname encodinganalog="610" source="lcnaf"  role="subject">Subject.CorpName-Archon</corpname>
+			</controlaccess>
+			<controlaccess>
+				<head>Date</head>
+				<date encodinganalog="245$f" source="lcsh" >Subject.Date-Archon</date>
+			</controlaccess>
+			<controlaccess>
+				<head>Family Name</head>
+				<famname encodinganalog="600" source="lcnaf"  role="subject">Subject.FamName-Archon</famname>
+			</controlaccess>
+			<controlaccess>
+				<head>Function</head>
+				<function encodinganalog="657" source="lcsh" >Subject.Function-Archon</function>
+			</controlaccess>
+			<controlaccess>
+				<head>Genre/Form of Material</head>
+				<genreform encodinganalog="655" source="lcsh" >Subject.Genreform-Archon</genreform>
+			</controlaccess>
+			<controlaccess>
+				<head>Geographic Name</head>
+				<geogname encodinganalog="651" source="lcnaf"  role="subject">Subject.Geogname-Archon</geogname>
+			</controlaccess>
+			<controlaccess>
+				<head>Occupation</head>
+				<occupation encodinganalog="656" source="lcsh" >Subject.Occupation-Archon</occupation>
+			</controlaccess>
+			<controlaccess>
+				<head>Personal Name</head>
+				<persname encodinganalog="600" source="lcnaf"  role="subject">Subject.Persname-Archon</persname>
+			</controlaccess>
+			<controlaccess>
+				<head>Title</head>
+				<title encodinganalog="630" source="lcsh" >Subject.Title-Archon</title>
+			</controlaccess>
+			<controlaccess>
+				<head>Topical Term</head>
+				<subject encodinganalog="650" source="lcsh" >Subject.Topic-Archon</subject>
+			</controlaccess>
+		</controlaccess>
+	<descgrp>
+			<accessrestrict>
+				<head>CollectionMgr.C01AccessrestrictHead-Archon</head>
+				<p>CollectionMgr.C01AccessrestrictValue-Archon</p>
+			</accessrestrict>
+			<accruals>
+				<head>CollectionMgr.C01AccrualHead-Archon</head>
+				<p>CollectionMgr.C01AccrualValue-Archon</p>
+			</accruals>
+			<acqinfo>
+				<head>CollectionMgr.C01AcqinfoHead-Archon</head>
+				<p>CollectionMgr.C01AcqinfoValue-Archon</p>
+			</acqinfo>
+			<altformavail>
+				<head>CollectionMgr.C01AltformatHead-Archon</head>
+				<p>CollectionMgr.C01AltformatValue-Archon</p>
+			</altformavail>
+			<appraisal>
+				<head>CollectionMgr.C01AppraisalHead-Archon</head>
+				<p>CollectionMgr.C01AppraisalValue-Archon</p>
+			</appraisal>
+			<custodhist>
+				<head>CollectionMgr.C01CustodhistHead-Archon</head>
+				<p>CollectionMgr.C01CustodhistValue-Archon</p>
+			</custodhist>
+			<originalsloc>
+				<head>CollectionMgr.C01OriginalslocHead-Archon</head>
+				<p>CollectionMgr.C01OriginalslocValue-Archon</p>
+			</originalsloc>
+			<odd>
+				<head>CollectionMgr.C01OtherinfoHead-Archon</head>
+				<p>CollectionMgr.C01OtherinfoValue-Archon</p>
+			</odd>
+			<prefercite>
+				<head>CollectionMgr.C01PreferciteHead-Archon</head>
+				<p>CollectionMgr.C01PreferciteValue-Archon</p>
+			</prefercite>
+			<processinfo>
+				<head>CollectionMgr.C01ProcessinfoHead-Archon</head>
+				<p>CollectionMgr.C01ProcessinfoValue-Archon</p>
+			</processinfo>
+			<relatedmaterial>
+				<head>CollectionMgr.C01RelatedmaterialHead-Archon</head>
+				<p>CollectionMgr.C01RelatedmaterialValue-Archon</p>
+			</relatedmaterial>
+			<separatedmaterial>
+				<head>CollectionMgr.C01SeparatedmaterialHead-Archon</head>
+				<p>CollectionMgr.C01SeparatedmaterialValue-Archon</p>
+			</separatedmaterial>
+			<userestrict>
+				<head>CollectionMgr.C01UserestrictHead-Archon</head>
+				<p>CollectionMgr.C01UserestrictValue-Archon</p>
+			</userestrict>
+	</descgrp>
+		<arrangement>
+			<head>CollectionMgr.C01ArrangementHead-Archon</head>
+			<p>CollectionMgr.C01ArrangementValue-Archon</p>
+		</arrangement>
+		<bioghist>
+			<head>CollectionMgr.C01BioghistHead-Archon</head>
+			<p>CollectionMgr.C01BioghistValue-Archon</p>
+		</bioghist>
+   <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C01Description-Archon</p>
+                     </scopecontent>
+            <c02 level="">
+   <did>
+      <unitid label="ArchonID" audience="internal">id2</unitid>
+         	<container type="Intellectual and physical">File</container>
+      <unittitle>CollectionMgr.C02Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C02Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C02Description-Archon</p>
+                     </scopecontent>
+            <c03 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id4</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C04Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C04Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C04Description-Archon</p>
+                     </scopecontent>
+            <c04 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id5</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C05Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C05Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C05Description-Archon</p>
+                     </scopecontent>
+            <c05 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id6</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C06Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C06Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C06Description-Archon</p>
+                     </scopecontent>
+            <c06 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id7</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C07Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C07Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C07Description-Archon</p>
+                     </scopecontent>
+            <c07 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id8</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C08Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C08Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C08Description-Archon</p>
+                     </scopecontent>
+            <c08 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id9</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C09Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C09Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C09Description-Archon</p>
+                     </scopecontent>
+            <c09 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id10</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C10Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C10Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C10Description-Archon</p>
+                     </scopecontent>
+            <c10 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id11</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C11Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C11Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C11Description-Archon</p>
+                     </scopecontent>
+            <c11 level="file">
+   <did>
+      <unitid label="ArchonID" audience="internal">id12</unitid>
+         	<container type="Intellectual and physical">File</container>
+	<container type="Physical only">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+	<container type="Folder">File</container>
+      <unittitle>CollectionMgr.C12Title-Archon</unittitle>
+                  <unittitle label="Private" audience="internal">CollectionMgr.C12Internaltitle-Archon</unittitle>
+                  <unitdate>1999</unitdate>
+               </did>
+         <scopecontent>
+      <head>Scope and Contents</head>
+                  <p>CollectionMgr.C12Description-Archon</p>
+                     </scopecontent>
+            
+</c11>
+   
+</c10>
+   
+</c09>
+   
+</c08>
+   
+</c07>
+   
+</c06>
+   
+</c05>
+   
+</c04>
+   
+</c03>
+   
+   
+</c02>
+   
+</c01>
+   
+            </dsc>
+               <!-- END SUBORDINATE COMPONENTS -->
+   </archdesc>
+</ead>
+

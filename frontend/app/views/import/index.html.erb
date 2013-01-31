@@ -1,4 +1,4 @@
-<%= setup_context :title => I18n.t("import.ead_title") %>
+<%= setup_context :title => I18n.t("import.#{@importer_key}_title") %>
 
 <%= form_tag '/import/upload', :multipart => true, :class => 'form-horizontal', :id => "import" do %>
   <div class="row-fluid">
@@ -25,13 +25,13 @@
 
       <fieldset>
         <div class="control-group ">
-          <%= label_tag :upload, 'Select an EAD to upload:', :class=>"control-label" %>
+          <%= label_tag :upload, 'Select an file to upload:', :class=>"control-label" %>
           <div class="controls">
             <%= file_field :upload, :import_file %>
+            <%= hidden_field_tag :importer, @importer_key %>
           </div>
         </div>
         <br/>
-        <p class="well"><%= @importer_list %></p>
       </fieldset>
 
       <div class="form-actions">

@@ -91,23 +91,30 @@ module ASpaceImport
     def initialize(opts)
       @repo_id = opts[:repo_id] if opts[:repo_id]
       @batch = Batch.new(opts) 
-      @dupes = {}  
+      @dupes = {}
+    end
+    
+    def iterate
+      self.reverse.each_with_index do |json, i|
+        self.selected=self[i]
+        yield json
+      end
     end
     
     def pop
 
       self[0...-1].reverse.each do |qdobj|
       
-
         # Set Links FROM popped object TO other objects in the queue
         self.last.receivers.for_obj(qdobj) do |r|  
-          r.receive(qdobj)
+          r << qdobj
         end
-
+      
         # Set Links TO the popped object FROM others in the queue
-
+      
         qdobj.receivers.for_obj(self.last) do |r|
-          r.receive(self.last)
+          puts "DD #{r.to_s} << #{self.last.inspect}"
+          r << self.last
         end
          
       end
@@ -119,31 +126,51 @@ module ASpaceImport
       end
       
       super
+      
+      @selected = self.last
     end
     
     def push(obj)
       raise "Not a JSON Object" unless obj.class.record_type
+      @selected = obj
       
       super 
     end
     
     
     # Yield receivers for anything in the parse queue.
-    def receivers
-      self
-    end
-    
-    
-    def for_node(*nodeargs)  
-      self.reverse.each do |obj|        
-        obj.receivers.for_node(*nodeargs) { |r| yield r }
-      end
-    end
+    # def receivers
+    #   self
+    # end
+    # 
+    # 
+    # def for_node(*nodeargs)  
+    #   self.reverse.each do |obj|        
+    #     obj.receivers.for_node(*nodeargs) { |r| yield r }
+    #   end
+    # end
     
 
     def save
       @batch.save
-    end    
+    end
+    
+    def inspect
+      "Parse Queue: " << super <<  " -- Batch: " << @batch.inspect
+    end
+    
+    def selected
+      @selected ||= self.last
+    end
+    
+    protected
+    
+    def selected=(json)
+      @selected = json
+    end
+    
+
+        
   end
 end
 
