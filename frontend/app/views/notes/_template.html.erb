@@ -91,7 +91,7 @@
                 <li>
                   <select>
                     <% multipart_subnote_types.sort.each do |type| %>
-                      <option value="<%= type %>"><%= I18n.t("notes.#{type}.option") %></option>
+                      <option value="<%= type %>"><%= I18n.t("#{type}.option") %></option>
                     <% end %>
                   </select>
                 </li>

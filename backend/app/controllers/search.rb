@@ -13,6 +13,7 @@ class ArchivesSpaceService < Sinatra::Base
              "A list of document IDs that should be excluded from results",
              :optional => true],
             *Endpoint.pagination)
+    .permissions([:view_repository])
     .returns([200, "[(:location)]"]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)

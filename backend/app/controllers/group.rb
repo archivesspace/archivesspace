@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create a group within a repository")
     .params(["group", JSONModel(:group), "The group to create", :body => true],
             ["repo_id", :repo_id])
-    .preconditions(proc { current_user.can?(:manage_repository) })
+    .permissions([:manage_repository])
     .returns([200, :created],
              [400, :error],
              [409, :conflict]) \
@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
              BooleanParam,
              "If 'true' (the default) replace the membership list with the list provided",
              :default => true])
-    .preconditions(proc { current_user.can?(:manage_repository) })
+    .permissions([:manage_repository])
     .returns([200, :updated],
              [400, :error],
              [409, :conflict]) \
@@ -40,7 +40,7 @@ class ArchivesSpaceService < Sinatra::Base
              BooleanParam,
              "If 'true' (the default) return the list of members with the group",
              :default => true])
-    .preconditions(proc { current_user.can?(:manage_repository) })
+    .permissions([:manage_repository])
     .returns([200, "(:group)"],
              [404, '{"error":"Group not found"}']) \
   do
@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
             *Endpoint.pagination,
             ["group_code", String, "Get groups by group code",
              :optional => true])
-    .preconditions(proc { current_user.can?(:manage_repository) })
+    .permissions([:manage_repository])
     .returns([200, "[(:resource)]"]) \
   do
     handle_listing(Group, params[:page], params[:page_size],

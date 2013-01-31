@@ -48,7 +48,9 @@ module Relationships
   # Return all object instances that are related to the current record by the
   # relationship named by 'name'.
   def linked_records(name)
-    my_relationships(name).map {|instance| instance[1]}
+    records = my_relationships(name).map {|instance| instance[1]}
+
+    self.class.find_relationship(name)[:is_array] === false ? records.first : records
   end
 
 
@@ -97,6 +99,8 @@ module Relationships
             end
 
             Object.const_set(table_name.to_s.classify, clz)
+
+            opts[:class_callback].call(clz) if opts[:class_callback]
           end
 
           self.one_to_many(table_name, :order => "#{table_name}__id".intern)
@@ -148,7 +152,7 @@ module Relationships
         property_name = relationship[:json_property]
 
         # For each record reference in our JSON data
-        Array(json[property_name]).each_with_index do |reference, idx|
+        ASUtils.as_array(json[property_name]).each_with_index do |reference, idx|
           record_type = parse_reference(reference['ref'], opts)
 
           # Find the model type of the record it refers to
@@ -208,6 +212,8 @@ module Relationships
 
           values
         }
+
+        json[property_name] = json[property_name].first if relationship[:is_array] === false
       end
 
       json

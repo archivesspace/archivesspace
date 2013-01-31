@@ -7,7 +7,7 @@
    <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-     <%= readonly_context @agent.agent_type.intern, @agent.to_hash(true) do |readonly| %>
+     <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
         <h2><%= @agent.names[0]['sort_name'] %>  <span class="label label-info"><%= I18n.t("agent._html.singular") %></span></h2>
 
         <%= render :partial => "shared/flash_messages" %>
@@ -69,7 +69,7 @@
                       </div>
                     </div>
                     <div id="agent_contact_<%= index %>" class="accordion-body collapse">
-                      <%= read_only_view(contact.to_hash) %>
+                      <%= read_only_view(contact) %>
                     </div>
                   </div>
                 <% end %>

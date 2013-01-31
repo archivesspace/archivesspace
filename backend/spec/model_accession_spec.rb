@@ -171,7 +171,7 @@ describe 'Accession model' do
                                                       "scope" => "whole",
                                                       "description" => "A description of this deaccession",
                                                       "date" => build(:json_date,
-                                                                      :begin => '2012-05-14').to_hash,
+                                                                      :begin => '2012-05-14'),
                                                     }
                                                   ]
                                                  ),

@@ -38,6 +38,10 @@ module JSONModel
   end
 
 
+  # A common base class for all JSONModel classes
+  class JSONModelType; end
+
+
   def self.JSONModel(source)
     # Checks if a model exists first; returns the model class
     # if it exists; returns false if it doesn't exist.
@@ -173,6 +177,15 @@ module JSONModel
 
     @@init_args = opts
 
+    if !opts.has_key?(:enum_source)
+      if opts[:client_mode]
+        require_relative 'jsonmodel_client'
+        opts[:enum_source] = JSONModel::Client::EnumSource.new
+      else
+        raise "Required JSONModel.init arg :enum_source was missing"
+      end
+    end
+
     # Load all JSON schemas from the schemas subdirectory
     # Create a model class for each one.
     Dir.glob(File.join(File.dirname(__FILE__),
@@ -184,7 +197,23 @@ module JSONModel
 
     require_relative "validations"
 
+    # For dynamic enums, automatically slot in the 'other_unmapped' string as an allowable value
+    if @@init_args[:allow_other_unmapped]
+      enum_wrapper = Struct.new(:enum_source).new(@@init_args[:enum_source])
+
+      def enum_wrapper.values_for(name)
+        enum_source.values_for(name) + ['other_unmapped']
+      end
+
+      @@init_args[:enum_source] = enum_wrapper
+    end
+
     true
+  end
+
+
+  def self.enum_values(name)
+    @@init_args[:enum_source].values_for(name)
   end
 
 
@@ -216,11 +245,20 @@ module JSONModel
 
   protected
 
+
+  def self.clean_data(data)
+    data = ASUtils.keys_as_strings(data) if data.is_a?(Hash)
+    data = ASUtils.jsonmodels_to_hashes(data)
+
+    data
+  end
+
+
   # Create and return a new JSONModel class called 'type', based on the
   # JSONSchema 'schema'
   def self.create_model_for(type, schema)
 
-    cls = Class.new do
+    cls = Class.new(JSONModelType) do
 
       # Class instance variables store the bits specific to this model
       def self.init(type, schema)
@@ -275,7 +313,7 @@ module JSONModel
           if not method_defined? "#{attribute}="
             define_method "#{attribute}=" do |value|
               @validated = false
-              @data[attribute] = value
+              @data[attribute] = JSONModel.clean_data(value)
             end
           end
         end
@@ -310,6 +348,7 @@ module JSONModel
         drop_system_properties = !JSONModel.client_mode?
 
         cleaned = JSONSchemaUtils.drop_unknown_properties(hash, self.schema, drop_system_properties)
+        cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
         validate(cleaned, raise_errors)
 
         self.new(cleaned)
@@ -400,12 +439,13 @@ module JSONModel
 
 
       def set_data(data)
-        hash = ASUtils.keys_as_strings(data)
+        hash = JSONModel.clean_data(data)
         hash["jsonmodel_type"] = self.class.record_type.to_s
         hash = JSONSchemaUtils.apply_schema_defaults(hash, self.class.schema)
 
         @data = hash
       end
+
 
       def initialize(params = {}, warnings = [])
         set_data(params)
@@ -529,6 +569,7 @@ module JSONModel
         @validated = false
 
         cleaned = JSONSchemaUtils.drop_unknown_properties(@data, self.class.schema)
+        cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
         self.class.validate(cleaned)
 
         cleaned
@@ -538,7 +579,7 @@ module JSONModel
       # Produce a JSON string from the values of this JSONModel.  Any values
       # that don't appear in the JSON schema will not appear in the result.
       def to_json(opts = {})
-        self.to_hash.to_json(opts.merge(:max_nesting => false))
+        self.to_hash.to_json(opts.is_a?(Hash) ? opts.merge(:max_nesting => false) : {})
       end
 
 

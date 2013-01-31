@@ -4,6 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Event")
     .params(["event", JSONModel(:event), "The Event to create", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -16,6 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["event_id", Integer, "The event ID to update"],
             ["event", JSONModel(:event), "The event data to update", :body => true],
             ["repo_id", :repo_id])
+    .permissions([:update_archival_record])
     .returns([200, :updated]) \
   do
     handle_update(Event, :event_id, :event)
@@ -26,6 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a list of Events for a Repository")
     .params(["repo_id", :repo_id],
               *Endpoint.pagination)
+    .permissions([:view_repository])
     .returns([200, "[(:event)]"]) \
   do
     handle_listing(Event, params[:page], params[:page_size], params[:modified_since])
@@ -39,12 +42,13 @@ class ArchivesSpaceService < Sinatra::Base
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true]
             )
+    .permissions([:view_repository])
     .returns([200, "(:event)"],
              [404, '{"error":"Event not found"}']) \
   do
     json = Event.to_jsonmodel(params[:event_id])
 
-    json_response(resolve_references(json.to_hash, params[:resolve]))
+    json_response(resolve_references(json, params[:resolve]))
   end
 
 
@@ -53,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["event_id", Integer, "The event ID to update"],
             ["suppressed", BooleanParam, "Suppression state"],
             ["repo_id", :repo_id])
-    .preconditions(proc { current_user.can?(:manage_repository) })
+    .permissions([:suppress_archival_record])
     .returns([200, :suppressed]) \
   do
     sup_state = Event.get_or_die(params[:event_id]).set_suppressed(params[:suppressed])

@@ -1,9 +1,9 @@
 class DigitalObjectsController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update]
-  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show, :tree]
-  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
+  before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
+  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
 
-  FIND_OPTS = ["subjects", "linked_agents"]
+  FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
 
   def index
     @search_data = JSONModel(:digital_object).all(:page => selected_page)
@@ -21,6 +21,8 @@ class DigitalObjectsController < ApplicationController
 
   def new
     @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default")})._always_valid!
+
+    return render :partial => "digital_objects/new" if params[:inline]
   end
 
   def edit
@@ -36,8 +38,12 @@ class DigitalObjectsController < ApplicationController
 
   def create
     handle_crud(:instance => :digital_object,
-                :on_invalid => ->(){ render action: "new" },
-                :on_valid => ->(id){ 
+                :on_invalid => ->(){
+                  return render :partial => "new" if inline? 
+                  render :action => "new" 
+                },
+                :on_valid => ->(id){
+                  return render :json => @digital_object.to_hash if inline?
                   redirect_to({
                                 :controller => :digital_objects,
                                 :action => :edit,

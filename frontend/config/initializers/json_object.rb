@@ -1,4 +1,7 @@
 require "jsonmodel"
+require "memoryleak"
+require "frontend_enum_source"
+
 
 module RailsFormMixin
 
@@ -26,6 +29,7 @@ JSONModel::init(:client_mode => true,
                 :priority => :high,
                 :mixins => [RailsFormMixin],
                 :url => AppConfig[:backend_url],
+                :enum_source => FrontendEnumSource.new,
                 :allow_other_unmapped => AppConfig[:allow_other_unmapped])
 
 
@@ -38,6 +42,12 @@ if not ENV['DISABLE_STARTUP']
       raise ArchivesSpace::SessionExpired.new("Your session expired due to inactivity. Please sign in again.")
     end
   end
+
+
+  MemoryLeak::Resources.define(:repository, proc { JSONModel(:repository).all }, 60)
+  MemoryLeak::Resources.define(:vocabulary, proc { JSONModel(:vocabulary).all }, 60)
+  MemoryLeak::Resources.define(:acl_last_modified, proc { Time.now.to_i }, 60,
+                               :init => 0)
 
 
   JSONModel::Webhooks::add_notification_handler("REPOSITORY_CHANGED") do |msg, params|
@@ -54,7 +64,11 @@ if not ENV['DISABLE_STARTUP']
   end
 
   JSONModel::Webhooks::add_notification_handler("REFRESH_ACLS") do |msg, params|
-    MemoryLeak::Resources.set(:acl_last_modified, Time.now.to_i)
+    MemoryLeak::Resources.refresh(:acl_last_modified)
+  end
+
+  JSONModel::Webhooks::add_notification_handler("ENUMERATION_CHANGED") do |msg, params|
+    MemoryLeak::Resources.refresh(:enumerations)
   end
 
 end

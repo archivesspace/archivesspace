@@ -1,6 +1,4 @@
-<h2>
-   <%= @digital_object.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("digital_object._html.singular")}" : @digital_object.title %>  <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span>
-</h2>
+
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
 

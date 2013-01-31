@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/update-feed')
     .description("Get a stream of updated records")
-    .preconditions(proc { current_user.can?(:index_system) })
+    .permissions([:index_system])
     .params(["last_sequence", Integer, "The last sequence number seen",
              :optional => true,
              :default => 0])
@@ -16,7 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/delete-feed')
     .description("Get a stream of deleted records")
-    .preconditions(proc { current_user.can?(:index_system) })
+    .permissions([:index_system])
     .params(*Endpoint.pagination)
     .returns([200, "a list of URIs that were deleted"]) \
   do

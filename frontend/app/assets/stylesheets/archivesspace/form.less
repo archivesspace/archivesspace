@@ -32,9 +32,17 @@ fieldset {
   }
 }
 
-form .control-group.required {
+form .control-group {
+  &.required {
+    .control-label {
+      font-weight: bold;    
+    }
+  }
+
   .control-label {
-    font-weight: bold;
+    &.has-tooltip {
+      border-bottom: 1px dotted #EEE;
+    }
   }
 }
 
@@ -373,7 +381,8 @@ ul.subrecord-form-list {
   }
 }
 
-.subrecord-form textarea {
+.subrecord-form textarea,
+.controls textarea {
   width: 90%;
 }
 

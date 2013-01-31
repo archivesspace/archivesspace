@@ -18,6 +18,7 @@
       <%= form.label_and_fourpartid %>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level" %>
+      <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>
       <%= form.label_and_textarea "container_summary" %>
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
@@ -62,7 +63,7 @@
   <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
 
 </fieldset>

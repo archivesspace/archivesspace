@@ -102,7 +102,7 @@ describe 'Rights Statement model' do
 
   it "Allows a rights statement to be created with an external document" do
     
-    opts = {:external_documents => [build(:json_external_document).to_hash]}
+    opts = {:external_documents => [build(:json_external_document)]}
     
     rights_statement = create_rights_statement(opts)
 

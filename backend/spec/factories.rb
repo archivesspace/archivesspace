@@ -1,7 +1,17 @@
 require 'factory_girl'
 
-def sample(enum)
-  enum.reject {|i| i === 'other_unmapped' }.sample
+def sample(enum, exclude = [])
+  values = if enum.has_key?('enum')
+             enum['enum']
+           elsif enum.has_key?('dynamic_enum')
+             BackendEnumSource.values_for(enum['dynamic_enum'])
+           else
+             raise "Not sure how to sample this: #{enum.inspect}"
+           end
+
+  exclude += ['other_unmapped']
+
+  values.reject{|i| exclude.include?(i) }.sample
 end
   
 
@@ -16,7 +26,7 @@ FactoryGirl.define do
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:generic_description) {|n| "Description: #{n}"}
   sequence(:generic_name) {|n| "Name Number #{n}"}
-  sequence(:container_type) {|n| "Container Type #{n}"}
+  sequence(:container_type) {|n| sample(JSONModel(:container).schema['properties']['type_1'])}
   sequence(:sort_name) { |n| "SORT #{('a'..'z').to_a[rand(26)]} - #{n}" }
   
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
@@ -27,28 +37,28 @@ FactoryGirl.define do
   sequence(:barcode) { 20.times.map { rand(2)}.join }
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
   
-  sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']['enum']) }
+  sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
   sequence(:level) { %w(series subseries item)[rand(3)] }
   sequence(:term) { |n| "Term #{n}" }
-  sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']['enum']) }
+  sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
 
-  sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']['enum']) }
-  sequence(:record_role) { sample(JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']['enum']) }
+  sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']) }
+  sequence(:record_role) { sample(JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']) }
   
-  sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']['enum']) }
-  sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']['enum']) }
+  sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']) }
+  sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
   
-  sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']['enum']) }
-  sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']['enum']) }
-  sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']['enum']) }
-  sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type']['enum']) }
+  sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
+  sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
+  sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
+  sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type'], ['digital_object']) }
  
-  sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']['enum']) }
-  sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']['enum']) }
-  sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']['enum']) }
+  sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
+  sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']) }
+  sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']) }
   
-  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']['enum']) }
-  sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']['enum']) }
+  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']) }
+  sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']) }
   
   # AS Models
   
@@ -125,22 +135,22 @@ FactoryGirl.define do
 
   factory :json_agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
     agent_type 'agent_corporate_entity'
-    names { [build(:json_name_corporate_entity).to_hash] }
+    names { [build(:json_name_corporate_entity)] }
   end
   
   factory :json_agent_family, class: JSONModel(:agent_family) do
     agent_type 'agent_family'
-    names { [build(:json_name_family).to_hash] }
+    names { [build(:json_name_family)] }
   end
   
   factory :json_agent_person, class: JSONModel(:agent_person) do
     agent_type 'agent_person'
-    names { [build(:json_name_person).to_hash] }
+    names { [build(:json_name_person)] }
   end
   
   factory :json_agent_software, class: JSONModel(:agent_software) do
     agent_type 'agent_software'
-    names { [build(:json_name_software).to_hash] }
+    names { [build(:json_name_software)] }
   end
   
   factory :json_archival_object, class: JSONModel(:archival_object) do
@@ -165,20 +175,20 @@ FactoryGirl.define do
     date_type { generate(:date_type) }
     label 'creation'
     self.begin { generate(:yyyy_mm_dd) }
-    self.end { generate(:yyyy_mm_dd) }
+    self.end { self.begin }
     expression { generate(:alphanumstr) }
   end
   
   factory :json_deaccession, class: JSONModel(:deaccession) do
     scope { "whole" }
     description { generate(:generic_description) }
-    date { build(:json_date).to_hash }
+    date { build(:json_date) }
   end
   
   factory :json_digital_object, class: JSONModel(:digital_object) do
     title { "Digital Object #{generate(:generic_title)}" }
     digital_object_id { generate(:alphanumstr) }
-    extents { [build(:json_extent).to_hash] }
+    extents { [build(:json_extent)] }
   end
   
   factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
@@ -187,7 +197,7 @@ FactoryGirl.define do
   end
 
   factory :json_event, class: JSONModel(:event) do
-    date { build(:json_date).to_hash }
+    date { build(:json_date) }
     event_type { generate(:event_type) }
     linked_agents { [{'ref' => create(:json_agent_person).uri, 'role' => generate(:agent_role)}] }
     linked_records { [{'ref' => create(:json_accession).uri, 'role' => generate(:record_role)}] }
@@ -211,7 +221,7 @@ FactoryGirl.define do
   
   factory :json_instance, class: JSONModel(:instance) do
     instance_type { generate(:instance_type) }
-    container { build(:json_container).to_hash }
+    container { build(:json_container) }
   end
   
   factory :json_location, class: JSONModel(:location) do
@@ -254,7 +264,7 @@ FactoryGirl.define do
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
-    extents { [build(:json_extent).to_hash] }
+    extents { [build(:json_extent)] }
     level 'collection'
     language 'eng'
   end
@@ -273,7 +283,7 @@ FactoryGirl.define do
   end
   
   factory :json_subject, class: JSONModel(:subject) do
-    terms { [build(:json_term).to_hash] }
+    terms { [build(:json_term)] }
     vocabulary { create(:json_vocab).uri }
     ref_id { generate(:url) }
   end

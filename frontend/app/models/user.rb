@@ -13,7 +13,7 @@ class User < JSONModel(:user)
 
 
   def self.refresh_permissions(session)
-    user = self.find_by_uri(session[:user_uri])
+    user = self.find('current-user')
 
     if user
       session[:permissions] = user.permissions

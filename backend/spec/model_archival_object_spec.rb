@@ -57,7 +57,7 @@ describe 'ArchivalObject model' do
     
     opts = {:instances => [{
          "instance_type" => generate(:instance_type),
-         "container" => build(:json_container).to_hash
+         "container" => build(:json_container)
        }]}
     
        ao = ArchivalObject.create_from_json(

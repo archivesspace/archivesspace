@@ -2,25 +2,32 @@ require 'spec_helper'
 
 describe 'ASModel' do
 
-  it "only allows repository or global scope" do
-    repo = create(:repo)
+  before(:all) do
+    $testdb.create_table(:asmodel_spec) do
+      primary_key :id
+    end
 
+    class TestModel < Sequel::Model(:asmodel_spec)
+      include ASModel
+    end
+  end
+
+  it "only allows repository or global scope" do
     expect {
-      repo.class.set_model_scope(:global)
-      repo.class.set_model_scope(:repository)
+      TestModel.set_model_scope(:global)
+      TestModel.set_model_scope(:repository)
     }.to_not raise_error
 
     expect {
-      repo.class.set_model_scope(:banana)
+      TestModel.set_model_scope(:banana)
     }.to raise_error
   end
 
 
   it "reports an error if scope isn't set" do
-    repo = create(:repo)
-    repo.class.instance_variable_set("@model_scope", nil)
+    TestModel.instance_variable_set("@model_scope", nil)
     expect {
-      repo.class.model_scope
+      TestModel.model_scope
     }.to raise_error(RuntimeError)
   end
 
@@ -28,12 +35,10 @@ describe 'ASModel' do
   it "enforces suppression across repositories" do
     rep1 = make_test_repo("arepo")
     acc = create(:accession, :repo_id => rep1)
-    acc.class.enable_suppression
     enf_sup_orig = RequestContext.get(:enforce_suppression)
     begin
       RequestContext.put(:enforce_suppression, true)
       acc.set_suppressed(true)
-      acc.class.set_model_scope(:repository)
 
       rep2 = make_test_repo("anotherrepo")
       create(:user, :username => 'nobody')

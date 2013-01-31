@@ -2,7 +2,7 @@
 
 <div id="object_container">
   <%= form_for @accession, :as => "accession", :url => {:action => :update}, :html => {:class => 'form-horizontal', :id => "accession_form"} do |f| %>
-    <%= form_context :accession, @accession.to_hash(true) do |form| %>
+    <%= form_context :accession, @accession do |form| %>
       <div class="row-fluid">
         <div class="span3">
           <%= render :partial => "sidebar" %>

@@ -8,9 +8,8 @@ describe 'Corporate entity agent controller' do
 
 
   it "lets you create a corporate entity and get it back" do
-    opts = {:names => [build(:json_name_corporate_entity).to_hash],
-            :agent_contacts => [build(:json_agent_contact).to_hash]
-            }
+    opts = {:names => [build(:json_name_corporate_entity)],
+            :agent_contacts => [build(:json_agent_contact)]}
 
     ce = create_corporate_entity(opts)
     JSONModel(:agent_corporate_entity).find(ce.id).names.first['primary_name'].should eq(opts[:names][0]['primary_name'])
@@ -24,7 +23,7 @@ describe 'Corporate entity agent controller' do
 
     opts = {:name => generate(:generic_name)}
 
-    corporate_entity.agent_contacts << build(:json_agent_contact, opts).to_hash
+    corporate_entity.agent_contacts << build(:json_agent_contact, opts)
 
     corporate_entity.save
 
@@ -39,7 +38,7 @@ describe 'Corporate entity agent controller' do
       RequestContext.put(:repo_id, nil)
 
       agent = create(:json_agent_corporate_entity,
-                     :external_documents => [build(:json_external_document).to_hash])
+                     :external_documents => [build(:json_external_document)])
 
       agent.external_documents.length.should eq(1)
     end
@@ -56,7 +55,7 @@ describe 'Corporate entity agent controller' do
 
 
   it "sets the sort name if one is provided" do
-    opts = {:names => [build(:json_name_corporate_entity, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false).to_hash]}
+    opts = {:names => [build(:json_name_corporate_entity, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
 
     id = create_corporate_entity(opts).id
     JSONModel(:agent_corporate_entity).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
@@ -64,7 +63,7 @@ describe 'Corporate entity agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_corporate_entity({:names => [build(:json_name_corporate_entity,{:primary_name => "ArchivesSpace", :sort_name_auto_generate => true}).to_hash]}).id
+    id = create_corporate_entity({:names => [build(:json_name_corporate_entity,{:primary_name => "ArchivesSpace", :sort_name_auto_generate => true})]}).id
 
     agent = JSONModel(:agent_corporate_entity).find(id)
 

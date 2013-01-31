@@ -1,5 +1,5 @@
 <%= form_for @digital_object_component, :as => "digital_object_component", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
-  <%= form_context :digital_object_component, @digital_object_component.to_hash(true) do |form| %>
+  <%= form_context :digital_object_component, @digital_object_component do |form| %>
     <div class="row-fluid">
       <div class="span3">
         <%= render :partial => "sidebar" %>

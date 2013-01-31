@@ -280,6 +280,11 @@ def selenium_init
   if ENV["ASPACE_BACKEND_URL"] and ENV["ASPACE_FRONTEND_URL"]
     $backend = ENV["ASPACE_BACKEND_URL"]
     $frontend = ENV["ASPACE_FRONTEND_URL"]
+
+    if ENV["ASPACE_SOLR_URL"]
+      AppConfig[:solr_url] = ENV["ASPACE_SOLR_URL"]
+    end
+
     standalone = false
   end
 

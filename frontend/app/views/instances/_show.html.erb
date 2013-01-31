@@ -14,18 +14,31 @@
               <span class="icon-chevron-down"></span>
             </div>
             <div class="span3">
-              <%= I18n.t("instance.instance_type_#{instance['instance_type']}") %>
+              <%= I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}") %>
             </div>
             <div class="span7">
-              <% if instance["container"].length > 0 %>
-                <%= instance["container"]["type_1"] %>
+              <% if instance["instance_type"] === "digital_object" %>
+                <%= instance["digital_object"]["_resolved"]["title"] %>
+              <% elsif instance["container"] and instance["container"].length > 0 %>
+                <%= I18n.t("enumerations.container_type.#{instance['container']['type_1']}") %>
               <% end %>
             </div>
           </div>
         </div>
         <div id="instance_<%= index %>" class="accordion-body collapse">
-          <%= read_only_view(instance.to_hash) %>
-          <% if instance["container"].length > 0 %>
+          <%= read_only_view(instance) %>
+          <% if instance["instance_type"] === "digital_object" %>
+            <div class="control-group">
+              <div class="control-label"><%= I18n.t("instance.digital_object") %></div>
+              <div class="controls token-list">
+                <%= render_token :object => instance["digital_object"]["_resolved"],
+                                 :label => instance["digital_object"]["_resolved"]["title"],
+                                 :type => "digital_object",
+                                 :uri => instance["digital_object"]["ref"],
+                                 :placement => "top" %>
+              </div>
+            </div>
+          <% elsif instance["container"] and instance["container"].length > 0 %>
             <%= render :partial => "container/show", :locals => { :container => instance["container"], :id => "instance_#{index}_container" } %>
           <% end %>
         </div>

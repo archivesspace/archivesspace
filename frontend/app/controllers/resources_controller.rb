@@ -1,9 +1,9 @@
 class ResourcesController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
-  before_filter :user_needs_to_be_a_viewer, :only => [:index, :show]
-  before_filter :user_needs_to_be_an_archivist, :only => [:new, :edit, :create, :update]
+  before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
+  before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
 
-  FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents"]
+  FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object"]
 
   def index
     @search_data = JSONModel(:resource).all(:page => selected_page)

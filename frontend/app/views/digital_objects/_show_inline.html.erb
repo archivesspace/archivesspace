@@ -5,7 +5,7 @@
   <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-      <%= readonly_context :digital_object, @digital_object.to_hash(true) do |readonly| %>
+      <%= readonly_context :digital_object, @digital_object do |readonly| %>
         <h2><%= @digital_object.title %> <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span></h2>
         <section id="basic_information">
           <h3><%= I18n.t("digital_object._html.section.basic_information") %></h3>
@@ -22,6 +22,33 @@
 
         <% if @digital_object.linked_agents.length > 0 %>
           <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @digital_object.linked_agents, :section_id => "digital_object_linked_agents_" } %>
+        <% end %>
+
+        <% if @digital_object.linked_instances.length > 0 %>
+          <section id="digital_object_linked_instances" class="subrecord-form-dummy">
+            <h3><%= I18n.t("linked_record._html.plural") %></h3>
+            <div class="subrecord-form-container">
+              <div class="subrecord-form-fields">
+                <div class="row-fluid label-and-value">
+                  <div class="span3">
+                    <% if @digital_object.linked_instances.length > 1 %>
+                      <%= I18n.t("linked_record.ref_plural") %>
+                    <% else %>
+                      <%= I18n.t("linked_record.ref") %>
+                    <% end %>
+                  </div>
+                  <div class="span9 token-list">
+                    <% @digital_object.linked_instances.each do | ref | %>
+                      <%= render_token :object => ref,
+                                       :label => ref["_resolved"]["title"],
+                                       :type => ref["_resolved"]["jsonmodel_type"],
+                                       :uri => ref["ref"] %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         <% end %>
 
         <% if not @digital_object.subjects.blank? %>

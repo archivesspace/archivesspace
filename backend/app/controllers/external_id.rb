@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/by-external-id')
     .description("List records by their external ID(s)")
-    .preconditions(proc { current_user.can?(:view_all_records) })
+    .permissions([:view_all_records])
     .params(["eid", String, "An external ID to find"],
             ["type",
              [String],

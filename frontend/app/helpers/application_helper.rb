@@ -27,7 +27,7 @@ module ApplicationHelper
 
   def setup_context(options)
 
-    breadcrumb_trail = []
+    breadcrumb_trail = options[:trail] || []
 
     if options.has_key? :object
       object = options[:object]

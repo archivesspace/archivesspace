@@ -7,11 +7,12 @@
    <div class="span9">
     <%= render :partial => "accessions/toolbar" %>
     <div class="record-pane">
-      <%= readonly_context :accession, @accession.to_hash(true) do |readonly| %>
+      <%= readonly_context :accession, @accession do |readonly| %>
           <h2><%= @accession.title %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
   
           <%= render :partial => "shared/flash_messages" %>
   
+          <% define_template "accession", jsonmodel_definition(:accession) do |form| %>
           <section id="basic_information">
             <h3><%= I18n.t "accession._html.section.basic_information" %></h3>
   
@@ -19,7 +20,12 @@
             <%= readonly.label_and_date "accession_date" %>
             <%= readonly.label_and_textarea "content_description" %>
             <%= readonly.label_and_textarea "condition_description" %>
+            <%= readonly.label_and_select "acquisition_type", readonly.possible_options_for("acquisition_type", true) %>
           </section>
+          <% end %>
+
+          <% readonly.emit_template("accession") %>
+
 
           <% if @accession.extents.length > 0 %>
             <%= render :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>

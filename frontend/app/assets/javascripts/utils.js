@@ -85,8 +85,9 @@ $(function() {
 
 // date fields and datepicker initialisation
 $(function() {
-  var initDateFields = function() {
-    $(".date-field:not(.initialised)").each(function() {
+  var initDateFields = function(scope) {
+    scope = scope || $(document.body);
+    $(".date-field:not(.initialised)", scope).each(function() {
       $(this).addClass("initialised");
       $(this).datepicker({
         autoclose: true
@@ -97,14 +98,17 @@ $(function() {
   $(document).ajaxComplete(function() {
     initDateFields();
   });
-  $(document).bind("new.subrecord, init.subrecord", initDateFields);
+  $(document).bind("new.subrecord init.subrecord", function(event, object_name, subform) {
+    initDateFields(subform)
+  });
 });
 
 
 // any element with a popover!
 $(function() {
-  var initPopovers = function() {
-    $(".has-popover:not(.initialised)")
+  var initPopovers = function(scope) {
+    scope = scope || $(document.body);
+    $(".has-popover:not(.initialised)", scope)
       .popover()
       .click(function(e) {
         e.preventDefault()
@@ -114,14 +118,85 @@ $(function() {
   $(document).ajaxComplete(function() {
     initPopovers();
   });
-  $(document).bind("new.subrecord, init.subrecord, init.popovers", initPopovers);
+  $(document).bind("new.subrecord init.subrecord init.popovers", function(event, object_name, subform) {
+    initPopovers(subform)
+  });
+});
+
+
+// any element with a tooltip!
+$(function() {
+  var initTooltips = function(scope) {
+    scope = scope || $(document.body);
+    $(".has-tooltip:not(.initialised)", scope).each(function() {
+      var $this = $(this);
+      $this.tooltip().addClass("initialised");
+
+      // for manual ArchiveSpace help tooltips
+      if ($this.data("trigger") === "manual" && $this.is("label.control-label")) {
+        var openedViaClick = false;
+        var showTimeout, hideTimeout;
+
+        var onMouseEnter = function() {
+          if (openedViaClick) return;
+
+          clearTimeout(hideTimeout);
+          showTimeout = setTimeout(function() {
+            showTimeout = null;
+            $this.tooltip("show");
+          }, $this.data("delay") || 500);
+          $this.off("mouseleave").on("mouseleave", onMouseLeave);
+        };
+
+        var onMouseLeave = function() {
+          if (showTimeout) {
+            clearTimeout(showTimeout);
+          } else {
+            hideTimeout = setTimeout(function() {
+              $this.tooltip("hide");
+            }, 100);
+          }
+        };
+
+        var onClick = function() {
+          clearTimeout(showTimeout);
+
+          if (openedViaClick) {
+            $this.tooltip("hide");
+            openedViaClick = false;
+            return;
+          }
+
+          $this.off("mouseleave");
+
+          $this.tooltip("show");
+          $(".tooltip-inner", $this.data("tooltip").$tip).prepend('<span class="tooltip-close icon-remove-circle icon-white"></span>');
+          $(".tooltip-close", $this.data("tooltip").$tip).click(function() {
+            $this.trigger("click");
+          });
+          openedViaClick = true;
+        }
+
+        // bind event callbacks
+        $this.bind("mouseenter", onMouseEnter).click(onClick);
+      }
+    });
+  };
+  initTooltips();
+  $(document).ajaxComplete(function() {
+    initTooltips();
+  });
+  $(document).bind("new.subrecord init.subrecord init.tooltips", function(event, object_name, subform) {
+    initTooltips(subform)
+  });
 });
 
 
 // allow click of a submenu link
 $(function() {
-  var initSubmenuLink = function() {
-    $(".dropdown-submenu > a:not(.initialised)").click(function(e) {
+  var initSubmenuLink = function(scope) {
+    scope = scope || $(document.body);
+    $(".dropdown-submenu > a:not(.initialised)", scope).click(function(e) {
       e.preventDefault();
       e.stopImmediatePropagation();
       $(this).focus();
@@ -131,7 +206,9 @@ $(function() {
   $(document).ajaxComplete(function() {
     initSubmenuLink();
   });
-  $(document).bind("new.subrecord, init.subrecord, init.popovers", initSubmenuLink);
+  $(document).bind("new.subrecord init.subrecord init.popovers", function(event, object_name, subform) {
+    initSubmenuLink(subform)
+  });
 });
 
 

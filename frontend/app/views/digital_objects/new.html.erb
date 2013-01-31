@@ -1,13 +1,15 @@
 <%= setup_context :object => @digital_object %>
 
 <%= form_for @digital_object, :as => "digital_object", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
-  <%= form_context :digital_object, @digital_object.to_hash(true) do |form| %>
+  <%= form_context :digital_object, @digital_object do |form| %>
     <div class="row-fluid">
        <div class="span3">
           <%= render :partial => "digital_objects/sidebar" %>
        </div> <!-- span3 -->
       <div class="span9">
         <div class="record-pane" id="object_container">
+          <h2><%= @digital_object.title %>  <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span></h2>
+
            <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>
 
            <div class="form-actions">

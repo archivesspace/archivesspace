@@ -84,6 +84,11 @@ ArchivesSpace::Application.routes.draw do
   match 'resolve/edit' => 'resolver#resolve_edit', :via => [:get]
   match 'resolve/readonly' => 'resolver#resolve_readonly', :via => [:get]
 
+  match 'enumerations/list' => 'enumerations#list', :via => [:get]
+  match 'enumerations/delete' => 'enumerations#delete', :via => [:get]
+  match 'enumerations/destroy/:id' => 'enumerations#destroy', :via => [:post]
+  match 'enumerations/merge/:id' => 'enumerations#merge', :via => [:post]
+  resources :enumerations
 
   # Sample resource route with options:
   #   resources :products do

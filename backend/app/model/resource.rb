@@ -16,6 +16,7 @@ class Resource < Sequel::Model(:resource)
   include Relationships
   include ExternalIDs
 
+  agent_role_enum("linked_agent_archival_record_roles")
   tree_of(:resource, :archival_object)
   set_model_scope :repository
   corresponds_to JSONModel(:resource)

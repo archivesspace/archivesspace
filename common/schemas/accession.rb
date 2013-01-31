@@ -73,6 +73,8 @@
 
       "suppressed" => {"type" => "boolean"},
 
+      "acquisition_type" => {"type" => "string", "dynamic_enum" => "accession_acquisition_type"},
+
       "linked_agents" => {
         "type" => "array",
         "items" => {
@@ -81,7 +83,7 @@
           "properties" => {
             "role" => {
               "type" => "string",
-              "enum" => ["creator", "source", "subject"],
+              "dynamic_enum" => "linked_agent_archival_record_roles",
               "ifmissing" => "error"
             },
 

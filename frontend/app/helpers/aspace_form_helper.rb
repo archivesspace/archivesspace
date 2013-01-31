@@ -2,9 +2,12 @@ module AspaceFormHelper
   class FormContext
 
     def initialize(name, values_from, parent)
+
+      values = values_from.is_a?(JSONModelType) ? values_from.to_hash(true) : values_from
+
       @forms = Object.new
       @parent = parent
-      @context = [[name, values_from]]
+      @context = [[name, values]]
       @path_to_i18n_map = {}
 
       class << @forms
@@ -221,12 +224,22 @@ module AspaceFormHelper
 
 
     def textarea(name = nil, value = "", opts =  {})
-      @forms.text_area_tag(path(name), h(value),  {:id => id_for(name), :rows => 3}.merge(opts))
+      options = {:id => id_for(name), :rows => 3}
+
+      placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
+      options[:placeholder] = placeholder if not placeholder.empty?
+
+      @forms.text_area_tag(path(name), h(value),  options.merge(opts))
     end
 
 
     def textfield(name = nil, value = "", opts =  {})
-      value = @forms.tag("input", {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}.merge(opts),
+      options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
+
+      placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
+      options[:placeholder] = placeholder if not placeholder.empty?
+
+      value = @forms.tag("input", options.merge(opts),
                  false, false)
 
       if opts[:automatable]
@@ -239,6 +252,7 @@ module AspaceFormHelper
         value << I18n.t("actions.automate")
         value << "</small></label>".html_safe
       end
+
       value
     end
 
@@ -284,7 +298,20 @@ module AspaceFormHelper
     end
 
     def label(name, opts = {})
-      "<label class=\"control-label\" for=\"#{id_for(name)}\">#{I18n.t(i18n_for(name))}</label>".html_safe
+      options = {:class => "control-label", :for => id_for(name)}
+
+      tooltip = I18n.t("#{i18n_for(name)}_tooltip", :default => '')
+      if not tooltip.empty?
+        options[:title] = tooltip
+        options["data-placement"] = "bottom"
+        options["data-html"] = true
+        options["data-delay"] = 500
+        options["data-trigger"] = "manual"
+        options["data-template"] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+        options[:class] += " has-tooltip"
+      end 
+
+      @forms.content_tag(:label, I18n.t(i18n_for(name)), options.merge(opts || {}))
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -350,7 +377,15 @@ module AspaceFormHelper
 
     def select(name, options, opts = {})
       return nil if obj[name].blank?
-      I18n.t("#{i18n_for(name)}_#{obj[name]}", :default => obj[name])
+
+      # Attempt a match in the options to give dynamic enums a chance.
+      match = options.find {|label, value| value == obj[name]}
+
+      if match
+        match[0]
+      else
+        I18n.t("#{i18n_for(name)}_#{obj[name]}", :default => obj[name])
+      end
     end
 
     def textfield(name = nil, value = "", opts =  {})
@@ -449,8 +484,17 @@ module AspaceFormHelper
     def options_for(context, property, add_empty_options = false, opts = {})
       options = []
       options.push(["",""]) if add_empty_options
+
+      defn = jsonmodel_schema_definition(property)
+
       jsonmodel_enum_for(property).each do |v|
-        i18n_path = opts.has_key?(:i18n_prefix) ? "#{opts[:i18n_prefix]}.#{v}" : context.i18n_for("#{Array(property).last}_#{v}")
+        if opts.has_key?(:i18n_prefix)
+          i18n_path =  "#{opts[:i18n_prefix]}.#{v}"
+        elsif defn.has_key?('dynamic_enum')
+          i18n_path = "enumerations.#{defn['dynamic_enum']}.#{v}"
+        else
+          i18n_path = context.i18n_for("#{Array(property).last}_#{v}")
+        end
 
         options.push([I18n.t(i18n_path, :default => v), v])
       end
@@ -461,7 +505,15 @@ module AspaceFormHelper
     private
 
     def jsonmodel_enum_for(property)
-      jsonmodel_schema_definition(property)["enum"]
+      defn = jsonmodel_schema_definition(property)
+
+      if defn.has_key?('enum')
+        defn["enum"]
+      elsif defn.has_key?('dynamic_enum')
+        JSONModel.enum_values(defn['dynamic_enum'])
+      else
+        raise "No enum found for #{property}"
+      end
     end
 
 
@@ -551,8 +603,10 @@ module AspaceFormHelper
     hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
 
       if schema and schema["properties"].has_key?(property)
-        if schema["properties"][property].has_key?("enum")
-          value = I18n.t("#{jsonmodel_type.to_s}.#{property}_#{value}", value)
+        if (schema["properties"][property].has_key?('dynamic_enum'))
+          value = I18n.t("enumerations.#{schema["properties"][property]["dynamic_enum"]}.#{value}", :default => value)
+        elsif schema["properties"][property].has_key?("enum")
+          value = I18n.t("#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
           value = value === true ? "True" : "False"
         elsif schema["properties"][property]["type"] === "array"

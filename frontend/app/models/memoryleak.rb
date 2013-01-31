@@ -7,16 +7,19 @@ module MemoryLeak
 
     @@refresh_mutex = Mutex.new
 
-    @@resources = {
-      :repository => Atomic.new(nil),
-      :vocabulary => Atomic.new(nil),
-      :acl_last_modified => Atomic.new({:last_modified => 0, :value => 0})
-    }
+    @@resources = {}
+    @@refresh_fns = {}
+    @@expiration_seconds = {}
 
-    @@expiration_seconds = {
-      :repository => 60,
-      :vocabulary => 60
-    }
+
+    def self.define(resource, refresh_fn, ttl, opts = {})
+      @@resources[resource] = Atomic.new(nil)
+      @@refresh_fns[resource] = refresh_fn
+      @@expiration_seconds[resource] = ttl if ttl
+
+      self.set(resource, opts[:init], 0)
+    end
+
 
     def self.get(resource)
       stale = (@@resources[resource].value.nil? ||
@@ -35,13 +38,13 @@ module MemoryLeak
       # once).  We want both refreshes to run in sequence, so use a mutex to
       # serialize them.
       @@refresh_mutex.synchronize do
-        self.set(resource, JSONModel(resource).all)
+        self.set(resource, @@refresh_fns[resource].call)
       end
     end
 
 
-    def self.set(resource, value)
-      @@resources[resource].swap({:value => value, :last_modified => Time.now.to_i})
+    def self.set(resource, value, time = nil)
+      @@resources[resource].swap({:value => value, :last_modified => (time || Time.now.to_i)})
     end
 
 

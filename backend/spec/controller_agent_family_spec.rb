@@ -8,8 +8,8 @@ describe 'Family agent controller' do
 
 
   it "lets you create a family and get them back" do
-    opts = {:names => [build(:json_name_family).to_hash],
-            :agent_contacts => [build(:json_agent_contact).to_hash]
+    opts = {:names => [build(:json_name_family)],
+            :agent_contacts => [build(:json_agent_contact)]
             }
 
     id = create_family(opts).id
@@ -24,7 +24,7 @@ describe 'Family agent controller' do
     [0,1].each do |n|
 
       opts = {:name => generate(:generic_name)}
-      family.agent_contacts << build(:json_agent_contact, opts).to_hash
+      family.agent_contacts << build(:json_agent_contact, opts)
 
       family.save
 
@@ -33,7 +33,7 @@ describe 'Family agent controller' do
   end
 
   it "sets the sort name if one is provided" do
-    opts = {:names => [build(:json_name_family, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false).to_hash]}
+    opts = {:names => [build(:json_name_family, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
 
     id = create_family(opts).id
     JSONModel(:agent_family).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
@@ -41,7 +41,7 @@ describe 'Family agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_family({:names => [build(:json_name_family,{:family_name => "Hendrix", :sort_name_auto_generate => true}).to_hash]}).id
+    id = create_family({:names => [build(:json_name_family,{:family_name => "Hendrix", :sort_name_auto_generate => true})]}).id
 
     agent = JSONModel(:agent_family).find(id)
 

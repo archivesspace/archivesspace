@@ -20,6 +20,32 @@ Sequel.migration do
     end
 
 
+    create_table(:enumeration) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      String :name, :null => false, :unique => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+
+    create_table(:enumeration_value) do
+      primary_key :id
+
+      Integer :enumeration_id, :null => false, :index => true
+      String :value, :null => false, :index => true
+    end
+
+    alter_table(:enumeration_value) do
+      add_foreign_key([:enumeration_id], :enumeration, :key => :id)
+      add_index([:enumeration_id, :value], :unique => true)
+    end
+
+
+
     create_table(:auth_db) do
       primary_key :id
       String :username, :unique => true, :null => false
@@ -148,6 +174,8 @@ Sequel.migration do
       TextField :content_description, :null => true
       TextField :condition_description, :null => true
 
+      String :acquisition_type, :null => true
+
       DateTime :accession_date, :null => true
 
       DateTime :create_time, :null => false
@@ -175,6 +203,8 @@ Sequel.migration do
 
       String :level, :null => false
       String :other_level
+
+      String :resource_type, :null => true
 
       Integer :publish
       Integer :restrictions
@@ -334,6 +364,26 @@ Sequel.migration do
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
     end
 
+    # Instance relationships
+    [:digital_object].each do |record|
+      table = [MigrationUtils.shorten_table("instance"),
+               MigrationUtils.shorten_table(record)].sort.join("_link_").intern
+
+
+      create_table(table) do
+        primary_key :id
+        Integer "#{record}_id".intern
+        Integer :instance_id
+        Integer :aspace_relationship_position
+        DateTime :last_modified, :null => false
+      end
+
+      alter_table(table) do
+        add_foreign_key(["#{record}_id".intern], record, :key => :id)
+        add_foreign_key([:instance_id], :instance, :key => :id)
+      end
+    end
+
 
     create_table(:container) do
       primary_key :id
@@ -388,6 +438,8 @@ Sequel.migration do
       String :terms_sha1, :unique => true
       String :ref_id, :unique => true
 
+      String :source, :null => true
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
@@ -428,7 +480,7 @@ Sequel.migration do
       add_foreign_key([:subject_id], :subject, :key => :id)
       add_foreign_key([:term_id], :term, :key => :id)
 
-      add_index([:subject_id, :term_id], :name => "subject_term")
+      add_index([:subject_id, :term_id], :name => "subject_term_idx")
     end
 
 
@@ -480,12 +532,24 @@ Sequel.migration do
         TextField :description_note, :null => true
         TextField :description_citation, :null => true
         TextField :qualifier, :null => true
-        String :source, :null => true
-        String :rules, :null => true
+        Integer :source_id, :null => true
+        Integer :rules_id, :null => true
         TextField :sort_name, :null => false
         Integer :sort_name_auto_generate
       end
     end
+
+
+    def create_enum(name, values)
+      id = self[:enumeration].insert(:name => name,
+                                     :create_time => Time.now,
+                                     :last_modified => Time.now)
+
+      values.each do |value|
+        self[:enumeration_value].insert(:enumeration_id => id, :value => value)
+      end
+    end
+
 
     create_table(:name_person) do
       primary_key :id
@@ -513,6 +577,8 @@ Sequel.migration do
 
     alter_table(:name_person) do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:rules_id], :enumeration_value, :key => :id)
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
     end
 
 
@@ -536,6 +602,8 @@ Sequel.migration do
 
     alter_table(:name_family) do
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:rules_id], :enumeration_value, :key => :id)
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
     end
 
 
@@ -561,6 +629,8 @@ Sequel.migration do
 
     alter_table(:name_corporate_entity) do
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:rules_id], :enumeration_value, :key => :id)
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
     end
 
 
@@ -585,6 +655,8 @@ Sequel.migration do
 
     alter_table(:name_software) do
       add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+      add_foreign_key([:rules_id], :enumeration_value, :key => :id)
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
     end
 
 
@@ -910,6 +982,60 @@ Sequel.migration do
     end
 
 
+    create_enum('linked_agent_archival_record_roles',
+                ['creator', 'source', 'subject'])
+
+
+    create_enum('linked_event_archival_record_roles',
+                ['source', 'outcome', 'transfer'])
+
+
+    create_enum('linked_agent_event_roles',
+                ["authorizer", "executing_program", "implementer", "recipient",
+                 "transmitter", "validator"])
+
+    create_enum('name_source', ["local", "naf", "nad", "ulan"])
+
+    create_enum('name_rule', ["local", "aacr", "dacs"])
+
+    create_enum('name_description_type', ["biographical statement", "administrative history"])
+
+    create_enum('accession_acquisition_type', ["deposit", "gift", "purchase", "transfer"])
+
+    create_enum('collection_management_processing_priority', ["high", "medium", "low"])
+
+    create_enum('collection_management_processing_status', ["new", "in_progress", "completed"])
+
+    create_enum('date_era', ["ce"])
+
+    create_enum('date_calendar', ["gregorian"])
+
+    create_enum('digital_object_digital_object_type', ["cartographic", "mixed_materials", "moving_image", "notated_music", "software_multimedia", "sound_recording", "sound_recording_musical", "sound_recording_nonmusical", "still_image", "text"])
+
+    create_enum('digital_object_level', ["collection", "work", "image"])
+
+    create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leafs", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
+
+    create_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "agreement received", "agreement sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "custody transfer", "deaccession", "decompression", "decryption", "deletion", "digital signature validation", "fixity check", "ingestion", "message digest calculation", "migration", "normalization", "processing", "publication", "replication", "resource merge", "resource component transfer", "validation", "virus check"])
+
+    create_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "page", "reel", "volume"])
+
+    create_enum('agent_contact_salutation', ["mr", "mrs", "ms", "madame", "sir"])
+
+    create_enum('event_outcome', ["pass", "partial pass", "fail"])
+
+    create_enum('resource_resource_type', ["collection", "publications", "papers", "records"])
+
+    create_enum('resource_finding_aid_description_rules', ["aacr", "cco", "dacs", "rad", "isadg"])
+
+    create_enum('resource_finding_aid_status', ["completed", "in_progress", "under_revision", "unprocessed"])
+
+    create_enum('instance_instance_type', ["audio", "books", "computer_disks", "digital_object","graphic_materials", "maps", "microform", "mixed_materials", "moving_images", "realia", "text"])
+
+    create_enum('subject_source', ["aat", "rbgenr", "tgn", "lcsh", "local", "mesh", "gmgpc"])
+
+
+
     # Relationship tables
     [:accession, :archival_object, :digital_object, :digital_object_component, :event, :resource].each do |record|
       [:agent_person, :agent_software, :agent_family, :agent_corporate_entity].each do |agent|
@@ -922,12 +1048,13 @@ Sequel.migration do
           Integer "#{agent}_id".intern
           Integer :aspace_relationship_position
           DateTime :last_modified, :null => false
-          String :role
+          Integer :role_id
         end
 
         alter_table(table) do
           add_foreign_key(["#{record}_id".intern], record, :key => :id)
           add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
+          add_foreign_key([:role_id], :enumeration_value, :key => :id)
         end
       end
     end
@@ -943,12 +1070,13 @@ Sequel.migration do
         Integer :event_id
         Integer :aspace_relationship_position
         DateTime :last_modified, :null => false
-        String :role
+        Integer :role_id
       end
 
       alter_table(table) do
         add_foreign_key(["#{record}_id".intern], record, :key => :id)
         add_foreign_key([:event_id], :event, :key => :id)
+        add_foreign_key(["role_id".intern], :enumeration_value, :key => :id)
       end
     end
 

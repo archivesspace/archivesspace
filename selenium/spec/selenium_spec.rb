@@ -636,9 +636,20 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id => "accession_dates__1__label_").select_option("other")
       $driver.find_element(:id => "accession_dates__1__date_type_").select_option("inclusive")
       $driver.clear_and_send_keys([:id, "accession_dates__1__begin_"], "2012-05-14")
-      $driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2013-05-14")
+      $driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2011-05-14")
 
       # save!
+      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+
+      # fail!
+      expect {
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /must not be before begin/)
+      }.to_not raise_error
+
+      # fix!
+      $driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2013-05-14")
+
+      # save again!
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
       # check dates
@@ -1018,6 +1029,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id, "resource_title_").clear
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Number - Property is required but was missing/)
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Language - Property is required but was missing/)
@@ -1695,6 +1707,45 @@ describe "ArchivesSpace user interface" do
       
       $driver.find_element(:id, 'create_account').click
     end
+  end
+
+
+  describe "Context Sensitive Help" do
+
+    before(:all) do
+      login_as_repo_manager
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    it "displays a clickable tooltip for a field label" do
+      # navigate to the Accession form
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+
+      # click on a field label
+      $driver.find_element(:css, "label[for='accession_title_']").click
+
+      sleep 1
+
+      expect {
+        $driver.find_element(:css, ".tooltip.archivesspace-help")
+      }.to_not raise_error
+
+      # can hide the tooltip
+      $driver.find_element(:css, "label[for='accession_title_']").click
+
+      sleep 1
+
+      expect {
+        $driver.find_element(:css, ".tooltip.archivesspace-help")
+      }.to raise_error
+    end
+
   end
 
 

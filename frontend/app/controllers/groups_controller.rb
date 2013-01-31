@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:new, :index, :edit, :create, :update]
-  before_filter :user_needs_to_be_a_manager, :only => [:new, :index, :edit, :create, :update]
+  before_filter(:only => [:new, :index, :edit, :create, :update]) {|c| user_must_have("manage_repository")}
 
   def new
     @group = JSONModel(:group).new._always_valid!

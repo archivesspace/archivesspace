@@ -70,6 +70,19 @@ module JSONModel::Validations
       errors << ["end", "is required"] if hash["end"].nil?
       errors << ["begin_time", "is required"] if not hash["end_time"].nil? and hash["begin_time"].nil?
       errors << ["end_time", "is required"] if not hash["begin_time"].nil? and hash["end_time"].nil?
+
+      # check that end isn't before begin
+      # need to expand to full date+time - choosing to use rfc3339, though just doing a string compare
+      bt = "#{hash["begin"]}"
+      2.times { bt << '-01' if bt !~ /\-\d\d\-\d\d/ }
+      bt << "T#{hash["begin_time"] || '00:00:00'}+00:00"
+
+      et = "#{hash["end"]}"
+      et << '-12' if et !~ /\-\d\d/
+      et << '-31' if et !~ /\-\d\d\-\d\d/
+      et << "T#{hash["end_time"] || '23:59:59'}+00:00"
+
+      errors << ["end", "must not be before begin"] if et < bt
     end
 
     errors
@@ -145,6 +158,26 @@ module JSONModel::Validations
   if JSONModel(:container_location)
     JSONModel(:container_location).add_validation("check_container_location") do |hash|
       check_container_location(hash)
+    end
+  end
+
+
+  def self.check_instance(hash)
+    errors = []
+
+    if hash["instance_type"] === "digital_object"
+      errors << ["digital_object", "is required"] if hash["digital_object"].nil?
+    elsif hash["instance_type"]
+      errors << ["container", "is required"] if hash["container"].nil?
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:instance)
+    JSONModel(:instance).add_validation("check_instance") do |hash|
+      check_instance(hash)
     end
   end
 

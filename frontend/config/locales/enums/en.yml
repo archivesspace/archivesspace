@@ -1,0 +1,159 @@
+en:
+  enumerations:
+    linked_agent_archival_record_roles:
+      creator: Creator
+      source: Source
+      subject: Subject
+    linked_event_archival_record_roles:
+      source: Source
+      outcome: Outcome
+      transfer: Transfer
+    linked_agent_event_roles:
+      authorizer: Authorizer
+      executing_program: Executing Program
+      implementer: Implementer
+      recipient: Recipient
+      transmitter: Transmitter
+      validator: Validator
+    name_source:
+      local: Local sources
+      naf: NACO Authority File
+      nad: "NAD / ARK II Name Authority Database"
+      ulan: Union List of Artist Names
+    name_rule:
+      local: Local rules
+      aacr: Anglo-American Cataloging Rules
+      dacs: "Describing Archives: A Content Standard"
+    extent_extent_type:
+      cassettes: Cassettes
+      cubic_feet: Cubic Feet
+      leafs: Leafs
+      linear_feet: Linear Feet
+      photographic_prints: Photographic Prints
+      photographic_slides: Photographic Slides
+      reels: Reels
+      sheets: Sheets
+      volumes: Volumes
+    collection_management_processing_priority:
+      high: High
+      medium: Medium
+      low: Low
+    collection_management_processing_status:
+      new: New
+      in_progress: In Progress
+      completed: Completed
+    date_era:
+      ce: ce
+    date_calendar:
+      gregorian: Gregorian
+    digital_object_digital_object_type:
+      cartographic: Cartographic
+      mixed_materials: Mixed Materials
+      moving_image: Moving Image
+      notated_music: Notated Music
+      software_multimedia: Software, Multimedia
+      sound_recording: Sound Recording
+      sound_recording_musical: Sound Recording (Musical)
+      sound_recording_nonmusical: Sound Recording (Non-musical)
+      still_image: Still Image
+      text: Text
+    digital_object_level:
+      collection: Collection
+      work: Work
+      image: Image
+    event_event_type:
+      accession: Accession
+      accumulation: Accumulation
+      acknowledgement: Acknowledgement
+      agreement received: Agreement Received
+      agreement sent: Agreement Sent
+      appraisal: Appraisal
+      assessment: Assessment
+      capture: Capture
+      cataloging: Cataloging
+      collection: Collection
+      compression: Compression
+      contribution: Contribution
+      custody transfer: Custody Transfer
+      deaccession: Deaccession
+      decompression: Decompression
+      decryption: Decryption
+      deletion: Deletion
+      digital signature validation: Digital Signature Validation
+      fixity check: Fixity Check
+      ingestion: Ingestion
+      message digest calculation: Message Digest Calculation
+      migration: Migration
+      normalization: Normalization
+      processing: Processing
+      publication: Publication
+      replication: Replication
+      resource merge: Resource Merge
+      resource component transfer: Resource Component Transfer
+      validation: Validation
+      virus check: Virus Check
+    resource_resource_type:
+      collection: Collection
+      publications: Publications
+      papers: Papers
+      records: Records
+    resource_finding_aid_description_rules:
+      aacr: Anglo-American Cataloguing Rules
+      cco: Cataloging Cultural Objects
+      dacs: "Describing Archives: A Content Standard"
+      rad: Rules for Archival Description
+      isadg: International Standard for Archival Description - General
+    resource_finding_aid_status:
+      completed: Completed
+      in_progress: In Progress
+      under_revision: Under Revision
+      unprocessed: Unprocessed
+    instance_instance_type:
+      audio: Audio
+      books: Books
+      computer_disks: Computer Disks
+      digital_object: Digital Object
+      digital_object_link: Digital Object Link
+      graphic_materials: Graphic Materials
+      maps: Maps
+      microform: Microform
+      mixed_materials: Mixed Materials
+      moving_images: Moving Images
+      realia: Realia
+      text: Text
+    accession_acquisition_type:
+      deposit: Deposit
+      gift: Gift
+      purchase: Purchase
+      transfer: Transfer
+    subject_source:
+      aat: "Art & Architecture Thesaurus"
+      gmgpc: "TGM II, Genre and physical characteristic terms"
+      lcsh: Library of Congress Subject Headings
+      local: Local sources
+      mesh: Medical Subject Headings
+      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
+      tgn: "Getty Thesaurus of Geographic Names"
+    name_description_type:
+      biographical statement: Biographical Statement
+      administrative history: Administrative History
+    event_outcome:
+      pass: Pass
+      partial pass: Partial Pass
+      fail: Fail
+    agent_contact_salutation:
+      mr: Mr.
+      mrs: Mrs.
+      ms: Ms.
+      madame: Madame
+      sir: Sir
+    container_type:
+      box: Box
+      carton: Carton
+      case: Case
+      folder: Folder
+      frame: Frame
+      object: Object
+      page: Page
+      reel: Reel
+      volume: Volume

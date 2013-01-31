@@ -15,7 +15,7 @@
             </div>
             <div class="span4">
               <%= extent['number'] %> 
-              <%= I18n.t('extent.extent_type_'+extent['extent_type']) %>
+              <%= I18n.t('enumerations.extent_extent_type.'+extent['extent_type']) %>
             </div>
             <div class="span7">
               <%= extent['container_summary'] %>
@@ -23,7 +23,7 @@
           </div>
         </div>
         <div id="<%= section_id %>_extent_<%= index %>" class="accordion-body collapse">
-          <%= read_only_view(extent.to_hash) %>
+          <%= read_only_view(extent) %>
         </div>
       </div>
     <% end %>

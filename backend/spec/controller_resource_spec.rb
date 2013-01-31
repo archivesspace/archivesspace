@@ -25,12 +25,11 @@ describe 'Resources controller' do
   end
 
 
-  it "lets you created resources with no 4-part identifiers" do
-    create(:json_resource,
-           :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
-
-    create(:json_resource,
-           :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
+  it "doesn't let you create a resource without a 4-part identifier" do
+    expect {
+      create(:json_resource,
+             :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
+    }.to raise_error
   end
 
 
@@ -73,7 +72,7 @@ describe 'Resources controller' do
     vocab = create(:json_vocab)
     vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
     subject = create(:json_subject,
-                    :terms => [build(:json_term, :vocabulary => vocab_uri).to_hash],
+                    :terms => [build(:json_term, :vocabulary => vocab_uri)],
                     :vocabulary => vocab_uri
                     )
 
@@ -103,7 +102,7 @@ describe 'Resources controller' do
 
     opts = {:portion => generate(:portion)}
     
-    extents = [build(:json_extent, opts).to_hash]
+    extents = [build(:json_extent, opts)]
     
     resource = create(:json_resource, :extents => extents)
 
@@ -115,11 +114,11 @@ describe 'Resources controller' do
   it "lets you create a resource with an instance and container" do
     
     opts = {:instance_type => generate(:instance_type),
-            :container => build(:json_container).to_hash
+            :container => build(:json_container)
             }
     
     id = create(:json_resource, 
-                :instances => [build(:json_instance, opts).to_hash]
+                :instances => [build(:json_instance, opts)]
                 ).id
 
     JSONModel(:resource).find(id).instances.length.should eq(1)
@@ -128,14 +127,35 @@ describe 'Resources controller' do
   end
 
 
+  it "lets you create a resource with an instance linked to a digital object" do
+    digital_object = create(:json_digital_object)
+
+    opts = {:instance_type => "digital_object",
+            :digital_object => {:ref => digital_object.uri}
+    }
+
+    id = create(:json_resource,
+                :instances => [build(:json_instance, opts)]
+    ).id
+
+    resource = JSONModel(:resource).find(id)
+    resource.instances.length.should eq(1)
+    resource.instances[0]["instance_type"].should eq(opts[:instance_type])
+    resource.instances[0]["digital_object"]["ref"].should eq(opts[:digital_object][:ref])
+
+    digital_object = JSONModel(:digital_object).find(digital_object.id)
+    digital_object.linked_instances[0]["ref"].should eq(resource.uri)
+  end
+
+
   it "lets you edit an instance of a resource" do
     
     opts = {:instance_type => generate(:instance_type),
-            :container => build(:json_container).to_hash
+            :container => build(:json_container)
             }
             
     id = create(:json_resource, 
-                :instances => [build(:json_instance, opts).to_hash]
+                :instances => [build(:json_instance, opts)]
                 ).id
 
     resource = JSONModel(:resource).find(id)
@@ -166,8 +186,8 @@ describe 'Resources controller' do
                                                       'status' => status,
                                                       'start_date' => generate(:yyyy_mm_dd),
                                                       'end_date' => generate(:yyyy_mm_dd)}]
-                            }).to_hash
-                        }).to_hash]
+                            })
+                        })]
                       })
 
     obj = JSONModel(:resource).find(resource.id, "resolve[]" => "container_locations")
@@ -188,8 +208,8 @@ describe 'Resources controller' do
                                                       'status' => status,
                                                       'start_date' => generate(:yyyy_mm_dd),
                                                       'end_date' => generate(:yyyy_mm_dd)}]
-                            }).to_hash
-                        }).to_hash]
+                            })
+                        })]
                       })
 
     obj = JSONModel(:resource).find(resource.id)
@@ -216,8 +236,8 @@ describe 'Resources controller' do
                                  'start_date' => generate(:yyyy_mm_dd),
                                  'end_date' => generate(:yyyy_mm_dd)
                                }]
-                            }).to_hash
-                          }).to_hash]
+                            })
+                          })]
                         })
 
     }
@@ -254,8 +274,8 @@ describe 'Resources controller' do
                               'end_date' => generate(:yyyy_mm_dd),
                               'ref' => location.uri
                             }]
-                          }).to_hash
-                        }).to_hash]
+                          })
+                        })]
     })
 
       id = resource.id
@@ -271,7 +291,7 @@ describe 'Resources controller' do
     location = create(:json_location)
 
     resource = create(:json_resource, {
-                        :extents => [build(:json_extent).to_hash],
+                        :extents => [build(:json_extent)],
                         :instances => [build(:json_instance, {
                           :container => build(:json_container, {
                             :container_locations => [{
@@ -280,8 +300,8 @@ describe 'Resources controller' do
                               :status => 'current',
                               :ref => "/repositories/#{$repo_id}/locations/#{location.id}"
                             }]
-                          }).to_hash
-                        }).to_hash]
+                          })
+                        })]
     })
 
     # Set our default repository to nil here since we're really testing the fact
@@ -311,7 +331,7 @@ describe 'Resources controller' do
                         :terms => [build(:json_term, {
                           :term => test_subject_term,
                           :vocabulary => vocab.uri
-                        }).to_hash],
+                        })],
                         :vocabulary => vocab.uri
     })
 
@@ -329,8 +349,8 @@ describe 'Resources controller' do
                                                                                         :start_date => generate(:yyyy_mm_dd),
                                                                                         :end_date => generate(:yyyy_mm_dd),
                                                                                         :location => location.uri}]
-                                                            }).to_hash
-                                      }).to_hash]
+                                                            })
+                                      })]
                })
 
     resource = JSONModel(:resource).find(r.id, "resolve[]" => ["subjects", "container_locations"])
@@ -351,8 +371,8 @@ describe 'Resources controller' do
                  :scope => "whole",
                  :date => build(:json_date, {
                    :begin => test_begin_date
-                 }).to_hash
-               }).to_hash]
+                 })
+               })]
                )
     
     JSONModel(:resource).find(r.id).deaccessions.length.should eq(1)
@@ -383,7 +403,7 @@ describe 'Resources controller' do
     ao = create(:json_archival_object,
                 :resource => {:ref => resource.uri})
 
-    ao.extents = [build(:json_extent).to_hash]
+    ao.extents = [build(:json_extent)]
     ao.save
 
     resource = JSONModel(:resource).find(resource.id)
@@ -399,7 +419,7 @@ describe 'Resources controller' do
 
     notes = build(:json_note_bibliography)
 
-    resource.notes = [notes.to_hash]
+    resource.notes = [notes]
     resource.save
 
     JSONModel(:resource).find(resource.id)[:notes].first.should eq(notes.to_hash)

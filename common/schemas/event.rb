@@ -20,19 +20,11 @@
       "event_type" => {
         "type" => "string",
         "ifmissing" => "error",
-        "enum" => ["accession", "accumulation", "acknowledgement", "agreement received",
-                   "agreement sent", "appraisal", "assessment", "capture", "cataloging",
-                   "collection", "compression", "contribution", "custody transfer", "deaccession",
-                   "decompression", "decryption", "deletion", "digital signature validation",
-                   "fixity check", "ingestion", "message digest calculation", "migration",
-                   "normalization", "processing", "publication", "replication", "resource merge",
-                   "resource component transfer", "validation", "virus check"]
-
-
-
+        "dynamic_enum" => "event_event_type"
       },
+
       "date" => {"type" => "JSONModel(:date) object", "ifmissing" => "error"},
-      "outcome" => {"type" => "string"},
+      "outcome" => {"type" => "string", "dynamic_enum" => "event_outcome"},
       "outcome_note" => {"type" => "string"},
 
       "suppressed" => {"type" => "boolean"},
@@ -47,7 +39,7 @@
           "properties" => {
             "role" => {
               "type" => "string",
-              "enum" => ["authorizer", "executing_program", "implementer", "recipient", "transmitter", "validator"],
+              "dynamic_enum" => "linked_agent_event_roles",
               "ifmissing" => "error",
             },
 
@@ -74,7 +66,7 @@
           "properties" => {
             "role" => {
               "type" => "string",
-              "enum" => ["source", "outcome", "transfer"],
+              "dynamic_enum" => "linked_event_archival_record_roles",
               "ifmissing" => "error",
             },
             "ref" => {

@@ -17,6 +17,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Notes
   include ExternalIDs
 
+  agent_role_enum("linked_agent_archival_record_roles")
   orderable_root_record_type :resource, :archival_object
 
   set_model_scope :repository

@@ -392,5 +392,30 @@ module JSONModel
 
     end
 
+
+    class EnumSource
+
+      def self.fetch_enumerations
+        enumerations = {}
+        JSONModel::JSONModel(:enumeration).all.each do |enumeration|
+          enumerations[enumeration.name] = enumeration.values
+        end
+
+        enumerations
+      end
+
+
+      def initialize
+        @enumerations = self.class.fetch_enumerations
+      end
+
+
+      def values_for(name)
+        @enumerations.fetch(name)
+      end
+
+    end
+
+
   end
 end

@@ -7,7 +7,7 @@
    <div class="span9">
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
-     <%= readonly_context :subject, @subject.to_hash do |readonly| %>
+     <%= readonly_context :subject, @subject do |readonly| %>
       <h2><%= @subject.title %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
 
       <%= render :partial => "shared/flash_messages" %>
@@ -16,6 +16,7 @@
         <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
 
         <%= readonly.label_and_textfield "ref_id" %>
+        <%= readonly.label_and_select "source", readonly.possible_options_for("source", true) %>
       </section>
     
       <section id="terms" class="subrecord-form-dummy">

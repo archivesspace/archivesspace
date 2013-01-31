@@ -13,7 +13,7 @@
       <% linked_agents.each_with_index do | link, index | %>
         <div class="row-fluid">
           <div class="span3 pull1">
-            <%= I18n.t("linked_agent.role_#{link["role"]}") %>
+            <%= I18n.t("linked_agent.role_#{link["role"]}", :default => link["role"]) %>
           </div>
           <div class="span8 token-list">
             <%= render_token :object => link, 
