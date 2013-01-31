@@ -1710,6 +1710,45 @@ describe "ArchivesSpace user interface" do
   end
 
 
+  describe "Context Sensitive Help" do
+
+    before(:all) do
+      login_as_repo_manager
+    end
+
+
+    after(:all) do
+      logout
+    end
+
+
+    it "displays a clickable tooltip for a field label" do
+      # navigate to the Accession form
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+
+      # click on a field label
+      $driver.find_element(:css, "label[for='accession_title_']").click
+
+      sleep 1
+
+      expect {
+        $driver.find_element(:css, ".tooltip.archivesspace-help")
+      }.to_not raise_error
+
+      # can hide the tooltip
+      $driver.find_element(:css, "label[for='accession_title_']").click
+
+      sleep 1
+
+      expect {
+        $driver.find_element(:css, ".tooltip.archivesspace-help")
+      }.to raise_error
+    end
+
+  end
+
+
   describe "Users and authentication" do
 
     after(:all) do

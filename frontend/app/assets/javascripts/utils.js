@@ -137,7 +137,28 @@ $(function() {
         var openedViaClick = false;
         var showTimeout, hideTimeout;
 
-        $this.click(function() {
+        var onMouseEnter = function() {
+          if (openedViaClick) return;
+
+          clearTimeout(hideTimeout);
+          showTimeout = setTimeout(function() {
+            showTimeout = null;
+            $this.tooltip("show");
+          }, $this.data("delay") || 500);
+          $this.off("mouseleave").on("mouseleave", onMouseLeave);
+        };
+
+        var onMouseLeave = function() {
+          if (showTimeout) {
+            clearTimeout(showTimeout);
+          } else {
+            hideTimeout = setTimeout(function() {
+              $this.tooltip("hide");
+            }, 100);
+          }
+        };
+
+        var onClick = function() {
           clearTimeout(showTimeout);
 
           if (openedViaClick) {
@@ -154,26 +175,10 @@ $(function() {
             $this.trigger("click");
           });
           openedViaClick = true;
-        });
+        }
 
-        $this.bind("mouseenter", function() {
-          if (openedViaClick) return;
-
-          clearTimeout(hideTimeout);
-          showTimeout = setTimeout(function() {
-            showTimeout = null;
-            $this.tooltip("show");
-          }, $this.data("delay") || 500);
-          $this.off("mouseleave").on("mouseleave", function() {
-            if (showTimeout) {
-              clearTimeout(showTimeout);
-            } else {
-              hideTimeout = setTimeout(function() {
-                $this.tooltip("hide");
-              }, 100);
-            }
-          });
-        });
+        // bind event callbacks
+        $this.bind("mouseenter", onMouseEnter).click(onClick);
       }
     });
   };
