@@ -68,9 +68,7 @@ ASpaceImport::Importer.importer :csv do
 
     # Hacks to make things work for now
     val = @swap[header][val] if @swap.has_key? header and @swap[header].has_key? val
-    val.sub!(/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/, '\2/\1/\3}') if header == 'accession_accession_date'
-    puts "VAL #{val}" if header == 'accession_accession_date'
-    
+    val.sub!(/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/, '\2/\1/\3}') if header == 'accession_accession_date'    
     
     val = nil if val == 'NULL'
     with_receivers_for header do |r|

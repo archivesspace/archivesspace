@@ -38,9 +38,9 @@ describe 'ASpaceImport::Importer::XmlImporter' do
     @i.class.name.should eq('XmlImporter')
   end
   
-  it "should run" do
-    @i.run
-  end
+  # it "should run" do
+  #   @i.run
+  # end
 
 end
 
