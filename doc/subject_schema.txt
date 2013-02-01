@@ -8,6 +8,8 @@ string	title
 
 array (object)	external_ids
 
+string	source
+
 array (JSONModel(:term) uri_or_object)	terms
 
 JSONModel(:vocabulary) uri	vocabulary

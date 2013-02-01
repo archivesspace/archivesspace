@@ -116,7 +116,7 @@
         <dt id="FIND_OPTS-constant" class="">FIND_OPTS =
           
         </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;linked_agents&quot;</span><span class='rbrack token'>]</span>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;linked_agents&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;linked_instances&quot;</span><span class='rbrack token'>]</span>
 </pre></dd>
       
     </dl>
@@ -305,8 +305,6 @@
       <pre class="lines">
 
 
-37
-38
 39
 40
 41
@@ -316,15 +314,25 @@
 45
 46
 47
-48</pre>
+48
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_objects_controller.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_objects_controller.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:digital_object</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='rubyid_render identifier id'>render</span> <span class='rubyid_action identifier id'>action</span><span class='colon op'>:</span> <span class='string val'>&quot;new&quot;</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> 
+              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;new&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span> 
+                <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;new&quot;</span> 
+              <span class='rbrace token'>}</span><span class='comma token'>,</span>
+              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+                <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object ivar id'>@digital_object</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
                 <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
                               <span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:digital_objects</span><span class='comma token'>,</span>
                               <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span>
@@ -354,18 +362,18 @@
       <pre class="lines">
 
 
-26
-27
 28
 29
 30
 31
 32
 33
-34</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_objects_controller.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_objects_controller.rb', line 28</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_@digital_object ivar id'>@digital_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FIND_OPTS constant id'>FIND_OPTS</span><span class='rparen token'>)</span>
@@ -430,13 +438,17 @@
 
 22
 23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_objects_controller.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@digital_object ivar id'>@digital_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object.title_default&quot;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;digital_objects/new&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:inline</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -502,21 +514,21 @@
       <pre class="lines">
 
 
-51
-52
-53
-54
-55
-56
 57
 58
 59
 60
 61
-62</pre>
+62
+63
+64
+65
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_objects_controller.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_objects_controller.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:digital_object</span><span class='comma token'>,</span>
@@ -541,7 +553,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:39 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:26 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

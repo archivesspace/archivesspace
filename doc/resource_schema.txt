@@ -16,6 +16,8 @@ string	other_level
 
 	language
 
+string	resource_type
+
 boolean	publish
 
 boolean	restrictions

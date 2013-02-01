@@ -213,7 +213,7 @@ separate models in the database (in separate tables).</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#fire_update-instance_method" title="#fire_update (instance method)">- (Object) <strong>fire_update</strong>(hash, uri) </a>
+      <a href="#fire_update-instance_method" title="#fire_update (instance method)">- (Object) <strong>fire_update</strong>(json, uri) </a>
     
 
     
@@ -730,7 +730,7 @@ nested record instances that it contains.</p>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_apply_linked_database_records identifier id'>apply_linked_database_records</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_fire_update identifier id'>fire_update</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+  <span class='rubyid_fire_update identifier id'>fire_update</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
 
   <span class='rubyid_obj identifier id'>obj</span>
 <span class='rubyid_end end kw'>end</span>
@@ -832,7 +832,7 @@ response, not just their URI references.</p>
       <div class="method_details ">
   <h3 class="signature " id="fire_update-instance_method">
   
-    - (<tt>Object</tt>) <strong>fire_update</strong>(hash, uri) 
+    - (<tt>Object</tt>) <strong>fire_update</strong>(json, uri) 
   
 
   
@@ -863,9 +863,9 @@ response, not just their URI references.</p>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 156</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_fire_update identifier id'>fire_update</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_fire_update identifier id'>fire_update</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_high_priority? fid id'>high_priority?</span>
-    <span class='rubyid_RealtimeIndexing constant id'>RealtimeIndexing</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+    <span class='rubyid_RealtimeIndexing constant id'>RealtimeIndexing</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1280,7 +1280,7 @@ response, not just their URI references.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:16 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:09 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

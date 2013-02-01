@@ -14,6 +14,8 @@ boolean	restrictions
 
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])	notes
 
+array (object)	linked_instances
+
 
 
 

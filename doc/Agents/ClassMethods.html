@@ -90,18 +90,6 @@
 <div class="clear"></div>
 
 
-  <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="agent_links-classvariable" class="">@@agent_links =
-          
-        </dt>
-        <dd><pre class="code"><span class='const'>AgentManager</span><span class='period'>.</span><span class='id identifier rubyid_type_to_model_map'>type_to_model_map</span></pre></dd>
-      
-    </dl>
-  
-
 
 
 
@@ -119,7 +107,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_from_json-instance_method" title="#create_from_json (instance method)">- (Object) <strong>create_from_json</strong>(json, opts = {}) </a>
+      <a href="#agent_role_enum-instance_method" title="#agent_role_enum (instance method)">- (Object) <strong>agent_role_enum</strong>(enum_name) </a>
     
 
     
@@ -142,53 +130,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#sequel_to_jsonmodel-instance_method" title="#sequel_to_jsonmodel (instance method)">- (Object) <strong>sequel_to_jsonmodel</strong>(obj, type, opts = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#set_agents-instance_method" title="#set_agents (instance method)">- (Object) <strong>set_agents</strong>(json, obj, opts) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#set_linked_records-instance_method" title="#set_linked_records (instance method)">- (Object) <strong>set_linked_records</strong>(json, obj, opts, json_property, linkable_records) </a>
+      <a href="#initialize_enum-instance_method" title="#initialize_enum (instance method)">- (Object) <strong>initialize_enum</strong>(clz) </a>
     
 
     
@@ -218,9 +160,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="create_from_json-instance_method">
+  <h3 class="signature first" id="agent_role_enum-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_from_json</strong>(json, opts = {}) 
+    - (<tt>Object</tt>) <strong>agent_role_enum</strong>(enum_name) 
   
 
   
@@ -232,85 +174,26 @@
       <pre class="lines">
 
 
-47
-48
-49
-50
-51</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agents.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agents.rb', line 20</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_create_from_json'>create_from_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='kw'>super</span>
-  <span class='id identifier rubyid_set_agents'>set_agents</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_obj'>obj</span>
-<span class='kw'>end</span></pre>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_agent_role_enum identifier id'>agent_role_enum</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_@agent_role_enum ivar id'>@agent_role_enum</span> <span class='assign token'>=</span> <span class='rubyid_enum_name identifier id'>enum_name</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="sequel_to_jsonmodel-instance_method">
+  <h3 class="signature " id="initialize_enum-instance_method">
   
-    - (<tt>Object</tt>) <strong>sequel_to_jsonmodel</strong>(obj, type, opts = {}) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agents.rb', line 80</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_sequel_to_jsonmodel'>sequel_to_jsonmodel</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='kw'>super</span>
-
-  <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='symbol'>:linked_agents</span><span class='comma'>,</span> <span class='cvar'>@@agent_links</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_property'>property</span><span class='comma'>,</span> <span class='id identifier rubyid_linked_records'>linked_records</span><span class='op'>|</span>
-    <span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='id identifier rubyid_property'>property</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_linked_records'>linked_records</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_record_type'>record_type</span><span class='op'>|</span>
-      <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_record_type'>record_type</span><span class='rbrace'>}</span><span class='tstring_content'>_link</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_intern'>intern</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_link'>link</span><span class='op'>|</span>
-        <span class='lbrace'>{</span>
-          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>role</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_link'>link</span><span class='lbracket'>[</span><span class='symbol'>:role</span><span class='rbracket'>]</span><span class='comma'>,</span>
-          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_uri_for'>uri_for</span><span class='lparen'>(</span><span class='id identifier rubyid_record_type'>record_type</span><span class='comma'>,</span> <span class='id identifier rubyid_link'>link</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_record_type'>record_type</span><span class='rbrace'>}</span><span class='tstring_content'>_id</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_intern'>intern</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-        <span class='rbrace'>}</span>
-      <span class='rbrace'>}</span>
-    <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_json'>json</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_agents-instance_method">
-  
-    - (<tt>Object</tt>) <strong>set_agents</strong>(json, obj, opts) 
+    - (<tt>Object</tt>) <strong>initialize_enum</strong>(clz) 
   
 
   
@@ -322,78 +205,35 @@
       <pre class="lines">
 
 
-75
-76
-77</pre>
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agents.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agents.rb', line 25</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_set_agents'>set_agents</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_linked_records'>set_linked_records</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='comma'>,</span> <span class='symbol'>:linked_agents</span><span class='comma'>,</span> <span class='cvar'>@@agent_links</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_linked_records-instance_method">
-  
-    - (<tt>Object</tt>) <strong>set_linked_records</strong>(json, obj, opts, json_property, linkable_records) 
-  
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize_enum identifier id'>initialize_enum</span><span class='lparen token'>(</span><span class='rubyid_clz identifier id'>clz</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@agent_role_enum ivar id'>@agent_role_enum</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;You haven't called agent_role_enum to set the list of possible values for this agent's role (#{self.inspect})&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  
+  <span class='rubyid_enum identifier id'>enum</span> <span class='assign token'>=</span> <span class='rubyid_@agent_role_enum ivar id'>@agent_role_enum</span>
 
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agents.rb', line 54</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_set_linked_records'>set_linked_records</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='comma'>,</span> <span class='id identifier rubyid_json_property'>json_property</span><span class='comma'>,</span> <span class='id identifier rubyid_linkable_records'>linkable_records</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_linkable_records'>linkable_records</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_link'>link</span><span class='op'>|</span>
-    <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_link'>link</span><span class='rbrace'>}</span><span class='tstring_content'>_link_dataset</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_intern'>intern</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span>
-  <span class='kw'>end</span>
-
-  <span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='id identifier rubyid_json_property'>json_property</span><span class='rbracket'>]</span> <span class='kw'>or</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_record_link'>record_link</span><span class='op'>|</span>
-    <span class='id identifier rubyid_record_type'>record_type</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_reference'>parse_reference</span><span class='lparen'>(</span><span class='id identifier rubyid_record_link'>record_link</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-
-    <span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_record_type'>record_type</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_camelize'>camelize</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_record'>record</span> <span class='op'>=</span> <span class='id identifier rubyid_model'>model</span><span class='lbracket'>[</span><span class='id identifier rubyid_record_type'>record_type</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_link'>link</span> <span class='op'>=</span> <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_record_type'>record_type</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>_link</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_camelize'>camelize</span><span class='rparen'>)</span>
-
-    <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>add_</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span><span class='rbrace'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_record_type'>record_type</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>_link</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_intern'>intern</span><span class='comma'>,</span>
-             <span class='id identifier rubyid_link'>link</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_record_type'>record_type</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_record'>record</span><span class='comma'>,</span>
-                         <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_table_name'>table_name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span>
-                         <span class='symbol'>:role</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_record_link'>record_link</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>role</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+  <span class='rubyid_clz identifier id'>clz</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_include identifier id'>include</span> <span class='rubyid_DynamicEnums constant id'>DynamicEnums</span>
+    <span class='rubyid_uses_enums identifier id'>uses_enums</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'role'</span><span class='comma token'>,</span> <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_enum identifier id'>enum</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
     </td>
   </tr>
 </table>
@@ -404,7 +244,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.1.x Documentation Generated on Fri Dec  7 09:55:49 2012 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:08 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

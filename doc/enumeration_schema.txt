@@ -1,0 +1,14 @@
+JSON Schema: Enumeration
+/config/enumerations
+Properties
+
+string	uri
+
+string	name
+
+array (string)	values
+
+
+
+
+

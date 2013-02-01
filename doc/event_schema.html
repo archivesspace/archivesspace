@@ -191,15 +191,7 @@
 86
 87
 88
-89
-90
-91
-92
-93
-94
-95
-96
-97</pre>
+89</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/event.rb', line 1</span>
@@ -226,19 +218,11 @@
       <span class='string val'>&quot;event_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='comma token'>,</span>
-        <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;accession&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;accumulation&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;acknowledgement&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;agreement received&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;agreement sent&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;appraisal&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;assessment&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;capture&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;cataloging&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;collection&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;compression&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;contribution&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;custody transfer&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;deaccession&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;decompression&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;decryption&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;deletion&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;digital signature validation&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;fixity check&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ingestion&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;message digest calculation&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;migration&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;normalization&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;processing&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;publication&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;replication&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;resource merge&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;resource component transfer&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;validation&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;virus check&quot;</span><span class='rbrack token'>]</span>
-
-
-
+        <span class='string val'>&quot;dynamic_enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;event_event_type&quot;</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
       <span class='string val'>&quot;date&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:date) object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;outcome&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;outcome&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;dynamic_enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;event_outcome&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;outcome_note&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;suppressed&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -253,7 +237,7 @@
           <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
             <span class='string val'>&quot;role&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
               <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
-              <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;authorizer&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;executing_program&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;implementer&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;recipient&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;transmitter&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;validator&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+              <span class='string val'>&quot;dynamic_enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;linked_agent_event_roles&quot;</span><span class='comma token'>,</span>
               <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='comma token'>,</span>
             <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
@@ -280,7 +264,7 @@
           <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
             <span class='string val'>&quot;role&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
               <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
-              <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;source&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;outcome&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;transfer&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+              <span class='string val'>&quot;dynamic_enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;linked_event_archival_record_roles&quot;</span><span class='comma token'>,</span>
               <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='comma token'>,</span>
             <span class='rbrace token'>}</span><span class='comma token'>,</span>
             <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
@@ -314,7 +298,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:42 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:29 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -125,6 +125,32 @@ master json object (@object)</p>
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#cache-instance_method" title="#cache (instance method)">- (Object) <strong>cache</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute cache.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#object-instance_method" title="#object (instance method)">- (Object) <strong>object</strong> </a>
     
 
@@ -162,6 +188,29 @@ master json object (@object)</p>
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%3C%3C-instance_method" title="#&lt;&lt; (instance method)">- (Object) <strong>&lt;&lt;</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -238,54 +287,6 @@ whitespace padding for a parsed value.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#receives_node%3F-instance_method" title="#receives_node? (instance method)">- (Boolean) <strong>receives_node?</strong>(xpath_regex) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Determine if this receiver will accept a parsed value
-at a given xpath (relative to the receiver&#8217;s @object).</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#receives_obj%3F-instance_method" title="#receives_obj? (instance method)">- (Boolean) <strong>receives_obj?</strong>(other_object) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Determine if this receiver will accept another object 
-as a property of the receiver&#8217;s @object.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#to_s-instance_method" title="#to_s (instance method)">- (Object) <strong>to_s</strong> </a>
     
 
@@ -337,13 +338,13 @@ as a property of the receiver&#8217;s @object.</p>
       <pre class="lines">
 
 
-277
-278
-279
-280</pre>
+215
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 215</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_@object ivar id'>@object</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span>
@@ -361,9 +362,52 @@ as a property of the receiver&#8217;s @object.</p>
     <h2>Instance Attribute Details</h2>
     
       
-      <span id=""></span>
+      <span id="cache=-instance_method"></span>
       <div class="method_details first">
-  <h3 class="signature first" id="object-instance_method">
+  <h3 class="signature first" id="cache-instance_method">
+  
+    - (<tt>Object</tt>) <strong>cache</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute cache</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 213</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_cache identifier id'>cache</span>
+  <span class='rubyid_@cache ivar id'>@cache</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="object-instance_method">
   
     - (<tt>Object</tt>) <strong>object</strong>  <span class="extras">(readonly)</span>
   
@@ -387,12 +431,12 @@ as a property of the receiver&#8217;s @object.</p>
       <pre class="lines">
 
 
-275
-276
-277</pre>
+212
+213
+214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 275</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 212</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_object identifier id'>object</span>
   <span class='rubyid_@object ivar id'>@object</span>
@@ -411,7 +455,38 @@ as a property of the receiver&#8217;s @object.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="pre_process-instance_method">
+  <h3 class="signature first" id="<<-instance_method">
+  
+    - (<tt>Object</tt>) <strong>&lt;&lt;</strong>(val) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 246</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='lshft op'>&lt;&lt;</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+  <span class='rubyid_receive identifier id'>receive</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pre_process-instance_method">
   
     - (<tt>Object</tt>) <strong>pre_process</strong>(val) 
   
@@ -436,27 +511,27 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345</pre>
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 328</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 227</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pre_process identifier id'>pre_process</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'procedure'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_val identifier id'>val</span>
@@ -530,44 +605,45 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383</pre>
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 349</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 252</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_receive identifier id'>receive</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   
@@ -590,6 +666,7 @@ whitespace padding for a parsed value.</p>
     
   <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_inline/</span>
     <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_block_further_reception identifier id'>block_further_reception</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='symbol val'>:block_further_reception</span>
+    <span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span>
     <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
   
   <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_ref/</span>
@@ -603,166 +680,6 @@ whitespace padding for a parsed value.</p>
   <span class='rubyid_end end kw'>end</span>
   
   <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="receives_node?-instance_method">
-  
-    - (<tt>Boolean</tt>) <strong>receives_node?</strong>(xpath_regex) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Determine if this receiver will accept a parsed value
-at a given xpath (relative to the receiver&#8217;s @object)</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-315
-316
-317
-318
-319
-320
-321
-322
-323</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 315</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_receives_node? fid id'>receives_node?</span><span class='lparen token'>(</span><span class='rubyid_xpath_regex identifier id'>xpath_regex</span><span class='rparen token'>)</span>
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'xpath'</span><span class='rbrack token'>]</span>
-  
-  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@cache ivar id'>@cache</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_xpath_regex identifier id'>xpath_regex</span><span class='rparen token'>)</span>
-    <span class='rubyid_@cache ivar id'>@cache</span><span class='lbrack token'>[</span><span class='rubyid_xpath_regex identifier id'>xpath_regex</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'xpath'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_xp identifier id'>xp</span><span class='bitor op'>|</span> <span class='rubyid_xp identifier id'>xp</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='rubyid_xpath_regex identifier id'>xpath_regex</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span> <span class='question op'>?</span> <span class='rubyid_true true kw'>true</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_end end kw'>end</span>
-  
-  <span class='rubyid_@cache ivar id'>@cache</span><span class='lbrack token'>[</span><span class='rubyid_xpath_regex identifier id'>xpath_regex</span><span class='rbrack token'>]</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="receives_obj?-instance_method">
-  
-    - (<tt>Boolean</tt>) <strong>receives_obj?</strong>(other_object) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Determine if this receiver will accept another object 
-as a property of the receiver&#8217;s @object.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 289</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_receives_obj? fid id'>receives_obj?</span><span class='lparen token'>(</span><span class='rubyid_other_object identifier id'>other_object</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_done_being_received? fid id'>done_being_received?</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'axis'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_received_jsonmodel_types identifier id'>received_jsonmodel_types</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
-  
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'axis'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'parent'</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='minus op'>-</span> <span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
-      <span class='rubyid_true true kw'>true</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'axis'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'ancestor'</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='minus op'>-</span> <span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='geq op'>&gt;=</span> <span class='integer val'>1</span>
-      <span class='rubyid_true true kw'>true</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'axis'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'descendant'</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='minus op'>-</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='geq op'>&gt;=</span> <span class='integer val'>1</span>
-      <span class='rubyid_true true kw'>true</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_false false kw'>false</span>
-    <span class='rubyid_end end kw'>end</span>
-    
-  <span class='rubyid_else else kw'>else</span>
-    <span class='comment val'># Fall back to testing the other object's source node</span>
-    <span class='rubyid_offset identifier id'>offset</span> <span class='assign token'>=</span> <span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> <span class='minus op'>-</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span> 
-    <span class='rubyid_receives_node? fid id'>receives_node?</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='colon2 op'>::</span><span class='rubyid_regexify_xpath identifier id'>regexify_xpath</span><span class='lparen token'>(</span><span class='rubyid_other_object identifier id'>other_object</span><span class='dot token'>.</span><span class='rubyid_xpath identifier id'>xpath</span><span class='comma token'>,</span> <span class='rubyid_offset identifier id'>offset</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -785,12 +702,12 @@ as a property of the receiver&#8217;s @object.</p>
       <pre class="lines">
 
 
-282
-283
-284</pre>
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 220</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;Property Receiver for #{@object.class.record_type}\##{self.class.property}&quot;</span>
@@ -806,7 +723,7 @@ as a property of the receiver&#8217;s @object.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:42 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:28 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

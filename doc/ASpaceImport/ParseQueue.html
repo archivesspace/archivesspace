@@ -124,7 +124,32 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for_node-instance_method" title="#for_node (instance method)">- (Object) <strong>for_node</strong>(*nodeargs) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ParseQueue) <strong>initialize</strong>(opts) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ParseQueue.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inspect-instance_method" title="#inspect (instance method)">- (Object) <strong>inspect</strong> </a>
     
 
     
@@ -147,15 +172,13 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ParseQueue) <strong>initialize</strong>(opts) </a>
+      <a href="#iterate-instance_method" title="#iterate (instance method)">- (Object) <strong>iterate</strong> </a>
     
 
     
   </span>
   
   
-    <span class="note title constructor">constructor</span>
-  
   
   
   
@@ -163,7 +186,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of ParseQueue.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -218,7 +241,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#receivers-instance_method" title="#receivers (instance method)">- (Object) <strong>receivers</strong> </a>
+      <a href="#save-instance_method" title="#save (instance method)">- (Object) <strong>save</strong> </a>
     
 
     
@@ -232,7 +255,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Yield receivers for anything in the parse queue.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -241,7 +264,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#save-instance_method" title="#save (instance method)">- (Object) <strong>save</strong> </a>
+      <a href="#selected-instance_method" title="#selected (instance method)">- (Object) <strong>selected</strong> </a>
     
 
     
@@ -305,7 +328,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@repo_id ivar id'>@repo_id</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span>
   <span class='rubyid_@batch ivar id'>@batch</span> <span class='assign token'>=</span> <span class='rubyid_Batch constant id'>Batch</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span> 
-  <span class='rubyid_@dupes ivar id'>@dupes</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>  
+  <span class='rubyid_@dupes ivar id'>@dupes</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -321,9 +344,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="for_node-instance_method">
+  <h3 class="signature first" id="inspect-instance_method">
   
-    - (<tt>Object</tt>) <strong>for_node</strong>(*nodeargs) 
+    - (<tt>Object</tt>) <strong>inspect</strong> 
   
 
   
@@ -335,18 +358,51 @@
       <pre class="lines">
 
 
-137
-138
-139
-140
-141</pre>
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 158</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_for_node identifier id'>for_node</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_nodeargs identifier id'>nodeargs</span><span class='rparen token'>)</span>  
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>        
-    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_receivers identifier id'>receivers</span><span class='dot token'>.</span><span class='rubyid_for_node identifier id'>for_node</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_nodeargs identifier id'>nodeargs</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_r identifier id'>r</span> <span class='rbrace token'>}</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_inspect identifier id'>inspect</span>
+  <span class='string val'>&quot;Parse Queue: &quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_super super kw'>super</span> <span class='lshft op'>&lt;&lt;</span>  <span class='string val'>&quot; -- Batch: &quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="iterate-instance_method">
+  
+    - (<tt>Object</tt>) <strong>iterate</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 97</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_iterate identifier id'>iterate</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_selected identifier id'>selected</span><span class='assign token'>=</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span>
+    <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_json identifier id'>json</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -370,13 +426,6 @@
       <pre class="lines">
 
 
-97
-98
-99
-100
-101
-102
-103
 104
 105
 106
@@ -395,25 +444,34 @@
 119
 120
 121
-122</pre>
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pop identifier id'>pop</span>
 
   <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='integer val'>-1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_qdobj identifier id'>qdobj</span><span class='bitor op'>|</span>
   
-
     <span class='comment val'># Set Links FROM popped object TO other objects in the queue</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_receivers identifier id'>receivers</span><span class='dot token'>.</span><span class='rubyid_for_obj identifier id'>for_obj</span><span class='lparen token'>(</span><span class='rubyid_qdobj identifier id'>qdobj</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>  
-      <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_receive identifier id'>receive</span><span class='lparen token'>(</span><span class='rubyid_qdobj identifier id'>qdobj</span><span class='rparen token'>)</span>
+      <span class='rubyid_r identifier id'>r</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_qdobj identifier id'>qdobj</span>
     <span class='rubyid_end end kw'>end</span>
-
+  
     <span class='comment val'># Set Links TO the popped object FROM others in the queue</span>
-
+  
     <span class='rubyid_qdobj identifier id'>qdobj</span><span class='dot token'>.</span><span class='rubyid_receivers identifier id'>receivers</span><span class='dot token'>.</span><span class='rubyid_for_obj identifier id'>for_obj</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
-      <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_receive identifier id'>receive</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='rparen token'>)</span>
+      <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;DD #{r.to_s} &lt;&lt; #{self.last.inspect}&quot;</span>
+      <span class='rubyid_r identifier id'>r</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
     <span class='rubyid_end end kw'>end</span>
      
   <span class='rubyid_end end kw'>end</span>
@@ -425,6 +483,8 @@
   <span class='rubyid_end end kw'>end</span>
   
   <span class='rubyid_super super kw'>super</span>
+  
+  <span class='rubyid_@selected ivar id'>@selected</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -447,60 +507,21 @@
       <pre class="lines">
 
 
-124
-125
-126
-127
-128</pre>
+133
+134
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 133</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Not a JSON Object&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span>
+  <span class='rubyid_@selected ivar id'>@selected</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span>
   
   <span class='rubyid_super super kw'>super</span> 
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="receivers-instance_method">
-  
-    - (<tt>Object</tt>) <strong>receivers</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Yield receivers for anything in the parse queue.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-132
-133
-134</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 132</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_receivers identifier id'>receivers</span>
-  <span class='rubyid_self self kw'>self</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -523,15 +544,46 @@
       <pre class="lines">
 
 
-144
-145
-146</pre>
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 154</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span>
   <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="selected-instance_method">
+  
+    - (<tt>Object</tt>) <strong>selected</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+162
+163
+164</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 162</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_selected identifier id'>selected</span>
+  <span class='rubyid_@selected ivar id'>@selected</span> <span class='opasgn op'>||=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -544,7 +596,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:42 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:29 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

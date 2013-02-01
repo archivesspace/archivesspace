@@ -380,23 +380,21 @@
       <pre class="lines">
 
 
-73
-74
-75
-76
-77
-78
-79
-80</pre>
+107
+108
+109
+110
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_unlinked identifier id'>unlinked</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
   <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span> <span class='rubyid_unlinked identifier id'>unlinked</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
   <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_unlink_key? fid id'>unlink_key?</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-
   <span class='rubyid_unlinked identifier id'>unlinked</span><span class='dot token'>.</span><span class='rubyid_set_data identifier id'>set_data</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span>
   <span class='rubyid_unlinked identifier id'>unlinked</span>
 <span class='rubyid_end end kw'>end</span>
@@ -444,17 +442,17 @@
       <pre class="lines">
 
 
-63
-64
-65
-66
-67
-68
-69
-70</pre>
+97
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 97</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_unlink_key? fid id'>unlink_key?</span><span class='lparen token'>(</span><span class='rubyid_kdef identifier id'>kdef</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
   <span class='rubyid_key_type identifier id'>key_type</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_kdef identifier id'>kdef</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
@@ -533,35 +531,103 @@
 57
 58
 59
-60</pre>
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 33</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process identifier id'>process</span>
 
+  <span class='rubyid_@second_pass_keys ivar id'>@second_pass_keys</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
   <span class='rubyid_@json_set ivar id'>@json_set</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ref identifier id'>ref</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='bitor op'>|</span>
   
-    <span class='rubyid_unlinked identifier id'>unlinked</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+
+    <span class='comment val'># TODO: add a method to say whether a json is de-linkable</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>'collection_management'</span>
+      <span class='rubyid_@second_pass_keys ivar id'>@second_pass_keys</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_ref identifier id'>ref</span>
+    <span class='rubyid_else else kw'>else</span>       
+      <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_unlinked identifier id'>unlinked</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+      <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_unlinked identifier id'>unlinked</span><span class='rparen token'>)</span>
+      <span class='rubyid_@as_set ivar id'>@as_set</span><span class='lbrack token'>[</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rbrack token'>]</span>
     
+      <span class='comment val'># Now update the URI with the real ID</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='dot token'>.</span><span class='rubyid_sub! fid id'>sub!</span><span class='lparen token'>(</span><span class='regexp val'>/\/[0-9]+$/</span><span class='comma token'>,</span> <span class='dstring node'>&quot;/#{@as_set[json.uri][0].to_s}&quot;</span><span class='rparen token'>)</span>
+      
+      <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ImportException constant id'>ImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:invalid_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+
+  <span class='rubyid_@second_pass_keys ivar id'>@second_pass_keys</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ref identifier id'>ref</span><span class='bitor op'>|</span>
     <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_unlinked identifier id'>unlinked</span><span class='rparen token'>)</span>
+    <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_@json_set ivar id'>@json_set</span><span class='lbrack token'>[</span><span class='rubyid_ref identifier id'>ref</span><span class='rbrack token'>]</span>
+    <span class='comment val'># Update the references in json</span>
+    <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_update_record_references identifier id'>update_record_references</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_@json_set ivar id'>@json_set</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> 
+      <span class='notop op'>!</span><span class='rubyid_@second_pass_keys ivar id'>@second_pass_keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span> 
+      <span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_referenced identifier id'>referenced</span><span class='bitor op'>|</span> <span class='rubyid_referenced identifier id'>referenced</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+    
+    <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
     <span class='rubyid_@as_set ivar id'>@as_set</span><span class='lbrack token'>[</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rbrack token'>]</span>
     
     <span class='comment val'># Now update the URI with the real ID</span>
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='dot token'>.</span><span class='rubyid_sub! fid id'>sub!</span><span class='lparen token'>(</span><span class='regexp val'>/\/[0-9]+$/</span><span class='comma token'>,</span> <span class='dstring node'>&quot;/#{@as_set[json.uri][0].to_s}&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_@saved_uris ivar id'>@saved_uris</span><span class='lbrack token'>[</span><span class='rubyid_ref identifier id'>ref</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@json_set ivar id'>@json_set</span><span class='lbrack token'>[</span><span class='rubyid_ref identifier id'>ref</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_update_record_references identifier id'>update_record_references</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_@json_set ivar id'>@json_set</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_referenced identifier id'>referenced</span><span class='bitor op'>|</span> <span class='rubyid_referenced identifier id'>referenced</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ImportException constant id'>ImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:invalid_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
-     
+  
   <span class='comment val'># Update the linked record pointers in the json set</span>
   <span class='rubyid_@json_set ivar id'>@json_set</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ref identifier id'>ref</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='bitor op'>|</span>
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@second_pass_keys ivar id'>@second_pass_keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_ref identifier id'>ref</span><span class='rparen token'>)</span>
     <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_update_record_references identifier id'>update_record_references</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_@json_set ivar id'>@json_set</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_referenced identifier id'>referenced</span><span class='bitor op'>|</span> <span class='rubyid_referenced identifier id'>referenced</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
-      
+  
+
   <span class='rubyid_@as_set ivar id'>@as_set</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ref identifier id'>ref</span><span class='comma token'>,</span> <span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span>
-    <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>    
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@second_pass_keys ivar id'>@second_pass_keys</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_ref identifier id'>ref</span><span class='rparen token'>)</span>
+    <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
     <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_@json_set ivar id'>@json_set</span><span class='lbrack token'>[</span><span class='rubyid_ref identifier id'>ref</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:lock_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_lock_version identifier id'>lock_version</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> 
     <span class='rubyid_@saved_uris ivar id'>@saved_uris</span><span class='lbrack token'>[</span><span class='rubyid_ref identifier id'>ref</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@json_set ivar id'>@json_set</span><span class='lbrack token'>[</span><span class='rubyid_ref identifier id'>ref</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>   
   <span class='rubyid_end end kw'>end</span>
@@ -577,7 +643,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:33 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:21 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

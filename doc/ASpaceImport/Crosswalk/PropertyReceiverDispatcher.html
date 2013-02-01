@@ -125,11 +125,89 @@ the parsing context into which the reciever will be yielded)</p>
 
   
     <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#init-class_method" title="init (class method)">+ (Object) <strong>init</strong>(model) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#receiver_classes-class_method" title="receiver_classes (class method)">+ (Object) <strong>receiver_classes</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
       Instance Method Summary
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#by_name-instance_method" title="#by_name (instance method)">- (Object) <strong>by_name</strong>(prop_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -157,31 +235,6 @@ the parsing context into which the reciever will be yielded)</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#for_node-instance_method" title="#for_node (instance method)">- (Object) <strong>for_node</strong>(*nodeargs) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Given *nodeargs, yield property receivers
-that will take data from the parsing context
-and apply it to the JSON object.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#for_obj-instance_method" title="#for_obj (instance method)">- (Object) <strong>for_obj</strong>(json) </a>
     
 
@@ -196,8 +249,7 @@ and apply it to the JSON object.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Generate receivers for another json object
-parsed earilier or later.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -259,23 +311,23 @@ parsed earilier or later.</p>
       <pre class="lines">
 
 
-166
-167
-168
-169
-170
-171
-172
-173</pre>
+111
+112
+113
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 111</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span>
-  <span class='rubyid_@depth ivar id'>@depth</span> <span class='assign token'>=</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_depth identifier id'>depth</span>
   <span class='rubyid_@receivers ivar id'>@receivers</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_property_receivers identifier id'>property_receivers</span><span class='lparen token'>(</span><span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
+  <span class='comment val'># ASpaceImport::Crosswalk.property_receivers(@json.class).each do |p, r|</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_receiver_classes identifier id'>receiver_classes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
     <span class='rubyid_@receivers ivar id'>@receivers</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@json ivar id'>@json</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span> 
 <span class='rubyid_end end kw'>end</span>
@@ -288,12 +340,111 @@ parsed earilier or later.</p>
 </div>
 
 
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="init-class_method">
+  
+    + (<tt>Object</tt>) <strong>init</strong>(model) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 103</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
+  <span class='rubyid_@receiver_classes ivar id'>@receiver_classes</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_property_receivers identifier id'>property_receivers</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="receiver_classes-class_method">
+  
+    + (<tt>Object</tt>) <strong>receiver_classes</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 107</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_receiver_classes identifier id'>receiver_classes</span>
+  <span class='rubyid_@receiver_classes ivar id'>@receiver_classes</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="each-instance_method">
+  <h3 class="signature first" id="by_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>by_name</strong>(prop_name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 125</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_by_name identifier id'>by_name</span><span class='lparen token'>(</span><span class='rubyid_prop_name identifier id'>prop_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_@receivers ivar id'>@receivers</span><span class='lbrack token'>[</span><span class='rubyid_prop_name identifier id'>prop_name</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each-instance_method">
   
     - (<tt>Object</tt>) <strong>each</strong> 
   
@@ -307,76 +458,15 @@ parsed earilier or later.</p>
       <pre class="lines">
 
 
-175
-176
-177</pre>
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 120</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each identifier id'>each</span>
   <span class='rubyid_@receivers ivar id'>@receivers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_r identifier id'>r</span> <span class='rbrace token'>}</span>                  
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="for_node-instance_method">
-  
-    - (<tt>Object</tt>) <strong>for_node</strong>(*nodeargs) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Given *nodeargs, yield property receivers
-that will take data from the parsing context
-and apply it to the JSON object</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 183</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_for_node identifier id'>for_node</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_nodeargs identifier id'>nodeargs</span><span class='rparen token'>)</span>
-  <span class='rubyid_xpath identifier id'>xpath</span><span class='comma token'>,</span> <span class='rubyid_depth identifier id'>depth</span><span class='comma token'>,</span> <span class='rubyid_ntype identifier id'>ntype</span> <span class='assign token'>=</span> <span class='mult op'>*</span><span class='rubyid_nodeargs identifier id'>nodeargs</span>
-
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_xpath identifier id'>xpath</span>
-
-  <span class='rubyid_offset identifier id'>offset</span> <span class='assign token'>=</span> <span class='rubyid_depth identifier id'>depth</span> <span class='integer val'>? </span><span class='rubyid_depth identifier id'>depth</span> <span class='minus op'>-</span> <span class='rubyid_@depth ivar id'>@depth</span> <span class='colon op'>:</span> <span class='integer val'>0</span> 
-  <span class='rubyid_xpath_regex identifier id'>xpath_regex</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='colon2 op'>::</span><span class='rubyid_regexify_xpath identifier id'>regexify_xpath</span><span class='lparen token'>(</span><span class='rubyid_xpath identifier id'>xpath</span><span class='comma token'>,</span> <span class='rubyid_offset identifier id'>offset</span><span class='rparen token'>)</span> 
-
-  <span class='rubyid_@receivers ivar id'>@receivers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>          
-    <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_r identifier id'>r</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_receives_node? fid id'>receives_node?</span> <span class='rubyid_xpath_regex identifier id'>xpath_regex</span>
-  <span class='rubyid_end end kw'>end</span> 
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -393,37 +483,28 @@ and apply it to the JSON object</p>
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Generate receivers for another json object
-parsed earilier or later.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-199
-200
-201
-202
-203
-204</pre>
+130
+131
+132
+133
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 130</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_for_obj identifier id'>for_obj</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
-
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_done_being_received? fid id'>done_being_received?</span>
+  
   <span class='rubyid_@receivers ivar id'>@receivers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
-    <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_r identifier id'>r</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_receives_obj? fid id'>receives_obj?</span> <span class='rubyid_json identifier id'>json</span>
+    <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_r identifier id'>r</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_link_conditions identifier id'>link_conditions</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_lc identifier id'>lc</span><span class='bitor op'>|</span> <span class='rubyid_lc identifier id'>lc</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_r identifier id'>r</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>          
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -437,7 +518,7 @@ parsed earilier or later.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:41 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:28 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

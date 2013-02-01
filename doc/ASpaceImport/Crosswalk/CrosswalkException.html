@@ -284,14 +284,14 @@
       <pre class="lines">
 
 
-255
-256
-257
-258
-259</pre>
+190
+191
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 190</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@property ivar id'>@property</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:property</span><span class='rbrack token'>]</span>
@@ -336,12 +336,12 @@
       <pre class="lines">
 
 
-251
-252
-253</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 251</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 186</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_property identifier id'>property</span>
   <span class='rubyid_@property ivar id'>@property</span>
@@ -379,12 +379,12 @@
       <pre class="lines">
 
 
-253
-254
-255</pre>
+188
+189
+190</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 253</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 188</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_property_def identifier id'>property_def</span>
   <span class='rubyid_@property_def ivar id'>@property_def</span>
@@ -422,12 +422,12 @@
       <pre class="lines">
 
 
-252
-253
-254</pre>
+187
+188
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 187</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_val_type identifier id'>val_type</span>
   <span class='rubyid_@val_type ivar id'>@val_type</span>
@@ -460,22 +460,26 @@
       <pre class="lines">
 
 
-261
-262
-263
-264
-265
-266
-267</pre>
+196
+197
+198
+199
+200
+201
+202
+203
+204</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 261</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 196</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@property_def ivar id'>@property_def</span>
     <span class='dstring node'>&quot;#&lt;:CrosswalkException: Can't classify the property schema: #{property_def.inspect}&gt;&quot;</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@val_type ivar id'>@val_type</span>
+    <span class='dstring node'>&quot;#&lt;:CrosswalkException: Can't identify a Model for property '#{property}' of type '#{val_type}'&gt;&quot;</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='dstring node'>&quot;#&lt;:CrosswalkException: Can't identify a Model for property #{property} of type #{val_type}&gt;&quot;</span>
+    <span class='dstring node'>&quot;#&lt;:CrosswalkException: Can't identify a schema fragment for property '#{property}'&gt;&quot;</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -489,7 +493,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:41 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:28 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -38,6 +38,8 @@ array (object)	related_resources
 
 boolean	suppressed
 
+string	acquisition_type
+
 array (object)	linked_agents
 
 

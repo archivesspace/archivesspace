@@ -106,7 +106,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">backend/app/main.rb<span class="defines">,<br />
-  backend/app/controllers/agent.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/setup.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/webhooks.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
+  backend/app/controllers/agent.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/setup.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/webhooks.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
 </dd>
   
 </dl>
@@ -536,7 +536,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#deep_merge-class_method" title="JSONModel.deep_merge (method)">deep_merge</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#deep_merge-class_method" title="JSONModel.deep_merge (method)">deep_merge</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-instance_method" title="JSONModel#strict_mode (method)">#strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
 
   
 
@@ -559,35 +559,35 @@
       <pre class="lines">
 
 
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98</pre>
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_search_user identifier id'>create_search_user</span>
 
@@ -742,7 +742,33 @@
 67
 68
 69
-70</pre>
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 3</span>
@@ -783,6 +809,10 @@
 
 
   <span class='comment val'>## Standard permissions</span>
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;system_config&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to manage system configuration options&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='rparen token'>)</span>
+
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;manage_users&quot;</span><span class='comma token'>,</span>
                     <span class='string val'>&quot;The ability to manage user accounts while logged in&quot;</span><span class='comma token'>,</span>
                     <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='rparen token'>)</span>
@@ -803,8 +833,30 @@
                     <span class='string val'>&quot;The ability to manage a given repository&quot;</span><span class='comma token'>,</span>
                     <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_repository&quot;</span><span class='comma token'>,</span>
-                    <span class='string val'>&quot;The ability to create and modify records in a given repository&quot;</span><span class='comma token'>,</span>
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_location_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create and modify location records in a given repository&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># This doesn't really make sense since subjects aren't repository-scoped.  Needs revisiting.</span>
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_subject_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create and modify subject records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># This doesn't really make sense since agents aren't repository-scoped.  Needs revisiting.</span>
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create and modify agent records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_archival_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create and modify the major archival record types: accessions/resources/digital objects/components/collection management/events&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;suppress_archival_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to suppress the major archival record types: accessions/resources/digital objects/components/collection management/events&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;delete_archival_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to delete the major archival record types: accessions/resources/digital objects/components/collection management/events&quot;</span><span class='comma token'>,</span>
                     <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;view_suppressed&quot;</span><span class='comma token'>,</span>
@@ -885,12 +937,12 @@
       <pre class="lines">
 
 
-226
-227
-228</pre>
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 229</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_user identifier id'>current_user</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_user</span><span class='rbrack token'>]</span>
@@ -959,9 +1011,6 @@
       <pre class="lines">
 
 
-156
-157
-158
 159
 160
 161
@@ -972,10 +1021,13 @@
 166
 167
 168
-169</pre>
+169
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 159</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_exception! fid id'>handle_exception!</span><span class='lparen token'>(</span><span class='rubyid_boom identifier id'>boom</span><span class='rparen token'>)</span>
   <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>'sinatra.error'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_boom identifier id'>boom</span>
@@ -1035,12 +1087,12 @@
       <pre class="lines">
 
 
-231
-232
-233</pre>
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 231</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 234</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_high_priority_request? fid id'>high_priority_request?</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span> <span class='eq op'>==</span> <span class='string val'>&quot;high&quot;</span><span class='rparen token'>)</span>
@@ -1241,12 +1293,12 @@
       <pre class="lines">
 
 
-221
-222
-223</pre>
+224
+225
+226</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 224</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_session identifier id'>session</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_session</span><span class='rbrack token'>]</span>
@@ -1303,7 +1355,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:26 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:16 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

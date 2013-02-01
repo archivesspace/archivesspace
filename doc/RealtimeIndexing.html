@@ -168,7 +168,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#record_update-class_method" title="record_update (class method)">+ (Object) <strong>record_update</strong>(json, uri) </a>
+      <a href="#record_update-class_method" title="record_update (class method)">+ (Object) <strong>record_update</strong>(target, uri) </a>
     
 
     
@@ -328,7 +328,7 @@
       <div class="method_details ">
   <h3 class="signature " id="record_update-class_method">
   
-    + (<tt>Object</tt>) <strong>record_update</strong>(json, uri) 
+    + (<tt>Object</tt>) <strong>record_update</strong>(target, uri) 
   
 
   
@@ -361,14 +361,14 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 17</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_@lock ivar id'>@lock</span><span class='dot token'>.</span><span class='rubyid_synchronize identifier id'>synchronize</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_@sequence ivar id'>@sequence</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
     <span class='rubyid_now identifier id'>now</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_f identifier id'>to_f</span> <span class='mult op'>*</span> <span class='integer val'>1000</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
     <span class='rubyid_@updates ivar id'>@updates</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:sequence</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@sequence ivar id'>@sequence</span><span class='comma token'>,</span>
       <span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
-      <span class='symbol val'>:record</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span>
+      <span class='symbol val'>:record</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span>
       <span class='symbol val'>:timestamp</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_now identifier id'>now</span>
     <span class='rbrace token'>}</span>
 
@@ -459,7 +459,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:34 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:22 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

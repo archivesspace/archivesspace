@@ -374,7 +374,6 @@
       <pre class="lines">
 
 
-35
 36
 37
 38
@@ -383,10 +382,11 @@
 41
 42
 43
-44</pre>
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accession</span><span class='comma token'>,</span>
@@ -419,15 +419,15 @@
       <pre class="lines">
 
 
-77
 78
 79
 80
 81
-82</pre>
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 78</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
@@ -456,7 +456,6 @@
       <pre class="lines">
 
 
-23
 24
 25
 26
@@ -466,10 +465,11 @@
 30
 31
 32
-33</pre>
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_@accession ivar id'>@accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FIND_OPTS constant id'>FIND_OPTS</span><span class='rparen token'>)</span>
@@ -503,12 +503,12 @@
       <pre class="lines">
 
 
-9
 10
-11</pre>
+11
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 10</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_selected_page identifier id'>selected_page</span><span class='rparen token'>)</span>
@@ -534,12 +534,12 @@
       <pre class="lines">
 
 
-19
 20
-21</pre>
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@accession ivar id'>@accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:accession_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_today identifier id'>today</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>'%Y-%m-%d'</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
@@ -565,14 +565,14 @@
       <pre class="lines">
 
 
-13
 14
 15
 16
-17</pre>
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@accession ivar id'>@accession</span> <span class='assign token'>=</span> <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FIND_OPTS constant id'>FIND_OPTS</span><span class='rparen token'>)</span>
@@ -600,15 +600,15 @@
       <pre class="lines">
 
 
-61
 62
 63
 64
 65
-66</pre>
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_set_suppressed identifier id'>set_suppressed</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
@@ -637,15 +637,15 @@
       <pre class="lines">
 
 
-69
 70
 71
 72
 73
-74</pre>
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_Accession constant id'>Accession</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_set_suppressed identifier id'>set_suppressed</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
@@ -674,7 +674,6 @@
       <pre class="lines">
 
 
-46
 47
 48
 49
@@ -687,10 +686,11 @@
 56
 57
 58
-59</pre>
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/accessions_controller.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:accession</span><span class='comma token'>,</span>
@@ -717,7 +717,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Jan 18 09:50:38 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:26 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

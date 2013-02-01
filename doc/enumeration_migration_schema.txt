@@ -1,0 +1,16 @@
+JSON Schema: Enumeration_migration
+/config/enumerations/migration
+Properties
+
+string	uri
+
+JSONModel(:enumeration) uri	enum_uri
+
+string	from
+
+string	to
+
+
+
+
+
