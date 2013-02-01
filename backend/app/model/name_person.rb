@@ -12,7 +12,7 @@ class NamePerson < Sequel::Model(:name_person)
                 :generator => proc  { |json|
                   result = ""
 
-                  if json["name_order"] === "direct"
+                  if json["name_order"] === "inverted"
                     result << json["primary_name"] if json["primary_name"]
                     result << ", #{json["rest_of_name"]}" if json["rest_of_name"]
                     result << ", #{json["prefix"]}" if json["prefix"]
@@ -21,8 +21,8 @@ class NamePerson < Sequel::Model(:name_person)
                     result << ", #{json["number"]}" if json["number"]
                     result << " (#{json["fuller_form"]})" if json["fuller_form"]
                     result << ", #{json["dates"]}" if json["dates"]
-                    result << ", (#{json["qualifier"]})" if json["qualifier"]
-                  elsif json["name_order"] === "inverted"
+                    result << " (#{json["qualifier"]})" if json["qualifier"]
+                  elsif json["name_order"] === "direct"
                     result << json["rest_of_name"] if json["rest_of_name"]
                     result << " #{json["primary_name"]}" if json["primary_name"]
                     result << ", #{json["prefix"]}" if json["prefix"]
@@ -31,7 +31,7 @@ class NamePerson < Sequel::Model(:name_person)
                     result << ", #{json["number"]}" if json["number"]
                     result << " (#{json["fuller_form"]})" if json["fuller_form"]
                     result << ", #{json["dates"]}" if json["dates"]
-                    result << ", (#{json["qualifier"]})" if json["qualifier"]
+                    result << " (#{json["qualifier"]})" if json["qualifier"]
                   end
 
                   result

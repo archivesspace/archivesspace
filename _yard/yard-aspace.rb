@@ -2,10 +2,12 @@ YARD::Templates::Engine.register_template_path File.dirname(__FILE__) + '/templa
 require 'sinatra'
 
 require_relative '../common/jsonmodel.rb'
+require_relative '../backend/app/model/backend_enum_source.rb'
+
 
 include JSONModel
 
-JSONModel::init
+JSONModel::init(:enum_source => BackendEnumSource)
 
 require_relative '../backend/app/controllers/setup.rb'
 require_relative '../backend/app/lib/rest.rb'
