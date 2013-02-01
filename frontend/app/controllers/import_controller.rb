@@ -4,12 +4,15 @@ class ImportController < ApplicationController
 
   def index
     
+    @importer_key = params[:importer]
+    
     unless session[:repo_id] and session[:repo_id] > 1
       flash.now[:notice] = I18n.t("import.messages.missing_repo")
     end
-    @importer_list = ASpaceImport::Importer.list
 
   end
+   
+    
   
   def upload
 
@@ -24,11 +27,16 @@ class ImportController < ApplicationController
 
       begin
 
-        results = run_import(source_file)
+        results = run_import(source_file, params[:importer])
 
         source_file.delete
 
-        flash.now[:success] = results[0]
+        if results[0].match /^200/
+          flash.now[:success] = results[0]
+        else
+          flash.now[:error] = I18n.t("import.messages.error_prefix") 
+        end
+        
         @import_results = results[1]
 
       rescue ValidationException => e
@@ -50,15 +58,27 @@ class ImportController < ApplicationController
   
   protected
   
-  def run_import(source_file)
+  def run_import(source_file, importer_key)
+    
+    Rails.logger.debug("KEY #{importer_key}")
+    case importer_key
+    when 'ead'
+      importer = 'xml'
+      crosswalk = 'ead'
+    when 'accession_csv'
+      importer = 'csv'
+      crosswalk = 'accession_csv'
+    end
+    
+    Rails.logger.debug("SSS #{importer} -- #{crosswalk}")
     
     options = {:dry => false, 
                :relaxed => false, 
                :verbose => false, #verbose report will overflow the cookie 
                :repo_id => session[:repo_id], 
                :vocab_id => '1',
-               :importer => 'xml',
-               :crosswalk => 'ead',
+               :importer => importer,
+               :crosswalk => crosswalk,
                :input_file => source_file.path}
     
     i = ASpaceImport::Importer.create_importer(options)    

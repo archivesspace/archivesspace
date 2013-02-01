@@ -32,32 +32,66 @@ module ImportHelpers
 
     def process
 
+      @second_pass_keys = []
+
       @json_set.each do |ref, json|
       
-        unlinked = self.class.unlink(json)
+
+        # TODO: add a method to say whether a json is de-linkable
+
+        if json.jsonmodel_type == 'collection_management'
+          @second_pass_keys << ref
+        else       
+          begin
+          unlinked = self.class.unlink(json)
+          obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
+          @as_set[json.uri] = [obj.id, obj.class]
         
+          # Now update the URI with the real ID
+          json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
+          
+          rescue Exception => e
+            raise ImportException.new({:invalid_object => json, :message => e.message})
+          end
+        end
+      end
+      
+
+      @second_pass_keys.each do |ref|
         begin
-        obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
+        json = @json_set[ref]
+        # Update the references in json
+        ASpaceImport::Crosswalk.update_record_references(json, @json_set.select{|k, v| 
+          !@second_pass_keys.include?(k) 
+          }) {|referenced| referenced.uri}
+        
+        obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(json)
         @as_set[json.uri] = [obj.id, obj.class]
         
         # Now update the URI with the real ID
         json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
+        @saved_uris[ref] = @json_set[ref].uri
+        ASpaceImport::Crosswalk.update_record_references(json, @json_set) {|referenced| referenced.uri}
         rescue Exception => e
           raise ImportException.new({:invalid_object => json, :message => e.message})
         end
       end
-         
+      
       # Update the linked record pointers in the json set
       @json_set.each do |ref, json|
+        next if @second_pass_keys.include?(ref)
         ASpaceImport::Crosswalk.update_record_references(json, @json_set) {|referenced| referenced.uri}
       end
-          
+      
+
       @as_set.each do |ref, a|
-        obj = a[1].get_or_die(a[0])    
+        next if @second_pass_keys.include?(ref)
+        obj = a[1].get_or_die(a[0])
+
         obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
         @saved_uris[ref] = @json_set[ref].uri   
       end
-    end
+    end    
     
     
     def self.unlink_key?(kdef, v)
@@ -74,7 +108,6 @@ module ImportHelpers
       unlinked = json.clone
       data = unlinked.to_hash
       data.each { |k, v| data.delete(k) if self.unlink_key?(json.class.schema["properties"][k], v) }
-
       unlinked.set_data(data)
       unlinked
     end

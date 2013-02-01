@@ -8,12 +8,7 @@ module ASpaceImport
   class Importer
 
     @@importers = {}
-
-    # @return [Fixnum] the number of importers that have been loaded
-
-    def self.importer_count
-      @@importers.length
-    end
+    attr_accessor :parse_queue
 
     def self.list
       list = "The following importers are available"
@@ -31,12 +26,7 @@ module ASpaceImport
       i = @@importers[opts[:importer].to_sym]
       if i.usable
         if opts[:crosswalk]
-          
           ASpaceImport::Crosswalk.init(opts)
-          
-          i.class_eval do
-            extend ASpaceImport::Crosswalk
-          end
         end
         i.new opts
       else
@@ -64,12 +54,9 @@ module ASpaceImport
       end
     end
 
-    # @return [Boolean]
-
     def self.usable
       true
     end
-
 
     def initialize(opts = { })
       
@@ -84,6 +71,8 @@ module ASpaceImport
       @goodimports = 0
       @import_log = []
       @uri_map = {}
+
+      @parse_queue = ASpaceImport::ParseQueue.new(opts)
     end
 
     def log_save_result(response)
@@ -93,7 +82,12 @@ module ASpaceImport
       end
     end
     
+    def save_all
+      log_save_result(@parse_queue.save)
+    end
+    
     def report_summary
+      return "Nothing Logged" if @import_log.empty?
       if @dry
         "DRY RUN -- Records Saved: #{JSON.parse(@import_log[0])['saved'].length}"
       else
@@ -130,7 +124,17 @@ module ASpaceImport
     def run
       raise StandardError.new("Unexpected error: run method must be defined by a subclass")
     end
-
+    
+    # ParseQueue helpers
+    
+    # Empty out the parse queue and set any defaults
+    def clear_parse_queue
+      while !@parse_queue.empty?
+        puts @parse_queue.last.inspect
+        @parse_queue.last.receivers.each { |r| r.receive }
+        @parse_queue.pop
+      end
+    end
   end
 end
 

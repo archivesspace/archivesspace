@@ -9,20 +9,6 @@ describe ASpaceImport::Crosswalk do
     end
   end
   
-  describe :regexify_xpath do
-    it "converts xml nodes and depth offsets into regular expressions for matching xpaths in a crosswalk definition" do
-      
-      expect("/foo").to match(ASpaceImport::Crosswalk.regexify_xpath("foo"))
-      expect("ancestor::foo").to match(ASpaceImport::Crosswalk.regexify_xpath("/path/to/foo", -3))
-      expect("child::foo").to match(ASpaceImport::Crosswalk.regexify_xpath("/path/to/foo", 1))
-      expect("child::foo").to_not match(ASpaceImport::Crosswalk.regexify_xpath("/path/to/foo", 2))
-      expect("child::to/child::foo").to match(ASpaceImport::Crosswalk.regexify_xpath("/path/to/foo", 2))
-      expect("child::*/child::*/child::corpname").to match(ASpaceImport::Crosswalk.regexify_xpath("/way/down/in/an/ead/is/a/corpname", 3))
-      
-      
-    end
-  end
-  
 
   describe :property_type do
 
@@ -112,18 +98,4 @@ describe ASpaceImport::Crosswalk do
 
   end  
 
-  
-  it "should know how to introduce a fresh json object to an event parsing context" do
-  
-    json = @dummy_class.object_for_node('/c', 3, 1)
-    json.jsonmodel_type.should eq('archival_object')
-  end
-
-  it "should know how to reintroduce a json object to an event parsing context" do
-    
-    parse_queue = [@dummy_class.object_for_node('/c', 3, 1), @dummy_class.object_for_node('/c', 4, 1)]
-    parse_queue[1].title = 'foo'
-    json = @dummy_class.object_for_node('/c', 4, 15, parse_queue)
-    json.title.should eq('foo')
-  end
 end

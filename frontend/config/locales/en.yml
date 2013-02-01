@@ -46,6 +46,7 @@ en:
     create: Create
     import: Import
     import_ead: EAD file
+    import_accession_csv: Accession CSV
     search_all: All Records
     search_placeholder: Search
     create_repository_tooltip: "To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Create a Repository</strong> link."
@@ -96,6 +97,7 @@ en:
     help: "Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or highlight text to wrap"
   import:
     ead_title: Import an EAD File
+    accession_csv_title: Import Accession Records from a CSV File
     import_report: Import Report
     ead_import_another: Import Another EAD File
     submit: Import

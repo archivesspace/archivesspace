@@ -16,3 +16,4 @@ build/target
 build/solr
 build/*.tmp
 backend/tests/ladle-server*
+/migrations/examples/csv/accessions-sample.csv
