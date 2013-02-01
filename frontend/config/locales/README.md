@@ -1,11 +1,11 @@
 # ArchivesSpace Frontend Internationalization
 
-ArchivesSpace has abstracted all the labels, messages and tooltips out of the application into the locale files found in the directory:
+ArchivesSpace has abstracted all the labels, messages and tooltips out of the application into the locale files found in this directory. In summary:
 
   * The top most file "en.yml" contains the translations for all the record labels, messages and tooltips
   * "enums/en.yml" contains the entries for the dynamic enumeration codes - add your translations to this file after importing your enumeration codes 
 
-For a guide on managing these dictionaries, please visit http://guides.rubyonrails.org/i18n.html
+For a guide on managing these "i18n" files, please visit http://guides.rubyonrails.org/i18n.html
 
 ## Tooltips
 
