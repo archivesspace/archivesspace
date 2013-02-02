@@ -52,9 +52,9 @@ describe 'Person agent controller' do
 
     agent = JSONModel(:agent_person).find(id)
 
-    agent.names.first['sort_name'].should eq("Hendrix, Jimi, Mr")
+    agent.names.first['sort_name'].should eq("Jimi Hendrix, Mr")
 
-    agent.names.first['name_order'] = "inverted"
+    agent.names.first['name_order'] = "direct"
     agent.save
 
     JSONModel(:agent_person).find(id).names.first['sort_name'].should eq("Jimi Hendrix, Mr")

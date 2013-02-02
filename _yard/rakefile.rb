@@ -18,6 +18,8 @@ namespace :doc do
     require 'sinatra'
     require_relative '../common/jsonmodel.rb'
     require_relative '../backend/app/lib/rest.rb'
+    require_relative '../backend/app/model/backend_enum_source.rb'
+    require_relative '../backend/app/lib/logging.rb'
 
 
     class ArchivesSpaceService < Sinatra::Base
@@ -32,7 +34,7 @@ namespace :doc do
     
     @time = Time.new
 
-    JSONModel::init
+    JSONModel::init(:enum_source => BackendEnumSource)
 
     require_relative '../backend/app/lib/export'
 

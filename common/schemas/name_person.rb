@@ -10,8 +10,8 @@
       "name_order" => {
         "type" => "string",
         "ifmissing" => "error",
-        "default" => "direct",
-        "enum" => ["direct", "inverted"]
+        "default" => "inverted",
+        "enum" => ["inverted", "direct"]
       },
       "prefix" => {"type" => "string"},
       "rest_of_name" => {"type" => "string"},

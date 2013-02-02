@@ -12,9 +12,9 @@ class NameCorporateEntity < Sequel::Model(:name_corporate_entity)
                 :generator => proc  { |json|
                   result = ""
 
-                  result << "#{json["primary_name"]}." if json["primary_name"]
-                  result << " #{json["subordinate_name_1"]}." if json["subordinate_name_1"]
-                  result << " #{json["subordinate_name_2"]}." if json["subordinate_name_2"]
+                  result << "#{json["primary_name"]}" if json["primary_name"]
+                  result << ". #{json["subordinate_name_1"]}" if json["subordinate_name_1"]
+                  result << ". #{json["subordinate_name_2"]}" if json["subordinate_name_2"]
 
                   grouped = [json["number"], json["dates"]].reject{|v| v.nil?}
                   result << " (#{grouped.join(" : ")})" if not grouped.empty?
