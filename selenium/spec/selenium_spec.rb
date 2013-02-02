@@ -373,7 +373,7 @@ describe "ArchivesSpace user interface" do
     it "changing Direct Order updates Sort Name" do
       $driver.find_element(:link => "Edit").click
 
-      $driver.find_element(:id => "agent_names__0__name_order_").select_option("inverted")
+      $driver.find_element(:id => "agent_names__0__name_order_").select_option("direct")
 
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
