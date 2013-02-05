@@ -22,6 +22,7 @@
         <%= form.label_with_field "ref_id", form.hidden_input("ref_id") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
       <% end %>
       <%= form.hidden_input "ref_id" %>
+      <%= form.label_and_textfield("component_id")%>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level" %>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>

@@ -1338,6 +1338,7 @@ en:
     title_default: New Archival Object
     ref_id: Ref ID
     ref_id_auto_generation_message: "-- auto-generated upon save --"
+    component_id: Component Unique Identifier
     level: Level
     level_class: Class
     level_collection: Collection
