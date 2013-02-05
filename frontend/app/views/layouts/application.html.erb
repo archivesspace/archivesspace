@@ -6,11 +6,15 @@
   <%= include_theme_css %>
   <%= csrf_meta_tags %>
   <script>
-    var APP_PATH = "<%= root_path %>";
+    APP_PATH = "<%= root_path %>";
   </script>
 
   <%= javascript_include_tag "application" %>
   <%= include_controller_js %>
+
+  <!--[if lt IE 9]>
+  <%= javascript_include_tag "html5shiv" %>
+  <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20" class="action-<%= controller.action_name %>">
 

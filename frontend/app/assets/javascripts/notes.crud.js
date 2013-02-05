@@ -1,4 +1,3 @@
-//= require jquery.sortable
 //= require mixed_content.js
 
 $(function() {

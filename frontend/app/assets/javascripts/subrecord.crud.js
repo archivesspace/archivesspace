@@ -1,5 +1,3 @@
-//= require jquery.sortable
-
 $(function() {
 
   $.fn.init_subrecord_form = function() {
@@ -31,6 +29,7 @@ $(function() {
             $subform.remove();
             $this.parents("form:first").triggerHandler("form-changed");
           });
+          return false;
         });
 
         AS.initSubRecordSorting($("ul.subrecord-form-list", $subform));

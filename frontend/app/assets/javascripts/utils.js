@@ -322,13 +322,17 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
   $(".cancel-removal", confirmationEl).click(function(event) {
     confirmationEl.remove();
     subformRemoveButtonEl.fadeIn();
+    return false;
   });
 
   $(".confirm-removal", confirmationEl).click(function(event) {
     event.preventDefault();
     event.stopPropagation();
     onConfirmCallback($(event.target));
+    return false;
   });
+
+  return false;
 };
 
 // Used by all tree layouts -- sets the initial height for the tree pane... but can
@@ -359,11 +363,21 @@ AS.initSubRecordSorting = function($list) {
         $(this).addClass("sort-enabled");
       }
     });
-    $list.sortable('destroy').sortable({
+
+    if ($list.data("sortable")) {
+      $list.sortable("destroy");
+    }
+
+    $list.sortable({
       items: 'li',
       handle: ' > .drag-handle',
-      forcePlaceholderSize: true
+      forcePlaceholderSize: true,
+      forceHelperSize: true,
+      placeholder: "sortable-placeholder",
+      tolerance: "pointer",
+      helper: "clone"
     });
+
     $list.off("sortupdate").on("sortupdate", function() {
       $("#object_container form").triggerHandler("form-changed");
     });
