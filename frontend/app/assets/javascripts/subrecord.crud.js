@@ -1,5 +1,3 @@
-//= require jquery.sortable
-
 $(function() {
 
   $.fn.init_subrecord_form = function() {

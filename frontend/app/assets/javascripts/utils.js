@@ -359,14 +359,21 @@ AS.initSubRecordSorting = function($list) {
         $(this).addClass("sort-enabled");
       }
     });
-    $list.sortable('destroy').sortable({
-      items: 'li',
-      handle: ' > .drag-handle',
-      forcePlaceholderSize: true
-    });
-    $list.off("sortupdate").on("sortupdate", function() {
-      $("#object_container form").triggerHandler("form-changed");
-    });
+    $(".drag-handle", $list).hover(
+      function() {
+        $list.sortable('destroy').sortable({
+          items: 'li',
+          handle: ' > .drag-handle',
+          forcePlaceholderSize: true
+        });
+        $list.off("sortupdate").on("sortupdate", function() {
+          $("#object_container form").triggerHandler("form-changed");
+        });
+      },
+      function() {
+        $list.sortable('destroy');
+      }
+    );
   }
 }
 
