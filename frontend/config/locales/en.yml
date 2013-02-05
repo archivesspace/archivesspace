@@ -1,7 +1,7 @@
 en:
   actions:
     add: Add
-    automate: Automate
+    automate: Automatically generate
     browse: Browse
     cancel: Cancel
     confirm: Confirm
@@ -998,7 +998,7 @@ en:
     name_order_inverted: Inverted
     prefix: Prefix
     title: Title
-    primary_name: Primary Name
+    primary_name: Primary Part of Name
     rest_of_name: Rest of Name
     suffix: Suffix
     fuller_form: Fuller Form
@@ -1054,7 +1054,7 @@ en:
     address_2: Address 2
     address_3: Address 3
     city: City
-    region: Region
+    region: State/Region
     country: Country
     post_code: Post Code
     telephone: Telephone
@@ -1353,7 +1353,7 @@ en:
     level_subseries: Sub-Series
     other_level: Other Level
     language: Language
-    automate_title: Automate
+    automate_title: Automatically generate title
     dates: Dates
     <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
@@ -1456,7 +1456,7 @@ en:
     term_type: Type
   subject:
     terms: Terms
-    ref_id: Identifier
+    ref_id: Authority ID
     source: Source
     heading: Subject Heading
     subject_preview: Subject Preview
