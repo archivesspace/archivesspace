@@ -324,7 +324,7 @@ describe "ArchivesSpace user interface" do
       $driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()");
       $driver.find_element(:link, 'Person').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
     end
 
 
@@ -403,7 +403,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#names .subrecord-form-heading .btn').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
 
       $driver.clear_and_send_keys([:id, "agent_names__1__primary_name_"], "Hendrix")
       $driver.clear_and_send_keys([:id, "agent_names__1__rest_of_name_"], "Jimi")
@@ -435,7 +435,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Name - Property is required but was missing/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
     end
 
