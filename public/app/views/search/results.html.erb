@@ -19,7 +19,7 @@
           %>
           <li class="result">
             <h3>
-              <span class="icon-<%= result["primary_type"] %>"></span>
+              <%= icon_for result["primary_type"] %>
               <%= link_to result["title"] || result['display_string'], :controller => :site, :action => result["primary_type"], :id => id, :repo_id => repo_id %> 
             </h3>
             <div class="result-summary">

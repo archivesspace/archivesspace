@@ -47,4 +47,8 @@ module ApplicationHelper
     @title = title
   end
 
+  def icon_for(type)
+    "<span class='icon-#{type}' title='#{I18n.t("#{type}._html.singular")}'></span>".html_safe
+  end
+
 end

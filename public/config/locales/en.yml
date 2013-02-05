@@ -43,3 +43,7 @@ en:
       _html:
         plural: Digital Object Components
         singular: Digital Object Component
+  repository:
+    _html:
+      plural: Repositories
+      singular: Repository

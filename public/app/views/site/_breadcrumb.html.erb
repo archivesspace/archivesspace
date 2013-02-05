@@ -5,11 +5,11 @@
         <% @breadcrumbs.each_with_index do |crumb, i| %>
           <% if i < @breadcrumbs.length - 1%>
             <li>
-              <span class="icon-<%= crumb[2] %>"></span> 
+              <%= icon_for crumb[2] %> 
               <%= link_to crumb[0], crumb[1] %><span class="divider">/</span>
             </li>
           <% else %>
-            <li class="active"><span class="icon-<%= crumb[2] %>"></span> <%= crumb[0] %></li>
+            <li class="active"><%= icon_for crumb[2] %> <%= crumb[0] %></li>
           <% end %>
         <% end %>
       </ul>
