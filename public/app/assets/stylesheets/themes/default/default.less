@@ -14,18 +14,38 @@ header h1 {
 
 .content-pane {
   background-color: #FFF;
-  padding: 20px;
   .border-radius(0 0 4px 4px);
   border: 1px solid #CCC;
   border-top: none;
+  padding: 10px 0 0;
+
+  .span3 {
+    padding-left: 20px;
+  }
+  .span9 {
+    padding-right: 20px;
+  }
+  .span12 {
+    padding: 0 20px;
+  }
+}
+
+.title-pane, .breadcrumb {
+  border-left: 1px solid #CCC;
+  border-right: 1px solid #CCC;
 }
 
 .breadcrumb {
-  margin: -20px -20px 10px;
+  margin: 0;
   padding: 8px 20px;
   .border-radius(0);
   border-bottom: 1px solid white;
-  #gradient > .vertical(#e9e9e9, #f1f1f1);  
+  #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
+}
+
+.title-pane {
+  background-color: #FAFAFA;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .record-pane {
@@ -44,4 +64,13 @@ header h1 {
 .footer a {
   color: #333;
   text-shadow: 1px 1px 2px white;
+}
+
+.form-horizontal {
+  .control-label {
+    color: #888;
+  }
+  .control-group {
+    margin-bottom: 5px;
+  }
 }

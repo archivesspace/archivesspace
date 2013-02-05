@@ -1,9 +1,50 @@
-<div class="row-fluid">
-  <div class="span3">
-    
+<div class="title-pane">
+  <div class="row-fluid">
+    <div class="span3">
+
+    </div>
+    <div class="span9">
+      <h2><%= @resource['finding_aid_title'] || @resource.title %></h2>
+    </div>
   </div>
-  <div class="span9">
-    <h2><%= @resource.title %></h2>
-    <pre><%= @resource.inspect %></pre>
+</div>
+<div class="content-pane">
+  <div class="row-fluid">
+    <div class="span3">
+      
+    </div>
+    <div class="span9">
+      <fieldset class="form-horizontal">
+        <section>
+          <h3>Summary</h3>
+
+          <%= label_and_value I18n.t("resource.finding_aid_title"), @resource['finding_aid_title'] %>
+          <%= label_and_value I18n.t("resource.finding_aid_author"), @resource['finding_aid_author'] %>
+          <%= label_and_value I18n.t("resource.finding_aid_date"), @resource['finding_aid_date'] %>
+          <%= label_and_value I18n.t("resource.finding_aid_language"), @resource['finding_aid_language'] %>
+        </section>
+
+        <% if @tree['children'].length %>
+          <section>
+            <h3>Components</h3>
+
+            <ul class="results-list">
+              <% @tree['children'].each do |child| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for child["node_type"] %>
+                    <%= link_to child["title"], :controller => :site, :action => child["node_type"], :id => child['id'], :repo_id => @repository.id %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+      </fieldset>
+
+      <br/>
+
+      <pre><%= @resource.inspect %></pre>
+    </div>
   </div>
 </div>

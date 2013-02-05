@@ -51,4 +51,12 @@ module ApplicationHelper
     "<span class='icon-#{type}' title='#{I18n.t("#{type}._html.singular")}'></span>".html_safe
   end
 
+  def label_and_value(label, value)
+    return if value.nil?
+
+    label = content_tag(:div, label, :class => "control-label")
+    value = content_tag(:div, value, :class => "controls label-only")
+    content_tag(:div, label + value, :class => "control-group")
+  end
+
 end

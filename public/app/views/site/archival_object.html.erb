@@ -1,9 +1,48 @@
-<div class="row-fluid">
-  <div class="span3">
+<div class="title-pane">
+  <div class="row-fluid">
+    <div class="span3">
 
+    </div>
+    <div class="span9">
+      <h2><%= @archival_object.title %></h2>
+    </div>
   </div>
-  <div class="span9">
-    <h2><%= @archival_object.title %></h2>
-    <pre><%= @archival_object.inspect %></pre>
+</div>
+<div class="content-pane">
+  <div class="row-fluid">
+    <div class="span3">
+
+    </div>
+    <div class="span9">
+      <fieldset class="form-horizontal">
+        <section>
+          <h3>Summary</h3>
+
+          <%# label_and_value I18n.t("resource.finding_aid_title"), @resource['finding_aid_title'] %>
+        </section>
+
+        <% if @children.length > 0 %>
+          <section>
+            <h3>Components</h3>
+
+            <ul class="results-list">
+              <% @children.each do |child| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for "archival_object" %>
+                    <%= link_to child["title"], :controller => :site, :action => "archival_object", :id => JSONModel(:archival_object).id_for(child['uri']), :repo_id => @repository.id %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+      </fieldset>
+
+      <br/>
+
+      <pre><%= @archival_object.inspect %></pre>
+    </div>
   </div>
 </div>
