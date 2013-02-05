@@ -270,7 +270,6 @@ module ASpaceImport
           
         when /^record_inline/
           val.block_further_reception if val.respond_to? :block_further_reception
-          puts val.inspect
           val = val.to_hash
         
         when /^record_ref/

@@ -6,11 +6,7 @@ require_relative "../../common/jsonmodel"
 $dry_mode ||= false
 
 unless $test_mode
-  if  $dry_mode
-    JSONModel::init( { :client_mode => true, :strict_mode => true } )
-  else
-    JSONModel::init( { :client_mode => true, :url => ASpaceImportConfig::ASPACE_BASE, :strict_mode => true } )
-  end
+  JSONModel::init( { :client_mode => true, :url => ASpaceImportConfig::ASPACE_BASE, :strict_mode => true } )
 end
 
 require_relative "crosswalk"
