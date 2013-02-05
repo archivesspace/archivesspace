@@ -51,7 +51,7 @@ module ImportHelpers
           json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
           
           rescue Exception => e
-            raise ImportException.new({:invalid_object => json, :message => e.message})
+            raise ImportException.new({:invalid_object => json, :error => e})
           end
         end
       end
@@ -73,7 +73,7 @@ module ImportHelpers
         @saved_uris[ref] = @json_set[ref].uri
         ASpaceImport::Crosswalk.update_record_references(json, @json_set) {|referenced| referenced.uri}
         rescue Exception => e
-          raise ImportException.new({:invalid_object => json, :message => e.message})
+          raise ImportException.new({:invalid_object => json, :error => e})
         end
       end
       
@@ -120,11 +120,24 @@ module ImportHelpers
 
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
-      @message = opts[:message]
+      @error = opts[:error]
+      @message = @error.message
+    end
+    
+    def to_hash
+      hsh = {'record_title' => nil, 'record_type' => nil, 'error_class' => self.class.name, 'errors' => []}
+      hsh['record_title'] = @invalid_object.title ? @invalid_object.title : "unknown or untitled"
+      hsh['record_type'] = @invalid_object.jsonmodel_type ? @invalid_object.jsonmodel_type : "unknown type"
+      
+      if @error.respond_to?(:errors)
+        @error.errors.each {|e| hsh['errors'] << e}
+      end
+      
+      hsh
     end
 
     def to_s
-      "#<:ImportException: #{{:invalid_object => @invalid_object, :message => @message}.inspect}>"
+      "#<:ImportException: #{{:invalid_object => @invalid_object, :error => @error}.inspect}>"
     end
   end
 

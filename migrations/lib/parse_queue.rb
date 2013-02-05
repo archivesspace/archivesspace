@@ -47,6 +47,8 @@ module ASpaceImport
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       
       if @opts[:dry]        
+
+        response = mock('Net::HTTPResponse')
         
         res_body = "{\"saved\":{"
         batch.each_with_index do |hsh, i|
@@ -56,6 +58,10 @@ module ASpaceImport
         res_body << "}}"
         
         res_body
+        
+        response.stubs(:code => 200, :body => res_body)
+        
+        response
         
       else
         JSONModel::HTTP.with_request_priority(:low) do
@@ -135,21 +141,7 @@ module ASpaceImport
       @selected = obj
       
       super 
-    end
-    
-    
-    # Yield receivers for anything in the parse queue.
-    # def receivers
-    #   self
-    # end
-    # 
-    # 
-    # def for_node(*nodeargs)  
-    #   self.reverse.each do |obj|        
-    #     obj.receivers.for_node(*nodeargs) { |r| yield r }
-    #   end
-    # end
-    
+    end 
 
     def save
       @batch.save
@@ -168,8 +160,6 @@ module ASpaceImport
     def selected=(json)
       @selected = json
     end
-    
-
         
   end
 end

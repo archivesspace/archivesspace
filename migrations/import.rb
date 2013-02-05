@@ -52,6 +52,12 @@ end
 optparse.parse!
 
 $dry_mode = true if options[:dry]
+
+if $dry_mode
+  require 'mocha/setup'
+  include Mocha::API
+end
+
 require File.join(File.dirname(__FILE__), "lib", "bootstrap")
 
 if options[:list]
@@ -61,7 +67,7 @@ end
 
 if options[:importer]
   i = ASpaceImport::Importer.create_importer(options)
-  i.run
+  i.run_safe
   puts i.report
 end
 

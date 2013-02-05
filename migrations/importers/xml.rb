@@ -85,6 +85,8 @@ ASpaceImport::Importer.importer :xml do
     save_all
 
     $tracer.out(@uri_map) if $DEBUG
+    
+    super 
   end  
 
 

@@ -60,7 +60,6 @@ class ImportController < ApplicationController
   
   def run_import(source_file, importer_key)
     
-    Rails.logger.debug("KEY #{importer_key}")
     case importer_key
     when 'ead'
       importer = 'xml'
@@ -69,9 +68,7 @@ class ImportController < ApplicationController
       importer = 'csv'
       crosswalk = 'accession_csv'
     end
-    
-    Rails.logger.debug("SSS #{importer} -- #{crosswalk}")
-    
+        
     options = {:dry => false, 
                :relaxed => false, 
                :verbose => false, #verbose report will overflow the cookie 
@@ -82,7 +79,7 @@ class ImportController < ApplicationController
                :input_file => source_file.path}
     
     i = ASpaceImport::Importer.create_importer(options)    
-    i.run
+    i.run_safe
     
     [i.report_summary, i.report]
   
