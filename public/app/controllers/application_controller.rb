@@ -5,28 +5,10 @@ class ApplicationController < ActionController::Base
 
   before_filter :establish_session
 
-  before_filter :load_repository_list
-
   rescue_from RecordNotFound, :with => :handle_404
   rescue_from Errno::ECONNREFUSED, :with => :handle_backend_down
   rescue_from ArchivesSpacePublic::SessionGone, :with => :reestablish_session
   rescue_from ArchivesSpacePublic::SessionExpired, :with => :reestablish_session
-
-  def load_repository_list
-    unless request.path == '/webhook/notify'
-      @repositories = MemoryLeak::Resources.get(:repository)
-
-      # Make sure the user's selected repository still exists.
-      if params[:repo] 
-        repo = @repositories.detect(false) {|repo| repo.repo_code.downcase == params[:repo].downcase}
-        if repo
-          @repository = repo
-        else
-          redirect_to :root
-        end
-      end
-    end
-  end
 
 
   def handle_404

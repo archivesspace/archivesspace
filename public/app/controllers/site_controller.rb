@@ -33,6 +33,11 @@ class SiteController < ApplicationController
   end
 
   def repository
+    if params[:repo_id].blank?
+      @repositories = JSONModel(:repository).all
+      return render "site/repositories"
+    end
+
     set_search_criteria
 
     @repository = JSONModel(:repository).find(params[:repo_id])

@@ -8,11 +8,9 @@ module MemoryLeak
     @@refresh_mutex = Mutex.new
 
     @@resources = {
-      :repository => Atomic.new(nil),
     }
 
     @@expiration_seconds = {
-      :repository => 60,
       :vocabulary => 60
     }
 
