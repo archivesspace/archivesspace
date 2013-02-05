@@ -1,22 +1,3 @@
 <%= setup_context :title => "Home", :suppress_breadcrumb => true %>
 
-<% if @repository %>
-  Welcome to the Archives Space public interface.
-<% else %>
-  <table class="table table-hover table-bordered repository-list">
-    <tr class="info">
-      <td colspan="3">
-        Please select a Repository to browse:
-      </td>
-    </tr>
-    <% @repositories.each do | repo | %>
-      <tr>
-        <td width="20%"><%= repo.repo_code %></td>
-        <td><%= repo.description %></td>
-        <td style=" width: 30%; text-align: center;">
-          <%= link_to "Browse this Repository", {:controller=> :site, :repo => repo.repo_code}, :class => "btn" %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
-<% end %>
+Welcome to the Archives Space public interface.

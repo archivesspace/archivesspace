@@ -2,39 +2,33 @@
   <div class="span3">
     Query: <%= params[:q] %><br/>
     Type: <%= params[:type] %>
+    <% if @repository %>
+      <br/>
+      Repository: <%= @repository['repo_code'] %><br/>
+    <% end %>
   </div>
   <div class="span9">
     <div class="record-pane">
-      <h2>
-        <% if params[:type].blank? %>
-          <%= I18n.t("search_results.title") %>
-        <% else %>
-          <%= Array(params[:type]).map {|type| I18n.t("#{type}._html.plural")}.join(", ") %>
-        <% end %>
-      </h2>
       <% if @search_data.has_key?('results') && @search_data['results'].length  > 0 %>
-        <table class="table table-striped table-bordered table-condensed">
-          <thead>
-          <tr>
-            <th width="160px"><%= I18n.t("search_results.result_type") %></th>
-            <th><%= I18n.t("search_results.result_title") %></th>
-          </tr>
-          </thead>
-          <tbody>
-          <%= render :partial => "search/pagination_summary" %>
-          <% @search_data['results'].each do |result| %>
-            <tr>
-              <td>
-                <%=  I18n.t("#{result["primary_type"]}._html.singular") %>
-              </td>
-              <td>
-                <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
-                <%=  result["title"] || result['display_string'] %>
-              </td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
+        <%= render :partial => "search/pagination_summary" %>
+        <ul class="results-list">
+        <% @search_data['results'].each do |result| %>
+          <% 
+            id = JSONModel(result["primary_type"]).id_for(result['uri'])
+            repo_id = JSONModel(:repository).id_for(JSONModel.repository_for(result['uri']))
+          %>
+          <li class="result">
+            <h3>
+              <span class="icon-<%= result["primary_type"] %>"></span>
+              <%= link_to result["title"] || result['display_string'], :controller => :site, :action => result["primary_type"], :id => id, :repo_id => repo_id %> 
+            </h3>
+            <div class="result-summary">
+              <div class="label label-info pull-right"><%=  I18n.t("#{result["primary_type"]}._html.singular") %></div>
+              <p class="muted">Summary goes here</p>
+            </div>
+          </li>
+        <% end %>
+        </ul>
         <%= render :partial => "search/pagination" %>
       <% else %>
         <p class="alert alert-info">

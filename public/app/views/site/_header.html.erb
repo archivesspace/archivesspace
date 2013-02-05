@@ -7,44 +7,30 @@
         <span class="icon-bar"></span>
       </button>
       <div class="nav-collapse collapse">
-        <ul class="nav">
-          <li <% if controller_name === "site" and controller.action_name === "index" %>class="active"<% end %>>
-            <%= link_to raw('<span class="icon-home"></span>'), :controller => :site, :action => :index %>
-          </li>
-          <% if @repository %>
+        <div class="container top">
+          <ul class="nav">
+            <li <% if controller_name === "site" and controller.action_name === "index" %>class="active"<% end %>>
+              <%= link_to raw('<span class="icon-home"></span>'), :controller => :site, :action => :index %>
+            </li>
             <li class="divider-vertical"></li>
-            <li class="dropdown browse-container">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><%= link_to I18n.t("accession._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "accession" %></li>
-                <li><%= link_to I18n.t("resource._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "resource" %></li>
-                <li><%= link_to I18n.t("archival_object._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "archival_object" %></li>
-                <li><%= link_to I18n.t("digital_object._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "digital_object" %></li>
-                <li><%= link_to I18n.t("digital_object_component._html.plural"), :controller => :site, :action => :search, :q => "*", :type => "digital_object_component" %></li>
-              </ul>
-            </li>
-            <li>
-              <%= form_tag(url_for(:controller => :site, :action => :search), :method => :get, :class => "navbar-form pull-left") do %>
-                <div class="input-append">
-                  <input id="global-search-box" type="text" class="span2" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
-                  <div class="btn-group">
-                    <%= hidden_field_tag "type", "" %>
-                    <button id="global-search-button" class="btn"><span class=" icon-search"></span></button>
-                    <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><b class="caret"></b></a>
-                    <ul class="dropdown-menu scoped-search-options">
-                      <li><a href="#" data-type=""><%= I18n.t("navbar.search_all") %></a></li>
-                      <li class="divider"></li>
-                      <li><a href="#" data-type="accession"><%= I18n.t("accession._html.plural") %></a></li>
-                      <li><a href="#" data-type="resource"><%= I18n.t("resource._html.plural") %></a></li>
-                      <li><a href="#" data-type="archival_object"><%= I18n.t("archival_object._html.plural") %></a></li>
-                      <li><a href="#" data-type="digital_object"><%= I18n.t("digital_object._html.plural") %></a></li>
-                    </ul>
-                  </div>
+            <li><%= link_to "Repositories", "#" %></li>
+            <li><%= link_to "Collections", "#" %></li>
+            <li><%= link_to "Subjects", "#" %></li>
+            <li><%= link_to "Locations", "#" %></li>
+          </ul>
+        </div>
+        <div class="container bottom">
+          <%= form_tag(url_for(:controller => :site, :action => :search), :method => :get) do %>
+            <div class="search-form">
+              <div class="input-append">
+                <input id="global-search-box" type="text" class="span2" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+                <div class="btn-group">
+                  <button id="global-search-button" class="btn"><span class=" icon-search"></span></button>
                 </div>
-              <% end %>
-            </li>
+              </div>
+            </div>
           <% end %>
-        </ul>
+        </div>
       </div><!-- /.nav-collapse -->
     </div>
   </div><!-- /navbar-inner -->

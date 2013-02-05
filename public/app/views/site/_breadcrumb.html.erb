@@ -1,0 +1,18 @@
+<% if @breadcrumbs and not @breadcrumbs.empty? %>
+  <div class="row-fluid">
+    <div class="span12">
+      <ul class="breadcrumb">
+        <% @breadcrumbs.each_with_index do |crumb, i| %>
+          <% if i < @breadcrumbs.length - 1%>
+            <li>
+              <span class="icon-<%= crumb[2] %>"></span> 
+              <%= link_to crumb[0], crumb[1] %><span class="divider">/</span>
+            </li>
+          <% else %>
+            <li class="active"><span class="icon-<%= crumb[2] %>"></span> <%= crumb[0] %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
