@@ -112,7 +112,7 @@ ASpaceImport::Importer.importer :csv do
     end
 
     def to_s
-        "#<:CSVSyntaxException: #{@type} => #{@element.inspect}"
+      "#<:CSVSyntaxException: #{@type} => #{@element.inspect}"
     end
   end
 

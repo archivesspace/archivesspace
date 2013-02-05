@@ -6,7 +6,7 @@
     "uri" => "/repositories/:repo_id/archival_objects",
     "properties" => {
       "ref_id" => {"type" => "string", "pattern" => "^[a-zA-Z0-9]*$"},
-      "component_id" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9_]*$"},
+      "component_id" => {"type" => "string", "required" => false, "default" => ""},
 
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
       "other_level" => {"type" => "string"},
