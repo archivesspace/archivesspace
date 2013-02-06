@@ -17,15 +17,6 @@ if not ENV['DISABLE_STARTUP']
     end
   end
 
-
-  JSONModel::Webhooks::add_notification_handler("REPOSITORY_CHANGED") do |msg, params|
-    MemoryLeak::Resources.refresh(:repository)
-  end
-
-  JSONModel::Webhooks::add_notification_handler("BACKEND_STARTED") do |msg, params|
-    MemoryLeak::Resources.invalidate_all!
-  end
-
 end
 
 

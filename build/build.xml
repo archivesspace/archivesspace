@@ -401,7 +401,7 @@
   </target>
 
 
-  <target name="dist" depends="backend:war, frontend:war" description="Build a standalone distribution jar of frontend, backend and all components">
+  <target name="dist" depends="backend:war, frontend:war, public:war" description="Build a standalone distribution jar of frontend, backend and all components">
 
     <mkdir dir="target" />
 
@@ -424,6 +424,7 @@
 
       <zipfileset src="../backend/backend.war" prefix="backend" />
       <zipfileset src="../frontend/frontend.war" prefix="frontend" />
+      <zipfileset src="../public/public.war" prefix="public" />
       <zipfileset src="${solr_file}" prefix="solr" />
 
       <manifest>
@@ -464,8 +465,9 @@
   </target>
 
 
-  <target name="public:war" depends="set-classpath, frontend:clean, bootstrap" description="Deploy the public application as a .war file">
-    <echo message="Precompiling Rails assets (this can take a little while...)" />
+  <target name="public:war" depends="set-classpath, public:clean" description="Deploy the public application as a .war file">
+
+    <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
 
     <delete dir="../public/tmp" />
 
@@ -477,6 +479,7 @@
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S rake assets:precompile" />
     </java>
+
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"

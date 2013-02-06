@@ -47,6 +47,11 @@ ArchivesSpacePublic::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
+  config.assets.precompile = [Proc.new {|file|
+    file =~ /.*\.js$/ or
+      file =~ /.*\.(png|jpg|gif)$/ or
+      file =~ /themes\/.*\/(application|bootstrap).css/
+  }]
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
