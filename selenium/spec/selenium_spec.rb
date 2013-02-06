@@ -62,10 +62,10 @@ describe "ArchivesSpace user interface" do
     it "flags errors when creating a repository with missing fields" do
       $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Create a Repository").click
-      $driver.clear_and_send_keys([:id, "repository_description_"], "missing repo code")
+      $driver.clear_and_send_keys([:id, "repository_name_"], "missing repo code")
       $driver.find_element(:css => "form#new_repository input[type='submit']").click
 
-      assert { $driver.find_element(:css => "div.alert.alert-error").text.should eq('Repository code - Property is required but was missing') }
+      assert { $driver.find_element(:css => "div.alert.alert-error").text.should eq('Repository Short Name - Property is required but was missing') }
       $driver.find_element(:css => "div.modal-footer button.btn").click
     end
 
@@ -74,7 +74,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Create a Repository").click
       $driver.clear_and_send_keys([:id, "repository_repo_code_"], @test_repo_code_1)
-      $driver.clear_and_send_keys([:id, "repository_description_"], @test_repo_name_1)
+      $driver.clear_and_send_keys([:id, "repository_name_"], @test_repo_name_1)
       $driver.find_element(:css => "form#new_repository input[type='submit']").click
     end
 
@@ -83,7 +83,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:link, "Create a Repository").click
       $driver.clear_and_send_keys([:id, "repository_repo_code_"], @test_repo_code_2)
-      $driver.clear_and_send_keys([:id, "repository_description_"], @test_repo_name_2)
+      $driver.clear_and_send_keys([:id, "repository_name_"], @test_repo_name_2)
       $driver.find_element(:css => "form#new_repository input[type='submit']").click
     end
 

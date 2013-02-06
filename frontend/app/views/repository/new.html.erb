@@ -6,10 +6,8 @@
     </div>
     <div class="modal-body">
       <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
-      <fieldset>
-        <%= form.label_and_textfield "repo_code", :field_opts => {:size => 10} %>
-        <%= form.label_and_textarea "description" %>
-      </fieldset>
+
+      <%= render :partial => "repository/form_container", :locals => {:form => form} %>
     </div>
     <div class="modal-footer">
       <input class="btn btn-primary" type="submit" name="commit" value="<%= I18n.t("actions.create") %> <%= I18n.t("repository._html.singular") %>" />
