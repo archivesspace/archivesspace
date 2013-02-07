@@ -4,6 +4,7 @@ class User < Sequel::Model(:user)
   set_model_scope :global
   corresponds_to JSONModel(:user)
 
+  @@unlisted_user_ids = nil
 
   def self.ADMIN_USERNAME
     "admin"
@@ -23,7 +24,7 @@ class User < Sequel::Model(:user)
   def self.unlisted_user_ids
     @@unlisted_user_ids if not @@unlisted_user_ids.nil?
 
-    @@unlisted_user_ids = User[:username => [SEARCH_USERNAME, PUBLIC_USERNAME]].collect {|user| user.id}
+    @@unlisted_user_ids = Array(User[:username => [User.SEARCH_USERNAME, User.PUBLIC_USERNAME]]).collect {|user| user.id}
 
     @@unlisted_user_ids
   end

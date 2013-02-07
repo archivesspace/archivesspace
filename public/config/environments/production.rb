@@ -45,8 +45,7 @@ ArchivesSpacePublic::Application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
-  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  # config.assets.precompile += %w( search.js )
+  # Precompile additional assets
   config.assets.precompile = [Proc.new {|file|
     file =~ /.*\.js$/ or
       file =~ /.*\.(png|jpg|gif)$/ or
@@ -66,4 +65,14 @@ ArchivesSpacePublic::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  # Log the query plan for queries taking more than this (works
+  # with SQLite, MySQL, and PostgreSQL)
+  # config.active_record.auto_explain_threshold_in_seconds = 0.5
+end
+
+
+# https://aaronblohowiak.telegr.am/blog_posts/precompiling-assets-under-jruby
+if defined?(ExecJS) && system('which node >/dev/null 2>/dev/null')
+  puts "Using Node ExecJS runtime"
+  ExecJS.runtime = ExecJS::Runtimes::Node
 end

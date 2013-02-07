@@ -1,12 +1,11 @@
 require "jsonmodel"
 
-JSONModel::init(:client_mode => true,
-                :priority => :high,
-                :url => AppConfig[:backend_url],
-                :allow_other_unmapped => AppConfig[:allow_other_unmapped])
-
-
 if not ENV['DISABLE_STARTUP']
+
+  JSONModel::init(:client_mode => true,
+                :priority => :high,
+                :url => AppConfig[:backend_url])
+
 
   JSONModel::add_error_handler do |error|
     if error["code"] == "SESSION_GONE"

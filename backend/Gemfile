@@ -1,7 +1,6 @@
 # A sample Gemfile
 source "http://rubygems.org"
 
-gem "rack", '1.4.4'
 gem "sinatra"
 gem "sinatra-reloader"
 gem "rack-session-sequel"
@@ -10,7 +9,7 @@ gem "jdbc-derby"
 gem "json"
 gem "bcrypt-ruby"
 gem "rspec"
-gem 'json-schema', '1.0.12'
+gem "json-schema"
 gem "simplecov"
 gem "jruby-jars", "= 1.7.0"
 gem "warbler"

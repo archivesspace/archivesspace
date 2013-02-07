@@ -467,7 +467,7 @@
 
   <target name="public:war" depends="set-classpath, public:clean" description="Deploy the public application as a .war file">
 
-    <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
+   <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
 
     <delete dir="../public/tmp" />
 
@@ -477,9 +477,8 @@
       <jvmarg line="${env.JAVA_OPTS} ${default_java_options}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 -S rake assets:precompile" />
+      <arg line="--1.9 -S rake assets:precompile --trace" />
     </java>
-
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
