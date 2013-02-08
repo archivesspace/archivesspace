@@ -1,0 +1,13 @@
+enabled: true
+base_url: "http://aspace.hudmol.com/help/Default_CSH.htm#"
+topics:
+  accession: 101
+  accession_basic_information: 101
+  accession_extents: 102
+  accession_dates: 103
+  accession_related_resources: 104
+  accession_linked_agents: 105
+  accession_subjects: 106
+  accession_external_documents: 107
+  accession_rights_statements: 108
+  accession_deaccessions: 109
