@@ -92,9 +92,12 @@ module ApplicationHelper
     link_to(
             label.html_safe, 
             href, 
-            :target => "_blank", 
-            :title => title,
-            :class => "context-help has-tooltip"
+            {
+              :target => "_blank", 
+              :title => title,
+              :class => "context-help has-tooltip",
+              "data-placement" => "left"
+            }.merge(opts[:link_opts] || {})
            )
   end
 

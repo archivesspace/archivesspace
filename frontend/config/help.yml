@@ -1,18 +1,13 @@
 enabled: true
-base_url: "http://www.archivesspace.org/help"
+base_url: "http://aspace.hudmol.com/help/Default_CSH.htm#"
 topics:
-  accession: "#Accessions/Index.htm"
-  accession_basic_information: "#Accessions/BasicInformation.htm"
-  accession_extents: "#Accessions/Extents.htm"
-  accession_dates: "#Accessions/Dates.htm"
-  accession_related_resources: "#Accessions/RelatedResources.htm"
-  accession_linked_agents: "#Accessions/AgentLinks.htm"
-  accession_subjects: "#Accessions/Subjects.htm"
-  accession_external_documents: "#Accessions/ExternalDocuments.htm"
-  accession_rights_statements: "#Accessions/Rights.htm"
-  accession_deaccessions: "#Accessions/Deaccessions.htm"
-  accession_: "#Accessions/.htm"
-  accession_: "#Accessions/.htm"
-  deaccession_deaccession_date: "#Deaccession/Date.htm"
-  deaccession_extents: "#Deaccession/Extents.htm"
-  rights_statement_external_documents: "#Rights/ExternalDocuments.htm"
+  accession: 101
+  accession_basic_information: 101
+  accession_extents: 102
+  accession_dates: 103
+  accession_related_resources: 104
+  accession_linked_agents: 105
+  accession_subjects: 106
+  accession_external_documents: 107
+  accession_rights_statements: 108
+  accession_deaccessions: 109
