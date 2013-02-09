@@ -43,7 +43,7 @@ module ASpaceImport
       
     
     def self.create_model(model_key, json_model)
-  
+
       cls = Class.new(json_model) do
         
         def self.init(model_key)
@@ -55,7 +55,6 @@ module ASpaceImport
         def self.model_key
           @model_key
         end
-        
         
         def initialize(*args)
           
@@ -86,6 +85,16 @@ module ASpaceImport
           @done_being_received ||= false
           @done_being_received
         end
+        
+        def method_missing(meth, *args, &block)
+          @stash ||= {}          
+          if meth.to_s.match(/=$/)
+            @stash[meth.to_s.sub(/=/,'')] = args[0]
+          else
+            @stash.has_key?(meth.to_s) ? @stash[meth.to_s] : nil
+          end
+        end
+          
       end
             
       cls.init(model_key)
@@ -111,7 +120,6 @@ module ASpaceImport
       def initialize(json)
         @json = json
         @receivers = {}
-        # ASpaceImport::Crosswalk.property_receivers(@json.class).each do |p, r|
         self.class.receiver_classes.each do |p, r|
           @receivers[p] = r.new(@json)
         end 
@@ -143,8 +151,9 @@ module ASpaceImport
     def self.property_receivers(model)
       receivers = {}
 
-      self.entries[model.model_key]['properties'].each do |p, defn|
-         receivers[p] = self.initialize_receiver(p, model.schema['properties'][p], defn)
+      self.entries[model.model_key]['properties'].each do |p, xdef|
+        sdef = p.match(/^_/) ? {'type' => 'string'} : model.schema['properties'][p]
+        receivers[p] = self.initialize_receiver(p, sdef, xdef)
       end
      
       receivers
@@ -230,7 +239,7 @@ module ASpaceImport
           val = proc.call(val)
         end
         
-        if val == nil and self.class.xdef['default'] && !@object.send("#{self.class.property}")
+        if val == nil && self.class.xdef['default'] && !@object.send("#{self.class.property}")
           val = self.class.xdef['default']
         end
         
@@ -266,7 +275,11 @@ module ASpaceImport
           end
                   
         when /^record_uri/
-          val = val.uri
+          if val.class.method_defined? :uri
+            val = val.uri
+          else
+            val.to_s
+          end
           
         when /^record_inline/
           val.block_further_reception if val.respond_to? :block_further_reception
@@ -278,16 +291,20 @@ module ASpaceImport
           end  
         end
         
-        if self.class.property_type.match /list$/       
-          val = @object.send("#{self.class.property}").push(val)
+        if self.class.property_type.match /list$/
+          if val.is_a?(Array)
+            # ugly workaround for crosswalk overrides using 'split' and 'map':
+            # hope it doesn't break anything
+            val.each {|v| @object.send("#{self.class.property}").push(val) } 
+          else   
+            val = @object.send("#{self.class.property}").push(val)
+          end
         end
         
         @object.send("#{self.class.property}=", val)
       end
     end
 
-
-    # Helpers that should probably be relocated:
 
     def self.ref_type_list(property_ref_type)
       if property_ref_type.is_a? Array
@@ -301,7 +318,7 @@ module ASpaceImport
     # @returns - [property_type_code, array_of_qualified_json_types]
     
     def self.get_property_type(property_def)
-
+      
       # subrecord slots taking more than one type
 
       if property_def['type'].is_a? Array

@@ -10,23 +10,25 @@ describe "ASpaceImport and ASpaceExport modules" do
     puts "Created a new Repo with ID #{@repo_id}"
     @ser = ASpaceExport::serializer(:ead)
     @ser.repo_id = @repo_id
+    JSONModel::set_repository(@repo_id)
+    RequestContext.put(:repo_id, @repo_id)
   end
   
-  it "should be able to export a Resource and its Tree as EAD" do
-
-    r = FactoryGirl.create(:resource, :repo_id => @repo_id) 
-    e = FactoryGirl.create(:extent, :resource_id => r.id) 
-    p = FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :root_record_id => r.id})
-
-    10.times { FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :root_record_id => r.id, :parent_id => p.id}) }
-          
-    ead = @ser.serialize(r)
-    
-    doc = Nokogiri::XML ead
-    ead_file = File.join(Dir::tmpdir, "test_ead_1.xml")
-    File.open(ead_file, 'w') { |file| file.write(doc) }
-    
-  end
+  # it "should be able to export a Resource and its Tree as EAD" do
+  # 
+  #   r = FactoryGirl.create(:resource, :repo_id => @repo_id) 
+  #   e = FactoryGirl.create(:extent, :resource_id => r.id) 
+  #   p = FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :root_record_id => r.id})
+  # 
+  #   10.times { FactoryGirl.create(:archival_object, {:repo_id => @repo_id, :root_record_id => r.id, :parent_id => p.id}) }
+  #         
+  #   ead = @ser.serialize(r)
+  #   
+  #   doc = Nokogiri::XML ead
+  #   ead_file = File.join(Dir::tmpdir, "test_ead_1.xml")
+  #   File.open(ead_file, 'w') { |file| file.write(doc) }
+  #   
+  # end
   
   it "should be able to import a Resource and its Tree from EAD" do
     

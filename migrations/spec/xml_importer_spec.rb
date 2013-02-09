@@ -21,17 +21,35 @@ describe 'ASpaceImport::Importer::XmlImporter' do
   end
 
 
-  describe :regexify_xpath do
-    it "converts xml nodes and depth offsets into regular expressions for matching xpaths in a crosswalk definition" do
+  describe :regexify do
+    it "converts xpaths and depth offsets into regular expressions for matching xpaths in a crosswalk definition" do
       
-      expect("/foo").to match(@i.regexify_xpath("foo"))
-      expect("ancestor::foo").to match(@i.regexify_xpath("/path/to/foo", -3))
-      expect("child::foo").to match(@i.regexify_xpath("/path/to/foo", 1))
-      expect("child::foo").to_not match(@i.regexify_xpath("/path/to/foo", 2))
-      expect("child::to/child::foo").to match(@i.regexify_xpath("/path/to/foo", 2))
-      expect("child::*/child::*/child::corpname").to match(@i.regexify_xpath("/way/down/in/an/ead/is/a/corpname", 3))     
+      expect("/foo").to match(@i.regexify("foo"))
+      expect("ancestor::foo").to match(@i.regexify("/path/to/foo", -3))
+      expect("child::foo").to match(@i.regexify("/path/to/foo", 1))
+      expect("child::foo").to_not match(@i.regexify("/path/to/foo", 2))
+      expect("child::to/child::foo").to match(@i.regexify("/path/to/foo", 2))
+      expect("child::*/child::*/child::corpname").to match(@i.regexify("/way/down/in/an/ead/is/a/corpname", 3))     
     end
+    
+    it "can match xpaths to a regular expression using attributes" do
+      
+      @i.instance_variable_set(:@attr_selectors, [{}, {}, {:@bar => 'doh'}, {}])
+      
+      # expect("child::foo/toq").to match(@i.regexify("/path/to/foo/toq", 2))
+      expect("child::foo[@bar='doh']/toq").to match(@i.regexify("/path/to/foo/toq", 2))
+      
+    end  
+    
   end
+  
+  # it "modifies Nokogiri node cursor so that it knows its xpath" do
+  #   reader = @i.instance_variable_get("@reader")
+  #   cursor = reader.read
+  #   expect(cursor.xpath.scan(/[^\/]+/).length).to eq(1)
+  #   cursor2 = reader.read
+  #   expect(cursor2.xpath.scan(/[^\/]+/).length).to eq(2)
+  # end  
   
   
   it "should create a class for pulling an XML file through a YAML crosswalk" do      

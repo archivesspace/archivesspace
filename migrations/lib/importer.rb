@@ -50,7 +50,8 @@ module ASpaceImport
         raise StandardError.new("Attempted to register #{name} a second time")
       else
         c = Class.new(superclass, &block)
-        Object.const_set("#{name.to_s.capitalize}Importer", c)
+        cname_prefix = name.to_s.split(/[_-]/).map {|i| i.capitalize }.join
+        Object.const_set("#{cname_prefix}Importer", c)
         @@importers[name] = c
         true
       end
@@ -77,10 +78,10 @@ module ASpaceImport
     end
 
     def log_save_result(response)
-
       if response.code.to_s == '200'
         @import_summary = "Response #{response.code}: #{response.body['saved'].length} records saved."
-        @import_log = response.body['saved'].map {|k,u| "Saved: #{u}"}
+
+        @import_log = JSON.parse(response.body)['saved'].map {|k,u| "Saved: #{u}"}
       else
         @import_summary = "Import failed due to server error #{response.code}"
         err_data = JSON.parse(response.body)['error']
@@ -114,9 +115,7 @@ module ASpaceImport
       report = "Aspace Import Report\n"
       report << "DRY RUN MODE\n" if @dry
       unless self.import_log.empty?
-        report += self.import_log.map { |r|
-          JSON.parse(r.body)['saved'].map{ |k,u| "Saved: #{u}" }.join("\n")
-        }.join('\n\n')
+        report += self.import_log.join("\n")
       end
       unless self.error_log.empty?
         report += self.error_log.map { |e| e.to_s }.join('\n\n')
@@ -137,8 +136,10 @@ module ASpaceImport
         error = LoggableError.new
         error.header = e.class.name
         if e.invalid_object
-          if e.invalid_object.respond_to?('title')
+          if e.invalid_object.respond_to?('title') && !e.invalid_object.title.nil?
             error.record_info[:title] = e.invalid_object.title
+          else
+            error.record_info[:title] = "Unknown (#{e.invalid_object.to_s})"
           end
           error.record_info[:type] = e.invalid_object.jsonmodel_type.capitalize
         end

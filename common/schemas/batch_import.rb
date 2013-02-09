@@ -11,6 +11,7 @@
                                          {"type" => "JSONModel(:subject) object"},
                                          {"type" => "JSONModel(:agent_corporate_entity) object"},
                                          {"type" => "JSONModel(:agent_person) object"},
+                                         {"type" => "JSONModel(:agent_family) object"},
                                          {"type" => "JSONModel(:collection_management) object"}                
                                          ]},
                                        }

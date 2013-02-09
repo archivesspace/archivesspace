@@ -47,7 +47,7 @@ module ASpaceImport
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       
       if @opts[:dry]        
-
+        
         response = mock('Net::HTTPResponse')
         
         res_body = "{\"saved\":{"
@@ -100,6 +100,24 @@ module ASpaceImport
       @dupes = {}
     end
     
+    def select_each_and(&dothis)
+      self.reverse.each do |obj|
+        self.selected=obj
+        dothis.call
+      end
+      self.selected = self.last
+    end
+    
+    def with_raised(&dothis)
+      if self.raised.length
+        self.raised.each do |auf|
+          self.selected=auf
+          dothis.call
+        end
+        self.selected = self.last
+      end
+    end
+    
     def iterate
       self.reverse.each_with_index do |json, i|
         self.selected=self[i]
@@ -119,7 +137,6 @@ module ASpaceImport
         # Set Links TO the popped object FROM others in the queue
       
         qdobj.receivers.for_obj(self.last) do |r|
-          puts "DD #{r.to_s} << #{self.last.inspect}"
           r << self.last
         end
          
@@ -129,7 +146,7 @@ module ASpaceImport
       # it's an inline record.
       if self.last.class.method_defined? :uri and !self.last.uri.nil?
         @batch.push(self.last) unless self.last.uri.nil?
-      end
+      end      
       
       super
       
@@ -141,7 +158,16 @@ module ASpaceImport
       @selected = obj
       
       super 
-    end 
+    end
+    
+    def push_and_raise(obj)
+      self.push(obj)
+      self.raised.push(self.last)
+    end
+    
+    def unraise_all
+      @raised = []
+    end
 
     def save
       @batch.save
@@ -153,6 +179,10 @@ module ASpaceImport
     
     def selected
       @selected ||= self.last
+    end
+    
+    def raised
+      @raised ||= []
     end
     
     protected
