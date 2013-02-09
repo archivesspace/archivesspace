@@ -196,15 +196,13 @@ ASpaceImport::Importer.importer :xml do
         end
 
       else
-          # TODO: Clean up confusing stuff like this caused by addition of type aliasing in crosswalk definitions
-          # raise "Record Type mismatch in parse queue" unless parse_queue.last.class.record_type == ASpaceImport::Crosswalk.models[type].record_type
+
         types.reverse.each_with_index do |t, i|
           # Just a sanity check
           raise "Record Type mismatch in parse queue" unless parse_queue[(i+1)*-1].class.record_type == ASpaceImport::Crosswalk.models[t].record_type
           parse_queue.raised.push(parse_queue[(i+1)*-1])
         end
 
-          # parse_queue.selected
       end
       true
     else
@@ -241,17 +239,6 @@ ASpaceImport::Importer.importer :xml do
     end
   end
 
-  
-  # def get_type_for_node(node)
-  #   regex = regexify(xpath(node))
-
-  #   if (types = ASpaceImport::Crosswalk.entries.map {|k,v| k if v["xpath"] and v["xpath"].find {|x| x.match(regex)}}.compact)
-  #     raise "Too many matched entries" if types.length > 1
-  #     return types[0]
-  #   else
-  #     return nil
-  #   end
-  # end
   
   # Returns a regex object that is used to match the xpath of a 
   # parsed node with an xpath definition in the crosswalk. In the 
@@ -307,10 +294,6 @@ ASpaceImport::Importer.importer :xml do
                                                            << xp.gsub(/.*\//, '') \
                                                            << (atts.last ? atts.last.map {|k,v| "(\\[#{k.to_s}='#{v}'\\])?"}.join : "")\
                                                            << "$"
-      
-        # @regex_cache[xp][offset] ||= Regexp.new "^(descendant::|" << xp.scan(/[a-zA-Z_]+/)[offset*-1..-2].map { |n| 
-        #                         "(child::)?(#{n}|\\*)" 
-        #                         }.join('/') << (offset > 1 ? "/" : "") << "(child::)?)" << xp.gsub(/.*\//, '') << "$"
 
     
       when -100..-1

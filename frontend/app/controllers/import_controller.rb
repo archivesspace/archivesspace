@@ -31,7 +31,9 @@ class ImportController < ApplicationController
 
         source_file.delete
 
-        if results[0].match /^200/
+        Rails.logger.debug("RESULTS #{results.inspect}")
+
+        if results[0].match /200/
           flash.now[:success] = results[0]
         else
           flash.now[:error] = I18n.t("import.messages.error_prefix") 
@@ -67,7 +69,12 @@ class ImportController < ApplicationController
     when 'accession_csv'
       importer = 'csv'
       crosswalk = 'accession_csv'
+    when 'marcxml'
+      importer = 'xml'
+      crosswalk = 'marcxml'
     end
+    
+    
         
     options = {:dry => false, 
                :relaxed => false, 

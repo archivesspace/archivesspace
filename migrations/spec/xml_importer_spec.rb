@@ -43,14 +43,6 @@ describe 'ASpaceImport::Importer::XmlImporter' do
     
   end
   
-  # it "modifies Nokogiri node cursor so that it knows its xpath" do
-  #   reader = @i.instance_variable_get("@reader")
-  #   cursor = reader.read
-  #   expect(cursor.xpath.scan(/[^\/]+/).length).to eq(1)
-  #   cursor2 = reader.read
-  #   expect(cursor2.xpath.scan(/[^\/]+/).length).to eq(2)
-  # end  
-  
   
   it "should create a class for pulling an XML file through a YAML crosswalk" do      
     @i.class.name.should eq('XmlImporter')

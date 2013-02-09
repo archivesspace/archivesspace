@@ -46,6 +46,7 @@ en:
     create: Create
     import: Import
     import_ead: EAD file
+    import_marcxml: MARCXML
     import_accession_csv: Accession CSV
     search_all: All Records
     search_placeholder: Search
@@ -97,9 +98,10 @@ en:
     help: "Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or highlight text to wrap"
   import:
     ead_title: Import an EAD File
+    marcxml_title: Import a MARCXML file
     accession_csv_title: Import Accession Records from a CSV File
     import_report: Import Report
-    ead_import_another: Import Another EAD File
+    import_another: Import Another File
     submit: Import
     submit_busy_message: Importing...
     messages:
