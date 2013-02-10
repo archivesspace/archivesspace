@@ -1060,7 +1060,7 @@ Sequel.migration do
     end
 
     # Event relationships
-    [:accession, :resource, :archival_object].each do |record|
+    [:accession, :resource, :archival_object, :digital_object].each do |record|
       table = [MigrationUtils.shorten_table("event"),
                MigrationUtils.shorten_table(record)].sort.join("_link_").intern
 

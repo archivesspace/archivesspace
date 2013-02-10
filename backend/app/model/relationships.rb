@@ -154,9 +154,11 @@ module Relationships
         # For each record reference in our JSON data
         ASUtils.as_array(json[property_name]).each_with_index do |reference, idx|
           record_type = parse_reference(reference['ref'], opts)
+          Log.debug("Record Type #{record_type.inspect}")
 
           # Find the model type of the record it refers to
           referent_model = relationship[:references].keys.find {|model|
+            Log.debug("Checking #{model.my_jsonmodel.record_type}")
             model.my_jsonmodel.record_type == record_type[:type]
           } or raise "Couldn't find model for #{record_type[:type]}"
 
