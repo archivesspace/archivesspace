@@ -78,6 +78,7 @@ def run_tests(opts)
   puts "Create a repository"
   r = do_post({
                 :repo_code => "test#{$me}",
+                :name => "Test #{$me}",
                 :description => "integration test repository #{$$}"
               }.to_json,
               url("/repositories"))
@@ -88,6 +89,7 @@ def run_tests(opts)
   puts "Create a second repository"
   r = do_post({
                 :repo_code => "another#{$me}",
+                :name => "Another Test #{$me}",
                 :description => "another integration test repository #{$$}"
               }.to_json,
               url("/repositories"))
