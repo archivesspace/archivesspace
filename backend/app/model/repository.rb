@@ -7,9 +7,9 @@ class Repository < Sequel::Model(:repository)
 
   def validate
     super
-    validates_unique(:repo_code, :message => "repo_code already in use")
-    validates_presence(:repo_code, :message => "You must supply a repository code")
-    validates_presence(:description, :message => "You must give your repository a description")
+    validates_unique(:repo_code, :message => "short name already in use")
+    validates_presence(:repo_code, :message => "You must supply a short name for your repository")
+    validates_presence(:name, :message => "You must give your repository a name")
   end
 
 

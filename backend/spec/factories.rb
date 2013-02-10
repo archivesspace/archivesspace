@@ -64,7 +64,7 @@ FactoryGirl.define do
   
   factory :repo, class: Repository do
     repo_code { generate(:repo_code) }
-    description { generate(:generic_description) }
+    name { generate(:generic_description) }
     after(:create) do |r|
       $repo_id = r.id
       $repo = JSONModel(:repository).uri_for(r.id)
@@ -271,7 +271,7 @@ FactoryGirl.define do
   
   factory :json_repo, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
-    description { generate(:generic_description) }
+    name { generate(:generic_description) }
   end
   
   # may need factories for each rights type

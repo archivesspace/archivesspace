@@ -6,7 +6,7 @@
     <div class="input-append">
       <span class="navbar-inset-label">
         <% if session[:repo] %>
-          <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(session[:repo]) %>" data-content="<%= CGI::escapeHTML(selected_repo.description) %>">
+          <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(session[:repo]) %>" data-content="<%= CGI::escapeHTML(selected_repo.name) %>">
             <span class="icon-hdd"></span><span class="current-repository-id"><% if session[:repo] %><%= session[:repo] %><% end %></span>
           </span>
         <% else %>
@@ -34,9 +34,9 @@
             <ul class="dropdown-menu repo-selector">
             <% for repo in @repositories %>
               <% if session[:repo_id] === repo.id %>
-                <li class="selected has-popover"  data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.description) %>"><span class="icon-ok-circle"></span> <%= repo.repo_code %></li>
+                <li class="selected has-popover"  data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.name) %>"><span class="icon-ok-circle"></span> <%= repo.repo_code %></li>
               <% else %>
-                <li class="has-popover" data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.description) %>"><%= link_to repo.repo_code, {:controller => :repository, :action => :select, :id => repo.id}, :class => "select-repo" %></li>
+                <li class="has-popover" data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.name) %>"><%= link_to repo.repo_code, {:controller => :repository, :action => :select, :id => repo.id}, :class => "select-repo" %></li>
               <% end %>
             <% end %>
             </ul>

@@ -1446,8 +1446,23 @@ en:
       singular: Related Resource
       plural: Related Resources
   repository:
-    repo_code: Repository code
-    description: Description
+    repo_code: Repository Short Name
+    name: Repository Name
+    org_code: Organization / Agency Code
+    parent_institution_name: Parent Institution Name
+    address_1: Address 1
+    address_2: Address 2
+    city: City
+    district: State or Region
+    country: Country
+    post_code: Postal Code
+    telephone: Telephone
+    telephone_ext: Extension
+    fax: Fax
+    email: Email
+    email_signature: Email Signature
+    url: Home Page URL
+    image_url: Branding Image URL
     _html:
       singular: Repository
       plural: Repositories

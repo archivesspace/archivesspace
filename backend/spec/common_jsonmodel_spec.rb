@@ -14,6 +14,7 @@ describe 'JSON model' do
                                    "elt_1" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
                                    "elt_2" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
                                    "elt_3" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
+                                   "url" => {"type" => "string", "pattern" => "^https?:\\/\\/[\\\S]+$"},
                                    "moos_if_missing" => {"type" => "string", "ifmissing" => "moo", "default" => ""},
                                    "no_shorty" => {"type" => "string", "required" => false, "default" => "", "minLength" => 6},
                                    "shorty" => {"type" => "string", "required" => false, "default" => "", "maxLength" => 2},
@@ -43,6 +44,12 @@ describe 'JSON model' do
                                        "elt_1" => "thisisatest"
                                      })
 
+  end
+  
+  it "can recognize a valid url" do
+    lambda {
+      JSONModel(:testschema).from_hash({"elt_0" => "001", "url" => "http://www.foo.bar"})
+    }.should_not raise_error(ValidationException)
   end
 
 

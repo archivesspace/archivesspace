@@ -356,11 +356,11 @@ def admin_backend_request(req)
 end
 
 
-def create_test_repo(code, description, wait = true)
+def create_test_repo(code, name, wait = true)
   create_repo = URI("#{$backend}/repositories")
 
   req = Net::HTTP::Post.new(create_repo.path)
-  req.body = "{\"repo_code\": \"#{code}\", \"description\": \"#{description}\"}"
+  req.body = "{\"repo_code\": \"#{code}\", \"name\": \"#{name}\"}"
 
   response = admin_backend_request(req)
   repo_uri = JSON.parse(response.body)['uri']
