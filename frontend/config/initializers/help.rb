@@ -20,8 +20,12 @@ module ArchivesSpaceHelp
     @config["base_url"]
   end
 
+  def self.topic_prefix
+    @config["topic_prefix"]
+  end
+
   def self.url_for_topic(topic)
-    return "#{base_url}#{self[topic]}" if self[topic]
+    return "#{base_url}#{topic_prefix}#{self[topic]}" if self[topic]
   end
 
   def self.topic?(key)

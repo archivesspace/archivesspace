@@ -1,5 +1,6 @@
 enabled: true
-base_url: "http://aspace.hudmol.com/help/Default_CSH.htm#"
+base_url: "http://aspace.hudmol.com/help/Default_CSH.htm"
+topic_prefix: "#"
 topics:
   accession: 101
   accession_basic_information: 101
