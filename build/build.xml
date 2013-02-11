@@ -289,7 +289,7 @@
   </target>
 
 
-  <target name="frontend:war" depends="set-classpath, frontend:clean, bootstrap" description="Deploy the frontend application as a .war file">
+  <target name="frontend:war" depends="set-classpath, bootstrap, frontend:clean" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
     <delete dir="../frontend/tmp" />
@@ -300,7 +300,7 @@
       <jvmarg line="${env.JAVA_OPTS} ${default_java_options}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 -S rake assets:precompile" />
+      <arg line="--1.9 -S rake assets:precompile --trace" />
     </java>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
@@ -451,6 +451,9 @@
   <!-- Public Interface -->
   <target name="public:clean" description="Delete the Rails tmp directory">
     <delete dir="../public/tmp" />
+    <delete dir="../public/public/assets" />
+    <mkdir dir="../public/public/assets" />
+    <mkdir dir="../public/public/assets/00-do-not-put-things-here" />
   </target>
 
 
@@ -465,7 +468,7 @@
   </target>
 
 
-  <target name="public:war" depends="set-classpath, public:clean" description="Deploy the public application as a .war file">
+  <target name="public:war" depends="set-classpath, bootstrap, public:clean" description="Deploy the public application as a .war file">
 
    <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
 

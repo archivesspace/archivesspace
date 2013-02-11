@@ -1,5 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
+#require 'rails/all'
 require 'action_controller/railtie'
 require 'sprockets/railtie'
 
@@ -63,6 +64,8 @@ module ArchivesSpacePublic
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.assets.precompile += %w( *.js )
 
     # ArchivesSpace Configuration
     AppConfig.load_into(config)

@@ -13,3 +13,14 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+/build/*.jar
+/build/gems
+
+/public.war
+
+/public/assets
+
+# IDE config folders
+/.idea
+
