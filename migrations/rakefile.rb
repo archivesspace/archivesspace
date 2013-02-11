@@ -50,7 +50,7 @@ namespace :import do
     args.with_defaults(:repo_code => "r#{rand(10000)}")
 
     repo = JSONModel(:repository).from_hash("repo_code" => args[:repo_code],
-                                            "description" => "A new ArchivesSpace repository")
+                                            "name" => "A new ArchivesSpace repository")
     repo.save
     
     puts "CREATED: #{repo.uri}"
