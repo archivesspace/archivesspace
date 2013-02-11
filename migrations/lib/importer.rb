@@ -79,9 +79,11 @@ module ASpaceImport
 
     def log_save_result(response)
       if response.code.to_s == '200'
-        @import_summary = "Response #{response.code}: #{response.body['saved'].length} records saved."
+        response_body = JSON.parse(response.body)
+        
+        @import_summary = "Response Code 200: #{response_body['saved'].length} records saved."
 
-        @import_log = JSON.parse(response.body)['saved'].map {|k,u| "Saved: #{u}"}
+        @import_log = response_body['saved'].map {|k,u| "Saved: #{u}"}
       else
         @import_summary = "Import failed due to server error #{response.code}"
         err_data = JSON.parse(response.body)['error']

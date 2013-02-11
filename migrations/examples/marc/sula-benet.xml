@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <record>
+        <leader>00000npc a2200000 u 4500</leader>
+        <controlfield tag="008">101011i19541984xx                  eng d</controlfield>
+        <datafield tag="040" ind2=" " ind1=" ">
+            <subfield code="a">NyNyUA</subfield>
+            <subfield code="b">eng</subfield>
+            <subfield code="c">NyNyUA</subfield>
+            <subfield code="e">dacs</subfield>
+        </datafield>
+        <datafield tag="041" ind2=" " ind1="0">
+            <subfield code="a">eng</subfield>
+        </datafield>
+        <datafield tag="099" ind2=" " ind1=" ">
+            <subfield code="a">RISM RG  2</subfield>
+        </datafield>
+        <datafield tag="100" ind2=" " ind1="1">
+            <subfield code="a">Benet, Sula</subfield>
+            <subfield code="d">1903-1982</subfield>
+            <subfield code="e">creator</subfield>
+        </datafield>
+        <datafield tag="245" ind2=" " ind1="1">
+            <subfield code="a">The Sula Benet Papers</subfield>
+            <subfield code="f">1954-1982</subfield>
+            <subfield code="g">1970 - 1982</subfield>
+        </datafield>
+        <datafield tag="300" ind2=" " ind1=" ">
+            <subfield code="a">25.0 linear feet</subfield>
+        </datafield>
+        <datafield tag="351" ind2=" " ind1=" ">
+            <subfield code="b">The Sula Benet Papers have been organized into two series: Series I. Personal Papers, has been arranged in four subseries, and  Series II. Professional Papers, is further organized into twelve subseries.
+
+</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Location of resource: Cooper 17/C-D</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Location of resource: New York University Archives</subfield>
+        </datafield>
+        <datafield tag="506" ind2=" " ind1=" ">
+            <subfield code="a">Some restrictions may apply to the materials in this collection.  Please contact the University Archivist for details.
+
+Additionally, please note that this collection is stored  offsite  , and you must contact the repository to schedule access.
+
+</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1=" ">
+            <subfield code="a">Dr. Benet, Professor Emerita of Anthropology at Hunter College and senior research associate at RISM, was a colleague of Dr. Rubin and Dr. Margaret Mead for many years. Her papers include correspondence, teaching papers, longevity and aging studies conducted between 1970 and 1973. Also included are reel-to-reel tapes, genealogy charts, questionnaires, surveys and 35 mm color slides possibly used for public lectures.</subfield>
+        </datafield>
+        <datafield tag="524" ind2=" " ind1="8">
+            <subfield code="a">Published citations should take the following form:
+
+Identification of item, date (if known); The Sula Benet Papers; RISM RG 2; box number; folder number; New York University Archives
+
+</subfield>
+        </datafield>
+        <datafield tag="540" ind2=" " ind1="1">
+            <subfield code="a">Permission to publish materials must be obtained in writing from the:
+
+New York University Archives Elmer Holmes Bobst Library 70 Washington Square South New York, NY 10012 Phone: (212) 998-2646 Fax: (212) 995-4225 E-mail: university.archives@library.nyu.edu
+
+</subfield>
+        </datafield>
+        <datafield tag="544" ind2=" " ind1=" ">
+            <subfield code="a">Vera D. Rubin Papers, RISM RG 1 (located at the Reed Foundation) 
+
+</subfield>
+        </datafield>
+        <datafield tag="545" ind2=" " ind1=" ">
+            <subfield code="a">Sula Benet, Ph.D., was born and educated in Warsaw, Poland. She attended the University of Warsaw where she met her husband, Samuel Benet, a law student. She graduated in 1935 with a graduate degree in ethnography and archaeology. A year later, her dissertation, Hashish in Folk Customs and Beliefs, was published by the Warsaw Society of Sciences. With the help of her mentor, Professor Poniatowski, she was also granted a scholarship for post-doctoral studies. Following her husband's untimely death, she pursued post-graduate studies in anthropology at Columbia University in New York City. She received her Ph.D. in 1944.
+
+Dr. Benet's early professional career included work as a research associate with Dr. Ruth Benedict for the Columbia University Research Project on Contemporary Culture. She subsequently held teaching positions at Columbia University, Fairleigh Dickinson University, and Pratt Institute. When she retired from teaching in 1973, Dr. Benet was a Professor Emeritus at Hunter College of the City University of New York. She then became a Senior Resarch Fellow at the Research Institute for the Study of Man (RISM), New York City.
+
+She authored numerous books (see bibliography) and served as a consultant on Eastern Europe for the State Department during World War II as well as on numerous gerontological committees.
+
+In 1970, at the invitation of the USSR Academy of Sciences, she began extensive field studies in the Caucasian region of Abkhasia, Russia. Her goal was to investigate Abkhasian lifeways after 50 years of collectivization. Over the next few years, Dr. Benet's study generated numerous publications, including How to Live to be 100, considered a landmark publication on gerontological research. 
+
+Fluent in Russian, Polish and Ukrainan, Dr. Benet's areas of specialization included cultural anthropology among the Slavic cultures of Eastern Europe where she conducted field work, sponsored by Columbia University, the Social Science Research Council, RISM, and the Wenner-Gren Foundation for Anthropological Research. Dr. Benet also conducted studies in culture and personality and aging and longevity.
+
+Based on her research in Russia, Dr. Vera Rubin, director of RISM, proposed that Dr. Benet undertake a major study of the long-living people who had been her chief Abkhasian subjects. Dr. Benet's study led to the development of a US-USSR multidisciplinary research project on longevity, which involved Soviet and American social scientists. The study was known as the Cross-Cultural Comparisons of Aging and Longevity Study (or The Longevity Study).
+
+In 1981, Dr. Benet began editing the English version of a major Soviet publication, The Peoples of the Soviet Union. She died on November 12, 1982, prior to completing the project.
+
+Sources:
+
+Dr. Vera D. Rubin, Obituary of Dr. Sula Benet, Anthropology Newsletter, published by American Anthropologist Association, p. 3
+
+Walter H. Waggoner, Obituary of Sula Benet, New York Times, November 13, 1982.
+
+</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="1">
+            <subfield code="a">Rubin, Vera D.</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="610" ind2="7" ind1="2">
+            <subfield code="a">Research Institute for the Study of Man</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Aging |z Russian S.F.S.R.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Aging |z United States.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Cultural relations.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Culture.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Demography.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Education, Higher |z United States.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Education.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Epidemiology.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Ethnology.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Traditional medicine.</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">Articles.</subfield>
+            <subfield code="2">Art &amp; Architecture Thesaurus</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">Charts (graphic documents)</subfield>
+            <subfield code="2">Art &amp; Architecture Thesaurus</subfield>
+        </datafield>
+        <datafield tag="655" ind2="0" ind1=" ">
+            <subfield code="a">Notes.</subfield>
+        </datafield>
+        <datafield tag="655" ind2="0" ind1=" ">
+            <subfield code="a">Pamphlets.</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">Proceedings.</subfield>
+            <subfield code="2">Art &amp; Architecture Thesaurus</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">Questionnaires.</subfield>
+            <subfield code="2">Art &amp; Architecture Thesaurus</subfield>
+        </datafield>
+        <datafield tag="852" ind2=" " ind1=" ">
+            <subfield code="a">NyNyUA</subfield>
+            <subfield code="b">New York University Archives</subfield>
+            <subfield code="c">RISM RG  2</subfield>
+        </datafield>
+    </record>
+</collection>

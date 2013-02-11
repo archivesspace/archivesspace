@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <record>
+        <leader>00000npc a2200000 u 4500</leader>
+        <controlfield tag="008">110126i18381984xx                  eng d</controlfield>
+        <datafield tag="040" ind2=" " ind1=" ">
+            <subfield code="a">NyNyUA</subfield>
+            <subfield code="b">eng</subfield>
+            <subfield code="c">NyNyUA</subfield>
+            <subfield code="e">dacs</subfield>
+        </datafield>
+        <datafield tag="041" ind2=" " ind1="0">
+            <subfield code="a">eng</subfield>
+        </datafield>
+        <datafield tag="099" ind2=" " ind1=" ">
+            <subfield code="a">MC 10</subfield>
+        </datafield>
+        <datafield tag="100" ind2=" " ind1="1">
+            <subfield code="a">Still, Bayrd</subfield>
+            <subfield code="e">creator</subfield>
+        </datafield>
+        <datafield tag="245" ind2=" " ind1="1">
+            <subfield code="a">Samuel F.B. Morse Papers</subfield>
+            <subfield code="f">1838-1984, undated</subfield>
+        </datafield>
+        <datafield tag="300" ind2=" " ind1=" ">
+            <subfield code="a">0.5 linear feet</subfield>
+        </datafield>
+        <datafield tag="351" ind2=" " ind1=" ">
+            <subfield code="b">The collection is arranged at the folder level by subject.</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Location of resource: New York University Archives</subfield>
+        </datafield>
+        <datafield tag="500" ind2=" " ind1=" ">
+            <subfield code="a">Materials Separated from the Resource: NYU's Fales Library contains 24 letters written by Morse between 1822 and 1870 (see Folder 1 of Morse Collection for inventory).</subfield>
+        </datafield>
+        <datafield tag="506" ind2=" " ind1=" ">
+            <subfield code="a">Open for research without restrictions.</subfield>
+        </datafield>
+        <datafield tag="520" ind2=" " ind1=" ">
+            <subfield code="a">The Samuel F.B. Morse Collection contains inventories of letters from and about Morse; biographical summaries; papers relating to his career as an artist; his association with the University of the City of New York (now New York University); the invention of the telegraph and exhibitions thereof; and his experiments with photography. The collection also includes information on his will and his funeral; the Morse Plaque, which was placed on Main Building at NYU; the centennial celebration of his invention of the telegraph in 1944; the Morse Medal; and information concerning the Morse Telegraph Club, Inc.
+
+The collection comprises one document box of material that serves as the primary reference file for the Archives staff on Morse.  Additional material on Morse in the New York University Archives consists of nine letters in the Chancellors' Records, 1827-1885 (RG 3.0.1), newspaper reports on an address to the University alumni in 1853, and monographs about Morse. 
+
+The Samuel F.B. Morse Collection includes an essay on Morse and his association with New York University by Gary Reynolds, former curator of the Grey Art Gallery at NYU, that appeared in the catalog prepared for the Samuel F.B. Morse exhibition at New York University, September 14 to October 23, 1982; a folder listing of the Morse Collection; and a bibliography of works on Morse in the New York University Archives.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</subfield>
+        </datafield>
+        <datafield tag="524" ind2=" " ind1="8">
+            <subfield code="a">Published citations should take the following form: Identification of item, date (if known), Samuel F.B. Morse Papers; MC 10, box number, folder number, New York University Archives, New York University Libraries. </subfield>
+        </datafield>
+        <datafield tag="545" ind2=" " ind1=" ">
+            <subfield code="a">Samuel F.B. Morse was born in Charlestown, Mass., April 27, 1791.  He began his association with the University of the City of New York (now New York University) at age 41. By this time he had an established reputation as an artist. Morse founded the National Academy of Design and presided over it since its inception in 1826. He lectured widely on art from 1826 to 1829. Morse left for Europe in 1829 and returned to New York in October, 1832. Within days he was appointed Chair of Sculpture and Painting at the University.
+
+When the University Building on Washington Square opened in 1835, Morse rented space there for lodgings and to house a studio and laboratory for his experiments in photography and telegraphy. Morse left the University Building in 1841 but continued his association as professor of fine arts until his retirement in 1871. Although Morse's connection with the University has been described as "nominal," he maintained close contact with certain faculty members and emphasized his professorial connection.  He died April 2, 1872, in New York.</subfield>
+        </datafield>
+        <datafield tag="555" ind2=" " ind1=" ">
+            <subfield code="a">Finding Aid Available Online: </subfield>
+            <subfield code="u">http://dlib.nyu.edu/findingaids/html/archives/morse.html</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="1">
+            <subfield code="a">Jones, Theodore Francis</subfield>
+            <subfield code="d">1885-</subfield>
+            <subfield code="2">Local Sources</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="1">
+            <subfield code="a">Morse, Edward L.</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="1">
+            <subfield code="a">Morse, Herbert C.</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="1">
+            <subfield code="a">Morse, Samuel Finley Breese</subfield>
+            <subfield code="d">1791-1872</subfield>
+            <subfield code="e">Associated name (asn)</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="1">
+            <subfield code="a">Nally, Edward Julian</subfield>
+            <subfield code="d">1859-1953</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="610" ind2="7" ind1="2">
+            <subfield code="a">Morse Society</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="610" ind2="7" ind1="2">
+            <subfield code="a">National Academy of Design (U.S.)</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="610" ind2="7" ind1="2">
+            <subfield code="a">New York University. Dept. of Fine Arts. Sculpture and Painting.</subfield>
+            <subfield code="2">Local Sources</subfield>
+        </datafield>
+        <datafield tag="610" ind2="7" ind1="2">
+            <subfield code="a">New York University</subfield>
+            <subfield code="b">Faculty</subfield>
+            <subfield code="b">19th century</subfield>
+            <subfield code="2">Local Sources</subfield>
+        </datafield>
+        <datafield tag="610" ind2="7" ind1="2">
+            <subfield code="a">NewYork University. School of Design.</subfield>
+            <subfield code="2">Local Sources</subfield>
+        </datafield>
+        <datafield tag="610" ind2="7" ind1="2">
+            <subfield code="a">University of the City of New York</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Art |x Study and teaching.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Education |x Study and Teaching |z United States.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Inventions</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Photography.</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">Biographies.</subfield>
+            <subfield code="2">Art &amp; Architecture Thesaurus</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">Clippings (information artifacts)</subfield>
+            <subfield code="2">Art &amp; Architecture Thesaurus</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">Memorabilia.</subfield>
+            <subfield code="2">Art &amp; Architecture Thesaurus</subfield>
+        </datafield>
+        <datafield tag="655" ind2="7" ind1=" ">
+            <subfield code="a">photoprints.</subfield>
+            <subfield code="2">Art &amp; Architecture Thesaurus</subfield>
+        </datafield>
+        <datafield tag="852" ind2=" " ind1=" ">
+            <subfield code="a">NyNyUA</subfield>
+            <subfield code="b">New York University Archives</subfield>
+            <subfield code="c">MC 10</subfield>
+        </datafield>
+        <datafield tag="856" ind2="2" ind1="4">
+            <subfield code="z">Finding aid online:</subfield>
+            <subfield code="u">http://dlib.nyu.edu/findingaids/html/archives/morse.html</subfield>
+        </datafield>
+    </record>
+</collection>
