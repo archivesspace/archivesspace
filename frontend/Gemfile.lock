@@ -59,7 +59,7 @@ GEM
     jruby-openssl (0.7.7)
       bouncy-castle-java (>= 1.5.0146.1)
     jruby-rack (1.1.12)
-    json (1.7.5-java)
+    json (1.7.7-java)
     json-schema (1.0.10)
     less (2.2.2)
       commonjs (~> 0.2.6)
