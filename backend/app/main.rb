@@ -244,7 +244,7 @@ class ArchivesSpaceService < Sinatra::Base
     def call(env)
       start_time = Time.now
       session_token = env["HTTP_X_ARCHIVESSPACE_SESSION"]
-      Log.debug("SESSION TOKEN #{session_token}")
+
       session = nil
 
       if session_token
