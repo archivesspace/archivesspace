@@ -368,6 +368,23 @@
     </java>
   </target>
 
+  <target name="selenium:public:test" depends="set-classpath, public:clean" description="Run the Selenium tests for the Public interface">
+    <property name="spec" value=""/>
+    <property name="example" value=""/>
+    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
+      <isset property="example"/>
+    </condition>
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../selenium-public">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec}" />
+    </java>
+  </target>
+
 
   <target name="doc:yard" description="Generate the full YARD documentation">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"

@@ -4,7 +4,7 @@
   <div class="row-fluid">
     <div class="span8">
       <div class="well">
-        <h3>Welcome to the Archives Space.</h3>
+        <h3>Welcome to ArchivesSpace.</h3>
         <p>Find what you're looking for:</p>
         <%= form_tag(url_for(:controller => :site, :action => :search), :method => :get) do %>
             <input type="text" class="input-large" style="margin: 0; height: 34px; font-size: 1.4em; width: 75%;" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
