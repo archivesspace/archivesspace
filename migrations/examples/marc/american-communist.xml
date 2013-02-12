@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <record>
+        <leader>00000npc a2200000 u 4500</leader>
+        <controlfield tag="008">081112i19002007xx                  eng d</controlfield>
+        <datafield tag="040" ind2=" " ind1=" ">
+            <subfield code="a">NyNyUA</subfield>
+            <subfield code="b">eng</subfield>
+            <subfield code="c">NyNyUA</subfield>
+            <subfield code="e">dacs</subfield>
+        </datafield>
+        <datafield tag="041" ind2=" " ind1="0">
+            <subfield code="a">eng</subfield>
+        </datafield>
+        <datafield tag="099" ind2=" " ind1=" ">
+            <subfield code="a">TAM.132</subfield>
+        </datafield>
+        <datafield tag="100" ind2=" " ind1="1">
+            <subfield code="a">Flynn, Elizabeth Gurley</subfield>
+            <subfield code="e">Author (aut)</subfield>
+        </datafield>
+        <datafield tag="245" ind2=" " ind1="1">
+            <subfield code="a">Communist Party of the United States of America Records</subfield>
+            <subfield code="f">circa 1900-2007</subfield>
+            <subfield code="g">1940 - 1991</subfield>
+        </datafield>
+        <datafield tag="300" ind2=" " ind1=" ">
+            <subfield code="a">525.0 linear feet</subfield>
+            <subfield code="f">approx. 525 records cartons; some flat boxes, possibly</subfield>
+        </datafield>
+        <datafield tag="351" ind2=" " ind1=" ">
+            <subfield code="b">1. Administrative Records (A. Conventions; B. National Records; C. Control Commission; D. Districts, States, Local; E. Electoral; F. Legal (Defense work, etc.); G. Other Activity/Topics); 
+2. Subject files; 
+3. FOIA (Freedom of Information Act) Files; 
+4. Individuals; 
+5. Trials (A. State/Local; B. U.S.: Deportation/Passport; C. U.S.: HUAC cases; D. U.S.: McCarran Act Cases; U.S.: Smith Act; U.S.: Other); 
+6. Young Communist League.</subfield>
+        </datafield>
+        <datafield tag="506" ind2=" " ind1=" ">
+            <subfield code="a">Processed portions available; unprocessed require approval or archivist</subfield>
+        </datafield>
+        <datafield tag="600" ind2="7" ind1="1">
+            <subfield code="a">Flynn, Elizabeth Gurley</subfield>
+            <subfield code="2">NACO Authority File</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Academic freedom.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Communism |z United States.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Communism.</subfield>
+        </datafield>
+        <datafield tag="650" ind2="0" ind1=" ">
+            <subfield code="a">Communists |z United States.</subfield>
+        </datafield>
+        <datafield tag="852" ind2=" " ind1=" ">
+            <subfield code="a">NyNyUA</subfield>
+            <subfield code="b">New York University Archives</subfield>
+            <subfield code="c">TAM.132</subfield>
+        </datafield>
+    </record>
+</collection>

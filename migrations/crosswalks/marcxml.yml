@@ -1,0 +1,573 @@
+# Notes:
+# 'procedure' may be better described as 'override'
+#   it is a pre value-assigment hook, basically
+
+source:
+  format: "xml"
+  schema: "http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd"
+entities:
+  resource: 
+    xpath: ["//record"]
+    properties:
+      id_0:
+        xpath: ["child::datafield[@tag='852']/subfield[@code='c']"]
+        procedure: "|val| val.match(/^.*\\./) ? val.split('.')[0] : val"
+      
+      id_1:
+        xpath: ["child::datafield[@tag='852']/subfield[@code='c']"]
+        procedure: "|val| val.match(/^.*\\..*/) ? val.split('.')[1] : nil"
+        
+      id_2:
+        xpath: ["child::datafield[@tag='852']/subfield[@code='c']"]
+        procedure: "|val| val.match(/^.*\\..*\\..*/) ? val.split('.')[2] : nil"
+
+      language:
+        xpath: ["child::datafield[@tag='040']/subfield[@code='b']"]
+
+      title:
+        xpath: ["child::datafield[@tag='245']/subfield[@code='a']"]
+        
+      level:
+        default: collection
+
+      extents:
+        axis: descendant
+      
+      notes:
+        axis: descendant
+        
+      # TODO: untangle
+      linked_agents:
+        xpath: ["descendant::datafield[@tag='600']", "descendant::datafield[@tag='610']", "descendant::datafield[@tag='700']", "descendant::datafield[@tag='710']"]
+        # procedure: "|val| {'role' => (val._role && val._role.match(/\\((cre|dnr)\\)/) ? 'creator' : 'subject'), 'ref' => val.uri}"
+        procedure: "|val| {'role' => Proc.new {|rol| if rol && rol.match(/\\((cre|dnr)\\)/); 'creator'; elsif rol && rol.match(/source/); 'source'; else; 'subject'; end}.call(val._role), 'ref' => val.uri}" 
+        
+      subjects:
+        axis: descendant
+  
+  extent:
+    xpath: ["//datafield[@tag='300']"]
+    properties:
+      portion:
+        default: whole
+        
+      number:
+        xpath: ["child::subfield[@code='a']"]
+        default: '1'
+        procedure: "|val| val.gsub(/[^0-9\\.]/, '')"
+        
+      extent_type:
+        xpath: ["child::subfield[@code='a']"]
+        default: reels
+        procedure: "|val| val.downcase.include?('linear feet') ? 'linear_feet' : nil"
+        
+  arrangement_note:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='351']"]
+    properties: 
+      label:
+        xpath: ["child::subfield[@code='b']"]
+        default: This is not a note label
+  
+  
+      content:
+        xpath: ["self"]
+  
+      type:
+        default: Arrangement
+  
+  general_note:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='500']", "//datafield[@tag='535']", "//datafield[@tag='540']", "//datafield[@tag='546']"]
+    properties: 
+      label:
+        xpath: ["child::subfield[@code='a']"]
+        default: This is not a note label
+        procedure: "|val| val.sub(/:.*/, '')"
+  
+      content:
+        xpath: ["self"]
+  
+      type:
+        default: General
+  
+  access_restriction_type:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='506']"]
+    properties:
+      label:
+        xpath: ["child::subfield[@code='a]"]
+        default: This is not a note label
+      
+      content:
+        xpath: ["self"]
+  
+      type:
+        default: Conditions Governing Access
+        
+  scope_content_note:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='520']"]
+    properties:
+      label:
+        default: This is not a note label
+      
+      content:
+        xpath: ["self"]
+        
+      type:
+        default: Scope and Contents
+  
+  preferred_citation:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='524']"]
+    properties:
+      label:
+        default: This is not a note label
+        
+      content:
+        xpath: ["self"]
+        
+      type:
+        default: Preferred Citation
+        
+  acqinfo:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='541']"]
+    properties:
+      label:
+        default: This is not a note label
+        
+      content:
+        xpath: ["self"]
+        
+      type:
+        default: Immediate Source of Acquisition
+        
+  relatedmaterial:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='544']"]
+    properties:
+      label:
+        default: This is not a note label
+  
+      content:
+        xpath: ["self"]
+  
+      type:
+        default: Related Archival Materials
+  
+  bioghist:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='545']"]
+    properties:
+      label:
+        default: This is not a note label
+  
+      content:
+        xpath: ["self"]
+  
+      type:
+        default: Biographical / Historical        
+    
+  otherfindaid:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='555']"]
+    properties:
+      label:
+        xpath: ["subfield[@code='a']"]
+        default: This is not a note label
+  
+      content:
+        xpath: ["subfield[@code='u']"]
+  
+      type:
+        default: Other Finding Aids
+        
+  custodhist:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='561']"]
+    properties:
+      label:
+        default: This is not a note label
+  
+      content:
+        xpath: ["self"]
+  
+      type:
+        default: Custodial History
+        
+  appraisal:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='583']"]
+    properties:
+      label:
+        default: This is not a note label
+  
+      content:
+        xpath: ["self"]
+  
+      type:
+        default: Appraisal
+        
+  accruals:
+    record_type: note_multipart
+    xpath: ["//datafield[@tag='584']"]
+    properties:
+      label:
+        default: This is not a note label
+  
+      content:
+        xpath: ["self"]
+  
+      type:
+        default: Accruals
+  
+  agent_person:
+    xpath: ["//datafield[@tag='600'][@ind1='1']"]
+    properties:
+      agent_type:
+        default: agent_person
+  
+      names:
+        axis: self
+
+  name_person:
+    xpath: ["//datafield[@tag='600'][@ind1='1']"]
+    properties:
+      rules:
+        default: local
+  
+      primary_name: 
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.sub(/,\\s.*$/, '')"
+        
+      rest_of_name:
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.sub(/^.*,\\s/, '')"
+        
+      name_order:
+        default: direct
+        
+      number:
+        xpath: ["subfield[@code='b']"]
+        
+      prefix:
+        xpath: ["subfield[@code='c']"]
+        procedure: "|val| val.sub(/,\\s.*$/, '')"
+        
+      title:
+        xpath: ["subfield[@code='c']"]
+        procedure: "|val| val.sub(/^[^,]*,\\s/, '').sub(/,\\s.*$/, '')"
+        
+      suffix:
+        xpath: ["subfield[@code='c']"]
+        procedure: "|val| val.sub(/^.*,\\s/, '')"
+        
+      dates:
+        xpath: ["subfield[@code='d']"]
+        
+      fuller_form:
+        xpath: ["subfield[@code='q']"]
+        
+      qualifier:
+        xpath: ["subfield[@code='g']"]
+        
+      # TODO: Fix this once importerer is adding dynamic enums
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local
+      
+  agent_family:
+    xpath: ["//datafield[@tag='600'][@ind1='3']"]
+    properties:
+      agent_type:
+        default: agent_family
+  
+      names:
+        axis: self
+  
+  name_family:
+    xpath: ["//datafield[@tag='600'][@ind1='3']"]
+    properties:
+      rules:
+        default: local
+  
+      family_name: 
+        xpath: ["subfield[@code='a']"]  
+  
+      prefix:
+        xpath: ["subfield[@code='c']"]
+      
+      qualifier:
+        xpath: ["subfield[@code='g']"]
+  
+      # TODO: Fix this once importerer is adding dynamic enums
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local  
+     
+  agent_corporate_entity:
+    xpath: ["//datafield[@tag='610']"]
+    properties:
+      agent_type:
+        default: agent_corporate_entity
+
+      names:
+        axis: self
+        
+  name_corporate_entity:
+    xpath: ["//datafield[@tag='610']"]
+    properties:
+      
+      primary_name:
+        xpath: ["subfield[@code='a']"]
+        
+      subordinate_name_1:
+        xpath: ["subfield[@code='b']"]
+        
+      subordinate_name_2:
+        xpath: ["subfield[@code='c']"]
+        
+      number:
+        xpath: ["subfield[@code='n']"]
+    
+      qualifier:
+        xpath: ["subfield[@code='g']"]
+  
+      # TODO: Fix this once importerer is adding dynamic enums
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local
+  
+  subject_uniform:
+    record_type: subject
+    xpath: ["//datafield[@tag='630']"]
+    properties:
+      vocabulary: 
+        default: "/vocabularies/1"
+        
+      #TODO: etc. etc.
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local
+      
+      terms:
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Uniform title', 'vocabulary' => '/vocabularies/1'}}"
+ 
+  subject_topical:
+    record_type: subject
+    xpath: ["//datafield[@tag='650']"]
+    properties:
+      vocabulary: 
+        default: "/vocabularies/1"
+
+      #TODO: etc. etc.
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local
+
+      terms:
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Topical', 'vocabulary' => '/vocabularies/1'}}"
+
+  subject_geo:
+    record_type: subject
+    xpath: ["//datafield[@tag='651']"]
+    properties:
+      vocabulary: 
+        default: "/vocabularies/1"
+
+      #TODO: etc. etc.
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local
+
+      terms:
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Geographic', 'vocabulary' => '/vocabularies/1'}}"
+
+  subject_genre:
+    record_type: subject
+    xpath: ["//datafield[@tag='655']"]
+    properties:
+      vocabulary: 
+        default: "/vocabularies/1"
+
+      #TODO: etc. etc.
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local
+
+      terms:
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Genre / form', 'vocabulary' => '/vocabularies/1'}}"
+
+  subject_occupation:
+    record_type: subject
+    xpath: ["//datafield[@tag='656']"]
+    properties:
+      vocabulary: 
+        default: "/vocabularies/1"
+
+      #TODO: etc. etc.
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local
+
+      terms:
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Occupation', 'vocabulary' => '/vocabularies/1'}}"
+
+  subject_function:
+    record_type: subject
+    xpath: ["//datafield[@tag='657']"]
+    properties:
+      vocabulary: 
+        default: "/vocabularies/1"
+
+      #TODO: etc. etc.
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local
+
+      terms:
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Function', 'vocabulary' => '/vocabularies/1'}}"
+
+# Additional Agent / Name Records From 7** Fields:
+  
+  agent_family_700:
+    record_type: agent_family
+    xpath: ["//datafield[@tag='700'][@ind1='3']"]
+    properties:
+      agent_type:
+        default: agent_family
+  
+      names:
+        axis: self
+        
+      _role:
+        force: true
+        xpath: ["subfield[@code='e']"]
+  
+  name_family_700:
+    record_type: name_family
+    xpath: ["//datafield[@tag='700'][@ind1='3']"]
+    properties:
+      rules:
+        default: local
+  
+      family_name: 
+        xpath: ["subfield[@code='a']"]  
+  
+      prefix:
+        xpath: ["subfield[@code='c']"]
+      
+      qualifier:
+        xpath: ["subfield[@code='g']"]
+  
+      source:
+        default: local
+
+  agent_person_700:
+    record_type: agent_person
+    xpath: ["//datafield[@tag='700'][@ind1='1']"]
+    properties:
+      agent_type:
+        default: agent_person
+
+      names:
+        axis: self
+        
+      _role:
+        force: true
+        xpath: ["subfield[@code='e']"]
+
+  name_person_700:
+    record_type: name_person
+    xpath: ["//datafield[@tag='700'][@ind1='1']"]
+    properties:
+      rules:
+        default: local
+
+      primary_name: 
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.sub(/,\\s.*$/, '')"
+
+      rest_of_name:
+        xpath: ["subfield[@code='a']"]
+        procedure: "|val| val.sub(/^.*,\\s/, '')"
+
+      name_order:
+        default: direct
+
+      number:
+        xpath: ["subfield[@code='b']"]
+
+      prefix:
+        xpath: ["subfield[@code='c']"]
+        procedure: "|val| val.sub(/,\\s.*$/, '')"
+
+      title:
+        xpath: ["subfield[@code='c']"]
+        procedure: "|val| val.sub(/^[^,]*,\\s/, '').sub(/,\\s.*$/, '')"
+
+      suffix:
+        xpath: ["subfield[@code='c']"]
+        procedure: "|val| val.sub(/^.*,\\s/, '')"
+
+      dates:
+        xpath: ["subfield[@code='d']"]
+
+      fuller_form:
+        xpath: ["subfield[@code='q']"]
+
+      qualifier:
+        xpath: ["subfield[@code='g']"]
+
+      source:
+        default: local
+
+  agent_corporate_entity_710:
+    record_type: agent_corporate_entity 
+    xpath: ["//datafield[@tag='710']"]
+    properties:
+      agent_type:
+        default: agent_corporate_entity
+
+      names:
+        axis: self
+      
+      _role:
+        force: true
+        xpath: ["subfield[@code='e']"]
+
+  name_corporate_entity_710:
+    record_type: name_corporate_entity
+    xpath: ["//datafield[@tag='710']"]
+    properties:
+
+      primary_name:
+        xpath: ["subfield[@code='a']"]
+
+      subordinate_name_1:
+        xpath: ["subfield[@code='b']"]
+
+      # oh boy
+      # https://github.com/hudmol/archivesspace/issues/262
+      # subordinate_name_2:
+      #   xpath: ["subfield[@code='b']"]
+
+      number:
+        xpath: ["subfield[@code='n']"]
+
+      qualifier:
+        xpath: ["subfield[@code='g']"]
+
+      # TODO: Fix this once importerer is adding dynamic enums
+      source:
+        # xpath: ["subfield[@code='2']"]
+        default: local  
+
