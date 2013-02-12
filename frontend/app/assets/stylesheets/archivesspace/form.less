@@ -152,14 +152,13 @@ section h3 {
   border: 1px solid #e5e5e5;
 }
 .as-nav-list > li:first-child > a {
-  -webkit-border-radius: 6px 6px 0 0;
-     -moz-border-radius: 6px 6px 0 0;
-          border-radius: 6px 6px 0 0;
+  .border-radius(6px 6px 0 0);
 }
 .as-nav-list > li:last-child > a {
-  -webkit-border-radius: 0 0 6px 6px;
-     -moz-border-radius: 0 0 6px 6px;
-          border-radius: 0 0 6px 6px;
+  .border-radius(0 0 6px 6px);
+}
+.as-nav-list > li:first-child:last-child > a {
+  .border-radius(6px)
 }
 .as-nav-list > .active > a {
   position: relative;

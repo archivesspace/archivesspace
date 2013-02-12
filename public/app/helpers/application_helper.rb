@@ -52,11 +52,27 @@ module ApplicationHelper
   end
 
   def label_and_value(label, value)
-    return if value.nil?
+    return if value.blank?
 
     label = content_tag(:div, label, :class => "control-label")
     value = content_tag(:div, value, :class => "controls label-only")
     content_tag(:div, label + value, :class => "control-group")
+  end
+
+  def i18n_enum(jsonmodel_type, property, value)
+    return if value.blank?
+
+    property_defn = JSONModel(jsonmodel_type).schema["properties"][property]
+
+    return if property_defn.nil?
+
+    if property_defn.has_key? "dynamic_enum"
+      enum_key = property_defn["dynamic_enum"]
+      #return "enumerations.#{enum_key}.#{value}"
+      I18n.t("enumerations.#{enum_key}.#{value}", :default => value)
+    else
+      I18n.t("#{jsonmodel_type}.#{property}_#{value}", :default => value) 
+    end
   end
 
 end

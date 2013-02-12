@@ -11,19 +11,64 @@
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">
-
+      <div id="">
+        <ul class="nav nav-list as-nav-list">
+          <li><a href="#summary"><%= I18n.t("archival_object._html.section.summary") %> <span class="icon-chevron-right"></span></a></li>
+          <% if @archival_object['extents'].length > 0 %>
+            <li><a href="#extents"><%= I18n.t("extent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @archival_object['subjects'].length > 0 %>
+            <li><a href="#subjects"><%= I18n.t("subject._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @children.length > 0 %>
+            <li><a href="#components"><%= I18n.t("archival_object._html.section.components") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
     <div class="span9">
       <fieldset class="form-horizontal">
-        <section>
-          <h3>Summary</h3>
+        <section id="summary">
+          <h3><%= I18n.t("archival_object._html.section.summary") %></h3>
 
-          <%# label_and_value I18n.t("resource.finding_aid_title"), @resource['finding_aid_title'] %>
+          <%= label_and_value I18n.t("archival_object.ref_id"), @archival_object['ref_id'] %>
+          <%= label_and_value I18n.t("archival_object.component_id"), @archival_object['component_id'] %>
+          <%= label_and_value I18n.t("archival_object.level"), i18n_enum(:archival_object, 'level', @archival_object['level']) %>
+          <%= label_and_value I18n.t("archival_object.language"), i18n_enum(:archival_object, 'language', @archival_object['language']) %>
         </section>
 
+        <% if @archival_object['extents'].length > 0 %>
+          <section id="extents">
+            <h3><%= I18n.t("extent._html.plural") %></h3>
+            <ul class="results-list">
+              <% @archival_object['extents'].each do |extent| %>
+                <li class="result">
+                  <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+        <% if @archival_object['subjects'].length > 0 %>
+          <section id="subjects">
+            <h3><%= I18n.t("subject._html.plural") %></h3>
+            <ul class="results-list">
+              <% @archival_object['subjects'].each do |subject| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for "subject" %>
+                    <%= link_to(subject['_resolved']['title'], {:controller => :site, :action => :subject, :id => JSONModel(:subject).id_for(subject['ref'])}) %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
         <% if @children.length > 0 %>
-          <section>
-            <h3>Components</h3>
+          <section id="components">
+            <h3><%= I18n.t("archival_object._html.section.components") %></h3>
 
             <ul class="results-list">
               <% @children.each do |child| %>
@@ -41,8 +86,23 @@
       </fieldset>
 
       <br/>
+      <br/>
 
-      <pre><%= @archival_object.inspect %></pre>
+      <div class="accordion" id="source">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#source" href="#collapseOne">
+              Debugging
+            </a>
+          </div>
+          <div id="collapseOne" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <%= @archival_object.inspect %>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

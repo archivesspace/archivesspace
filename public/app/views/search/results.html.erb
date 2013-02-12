@@ -16,7 +16,7 @@
           <% @search_data['results'].each do |result| %>
             <% 
               id = JSONModel(result["primary_type"]).id_for(result['uri'])
-              repo_id = JSONModel(:repository).id_for(JSONModel.repository_for(result['uri']))
+              repo_id = JSONModel(:repository).id_for(JSONModel.repository_for(result['uri']),{}, true)
             %>
             <li class="result">
               <h3>
@@ -24,8 +24,7 @@
                 <%= link_to result["title"] || result['display_string'], :controller => :site, :action => result["primary_type"], :id => id, :repo_id => repo_id %> 
               </h3>
               <div class="result-summary">
-                <div class="label label-info pull-right"><%=  I18n.t("#{result["primary_type"]}._html.singular") %></div>
-                <p class="muted">Summary goes here</p>
+                <%= render :partial => "search/result_summary_#{result["primary_type"]}", :locals => {:obj => result} %>
               </div>
             </li>
           <% end %>
@@ -33,7 +32,7 @@
           <%= render :partial => "search/pagination" %>
         <% else %>
           <p class="alert alert-info">
-            <%= I18n.t("search_results.no_results_prefix") %> <em><%= params[:q] %></em>.
+            <%= I18n.t("search_results.no_results") %></em>.
           </p>
         <% end %>
       </div>

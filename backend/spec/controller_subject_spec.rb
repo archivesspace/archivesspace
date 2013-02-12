@@ -47,4 +47,13 @@ describe 'Subject controller' do
 
     JSONModel(:subject).find(id).ref_id.should eq("CustomIdentifier123")
   end
+
+
+  it "can resolve an id from a subject uri" do
+    id = create_subject
+    subject = JSONModel(:subject).find(id)
+
+    JSONModel(:subject).id_for(subject['uri']).should eq(id)
+  end
+
 end

@@ -23,39 +23,16 @@ en:
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
-  accession:
-    _html:
-      plural: Accessions
-      singular: Accession
   resource:
-    finding_aid_title: Title
-    finding_aid_filing_title: Filing Title
-    finding_aid_date: Date
-    finding_aid_author: Author
-    finding_aid_description_rules: Description Rules
-    finding_aid_language: Language
-    finding_aid_sponsor: Sponsor
-    finding_aid_edition_statement: Edition Statement
-    finding_aid_series_statement: Series Statement
-    finding_aid_revision_date: Revision Date
-    finding_aid_revision_description: Revision Description
-    finding_aid_status: Status
-    finding_aid_note: Note
     _html:
-      plural: Resources
-      singular: Resource
+      section:
+        summary: Summary
+        components: Components
   archival_object:
     _html:
-      plural: Archival Objects
-      singular: Archival Object
-  digital_object:
-      _html:
-        plural: Digital Objects
-        singular: Digital Object
-  digital_object_component:
-      _html:
-        plural: Digital Object Components
-        singular: Digital Object Component
+      section:
+        summary: Summary
+        components: Components
   repository:
     _html:
       plural: Repositories

@@ -11,7 +11,7 @@ class SiteController < ApplicationController
   end
 
   def resource
-    @resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id])
+    @resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations"])
     @repository = JSONModel(:repository).find(params[:repo_id])
     @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id, :repo_id => params[:repo_id])
 
@@ -22,7 +22,7 @@ class SiteController < ApplicationController
   end
 
   def archival_object
-    @archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id])
+    @archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects"])
     @resource = JSONModel(:resource).find_by_uri(@archival_object['resource']['ref'], :repo_id => params[:repo_id])
     @repository = JSONModel(:repository).find(params[:repo_id])
     @children = JSONModel::HTTP::get_json("/repositories/#{params[:repo_id]}/archival_objects/#{@archival_object.id}/children")
@@ -60,6 +60,15 @@ class SiteController < ApplicationController
     render "search/results"
   end
 
+
+  def subject
+    render "site/todo"
+  end
+
+
+  def location
+    render "site/todo"
+  end
 
   private
 
