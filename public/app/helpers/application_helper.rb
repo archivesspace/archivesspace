@@ -54,9 +54,10 @@ module ApplicationHelper
   def label_and_value(label, value)
     return if value.blank?
 
-    label = content_tag(:div, label, :class => "control-label")
-    value = content_tag(:div, value, :class => "controls label-only")
-    content_tag(:div, label + value, :class => "control-group")
+    label = content_tag(:dt, label)
+    value = content_tag(:dd, value)
+
+    label + value
   end
 
   def i18n_enum(jsonmodel_type, property, value)

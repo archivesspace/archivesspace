@@ -87,18 +87,14 @@ h2 > .label {
   .identifier-display-part {
     border: 1px solid #F6F6F6;
     background-color: #FCFCFC;
-    padding: 4px;
+    padding: 2px 4px;
     margin-right: 4px;
     min-width: 60px;
     float: left;
-    height: @baseLineHeight;
-    line-height: @baseLineHeight;
+    height: @baseLineHeight - 2;
+    line-height: @baseLineHeight - 2;
+    margin-top: -2px;
   }
-}
-
-.control-group .controls.label-only {
-  line-height: 18px;
-  padding-top: 6px;
 }
 
 .label-only .identifier-display-part {
@@ -148,6 +144,10 @@ h2 > .label {
 
 .repository-list {
 
+}
+
+section {
+  clear: both;
 }
 
 .icon-agent_person {background-position: -168px 0;}

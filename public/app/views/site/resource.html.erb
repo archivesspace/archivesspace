@@ -5,7 +5,7 @@
     </div>
     <div class="span9">
       <h2>
-      <%= @resource['finding_aid_title'] || @resource.title %></h2>
+      <%= @resource['finding_aid_status'] === "completed" ? @resource['finding_aid_title'] : @resource.title %></h2>
     </div>
   </div>
 </div>
@@ -32,21 +32,28 @@
     </div>
     <div class="span9">
       <fieldset class="form-horizontal">
-        <% if @resource['finding_aid_status'] === "completed" %>
-          <section id="summary">
-            <h3><%= I18n.t("resource._html.section.summary") %></h3>
-  
-            <%= label_and_value I18n.t("resource.finding_aid_title"), @resource['finding_aid_title'] %>
-            <%= label_and_value I18n.t("resource.finding_aid_author"), @resource['finding_aid_author'] %>
-            <%= label_and_value I18n.t("resource.finding_aid_date"), @resource['finding_aid_date'] %>
-            <%= label_and_value I18n.t("resource.finding_aid_description_rules"), i18n_enum(:resource, 'finding_aid_description_rules', @resource['finding_aid_description_rules']) %>
-            <%= label_and_value I18n.t("resource.finding_aid_language"), @resource['finding_aid_language'] %>
-            <%= label_and_value I18n.t("resource.finding_aid_sponsor"), @resource['finding_aid_sponsor'] %>
-            <%= label_and_value I18n.t("resource.finding_aid_edition_statement"), @resource['finding_aid_edition_statement'] %>
-            <%= label_and_value I18n.t("resource.finding_aid_series_statement"), @resource['finding_aid_series_statement'] %>
-            <%= label_and_value I18n.t("resource.finding_aid_note"), @resource['finding_aid_note'] %>
-          </section>
-        <% end %>
+        <section id="summary">
+          <h3><%= I18n.t("resource._html.section.summary") %></h3>
+          <dl class="dl-horizontal">
+            <dt><%= I18n.t("resource.id_0") %></dt>
+            <dd class="identifier-display">
+              <% ['id_0','id_1','id_2','id_3'].collect{|prop| @resource[prop]}.each do |id| %>
+                <span class="identifier-display-part"><%= id %></span>
+              <% end %>
+            </dd>
+            <% if @resource['finding_aid_status'] === "completed" %>
+              <div class="clearfix"></div>
+              <%= label_and_value I18n.t("resource.finding_aid_author"), @resource['finding_aid_author'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_date"), @resource['finding_aid_date'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_description_rules"), i18n_enum(:resource, 'finding_aid_description_rules', @resource['finding_aid_description_rules']) %>
+              <%= label_and_value I18n.t("resource.finding_aid_language"), @resource['finding_aid_language'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_sponsor"), @resource['finding_aid_sponsor'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_edition_statement"), @resource['finding_aid_edition_statement'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_series_statement"), @resource['finding_aid_series_statement'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_note"), @resource['finding_aid_note'] %>
+            <% end %>
+          </dl>
+        </section>
 
         <section id="extents">
           <h3><%= I18n.t("extent._html.plural") %></h3>

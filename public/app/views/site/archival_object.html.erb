@@ -31,10 +31,12 @@
         <section id="summary">
           <h3><%= I18n.t("archival_object._html.section.summary") %></h3>
 
-          <%= label_and_value I18n.t("archival_object.ref_id"), @archival_object['ref_id'] %>
-          <%= label_and_value I18n.t("archival_object.component_id"), @archival_object['component_id'] %>
-          <%= label_and_value I18n.t("archival_object.level"), i18n_enum(:archival_object, 'level', @archival_object['level']) %>
-          <%= label_and_value I18n.t("archival_object.language"), i18n_enum(:archival_object, 'language', @archival_object['language']) %>
+          <dl class="dl-horizontal">
+            <%= label_and_value I18n.t("archival_object.ref_id"), @archival_object['ref_id'] %>
+            <%= label_and_value I18n.t("archival_object.component_id"), @archival_object['component_id'] %>
+            <%= label_and_value I18n.t("archival_object.level"), i18n_enum(:archival_object, 'level', @archival_object['level']) %>
+            <%= label_and_value I18n.t("archival_object.language"), i18n_enum(:archival_object, 'language', @archival_object['language']) %>
+          </dl>
         </section>
 
         <% if @archival_object['extents'].length > 0 %>
