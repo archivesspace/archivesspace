@@ -94,7 +94,7 @@
           <ul class="nav pull-right">
            <%= render "shared/header_user" %>
            <% if ArchivesSpaceHelp.enabled? %>
-             <li><%= link_to_help %></li>
+             <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
            <% end %>
          </ul>
         </div><!-- /.nav-collapse -->
