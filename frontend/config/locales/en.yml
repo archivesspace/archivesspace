@@ -73,7 +73,9 @@ en:
     first: First
     last: Last
     previous: "&#171;"
+    previous_label: Previous
     next: "&#187;"
+    next_label: Next
     summary_prefix: Showing
     summary_offset_connector: "-"
     summary_total_connector: of

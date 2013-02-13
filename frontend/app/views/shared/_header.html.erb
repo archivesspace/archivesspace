@@ -36,8 +36,6 @@
                     <li><%= link_to I18n.t("accession._html.singular"), :controller => :accessions, :action => :new %></li>
                     <li><%= link_to I18n.t("resource._html.singular"), :controller => :resources, :action => :new %></li>
                     <li><%= link_to I18n.t("digital_object._html.singular"), :controller => :digital_objects, :action => :new %></li>
-                    <li><%= link_to I18n.t("event._html.singular"), :controller => :events, :action => :new %></li>
-                    <li><%= link_to I18n.t("collection_management_record._html.singular"), :controller => :collection_management_records, :action => :new %></li>
                     <li class="divider"></li>
                   <% end %>
                   <% if user_can?('update_subject_record') %>
@@ -57,6 +55,8 @@
                   <% if user_can?('update_location_record') %>
                     <li><%= link_to I18n.t("location._html.singular"), :controller => :locations, :action => :new %></li>
                   <% end %>
+                  <li><%= link_to I18n.t("event._html.singular"), :controller => :events, :action => :new %></li>
+                  <li><%= link_to I18n.t("collection_management_record._html.singular"), :controller => :collection_management_records, :action => :new %></li>
                 </ul>
               </li>
             <% end %>

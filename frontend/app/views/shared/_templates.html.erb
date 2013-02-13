@@ -52,9 +52,9 @@
    <div class="pagination">
     <%= I18n.t "pagination.page_prefix" %> ${search_data.this_page} <%= I18n.t "pagination.page_connector" %> ${search_data.last_page}
     <div class="navigation">
-      {if search_data.this_page > search_data.first_page}<a href="javascript:void(0);" rel="${search_data.this_page - 1}"><%= I18n.t "pagination.previous" %></a>{/if}
+      {if search_data.this_page > search_data.first_page}<a href="javascript:void(0);" rel="${search_data.this_page - 1}"><%= I18n.t "pagination.previous_label" %></a>{/if}
       {if search_data.this_page > search_data.first_page && search_data.this_page < search_data.last_page} | {/if}
-      {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" rel="${search_data.this_page + 1}"><%= I18n.t "pagination.next" %></a>{/if}
+      {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" rel="${search_data.this_page + 1}"><%= I18n.t "pagination.next_label" %></a>{/if}
     </div>
    </div>
    <ul class="token-list">
@@ -98,9 +98,9 @@
    <div class="pagination">
     <%= I18n.t "pagination.page_prefix" %> ${search_data.this_page} <%= I18n.t "pagination.page_connector" %> ${search_data.last_page}
     <div class="navigation">
-      {if search_data.this_page > search_data.first_page}<a href="javascript:void(0);" class="previous-page"><%= I18n.t "pagination.previous" %></a>{/if}
+      {if search_data.this_page > search_data.first_page}<a href="javascript:void(0);" rel="${search_data.this_page - 1}"><%= I18n.t "pagination.previous_label" %></a>{/if}
       {if search_data.this_page > search_data.first_page && search_data.this_page < search_data.last_page} | {/if}
-      {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" class="next-page"><%= I18n.t "pagination.next" %></a>{/if}
+      {if search_data.this_page < search_data.last_page}<a href="javascript:void(0);" rel="${search_data.this_page + 1}"><%= I18n.t "pagination.next_label" %></a>{/if}
     </div>
    </div>
   {else}
