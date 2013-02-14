@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= I18n.t("brand.title") %> | <% if @repository %><%= @repository.repo_code %> | <% end %><% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <%= include_theme_css %>
+
+  <%= csrf_meta_tags %>
+</head>
+<body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20">
+
+  <header>
+    <div class="branding-container container">
+      <div class="row-fluid">
+        <%= render "site/branding" %>
+      </div>
+    </div>
+    <div class="container">
+      <%= render "site/header" %>
+    </div>
+  </header>
+
+  <div class="container">
+    <%= render :partial => "site/breadcrumb" %>
+    <%= yield %>
+  </div>
+
+  <footer>
+    <%= render "site/footer" %>
+  </footer>
+
+  <%= javascript_include_tag "application" %>
+
+</body>
+</html>

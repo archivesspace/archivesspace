@@ -14,11 +14,12 @@
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
+  <property name="aspace.public.port" value="3001" />
   <property name="aspace.solr.port" value="2999" />
 
   <property environment="env"/>
   <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=128m -Xmx256m" />
-  <property name="default_java_options" value="-Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver" />
+  <property name="default_java_options" value="-Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver" />
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
@@ -103,6 +104,13 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../migrations/Gemfile'" />
+    </java>
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='../public/Gemfile'" />
     </java>
   </target>
 
@@ -281,7 +289,7 @@
   </target>
 
 
-  <target name="frontend:war" depends="set-classpath, frontend:clean, bootstrap" description="Deploy the frontend application as a .war file">
+  <target name="frontend:war" depends="set-classpath, bootstrap, frontend:clean" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
     <delete dir="../frontend/tmp" />
@@ -292,7 +300,7 @@
       <jvmarg line="${env.JAVA_OPTS} ${default_java_options}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 -S rake assets:precompile" />
+      <arg line="--1.9 -S rake assets:precompile --trace" />
     </java>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
@@ -360,6 +368,23 @@
     </java>
   </target>
 
+  <target name="selenium:public:test" depends="set-classpath, public:clean" description="Run the Selenium tests for the Public interface">
+    <property name="spec" value=""/>
+    <property name="example" value=""/>
+    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
+      <isset property="example"/>
+    </condition>
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../selenium-public">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec}" />
+    </java>
+  </target>
+
 
   <target name="doc:yard" description="Generate the full YARD documentation">
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
@@ -393,7 +418,7 @@
   </target>
 
 
-  <target name="dist" depends="backend:war, frontend:war" description="Build a standalone distribution jar of frontend, backend and all components">
+  <target name="dist" depends="backend:war, frontend:war, public:war" description="Build a standalone distribution jar of frontend, backend and all components">
 
     <mkdir dir="target" />
 
@@ -416,6 +441,7 @@
 
       <zipfileset src="../backend/backend.war" prefix="backend" />
       <zipfileset src="../frontend/frontend.war" prefix="frontend" />
+      <zipfileset src="../public/public.war" prefix="public" />
       <zipfileset src="${solr_file}" prefix="solr" />
 
       <manifest>
@@ -438,5 +464,50 @@
           description="Run the full suite of tests">
   </target>
 
+
+  <!-- Public Interface -->
+  <target name="public:clean" description="Delete the Rails tmp directory">
+    <delete dir="../public/tmp" />
+    <delete dir="../public/public/assets" />
+    <mkdir dir="../public/public/assets" />
+    <mkdir dir="../public/public/assets/00-do-not-put-things-here" />
+  </target>
+
+
+  <target name="public:devserver" depends="set-classpath, public:clean" description="Start an instance of the ArchivesSpacePublic development server">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+          dir="../public">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 script/rails server --port=${aspace.public.port}" />
+    </java>
+  </target>
+
+
+  <target name="public:war" depends="set-classpath, bootstrap, public:clean" description="Deploy the public application as a .war file">
+
+   <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
+
+    <delete dir="../public/tmp" />
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../public">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}" />
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 -S rake assets:precompile --trace" />
+    </java>
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../public">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ../build/gems/bin/warble war" />
+    </java>
+  </target>
 
 </project>

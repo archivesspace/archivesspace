@@ -360,8 +360,8 @@ module JSONModel
       end
 
 
-      def find_by_uri(uri)
-        self.find(self.id_for(uri))
+      def find_by_uri(uri, opts = {})
+        self.find(self.id_for(uri), opts)
       end
 
 

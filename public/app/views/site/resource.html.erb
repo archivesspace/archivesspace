@@ -1,0 +1,147 @@
+<div class="title-pane">
+  <div class="row-fluid">
+    <div class="span3">
+
+    </div>
+    <div class="span9">
+      <h2>
+      <%= @resource['finding_aid_status'] === "completed" ? @resource['finding_aid_title'] : @resource.title %></h2>
+    </div>
+  </div>
+</div>
+<div class="content-pane">
+  <div class="row-fluid">
+    <div class="span3">
+      <div id="">
+        <ul class="nav nav-list as-nav-list" data-spy="affix">
+          <li><a href="#summary"><%= I18n.t("archival_object._html.section.summary") %> <span class="icon-chevron-right"></span></a></li>
+          <% if @resource['extents'].length > 0 %>
+            <li><a href="#extents"><%= I18n.t("extent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @resource['subjects'].length > 0 %>
+            <li><a href="#subjects"><%= I18n.t("subject._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @resource['instances'].length > 0 %>
+            <li><a href="#locations"><%= I18n.t("location._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @tree['children'].length %>
+            <li><a href="#components"><%= I18n.t("resource._html.section.components") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <div class="span9">
+      <fieldset class="form-horizontal">
+        <section id="summary">
+          <h3><%= I18n.t("resource._html.section.summary") %></h3>
+          <dl class="dl-horizontal">
+            <dt><%= I18n.t("resource.id_0") %></dt>
+            <dd class="identifier-display">
+              <% ['id_0','id_1','id_2','id_3'].collect{|prop| @resource[prop]}.each do |id| %>
+                <span class="identifier-display-part"><%= id %></span>
+              <% end %>
+            </dd>
+            <% if @resource['finding_aid_status'] === "completed" %>
+              <div class="clearfix"></div>
+              <%= label_and_value I18n.t("resource.finding_aid_author"), @resource['finding_aid_author'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_date"), @resource['finding_aid_date'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_description_rules"), i18n_enum(:resource, 'finding_aid_description_rules', @resource['finding_aid_description_rules']) %>
+              <%= label_and_value I18n.t("resource.finding_aid_language"), @resource['finding_aid_language'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_sponsor"), @resource['finding_aid_sponsor'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_edition_statement"), @resource['finding_aid_edition_statement'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_series_statement"), @resource['finding_aid_series_statement'] %>
+              <%= label_and_value I18n.t("resource.finding_aid_note"), @resource['finding_aid_note'] %>
+            <% end %>
+          </dl>
+        </section>
+
+        <section id="extents">
+          <h3><%= I18n.t("extent._html.plural") %></h3>
+          <ul class="results-list">
+          <% @resource['extents'].each do |extent| %>
+            <li class="result">
+              <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
+            </li>
+          <% end %>
+          </ul>
+        </section>
+
+        <% if @resource['subjects'].length > 0 %>
+          <section id="subjects">
+            <h3><%= I18n.t("subject._html.plural") %></h3>
+            <ul class="results-list">
+              <% @resource['subjects'].each do |subject| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for "subject" %>
+                    <%= link_to(subject['_resolved']['title'], {:controller => :site, :action => :subject, :id => JSONModel(:subject).id_for(subject['ref'])}) %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+        <% if @resource['instances'].length > 0 %>
+          <% 
+            locations = {}
+            @resource['instances'].each do |instance|
+              instance['container']['container_locations'].each do |cl|
+                locations[cl['ref']] = cl['_resolved']
+              end
+            end
+          %>
+          <section id="locations">
+            <h3><%= I18n.t("location._html.plural") %></h3>
+            <ul class="results-list">
+              <% locations.each do |uri, location| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for "location" %>
+                    <%= link_to location['title'], {:controller => :site, :action => :location, :id => JSONModel(:location).id_for(uri)} %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+        <% if @tree['children'].length %>
+          <section id="components">
+            <h3><%= I18n.t("resource._html.section.components") %></h3>
+
+            <ul class="results-list">
+              <% @tree['children'].each do |child| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for child["node_type"] %>
+                    <%= link_to child["title"], :controller => :site, :action => child["node_type"], :id => child['id'], :repo_id => @repository.id %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+      </fieldset>
+
+      <br/>
+      <br/>
+
+      <div class="accordion" id="source">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#source" href="#collapseOne">
+              Debugging
+            </a>
+          </div>
+          <div id="collapseOne" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <%= @resource.inspect %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

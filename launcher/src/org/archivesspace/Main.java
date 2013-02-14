@@ -76,6 +76,7 @@ public class Main
 
         int backend_port = 8089;
         int frontend_port = 8080;
+        int public_port = 8081;
         int solr_port = 8090;
 
         AppConfig config = new AppConfig();
@@ -106,6 +107,10 @@ public class Main
             solr_port = Integer.valueOf(args[2]);
         }
 
+        if (args.length >= 4) {
+            public_port = Integer.valueOf(args[3]);
+        }
+
         System.setProperty("aspace.config.backend_url", "http://localhost:"
                            + backend_port);
 
@@ -115,14 +120,19 @@ public class Main
         System.setProperty("aspace.config.solr_url", "http://localhost:"
                            + solr_port);
 
+        System.setProperty("aspace.config.public_url", "http://localhost:"
+                           + public_port);
+
 
         Server backend_server = runServer(backend_port, "backend", "/");
         Server frontend_server = runServer(frontend_port, "frontend", "/");
+        Server public_server = runServer(public_port, "public", "/");
         Server solr_server = runServer(solr_port, "solr", "/");
 
         solr_server.start();
         backend_server.start();
         frontend_server.start();
+        public_server.start();
 
         Thread.sleep(3000);
 
@@ -135,6 +145,7 @@ public class Main
 
         backend_server.join();
         frontend_server.join();
+        public_server.join();
         solr_server.join();
     }
 }

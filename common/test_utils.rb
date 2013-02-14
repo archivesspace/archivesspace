@@ -84,6 +84,24 @@ module TestUtils
   end
 
 
+  def self.start_public(port, backend_url, config = {})
+    base = File.dirname(__FILE__)
+
+    java_opts = "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}"
+    config.each do |key, value|
+      java_opts += " -Daspace.config.#{key}=#{value}"
+    end
+
+    pid = Process.spawn({:JAVA_OPTS => java_opts},
+                        "#{base}/../build/run", "public:devserver:integration",
+                        "-Daspace.public.port=#{port}")
+
+    TestUtils.wait_for_url("http://localhost:#{port}")
+
+    pid
+  end
+
+
   def self.free_port_from(port)
     begin
       server = TCPServer.new('127.0.0.1', port)

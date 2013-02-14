@@ -11,7 +11,7 @@
 
       <%= render :partial => "shared/flash_messages" %>
 
-      <%= read_only_view(@location) %>
+      <%= read_only_view(@location.to_hash) %>
     </div>
   </div>
 </div>
