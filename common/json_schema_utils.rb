@@ -82,6 +82,15 @@ module JSONSchemaUtils
          msgs[:errors][fragment_join(path)] = ["Invalid value '#{invalid}'.  Must be one of: #{valid_set}"]
        }
      },
+     
+     {
+       :failed_attribute => ['ArchivesSpaceDynamicEnum'],
+       :pattern => /The property '#\/.*?' value "(.*?)" .*values: (.*) in schema/,
+       :do => ->(msgs, message, path, invalid, valid_set) {
+         msgs[:attribute_types][fragment_join(path)] = 'ArchivesSpaceDynamicEnum'
+         msgs[:errors][fragment_join(path)] = ["Invalid value '#{invalid}'.  Must be one of: #{valid_set}"]
+       }
+     },
 
      {
        :failed_attribute => ['Type', 'ArchivesSpaceType'],
@@ -175,6 +184,8 @@ module JSONSchemaUtils
     msgs = {
       :errors => {},
       :warnings => {},
+      # to lookup e.g., msgs[:attribute_types]['extents/0/extent_type'] => 'ArchivesSpaceDynamicEnum'
+      :attribute_types => {}, 
     }
 
     messages.each do |message|

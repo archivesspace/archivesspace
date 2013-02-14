@@ -1,5 +1,32 @@
 module ASpaceImport
   
+  
+  # Wrap the batch model so dynamic enums don't raise errors
+  def self.BatchModel
+    
+    cls = Class.new(JSONModel::JSONModel(:batch_import)) do
+  
+      # Need to bypass some validation rules for 
+      # JSON objects created by an import
+      def self.validate(hash)
+        begin
+          super(hash)
+        rescue JSONModel::ValidationException => e
+
+          e.errors.reject! {|path, mssg| 
+                            e.attribute_types.has_key?(path) && 
+                            e.attribute_types[path] == 'ArchivesSpaceDynamicEnum'}
+                          
+          raise e unless e.errors.empty?
+
+        end
+      end
+    end
+    
+    cls
+  end
+  
+  
   # Manages the JSON object batch set
   
   class Batch < Array
@@ -34,7 +61,7 @@ module ASpaceImport
 
       self.dedupe
       
-      batch_object = JSONModel::JSONModel(:batch_import).new
+      batch_object = ASpaceImport.BatchModel.new #BatchModel.new
       repo_id = Thread.current[:selected_repo_id]
       batch = []
       

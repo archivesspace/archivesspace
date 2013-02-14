@@ -67,7 +67,13 @@ end
 
 if options[:importer]
   i = ASpaceImport::Importer.create_importer(options)
-  i.run_safe
+  
+  if $DEBUG
+    i.run
+  else
+    i.run_safe
+  end
+  
   puts i.report
 end
 

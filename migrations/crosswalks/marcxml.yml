@@ -59,7 +59,8 @@ entities:
       extent_type:
         xpath: ["child::subfield[@code='a']"]
         default: reels
-        procedure: "|val| val.downcase.include?('linear feet') ? 'linear_feet' : nil"
+        procedure: "|val| val.gsub(/^[0-9\\.\\s]+/, '')"
+        # procedure: "|val| val.downcase.include?('linear feet') ? 'linear_feet' : nil"
         
   arrangement_note:
     record_type: note_multipart

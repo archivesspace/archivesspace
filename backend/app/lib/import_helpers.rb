@@ -3,16 +3,18 @@ require_relative "../../../migrations/lib/crosswalk"
 module ImportHelpers
   
   def handle_import
+
     batch = Batch.new(params[:batch_import])
     
     RequestContext.put(:repo_id, params[:repo_id])
 
-    begin 
+    begin
       batch.process
       json_response({:saved => batch.saved_uris}, 200)
     end
-  end  
+  end
   
+
   class Batch
     attr_accessor :saved_uris
     
@@ -20,11 +22,12 @@ module ImportHelpers
       @json_set, @as_set, @saved_uris = {}, {}, {}
       
       batch_object.batch.each do |item|
-         @json_set[item['uri']] = JSONModel::JSONModel(item['jsonmodel_type']).from_hash(item)
+         @json_set[item['uri']] = JSONModel::JSONModel(item['jsonmodel_type']).from_hash(item, false)
       end
       
     end
       
+    # 0. Add new enums till everything validates  
     # 1. Create ASModel objects from the JSONModel objects minus the references
     # 2. Update the nonce URIs of the JSONModel objects using their DB IDs
     # 3. Update JSONModel links using the real URIs
@@ -36,14 +39,16 @@ module ImportHelpers
 
       @json_set.each do |ref, json|
       
-
+        self.class.fuzzy_validation(json)
+        
         # TODO: add a method to say whether a json is de-linkable
 
         if json.jsonmodel_type == 'collection_management'
           @second_pass_keys << ref
-        else       
+        else
           begin
           unlinked = self.class.unlink(json)
+
           obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
           @as_set[json.uri] = [obj.id, obj.class]
         
@@ -51,6 +56,7 @@ module ImportHelpers
           json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
           
           rescue Exception => e
+
             raise ImportException.new({:invalid_object => json, :error => e})
           end
         end
@@ -110,6 +116,72 @@ module ImportHelpers
       data.each { |k, v| data.delete(k) if self.unlink_key?(json.class.schema["properties"][k], v) }
       unlinked.set_data(data)
       unlinked
+    end
+    
+    # Assuming for now there are no arrays
+    # of strings that are each enumerable, etc.
+    # Just a) strings that are enumerable and 
+    # b) arrays of objects with enumerable 
+    # TODO: See if this method can be repurposed
+    # from somewhere else
+    
+    def self.fetch_enum_name(json, schema_frag, path)
+
+      if schema_frag.has_key?('properties')
+        schema_frag = schema_frag['properties']
+      end
+      
+      path = path.is_a?(Array) ? path : path.split("/")
+      
+      return nil unless schema_frag.has_key?(path[0])
+    
+      if path.length == 1 && schema_frag[path[0]].has_key?('dynamic_enum')
+        return schema_frag[path[0]]['dynamic_enum']
+      elsif json.nil? 
+        return nil
+      elsif json[path[0]].is_a?(Array) && json[path[0]][path[1].to_i].is_a?(Hash)
+        sub_schema = JSONModel::JSONModel(json[path[0]][path[1].to_i]['jsonmodel_type']).schema
+        fetch_enum_name(nil, sub_schema, path[2..-1])
+      else 
+        return nil
+      end
+    end    
+    
+    
+    def self.fuzzy_validation(json)
+
+      begin
+        json.class.validate(json.to_hash(true))
+        
+      rescue JSONModel::ValidationException => e
+        
+        e.errors.each do |path, message|
+          if e.attribute_types.has_key?(path) && e.attribute_types[path] == 'ArchivesSpaceDynamicEnum'
+
+            new_value = message[0].scan(/Invalid value '([^']+)'/).flatten[0]
+
+            next if new_value.nil?
+
+            enum_name = fetch_enum_name(json, json.class.schema, path)
+            
+            obj = Enumeration[:name => enum_name]
+            
+            json_enum = Enumeration.sequel_to_jsonmodel(obj)
+            
+            json_enum.values.push(new_value)
+            
+            obj.update_from_json(json_enum)
+            
+            obj.save
+            
+          else
+            Log.debug("Normal validation error")
+          end
+        end
+
+        # Now try to validate again
+        json.class.validate(json.to_hash(true))
+      end   
     end
   end
 

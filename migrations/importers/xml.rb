@@ -73,7 +73,7 @@ ASpaceImport::Importer.importer :xml do
 
 
   def run
-    
+
     @reader.each do |node|
 
       add_xpath(node)
@@ -91,7 +91,8 @@ ASpaceImport::Importer.importer :xml do
       end
     end
     
-    save_all 
+    save_all
+    
   end  
 
   def handle_opener(node)

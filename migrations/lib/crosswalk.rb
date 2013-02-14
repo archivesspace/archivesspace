@@ -56,6 +56,22 @@ module ASpaceImport
           @model_key
         end
         
+        # Need to bypass some validation rules for 
+        # JSON objects created by an import
+        def self.validate(hash)
+          begin
+            super(hash)
+          rescue JSONModel::ValidationException => e
+
+            e.errors.reject! {|path, mssg| 
+                              e.attribute_types.has_key?(path) && 
+                              e.attribute_types[path] == 'ArchivesSpaceDynamicEnum'}
+                              
+            raise e unless e.errors.empty?
+
+          end
+        end
+        
         def initialize(*args)
           
           super
@@ -93,7 +109,7 @@ module ASpaceImport
           else
             @stash.has_key?(meth.to_s) ? @stash[meth.to_s] : nil
           end
-        end
+        end          
           
       end
             
@@ -176,6 +192,7 @@ module ASpaceImport
           attr_reader :property
           attr_reader :property_type
           attr_reader :xdef
+          # This needs a name change, since it includes enum lists now:
           attr_reader :valid_json_types
         end
         
@@ -265,6 +282,14 @@ module ASpaceImport
         return false if val == nil
         
         case self.class.property_type
+          
+        when :string_dynenum
+          if self.class.valid_json_types.include? (val)
+            #proceed
+          else
+            # raise "ENUMS = #{self.class.valid_json_types.inspect}"
+          end
+        
 
         when /^record_uri_or_record_inline/
           val.block_further_reception if val.respond_to? :block_further_reception
@@ -340,7 +365,11 @@ module ASpaceImport
         [:string, nil]
         
       when 'string'
-        [:string, nil]
+        if property_def['dynamic_enum']
+          [:string_dynenum, JSONModel.enum_values(property_def['dynamic_enum'])]
+        else
+          [:string, nil]
+        end
         
       when 'object'
         if property_def['subtype'] == 'ref'          

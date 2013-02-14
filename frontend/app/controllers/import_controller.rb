@@ -84,11 +84,15 @@ class ImportController < ApplicationController
                :importer => importer,
                :crosswalk => crosswalk,
                :input_file => source_file.path}
+
+    # Thread.new do    
+      i = ASpaceImport::Importer.create_importer(options)    
+      i.run_safe
+      
+      [i.report_summary, i.report]
+    # end
     
-    i = ASpaceImport::Importer.create_importer(options)    
-    i.run_safe
     
-    [i.report_summary, i.report]
   
   end
     
