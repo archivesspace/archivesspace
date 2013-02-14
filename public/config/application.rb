@@ -37,7 +37,9 @@ module ArchivesSpacePublic
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # Load enums from forntend first
-    config.i18n.load_path += Dir[Rails.root.join('..', 'frontend','config', 'locales', '**', '*.{rb,yml}')]
+    # THIS DOESN'T WORK FOR DISTRIBUTED WAR... NEED TO SETUP LOCALE SHARING
+    #config.i18n.load_path += Dir[Rails.root.join('..', 'frontend','config', 'locales', '**', '*.{rb,yml}')]
+    
     # Override with any local locale files
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
