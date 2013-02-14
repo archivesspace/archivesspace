@@ -192,7 +192,6 @@ module ASpaceImport
           attr_reader :property
           attr_reader :property_type
           attr_reader :xdef
-          # This needs a name change, since it includes enum lists now:
           attr_reader :valid_json_types
         end
         
@@ -282,14 +281,6 @@ module ASpaceImport
         return false if val == nil
         
         case self.class.property_type
-          
-        when :string_dynenum
-          if self.class.valid_json_types.include? (val)
-            #proceed
-          else
-            # raise "ENUMS = #{self.class.valid_json_types.inspect}"
-          end
-        
 
         when /^record_uri_or_record_inline/
           val.block_further_reception if val.respond_to? :block_further_reception
@@ -365,11 +356,7 @@ module ASpaceImport
         [:string, nil]
         
       when 'string'
-        if property_def['dynamic_enum']
-          [:string_dynenum, JSONModel.enum_values(property_def['dynamic_enum'])]
-        else
-          [:string, nil]
-        end
+        [:string, nil]
         
       when 'object'
         if property_def['subtype'] == 'ref'          
