@@ -353,9 +353,7 @@ module RESTHelpers
                 params.delete(name)
 
               rescue ArgumentError
-                errors[:bad_type] << {:name => name, :doc => doc, :type => type}   
-                
-                
+                errors[:bad_type] << {:name => name, :doc => doc, :type => type}
               end
             elsif type and opts[:default]
               params[name.intern] = opts[:default]

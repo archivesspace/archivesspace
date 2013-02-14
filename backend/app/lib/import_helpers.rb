@@ -3,7 +3,6 @@ require_relative "../../../migrations/lib/crosswalk"
 module ImportHelpers
   
   def handle_import
-
     batch = Batch.new(params[:batch_import])
     
     RequestContext.put(:repo_id, params[:repo_id])
