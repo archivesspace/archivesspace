@@ -101,4 +101,8 @@ module ApplicationHelper
            )
   end
 
+  def inline?
+    params[:inline] === "true"
+  end
+
 end

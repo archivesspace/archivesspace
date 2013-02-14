@@ -41,6 +41,16 @@ $(function() {
   });
 
 
+  // if login dropdown is open by default (?login=true)
+  // then focus the user name field
+  if ($(".login-dropdown").hasClass("open")) {
+    $(document).ready(function() {
+      setTimeout(function() {
+        $("input[name=username]").focus();
+      }, 0);
+    });
+  }
+
   // Repository Action Handling
   $('.navbar').on('click', '.select-repo', function(e) {
     e.preventDefault();      

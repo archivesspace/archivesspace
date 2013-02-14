@@ -39,7 +39,7 @@ if not ENV['DISABLE_STARTUP']
       raise ArchivesSpace::SessionGone.new("Your backend session was not found")
     end
     if error["code"] == "SESSION_EXPIRED"
-      raise ArchivesSpace::SessionExpired.new("Your session expired due to inactivity. Please sign in again.")
+      raise ArchivesSpace::SessionExpired.new("Your session expired due to inactivity.")
     end
   end
 
