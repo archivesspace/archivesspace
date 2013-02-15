@@ -60,6 +60,7 @@ en:
     manage_enumerations: Manage Enumerations
     logout: Logout
     login: Sign In
+    login_expired_link: Please %{link} again.
     login_fail: Login attempt failed
     login_success: Login Successful. Redirecting...
     register: Register now
