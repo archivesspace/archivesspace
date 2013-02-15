@@ -94,6 +94,10 @@ public class Main
                                UUID.randomUUID().toString());
         }
 
+        if (System.getProperty("aspace.config.public_user_secret") == null) {
+            System.setProperty("aspace.config.public_user_secret",
+                               UUID.randomUUID().toString());
+        }
 
         if (args.length >= 1) {
             frontend_port = Integer.valueOf(args[0]);
