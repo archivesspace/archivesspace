@@ -201,6 +201,11 @@ module JSONModel
     if @@init_args[:allow_other_unmapped]
       enum_wrapper = Struct.new(:enum_source).new(@@init_args[:enum_source])
 
+      def enum_wrapper.valid?(name, value)
+        self.values_for(name).include?(value)
+      end
+
+
       def enum_wrapper.values_for(name)
         enum_source.values_for(name) + ['other_unmapped']
       end
