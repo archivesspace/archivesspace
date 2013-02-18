@@ -19,7 +19,7 @@ $(function() {
 
     var option = $("<option />").attr("value", username).attr("id", username).text(username);
 
-    $("#userlist").append(option);
+    $("#group_member_usernames_").append(option);
     input.val('');
   };
 
@@ -27,7 +27,7 @@ $(function() {
   var removeSelectedMembers = function(e) {
     e.preventDefault();
 
-    $(':selected', "#userlist").remove();
+    $(':selected', "#group_member_usernames_").remove();
   };
 
 
@@ -39,7 +39,7 @@ $(function() {
 
     var fields = $('<div style="display: none" id="hidden_member_fields" />');
 
-    $("#userlist option").each(function(idx, option) {
+    $("#group_member_usernames_ option").each(function(idx, option) {
       var input = $('<input type="hidden" name="group[member_usernames][]" />');
       input.val($(option).val());
 
@@ -57,7 +57,7 @@ $(function() {
 
   $("#remove-member").click(removeSelectedMembers);
 
-  $("#userlist").change(function (e) {
+  $("#group_member_usernames_").change(function (e) {
     if ($(':selected', e.target).length > 0) {
       $("#remove-member").show();
     } else {

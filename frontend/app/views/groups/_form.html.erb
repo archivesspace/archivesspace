@@ -1,9 +1,9 @@
 <%= form.label_and_textfield "description" %>
 
 <div class="control-group">
-  <label for="userlist" class="control-label"><%= I18n.t("group.members") %></label>
+  <label for="group_member_usernames_" class="control-label"><%= I18n.t("group.members") %></label>
   <div class="controls">
-    <select id="userlist" multiple="multiple">
+    <select id="group_member_usernames_" multiple="multiple">
       <% (@group.member_usernames or []).each do |username| %>
       <option id="<%= username %>" value="<%= username %>"><%= username %></option>
       <% end %>

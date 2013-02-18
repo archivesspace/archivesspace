@@ -1376,6 +1376,7 @@ en:
     group_code: Group code
     description: Description
     members: Members
+    member_usernames: Members
     permissions: "Members can:"
     permission_types:
       manage_repository: manage this repository (change groups and other settings)
