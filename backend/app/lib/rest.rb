@@ -9,7 +9,8 @@ module RESTHelpers
     end
 
     if JSONModel.parse_reference(reference['ref'])
-      reference.clone.merge('_resolved' => JSON.parse(redirect_internal(reference['ref'])[2].join(""), :max_nesting => false))
+      record = redirect_internal(reference['ref'])[2].body.join("")
+      reference.clone.merge('_resolved' => JSON.parse(record, :max_nesting => false))
     else
       raise "Couldn't parse ref: #{reference.inspect}"
     end
