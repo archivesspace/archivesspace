@@ -1,0 +1,26 @@
+source:
+  format: "xml"
+  schema: "urn:isbn:1-931666-33-4"
+entities:
+  agent_person: 
+    xpath: ["//xmlns:cpfDescription[child::xmlns:identity/child::xmlns:entityType='person']"]
+    properties:
+      agent_type: 
+        default: agent_person
+      
+      names:
+        xpath: ["descendant::xmlns:nameEntry"]
+        record_type: name_person # TODO: See if this can be safely eliminated
+      
+  name_person:
+    properties:
+      primary_name: 
+        xpath: ["descendant::xmlns:part"]
+      
+      source:
+        default: local
+        
+      dates:
+        xpath: ["descendant::xmlns:part"]
+        procedure: "|val| val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]"
+

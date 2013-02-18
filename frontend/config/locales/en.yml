@@ -45,6 +45,7 @@ en:
     brand: ArchivesSpace
     create: Create
     import: Import
+    import_eac: EAC file
     import_ead: EAD file
     import_marcxml: MARCXML
     import_accession_csv: Accession CSV
@@ -97,6 +98,7 @@ en:
     wrap_prefix: "Wrap with:"
     help: "Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or highlight text to wrap"
   import:
+    eac_title: Import an EAC file
     ead_title: Import an EAD File
     marcxml_title: Import a MARCXML file
     accession_csv_title: Import Accession Records from a CSV File
