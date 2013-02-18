@@ -338,13 +338,13 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-215
-216
-217
-218</pre>
+224
+225
+226
+227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 215</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 224</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_@object ivar id'>@object</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span>
@@ -388,12 +388,12 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-213
-214
-215</pre>
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 213</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 222</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cache identifier id'>cache</span>
   <span class='rubyid_@cache ivar id'>@cache</span>
@@ -431,12 +431,12 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-212
-213
-214</pre>
+221
+222
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 221</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_object identifier id'>object</span>
   <span class='rubyid_@object ivar id'>@object</span>
@@ -469,12 +469,12 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-246
-247
-248</pre>
+255
+256
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 255</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='lshft op'>&lt;&lt;</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_receive identifier id'>receive</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
@@ -511,15 +511,6 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-227
-228
-229
-230
-231
-232
-233
-234
-235
 236
 237
 238
@@ -528,10 +519,19 @@ whitespace padding for a parsed value.</p>
 241
 242
 243
-244</pre>
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 236</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pre_process identifier id'>pre_process</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'procedure'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_val identifier id'>val</span>
@@ -539,7 +539,7 @@ whitespace padding for a parsed value.</p>
     <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
   
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'default'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'default'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_xdef identifier id'>xdef</span><span class='lbrack token'>[</span><span class='string val'>'default'</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
   
@@ -605,15 +605,6 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-252
-253
-254
-255
-256
-257
-258
-259
-260
 261
 262
 263
@@ -640,10 +631,28 @@ whitespace padding for a parsed value.</p>
 284
 285
 286
-287</pre>
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 261</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_receive identifier id'>receive</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   
@@ -662,11 +671,14 @@ whitespace padding for a parsed value.</p>
     <span class='rubyid_end end kw'>end</span>
             
   <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_uri/</span>
-    <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_method_defined? fid id'>method_defined?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span>
+      <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+    <span class='rubyid_end end kw'>end</span>
     
   <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_inline/</span>
     <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_block_further_reception identifier id'>block_further_reception</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='symbol val'>:block_further_reception</span>
-    <span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span>
     <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
   
   <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^record_ref/</span>
@@ -675,8 +687,14 @@ whitespace padding for a parsed value.</p>
     <span class='rubyid_end end kw'>end</span>  
   <span class='rubyid_end end kw'>end</span>
   
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_property_type identifier id'>property_type</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span> <span class='regexp val'>/list$/</span>       
-    <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_property_type identifier id'>property_type</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span> <span class='regexp val'>/list$/</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
+      <span class='comment val'># ugly workaround for crosswalk overrides using 'split' and 'map':</span>
+      <span class='comment val'># hope it doesn't break anything</span>
+      <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span> 
+    <span class='rubyid_else else kw'>else</span>   
+      <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
   
   <span class='rubyid_@object ivar id'>@object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self.class.property}=&quot;</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
@@ -702,12 +720,12 @@ whitespace padding for a parsed value.</p>
       <pre class="lines">
 
 
-220
-221
-222</pre>
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 229</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;Property Receiver for #{@object.class.record_type}\##{self.class.property}&quot;</span>
@@ -723,7 +741,7 @@ whitespace padding for a parsed value.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:28 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:56:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

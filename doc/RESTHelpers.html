@@ -239,7 +239,6 @@
       <pre class="lines">
 
 
-297
 298
 299
 300
@@ -342,10 +341,11 @@
 397
 398
 399
-400</pre>
+400
+401</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 297</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 298</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
 
@@ -488,7 +488,8 @@
 13
 14
 15
-16</pre>
+16
+17</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 6</span>
@@ -499,7 +500,8 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_reference identifier id'>reference</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>'_resolved'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_redirect_internal identifier id'>redirect_internal</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>2</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:max_nesting</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_record identifier id'>record</span> <span class='assign token'>=</span> <span class='rubyid_redirect_internal identifier id'>redirect_internal</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>2</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_reference identifier id'>reference</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>'_resolved'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='symbol val'>:max_nesting</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn't parse ref: #{reference.inspect}&quot;</span>
   <span class='rubyid_end end kw'>end</span>
@@ -525,7 +527,6 @@
       <pre class="lines">
 
 
-19
 20
 21
 22
@@ -549,10 +550,11 @@
 40
 41
 42
-43</pre>
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_properties_to_resolve identifier id'>properties_to_resolve</span><span class='rparen token'>)</span>
   <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:to_hash</span><span class='rparen token'>)</span>
@@ -590,7 +592,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:07 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:39 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -222,6 +222,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#start_public-class_method" title="start_public (class method)">+ (Object) <strong>start_public</strong>(port, backend_url, config = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#wait_for_url-class_method" title="wait_for_url (class method)">+ (Object) <strong>wait_for_url</strong>(url) </a>
     
 
@@ -266,20 +289,20 @@
       <pre class="lines">
 
 
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97</pre>
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 105</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_free_port_from identifier id'>free_port_from</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -503,6 +526,63 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="start_public-class_method">
+  
+    + (<tt>Object</tt>) <strong>start_public</strong>(port, backend_url, config = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 87</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_public identifier id'>start_public</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_base identifier id'>base</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}&quot;</span>
+  <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
+    <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; -Daspace.config.#{key}=#{value}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_pid identifier id'>pid</span> <span class='assign token'>=</span> <span class='rubyid_Process constant id'>Process</span><span class='dot token'>.</span><span class='rubyid_spawn identifier id'>spawn</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:JAVA_OPTS</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_java_opts identifier id'>java_opts</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                      <span class='dstring node'>&quot;#{base}/../build/run&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;public:devserver:integration&quot;</span><span class='comma token'>,</span>
+                      <span class='dstring node'>&quot;-Daspace.public.port=#{port}&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_TestUtils constant id'>TestUtils</span><span class='dot token'>.</span><span class='rubyid_wait_for_url identifier id'>wait_for_url</span><span class='lparen token'>(</span><span class='dstring node'>&quot;http://localhost:#{port}&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_pid identifier id'>pid</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="wait_for_url-class_method">
   
     + (<tt>Object</tt>) <strong>wait_for_url</strong>(url) 
@@ -570,7 +650,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:13 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:45 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

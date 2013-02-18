@@ -420,12 +420,6 @@ is a match for the added record.</p>
       <pre class="lines">
 
 
-69
-70
-71
-72
-73
-74
 75
 76
 77
@@ -437,10 +431,16 @@ is a match for the added record.</p>
 83
 84
 85
-86</pre>
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 75</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_find_dupe identifier id'>find_dupe</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
 
@@ -601,7 +601,13 @@ is a match for the added record.</p>
 62
 63
 64
-65</pre>
+65
+66
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 33</span>
@@ -624,6 +630,8 @@ is a match for the added record.</p>
   
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@opts ivar id'>@opts</span><span class='lbrack token'>[</span><span class='symbol val'>:dry</span><span class='rbrack token'>]</span>        
     
+    <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_mock identifier id'>mock</span><span class='lparen token'>(</span><span class='string val'>'Net::HTTPResponse'</span><span class='rparen token'>)</span>
+    
     <span class='rubyid_res_body identifier id'>res_body</span> <span class='assign token'>=</span> <span class='string val'>&quot;{\&quot;saved\&quot;:{&quot;</span>
     <span class='rubyid_batch identifier id'>batch</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hsh identifier id'>hsh</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
       <span class='rubyid_res_body identifier id'>res_body</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;,&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_i identifier id'>i</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
@@ -632,6 +640,10 @@ is a match for the added record.</p>
     <span class='rubyid_res_body identifier id'>res_body</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;}}&quot;</span>
     
     <span class='rubyid_res_body identifier id'>res_body</span>
+    
+    <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_stubs identifier id'>stubs</span><span class='lparen token'>(</span><span class='symbol val'>:code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>200</span><span class='comma token'>,</span> <span class='symbol val'>:body</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_res_body identifier id'>res_body</span><span class='rparen token'>)</span>
+    
+    <span class='rubyid_response identifier id'>response</span>
     
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_with_request_priority identifier id'>with_request_priority</span><span class='lparen token'>(</span><span class='symbol val'>:low</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
@@ -650,7 +662,7 @@ is a match for the added record.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:29 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:56:02 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

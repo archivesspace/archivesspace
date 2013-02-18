@@ -405,12 +405,12 @@
       <pre class="lines">
 
 
-270
-271
-272</pre>
+272
+273
+274</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 270</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 272</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_reciprocal_relationship identifier id'>add_reciprocal_relationship</span><span class='lparen token'>(</span><span class='rubyid_referrer identifier id'>referrer</span><span class='comma token'>,</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='rparen token'>)</span>
   <span class='rubyid_@reciprocal_relationships ivar id'>@reciprocal_relationships</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_referrer identifier id'>referrer</span><span class='comma token'>,</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='rbrack token'>]</span>
@@ -476,7 +476,9 @@
 185
 186
 187
-188</pre>
+188
+189
+190</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 148</span>
@@ -490,9 +492,11 @@
     <span class='comment val'># For each record reference in our JSON data</span>
     <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_as_array identifier id'>as_array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_property_name identifier id'>property_name</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_reference identifier id'>reference</span><span class='comma token'>,</span> <span class='rubyid_idx identifier id'>idx</span><span class='bitor op'>|</span>
       <span class='rubyid_record_type identifier id'>record_type</span> <span class='assign token'>=</span> <span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Record Type #{record_type.inspect}&quot;</span><span class='rparen token'>)</span>
 
       <span class='comment val'># Find the model type of the record it refers to</span>
       <span class='rubyid_referent_model identifier id'>referent_model</span> <span class='assign token'>=</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='symbol val'>:references</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
+        <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Checking #{model.my_jsonmodel.record_type}&quot;</span><span class='rparen token'>)</span>
         <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='rubyid_record_type identifier id'>record_type</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span>
       <span class='rbrace token'>}</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn't find model for #{record_type[:type]}&quot;</span>
 
@@ -576,14 +580,14 @@
       <pre class="lines">
 
 
-191
-192
 193
 194
-195</pre>
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 193</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -860,8 +864,6 @@
       <pre class="lines">
 
 
-238
-239
 240
 241
 242
@@ -874,10 +876,12 @@
 249
 250
 251
-252</pre>
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 240</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_instances_relating_to identifier id'>instances_relating_to</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_@relationships ivar id'>@relationships</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
@@ -957,8 +961,6 @@
       <pre class="lines">
 
 
-254
-255
 256
 257
 258
@@ -970,10 +972,12 @@
 264
 265
 266
-267</pre>
+267
+268
+269</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 254</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 256</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_prepare_for_deletion identifier id'>prepare_for_deletion</span><span class='lparen token'>(</span><span class='rubyid_dataset identifier id'>dataset</span><span class='rparen token'>)</span>
   <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
@@ -1020,8 +1024,6 @@
       <pre class="lines">
 
 
-224
-225
 226
 227
 228
@@ -1030,10 +1032,12 @@
 231
 232
 233
-234</pre>
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 226</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_relationships_relating_to identifier id'>relationships_relating_to</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_@relationships ivar id'>@relationships</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
@@ -1067,8 +1071,6 @@
       <pre class="lines">
 
 
-198
-199
 200
 201
 202
@@ -1089,10 +1091,12 @@
 217
 218
 219
-220</pre>
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 198</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/relationships.rb', line 200</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1128,7 +1132,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:11 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:44 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

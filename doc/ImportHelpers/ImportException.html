@@ -206,6 +206,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#to_hash-instance_method" title="#to_hash (instance method)">- (Object) <strong>to_hash</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#to_s-instance_method" title="#to_s (instance method)">- (Object) <strong>to_s</strong> </a>
     
 
@@ -261,14 +284,16 @@
 121
 122
 123
-124</pre>
+124
+125</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 121</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@invalid_object ivar id'>@invalid_object</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:invalid_object</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:message</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@error ivar id'>@error</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_@error ivar id'>@error</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -375,7 +400,54 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="to_s-instance_method">
+  <h3 class="signature first" id="to_hash-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_hash</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 127</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_hash identifier id'>to_hash</span>
+  <span class='rubyid_hsh identifier id'>hsh</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'record_title'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='string val'>'record_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='string val'>'error_class'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='string val'>'errors'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='rubyid_hsh identifier id'>hsh</span><span class='lbrack token'>[</span><span class='string val'>'record_title'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@invalid_object ivar id'>@invalid_object</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='integer val'>? </span><span class='rubyid_@invalid_object ivar id'>@invalid_object</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='colon op'>:</span> <span class='string val'>&quot;unknown or untitled&quot;</span>
+  <span class='rubyid_hsh identifier id'>hsh</span><span class='lbrack token'>[</span><span class='string val'>'record_type'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@invalid_object ivar id'>@invalid_object</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='integer val'>? </span><span class='rubyid_@invalid_object ivar id'>@invalid_object</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='colon op'>:</span> <span class='string val'>&quot;unknown type&quot;</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@error ivar id'>@error</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:errors</span><span class='rparen token'>)</span>
+    <span class='rubyid_@error ivar id'>@error</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='rubyid_hsh identifier id'>hsh</span><span class='lbrack token'>[</span><span class='string val'>'errors'</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_e identifier id'>e</span><span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_hsh identifier id'>hsh</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_s-instance_method">
   
     - (<tt>Object</tt>) <strong>to_s</strong> 
   
@@ -389,15 +461,15 @@
       <pre class="lines">
 
 
-126
-127
-128</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 139</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
-  <span class='dstring node'>&quot;#&lt;:ImportException: #{{:invalid_object =&gt; @invalid_object, :message =&gt; @message}.inspect}&gt;&quot;</span>
+  <span class='dstring node'>&quot;#&lt;:ImportException: #{{:invalid_object =&gt; @invalid_object, :error =&gt; @error}.inspect}&gt;&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -410,7 +482,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:21 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:54 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -391,7 +391,6 @@
       <pre class="lines">
 
 
-10
 11
 12
 13
@@ -419,10 +418,11 @@
 35
 36
 37
-38</pre>
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_sid identifier id'>sid</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_store identifier id'>store</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_sid identifier id'>sid</span>
@@ -433,7 +433,7 @@
         <span class='rubyid_sid identifier id'>sid</span> <span class='assign token'>=</span> <span class='rubyid_SecureRandom constant id'>SecureRandom</span><span class='dot token'>.</span><span class='rubyid_hex identifier id'>hex</span><span class='lparen token'>(</span><span class='rubyid_SESSION_ID_LENGTH constant id'>SESSION_ID_LENGTH</span><span class='rparen token'>)</span>
 
         <span class='rubyid_completed identifier id'>completed</span> <span class='assign token'>=</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
-          <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_sid identifier id'>sid</span><span class='comma token'>,</span>
+          <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_sid identifier id'>sid</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                               <span class='symbol val'>:session_data</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_Marshal constant id'>Marshal</span><span class='dot token'>.</span><span class='rubyid_dump identifier id'>dump</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_pack identifier id'>pack</span><span class='lparen token'>(</span><span class='string val'>&quot;m*&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                               <span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
           <span class='rubyid_true true kw'>true</span>
@@ -491,12 +491,12 @@
       <pre class="lines">
 
 
-7
 8
-9</pre>
+9
+10</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 8</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id identifier id'>id</span>
   <span class='rubyid_@id ivar id'>@id</span>
@@ -529,18 +529,18 @@
       <pre class="lines">
 
 
-54
 55
 56
 57
-58</pre>
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 55</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expire identifier id'>expire</span><span class='lparen token'>(</span><span class='rubyid_sid identifier id'>sid</span><span class='rparen token'>)</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
-    <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_sid identifier id'>sid</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+    <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_sid identifier id'>sid</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -564,7 +564,6 @@
       <pre class="lines">
 
 
-41
 42
 43
 44
@@ -574,14 +573,15 @@
 48
 49
 50
-51</pre>
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_sid identifier id'>sid</span><span class='rparen token'>)</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
-    <span class='rubyid_session_data identifier id'>session_data</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_sid identifier id'>sid</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:session_data</span><span class='rparen token'>)</span>
+    <span class='rubyid_session_data identifier id'>session_data</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_sid identifier id'>sid</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:session_data</span><span class='rparen token'>)</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_session_data identifier id'>session_data</span>
       <span class='rubyid_Session constant id'>Session</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_sid identifier id'>sid</span><span class='comma token'>,</span> <span class='rubyid_Marshal constant id'>Marshal</span><span class='dot token'>.</span><span class='rubyid_load identifier id'>load</span><span class='lparen token'>(</span><span class='rubyid_session_data identifier id'>session_data</span><span class='dot token'>.</span><span class='rubyid_unpack identifier id'>unpack</span><span class='lparen token'>(</span><span class='string val'>&quot;m*&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -617,12 +617,12 @@
       <pre class="lines">
 
 
-66
 67
-68</pre>
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='aref op'>[]</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_@store ivar id'>@store</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
@@ -648,12 +648,12 @@
       <pre class="lines">
 
 
-61
 62
-63</pre>
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='aset op'>[]=</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_@store ivar id'>@store</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span>
@@ -679,7 +679,6 @@
       <pre class="lines">
 
 
-90
 91
 92
 93
@@ -687,16 +686,17 @@
 95
 96
 97
-98</pre>
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 91</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_age identifier id'>age</span>
   <span class='rubyid_last_modified identifier id'>last_modified</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
     <span class='rubyid_last_modified identifier id'>last_modified</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span>
-      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@id ivar id'>@id</span><span class='rparen token'>)</span>
+      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_@id ivar id'>@id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:last_modified</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span> <span class='minus op'>-</span> <span class='rubyid_last_modified identifier id'>last_modified</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
@@ -722,22 +722,22 @@
       <pre class="lines">
 
 
-71
 72
 73
 74
 75
 76
 77
-78</pre>
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 72</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
     <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span>
-      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@id ivar id'>@id</span><span class='rparen token'>)</span>
+      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_@id ivar id'>@id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:session_data</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_Marshal constant id'>Marshal</span><span class='dot token'>.</span><span class='rubyid_dump identifier id'>dump</span><span class='lparen token'>(</span><span class='rubyid_@store ivar id'>@store</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_pack identifier id'>pack</span><span class='lparen token'>(</span><span class='string val'>&quot;m*&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
               <span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -763,21 +763,21 @@
       <pre class="lines">
 
 
-81
 82
 83
 84
 85
 86
-87</pre>
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_touch identifier id'>touch</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
     <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span>
-      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@id ivar id'>@id</span><span class='rparen token'>)</span>
+      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:session_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_@id ivar id'>@id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -792,7 +792,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:19 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:51 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

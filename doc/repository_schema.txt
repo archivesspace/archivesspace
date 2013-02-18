@@ -6,7 +6,35 @@ string	uri
 
 string	repo_code
 
-string	description
+string	name
+
+string	org_code
+
+string	parent_institution_name
+
+string	address_1
+
+string	address_2
+
+string	city
+
+string	district
+
+string	country
+
+string	post_code
+
+string	telephone
+
+string	fax
+
+string	email
+
+string	email_signature
+
+string	url
+
+string	image_url
 
 
 

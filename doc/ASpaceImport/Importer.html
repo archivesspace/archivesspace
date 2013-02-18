@@ -127,6 +127,62 @@
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#error_log-instance_method" title="#error_log (instance method)">- (Object) <strong>error_log</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute error_log.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#import_log-instance_method" title="#import_log (instance method)">- (Object) <strong>import_log</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute import_log.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#parse_queue-instance_method" title="#parse_queue (instance method)">- (Object) <strong>parse_queue</strong> </a>
     
 
@@ -313,29 +369,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#import_log-instance_method" title="#import_log (instance method)">- (Object) <strong>import_log</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#initialize-instance_method" title="#initialize (instance method)">- (Importer) <strong>initialize</strong>(opts = { }) </a>
     
 
@@ -453,7 +486,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#save_all-instance_method" title="#save_all (instance method)">- (Object) <strong>save_all</strong> </a>
+      <a href="#run_safe-instance_method" title="#run_safe (instance method)">- (Object) <strong>run_safe</strong> </a>
     
 
     
@@ -467,7 +500,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Errors arising from bad data should be reported
+out to the user.</p>
 </div></span>
   
 </li>
@@ -476,7 +510,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#uri_map-instance_method" title="#uri_map (instance method)">- (Object) <strong>uri_map</strong> </a>
+      <a href="#save_all-instance_method" title="#save_all (instance method)">- (Object) <strong>save_all</strong> </a>
     
 
     
@@ -527,9 +561,6 @@
       <pre class="lines">
 
 
-61
-62
-63
 64
 65
 66
@@ -542,10 +573,12 @@
 73
 74
 75
-76</pre>
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
   
@@ -556,10 +589,9 @@
   <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
     <span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='dstring node'>&quot;@#{k}&quot;</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_@import_keys ivar id'>@import_keys</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@goodimports ivar id'>@goodimports</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
   <span class='rubyid_@import_log ivar id'>@import_log</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@uri_map ivar id'>@uri_map</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@error_log ivar id'>@error_log</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@import_summary ivar id'>@import_summary</span>
 
   <span class='rubyid_@parse_queue ivar id'>@parse_queue</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_ParseQueue constant id'>ParseQueue</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -575,9 +607,95 @@
     <h2>Instance Attribute Details</h2>
     
       
-      <span id="parse_queue=-instance_method"></span>
+      <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="parse_queue-instance_method">
+  <h3 class="signature first" id="error_log-instance_method">
+  
+    - (<tt>Object</tt>) <strong>error_log</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute error_log</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 12</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_error_log identifier id'>error_log</span>
+  <span class='rubyid_@error_log ivar id'>@error_log</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="import_log-instance_method">
+  
+    - (<tt>Object</tt>) <strong>import_log</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute import_log</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 13</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_import_log identifier id'>import_log</span>
+  <span class='rubyid_@import_log ivar id'>@import_log</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="parse_queue=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="parse_queue-instance_method">
   
     - (<tt>Object</tt>) <strong>parse_queue</strong> 
   
@@ -702,8 +820,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -712,10 +828,12 @@
 32
 33
 34
-35</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_importer identifier id'>create_importer</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_i identifier id'>i</span> <span class='assign token'>=</span> <span class='rubyid_@@importers ivar id'>@@importers</span><span class='lbrack token'>[</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:importer</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span>
@@ -749,12 +867,12 @@
       <pre class="lines">
 
 
-37
-38
-39</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_destroy_importers identifier id'>destroy_importers</span>
   <span class='rubyid_@@importers ivar id'>@@importers</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -854,8 +972,6 @@
       <pre class="lines">
 
 
-46
-47
 48
 49
 50
@@ -863,17 +979,21 @@
 52
 53
 54
-55</pre>
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_importer identifier id'>importer</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_superclass identifier id'>superclass</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Importer constant id'>Importer</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@@importers ivar id'>@@importers</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span> <span class='rubyid_name identifier id'>name</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_StandardError constant id'>StandardError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Attempted to register #{name} a second time&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_c identifier id'>c</span> <span class='assign token'>=</span> <span class='rubyid_Class constant id'>Class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_superclass identifier id'>superclass</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
-    <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_set identifier id'>const_set</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{name.to_s.capitalize}Importer&quot;</span><span class='comma token'>,</span> <span class='rubyid_c identifier id'>c</span><span class='rparen token'>)</span>
+    <span class='rubyid_cname_prefix identifier id'>cname_prefix</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='regexp val'>/[_-]/</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='dot token'>.</span><span class='rubyid_capitalize identifier id'>capitalize</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span>
+    <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_set identifier id'>const_set</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{cname_prefix}Importer&quot;</span><span class='comma token'>,</span> <span class='rubyid_c identifier id'>c</span><span class='rparen token'>)</span>
     <span class='rubyid_@@importers ivar id'>@@importers</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_c identifier id'>c</span>
     <span class='rubyid_true true kw'>true</span>
   <span class='rubyid_end end kw'>end</span>
@@ -899,16 +1019,16 @@
       <pre class="lines">
 
 
-13
-14
 15
 16
 17
 18
-19</pre>
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_list identifier id'>list</span>
   <span class='rubyid_list identifier id'>list</span> <span class='assign token'>=</span> <span class='string val'>&quot;The following importers are available&quot;</span>
@@ -938,12 +1058,12 @@
       <pre class="lines">
 
 
-57
-58
-59</pre>
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_usable identifier id'>usable</span>
   <span class='rubyid_true true kw'>true</span>
@@ -985,54 +1105,21 @@
       <pre class="lines">
 
 
-131
-132
-133
-134
-135
-136
-137</pre>
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 160</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_clear_parse_queue identifier id'>clear_parse_queue</span>
   <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-    <span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span>
     <span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='dot token'>.</span><span class='rubyid_receivers identifier id'>receivers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_receive identifier id'>receive</span> <span class='rbrace token'>}</span>
     <span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
   <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="import_log-instance_method">
-  
-    - (<tt>Object</tt>) <strong>import_log</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-116
-117
-118</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 116</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_import_log identifier id'>import_log</span>
-  <span class='rubyid_@import_log ivar id'>@import_log</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1055,20 +1142,62 @@
       <pre class="lines">
 
 
-78
-79
 80
 81
 82
-83</pre>
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_log_save_result identifier id'>log_save_result</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='rparen token'>)</span>
-  <span class='rubyid_@import_log ivar id'>@import_log</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_response identifier id'>response</span>
-  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@dry ivar id'>@dry</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='eq op'>==</span> <span class='string val'>'200'</span>
-    <span class='rubyid_@uri_map ivar id'>@uri_map</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'saved'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='eq op'>==</span> <span class='string val'>'200'</span>
+    <span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span>
+    
+    <span class='rubyid_@import_summary ivar id'>@import_summary</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;Response Code 200: #{response_body['saved'].length} records saved.&quot;</span>
+
+    <span class='rubyid_@import_log ivar id'>@import_log</span> <span class='assign token'>=</span> <span class='rubyid_response_body identifier id'>response_body</span><span class='lbrack token'>[</span><span class='string val'>'saved'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_u identifier id'>u</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;Saved: #{u}&quot;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@import_summary ivar id'>@import_summary</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;Import failed due to server error #{response.code}&quot;</span>
+    <span class='rubyid_err_data identifier id'>err_data</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'error'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_error identifier id'>error</span> <span class='assign token'>=</span> <span class='rubyid_LoggableError constant id'>LoggableError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_err_data identifier id'>err_data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'error_class'</span><span class='rparen token'>)</span> 
+      <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_header identifier id'>header</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;Response #{response.code}&quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;: #{err_data['error_class']}&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_err_data identifier id'>err_data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'record_title'</span><span class='rparen token'>)</span>
+      <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_record_info identifier id'>record_info</span><span class='lbrack token'>[</span><span class='symbol val'>:title</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_err_data identifier id'>err_data</span><span class='lbrack token'>[</span><span class='string val'>'record_title'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_err_data identifier id'>err_data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'record_type'</span><span class='rparen token'>)</span>
+      <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_record_info identifier id'>record_info</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_err_data identifier id'>err_data</span><span class='lbrack token'>[</span><span class='string val'>'record_type'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_err_data identifier id'>err_data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'errors'</span><span class='rparen token'>)</span>
+      <span class='rubyid_err_data identifier id'>err_data</span><span class='lbrack token'>[</span><span class='string val'>'errors'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_messages identifier id'>messages</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{e[0]}: #{e[1].join(': ')}&quot;</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+    
+    <span class='rubyid_@error_log ivar id'>@error_log</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_error identifier id'>error</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1092,39 +1221,33 @@
       <pre class="lines">
 
 
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114</pre>
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_report identifier id'>report</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@dry ivar id'>@dry</span>
-    <span class='rubyid_report_summary identifier id'>report_summary</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_report identifier id'>report</span> <span class='assign token'>=</span> <span class='string val'>&quot;Aspace Import Report\n&quot;</span>
-    <span class='rubyid_report identifier id'>report</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;--Executive Summary--\n&quot;</span>
-    <span class='rubyid_report identifier id'>report</span> <span class='opasgn op'>+=</span> <span class='rubyid_report_summary identifier id'>report_summary</span>
-    <span class='rubyid_report identifier id'>report</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;\n--Details--\n&quot;</span>
-    <span class='rubyid_report identifier id'>report</span> <span class='opasgn op'>+=</span> <span class='rubyid_@import_log ivar id'>@import_log</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> 
-      <span class='dstring node'>&quot;#{r.code}\n&quot;</span> <span class='plus op'>+</span> <span class='lparen token'>(</span><span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='eq op'>==</span> <span class='string val'>'200'</span>  <span class='question op'>?</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'saved'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_u identifier id'>u</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;Saved: #{u}&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
-    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'\n'</span><span class='rparen token'>)</span>
-  
-    <span class='rubyid_report identifier id'>report</span>
+  <span class='rubyid_report identifier id'>report</span> <span class='assign token'>=</span> <span class='string val'>&quot;Aspace Import Report\n&quot;</span>
+  <span class='rubyid_report identifier id'>report</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;DRY RUN MODE\n&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@dry ivar id'>@dry</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_import_log identifier id'>import_log</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_report identifier id'>report</span> <span class='opasgn op'>+=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_import_log identifier id'>import_log</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_error_log identifier id'>error_log</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_report identifier id'>report</span> <span class='opasgn op'>+=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_error_log identifier id'>error_log</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'\n\n'</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='rubyid_report identifier id'>report</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1147,29 +1270,15 @@
       <pre class="lines">
 
 
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98</pre>
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 112</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_report_summary identifier id'>report_summary</span>
-  <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;Nothing Logged&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@import_log ivar id'>@import_log</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@dry ivar id'>@dry</span>
-    <span class='dstring node'>&quot;DRY RUN -- Records Saved: #{JSON.parse(@import_log[0])['saved'].length}&quot;</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@import_log ivar id'>@import_log</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> 
-      <span class='dstring node'>&quot;#{r.code} -- Records Saved: #{r.code == '200' ? JSON.parse(r.body)['saved'].length : 'Error' }&quot;</span> 
-    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'\n'</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@import_summary ivar id'>@import_summary</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1215,15 +1324,90 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 153</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_StandardError constant id'>StandardError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Unexpected error: run method must be defined by a subclass&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_safe-instance_method">
+  
+    - (<tt>Object</tt>) <strong>run_safe</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Errors arising from bad data should be reported
+out to the user. Other errors can surface 
+as they arise.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 133</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run_safe identifier id'>run_safe</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_@import_summary ivar id'>@import_summary</span> <span class='assign token'>=</span> <span class='string val'>&quot;Failed to POST import due to validation error.&quot;</span>
+    <span class='rubyid_error identifier id'>error</span> <span class='assign token'>=</span> <span class='rubyid_LoggableError constant id'>LoggableError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+    <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_header identifier id'>header</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_invalid_object identifier id'>invalid_object</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_invalid_object identifier id'>invalid_object</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>'title'</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_invalid_object identifier id'>invalid_object</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+        <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_record_info identifier id'>record_info</span><span class='lbrack token'>[</span><span class='symbol val'>:title</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_invalid_object identifier id'>invalid_object</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_record_info identifier id'>record_info</span><span class='lbrack token'>[</span><span class='symbol val'>:title</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;Unknown (#{e.invalid_object.to_s})&quot;</span>
+      <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_record_info identifier id'>record_info</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_invalid_object identifier id'>invalid_object</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='dot token'>.</span><span class='rubyid_capitalize identifier id'>capitalize</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_messages identifier id'>messages</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{k}: #{v}&quot;</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@error_log ivar id'>@error_log</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_error identifier id'>error</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1246,46 +1430,15 @@
       <pre class="lines">
 
 
-85
-86
-87</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save_all identifier id'>save_all</span>
   <span class='rubyid_log_save_result identifier id'>log_save_result</span><span class='lparen token'>(</span><span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="uri_map-instance_method">
-  
-    - (<tt>Object</tt>) <strong>uri_map</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-120
-121
-122</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 120</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_uri_map identifier id'>uri_map</span>
-  <span class='rubyid_@uri_map ivar id'>@uri_map</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1298,7 +1451,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Fri Feb 01 09:16:28 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:56:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
