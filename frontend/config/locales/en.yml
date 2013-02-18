@@ -1375,7 +1375,6 @@ en:
   group:
     group_code: Group code
     description: Description
-    members: Members
     member_usernames: Members
     permissions: "Members can:"
     permission_types:
