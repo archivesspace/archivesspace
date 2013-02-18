@@ -1,4 +1,5 @@
 require 'securerandom'
+require 'digest/sha1'
 
 class Session
 
@@ -16,7 +17,7 @@ class Session
           sid = SecureRandom.hex(SESSION_ID_LENGTH)
 
           completed = DB.attempt {
-            db[:session].insert(:session_id => sid,
+            db[:session].insert(:session_id => Digest::SHA1.hexdigest(sid),
                                 :session_data => [Marshal.dump({})].pack("m*"),
                                 :last_modified => Time.now)
             true
@@ -40,7 +41,7 @@ class Session
 
   def self.find(sid)
     DB.open do |db|
-      session_data = db[:session].filter(:session_id => sid).get(:session_data)
+      session_data = db[:session].filter(:session_id => Digest::SHA1.hexdigest(sid)).get(:session_data)
 
       if session_data
         Session.new(sid, Marshal.load(session_data.unpack("m*").first))
@@ -53,7 +54,7 @@ class Session
 
   def self.expire(sid)
     DB.open do |db|
-      db[:session].filter(:session_id => sid).delete
+      db[:session].filter(:session_id => Digest::SHA1.hexdigest(sid)).delete
     end
   end
 
@@ -71,7 +72,7 @@ class Session
   def save
     DB.open do |db|
       db[:session]
-        .filter(:session_id => @id)
+        .filter(:session_id => Digest::SHA1.hexdigest(@id))
         .update(:session_data => [Marshal.dump(@store)].pack("m*"),
                 :last_modified => Time.now)
     end
@@ -81,7 +82,7 @@ class Session
   def touch
     DB.open do |db|
       db[:session]
-        .filter(:session_id => @id)
+        .filter(:session_id => Digest::SHA1.hexdigest(@id))
         .update(:last_modified => Time.now)
     end
   end
@@ -91,7 +92,7 @@ class Session
     last_modified = 0
     DB.open do |db|
       last_modified = db[:session]
-        .filter(:session_id => @id)
+        .filter(:session_id => Digest::SHA1.hexdigest(@id))
         .get(:last_modified)
     end
     (Time.now - last_modified).to_i
