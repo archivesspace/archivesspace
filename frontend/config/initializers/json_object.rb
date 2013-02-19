@@ -1,4 +1,5 @@
 require "jsonmodel"
+require "asutils"
 require "memoryleak"
 require "frontend_enum_source"
 

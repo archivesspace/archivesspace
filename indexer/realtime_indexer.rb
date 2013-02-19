@@ -17,7 +17,7 @@ class RealtimeIndexer < CommonIndexer
       raise "Indexing error: #{response.body}"
     end
 
-    JSON.parse(response.body)
+    ASUtils.json_parse(response.body)
   end
 
 

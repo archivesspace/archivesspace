@@ -362,7 +362,7 @@ module JSONModel
 
       # Create an instance of this JSONModel from a JSON string.
       def self.from_json(s, raise_errors = true)
-        self.from_hash(JSON.parse(s, :max_nesting => false), raise_errors)
+        self.from_hash(ASUtils.json_parse(s), raise_errors)
       end
 
 

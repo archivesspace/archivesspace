@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
     response = JSONModel::HTTP.do_http_request(url, request)
 
     if response.code == '200'
-      auth = JSON.parse(response.body)
+      auth = ASUtils.json_parse(response.body)
 
       session[:session] = auth['session']
       Thread.current[:backend_session] = auth['session']

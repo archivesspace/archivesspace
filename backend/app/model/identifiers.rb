@@ -14,7 +14,7 @@ module Identifiers
     # Split the identifier into its components and add the individual pieces as
     # variables on this instance.
     if self[:identifier]
-      identifier = JSON.parse(self[:identifier] || "[]")
+      identifier = ASUtils.json_parse(self[:identifier] || "[]")
 
       4.times do |i|
         self.instance_eval {

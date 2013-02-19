@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
         # the document and deserialising these blobs.
 
         if hash.has_key?('_resolved') && hash['_resolved'].is_a?(String)
-          hash.merge('_resolved' => JSON.parse(hash['_resolved']))
+          hash.merge('_resolved' => ASUtils.json_parse(hash['_resolved']))
         else
           hash
         end

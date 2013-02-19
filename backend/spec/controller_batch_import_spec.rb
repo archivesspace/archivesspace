@@ -27,7 +27,7 @@ describe "Batch Import Controller" do
     
     response.code.should eq('200')
     
-    body = JSON.parse(response.body, :max_nesting => false)
+    body = ASUtils.json_parse(response.body)
     body['saved'].length.should eq(10)
     
   end

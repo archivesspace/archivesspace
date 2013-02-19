@@ -32,4 +32,9 @@ module ASUtils
     end
   end
 
+
+  def self.json_parse(s)
+    JSON.parse(s, :max_nesting => false, :create_additions => false)
+  end
+
 end
