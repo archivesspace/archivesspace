@@ -14,13 +14,13 @@
               <span class="icon-chevron-down"></span>
             </div>
             <div class="span3">
-              <%= I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}") %>
+              <%= I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}", :default => instance['instance_type']) %>
             </div>
             <div class="span7">
               <% if instance["instance_type"] === "digital_object" %>
                 <%= instance["digital_object"]["_resolved"]["title"] %>
               <% elsif instance["container"] and instance["container"].length > 0 %>
-                <%= I18n.t("enumerations.container_type.#{instance['container']['type_1']}") %>
+                <%= I18n.t("enumerations.container_type.#{instance['container']['type_1']}", :default => instance['container']['type_1']) %>
               <% end %>
             </div>
           </div>

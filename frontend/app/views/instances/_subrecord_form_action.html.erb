@@ -4,7 +4,7 @@
     <li>
       <select>
         <% JSONModel.enum_values(JSONModel(:instance).schema["properties"]["instance_type"]["dynamic_enum"]).each do | value | %>
-          <option value="<%= value %>"><%= I18n.t("enumerations.instance_instance_type.#{value}") %></option>
+          <option value="<%= value %>"><%= I18n.t("enumerations.instance_instance_type.#{value}", :default => value) %></option>
         <% end %>
       </select>
     </li>

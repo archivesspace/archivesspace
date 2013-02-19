@@ -936,9 +936,6 @@ en:
       plural: Locations
   linked_record:
     role: Role
-    role_source: Source
-    role_outcome: Outcome
-    role_transfer: Transfer
     ref: Record
     ref_plural: Records
     _html:
@@ -946,15 +943,6 @@ en:
       plural: Record Links
   linked_agent: &linked_agent_attributes
     role: Role
-    role_creator: Creator
-    role_source: Source
-    role_subject: Subject
-    role_authorizer: Authorizer
-    role_executing_program: Executing Program
-    role_implementer: Implementer
-    role_recipient: Recipient
-    role_transmitter: Transmitter
-    role_validator: Validator
     ref: Agent
     _html:
       singular: Agent Link
