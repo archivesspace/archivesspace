@@ -1029,7 +1029,7 @@ Sequel.migration do
 
     create_enum('digital_object_level', ["collection", "work", "image"])
 
-    create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leafs", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
+    create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leaves", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
 
     create_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "agreement received", "agreement sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "custody transfer", "deaccession", "decompression", "decryption", "deletion", "digital signature validation", "fixity check", "ingestion", "message digest calculation", "migration", "normalization", "processing", "publication", "replication", "resource merge", "resource component transfer", "validation", "virus check"])
 
