@@ -31,8 +31,8 @@
               <% @search_data['results'].each do |cmr| %>
               <tr>
                <td><%= cmr.id %></td>
-               <td><%= I18n.t("collection_management.processing_priority_#{cmr.processing_priority}") %></td>
-               <td><%= I18n.t("collection_management.processing_status_#{cmr.processing_status}") %></td>
+               <td><%= I18n.t("enumerations.collection_management_processing_priority.#{cmr.processing_priority}", :default => cmr.processing_priority) %></td>
+               <td><%= I18n.t("enumerations.collection_management_processing_status.#{cmr.processing_status}", :default => cmr.processing_status) %></td>
                <td><%= cmr.processors %></td>
                <%=
                  pr = JSONModel.parse_reference(cmr.linked_records[0]['ref'])

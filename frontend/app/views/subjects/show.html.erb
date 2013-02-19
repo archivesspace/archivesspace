@@ -12,13 +12,17 @@
 
       <%= render :partial => "shared/flash_messages" %>
 
-      <section id="basic_information">
-        <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
+      <% define_template "subject", jsonmodel_definition(:subject) do |form, subject| %>
+        <section id="basic_information">
+          <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
 
-        <%= readonly.label_and_textfield "ref_id" %>
-        <%= readonly.label_and_select "source", readonly.possible_options_for("source", true) %>
-      </section>
-    
+          <%= form.label_and_textfield "ref_id" %>
+          <%= form.label_and_select "source", form.possible_options_for("source", true) %>
+        </section>
+      <% end %>
+
+      <%= readonly.emit_template "subject" %>
+
       <section id="terms" class="subrecord-form-dummy">
         <h3><%= I18n.t("subject.terms") %></h3>
         <div class="subrecord-form-container">
