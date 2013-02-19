@@ -73,6 +73,9 @@ class ImportController < ApplicationController
     when 'marcxml'
       importer = 'xml'
       crosswalk = 'marcxml'
+    when 'marcxml_subjects_and_agents'
+      importer = 'xml'
+      crosswalk = 'marcxml_subjects_and_agents'
     end
     
     
