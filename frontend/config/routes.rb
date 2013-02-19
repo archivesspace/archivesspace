@@ -71,8 +71,10 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/:type/new' => 'agents#new', :via => [:get]
   match 'agents/:type/:id/edit' => 'agents#edit', :via => [:get]
   match 'agents/:type/:id/update' => 'agents#update', :via => [:post]
+  match 'agents/:type/:id/download_eac' => 'exports#download_eac', :via => [:get]
   match 'agents/:type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
+
 
   resources :collection_management_records
   match 'collection_management_records/:id' => 'collection_management_records#update', :via => [:post]
