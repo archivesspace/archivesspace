@@ -419,7 +419,10 @@ describe 'Resources controller' do
 
     notes = build(:json_note_bibliography)
 
-    resource.notes = [notes]
+    # No 'content' but that's OK because it's optional for notes of type index.
+    index = JSONModel(:note_index).from_hash(:items => [])
+
+    resource.notes = [notes, index]
     resource.save
 
     JSONModel(:resource).find(resource.id)[:notes].first.should eq(notes.to_hash)
