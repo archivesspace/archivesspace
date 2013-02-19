@@ -5,7 +5,7 @@
   <div class="controls">
     <select id="<%= form.id_for("member_usernames") %>" multiple="multiple">
       <% (@group.member_usernames or []).each do |username| %>
-      <option id="<%= username %>" value="<%= username %>"><%= username %></option>
+      <option class="group-member" value="<%= username %>"><%= username %></option>
       <% end %>
     </select>
     <button id="remove-member" style="display: none;" class="btn btn-small"><%= I18n.t("actions.remove") %></button>
