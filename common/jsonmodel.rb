@@ -1,4 +1,5 @@
 require 'json-schema'
+require 'uri'
 require_relative 'json_schema_concurrency_fix'
 require_relative 'json_schema_utils'
 require_relative 'asutils'
@@ -376,7 +377,7 @@ module JSONModel
         uri = self.schema['uri']
 
         if not id.nil?
-          uri += "/#{id}"
+          uri += "/#{URI.escape(id.to_s)}"
         end
 
         self.substitute_parameters(uri, opts)
@@ -634,7 +635,7 @@ module JSONModel
         matched = []
         opts.each do |k, v|
           old = uri
-          uri = uri.gsub(":#{k}", v.to_s)
+          uri = uri.gsub(":#{k}", URI.escape(v.to_s))
 
           if old != uri
 
