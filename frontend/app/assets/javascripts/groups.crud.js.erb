@@ -1,6 +1,20 @@
 $(function() {
   "use strict";
 
+  var usernameAlreadyAdded = function(username) {
+    var userFound = false;
+
+    $("option.group-member").each(function(idx, option) {
+      if ($(option).val().toLowerCase() === username.toLowerCase()) {
+        userFound = true;
+        return false;
+      }
+    });
+
+    return userFound;
+  };
+
+
   var addNewMember = function(e) {
     // Only interested in events on the input box if they've hit enter.
     if ($(e.target).attr("id") == "new-member") {
@@ -13,11 +27,11 @@ $(function() {
     var input = $("#new-member");
     var username = input.val();
 
-    if (!username || $("#" + username).length > 0) {
+    if (!username || usernameAlreadyAdded(username)) {
       return;
     }
 
-    var option = $("<option />").attr("value", username).attr("id", username).text(username);
+    var option = $("<option class=\"group-member\" />").attr("value", username).text(username);
 
     $("#group_member_usernames_").append(option);
     input.val('');

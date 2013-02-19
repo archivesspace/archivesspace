@@ -11,7 +11,7 @@ require_relative "../../../common/jsonmodel"
 require_relative "../../../common/asutils"
 require_relative "../model/db_migrator"
 require_relative 'webhooks'
-
+require_relative 'username'
 
 
 if ENV["ASPACE_INTEGRATION"] == "true"

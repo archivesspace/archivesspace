@@ -202,6 +202,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => "Access denied"}, 403)
   end
 
+  error InvalidUsernameException do
+    json_response({:error => "Invalid username"}, 400)
+  end
+
   error Sequel::ValidationFailed do
     json_response({:error => request.env['sinatra.error'].errors}, 400)
   end

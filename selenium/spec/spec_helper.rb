@@ -374,7 +374,7 @@ end
 
 
 def create_user
-  user = "user_#{Time.now.to_i}_#{$$}"
+  user = "test user_#{Time.now.to_i}_#{$$}"
   pass = "pass_#{Time.now.to_i}_#{$$}"
 
   req = Net::HTTP::Post.new("/users?password=#{pass}")

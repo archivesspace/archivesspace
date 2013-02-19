@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    params[:user].username = params[:user].username.downcase
+    params[:user].username = Username.value(params[:user].username)
 
     user = User.create_from_json(params[:user], :source => "local")
     DBAuth.set_password(params[:user].username, params[:password])
@@ -95,7 +95,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    params[:user].username = params[:user].username.downcase
+    params[:user].username = Username.value(params[:user].username)
 
     obj = User.get_or_die(params[:id])
     obj.update_from_json(params[:user])
@@ -110,7 +110,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/users/:username/login')
     .description("Log in")
-    .params(["username", String, "Your username"],
+    .params(["username", Username, "Your username"],
             ["password", String, "Your password"],
             ["expiring", BooleanParam, "true if the created session should expire",
              :default => true])
@@ -118,7 +118,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "Login accepted"],
              [403, "Login failed"]) \
   do
-    username = params[:username].downcase
+    username = params[:username]
 
     user = AuthenticationManager.authenticate(username, params[:password])
 
