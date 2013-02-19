@@ -4,6 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Import a batch of records")
     .params(["batch_import", JSONModel(:batch_import), "The batch of records", :body => true],
             ["repo_id", :repo_id])
+    .request_context(:create_enums => true)
     .permissions([:update_archival_record])
     .returns([200, :created],
              [400, :error],
@@ -11,5 +12,5 @@ class ArchivesSpaceService < Sinatra::Base
   do
     handle_import
   end
-  
+
 end

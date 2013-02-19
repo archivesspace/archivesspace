@@ -410,6 +410,11 @@ module JSONModel
       end
 
 
+      def valid?(name, value)
+        values_for(name).include?(value)
+      end
+
+
       def values_for(name)
         @enumerations.fetch(name)
       end

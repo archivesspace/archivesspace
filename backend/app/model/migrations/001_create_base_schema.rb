@@ -41,7 +41,7 @@ Sequel.migration do
 
     alter_table(:enumeration_value) do
       add_foreign_key([:enumeration_id], :enumeration, :key => :id)
-      add_index([:enumeration_id, :value], :unique => true)
+      add_unique_constraint([:enumeration_id, :value], :name => "enumeration_value_uniq")
     end
 
 
@@ -123,7 +123,7 @@ Sequel.migration do
 
     alter_table(:group) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_index([:repo_id, :group_code_norm], :unique => true)
+      add_unique_constraint([:repo_id, :group_code_norm], :name => "group_uniq")
     end
 
 
