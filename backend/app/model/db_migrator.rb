@@ -37,7 +37,7 @@ module Sequel
         if $db_type == :postgres
           Bytea field, opts
         elsif $db_type == :h2
-          String field, opts
+          String field, opts.merge(:size => 10240)
         else
           Blob field, opts
         end
