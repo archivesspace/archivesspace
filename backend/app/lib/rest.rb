@@ -315,8 +315,7 @@ module RESTHelpers
         if type == Integer
           Integer(value)
         elsif type.respond_to? :from_json
-          raise_errors = type.record_type == 'batch_import' ? false : true
-          type.from_json(value, raise_errors)
+          type.from_json(value)
         elsif type.is_a? Array
           if value.is_a? Array
             value.map {|elt| coerce_type(elt, type[0])}
@@ -354,6 +353,7 @@ module RESTHelpers
           if opts[:body]
             params[name] = request.body.read
           end
+
           if not params[name] and not opts[:optional] and not opts[:default]
             errors[:missing] << {:name => name, :doc => doc}
           else

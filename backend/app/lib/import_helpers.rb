@@ -37,9 +37,7 @@ module ImportHelpers
       @second_pass_keys = []
 
       @json_set.each do |ref, json|
-      
-        self.class.fuzzy_validation(json)
-        
+              
         # TODO: add a method to say whether a json is de-linkable
 
         if json.jsonmodel_type == 'collection_management'
@@ -144,43 +142,6 @@ module ImportHelpers
       else 
         return nil
       end
-    end    
-    
-    
-    def self.fuzzy_validation(json)
-
-      begin
-        json.class.validate(json.to_hash(true))
-        
-      rescue JSONModel::ValidationException => e
-        
-        e.errors.each do |path, message|
-          if e.attribute_types.has_key?(path) && e.attribute_types[path] == 'ArchivesSpaceDynamicEnum'
-
-            new_value = message[0].scan(/Invalid value '([^']+)'/).flatten[0]
-
-            next if new_value.nil?
-
-            enum_name = fetch_enum_name(json, json.class.schema, path)
-            
-            obj = Enumeration[:name => enum_name]
-            
-            json_enum = Enumeration.sequel_to_jsonmodel(obj)
-            
-            json_enum.values.push(new_value)
-            
-            obj.update_from_json(json_enum)
-            
-            obj.save
-            
-          else
-            Log.debug("Normal validation error")
-          end
-        end
-
-        # Now try to validate again
-        json.class.validate(json.to_hash(true))
-      end   
     end
   end
 
