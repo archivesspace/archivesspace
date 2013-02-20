@@ -79,6 +79,8 @@ en:
     message: Your friendly archives management tool.
   breadcrumb:
     home: Home
+  content_items:
+    content: Text
   pagination:
     first: First
     last: Last
@@ -1093,6 +1095,7 @@ en:
       singular: Contact
       plural: Contact Details
   note:
+    item: Item
     note_singlepart: Single Part Note
     note_orderedlist: Ordered List
     note_multipart: Multipart Note

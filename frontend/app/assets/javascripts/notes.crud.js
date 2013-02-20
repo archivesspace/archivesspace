@@ -29,7 +29,9 @@ $(function() {
             template = template_name($(this));
           }
 
-          var $target_subrecord_list = $(this).siblings(".subrecord-form-list:first").add(".subrecord-form-list:first", $subform).first();
+
+          var context = $(this).parent().hasClass("controls") ? $(this).parent() : $(this).closest(".subrecord-form");
+          var $target_subrecord_list = $(".subrecord-form-list:first", context);
 
           var $subsubform = $(AS.renderTemplate(template, {
             path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
@@ -73,6 +75,19 @@ $(function() {
       }
 
       dropdownFocusFix();
+
+
+      var initContentList = function($subform) {
+        if (!$subform) {
+          $subform = $(document);
+        }
+
+        var contentList = $('.content-list', $subform);
+
+        if (contentList.length > 0) {
+          initNoteType(contentList, "template_content_item", true, '.add-content-item-btn');
+        }
+      }
 
 
       var initRemoveActionForSubRecord = function($subform) {
@@ -144,6 +159,8 @@ $(function() {
         if (initialisers[note_type]) {
           initialisers[note_type]($noteform);
         }
+
+        initContentList($noteform);
       };
 
       var createTopLevelNote = function(event) {
@@ -191,7 +208,6 @@ $(function() {
           initRemoveActionForSubRecord($(this));
         });
       }
-
     });
   };
 

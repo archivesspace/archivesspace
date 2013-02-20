@@ -4,18 +4,44 @@
      $(function () {
 
        var setupErrorMessage = function(idx, elt, type) {
+         var $matched;
+
          if ($("#" + elt).length) {
-           $("#" + elt).parents(".control-group:first").addClass(type);
+           $matched = $("#" + elt);
+           $matched.parents(".control-group:first").addClass(type);
          } else if ($("[data-real-id=" + elt + "]").length) {
            $("[data-real-id=" + elt + "]").each(function() {
              $(this).parents(".control-group:first").addClass(type);
            });
+         } else if ($("#" + elt + "_0_").length) {
+           // I know.  Icky.
+           //
+           // Sometimes validation will report that an entire property
+           // is missing (like resource[notes][0][content]).  If that
+           // property is an array, from the form's point of view this
+           // error means that the user didn't provide the first
+           // element of the array (index 0).
+           //
+           // So, if we didn't get a match on the path specified by
+           // the error, assume it's an array and look for the path of
+           // the first element.
+           $matched = $("#" + elt + "_0_");
+           $matched.parents(".control-group:first").addClass(type);
          }
-         if ($("#" + elt).length && !$("." + type + "[data-target=" + elt + "]").hasClass("linked-to-field")) {
+         if ($matched && !$("." + type + "[data-target=" + elt + "]").hasClass("linked-to-field")) {
            $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='icon-chevron-down'></span>").click(function() {
-             $("#" + elt).ScrollTo({
+
+             var $scrollTo = $matched;
+
+             // CodeMirror text areas are hidden so we can't scroll to
+             // them.  Scroll nearby :)
+             if (!$matched.is(":visible")) {
+               $scrollTo = $matched.parent();
+             }
+
+             $scrollTo.ScrollTo({
               callback: function() {
-                $("#" + elt).focus();
+                $matched.focus();
               }
              });
            });
