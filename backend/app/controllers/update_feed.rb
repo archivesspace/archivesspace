@@ -5,12 +5,14 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:index_system])
     .params(["last_sequence", Integer, "The last sequence number seen",
              :optional => true,
-             :default => 0])
+             :default => 0],
+            ["resolve", [String], "A list of references to resolve and embed in the response",
+             :optional => true])
     .returns([200, "a list of records and sequence numbers"]) \
   do
     updates = RealtimeIndexing.blocking_updates_since(params[:last_sequence])
 
-    json_response(updates)
+    json_response(resolve_references(updates, params[:resolve]))
   end
 
 

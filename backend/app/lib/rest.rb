@@ -134,7 +134,9 @@ module RESTHelpers
        ["modified_since",
         NonNegativeInteger,
         "Only include results with a modified date after this timestamp",
-        :default => 0]]
+        :default => 0],
+       ["resolve", [String], "A list of references to resolve and embed in the response",
+        :optional => true]]
     end
 
     def self.all

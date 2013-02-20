@@ -40,7 +40,17 @@ module CrudHelpers
 
 
   def _listing_response(dataset, model)
-    results = dataset.collect {|obj| model.to_jsonmodel(obj)}
+    results = dataset.collect {|obj|
+      json = model.to_jsonmodel(obj)
+
+      puts params.inspect
+
+      if params[:resolve]
+        resolve_references(json, params[:resolve])
+      else
+        json
+      end
+    }
 
     if dataset.respond_to? (:page_range)
       response = {

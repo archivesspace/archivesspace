@@ -55,6 +55,8 @@
    <field name="suppressed" type="boolean" indexed="true" stored="true" multiValued="false" />
    <field name="external_id" type="string" indexed="true" stored="true" multiValued="true" />
 
+   <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
+
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->

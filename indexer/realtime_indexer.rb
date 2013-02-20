@@ -10,8 +10,11 @@ class RealtimeIndexer < CommonIndexer
   end
 
   def get_updates(last_sequence = 0)
+
+    resolve_params = @@resolved_attributes.map {|a| "resolve[]=#{a}"}.join("&")
+
     response = do_http_request(URI.parse(@backend_url),
-                               Net::HTTP::Get.new("/update-feed?last_sequence=#{last_sequence}"))
+                               Net::HTTP::Get.new("/update-feed?last_sequence=#{last_sequence}&#{resolve_params}"))
 
     if response.code != '200'
       raise "Indexing error: #{response.body}"
