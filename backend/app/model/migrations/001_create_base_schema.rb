@@ -41,7 +41,7 @@ Sequel.migration do
 
     alter_table(:enumeration_value) do
       add_foreign_key([:enumeration_id], :enumeration, :key => :id)
-      add_index([:enumeration_id, :value], :unique => true)
+      add_unique_constraint([:enumeration_id, :value], :name => "enumeration_value_uniq")
     end
 
 
@@ -123,7 +123,7 @@ Sequel.migration do
 
     alter_table(:group) do
       add_foreign_key([:repo_id], :repository, :key => :id)
-      add_index([:repo_id, :group_code_norm], :unique => true)
+      add_unique_constraint([:repo_id, :group_code_norm], :name => "group_uniq")
     end
 
 
@@ -1029,7 +1029,7 @@ Sequel.migration do
 
     create_enum('digital_object_level', ["collection", "work", "image"])
 
-    create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leafs", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
+    create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leaves", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
 
     create_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "agreement received", "agreement sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "custody transfer", "deaccession", "decompression", "decryption", "deletion", "digital signature validation", "fixity check", "ingestion", "message digest calculation", "migration", "normalization", "processing", "publication", "replication", "resource merge", "resource component transfer", "validation", "virus check"])
 

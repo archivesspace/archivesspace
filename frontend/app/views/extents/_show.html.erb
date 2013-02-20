@@ -15,7 +15,7 @@
             </div>
             <div class="span4">
               <%= extent['number'] %> 
-              <%= I18n.t('enumerations.extent_extent_type.'+extent['extent_type']) %>
+              <%= I18n.t('enumerations.extent_extent_type.'+extent['extent_type'], :default => extent['extent_type']) %>
             </div>
             <div class="span7">
               <%= extent['container_summary'] %>

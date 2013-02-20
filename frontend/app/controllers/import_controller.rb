@@ -31,8 +31,6 @@ class ImportController < ApplicationController
 
         source_file.delete
 
-        Rails.logger.debug("RESULTS #{results.inspect}")
-
         if results[0].match /200/
           flash.now[:success] = results[0]
         else
@@ -63,6 +61,9 @@ class ImportController < ApplicationController
   def run_import(source_file, importer_key)
     
     case importer_key
+    when 'eac'
+      importer = 'xml_dom'
+      crosswalk = 'eac'
     when 'ead'
       importer = 'xml'
       crosswalk = 'ead'
@@ -72,6 +73,9 @@ class ImportController < ApplicationController
     when 'marcxml'
       importer = 'xml'
       crosswalk = 'marcxml'
+    when 'marcxml_subjects_and_agents'
+      importer = 'xml'
+      crosswalk = 'marcxml_subjects_and_agents'
     end
     
         

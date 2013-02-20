@@ -20,8 +20,8 @@
       "fax" => {"type" => "string"},
       "email" => {"type" => "string"},
       "email_signature" => {"type" => "string"},
-      "url" => {"type" => "string", "pattern" => "^https?:\\/\\/[\\\S]+$"},
-      "image_url" => {"type" => "string", "pattern" => "^https?:\\/\\/[\\\S]+$"},
+      "url" => {"type" => "string", "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
+      "image_url" => {"type" => "string", "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
       
       
     },

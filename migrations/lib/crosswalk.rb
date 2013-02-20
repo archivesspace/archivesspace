@@ -13,6 +13,15 @@ module ASpaceImport
       @walk = Psych.load(IO.read(File.join(File.dirname(__FILE__),
                                                 "../crosswalks",
                                                 "#{opts[:crosswalk]}.yml")))
+                                                
+      if @walk['inherit']
+        parent = Psych.load(IO.read(File.join(File.dirname(__FILE__),
+                                                "../crosswalks",
+                                                "#{@walk['inherit']}.yml")))
+        
+        @walk['entities'] = parent['entities'].merge(@walk['entities'])
+      end
+
       
       entries.each do |key, xdef|
         record_type = xdef.has_key?('record_type') ? xdef['record_type'] : key

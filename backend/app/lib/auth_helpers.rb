@@ -1,7 +1,7 @@
 module AuthHelpers
 
   def create_session_for(username, expiring_session)
-    username = username.downcase
+    username = username
 
     session = Session.new
     session[:user] = params[:username]

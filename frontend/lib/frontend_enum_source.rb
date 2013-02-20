@@ -10,6 +10,11 @@ class FrontendEnumSource
   end
 
 
+  def valid?(name, value)
+    values_for(name).include?(value)
+  end
+
+
   def values_for(name)
     MemoryLeak::Resources.get(:enumerations).fetch(name)
   end

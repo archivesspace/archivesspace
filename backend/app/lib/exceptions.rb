@@ -17,8 +17,16 @@ class ReadOnlyException < StandardError
 end
 
 
+class UserNotFoundException < StandardError
+end
+
+
+class InvalidUsernameException < StandardError
+end
+
 class SequenceError < StandardError
 end
+
 
 class ReferenceError < StandardError
 end

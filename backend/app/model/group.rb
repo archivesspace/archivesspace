@@ -23,12 +23,33 @@ class Group < Sequel::Model(:group)
   end
 
 
+  def self.PUBLIC_GROUP_CODE
+    'publicanonymous'
+  end
+
+
   def before_save
     self.group_code_norm = self.group_code.downcase
   end
 
 
   def self.set_members(obj, json)
+    nonusers = []
+    (json.member_usernames or []).map {|username|
+      user = User[:username => username]
+      if not user
+        nonusers << username
+      end
+    }
+
+    if nonusers.length > 0
+      if nonusers.length == 1
+        raise UserNotFoundException.new("User #{nonusers[0]} does not exist")
+      else
+        raise UserNotFoundException.new("Users #{nonusers.join(', ')} do not exist")
+      end
+    end
+
     obj.remove_all_user
     (json.member_usernames or []).map {|username|
       user = User[:username => username]

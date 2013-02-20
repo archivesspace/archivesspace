@@ -109,7 +109,7 @@ module JSONModel
       response = get_response(uri)
 
       if response.is_a?(Net::HTTPSuccess) || response.status == 200
-        JSON.parse(response.body, :max_nesting => false)
+        ASUtils.json_parse(response.body)
       else
         nil
       end
@@ -149,7 +149,7 @@ module JSONModel
         response = http.request(req)
 
         if response.code =~ /^4/
-          JSONModel::handle_error(JSON.parse(response.body, :max_nesting => false))
+          JSONModel::handle_error(ASUtils.json_parse(response.body))
         end
 
         response
@@ -212,7 +212,7 @@ module JSONModel
                                            self.to_json)
 
       if response.code == '200'
-        response = JSON.parse(response.body, :max_nesting => false)
+        response = ASUtils.json_parse(response.body)
 
         self.uri = self.class.uri_for(response["id"], opts)
 
@@ -231,11 +231,11 @@ module JSONModel
         raise AccessDeniedException.new
 
       elsif response.code == '409'
-        err = JSON.parse(response.body)
+        err = ASUtils.json_parse(response.body)
         raise ConflictException.new(err["error"])
 
       elsif response.code =~ /^4/
-        err = JSON.parse(response.body)
+        err = ASUtils.json_parse(response.body)
 
         @errors = err["error"]
 
@@ -282,7 +282,7 @@ module JSONModel
         raise "Error when setting suppression status for #{self}: #{response.code} -- #{response.body}"
       end
 
-      self["suppressed"] = JSON.parse(response.body)["suppressed_state"]
+      self["suppressed"] = ASUtils.json_parse(response.body)["suppressed_state"]
     end
 
 
@@ -360,8 +360,8 @@ module JSONModel
       end
 
 
-      def find_by_uri(uri)
-        self.find(self.id_for(uri))
+      def find_by_uri(uri, opts = {})
+        self.find(self.id_for(uri), opts)
       end
 
 
@@ -374,7 +374,7 @@ module JSONModel
         response = JSONModel::HTTP.get_response(uri)
 
         if response.code == '200'
-          json_list = JSON.parse(response.body, :max_nesting => false)
+          json_list = ASUtils.json_parse(response.body)
 
           if json_list.is_a?(Hash)
             json_list["results"] = json_list["results"].map {|h| self.from_hash(h)}
@@ -407,6 +407,11 @@ module JSONModel
 
       def initialize
         @enumerations = self.class.fetch_enumerations
+      end
+
+
+      def valid?(name, value)
+        values_for(name).include?(value)
       end
 
 

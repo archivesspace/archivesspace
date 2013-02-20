@@ -3,6 +3,7 @@ require 'uri'
 require 'json'
 require 'fileutils'
 
+require_relative '../common/asutils'
 require_relative '../common/jsonmodel'
 require_relative '../common/jsonmodel_client'
 require_relative '../config/config-distribution'
@@ -100,7 +101,7 @@ class CommonIndexer
     response = do_http_request(url, request)
 
     if response.code == '200'
-      auth = JSON.parse(response.body)
+      auth = ASUtils.json_parse(response.body)
 
       @current_session = auth['session']
       JSONModel::HTTP.current_backend_session = auth['session']

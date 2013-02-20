@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
         # the document and deserialising these blobs.
 
         if hash.has_key?('_resolved') && hash['_resolved'].is_a?(String)
-          hash.merge('_resolved' => JSON.parse(hash['_resolved']))
+          hash.merge('_resolved' => ASUtils.json_parse(hash['_resolved']))
         else
           hash
         end
@@ -192,8 +192,11 @@ class ApplicationController < ActionController::Base
 
     reset_session
 
+    @message = exception.message
+    return render :template => "401", :layout => nil if inline?
+
     flash[:error] = exception.message
-    redirect_to :controller => :welcome, :action => :index
+    redirect_to :controller => :welcome, :action => :index, :login => true
   end
 
 
@@ -260,11 +263,15 @@ class ApplicationController < ActionController::Base
 
 
   def render_403
+    return render :template => "403", :layout => nil if inline?
+
     render "/403"
   end
 
 
   def render_404
+    return render :template => "404", :layout => nil if inline?
+
     render "/404"
   end
 

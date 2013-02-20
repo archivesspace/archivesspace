@@ -19,8 +19,6 @@ class AuthenticationManager
   # Return a User object if successful, nil otherwise
   def self.authenticate(username, password)
 
-    username = username.downcase
-
     authentication_sources.each do |source|
       begin
         jsonmodel_user = source.authenticate(username, password)

@@ -1,4 +1,5 @@
 require 'json-schema'
+require 'uri'
 require_relative 'json_schema_concurrency_fix'
 require_relative 'json_schema_utils'
 require_relative 'asutils'
@@ -203,6 +204,11 @@ module JSONModel
     if @@init_args[:allow_other_unmapped]
       enum_wrapper = Struct.new(:enum_source).new(@@init_args[:enum_source])
 
+      def enum_wrapper.valid?(name, value)
+        self.values_for(name).include?(value)
+      end
+
+
       def enum_wrapper.values_for(name)
         enum_source.values_for(name) + ['other_unmapped']
       end
@@ -359,7 +365,7 @@ module JSONModel
 
       # Create an instance of this JSONModel from a JSON string.
       def self.from_json(s, raise_errors = true)
-        self.from_hash(JSON.parse(s, :max_nesting => false), raise_errors)
+        self.from_hash(ASUtils.json_parse(s), raise_errors)
       end
 
 
@@ -373,7 +379,7 @@ module JSONModel
         uri = self.schema['uri']
 
         if not id.nil?
-          uri += "/#{id}"
+          uri += "/#{URI.escape(id.to_s)}"
         end
 
         self.substitute_parameters(uri, opts)
@@ -632,7 +638,7 @@ module JSONModel
         matched = []
         opts.each do |k, v|
           old = uri
-          uri = uri.gsub(":#{k}", v.to_s)
+          uri = uri.gsub(":#{k}", URI.escape(v.to_s))
 
           if old != uri
 

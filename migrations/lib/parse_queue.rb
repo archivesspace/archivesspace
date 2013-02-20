@@ -180,6 +180,10 @@ module ASpaceImport
       @selected = self.last
     end
     
+    def <<(obj)
+      push(obj)
+    end
+    
     def push(obj)
       raise "Not a JSON Object" unless obj.class.record_type
       @selected = obj

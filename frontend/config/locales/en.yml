@@ -45,8 +45,10 @@ en:
     brand: ArchivesSpace
     create: Create
     import: Import
+    import_eac: EAC file
     import_ead: EAD file
     import_marcxml: MARCXML
+    import_marcxml_subjects_and_agents: MARCXML (Subjects and Agents only)
     import_accession_csv: Accession CSV
     search_all: All Records
     search_placeholder: Search
@@ -60,6 +62,7 @@ en:
     manage_enumerations: Manage Enumerations
     logout: Logout
     login: Sign In
+    login_expired_link: Please %{link} again.
     login_fail: Login attempt failed
     login_success: Login Successful. Redirecting...
     register: Register now
@@ -73,7 +76,9 @@ en:
     first: First
     last: Last
     previous: "&#171;"
+    previous_label: Previous
     next: "&#187;"
+    next_label: Next
     summary_prefix: Showing
     summary_offset_connector: "-"
     summary_total_connector: of
@@ -97,8 +102,10 @@ en:
     wrap_prefix: "Wrap with:"
     help: "Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or highlight text to wrap"
   import:
+    eac_title: Import an EAC file
     ead_title: Import an EAD File
     marcxml_title: Import a MARCXML file
+    marcxml_subjects_and_agents_title: Import Subjects and Agents from a MARCXML file
     accession_csv_title: Import Accession Records from a CSV File
     import_report: Import Report
     import_another: Import Another File
@@ -931,9 +938,6 @@ en:
       plural: Locations
   linked_record:
     role: Role
-    role_source: Source
-    role_outcome: Outcome
-    role_transfer: Transfer
     ref: Record
     ref_plural: Records
     _html:
@@ -941,15 +945,6 @@ en:
       plural: Record Links
   linked_agent: &linked_agent_attributes
     role: Role
-    role_creator: Creator
-    role_source: Source
-    role_subject: Subject
-    role_authorizer: Authorizer
-    role_executing_program: Executing Program
-    role_implementer: Implementer
-    role_recipient: Recipient
-    role_transmitter: Transmitter
-    role_validator: Validator
     ref: Agent
     _html:
       singular: Agent Link
@@ -1370,7 +1365,7 @@ en:
   group:
     group_code: Group code
     description: Description
-    members: Members
+    member_usernames: Members
     permissions: "Members can:"
     permission_types:
       manage_repository: manage this repository (change groups and other settings)

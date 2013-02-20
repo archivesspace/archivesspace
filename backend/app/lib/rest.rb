@@ -9,7 +9,8 @@ module RESTHelpers
     end
 
     if JSONModel.parse_reference(reference['ref'])
-      reference.clone.merge('_resolved' => JSON.parse(redirect_internal(reference['ref'])[2].join(""), :max_nesting => false))
+      record = redirect_internal(reference['ref'])[2].body.join("")
+      reference.clone.merge('_resolved' => ASUtils.json_parse(record))
     else
       raise "Couldn't parse ref: #{reference.inspect}"
     end
@@ -115,6 +116,7 @@ module RESTHelpers
       @preconditions = []
       @required_params = []
       @returns = []
+      @request_context_keyvals = {}
     end
 
     def [](key)
@@ -178,6 +180,13 @@ module RESTHelpers
     end
 
 
+    def request_context(hash)
+      @request_context_keyvals = hash
+
+      self
+    end
+
+
     def params(*params)
       @required_params = params.map do |p|
         @@param_types[p[1]] ? [p[0], @@param_types[p[1]]].flatten : p
@@ -198,6 +207,7 @@ module RESTHelpers
       rp = @required_params
       uri = @uri
       method = @method
+      request_context = @request_context_keyvals
 
       if ArchivesSpaceService.development?
         # Undefine any pre-existing routes (sinatra reloader seems to have trouble
@@ -214,13 +224,14 @@ module RESTHelpers
       end
 
       ArchivesSpaceService.send(@method, @uri, {}) do
+        RequestContext.open(request_context) do
+          ensure_params(rp)
 
-        ensure_params(rp)
+          Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
 
-        Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
+          RequestContext.put(:repo_id, params[:repo_id])
+          RequestContext.put(:is_high_priority, high_priority_request?)
 
-        RequestContext.open(:repo_id => params[:repo_id],
-                            :is_high_priority => high_priority_request?) do
           unless preconditions.all? { |precondition| self.instance_eval &precondition }
             raise AccessDeniedException.new("Access denied")
           end

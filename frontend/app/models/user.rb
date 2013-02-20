@@ -28,7 +28,7 @@ class User < JSONModel(:user)
     response = JSONModel::HTTP.post_form(uri, :password => password)
 
     if response.code == '200'
-      JSON.parse(response.body)
+      ASUtils.json_parse(response.body)
     else
       nil
     end

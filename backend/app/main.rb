@@ -5,13 +5,11 @@ require_relative 'lib/export'
 require_relative 'lib/request_context.rb'
 require_relative 'lib/webrick_fix'
 require_relative 'lib/import_helpers'
-require 'uri'
 
+require 'uri'
 require 'sinatra/base'
 require 'json'
-
 require 'rufus/scheduler'
-
 
 class ArchivesSpaceService < Sinatra::Base
 
@@ -184,6 +182,10 @@ class ArchivesSpaceService < Sinatra::Base
     json_response({:error => request.env['sinatra.error'].params}, 400)
   end
 
+  error UserNotFoundException do
+    json_response({:error => {"member_usernames" => [request.env['sinatra.error']]}}, 400)
+  end
+
   error ValidationException do
     json_response({
                     :error => request.env['sinatra.error'].errors,
@@ -198,6 +200,10 @@ class ArchivesSpaceService < Sinatra::Base
 
   error AccessDeniedException do
     json_response({:error => "Access denied"}, 403)
+  end
+
+  error InvalidUsernameException do
+    json_response({:error => "Invalid username"}, 400)
   end
 
   error Sequel::ValidationFailed do

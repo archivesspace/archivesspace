@@ -36,8 +36,6 @@
                     <li><%= link_to I18n.t("accession._html.singular"), :controller => :accessions, :action => :new %></li>
                     <li><%= link_to I18n.t("resource._html.singular"), :controller => :resources, :action => :new %></li>
                     <li><%= link_to I18n.t("digital_object._html.singular"), :controller => :digital_objects, :action => :new %></li>
-                    <li><%= link_to I18n.t("event._html.singular"), :controller => :events, :action => :new %></li>
-                    <li><%= link_to I18n.t("collection_management_record._html.singular"), :controller => :collection_management_records, :action => :new %></li>
                     <li class="divider"></li>
                   <% end %>
                   <% if user_can?('update_subject_record') %>
@@ -57,6 +55,8 @@
                   <% if user_can?('update_location_record') %>
                     <li><%= link_to I18n.t("location._html.singular"), :controller => :locations, :action => :new %></li>
                   <% end %>
+                  <li><%= link_to I18n.t("event._html.singular"), :controller => :events, :action => :new %></li>
+                  <li><%= link_to I18n.t("collection_management_record._html.singular"), :controller => :collection_management_records, :action => :new %></li>
                 </ul>
               </li>
             <% end %>
@@ -64,8 +64,10 @@
               <li class="dropdown import-container">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.import") %> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
+                  <li><%= link_to I18n.t("navbar.import_eac"), :controller => :import, :action => :index, :importer => :eac %></li>
                   <li><%= link_to I18n.t("navbar.import_ead"), :controller => :import, :action => :index, :importer => :ead %></li>
                   <li><%= link_to I18n.t("navbar.import_marcxml"), :controller => :import, :action => :index, :importer => :marcxml %></li>
+                  <li><%= link_to I18n.t("navbar.import_marcxml_subjects_and_agents"), :controller => :import, :action => :index, :importer => :marcxml_subjects_and_agents %></li>
                   <li><%= link_to I18n.t("navbar.import_accession_csv"), :controller => :import, :action => :index, :importer => :accession_csv %></li>
                 </ul>
               </li>
@@ -95,7 +97,7 @@
           <ul class="nav pull-right">
            <%= render "shared/header_user" %>
            <% if ArchivesSpaceHelp.enabled? %>
-             <li><%= link_to_help %></li>
+             <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
            <% end %>
          </ul>
         </div><!-- /.nav-collapse -->

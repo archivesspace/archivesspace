@@ -1,6 +1,20 @@
 $(function() {
   "use strict";
 
+  var usernameAlreadyAdded = function(username) {
+    var userFound = false;
+
+    $("option.group-member").each(function(idx, option) {
+      if ($(option).val().toLowerCase() === username.toLowerCase()) {
+        userFound = true;
+        return false;
+      }
+    });
+
+    return userFound;
+  };
+
+
   var addNewMember = function(e) {
     // Only interested in events on the input box if they've hit enter.
     if ($(e.target).attr("id") == "new-member") {
@@ -13,13 +27,13 @@ $(function() {
     var input = $("#new-member");
     var username = input.val();
 
-    if (!username || $("#" + username).length > 0) {
+    if (!username || usernameAlreadyAdded(username)) {
       return;
     }
 
-    var option = $("<option />").attr("value", username).attr("id", username).text(username);
+    var option = $("<option class=\"group-member\" />").attr("value", username).text(username);
 
-    $("#userlist").append(option);
+    $("#group_member_usernames_").append(option);
     input.val('');
   };
 
@@ -27,7 +41,7 @@ $(function() {
   var removeSelectedMembers = function(e) {
     e.preventDefault();
 
-    $(':selected', "#userlist").remove();
+    $(':selected', "#group_member_usernames_").remove();
   };
 
 
@@ -39,7 +53,7 @@ $(function() {
 
     var fields = $('<div style="display: none" id="hidden_member_fields" />');
 
-    $("#userlist option").each(function(idx, option) {
+    $("#group_member_usernames_ option").each(function(idx, option) {
       var input = $('<input type="hidden" name="group[member_usernames][]" />');
       input.val($(option).val());
 
@@ -57,7 +71,7 @@ $(function() {
 
   $("#remove-member").click(removeSelectedMembers);
 
-  $("#userlist").change(function (e) {
+  $("#group_member_usernames_").change(function (e) {
     if ($(':selected', e.target).length > 0) {
       $("#remove-member").show();
     } else {

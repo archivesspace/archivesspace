@@ -2,7 +2,6 @@ en:
   enumerations:
     linked_agent_archival_record_roles:
       creator: Creator
-      source: Source
       subject: Subject
     linked_event_archival_record_roles:
       source: Source
@@ -27,12 +26,11 @@ en:
     extent_extent_type:
       cassettes: Cassettes
       cubic_feet: Cubic Feet
-      leafs: Leafs
+      leaves: Leaves
       linear_feet: Linear Feet
       photographic_prints: Photographic Prints
       photographic_slides: Photographic Slides
       reels: Reels
-      sheets: Sheets
       volumes: Volumes
     collection_management_processing_priority:
       high: High
