@@ -5,8 +5,6 @@ class ExportsController < ApplicationController
   
   
   def download_ead
-    # @ead = EADFile.new(params[:id])
-    # send_file @ead.file, :type => 'application/xml', :filename => "test.ead", :x_sendfile => true
     request_uri = "#{AppConfig[:backend_url]}/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml"
     
     respond_to do |format|
@@ -27,10 +25,6 @@ class ExportsController < ApplicationController
   end
   
   def download_eac
-    Rails.logger.debug("PARAMS #{params.inspect}")
-    
-    # Rails.logger.debug(params[:type].sub(/^agent_/, '').pluralize)
-    
     request_uri = "#{AppConfig[:backend_url]}/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml"
     
     respond_to do |format|

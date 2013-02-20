@@ -38,7 +38,6 @@ class ArchivesSpaceService < Sinatra::Base
     require 'sinatra/reloader'
     register Sinatra::Reloader
     config.also_reload File.join("app", "**", "*.rb")
-    config.also_reload File.join("app", "lib", "export.rb")
     config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "migrations", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
@@ -201,6 +200,10 @@ class ArchivesSpaceService < Sinatra::Base
 
   error AccessDeniedException do
     json_response({:error => "Access denied"}, 403)
+  end
+
+  error InvalidUsernameException do
+    json_response({:error => "Invalid username"}, 400)
   end
 
   error Sequel::ValidationFailed do
