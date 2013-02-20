@@ -3,7 +3,7 @@ class SearchController < ApplicationController
   before_filter(:only => [:do_search]) {|c| user_must_have("view_repository")}
 
   def do_search
-    @search_data = Search.all(session[:repo_id], search_params)
+    @search_data = Search.all(session[:repo_id], search_params.merge({"facet[]" => ["subjects"]}))
 
     respond_to do |format|
       format.json {

@@ -2,7 +2,9 @@
   <table class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-      <th width="160px"><%= I18n.t("search_results.result_type") %></th>
+      <% if @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length > 1 or not @search_data[:criteria].has_key?("type[]") %>
+        <th width="160px"><%= I18n.t("search_results.result_type") %></th>
+      <% end %>
       <th><%= I18n.t("search_results.result_title") %></th>
       <th width="70px"><!-- actions --></th>
     </tr>
@@ -11,9 +13,11 @@
     <%= render :partial => "shared/pagination_summary" %>
     <% @search_data['results'].each do |result| %>
       <tr>
-        <td>
-          <%=  I18n.t("#{result["primary_type"]}._html.singular") %>
-        </td>
+        <% if @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length > 1 or not @search_data[:criteria].has_key?("type[]") %>
+          <td>
+            <%=  I18n.t("#{result["primary_type"]}._html.singular") %>
+          </td>
+        <% end %>
         <td>
           <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
           <%=  result["title"] || result['display_string'] %>

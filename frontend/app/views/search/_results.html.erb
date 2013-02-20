@@ -4,8 +4,7 @@
 
 <div class="row-fluid">
   <div class="span3">
-    Query: <%= params[:q] %><br/>
-    Type: <%= params[:type] %>
+    <%= render :partial => "search/filter" %>
   </div>
   <div class="span9">
     <div class="record-pane">

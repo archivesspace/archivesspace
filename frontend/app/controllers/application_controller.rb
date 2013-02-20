@@ -293,9 +293,6 @@ class ApplicationController < ActionController::Base
       params_for_search.delete("filter")
     end
 
-    puts "*** params : #{params.inspect}"
-    puts "*** params_for_search : #{params_for_search.inspect}"
-
     params_for_search
   end
 
