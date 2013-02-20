@@ -98,7 +98,10 @@ module ASpaceImport
           error.record_info[:type] = err_data['record_type']
         end
         if err_data.has_key?('errors')
-          err_data['errors'].each {|e| error.messages << "#{e[0]}: #{e[1].join(': ')}" }
+          err_data['errors'].each {|e| error.messages << "#{e[0]}: #{e[1].join(': ')}\n" }
+        end
+        if err_data.has_key?('other')
+          error.messages << err_data['other']
         end
         
         @error_log << error

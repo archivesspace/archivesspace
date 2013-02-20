@@ -50,6 +50,7 @@ en:
     import_marcxml: MARCXML
     import_marcxml_subjects_and_agents: MARCXML (Subjects and Agents only)
     import_accession_csv: Accession CSV
+    import_digital_object_csv: Digital Object CSV
     search_all: All Records
     search_placeholder: Search
     create_repository_tooltip: "To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Create a Repository</strong> link."
@@ -107,6 +108,7 @@ en:
     marcxml_title: Import a MARCXML file
     marcxml_subjects_and_agents_title: Import Subjects and Agents from a MARCXML file
     accession_csv_title: Import Accession Records from a CSV File
+    digital_object_csv_title: Import Digital Object Records from a CSV File
     import_report: Import Report
     import_another: Import Another File
     submit: Import
