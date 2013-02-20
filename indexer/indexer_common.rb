@@ -50,6 +50,11 @@ class CommonIndexer
       add_subjects(doc, record)
     }
 
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'accession'
+        doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
+      end
+    }
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
