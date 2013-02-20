@@ -15,8 +15,8 @@
           "properties" => {
             "value" => {"type" => "string", "ifmissing" => "error"},
             "type" => {"type" => "string", "ifmissing" => "error"},
-            "reference" => {"type" => "string", "ifmissing" => "error"},
-            "reference_text" => {"type" => "string", "ifmissing" => "error"},
+            "reference" => {"type" => "string"},
+            "reference_text" => {"type" => "string"},
           }}
       },
     },
