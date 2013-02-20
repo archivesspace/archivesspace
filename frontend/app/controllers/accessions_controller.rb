@@ -1,3 +1,5 @@
+require 'search'
+
 class AccessionsController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
@@ -8,7 +10,7 @@ class AccessionsController < ApplicationController
   FIND_OPTS = ["subjects", "ref", "related_resources", "linked_agents"]
 
   def index
-    @search_data = Accession.all(:page => selected_page)
+    @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => ["subjects"]}))
   end
 
   def show

@@ -1,0 +1,33 @@
+<% if @search_data[:criteria].has_key?("filter[]") and @search_data[:criteria]["filter[]"].length %>
+  <div class="well">
+    <h5><%= I18n.t "search_results.filtered_by" %></h5>
+    <ul>
+    <% @search_data[:criteria]["filter[]"].each do | filter | %>
+      <li>
+        <%
+          filter_bits = filter.split(":", 2) 
+          filter_label = "#{I18n.t("search_results.filter.#{filter_bits[0]}", :default => filter_bits[0])}: #{filter_bits[1]}"
+        %>
+        <%= link_to filter_label, params_for_search({"remove_filter" => filter}) %>
+        <%= link_to '<span class="icon icon-remove"></span>'.html_safe, params_for_search({"remove_filter" => filter  }) %>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<% if @search_data.has_key?('facets') and @search_data['facets'].has_key?('facet_fields') %>
+  <% @search_data['facets']['facet_fields'].each do |facet_field, facets| %>
+    <h5><%= I18n.t("search_results.filter.#{facet_field}", :default => facet_field) %></h5>
+    <ul>
+    <% facets.each_slice(2).each do |facet_and_count|
+      facet_search_string = "#{facet_field}:#{facet_and_count[0]}"
+
+      next if @search_data[:criteria].has_key?("filter[]") and @search_data[:criteria]["filter[]"].include?(facet_search_string)
+     %>
+      <li>
+        <%= link_to facet_and_count[0], params_for_search({"add_filter" => facet_search_string}) %> <span class="badge badge-info"><%= facet_and_count[1] %></span>
+      </li>
+    <% end %>
+    </ul>
+  <% end %>
+<% end %>

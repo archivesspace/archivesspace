@@ -105,4 +105,20 @@ module ApplicationHelper
     params[:inline] === "true"
   end
 
+  def params_for_search(opts = {})
+    search_params = params.clone
+
+    if opts["add_filter"]
+      search_params["filter"] ||= []
+      search_params["filter"].concat(Array(opts["add_filter"]))
+    end
+
+    if opts["remove_filter"]
+      search_params["filter"] ||= []
+      search_params["filter"] = search_params["filter"].reject{|f| Array(opts["remove_filter"]).include?(f)}
+    end
+
+    search_params
+  end
+
 end

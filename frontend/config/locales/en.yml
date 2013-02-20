@@ -97,6 +97,9 @@ en:
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
+    filtered_by: Filtered By
+    filter:
+      subjects: Subjects
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
     save: Save Changes

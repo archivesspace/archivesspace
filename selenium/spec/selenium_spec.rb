@@ -773,6 +773,8 @@ describe "ArchivesSpace user interface" do
 
 
     it "can show a browse list of Accessions" do
+      @indexer.run_index_round
+
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Accessions").click
       expect {

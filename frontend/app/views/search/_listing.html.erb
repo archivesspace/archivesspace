@@ -1,0 +1,38 @@
+<% if @search_data.has_key?('results') && @search_data['results'].length  > 0 %>
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+    <tr>
+      <th width="160px"><%= I18n.t("search_results.result_type") %></th>
+      <th><%= I18n.t("search_results.result_title") %></th>
+      <th width="70px"><!-- actions --></th>
+    </tr>
+    </thead>
+    <tbody>
+    <%= render :partial => "shared/pagination_summary" %>
+    <% @search_data['results'].each do |result| %>
+      <tr>
+        <td>
+          <%=  I18n.t("#{result["primary_type"]}._html.singular") %>
+        </td>
+        <td>
+          <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
+          <%=  result["title"] || result['display_string'] %>
+        </td>
+        <td>
+          <div class="btn-group" style="float: right">
+            <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-mini" %>
+            <% if user_can?('update_archival_record') %>
+              <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini" %>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= render :partial => "shared/pagination" %>
+<% else %>
+  <p class="alert alert-info">
+    <%= I18n.t("search_results.no_results_prefix") %> <em><%= params[:q] %></em>.
+  </p>
+<% end %>
