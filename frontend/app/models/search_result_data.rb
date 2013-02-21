@@ -18,7 +18,7 @@ class SearchResultData
         @facet_data[facet_group][facet_and_count[0]] = {
           :label => facet_label,
           :count => facet_and_count[1],
-          :query_string => "#{facet_group}:#{facet_and_count[0]}",
+          :query_string => "{!term f=#{facet_group}}#{facet_and_count[0]}",
           :display_string => "#{I18n.t("search_results.filter.#{facet_group}", :default => facet_group)}: #{facet_label}"
         }
       }
@@ -38,9 +38,10 @@ class SearchResultData
   end
 
   def facet_label_for_filter(filter)
-    filter_bits = filter.split(":", 2)
+    filter_bits = filter.match(/{!term f=(.*)}(.*)/)
 
-    @facet_data[filter_bits[0]][filter_bits[1]][:display_string]
+    (filter_bits.length === 3) ? 
+      @facet_data[filter_bits[1]][filter_bits[2]][:display_string] : filter 
   end
 
   def facets_for_filter
