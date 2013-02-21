@@ -69,6 +69,7 @@
                   <li><%= link_to I18n.t("navbar.import_marcxml"), :controller => :import, :action => :index, :importer => :marcxml %></li>
                   <li><%= link_to I18n.t("navbar.import_marcxml_subjects_and_agents"), :controller => :import, :action => :index, :importer => :marcxml_subjects_and_agents %></li>
                   <li><%= link_to I18n.t("navbar.import_accession_csv"), :controller => :import, :action => :index, :importer => :accession_csv %></li>
+                  <li><%= link_to I18n.t("navbar.import_digital_object_csv"), :controller => :import, :action => :index, :importer => :digital_object_csv %></li>
                 </ul>
               </li>
             <% end %>

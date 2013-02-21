@@ -70,6 +70,9 @@ class ImportController < ApplicationController
     when 'accession_csv'
       importer = 'csv'
       crosswalk = 'accession_csv'
+    when 'digital_object_csv'
+      importer = 'csv'
+      crosswalk = 'digital_object_csv'
     when 'marcxml'
       importer = 'xml'
       crosswalk = 'marcxml'
@@ -77,8 +80,6 @@ class ImportController < ApplicationController
       importer = 'xml'
       crosswalk = 'marcxml_subjects_and_agents'
     end
-    
-    
         
     options = {:dry => false, 
                :relaxed => false, 
