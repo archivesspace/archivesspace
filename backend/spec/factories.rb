@@ -13,6 +13,10 @@ def sample(enum, exclude = [])
 
   values.reject{|i| exclude.include?(i) }.sample
 end
+
+def JSONModel(key)
+  JSONModel::JSONModel(key)
+end
   
 
 FactoryGirl.define do

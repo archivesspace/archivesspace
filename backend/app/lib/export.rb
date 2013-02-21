@@ -19,5 +19,16 @@ module ExportHelpers
 
     serializer.serialize(resource, {:repo_id => repo_id})
   end
+  
+  def generate_eac(id, type)
+    
+    agent = Kernel.const_get(type.camelize).get_or_die(id)
+    
+    serializer = ASpaceExport::serializer(:eac)
+    
+    # serializer.repo_id = repo_id
+    
+    serializer.serialize(agent)
+  end
 end
   

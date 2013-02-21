@@ -33,6 +33,7 @@ en:
     delete: Delete
     delete_confirm_title: Delete this Record?
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
+    export_eac: Download EAC-CPF
     export_ead: Download EAD
     loading: Loading...
     revert: Revert Changes
