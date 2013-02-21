@@ -98,6 +98,8 @@ en:
     result_type: Record Type
     result_title: Title
     filtered_by: Filtered By
+    modified: Last Modified
+    created: Created
     filter:
       subjects: Subject
       primary_type: Type

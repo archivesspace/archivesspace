@@ -39,6 +39,13 @@ class CommonIndexer
   end
 
 
+  def add_audit_info(doc, record)
+    puts "******* #{record.inspect}"
+    #doc['create_time'] =  
+    #doc['last_modified'] = 
+  end
+
+
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
@@ -48,6 +55,7 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       add_subjects(doc, record)
+      add_audit_info(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|

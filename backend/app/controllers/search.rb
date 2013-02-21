@@ -9,6 +9,10 @@ class ArchivesSpaceService < Sinatra::Base
              [String],
              "The record type to search (defaults to all types if not specified)",
              :optional => true],
+            ["sort",
+             String,
+             "The attribute to sort and the direction e.g. &sort=title desc&...",
+             :optional => true],
             ["facet",
              [String],
              "The list of the fields to produce facets for",
@@ -32,7 +36,8 @@ class ArchivesSpaceService < Sinatra::Base
                               params[:type], show_suppressed, params[:exclude],
                               {
                                 "facet.field" => Array(params[:facet]),
-                                "fq" => Array(params[:filter])
+                                "fq" => Array(params[:filter]),
+                                "sort" => params[:sort]
                               }))
   end
 
@@ -42,6 +47,18 @@ class ArchivesSpaceService < Sinatra::Base
           ["type",
            [String],
            "The record type to search (defaults to all types if not specified)",
+           :optional => true],
+          ["sort",
+           String,
+           "The attribute to sort and the direction e.g. &sort=title desc&...",
+           :optional => true],
+          ["facet",
+           [String],
+           "The list of the fields to produce facets for",
+           :optional => true],
+          ["filter",
+           [String],
+           "The list of the facets to filter on",
            :optional => true],
           ["exclude",
            [String],
@@ -55,7 +72,12 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response(Solr.search(params[:q], params[:page], params[:page_size],
                               nil,
-                              params[:type], show_suppressed, params[:exclude]))
+                              params[:type], show_suppressed, params[:exclude],
+                              {
+                                "facet.field" => Array(params[:facet]),
+                                "fq" => Array(params[:filter]),
+                                "sort" => params[:sort]
+                              }))
   end
 
 end
