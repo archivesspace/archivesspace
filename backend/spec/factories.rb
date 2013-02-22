@@ -32,6 +32,7 @@ FactoryGirl.define do
   sequence(:generic_name) {|n| "Name Number #{n}"}
   sequence(:container_type) {|n| sample(JSONModel(:container).schema['properties']['type_1'])}
   sequence(:sort_name) { |n| "SORT #{('a'..'z').to_a[rand(26)]} - #{n}" }
+  sequence(:archival_object_language) {|n| sample(JSONModel(:abstract_archival_object).schema['properties']['language']) }
   
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
@@ -191,6 +192,7 @@ FactoryGirl.define do
   
   factory :json_digital_object, class: JSONModel(:digital_object) do
     title { "Digital Object #{generate(:generic_title)}" }
+    language { generate(:archival_object_language) }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
   end

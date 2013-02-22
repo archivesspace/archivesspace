@@ -90,9 +90,7 @@ ASpaceExport::model :mods do
   
   def apply_mapped_relationships(obj, map)  
     obj.class.instance_variable_get(:@relationships).each do |rel|
-      Log.debug("--- #{rel[:json_property]}")
       next unless map.has_key?(rel[:json_property].to_sym)
-      Log.debug("+++ #{map[rel[:json_property]]}")
       self.send(map[rel[:json_property].to_sym], obj.my_relationships(rel[:name]))
     end
   end
@@ -133,7 +131,6 @@ ASpaceExport::model :mods do
     linked_agents.each do |linked_agent|
       json = linked_agent[1].class.to_jsonmodel(linked_agent[1])
       role = linked_agent[0]['role']
-      Log.debug(";;; #{@name_type_map.inspect}")
       name_type = self.class.name_type_map[json.jsonmodel_type]
       # shift in granularity - role repeats for each name
       json.names.each do |name|
@@ -167,7 +164,4 @@ ASpaceExport::model :mods do
     end
     parts    
   end
-    
-  
-  
 end
