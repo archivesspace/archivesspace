@@ -2,6 +2,12 @@
 
 @import "variables";
 
+table {
+  thead {
+    #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
+  }
+}
+
 table.table-sortable {
   thead {
     th.sortable {
@@ -36,7 +42,7 @@ table.table-sortable {
       }
     }
     th.sort-asc {
-      background-color: #e7f4f9 !important;
+      #gradient > .vertical(#f0f7fa, #dcf1fa);
 
       > a {
         &::after {
