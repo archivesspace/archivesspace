@@ -24,6 +24,23 @@ ASpaceExport::model :mods do
   @digital_object_map = {
     :notes => :handle_notes
   }
+  
+  
+  @name_type_map = {
+    'agent_person' => 'personal',
+    'agent_family' => 'family',
+    'agent_corporate' => 'corporate',
+    'agent_software' => nil
+  }
+  
+  @name_part_type_map = {
+    'primary_name' => 'family',
+    'title' => 'termsOfAddress',
+    'rest_of_name' => 'given',
+    'family_name' => 'family',
+    'prefix' => 'termsOfAddress'
+  }
+    
 
   def initialize
     @extents = []
@@ -56,10 +73,18 @@ ASpaceExport::model :mods do
     mods.apply_map(obj, @digital_object_map)
     
     obj.tree['children'].each do |child|
-      mods.parts << {'id' => child['id'], 'title' => child['title']}
+      mods.parts << {'id' => "component-#{child['id']}", 'title' => child['title']}
     end
   
     mods
+  end
+  
+  def self.name_type_map
+    @name_type_map
+  end
+  
+  def self.name_part_type_map
+    @name_part_type_map
   end
   
   
@@ -108,9 +133,15 @@ ASpaceExport::model :mods do
     linked_agents.each do |linked_agent|
       json = linked_agent[1].class.to_jsonmodel(linked_agent[1])
       role = linked_agent[0]['role']
+      Log.debug(";;; #{@name_type_map.inspect}")
+      name_type = self.class.name_type_map[json.jsonmodel_type]
       # shift in granularity - role repeats for each name
       json.names.each do |name|
-        self.names << {'role' => role, 'parts' => name_parts(name, json.jsonmodel_type)}
+        self.names << {'type' => name_type, 
+                       'role' => role, 
+                       'parts' => name_parts(name, json.jsonmodel_type),
+                       'displayForm' => name['sort_name']
+                       }
       end
     end
   end
@@ -126,9 +157,15 @@ ASpaceExport::model :mods do
               when 'agent_corporate_entity'
                 ["primary_name", "subordinate_name_1", "subordinate_name_2", "number"]
               end
-
-    fields.map {|field| {'type' => field, 'content' => name[field]}}
-    
+    parts = []
+    fields.each do |field|
+      part = {}
+      part['type'] = self.class.name_part_type_map[field] 
+      part.delete('type') if part['type'].nil?
+      part['content'] = name[field] unless name[field].nil?
+      parts << part unless part.empty?
+    end
+    parts    
   end
     
   

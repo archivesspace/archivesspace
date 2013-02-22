@@ -27,7 +27,10 @@ ASpaceExport::serializer :mods do
       
 
       xml.language {
-        xml.languageTerm(:type => mods.language_term)
+        xml.languageTerm(:type => 'code') {
+          xml.text mods.language_term
+        }
+        
       }
       
       xml.physicalDescription{
@@ -51,11 +54,15 @@ ASpaceExport::serializer :mods do
       end
       
       mods.names.each do |name|
-        xml.name {
+        xml.name(:type => name['type']) {
           name['parts'].each do |part|
-            xml.namePart(:type => part['type']) {
-              xml.text part['content']
-            }
+            if part['type']
+              xml.namePart(:type => part['type']) {
+                xml.text part['content']
+              }
+            else
+              xml.namePart part['content']
+            end
           end
           xml.role {
             xml.roleTerm name['role']
@@ -75,18 +82,4 @@ ASpaceExport::serializer :mods do
       
     }    
   end
-
-
-  #     
-
-  #     
-
-  #     
-
-  #     
-  #   }
-  # end
-  # 
-  # 
-
 end
