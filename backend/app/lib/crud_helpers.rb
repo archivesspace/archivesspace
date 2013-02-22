@@ -43,8 +43,6 @@ module CrudHelpers
     results = dataset.collect {|obj|
       json = model.to_jsonmodel(obj)
 
-      puts params.inspect
-
       if params[:resolve]
         resolve_references(json, params[:resolve])
       else
