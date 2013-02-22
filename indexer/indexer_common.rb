@@ -40,7 +40,7 @@ class CommonIndexer
 
 
   def add_audit_info(doc, record)
-    puts "******* #{record.inspect}"
+    #puts "******* #{record.inspect}"
     #doc['create_time'] =  
     #doc['last_modified'] = 
   end

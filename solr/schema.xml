@@ -71,6 +71,9 @@
    <!-- Subjects store all the terms as a display_string -->
    <field name="display_string" type="text_general" indexed="true" stored="true" multiValued="false" />
 
+   <!-- Sort fields -->
+   <field name="title_sort" type="string" indexed="true" stored="false" multiValued="false"/>
+
  </fields>
 
 
@@ -176,5 +179,7 @@
     </fieldType>
 
  </types>
-  
+
+  <!-- Copy fields ... perhaps for sort fields -->
+  <copyField source="title" dest="title_sort"/>
 </schema>
