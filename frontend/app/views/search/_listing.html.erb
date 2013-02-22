@@ -3,10 +3,12 @@
     <thead>
     <tr>
       <% if @search_data.single_type? %>
-        <th width="160px"><%= I18n.t("search_results.result_type") %></th>
+        <th width="160px" class="sortable <% if @search_data.sorted_by === "primary_type"%>sort-<%= @search_data.current_sort_direction %><% end %>">
+          <%= link_to I18n.t("search_results.result_type"), params_for_search("sort" => "primary_type #{@search_data.sort_direction_for("primary_type")}") %>
+        </th>
       <% end %>
-      <th class="sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.sort_direction %><% end %>">
-        <%= link_to I18n.t("search_results.result_title"), params_for_search("sort" => "title_sort #{@search_data.sort_direction_opposite}") %>
+      <th class="sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
+        <%= link_to I18n.t("search_results.result_title"), params_for_search("sort" => "title_sort #{@search_data.sort_direction_for("title_sort")}") %>
       </th>
       <!-- <th class="table-audit-cell sortable"><%= I18n.t("search_results.modified") %></th>
       <th class="table-audit-cell sortable"><%= I18n.t("search_results.created") %></th>-->

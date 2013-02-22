@@ -118,7 +118,7 @@ module ApplicationHelper
       search_params["filter"] = search_params["filter"].reject{|f| Array(opts["remove_filter"]).include?(f)}
     end
 
-    search_params["sort"] = opts["sort"] if opts["sort"]
+    search_params["sort"] = opts["sort"] || params["sort"] if opts["sort"] || params["sort"]
 
     search_params
   end

@@ -77,18 +77,20 @@ class SearchResultData
     @search_data[:criteria]["sort"]
   end
 
-  def sort_direction
-    return "asc" if not sorted?
+  def current_sort_direction
+    return "desc" if not sorted?
 
     matches = @search_data[:criteria]["sort"].match(/(\S*[^\s])\s(asc|desc)?/)
 
     return matches[2] if matches.length > 1
 
-    "asc"
+    "desc"
   end
 
-  def sort_direction_opposite
-    return "asc" if sort_direction === "desc"
+  def sort_direction_for(field)
+    return "asc" if field != sorted_by
+
+    return "asc" if current_sort_direction === "desc"
 
     return "desc"
   end
