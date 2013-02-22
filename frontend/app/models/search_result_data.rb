@@ -87,12 +87,12 @@ class SearchResultData
     "desc"
   end
 
-  def sort_direction_for(field)
-    return "asc" if field != sorted_by
+  def sort_filter_for(field)
+    return "#{field} asc" if field != sorted_by
 
-    return "asc" if current_sort_direction === "desc"
+    return "" if current_sort_direction === "desc"
 
-    return "desc"
+    return "#{field} desc"
   end
 
 end
