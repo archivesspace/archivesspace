@@ -120,6 +120,8 @@ module ApplicationHelper
 
     search_params["sort"] = opts["sort"] || params["sort"] if opts["sort"] || params["sort"]
 
+    search_params["q"] = opts["q"] || params["q"] if opts["q"] || params["q"]
+
     search_params
   end
 

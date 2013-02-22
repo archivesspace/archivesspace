@@ -101,6 +101,7 @@ en:
     modified: Last Modified
     created: Created
     filter:
+      query: Text
       subjects: Subject
       primary_type: Type
       accession_date_year: Accession Date

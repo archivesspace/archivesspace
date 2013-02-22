@@ -1,12 +1,20 @@
-<% if @search_data.filtered? %>
+<% if @search_data.filtered? or @search_data.query? %>
   <div class="well">
     <h5><%= I18n.t "search_results.filtered_by" %></h5>
     <ul>
-    <% @search_data[:criteria]["filter[]"].each do | filter | %>
+    <% if @search_data.query? %>
       <li>
-        <%= link_to @search_data.facet_label_for_filter(filter), params_for_search({"remove_filter" => filter}) %>
-        <%= link_to '<span class="icon icon-remove"></span>'.html_safe, params_for_search({"remove_filter" => filter  }) %>
+        <%= link_to @search_data.facet_label_for_query, params_for_search({"q" => ""}) %>
+        <%= link_to '<span class="icon icon-remove"></span>'.html_safe, params_for_search({"q" => ""}) %>
       </li>
+    <% end %>
+    <% if @search_data.filtered? %>
+      <% @search_data[:criteria]["filter[]"].each do | filter | %>
+        <li>
+          <%= link_to @search_data.facet_label_for_filter(filter), params_for_search({"remove_filter" => filter}) %>
+          <%= link_to '<span class="icon icon-remove"></span>'.html_safe, params_for_search({"remove_filter" => filter  }) %>
+        </li>
+      <% end %>
     <% end %>
     </ul>
   </div>

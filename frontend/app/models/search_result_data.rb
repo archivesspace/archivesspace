@@ -95,4 +95,12 @@ class SearchResultData
     return "#{field} desc"
   end
 
+  def query?
+    not @search_data[:criteria]["q"].blank?
+  end
+
+  def facet_label_for_query
+    "#{I18n.t("search_results.filter.query")}: #{@search_data[:criteria]["q"]}"
+  end
+
 end
