@@ -33,7 +33,21 @@ describe 'ASpaceExport' do
     
     doc.xpath('//xmlns:title', doc.root.namespaces).first.text.should eq(digital_object.title)
     doc.xpath('//xmlns:extent', doc.root.namespaces).length.should eq (5)
-  end    
+  end  
+  
+  it "can export a digital object records as METS" do
+    
+    
+    digital_object = create(:json_digital_object)
+    
+    serializer = ASpaceExport::serializer :mets
+    mets = ASpaceExport::model(:mets).from_digital_object(DigitalObject.get_or_die(digital_object.id))
+    
+    xml = serializer.serialize(mets)
+    doc = Nokogiri::XML(xml)
+    
+    doc.xpath('//xmlns:agent/@ROLE', doc.root.namespaces).first.text.should eq('CREATOR')
+  end  
 end
 
 

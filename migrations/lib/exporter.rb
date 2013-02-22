@@ -1,4 +1,5 @@
 require_relative "../../common/jsonmodel"
+require 'nokogiri'
 
 module ASpaceExport
   
@@ -82,10 +83,20 @@ module ASpaceExport
   # Abstract Export Model class
   class ExportModel
     def initialize
-    end
-    
+    end  
   end
-   
+
+  class Nokogiri::XML::Builder
+    alias :old_method_missing :method_missing
+    
+    def method_missing(m, *args, &block)
+      @sticky_ns ||= nil
+      @ns = @sticky_ns if @sticky_ns
+      old_method_missing(m, *args, &block)
+    end
+  end  
+
+    
 end
       
       

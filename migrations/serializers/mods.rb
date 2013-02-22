@@ -1,12 +1,8 @@
-require 'nokogiri'
-
 ASpaceExport::serializer :mods do
   
   include JSONModel
   
   def serialize(mods, opts = {})
-
-    # raise StandardError.new("Can't serialize a #{object.class}") unless object.class.to_s.match(/^DigitalObject$/)
 
     builder = Nokogiri::XML::Builder.new do |xml|
       _mods(mods, xml)     
@@ -15,10 +11,12 @@ ASpaceExport::serializer :mods do
     builder.to_xml   
   end
   
-  private
-
   def _mods(mods, xml)
-    xml.mods('xmlns' => "http://www.loc.gov/mods/v3", 'version' => '3.4'){
+    
+    root_args = {'version' => '3.4'}
+    root_args['xmlns'] = 'http://www.loc.gov/mods/v3' 
+    
+    xml.mods(root_args){
       xml.titleInfo {
         xml.title mods.title
       }

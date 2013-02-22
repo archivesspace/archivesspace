@@ -8,15 +8,24 @@ module ExportHelpers
     [status, {"Content-Type" => "application/xml"}, [xml + "\n"]]
   end
   
+  def generate_mets(id)
+    
+    obj = DigitalObject.get_or_die(id)
+    
+    mets = ASpaceExport.model(:mets).from_digital_object(obj)
+    
+    ASpaceExport.serializer(:mets).serialize(mets)
+  end
+  
+  
   def generate_mods(id)
     
     obj = DigitalObject.get_or_die(id)
     
-    mods_data = ASpaceExport.model(:mods).from_digital_object(obj)
+    mods = ASpaceExport.model(:mods).from_digital_object(obj)
     
-    ASpaceExport.serializer(:mods).serialize(mods_data)
-    
-  end
+    ASpaceExport.serializer(:mods).serialize(mods)
+  end  
   
   # TODO - Get these methods using ExportModels...
   def generate_ead(id, type, repo_id)

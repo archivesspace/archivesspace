@@ -2,6 +2,18 @@ class ArchivesSpaceService < Sinatra::Base
   
   include ExportHelpers
 
+  Endpoint.get('/repositories/:repo_id/digital_objects/mets/:digital_object_id.xml')
+    .description("Get a METS representation of a Digital Object ")
+    .params(["digital_object_id", Integer, "The ID of the digital object to render"],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "(:digital_object)"]) \
+  do
+    mets = generate_mets(params[:digital_object_id])
+    
+    xml_response(mets)
+  end
+
   Endpoint.get('/repositories/:repo_id/digital_objects/mods/:digital_object_id.xml')
     .description("Get a MODS representation of a Digital Object ")
     .params(["digital_object_id", Integer, "The ID of the digital object to render"],
