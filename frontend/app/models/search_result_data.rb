@@ -4,6 +4,7 @@ class SearchResultData
     @search_data = search_data
     @facet_data = {}
 
+    clean_search_data
     init_facets
   end
 
@@ -25,6 +26,12 @@ class SearchResultData
     }
   end
 
+  def clean_search_data
+    if @search_data[:criteria].has_key?("filter[]")
+      @search_data[:criteria]["filter[]"] = @search_data[:criteria]["filter[]"].reject{|f| f.empty?}
+    end
+  end
+
   def [](key)
     @search_data[key]
   end
@@ -34,7 +41,7 @@ class SearchResultData
   end
 
   def filtered?
-    @search_data[:criteria].has_key?("filter[]") and @search_data[:criteria]["filter[]"].length
+    @search_data[:criteria].has_key?("filter[]") and @search_data[:criteria]["filter[]"].reject{|f| f.empty?}.length > 0
   end
 
   def facet_label_for_filter(filter)
