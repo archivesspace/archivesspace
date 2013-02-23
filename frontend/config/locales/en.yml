@@ -37,6 +37,7 @@ en:
     export_ead: Download EAD
     export_mods: Download MODS
     export_mets: Download METS
+    export_dc: Download DC
     loading: Loading...
     revert: Revert Changes
     finish_editing: Finish Editing

@@ -46,6 +46,7 @@ ArchivesSpace::Application.routes.draw do
   match 'archival_objects/:id/parent' => 'archival_objects#parent', :via => [:post]
 
   resources :digital_objects
+  match 'digital_objects/:id/download_dc' => 'exports#download_dc', :via => [:get]
   match 'digital_objects/:id/download_mets' => 'exports#download_mets', :via => [:get]
   match 'digital_objects/:id/download_mods' => 'exports#download_mods', :via => [:get]
   match 'digital_objects/:id' => 'digital_objects#update', :via => [:post]

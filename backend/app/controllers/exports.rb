@@ -2,6 +2,19 @@ class ArchivesSpaceService < Sinatra::Base
   
   include ExportHelpers
 
+  Endpoint.get('/repositories/:repo_id/digital_objects/dublin_core/:digital_object_id.xml')
+    .description("Get a Dublin Core representation of a Digital Object ")
+    .params(["digital_object_id", Integer, "The ID of the digital object to render"],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "(:digital_object)"]) \
+  do
+    dc = generate_dc(params[:digital_object_id])
+    
+    xml_response(dc)
+  end
+
+
   Endpoint.get('/repositories/:repo_id/digital_objects/mets/:digital_object_id.xml')
     .description("Get a METS representation of a Digital Object ")
     .params(["digital_object_id", Integer, "The ID of the digital object to render"],

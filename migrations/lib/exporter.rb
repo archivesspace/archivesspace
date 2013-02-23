@@ -83,7 +83,22 @@ module ASpaceExport
   # Abstract Export Model class
   class ExportModel
     def initialize
-    end  
+    end
+    
+    def apply_mapped_relationships(obj, map)  
+      obj.class.instance_variable_get(:@relationships).each do |rel|
+        next unless map.has_key?(rel[:json_property].to_sym)
+        self.send(map[rel[:json_property].to_sym], obj.my_relationships(rel[:name]))
+      end
+    end
+
+
+    def apply_map(obj, map)
+      map.each do |as_field, handler|
+        self.send(handler, obj.send(as_field)) if obj.respond_to?(as_field)
+      end
+    end
+    
   end
 
   class Nokogiri::XML::Builder

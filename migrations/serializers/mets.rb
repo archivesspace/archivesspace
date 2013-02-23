@@ -1,13 +1,8 @@
 ASpaceExport::serializer :mets do
-    
-  include JSONModel
-
   
   def build(mets, opts = {})
 
     builder = Nokogiri::XML::Builder.new do |xml|
-      # self.wrap_builder(xml)
-      # _mets(mets, xml)
       _mets(mets, xml)     
     end   
     

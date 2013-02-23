@@ -130,7 +130,7 @@ ASpaceExport::model :mods do
   def handle_agents(linked_agents)
     linked_agents.each do |linked_agent|
       json = linked_agent[1].class.to_jsonmodel(linked_agent[1])
-      role = linked_agent[0]['role']
+      role = linked_agent[0][:role]
       name_type = self.class.name_type_map[json.jsonmodel_type]
       # shift in granularity - role repeats for each name
       json.names.each do |name|

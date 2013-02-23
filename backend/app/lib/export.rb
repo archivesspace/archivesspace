@@ -7,6 +7,16 @@ module ExportHelpers
   def xml_response(xml)
     [status, {"Content-Type" => "application/xml"}, [xml + "\n"]]
   end
+
+  def generate_dc(id)
+    
+    obj = DigitalObject.get_or_die(id)
+    
+    dc = ASpaceExport.model(:dc).from_digital_object(obj)
+    
+    ASpaceExport.serializer(:dc).serialize(dc)
+  end
+
   
   def generate_mets(id)
     
