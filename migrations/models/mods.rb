@@ -88,21 +88,6 @@ ASpaceExport::model :mods do
   end
   
   
-  def apply_mapped_relationships(obj, map)  
-    obj.class.instance_variable_get(:@relationships).each do |rel|
-      next unless map.has_key?(rel[:json_property].to_sym)
-      self.send(map[rel[:json_property].to_sym], obj.my_relationships(rel[:name]))
-    end
-  end
-  
-  
-  def apply_map(obj, map)
-    map.each do |as_field, handler|
-      self.send(handler, obj.send(as_field)) if obj.respond_to?(as_field)
-    end
-  end
-  
-  
   def handle_notes(notes)
     notes = ASUtils.json_parse(DB.deblob(notes) || "[]")
     notes.each do |note|

@@ -16,9 +16,6 @@ ASpaceExport::model :mets do
   attr_accessor :type_of_resource
   attr_accessor :parts
   
-  
-  
-  
   @repository_map = {
     :name => :header_agent_name=,
     :values => :build_header_agent_note,
@@ -26,16 +23,9 @@ ASpaceExport::model :mets do
   
   
   @archival_object_map = {
-    # :title => :title=,
-    # :language => :language_term=,
-    # :extent => :handle_extent,
-    # :subjects => :handle_subjects,
-    # :linked_agents => :handle_agents
-
   }
   
   @digital_object_map = {
-    # :notes => :handle_notes
   }
   
   
@@ -110,10 +100,6 @@ ASpaceExport::model :mets do
                              }
 
     mets.dmd_wrap("MODS", mods_callback, mods)
-    
-    # obj.tree['children'].each do |child|
-    #   mets.parts << {'id' => "component-#{child['id']}", 'title' => child['title']}
-    # end
   
     mets
   end
@@ -124,21 +110,6 @@ ASpaceExport::model :mets do
   
   def self.name_part_type_map
     @name_part_type_map
-  end
-  
-  
-  def apply_mapped_relationships(obj, map)  
-    obj.class.instance_variable_get(:@relationships).each do |rel|
-      next unless map.has_key?(rel[:json_property].to_sym)
-      self.send(map[rel[:json_property].to_sym], obj.my_relationships(rel[:name]))
-    end
-  end
-  
-  
-  def apply_map(obj, map)
-    map.each do |as_field, handler|
-      self.send(handler, obj.send(as_field)) if obj.respond_to?(as_field)
-    end
   end
   
   def build_header_agent_note(vals)

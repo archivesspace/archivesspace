@@ -38,6 +38,19 @@ class ArchivesSpaceService < Sinatra::Base
     
     xml_response(mods)    
   end
+  
+  Endpoint.get('/repositories/:repo_id/resources/marc21/:resource_id.xml')
+    .description("Get a MARC 21 representation of a Resource")
+    .params(["resource_id", Integer, "The ID of the resource to retrieve"],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "(:resource)"]) \
+  do
+    marc = generate_marc(params[:resource_id])
+    
+    xml_response(marc)    
+  end
+  
 
   Endpoint.get('/repositories/:repo_id/resource_descriptions/:resource_id.xml')
     .description("Get an EAD representation of a Resource")

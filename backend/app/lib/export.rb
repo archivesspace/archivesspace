@@ -37,6 +37,16 @@ module ExportHelpers
     ASpaceExport.serializer(:mods).serialize(mods)
   end  
   
+  def generate_marc(id)
+    
+    obj = Resource.get_or_die(id)
+    
+    marc = ASpaceExport.model(:marc21).from_resource(obj)
+    
+    ASpaceExport.serializer(:marc21).serialize(marc)
+  end
+  
+  
   # TODO - Get these methods using ExportModels...
   def generate_ead(id, type, repo_id)
 

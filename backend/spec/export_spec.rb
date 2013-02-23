@@ -18,7 +18,7 @@ describe 'ASpaceExport' do
     doc.xpath('//physdesc/extent').first.text.should eq("#{extent['number']} of #{extent['extent_type']}")
   end
   
-  it "can export a digital object records as MODS" do
+  it "can export a digital object record as MODS" do
     
     extents = []
     5.times { extents << build(:json_extent) }
@@ -35,7 +35,7 @@ describe 'ASpaceExport' do
     doc.xpath('//xmlns:extent', doc.root.namespaces).length.should eq (5)
   end  
   
-  it "can export a digital object records as METS" do
+  it "can export a digital object record as METS" do
         
     digital_object = create(:json_digital_object)
     
@@ -46,6 +46,21 @@ describe 'ASpaceExport' do
     doc = Nokogiri::XML(xml)
     
     doc.xpath('//xmlns:agent/@ROLE', doc.root.namespaces).first.text.should eq('CREATOR')
+  end
+  
+  it "can export a Resource record as MARC21" do
+    
+    title = generate(:generic_title)
+    
+    resource = create(:json_resource, :title => title)
+    
+    serializer = ASpaceExport::serializer :marc21
+    marc = ASpaceExport::model(:marc21).from_resource(Resource.get_or_die(resource.id))
+    
+    xml = serializer.serialize(marc)
+    doc = Nokogiri::XML(xml)
+    
+    doc.xpath("//xmlns:datafield[@tag='852']/xmlns:subfield[@code='b']", doc.root.namespaces).first.text.should eq(title)
   end 
    
 end

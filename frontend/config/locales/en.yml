@@ -37,6 +37,7 @@ en:
     export_ead: Download EAD
     export_mods: Download MODS
     export_mets: Download METS
+    export_marc: Download MARC-21
     export_dc: Download DC
     loading: Loading...
     revert: Revert Changes

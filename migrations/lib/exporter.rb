@@ -72,9 +72,9 @@ module ASpaceExport
       @repo_id = id
     end
     
-    def set(instance_variable, value)
-      self.instance_variable_set(instance_variable, value)
-    end
+    # def set(instance_variable, value)
+    #   self.instance_variable_set(instance_variable, value)
+    # end
 
     # Serializes an ASModel object
     def serialize(object) end  
@@ -95,7 +95,13 @@ module ASpaceExport
 
     def apply_map(obj, map)
       map.each do |as_field, handler|
-        self.send(handler, obj.send(as_field)) if obj.respond_to?(as_field)
+        
+        fieldable = [as_field].flatten.reject { |asf| !obj.respond_to?(asf) }
+        
+        next if fieldable.empty? # probably a relationship
+        
+        handler_args = fieldable.map {|f| obj.send(f) }
+        self.send(handler, *handler_args)
       end
     end
     
