@@ -1,6 +1,9 @@
 <% if @search_data.filtered? or @search_data.query? %>
   <div class="well">
-    <h5><%= I18n.t "search_results.filtered_by" %></h5>
+    <h5>
+      <%= I18n.t "search_results.filtered_by" %>
+      <%= link_to I18n.t("search_results.clear_all"), {:controller => controller.controller_name, :action => controller.action_name}, :class => "btn btn-mini pull-right" %>
+    </h5>
     <ul>
     <% if @search_data.query? %>
       <li>
@@ -11,8 +14,7 @@
     <% if @search_data.filtered? %>
       <% @search_data[:criteria]["filter[]"].each do | filter | %>
         <li>
-          <%= link_to @search_data.facet_label_for_filter(filter), params_for_search({"remove_filter" => filter}) %>
-          <%= link_to '<span class="icon icon-remove"></span>'.html_safe, params_for_search({"remove_filter" => filter  }) %>
+          <%= link_to "#{@search_data.facet_label_for_filter(filter)} <span class='icon icon-remove'></span>".html_safe, params_for_search({"remove_filter" => filter}) %>
         </li>
       <% end %>
     <% end %>

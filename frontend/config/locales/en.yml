@@ -101,6 +101,7 @@ en:
     modified: Last Modified
     created: Created
     text_placeholder: Filter by text
+    clear_all: Clear All
     filter:
       query: Text
       subjects: Subject
