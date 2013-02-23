@@ -100,6 +100,7 @@ en:
     filtered_by: Filtered By
     modified: Last Modified
     created: Created
+    text_placeholder: Filter by text
     filter:
       query: Text
       subjects: Subject
