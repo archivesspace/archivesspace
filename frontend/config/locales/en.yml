@@ -1495,7 +1495,7 @@ en:
         created: User Created
         updated: User Saved
         error_update: User not saved
-        error_create:
+        error_create: User not created
       section:
         account: Account
         edit_account: Edit Account
