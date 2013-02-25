@@ -1,5 +1,6 @@
 require_relative '../lib/realtime_indexing'
 
+
 module ASModel
   include JSONModel
 
@@ -13,6 +14,7 @@ module ASModel
 
     base.include(CRUD)
     base.include(DatabaseMapping)
+    base.include(SequelHooks)
     base.include(ModelScoping)
   end
 
@@ -38,7 +40,6 @@ module ASModel
         json["suppressed"] = false
       end
 
-      set_audit_data(json, false)
 
       schema_defined_properties = json.class.schema["properties"].map{|prop, defn|
         prop if !defn['readonly']
@@ -61,7 +62,7 @@ module ASModel
 
       self.class.apply_linked_database_records(self, json)
 
-      self.class.fire_update(json, obj.uri)
+      self.class.fire_update(json, obj)
 
       obj
     end
@@ -138,14 +139,12 @@ module ASModel
           values["repo_id"] = active_repository
         end
 
-        set_audit_data(json, true)
-
         obj = self.create(prepare_for_db(json.class.schema,
                                          json.to_hash.merge(values)))
 
         self.apply_linked_database_records(obj, json)
 
-        fire_update(json, obj.uri)
+        fire_update(json, obj)
 
         obj
       end
@@ -157,9 +156,15 @@ module ASModel
 
 
       # (Potentially) notify the real-time indexer that an update is available.
-      def fire_update(json, uri)
+      def fire_update(json, sequel_obj)
         if high_priority?
-          RealtimeIndexing.record_update(json.to_hash, uri)
+          sequel_obj.refresh
+
+          # Manually set any DB hooked values
+          json["create_time"] = sequel_obj[:create_time].getutc.iso8601
+          json["last_modified"] = sequel_obj[:last_modified].getutc.iso8601
+
+          RealtimeIndexing.record_update(json.to_hash, sequel_obj.uri)
         end
       end
 
@@ -414,9 +419,19 @@ module ASModel
   end
 
 
-  def set_audit_data(json, is_create)
-    json['create_time'] = Time.now if is_create
-    json['last_modified'] = Time.now
+  # Hooks for firing behaviour on Sequel::Model events
+  module SequelHooks
+    def before_create
+      self.create_time = Time.now
+      self.last_modified = Time.now
+      super
+    end
+
+
+    def before_update
+      self.last_modified = Time.now
+      super
+    end
   end
 
 

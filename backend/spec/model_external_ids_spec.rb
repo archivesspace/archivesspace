@@ -10,8 +10,8 @@ describe 'External ID mixin' do
       primary_key :id
       String :name
       Integer :lock_version, :default => 0
-      Date :create_time
-      Date :last_modified
+      DateTime :create_time
+      DateTime :last_modified
     end
 
 
