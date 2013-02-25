@@ -17,8 +17,10 @@
     </thead>
     <tbody>
     <%= render :partial => "shared/pagination_summary" %>
-    <% @search_data['results'].each do |result| %>
-      <tr>
+    <% @search_data['results'].each do |result| 
+      deleted = (params.has_key?("deleted_uri") and params["deleted_uri"] === result["id"]) || false
+    %>
+      <tr class="<%= "deleted" if deleted %>">
         <% if @search_data.single_type? %>
           <td>
             <%=  I18n.t("#{result["primary_type"]}._html.singular") %>
@@ -26,17 +28,20 @@
         <% end %>
         <td>
           <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
+          <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
           <%=  result["title"] || result['display_string'] %>
         </td>
         <!-- <td></td>
         <td></td> -->
         <td>
-          <div class="btn-group" style="float: right">
-            <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-mini" %>
-            <% if user_can?('update_archival_record') %>
-              <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini" %>
-            <% end %>
-          </div>
+          <% if not deleted %>
+            <div class="btn-group" style="float: right">
+              <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-mini" %>
+              <% if user_can?('update_archival_record') %>
+                <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini" %>
+              <% end %>
+            </div>
+          <% end %>
         </td>
       </tr>
     <% end %>

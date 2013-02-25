@@ -80,10 +80,11 @@ class AccessionsController < ApplicationController
 
 
   def delete
-    Accession.find(params[:id]).delete
+    accession = Accession.find(params[:id])
+    accession.delete
 
     flash[:success] = I18n.t("accession._html.messages.deleted")
-    redirect_to(:controller => :accessions, :action => :index)
+    redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
   end
 
 

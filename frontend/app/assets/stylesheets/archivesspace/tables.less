@@ -6,6 +6,9 @@ table {
   thead {
     #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
   }
+  tr.deleted td {
+    background-color: @errorBackground !important;
+  }
 }
 
 table.table-sortable {
