@@ -23,6 +23,17 @@ en:
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
+    filtered_by: Filtered By
+    modified: Last Modified
+    created: Created
+    text_placeholder: Filter by text
+    clear_all: Clear All
+    created: Created
+    modified: Modified
+    filter:
+      query: Text
+      subjects: Subject
+      primary_type: Type
   iso_3166:
     AF: AFGHANISTAN (AF)
     AX: ÅLAND ISLANDS (AX)

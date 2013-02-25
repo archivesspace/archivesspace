@@ -5,7 +5,7 @@ class SiteController < ApplicationController
   def search
     set_search_criteria
 
-    @search_data = JSONModel::HTTP::get_json("/search", @criteria)
+    @search_data = Search.all(@criteria)
 
     render "search/results"
   end
@@ -55,14 +55,9 @@ class SiteController < ApplicationController
       [@repository['repo_code'], url_for(:controller => :site, :action => :repository, :id => @repository.id), "repository"]
     ]
 
-    @search_data = JSONModel::HTTP::get_json("/repositories/#{@repository.id}/search", @criteria)
+    @search_data = Search.repo(@repository.id, @criteria)
 
     render "search/results"
-  end
-
-
-  def subject
-    render "site/todo"
   end
 
 
@@ -73,15 +68,25 @@ class SiteController < ApplicationController
   private
 
   def set_search_criteria
-    @criteria = {
-      :q => params[:q].blank? ? "*" : params[:q],
-      :page => params[:page] || 1
-    }
+    @criteria = params.select{|k,v| ["page", "q", "type", "filter", "sort"].include?(k) and not v.blank?}
+
+    @criteria["page"] ||= 1
+
+    if @criteria["type"]
+      @criteria["type[]"] = Array(@criteria["type"]).reject{|v| v.blank?}
+      @criteria.delete("type")
+    end
+
+    if @criteria["filter"]
+      @criteria["filter[]"] = Array(@criteria["filter"]).reject{|v| v.blank?}
+      @criteria.delete("filter")
+    end
+
 
     @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-
-
+    @criteria['facet[]'] = ["subjects", "primary_type"]
+  
     # only allow locations, subjects, resources and archival objects in search results
     if params[:type].blank? or @criteria['type[]'].empty?
       @criteria['type[]'] = ['resource', 'archival_object']

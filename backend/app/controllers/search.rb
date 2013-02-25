@@ -43,7 +43,8 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/search')
   .description("Search this archive")
-  .params(["q", String, "A search query string"],
+  .params(["q", String, "A search query string",
+           :optional => true],
           ["type",
            [String],
            "The record type to search (defaults to all types if not specified)",
@@ -70,7 +71,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
-    json_response(Solr.search(params[:q], params[:page], params[:page_size],
+    json_response(Solr.search(params[:q] || "*:*", params[:page], params[:page_size],
                               nil,
                               params[:type], show_suppressed, params[:exclude],
                               {
