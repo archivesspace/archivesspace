@@ -1,5 +1,3 @@
-require 'search'
-
 class AccessionsController < ApplicationController
   skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :suppress, :unsuppress, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}

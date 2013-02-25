@@ -52,7 +52,7 @@ class SearchResultData
   end
 
   def facets_for_filter
-    facet_data_for_filter = {}.merge(@facet_data)
+    facet_data_for_filter = @facet_data.clone
     facet_data_for_filter.each {|facet_group, facets| 
       facets.delete_if{|facet, facet_map|
         facet_map[:count] === @search_data['total_hits']

@@ -108,7 +108,7 @@ module ApplicationHelper
   def params_for_search(opts = {})
     search_params = {}
 
-    search_params["filter"] = [].concat(Array(params["filter"]))
+    search_params["filter"] = Array(params["filter"]).clone
 
     if opts["add_filter"]
       search_params["filter"].concat(Array(opts["add_filter"]))
@@ -118,9 +118,9 @@ module ApplicationHelper
       search_params["filter"] = search_params["filter"].reject{|f| Array(opts["remove_filter"]).include?(f)}
     end
 
-    search_params["sort"] = opts["sort"] || params["sort"] if opts["sort"] || params["sort"]
+    search_params["sort"] = opts["sort"] || params["sort"]
 
-    search_params["q"] = opts["q"] || params["q"] if opts["q"] || params["q"]
+    search_params["q"] = opts["q"] || params["q"]
 
     search_params
   end
