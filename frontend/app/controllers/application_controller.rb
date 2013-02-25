@@ -284,12 +284,12 @@ class ApplicationController < ActionController::Base
     params_for_search["page"] ||= 1
 
     if params_for_search["type"]
-      params_for_search["type[]"] = Array(params_for_search["type"])
+      params_for_search["type[]"] = Array(params_for_search["type"]).reject{|v| v.blank?}
       params_for_search.delete("type")
     end
 
     if params_for_search["filter"]
-      params_for_search["filter[]"] = Array(params_for_search["filter"])
+      params_for_search["filter[]"] = Array(params_for_search["filter"]).reject{|v| v.blank?}
       params_for_search.delete("filter")
     end
 

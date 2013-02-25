@@ -14,13 +14,11 @@ class SearchResultData
       facets.each_slice(2).each {|facet_and_count|
         next if facet_and_count[1] === 0
 
-        facet_label = facet_group === "primary_type" ? I18n.t("#{facet_and_count[0]}._html.singular") : facet_and_count[0]
-
         @facet_data[facet_group][facet_and_count[0]] = {
-          :label => facet_label,
+          :label => facet_label_string(facet_group, facet_and_count[0]),
           :count => facet_and_count[1],
           :query_string => "{!term f=#{facet_group}}#{facet_and_count[0]}",
-          :display_string => "#{I18n.t("search_results.filter.#{facet_group}", :default => facet_group)}: #{facet_label}"
+          :display_string => facet_display_string(facet_group, facet_and_count[0])
         }
       }
     }
@@ -47,8 +45,13 @@ class SearchResultData
   def facet_label_for_filter(filter)
     filter_bits = filter.match(/{!term f=(.*)}(.*)/)
 
-    (filter_bits.length === 3) ? 
-      @facet_data[filter_bits[1]][filter_bits[2]][:display_string] : filter 
+    return filter if (filter_bits.length != 3)
+
+    if @facet_data.has_key?(filter_bits[1]) and @facet_data[filter_bits[1]].has_key?([filter_bits[2]])
+      @facet_data[filter_bits[1]][filter_bits[2]][:display_string]
+    else
+      facet_display_string(filter_bits[1], filter_bits[2])
+    end 
   end
 
   def facets_for_filter
@@ -60,6 +63,14 @@ class SearchResultData
     }
     facet_data_for_filter.delete_if {|facet_group, facets| facets.empty?}
     facet_data_for_filter
+  end
+
+  def facet_display_string(facet_group, facet)
+    "#{I18n.t("search_results.filter.#{facet_group}", :default => facet_group)}: #{facet_label_string(facet_group, facet)}"
+  end
+
+  def facet_label_string(facet_group, facet)
+    facet_group === "primary_type" ? I18n.t("#{facet}._html.singular", :default => facet) : facet
   end
 
   def results?
