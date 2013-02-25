@@ -103,6 +103,8 @@ en:
     created: Created
     text_placeholder: Filter by text
     clear_all: Clear All
+    created: Created
+    modified: Modified
     filter:
       query: Text
       subjects: Subject

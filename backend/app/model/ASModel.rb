@@ -13,7 +13,6 @@ module ASModel
 
     base.include(CRUD)
     base.include(DatabaseMapping)
-    base.include(SequelHooks)
     base.include(ModelScoping)
   end
 
@@ -39,8 +38,11 @@ module ASModel
         json["suppressed"] = false
       end
 
+      set_audit_data(json, false)
 
-      schema_defined_properties = json.class.schema["properties"].keys
+      schema_defined_properties = json.class.schema["properties"].map{|prop, defn|
+        prop if !defn['readonly']
+      }.compact
 
       # Start by assuming all existing properties were nil, then overlay the
       # updates plus any extra attributes.
@@ -135,6 +137,8 @@ module ASModel
         if model_scope == :repository && !values.has_key?("repo_id")
           values["repo_id"] = active_repository
         end
+
+        set_audit_data(json, true)
 
         obj = self.create(prepare_for_db(json.class.schema,
                                          json.to_hash.merge(values)))
@@ -385,6 +389,9 @@ module ASModel
           json[linked_record[:json_property]] = (is_array ? records : records[0])
         end
 
+        json["last_modified"] = obj[:last_modified].getutc.iso8601 if obj[:last_modified]
+        json["create_time"] = obj[:create_time].getutc.iso8601 if obj[:create_time]
+
         json
       end
 
@@ -407,19 +414,9 @@ module ASModel
   end
 
 
-  # Hooks for firing behaviour on Sequel::Model events
-  module SequelHooks
-    def before_create
-      self.create_time = Time.now
-      self.last_modified = Time.now
-      super
-    end
-
-
-    def before_update
-      self.last_modified = Time.now
-      super
-    end
+  def set_audit_data(json, is_create)
+    json['create_time'] = Time.now if is_create
+    json['last_modified'] = Time.now
   end
 
 

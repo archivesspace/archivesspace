@@ -40,9 +40,8 @@ class CommonIndexer
 
 
   def add_audit_info(doc, record)
-    #puts "******* #{record.inspect}"
-    #doc['create_time'] =  
-    #doc['last_modified'] = 
+    doc['last_modified'] = record['record']['last_modified'] if record['record'].has_key? 'last_modified'  
+    doc['create_time'] = record['record']['create_time'] if record['record'].has_key? 'create_time'  
   end
 
 
