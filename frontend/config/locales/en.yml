@@ -110,6 +110,14 @@ en:
       subjects: Subject
       primary_type: Type
       accession_date_year: Accession Date
+  search_sorting:
+    sort_by: "Sort by:"
+    asc: Ascending
+    desc: Descending
+    relevance: Relevance
+    title_sort: Title
+    last_modified: Modified
+    create_time: Created
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
     save: Save Changes

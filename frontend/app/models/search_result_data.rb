@@ -105,12 +105,20 @@ class SearchResultData
     "desc"
   end
 
-  def sort_filter_for(field)
-    return "#{field} asc" if field != sorted_by
+  def sort_filter_for(field, default = "asc")
+    return "#{field} #{default}" if field != sorted_by
 
-    return "" if current_sort_direction === "desc"
+    return "" if current_sort_direction != default
 
-    return "#{field} desc"
+    return "#{field} #{default === "asc" ? "desc" : "asc"}"
+  end
+
+  def sorted_by_label
+    _sorted_by = sorted_by
+
+    return I18n.t("search_sorting.relevance") if _sorted_by.nil?
+
+    "#{I18n.t("search_sorting.#{_sorted_by}")} (#{I18n.t("search_sorting.#{current_sort_direction}")})"
   end
 
   def query?
