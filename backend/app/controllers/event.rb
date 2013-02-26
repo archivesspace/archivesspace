@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Event")
     .params(["event", JSONModel(:event), "The Event to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_event_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["event_id", Integer, "The event ID to update"],
             ["event", JSONModel(:event), "The event data to update", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_event_record])
     .returns([200, :updated]) \
   do
     handle_update(Event, :event_id, :event)
