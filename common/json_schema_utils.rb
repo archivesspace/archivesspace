@@ -279,6 +279,26 @@ module JSONSchemaUtils
   end
 
 
+
+  def self.is_blank?(obj)
+    obj.nil? || obj == ""
+  end
+
+
+  def self.drop_empty_elements(obj)
+    if obj.is_a?(Hash)
+      Hash[obj.map do |k, v|
+             v = drop_empty_elements(v)
+             [k, v] if !is_blank?(v)
+           end]
+    elsif obj.is_a?(Array)
+      obj.map {|elt| drop_empty_elements(elt)}.reject {|elt| is_blank?(elt)}
+    else
+      obj
+    end
+  end
+
+
   # Drop any keys from 'hash' that aren't defined in the JSON schema.
   #
   # If drop_readonly is true, also drop any values where the schema has
@@ -290,16 +310,15 @@ module JSONSchemaUtils
       result = {}
 
       hash.each do |k, v|
-        if schema["properties"].has_key?(k.to_s) && v != "" && !v.nil?
-          if !drop_readonly || !schema["properties"][k.to_s]["readonly"]
-            result[k] = v
-          end
+        if schema["properties"].has_key?(k.to_s) && (!drop_readonly || !schema["properties"][k.to_s]["readonly"])
+          result[k] = v
         end
       end
 
       result
     end
 
+    hash = drop_empty_elements(hash)
     map_hash_with_schema(hash, schema, [fn])
   end
 
@@ -312,7 +331,11 @@ module JSONSchemaUtils
 
         if definition.has_key?("default") && !hash.has_key?(property.to_s) && !hash.has_key?(property.intern)
           result[property] = definition["default"]
+        elsif definition['type'] == 'array' && !hash.has_key?(property.to_s) && !hash.has_key?(property.intern)
+          # Array values that weren't provided default to empty
+          result[property] = []
         end
+
       end
 
       result

@@ -28,7 +28,7 @@
               <% end %>
             </div>
             <div class="span7">
-              <% if deaccession["extents"].length > 0 %>
+              <% if !deaccession["extents"].blank? %>
                 <%= deaccession["extents"][0]['number'] %>
                 <%= I18n.t('enumerations.extent_extent_type.'+deaccession["extents"][0]['extent_type']) %>
               <% end %>
@@ -39,7 +39,7 @@
           <div class="subrecord-form-container">
             <%= read_only_view(deaccession) %>
             <%= render :partial => "dates/show", :locals => { :dates =>[deaccession["date"]], :section_id => "deaccession_#{index}_date_", :section_title => I18n.t("deaccession.dates") } %>
-            <% if deaccession["extents"].length > 0 %>
+            <% if !deaccession["extents"].blank? %>
               <%= render :partial => "extents/show", :locals => { :extents => deaccession["extents"], :section_id => "deaccession_#{index}_extents_" } %>
             <% end %>
           </div>

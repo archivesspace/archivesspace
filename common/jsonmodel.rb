@@ -309,15 +309,8 @@ module JSONModel
         attributes.each do |attribute|
 
           if not method_defined? "#{attribute}"
-            if self.schema["properties"].has_key?(attribute) && self.schema["properties"][attribute]["type"] === "array"
-              define_method "#{attribute}" do
-                return [] if @data[attribute].nil?
-                @data[attribute]
-              end
-            else
-              define_method "#{attribute}" do
-                @data[attribute]
-              end
+            define_method "#{attribute}" do
+              @data[attribute]
             end
           end
 

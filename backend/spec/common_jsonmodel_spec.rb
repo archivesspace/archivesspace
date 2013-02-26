@@ -118,6 +118,7 @@ describe 'JSON model' do
                                      "required" => true,
                                      "properties" => {
                                        "strict" => {"type" => "string", "ifmissing" => "error"},
+                                       "lenient" => {"type" => "string"},
                                      }
                                    }
                                  },
@@ -125,7 +126,7 @@ describe 'JSON model' do
 
     JSONModel::strict_mode(false)
 
-    model = JSONModel(:strictschema).from_hash({:container => {}}, false)
+    model = JSONModel(:strictschema).from_hash({:container => {'lenient' => 'ok'}}, false)
     model._exceptions[:errors].keys.should eq(["container/strict"])
 
     JSONModel::strict_mode(true)
@@ -293,8 +294,7 @@ describe 'JSON model' do
                                        "level" => "collection",
                                        "notes" => [{"jsonmodel_type" => "note_singlepart",
                                                      "type" => "Abstract",
-                                                     "label" => "moo",
-                                                     "content" => [""]},
+                                                     "label" => "moo"},
                                                    {"jsonmodel_type" => "note_multipart",
                                                      "type" => "Accruals",
                                                      "content" => ["moo"],
@@ -302,7 +302,6 @@ describe 'JSON model' do
                                                      "subnotes" => [{"jsonmodel_type" => "note_bibliography",
                                                                       "type" => "Bibliography",
                                                                       "label" => "",
-                                                                      "content" => [""],
                                                                       "items" => ["",
                                                                                   ""]}]}],
                                        "extents" => [{"portion" => "whole",
@@ -313,8 +312,7 @@ describe 'JSON model' do
                                                        "dimensions" => ""}]})
 
     rescue JSONModel::ValidationException => e
-      e.errors.keys.sort.should eq(["notes/0/content",
-                                    "notes/1/subnotes/0/content"])
+      e.errors.keys.sort.should eq(["notes/0/content"])
     end
   end
 

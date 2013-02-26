@@ -61,7 +61,7 @@ describe 'Repository controller' do
     it "has no access to system configuration" do
       as_test_user(user) do
         expect {
-          JSONModel(:enumeration).new('name' => 'hello', 'values' => []).save
+          JSONModel(:enumeration).new('name' => 'hello', 'values' => ['world']).save
         }.to raise_error(AccessDeniedException)
       end
     end

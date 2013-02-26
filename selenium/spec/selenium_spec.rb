@@ -411,18 +411,12 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "can add a contact to a person" do
+    it "can save a person and view readonly view of person" do
       $driver.find_element(:css => '#contacts .subrecord-form-heading .btn').click
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
-
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Contact Description - Property is required but was missing/)
 
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__name_"], "Email Address")
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__email_"], "jimi@rocknrollheaven.com")
-    end
 
-
-    it "can save a person and view readonly view of person" do
       $driver.find_element(:id => "agent_names__1__source_").select_option("local")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
