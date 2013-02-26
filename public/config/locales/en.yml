@@ -36,6 +36,14 @@ en:
       primary_type: Type
       repository: Repository
       creators: Creator
+  search_sorting:
+    sort_by: "Sort by:"
+    asc: Ascending
+    desc: Descending
+    relevance: Relevance
+    title_sort: Title
+    last_modified: Modified
+    create_time: Created
   iso_3166:
     AF: AFGHANISTAN (AF)
     AX: ÅLAND ISLANDS (AX)
