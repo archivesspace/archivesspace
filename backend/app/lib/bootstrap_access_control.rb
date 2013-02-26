@@ -75,7 +75,11 @@ class ArchivesSpaceService
                       :level => "repository")
 
     Permission.define("update_archival_record",
-                      "The ability to create and modify the major archival record types: accessions/resources/digital objects/components/collection management/events",
+                      "The ability to create and modify the major archival record types: accessions/resources/digital objects/components/collection management",
+                      :level => "repository")
+
+    Permission.define("update_event_record",
+                      "The ability to create and modify event records",
                       :level => "repository")
 
     Permission.define("suppress_archival_record",
