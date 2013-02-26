@@ -948,6 +948,7 @@ en:
       plural: Record Links
   linked_agent: &linked_agent_attributes
     role: Role
+    relator: Relator
     ref: Agent
     _html:
       singular: Agent Link

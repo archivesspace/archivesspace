@@ -12,6 +12,8 @@ class Accession < Sequel::Model(:accession)
   include ExternalIDs
 
   agent_role_enum("linked_agent_archival_record_roles")
+  agent_relator_enum("linked_agent_archival_record_relators")
+
   enable_suppression
   corresponds_to JSONModel(:accession)
   set_model_scope :repository
