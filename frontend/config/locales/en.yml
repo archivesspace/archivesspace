@@ -1146,7 +1146,7 @@ en:
   chronology_item:
     event_date: Event Date
     events: Events
-    event_singular: Event
+    events_singular: Event
   note_definedlist:
     option: Defined List
     title: Title
