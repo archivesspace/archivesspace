@@ -156,7 +156,6 @@ module JSONModel
       # All records must indicate their model type
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
-
       # All records have audit fields
       entry[:schema]["properties"]["last_modified"] = {"type" => "date-time", "readonly" => true}
       entry[:schema]["properties"]["create_time"] = {"type" => "date-time", "readonly" => true}
@@ -436,6 +435,8 @@ module JSONModel
         pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
 
         if uri =~ /#{pattern}\/([0-9]+)$/
+          return $1.to_i
+        elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}([0-9]+)\/tree$/
           return $1.to_i
         else
           if noerror

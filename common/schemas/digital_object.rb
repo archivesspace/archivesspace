@@ -15,6 +15,21 @@
       },
 
       "restrictions" => {"type" => "boolean", "default" => false},
+      "tree" => {
+          "type" => "object", 
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => "JSONModel(:digital_object_tree) uri",
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+      },
+
 
       "notes" => {
             "type" => "array",

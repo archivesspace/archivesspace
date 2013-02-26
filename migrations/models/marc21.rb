@@ -11,7 +11,7 @@ ASpaceExport::model :marc21 do
   }
   
   @resource_map = {
-    :id_0 => :handle_id,
+    [:id_0, :id_1, :id_2, :id_3] => :handle_id,
     :notes => :handle_notes,
   }
   
@@ -72,6 +72,7 @@ ASpaceExport::model :marc21 do
   # subtypes of 'archival object':
   
   def self.from_resource(obj)
+    Log.debug("Obj #{obj.inspect}")
     marc = self.from_archival_object(obj)
     marc.apply_map(obj, @resource_map)
     
@@ -88,16 +89,16 @@ ASpaceExport::model :marc21 do
     end
   end
   
-  def handle_id(id_0, obj)
-    df('852').with_sfs(['c', (0...4).map {|id| obj["id_#{id}"]}.join('--')])
+
+  def handle_id(*ids)
+    df('852').with_sfs(['c', ids.join('--')])
   end
   
-  def handle_title(title, obj)
-    Log.debug("TITLE #{title}")
+  def handle_title(title)
     df('852').with_sfs(['b', title])
   end 
   
-  def handle_repo_code(repository, obj)
+  def handle_repo_code(repository)
     df('852').with_sfs(['a', "Repository: #{repository['_resolved']['repo_code']}"])
   end
   
@@ -123,7 +124,8 @@ ASpaceExport::model :marc21 do
     end
   end
   
-  def handle_agents(linked_agents, obj)
+
+  def handle_agents(linked_agents)
     linked_agents.each do |link|
 
       role = link['role']
@@ -147,9 +149,9 @@ ASpaceExport::model :marc21 do
         
     end
   end
-  
 
-  def handle_notes(notes, obj)
+
+  def handle_notes(notes)
 
     notes.each do |note|
 

@@ -6,16 +6,23 @@ require_relative '../../migrations/serializers/ead.rb'
 describe 'ASpaceExport' do
 
   it "can export a resource record as EAD" do
-    resource = create(:json_resource)
+    r = create(:json_resource)
+    
+    5.times { create(:json_archival_object, :resource => {'ref' => r.uri}) }
+    
+    
+    obj = JSONModel(:resource).find(r.id, "resolve[]" => ['repository', 'linked_agents', 'subjects', 'tree'])
+    
+    ead = ASpaceExport::model(:ead).from_resource(obj)
+    
     serializer = ASpaceExport::serializer :ead
 
-    xml = serializer.serialize(Resource[resource.id])
+    xml = serializer.serialize(ead)
     doc = Nokogiri::XML(xml)
 
-    extent = resource['extents'].first
 
-    doc.xpath('//unittitle').first.text.should eq(resource.title)
-    doc.xpath('//physdesc/extent').first.text.should eq("#{extent['number']} of #{extent['extent_type']}")
+    doc.xpath('//xmlns:c', doc.root.namespaces).length.should eq (5)
+
   end
   
   it "can export a digital object record as MODS" do
@@ -52,10 +59,12 @@ describe 'ASpaceExport' do
     
     title = generate(:generic_title)
     
-    resource = create(:json_resource, :title => title)
+    r = create(:json_resource, :title => title)
+    
+    obj = JSONModel(:resource).find(r.id, "resolve[]" => ['repository', 'linked_agents', 'subjects'])
     
     serializer = ASpaceExport::serializer :marc21
-    marc = ASpaceExport::model(:marc21).from_resource(Resource.get_or_die(resource.id))
+    marc = ASpaceExport::model(:marc21).from_resource(obj)
     
     xml = serializer.serialize(marc)
     doc = Nokogiri::XML(xml)

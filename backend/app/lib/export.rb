@@ -42,25 +42,23 @@ module ExportHelpers
     # Maybe we should just have an 'all' for resolve to avoid having to list these...
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects'])
     
-
     marc = ASpaceExport.model(:marc21).from_resource(JSONModel(:resource).new(obj))
     
     ASpaceExport.serializer(:marc21).serialize(marc)
   end
   
   
-  # TODO - Get these methods using ExportModels...
-  def generate_ead(id, type, repo_id)
+  def generate_ead(id)
 
-    resource = Resource.get_or_die(id)
+    obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree'])
     
-    serializer = ASpaceExport::serializer(:ead)
+    ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
     
-    serializer.repo_id = repo_id
-
-    serializer.serialize(resource, {:repo_id => repo_id})
+    ASpaceExport.serializer(:ead).serialize(ead)
+    
   end
   
+  # TODO - Get this methods using ExportModels...
   def generate_eac(id, type)
     
     agent = Kernel.const_get(type.camelize).get_or_die(id)
@@ -68,7 +66,9 @@ module ExportHelpers
     serializer = ASpaceExport::serializer(:eac)
     
     serializer.serialize(agent)
-  end  
+  end
+  
+  
   
 end
   
