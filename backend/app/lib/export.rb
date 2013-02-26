@@ -39,9 +39,11 @@ module ExportHelpers
   
   def generate_marc(id)
     
-    obj = Resource.get_or_die(id)
+    # Maybe we should just have an 'all' for resolve to avoid having to list these...
+    obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects'])
     
-    marc = ASpaceExport.model(:marc21).from_resource(obj)
+
+    marc = ASpaceExport.model(:marc21).from_resource(JSONModel(:resource).new(obj))
     
     ASpaceExport.serializer(:marc21).serialize(marc)
   end

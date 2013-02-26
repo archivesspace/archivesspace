@@ -101,7 +101,7 @@ module ASpaceExport
         next if fieldable.empty? # probably a relationship
         
         handler_args = fieldable.map {|f| obj.send(f) }
-        self.send(handler, *handler_args)
+        self.send(handler, *handler_args, obj)
       end
     end
     

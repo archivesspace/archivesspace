@@ -156,9 +156,29 @@ module JSONModel
       # All records must indicate their model type
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
+
       # All records have audit fields
       entry[:schema]["properties"]["last_modified"] = {"type" => "date-time", "readonly" => true}
       entry[:schema]["properties"]["create_time"] = {"type" => "date-time", "readonly" => true}
+
+      # Records may include a reference to the repository that contains them
+      entry[:schema]["properties"]["repository"] = {
+        "type" => "object",
+        "subtype" => "ref",
+        "readonly" => "true",
+        "properties" => {
+          "ref" => {
+            "type" => "JSONModel(:repository) uri",
+            "ifmissing" => "error",
+            "readonly" => "true"
+          },
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        }
+      }
+
 
       if @@init_args[:allow_other_unmapped]
         allow_unmapped_enum_value(entry[:schema]['properties'])

@@ -376,6 +376,10 @@ module ASModel
         uri = json.class.uri_for(obj.id, :repo_id => active_repository)
         json.uri = uri if uri
 
+        if model_scope == :repository
+          json['repository'] = {'ref' => JSONModel(:repository).uri_for(active_repository)}
+        end
+
         # If there are linked records for this class, grab their URI references too
         (linked_records[self] or []).each do |linked_record|
           model = Kernel.const_get(linked_record[:association][:class_name])
