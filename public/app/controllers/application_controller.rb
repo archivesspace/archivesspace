@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :establish_session
+  before_filter :assign_repositories
 
   rescue_from RecordNotFound, :with => :handle_404
   rescue_from Errno::ECONNREFUSED, :with => :handle_backend_down
@@ -57,6 +58,10 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def assign_repositories
+    @repositories = MemoryLeak::Resources.get(:repository)
+  end
 
   def search_params
     params_for_search = params.select{|k,v| ["page", "q", "type", "filter", "sort"].include?(k) and not v.blank?}

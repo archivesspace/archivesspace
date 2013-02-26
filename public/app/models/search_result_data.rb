@@ -1,8 +1,9 @@
 class SearchResultData
 
-  def initialize(search_data)
+  def initialize(search_data, repository_data)
     @search_data = search_data
     @facet_data = {}
+    @repositories = repository_data
 
     clean_search_data
     init_facets
@@ -70,7 +71,19 @@ class SearchResultData
   end
 
   def facet_label_string(facet_group, facet)
-    facet_group === "primary_type" ? I18n.t("#{facet}._html.singular", :default => facet) : facet
+    return I18n.t("#{facet}._html.singular", :default => facet) if facet_group === "primary_type"
+
+    if facet_group === "repository"
+      match = @repositories.select{|repo| repo['uri'] === facet}
+      
+      if match.empty?
+        return facet
+      else
+        return match.first['repo_code']
+      end
+    end
+
+    facet
   end
 
   def facet_query_string(facet_group, facet)
