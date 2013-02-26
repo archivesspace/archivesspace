@@ -43,6 +43,10 @@ class Resource < JSONModel(:resource)
 
     self.update(values)
 
+    self.rights_statements = Array(accession.rights_statements).map {|rights_statement|
+      rights_statement.clone.tap {|r| r.delete('identifier')}
+    }
+
     if !self.extents || self.extents.empty?
       self.extents = [JSONModel(:extent).new._always_valid!]
     end
