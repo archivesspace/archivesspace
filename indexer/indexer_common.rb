@@ -31,6 +31,13 @@ class CommonIndexer
     configure_doc_rules
   end
 
+  def add_agents(doc, record)
+    if record['record']['linked_agents']
+      # index the creators only
+      creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
+      doc['creators'] = creators.collect{|link| link['_resolved']['names'][0]['sort_name']} if not creators.empty?
+    end
+  end
 
   def add_subjects(doc, record)
     if record['record']['subjects']
@@ -54,6 +61,7 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       add_subjects(doc, record)
+      add_agents(doc, record)
       add_audit_info(doc, record)
     }
 

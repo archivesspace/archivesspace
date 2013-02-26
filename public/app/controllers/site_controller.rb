@@ -84,7 +84,7 @@ class SiteController < ApplicationController
 
     @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-    @criteria['facet[]'] = ["repository", "subjects", "primary_type"]
+    @criteria['facet[]'] = ["repository", "primary_type", "creators", "subjects"]
   
     # only allow locations, subjects, resources and archival objects in search results
     if params[:type].blank? or @criteria['type[]'].empty?
