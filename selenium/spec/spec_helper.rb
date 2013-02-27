@@ -309,6 +309,8 @@ def selenium_init
     system('wget', 'http://aspace.hudmol.com/firefox-16.0.tar.bz2')
     system('tar', 'xvjf', 'firefox-16.0.tar.bz2')
     ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
+
+    system('firefox', '--version')
   end
 
 
