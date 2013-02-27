@@ -3,54 +3,7 @@ module RESTHelpers
   include JSONModel
 
 
-  def resolve_reference(reference)
-    if !reference.is_a? Hash
-      raise "Argument must be a {'ref' => '/uri'} hash (not: #{reference})"
-    end
-
-    if JSONModel.parse_reference(reference['ref'])
-      record = redirect_internal(reference['ref'])[2].body.join("")
-      reference.clone.merge('_resolved' => ASUtils.json_parse(record))
-    else
-      raise "Couldn't parse ref: #{reference.inspect}"
-    end
-  end
-
-
-  def resolve_references(value, properties_to_resolve)
-    value = value.to_hash if value.respond_to?(:to_hash)
-
-    # If ASPACE_REENTRANT is set, don't resolve anything or we risk creating loops.
-    return value if (properties_to_resolve.nil? || env['ASPACE_REENTRANT'])
-
-    if value.is_a? Hash
-      result = value.clone
-
-      value.each do |k, v|
-        if properties_to_resolve.include?(k)
-          result[k] = (v.is_a? Array) ? v.map {|elt| resolve_reference(elt)} : resolve_reference(v)
-        else
-          result[k] = resolve_references(v, properties_to_resolve)
-        end
-      end
-
-      result
-
-    elsif value.is_a? Array
-      value.map {|elt| resolve_references(elt, properties_to_resolve)}
-    else
-      value
-    end
-  end
-
-
   module ResponseHelpers
-
-    # Redispatch the current request to a different route handler.
-    def redirect_internal(url)
-      call env.merge("PATH_INFO" => url, "ASPACE_REENTRANT" => true)
-    end
-
 
     def json_response(obj, status = 200)
       [status, {"Content-Type" => "application/json"}, [obj.to_json(:max_nesting => false) + "\n"]]
@@ -234,8 +187,10 @@ module RESTHelpers
           RequestContext.put(:repo_id, params[:repo_id])
           RequestContext.put(:is_high_priority, high_priority_request?)
 
-          unless preconditions.all? { |precondition| self.instance_eval &precondition }
-            raise AccessDeniedException.new("Access denied")
+          if !env["ASPACE_REENTRANT"]
+            unless preconditions.all? { |precondition| self.instance_eval &precondition }
+              raise AccessDeniedException.new("Access denied")
+            end
           end
 
           result = DB.open do
