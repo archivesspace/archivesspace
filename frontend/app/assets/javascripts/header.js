@@ -64,7 +64,7 @@ $(function() {
   if (window.location.pathname === APP_PATH) {
     if ($(".repository-label.has-popover.empty").length) {
       $(".repository-label.has-popover.empty").popover('show');
-      $(".user-container .navbar-inset-label .popover .btn.btn-mini.dropdown-toggle").click(function() {
+      $(".user-container .inset-label .popover .btn.btn-mini.dropdown-toggle").click(function() {
         $(".user-container > .input-append > .btn").trigger("click");
         setTimeout(function() {
           $(".user-container > .input-append").addClass("open");
