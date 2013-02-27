@@ -335,7 +335,7 @@ $(function() {
         addnewNode($selected.parents("li:first"), $(this).attr("rel"), config.rules[$selected.parents("li:first").attr("rel")]["can_add_child"][$(this).attr("rel")]);
       });
 
-      $container.on("click", ".btn-cancel", function() {
+      $container.on("click", ".btn-cancel", function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
         if ($(this).attr("disabled")) {
