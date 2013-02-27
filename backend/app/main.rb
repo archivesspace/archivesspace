@@ -1,4 +1,5 @@
 require_relative 'lib/bootstrap'
+require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
 require_relative 'lib/export'
@@ -13,7 +14,9 @@ require 'rufus/scheduler'
 
 class ArchivesSpaceService < Sinatra::Base
 
+  include URIResolver
   include RESTHelpers
+
   include CrudHelpers
   include ImportHelpers
 
