@@ -24,17 +24,22 @@ module RESTHelpers
     return value if (properties_to_resolve.nil? || env['ASPACE_REENTRANT'])
 
     if value.is_a? Hash
-      result = value.clone
+      if value.has_key?('ref') && properties_to_resolve == :all
+        resolve_reference(value)
+      else
+        result = value.clone
 
-      value.each do |k, v|
-        if properties_to_resolve.include?(k)
-          result[k] = (v.is_a? Array) ? v.map {|elt| resolve_reference(elt)} : resolve_reference(v)
-        else
-          result[k] = resolve_references(v, properties_to_resolve)
+        value.each do |k, v|
+          if properties_to_resolve.is_a?(Array) && properties_to_resolve.include?(k)
+            result[k] = (v.is_a? Array) ? v.map {|elt| resolve_reference(elt)} : resolve_reference(v)
+          else
+            result[k] = resolve_references(v, properties_to_resolve)
+          end
         end
+
+        result
       end
 
-      result
 
     elsif value.is_a? Array
       value.map {|elt| resolve_references(elt, properties_to_resolve)}
