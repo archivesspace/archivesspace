@@ -33,7 +33,7 @@
         <%= hidden_field_tag k, v %>
       <% end %>
     <% end %>
-    <input type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+    <input class="text-filter-field" type="text" placeholder="<%= I18n.t("search_results.text_placeholder") %>" name="q" value="<%= params[:q] %>"/>
     <div class="btn-group">
       <button class="btn"><span class=" icon-search"></span></button>
     </div>
