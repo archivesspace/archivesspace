@@ -33,7 +33,10 @@ $(function() {
 
       var renderItemsInModal = function(page) {
         page = page || 1;
-        var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
+
+        var currentlySelectedIds = [];
+        $.each($this.tokenInput("get"), function(obj) {currentlySelectedIds.push(obj.id);});
+
         $.ajax({
           url: config.url,
           data: {
@@ -147,7 +150,10 @@ $(function() {
 
       var formatResults = function(searchData) {
         var formattedResults = [];
-        var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
+
+        var currentlySelectedIds = [];
+        $.each($this.tokenInput("get"), function(obj) {currentlySelectedIds.push(obj.id);});
+
         $.each(searchData.search_data.results, function(index, obj) {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
@@ -255,7 +261,10 @@ $(function() {
           },
           formatQueryParam: function(q, ajax_params) {
             if ($this.tokenInput("get").length) {
-              ajax_params.data["exclude[]"] = $this.tokenInput("get").map(function(o) {return o.id});
+              var currentlySelectedIds = [];
+              $.each($this.tokenInput("get"), function(obj) {currentlySelectedIds.push(obj.id);});
+
+              ajax_params.data["exclude[]"] = currentlySelectedIds;
             }
             if (config.types && config.types.length) {
               ajax_params.data["type"] = config.types;
