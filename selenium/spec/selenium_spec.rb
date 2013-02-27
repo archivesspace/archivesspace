@@ -1519,8 +1519,8 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link, "Revert Changes").click
 
-      # Skip over Firefox's "you're navigating away" warning.
-      $driver.switch_to.alert.accept
+      # Skip over "Save Your Changes" dialog i.e. don't save AO.
+      $driver.find_element(:id, "dismissChangesButton").click
     end
 
 
