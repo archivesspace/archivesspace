@@ -117,6 +117,7 @@ $(function() {
         } else {
           renderCreateFormForObject($(".linker-create-btn:first", $linkerWrapper).data("target"));
         }
+        return false; // IE8 patch
       };
 
 
@@ -145,6 +146,7 @@ $(function() {
         $("#"+config.modal_id).on("click", ".linker-list .pagination .navigation a", function() {
           renderItemsInModal($(this).attr("rel"));
         });
+        return false; // IE patch
       };
 
 
