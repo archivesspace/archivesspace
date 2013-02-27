@@ -5,8 +5,10 @@
   <div class="pull-right" style="position: relative">
     <%= I18n.t("search_sorting.sort_by") %>
     <span class="input-append">
-      <span class="inset-label"><%= @search_data.sorted_by_label %></span>
-      <a class="btn btn-mini dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <span class="inset-label"><%= @search_data.sorted_by_label %></span>
+        <span class="btn btn-mini last"><span class="caret"></span></span>
+      </a>
       <ul class="dropdown-menu pull-right">
         <li><%= link_to I18n.t("search_sorting.relevance"), params_for_search("sort" => "") %></li>
         <li class="dropdown-submenu pull-left">
