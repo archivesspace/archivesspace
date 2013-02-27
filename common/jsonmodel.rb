@@ -154,6 +154,10 @@ module JSONModel
       # All records must indicate their model type
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
+      # All records have audit fields
+      entry[:schema]["properties"]["last_modified"] = {"type" => "date-time", "readonly" => true}
+      entry[:schema]["properties"]["create_time"] = {"type" => "date-time", "readonly" => true}
+
       if @@init_args[:allow_other_unmapped]
         allow_unmapped_enum_value(entry[:schema]['properties'])
       end

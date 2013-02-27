@@ -55,7 +55,13 @@
    <field name="suppressed" type="boolean" indexed="true" stored="true" multiValued="false" />
    <field name="external_id" type="string" indexed="true" stored="true" multiValued="true" />
 
+   <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
+
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
+
+   <!-- Accession properties required for facets -->
+   <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
    <field name="resource" type="string" indexed="true" stored="true" multiValued="false" /> 
@@ -65,6 +71,13 @@
 
    <!-- Subjects store all the terms as a display_string -->
    <field name="display_string" type="text_general" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Sort fields -->
+   <field name="title_sort" type="string" indexed="true" stored="false" multiValued="false"/>
+
+   <!-- Audit fields -->
+   <field name="create_time" type="date" indexed="true" stored="true" multiValued="false"/>
+   <field name="last_modified" type="date" indexed="true" stored="true" multiValued="false"/>
 
  </fields>
 
@@ -171,5 +184,7 @@
     </fieldType>
 
  </types>
-  
+
+  <!-- Copy fields ... perhaps for sort fields -->
+  <copyField source="title" dest="title_sort"/>
 </schema>

@@ -20,8 +20,8 @@ describe 'Enumerations model' do
       primary_key :id
       Integer :role_id
       Integer :lock_version, :default => 0
-      Date :create_time
-      Date :last_modified
+      DateTime :create_time
+      DateTime :last_modified
     end
 
     @model = Class.new(Sequel::Model(:model_with_enums)) do

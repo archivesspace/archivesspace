@@ -3,15 +3,7 @@ class SearchController < ApplicationController
   before_filter(:only => [:do_search]) {|c| user_must_have("view_repository")}
 
   def do_search
-    @criteria = {
-      :q => params[:q],
-      :page => params[:page] || 1
-    }
-
-    @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
-    @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-
-    @search_data = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/search", @criteria)
+    @search_data = Search.all(session[:repo_id], search_params.merge({"facet[]" => ["primary_type","creators","subjects"]}))
 
     respond_to do |format|
       format.json {

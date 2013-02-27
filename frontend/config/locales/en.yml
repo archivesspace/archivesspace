@@ -45,6 +45,7 @@ en:
     merge: Merge
   states:
     suppressed: Suppressed
+    deleted: Deleted
     auto_generated: System generates when saved
   navbar:
     brand: ArchivesSpace
@@ -93,10 +94,31 @@ en:
     page_connector: of
   search_results:
     title: Search Results
-    no_results: No Records
+    no_results: No records found
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
+    filtered_by: Filtered By
+    modified: Last Modified
+    created: Created
+    text_placeholder: Filter by text
+    clear_all: Clear All
+    created: Created
+    modified: Modified
+    filter:
+      query: Text
+      subjects: Subject
+      primary_type: Type
+      accession_date_year: Accession Date
+      creators: Creator
+  search_sorting:
+    sort_by: "Sort by:"
+    asc: Ascending
+    desc: Descending
+    relevance: Relevance
+    title_sort: Title
+    last_modified: Modified
+    create_time: Created
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
     save: Save Changes

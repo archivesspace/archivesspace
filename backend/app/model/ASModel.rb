@@ -1,5 +1,6 @@
 require_relative '../lib/realtime_indexing'
 
+
 module ASModel
   include JSONModel
 
@@ -40,7 +41,9 @@ module ASModel
       end
 
 
-      schema_defined_properties = json.class.schema["properties"].keys
+      schema_defined_properties = json.class.schema["properties"].map{|prop, defn|
+        prop if !defn['readonly']
+      }.compact
 
       # Start by assuming all existing properties were nil, then overlay the
       # updates plus any extra attributes.
@@ -59,7 +62,7 @@ module ASModel
 
       self.class.apply_linked_database_records(self, json)
 
-      self.class.fire_update(json, obj.uri)
+      self.class.fire_update(json, obj)
 
       obj
     end
@@ -141,7 +144,7 @@ module ASModel
 
         self.apply_linked_database_records(obj, json)
 
-        fire_update(json, obj.uri)
+        fire_update(json, obj)
 
         obj
       end
@@ -153,9 +156,15 @@ module ASModel
 
 
       # (Potentially) notify the real-time indexer that an update is available.
-      def fire_update(json, uri)
+      def fire_update(json, sequel_obj)
         if high_priority?
-          RealtimeIndexing.record_update(json.to_hash, uri)
+          sequel_obj.refresh
+
+          # Manually set any DB hooked values
+          json["create_time"] = sequel_obj[:create_time].getutc.iso8601
+          json["last_modified"] = sequel_obj[:last_modified].getutc.iso8601
+
+          RealtimeIndexing.record_update(json.to_hash, sequel_obj.uri)
         end
       end
 
@@ -384,6 +393,9 @@ module ASModel
 
           json[linked_record[:json_property]] = (is_array ? records : records[0])
         end
+
+        json["last_modified"] = obj[:last_modified].getutc.iso8601 if obj[:last_modified]
+        json["create_time"] = obj[:create_time].getutc.iso8601 if obj[:create_time]
 
         json
       end

@@ -11,7 +11,7 @@ class Solr
 
   def self.search(query, page, page_size, repo_id,
                   record_types = nil, show_suppressed = false,
-                  excluded_ids = [])
+                  excluded_ids = [], extra_solr_params = {})
     url = solr_url
 
     opts = {
@@ -22,6 +22,12 @@ class Solr
       :start => (page - 1) * page_size,
       :rows => page_size,
     }.to_a
+
+    extra_solr_params.each { |k,v|
+      Array(v).each {|val| opts << [k, val]}
+    }
+
+    opts << ["facet", true] if extra_solr_params.has_key?("facet.field")
 
     if repo_id
       opts << [:fq, "repository:\"/repositories/#{repo_id}\" OR repository:global"]
@@ -67,6 +73,8 @@ class Solr
           doc['jsonmodel_type'] = doc['primary_type']
           doc
         }
+
+        result['facets'] = json['facet_counts']
 
         return result
       else

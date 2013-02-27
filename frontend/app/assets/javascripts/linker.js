@@ -148,7 +148,7 @@ $(function() {
       var formatResults = function(searchData) {
         var formattedResults = [];
         var currentlySelectedIds = $this.tokenInput("get").map(function(obj) {return obj.id;});
-        $.each(searchData.results, function(index, obj) {
+        $.each(searchData.search_data.results, function(index, obj) {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             var json = obj;

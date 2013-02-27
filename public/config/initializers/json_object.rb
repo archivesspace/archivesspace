@@ -1,10 +1,14 @@
 require "jsonmodel"
+require "memoryleak"
 
 if not ENV['DISABLE_STARTUP']
 
   JSONModel::init(:client_mode => true,
                 :priority => :high,
                 :url => AppConfig[:backend_url])
+
+
+  MemoryLeak::Resources.define(:repository, proc { JSONModel(:repository).all }, 60)
 
 
   JSONModel::add_error_handler do |error|

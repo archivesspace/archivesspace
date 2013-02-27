@@ -8,7 +8,9 @@ class AccessionsController < ApplicationController
   FIND_OPTS = ["subjects", "ref", "related_resources", "linked_agents"]
 
   def index
-    @search_data = Accession.all(:page => selected_page)
+    facets = ["subjects", "accession_date_year"]
+
+    @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => facets}))
   end
 
   def show
@@ -76,10 +78,11 @@ class AccessionsController < ApplicationController
 
 
   def delete
-    Accession.find(params[:id]).delete
+    accession = Accession.find(params[:id])
+    accession.delete
 
     flash[:success] = I18n.t("accession._html.messages.deleted")
-    redirect_to(:controller => :accessions, :action => :index)
+    redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
   end
 
 

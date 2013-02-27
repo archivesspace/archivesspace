@@ -18,6 +18,9 @@ class CommonIndexer
                     :collection_management, :subject, :location,
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
 
+  @@resolved_attributes = ['subjects', 'linked_agents']
+
+
   def initialize(backend_url)
     @backend_url = backend_url
     @document_prepare_hooks = []
@@ -28,11 +31,43 @@ class CommonIndexer
     configure_doc_rules
   end
 
+  def add_agents(doc, record)
+    if record['record']['linked_agents']
+      # index the creators only
+      creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
+      doc['creators'] = creators.collect{|link| link['_resolved']['names'][0]['sort_name']} if not creators.empty?
+    end
+  end
+
+  def add_subjects(doc, record)
+    if record['record']['subjects']
+      doc['subjects'] = record['record']['subjects'].map {|s| s['_resolved']['title']}.compact
+    end
+  end
+
+
+  def add_audit_info(doc, record)
+    doc['last_modified'] = record['record']['last_modified'] if record['record'].has_key? 'last_modified'  
+    doc['create_time'] = record['record']['create_time'] if record['record'].has_key? 'create_time'  
+  end
+
 
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
         doc['resource'] = record['record']['resource']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      add_subjects(doc, record)
+      add_agents(doc, record)
+      add_audit_info(doc, record)
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'accession'
+        doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
       end
     }
 

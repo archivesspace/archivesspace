@@ -773,6 +773,8 @@ describe "ArchivesSpace user interface" do
 
 
     it "can show a browse list of Accessions" do
+      @indexer.run_index_round
+      
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Accessions").click
       expect {
@@ -810,6 +812,8 @@ describe "ArchivesSpace user interface" do
 
       assert { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Suppressed') }
       assert { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
+
+      @indexer.run_index_round
 
       # Try to navigate to the edit form
       $driver.get("#{$accession_url}/edit")
@@ -858,6 +862,12 @@ describe "ArchivesSpace user interface" do
 
       #Ensure Accession no longer exists
       assert { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Deleted') }
+
+      @indexer.run_index_round
+
+      # hmm boo.. refresh the page now that the indexer is refreshed
+      $driver.navigate.refresh
+
       expect {
         $driver.find_element_with_text('//td', /#{@accession_title}/)
       }.to raise_error

@@ -29,6 +29,8 @@ class Group < Sequel::Model(:group)
 
 
   def before_save
+    super
+
     self.group_code_norm = self.group_code.downcase
   end
 

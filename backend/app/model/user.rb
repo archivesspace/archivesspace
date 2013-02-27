@@ -31,6 +31,8 @@ class User < Sequel::Model(:user)
 
 
   def before_save
+    super
+
     self.username = self.username.downcase
   end
 
