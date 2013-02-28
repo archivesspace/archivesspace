@@ -108,7 +108,7 @@ en:
     filter:
       query: Text
       subjects: Subject
-      primary_type: Type
+      primary_type: Record Type
       accession_date_year: Accession Date
       creators: Creator
   search_sorting:
@@ -118,6 +118,7 @@ en:
     relevance: Relevance
     title_sort: Title
     last_modified: Modified
+    primary_type: Record Type
     create_time: Created
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
