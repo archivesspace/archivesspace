@@ -102,7 +102,7 @@ ASpaceExport::model :marc21 do
     df('852').with_sfs(['a', "Repository: #{repository['_resolved']['repo_code']}"])
   end
   
-  def handle_subjects(subjects, obj)
+  def handle_subjects(subjects)
     subjects.each do |subject|
       json = subject['_resolved']
       
@@ -187,7 +187,7 @@ ASpaceExport::model :marc21 do
     end 
   end
   
-  def handle_extents(extents, obj)
+  def handle_extents(extents)
     extents.each do |ext|
       e = ext['number']
       e << " (#{ext['portion']})" if ext['portion']
