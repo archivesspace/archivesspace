@@ -126,81 +126,74 @@ module ASpaceExport
     #           (..TODO: attributes)
     # 
     
-    def self.struct
-      @structure ||={}
-      @structure
-    end
-    
-    def self.attribute_groups
-      @attribute_groups ||= {}
-    end
-    
-    def self.structure(opts) 
-
-      Log.debug("OPTS #{opts.inspect}")
-      @structure ||= {}
-      
-      struct_owner = self
-      
-      klass = Object.const_set("Structural"+opts[:name].to_s.capitalize, Class.new)
-      klass.instance_variable_set(:@structure, @structure)
-
-      singles = opts[:once] || []
-      multies = opts[:many] || []
-
-      klass.class_eval do
-
-        attr_accessor *(singles + multies).reject{|i| i.nil?}
-          
-        singles.each do |child|
-          define_method(child) do
-            if (iv = instance_variable_get("@"+child.to_s))
-              iv
-            elsif (structural = struct_owner.struct[child])
-              instance_variable_set("@"+child.to_s, structural.new)  
-            else
-              instance_variable_set("@"+child.to_s, String.new)
-            end
-          end
-        end
-      
-        multies.each do |child|
-          define_method(child) do
-            if (iv = instance_variable_get("@"+child.to_s))
-              iv
-            elsif (structural = struct_owner.struct[child])
-              # instance_variable_set("@"+child.to_s, [structural.new])
-              instance_variable_set("@"+child.to_s, StructArray.new(structural))
-            else
-              instance_variable_set("@"+child.to_s, StructArray.new(String))
-            end
-          end
-        end
-
-      end
-
-      @structure[opts[:name]] = klass
-    end
-    
-    
-    def self.bild(name)
-      
-      if @structure.has_key?(name)
-        @structure[name].new
-      else
-        nil
-      end
-    end
+    # def self.struct
+    #    @structure ||={}
+    #    @structure
+    #  end
+    #  
+    #  def self.attribute_groups
+    #    @attribute_groups ||= {}
+    #  end
+    #  
+    #  def self.structure(opts) 
+    # 
+    #    Log.debug("OPTS #{opts.inspect}")
+    #    @structure ||= {}
+    #    
+    #    struct_owner = self
+    #    
+    #    klass = Object.const_set("Structural"+opts[:name].to_s.capitalize, Class.new)
+    #    klass.instance_variable_set(:@structure, @structure)
+    # 
+    #    singles = opts[:once] || []
+    #    multies = opts[:many] || []
+    # 
+    #    klass.class_eval do
+    # 
+    #      attr_accessor *(singles + multies).reject{|i| i.nil?}
+    #        
+    #      singles.each do |child|
+    #        define_method(child) do
+    #          if (iv = instance_variable_get("@"+child.to_s))
+    #            iv
+    #          elsif (structural = struct_owner.struct[child])
+    #            instance_variable_set("@"+child.to_s, structural.new)  
+    #          else
+    #            instance_variable_set("@"+child.to_s, String.new)
+    #          end
+    #        end
+    #      end
+    #    
+    #      multies.each do |child|
+    #        define_method(child) do
+    #          if (iv = instance_variable_get("@"+child.to_s))
+    #            iv
+    #          elsif (structural = struct_owner.struct[child])
+    #            # instance_variable_set("@"+child.to_s, [structural.new])
+    #            instance_variable_set("@"+child.to_s, StructArray.new(structural))
+    #          else
+    #            instance_variable_set("@"+child.to_s, StructArray.new(String))
+    #          end
+    #        end
+    #      end
+    # 
+    #    end
+    # 
+    #    @structure[opts[:name]] = klass
+    #  end
+    #  
+    #  
+    #  def self.bild(name)
+    #    
+    #    if @structure.has_key?(name)
+    #      @structure[name].new
+    #    else
+    #      nil
+    #    end
+    #  end
     
     
     def initialize
-    end
-    
-    def apply_mapped_relationships(obj, map)  
-      obj.class.instance_variable_get(:@relationships).each do |rel|
-        next unless map.has_key?(rel[:json_property].to_sym)
-        self.send(map[rel[:json_property].to_sym], obj.my_relationships(rel[:name]))
-      end
     end
 
 
@@ -220,11 +213,11 @@ module ASpaceExport
     end
     
     
-    def keyed_attributes(key, vals)
-      hsh = {}
-      self.class.attribute_groups[key].each_with_index {|s,i| hsh[s] = vals[i]}
-      hsh
-    end
+    # def keyed_attributes(key, vals)
+    #   hsh = {}
+    #   self.class.attribute_groups[key].each_with_index {|s,i| hsh[s] = vals[i]}
+    #   hsh
+    # end
     
   end
 

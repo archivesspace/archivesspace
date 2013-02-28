@@ -15,7 +15,7 @@ ASpaceExport::model :mods do
   @archival_object_map = {
     :title => :title=,
     :language => :language_term=,
-    :extent => :handle_extent,
+    :extents => :handle_extent,
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents
 
@@ -57,9 +57,7 @@ ASpaceExport::model :mods do
     mods = self.new
     
     mods.apply_map(obj, @archival_object_map)
-    
-    mods.apply_mapped_relationships(obj, @archival_object_map)
-     
+         
     mods
   end
     
@@ -72,7 +70,7 @@ ASpaceExport::model :mods do
     
     mods.apply_map(obj, @digital_object_map)
     
-    obj.tree['children'].each do |child|
+    obj.tree['_resolved']['children'].each do |child|
       mods.parts << {'id' => "component-#{child['id']}", 'title' => child['title']}
     end
   
@@ -89,7 +87,6 @@ ASpaceExport::model :mods do
   
   
   def handle_notes(notes)
-    notes = ASUtils.json_parse(DB.deblob(notes) || "[]")
     notes.each do |note|
      self.notes << note
     end 
@@ -97,31 +94,30 @@ ASpaceExport::model :mods do
   
   def handle_extent(extents)
     extents.each do |ext|
-      e = ext.number
-      e << " (#{ext.portion})" if ext.portion
-      e << " #{ext.extent_type}"
+      e = ext['number']
+      e << " (#{ext['portion']})" if ext['portion']
+      e << " #{ext['extent_type']}"
 
       self.extents << e
     end
   end
   
   def handle_subjects(subjects)
-    subjects.each do |subject|
-      json = subject[1].class.to_jsonmodel(subject[1])
-      self.subjects << {'terms' => json.terms.map {|t| t['term']}}
+    subjects.map {|s| s['_resolved'] }.each do |subject|
+      self.subjects << {'terms' => subject['terms'].map {|t| t['term']}}
     end
   end
   
   def handle_agents(linked_agents)
-    linked_agents.each do |linked_agent|
-      json = linked_agent[1].class.to_jsonmodel(linked_agent[1])
-      role = linked_agent[0][:role]
-      name_type = self.class.name_type_map[json.jsonmodel_type]
+    linked_agents.each do |link|
+      agent = link['_resolved']
+      role = link['role']
+      name_type = self.class.name_type_map[agent['jsonmodel_type']]
       # shift in granularity - role repeats for each name
-      json.names.each do |name|
+      agent['names'].each do |name|
         self.names << {'type' => name_type, 
                        'role' => role, 
-                       'parts' => name_parts(name, json.jsonmodel_type),
+                       'parts' => name_parts(name, agent['jsonmodel_type']),
                        'displayForm' => name['sort_name']
                        }
       end

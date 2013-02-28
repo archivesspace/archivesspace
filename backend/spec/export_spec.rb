@@ -30,24 +30,28 @@ describe 'ASpaceExport' do
     extents = []
     5.times { extents << build(:json_extent) }
     
-    digital_object = create(:json_digital_object, :extents => extents)
+    d = create(:json_digital_object, :extents => extents)
+    
+    obj = JSONModel(:digital_object).find(d.id, "resolve[]" => ['repository', 'linked_agents', 'subjects', 'tree'])
     
     serializer = ASpaceExport::serializer :mods
-    mods_data = ASpaceExport::model(:mods).from_digital_object(DigitalObject.get_or_die(digital_object.id))
+    mods_data = ASpaceExport::model(:mods).from_digital_object(obj)
     
     xml = serializer.serialize(mods_data)
     doc = Nokogiri::XML(xml)
     
-    doc.xpath('//xmlns:title', doc.root.namespaces).first.text.should eq(digital_object.title)
+    doc.xpath('//xmlns:title', doc.root.namespaces).first.text.should eq(d.title)
     doc.xpath('//xmlns:extent', doc.root.namespaces).length.should eq (5)
   end  
   
   it "can export a digital object record as METS" do
         
-    digital_object = create(:json_digital_object)
+    d = create(:json_digital_object)
+    
+    obj = JSONModel(:digital_object).find(d.id, "resolve[]" => ['repository', 'linked_agents', 'subjects', 'tree'])
     
     serializer = ASpaceExport::serializer :mets
-    mets = ASpaceExport::model(:mets).from_digital_object(DigitalObject.get_or_die(digital_object.id))
+    mets = ASpaceExport::model(:mets).from_digital_object(obj)
     
     xml = serializer.serialize(mets)
     doc = Nokogiri::XML(xml)

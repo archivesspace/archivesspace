@@ -48,8 +48,6 @@ ASpaceExport::model :dc do
     
     dc.apply_map(obj, @archival_object_map)
     
-    dc.apply_mapped_relationships(obj, @archival_object_map)
-     
     dc
   end
     
@@ -69,14 +67,16 @@ ASpaceExport::model :dc do
   
   
   def handle_agents(linked_agents)
-    linked_agents.each do |linked_agent|
-      json = linked_agent[1].class.to_jsonmodel(linked_agent[1])
+    linked_agents.each do |link|
 
-      case linked_agent[0][:role]
+      role = link['role']
+      agent = link['_resolved']
+
+      case role
       when 'creator'        
-        json.names.each {|n| self.creators << n['sort_name'] }
+        agent['names'].each {|n| self.creators << n['sort_name'] }
       when 'subject'
-        json.names.each {|n| self.subjects << n['sort_name'] }
+        agent['names'].each {|n| self.subjects << n['sort_name'] }
       # false friend: http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#terms-source
       # when 'source'
       #   json.names.each {|n| self.sources << n['sort_name'] }
@@ -87,14 +87,14 @@ ASpaceExport::model :dc do
   
   def handle_date(dates)
     dates.each do |date|
-      d = if date.expression
-            date.expression
-          elsif date.begin && date.end
-            "#{date.begin} - #{date.end}" 
-          elsif date.begin
-            date.begin
-          elsif date.end
-            date.end
+      d = if date['expression']
+            date['expression']
+          elsif date['begin'] && date['end']
+            "#{date['begin']} - #{date['end']}" 
+          elsif date['begin']
+            date['begin']
+          elsif date['end']
+            date['end']
           else
             "unknown"
           end
@@ -106,26 +106,25 @@ ASpaceExport::model :dc do
   def handle_rights(rights_statements)
     rights_statements.each do |rs|
       
-      case rs.rights_type
+      case rs['rights_type']
       
       when 'license'
-        self.rights << "License: #{rs.license_identifier_terms}"
+        self['rights'] << "License: #{rs.license_identifier_terms}"
       end
       
-      if rs.permissions
-        self.rights << "Permissions: #{rs.permissions}"
+      if rs['permissions']
+        self['rights'] << "Permissions: #{rs.permissions}"
       end
       
-      if rs.restrictions
-        self.rights << "Restriction: #{rs.restrictions}"
+      if rs['restrictions']
+        self['rights'] << "Restriction: #{rs.restrictions}"
       end
     end  
   end    
         
   def handle_subjects(subjects)
-    subjects.each do |subject|
-      json = subject[1].class.to_jsonmodel(subject[1])
-      self.subjects << json.terms.map {|t| t['term'] }.join('--')
+    subjects.map {|s| s['_resolved'] }.each do |subject|
+      self.subjects << subject['terms'].map {|t| t['term'] }.join('--')
     end
   end
   
