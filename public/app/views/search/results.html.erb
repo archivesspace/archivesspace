@@ -1,16 +1,11 @@
 <div class="content-pane">
   <div class="row-fluid">
     <div class="span3">
-      Query: <%= params[:q] %><br/>
-      Type: <%= params[:type] %>
-      <% if @repository %>
-        <br/>
-        Repository: <%= @repository['repo_code'] %><br/>
-      <% end %>
+      <%= render :partial => "search/filter" %>
     </div>
     <div class="span9">
       <div class="record-pane">
-        <% if @search_data.has_key?('results') && @search_data['results'].length  > 0 %>
+        <% if @search_data.results? %>
           <%= render :partial => "search/pagination_summary" %>
           <ul class="results-list">
           <% @search_data['results'].each do |result| %>
@@ -21,7 +16,11 @@
             <li class="result">
               <h3>
                 <%= icon_for result["primary_type"] %>
-                <%= link_to result["title"] || result['display_string'], :controller => :site, :action => result["primary_type"], :id => id, :repo_id => repo_id %> 
+                <% if result["primary_type"] === "subject" %>
+                  <%= link_to result["title"], params_for_search({"add_filter" => @search_data.facet_query_string("subjects", result["title"]), "type" => []}) %>
+                <% else %>
+                  <%= link_to result["title"] || result['display_string'], :controller => :site, :action => result["primary_type"], :id => id, :repo_id => repo_id %>
+                <% end %> 
               </h3>
               <div class="result-summary">
                 <%= render :partial => "search/result_summary_#{result["primary_type"]}", :locals => {:obj => result} %>

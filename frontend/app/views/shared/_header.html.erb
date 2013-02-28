@@ -27,7 +27,7 @@
                 <li><%= link_to I18n.t("collection_management_record._html.plural"), :controller => :collection_management_records, :action => :index %></li>
               </ul>
             </li>
-            <% if ['update_archival_record', 'update_subject_record',
+            <% if ['update_archival_record', 'update_subject_record', 'update_event_record',
                    'update_agent_record', 'update_location_record'].find {|p| user_can?(p)} %>
               <li class="dropdown create-container">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
@@ -55,7 +55,9 @@
                   <% if user_can?('update_location_record') %>
                     <li><%= link_to I18n.t("location._html.singular"), :controller => :locations, :action => :new %></li>
                   <% end %>
-                  <li><%= link_to I18n.t("event._html.singular"), :controller => :events, :action => :new %></li>
+                  <% if user_can?('update_event_record') %>
+                    <li><%= link_to I18n.t("event._html.singular"), :controller => :events, :action => :new %></li>
+                  <% end %>
                   <li><%= link_to I18n.t("collection_management_record._html.singular"), :controller => :collection_management_records, :action => :new %></li>
                 </ul>
               </li>
@@ -69,6 +71,7 @@
                   <li><%= link_to I18n.t("navbar.import_marcxml"), :controller => :import, :action => :index, :importer => :marcxml %></li>
                   <li><%= link_to I18n.t("navbar.import_marcxml_subjects_and_agents"), :controller => :import, :action => :index, :importer => :marcxml_subjects_and_agents %></li>
                   <li><%= link_to I18n.t("navbar.import_accession_csv"), :controller => :import, :action => :index, :importer => :accession_csv %></li>
+                  <li><%= link_to I18n.t("navbar.import_digital_object_csv"), :controller => :import, :action => :index, :importer => :digital_object_csv %></li>
                 </ul>
               </li>
             <% end %>

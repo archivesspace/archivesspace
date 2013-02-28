@@ -91,6 +91,7 @@ class PeriodicIndexer < CommonIndexer
         page = 1
         while true
           records = JSONModel(type).all(:page => page,
+                                        'resolve[]' => @@resolved_attributes,
                                         :modified_since => @state.get_last_mtime(repository.id, type))
 
           if !records['results'].empty?

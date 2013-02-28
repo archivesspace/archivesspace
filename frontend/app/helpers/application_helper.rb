@@ -72,7 +72,7 @@ module ApplicationHelper
 
     html = "<div class='"
     html += "token " if not opts[:inside_token_editor] 
-    html += "#{opts[:type]} has-popover' data-trigger='#{opts[:trigger] || "focus"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover)}\" data-template=\"#{popover_template}\" tabindex='1'>"
+    html += "#{opts[:type]} has-popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover)}\" data-template=\"#{popover_template}\" tabindex='1'>"
     html += "<span class='icon-token'></span>"
     html += opts[:label]
     html += "</div>"
@@ -103,6 +103,26 @@ module ApplicationHelper
 
   def inline?
     params[:inline] === "true"
+  end
+
+  def params_for_search(opts = {})
+    search_params = {}
+
+    search_params["filter"] = Array(params["filter"]).clone
+
+    if opts["add_filter"]
+      search_params["filter"].concat(Array(opts["add_filter"]))
+    end
+
+    if opts["remove_filter"]
+      search_params["filter"] = search_params["filter"].reject{|f| Array(opts["remove_filter"]).include?(f)}
+    end
+
+    search_params["sort"] = opts["sort"] || params["sort"]
+
+    search_params["q"] = opts["q"] || params["q"]
+
+    search_params
   end
 
 end

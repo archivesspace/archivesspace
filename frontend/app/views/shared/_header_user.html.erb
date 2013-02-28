@@ -4,7 +4,7 @@
   %>
   <li class="dropdown user-container">
     <div class="input-append">
-      <span class="navbar-inset-label">
+      <span class="inset-label">
         <% if session[:repo] %>
           <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(session[:repo]) %>" data-content="<%= CGI::escapeHTML(selected_repo.name) %>">
             <span class="icon-hdd"></span><span class="current-repository-id"><% if session[:repo] %><%= session[:repo] %><% end %></span>

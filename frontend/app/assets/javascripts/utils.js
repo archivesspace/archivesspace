@@ -106,10 +106,14 @@ $(function() {
 
 // any element with a popover!
 $(function() {
+  var popoverOptions = {
+    delay: {show: 0, hide: 200} // if the popover contains a link, allow a few moments for that click to count
+  };
+
   var initPopovers = function(scope) {
     scope = scope || $(document.body);
     $(".has-popover:not(.initialised)", scope)
-      .popover()
+      .popover(popoverOptions) 
       .click(function(e) {
         e.preventDefault()
       }).addClass("initialised");
@@ -196,7 +200,7 @@ $(function() {
 $(function() {
   var initSubmenuLink = function(scope) {
     scope = scope || $(document.body);
-    $(".dropdown-submenu > a:not(.initialised)", scope).click(function(e) {
+    $(".dropdown-submenu > a[href*='javascript:void']:not(.initialised)", scope).click(function(e) {
       e.preventDefault();
       e.stopImmediatePropagation();
       $(this).focus();

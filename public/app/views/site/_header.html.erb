@@ -16,7 +16,6 @@
             <li><%= link_to "Repositories", {:controller => :site, :action => :repository, :repo_id => nil} %></li>
             <li><%= link_to "Collections", {:controller => :site, :action => :search, :type => "resource"} %></li>
             <li><%= link_to "Subjects",  {:controller => :site, :action => :search, :type => "subject"} %></li>
-            <li><%= link_to "Locations",  {:controller => :site, :action => :search, :type => "location"} %></li>
             <li class="pull-right">
               <%= form_tag(url_for(:controller => :site, :action => :search), :method => :get, :class => "navbar-form pull-left") do %>
                   <div class="input-append">

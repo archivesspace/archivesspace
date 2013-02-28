@@ -33,13 +33,19 @@ en:
     delete: Delete
     delete_confirm_title: Delete this Record?
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
+    export_eac: Download EAC-CPF
     export_ead: Download EAD
+    export_mods: Download MODS
+    export_mets: Download METS
+    export_marc: Download MARC-21
+    export_dc: Download DC
     loading: Loading...
     revert: Revert Changes
     finish_editing: Finish Editing
     merge: Merge
   states:
     suppressed: Suppressed
+    deleted: Deleted
     auto_generated: System generates when saved
   navbar:
     brand: ArchivesSpace
@@ -50,6 +56,7 @@ en:
     import_marcxml: MARCXML
     import_marcxml_subjects_and_agents: MARCXML (Subjects and Agents only)
     import_accession_csv: Accession CSV
+    import_digital_object_csv: Digital Object CSV
     search_all: All Records
     search_placeholder: Search
     create_repository_tooltip: "To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Create a Repository</strong> link."
@@ -87,10 +94,31 @@ en:
     page_connector: of
   search_results:
     title: Search Results
-    no_results: No Records
+    no_results: No records found
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
+    filtered_by: Filtered By
+    modified: Last Modified
+    created: Created
+    text_placeholder: Filter by text
+    clear_all: Clear All
+    created: Created
+    modified: Modified
+    filter:
+      query: Text
+      subjects: Subject
+      primary_type: Type
+      accession_date_year: Accession Date
+      creators: Creator
+  search_sorting:
+    sort_by: "Sort by:"
+    asc: Ascending
+    desc: Descending
+    relevance: Relevance
+    title_sort: Title
+    last_modified: Modified
+    create_time: Created
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
     save: Save Changes
@@ -107,6 +135,7 @@ en:
     marcxml_title: Import a MARCXML file
     marcxml_subjects_and_agents_title: Import Subjects and Agents from a MARCXML file
     accession_csv_title: Import Accession Records from a CSV File
+    digital_object_csv_title: Import Digital Object Records from a CSV File
     import_report: Import Report
     import_another: Import Another File
     submit: Import
@@ -945,6 +974,7 @@ en:
       plural: Record Links
   linked_agent: &linked_agent_attributes
     role: Role
+    relator: Relator
     ref: Agent
     _html:
       singular: Agent Link
@@ -1372,7 +1402,8 @@ en:
       update_location_record: create/modify/delete location records in this repository
       update_subject_record: create/update subject records
       update_agent_record: create/update agent records
-      update_archival_record: create/update the major record types in this repository
+      update_archival_record: create/update accessions, resources, archival objects and digital objects in this repository
+      update_event_record: create/update event records in this repository
       view_repository: view the records in this repository
       view_suppressed: view suppressed records in this repository
       suppress_archival_record: suppress the major record types in this repository
@@ -1492,7 +1523,7 @@ en:
         created: User Created
         updated: User Saved
         error_update: User not saved
-        error_create:
+        error_create: User not created
       section:
         account: Account
         edit_account: Edit Account

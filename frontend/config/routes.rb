@@ -46,6 +46,9 @@ ArchivesSpace::Application.routes.draw do
   match 'archival_objects/:id/parent' => 'archival_objects#parent', :via => [:post]
 
   resources :digital_objects
+  match 'digital_objects/:id/download_dc' => 'exports#download_dc', :via => [:get]
+  match 'digital_objects/:id/download_mets' => 'exports#download_mets', :via => [:get]
+  match 'digital_objects/:id/download_mods' => 'exports#download_mods', :via => [:get]
   match 'digital_objects/:id' => 'digital_objects#update', :via => [:post]
 
   resources :digital_object_components
@@ -53,6 +56,7 @@ ArchivesSpace::Application.routes.draw do
   match 'digital_object_components/:id/parent' => 'digital_object_components#parent', :via => [:post]
 
   resources :resources
+  match 'resources/:id/download_marc' => 'exports#download_marc', :via => [:get]
   match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
   match 'resources/:id' => 'resources#update', :via => [:post]
 
@@ -71,8 +75,10 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/:type/new' => 'agents#new', :via => [:get]
   match 'agents/:type/:id/edit' => 'agents#edit', :via => [:get]
   match 'agents/:type/:id/update' => 'agents#update', :via => [:post]
+  match 'agents/:type/:id/download_eac' => 'exports#download_eac', :via => [:get]
   match 'agents/:type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
+
 
   resources :collection_management_records
   match 'collection_management_records/:id' => 'collection_management_records#update', :via => [:post]

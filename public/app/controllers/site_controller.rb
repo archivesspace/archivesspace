@@ -5,14 +5,14 @@ class SiteController < ApplicationController
   def search
     set_search_criteria
 
-    @search_data = JSONModel::HTTP::get_json("/search", @criteria)
+    @search_data = Search.all(@criteria, @repositories)
 
     render "search/results"
   end
 
   def resource
     @resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations"])
-    @repository = JSONModel(:repository).find(params[:repo_id])
+    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
     @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id, :repo_id => params[:repo_id])
 
     @breadcrumbs = [
@@ -24,7 +24,7 @@ class SiteController < ApplicationController
   def archival_object
     @archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects"])
     @resource = JSONModel(:resource).find_by_uri(@archival_object['resource']['ref'], :repo_id => params[:repo_id])
-    @repository = JSONModel(:repository).find(params[:repo_id])
+    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
     @children = JSONModel::HTTP::get_json("/repositories/#{params[:repo_id]}/archival_objects/#{@archival_object.id}/children")
 
     @breadcrumbs = [
@@ -43,26 +43,20 @@ class SiteController < ApplicationController
 
   def repository
     if params[:repo_id].blank?
-      @repositories = JSONModel(:repository).all
       return render "site/repositories"
     end
 
     set_search_criteria
 
-    @repository = JSONModel(:repository).find(params[:repo_id])
+    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :site, :action => :repository, :id => @repository.id), "repository"]
     ]
 
-    @search_data = JSONModel::HTTP::get_json("/repositories/#{@repository.id}/search", @criteria)
+    @search_data = Search.repo(@repository.id, @criteria, @repositories)
 
     render "search/results"
-  end
-
-
-  def subject
-    render "site/todo"
   end
 
 
@@ -73,15 +67,25 @@ class SiteController < ApplicationController
   private
 
   def set_search_criteria
-    @criteria = {
-      :q => params[:q].blank? ? "*" : params[:q],
-      :page => params[:page] || 1
-    }
+    @criteria = params.select{|k,v| ["page", "q", "type", "filter", "sort"].include?(k) and not v.blank?}
+
+    @criteria["page"] ||= 1
+
+    if @criteria["type"]
+      @criteria["type[]"] = Array(@criteria["type"]).reject{|v| v.blank?}
+      @criteria.delete("type")
+    end
+
+    if @criteria["filter"]
+      @criteria["filter[]"] = Array(@criteria["filter"]).reject{|v| v.blank?}
+      @criteria.delete("filter")
+    end
+
 
     @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-
-
+    @criteria['facet[]'] = ["repository", "primary_type", "creators", "subjects"]
+  
     # only allow locations, subjects, resources and archival objects in search results
     if params[:type].blank? or @criteria['type[]'].empty?
       @criteria['type[]'] = ['resource', 'archival_object']

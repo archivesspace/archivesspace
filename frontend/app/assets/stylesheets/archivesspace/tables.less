@@ -1,0 +1,69 @@
+/* Styles to support sortable tables */
+
+@import "variables";
+
+table {
+  thead {
+    #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
+  }
+  tr.deleted td {
+    background-color: @errorBackground !important;
+  }
+  dl {
+    margin: 0;
+  }
+}
+
+table.table-sortable {
+  thead {
+    th.sortable {
+      padding: 0;
+
+      > a {
+        padding: 4px 5px;
+        display: block;
+        text-decoration: none !important;
+
+        &::after {
+          content: "";
+          float: right;
+          margin-top: 7px;
+          border-width: 0 4px 4px;
+          border-style: solid;
+          border-color: #000 transparent;
+          visibility: hidden;
+        }
+      }
+      &:hover {
+        background-color: @tableBackgroundHover;
+      }
+    }
+    th.sort-desc {
+      #gradient > .vertical(#f0f7fa, #dcf1fa);
+
+      > a { 
+        &::after {
+          visibility:visible;
+          .opacity(60);
+        }
+      }
+    }
+    th.sort-asc {
+      #gradient > .vertical(#f0f7fa, #dcf1fa);
+
+      > a {
+        &::after {
+          visibility:visible;
+          .opacity(60);
+          border-bottom:none !important;
+          border-left:4px solid transparent  !important;
+          border-right:4px solid transparent  !important;
+          border-top:4px solid #000  !important;
+        }
+      }
+    }
+  }
+}
+.table-audit-cell {
+  width: 100px;
+}

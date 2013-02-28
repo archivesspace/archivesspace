@@ -3,10 +3,238 @@ en:
     linked_agent_archival_record_roles:
       creator: Creator
       subject: Subject
+      source: Source
     linked_event_archival_record_roles:
       source: Source
       outcome: Outcome
       transfer: Transfer
+    linked_agent_archival_record_relators:
+      act: Actor
+      adp: Adapter
+      anl: Analyst
+      anm: Animator
+      ann: Annotator
+      app: Applicant
+      arc: Architect
+      arr: Arranger
+      acp: Art copyist
+      art: Artist
+      ard: Artistic director
+      asg: Assignee
+      asn: Associated name
+      att: Attributed name
+      auc: Auctioneer
+      aut: Author
+      aqt: Author in quotations or text extracts
+      aft: Author of afterword, colophon, etc.
+      aud: Author of dialog
+      aui: Author of introduction, etc.
+      aus: Author of screenplay, etc.
+      ant: Bibliographic antecedent
+      bnd: Binder
+      bdd: Binding designer
+      blw: Blurb writer
+      bkd: Book designer
+      bkp: Book producer
+      bjd: Bookjacket designer
+      bpd: Bookplate designer
+      bsl: Bookseller
+      cll: Calligrapher
+      ctg: Cartographer
+      cns: Censor
+      chr: Choreographer
+      cng: Cinematographer
+      cli: Client
+      clb: Collaborator
+      col: Collector
+      clt: Collotyper
+      clr: Colorist
+      cmm: Commentator
+      cwt: Commentator for written text
+      com: Compiler
+      cpl: Complainant
+      cpt: Complainant-appellant
+      cpe: Complainant-appellee
+      cmp: Composer
+      cmt: Compositor
+      ccp: Conceptor
+      cnd: Conductor
+      con: Conservator
+      csl: Consultant
+      csp: Consultant to a project
+      cos: Contestant
+      cot: Contestant-appellant
+      coe: Contestant-appellee
+      cts: Contestee
+      ctt: Contestee-appellant
+      cte: Contestee-appellee
+      ctr: Contractor
+      ctb: Contributor
+      cpc: Copyright claimant
+      cph: Copyright holder
+      crr: Corrector
+      crp: Correspondent
+      cst: Costume designer
+      cov: Cover designer
+      cre: Creator
+      cur: Curator of an exhibition
+      dnc: Dancer
+      dtc: Data contributor
+      dtm: Data manager
+      dte: Dedicatee
+      dto: Dedicator
+      dfd: Defendant
+      dft: Defendant-appellant
+      dfe: Defendant-appellee
+      dgg: Degree grantor
+      dln: Delineator
+      dpc: Depicted
+      dpt: Depositor
+      dsr: Designer
+      drt: Director
+      dis: Dissertant
+      dbp: Distribution place
+      dst: Distributor
+      dnr: Donor
+      drm: Draftsman
+      dub: Dubious author
+      edt: Editor
+      elg: Electrician
+      elt: Electrotyper
+      eng: Engineer
+      egr: Engraver
+      etr: Etcher
+      evp: Event place
+      exp: Expert
+      fac: Facsimilist
+      fld: Field director
+      flm: Film editor
+      fpy: First party
+      frg: Forger
+      fmo: Former owner
+      fnd: Funder
+      gis: Geographic information specialist
+      grt: Graphic technician
+      hnr: Honoree
+      hst: Host
+      ilu: Illuminator
+      ill: Illustrator
+      ins: Inscriber
+      itr: Instrumentalist
+      ive: Interviewee
+      ivr: Interviewer
+      inv: Inventor
+      lbr: Laboratory
+      ldr: Laboratory director
+      lsa: Landscape architect
+      led: Lead
+      len: Lender
+      lil: Libelant
+      lit: Libelant-appellant
+      lie: Libelant-appellee
+      lel: Libelee
+      let: Libelee-appellant
+      lee: Libelee-appellee
+      lbt: Librettist
+      lse: Licensee
+      lso: Licensor
+      lgd: Lighting designer
+      ltg: Lithographer
+      lyr: Lyricist
+      mfp: Manufacture place
+      mfr: Manufacturer
+      mrb: Marbler
+      mrk: Markup editor
+      mdc: Metadata contact
+      mte: Metal-engraver
+      mod: Moderator
+      mon: Monitor
+      mcp: Music copyist
+      msd: Musical director
+      mus: Musician
+      nrt: Narrator
+      opn: Opponent
+      orm: Organizer of meeting
+      org: Originator
+      oth: Other
+      own: Owner
+      ppm: Papermaker
+      pta: Patent applicant
+      pth: Patent holder
+      pat: Patron
+      prf: Performer
+      pma: Permitting agency
+      pht: Photographer
+      ptf: Plaintiff
+      ptt: Plaintiff-appellant
+      pte: Plaintiff-appellee
+      plt: Platemaker
+      prt: Printer
+      pop: Printer of plates
+      prm: Printmaker
+      prc: Process contact
+      pro: Producer
+      pmn: Production manager
+      prd: Production personnel
+      prp: Production place
+      prg: Programmer
+      pdr: Project director
+      pfr: Proofreader
+      prv: Provider
+      pup: Publication place
+      pbl: Publisher
+      pbd: Publishing director
+      ppt: Puppeteer
+      rcp: Recipient
+      rce: Recording engineer
+      rcd: Recordist
+      red: Redactor
+      ren: Renderer
+      rpt: Reporter
+      rps: Repository
+      rth: Research team head
+      rtm: Research team member
+      res: Researcher
+      rsp: Respondent
+      rst: Respondent-appellant
+      rse: Respondent-appellee
+      rpy: Responsible party
+      rsg: Restager
+      rev: Reviewer
+      rbr: Rubricator
+      sce: Scenarist
+      sad: Scientific advisor
+      scr: Scribe
+      scl: Sculptor
+      spy: Second party
+      sec: Secretary
+      std: Set designer
+      stg: Setting
+      sgn: Signer
+      sng: Singer
+      sds: Sound designer
+      spk: Speaker
+      spn: Sponsor
+      stm: Stage manager
+      stn: Standards body
+      str: Stereotyper
+      stl: Storyteller
+      sht: Supporting host
+      srv: Surveyor
+      tch: Teacher
+      tcd: Technical director
+      ths: Thesis advisor
+      trc: Transcriber
+      trl: Translator
+      tyd: Type designer
+      tyg: Typographer
+      uvp: University place
+      vdg: Videographer
+      voc: Vocalist
+      wit: Witness
+      wde: Wood-engraver
+      wdc: Woodcutter
+      wam: Writer of accompanying material
     linked_agent_event_roles:
       authorizer: Authorizer
       executing_program: Executing Program

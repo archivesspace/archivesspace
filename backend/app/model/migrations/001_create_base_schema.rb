@@ -1001,6 +1001,35 @@ Sequel.migration do
                 ['creator', 'source', 'subject'])
 
 
+    create_enum('linked_agent_archival_record_relators',
+                ['act', 'adp', 'anl', 'anm', 'ann', 'app', 'arc', 'arr', 'acp',
+                 'art', 'ard', 'asg', 'asn', 'att', 'auc', 'aut', 'aqt', 'aft',
+                 'aud', 'aui', 'aus', 'ant', 'bnd', 'bdd', 'blw', 'bkd', 'bkp',
+                 'bjd', 'bpd', 'bsl', 'cll', 'ctg', 'cns', 'chr', 'cng', 'cli',
+                 'clb', 'col', 'clt', 'clr', 'cmm', 'cwt', 'com', 'cpl', 'cpt',
+                 'cpe', 'cmp', 'cmt', 'ccp', 'cnd', 'con', 'csl', 'csp', 'cos',
+                 'cot', 'coe', 'cts', 'ctt', 'cte', 'ctr', 'ctb', 'cpc', 'cph',
+                 'crr', 'crp', 'cst', 'cov', 'cre', 'cur', 'dnc', 'dtc', 'dtm',
+                 'dte', 'dto', 'dfd', 'dft', 'dfe', 'dgg', 'dln', 'dpc', 'dpt',
+                 'dsr', 'drt', 'dis', 'dbp', 'dst', 'drm', 'dub', 'edt', 'elg',
+                 'elt', 'eng', 'egr', 'etr', 'evp', 'exp', 'fac', 'fld', 'flm',
+                 'fpy', 'frg', 'fmo', 'dnr', 'fnd', 'gis', 'grt', 'hnr', 'hst',
+                 'ilu', 'ill', 'ins', 'itr', 'ive', 'ivr', 'inv', 'lbr', 'ldr',
+                 'lsa', 'led', 'len', 'lil', 'lit', 'lie', 'lel', 'let', 'lee',
+                 'lbt', 'lse', 'lso', 'lgd', 'ltg', 'lyr', 'mfp', 'mfr', 'mrb',
+                 'mrk', 'mdc', 'mte', 'mod', 'mon', 'mcp', 'msd', 'mus', 'nrt',
+                 'opn', 'orm', 'org', 'oth', 'own', 'ppm', 'pta', 'pth', 'pat',
+                 'prf', 'pma', 'pht', 'ptf', 'ptt', 'pte', 'plt', 'prt', 'pop',
+                 'prm', 'prc', 'pro', 'pmn', 'prd', 'prp', 'prg', 'pdr', 'pfr',
+                 'prv', 'pup', 'pbl', 'pbd', 'ppt', 'rcp', 'rce', 'rcd', 'red',
+                 'ren', 'rpt', 'rps', 'rth', 'rtm', 'res', 'rsp', 'rst', 'rse',
+                 'rpy', 'rsg', 'rev', 'rbr', 'sce', 'sad', 'scr', 'scl', 'spy',
+                 'sec', 'std', 'stg', 'sgn', 'sng', 'sds', 'spk', 'spn', 'stm',
+                 'stn', 'str', 'stl', 'sht', 'srv', 'tch', 'tcd', 'ths', 'trc',
+                 'trl', 'tyd', 'tyg', 'uvp', 'vdg', 'voc', 'wit', 'wde', 'wdc',
+                 'wam'])
+
+
     create_enum('linked_event_archival_record_roles',
                 ['source', 'outcome', 'transfer'])
 
@@ -1064,12 +1093,14 @@ Sequel.migration do
           Integer :aspace_relationship_position
           DateTime :last_modified, :null => false
           Integer :role_id
+          Integer :relator_id
         end
 
         alter_table(table) do
           add_foreign_key(["#{record}_id".intern], record, :key => :id)
           add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
           add_foreign_key([:role_id], :enumeration_value, :key => :id)
+          add_foreign_key([:relator_id], :enumeration_value, :key => :id)
         end
       end
     end

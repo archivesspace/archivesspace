@@ -7,10 +7,49 @@ module ExportHelpers
   def xml_response(xml)
     [status, {"Content-Type" => "application/xml"}, [xml + "\n"]]
   end
+
+  def generate_dc(id)
+    
+    obj = DigitalObject.get_or_die(id)
+    
+    dc = ASpaceExport.model(:dc).from_digital_object(obj)
+    
+    ASpaceExport.serializer(:dc).serialize(dc)
+  end
+
   
+  def generate_mets(id)
+    
+    obj = DigitalObject.get_or_die(id)
+    
+    mets = ASpaceExport.model(:mets).from_digital_object(obj)
+    
+    ASpaceExport.serializer(:mets).serialize(mets)
+  end
+  
+  
+  def generate_mods(id)
+    
+    obj = DigitalObject.get_or_die(id)
+    
+    mods = ASpaceExport.model(:mods).from_digital_object(obj)
+    
+    ASpaceExport.serializer(:mods).serialize(mods)
+  end  
+  
+  def generate_marc(id)
+    
+    obj = Resource.get_or_die(id)
+    
+    marc = ASpaceExport.model(:marc21).from_resource(obj)
+    
+    ASpaceExport.serializer(:marc21).serialize(marc)
+  end
+  
+  
+  # TODO - Get these methods using ExportModels...
   def generate_ead(id, type, repo_id)
 
-    # todo: generalize this for other types
     resource = Resource.get_or_die(id)
     
     serializer = ASpaceExport::serializer(:ead)
@@ -19,5 +58,15 @@ module ExportHelpers
 
     serializer.serialize(resource, {:repo_id => repo_id})
   end
+  
+  def generate_eac(id, type)
+    
+    agent = Kernel.const_get(type.camelize).get_or_die(id)
+    
+    serializer = ASpaceExport::serializer(:eac)
+    
+    serializer.serialize(agent)
+  end  
+  
 end
   

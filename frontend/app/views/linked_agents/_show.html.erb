@@ -1,6 +1,7 @@
 <%
    section_id = "linked_agent" if section_id.blank?
    role_enumeration = "linked_agent_archival_record_roles" if role_enumeration.nil?
+   relator_enumeration = "linked_agent_archival_record_relators" if relator_enumeration.nil?
 %>
 
 <section id="<%= section_id %>" class="subrecord-form-dummy">
@@ -9,14 +10,20 @@
     <div class="subrecord-form-fields">
       <div class="row-fluid">
         <div class="span3"><strong><%= I18n.t("linked_agent.role") %></strong></div>
-        <div class="span8"><strong><%= I18n.t("linked_agent.ref") %></strong></div>
+        <div class="span3"><strong><%= I18n.t("linked_agent.relator") %></strong></div>
+        <div class="span5"><strong><%= I18n.t("linked_agent.ref") %></strong></div>
       </div>
       <% linked_agents.each_with_index do | link, index | %>
         <div class="row-fluid">
           <div class="span3 pull1">
             <%= I18n.t("enumerations.#{role_enumeration}.#{link["role"]}", :default => link["role"]) %>
           </div>
-          <div class="span8 token-list">
+          <div class="span3 pull1">
+            <% if link["relator"] %>
+            <%= I18n.t("enumerations.#{relator_enumeration}.#{link["relator"]}", :default => link["relator"]) %>
+            <% end %>
+          </div>
+          <div class="span5 token-list">
             <%= render_token :object => link, 
                              :label => link["_resolved"]["names"][0]["sort_name"], 
                              :type => link["_resolved"]["agent_type"], 

@@ -463,14 +463,15 @@ module AspaceFormHelper
   end
 
 
-  def jsonmodel_definition(type)
-    JSONModelDefinition.new(JSONModel(type))
+  def jsonmodel_definition(type, root = nil)
+    JSONModelDefinition.new(JSONModel(type), root)
   end
 
 
   class JSONModelDefinition < BaseDefinition
-    def initialize(jsonmodel)
+    def initialize(jsonmodel, root)
       @jsonmodel = jsonmodel
+      @root = root
     end
 
 
@@ -528,6 +529,10 @@ module AspaceFormHelper
     def jsonmodel_schema_definition(property)
       schema = @jsonmodel.schema
       properties = Array(property).clone
+
+      if @root
+        properties = [@root] + properties
+      end
 
       while !properties.empty?
         if schema['type'] == 'object'

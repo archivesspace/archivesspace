@@ -1,6 +1,3 @@
-# Notes:
-# 'procedure' may be better described as 'override'
-#   it is a pre value-assigment hook, basically
 inherit: marcxml_subjects_and_agents 
 
 source:

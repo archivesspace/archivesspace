@@ -113,7 +113,7 @@ looks like this:
                                              :port => 389,
                                              :base_dn => 'ou=people,dc=example,dc=com',
                                              :username_attribute => 'uid',
-                                             :attribute_map => {:cn => :name}
+                                             :attribute_map => {:cn => :name},
                                              :bind_dn => 'uid=archivesspace_auth,ou=system,dc=example,dc=com',
                                              :bind_password => 'secretsquirrel',
      }]
@@ -129,7 +129,7 @@ appropriate and specify the `encryption` option:
                                              :port => 636,
                                              :base_dn => 'ou=people,dc=example,dc=com',
                                              :username_attribute => 'uid',
-                                             :attribute_map => {:cn => :name}
+                                             :attribute_map => {:cn => :name},
                                              :bind_dn => 'uid=archivesspace_auth,ou=system,dc=example,dc=com',
                                              :bind_password => 'secretsquirrel',
                                              :encryption => :simple_tls,

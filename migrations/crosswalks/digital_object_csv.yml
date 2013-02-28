@@ -1,0 +1,63 @@
+source:
+  format: csv
+entities:
+  digital_object:
+    properties:
+      title:
+        header: digital_object_title
+      digital_object_id:
+        header: digital_object_id
+      dates:
+        inline: true
+      extents:
+        inline: true
+  collection_management:
+    properties:
+      linked_records:
+        inline: true
+      cataloged_note:
+        header: digital_object_cataloged_note
+  date_1:
+    record_type: date
+    properties:
+      label:
+        header: date_1_label
+        default: "other"
+      expression:
+        header: date_1_expression
+      begin:
+        header: date_1_begin
+        default: "1900"
+      end:
+        header: date_1_end
+        default: "2000"
+      date_type:
+        header: date_1_type
+        default: "inclusive"
+  date_2:
+    record_type: date
+    properties:
+      label:
+        header: date_2_label
+        default: "other"
+      expression:
+        header: date_2_expression
+      begin:
+        header: date_2_begin
+        default: "1900"
+      end:
+        header: date_2_end
+        default: "2000"
+      date_type:
+        header: date_2_type
+        default: "inclusive"
+  extent:
+    properties:
+      extent_type:
+        header: extent_type
+      container_summary:
+        header: extent_container_summary
+      portion:
+        default: "whole"
+      number:
+        header: extent_number 
