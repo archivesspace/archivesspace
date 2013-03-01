@@ -17,14 +17,7 @@ ASpaceImport::Importer.importer :csv do
     })
     
     @swap = {}
-    @swap['extent_type'] = {"linear feet" => "linear_feet",
-                           "linear foot" => "linear_feet",
-                           "computer files" => "cassettes",
-                           "folder" => "cassettes",
-                           "megabytes" => "cassettes",
-                           "optical disk (DVD)" => "cassettes"
-           }
-
+ 
     super
     
   end
