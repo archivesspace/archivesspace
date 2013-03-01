@@ -115,34 +115,34 @@ module ImportHelpers
       unlinked
     end
     
-    # Assuming for now there are no arrays
-    # of strings that are each enumerable, etc.
-    # Just a) strings that are enumerable and 
-    # b) arrays of objects with enumerable 
-    # TODO: See if this method can be repurposed
-    # from somewhere else
-    
-    def self.fetch_enum_name(json, schema_frag, path)
-
-      if schema_frag.has_key?('properties')
-        schema_frag = schema_frag['properties']
-      end
-      
-      path = path.is_a?(Array) ? path : path.split("/")
-      
-      return nil unless schema_frag.has_key?(path[0])
-    
-      if path.length == 1 && schema_frag[path[0]].has_key?('dynamic_enum')
-        return schema_frag[path[0]]['dynamic_enum']
-      elsif json.nil? 
-        return nil
-      elsif json[path[0]].is_a?(Array) && json[path[0]][path[1].to_i].is_a?(Hash)
-        sub_schema = JSONModel::JSONModel(json[path[0]][path[1].to_i]['jsonmodel_type']).schema
-        fetch_enum_name(nil, sub_schema, path[2..-1])
-      else 
-        return nil
-      end
-    end
+    # # Assuming for now there are no arrays
+    # # of strings that are each enumerable, etc.
+    # # Just a) strings that are enumerable and 
+    # # b) arrays of objects with enumerable 
+    # # TODO: See if this method can be repurposed
+    # # from somewhere else
+    # 
+    # def self.fetch_enum_name(json, schema_frag, path)
+    # 
+    #   if schema_frag.has_key?('properties')
+    #     schema_frag = schema_frag['properties']
+    #   end
+    #   
+    #   path = path.is_a?(Array) ? path : path.split("/")
+    #   
+    #   return nil unless schema_frag.has_key?(path[0])
+    # 
+    #   if path.length == 1 && schema_frag[path[0]].has_key?('dynamic_enum')
+    #     return schema_frag[path[0]]['dynamic_enum']
+    #   elsif json.nil? 
+    #     return nil
+    #   elsif json[path[0]].is_a?(Array) && json[path[0]][path[1].to_i].is_a?(Hash)
+    #     sub_schema = JSONModel::JSONModel(json[path[0]][path[1].to_i]['jsonmodel_type']).schema
+    #     fetch_enum_name(nil, sub_schema, path[2..-1])
+    #   else 
+    #     return nil
+    #   end
+    # end
   end
 
 
