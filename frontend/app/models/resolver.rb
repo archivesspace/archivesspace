@@ -44,12 +44,12 @@ class Resolver
     elsif @jsonmodel_type === "archival_object"
       ao = JSONModel(:archival_object).find(@id)
       uri_properties[:controller] = :resources
-      uri_properties[:id] = JSONModel(:resource).id_for(ao["resource"])
+      uri_properties[:id] = JSONModel(:resource).id_for(ao["resource"]["ref"])
       uri_properties[:anchor] = "tree::archival_object_#{@id}"
     elsif @jsonmodel_type === "digital_object_component"
       doc = JSONModel(:digital_object_component).find(@id)
       uri_properties[:controller] = :digital_objects
-      uri_properties[:id] = JSONModel(:digital_object).id_for(doc["digital_object"])
+      uri_properties[:id] = JSONModel(:digital_object).id_for(doc["digital_object"]["ref"])
       uri_properties[:anchor] = "tree::digital_object_component_#{@id}"
     end
 

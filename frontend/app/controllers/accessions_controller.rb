@@ -8,7 +8,7 @@ class AccessionsController < ApplicationController
   FIND_OPTS = ["subjects", "related_resources", "linked_agents"]
 
   def index
-    facets = ["subjects", "accession_date_year"]
+    facets = ["subjects", "accession_date_year", "creators"]
 
     @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => facets}))
   end
