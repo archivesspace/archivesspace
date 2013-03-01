@@ -47,7 +47,7 @@ $(function() {
           type: "GET",
           dataType: "json",
           success: function(json) {
-            $("#"+config.modal_id).find(".linker-list").html(AS.renderTemplate("linker_browse_template", {search_data: json, config: config, selected: currentlySelectedIds}));
+            $("#"+config.modal_id).find(".linker-list").html(AS.renderTemplate("linker_browse_template", {search_data: json.search_data, config: config, selected: currentlySelectedIds}));
           }
         });
       };

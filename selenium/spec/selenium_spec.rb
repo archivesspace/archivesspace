@@ -489,6 +489,9 @@ describe "ArchivesSpace user interface" do
     before(:all) do
       login_as_archivist
       @accession_title = "Exciting new stuff - \u2603"
+      @me = "#{$$}.#{Time.now.to_i}"
+
+
     end
 
 
@@ -721,8 +724,6 @@ describe "ArchivesSpace user interface" do
 
     it "can create a subject and link to an Accession" do
 
-      me = "#{$$}.#{Time.now.to_i}"
-
       $driver.find_element(:link, 'Edit').click
 
       $driver.find_element(:css => '#accession_subjects_ .subrecord-form-heading .btn').click
@@ -730,14 +731,20 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
 
       $driver.find_element(:css, "a.linker-create-btn").click
-      $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "#{me}AccessionTermABC")
+      $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "#{@me}AccessionTermABC")
       $driver.find_element(:css, "form#new_subject .row-fluid:first-child .add-term-btn").click
-      $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:last-child input"], "#{me}AccessionTermDEF")
+      $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:last-child input"], "#{@me}AccessionTermDEF")
       $driver.find_element(:id, "createAndLinkButton").click
+
+      # Browse works too
+      $driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
+      $driver.find_element(:css, "a.linker-browse-btn").click
+      $driver.find_element_with_text('//div', /#{@me}AccessionTermABC/)
+      $driver.find_element(:css, ".modal-footer > button.btn.btn-cancel").click
 
       $driver.find_element(:css => "form#accession_form button[type='submit']").click
 
-      assert { $driver.find_element(:css => "#accession_subjects_ .token").text.should eq("#{me}AccessionTermABC -- #{me}AccessionTermDEF") }
+      assert { $driver.find_element(:css => "#accession_subjects_ .token").text.should eq("#{@me}AccessionTermABC -- #{@me}AccessionTermDEF") }
     end
 
 
