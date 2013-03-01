@@ -74,6 +74,17 @@ module Trees
 
       result
     end
+    
+    def sequel_to_jsonmodel(obj, opts = {})
+      json = super
+      
+      json['tree'] = {'ref' => obj.uri + '/tree'}
+
+      Log.debug("TREE URI #{json['tree'].inspect}")
+
+      json
+    end
+    
 
   end
 

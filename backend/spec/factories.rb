@@ -171,7 +171,7 @@ FactoryGirl.define do
 
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
     label { generate(:alphanumstr) }
-    content { generate(:alphanumstr) }
+    content { [generate(:alphanumstr)] }
     items { [generate(:alphanumstr)] }
   end
 

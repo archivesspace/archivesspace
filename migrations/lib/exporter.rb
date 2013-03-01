@@ -66,6 +66,7 @@ module ASpaceExport
     
     def initialize
       @repo_id = Thread.current[:repo_id] ||= 1
+      @builder = Nokogiri::XML::Builder.new
     end
     
     def repo_id=(id)
@@ -77,19 +78,122 @@ module ASpaceExport
     # end
 
     # Serializes an ASModel object
-    def serialize(object) end  
+
+    def serialize(object) end
+    
+    def insert(meth)
+
+      old_kontext = @kontext.clone
+
+      if self.respond_to?(meth) && @kontext[0].respond_to?(meth)
+        if @kontext[0].send(meth).is_a?(Array)
+          @kontext[0].send(meth).each do |mem|
+            @kontext[0] = mem
+            @kontext[1].send(meth) {
+              self.send(meth)
+            }
+          end
+        else            
+          @kontext[0] = @kontext[0].send(meth)
+          @kontext[1].send(meth) {
+            self.send(meth)
+          }
+        end
+      elsif @kontext[0].respond_to?(meth)
+        values = *(@kontext[0].send(meth))
+        values.each do |val|
+          raise "oops #{val} is not a string" unless val.is_a?(String)
+          @kontext[1].send(meth, val) unless val.nil?
+        end
+      else
+        raise "Neither the serializer nor the data object responds to #{meth}"
+      end
+
+      @kontext = old_kontext
+    end  
+      
+
   end
   
   # Abstract Export Model class
   class ExportModel
-    def initialize
-    end
+
     
-    def apply_mapped_relationships(obj, map)  
-      obj.class.instance_variable_get(:@relationships).each do |rel|
-        next unless map.has_key?(rel[:json_property].to_sym)
-        self.send(map[rel[:json_property].to_sym], obj.my_relationships(rel[:name]))
-      end
+    # Syntax for defining structure for an export model:
+    # structure :name => name,
+    #           :once => (children appearing once)
+    #           :many => (children appearing more than once)
+    #           (..TODO: attributes)
+    # 
+    
+    # def self.struct
+    #    @structure ||={}
+    #    @structure
+    #  end
+    #  
+    #  def self.attribute_groups
+    #    @attribute_groups ||= {}
+    #  end
+    #  
+    #  def self.structure(opts) 
+    # 
+    #    Log.debug("OPTS #{opts.inspect}")
+    #    @structure ||= {}
+    #    
+    #    struct_owner = self
+    #    
+    #    klass = Object.const_set("Structural"+opts[:name].to_s.capitalize, Class.new)
+    #    klass.instance_variable_set(:@structure, @structure)
+    # 
+    #    singles = opts[:once] || []
+    #    multies = opts[:many] || []
+    # 
+    #    klass.class_eval do
+    # 
+    #      attr_accessor *(singles + multies).reject{|i| i.nil?}
+    #        
+    #      singles.each do |child|
+    #        define_method(child) do
+    #          if (iv = instance_variable_get("@"+child.to_s))
+    #            iv
+    #          elsif (structural = struct_owner.struct[child])
+    #            instance_variable_set("@"+child.to_s, structural.new)  
+    #          else
+    #            instance_variable_set("@"+child.to_s, String.new)
+    #          end
+    #        end
+    #      end
+    #    
+    #      multies.each do |child|
+    #        define_method(child) do
+    #          if (iv = instance_variable_get("@"+child.to_s))
+    #            iv
+    #          elsif (structural = struct_owner.struct[child])
+    #            # instance_variable_set("@"+child.to_s, [structural.new])
+    #            instance_variable_set("@"+child.to_s, StructArray.new(structural))
+    #          else
+    #            instance_variable_set("@"+child.to_s, StructArray.new(String))
+    #          end
+    #        end
+    #      end
+    # 
+    #    end
+    # 
+    #    @structure[opts[:name]] = klass
+    #  end
+    #  
+    #  
+    #  def self.bild(name)
+    #    
+    #    if @structure.has_key?(name)
+    #      @structure[name].new
+    #    else
+    #      nil
+    #    end
+    #  end
+    
+    
+    def initialize
     end
 
 
@@ -101,9 +205,19 @@ module ASpaceExport
         next if fieldable.empty? # probably a relationship
         
         handler_args = fieldable.map {|f| obj.send(f) }
-        self.send(handler, *handler_args)
+
+        
+        [handler].flatten.each {|h| self.send(h, *handler_args)  }
+
       end
     end
+    
+    
+    # def keyed_attributes(key, vals)
+    #   hsh = {}
+    #   self.class.attribute_groups[key].each_with_index {|s,i| hsh[s] = vals[i]}
+    #   hsh
+    # end
     
   end
 
@@ -111,9 +225,13 @@ module ASpaceExport
     alias :old_method_missing :method_missing
     
     def method_missing(m, *args, &block)
+  
       @sticky_ns ||= nil
       @ns = @sticky_ns if @sticky_ns
+      
+  
       old_method_missing(m, *args, &block)
+  
     end
   end  
 

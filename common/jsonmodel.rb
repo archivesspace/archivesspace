@@ -160,6 +160,25 @@ module JSONModel
       entry[:schema]["properties"]["last_modified"] = {"type" => "date-time", "readonly" => true}
       entry[:schema]["properties"]["create_time"] = {"type" => "date-time", "readonly" => true}
 
+      # Records may include a reference to the repository that contains them
+      entry[:schema]["properties"]["repository"] = {
+        "type" => "object",
+        "subtype" => "ref",
+        "readonly" => "true",
+        "properties" => {
+          "ref" => {
+            "type" => "JSONModel(:repository) uri",
+            "ifmissing" => "error",
+            "readonly" => "true"
+          },
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        }
+      }
+
+
       if @@init_args[:allow_other_unmapped]
         allow_unmapped_enum_value(entry[:schema]['properties'])
       end
@@ -309,15 +328,8 @@ module JSONModel
         attributes.each do |attribute|
 
           if not method_defined? "#{attribute}"
-            if self.schema["properties"].has_key?(attribute) && self.schema["properties"][attribute]["type"] === "array"
-              define_method "#{attribute}" do
-                return [] if @data[attribute].nil?
-                @data[attribute]
-              end
-            else
-              define_method "#{attribute}" do
-                @data[attribute]
-              end
+            define_method "#{attribute}" do
+              @data[attribute]
             end
           end
 
@@ -423,6 +435,8 @@ module JSONModel
         pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
 
         if uri =~ /#{pattern}\/([0-9]+)$/
+          return $1.to_i
+        elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}([0-9]+)\/tree$/
           return $1.to_i
         else
           if noerror

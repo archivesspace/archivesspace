@@ -10,9 +10,10 @@ module ExportHelpers
 
   def generate_dc(id)
     
-    obj = DigitalObject.get_or_die(id)
+    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects'])
+    # obj = DigitalObject.get_or_die(id)
     
-    dc = ASpaceExport.model(:dc).from_digital_object(obj)
+    dc = ASpaceExport.model(:dc).from_digital_object(JSONModel(:digital_object).new(obj))
     
     ASpaceExport.serializer(:dc).serialize(dc)
   end
@@ -20,9 +21,10 @@ module ExportHelpers
   
   def generate_mets(id)
     
-    obj = DigitalObject.get_or_die(id)
+    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree'])
+    # obj = DigitalObject.get_or_die(id)
     
-    mets = ASpaceExport.model(:mets).from_digital_object(obj)
+    mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj))
     
     ASpaceExport.serializer(:mets).serialize(mets)
   end
@@ -30,35 +32,36 @@ module ExportHelpers
   
   def generate_mods(id)
     
-    obj = DigitalObject.get_or_die(id)
+    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree'])
+    # obj = DigitalObject.get_or_die(id)
     
-    mods = ASpaceExport.model(:mods).from_digital_object(obj)
+    mods = ASpaceExport.model(:mods).from_digital_object(JSONModel(:digital_object).new(obj))
     
     ASpaceExport.serializer(:mods).serialize(mods)
   end  
   
   def generate_marc(id)
     
-    obj = Resource.get_or_die(id)
+    # Maybe we should just have an 'all' for resolve to avoid having to list these...
+    obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects'])
     
-    marc = ASpaceExport.model(:marc21).from_resource(obj)
+    marc = ASpaceExport.model(:marc21).from_resource(JSONModel(:resource).new(obj))
     
     ASpaceExport.serializer(:marc21).serialize(marc)
   end
   
   
-  # TODO - Get these methods using ExportModels...
-  def generate_ead(id, type, repo_id)
+  def generate_ead(id)
 
-    resource = Resource.get_or_die(id)
+    obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree'])
     
-    serializer = ASpaceExport::serializer(:ead)
+    ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj))
     
-    serializer.repo_id = repo_id
-
-    serializer.serialize(resource, {:repo_id => repo_id})
+    ASpaceExport.serializer(:ead).serialize(ead)
+    
   end
   
+  # TODO - Get this exporter using ExportModels like the entries above...
   def generate_eac(id, type)
     
     agent = Kernel.const_get(type.camelize).get_or_die(id)
@@ -66,7 +69,9 @@ module ExportHelpers
     serializer = ASpaceExport::serializer(:eac)
     
     serializer.serialize(agent)
-  end  
+  end
+  
+  
   
 end
   

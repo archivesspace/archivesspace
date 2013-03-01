@@ -472,7 +472,7 @@ ul.subrecord-form-list {
   }
 
   .mixed-content-help {
-    background-color: #EEE;
+    background-color: #F6F6F6;
     text-shadow: 1px 1px 1px white;
     padding: 0 10px;
     font-size: 0.9em;
@@ -483,14 +483,35 @@ ul.subrecord-form-list {
 
 }
 
+.content-list {
+  .drag-handle.inline {
+    top: 5px !important;
+  }
+
+  .subrecord-form-fields {
+    background-color: #F6F6F6 !important;
+
+    > .CodeMirror {
+      border: none;
+      border-top: 1px solid @inputBorder;
+      margin: 35px 0 0 0;
+      .border-radius(0);
+    }
+  }
+}
+
 .CodeMirror-completions {
   .box-shadow(0 5px 10px rgba(0,0,0,.2));
   border: 1px solid #ccc;
   border: 1px solid rgba(0,0,0,.2);
 }
 
-
 /* Filter fields */
 .text-filter-field {
   width: 80%;
+}
+
+
+.content-list .CodeMirror {
+  clear: both;
 }

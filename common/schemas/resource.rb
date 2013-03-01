@@ -17,6 +17,21 @@
       "language" => {"ifmissing" => "error"},
 
       "resource_type" => {"type" => "string", "dynamic_enum" => "resource_resource_type"},
+      "tree" => {
+          "type" => "object", 
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => "JSONModel(:resource_tree) uri",
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+      },
+
 
       "publish" => {"type" => "boolean", "default" => true},
       "restrictions" => {"type" => "boolean", "default" => false},

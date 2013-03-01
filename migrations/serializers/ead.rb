@@ -2,89 +2,177 @@ require 'nokogiri'
 
 ASpaceExport::serializer :ead do
   
-  def serialize(object, opts = {})
 
-    raise StandardError.new("Can't serialize a #{object.class}") unless object.class.to_s.match(/Resource/)
-
+  def serialize(ead, opts = {})
+    
     builder = Nokogiri::XML::Builder.new do |xml|
-      _ead(object, xml)     
-    end
     
-    builder.to_xml   
-  end
-  
-  private
-  
-  def _ead(object, xml)  
-    Log.debug("Resource #{object.values}")
-    xml.ead {
-      _ead_header(object, xml)
-      _archdesc(object,xml)
-    }
-  end
-  
-  def _ead_header(object, xml)
-    xml.eadHeader {
-      xml.eadid object.identifier
-    }
-  end
-  
-  def _archdesc(object,xml)
-    xml.archdesc {
-      xml.did {
-        xml.unittitle object.title
-        xml.unitid object.identifier
-        extents = Extent.dataset.filter(:resource_id => object.id)
-        if extents
-          xml.physdesc {
-            extents.each do |e|
-              _extent_statement(e, xml)
-            end 
+      xml.ead('xmlns' => 'urn:isbn:1-931666-22-9', 
+                 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                 'xsi:schemaLocation' => 'http://www.loc.gov/ead/ead.xsd'){ 
+                   
+        xml.eadheader {
+        
+          xml.eadid [:id_0, :id_1, :id_2, :id_3].map {|a| ead.send(a) }.join('--')
+          
+          xml.filedesc {
+            
+            xml.titlestmt {
+              
+              xml.titleproper ead.title
+              
+            }
+            
           }
-        end  
+        
+        }
+    
+        xml.archdesc(:level => ead.level) {
+          
+          
+          xml.did {
+            xml.unitid [:id_0, :id_1, :id_2, :id_3].map {|a| ead.send(a) }.join('--')
+            
+            dates_as_unitdates(ead, xml)
+             
+            xml.physdesc {
+
+              ead.extents.each do |ext|
+                e = ext['number']
+                e << " (#{ext['portion']})" if ext['portion']
+                e << " #{ext['extent_type']}"
+                xml.extent e
+              end
+            }
+            
+          }
+          
+          
+          
+          ead.notes.each do |note|
+
+            content = Array(note['content']).join(" ")
+
+            case note['type']
+
+            when 'Arrangement'
+              xml.arrangement {
+                xml.p content
+              }
+            when 'General'
+
+            when 'Conditions Governing Access'
+
+            when 'Conditions Governing Use'
+              xml.userestrict {
+                xml.p content
+              }
+
+            when 'Scope and Contents'
+              xml.scopecontent {
+                xml.p content
+              }
+            when 'Preferred Citation'
+
+            when 'Immediate Source of Acquisition'
+
+            when 'Related Archival Materials'
+              xml.relatedmaterial {
+                xml.p content
+              }
+
+            when 'Biographical / Historical'
+              xml.bioghist {
+                xml.p content
+              }
+            when 'Other Finding Aids'
+
+            when 'Custodial History'
+              xml.custodhist {
+                xml.p content
+              }
+            when 'Appraisal'
+              xml.appraisal {
+                xml.p content
+              }
+            when 'Accruals'
+
+            end
+          end
+
+          
+          xml.controlaccess {
+            
+            ead.subjects.each do |subject|
+              json = subject['_resolved']
+              text = json['terms'].map { |term| term['term'] }.join('--')
+              xml.subject text
+            end
+            
+            
+            ead.linked_agents.each do |link|
+
+              role = link['role']
+              agent = link['_resolved']
+
+              agent['names'].each do |name|
+                case agent['agent_type']
+                when 'agent_person'
+                  xml.persname ['primary_name', 'rest_of_name'].map {|np| name[np] if name[np] }.join(', ')
+
+                when 'agent_family'
+                  xml.famname name['family_name']
+
+                when 'agent_corporate_entity'
+                  xml.corpname name['primary_name']
+                end
+              end
+            end 
+              
+          }
+          
+          xml.dsc {
+           
+            Log.debug("EAD children #{ead.children}")
+            ead.children.each do |child|
+              serialize_child(child, xml)
+            end
+              
+            
+          } 
+        }
       }
-      xml.dsc {
-        if (tree = object.tree)
-          _desc_tree(tree, xml)
-        end
-      }
-    }
+    
+    end
+    
+    builder.to_xml
   end
 
-  def _desc_tree(tree, xml)
-    return unless tree['children']
+  
+  def serialize_child(child, xml)
     
-    tree['children'].each do |t|
-      id = JSONModel::JSONModel(:archival_object).id_for(t['archival_object'])          
-      object = ArchivalObject.get_or_die(id)
-      _c(object, t, xml)
+    xml.c('level' => child.level) {
+      
+      xml.did {
+        xml.unittitle child.title
+        
+        dates_as_unitdates(child, xml)
+        
+      }
+      
+      child.children.each do |kind|
+        serialize_child(kind, xml)
+      end
+      
+    }
+  end
+  
+  def dates_as_unitdates(obj, xml)
+    
+    obj.dates.each do |date|
+      d = date['expression']
+      xml.unitdate d
     end
   end
-  
-  def _c(object, tree, xml)
-    
-    xml.c(:id => object.ref_id) {      
-      _did(object, xml)
-      _desc_tree(tree, xml)
-    }
-  end
-  
-  def _did(object, xml)
-    extents = Extent.dataset.filter(:archival_object_id => object.id)
-    
-    xml.did {
-      xml.unittitle object.title
-      if extents
-        xml.physdesc {
-          extents.each do |e|
-            _extent_statement(e, xml)
-          end 
-        }
-      end
-    }
-  end
 
-  def _extent_statement(e, xml)
-    xml.extent "#{e.number} of #{e.extent_type}"
-  end 
 end

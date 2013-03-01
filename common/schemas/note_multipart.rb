@@ -35,9 +35,7 @@
 
       "subnotes" => {
         "type" => "array",
-        "items" => {"type" => [{"type" => "JSONModel(:note_bibliography) object"},
-                               {"type" => "JSONModel(:note_chronology) object"},
-                               {"type" => "JSONModel(:note_index) object"},
+        "items" => {"type" => [{"type" => "JSONModel(:note_chronology) object"},
                                {"type" => "JSONModel(:note_orderedlist) object"},
                                {"type" => "JSONModel(:note_definedlist) object"}]},
       },

@@ -60,8 +60,9 @@ ASpaceExport::model :mets do
   
     mets = self.new
     
-    if obj.class.model_scope == :repository
-      mets.apply_map(Repository.get_or_die(obj.repo_id), @repository_map)
+    if obj.respond_to?(:repo_id)
+      repo_id = RequestContext.get(:repo_id)
+      mets.apply_map(Repository.get_or_die(repo_id), @repository_map)
       mets.header_agent_role = "CREATOR"
       mets.header_agent_type = "ORGANIZATION"
     end
@@ -75,9 +76,7 @@ ASpaceExport::model :mets do
     mets = self.from_aspace_object(obj)
     
     mets.apply_map(obj, @archival_object_map)
-    
-    mets.apply_mapped_relationships(obj, @archival_object_map)
-     
+         
     mets
   end
     

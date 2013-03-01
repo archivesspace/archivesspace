@@ -6,7 +6,12 @@
 
     "properties" => {
 
-      "content" => {"type" => "string", "ifmissing" => nil},
+      "content" => {
+        "type" => "array",
+        "items" => {"type" => "string"},
+        "minItems" => 0,
+        "ifmissing" => nil,
+      },
 
       "items" => {
         "type" => "array",

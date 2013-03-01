@@ -59,7 +59,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    ead = generate_ead(params[:resource_id], :resource, params[:repo_id])
+    ead = generate_ead(params[:resource_id])
     
     xml_response(ead)    
   end

@@ -411,18 +411,12 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "can add a contact to a person" do
+    it "can save a person and view readonly view of person" do
       $driver.find_element(:css => '#contacts .subrecord-form-heading .btn').click
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
-
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Contact Description - Property is required but was missing/)
 
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__name_"], "Email Address")
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__email_"], "jimi@rocknrollheaven.com")
-    end
 
-
-    it "can save a person and view readonly view of person" do
       $driver.find_element(:id => "agent_names__1__source_").select_option("local")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
 
@@ -903,7 +897,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form#new_collection_management button[type='submit']").click
 
       expect {
-        $driver.find_element_with_text('//div[contains(@class, "error")]', /Record Links - Property is required/)
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Record Links/)
       }.to_not raise_error
     end
 
@@ -1017,11 +1011,11 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:id, "resource_level_").select_option("collection")
 
       # condition and content descriptions have come across as notes fields
-      $driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__0__content_").attribute("value").should eq("9 guinea pigs")
+      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "resource_notes__0__content__0_").attribute("value").should eq("9 guinea pigs")
 
-      $driver.execute_script("$('#resource_notes__1__content_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__1__content_").attribute("value").should eq("furious")
+      $driver.execute_script("$('#resource_notes__1__content__0_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "resource_notes__1__content__0_").attribute("value").should eq("furious")
 
       $driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
 
@@ -1324,12 +1318,12 @@ describe "ArchivesSpace user interface" do
         add_note.call("note_multipart")
       end
 
-      $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields').length.should eq(3)
+      $driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(3)
     end
 
 
     it "confirms before removing a note entry" do
-      notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-list > li')
+      notes = $driver.blocking_find_elements(:css =>  '#notes > .subrecord-form-container > .subrecord-form-list > li')
 
       notes[0].find_element(:css => '.subrecord-form-remove').click
 
@@ -1350,14 +1344,14 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '.subrecord-form-removal-confirmation .btn-primary').click
 
       # One left!
-      $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields').length.should eq(1)
+      $driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(1)
 
       # Fill it out
       $driver.clear_and_send_keys([:id, 'resource_notes__2__label_'],
                                   "A multipart note")
 
-      $driver.execute_script("$('#resource_notes__2__content_').data('CodeMirror').setValue('Some note content')")
-      $driver.execute_script("$('#resource_notes__2__content_').data('CodeMirror').save()")
+      $driver.execute_script("$('#resource_notes__2__content__0_').data('CodeMirror').setValue('Some note content')")
+      $driver.execute_script("$('#resource_notes__2__content__0_').data('CodeMirror').save()")
 
 
       # Save the resource
@@ -1373,40 +1367,29 @@ describe "ArchivesSpace user interface" do
 
       # Add a sub note
       notes[0].find_element(:css => '.subrecord-form-heading .btn').click
-      notes[0].find_element(:css => '.subrecord-selector select').select_option('note_bibliography')
+      notes[0].find_element(:css => '.subrecord-selector select').select_option('note_chronology')
       notes[0].find_element(:css => '.add-sub-note-btn').click
 
-      $driver.find_element(:id => 'resource_notes__0__subnotes__1__label_')
-      $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__label_'], "Bibliography label")
-      $driver.execute_script("$('#resource_notes__0__subnotes__1__content_').data('CodeMirror').setValue('Bibliography content')")
-      $driver.execute_script("$('#resource_notes__0__subnotes__1__content_').data('CodeMirror').save()")
-
-      2.times do
-        notes[0].find_element(:css => '.add-item-btn').click
-      end
-
-      $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__items__2_'], "Bib item 1")
-      $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__items__3_'], "Bib item 2")
+      $driver.find_element(:id => 'resource_notes__0__subnotes__2__title_')
+      $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__2__title_'], "Chronology title")
 
 
       notes[0].find_element(:css => '.subrecord-form-heading .btn').click
-      notes[0].find_element(:css => '.subrecord-selector select').select_option('note_index')
+      notes[0].find_element(:css => '.subrecord-selector select').select_option('note_definedlist')
       notes[0].find_element(:css => '.add-sub-note-btn').click
 
-      $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__4__label_'], "Index item")
-      $driver.execute_script("$('#resource_notes__0__subnotes__4__content_').data('CodeMirror').setValue('Index content')")
-      $driver.execute_script("$('#resource_notes__0__subnotes__4__content_').data('CodeMirror').save()")
+      $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__3__title_'], "Defined list")
 
       2.times do
-        $driver.find_element(:id => 'resource_notes__0__subnotes__4__label_').
+        $driver.find_element(:id => 'resource_notes__0__subnotes__3__title_').
                 containing_subform.
                 find_element(:css => '.add-item-btn').
                 click
       end
 
-      [5, 6]. each do |i|
-        ["value", "type", "reference", "reference_text"].each do |field|
-          $driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__4__items__#{i}__#{field}_"],
+      [4, 5]. each do |i|
+        ["label", "value"].each do |field|
+          $driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__3__items__#{i}__#{field}_"],
                                       "pogo")
         end
       end
@@ -1428,35 +1411,35 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#notes > .subrecord-form-heading select').select_option("note_bibliography")
       $driver.find_element(:css => '#notes > .subrecord-form-heading .subrecord-selector .btn').click
 
-      $driver.clear_and_send_keys([:id, 'resource_notes__5__label_'], "Top-level bibliography label")
-      $driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').setValue('#{bibliography_content}')")
-      $driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').save()")
+      $driver.clear_and_send_keys([:id, 'resource_notes__6__label_'], "Top-level bibliography label")
+      $driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').setValue('#{bibliography_content}')")
+      $driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').save()")
 
-      $driver.execute_script("$('#resource_notes__5__content_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__5__content_").attribute("value").should eq(bibliography_content)
+      $driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "resource_notes__6__content__0_").attribute("value").should eq(bibliography_content)
 
-      form = $driver.find_element(:id => 'resource_notes__5__label_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
+      form = $driver.find_element(:id => 'resource_notes__6__label_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
       2.times do
         form.find_element(:css => '.add-item-btn').click
       end
 
-      $driver.clear_and_send_keys([:id, 'resource_notes__5__items__6_'], "Top-level bib item 1")
-      $driver.clear_and_send_keys([:id, 'resource_notes__5__items__7_'], "Top-level bib item 2")
+      $driver.clear_and_send_keys([:id, 'resource_notes__6__items__7_'], "Top-level bib item 1")
+      $driver.clear_and_send_keys([:id, 'resource_notes__6__items__8_'], "Top-level bib item 2")
 
     end
 
 
     it "can wrap note content text with EAD mark up" do
       # select some text
-      $driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').setValue('ABC')")
-      $driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")
+      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').setValue('ABC')")
+      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")
 
       # select a tag to wrap the text
       $driver.find_element(:css => "select.mixed-content-wrap-action").select_option("ref")
-      $driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').save()")
-      $driver.execute_script("$('#resource_notes__0__content_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "resource_notes__0__content_").attribute("value").should eq("<ref>ABC</ref>")
+      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').save()")
+      $driver.execute_script("$('#resource_notes__0__content__0_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "resource_notes__0__content__0_").attribute("value").should eq("<ref>ABC</ref>")
 
       # Save the resource
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
@@ -1515,7 +1498,7 @@ describe "ArchivesSpace user interface" do
         add_note.call("note_multipart")
       end
 
-      $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields').length.should eq(3)
+      $driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(3)
 
       $driver.find_element(:link, "Revert Changes").click
 
@@ -1543,11 +1526,11 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#notes .subrecord-selector .btn').click
 
       $driver.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")
-      $driver.execute_script("$('#digital_object_notes__0__content_').data('CodeMirror').setValue('Summary content')")
-      $driver.execute_script("$('#digital_object_notes__0__content_').data('CodeMirror').save()")
+      $driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').setValue('Summary content')")
+      $driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').save()")
 
-      $driver.execute_script("$('#digital_object_notes__0__content_').data('CodeMirror').toTextArea()")
-      $driver.find_element(:id => "digital_object_notes__0__content_").attribute("value").should eq("Summary content")
+      $driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').toTextArea()")
+      $driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value").should eq("Summary content")
 
       $driver.find_element(:css => "form#new_digital_object button[type='submit']").click
     end

@@ -2,19 +2,16 @@ ASpaceExport::model :marc21 do
   
   include JSONModel
     
-  @repository_map = {
-    :repo_code => :handle_repo_code,
-  }
-  
   @archival_object_map = {
+    :repository => :handle_repo_code,
     :title => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
-    :extent => :handle_extents,
+    :extents => :handle_extents,
   }
   
   @resource_map = {
-    :identifier => :handle_id,
+    [:id_0, :id_1, :id_2, :id_3] => :handle_id,
     :notes => :handle_notes,
   }
   
@@ -59,14 +56,7 @@ ASpaceExport::model :marc21 do
   
 
   def self.from_aspace_object(obj)
-  
-    marc = self.new
-    
-    if obj.class.model_scope == :repository
-      marc.apply_map(Repository.get_or_die(obj.repo_id), @repository_map)
-    end
-    
-    marc
+    self.new
   end
     
   # 'archival object's in the abstract
@@ -76,14 +66,13 @@ ASpaceExport::model :marc21 do
     
     marc.apply_map(obj, @archival_object_map)
     
-    marc.apply_mapped_relationships(obj, @archival_object_map)
-     
     marc
   end
     
   # subtypes of 'archival object':
   
   def self.from_resource(obj)
+    Log.debug("Obj #{obj.inspect}")
     marc = self.from_archival_object(obj)
     marc.apply_map(obj, @resource_map)
     
@@ -100,24 +89,24 @@ ASpaceExport::model :marc21 do
     end
   end
   
-  def handle_id(jsonstr)
-    df('852').with_sfs(['c', JSON.parse(jsonstr).join('--')])
+
+  def handle_id(*ids)
+    df('852').with_sfs(['c', ids.join('--')])
   end
   
   def handle_title(title)
-    Log.debug("TITLE #{title}")
     df('852').with_sfs(['b', title])
   end 
   
-  def handle_repo_code(code)
-    df('852').with_sfs(['a', "Repository: #{code}"])
+  def handle_repo_code(repository)
+    df('852').with_sfs(['a', "Repository: #{repository['_resolved']['repo_code']}"])
   end
   
   def handle_subjects(subjects)
     subjects.each do |subject|
-      json = subject[1].class.to_jsonmodel(subject[1])
+      json = subject['_resolved']
       
-      json.terms.each do |term|
+      json['terms'].each do |term|
         
         code =case term['term_type']
               when 'Uniform title' then '630'
@@ -135,14 +124,15 @@ ASpaceExport::model :marc21 do
     end
   end
   
+
   def handle_agents(linked_agents)
-    linked_agents.each do |linked_agent|
-      json = linked_agent[1].class.to_jsonmodel(linked_agent[1])
+    linked_agents.each do |link|
 
-      role = linked_agent[0][:role]
+      role = link['role']
+      agent = link['_resolved']
 
-      json.names.each do |name|
-        case json.agent_type
+      agent['names'].each do |name|
+        case agent['agent_type']
         when 'agent_person'
           a = ['primary_name', 'rest_of_name'].map {|np| name[np] if name[np] }.join(', ')
           df('700', '1').with_sfs(['a', a], ['e', role])
@@ -159,13 +149,13 @@ ASpaceExport::model :marc21 do
         
     end
   end
-  
-  def handle_notes(notes_str)
-    notes = ASUtils.json_parse(DB.deblob(notes_str) || "[]")
-    
+
+
+  def handle_notes(notes)
+
     notes.each do |note|
 
-      knote = Proc.new{ |d,s| df(d).with_sfs([s, note['content']]) }
+      knote = Proc.new{ |d,s| df(d).with_sfs([s, Array(note['content']).join(" ")]) }
 
       case note['type']
       
@@ -199,9 +189,9 @@ ASpaceExport::model :marc21 do
   
   def handle_extents(extents)
     extents.each do |ext|
-      e = ext.number
-      e << " (#{ext.portion})" if ext.portion
-      e << " #{ext.extent_type}"
+      e = ext['number']
+      e << " (#{ext['portion']})" if ext['portion']
+      e << " #{ext['extent_type']}"
       df('300').with_sfs(['a', e])
     end
   end
