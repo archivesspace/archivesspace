@@ -79,8 +79,6 @@ describe "Batch Import Controller" do
 
     response = JSONModel::HTTP.post_json(url, batch.to_json)
     
-    puts "RBODY #{response.body.inspect}"
-    
     response.code.should eq('200')
     
     body = ASUtils.json_parse(response.body)
