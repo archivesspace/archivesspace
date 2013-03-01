@@ -14,10 +14,11 @@ def sample(enum, exclude = [])
   values.reject{|i| exclude.include?(i) }.sample
 end
 
+
 def JSONModel(key)
   JSONModel::JSONModel(key)
 end
-  
+
 
 FactoryGirl.define do
   
@@ -162,6 +163,10 @@ FactoryGirl.define do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
+  end
+  
+  factory :json_batch, class: JSONModel(:batch_import) do
+    batch { [build(:json_resource, :uri => JSONModel(:resource).uri_for(rand(1000)))] }
   end
 
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do

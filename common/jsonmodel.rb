@@ -26,11 +26,13 @@ module JSONModel
     attr_accessor :invalid_object
     attr_accessor :errors
     attr_accessor :warnings
+    attr_accessor :attribute_types
 
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
       @warnings = opts[:warnings]
+      @attribute_types = opts[:attribute_types]
     end
 
     def to_s
@@ -623,7 +625,8 @@ module JSONModel
         if raise_errors && (!exceptions[:errors].empty? || (@@strict_mode && !exceptions[:warnings].empty?))
           raise ValidationException.new(:invalid_object => self.new(hash),
                                         :warnings => exceptions[:warnings],
-                                        :errors => exceptions[:errors])
+                                        :errors => exceptions[:errors],
+                                        :attribute_types => exceptions[:attribute_types])
         end
 
         exceptions

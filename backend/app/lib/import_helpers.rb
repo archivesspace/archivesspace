@@ -7,12 +7,13 @@ module ImportHelpers
     
     RequestContext.put(:repo_id, params[:repo_id])
 
-    begin 
+    begin
       batch.process
       json_response({:saved => batch.saved_uris}, 200)
     end
-  end  
+  end
   
+
   class Batch
     attr_accessor :saved_uris
     
@@ -20,11 +21,12 @@ module ImportHelpers
       @json_set, @as_set, @saved_uris = {}, {}, {}
       
       batch_object.batch.each do |item|
-         @json_set[item['uri']] = JSONModel::JSONModel(item['jsonmodel_type']).from_hash(item)
+         @json_set[item['uri']] = JSONModel::JSONModel(item['jsonmodel_type']).from_hash(item, false)
       end
       
     end
       
+    # 0. Add new enums till everything validates  
     # 1. Create ASModel objects from the JSONModel objects minus the references
     # 2. Update the nonce URIs of the JSONModel objects using their DB IDs
     # 3. Update JSONModel links using the real URIs
@@ -35,15 +37,15 @@ module ImportHelpers
       @second_pass_keys = []
 
       @json_set.each do |ref, json|
-      
-
+              
         # TODO: add a method to say whether a json is de-linkable
 
         if json.jsonmodel_type == 'collection_management'
           @second_pass_keys << ref
-        else       
+        else
           begin
           unlinked = self.class.unlink(json)
+
           obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
           @as_set[json.uri] = [obj.id, obj.class]
         
@@ -51,6 +53,7 @@ module ImportHelpers
           json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
           
           rescue Exception => e
+
             raise ImportException.new({:invalid_object => json, :error => e})
           end
         end
@@ -111,6 +114,35 @@ module ImportHelpers
       unlinked.set_data(data)
       unlinked
     end
+    
+    # # Assuming for now there are no arrays
+    # # of strings that are each enumerable, etc.
+    # # Just a) strings that are enumerable and 
+    # # b) arrays of objects with enumerable 
+    # # TODO: See if this method can be repurposed
+    # # from somewhere else
+    # 
+    # def self.fetch_enum_name(json, schema_frag, path)
+    # 
+    #   if schema_frag.has_key?('properties')
+    #     schema_frag = schema_frag['properties']
+    #   end
+    #   
+    #   path = path.is_a?(Array) ? path : path.split("/")
+    #   
+    #   return nil unless schema_frag.has_key?(path[0])
+    # 
+    #   if path.length == 1 && schema_frag[path[0]].has_key?('dynamic_enum')
+    #     return schema_frag[path[0]]['dynamic_enum']
+    #   elsif json.nil? 
+    #     return nil
+    #   elsif json[path[0]].is_a?(Array) && json[path[0]][path[1].to_i].is_a?(Hash)
+    #     sub_schema = JSONModel::JSONModel(json[path[0]][path[1].to_i]['jsonmodel_type']).schema
+    #     fetch_enum_name(nil, sub_schema, path[2..-1])
+    #   else 
+    #     return nil
+    #   end
+    # end
   end
 
 
@@ -125,14 +157,12 @@ module ImportHelpers
     end
     
     def to_hash
-      hsh = {'record_title' => nil, 'record_type' => nil, 'error_class' => self.class.name, 'errors' => [], 'other' => nil}
+      hsh = {'record_title' => nil, 'record_type' => nil, 'error_class' => self.class.name, 'errors' => []}
       hsh['record_title'] = @invalid_object.title ? @invalid_object.title : "unknown or untitled"
       hsh['record_type'] = @invalid_object.jsonmodel_type ? @invalid_object.jsonmodel_type : "unknown type"
       
       if @error.respond_to?(:errors)
         @error.errors.each {|e| hsh['errors'] << e}
-      else
-        hsh['other'] = @error.to_s
       end
       
       hsh

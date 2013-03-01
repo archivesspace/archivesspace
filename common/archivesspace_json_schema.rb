@@ -112,7 +112,7 @@ class ArchivesSpaceDynamicEnumAttribute < JSON::Schema::TypeAttribute
 
     if !JSONModel.init_args[:enum_source].valid?(enum_name, data)
       message = ("The property '#{build_fragment(fragments)}' value #{data.inspect} " +
-                 "did not match one of the following values: #{possible_values.join(', ')}")
+                 "did not match one of the following configurable values: #{possible_values.join(', ')}")
       validation_error(message, fragments, current_schema, self, options[:record_errors])
     end
   end

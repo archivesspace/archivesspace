@@ -80,6 +80,7 @@ class ImportController < ApplicationController
       importer = 'xml'
       crosswalk = 'marcxml_subjects_and_agents'
     end
+
         
     options = {:dry => false, 
                :relaxed => false, 
@@ -89,14 +90,12 @@ class ImportController < ApplicationController
                :importer => importer,
                :crosswalk => crosswalk,
                :input_file => source_file.path}
-    
-    i = ASpaceImport::Importer.create_importer(options)    
-    i.run_safe
-    
-    [i.report_summary, i.report]
+
+      i = ASpaceImport::Importer.create_importer(options)    
+      i.run_safe
+      
+      [i.report_summary, i.report]    
   
   end
-    
-  
 end
 
