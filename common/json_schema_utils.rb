@@ -71,7 +71,7 @@ module JSONSchemaUtils
        :failed_attribute => ['MinItems'],
        :pattern => /The property '#\/.*?' did not contain a minimum number of items ([0-9]+) in schema/,
        :do => ->(msgs, message, path, items) {
-         msgs[:errors][fragment_join(path)] = ["The '#{path}' array needs at least #{items} elements"]
+         msgs[:errors][fragment_join(path)] = ["At least #{items} item(s) is required"]
        }
      },
 
