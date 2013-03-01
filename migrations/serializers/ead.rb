@@ -51,7 +51,7 @@ ASpaceExport::serializer :ead do
           
           ead.notes.each do |note|
 
-            content = note['content']
+            content = Array(note['content']).join(" ")
 
             case note['type']
 
