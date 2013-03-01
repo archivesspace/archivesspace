@@ -347,7 +347,9 @@ module ASpaceImport
       # subrecord slots taking more than one type
 
       if property_def['type'].is_a? Array
-        if property_def['type'].reject {|t| t['type'].match(/object$/)}.length != 0
+        if ((property_def['type'] | ["integer", "string"]) - (property_def['type'] & ["integer", "string"])).empty?
+          return [:string_or_integer, nil]
+        elsif property_def['type'].reject {|t| t['type'].match(/object$/)}.length != 0
           raise CrosswalkException.new(:property_def => property_def)
         end
         
@@ -371,7 +373,8 @@ module ASpaceImport
         if property_def['subtype'] == 'ref'          
           [:record_ref, ref_type_list(property_def['properties']['ref']['type'])]
         else
-          raise CrosswalkException.new(:property_def => property_def)
+          [:object_inline, nil] # e.g., resource - external_id
+          # raise CrosswalkException.new(:property_def => property_def)
         end
         
       when 'array'
