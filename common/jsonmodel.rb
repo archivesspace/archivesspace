@@ -595,14 +595,18 @@ module JSONModel
       # Produce a (possibly nested) hash from the values of this JSONModel.  Any
       # values that don't appear in the JSON schema will not appear in the
       # result.
-      def to_hash(raw = false)
-        return @data if raw
+      def to_hash(mode = :validated)
+        raise "Invalid .to_hash mode: #{mode}" unless [:trusted, :validated, :raw].include?(mode)
 
-        @validated = false
+        return @data if mode == :raw
 
         cleaned = JSONSchemaUtils.drop_unknown_properties(@data, self.class.schema)
         cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
-        self.class.validate(cleaned)
+
+        if mode == :validated
+          @validated = false
+          self.class.validate(cleaned)
+        end
 
         cleaned
       end

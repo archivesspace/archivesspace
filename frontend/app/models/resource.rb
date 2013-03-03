@@ -12,7 +12,7 @@ class Resource < JSONModel(:resource)
 
 
   def populate_from_accession(accession)
-    values = accession.to_hash(true)
+    values = accession.to_hash(:raw)
 
     # Recursively remove bits that don't make sense to copy (like "lock_version"
     # properties)

@@ -66,7 +66,7 @@ module ASpaceImport
       batch = []
       
       self.each do |obj|
-        batch << obj.to_hash(true)
+        batch << obj.to_hash(:raw)
       end
       batch_object.set_data({:batch => batch})
 
