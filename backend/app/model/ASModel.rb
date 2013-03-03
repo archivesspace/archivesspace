@@ -386,7 +386,7 @@ module ASModel
 
           records = Array(obj.send(linked_record[:association][:name])).map {|linked_obj|
             if linked_record[:always_resolve]
-              model.to_jsonmodel(linked_obj).to_hash
+              model.to_jsonmodel(linked_obj).to_hash(:trusted)
             else
               JSONModel(linked_record[:jsonmodel]).uri_for(linked_obj.id, :repo_id => active_repository) or
                 raise "Couldn't produce a URI for record type: #{linked_record[:type]}."
