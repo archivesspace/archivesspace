@@ -240,6 +240,12 @@ module JSONModel
     end
 
     true
+
+  rescue
+    # If anything went wrong we're not initialised.
+    @@init_args = nil
+
+    raise $!
   end
 
 
