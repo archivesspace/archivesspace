@@ -99,7 +99,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">frontend/app/models/memoryleak.rb</dd>
+    <dd class="r2 last">common/memoryleak.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -298,7 +298,7 @@
 21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'common/memoryleak.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='rubyid_refresh_fn identifier id'>refresh_fn</span><span class='comma token'>,</span> <span class='rubyid_ttl identifier id'>ttl</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_@@resources ivar id'>@@resources</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
@@ -339,7 +339,7 @@
 32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'common/memoryleak.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span>
   <span class='rubyid_stale identifier id'>stale</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_@@resources ivar id'>@@resources</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span>
@@ -378,7 +378,7 @@
 55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'common/memoryleak.rb', line 51</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_invalidate_all! fid id'>invalidate_all!</span>
   <span class='rubyid_@@resources ivar id'>@@resources</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_atom identifier id'>atom</span><span class='bitor op'>|</span>
@@ -417,7 +417,7 @@
 43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'common/memoryleak.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span>
   <span class='comment val'># Two concurrent users might trigger some resource to be refreshed at</span>
@@ -454,7 +454,7 @@
 48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/memoryleak.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'common/memoryleak.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_time identifier id'>time</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_@@resources ivar id'>@@resources</span><span class='lbrack token'>[</span><span class='rubyid_resource identifier id'>resource</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_swap identifier id'>swap</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='symbol val'>:last_modified</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_time identifier id'>time</span> <span class='orop op'>||</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -470,7 +470,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:55 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:24:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

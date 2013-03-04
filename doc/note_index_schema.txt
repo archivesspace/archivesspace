@@ -2,6 +2,8 @@ JSON Schema: Note_index
 
 Properties
 
+array (string)	content
+
 array (object)	items
 
 

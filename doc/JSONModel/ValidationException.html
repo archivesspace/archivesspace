@@ -101,7 +101,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">common/jsonmodel.rb</dd>
+    <dd class="r2 last">common/jsonmodel.rb<span class="defines">,<br />
+  common/jsonmodel.rb.BASE.13918.rb,<br /> common/jsonmodel.rb.LOCAL.13918.rb,<br /> common/jsonmodel.rb.BACKUP.13918.rb,<br /> common/jsonmodel.rb.REMOTE.13918.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -112,6 +114,32 @@
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#attribute_types-instance_method" title="#attribute_types (instance method)">- (Object) <strong>attribute_types</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute attribute_types.</p>
+</div></span>
+  
+</li>
+
     
       <li class="public ">
   <span class="summary_signature">
@@ -284,19 +312,21 @@
       <pre class="lines">
 
 
-29
-30
 31
 32
-33</pre>
+33
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 31</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@invalid_object ivar id'>@invalid_object</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:invalid_object</span><span class='rbrack token'>]</span>
   <span class='rubyid_@errors ivar id'>@errors</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span>
   <span class='rubyid_@warnings ivar id'>@warnings</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:warnings</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@attribute_types ivar id'>@attribute_types</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:attribute_types</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -310,9 +340,52 @@
     <h2>Instance Attribute Details</h2>
     
       
-      <span id="errors=-instance_method"></span>
+      <span id="attribute_types=-instance_method"></span>
       <div class="method_details first">
-  <h3 class="signature first" id="errors-instance_method">
+  <h3 class="signature first" id="attribute_types-instance_method">
+  
+    - (<tt>Object</tt>) <strong>attribute_types</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute attribute_types</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 29</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_attribute_types identifier id'>attribute_types</span>
+  <span class='rubyid_@attribute_types ivar id'>@attribute_types</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="errors=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="errors-instance_method">
   
     - (<tt>Object</tt>) <strong>errors</strong> 
   
@@ -336,12 +409,12 @@
       <pre class="lines">
 
 
-26
 27
-28</pre>
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_errors identifier id'>errors</span>
   <span class='rubyid_@errors ivar id'>@errors</span>
@@ -379,12 +452,12 @@
       <pre class="lines">
 
 
-25
 26
-27</pre>
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 26</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_invalid_object identifier id'>invalid_object</span>
   <span class='rubyid_@invalid_object ivar id'>@invalid_object</span>
@@ -422,12 +495,12 @@
       <pre class="lines">
 
 
-27
 28
-29</pre>
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 28</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_warnings identifier id'>warnings</span>
   <span class='rubyid_@warnings ivar id'>@warnings</span>
@@ -460,12 +533,12 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;#&lt;:ValidationException: #{{:errors =&gt; @errors, :warnings =&gt; @warnings}.inspect}&gt;&quot;</span>
@@ -481,7 +554,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:59 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:24:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

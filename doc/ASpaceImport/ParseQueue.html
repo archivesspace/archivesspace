@@ -454,14 +454,14 @@
       <pre class="lines">
 
 
-97
-98
-99
-100
-101</pre>
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 124</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@repo_id ivar id'>@repo_id</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span>
@@ -496,12 +496,12 @@
       <pre class="lines">
 
 
-156
-157
-158</pre>
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 183</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='lshft op'>&lt;&lt;</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
@@ -527,12 +527,12 @@
       <pre class="lines">
 
 
-180
-181
-182</pre>
+207
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 207</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inspect identifier id'>inspect</span>
   <span class='string val'>&quot;Parse Queue: &quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_super super kw'>super</span> <span class='lshft op'>&lt;&lt;</span>  <span class='string val'>&quot; -- Batch: &quot;</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span>
@@ -558,15 +558,15 @@
       <pre class="lines">
 
 
-121
-122
-123
-124
-125
-126</pre>
+148
+149
+150
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 148</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_iterate identifier id'>iterate</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
@@ -595,36 +595,36 @@
       <pre class="lines">
 
 
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154</pre>
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 155</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pop identifier id'>pop</span>
 
@@ -674,15 +674,15 @@
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165</pre>
+187
+188
+189
+190
+191
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 187</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Not a JSON Object&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span>
@@ -711,13 +711,13 @@
       <pre class="lines">
 
 
-167
-168
-169
-170</pre>
+194
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 194</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_push_and_raise identifier id'>push_and_raise</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
@@ -744,12 +744,12 @@
       <pre class="lines">
 
 
-188
-189
-190</pre>
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 215</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_raised identifier id'>raised</span>
   <span class='rubyid_@raised ivar id'>@raised</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -775,12 +775,12 @@
       <pre class="lines">
 
 
-176
-177
-178</pre>
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 203</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span>
   <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
@@ -806,16 +806,16 @@
       <pre class="lines">
 
 
-103
-104
-105
-106
-107
-108
-109</pre>
+130
+131
+132
+133
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 130</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_select_each_and identifier id'>select_each_and</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_dothis identifier id'>dothis</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
@@ -845,12 +845,12 @@
       <pre class="lines">
 
 
-184
-185
-186</pre>
+211
+212
+213</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 211</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_selected identifier id'>selected</span>
   <span class='rubyid_@selected ivar id'>@selected</span> <span class='opasgn op'>||=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
@@ -876,12 +876,12 @@
       <pre class="lines">
 
 
-172
-173
-174</pre>
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 199</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unraise_all identifier id'>unraise_all</span>
   <span class='rubyid_@raised ivar id'>@raised</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -907,18 +907,18 @@
       <pre class="lines">
 
 
-111
-112
-113
-114
-115
-116
-117
-118
-119</pre>
+138
+139
+140
+141
+142
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 138</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_with_raised identifier id'>with_raised</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_dothis identifier id'>dothis</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_raised identifier id'>raised</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
@@ -940,7 +940,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:56:02 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:24:04 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

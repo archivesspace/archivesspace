@@ -130,7 +130,145 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#download_dc-instance_method" title="#download_dc (instance method)">- (Object) <strong>download_dc</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download_eac-instance_method" title="#download_eac (instance method)">- (Object) <strong>download_eac</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#download_ead-instance_method" title="#download_ead (instance method)">- (Object) <strong>download_ead</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download_export-instance_method" title="#download_export (instance method)">- (Object) <strong>download_export</strong>(request_uri, file_prefix) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download_marc-instance_method" title="#download_marc (instance method)">- (Object) <strong>download_marc</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download_mets-instance_method" title="#download_mets (instance method)">- (Object) <strong>download_mets</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download_mods-instance_method" title="#download_mods (instance method)">- (Object) <strong>download_mods</strong> </a>
     
 
     
@@ -178,7 +316,73 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="download_ead-instance_method">
+  <h3 class="signature first" id="download_dc-instance_method">
+  
+    - (<tt>Object</tt>) <strong>download_dc</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 33</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_download_dc identifier id'>download_dc</span>
+  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
+    <span class='dstring node'>&quot;/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/dublin_core/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;DC&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="download_eac-instance_method">
+  
+    - (<tt>Object</tt>) <strong>download_eac</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 58</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_download_eac identifier id'>download_eac</span>
+  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
+    <span class='dstring node'>&quot;/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;EAC&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="download_ead-instance_method">
   
     - (<tt>Object</tt>) <strong>download_ead</strong> 
   
@@ -192,6 +396,40 @@
       <pre class="lines">
 
 
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 52</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_download_ead identifier id'>download_ead</span>
+  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span> 
+    <span class='dstring node'>&quot;/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;EAD&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="download_export-instance_method">
+  
+    - (<tt>Object</tt>) <strong>download_export</strong>(request_uri, file_prefix) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
 7
 8
 9
@@ -210,25 +448,22 @@
 22
 23
 24
-25
-26
-27</pre>
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 6</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_download_ead identifier id'>download_ead</span>
-  <span class='comment val'># @ead = EADFile.new(params[:id])</span>
-  <span class='comment val'># send_file @ead.file, :type =&gt; 'application/xml', :filename =&gt; &quot;test.ead&quot;, :x_sendfile =&gt; true</span>
-  <span class='rubyid_request_uri identifier id'>request_uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{AppConfig[:backend_url]}/repositories/#{Thread.current[:selected_repo_id]}/resource_descriptions/#{params[:id]}.xml&quot;</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='comma token'>,</span> <span class='rubyid_file_prefix identifier id'>file_prefix</span><span class='rparen token'>)</span> 
   
+  <span class='rubyid_request_uri identifier id'>request_uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{AppConfig[:backend_url]}#{request_uri}&quot;</span>
+
   <span class='rubyid_respond_to identifier id'>respond_to</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_format identifier id'>format</span><span class='bitor op'>|</span>
     <span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span> <span class='lbrace token'>{</span>
-      <span class='rubyid_@filename ivar id'>@filename</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;EAD-#{Time.now}.xml&quot;</span>
+      <span class='rubyid_@filename ivar id'>@filename</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{file_prefix}-#{Time.now}.xml&quot;</span>
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Type&quot;</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>'application/xml'</span>
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Disposition&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;attachment; filename=#{@filename}&quot;</span>
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>'Last-Modified'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_ctime identifier id'>ctime</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-      
+
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
         <span class='rubyid_xml_response identifier id'>xml_response</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_chunk identifier id'>chunk</span><span class='comma token'>,</span> <span class='rubyid_percent identifier id'>percent</span><span class='bitor op'>|</span>
           <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{percent} complete&quot;</span><span class='rparen token'>)</span>
@@ -244,12 +479,111 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="download_marc-instance_method">
+  
+    - (<tt>Object</tt>) <strong>download_marc</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 27</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_download_marc identifier id'>download_marc</span>
+  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
+    <span class='dstring node'>&quot;/repositories/#{Thread.current[:selected_repo_id]}/resources/marc21/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;MARC21&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="download_mets-instance_method">
+  
+    - (<tt>Object</tt>) <strong>download_mets</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 46</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_download_mets identifier id'>download_mets</span>
+  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span> 
+    <span class='dstring node'>&quot;/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/mets/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;METS&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="download_mods-instance_method">
+  
+    - (<tt>Object</tt>) <strong>download_mods</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 39</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_download_mods identifier id'>download_mods</span>
+  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
+    <span class='dstring node'>&quot;/repositories/#{Thread.current[:selected_repo_id]}/digital_objects/mods/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;MODS&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:57 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:23:59 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

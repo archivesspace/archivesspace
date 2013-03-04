@@ -111,7 +111,122 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#generate_ead-instance_method" title="#generate_ead (instance method)">- (Object) <strong>generate_ead</strong>(id, type, repo_id) </a>
+      <a href="#generate_dc-instance_method" title="#generate_dc (instance method)">- (Object) <strong>generate_dc</strong>(id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_eac-instance_method" title="#generate_eac (instance method)">- (Object) <strong>generate_eac</strong>(id, type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>TODO - Get this exporter using ExportModels like the entries above&#8230;</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_ead-instance_method" title="#generate_ead (instance method)">- (Object) <strong>generate_ead</strong>(id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_marc-instance_method" title="#generate_marc (instance method)">- (Object) <strong>generate_marc</strong>(id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_mets-instance_method" title="#generate_mets (instance method)">- (Object) <strong>generate_mets</strong>(id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_mods-instance_method" title="#generate_mods (instance method)">- (Object) <strong>generate_mods</strong>(id) </a>
     
 
     
@@ -164,9 +279,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="generate_ead-instance_method">
+  <h3 class="signature first" id="generate_dc-instance_method">
   
-    - (<tt>Object</tt>) <strong>generate_ead</strong>(id, type, repo_id) 
+    - (<tt>Object</tt>) <strong>generate_dc</strong>(id) 
   
 
   
@@ -186,23 +301,242 @@
 16
 17
 18
-19
-20
-21</pre>
+19</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 11</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_ead identifier id'>generate_ead</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
-
-  <span class='comment val'># todo: generalize this for other types</span>
-  <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_dc identifier id'>generate_dc</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   
-  <span class='rubyid_serializer identifier id'>serializer</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_serializer identifier id'>serializer</span><span class='lparen token'>(</span><span class='symbol val'>:ead</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>'repository'</span><span class='comma token'>,</span> <span class='string val'>'linked_agents'</span><span class='comma token'>,</span> <span class='string val'>'subjects'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='comment val'># obj = DigitalObject.get_or_die(id)</span>
   
-  <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_repo_id identifier id'>repo_id</span>
+  <span class='rubyid_dc identifier id'>dc</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:dc</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_serializer identifier id'>serializer</span><span class='lparen token'>(</span><span class='symbol val'>:dc</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_dc identifier id'>dc</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_eac-instance_method">
+  
+    - (<tt>Object</tt>) <strong>generate_eac</strong>(id, type) 
+  
 
-  <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>TODO - Get this exporter using ExportModels like the entries above&#8230;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67
+68
+69
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 65</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_eac identifier id'>generate_eac</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_serializer identifier id'>serializer</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_serializer identifier id'>serializer</span><span class='lparen token'>(</span><span class='symbol val'>:eac</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_ead-instance_method">
+  
+    - (<tt>Object</tt>) <strong>generate_ead</strong>(id) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 54</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_ead identifier id'>generate_ead</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>'repository'</span><span class='comma token'>,</span> <span class='string val'>'linked_agents'</span><span class='comma token'>,</span> <span class='string val'>'subjects'</span><span class='comma token'>,</span> <span class='string val'>'tree'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_ead identifier id'>ead</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:ead</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_serializer identifier id'>serializer</span><span class='lparen token'>(</span><span class='symbol val'>:ead</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_ead identifier id'>ead</span><span class='rparen token'>)</span>
+  
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_marc-instance_method">
+  
+    - (<tt>Object</tt>) <strong>generate_marc</strong>(id) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 43</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_marc identifier id'>generate_marc</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  
+  <span class='comment val'># Maybe we should just have an 'all' for resolve to avoid having to list these...</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>'repository'</span><span class='comma token'>,</span> <span class='string val'>'linked_agents'</span><span class='comma token'>,</span> <span class='string val'>'subjects'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_marc identifier id'>marc</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:marc21</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_serializer identifier id'>serializer</span><span class='lparen token'>(</span><span class='symbol val'>:marc21</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_marc identifier id'>marc</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_mets-instance_method">
+  
+    - (<tt>Object</tt>) <strong>generate_mets</strong>(id) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 22</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_mets identifier id'>generate_mets</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>'repository'</span><span class='comma token'>,</span> <span class='string val'>'linked_agents'</span><span class='comma token'>,</span> <span class='string val'>'subjects'</span><span class='comma token'>,</span> <span class='string val'>'tree'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='comment val'># obj = DigitalObject.get_or_die(id)</span>
+  
+  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:mets</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_serializer identifier id'>serializer</span><span class='lparen token'>(</span><span class='symbol val'>:mets</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_mets identifier id'>mets</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_mods-instance_method">
+  
+    - (<tt>Object</tt>) <strong>generate_mods</strong>(id) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36
+37
+38
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 33</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_mods identifier id'>generate_mods</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>'repository'</span><span class='comma token'>,</span> <span class='string val'>'linked_agents'</span><span class='comma token'>,</span> <span class='string val'>'subjects'</span><span class='comma token'>,</span> <span class='string val'>'tree'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='comment val'># obj = DigitalObject.get_or_die(id)</span>
+  
+  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:mods</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_serializer identifier id'>serializer</span><span class='lparen token'>(</span><span class='symbol val'>:mods</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -246,7 +580,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:40 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:23:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

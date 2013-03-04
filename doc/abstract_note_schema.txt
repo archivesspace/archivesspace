@@ -4,7 +4,7 @@ Properties
 
 string	label
 
-string	content
+array (string)	content
 
 boolean	publish
 

@@ -18,6 +18,8 @@ string	other_level
 
 string	resource_type
 
+object	tree
+
 boolean	publish
 
 boolean	restrictions

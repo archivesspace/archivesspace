@@ -466,7 +466,11 @@
 46
 47
 48
-49</pre>
+49
+50
+51
+52
+53</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/resource.rb', line 14</span>
@@ -488,13 +492,13 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_content_description identifier id'>content_description</span>
     <span class='rubyid_notes identifier id'>notes</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_multipart</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Scope and Contents&quot;</span><span class='comma token'>,</span>
                                                   <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>'accession.content_description'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                                                  <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_content_description identifier id'>content_description</span><span class='rparen token'>)</span>
+                                                  <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_content_description identifier id'>content_description</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_condition_description identifier id'>condition_description</span>
     <span class='rubyid_notes identifier id'>notes</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:note_singlepart</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;General Physical Description&quot;</span><span class='comma token'>,</span>
                                                    <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>'accession.condition_description'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                                                   <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_condition_description identifier id'>condition_description</span><span class='rparen token'>)</span>
+                                                   <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_condition_description identifier id'>condition_description</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_related_accessions identifier id'>related_accessions</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='string val'>'_resolved'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_accession identifier id'>accession</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
@@ -502,6 +506,10 @@
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_notes identifier id'>notes</span>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_rights_statements identifier id'>rights_statements</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_rights_statements identifier id'>rights_statements</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_rights_statement identifier id'>rights_statement</span><span class='bitor op'>|</span>
+    <span class='rubyid_rights_statement identifier id'>rights_statement</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span><span class='dot token'>.</span><span class='rubyid_tap identifier id'>tap</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>'identifier'</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extents identifier id'>extents</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extents identifier id'>extents</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extents identifier id'>extents</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:extent</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span><span class='rbrack token'>]</span>
@@ -518,7 +526,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Feb 18 14:55:52 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:23:53 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
