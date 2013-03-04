@@ -1104,6 +1104,42 @@ en:
     note_index: Index
     note_bibliography: Bibliography
     note_digital_object: Digital Object Note
+    types:
+      accessrestrict: Conditions Governing Access
+      accruals: Accruals
+      acqinfo: Immediate Source of Acquisition
+      altformavail: Existence and Location of Copies
+      appraisal: Appraisal
+      arrangement: Arrangement
+      bibliography: Bibliography
+      bioghist: Biographical / Historical
+      custodhist: Custodial History
+      fileplan: File Plan
+      index: Index
+      odd: General
+      otherfindaid: Other Finding Aids
+      originalsloc: Existence and Location of Originals
+      phystech: Physical Characteristics and Technical Requirements
+      prefercite: Preferred Citation
+      processinfo: Processing Information
+      relatedmaterial: Related Archival Materials
+      scopecontent: Scope and Contents
+      separatedmaterial: Separated Materials
+      userestrict: Conditions Governing Use
+      dimensions: Dimensions
+      legalstatus: Legal Status
+      summary: Summary
+      edition: Edition
+      extent: Extent
+      note: General Note
+      inscription: Inscription
+      langmaterial: Language of Materials
+      physdesc: Physical Description
+      relatedmaterial: Related Materials
+      abstract: Abstract
+      physloc: Physical Location
+      materialspec: Materials Specific Details
+      physfacet: Physical Facet
     _html:
       singular: Note
       plural: Notes

@@ -1,7 +1,7 @@
 module NotesHelper
 
   def note_types_for(jsonmodel_type)
-    note_types = {"Bibliography" => :note_bibliography}
+    note_types = {"bibliography" => :note_bibliography}
 
     if jsonmodel_type =~ /digital_object/
 
@@ -21,7 +21,7 @@ module NotesHelper
         note_types[type] = :note_multipart
       end
 
-      note_types["Index"] = :note_index
+      note_types["index"] = :note_index
     end
 
     note_types

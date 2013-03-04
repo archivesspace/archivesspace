@@ -8,12 +8,8 @@
       "type" => {
         "type" => "string",
         "ifmissing" => "error",
-        "enum" => ["Abstract",
-                   "General Physical Description",
-                   "Language of Materials",
-                   "Location",
-                   "Materials Specific Details ",
-                   "Physical Facet"]
+        "enum" => ["abstract", "physdesc", "langmaterial", "physloc", "materialspec", "physfacet"]
+
       },
     },
 
