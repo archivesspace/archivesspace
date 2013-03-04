@@ -24,8 +24,8 @@
       "id_2" => {"type" => "string"},
       "id_3" => {"type" => "string"},
 
-      "content_description" => {"type" => "string", "ifmissing" => "warn"},
-      "condition_description" => {"type" => "string", "ifmissing" => "warn"},
+      "content_description" => {"type" => "string"},
+      "condition_description" => {"type" => "string"},
 
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
 
