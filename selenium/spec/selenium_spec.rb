@@ -500,22 +500,6 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "gives option to ignore warnings when creating an Accession" do
-      $driver.find_element(:link, "Create").click
-      $driver.find_element(:link, "Accession").click
-      $driver.clear_and_send_keys([:id, "accession_title_"], @accession_title)
-      $driver.complete_4part_id("accession_id_%d_")
-      $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
-
-      $driver.find_element_with_text('//div[contains(@class, "warning")]', /Content Description - Property was missing/)
-      $driver.find_element_with_text('//div[contains(@class, "warning")]', /Condition Description - Property was missing/)
-
-      # Save anyway
-      $driver.find_element(:css => "div.alert-warning .btn-warning").click
-    end
-
-
     it "can create an Accession" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
