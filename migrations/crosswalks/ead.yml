@@ -81,7 +81,6 @@ entities:
         
       type:
         xpath: ["self::name"]
-        procedure: "|value| {'accessrestrict' => 'Conditions Governing Access', 'accruals' => 'Accruals', 'acqinfo' => 'Immediate Source of Acquisition', 'altformavail' => 'Existence and Location of Copies', 'appraisal' => 'Appraisal', 'arrangement' => 'Arrangement', 'bioghist' => 'Biographical / Historical', 'custodhist' => 'Custodial History', 'fileplan' => 'File Plan', 'odd' => 'General', 'otherfindaid' => 'Other Finding Aids', 'originalsloc' => 'Existence and Location of Originals', 'phystech' => 'Physical Characteristics and Technical Requirements', 'prefercite' => 'Preferred Citation', 'processinfo' => 'Processing Information', 'relatedmaterial' => 'Related Archival Materials', 'scopecontent' => 'Scope and Contents', 'separatedmaterial' => 'Separated Materials', 'userestrict' => 'Conditions Governing Use'}[value]"
 
   archival_object: 
     xpath: ["//c", "//c01", "//c02", "//c03", "//c04", "//c05", "//c06", "//c07", "//c08", "//c09", "//c10", "//c11", "//c12"]
