@@ -212,4 +212,11 @@ describe 'Archival Object controller' do
   end
 
 
+  it "allows some non-alphanumeric characters in ref_ids" do
+    ref_id = ':crazy.times:'
+    ao = create(:json_archival_object, :ref_id => ref_id)
+
+    JSONModel(:archival_object).find(ao.id)[:ref_id].should eq(ref_id)
+  end
+
 end

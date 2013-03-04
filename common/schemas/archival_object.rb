@@ -5,7 +5,7 @@
     "parent" => "abstract_archival_object",
     "uri" => "/repositories/:repo_id/archival_objects",
     "properties" => {
-      "ref_id" => {"type" => "string", "pattern" => "\\A[a-zA-Z0-9]*\\z"},
+      "ref_id" => {"type" => "string", "pattern" => "\\A[a-zA-Z0-9\\-_:\\.]*\\z"},
       "component_id" => {"type" => "string", "required" => false, "default" => ""},
 
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
