@@ -55,6 +55,14 @@ describe 'User controller' do
   end 
 
 
+  it "allows usernames with hyphens" do
+    user = build(:json_user, :username => "herman-toothrot")
+    user.save(:password => '123')
+
+    user.username.should eq("herman-toothrot")
+  end
+
+
   it "does allow anonymous users to create new users and hence become non-anonymous users" do
     expect {
       as_anonymous_user do
