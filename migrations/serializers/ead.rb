@@ -51,53 +51,13 @@ ASpaceExport::serializer :ead do
           
           ead.notes.each do |note|
 
+            next unless ead.archdesc_children.include?(note['type'])
+
             content = Array(note['content']).join(" ")
 
-            case note['type']
-
-            when 'Arrangement'
-              xml.arrangement {
-                xml.p content
-              }
-            when 'General'
-
-            when 'Conditions Governing Access'
-
-            when 'Conditions Governing Use'
-              xml.userestrict {
-                xml.p content
-              }
-
-            when 'Scope and Contents'
-              xml.scopecontent {
-                xml.p content
-              }
-            when 'Preferred Citation'
-
-            when 'Immediate Source of Acquisition'
-
-            when 'Related Archival Materials'
-              xml.relatedmaterial {
-                xml.p content
-              }
-
-            when 'Biographical / Historical'
-              xml.bioghist {
-                xml.p content
-              }
-            when 'Other Finding Aids'
-
-            when 'Custodial History'
-              xml.custodhist {
-                xml.p content
-              }
-            when 'Appraisal'
-              xml.appraisal {
-                xml.p content
-              }
-            when 'Accruals'
-
-            end
+            xml.send(note['type']) {
+              xml.p content
+            }
           end
 
           

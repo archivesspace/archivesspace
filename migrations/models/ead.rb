@@ -27,6 +27,10 @@ ASpaceExport::model :ead do
     @json = obj
   end
   
+  def archdesc_children
+    %w(accessrestrict accruals acqinfo altformavail appraisal arrangement bibliography bioghist controlaccess custodhist dao daogrp descgrp did dsc fileplan index note odd originalsloc otherfindaid phystech prefercite processinfo relatedmaterial runner scopecontent separatedmaterial userestrict)
+  end
+  
 
   def self.from_aspace_object(obj)
   

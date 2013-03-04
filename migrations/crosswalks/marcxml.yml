@@ -166,7 +166,7 @@ entities:
         xpath: ["self"]
   
       type:
-        default: Biographical / Historical
+        default: bioghist
     
   otherfindaid:
     record_type: note_multipart

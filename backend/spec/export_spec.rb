@@ -25,6 +25,33 @@ describe 'ASpaceExport' do
 
   end
   
+  it "can map note sub records to the appropriate EAD fields" do
+    
+    # cut and pasted from: http://www.loc.gov/ead/tglib/elements/archdesc.html
+    exportable_note_types = %w(accessrestrict accruals acqinfo altformavail appraisal arrangement bibliography bioghist controlaccess custodhist dao daogrp descgrp did dsc fileplan index note odd originalsloc otherfindaid phystech prefercite processinfo relatedmaterial runner scopecontent separatedmaterial userestrict)
+
+    10.times {
+      note = build(:json_note_multipart)
+      resource = create(:json_resource, :notes => [note])
+    
+      obj = JSONModel(:resource).find(resource.id, "resolve[]" => ['repository', 'linked_agents', 'subjects', 'tree'])
+    
+      ead = ASpaceExport::model(:ead).from_resource(obj)
+    
+      serializer = ASpaceExport::serializer :ead
+
+      xml = serializer.serialize(ead)
+      doc = Nokogiri::XML(xml)
+    
+      if exportable_note_types.include?(note.type)
+        doc.xpath("//xmlns:#{note.type}", doc.root.namespaces).length.should eq (1)
+      else
+        doc.xpath("//xmlns:#{note.type}", doc.root.namespaces).length.should eq (0)
+      end
+    }
+  end
+    
+  
   it "can export a digital object record as MODS" do
     
     extents = []
