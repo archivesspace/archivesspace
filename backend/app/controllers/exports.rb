@@ -61,7 +61,19 @@ class ArchivesSpaceService < Sinatra::Base
   do
     ead = generate_ead(params[:resource_id])
     
-    xml_response(ead)    
+    xml_response(ead)
+  end
+  
+  Endpoint.get('/repositories/:repo_id/resource_labels/:resource_id.tsv')
+    .description("Get a tsv list of printable labels for a Resource")
+    .params(["resource_id", Integer, "The ID of the resource to retrieve"],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "(:resource)"]) \
+  do
+    tsv = generate_labels(params[:resource_id])
+    
+    tsv_response(tsv)
   end
   
   Endpoint.get('/archival_contexts/people/:agent_id.xml')

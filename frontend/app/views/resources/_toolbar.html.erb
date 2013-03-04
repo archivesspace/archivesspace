@@ -12,6 +12,9 @@
           <div class="btn-group">
             <%= link_to I18n.t("actions.export_marc"), {:controller => :exports, :action => :download_marc, :id => @resource.id}, :class => "btn btn-small" %>
           </div>
+          <div class="btn-group">
+            <%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id}, :class => "btn btn-small" %>
+          </div>
         </div>
       </div>
     </div>
