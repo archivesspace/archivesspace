@@ -1080,6 +1080,34 @@ Sequel.migration do
     create_enum('subject_source', ["aat", "rbgenr", "tgn", "lcsh", "local", "mesh", "gmgpc"])
 
 
+    create_enum('file_version_use_statement',
+                ["audio-clip",
+                 "audio-master",
+                 "audio-master-edited",
+                 "audio-service",
+                 "audio-streaming",
+                 "image-master",
+                 "image-master-edited",
+                 "image-service",
+                 "image-service-edited",
+                 "image-thumbnail",
+                 "text-codebook",
+                 "text-data",
+                 "text-data_definition",
+                 "text-georeference",
+                 "text-ocr-edited",
+                 "text-ocr-unedited",
+                 "text-tei-transcripted",
+                 "text-tei-translated",
+                 "video-clip",
+                 "video-master",
+                 "video-master-edited",
+                 "video-service",
+                 "video-streaming"])
+
+    create_enum('file_version_checksum_methods',
+                ["md5", "sha-1", "sha-256", "sha-384", "sha-512"])
+
 
     # Relationship tables
     [:accession, :archival_object, :digital_object, :digital_object_component, :event, :resource].each do |record|
