@@ -26,13 +26,13 @@ class Resource < JSONModel(:resource)
     notes ||= []
 
     if accession.content_description
-      notes << JSONModel(:note_multipart).from_hash(:type => "Scope and Contents",
+      notes << JSONModel(:note_multipart).from_hash(:type => "scopecontent",
                                                     :label => I18n.t('accession.content_description'),
                                                     :content => [accession.content_description])
     end
 
     if accession.condition_description
-      notes << JSONModel(:note_singlepart).from_hash(:type => "General Physical Description",
+      notes << JSONModel(:note_singlepart).from_hash(:type => "physdesc",
                                                      :label => I18n.t('accession.condition_description'),
                                                      :content => [accession.condition_description])
     end

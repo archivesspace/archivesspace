@@ -72,7 +72,7 @@ entities:
         xpath: ["self"]
   
       type:
-        default: Arrangement
+        default: arrangement
   
   general_note:
     record_type: note_multipart
@@ -87,7 +87,7 @@ entities:
         xpath: ["self"]
   
       type:
-        default: General
+        default: odd
   
   access_restriction_type:
     record_type: note_multipart
@@ -101,7 +101,7 @@ entities:
         xpath: ["self"]
   
       type:
-        default: Conditions Governing Access
+        default: accessrestrict
         
   scope_content_note:
     record_type: note_multipart
@@ -114,7 +114,7 @@ entities:
         xpath: ["self"]
         
       type:
-        default: Scope and Contents
+        default: scopecontent
   
   preferred_citation:
     record_type: note_multipart
@@ -127,7 +127,7 @@ entities:
         xpath: ["self"]
         
       type:
-        default: Preferred Citation
+        default: prefercite
         
   acqinfo:
     record_type: note_multipart
@@ -140,7 +140,7 @@ entities:
         xpath: ["self"]
         
       type:
-        default: Immediate Source of Acquisition
+        default: acqinfo
         
   relatedmaterial:
     record_type: note_multipart
@@ -153,7 +153,7 @@ entities:
         xpath: ["self"]
   
       type:
-        default: Related Archival Materials
+        default: relatedmaterial
   
   bioghist:
     record_type: note_multipart
@@ -166,7 +166,7 @@ entities:
         xpath: ["self"]
   
       type:
-        default: Biographical / Historical        
+        default: bioghist
     
   otherfindaid:
     record_type: note_multipart
@@ -180,7 +180,7 @@ entities:
         xpath: ["subfield[@code='u']"]
   
       type:
-        default: Other Finding Aids
+        default: otherfindaid
         
   custodhist:
     record_type: note_multipart
@@ -193,7 +193,7 @@ entities:
         xpath: ["self"]
   
       type:
-        default: Custodial History
+        default: custodhist
         
   appraisal:
     record_type: note_multipart
@@ -206,7 +206,7 @@ entities:
         xpath: ["self"]
   
       type:
-        default: Appraisal
+        default: appraisal
         
   accruals:
     record_type: note_multipart
@@ -219,6 +219,6 @@ entities:
         xpath: ["self"]
   
       type:
-        default: Accruals
+        default: accruals
  
 

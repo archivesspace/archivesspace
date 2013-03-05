@@ -35,7 +35,7 @@
   <div class="subrecord-form-fields" data-type="note_singlepart">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("#{form.i18n_for("type")}_#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
         <span class="label label-info"><%= I18n.t("note.note_singlepart") %></span>
       <% else %>
         <%= I18n.t("note.note_singlepart") %>
@@ -44,7 +44,9 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_singlepart") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_select("type", singlepart_note_types.keys, :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_select("type",
+          singlepart_note_types.keys.map {|type| [I18n.t("note.types.#{type}"), type]},
+          :field_opts => {:class => "note-type"}) %>
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
   </div>
@@ -89,7 +91,7 @@
   <div class="subrecord-form-fields" data-type="note_multipart">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("#{form.i18n_for("type")}_#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
         <span class="label label-info"><%= I18n.t("note.note_multipart") %></span>
       <% else %>
         <%= I18n.t("note.note_multipart") %>
@@ -98,7 +100,9 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_multipart") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_select("type", multipart_note_types.keys, :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_select("type",
+          multipart_note_types.keys.map {|type| [I18n.t("note.types.#{type}"), type]},
+          :field_opts => {:class => "note-type"}) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
@@ -283,7 +287,7 @@
   <div class="subrecord-form-fields" data-type="note_digital_object">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("#{form.i18n_for("type")}_#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
         <span class="label label-info"><%= I18n.t("note.note_digital_object") %></span>
       <% else %>
         <%= I18n.t("note.note_digital_object") %>
@@ -292,7 +296,9 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_digital_object") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_select("type", digital_object_note_types.keys, :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_select("type",
+          digital_object_note_types.keys.map {|type| [I18n.t("note.types.#{type}"), type]},
+          :field_opts => {:class => "note-type"}) %>
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
   </div>

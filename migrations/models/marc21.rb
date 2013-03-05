@@ -159,29 +159,29 @@ ASpaceExport::model :marc21 do
 
       case note['type']
       
-      when 'Arrangement'
+      when 'arrangement'
         knote.call('352','b')
-      when 'General'
+      when 'odd'
         knote.call('500','a')
-      when 'Conditions Governing Access'
+      when 'accessrestrict'
         knote.call('506','a')
-      when 'Scope and Contents'
+      when 'scopecontent'
         knote.call('520','a')
-      when 'Preferred Citation'
+      when 'prefercite'
         knote.call('524','a')
-      when 'Immediate Source of Acquisition'
+      when 'acqinfo'
         knote.call('541','a')
-      when 'Related Archival Materials'
+      when 'relatedmaterial'
         knote.call('544','a')
-      when 'Biographical / Historical'
+      when 'bioghist'
         knote.call('545','a')
-      when 'Other Finding Aids'
+      when 'otherfindaid'
         knote.call('555','a')
-      when 'Custodial History'
+      when 'custodhist'
         knote.call('561','a')
-      when 'Appraisal'
+      when 'appraisal'
         knote.call('583','a')
-      when 'Accruals'
+      when 'accruals'
         knote.call('584', 'a')
       end
     end 

@@ -54,6 +54,8 @@ FactoryGirl.define do
   sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']) }
   sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
   
+  sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
+  
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
   sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
@@ -270,6 +272,11 @@ FactoryGirl.define do
     software_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate true
+  end
+  
+  factory :json_note_multipart, class: JSONModel(:note_multipart) do
+    type { generate(:multipart_note_type)}
+    content { [generate(:alphanumstr), generate(:alphanumstr)] }
   end
  
   factory :json_resource, class: JSONModel(:resource) do
