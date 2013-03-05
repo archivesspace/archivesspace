@@ -7,6 +7,9 @@
 
       "title" => {"type" => "string", "ifmissing" => "error"},
 
+      "publish" => {"type" => "boolean", "default" => true},
+      "internal" => {"type" => "boolean", "default" => false},
+
       "items" => {
         "type" => "array",
         "items" => {
