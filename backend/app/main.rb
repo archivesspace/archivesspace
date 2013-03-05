@@ -312,6 +312,12 @@ class ArchivesSpaceService < Sinatra::Base
   use RequestWrappingMiddleware
 
 
+  before do
+    # No caching!
+    cache_control :private, :must_revalidate, :max_age => 0
+  end
+
+
   get '/' do
     "Hello, ArchivesSpace!"
   end
