@@ -39,4 +39,12 @@ $(function() {
     $(".advanced-search-container").slideToggle();
   });
 
+  $(".search-switcher-hide").click(function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    $(".nav .search-switcher a").toggleClass("hide");
+    $(".advanced-search-container").slideUp();
+  });
+
 });
