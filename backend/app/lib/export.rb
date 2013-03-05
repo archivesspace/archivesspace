@@ -7,6 +7,21 @@ module ExportHelpers
   def xml_response(xml)
     [status, {"Content-Type" => "application/xml"}, [xml + "\n"]]
   end
+  
+  def tsv_response(tsv)
+    [status, {"Content-Type" => "text/tab-separated-values"}, [tsv + "\n"]]
+  end
+
+  def generate_labels(id)
+    
+    obj = resolve_references(Resource.to_jsonmodel(id), ['tree', 'repository'])
+
+    labels = ASpaceExport.model(:labels).from_resource(JSONModel(:resource).new(obj))
+    
+    ASpaceExport.serializer(:tsv).serialize(labels)
+
+  end
+
 
   def generate_dc(id)
     

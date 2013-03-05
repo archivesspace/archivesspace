@@ -93,7 +93,6 @@ ASpaceExport::serializer :ead do
           
           xml.dsc {
            
-            Log.debug("EAD children #{ead.children}")
             ead.children.each do |child|
               serialize_child(child, xml)
             end

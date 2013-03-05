@@ -56,6 +56,7 @@ ArchivesSpace::Application.routes.draw do
   match 'digital_object_components/:id/parent' => 'digital_object_components#parent', :via => [:post]
 
   resources :resources
+  match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
   match 'resources/:id/download_marc' => 'exports#download_marc', :via => [:get]
   match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
   match 'resources/:id' => 'resources#update', :via => [:post]
