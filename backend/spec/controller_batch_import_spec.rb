@@ -35,7 +35,7 @@ describe "Batch Import Controller" do
     10.times do
       obj = build(types.sample)
       obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
-      batch_array << obj.to_hash(true)
+      batch_array << obj.to_hash(:raw)
     end
     
     batch = JSONModel(:batch_import).new
@@ -70,7 +70,7 @@ describe "Batch Import Controller" do
     obj = build(:json_resource, :resource_type => 'spaghetti')
     obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
 
-    batch_array << obj.to_hash(true)
+    batch_array << obj.to_hash(:raw)
     
     batch = @batch_cls.new
     batch.set_data({:batch => batch_array})

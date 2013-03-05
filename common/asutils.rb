@@ -20,7 +20,7 @@ module ASUtils
   def self.jsonmodels_to_hashes(elt)
 
     if elt.is_a?(JSONModel::JSONModelType)
-      elt = elt.to_hash(true)
+      elt = elt.to_hash(:raw)
     end
 
     if elt.is_a?(Hash)

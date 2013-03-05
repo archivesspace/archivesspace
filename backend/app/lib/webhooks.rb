@@ -65,7 +65,7 @@ class Webhooks
                 http.read_timeout = 2
 
                 req = Net::HTTP::Post.new(uri.request_uri)
-                req.form_data = {"notification" => notification.to_json}
+                req.form_data = {"notification" => notification.to_json(:mode => :trusted)}
 
                 http.start do |http|
                   http.request(req) do |response|

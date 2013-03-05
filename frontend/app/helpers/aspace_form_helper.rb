@@ -3,7 +3,7 @@ module AspaceFormHelper
 
     def initialize(name, values_from, parent)
 
-      values = values_from.is_a?(JSONModelType) ? values_from.to_hash(true) : values_from
+      values = values_from.is_a?(JSONModelType) ? values_from.to_hash(:raw) : values_from
 
       @forms = Object.new
       @parent = parent

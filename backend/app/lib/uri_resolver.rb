@@ -3,7 +3,7 @@ module URIResolver
   include JSONModel
 
   def self.resolve_references(value, properties_to_resolve, env)
-    value = value.to_hash if value.respond_to?(:to_hash)
+    value = value.to_hash(:trusted) if value.is_a?(JSONModelType)
 
     # If ASPACE_REENTRANT is set, don't resolve anything or we risk creating loops.
     return value if (properties_to_resolve.nil? || (respond_to?(:env) && env['ASPACE_REENTRANT']))

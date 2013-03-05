@@ -26,7 +26,15 @@ class CommonIndexer
     @document_prepare_hooks = []
     @current_session = nil
 
-    JSONModel::init(:client_mode => true, :url => @backend_url)
+    while true
+      begin
+        JSONModel::init(:client_mode => true, :url => @backend_url)
+        break
+      rescue
+        $stderr.puts "Connection to backend failed.  Retrying..."
+        sleep(5)
+      end
+    end
 
     configure_doc_rules
   end

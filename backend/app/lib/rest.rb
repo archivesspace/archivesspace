@@ -6,7 +6,7 @@ module RESTHelpers
   module ResponseHelpers
 
     def json_response(obj, status = 200)
-      [status, {"Content-Type" => "application/json"}, [obj.to_json(:max_nesting => false) + "\n"]]
+      [status, {"Content-Type" => "application/json"}, [obj.to_json(:mode => :trusted, :max_nesting => false) + "\n"]]
     end
 
 

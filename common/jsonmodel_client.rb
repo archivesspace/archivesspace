@@ -15,7 +15,7 @@ module JSONModel
   # property of each object to cast it into a JSONModel.
   def self.all(uri, type_descriptor)
     JSONModel::HTTP.get_json(uri).map do |obj|
-      JSONModel(obj[type_descriptor.to_s]).from_hash(obj)
+      JSONModel(obj[type_descriptor.to_s]).new(obj)
     end
   end
 
@@ -346,7 +346,7 @@ module JSONModel
         response = JSONModel::HTTP.get_response(my_url(id, opts))
 
         if response.code == '200'
-          obj = self.from_json(response.body)
+          obj = self.new(ASUtils.json_parse(response.body))
           # store find params on instance to support #refetch
           obj.instance_data[:find_opts] = opts
           obj
@@ -377,9 +377,9 @@ module JSONModel
           json_list = ASUtils.json_parse(response.body)
 
           if json_list.is_a?(Hash)
-            json_list["results"] = json_list["results"].map {|h| self.from_hash(h)}
+            json_list["results"] = json_list["results"].map {|h| self.new(h)}
           else
-            json_list = json_list.map {|h| self.from_hash(h)}
+            json_list = json_list.map {|h| self.new(h)}
           end
 
           json_list
