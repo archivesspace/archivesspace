@@ -383,3 +383,33 @@ en:
       page: Page
       reel: Reel
       volume: Volume
+    file_version_use_statement:
+      audio-clip: Audio-Clip
+      audio-master: Audio-Master
+      audio-master-edited: Audio-Master-Edited
+      audio-service: Audio-Service
+      audio-streaming: Audio-Streaming
+      image-master: Image-Master
+      image-master-edited: Image-Master-Edited
+      image-service: Image-Service
+      image-service-edited: Image-Service-Edited
+      image-thumbnail: Image-Thumbnail
+      text-codebook: Text-Codebook
+      text-data: Text-Data
+      text-data_definition: Text-Data Definition
+      text-georeference: Text-Georeference
+      text-ocr-edited: Text-Ocr-Edited
+      text-ocr-unedited: Text-Ocr-Unedited
+      text-tei-transcripted: Text-Tei-Transcripted
+      text-tei-translated: Text-Tei-Translated
+      video-clip: Video-Clip
+      video-master: Video-Master
+      video-master-edited: Video-Master-Edited
+      video-service: Video-Service
+      video-streaming: Video-Streaming
+    file_version_checksum_methods:
+      md5: MD5
+      sha-1: SHA-1
+      sha-256: SHA-256
+      sha-384: SHA-384
+      sha-512: SHA-512

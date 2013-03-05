@@ -59,6 +59,10 @@
           <%= render :partial => "notes/show", :locals => { :notes => @digital_object.notes, :context => readonly } %>
         <% end %>
 
+        <% if @digital_object.file_versions.length > 0 %>
+          <%= render :partial => "file_versions/show", :locals => { :file_versions => @digital_object.file_versions, :section_id => "digital_object_file_versions_" } %>
+        <% end %>
+
         <% if @digital_object.extents.length > 0 %>
           <%= render :partial => "extents/show", :locals => { :extents => @digital_object.extents, :section_id => "digital_object_extents_" } %>
         <% end %>

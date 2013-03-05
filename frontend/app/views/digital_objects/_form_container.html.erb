@@ -19,6 +19,8 @@
 
   <% form.emit_template("digital_object") %>
 
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
+
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
 
