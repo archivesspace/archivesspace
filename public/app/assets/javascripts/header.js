@@ -29,4 +29,14 @@ $(function() {
     $form.submit();
   });
 
+
+  // Toggle Advanced Search
+  $(".nav .search-switcher a").click(function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    $(".nav .search-switcher a").toggleClass("hide");
+    $(".advanced-search-container").slideToggle();
+  });
+
 });

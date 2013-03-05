@@ -1,0 +1,46 @@
+<%
+  values_for_operator = ["and", "or"].collect {|v| [I18n.t("advanced_search.operator.#{v}", :default => v), v]}
+  values_for_scope = ["keyword", "title", "creator", "scope", "contents"].collect {|v| [I18n.t("search_results.filter.#{v}", :default => v), v]}
+%>
+<%= form_tag(url_for(:controller => :site, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
+  <%= hidden_field_tag "advanced", true %>
+  <div class="span12">
+    <div class="span2">
+      <%=select_tag "operator_0", options_for_select(values_for_operator, params["operator_0"]), :style => "visibility: hidden", :disabled => true %>
+    </div>
+    <div class="span6">
+      <%= text_field_tag "value_0", params["value_0"] %>
+    </div>
+    <div class="span3">
+      <%=select_tag "scope_0", options_for_select(values_for_scope, params["scope_0"]) %>
+    </div>
+  </div>
+  <div class="span12">
+    <div class="span2">
+      <%=select_tag "operator_1", options_for_select(values_for_operator, params["operator_1"]) %>
+    </div>
+    <div class="span6">
+      <%= text_field_tag "value_1", params["value_1"] %>
+    </div>
+    <div class="span3">
+      <%=select_tag "scope_1", options_for_select(values_for_scope, params["scope_1"]) %>
+    </div>
+  </div>
+  <div class="span12">
+    <div class="span2">
+      <%=select_tag "operator_2", options_for_select(values_for_operator, params["operator_2"]) %>
+    </div>
+    <div class="span6">
+      <%= text_field_tag "value_2", params["value_2"] %>
+    </div>
+    <div class="span3">
+      <%=select_tag "scope_2", options_for_select(values_for_scope, params["scope_2"]) %>
+    </div>
+  </div>
+  <div class="span12">
+    <div class="span3 offset8">
+      <button class="btn"><%= I18n.t("advanced_search.button_text") %></button>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+<% end %>

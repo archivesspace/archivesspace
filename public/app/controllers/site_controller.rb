@@ -10,6 +10,14 @@ class SiteController < ApplicationController
     render "search/results"
   end
 
+  def advanced_search
+    set_advanced_search_criteria
+
+    @search_data = Search.all(@criteria, @repositories)
+
+    render "search/results"
+  end
+
   def resource
     @resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations"])
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
@@ -93,4 +101,16 @@ class SiteController < ApplicationController
       @criteria['type[]'].keep_if {|t| ['resource', 'archival_object', 'location', 'subject'].include?(t)}
     end
   end
+
+  def set_advanced_search_criteria
+    set_search_criteria
+  
+    (0..2).each do | index |
+      next if params["value_#{index}"].blank? and params["scope_#{index}"].blank?
+
+      @criteria[params["scope_#{index}"]] ||= []
+      @criteria[params["scope_#{index}"]].push(params["value_#{index}"])
+    end
+  end
+
 end

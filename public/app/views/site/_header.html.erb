@@ -16,6 +16,11 @@
             <li><%= link_to "Repositories", {:controller => :site, :action => :repository, :repo_id => nil} %></li>
             <li><%= link_to "Collections", {:controller => :site, :action => :search, :type => "resource"} %></li>
             <li><%= link_to "Subjects",  {:controller => :site, :action => :search, :type => "subject"} %></li>
+            <% if not current_page?(root_url) %>
+              <li class="pull-right search-switcher">
+                  <%= link_to "Hide Advanced", { :advanced => nil }, { :class => params["advanced"]?"":"hide" } %>
+                  <%= link_to "Show Advanced", { :advanced => true }, { :class => params["advanced"]?"hide":"" } %>
+              </li>
             <li class="pull-right">
               <%= form_tag(url_for(:controller => :site, :action => :search), :method => :get, :class => "navbar-form pull-left") do %>
                   <div class="input-append">
@@ -26,6 +31,7 @@
                   </div>
               <% end %>
             </li>
+            <% end %>
           </ul>
         </div>
       </div><!-- /.nav-collapse -->
