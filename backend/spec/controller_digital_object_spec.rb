@@ -80,4 +80,17 @@ describe 'Digital Objects controller' do
     tree.children.length.should eq(2)
   end
 
+
+  it "supports saving and loading file versions" do
+    version = build(:json_file_version)
+    digital_object = create(:json_digital_object,
+                            :file_versions => [version])
+
+    created = JSONModel(:digital_object).find(digital_object.id)
+
+    created.file_versions.count.should eq(1)
+    created.file_versions[0]['file_uri'].should eq(version.file_uri)
+  end
+
+
 end

@@ -14,6 +14,8 @@
         "dynamic_enum" => "digital_object_digital_object_type"
       },
 
+      "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
+
       "restrictions" => {"type" => "boolean", "default" => false},
       "tree" => {
           "type" => "object", 
