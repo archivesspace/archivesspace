@@ -2370,8 +2370,8 @@ en:
     rights_determined_false: No
     linked_records: Record Links
     _html:
-      singular: Collection Management Record
-      plural: Collection Management Records
+      singular: Collection Management
+      plural: Collection Management
       title_prefix: Processing 
       messages:
         created: Collection Management Record Created

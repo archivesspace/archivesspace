@@ -1,0 +1,34 @@
+<%
+   section_id = "collection_management" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3><%= I18n.t("collection_management_record._html.singular") %></h3>
+  <div class="accordian details" id="collection_management_accordian">
+    <div class="accordion-group">
+
+      <div class="accordion-heading">
+        <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#collection_management_accordion" href="#collection_management">
+          <div class="span1">
+            <span class="icon-chevron-right"></span>
+            <span class="icon-chevron-down"></span>
+          </div>
+          <div class="span3">
+            <%= I18n.t("collection_management.processing_priority_#{collection_management['processing_priority']}", :default => collection_management['processing_priority']) %>
+          </div>
+          <div class="span3">
+            <%= I18n.t("collection_management.processing_status_#{collection_management['processing_status']}", :default => collection_management['processing_status']) %>
+          </div>
+          <div class="span3">
+            <%= collection_management['processors'] %>
+          </div>
+        </div>
+      </div>
+
+      <div id="collection_management" class="accordion-body collapse">
+        <%= read_only_view(collection_management) %>
+      </div>
+
+    </div>
+  </div>
+</section>

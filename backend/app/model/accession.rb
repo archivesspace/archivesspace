@@ -10,6 +10,7 @@ class Accession < Sequel::Model(:accession)
   include Agents
   include Relationships
   include ExternalIDs
+  include CollectionManagements
 
   agent_role_enum("linked_agent_archival_record_roles")
   agent_relator_enum("linked_agent_archival_record_relators")

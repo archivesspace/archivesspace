@@ -2,7 +2,7 @@
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
-    "uri" => "/repositories/:repo_id/collection_management_records",
+    "uri" => "/repositories/:repo_id/collection_management",
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
@@ -27,26 +27,7 @@
       "processing_status" => {"type" => "string", "required" => false, "dynamic_enum" => "collection_management_processing_status"},
       "processors" => {"type" => "string", "required" => false},
       "rights_determined" => {"type" => "boolean", "default" => false},
-      
-      "linked_records" => {
-        "type" => "array",
-        "ifmissing" => "error",
-        "minItems" => 1,
-        "items" => {
-          "type" => "object",
-          "subtype" => "ref",
-          "properties" => {
-            "ref" => {"type" => [{"type" => "JSONModel(:accession) uri"},
-                                 {"type" => "JSONModel(:resource) uri"},
-                                 {"type" => "JSONModel(:digital_object) uri"}],
-              "ifmissing" => "error"},
-            "_resolved" => {
-              "type" => "object",
-              "readonly" => "true"
-            }
-          }
-        }
-      }
+
     },
 
     "additionalProperties" => false

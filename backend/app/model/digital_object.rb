@@ -12,6 +12,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include RightsStatements
   include ExternalIDs
   include FileVersions
+  include CollectionManagements
 
   agent_role_enum("linked_agent_archival_record_roles")
   agent_relator_enum("linked_agent_archival_record_relators")

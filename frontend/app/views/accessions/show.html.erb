@@ -74,6 +74,10 @@
          <% if @accession.deaccessions.length > 0 %>
            <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @accession.deaccessions, :context => readonly, :section_id => "accession_deaccessions_" } %>
          <% end %>
+
+         <% if @accession.collection_management %>
+           <%= render :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
+         <% end %>
        <% end %>
      </div>
    </div>
