@@ -51,6 +51,7 @@ ASpaceExport::serializer :ead do
           
           ead.notes.each do |note|
 
+            next if note['internal']
             next unless ead.archdesc_children.include?(note['type'])
 
             content = Array(note['content']).join(" ")

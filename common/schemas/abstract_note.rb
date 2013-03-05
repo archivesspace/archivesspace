@@ -11,6 +11,7 @@
         "ifmissing" => "error",
       },
       "publish" => {"type" => "boolean", "default" => true},
+      "internal" => {"type" => "boolean", "default" => false},
       "persistent_id" => {"type" => "string"},
     },
 

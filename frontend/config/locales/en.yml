@@ -1149,6 +1149,8 @@ en:
     content: Content
     items: Items
     items_singular: Item
+    publish: Publish?
+    internal: Internal Only?
   index_item:
     value: Value
     type: Type
@@ -1156,11 +1158,15 @@ en:
     reference_text: Reference Text
   note_singlepart:
     label: Label
+    publish: Publish?
+    internal: Internal Only?
     content: Content
     type: Type
   note_multipart:
     label: Label
     type: Type
+    publish: Publish?
+    internal: Internal Only?
     content: Content
     sub_notes: Sub Notes
     sub_notes_singular: Sub Note
@@ -1168,17 +1174,23 @@ en:
     label: Label
     content: Content
     type: Type
+    publish: Publish?
+    internal: Internal Only?
   note_bibliography:
     option: Bibliography
     label: Label
     content: Content
     items: Items
     items_singular: Item
+    publish: Publish?
+    internal: Internal Only?
   note_chronology:
     option: Chronology
     title: Title
     items: Items
     items_singular: Item
+    publish: Publish?
+    internal: Internal Only?
   chronology_item:
     event_date: Event Date
     events: Events
@@ -1188,6 +1200,8 @@ en:
     title: Title
     items: Items
     items_singular: Item
+    publish: Publish?
+    internal: Internal Only?
   definedlist_item:
     label: Label
     value: Value
@@ -1196,7 +1210,9 @@ en:
     title: Title
     enumeration: Enumeration
     items: Items
-    items_singular: Item
+    item_singular: Item
+    publish: Publish?
+    internal: Internal Only?
   container: &container_attributes
     type_1: Type 1
     indicator_1: Indicator 1

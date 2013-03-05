@@ -179,7 +179,8 @@ $(function() {
         $subform.attr("data-index", index);
 
         // set the note type
-        $(".note-type", $subform).val(selected.text());
+        var matchingNoteType = $(".note-type option:contains('"+selected.text()+"')", $subform);
+        $(".note-type", $subform).val(matchingNoteType.val());
 
         $target_subrecord_list.append($subform);
 
