@@ -222,7 +222,11 @@ class CommonIndexer
     response = do_http_request(solr_url, req)
 
     if response.code != '200'
-      raise "Error when committing: #{response.body}"
+      if response.body =~ /exceeded limit of maxWarmingSearchers/
+        puts "INFO: #{response.body}"
+      else
+        raise "Error when committing: #{response.body}"
+      end
     end
   end
 

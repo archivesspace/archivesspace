@@ -815,9 +815,11 @@ describe "ArchivesSpace user interface" do
       # check the listing
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Accessions").click
-      expect {
-        $driver.find_element_with_text('//td', /#{@accession_title}/)
-      }.to raise_error
+
+      $driver.find_element_with_text('//h2', /Accessions/)
+
+      # No element found
+      $driver.find_element_with_text('//td', /#{@accession_title}/, true, true).should eq(nil)
 
       # check the accession url
       $driver.get($accession_url)
@@ -852,10 +854,10 @@ describe "ArchivesSpace user interface" do
 
       # hmm boo.. refresh the page now that the indexer is refreshed
       $driver.navigate.refresh
+      $driver.find_element_with_text('//h2', /Accessions/)
 
-      expect {
-        $driver.find_element_with_text('//td', /#{@accession_title}/)
-      }.to raise_error
+      # No element found
+      $driver.find_element_with_text('//td', /#{@accession_title}/, true, true).should eq(nil)
 
       # Navigate back to the accession's page
       $driver.get($accession_url)
@@ -1714,20 +1716,14 @@ describe "ArchivesSpace user interface" do
       # click on a field label
       $driver.find_element(:css, "label[for='accession_title_']").click
 
-      sleep 1
-
-      expect {
-        $driver.find_element(:css, ".tooltip.archivesspace-help")
-      }.to_not raise_error
+      $driver.find_element(:css, ".tooltip.archivesspace-help")
 
       # can hide the tooltip
       $driver.find_element(:css, "label[for='accession_title_']").click
 
-      sleep 1
-
-      expect {
-        $driver.find_element(:css, ".tooltip.archivesspace-help")
-      }.to raise_error
+      assert {
+        $driver.ensure_no_such_element(:css, ".tooltip.archivesspace-help")
+      }
     end
 
   end
