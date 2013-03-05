@@ -56,10 +56,11 @@ describe "Batch Import Controller" do
   
   it "can import a batch of JSON objects with unknown enum values" do
     
-    # Set the enum source back to the backend version 
+    # Set the enum source to the backend version     
+    old_enum_source = JSONModel.init_args[:enum_source]
     JSONModel.init_args[:enum_source] = BackendEnumSource
     
-        
+            
     batch_array = []
 
     enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
@@ -87,6 +88,9 @@ describe "Batch Import Controller" do
     enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
     
     enum.values.should include('spaghetti')
+    
+    # set things back as they were enum source-wise
+    JSONModel.init_args[:enum_source] = old_enum_source
     
   end
   
