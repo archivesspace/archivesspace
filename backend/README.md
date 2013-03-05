@@ -42,3 +42,13 @@ http://localhost:4567/
   * Start the dev server and connect to http://localhost:4567/
 
          $ build/run backend:devserver
+
+## Changing the data paths
+
+By default, the development server writes the demo database and Solr
+indexes to the `build/` subdirectory.  If you have a burning desire
+for these to go somewhere else, you can specify a target directory
+with:
+
+     build/run backend:devserver -Daspace.data_directory=/path/to/ArchivesSpace
+
