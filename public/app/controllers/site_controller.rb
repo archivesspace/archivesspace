@@ -104,13 +104,34 @@ class SiteController < ApplicationController
 
   def set_advanced_search_criteria
     set_search_criteria
-  
-    (0..2).each do | index |
-      next if params["value_#{index}"].blank? and params["scope_#{index}"].blank?
 
-      @criteria[params["scope_#{index}"]] ||= []
-      @criteria[params["scope_#{index}"]].push(params["value_#{index}"])
+    terms = (0..2).collect{|i| search_term(i)}.compact
+
+    if not terms.empty?
+      @criteria["aq"] = JSONModel(:advanced_query).from_hash({"query" => group_queries(terms)}).to_json
     end
+  end
+
+  def search_term(i)
+    if params["v#{i}"]
+      { :field => params["f#{i}"], :value => params["v#{i}"], :op => params["op#{i}"] }
+    end
+  end
+
+  def group_queries(terms)
+    stack = terms.reverse.clone
+
+    while stack.length > 1
+      a = stack.pop
+      b = stack.pop
+
+      stack.push({
+                   :op => b[:op],
+                   :queries => [a, b]
+                 })
+    end
+
+    stack.pop
   end
 
 end

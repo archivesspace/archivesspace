@@ -1,40 +1,40 @@
 <%
-  values_for_operator = ["and", "or"].collect {|v| [I18n.t("advanced_search.operator.#{v}", :default => v), v]}
+  values_for_operator = ["AND", "OR", "NOT"].collect {|v| [I18n.t("advanced_search.operator.#{v}", :default => v), v]}
   values_for_scope = ["keyword", "title", "creator", "scope", "contents"].collect {|v| [I18n.t("search_results.filter.#{v}", :default => v), v]}
 %>
 <%= form_tag(url_for(:controller => :site, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
   <%= hidden_field_tag "advanced", true %>
   <div class="span12">
     <div class="span2">
-      <%=select_tag "operator_0", options_for_select(values_for_operator, params["operator_0"]), :style => "visibility: hidden", :disabled => true %>
+      <%=select_tag "op0", options_for_select(values_for_operator, params["op0"]), :style => "visibility: hidden", :disabled => true %>
     </div>
     <div class="span6">
-      <%= text_field_tag "value_0", params["value_0"] %>
+      <%= text_field_tag "v0", params["v0"] %>
     </div>
     <div class="span3">
-      <%=select_tag "scope_0", options_for_select(values_for_scope, params["scope_0"]) %>
+      <%=select_tag "f0", options_for_select(values_for_scope, params["f0"]) %>
     </div>
   </div>
   <div class="span12">
     <div class="span2">
-      <%=select_tag "operator_1", options_for_select(values_for_operator, params["operator_1"]) %>
+      <%=select_tag "op1", options_for_select(values_for_operator, params["op1"]) %>
     </div>
     <div class="span6">
-      <%= text_field_tag "value_1", params["value_1"] %>
+      <%= text_field_tag "v1", params["v1"] %>
     </div>
     <div class="span3">
-      <%=select_tag "scope_1", options_for_select(values_for_scope, params["scope_1"]) %>
+      <%=select_tag "f1", options_for_select(values_for_scope, params["f1"]) %>
     </div>
   </div>
   <div class="span12">
     <div class="span2">
-      <%=select_tag "operator_2", options_for_select(values_for_operator, params["operator_2"]) %>
+      <%=select_tag "op2", options_for_select(values_for_operator, params["op2"]) %>
     </div>
     <div class="span6">
-      <%= text_field_tag "value_2", params["value_2"] %>
+      <%= text_field_tag "v2", params["v2"] %>
     </div>
     <div class="span3">
-      <%=select_tag "scope_2", options_for_select(values_for_scope, params["scope_2"]) %>
+      <%=select_tag "f2", options_for_select(values_for_scope, params["f2"]) %>
     </div>
   </div>
   <div class="span11">

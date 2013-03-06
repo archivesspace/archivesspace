@@ -5,6 +5,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id],
             ["q", String, "A search query string",
              :optional => true],
+            ["aq", JSONModel(:advanced_query), "A json string containing the advanced query",
+             :optional => true],
             ["type",
              [String],
              "The record type to search (defaults to all types if not specified)",
@@ -31,6 +33,8 @@ class ArchivesSpaceService < Sinatra::Base
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
+    params[:q] = advanced_query_string(params["aq"].query) if params["aq"]
+
     json_response(Solr.search(params[:q] || "*:*", params[:page], params[:page_size],
                               params[:repo_id],
                               params[:type], show_suppressed, params[:exclude],
@@ -44,6 +48,8 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/search')
   .description("Search this archive")
   .params(["q", String, "A search query string",
+           :optional => true],
+          ["aq", JSONModel(:advanced_query), "A json string containing the advanced query",
            :optional => true],
           ["type",
            [String],
@@ -71,6 +77,8 @@ class ArchivesSpaceService < Sinatra::Base
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
+    params[:q] = advanced_query_string(params["aq"].query) if params["aq"]
+
     json_response(Solr.search(params[:q] || "*:*", params[:page], params[:page_size],
                               nil,
                               params[:type], show_suppressed, params[:exclude],
@@ -79,6 +87,14 @@ class ArchivesSpaceService < Sinatra::Base
                                 "fq" => Array(params[:filter]),
                                 "sort" => params[:sort]
                               }))
+  end
+
+  def advanced_query_string(advanced_query)
+    if advanced_query.has_key?('op')
+      "(#{advanced_query['subqueries'].map{|subq| advanced_query_string(subq)}.join(" #{advanced_query['op']} ")})"
+    else
+      "#{advanced_query['field']}:(#{advanced_query['value']})"
+    end
   end
 
 end

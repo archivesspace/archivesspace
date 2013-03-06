@@ -53,6 +53,7 @@ en:
     operator:
       and: And
       or: Or
+      not: Not
     button_text: Search
     nav_switcher:
       show: Show Advanced
