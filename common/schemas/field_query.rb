@@ -4,7 +4,8 @@
     "type" => "object",
     "properties" => {
 
-      "field" => {"type" => "string", "ifmissing" => "error"},
+      "negated" => {"type" => "boolean", "default" => false},
+      "field" => {"type" => "string", "enum" => ["fullrecord", "title", "creator"], "ifmissing" => "error"},
       "value" => {"type" => "string", "ifmissing" => "error"},
 
     },

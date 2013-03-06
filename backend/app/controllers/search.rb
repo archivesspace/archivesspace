@@ -33,9 +33,11 @@ class ArchivesSpaceService < Sinatra::Base
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
-    params[:q] = advanced_query_string(params["aq"].query) if params["aq"]
+    query = params[:q] || "*:*"
 
-    json_response(Solr.search(params[:q] || "*:*", params[:page], params[:page_size],
+    query = advanced_query_string(params["aq"].query) if params["aq"]
+
+    json_response(Solr.search(query, params[:page], params[:page_size],
                               params[:repo_id],
                               params[:type], show_suppressed, params[:exclude],
                               {
@@ -77,9 +79,11 @@ class ArchivesSpaceService < Sinatra::Base
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
-    params[:q] = advanced_query_string(params["aq"].query) if params["aq"]
+    query = params[:q] || "*:*"
 
-    json_response(Solr.search(params[:q] || "*:*", params[:page], params[:page_size],
+    query = advanced_query_string(params[:aq]['query']) if params[:aq]
+
+    json_response(Solr.search(query, params[:page], params[:page_size],
                               nil,
                               params[:type], show_suppressed, params[:exclude],
                               {
@@ -90,10 +94,10 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   def advanced_query_string(advanced_query)
-    if advanced_query.has_key?('op')
+    if advanced_query.has_key?('subqueries')
       "(#{advanced_query['subqueries'].map{|subq| advanced_query_string(subq)}.join(" #{advanced_query['op']} ")})"
     else
-      "#{advanced_query['field']}:(#{advanced_query['value']})"
+      "#{advanced_query['negated']?"-":""}#{advanced_query['field']}:(#{advanced_query['value']})"
     end
   end
 

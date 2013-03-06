@@ -4,8 +4,8 @@
     "type" => "object",
     "properties" => {
 
-      "op" => {"type" => "string", "enum" => ["AND", "OR", "NOT"], "ifmissing" => "error"},
-      "subqueries" => {"type" => ["JSONModel(:boolean_query) object", "JSONModel(:field_query) object"]},
+      "op" => {"type" => "string", "enum" => ["AND", "OR"], "ifmissing" => "error"},
+      "subqueries" => {"type" => ["JSONModel(:boolean_query) object", "JSONModel(:field_query) object"], "ifmissing" => "error", "minItems" => 1},
 
     },
 

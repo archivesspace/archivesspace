@@ -36,7 +36,7 @@ en:
       primary_type: Type
       repository: Repository
       creators: Creator
-      keyword: Keyword
+      fullrecord: Keyword
       title: Title
       creator: Creator
       scope: Scope
@@ -51,9 +51,9 @@ en:
     create_time: Created
   advanced_search:
     operator:
-      and: And
-      or: Or
-      not: Not
+      AND: And
+      OR: Or
+      NOT: Not
     button_text: Search
     nav_switcher:
       show: Show Advanced
