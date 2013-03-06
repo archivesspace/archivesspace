@@ -6,13 +6,15 @@
 
 which rlwrap &>/dev/null
 
+conf=""
+
 if [ "$?" = "0" ]; then
     rlwrap="rlwrap"
+    conf="$conf; IRB.conf[:USE_READLINE] = false"
 else
     rlwrap=""
 fi
 
-
 JAVA_OPTS="$JAVA_OPTS -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver"
 export JAVA_OPTS
-$rlwrap "`dirname $0`/jruby" -I. -e "require 'backend/app/main'; require 'irb'; IRB.start" ${1+"$@"}
+$rlwrap "`dirname $0`/jruby" -I. -e "require 'backend/app/main'; require 'irb'; $conf; IRB.start" ${1+"$@"}
