@@ -1564,6 +1564,10 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "digital_object_title_"],(digital_object_title))
       $driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
+      $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > input.btn").click
+
+      $driver.clear_and_send_keys([:id, "digital_object_file_versions__0__file_uri_"], "/uri/for/this/file/version")
+
       $driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
       # The new Digital Object shows up on the tree
@@ -1584,7 +1588,7 @@ describe "ArchivesSpace user interface" do
 
     # Digital Object Component Nodes in Tree
 
-    it "can populate the archival object tree" do
+    it "can populate the digital object component tree" do
       $driver.clear_and_send_keys([:id, "digital_object_component_title_"], "JPEG 2000 Verson of Image")
       $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
@@ -1600,6 +1604,9 @@ describe "ArchivesSpace user interface" do
         $driver.clear_and_send_keys([:id, "digital_object_component_title_"],(thing))
         $driver.clear_and_send_keys([:id, "digital_object_component_label_"],(thing))
         $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{thing}#{Time.now}")))
+
+        $driver.find_element(:css => "section#digital_object_component_file_versions_ > h3 > input.btn").click
+        $driver.clear_and_send_keys([:id, "digital_object_component_file_versions__0__file_uri_"], "/uri/for/this/file/version")
 
         if idx < 2
           $driver.click_and_wait_until_gone(:id => "createPlusOne")
