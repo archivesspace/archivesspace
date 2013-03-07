@@ -26,6 +26,7 @@ en:
     save_prefix: Save
     save_plus_one: "+1"
     save_anyway: Save Anyway
+    select: Select
     suppress: Suppress
     suppress_confirm_title: Suppress this Record?
     suppress_confirm_message: While a suppressed record will remain in the database, it will become hidden to most users and unavailable to most functions.
@@ -61,10 +62,10 @@ en:
     import_digital_object_csv: Digital Object CSV
     search_all: All Records
     search_placeholder: Search
-    create_repository_tooltip: "To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Create a Repository</strong> link."
+    create_repository_tooltip: "To create your first Repository, click the <span class='btn btn-mini dropdown-toggle'><span class='caret'></span></span> above and then the <strong>Manage Repositories</strong> link.."
     repositories_none: No Repositories Available
     repositories_none_tooltip: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
-    repositories_create: Create a Repository
+    repositories_manage: Manage Repositories
     repositories_select: Select a Repository
     manage_groups: Manage Groups
     manage_users: Manage Users
@@ -1612,6 +1613,14 @@ en:
     _html:
       singular: Repository
       plural: Repositories
+      messages:
+        created: Repository Created
+        updated: Repository Saved
+        selected: Repository is Currently Selected
+      section:
+        all_fields: Repository Fields
+      action:
+        select: Select Repository
   term: &term_attributes
     term: Term
     term_type: Type

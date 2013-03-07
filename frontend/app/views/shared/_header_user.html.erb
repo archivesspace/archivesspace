@@ -36,7 +36,7 @@
               <% if session[:repo_id] === repo.id %>
                 <li class="selected has-popover"  data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.name) %>"><span class="icon-ok-circle"></span> <%= repo.repo_code %></li>
               <% else %>
-                <li class="has-popover" data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.name) %>"><%= link_to repo.repo_code, {:controller => :repository, :action => :select, :id => repo.id}, :class => "select-repo" %></li>
+                <li class="has-popover" data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.name) %>"><%= link_to repo.repo_code, {:controller => :repositories, :action => :select, :id => repo.id}, :class => "select-repo" %></li>
               <% end %>
             <% end %>
             </ul>
@@ -45,7 +45,8 @@
           <li class="empty"><span class="icon-info-sign"></span> <%= I18n.t "navbar.repositories_none" %></li>
         <% end %>
         <% if user_can?('create_repository') %>
-          <li><%= link_to I18n.t("navbar.repositories_create"), {:controller => :repository, :action => :new}, "data-toggle" => "modal-ajax" %></li>
+          <li class="divider"></li>
+          <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
           <% if session[:repo] %>
             <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
           <% end %>

@@ -16,7 +16,8 @@ class CommonIndexer
   @@record_types = [:accession, :archival_object, :resource,
                     :digital_object, :digital_object_component,
                     :collection_management, :subject, :location,
-                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
+                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity,
+                    :repository]
 
   @@resolved_attributes = ['subjects', 'linked_agents']
 
@@ -76,6 +77,12 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'accession'
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'repository'
+        doc['title'] = record['record']['repo_code']
       end
     }
 
