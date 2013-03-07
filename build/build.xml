@@ -52,18 +52,20 @@
   </target>
 
 
-
-  <target name="bootstrap" description="Download JRuby and install all required gems">
+  <target name="bootstrap-downloads" description="Download static files used for bootstrapping">
     <delete>
       <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
     </delete>
 
-    <delete dir="gems/gems" />
-    <delete dir="gems/specifications" />
-
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${winstone_url}" dest="${winstone_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+  </target>
+
+
+  <target name="bootstrap" depends="bootstrap-downloads" description="Download JRuby and install all required gems">
+    <delete dir="gems/gems" />
+    <delete dir="gems/specifications" />
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
@@ -249,6 +251,17 @@
   </target>
 
 
+  <!-- Solr -->
+  <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
+    <copy file="${solr_file}" tofile="solr.war" />
+    <war destfile="solr.war" update="true">
+      <zipfileset dir="../solr" prefix="WEB-INF/classes/solr"/>
+    </war>
+  </target>
+
+
+
+
   <!-- Frontend -->
   <target name="frontend:test" depends="set-classpath" description="Run the unit test suite">
     <property name="spec" value=""/>
@@ -426,7 +439,7 @@
   </target>
 
 
-  <target name="dist" depends="backend:war, frontend:war, public:war" description="Build a standalone distribution jar of frontend, backend and all components">
+  <target name="dist" depends="backend:war, frontend:war, public:war, solr:war" description="Build a standalone distribution jar of frontend, backend and all components">
 
     <mkdir dir="target" />
 
