@@ -1092,6 +1092,7 @@ en:
     telephone_ext: Telephone Extension
     fax: Fax
     email: Email
+    note: Contact Notes
     _html:
       singular: Contact
       plural: Contact Details

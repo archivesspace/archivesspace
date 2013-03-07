@@ -51,6 +51,8 @@
         </div>
 
         <% if @agent.agent_contacts.length > 0 %>
+          <%= render :partial => "agents/contact_details" %>
+
           <div class="row-fluid">
             <section id="contacts">
               <h3><%= I18n.t("agent_contact._html.plural") %></h3>
@@ -69,7 +71,9 @@
                       </div>
                     </div>
                     <div id="agent_contact_<%= index %>" class="accordion-body collapse">
-                      <%= read_only_view(contact) %>
+                      <%= readonly_context :agent_contact, contact do |readonly_contact| %>
+                        <%= readonly_contact.emit_template("agent_contact") %>
+                      <% end %>
                     </div>
                   </div>
                 <% end %>
