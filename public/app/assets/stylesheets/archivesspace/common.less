@@ -368,6 +368,16 @@ section {
     hr {
       margin: 5px 0 0;
     }
+
+    .reset-advanced-search {
+      display: none;
+    }
+
+    &.advanced-search {
+      .btn {
+        width: 95%;
+      }
+    }
  }
 
 .advanced-search-container {
@@ -377,12 +387,23 @@ section {
   border-left: 1px solid #CCC;
   border-right: 1px solid #CCC;
   border-bottom: 1px dotted #DDD;
+
+  .btn-group {
+    width: 95%;
+  }
+
+  .btn-primary {
+    width: 75%;
+  }
+  .reset-advanced-search {
+    width: 15%;
+  }
 }
 
 .advanced-search {
   margin: 0;
 
-  input, select, .btn {
+  input, select {
     width: 95%;
   }
 }

@@ -272,7 +272,7 @@ module JSONSchemaUtils
         # Multiple possible types for this single value
 
         results = (v.is_a?(Array) ? v : [v]).map {|elt|
-          next_schema = determine_schema_for(elt, properties[k]["type"], true)
+          next_schema = determine_schema_for(elt, properties[k]["type"])
           self.map_hash_with_schema(elt, next_schema, transformations)
         }
 
@@ -367,26 +367,11 @@ module JSONSchemaUtils
   end
 
 
-  def self.determine_schema_for(elt, possible_schemas, brute_force = false)
+  def self.determine_schema_for(elt, possible_schemas)
     # A number of different types.  Match them up based on the value of the 'jsonmodel_type' property
     schema_types = possible_schemas.map {|schema| schema.is_a?(Hash) ? schema["type"] : schema}
 
     jsonmodel_type = elt["jsonmodel_type"]
-    if !jsonmodel_type && brute_force
-      # Give this a go...
-      possible_schemas.each do |schema|
-        ref = JSONModel.parse_jsonmodel_ref(schema)
-
-        break if !ref
-
-        begin
-          JSONModel(ref[0]).from_hash(elt)
-          jsonmodel_type = ref[0]
-        rescue ValidationException
-          # Try the next one
-        end
-      end
-    end
 
     if !jsonmodel_type
       raise("Can't unambiguously match #{elt.inspect} against schema types: #{schema_types.inspect}. " +

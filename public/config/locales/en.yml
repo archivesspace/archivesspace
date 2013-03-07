@@ -55,6 +55,7 @@ en:
       OR: Or
       NOT: Not
     button_text: Search
+    reset: Clear
     nav_switcher:
       show: Show Advanced
       hide: Hide Advanced

@@ -95,6 +95,14 @@ module ApplicationHelper
 
     search_params["type"] = opts["type"] || params["type"]
 
+    # retain any advanced search params
+    search_params["advanced"] = opts["advanced"] || params["advanced"]
+    (0..2).each do |i|
+      search_params["v#{i}"] = params["v#{i}"]
+      search_params["f#{i}"] = params["f#{i}"]
+      search_params["op#{i}"] = params["op#{i}"]
+    end
+
     search_params
   end
 

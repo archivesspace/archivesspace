@@ -134,10 +134,10 @@ class SiteController < ApplicationController
       a = stack.pop
       b = stack.pop
 
-      stack.push({
-                   :op => b[:op],
-                   :subqueries => [a, b]
-                 })
+      stack.push(JSONModel(:boolean_query).from_hash({
+                                                       :op => b[:op],
+                                                       :subqueries => [JSONModel(:field_query).from_hash(a), JSONModel(:field_query).from_hash(b)]
+                                                     }))
     end
 
     stack.pop
