@@ -698,6 +698,7 @@ Sequel.migration do
       TextField :telephone_ext, :null => true
       TextField :fax, :null => true
       TextField :email, :null => true
+      TextField :note, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false

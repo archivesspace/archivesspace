@@ -17,6 +17,7 @@
       "telephone_ext" => {"type" => "string"},
       "fax" => {"type" => "string"},
       "email" => {"type" => "string"},
+      "note" => {"type" => "string"},
     },
 
     "additionalProperties" => false,
