@@ -3,32 +3,29 @@
 %>
 
 <section id="<%= section_id %>">
-  <h3><%= I18n.t("collection_management_record._html.singular") %></h3>
-  <div class="accordian details" id="collection_management_accordian">
+  <h3><%= I18n.t("collection_management._html.singular") %></h3>
+  <div class="accordion details" id="<%= section_id %>_accordian">
     <div class="accordion-group">
-
       <div class="accordion-heading">
-        <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#collection_management_accordion" href="#collection_management">
+        <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_collection_management">
           <div class="span1">
             <span class="icon-chevron-right"></span>
             <span class="icon-chevron-down"></span>
           </div>
-          <div class="span3">
-            <%= I18n.t("collection_management.processing_priority_#{collection_management['processing_priority']}", :default => collection_management['processing_priority']) %>
+          <div class="span2">
+            <%= I18n.t("enumerations.collection_management_processing_priority.#{collection_management['processing_priority']}", :default => collection_management['processing_priority']) %>
           </div>
-          <div class="span3">
-            <%= I18n.t("collection_management.processing_status_#{collection_management['processing_status']}", :default => collection_management['processing_status']) %>
+          <div class="span2">
+            <%= I18n.t("enumerations.collection_management_processing_status.#{collection_management['processing_status']}", :default => collection_management['processing_status']) %>
           </div>
-          <div class="span3">
+          <div class="span5">
             <%= collection_management['processors'] %>
           </div>
         </div>
       </div>
-
-      <div id="collection_management" class="accordion-body collapse">
+      <div id="<%= section_id %>_collection_management" class="accordion-body collapse">
         <%= read_only_view(collection_management) %>
       </div>
-
     </div>
   </div>
 </section>
