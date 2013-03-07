@@ -403,7 +403,7 @@ module AspaceFormHelper
 
     def textarea(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      @parent.preserve_newlines(CGI::escapeHTML(value))
+      @parent.preserve_newlines(CGI::escapeHTML(value)).html_safe
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
