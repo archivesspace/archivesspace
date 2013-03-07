@@ -36,7 +36,6 @@
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
-        <span class="label label-info"><%= I18n.t("note.note_singlepart") %></span>
       <% else %>
         <%= I18n.t("note.note_singlepart") %>
       <% end %>
@@ -97,7 +96,6 @@
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
-        <span class="label label-info"><%= I18n.t("note.note_multipart") %></span>
       <% else %>
         <%= I18n.t("note.note_multipart") %>
       <% end %>
@@ -304,7 +302,6 @@
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
-        <span class="label label-info"><%= I18n.t("note.note_digital_object") %></span>
       <% else %>
         <%= I18n.t("note.note_digital_object") %>
       <% end %>

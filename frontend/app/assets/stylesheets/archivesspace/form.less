@@ -456,8 +456,8 @@ ul.subrecord-form-list {
   overflow: visible;
 
   .CodeMirror-scroll {
-    height: auto;
-    overflow: visible;
+    height: 100px;
+    overflow: auto;
   }
 
   .mixed-content-wrapper {
@@ -476,7 +476,6 @@ ul.subrecord-form-list {
     text-shadow: 1px 1px 1px white;
     padding: 0 10px;
     font-size: 0.9em;
-    margin-top: @baseLineHeight/2;
     border-top: 1px solid #CCC;
     font-family: @baseFontFamily;
   }
@@ -486,6 +485,10 @@ ul.subrecord-form-list {
 .content-list {
   .drag-handle.inline {
     top: 5px !important;
+  }
+
+  .add-content-item-btn {
+    margin-top: 5px;
   }
 
   .subrecord-form-fields {
