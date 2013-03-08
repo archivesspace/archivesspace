@@ -24,7 +24,7 @@
                 <li><%= link_to I18n.t("agent._html.plural"), :controller => :agents, :action => :index %></li>
                 <li><%= link_to I18n.t("location._html.plural"), :controller => :locations, :action => :index %></li>
                 <li><%= link_to I18n.t("event._html.plural"), :controller => :events, :action => :index %></li>
-                <li><%= link_to I18n.t("collection_management_record._html.plural"), :controller => :collection_management_records, :action => :index %></li>
+                <li><%= link_to I18n.t("collection_management._html.plural"), :controller => :collection_management, :action => :index %></li>
               </ul>
             </li>
             <% if ['update_archival_record', 'update_subject_record', 'update_event_record',
@@ -58,7 +58,6 @@
                   <% if user_can?('update_event_record') %>
                     <li><%= link_to I18n.t("event._html.singular"), :controller => :events, :action => :new %></li>
                   <% end %>
-                  <li><%= link_to I18n.t("collection_management_record._html.singular"), :controller => :collection_management_records, :action => :new %></li>
                 </ul>
               </li>
             <% end %>
