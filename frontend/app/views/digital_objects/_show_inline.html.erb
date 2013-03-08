@@ -79,6 +79,10 @@
           <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @digital_object.rights_statements, :section_id => "digital_object_rights_statements_"  } %>
         <% end %>
 
+        <% if @digital_object.collection_management %>
+          <%= render :partial => "collection_management/show", :locals => { :collection_management => @digital_object.collection_management, :section_id => "digital_object_collection_management_"  } %>
+        <% end %>
+
       <% end %>
     </div>
   </div>
