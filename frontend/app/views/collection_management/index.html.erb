@@ -16,22 +16,20 @@
          <table class="table table-striped table-bordered table-condensed">
            <thead>
              <tr>
-               <th>Id</th>
                <th><%= I18n.t("collection_management.processing_priority") %></th>
                <th><%= I18n.t("collection_management.processing_status") %></th>
                <th><%= I18n.t("collection_management.processors") %></th>
-               <th><%= I18n.t("collection_management.processing_plan") %></th>
+               <th><%= I18n.t("collection_management.parent") %></th>
                <th width="70px"><!-- actions --></th>
              </tr>
            </thead>
            <tbody>
               <% @search_data['results'].each do |cmr| %>
               <tr>
-               <td><%= cmr.id %></td>
-               <td><%= I18n.t("enumerations.collection_management_processing_priority.#{cmr.processing_priority}", :default => cmr.processing_priority) %></td>
-               <td><%= I18n.t("enumerations.collection_management_processing_status.#{cmr.processing_status}", :default => cmr.processing_status) %></td>
+               <td><%= I18n.t("enumerations.collection_management_processing_priority.#{cmr.processing_priority || 'none'}", :default => "--") %></td>
+               <td><%= I18n.t("enumerations.collection_management_processing_status.#{cmr.processing_status || 'none'}", :default => "--") %></td>
                <td><%= cmr.processors %></td>
-               <td><%= "stuff here to show parent" %></td>
+               <td><%= "hmm, how to ref the parent? ..." %></td>
                <td>
                   <div class="btn-group" style="float: right">
                            <%= link_to I18n.t("actions.view"), {:controller => :accessions, :action => :show, :id => cmr.id}, :class => "btn btn-mini" %>

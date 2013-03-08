@@ -2368,22 +2368,11 @@ en:
         <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
     rights_determined_true: Yes
     rights_determined_false: No
-    linked_records: Record Links
+    parent: Parent
     _html:
       singular: Collection Management
       plural: Collection Management
       title_prefix: Processing 
-      messages:
-        created: Collection Management Record Created
-        updated: Collection Management Record Saved
-      section:
-        basic_information: Basic Information
-  collection_management_linked_record:
-    _html:
-      singular: Record Link
-      plural: Record Links
-  collection_management_record:
-    <<: *collection_management_attributes
   enumeration:
     # tooltips not displaying
     name: Name
