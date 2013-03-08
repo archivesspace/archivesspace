@@ -268,8 +268,8 @@
 
 
   <target name="frontend:clean" description="Delete the Rails tmp directory">
-    <delete dir="../frontend/tmp" />
-    <delete dir="../frontend/public/assets" />
+    <delete failonerror="false" dir="../frontend/tmp" />
+    <delete failonerror="false" dir="../frontend/public/assets" />
     <mkdir dir="../frontend/public/assets" />
     <mkdir dir="../frontend/public/assets/00-do-not-put-things-here" />
   </target>
