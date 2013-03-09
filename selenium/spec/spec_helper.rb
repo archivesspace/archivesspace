@@ -306,11 +306,15 @@ def selenium_init
 
   if ENV['TRAVIS']
     puts "Loading stable version of Firefox"
-    system('wget', 'http://aspace.hudmol.com/firefox-16.0.tar.bz2')
-    system('tar', 'xvjf', 'firefox-16.0.tar.bz2')
-    ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
+    Dir.chdir('/var/tmp') do
+      system('wget', 'http://aspace.hudmol.com/firefox-16.0.tar.bz2')
+      system('tar', 'xvjf', 'firefox-16.0.tar.bz2')
+      ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
 
-    system('firefox', '--version')
+      puts "Path now: #{ENV['PATH']}"
+      puts "Firefox version:"
+      system('firefox', '--version')
+    end
   end
 
 
