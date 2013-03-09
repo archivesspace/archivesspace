@@ -16,7 +16,7 @@
   <property name="aspace.frontend.port" value="3000" />
   <property name="aspace.public.port" value="3001" />
   <property name="aspace.solr.port" value="2999" />
-  <property name="aspace.data_directory" value="../build" />
+  <property name="aspace.data_directory" value="${basedir}/../build" />
 
   <property environment="env"/>
   <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=128m -Xmx256m -Xss2m" />
