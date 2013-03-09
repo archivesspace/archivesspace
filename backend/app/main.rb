@@ -1,3 +1,6 @@
+require 'bundler'
+Bundler.require
+
 require_relative 'lib/bootstrap'
 require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
@@ -9,8 +12,6 @@ require_relative 'lib/import_helpers'
 
 require 'uri'
 require 'sinatra/base'
-require 'json'
-require 'rufus/scheduler'
 
 class ArchivesSpaceService < Sinatra::Base
 
