@@ -3,7 +3,7 @@ Sequel.extension :inflector
 module MigrationUtils
   def self.shorten_table(name)
     name.to_s.split("_").map {|s| s[0...3]}.join("_")
-  end
+  end 
 end
 
 
@@ -1231,24 +1231,35 @@ Sequel.migration do
 
   down do
 
-    [:collection_management_accession, :collection_management_resource, :collection_management_digital_object,
-     :resource_agent_person, :resource_agent_family, :resource_agent_software, :resource_agent_corporate_entity,
-     :archival_object_agent_person, :archival_object_agent_family, :archival_object_agent_software, :archival_object_agent_corporate_entity,
-     :event_agent_person, :event_agent_family, :event_agent_software, :event_agent_corporate_entity, :event_accession, :event_archival_object, :event_resource,
-     :external_document, :rights_statement, :location, :deaccessions,
-     :subject_term, :subject_archival_object, :subject_resource, :subject_accession, :subject, :term,
-     :agent_contact, :name_person, :name_family, :agent_person, :agent_family,
-     :name_corporate_entity, :name_software, :agent_corporate_entity, :agent_software,
-     :session, :auth_db, :group_user, :group_permission, :permission, :user, :group, :accession,
-     :date, :event, :archival_object, :vocabulary, :extent, :resource, :repository,
-     :digital_object, :collection_management,
-     :accession_external_document, :archival_object_external_document, :resource_external_document, :subject_external_document,
-     :agent_person_external_document, :agent_family_external_document, :agent_corporate_entity_external_document,
-     :agent_software_external_document, :rights_statement_external_document, :digital_object_external_document, :digital_object_component_external_document
-     ].each do |table|
-      puts "Dropping #{table}"
-      drop_table?(table)
-    end
+    remaining = tables.reject {|t| t == :schema_info}
+
+    ceiling = 100
+
+    begin
+      
+      greylist = []
+      
+      remaining.each do |table|
+        foreign_key_list(table).each do |fk|
+
+          next if fk[:table] == table
+          if (not greylist.include?(fk[:table])) && remaining.include?(fk[:table])
+            greylist << fk[:table]
+          end 
+        end
+      end
+
+      remaining.each do |table|
+        if not greylist.include?(table)
+          puts "Dropping #{table}"
+          drop_table?(table)
+        end
+      end
+      
+      remaining = greylist.clone
+      ceiling = ceiling - 1
+      
+    end while (not remaining.empty?) && ceiling > 0
 
   end
 end
