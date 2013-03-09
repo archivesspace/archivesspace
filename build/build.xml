@@ -38,7 +38,7 @@
       <matches pattern=".*:coverage" string="${ant.project.invoked-targets}" />
     </condition>
 
-    <property name="jruby_classpath" value="${jruby_file}:../lib/*" />
+    <property name="jruby_classpath" value="${jruby_file}:../lib/*:../common" />
     <property name="COVERAGE_REPORTS" value="false" />
   </target>
 

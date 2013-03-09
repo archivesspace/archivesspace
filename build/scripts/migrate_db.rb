@@ -1,4 +1,4 @@
-require_relative "../../config/config-distribution"
+require 'config/config-distribution'
 
 if (AppConfig[:db_url] =~ /jdbc:derby:(.*?);.*aspacedemo=true$/)
   dir = $1

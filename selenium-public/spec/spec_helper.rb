@@ -3,6 +3,10 @@ require "json"
 require "selenium-webdriver"
 require "digest"
 require "rspec"
+require 'test_utils'
+require 'config/config-distribution'
+
+
 require_relative '../../common/test_utils'
 require_relative '../../config/config-distribution'
 

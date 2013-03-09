@@ -5,7 +5,7 @@ require 'tmpdir'
 require 'tempfile'
 require 'json'
 require 'net/http'
-require_relative '../../common/test_utils'
+require 'test_utils'
 require_relative '../../indexer/periodic_indexer.rb'
 require 'ladle'
 

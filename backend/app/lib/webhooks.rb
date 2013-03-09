@@ -3,7 +3,7 @@ require 'json'
 require 'java'
 require 'net/http'
 require 'set'
-require_relative '../../../common/jsonmodel'
+require 'jsonmodel'
 
 class Webhooks
 

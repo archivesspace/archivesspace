@@ -1,7 +1,7 @@
 YARD::Templates::Engine.register_template_path File.dirname(__FILE__) + '/templates'
 require 'sinatra'
 
-require_relative '../common/jsonmodel.rb'
+require 'jsonmodel'
 require_relative '../backend/app/model/backend_enum_source.rb'
 
 

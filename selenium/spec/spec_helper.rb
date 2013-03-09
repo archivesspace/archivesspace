@@ -3,8 +3,8 @@ require "json"
 require "selenium-webdriver"
 require "digest"
 require "rspec"
-require_relative '../../common/test_utils'
-require_relative '../../config/config-distribution'
+require 'test_utils'
+require 'config/config-distribution'
 
 $sleep_time = 0.0
 
