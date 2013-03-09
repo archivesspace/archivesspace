@@ -8,13 +8,13 @@ Warbler::Config.new do |config|
   # - gemjar: package the gem repository in a jar file in WEB-INF/lib
   # - executable: embed a web server and make the war executable
   # - compiled: compile .rb files to .class files
-  # config.features = %w(gemjar)
+  config.features = []
 
   # Application directories to be included in the webapp.
-  config.dirs = %w(app config ../migrations)
+  config.dirs = %w(app ../migrations)
 
   # Additional files/directories to include, above those in config.dirs
-  # config.includes = FileList["db"]
+  config.includes = FileList["Gemfile"]
 
   # Additional files/directories to exclude
   # config.excludes = FileList["lib/tasks/*"]
@@ -24,6 +24,8 @@ Warbler::Config.new do |config|
   # JRuby and JRuby-Rack are pre-loaded in this list.  Be sure to include your
   # own versions if you directly set the value
   # config.java_libs += FileList["lib/java/*.jar"]
+
+  config.java_libs.reject! {|jar| jar =~ /jruby-(complete|core|stdlib|rack)/}
 
   # Loose Java classes and miscellaneous files to be included.
   # config.java_classes = FileList["target/classes/**.*"]
@@ -38,7 +40,7 @@ Warbler::Config.new do |config|
   # project directory, it will be used to collect the gems to bundle
   # in your application. If you wish to explicitly disable this
   # functionality, uncomment here.
-  # config.bundler = false
+  config.bundler = false
 
   # An array of Bundler groups to avoid including in the war file.
   # Defaults to ["development", "test"].
@@ -66,10 +68,10 @@ Warbler::Config.new do |config|
 
   # Include gem dependencies not mentioned specifically. Default is
   # true, uncomment to turn off.
-  # config.gem_dependencies = false
+  config.gem_dependencies = false
 
   # Don't bundle the JRuby jars twice--Warbler will make sure we get it.
-  config.gem_excludes = [/jruby-(core|stdlib).*jar/]
+  #config.gem_excludes = [/jruby-(core|stdlib).*jar/]
 
   # Pathmaps for controlling how application files are copied into the archive
   # config.pathmaps.application = ["WEB-INF/%p"]
