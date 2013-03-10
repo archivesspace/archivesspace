@@ -1719,10 +1719,10 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".tooltip.archivesspace-help")
 
       # can hide the tooltip
-      $driver.find_element(:css, "label[for='accession_title_']").click
+      $driver.find_element(:css, ".tooltip.archivesspace-help .tooltip-close").click
 
       assert {
-        $driver.ensure_no_such_element(:css, ".tooltip.archivesspace-help")
+        $driver.ensure_no_such_element(:css, ".tooltip.archivesspace-help .tooltip-close")
       }
     end
 
