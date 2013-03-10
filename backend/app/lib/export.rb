@@ -76,17 +76,17 @@ module ExportHelpers
     
   end
   
-  # TODO - Get this exporter using ExportModels like the entries above...
+  
   def generate_eac(id, type)
     
-    agent = Kernel.const_get(type.camelize).get_or_die(id)
+    agent_class = Kernel.const_get(type.camelize)
     
-    serializer = ASpaceExport::serializer(:eac)
+    json = agent_class.to_jsonmodel(id)
     
-    serializer.serialize(agent)
+    eac = ASpaceExport.model(:eac).from_agent(json)
+    
+    ASpaceExport::serializer(:eac).serialize(eac)    
   end
-  
-  
   
 end
   

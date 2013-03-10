@@ -2,12 +2,10 @@ require 'nokogiri'
 
 ASpaceExport::serializer :eac do
   
-  def serialize(object, opts = {})
-
-    raise StandardError.new("Can't serialize a #{object.class}") unless object.class.to_s.match(/^Agent/)
+  def serialize(eac, opts = {})
 
     builder = Nokogiri::XML::Builder.new do |xml|
-      _eac(object.class.to_jsonmodel(object), xml)     
+      _eac(eac, xml)     
     end
     
     builder.to_xml   
