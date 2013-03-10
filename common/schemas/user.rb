@@ -2,6 +2,7 @@
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
+    "parent" => "abstract_agent",
     "uri" => "/users",
     "properties" => {
       "uri" => {"type" => "string", "required" => false},

@@ -1,10 +1,15 @@
 class User < Sequel::Model(:user)
   include ASModel
+  
+  include AgentManager::Mixin
 
   set_model_scope :global
   corresponds_to JSONModel(:user)
 
   @@unlisted_user_ids = nil
+  
+  register_agent_type(:jsonmodel => :user, :pseudoagent => true)
+
 
   def self.ADMIN_USERNAME
     "admin"
@@ -28,7 +33,7 @@ class User < Sequel::Model(:user)
 
     @@unlisted_user_ids
   end
-
+  
 
   def before_save
     super
