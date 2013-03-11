@@ -23,6 +23,11 @@
   </header>
 
   <div class="container">
+    <% if !current_page?(root_url) %>
+      <div class="advanced-search-container <% if not params["advanced"] %>hide<% end %>">
+        <%= render :partial => "site/advanced_search" %>
+      </div>
+    <% end %>
     <%= render :partial => "site/breadcrumb" %>
     <%= yield %>
   </div>

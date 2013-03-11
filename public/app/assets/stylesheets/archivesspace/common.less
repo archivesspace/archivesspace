@@ -332,3 +332,78 @@ section {
 .text-filter-field {
   width: 80%;
 }
+
+.container {
+  .search-switcher {
+    list-style: none;
+    margin: 0;
+
+    a {
+      font-size: 0.85em;
+
+      &.hide {
+        display: none;
+      }
+    }
+
+    .active {
+      display: none;
+    }
+  }
+}
+
+.navbar {
+  .search-switcher a {
+    padding: 18px 5px  0 !important;
+  }
+}
+
+#simpleSearch form, #advancedSearch form {
+   margin-bottom: 5px;
+
+   .search-switcher-hide {
+    display: none;
+   }
+
+    hr {
+      margin: 5px 0 0;
+    }
+
+    .reset-advanced-search {
+      display: none;
+    }
+
+    &.advanced-search {
+      .btn {
+        width: 95%;
+      }
+    }
+ }
+
+.advanced-search-container {
+  margin: 0;
+  padding: 19px;
+  background-color: @wellBackground;
+  border-left: 1px solid #CCC;
+  border-right: 1px solid #CCC;
+  border-bottom: 1px dotted #DDD;
+
+  .btn-group {
+    width: 95%;
+  }
+
+  .btn-primary {
+    width: 75%;
+  }
+  .reset-advanced-search {
+    width: 15%;
+  }
+}
+
+.advanced-search {
+  margin: 0;
+
+  input, select {
+    width: 95%;
+  }
+}

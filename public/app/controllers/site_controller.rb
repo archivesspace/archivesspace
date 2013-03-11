@@ -10,6 +10,14 @@ class SiteController < ApplicationController
     render "search/results"
   end
 
+  def advanced_search
+    set_advanced_search_criteria
+
+    @search_data = Search.all(@criteria, @repositories)
+
+    render "search/results"
+  end
+
   def resource
     @resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations"])
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
@@ -93,4 +101,46 @@ class SiteController < ApplicationController
       @criteria['type[]'].keep_if {|t| ['resource', 'archival_object', 'location', 'subject'].include?(t)}
     end
   end
+
+  def set_advanced_search_criteria
+    set_search_criteria
+
+    terms = (0..2).collect{|i| 
+      term = search_term(i)
+
+      if term and term[:op] === "NOT"
+        term[:op] = "AND"
+        term[:negated] = true
+      end
+
+      term
+    }.compact
+
+    if not terms.empty?
+      @criteria["aq"] = JSONModel(:advanced_query).from_hash({"query" => group_queries(terms)}).to_json
+    end
+  end
+
+  def search_term(i)
+    if not params["v#{i}"].blank?
+      { :field => params["f#{i}"], :value => params["v#{i}"], :op => params["op#{i}"] }
+    end
+  end
+
+  def group_queries(terms)
+    stack = terms.reverse.clone
+
+    while stack.length > 1
+      a = stack.pop
+      b = stack.pop
+
+      stack.push(JSONModel(:boolean_query).from_hash({
+                                                       :op => b[:op],
+                                                       :subqueries => [JSONModel(:field_query).from_hash(a), JSONModel(:field_query).from_hash(b)]
+                                                     }))
+    end
+
+    stack.pop
+  end
+
 end

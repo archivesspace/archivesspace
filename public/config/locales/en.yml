@@ -36,6 +36,11 @@ en:
       primary_type: Type
       repository: Repository
       creators: Creator
+      fullrecord: Keyword
+      title: Title
+      creator: Creator
+      scope: Scope
+      contents: Contents Note
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
@@ -44,6 +49,19 @@ en:
     title_sort: Title
     last_modified: Modified
     create_time: Created
+  advanced_search:
+    operator:
+      AND: And
+      OR: Or
+      NOT: Not
+    button_text: Search
+    reset: Clear
+    nav_switcher:
+      show: Show Advanced
+      hide: Hide Advanced
+    index_switcher:
+      show: Show Advanced Search
+      hide: Hide Advanced Search
   iso_3166:
     AF: AFGHANISTAN (AF)
     AX: ÅLAND ISLANDS (AX)
