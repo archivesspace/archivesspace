@@ -32,10 +32,12 @@ describe 'Person agent controller' do
 
 
   it "can give a list of person agents" do
-    create_person
-    create_person
-
-    JSONModel(:agent_person).all(:page => 1)['results'].count.should eq(2)
+    
+    start = JSONModel(:agent_person).all(:page => 1)['results'].count
+    
+    2.times { create_person }
+    
+    JSONModel(:agent_person).all(:page => 1)['results'].count.should eq(start+2)
   end
 
 

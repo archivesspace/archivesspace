@@ -32,7 +32,19 @@ ASpaceExport::model :eac do
     end
     
     def agents
-      @event.linked_agents.map {|a| ['human', a['_resolved']['name']] }
+      
+      agents = []
+      
+      @event.linked_agents.each do |a| 
+        case a['_resolved']['agent_type']
+        when 'agent_person'
+          agents << ['human', a['_resolved']['names'][0]['sort_name']]
+        when 'agent_software'
+          agents << ['machine', a['_resolved']['names'][0]['sort_name']] 
+        end
+      end
+      
+      agents
     end  
 
   end

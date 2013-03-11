@@ -7,11 +7,18 @@ module RecordableCataloging
 
   module ClassMethods
 
-    def self.create_from_json(json, opts = {})
-
+    def create_from_json(json, opts = {})
+      
       obj = super
 
-      user = User[:username => RequestContext.get(:current_username)]
+      agent_uri = case opts[:system_generated]
+                  when true
+                    uri_for(:agent_software, 1)
+                  else
+                    user = User[:username => RequestContext.get(:current_username)]
+                    uri_for(:agent_person, user.agent_record_id)
+                  end
+                  
 
       date = JSONModel(:date).from_hash(
                 :label => 'creation', 
@@ -21,7 +28,7 @@ module RecordableCataloging
                 )
 
       event = JSONModel(:event).from_hash(
-                :linked_agents => [{:ref => user.uri, :role => 'implementer'}], 
+                :linked_agents => [{:ref => agent_uri, :role => 'implementer'}], 
                 :event_type => 'cataloging', 
                 :date => date, 
                 :linked_records => [{:ref => obj.uri, :role => 'outcome'}]

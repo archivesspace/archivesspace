@@ -40,27 +40,25 @@ module AgentManager
         AgentManager.register_agent_type(self, opts)
 
 
-        unless opts[:pseudoagent] # just to get things working for users as agents
 
-          self.one_to_many my_agent_type[:name_type]
+        self.one_to_many my_agent_type[:name_type]
 
-          self.def_nested_record(:the_property => :names,
-                                 :contains_records_of_type => my_agent_type[:name_type],
-                                 :corresponding_to_association => my_agent_type[:name_type],
-                                 :always_resolve => true)
+        self.def_nested_record(:the_property => :names,
+                               :contains_records_of_type => my_agent_type[:name_type],
+                               :corresponding_to_association => my_agent_type[:name_type],
+                               :always_resolve => true)
+      
         
-          
-          self.one_to_many :agent_contact
-        
+        self.one_to_many :agent_contact
+      
 
-          self.def_nested_record(:the_property => :agent_contacts,
-                                 :contains_records_of_type => :agent_contact,
-                                 :corresponding_to_association => :agent_contact,
-                                 :always_resolve => true)
-        end
+        self.def_nested_record(:the_property => :agent_contacts,
+                               :contains_records_of_type => :agent_contact,
+                               :corresponding_to_association => :agent_contact,
+                               :always_resolve => true)
+      end
  
         
-      end
 
 
       def my_agent_type
