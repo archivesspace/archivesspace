@@ -1,0 +1,27 @@
+<%
+   section_id = "file_versions" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3><%= I18n.t("file_version._html.plural") %></h3>
+  <div class="accordion details" id="<%= section_id %>_accordion">
+    <% file_versions.each_with_index do | file_version, index | %>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_file_version_<%= index %>">
+            <div class="span1">
+              <span class="icon-chevron-right"></span>
+              <span class="icon-chevron-down"></span>
+            </div>
+            <div class="span11">
+              <%= file_version['file_uri'] %>
+            </div>
+          </div>
+        </div>
+        <div id="<%= section_id %>_file_version_<%= index %>" class="accordion-body collapse">
+          <%= read_only_view(file_version) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

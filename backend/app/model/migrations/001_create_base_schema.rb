@@ -983,6 +983,42 @@ Sequel.migration do
     end
 
 
+
+    create_table(:file_version) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :digital_object_id, :null => true
+      Integer :digital_object_component_id, :null => true
+
+      Integer :use_statement_id, :null => true
+      Integer :checksum_method_id, :null => true
+
+      String :file_uri, :null => false
+      Integer :publish
+      String :use_statement
+      String :xlink_actuate_attribute
+      String :xlink_show_attribute
+      String :file_format_name
+      String :file_format_version
+      Integer :file_size_bytes
+      String :checksum
+      String :checksum_method
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:file_version) do
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
+      add_foreign_key([:use_statement_id], :enumeration_value, :key => :id)
+      add_foreign_key([:checksum_method_id], :enumeration_value, :key => :id)
+    end
+
+
+
     create_table(:sequence) do
       String :sequence_name, :primary_key => true
       Integer :value, :null => false
@@ -1079,6 +1115,34 @@ Sequel.migration do
 
     create_enum('subject_source', ["aat", "rbgenr", "tgn", "lcsh", "local", "mesh", "gmgpc"])
 
+
+    create_enum('file_version_use_statement',
+                ["audio-clip",
+                 "audio-master",
+                 "audio-master-edited",
+                 "audio-service",
+                 "audio-streaming",
+                 "image-master",
+                 "image-master-edited",
+                 "image-service",
+                 "image-service-edited",
+                 "image-thumbnail",
+                 "text-codebook",
+                 "text-data",
+                 "text-data_definition",
+                 "text-georeference",
+                 "text-ocr-edited",
+                 "text-ocr-unedited",
+                 "text-tei-transcripted",
+                 "text-tei-translated",
+                 "video-clip",
+                 "video-master",
+                 "video-master-edited",
+                 "video-service",
+                 "video-streaming"])
+
+    create_enum('file_version_checksum_methods',
+                ["md5", "sha-1", "sha-256", "sha-384", "sha-512"])
 
 
     # Relationship tables

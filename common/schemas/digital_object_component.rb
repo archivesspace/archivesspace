@@ -10,6 +10,8 @@
       "publish" => {"type" => "boolean", "default" => true},
       "label" => {"type" => "string"},
 
+      "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
+
       "parent" => {
         "type" => "object",
         "subtype" => "ref",

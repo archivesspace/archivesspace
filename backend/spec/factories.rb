@@ -68,6 +68,14 @@ FactoryGirl.define do
   sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']) }
   sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']) }
   
+  sequence(:use_statement) { sample(JSONModel(:file_version).schema['properties']['use_statement']) }
+  sequence(:checksum_method) { sample(JSONModel(:file_version).schema['properties']['checksum_method']) }
+  sequence(:xlink_actuate_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_actuate_attribute']) }
+  sequence(:xlink_show_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_show_attribute']) }
+
+
+
+
   # AS Models
   
   factory :repo, class: Repository do
@@ -222,6 +230,18 @@ FactoryGirl.define do
     extent_type { generate(:extent_type) }
   end
   
+  factory :json_file_version, class: JSONModel(:file_version) do
+    file_uri { generate(:alphanumstr) }
+    use_statement { generate(:use_statement) }
+    xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
+    xlink_show_attribute { generate(:xlink_show_attribute) }
+    file_format_name { generate(:alphanumstr) }
+    file_format_version { generate(:alphanumstr) }
+    file_size_bytes { generate(:number).to_i }
+    checksum { generate(:alphanumstr) }
+    checksum_method { generate(:checksum_method) }
+  end
+
   factory :json_external_document, class: JSONModel(:external_document) do
     title { "External Document #{generate(:generic_title)}" }
     location { generate(:url) }

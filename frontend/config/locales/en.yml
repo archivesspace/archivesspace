@@ -1232,6 +1232,31 @@ en:
     _html:
       plural: Instances
       singular: Instance
+  file_version:
+    _html:
+      plural: File Versions
+      singular: File Version
+    file_uri: File URI
+    publish: Publish
+    use_statement: Use Statement
+    xlink_actuate_attribute: Xlink Actuate Attribute
+    xlink_actuate_attribute_none: none
+    xlink_actuate_attribute_other: other
+    xlink_actuate_attribute_onLoad: onLoad
+    xlink_actuate_attribute_onRequest: onRequest
+
+    xlink_show_attribute: Xlink Show Attribute
+    xlink_show_attribute_new: new
+    xlink_show_attribute_replace: replace
+    xlink_show_attribute_embed: embed
+    xlink_show_attribute_other: other
+    xlink_show_attribute_none: none
+
+    file_format_name: File Format Name
+    file_format_version: File Format Version
+    file_size_bytes: File Size Bytes
+    checksum: Checksum
+    checksum_method: Checksum Method
   extent: &extent_attributes
     portion: Portion
     portion_whole: Whole
