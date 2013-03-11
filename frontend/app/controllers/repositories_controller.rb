@@ -55,7 +55,7 @@ class RepositoriesController < ApplicationController
 
   def select
     selected = @repositories.find {|r| r.id.to_s == params[:id]}
-    session[:repo] = selected.repo_code
+    session[:repo] = selected.uri
     session[:repo_id] = selected.id
 
     redirect_to :back

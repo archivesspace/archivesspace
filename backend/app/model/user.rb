@@ -124,11 +124,12 @@ class User < Sequel::Model(:user)
       join(:repository, :id => :group__repo_id).
       filter(:user_id => self.id).
       distinct.
-      select(:repo_code, :permission_code)
+      select(Sequel.qualify(:repository, :id).as(:repo_id), :permission_code)
 
     ds.each do |row|
-      result[row[:repo_code]] ||= []
-      result[row[:repo_code]] << row[:permission_code]
+      repository_uri = JSONModel(:repository).uri_for(row[:repo_id])
+      result[repository_uri] ||= []
+      result[repository_uri] << row[:permission_code]
     end
 
     result
