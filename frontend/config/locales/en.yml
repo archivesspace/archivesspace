@@ -1617,6 +1617,7 @@ en:
         created: Repository Created
         updated: Repository Saved
         selected: Repository is Currently Selected
+        selected_short: Selected
       section:
         all_fields: Repository Fields
       action:

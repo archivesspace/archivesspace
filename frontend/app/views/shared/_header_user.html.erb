@@ -1,13 +1,13 @@
 <% if session[:user] %>
   <%
-    selected_repo = @repositories.select {|repo| repo.id === session[:repo_id]}.first if @repositories.length
+    selected_repo = current_repo
   %>
   <li class="dropdown user-container">
     <div class="input-append">
       <span class="inset-label">
-        <% if session[:repo] %>
-          <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(session[:repo]) %>" data-content="<%= CGI::escapeHTML(selected_repo.name) %>">
-            <span class="icon-hdd"></span><span class="current-repository-id"><% if session[:repo] %><%= session[:repo] %><% end %></span>
+        <% if selected_repo %>
+          <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(selected_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(selected_repo.name) %>">
+            <span class="icon-hdd"></span><span class="current-repository-id"><% if selected_repo %><%= selected_repo['repo_code'] %><% end %></span>
           </span>
         <% else %>
           <span class="repository-label has-popover empty"

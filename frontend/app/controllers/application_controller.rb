@@ -176,8 +176,8 @@ class ApplicationController < ActionController::Base
      ((session[:permissions][repository] &&
        session[:permissions][repository].include?(permission)) ||
 
-      (session[:permissions]['_archivesspace'] &&
-       session[:permissions]['_archivesspace'].include?(permission))))
+      (session[:permissions]['/repositories/1'] &&
+       session[:permissions]['/repositories/1'].include?(permission))))
   end
 
   helper_method :current_vocabulary

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'User model' do
 
   before(:each) do
-    create(:repo, :repo_code => 'ARCHIVESSPACE')
+    @repo_uri = create(:repo, :repo_code => 'ARCHIVESSPACE').uri
     
     agent_record = create(:json_agent_person)
     
@@ -25,8 +25,8 @@ describe 'User model' do
       group.grant(permission)
       group.add_user(user)
     end
-  
-    user.permissions['ARCHIVESSPACE'].sort.should eq(["create_repository", "manage_repository"])
+
+    user.permissions[@repo_uri].sort.should eq(["create_repository", "manage_repository"])
   end
   
   

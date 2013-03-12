@@ -125,4 +125,14 @@ module ApplicationHelper
     search_params
   end
 
+  def current_repo
+    return nil if session[:repo].blank?
+
+    MemoryLeak::Resources.get(:repository).each do |repo|
+      return repo if repo['uri'] === session[:repo]
+    end
+
+    nil
+  end
+
 end
