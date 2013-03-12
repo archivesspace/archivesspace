@@ -490,6 +490,7 @@
     <zip zipfile="../archivesspace.zip" level="9">
       <zipfileset dir="target" />
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
+      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.sh" prefix="archivesspace" filemode="755" />
     </zip>
 
   </target>
