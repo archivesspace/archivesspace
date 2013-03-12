@@ -242,6 +242,35 @@
   </div>
 <% end %>
 
+<% define_template "note_outline_string" do |form, item| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+<% end %>
+
+<% define_template "note_outline_level" do |form, level| %>
+  <div class="subrecord-form-fields" data-type="note_outline_level">
+    <%= form.hidden_input(:jsonmodel_type, "note_outline_level") %>
+    <section class="subrecord-form">
+      <% if not form.readonly? %>
+        <div class="subrecord-form-heading">
+          <div class="btn-group note_outline_level_btns">
+            <button class="btn btn-mini add-sub-item-btn"><%= I18n.t("actions.add") %> Item</button>
+            <button class="btn btn-mini add-sub-level-btn"><%= I18n.t("actions.add") %> Level</button>
+          </div>
+        </div>
+      <% end %>
+      <div class="subrecord-form-container">
+        <%= form.list_for(form["items"], "items[]") do |item| %>
+          <% if item.kind_of? String %>
+            <% form.emit_template("note_outline_string", item) %>
+          <% else %>
+            <% form.emit_template("note_outline_level", item) %>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  </div>
+<% end %>
+
 <% define_template "note_outline", jsonmodel_definition(:note_outline) do |form| %>
   <div class="subrecord-form-fields" data-type="note_outline">
     <h4 class="subrecord-form-heading"><%= I18n.t("note.note_outline") %></h4>
@@ -250,7 +279,18 @@
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
       <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
-      <%= form.label_and_textarea("content", {:field_opts => {:class => "mixed-content"}, :default => "<outline></outline>"}) %>
+      <div class="control-group">
+        <label class="control-label">Levels</label>
+        <div class="controls note-outline-levels">
+          <%= form.list_for((form["levels"] || []), "levels[]") do |item| %>
+            <% form.emit_template("note_outline_level", item) %>
+          <% end %>
+          <% if not form.readonly? %>
+            <button class="btn btn-mini add-level-btn"><%= I18n.t("actions.add") %> Level</button>
+          <% end %>
+        </div>
+      </div>
+
     </div>
   </div>
 <% end %>

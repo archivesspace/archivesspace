@@ -5,13 +5,13 @@
 
     "properties" => {
 
-      "publish" => {"type" => "boolean", "default" => true},
-      "internal" => {"type" => "boolean", "default" => false},
-
-      "levels" => {
+      "items" => {
         "type" => "array",
         "items" => {
-          "type" => "JSONModel(:note_outline_level) object",
+          "type" => [
+            {"type" => "string"}, #SONModel(:note_outline_string) object",
+            {"type" => "JSONModel(:note_outline_level) object"}
+          ]
         }
       },
 

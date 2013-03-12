@@ -64,6 +64,15 @@ $(function() {
         initNoteType($subform, "template_bib_item");
       };
 
+      initialisers.note_outline = function($subform) {
+        initNoteType($subform, "template_note_outline_level", true, '.add-level-btn');
+      };
+
+      initialisers.note_outline_level = function($subform) {
+        initNoteType($subform, "template_note_outline_string", true, '.add-sub-item-btn');
+        initNoteType($subform, "template_note_outline_level", true, '.add-sub-level-btn');
+      };
+
 
       var dropdownFocusFix = function(form) {
         $('.dropdown-menu.subrecord-selector li', form).click(function(e) {

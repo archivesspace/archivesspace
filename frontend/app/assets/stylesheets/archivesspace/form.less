@@ -30,6 +30,31 @@ fieldset {
     color: #999;
     font-style: normal;
   }
+  .note-outline-levels {
+    .subrecord-form {
+      .box-shadow(none);
+      margin: 0;
+    }
+    .subrecord-form-fields {
+      background-color: #F6F6F6 !important;
+      margin-bottom: 8px;
+    }
+    .subrecord-form-heading {
+      overflow: hidden;
+    }
+    .subrecord-form-inline {
+      margin-top: 8px;
+      margin-bottom: 0;
+    }
+    .note_outline_level_btns {
+      position: absolute;
+      top: 5px;
+      right: 40px;
+    }
+    .subrecord-form-heading {
+      min-height: 5px;
+    }
+  }
 }
 
 form .control-group {
@@ -290,6 +315,9 @@ section h3 {
     .subrecord-form-removal-confirmation,
     .subrecord-form-remove {
       margin: 6px 6px 0 0;
+      .btn-group .btn {
+        z-index: 10;
+      }
     }
 
     .subrecord-form-fields {
