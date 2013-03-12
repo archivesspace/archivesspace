@@ -1,11 +1,13 @@
 # Icky to have to do this, but had trouble with the recursive calls to Rake
 # running with jruby-complete.jar.
 
-jruby = Dir.glob(File.join(Rails.root, "..", "build", "jruby*complete*.jar")).first
+classpath = [File.join(Rails.root, "..", "common")]
+classpath << Dir.glob(File.join(Rails.root, "..", "build", "jruby*complete*.jar")).first
+
 
 $rake_cmd = ["java",
              "-XX:MaxPermSize=128m", "-Xmx256m",
-             "-cp", jruby,
+             "-cp", classpath.join(java.io.File.pathSeparator),
              "org.jruby.Main", "--1.9", "-S", "rake"]
 
 
