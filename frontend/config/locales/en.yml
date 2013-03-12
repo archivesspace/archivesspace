@@ -1,6 +1,7 @@
 en:
   actions:
     add: Add
+    add_event: Add Event
     automate: Automatically generate
     browse: Browse
     cancel: Cancel
@@ -1000,6 +1001,40 @@ en:
     outcome: Outcome
     outcome_note: Outcome Note
     date: Event Date
+    types:      
+      accession: Accession
+      accumulation: Accumulation
+      acknowledgement: Acknowledgement
+      acknowledgement_sent: Acknowledgement Sent
+      agreement_signed: Agreement Signed
+      agreement_received: Agreement Received
+      agreement_sent: Agreement Sent 
+      appraisal: Appraisal
+      assessment: Assessment
+      capture: Capture
+      cataloging: Cataloging
+      collection: Collection
+      compression: Compression
+      contribution: Contribution
+      copyright_transfer: Copyright Transfer
+      custody_transfer: Custody Transfer
+      deaccession: Deaccession
+      decompression: Decompression
+      decryption: Decryption
+      deletion: Deletion
+      digital_signature_validation: Digital Signature Validation
+      fixity_check: Fixity Check
+      ingestion: Ingestion
+      message_digest_calculation: Message Digest Calculation
+      migration: Migration
+      normalization: Normalization
+      processing: Processing
+      publication: Publication
+      replication: Replication
+      resource_merge: Resource Merge
+      resource_component_transfer: Resource Component Transfer
+      validation: Valudation
+      virus_check: Virus Check
     _html:
       singular: Event
       plural: Events

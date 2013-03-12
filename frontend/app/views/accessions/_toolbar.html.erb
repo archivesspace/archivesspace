@@ -5,6 +5,24 @@
         <div class="pull-right">
           <div class="btn-group">
             <% if not @accession.suppressed %>
+              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+                <%= I18n.t("actions.add_event") %>
+                <span class="caret"></span>
+              </a>
+              <% if @accession_event_types %>
+                <ul class="dropdown-menu">
+                  <% @accession_event_types.each do |type| %>
+                    <li>
+                      <%= link_to I18n.t("event.types.#{type}"), {:controller => :events, :action => :new, :event_type => type, :accession_uri => @accession.uri} %>
+                    </li>
+                  <% end %>
+                </ul>                
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="btn-group">
+            <% if not @accession.suppressed %>
               <%= link_to I18n.t("actions.edit"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-small" %>
               <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= I18n.t "actions.spawn" %>

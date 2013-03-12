@@ -15,6 +15,18 @@ class EventsController < ApplicationController
     @event = JSONModel(:event).new._always_valid!
     @event.linked_agents = [{}]
     @event.linked_records = [{}]
+    
+    if params.has_key?(:event_type)
+      @event.event_type = params[:event_type]
+    end    
+
+    if params.has_key?(:accession_uri)
+      @event.linked_records = []
+      
+      accession = JSONModel(:accession).find_by_uri(params[:accession_uri])
+      @event.linked_records << {'ref' => accession.uri, '_resolved' => accession.to_hash, 'role' => 'source'}
+    end
+
   end
 
   def edit
