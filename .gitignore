@@ -12,6 +12,7 @@ config/config.rb
 coverage
 selenium/webdriver-profile*
 /archivesspace.jar
+/archivesspace.zip
 build/target
 build/solr
 build/solr_index

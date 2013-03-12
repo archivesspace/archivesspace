@@ -20,6 +20,11 @@ class AppConfig
   end
 
 
+  def self.has_key?(parameter)
+    @@parameters.has_key?(parameter)
+  end
+
+
   def self.load_overrides_from_properties
     # Override defaults from the command-line if specified
     java.lang.System.get_properties.each do |property, value|
@@ -42,7 +47,10 @@ class AppConfig
     if java.lang.System.getProperty("aspace.config")
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
-    elsif java.lang.System.getProperty("catalina.home")
+    elsif java.lang.System.getProperty("ASPACE_LAUNCHER_BASE") &&
+        File.exists?(File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb"))
+      File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb")
+    elsif java.lang.System.getProperty("catalina.base")
       # Tomcat users
       File.join(java.lang.System.getProperty("catalina.home"), "conf", "config.rb")
     elsif __FILE__.index(java.lang.System.getProperty("java.io.tmpdir")) != 0
@@ -108,6 +116,7 @@ class AppConfig
     AppConfig[:backend_url] = "http://localhost:4567"
     AppConfig[:frontend_url] = "http://localhost:3000"
     AppConfig[:solr_url] = "http://localhost:2999"
+    AppConfig[:indexer_url] = "http://localhost:2998"
     AppConfig[:public_url] = "http://localhost:3001"
 
     # If you have multiple instances of the backend running behind a load

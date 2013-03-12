@@ -122,6 +122,13 @@
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium-public/Gemfile'" />
     </java>
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='../indexer/Gemfile'" />
+    </java>
   </target>
 
 
@@ -251,11 +258,22 @@
   </target>
 
 
+  <target name="indexer:war" depends="set-classpath, bootstrap" description="Deploy the indexer application as a .war file">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+          dir="../indexer">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ../build/gems/bin/warble war" />
+    </java>
+  </target>
+
+
   <!-- Solr -->
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
     <copy file="${solr_file}" tofile="solr.war" />
     <war destfile="solr.war" update="true">
-      <zipfileset dir="../solr" prefix="WEB-INF/classes/solr"/>
+      <zipfileset dir="../solr" prefix="WEB-INF/classes"/>
     </war>
   </target>
 
@@ -313,7 +331,7 @@
   <target name="frontend:war" depends="set-classpath, bootstrap, frontend:clean" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
-    <delete dir="../frontend/tmp" />
+    <delete failonerror="false" dir="../frontend/tmp" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
@@ -439,36 +457,41 @@
   </target>
 
 
-  <target name="dist" depends="backend:war, frontend:war, public:war, solr:war" description="Build a standalone distribution jar of frontend, backend and all components">
+  <target name="dist" 
+          depends="backend:war, frontend:war, public:war, solr:war, indexer:war"
+          description="Build a standalone distribution zip of all components">
+    <delete failonerror="false" dir="target" />
 
-    <mkdir dir="target" />
+    <mkdir dir="target/archivesspace/config" />
+    <mkdir dir="target/archivesspace/wars" />
+    <mkdir dir="target/archivesspace/gems" />
+    <mkdir dir="target/archivesspace/lib" />
+    <mkdir dir="target/archivesspace/logs" />
+    <mkdir dir="target/archivesspace/launcher" />
 
-    <javac includeAntRuntime="false" fork="true" destdir="target" srcdir="../launcher/src" failonerror="true" classpath="../launcher/libs/*:${jruby_file}" />
-
-    <jar jarfile="deps.jar">
-      <zipgroupfileset dir="../launcher/libs" includes="*.jar" />
+    <jar jarfile="target/archivesspace/lib/common.jar">
+      <fileset dir="../common" />
     </jar>
 
-    <sleep seconds="1" />
+    <copy file="solr.war" todir="target/archivesspace/wars" />
+    <copy file="../backend/backend.war" todir="target/archivesspace/wars" />
+    <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
+    <copy file="../public/public.war" todir="target/archivesspace/wars" />
+    <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
 
-    <jar jarfile="../archivesspace.jar" basedir="target">
-      <zipfileset src="deps.jar" excludes="META-INF/*.SF" />
-      <zipfileset src="${jruby_file}" />
+    <copy todir="target/archivesspace/gems">
+      <fileset dir="gems" excludes="cache/*,doc/*" />
+    </copy>
 
-      <fileset dir="../" includes="config/**" />
-      <fileset dir="../solr" />
-      <fileset dir="../" includes="indexer/**" />
-      <fileset dir="../" includes="common/**" />
+    <copy todir="target/archivesspace/launcher">
+      <fileset dir="../launcher" />
+    </copy>
 
-      <zipfileset src="../backend/backend.war" prefix="backend" />
-      <zipfileset src="../frontend/frontend.war" prefix="frontend" />
-      <zipfileset src="../public/public.war" prefix="public" />
-      <zipfileset src="${solr_file}" prefix="solr" />
+    <zip zipfile="../archivesspace.zip" level="9">
+      <zipfileset dir="target" />
+      <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
+    </zip>
 
-      <manifest>
-        <attribute name="Main-Class" value="org.archivesspace.Main" />
-      </manifest>
-    </jar>
   </target>
 
 
