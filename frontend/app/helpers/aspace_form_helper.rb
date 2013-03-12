@@ -66,7 +66,7 @@ module AspaceFormHelper
       result = ""
 
       push(context_name, object) do
-        result << hidden_input("lock_version", object["lock_version"])
+        result << hidden_input("lock_version", object["lock_version"]) if object
         result << @parent.capture(object, &block)
       end
 
@@ -193,7 +193,7 @@ module AspaceFormHelper
     end
 
     def label_and_textarea(name, opts = {})
-      label_with_field(name, textarea(name, obj[name], opts), opts)
+      label_with_field(name, textarea(name, obj[name] || opts[:default], opts[:field_opts] || {}), opts)
     end
 
 

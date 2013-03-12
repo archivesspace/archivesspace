@@ -59,6 +59,70 @@ $(function() {
       {
         tag: "extref",
         attributes: ["target", "show", "title", "actuate"]
+      },
+      {
+        tag: "outline",
+        elements: [
+          {
+            tag: "level",
+            elements: [
+              {
+                tag: "item"
+              },
+              {
+                tag: "level",
+                elements: [
+                  {
+                    tag: "item"
+                  },
+                  {
+                    tag: "level",
+                    elements: [
+                      {
+                        tag: "item"
+                      },
+                      {
+                        tag: "level",
+                        elements: [
+                          {
+                            tag: "item"
+                          },
+                          {
+                            tag: "level",
+                            elements: [
+                              {
+                                tag: "item"
+                              },
+                              {
+                                tag: "level",
+                                elements: [
+                                  {
+                                    tag: "item"
+                                  },
+                                  {
+                                    tag: "level",
+                                    elements: [
+                                      {
+                                        tag: "item"
+                                      },
+                                      {
+                                        tag: "level"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     ];
 });

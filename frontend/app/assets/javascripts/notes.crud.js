@@ -141,6 +141,15 @@ $(function() {
         initNoteType($subform, template_name, true, '.add-sub-note-btn');
       };
 
+      initialisers.note_bioghist = function($subform) {
+
+        var template_name = function (self) {
+          var selected = $("option:selected", self.parents(".dropdown-menu"));
+          return "template_"+selected.val();
+        }
+
+        initNoteType($subform, template_name, true, '.add-sub-note-btn');
+      };
 
       var initNoteForm = function($noteform) {
         if ($noteform.hasClass("initialised")) {

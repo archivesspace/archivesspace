@@ -1,4 +1,5 @@
 //= require subrecord.crud
+//= require notes.crud
 
 $(function() {
 

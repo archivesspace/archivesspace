@@ -1141,6 +1141,10 @@ en:
     note_index: Index
     note_bibliography: Bibliography
     note_digital_object: Digital Object Note
+    note_bioghist: "Biography/Historical Note"
+    note_citation: Citation
+    note_abstract: Abstract
+    note_outline: Outline
     types:
       accessrestrict: Conditions Governing Access
       accruals: Accruals
@@ -1250,6 +1254,33 @@ en:
     item_singular: Item
     publish: Publish?
     internal: Internal Only?
+  note_bioghist:
+    label: Label
+    content: Content
+    publish: Publish?
+    internal: Internal Only?
+  note_abstract:
+    option: Abstract
+    publish: Publish?
+    internal: Internal Only?
+  note_citation:
+    option: Citation
+    publish: Publish?
+    internal: Internal Only?
+    xlink: XLink
+  note_citation_xlink:
+    actuate: Actuate
+    arcrole: Arc Role
+    href: Href
+    role: Role
+    show: Show
+    title: Title
+    type: Type
+  note_outline:
+    option: Outline
+    publish: Publish?
+    internal: Internal Only?
+    content: Content
   container: &container_attributes
     type_1: Type 1
     indicator_1: Indicator 1

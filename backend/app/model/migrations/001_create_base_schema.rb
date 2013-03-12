@@ -507,6 +507,8 @@ Sequel.migration do
 
       Integer :lock_version, :default => 0, :null => false
 
+      BlobField :notes, :null => true
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
@@ -516,6 +518,8 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+
+      BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -527,6 +531,8 @@ Sequel.migration do
 
       Integer :lock_version, :default => 0, :null => false
 
+      BlobField :notes, :null => true
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
@@ -536,6 +542,8 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+
+      BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false

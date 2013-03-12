@@ -10,6 +10,10 @@ module NotesHelper
         note_types[type] = :note_digital_object
       end
 
+    elsif jsonmodel_type =~ /agent/
+
+      note_types = {"bioghist" => :note_bioghist}
+
     else
 
       # Resource/AO
