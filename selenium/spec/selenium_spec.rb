@@ -932,7 +932,7 @@ describe "ArchivesSpace user interface" do
     it "creates an event and links it to an agent and accession" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Event").click
-      $driver.find_element(:id, "event_event_type_").select_option('virus check')
+      $driver.find_element(:id, "event_event_type_").select_option('virus_check')
       $driver.clear_and_send_keys([:id, "event_outcome_"], "A good outcome")
       $driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's a lie: all test subjects perished.")
 
