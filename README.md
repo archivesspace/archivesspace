@@ -1,30 +1,34 @@
 # Getting started
 
-If you have the Java 1.6.0 SDK (or above) you can build and run a demo
-server with the following commands:
+The quickest way to get ArchivesSpace up and running is to download
+the latest distribution .zip file from the following URL:
 
-     git clone git://github.com/hudmol/archivesspace.git
+  https://github.com/archivesspace/archivesspace/wiki/Downloads
 
-     cd archivesspace
+You will need to have Java 1.6 installed on your machine, but
+everything else you need is included in the .zip file.
 
-     build/run dist
+When you extract the .zip file, it will create a directory called
+`archivesspace`.  To run the system, just execute the appropriate
+startup script for your platform.  On Linux and OSX that's:
 
-     java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -jar archivesspace.jar
+     # Runs as a daemon--use "stop" to shut down.
+     ./archivesspace.sh start
 
-This will start the ArchivesSpace application running on:
+and for Windows:
 
-  http://localhost:8080/
+     archivesspace.bat
 
-and the backend web service running on:
+The system will send its log messages to the file
+`logs/archivesspace.out`, so you can watch that file to see what's
+happening.  After a minute or so, you should be able to point your
+browser to http://localhost:3000/ and access the ArchivesSpace
+application.
 
-  http://localhost:8089/
 
-If you'd like to use different ports, you can run:
+# First steps
 
-    java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -jar archivesspace.jar [frontend port] [backend port]
-
-To set up the application, browse to http://localhost:8080/ and log in
-using the adminstrator account:
+To start using the application, log in using the adminstrator account:
 
 * Username: `admin`
 * Password: `admin`
@@ -34,45 +38,43 @@ repository" from the drop-down menu at the top right hand side of the
 screen.  Once you have created a repository, you can log out and
 register new user accounts from the link in the log-in form.
 
-Note: If you have already run the service in demo mode, you may need
-to remove the existing demo database in order to avoid a
-'java.sql.SQLException: Failed to create database' error:
 
-		build/run db:nuke
+# Running ArchivesSpace with a custom configuration file
 
-
-## Running ArchivesSpace with a custom configuration file
-
-ArchivesSpace loads its configuration from a `config.rb` file, and
-will look for this file in several locations:
-
-  * If you're running the `archivesspace.jar` as above, it will
-    attempt to load the configuration from the current user's home
-    directory: `$HOME/.aspace_config.rb` 
-
-  * If you're running ArchivesSpace under Tomcat, it will attempt to
-    load `$TOMCAT_HOME/conf/config.rb`
-
-  * If you're running in development mode, it will attempt to load
-    `/path/to/archivesspace/config/config.rb` 
-
-To explicitly specify the location of your configuration file, you can
-run the application with the 'aspace.config' system property set.  For
-example:
-
-     java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -Daspace.config=/path/to/my/config.rb -jar archivesspace.jar
-
-You can also override individual configuration options by setting the
-corresponding system property.  The command line:
-
-     java -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 -Daspace.config.data_directory=/path/to/my/data -jar archivesspace.jar
-
-is equivalent to adding a `config.rb` entry like:
-
-     AppConfig[:data_directory] = "/path/to/my/data"
+Under your `archivesspace` directory you will see a directory called
+`config` which contains a file called `config.rb`.  By modifying this
+file, you can override the defaults that ArchivesSpace ships with:
+changing things like the ports it listens on and where it puts its data.
 
 
-## Configuring LDAP authentication
+# Running ArchivesSpace against MySQL
+
+The ArchivesSpace distribution runs against an embedded database by
+default, but it's a good idea to run against MySQL for production
+use.  To do this, create an empty database in MySQL and grant access
+to a dedicated ArchivesSpace user (this example uses username `as` and
+password `as123`):
+
+         $ mysql -uroot -p
+
+         mysql> create database archivesspace default character set utf8;
+         Query OK, 1 row affected (0.08 sec)
+
+         mysql> grant all on archivesspace.* to 'as'@'localhost' identified by 'as123';
+         Query OK, 0 rows affected (0.21 sec)
+
+Then, modify your `config/config.rb` file to refer to your MySQL
+database:
+
+     AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
+
+When you restart your ArchivesSpace instance it will connect to MySQL
+and notice its tables haven't been created yet.  To create them,
+browse to http://localhost:4567/setup and follow the prompts.  Once
+the tables have been created, restart the application once again.
+
+
+# Configuring LDAP authentication
 
 ArchivesSpace can be configured to authenticate against one or more
 LDAP directories by specifying them in the application's configuration
