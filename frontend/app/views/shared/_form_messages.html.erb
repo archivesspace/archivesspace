@@ -1,4 +1,4 @@
-<div class="form-messages">
+<div class="form-messages" id="form_messages">
 <% if @exceptions %>
    <script>
      $(function () {
@@ -50,8 +50,6 @@
 
        var _errors = <%= form.exceptions_for_js(@exceptions) %>;
 
-        console.log(_errors);
-
        var callback = function () {
          if (_errors.errors) {
            $(_errors.errors).each(function (idx, elt) {
@@ -65,8 +63,11 @@
            });
          }
 
-        // unbind the event (only needs to run once)
+         // unbind the event (only needs to run once)
          $(document).unbind("ajaxComplete", callback);
+
+         // tell the world all the errors have been rendered
+         $(document).triggerHandler("formErrorsReady");
        };
 
        $(callback);

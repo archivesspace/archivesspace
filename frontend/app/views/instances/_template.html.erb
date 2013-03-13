@@ -4,7 +4,7 @@
   <div class="subrecord-form-fields">
     <h4 class="subrecord-form-heading">
       <% if form["instance_type"] %>
-        <%= I18n.t("instance.instance_type_#{form.obj["instance_type"]}") %>
+        <%= I18n.t("enumerations.instance_instance_type.#{form.obj["instance_type"]}", :default => form.obj["instance_type"]) %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">
@@ -19,7 +19,7 @@
   <div class="subrecord-form-fields">
     <h4 class="subrecord-form-heading">
       <% if form["instance_type"] %>
-        <%= I18n.t("instance.instance_type_#{form.obj["instance_type"]}") %>
+        <%= I18n.t("enumerations.instance_instance_type.#{form.obj["instance_type"]}", :default => form.obj["instance_type"]) %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">

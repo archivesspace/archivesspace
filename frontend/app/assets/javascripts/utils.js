@@ -2,6 +2,7 @@
 //= require bootstrap-datepicker
 
 // initialise ajax modal
+
 $(function() {
   var openAjaxModal = function(href) {
     $("body").append('<div class="modal hide" id="tempAjaxModal"></div>');
@@ -45,22 +46,62 @@ $(function() {
 
 // sidebar action
 $(function() {
+  var getSubMenuHTML = function() {
+    return $("<ul class='nav-list-submenu'></ul>");
+  };
+
+  var getSubMenuItemHTML = function(anItem) {
+    var $li = $("<li>");
+    var $link = $("<a>");
+    $link.addClass("nav-list-submenu-link");
+    $link.attr("href", "javascript:void(0);");
+    if ($(".error", anItem).length > 0) {
+      $link.addClass("has-errors");
+    }
+    $li.append($link);
+    return $li;
+  };
+
+  var refreshSidebarSubMenus = function() {
+    if ($(".readonly-context:first").length > 0) {
+      // this could be a read only page... so don't
+      // show the sub record bits
+      return;
+    }
+    $(".nav-list-submenu").empty();
+    $("#archivesSpaceSidebar .nav-list > li").each(function() {
+      var $nav = $(this);
+      var $link = $("a", $nav);
+      var $section = $($link.attr("href"));
+      var $items = $(".subrecord-form-list:first > li", $section);
+
+      var $submenu = getSubMenuHTML();
+      //if ($items.length > 1) {
+        for (var i=0; i<$items.length; i++) {
+          $submenu.append(getSubMenuItemHTML($items[i]));
+        }
+        $link.append($submenu);
+      //}
+    });
+  };
+
   var bindSidebarEvents = function() {
-    $("#archivesSpaceSidebar .nav-list").on("click", "a", function(event) {
+    $("#archivesSpaceSidebar .nav-list").on("click", "> li > a", function(event) {
       event.preventDefault();
       event.stopPropagation();
 
       var $target_item = $(this);
       $($target_item.attr("href")).ScrollTo({
         callback: function() {
-            $(".active", "#archivesSpaceSidebar").removeClass("active");
-            $target_item.parents("li:first").addClass("active");
+          $(".active", "#archivesSpaceSidebar").removeClass("active");
+          var $active = $target_item.parents("li:first");
+          $active.addClass("active");
         }
       });
     });
   };
 
-  var initSidebar = function() {
+   var initSidebar = function() {
     $("#archivesSpaceSidebar .nav-list:not(.initialised)").each(function() {
       $.proxy(bindSidebarEvents, this)();
       $(this).affix({
@@ -71,8 +112,26 @@ $(function() {
           bottom: 100
         }
       });
+
+      $(this).on("click", ".nav-list-submenu-link", function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        var $this = $(this);
+
+        var $section = $($this.parent().closest("a").attr("href"));
+        var $target = $($(".subrecord-form-list:first > li", $section)[$this.parent().index()]);
+        $target.ScrollTo({
+          callback: function() {
+            $(".active", "#archivesSpaceSidebar").removeClass("active");
+            $this.parent().parent().closest("li").addClass("active");
+          }
+        });
+      });
+
       $(this).addClass("initialised");
     });
+    refreshSidebarSubMenus();
   };
 
   initSidebar();
@@ -80,8 +139,20 @@ $(function() {
   $(document).ajaxComplete(function() {
     initSidebar();
   });
-});
 
+  $(document).bind("new.subrecord init.subrecord deleted.subrecord formErrorsReady", function() {
+    if ($("#archivesSpaceSidebar .nav-list.initialised").length > 0) {
+      refreshSidebarSubMenus();
+      // refresh scrollspy offsets.. as they are probably wrong now that things have changed in the form
+      $('[data-spy="scroll"]').scrollspy('refresh');
+    }
+  });
+  $(document).bind("resize.tree", function() {
+    // refresh scrollspy offsets.. as they are probably wrong now that things have changed in the form
+    $('[data-spy="scroll"]').scrollspy('refresh');
+  });
+
+});
 
 // date fields and datepicker initialisation
 $(function() {
