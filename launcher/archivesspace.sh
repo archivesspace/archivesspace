@@ -29,12 +29,15 @@ case "$1" in
             org.jruby.Main --1.9 \"launcher/launcher.rb\" &> \"logs/archivesspace.out\" & ) &
 
         disown $!"
+
+        echo "ArchivesSpace started!  See logs/archivesspace.out for details."
         ;;
     stop)
         pid=`ps -ef | egrep 'Darchivesspace-daemon=yes' | grep -v grep | awk '{print $2}' | head -1`
         if [ "$pid" != "" ]; then
-            echo "Killing $pid"
+            echo -n "Shutting down ArchivesSpace (running as PID $pid)... "
             kill $pid
+            echo "done"
         else
             echo "Couldn't find a running instance to stop"
         fi
