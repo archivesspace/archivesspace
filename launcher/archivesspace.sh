@@ -42,9 +42,9 @@ case "$1" in
         export GEM_HOME=\"$GEM_HOME\";
 
         (java -Darchivesspace-daemon=yes \
-            -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 \
+            -Xss2m -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 \
             -Daspace.config.data_directory=\"data\" \
-            -cp \"$GEM_HOME/gems/jruby-jars-1.7.0/lib/*:lib/*:launcher/lib/*\" \
+            -cp \"$GEM_HOME/gems/jruby-jars-1.7.0/lib/*:$GEM_HOME/gems/jruby-rack-1.1.12/lib/*:lib/*:launcher/lib/*\" \
             org.jruby.Main --1.9 \"launcher/launcher.rb\" &> \"logs/archivesspace.out\" & ) &
 
         disown $!"
@@ -52,7 +52,7 @@ case "$1" in
         echo "ArchivesSpace started!  See logs/archivesspace.out for details."
         ;;
     stop)
-        pid=`ps -ef | egrep 'Darchivesspace-daemon=yes' | grep -v grep | awk '{print $2}' | head -1`
+        pid=`ps -ef | grep 'Darchivesspace-daemon=yes' | grep -v grep | awk '{print $2}' | head -1`
         if [ "$pid" != "" ]; then
             echo -n "Shutting down ArchivesSpace (running as PID $pid)... "
             kill $pid

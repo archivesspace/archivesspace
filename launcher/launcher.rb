@@ -1,14 +1,5 @@
-# (mst@thweeble) ~/tmp/deploy-test$ GEM_HOME=$PWD/gems GEM_PATH= java -Daspace.config.public_user_secret=devserver -Daspace.config.search_user_secret=devserver -cp 'common.jar:gems/gems/jruby-jars-1.7.0/lib/*:libs/*' org.jruby.Main --1.9 run.rb
-#
-# Can be deployed under Tomcat too, by:
-#
-#  - copying jruby jars into /lib
-#  - copying common.jar into /lib
-#  - setting GEM_HOME to the 'gems' directory
-
 require 'java'
 require 'rubygems'
-require 'jruby-rack'
 require 'config/config-distribution'
 require 'fileutils'
 require 'securerandom'
