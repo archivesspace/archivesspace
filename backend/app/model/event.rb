@@ -22,7 +22,7 @@ class Event < Sequel::Model(:event)
 
   define_relationship(:name => :link,
                       :json_property => 'linked_records',
-                      :contains_references_to_types => proc {[Accession, Resource, ArchivalObject, DigitalObject]},
+                      :contains_references_to_types => proc {[Accession, Resource, ArchivalObject, DigitalObject, AgentPerson, AgentCorporateEntity, AgentFamily, AgentSoftware]},
                       :class_callback => proc { |clz|
                         clz.instance_eval do
                           include DynamicEnums

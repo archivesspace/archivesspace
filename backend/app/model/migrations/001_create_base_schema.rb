@@ -69,6 +69,9 @@ Sequel.migration do
       String :username, :null => false, :unique => true
       String :name, :null => false
       String :source, :null => true
+      Integer :agent_record_id, :null => false
+      String :agent_record_type, :null => false
+
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -1171,7 +1174,7 @@ Sequel.migration do
     end
 
     # Event relationships
-    [:accession, :resource, :archival_object, :digital_object].each do |record|
+    [:accession, :resource, :archival_object, :digital_object, :agent_person, :agent_family, :agent_corporate_entity, :agent_software].each do |record|
       table = [MigrationUtils.shorten_table("event"),
                MigrationUtils.shorten_table(record)].sort.join("_link_").intern
 

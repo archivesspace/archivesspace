@@ -2,12 +2,10 @@ require 'nokogiri'
 
 ASpaceExport::serializer :eac do
   
-  def serialize(object, opts = {})
-
-    raise StandardError.new("Can't serialize a #{object.class}") unless object.class.to_s.match(/^Agent/)
+  def serialize(eac, opts = {})
 
     builder = Nokogiri::XML::Builder.new do |xml|
-      _eac(object.class.to_jsonmodel(object), xml)     
+      _eac(eac, xml)     
     end
     
     builder.to_xml   
@@ -33,25 +31,40 @@ ASpaceExport::serializer :eac do
       }
     
       xml.maintenanceHistory {
-        xml.maintenanceEvent {
-          xml.eventType "created"
-          ctime = Time.mktime(json.create_time.to_s).utc.strftime '%Y-%m-%dT%H:%M:%S'
-          xml.eventDateTime(:standardDateTime => ctime) {
-            xml.text ctime
-          } 
-          xml.agentType "human"
-          xml.agent "unknown"
-        }
+
+        json.events.each do |event|
         
-        xml.maintenanceEvent {
-          xml.eventType "revised"
-          ctime = Time.mktime(json.last_modified.to_s).utc.strftime '%Y-%m-%dT%H:%M:%S'
-          xml.eventDateTime(:standardDateTime => ctime) {
-            xml.text ctime
-          } 
-          xml.agentType "human"
-          xml.agent "unknown"
-        }
+          xml.maintenanceEvent {
+            xml.eventType event.type
+            xml.eventDateTime(:standardDateTime => event.date_time) {
+              xml.text event.date_time
+            } 
+            event.agents.each do |agent|
+              xml.agentType agent[0]
+              xml.agent agent[1]
+            end
+          }
+        end         
+          
+        # xml.maintenanceEvent {
+        #   xml.eventType "created"
+        #   ctime = Time.mktime(json.create_time.to_s).utc.strftime '%Y-%m-%dT%H:%M:%S'
+        #   xml.eventDateTime(:standardDateTime => ctime) {
+        #     xml.text ctime
+        #   } 
+        #   xml.agentType "human"
+        #   xml.agent "unknown"
+        # }
+        
+        # xml.maintenanceEvent {
+        #   xml.eventType "revised"
+        #   ctime = Time.mktime(json.last_modified.to_s).utc.strftime '%Y-%m-%dT%H:%M:%S'
+        #   xml.eventDateTime(:standardDateTime => ctime) {
+        #     xml.text ctime
+        #   } 
+        #   xml.agentType "human"
+        #   xml.agent "unknown"
+        # }
       }
     
       json.external_ids.each do |e|

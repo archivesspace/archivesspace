@@ -1,11 +1,54 @@
 class User < Sequel::Model(:user)
   include ASModel
-
+  
   set_model_scope :global
   corresponds_to JSONModel(:user)
 
   @@unlisted_user_ids = nil
 
+
+  def self.create_from_json(json, opts = {})
+   
+    # These users are part of the software
+    if json.username == self.SEARCH_USERNAME || json.username == self.PUBLIC_USERNAME
+
+      opts['agent_record_type'] = :agent_software     
+      opts['agent_record_id'] = 1
+      
+    else
+     
+      agent = JSONModel(:agent_person).from_hash(
+                :names => [{
+                  :primary_name => json.name,
+                  :source => 'local',
+                  :rules => 'local',
+                  :name_order => 'direct',
+                  :sort_name_auto_generate => true
+              }])
+            
+      agent_obj = AgentPerson.create_from_json(agent, :system_generated => true)
+    
+      opts['agent_record_type'] = :agent_person
+      opts['agent_record_id'] = agent_obj.id
+
+    end
+    
+    obj = super(json, opts)
+    
+    obj
+  end
+ 
+  def sequel_to_jsonmodel(obj, opts = {})
+    json = super
+
+    if obj.agent_record_id
+      json[agent_record] = {:ref => uri_for(obj.agent_record_type, obj.agent_record_id)}
+    end
+
+    json
+  end
+  
+  
   def self.ADMIN_USERNAME
     "admin"
   end
@@ -28,7 +71,7 @@ class User < Sequel::Model(:user)
 
     @@unlisted_user_ids
   end
-
+  
 
   def before_save
     super

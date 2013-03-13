@@ -12,6 +12,21 @@
       "permissions" => {
         "type" => "object",
         "readonly" => true,
+      },
+      
+      "agent_record" => {
+        "type" => "object",
+        "readonly" => true,
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {
+            "type" => [{"type" => "JSONModel(:agent_person) uri"}, {"type" => "JSONModel(:agent_software) uri"}]
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
       }
     },
 

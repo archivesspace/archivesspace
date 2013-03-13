@@ -19,7 +19,7 @@
       "agent_type" => {
         "type" => "string",
         "required" => false,
-        "enum" => ["agent_person", "agent_corporate_entity", "agent_software", "agent_family"]
+        "enum" => ["agent_person", "agent_corporate_entity", "agent_software", "agent_family", "user"]
       },
 
       "agent_contacts" => {

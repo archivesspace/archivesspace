@@ -14,6 +14,25 @@ class ArchivesSpaceService
       end
     end
 
+    # Create the Software Agent Record.
+    # (should we have a table for storing special DB rows that don't depend on the config?)
+    # (should this record be undeletable?)
+    if AgentSoftware[1].nil?
+      json = JSONModel(:agent_software).from_hash(
+                :names => [{
+                  :software_name => 'ArchivesSpace',
+                  :version => 'alpha',
+                  :source => 'local',
+                  :rules => 'local',
+                  :sort_name_auto_generate => true
+              }])
+    
+      sys_agent = AgentSoftware.create_from_json(json, :system_generated => true)
+    else    
+  
+      Log.warn("Ran access control bootstrap without creating an Agent record for this software.")
+    end
+
 
     # Create the admin user
     if User[:username => User.ADMIN_USERNAME].nil?
@@ -152,9 +171,11 @@ class ArchivesSpaceService
     end
 
   end
+  
 
 
   set_up_base_permissions
   create_search_user
   create_public_user
+
 end

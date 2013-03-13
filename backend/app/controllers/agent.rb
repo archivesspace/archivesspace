@@ -8,9 +8,10 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:agent)]"]) \
   do
     agents = AgentManager.type_to_model_map.map {|type, model|
-      model.all.collect {|agent| model.to_jsonmodel(agent)}
+      model.all.collect {|agent| model.to_jsonmodel(agent)} unless type == :user
     }
 
-    json_response(agents.flatten)
+
+    json_response(agents.flatten.reject(&:nil?))
   end
 end

@@ -76,17 +76,27 @@ module ExportHelpers
     
   end
   
-  # TODO - Get this exporter using ExportModels like the entries above...
+  
   def generate_eac(id, type)
     
-    agent = Kernel.const_get(type.camelize).get_or_die(id)
+    obj = Kernel.const_get(type.camelize).get_or_die(id)
     
-    serializer = ASpaceExport::serializer(:eac)
+    events = []
+
+    # Events related to the 'maintenance history' of this agent record
+    RequestContext.open(:repo_id => 1) do
+      Event.instances_relating_to(obj).each do |e|
+        res = resolve_references(Event.to_jsonmodel(e), ['linked_agents'])
+        events << JSONModel(:event).new(res)
+      end
+    end
     
-    serializer.serialize(agent)
+    json = obj.class.to_jsonmodel(obj)
+    
+    eac = ASpaceExport.model(:eac).from_agent(json, events)
+    
+    ASpaceExport::serializer(:eac).serialize(eac)
   end
-  
-  
   
 end
   

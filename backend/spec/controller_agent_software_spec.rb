@@ -31,9 +31,11 @@ describe 'Software agent controller' do
 
 
   it "can give a list of software agents" do
-    create_software
+    start = JSONModel(:agent_software).all(:page => 1)['results'].count
 
-    JSONModel(:agent_software).all(:page => 1)['results'].count.should eq(1)
+    2.times { create_software }
+
+    JSONModel(:agent_software).all(:page => 1)['results'].count.should eq(start+2)
   end
 
 

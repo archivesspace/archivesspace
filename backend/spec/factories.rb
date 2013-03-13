@@ -90,8 +90,13 @@ FactoryGirl.define do
   end
   
   factory :user, class: User do
+    
+    # before(:create) { agent = create(:json_agent_person) }  
+      
     username { generate(:username) }
     name { generate(:generic_name) }
+    agent_record_type :agent_person
+    agent_record_id {JSONModel(:agent_person).id_for(create(:json_agent_person).uri)}
     source 'local'
   end
   
