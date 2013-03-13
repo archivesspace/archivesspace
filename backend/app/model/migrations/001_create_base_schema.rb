@@ -1097,7 +1097,7 @@ Sequel.migration do
 
     create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leaves", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
 
-    create_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "agreement received", "agreement sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "custody transfer", "deaccession", "decompression", "decryption", "deletion", "digital signature validation", "fixity check", "ingestion", "message digest calculation", "migration", "normalization", "processing", "publication", "replication", "resource merge", "resource component transfer", "validation", "virus check"])
+    create_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "acknowledgement_sent", "agreement_signed", "agreement_received", "agreement_sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "copyright_transfer", "custody_transfer", "deaccession", "decompression", "decryption", "deletion", "digital_signature_validation", "fixity_check", "ingestion", "message_digest_calculation", "migration", "normalization", "processing", "publication", "replication", "resource_merge", "resource_component_transfer", "validation", "virus_check"])
 
     create_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "page", "reel", "volume"])
 

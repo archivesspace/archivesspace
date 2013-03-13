@@ -16,6 +16,8 @@ class AccessionsController < ApplicationController
   def show
     @accession = Accession.find(params[:id], "resolve[]" => FIND_OPTS)
     
+    @accession_event_types = ['acknowledgement_sent', 'agreement_sent', 'agreement_signed', 'copyright_transfer']
+    
     flash[:info] = I18n.t("accession._html.messages.suppressed_info") if @accession.suppressed
   end
 
