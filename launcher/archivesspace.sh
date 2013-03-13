@@ -1,4 +1,23 @@
 #!/bin/bash
+#
+# archivesspace          Start the ArchivesSpace archival management system
+#
+# chkconfig: 2345 90 5
+# description: Start the ArchivesSpace archival management system
+#
+
+### BEGIN INIT INFO
+# Provides: archivesspace
+# Required-Start: $local_fs $network $syslog
+# Required-Stop: $local_fs $syslog
+# Should-Start: $syslog
+# Should-Stop: $network $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start the ArchivesSpace archival management system
+# Description:       Start the ArchivesSpace archival management system
+### END INIT INFO
+
 
 cd "`dirname $0`"
 
