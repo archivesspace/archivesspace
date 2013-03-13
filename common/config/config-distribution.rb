@@ -94,8 +94,13 @@ class AppConfig
   end
 
 
+  def self.read_defaults
+    File.read(File.join(File.dirname(__FILE__), "config-defaults.rb"))
+  end
+
+
   def self.load_defaults
-    eval(File.read(File.join(File.dirname(__FILE__), "config-defaults.rb")))
+    eval(read_defaults)
   end
 
 
