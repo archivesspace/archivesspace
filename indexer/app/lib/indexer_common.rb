@@ -137,11 +137,18 @@ class CommonIndexer
         docs << {
           'id' => "#{record['record']['uri']}#collection_management_record",
           'parent_id' => record['record']['uri'],
+          'parent_title' => record['record']['title'],
           'title' => "Collection management record",
+          'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'fullrecord' => cm.to_json(:max_nesting => false),
+          'processing_priority' => cm['processing_priority'],
+          'processing_status' => cm['processing_status'],
+          'processors' => cm['processors'],
           'suppressed' => record['record']['suppressed'].to_s,
           'repository' => get_record_scope(record['record']['uri']),
+          'last_modified' => cm['last_modified'],
+          'create_time' => cm['create_time'],
         }
       end
 
