@@ -1,8 +1,6 @@
+require_relative '../../launcher_init'
 require 'java'
 
-java.lang.System.setProperty("ASPACE_LAUNCHER_BASE", File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "..")))
-
-require 'config/config-distribution'
 require 'fileutils'
 require 'uri'
 require 'securerandom'

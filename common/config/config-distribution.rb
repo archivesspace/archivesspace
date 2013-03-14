@@ -3,6 +3,7 @@ require 'java'
 
 class AppConfig
   @@parameters = {}
+  @@changed_from_default = {}
 
   def self.[](parameter)
     if !@@parameters.has_key?(parameter)
@@ -16,6 +17,7 @@ class AppConfig
 
 
   def self.[]=(parameter, value)
+    @@changed_from_default[parameter] = true
     @@parameters[parameter] = value
   end
 
@@ -108,7 +110,14 @@ class AppConfig
     @@parameters = {}
 
     AppConfig.load_defaults
+    @@changed_from_default = {}
+
     AppConfig.load_user_config
+  end
+
+
+  def self.changed?(parameter)
+    @@changed_from_default[parameter]
   end
 
 end

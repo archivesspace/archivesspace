@@ -3,13 +3,15 @@ require 'sequel'
 require 'sequel/plugins/optimistic_locking'
 Sequel.extension :pagination
 
+require "db/db_migrator"
+
 require 'fileutils'
 require "jsonmodel"
 require "asutils"
 require_relative 'exceptions'
 require_relative 'logging'
 require 'config/config-distribution'
-require_relative "../model/db_migrator"
+
 require_relative 'webhooks'
 require_relative 'username'
 

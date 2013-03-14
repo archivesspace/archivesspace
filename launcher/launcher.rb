@@ -1,6 +1,4 @@
-require 'java'
-require 'rubygems'
-require 'config/config-distribution'
+require_relative 'launcher_init'
 require 'fileutils'
 require 'securerandom'
 require 'uri'
@@ -28,12 +26,6 @@ end
 
 
 def main
-  java.lang.System.set_property("ASPACE_LAUNCHER_BASE",
-                                File.realpath(File.join(File.dirname(__FILE__), "..")))
-
-  AppConfig.reload
-
-
   java.lang.System.set_property("org.eclipse.jetty.webapp.LEVEL", "WARN")
   java.lang.System.set_property("org.eclipse.jetty.server.handler.LEVEL", "WARN")
 

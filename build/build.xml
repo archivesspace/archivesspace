@@ -458,17 +458,20 @@
 
 
 
+
   <target name="dist" 
           depends="set-classpath, backend:war, frontend:war, public:war, solr:war, indexer:war"
           description="Build a standalone distribution zip of all components">
     <delete failonerror="false" dir="target" />
 
     <mkdir dir="target/archivesspace/config" />
+    <mkdir dir="target/archivesspace/data" />
     <mkdir dir="target/archivesspace/wars" />
     <mkdir dir="target/archivesspace/gems" />
     <mkdir dir="target/archivesspace/lib" />
     <mkdir dir="target/archivesspace/logs" />
     <mkdir dir="target/archivesspace/launcher" />
+    <mkdir dir="target/archivesspace/scripts/rb" />
 
     <jar jarfile="target/archivesspace/lib/common.jar">
       <fileset dir="../common" />
@@ -479,6 +482,8 @@
     <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
     <copy file="../public/public.war" todir="target/archivesspace/wars" />
     <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
+
+    <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
 
     <copy todir="target/archivesspace/gems">
       <fileset dir="gems" excludes="cache/*,doc/*" />
@@ -498,9 +503,11 @@
     <zip zipfile="../archivesspace.zip" level="9">
       <zipfileset dir="target" />
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
-      <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="755" />
-      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.sh" prefix="archivesspace" filemode="755" />
-      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.bat" prefix="archivesspace" filemode="755" />
+      <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="644" />
+      <zipfileset dir="../launcher/scripts" includes="setup-database.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/scripts" includes="setup-database.bat" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.bat" prefix="archivesspace/scripts" filemode="644" />
     </zip>
 
   </target>
