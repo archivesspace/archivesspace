@@ -11,11 +11,23 @@ entities:
       names:
         xpath: ["descendant::xmlns:nameEntry"]
         record_type: name_person # TODO: See if this can be safely eliminated
-      
+        
+      notes:
+        xpath: ["descendant::xmlns:biogHist"]
+        record_type: note_bioghist  
+
+  note_bioghist:
+    properties:
+      label: 
+        default: "default"
+    
+      content:
+        xpath: ["self::xmlns:biogHist"]
+   
   name_person:
     properties:
       primary_name: 
-        xpath: ["descendant::xmlns:part"]
+        xpath: ["descendant::xmlns:part/text()"]
       
       source:
         default: local
@@ -23,4 +35,10 @@ entities:
       dates:
         xpath: ["descendant::xmlns:part"]
         procedure: "|val| val.scan(/[0-9]{4}-[0-9]{4}/).flatten[0]"
+
+  # event:
+    
+        
+  # record_pair:
+  #   record_types: ['event', 'agent']
 

@@ -114,15 +114,26 @@ ASpaceExport::serializer :eac do
           }
         end
       }
-      
-      xml.description {        
-        json.names.reject{|n| n['description_type' != 'biographical statement']}.each do |n|
+
+      xml.description {
+        json.notes.reject {|n| n['jsonmodel_type'] != 'note_bioghist'}.each do |n|
           xml.biogHist {
-            xml.p n['description_note']
-            xml.citation n['description_citation']
+            n['content'].each do |c|
+              # xml.__send__ :insert, c   # << use this method if the note contents are ever valid EAC <description> content
+              xml.p c
+            end
           }
         end
       }
+      
+      # xml.description {        
+      #   json.names.reject{|n| n['description_type' != 'biographical statement']}.each do |n|
+      #     xml.biogHist {
+      #       xml.p n['description_note']
+      #       xml.citation n['description_citation']
+      #     }
+      #   end
+      # }
     }
   end
   
