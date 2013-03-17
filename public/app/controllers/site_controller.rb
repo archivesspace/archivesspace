@@ -117,9 +117,7 @@ class SiteController < ApplicationController
     }.compact
 
     if not terms.empty?
-      aq = group_queries(terms)
-      puts "*** aq: #{aq.inspect}"
-      @criteria["aq"] = JSONModel(:advanced_query).from_hash({"query" => aq}).to_json
+      @criteria["aq"] = JSONModel(:advanced_query).from_hash({"query" => group_queries(terms)}).to_json
     end
   end
 
