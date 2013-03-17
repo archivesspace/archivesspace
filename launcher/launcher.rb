@@ -48,7 +48,7 @@ def main
   start_server(File.join('wars', 'frontend.war'), '/', URI(AppConfig[:frontend_url]).port)
   start_server(File.join('wars', 'public.war'), '/', URI(AppConfig[:public_url]).port)
   start_server(File.join('wars', 'solr.war'), '/', URI(AppConfig[:solr_url]).port)
-  start_server(File.join('wars', 'indexer.war'), '/', URI(AppConfig[:indexer_url]).port)
+  start_server(File.join('wars', 'indexer.war'), '/aspace-indexer', URI(AppConfig[:solr_url]).port)
 
   puts <<EOF
 ************************************************************

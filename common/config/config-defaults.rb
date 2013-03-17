@@ -16,11 +16,10 @@ AppConfig[:allow_unsupported_database] = false
 AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 AppConfig[:demo_db_backup_number_to_keep] = 7
 
-AppConfig[:backend_url] = "http://localhost:4567"
-AppConfig[:frontend_url] = "http://localhost:3000"
-AppConfig[:solr_url] = "http://localhost:2999"
-AppConfig[:indexer_url] = "http://localhost:2998"
-AppConfig[:public_url] = "http://localhost:3001"
+AppConfig[:backend_url] = "http://localhost:8089"
+AppConfig[:frontend_url] = "http://localhost:8080"
+AppConfig[:solr_url] = "http://localhost:8090"
+AppConfig[:public_url] = "http://localhost:8081"
 
 # If you have multiple instances of the backend running behind a load
 # balancer, list the URL of each backend instance here.  This is used by the
