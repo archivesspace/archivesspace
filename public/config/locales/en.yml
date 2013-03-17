@@ -40,7 +40,7 @@ en:
       title: Title
       creator: Creator
       scope: Scope
-      contents: Contents Note
+      notes: Notes
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending

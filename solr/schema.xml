@@ -57,6 +57,7 @@
 
    <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="notes" type="text_general" indexed="true" stored="false" multiValued="false"/>
 
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
 
