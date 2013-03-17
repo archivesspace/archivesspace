@@ -5,25 +5,27 @@ the latest distribution .zip file from the following URL:
 
   https://github.com/archivesspace/archivesspace/wiki/Downloads
 
-You will need to have Java 1.6 installed on your machine, but
-everything else you need is included in the .zip file.
+You will need to have Java 1.6 (or newer) installed on your machine,
+but everything else you need is included in the .zip file.  You can
+check your Java version by running the command:
+
+     java -version
 
 When you extract the .zip file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
-startup script for your platform.  On Linux and OSX that's:
+startup script for your platform.  On Linux and OSX:
 
-     # Runs as a daemon--use "stop" to shut down.
-     ./archivesspace.sh start
+     cd /path/to/archivesspace
+     ./archivesspace.sh
 
 and for Windows:
 
+     cd \path\to\archivesspace
      archivesspace.bat
 
-The system will send its log messages to the file
-`logs/archivesspace.out`, so you can watch that file to see what's
-happening.  After a minute or so, you should be able to point your
-browser to http://localhost:3000/ and access the ArchivesSpace
-application.
+the system will log to the console as it starts up, and after a minute
+or so, you should be able to point your browser to
+http://localhost:3000/ and access the ArchivesSpace application.
 
 
 # First steps

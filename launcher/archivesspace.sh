@@ -18,7 +18,6 @@
 # Description:       Start the ArchivesSpace archival management system
 ### END INIT INFO
 
-
 cd "`dirname $0`"
 
 ARCHIVESSPACE_USER=
@@ -27,26 +26,22 @@ ARCHIVESSPACE_BASE="$PWD"
 export GEM_HOME="$ARCHIVESSPACE_BASE/gems"
 export GEM_PATH=
 
+startup_cmd="java -Darchivesspace-daemon=yes \
+        -Xss2m -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 \
+        -cp \"$GEM_HOME/gems/jruby-jars-1.7.0/lib/*:$GEM_HOME/gems/jruby-rack-1.1.12/lib/*:lib/*:launcher/lib/*\" \
+        org.jruby.Main --1.9 \"launcher/launcher.rb\""
+
+
 case "$1" in
     start)
-        exec 0<&-
-        exec 1>&-
-        exec 2>&-
-
         shellcmd="bash"
         if [ "$ARCHIVESSPACE_USER" != "" ]; then
             shellcmd="su - $ARCHIVESSPACE_USER"
         fi
+
         $shellcmd -c "cd '$ARCHIVESSPACE_BASE';
-
-        export GEM_HOME=\"$GEM_HOME\";
-
-        (java -Darchivesspace-daemon=yes \
-            -Xss2m -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 \
-            -cp \"$GEM_HOME/gems/jruby-jars-1.7.0/lib/*:$GEM_HOME/gems/jruby-rack-1.1.12/lib/*:lib/*:launcher/lib/*\" \
-            org.jruby.Main --1.9 \"launcher/launcher.rb\" &> \"logs/archivesspace.out\" & ) &
-
-        disown $!"
+          (exec 0<&-; exec 1>&-; exec 2>&-; $startup_cmd &> \"logs/archivesspace.out\" & ) &
+          disown $!"
 
         echo "ArchivesSpace started!  See logs/archivesspace.out for details."
         ;;
@@ -61,6 +56,7 @@ case "$1" in
         fi
         ;;
     *)
-        echo "Usage: $0 <start|stop>"
+        # Run in foreground mode
+        (cd $ARCHIVESSPACE_BASE; bash -c "$startup_cmd")
         ;;
 esac
