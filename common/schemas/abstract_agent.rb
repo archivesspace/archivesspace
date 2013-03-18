@@ -29,6 +29,11 @@
 
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
 
+      "notes" => {
+        "type" => "array",
+        "items" => {"type" => [{"type" => "JSONModel(:note_bioghist) object"}]},
+      },
+
     },
   },
 }

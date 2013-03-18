@@ -142,6 +142,159 @@
   </div>
 <% end %>
 
+
+<%
+   bioghist_subnote_types = []
+   JSONModel(:note_bioghist).schema['properties']['subnotes']['items']['type'].each do |item_def|
+     bioghist_subnote_types.push(JSONModel.parse_jsonmodel_ref(item_def['type'])[0].to_s)
+   end
+%>
+
+<% define_template "note_bioghist", jsonmodel_definition(:note_bioghist) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_bioghist">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("note.note_bioghist") %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_bioghist") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+          <% if not form.readonly? %>
+            <div class="btn-group pull-right">
+              <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %> <span class="caret"></span></button>
+              <ul class="dropdown-menu subrecord-selector">
+                <li>
+                  <select>
+                    <% bioghist_subnote_types.sort.each do |type| %>
+                      <option value="<%= type %>"><%= I18n.t("#{type}.option") %></option>
+                    <% end %>
+                  </select>
+                </li>
+                <li class="form-actions">
+                  <button class="btn btn-small add-sub-note-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %></button>
+                </li>
+              </ul>
+            </div>
+          <% end %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_citation_xlink" do | xlink_form | %>
+  <% xlink_form.push "xlink", xlink_form["xlink"] || {} do | xlink_form | %>
+    <%= xlink_form.label_and_textfield "actuate" %>
+    <%= xlink_form.label_and_textfield "arcrole" %>
+    <%= xlink_form.label_and_textfield "href" %>
+    <%= xlink_form.label_and_textfield "role" %>
+    <%= xlink_form.label_and_textfield "show" %>
+    <%= xlink_form.label_and_textfield "title" %>
+    <%= xlink_form.label_and_textfield "type" %>
+  <% end %>
+<% end %>
+
+<% define_template "note_citation", jsonmodel_definition(:note_citation) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_citation">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_citation") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_citation") %>
+      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h5>
+        <div class="subrecord-form-container">
+          <div class="subrecord-form-fields">
+            <% form.emit_template "note_citation_xlink" %>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_abstract", jsonmodel_definition(:note_abstract) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_abstract">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_abstract") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_abstract") %>
+      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_outline_string" do |form, item| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+<% end %>
+
+<% define_template "note_outline_level" do |form, level| %>
+  <div class="subrecord-form-fields" data-type="note_outline_level">
+    <%= form.hidden_input(:jsonmodel_type, "note_outline_level") %>
+    <section class="subrecord-form">
+      <% if not form.readonly? %>
+        <div class="subrecord-form-heading">
+          <div class="btn-group note_outline_level_btns">
+            <button class="btn btn-mini add-sub-item-btn"><%= I18n.t("actions.add") %> Item</button>
+            <button class="btn btn-mini add-sub-level-btn"><%= I18n.t("actions.add") %> Level</button>
+          </div>
+        </div>
+      <% end %>
+      <div class="subrecord-form-container">
+        <%= form.list_for(form["items"], "items[]") do |item| %>
+          <% if item.kind_of? String %>
+            <% form.emit_template("note_outline_string", item) %>
+          <% else %>
+            <% form.emit_template("note_outline_level", item) %>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  </div>
+<% end %>
+
+<% define_template "note_outline", jsonmodel_definition(:note_outline) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_outline">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_outline") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_outline") %>
+      <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
+      <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
+
+      <div class="control-group">
+        <label class="control-label">Levels</label>
+        <div class="controls note-outline-levels">
+          <%= form.list_for((form["levels"] || []), "levels[]") do |item| %>
+            <% form.emit_template("note_outline_level", item) %>
+          <% end %>
+          <% if not form.readonly? %>
+            <button class="btn btn-mini add-level-btn"><%= I18n.t("actions.add") %> Level</button>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+
 <% define_template "note_definedlist", jsonmodel_definition(:note_definedlist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_definedlist">
     <h4 class="subrecord-form-heading"><%= I18n.t("note.note_definedlist") %></h4>

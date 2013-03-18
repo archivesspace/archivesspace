@@ -64,6 +64,15 @@ $(function() {
         initNoteType($subform, "template_bib_item");
       };
 
+      initialisers.note_outline = function($subform) {
+        initNoteType($subform, "template_note_outline_level", true, '.add-level-btn');
+      };
+
+      initialisers.note_outline_level = function($subform) {
+        initNoteType($subform, "template_note_outline_string", true, '.add-sub-item-btn');
+        initNoteType($subform, "template_note_outline_level", true, '.add-sub-level-btn');
+      };
+
 
       var dropdownFocusFix = function(form) {
         $('.dropdown-menu.subrecord-selector li', form).click(function(e) {
@@ -141,6 +150,15 @@ $(function() {
         initNoteType($subform, template_name, true, '.add-sub-note-btn');
       };
 
+      initialisers.note_bioghist = function($subform) {
+
+        var template_name = function (self) {
+          var selected = $("option:selected", self.parents(".dropdown-menu"));
+          return "template_"+selected.val();
+        }
+
+        initNoteType($subform, template_name, true, '.add-sub-note-btn');
+      };
 
       var initNoteForm = function($noteform) {
         if ($noteform.hasClass("initialised")) {

@@ -82,6 +82,10 @@
           </div>
         <% end %>
 
+        <% if @agent.notes.length > 0 %>
+          <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly } %>
+        <% end %>
+
         <% if @agent.external_documents.length > 0 %>
           <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "agent_external_documents_" } %>
         <% end %>

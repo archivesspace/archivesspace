@@ -78,13 +78,33 @@ $(function() {
   };
 
   var generateXMLHints = function() {
+    var addToPath = function(path, defs) {
+      
+      CodeMirror.xmlHints[path] = [];
+
+      for (var i=0; i<defs.length; i++ ) {
+        CodeMirror.xmlHints[path].push(defs[i].tag);
+
+        if (defs[i].elements) {
+          addToPath(path+defs[i].tag+"><", defs[i].elements);
+        }
+      }
+
+    };
+
     if (AS.mixedContentElements) {
       CodeMirror.xmlHints['<'] = [];
       for (var i = 0; i < AS.mixedContentElements.length; i++) {
         var def = AS.mixedContentElements[i];
 
         CodeMirror.xmlHints['<'].push(def.tag);
-        CodeMirror.xmlHints["<" + def.tag + " "] = def.attributes;
+        CodeMirror.xmlHints["<" + def.tag + " "] = def.attributes || [];
+
+        if (def.elements) {
+          addToPath("<" + def.tag + "><", def.elements)
+        }
+
+        
       }
     } else {
       throw "No mixed content rules found: AS.mixedContentElements is null"

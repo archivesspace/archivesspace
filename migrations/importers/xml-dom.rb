@@ -31,8 +31,6 @@ ASpaceImport::Importer.importer :xml_dom do
       end
     end 
 
-    puts parse_queue.inspect
-
     # TODO: This is a little screwy - sending 'save'
     # to a full parse queue does nothing.
     clear_parse_queue    
@@ -62,7 +60,11 @@ ASpaceImport::Importer.importer :xml_dom do
   
   def do_property_stuff(node, xp, destination)
     node.xpath(xp, @document.root.namespaces).each do |node|
-      destination << node.inner_text
+      if node.text?
+        destination << node.inner_text
+      else
+        destination << node.inner_html
+      end
     end
   end
 

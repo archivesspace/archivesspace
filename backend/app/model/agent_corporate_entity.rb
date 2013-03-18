@@ -1,6 +1,7 @@
 require_relative 'agent_manager'
 require_relative 'name_corporate_entity'
 require_relative 'recordable_cataloging'
+require_relative 'notes'
 
 class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
 
@@ -8,6 +9,7 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
   include ExternalDocuments
   include AgentManager::Mixin
   include RecordableCataloging
+  include Notes
 
   corresponds_to JSONModel(:agent_corporate_entity)
 
