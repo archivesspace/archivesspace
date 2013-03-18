@@ -94,19 +94,32 @@ class PeriodicIndexer < CommonIndexer
                                         'resolve[]' => @@resolved_attributes,
                                         :modified_since => @state.get_last_mtime(repository.id, type))
 
-          if !records['results'].empty?
-            did_something = true
+          # unlimited results return an array
+          if records.kind_of? Array
+            index_records(records.map {|record|
+              {
+                'record' => record.to_hash,
+                'uri' => record.uri
+              }
+            })
+            break
+
+          # paginated results return an object
+          else
+            if !records['results'].empty?
+              did_something = true
+            end
+  
+            index_records(records['results'].map {|record|
+                            {
+                              'record' => record.to_hash,
+                              'uri' => record.uri
+                            }
+                          })
+  
+            break if records['last_page'] <= page
+            page += 1
           end
-
-          index_records(records['results'].map {|record|
-                          {
-                            'record' => record.to_hash,
-                            'uri' => record.uri
-                          }
-                        })
-
-          break if records['last_page'] <= page
-          page += 1
         end
 
         checkpoints << [repository, type, start]

@@ -1,0 +1,30 @@
+<%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
+
+<fieldset>
+  <% define_template("repository", jsonmodel_definition(:repository)) do |form| %>
+    <section id="all_fields">
+      <%= form.label_and_textfield "repo_code", :field_opts => {:size => 10} %>
+      <%= form.label_and_textarea "name" %>
+      <hr/>
+      <%= form.label_and_textfield "org_code", :field_opts => {:size => 10} %>
+      <%= form.label_and_textfield "parent_institution_name" %>
+      <%= form.label_and_textfield "address_1" %>
+      <%= form.label_and_textfield "address_2" %>
+      <%= form.label_and_textfield "city" %>
+      <%= form.label_and_textfield "district" %>
+      <%= form.label_and_select "country",  form.possible_options_for("country", true, :i18n_prefix => "iso_3166.") %>
+      <%= form.label_and_textfield "post_code" %>
+      <%= form.label_and_textfield "telephone" %>
+      <%= form.label_and_textfield "telephone_ext" %>
+      <%= form.label_and_textfield "fax" %>
+      <%= form.label_and_textfield "email" %>
+      <%= form.label_and_textfield "email_signature" %>
+      <hr/>
+      <%= form.label_and_textfield "url" %>
+      <%= form.label_and_textfield "image_url" %>
+    </section>
+  <% end %>
+  
+  <% form.emit_template("repository") %>
+  
+</fieldset>

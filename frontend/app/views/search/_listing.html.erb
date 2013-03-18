@@ -26,6 +26,7 @@
           </td>
         <% end %>
         <td>
+          <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._html.messages.selected_short") %></span><% end %>
           <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
           <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
           <%=  result["title"] || result['display_string'] %>
@@ -42,14 +43,25 @@
             </small>
           <% end %>
         </td>
-        <td>
+        <td class="table-record-actions">
           <% if not deleted %>
             <div class="btn-group" style="float: right">
               <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-mini" %>
-              <% if user_can?('update_archival_record') %>
+              <%
+                can_edit = result['primary_type'] === "repository" ? user_can?('manage_repository', result['id']) : user_can?('update_archival_record')
+              %>
+              <% if can_edit %>
                 <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini" %>
               <% end %>
             </div>
+            <% if result['primary_type'] === "repository" and @repositories.any?{|r| r['uri'] === result['id']} %>
+              
+              <% if current_repo['uri'] != result['id'] %>
+                <%= form_tag({:action => :select, :id => JSONModel(:repository).id_for(result['id'])}, {:style => "display: inline;"}) do |f| %>
+                  <button type="submit" class="btn btn-mini btn-success"><%= I18n.t("repository._html.action.select") %></button>
+                <% end %>
+              <% end %>
+            <% end %>
           <% end %>
         </td>
       </tr>

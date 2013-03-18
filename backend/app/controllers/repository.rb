@@ -1,5 +1,16 @@
 class ArchivesSpaceService < Sinatra::Base
 
+  Endpoint.post('/repositories/:id')
+  .description("Update a repository")
+  .params(["id", Integer, "The ID of the repository to update"],
+          ["repository", JSONModel(:repository), "The repository data to update", :body => true])
+  .permissions([:create_repository])
+  .returns([200, :updated]) \
+  do
+    handle_update(Repository, :id, :repository)
+  end
+
+
   Endpoint.post('/repositories')
     .description("Create a Repository")
     .params(["repository", JSONModel(:repository), "The repository to create", :body => true])

@@ -1,0 +1,16 @@
+<div id="archivesSpaceSidebar">
+  <ul class="nav nav-list as-nav-list">
+    <li><a href="#all_fields"><%= I18n.t("repository._html.section.all_fields") %> <span class="icon-chevron-right"></span></a></li>
+
+    <% if not controller.action_name === "show" %>
+      <li class="form-actions">
+        <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
+          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("repository._html.singular") %></button>
+          <% if ["new", "create"].include?(controller.action_name) %>
+            <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

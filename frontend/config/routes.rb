@@ -20,11 +20,9 @@ ArchivesSpace::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-  resources :repository do
-    get 'new'
-    post 'create'
-  end
-  match 'repository/select/:id' => 'repository#select', :via => [:post]
+  resources :repositories
+  match 'repositories/:id' => 'repositories#update', :via => [:post]
+  match 'repositories/:id/select' => 'repositories#select', :via => [:post]
 
   match 'users/:id/edit' => 'users#edit', :via => [:get]
   match 'users/new' => 'users#new', :via => [:get]

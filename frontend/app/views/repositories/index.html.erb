@@ -1,0 +1,21 @@
+<%= setup_context(:title => I18n.t("repository._html.plural")) %>
+
+<div class="row-fluid">
+  <div class="span3">
+    <%= render :partial => "search/filter" %>
+  </div>
+  <div class="span9">
+    <div class="record-pane">
+      <div class="btn-group pull-right">
+        <% if user_can?('manage_repository') %>
+          <%= link_to "Create Repository", {:controller => :repositories, :action => :new}, :class => "btn" %>
+        <% end %>
+      </div>
+      <h2><%= I18n.t("repository._html.plural") %></h2>
+
+      <%= render :partial => "shared/flash_messages" %>
+
+      <%= render :partial => "search/listing" %>
+    </div>
+  </div>
+</div>

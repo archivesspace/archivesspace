@@ -1,0 +1,18 @@
+<div class="row-fluid">
+  <div class="span12">
+    <div class="record-toolbar">
+      <div class="pull-right">
+          <% if session[:repo_id] != @repository.id and @repositories.any?{|r| r['uri'] === @repository.uri} %>
+            <%= form_for @repository, :as => "repository", :url => {:action => :select}, :html => {:style => "display: inline;"} do |f| %>
+              <button type="submit" class="btn btn-small btn-success"><%= I18n.t("repository._html.action.select") %></button>
+            <% end %>
+          <% end %>
+          <% if user_can?('create_repository') %>
+            <div class="btn-group">
+              <%= link_to I18n.t("actions.edit"), {:controller => :repositories, :action => :edit, :id => @repository.id}, :class => "btn btn-small" %>
+            </div>
+          <% end %>
+        </div>
+    </div>
+  </div>
+</div>
