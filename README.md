@@ -70,10 +70,13 @@ database:
 
      AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
 
-When you restart your ArchivesSpace instance it will connect to MySQL
-and notice its tables haven't been created yet.  To create them,
-browse to http://localhost:4567/setup and follow the prompts.  Once
-the tables have been created, restart the application once again.
+There is a database setup script that will create all the tables that
+ArchivesSpace requires.  Run this with:
+
+    scripts/setup-database.sh  # or setup-database.bat under Windows
+
+Once your database is configured, start the application using
+`archivesspace.sh` (or `archivesspace.bat` under Windows).
 
 
 # Configuring LDAP authentication
