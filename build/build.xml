@@ -501,7 +501,7 @@
     </java>
 
     <zip zipfile="../archivesspace.zip" level="9">
-      <zipfileset dir="target" />
+      <zipfileset dir="target" excludes="**/mysql-connector-java*.jar" />
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../launcher/scripts" includes="setup-database.sh" prefix="archivesspace/scripts" filemode="755" />

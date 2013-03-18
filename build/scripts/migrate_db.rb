@@ -22,21 +22,47 @@ if ARGV.length > 0 and ARGV[0] == "nuke"
 end
 
 
-Sequel.connect(AppConfig[:db_url],
-               :max_connections => AppConfig[:db_max_connections],
-               # :loggers => [Logger.new($stderr)]
-               ) do |db|
-  if ARGV.length > 0 and ARGV[0] == "nuke"
-    DBMigrator.nuke_database(db)
+begin
+  Sequel.connect(AppConfig[:db_url],
+                 :max_connections => AppConfig[:db_max_connections],
+                 # :loggers => [Logger.new($stderr)]
+                 ) do |db|
+    if ARGV.length > 0 and ARGV[0] == "nuke"
+      DBMigrator.nuke_database(db)
 
-    indexer_state = File.join(AppConfig[:data_directory], "indexer_state")
-    if Dir.exists? (indexer_state)
-      FileUtils.rm_rf(indexer_state)
+      indexer_state = File.join(AppConfig[:data_directory], "indexer_state")
+      if Dir.exists? (indexer_state)
+        FileUtils.rm_rf(indexer_state)
+      end
+
     end
 
+    puts "Running migrations against #{AppConfig[:db_url]}"
+    DBMigrator.setup_database(db)
+    puts "All done."
   end
+rescue NameError
+  if AppConfig[:db_url] =~ /mysql/
+    libdir = File.expand_path(File.join(File.dirname($0), "..", "..", "lib"))
 
-  puts "Running migrations against #{AppConfig[:db_url]}"
-  DBMigrator.setup_database(db)
-  puts "All done."
+    puts <<EOF
+
+You have configured ArchivesSpace to use MySQL but seem to be missing the MySQL
+JDBC driver.
+
+Please download the latest version of 'mysql-connector-java-X.Y.Z.jar' and place
+it in the following directory:
+
+  #{libdir}
+
+You can find the latest version at the following URL:
+
+  http://mvnrepository.com/artifact/mysql/mysql-connector-java/
+
+Once you have installed the MySQL connector, please re-run this script.
+
+EOF
+  else
+    raise $!
+  end
 end
