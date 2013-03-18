@@ -43,15 +43,6 @@ describe 'Realtime indexing' do
       updates[0][:timestamp].should be < updates[1][:timestamp]
     end
 
-
-    it "can expire entries older than a certain age" do
-      updates = RealtimeIndexing.updates_since(0)
-      offset = (updates[1][:timestamp] - updates[0][:timestamp]) / 2
-
-      RealtimeIndexing.expire_older_than(updates[1][:timestamp] - offset)
-
-      RealtimeIndexing.updates_since(0).count.should eq(1)
-    end
   end
 
 
