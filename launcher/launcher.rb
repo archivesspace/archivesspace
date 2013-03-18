@@ -4,22 +4,26 @@ require 'securerandom'
 require 'uri'
 
 
-def start_server(war, path, port)
+def start_server(port, *webapps)
   server = org.eclipse.jetty.server.Server.new
   server.send_date_header = true
 
   connector = org.eclipse.jetty.server.nio.SelectChannelConnector.new
   connector.port = port
 
-  context = org.eclipse.jetty.webapp.WebAppContext.new
-  context.server = server
-  context.context_path = path
-  context.war = war
-  context.class_loader = org.eclipse.jetty.webapp.WebAppClassLoader.new(JRuby.runtime.jruby_class_loader, context)
+  contexts = webapps.map do |webapp|
+    context = org.eclipse.jetty.webapp.WebAppContext.new
+    context.server = server
+    context.context_path = webapp[:path]
+    context.war = webapp[:war]
+    context.class_loader = org.eclipse.jetty.webapp.WebAppClassLoader.new(JRuby.runtime.jruby_class_loader, context)
+
+    context
+  end
 
   server.add_connector(connector)
   collection = org.eclipse.jetty.server.handler.ContextHandlerCollection.new
-  collection.handlers = [context]
+  collection.handlers = contexts
   server.handler = collection
   server.start
 end
@@ -44,11 +48,12 @@ def main
     end
   end
 
-  start_server(File.join('wars', 'backend.war'), '/', URI(AppConfig[:backend_url]).port)
-  start_server(File.join('wars', 'frontend.war'), '/', URI(AppConfig[:frontend_url]).port)
-  start_server(File.join('wars', 'public.war'), '/', URI(AppConfig[:public_url]).port)
-  start_server(File.join('wars', 'solr.war'), '/', URI(AppConfig[:solr_url]).port)
-  start_server(File.join('wars', 'indexer.war'), '/aspace-indexer', URI(AppConfig[:solr_url]).port)
+  start_server(URI(AppConfig[:backend_url]).port, {:war => File.join('wars', 'backend.war'), :path => '/'})
+  start_server(URI(AppConfig[:frontend_url]).port, {:war => File.join('wars', 'frontend.war'), :path => '/'})
+  start_server(URI(AppConfig[:public_url]).port, {:war => File.join('wars', 'public.war'), :path => '/'})
+  start_server(URI(AppConfig[:solr_url]).port,
+               {:war => File.join('wars', 'solr.war'), :path => '/'},
+               {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
 
   puts <<EOF
 ************************************************************
