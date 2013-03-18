@@ -54,7 +54,7 @@ class AppConfig
       File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb")
     elsif java.lang.System.getProperty("catalina.base")
       # Tomcat users
-      File.join(java.lang.System.getProperty("catalina.home"), "conf", "config.rb")
+      File.join(java.lang.System.getProperty("catalina.base"), "conf", "config.rb")
     elsif __FILE__.index(java.lang.System.getProperty("java.io.tmpdir")) != 0
       File.join(File.dirname(__FILE__), "config.rb")
     else
