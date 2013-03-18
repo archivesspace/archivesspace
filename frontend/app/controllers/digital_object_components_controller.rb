@@ -32,6 +32,10 @@ class DigitalObjectComponentsController < ApplicationController
                 :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
+                  if params.has_key?(:plus_one)
+                    flash[:success] = I18n.t("digital_object_component._html.messages.created")
+                    return render :partial => "digital_object_components/edit_inline"
+                  end
                   flash.now[:success] = I18n.t("digital_object_component._html.messages.created")
                   render :partial => "digital_object_components/edit_inline"
                 })
