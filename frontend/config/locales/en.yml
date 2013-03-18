@@ -1453,6 +1453,17 @@ en:
         <p>Examples:</p>
         <p>The maps in box 4 are brittle and several are covered with mold.
         Inhalation guards should be worn during processing.</p>
+    disposition: Disposition
+    general_note: General Note
+    inventory: Inventory
+    provenance: Provenance
+    retention_rule: Retention Rule
+    restrictions_apply: Restrictions Apply?
+    resource_type: Resource Type
+    access_restrictions: Access Restrictions?
+    access_restrictions_note: Access Restrictions Note
+    use_restrictions: Use Restrictions?
+    use_restrictions_note: Use Restrictions Note
     acquisition_type: Acquisition Type
     acquisition_type_tooltip: |
         <p>A categorical descriptor for the type of acquisition. Repositories

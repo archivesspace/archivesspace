@@ -1,12 +1,31 @@
 source:
   format: csv
+  
+headers:
+  digital_object_title: digital_object.title
+  digital_object_id: digital_object.digital_object_id
+  
+  digital_object_cataloged_note: collection_management.cataloged_note
+  
+  date_1_expression: date_1.label
+  date_1_expression: date_1.expression
+  date_1_begin: date_1.begin
+  date_1_end: date_1.end
+  date_1_type: date_1.date_type
+  
+  date_2_expression: date_2.label
+  date_2_expression: date_2.expression
+  date_2_begin: date_2.begin
+  date_2_end: date_2.end
+  date_2_type: date_2.date_type
+  
+  extent_type: extent.extent_type
+  extent_container_summary: extent.container_summary
+  extent_number: extent.number
+  
 entities:
   digital_object:
     properties:
-      title:
-        header: digital_object_title
-      digital_object_id:
-        header: digital_object_id
       dates:
         inline: true
       extents:
@@ -15,49 +34,33 @@ entities:
     properties:
       linked_records:
         inline: true
-      cataloged_note:
-        header: digital_object_cataloged_note
+
   date_1:
     record_type: date
     properties:
       label:
-        header: date_1_label
         default: "other"
-      expression:
-        header: date_1_expression
       begin:
-        header: date_1_begin
         default: "1900"
-      end:
-        header: date_1_end
+      end: 
         default: "2000"
       date_type:
-        header: date_1_type
         default: "inclusive"
+        
   date_2:
     record_type: date
     properties:
       label:
-        header: date_2_label
         default: "other"
-      expression:
-        header: date_2_expression
       begin:
-        header: date_2_begin
         default: "1900"
       end:
-        header: date_2_end
         default: "2000"
       date_type:
-        header: date_2_type
         default: "inclusive"
+
   extent:
     properties:
-      extent_type:
-        header: extent_type
-      container_summary:
-        header: extent_container_summary
       portion:
         default: "whole"
-      number:
-        header: extent_number 
+

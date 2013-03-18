@@ -4,6 +4,7 @@ require 'sinatra'
 require 'jsonmodel'
 require_relative '../backend/app/model/backend_enum_source.rb'
 
+require_relative '../backend/app/lib/username.rb'
 
 include JSONModel
 
@@ -11,6 +12,7 @@ JSONModel::init(:enum_source => BackendEnumSource)
 
 require_relative '../backend/app/controllers/setup.rb'
 require_relative '../backend/app/lib/rest.rb'
+
 
 Dir[File.dirname(__FILE__) + '../backend/app/model/*.rb'].each {|file| require file }
 

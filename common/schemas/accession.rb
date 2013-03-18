@@ -26,8 +26,15 @@
 
       "content_description" => {"type" => "string"},
       "condition_description" => {"type" => "string"},
+      
+      "disposition" => {"type" => "string"},
+      "inventory" => {"type" => "string"},
+      
+      "provenance" => {"type" => "string"},
 
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
+      
+      "publish" => {"type" => "boolean", "default" => false},
 
       "subjects" => {
         "type" => "array",
@@ -74,6 +81,20 @@
       "suppressed" => {"type" => "boolean"},
 
       "acquisition_type" => {"type" => "string", "dynamic_enum" => "accession_acquisition_type"},
+      
+      "resource_type" => {"type" => "string", "dynamic_enum" => "accession_resource_type"},
+      
+      "restrictions_apply" => {"type" => "boolean", "default" => false},
+
+      "retention_rule" => {"type" => "string"},
+      
+      "general_note" => {"type" => "string"},
+      
+      "access_restrictions" => {"type" => "boolean", "default" => false},
+      "access_restrictions_note" => {"type" => "string"},
+      
+      "use_restrictions" => {"type" => "boolean", "default" => false},
+      "use_restrictions_note" => {"type" => "string"},
 
       "linked_agents" => {
         "type" => "array",

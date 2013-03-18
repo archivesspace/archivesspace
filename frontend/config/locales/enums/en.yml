@@ -352,6 +352,11 @@ en:
       gift: Gift
       purchase: Purchase
       transfer: Transfer
+    accession_resource_type:
+      collection: Collection
+      publications: Publications
+      papers: Papers
+      records: Records
     subject_source:
       aat: "Art & Architecture Thesaurus"
       gmgpc: "TGM II, Genre and physical characteristic terms"

@@ -18,6 +18,7 @@ namespace :doc do
     require 'sinatra'
     require 'jsonmodel'
     require_relative '../backend/app/lib/rest.rb'
+    require_relative '../backend/app/lib/username.rb'
     require_relative '../backend/app/model/backend_enum_source.rb'
     require_relative '../backend/app/lib/logging.rb'
 

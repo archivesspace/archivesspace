@@ -189,12 +189,33 @@ Sequel.migration do
       String :identifier, :null => false
 
       TextField :title, :null => true
+      
+      Integer :publish
+      
       TextField :content_description, :null => true
       TextField :condition_description, :null => true
+      
+      TextField :disposition
+      TextField :inventory
 
-      String :acquisition_type, :null => true
+      TextField :provenance
+      
+      TextField :general_note
+
+      String :resource_type
+      String :acquisition_type
 
       DateTime :accession_date, :null => true
+
+      Integer :restrictions_apply
+      
+      TextField :retention_rule, :null => true
+      
+      Integer :access_restrictions
+      TextField :access_restrictions_note
+      
+      Integer :use_restrictions
+      TextField :use_restrictions_note
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -1093,6 +1114,8 @@ Sequel.migration do
     create_enum('name_description_type', ["biographical statement", "administrative history"])
 
     create_enum('accession_acquisition_type', ["deposit", "gift", "purchase", "transfer"])
+    
+    create_enum('accession_resource_type', ["collection", "publications", "papers", "records"])
 
     create_enum('collection_management_processing_priority', ["high", "medium", "low"])
 
