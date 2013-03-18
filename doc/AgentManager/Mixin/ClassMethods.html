@@ -197,12 +197,12 @@
       <pre class="lines">
 
 
-57
-58
-59</pre>
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span>
   <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_agent_type_of identifier id'>agent_type_of</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -243,7 +243,12 @@
 51
 52
 53
-54</pre>
+54
+55
+56
+57
+58
+59</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 39</span>
@@ -251,13 +256,18 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
 
+
+
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_contact</span>
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:names</span><span class='comma token'>,</span>
                          <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                          <span class='symbol val'>:corresponding_to_association</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:name_type</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                          <span class='symbol val'>:always_resolve</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+
+  
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:agent_contact</span>
+
 
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='symbol val'>:the_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_contacts</span><span class='comma token'>,</span>
                          <span class='symbol val'>:contains_records_of_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:agent_contact</span><span class='comma token'>,</span>
@@ -285,14 +295,14 @@
       <pre class="lines">
 
 
-62
-63
-64
-65
-66</pre>
+69
+70
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/agent_manager.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -310,7 +320,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:23:45 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:54 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

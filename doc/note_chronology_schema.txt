@@ -4,6 +4,10 @@ Properties
 
 string	title
 
+boolean	publish
+
+boolean	internal
+
 array (object)	items
 
 

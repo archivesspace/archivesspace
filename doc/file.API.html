@@ -67,7 +67,7 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><div id='filecontents'><h1 id="archivesspace-rest-api">ArchivesSpace REST API</h1>
-<p>As of 2013-03-04 13:23:07 -0500 the following REST endpoints exist in the master branch of the development repository:</p>
+<p>As of 2013-03-18 14:20:05 -0400 the following REST endpoints exist in the master branch of the development repository:</p>
 
 <h2 id="get-agents">GET /agents</h2>
 
@@ -157,23 +157,6 @@
 <span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='string val'>&quot;error&quot;</span><span class='symbol val'>:&quot;Agent not found&quot;</span><span class='rbrace token'>}</span>
 </code></pre>
 
-<h2 id="post-agentsfamilies">POST /agents/families</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a family agent</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:agent_family</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_family identifier id'>family</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-</code></pre>
-
 <h2 id="get-agentsfamilies">GET /agents/families</h2>
 
 <p><strong>Description</strong></p>
@@ -194,6 +177,23 @@
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:agent_family</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<h2 id="post-agentsfamilies">POST /agents/families</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a family agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:agent_family</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_family identifier id'>family</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
 <h2 id="post-agentsfamiliesagentid">POST /agents/families/:agent_id</h2>
@@ -496,6 +496,22 @@
 <span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
+<h2 id="get-configenumerationsenumid">GET /config/enumerations/:enum_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Enumeration</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_enum_id identifier id'>enum_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_enumeration identifier id'>enumeration</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_retrieve identifier id'>retrieve</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span>
+</code></pre>
+
 <h2 id="post-configenumerationsenumid">POST /config/enumerations/:enum_id</h2>
 
 <p><strong>Description</strong></p>
@@ -513,22 +529,6 @@
 
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-</code></pre>
-
-<h2 id="get-configenumerationsenumid">GET /config/enumerations/:enum_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get an Enumeration</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_enum_id identifier id'>enum_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_enumeration identifier id'>enumeration</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_retrieve identifier id'>retrieve</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span>
 </code></pre>
 
 <h2 id="post-configenumerationsmigration">POST /config/enumerations/migration</h2>
@@ -586,6 +586,19 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:permission</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 </code></pre>
 
+<h2 id="get-repositories">GET /repositories</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a list of Repositories</p>
+
+<p><strong>Parameters</strong></p>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+</code></pre>
+
 <h2 id="post-repositories">POST /repositories</h2>
 
 <p><strong>Description</strong></p>
@@ -602,19 +615,6 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
 <span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='integer val'>403</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_access_denied identifier id'>access_denied</span>
-</code></pre>
-
-<h2 id="get-repositories">GET /repositories</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a list of Repositories</p>
-
-<p><strong>Parameters</strong></p>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 </code></pre>
 
 <h2 id="get-repositoriesid">GET /repositories/:id</h2>
@@ -676,26 +676,6 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 </code></pre>
 
-<h2 id="get-repositoriesrepoidaccessionsaccessionid">GET /repositories/:repo_id/accessions/:accession_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get an Accession by ID</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_accession_id identifier id'>accession_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_accession identifier id'>accession</span> <span class='rubyid_ID constant id'>ID</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span>
-</code></pre>
-
 <h2 id="post-repositoriesrepoidaccessionsaccessionid">POST /repositories/:repo_id/accessions/:accession_id</h2>
 
 <p><strong>Description</strong></p>
@@ -714,6 +694,26 @@
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<h2 id="get-repositoriesrepoidaccessionsaccessionid">GET /repositories/:repo_id/accessions/:accession_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Accession by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_accession_id identifier id'>accession_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_accession identifier id'>accession</span> <span class='rubyid_ID constant id'>ID</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span>
 </code></pre>
 
 <h2 id="delete-repositoriesrepoidaccessionsaccessionid">DELETE /repositories/:repo_id/accessions/:accession_id</h2>
@@ -898,6 +898,25 @@
 <span class='integer val'>409</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
+<h2 id="post-repositoriesrepoidcollectionmanagementrecords">POST /repositories/:repo_id/collection_management_records</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Collection Management Record</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:collection_management</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Collection constant id'>Collection</span> <span class='rubyid_Management constant id'>Management</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+</code></pre>
+
 <h2 id="get-repositoriesrepoidcollectionmanagementrecords">GET /repositories/:repo_id/collection_management_records</h2>
 
 <p><strong>Description</strong></p>
@@ -920,25 +939,6 @@
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:collection_management</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
-</code></pre>
-
-<h2 id="post-repositoriesrepoidcollectionmanagementrecords">POST /repositories/:repo_id/collection_management_records</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a Collection Management Record</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:collection_management</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Collection constant id'>Collection</span> <span class='rubyid_Management constant id'>Management</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
 <h2 id="post-repositoriesrepoidcollectionmanagementrecordscollectionmanagementid">POST /repositories/:repo_id/collection_management_records/:collection_management_id</h2>
@@ -1025,27 +1025,6 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 </code></pre>
 
-<h2 id="get-repositoriesrepoiddigitalobjectcomponentsdigitalobjectcomponentid">GET /repositories/:repo_id/digital_object_components/:digital_object_component_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get an Digital Object Component by ID</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_digital_object_component_id identifier id'>digital_object_component_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Digital constant id'>Digital</span> <span class='rubyid_Object constant id'>Object</span> <span class='rubyid_Component constant id'>Component</span> <span class='rubyid_ID constant id'>ID</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span>
-<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='string val'>&quot;error&quot;</span><span class='symbol val'>:&quot;DigitalObjectComponent not found&quot;</span><span class='rbrace token'>}</span>
-</code></pre>
-
 <h2 id="post-repositoriesrepoiddigitalobjectcomponentsdigitalobjectcomponentid">POST /repositories/:repo_id/digital_object_components/:digital_object_component_id</h2>
 
 <p><strong>Description</strong></p>
@@ -1067,6 +1046,27 @@
 <span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
+<h2 id="get-repositoriesrepoiddigitalobjectcomponentsdigitalobjectcomponentid">GET /repositories/:repo_id/digital_object_components/:digital_object_component_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Digital Object Component by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_digital_object_component_id identifier id'>digital_object_component_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Digital constant id'>Digital</span> <span class='rubyid_Object constant id'>Object</span> <span class='rubyid_Component constant id'>Component</span> <span class='rubyid_ID constant id'>ID</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span>
+<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='string val'>&quot;error&quot;</span><span class='symbol val'>:&quot;DigitalObjectComponent not found&quot;</span><span class='rbrace token'>}</span>
+</code></pre>
+
 <h2 id="get-repositoriesrepoiddigitalobjectcomponentsdigitalobjectcomponentidchildren">GET /repositories/:repo_id/digital_object_components/:digital_object_component_id/children</h2>
 
 <p><strong>Description</strong></p>
@@ -1084,6 +1084,25 @@
 
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 <span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='string val'>&quot;error&quot;</span><span class='symbol val'>:&quot;DigitalObjectComponent not found&quot;</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<h2 id="post-repositoriesrepoiddigitalobjects">POST /repositories/:repo_id/digital_objects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_digital identifier id'>digital</span> <span class='rubyid_object identifier id'>object</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
 <h2 id="get-repositoriesrepoiddigitalobjects">GET /repositories/:repo_id/digital_objects</h2>
@@ -1108,25 +1127,6 @@
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
-</code></pre>
-
-<h2 id="post-repositoriesrepoiddigitalobjects">POST /repositories/:repo_id/digital_objects</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a Digital Object</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_digital identifier id'>digital</span> <span class='rubyid_object identifier id'>object</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
 <h2 id="get-repositoriesrepoiddigitalobjectsdigitalobjectid">GET /repositories/:repo_id/digital_objects/:digital_object_id</h2>
@@ -1346,6 +1346,26 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Suppressed&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:suppressed_state</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='bitor op'>|</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
+<h2 id="post-repositoriesrepoidgroups">POST /repositories/:repo_id/groups</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a group within a repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:group</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_group identifier id'>group</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+<span class='integer val'>409</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_conflict identifier id'>conflict</span>
+</code></pre>
+
 <h2 id="get-repositoriesrepoidgroups">GET /repositories/:repo_id/groups</h2>
 
 <p><strong>Description</strong></p>
@@ -1372,22 +1392,26 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 </code></pre>
 
-<h2 id="post-repositoriesrepoidgroups">POST /repositories/:repo_id/groups</h2>
+<h2 id="post-repositoriesrepoidgroupsgroupid">POST /repositories/:repo_id/groups/:group_id</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Create a group within a repository</p>
+<p>Update a group</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:group</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_group identifier id'>group</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_group_id identifier id'>group_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Group constant id'>Group</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_update identifier id'>update</span>
+
+<span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:group</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Group constant id'>Group</span> <span class='rubyid_data identifier id'>data</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_update identifier id'>update</span>
 
 <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+
+<span class='rubyid_RESTHelpers constant id'>RESTHelpers</span><span class='colon2 op'>::</span><span class='rubyid_BooleanParam constant id'>BooleanParam</span> <span class='rubyid_with_members identifier id'>with_members</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_If constant id'>If</span> <span class='string val'>'true'</span> <span class='lparen token'>(</span><span class='rubyid_the identifier id'>the</span> <span class='rubyid_default identifier id'>default</span><span class='rparen token'>)</span> <span class='rubyid_replace identifier id'>replace</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_membership identifier id'>membership</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_with identifier id'>with</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_provided identifier id'>provided</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='integer val'>409</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_conflict identifier id'>conflict</span>
 </code></pre>
@@ -1413,28 +1437,22 @@
 <span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='string val'>&quot;error&quot;</span><span class='symbol val'>:&quot;Group not found&quot;</span><span class='rbrace token'>}</span>
 </code></pre>
 
-<h2 id="post-repositoriesrepoidgroupsgroupid">POST /repositories/:repo_id/groups/:group_id</h2>
+<h2 id="post-repositoriesrepoidlocations">POST /repositories/:repo_id/locations</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Update a group</p>
+<p>Create a Location</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_group_id identifier id'>group_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Group constant id'>Group</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_update identifier id'>update</span>
-
-<span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:group</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Group constant id'>Group</span> <span class='rubyid_data identifier id'>data</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_update identifier id'>update</span>
+<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_location identifier id'>location</span> <span class='rubyid_data identifier id'>data</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
 
 <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-
-<span class='rubyid_RESTHelpers constant id'>RESTHelpers</span><span class='colon2 op'>::</span><span class='rubyid_BooleanParam constant id'>BooleanParam</span> <span class='rubyid_with_members identifier id'>with_members</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_If constant id'>If</span> <span class='string val'>'true'</span> <span class='lparen token'>(</span><span class='rubyid_the identifier id'>the</span> <span class='rubyid_default identifier id'>default</span><span class='rparen token'>)</span> <span class='rubyid_replace identifier id'>replace</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_membership identifier id'>membership</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_with identifier id'>with</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_provided identifier id'>provided</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-<span class='integer val'>409</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_conflict identifier id'>conflict</span>
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
 </code></pre>
 
 <h2 id="get-repositoriesrepoidlocations">GET /repositories/:repo_id/locations</h2>
@@ -1461,42 +1479,6 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 </code></pre>
 
-<h2 id="post-repositoriesrepoidlocations">POST /repositories/:repo_id/locations</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a Location</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_location identifier id'>location</span> <span class='rubyid_data identifier id'>data</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-</code></pre>
-
-<h2 id="get-repositoriesrepoidlocationslocationid">GET /repositories/:repo_id/locations/:location_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a Location by ID</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_location_id identifier id'>location_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Location constant id'>Location</span> <span class='rubyid_ID constant id'>ID</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span>
-</code></pre>
-
 <h2 id="post-repositoriesrepoidlocationslocationid">POST /repositories/:repo_id/locations/:location_id</h2>
 
 <p><strong>Description</strong></p>
@@ -1517,11 +1499,47 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
+<h2 id="get-repositoriesrepoidlocationslocationid">GET /repositories/:repo_id/locations/:location_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Location by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_location_id identifier id'>location_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Location constant id'>Location</span> <span class='rubyid_ID constant id'>ID</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span>
+</code></pre>
+
 <h2 id="get-repositoriesrepoidresourcedescriptionsresourceidxml">GET /repositories/:repo_id/resource_descriptions/:resource_id.xml</h2>
 
 <p><strong>Description</strong></p>
 
 <p>Get an EAD representation of a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_resource_id identifier id'>resource_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_resource identifier id'>resource</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_retrieve identifier id'>retrieve</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span>
+</code></pre>
+
+<h2 id="get-repositoriesrepoidresourcelabelsresourceidtsv">GET /repositories/:repo_id/resource_labels/:resource_id.tsv</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a tsv list of printable labels for a Resource</p>
 
 <p><strong>Parameters</strong></p>
 
@@ -1667,6 +1685,8 @@
 
 <span class='rubyid_String constant id'>String</span> <span class='rubyid_q identifier id'>q</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_search identifier id'>search</span> <span class='rubyid_query identifier id'>query</span> <span class='rubyid_string identifier id'>string</span>
 
+<span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:advanced_query</span><span class='rparen token'>)</span> <span class='rubyid_aq identifier id'>aq</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_json identifier id'>json</span> <span class='rubyid_string identifier id'>string</span> <span class='rubyid_containing identifier id'>containing</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_advanced identifier id'>advanced</span> <span class='rubyid_query identifier id'>query</span>
+
 <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_type identifier id'>type</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_type identifier id'>type</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_search identifier id'>search</span> <span class='lparen token'>(</span><span class='rubyid_defaults identifier id'>defaults</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_types identifier id'>types</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_specified identifier id'>specified</span><span class='rparen token'>)</span>
 
 <span class='rubyid_String constant id'>String</span> <span class='rubyid_sort identifier id'>sort</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_attribute identifier id'>attribute</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_sort identifier id'>sort</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_direction identifier id'>direction</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_g identifier id'>g</span><span class='dot token'>.</span> <span class='bitand op'>&amp;</span><span class='rubyid_sort identifier id'>sort</span><span class='assign token'>=</span><span class='rubyid_title identifier id'>title</span> <span class='rubyid_desc identifier id'>desc</span><span class='bitand op'>&amp;</span><span class='dot3 op'>...</span>
@@ -1700,6 +1720,8 @@
 <p><strong>Parameters</strong></p>
 
 <pre class="code ruby"><code><span class='rubyid_String constant id'>String</span> <span class='rubyid_q identifier id'>q</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_search identifier id'>search</span> <span class='rubyid_query identifier id'>query</span> <span class='rubyid_string identifier id'>string</span>
+
+<span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:advanced_query</span><span class='rparen token'>)</span> <span class='rubyid_aq identifier id'>aq</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_json identifier id'>json</span> <span class='rubyid_string identifier id'>string</span> <span class='rubyid_containing identifier id'>containing</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_advanced identifier id'>advanced</span> <span class='rubyid_query identifier id'>query</span>
 
 <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_type identifier id'>type</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_type identifier id'>type</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_search identifier id'>search</span> <span class='lparen token'>(</span><span class='rubyid_defaults identifier id'>defaults</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_types identifier id'>types</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_specified identifier id'>specified</span><span class='rparen token'>)</span>
 
@@ -1763,22 +1785,6 @@
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 </code></pre>
 
-<h2 id="get-subjectssubjectid">GET /subjects/:subject_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a Subject by ID</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_subject_id identifier id'>subject_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_subject identifier id'>subject</span> <span class='rubyid_ID constant id'>ID</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span>
-</code></pre>
-
 <h2 id="post-subjectssubjectid">POST /subjects/:subject_id</h2>
 
 <p><strong>Description</strong></p>
@@ -1795,6 +1801,22 @@
 <p><strong>Returns</strong></p>
 
 <pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<h2 id="get-subjectssubjectid">GET /subjects/:subject_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Subject by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_subject_id identifier id'>subject_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_subject identifier id'>subject</span> <span class='rubyid_ID constant id'>ID</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span>
 </code></pre>
 
 <h2 id="get-update-feed">GET /update-feed</h2>
@@ -2043,7 +2065,7 @@ JSONModel(:user) &lt;request body&gt; -- The user to create
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:23:40 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:47 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -10,6 +10,8 @@ string	name
 
 object	permissions
 
+object	agent_record
+
 
 
 

@@ -85,6 +85,8 @@
 			
 				<h3 class="signature"> - (string) <strong>digital_object_type</strong></h3>
 			
+				<h3 class="signature"> - (array (JSONModel(:file_version) object)) <strong>file_versions</strong></h3>
+			
 				<h3 class="signature"> - (boolean) <strong>restrictions</strong></h3>
 			
 				<h3 class="signature"> - (object) <strong>tree</strong></h3>
@@ -162,7 +164,9 @@
 59
 60
 61
-62</pre>
+62
+63
+64</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/digital_object.rb', line 1</span>
@@ -182,6 +186,8 @@
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;dynamic_enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;digital_object_digital_object_type&quot;</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;file_versions&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:file_version) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;restrictions&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;default&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;tree&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
@@ -242,7 +248,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:24:05 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:21:19 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

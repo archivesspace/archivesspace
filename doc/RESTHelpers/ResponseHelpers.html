@@ -336,7 +336,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 8</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_status identifier id'>status</span> <span class='assign token'>=</span> <span class='integer val'>200</span><span class='rparen token'>)</span>
-  <span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>&quot;Content-Type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;application/json&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='symbol val'>:max_nesting</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&quot;\n&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>&quot;Content-Type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;application/json&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='symbol val'>:mode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:trusted</span><span class='comma token'>,</span> <span class='symbol val'>:max_nesting</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&quot;\n&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -456,7 +456,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:23:41 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:49 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

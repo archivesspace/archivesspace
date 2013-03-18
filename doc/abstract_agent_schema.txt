@@ -12,6 +12,8 @@ array (JSONModel(:agent_contact) object)	agent_contacts
 
 array (JSONModel(:external_document) object)	external_documents
 
+array ([{"type"=>"JSONModel(:note_bioghist) object"}])	notes
+
 
 
 

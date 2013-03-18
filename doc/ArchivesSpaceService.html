@@ -264,6 +264,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#advanced_query_string-instance_method" title="#advanced_query_string (instance method)">- (Object) <strong>advanced_query_string</strong>(advanced_query) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#build_jdbc_url-instance_method" title="#build_jdbc_url (instance method)">- (Object) <strong>build_jdbc_url</strong>(settings) </a>
     
 
@@ -504,7 +527,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ExportHelpers.html" title="ExportHelpers (module)">ExportHelpers</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ExportHelpers.html#generate_dc-instance_method" title="ExportHelpers#generate_dc (method)">#generate_dc</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_eac-instance_method" title="ExportHelpers#generate_eac (method)">#generate_eac</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_ead-instance_method" title="ExportHelpers#generate_ead (method)">#generate_ead</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_marc-instance_method" title="ExportHelpers#generate_marc (method)">#generate_marc</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_mets-instance_method" title="ExportHelpers#generate_mets (method)">#generate_mets</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_mods-instance_method" title="ExportHelpers#generate_mods (method)">#generate_mods</a></span>, <span class='object_link'><a href="ExportHelpers.html#xml_response-instance_method" title="ExportHelpers#xml_response (method)">#xml_response</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ExportHelpers.html#generate_dc-instance_method" title="ExportHelpers#generate_dc (method)">#generate_dc</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_eac-instance_method" title="ExportHelpers#generate_eac (method)">#generate_eac</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_ead-instance_method" title="ExportHelpers#generate_ead (method)">#generate_ead</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_labels-instance_method" title="ExportHelpers#generate_labels (method)">#generate_labels</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_marc-instance_method" title="ExportHelpers#generate_marc (method)">#generate_marc</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_mets-instance_method" title="ExportHelpers#generate_mets (method)">#generate_mets</a></span>, <span class='object_link'><a href="ExportHelpers.html#generate_mods-instance_method" title="ExportHelpers#generate_mods (method)">#generate_mods</a></span>, <span class='object_link'><a href="ExportHelpers.html#tsv_response-instance_method" title="ExportHelpers#tsv_response (method)">#tsv_response</a></span>, <span class='object_link'><a href="ExportHelpers.html#xml_response-instance_method" title="ExportHelpers#xml_response (method)">#xml_response</a></span></p>
 
   
   
@@ -593,33 +616,33 @@
       <pre class="lines">
 
 
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
 150
 151
 152
 153
-154</pre>
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_public_user identifier id'>create_public_user</span>
 
@@ -666,35 +689,35 @@
       <pre class="lines">
 
 
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
 122
 123
 124
 125
 126
 127
-128</pre>
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 122</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_search_user identifier id'>create_search_user</span>
 
@@ -879,7 +902,26 @@
 97
 98
 99
-100</pre>
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 3</span>
@@ -896,6 +938,25 @@
     <span class='rubyid_ensure ensure kw'>ensure</span>
       <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_restrict_primary_key identifier id'>restrict_primary_key</span>
     <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Create the Software Agent Record.</span>
+  <span class='comment val'># (should we have a table for storing special DB rows that don't depend on the config?)</span>
+  <span class='comment val'># (should this record be undeletable?)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_AgentSoftware constant id'>AgentSoftware</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:agent_software</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span>
+              <span class='symbol val'>:names</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                <span class='symbol val'>:software_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ArchivesSpace'</span><span class='comma token'>,</span>
+                <span class='symbol val'>:version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'alpha'</span><span class='comma token'>,</span>
+                <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'local'</span><span class='comma token'>,</span>
+                <span class='symbol val'>:rules</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'local'</span><span class='comma token'>,</span>
+                <span class='symbol val'>:sort_name_auto_generate</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span>
+            <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  
+    <span class='rubyid_sys_agent identifier id'>sys_agent</span> <span class='assign token'>=</span> <span class='rubyid_AgentSoftware constant id'>AgentSoftware</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='symbol val'>:system_generated</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>    
+
+    <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='string val'>&quot;Ran access control bootstrap without creating an Agent record for this software.&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
 
@@ -995,7 +1056,46 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="build_jdbc_url-instance_method">
+  <h3 class="signature first" id="advanced_query_string-instance_method">
+  
+    - (<tt>Object</tt>) <strong>advanced_query_string</strong>(advanced_query) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/controllers/search.rb', line 96</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_advanced_query_string identifier id'>advanced_query_string</span><span class='lparen token'>(</span><span class='rubyid_advanced_query identifier id'>advanced_query</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_advanced_query identifier id'>advanced_query</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'subqueries'</span><span class='rparen token'>)</span>
+    <span class='dstring node'>&quot;(#{advanced_query['subqueries'].map{|subq| advanced_query_string(subq)}.join(&quot; #{advanced_query['op']} &quot;)})&quot;</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='dstring node'>&quot;#{advanced_query['negated']?&quot;-&quot;:&quot;&quot;}#{advanced_query['field']}:(#{advanced_query['value']})&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="build_jdbc_url-instance_method">
   
     - (<tt>Object</tt>) <strong>build_jdbc_url</strong>(settings) 
   
@@ -1052,12 +1152,12 @@
       <pre class="lines">
 
 
-238
 239
-240</pre>
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 239</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_user identifier id'>current_user</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_user</span><span class='rbrack token'>]</span>
@@ -1126,7 +1226,6 @@
       <pre class="lines">
 
 
-160
 161
 162
 163
@@ -1139,10 +1238,11 @@
 170
 171
 172
-173</pre>
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 161</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_exception! fid id'>handle_exception!</span><span class='lparen token'>(</span><span class='rubyid_boom identifier id'>boom</span><span class='rparen token'>)</span>
   <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>'sinatra.error'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_boom identifier id'>boom</span>
@@ -1202,12 +1302,12 @@
       <pre class="lines">
 
 
-243
 244
-245</pre>
+245
+246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 243</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 244</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_high_priority_request? fid id'>high_priority_request?</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span> <span class='eq op'>==</span> <span class='string val'>&quot;high&quot;</span><span class='rparen token'>)</span>
@@ -1408,12 +1508,12 @@
       <pre class="lines">
 
 
-233
 234
-235</pre>
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 233</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 234</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_session identifier id'>session</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_session</span><span class='rbrack token'>]</span>
@@ -1470,7 +1570,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:23:50 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:21:00 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

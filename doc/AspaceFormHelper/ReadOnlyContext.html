@@ -599,7 +599,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_textarea identifier id'>textarea</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
-  <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_preserve_newlines identifier id'>preserve_newlines</span><span class='lparen token'>(</span><span class='rubyid_CGI constant id'>CGI</span><span class='colon2 op'>::</span><span class='rubyid_escapeHTML identifier id'>escapeHTML</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_preserve_newlines identifier id'>preserve_newlines</span><span class='lparen token'>(</span><span class='rubyid_CGI constant id'>CGI</span><span class='colon2 op'>::</span><span class='rubyid_escapeHTML identifier id'>escapeHTML</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -645,7 +645,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:23:58 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:21:09 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

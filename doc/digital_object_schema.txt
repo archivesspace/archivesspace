@@ -10,6 +10,8 @@ string	level
 
 string	digital_object_type
 
+array (JSONModel(:file_version) object)	file_versions
+
 boolean	restrictions
 
 object	tree

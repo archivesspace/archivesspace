@@ -87,6 +87,8 @@
 			
 				<h3 class="signature"> - (array (JSONModel(:external_document) object)) <strong>external_documents</strong></h3>
 			
+				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:note_bioghist) object"}])) <strong>notes</strong></h3>
+			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
       <table class="source_code">
@@ -128,7 +130,12 @@
 31
 32
 33
-34</pre>
+34
+35
+36
+37
+38
+39</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/abstract_agent.rb', line 1</span>
@@ -154,7 +161,7 @@
       <span class='string val'>&quot;agent_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
-        <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_person&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;agent_corporate_entity&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;agent_software&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;agent_family&quot;</span><span class='rbrack token'>]</span>
+        <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;agent_person&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;agent_corporate_entity&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;agent_software&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;agent_family&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;user&quot;</span><span class='rbrack token'>]</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;agent_contacts&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
@@ -163,6 +170,11 @@
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;external_documents&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:external_document) object&quot;</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;notes&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:note_bioghist) object&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -180,7 +192,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 04 13:24:05 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:21:19 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
