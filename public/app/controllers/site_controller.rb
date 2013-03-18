@@ -128,19 +128,23 @@ class SiteController < ApplicationController
   end
 
   def group_queries(terms)
-    stack = terms.reverse.clone
+    if terms.length > 1
+      stack = terms.reverse.clone
 
-    while stack.length > 1
-      a = stack.pop
-      b = stack.pop
+      while stack.length > 1
+        a = stack.pop
+        b = stack.pop
 
-      stack.push(JSONModel(:boolean_query).from_hash({
-                                                       :op => b[:op],
-                                                       :subqueries => [JSONModel(:field_query).from_hash(a), JSONModel(:field_query).from_hash(b)]
-                                                     }))
+        stack.push(JSONModel(:boolean_query).from_hash({
+                                                         :op => b[:op],
+                                                         :subqueries => [JSONModel(:field_query).from_hash(a), JSONModel(:field_query).from_hash(b)]
+                                                       }))
+      end
+
+      stack.pop
+    else
+      JSONModel(:field_query).from_hash(terms[0])
     end
-
-    stack.pop
   end
 
 end

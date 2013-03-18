@@ -60,6 +60,13 @@ class CommonIndexer
   end
 
 
+  def add_notes(doc, record)
+    if record['record']['notes']
+      doc['notes'] = record['record']['notes'].to_json
+    end
+  end
+
+
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
@@ -71,6 +78,7 @@ class CommonIndexer
       add_subjects(doc, record)
       add_agents(doc, record)
       add_audit_info(doc, record)
+      add_notes(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
