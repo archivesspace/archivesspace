@@ -464,6 +464,47 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "can add a Biog/Hist note to an Agent" do
+      $driver.find_element(:link, 'Edit').click
+      $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
+      $driver.blocking_find_elements(:css => '#notes .subrecord-selector select')[0].select_option("note_bioghist")
+      $driver.find_element(:css => '#notes .subrecord-selector .btn').click
+
+      biog = "Jimi was an American musician and songwriter; and one of the most influential electric guitarists in the history of popular music."
+      $driver.execute_script("$('#agent_notes__0__content__0_').data('CodeMirror').setValue('#{biog}')")
+      $driver.execute_script("$('#agent_notes__0__content__0_').data('CodeMirror').save()")
+
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+
+      # check the readonly view
+      $driver.find_element_with_text('//div[contains(@class, "subrecord-form-fields")]', /#{biog}/)
+    end
+
+
+    it "can add a sub note" do
+      $driver.find_element(:link, 'Edit').click
+
+      notes = $driver.blocking_find_elements(:css => '#notes .subrecord-form-fields')
+
+      # Add a sub note
+      notes[0].find_element(:css => '.subrecord-form-heading .btn').click
+      notes[0].find_element(:css => '.subrecord-selector select').select_option('note_outline')
+      notes[0].find_element(:css => '.add-sub-note-btn').click
+
+      notes[0].find_element(:css => ".add-level-btn").click
+      notes[0].find_element(:css => ".add-sub-item-btn").click
+      notes[0].find_element(:css => ".add-sub-item-btn").click
+
+      $driver.clear_and_send_keys([:id, "agent_notes__0__subnotes__2__levels__3__items__4_"], "Woodstock")
+      $driver.clear_and_send_keys([:id, "agent_notes__0__subnotes__2__levels__3__items__5_"], "Discography")
+      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+
+      # check the readonly view
+      $driver.find_element_with_text('//div[contains(@class, "subrecord-form-inline")]', /Woodstock/)
+      $driver.find_element_with_text('//div[contains(@class, "subrecord-form-inline")]', /Discography/)
+    end
+
+
     it "displays the agent in the agent's index page" do
       $driver.find_element(:link, 'Agents').click
       expect {
