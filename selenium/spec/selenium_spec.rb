@@ -110,8 +110,8 @@ describe "ArchivesSpace user interface" do
 
 
     it "automatically refreshes the repository list when a new repo gets added" do
-      new_repo_code = "webhooktest1#{Time.now.to_i}_#{$$}"
-      new_repo_name = "webhook test repository - #{Time.now}"
+      new_repo_code = "notificationtest1#{Time.now.to_i}_#{$$}"
+      new_repo_name = "notification test repository - #{Time.now}"
 
       create_test_repo(new_repo_code, new_repo_name)
 
@@ -135,7 +135,7 @@ describe "ArchivesSpace user interface" do
 
       create_test_repo(@can_manage_repo, "manage", false)
       create_test_repo(@can_view_repo, "view", false)
-      # wait for webhook to fire (which can take up to 5 seconds)
+      # wait for notification to fire (which can take up to 5 seconds)
       sleep 5
       login("admin", "admin")
     end

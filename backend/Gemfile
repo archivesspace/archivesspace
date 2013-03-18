@@ -1,5 +1,6 @@
 source "http://rubygems.org"
 
+gem "atomic"
 gem "sinatra", :require => false
 gem "sinatra-reloader", :require => false
 gem "sequel"

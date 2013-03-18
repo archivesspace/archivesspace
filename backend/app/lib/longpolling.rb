@@ -46,7 +46,7 @@ class LongPolling
 
       if updates.empty?
         # Block until an update wakes us up (or until we time out)
-        @waiting_list.wait(@lock, @ms_to_keep / 1000)
+        @waiting_list.wait(@lock, @ms_to_keep / 1000.0)
         updates_after(seq)
       else
         updates

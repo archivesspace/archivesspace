@@ -43,3 +43,7 @@ AppConfig[:public_username] = "public_anonymous"
 AppConfig[:authentication_sources] = []
 
 AppConfig[:realtime_index_backlog_ms] = 60000
+
+AppConfig[:notifications_backlog_ms] = 60000
+AppConfig[:notifications_poll_frequency_ms] = 1000
+

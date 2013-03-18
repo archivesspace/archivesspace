@@ -4,18 +4,6 @@ Bundler.require
 require 'sinatra'
 require 'java'
 
-require_relative '../app/lib/webhooks'
-
-class Webhooks
-  class << self
-    alias :notify_orig :notify
-  end
-
-  def self.notify(*ignored)
-  end
-end
-
-
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'tmpdir'
   require 'pp'
@@ -106,7 +94,18 @@ end
 # It would be nice if we could narrow the scope of this to just the tests.
 include JSONModel
 
+
+# Switch off notifications for the tests
+require_relative '../app/lib/notifications'
+class Notifications
+  def self.notify(*ignored)
+  end
+end
+
+
 require_relative "../app/main"
+
+
 
 Log.quiet_please
 

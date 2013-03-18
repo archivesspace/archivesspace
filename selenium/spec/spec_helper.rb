@@ -377,7 +377,7 @@ def create_test_repo(code, name, wait = true)
   repo_uri = JSON.parse(response.body)['uri']
 
 
-  # Give the webhook time to fire
+  # Give the notification time to fire
   sleep 5 if wait
 
   [code, repo_uri]
