@@ -1,3 +1,7 @@
+ArchivesSpace README
+--------------------
+<http://archivesspace.org>
+
 # Getting started
 
 The quickest way to get ArchivesSpace up and running is to download
@@ -145,4 +149,15 @@ appropriate and specify the `encryption` option:
 
 # Further documentation
 
-Latest documentation is published at [http://hudmol.github.com/archivesspace/](http://hudmol.github.com/archivesspace/)
+Additional deployment documentation can be found on the ArchivesSpace
+wiki at [https://github.com/archivesspace/archivesspace/wiki](https://github.com/archivesspace/archivesspace/wiki).
+
+The latest technical documentation, including API documentation and
+architecture notes, is published at
+[http://hudmol.github.com/archivesspace/](http://hudmol.github.com/archivesspace/).
+
+# License
+
+ArchivesSpace is released under the [Educational Community License,
+version 2.0](http://opensource.org/licenses/ecl2.php). See the
+[COPYING](COPYING) file for more information.
