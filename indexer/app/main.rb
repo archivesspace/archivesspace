@@ -34,6 +34,8 @@ class ArchivesSpaceIndexer < Sinatra::Base
     threads << Thread.new do
       periodic_indexer.run
     end
+
+    threads.each {|t| t.join} if java.lang.System.get_property("aspace.devserver")
   end
 
 

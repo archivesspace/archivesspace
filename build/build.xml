@@ -20,7 +20,9 @@
 
   <property environment="env"/>
   <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=128m -Xmx256m -Xss2m" />
-  <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/" />
+  <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.devserver=true -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/" />
+
+
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
@@ -250,10 +252,10 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../indexer">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options} -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 indexer.rb" />
+      <arg line="--1.9 app/main.rb" />
     </java>
   </target>
 
