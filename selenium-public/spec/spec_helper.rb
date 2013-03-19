@@ -6,10 +6,6 @@ require "rspec"
 require 'test_utils'
 require 'config/config-distribution'
 
-
-require_relative '../../common/test_utils'
-require_relative '../../config/config-distribution'
-
 $sleep_time = 0.0
 
 $backend_port = TestUtils::free_port_from(3636)
