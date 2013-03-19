@@ -822,7 +822,7 @@ Sequel.migration do
       String :date_type, :null => true
       String :label, :null => false
 
-      String :uncertain, :null => true
+      String :certainty, :null => true
       String :expression, :null => true
       String :begin, :null => true
       String :begin_time, :null => true
