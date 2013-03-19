@@ -86,7 +86,7 @@ class Enumeration < Sequel::Model(:enumeration)
 
 
   def self.broadcast_changes
-    Webhooks.notify("ENUMERATION_CHANGED")
+    Notifications.notify("ENUMERATION_CHANGED")
   end
 
 

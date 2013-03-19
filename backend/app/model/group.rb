@@ -131,6 +131,6 @@ class Group < Sequel::Model(:group)
 
 
   def self.broadcast_changes
-    Webhooks.notify("REFRESH_ACLS")
+    Notifications.notify("REFRESH_ACLS")
   end
 end

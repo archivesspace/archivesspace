@@ -65,7 +65,7 @@ class Repository < Sequel::Model(:repository)
       end
     end
 
-    Webhooks.notify("REPOSITORY_CHANGED")
+    Notifications.notify("REPOSITORY_CHANGED")
   end
 
 end

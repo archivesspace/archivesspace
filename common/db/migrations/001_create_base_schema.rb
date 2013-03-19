@@ -55,9 +55,11 @@ Sequel.migration do
     end
 
 
-    create_table(:webhook_endpoint) do
+    create_table(:notification) do
       primary_key :id
-      String :url, :unique => true, :null => false
+      DateTime :time, :null => false, :index => true
+      String :code, :null => false
+      BlobField :params, :null => false
     end
 
 

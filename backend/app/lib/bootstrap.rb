@@ -11,8 +11,6 @@ require "asutils"
 require_relative 'exceptions'
 require_relative 'logging'
 require 'config/config-distribution'
-
-require_relative 'webhooks'
 require_relative 'username'
 
 

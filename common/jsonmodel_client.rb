@@ -56,26 +56,38 @@ module JSONModel
   @@protected_fields << "uri"
 
 
-  module Webhooks
+  module Notification
     @@notification_handlers = []
 
     def self.add_notification_handler(code = nil, &block)
       @@notification_handlers << {:code => code, :block => block}
     end
 
-    def self.notify(notification)
-      notification.events.each do |event|
-        @@notification_handlers.each do |handler|
-          if handler[:code].nil? or handler[:code] == event["code"]
-            handler[:block].call(event["code"], event["params"])
+    def self.start_background_thread
+      Thread.new do
+        sequence = 0
+
+        while true
+          begin
+            notifications = JSONModel::HTTP::get_json('/notifications',
+                                                      :last_sequence => sequence)
+
+            notifications.each do |notification|
+              @@notification_handlers.each do |handler|
+                if handler[:code].nil? or handler[:code] == notification["code"]
+                  handler[:block].call(notification["code"], notification["params"])
+                end
+              end
+            end
+
+            sequence = notifications.last['sequence']
+          rescue
+            sleep 5
           end
         end
       end
     end
 
-    def self.webhook_register(endpoint)
-      JSONModel::HTTP::post_form('/webhooks/register', "url" => endpoint)
-    end
   end
 
 

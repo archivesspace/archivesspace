@@ -46,6 +46,6 @@ class Term < Sequel::Model(:term)
   end
 
   def self.broadcast_changes
-    Webhooks.notify("VOCABULARY_CHANGED")
+    Notifications.notify("VOCABULARY_CHANGED")
   end
 end

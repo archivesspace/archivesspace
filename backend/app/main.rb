@@ -5,6 +5,7 @@ require_relative 'lib/bootstrap'
 require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
+require_relative 'lib/notifications'
 require_relative 'lib/export'
 require_relative 'lib/request_context.rb'
 require_relative 'lib/webrick_fix'
@@ -103,6 +104,10 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
+      # Start the notifications background delivery thread
+      Notifications.init if !Thread.current[:test_mode]
+
+
       if !Thread.current[:test_mode] && ENV["ASPACE_INTEGRATION"] != "true"
         # Start the job scheduler
         if !settings.respond_to? :scheduler?
@@ -110,6 +115,12 @@ class ArchivesSpaceService < Sinatra::Base
           set :scheduler, Rufus::Scheduler.start_new
         end
 
+
+        settings.scheduler.cron("0 * * * *", :tags => 'notification_expiry') do
+          Log.info("Expiring old notifications")
+          Notifications.expire_old_notifications
+          Log.info("Done")
+        end
 
         if AppConfig[:db_url] == AppConfig.demo_db_url &&
             settings.scheduler.find_by_tag('demo_db_backup').empty?
@@ -147,13 +158,7 @@ class ArchivesSpaceService < Sinatra::Base
 
       require_relative "lib/bootstrap_access_control"
 
-      # Ensure that the frontend is registered
-      Array(AppConfig[:frontend_url]).each do |url|
-        Webhooks.add_listener(URI.join(url, "/webhook/notify").to_s)
-      end
-
-      Webhooks.start
-      Webhooks.notify("BACKEND_STARTED")
+      Notifications.notify("BACKEND_STARTED")
     end
 
   end
