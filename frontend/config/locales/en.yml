@@ -116,6 +116,7 @@ en:
       primary_type: Record Type
       accession_date_year: Accession Date
       creators: Creator
+      source: Source
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending

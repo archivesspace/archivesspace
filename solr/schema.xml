@@ -76,6 +76,9 @@
    <!-- Sort fields -->
    <field name="title_sort" type="string" indexed="true" stored="false" multiValued="false"/>
 
+   <!-- Agent fields -->
+   <field name="source" type="string" indexed="true" stored="true" multiValued="false" />
+
    <!-- Audit fields -->
    <field name="create_time" type="date" indexed="true" stored="true" multiValued="false"/>
    <field name="last_modified" type="date" indexed="true" stored="true" multiValued="false"/>

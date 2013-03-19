@@ -6,7 +6,9 @@ class AgentsController < ApplicationController
   before_filter :assign_types
 
   def index
-    @agents = JSONModel::all('/agents', :agent_type)
+    facets = ["primary_type", "source"]
+
+    @search_data = Search.for_type(session[:repo_id], "agent", search_params.merge({"facet[]" => facets}))
   end
 
   def show

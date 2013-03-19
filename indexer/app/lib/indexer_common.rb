@@ -111,6 +111,7 @@ class CommonIndexer
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
         doc['json'] = record['record'].to_json
         doc['title'] = record['record']['names'][0]['sort_name']
+        doc['source'] = record['record']['names'][0]['source']
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
