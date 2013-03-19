@@ -190,6 +190,20 @@ FactoryGirl.define do
     items { [generate(:alphanumstr)] }
   end
 
+  factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
+    label { generate(:alphanumstr) }
+    content { [generate(:alphanumstr)] }
+    subnotes { [ build(:json_note_outline) ] }
+  end
+
+  factory :json_note_outline, class: JSONModel(:note_outline) do
+    levels { [ build(:json_note_outline_level) ] }
+  end
+
+  factory :json_note_outline_level, class: JSONModel(:note_outline_level) do
+    items { [ generate(:alphanumstr) ] }
+  end
+
   factory :json_container, class: JSONModel(:container) do
     type_1 { generate(:container_type) }
     indicator_1 { generate(:indicator) }
