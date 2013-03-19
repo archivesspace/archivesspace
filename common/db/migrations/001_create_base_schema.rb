@@ -554,9 +554,6 @@ Sequel.migration do
       def apply_name_columns
         String :authority_id, :null => true
         String :dates, :null => true
-        TextField :description_type, :null => true
-        TextField :description_note, :null => true
-        TextField :description_citation, :null => true
         TextField :qualifier, :null => true
         Integer :source_id, :null => true
         Integer :rules_id, :null => true
@@ -1089,8 +1086,6 @@ Sequel.migration do
     create_enum('name_source', ["local", "naf", "nad", "ulan"])
 
     create_enum('name_rule', ["local", "aacr", "dacs"])
-
-    create_enum('name_description_type', ["biographical statement", "administrative history"])
 
     create_enum('accession_acquisition_type', ["deposit", "gift", "purchase", "transfer"])
 

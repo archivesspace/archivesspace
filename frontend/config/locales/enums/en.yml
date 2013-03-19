@@ -360,9 +360,6 @@ en:
       mesh: Medical Subject Headings
       rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       tgn: "Getty Thesaurus of Geographic Names"
-    name_description_type:
-      biographical statement: Biographical Statement
-      administrative history: Administrative History
     event_outcome:
       pass: Pass
       partial pass: Partial Pass
