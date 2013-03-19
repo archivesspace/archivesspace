@@ -1,0 +1,28 @@
+JSON Schema: File_version
+
+Properties
+
+string	file_uri
+
+boolean	publish
+
+string	use_statement
+
+string	xlink_actuate_attribute
+
+string	xlink_show_attribute
+
+string	file_format_name
+
+string	file_format_version
+
+integer	file_size_bytes
+
+string	checksum
+
+string	checksum_method
+
+
+
+
+
