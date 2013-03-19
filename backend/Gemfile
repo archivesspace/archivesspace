@@ -1,8 +1,8 @@
-# A sample Gemfile
 source "http://rubygems.org"
 
-gem "sinatra"
-gem "sinatra-reloader"
+gem "sinatra", :require => false
+gem "sinatra-reloader", :require => false
+gem "sequel"
 gem "rack-session-sequel"
 gem "jdbc-mysql"
 gem "jdbc-derby"

@@ -1,7 +1,7 @@
 # written for Ruby 1.9.3
 
 require_relative "../config/config"
-require_relative "../../common/jsonmodel"
+require 'jsonmodel'
 
 $dry_mode ||= false
 

@@ -15,6 +15,7 @@ else
     rlwrap=""
 fi
 
+export BUNDLE_GEMFILE="`dirname $0`/../backend/Gemfile"
 JAVA_OPTS="$JAVA_OPTS -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver"
 export JAVA_OPTS
-$rlwrap "`dirname $0`/jruby" -I. -e "require 'backend/app/main'; require 'irb'; $conf; IRB.start" ${1+"$@"}
+$rlwrap "`dirname $0`/jruby" -I. -Icommon -e "require 'backend/app/main'; require 'irb'; $conf; IRB.start" ${1+"$@"}

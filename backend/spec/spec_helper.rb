@@ -1,3 +1,6 @@
+require 'bundler'
+Bundler.require
+
 require 'sinatra'
 require 'java'
 
@@ -46,7 +49,7 @@ Thread.current[:test_mode] = true
 class DB
   def self.connect
     if not @pool
-      require_relative "../app/model/db_migrator"
+      require "db/db_migrator"
 
       test_db_url = "jdbc:derby:memory:fakedb;create=true"
 

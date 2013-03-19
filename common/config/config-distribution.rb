@@ -3,6 +3,7 @@ require 'java'
 
 class AppConfig
   @@parameters = {}
+  @@changed_from_default = {}
 
   def self.[](parameter)
     if !@@parameters.has_key?(parameter)
@@ -16,7 +17,13 @@ class AppConfig
 
 
   def self.[]=(parameter, value)
+    @@changed_from_default[parameter] = true
     @@parameters[parameter] = value
+  end
+
+
+  def self.has_key?(parameter)
+    @@parameters.has_key?(parameter)
   end
 
 
@@ -42,9 +49,12 @@ class AppConfig
     if java.lang.System.getProperty("aspace.config")
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
-    elsif java.lang.System.getProperty("catalina.home")
+    elsif java.lang.System.getProperty("ASPACE_LAUNCHER_BASE") &&
+        File.exists?(File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb"))
+      File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb")
+    elsif java.lang.System.getProperty("catalina.base")
       # Tomcat users
-      File.join(java.lang.System.getProperty("catalina.home"), "conf", "config.rb")
+      File.join(java.lang.System.getProperty("catalina.base"), "conf", "config.rb")
     elsif __FILE__.index(java.lang.System.getProperty("java.io.tmpdir")) != 0
       File.join(File.dirname(__FILE__), "config.rb")
     else
@@ -86,52 +96,13 @@ class AppConfig
   end
 
 
+  def self.read_defaults
+    File.read(File.join(File.dirname(__FILE__), "config-defaults.rb"))
+  end
+
+
   def self.load_defaults
-    AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
-    AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
-    AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }
-    AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
-    AppConfig[:solr_indexing_frequency_seconds] = 30
-
-    AppConfig[:max_page_size] = 250
-
-    AppConfig[:allow_other_unmapped] = false
-
-    AppConfig[:db_url] = proc { AppConfig.demo_db_url }
-    AppConfig[:db_max_connections] = 10
-
-    AppConfig[:allow_unsupported_database] = false
-
-    AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
-    AppConfig[:demo_db_backup_number_to_keep] = 7
-
-    AppConfig[:backend_url] = "http://localhost:4567"
-    AppConfig[:frontend_url] = "http://localhost:3000"
-    AppConfig[:solr_url] = "http://localhost:2999"
-    AppConfig[:public_url] = "http://localhost:3001"
-
-    # If you have multiple instances of the backend running behind a load
-    # balancer, list the URL of each backend instance here.  This is used by the
-    # real-time indexing, which needs to connect directly to each running
-    # instance.
-    #
-    # By default we assume you're not using a load balancer, so we just connect
-    # to the regular backend URL.
-    #
-    AppConfig[:backend_instance_urls] = proc { [AppConfig[:backend_url]] }
-
-    AppConfig[:frontend_theme] = "default"
-    AppConfig[:public_theme] = "default"
-
-    AppConfig[:session_expire_after_seconds] = 3600
-
-    AppConfig[:search_username] = "search_indexer"
-
-    AppConfig[:public_username] = "public_anonymous"
-
-    AppConfig[:authentication_sources] = []
-
-    AppConfig[:realtime_index_backlog_ms] = 60000
+    eval(read_defaults)
   end
 
 
@@ -139,7 +110,14 @@ class AppConfig
     @@parameters = {}
 
     AppConfig.load_defaults
+    @@changed_from_default = {}
+
     AppConfig.load_user_config
+  end
+
+
+  def self.changed?(parameter)
+    @@changed_from_default[parameter]
   end
 
 end

@@ -5,8 +5,8 @@ require 'tmpdir'
 require 'tempfile'
 require 'json'
 require 'net/http'
-require_relative '../../common/test_utils'
-require_relative '../../indexer/periodic_indexer.rb'
+require 'test_utils'
+require_relative '../../indexer/app/lib/periodic_indexer.rb'
 require 'ladle'
 
 Dir.chdir(File.dirname(__FILE__))

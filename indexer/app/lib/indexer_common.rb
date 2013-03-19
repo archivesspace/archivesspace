@@ -3,10 +3,10 @@ require 'uri'
 require 'json'
 require 'fileutils'
 
-require_relative '../common/asutils'
-require_relative '../common/jsonmodel'
-require_relative '../common/jsonmodel_client'
-require_relative '../config/config-distribution'
+require 'asutils'
+require 'jsonmodel'
+require 'jsonmodel_client'
+require 'config/config-distribution'
 
 
 class CommonIndexer

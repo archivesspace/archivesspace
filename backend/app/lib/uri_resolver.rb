@@ -64,7 +64,13 @@ module URIResolver
 
     response = ArchivesSpaceService.call(env)
 
-    response[2].body.join("")
+    resolved = ""
+
+    response[2].each do |s|
+      resolved += s
+    end
+
+    resolved
   end
 
 

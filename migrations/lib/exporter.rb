@@ -1,4 +1,4 @@
-require_relative "../../common/jsonmodel"
+require 'jsonmodel'
 require 'nokogiri'
 
 module ASpaceExport

@@ -6,7 +6,7 @@ require 'sprockets/railtie'
 
 require 'java'
 
-require_relative "../../config/config-distribution"
+require 'config/config-distribution'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line

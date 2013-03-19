@@ -1,4 +1,5 @@
-require_relative '../../common/jsonmodel.rb'
+require 'jsonmodel'
+
 JSONModel::init(:client_mode => false, :strict_mode => false)
 include JSONModel
 

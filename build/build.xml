@@ -16,11 +16,11 @@
   <property name="aspace.frontend.port" value="3000" />
   <property name="aspace.public.port" value="3001" />
   <property name="aspace.solr.port" value="2999" />
-  <property name="aspace.data_directory" value="../build" />
+  <property name="aspace.data_directory" value="${basedir}/../build" />
 
   <property environment="env"/>
   <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=128m -Xmx256m -Xss2m" />
-  <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver" />
+  <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/" />
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
@@ -38,7 +38,7 @@
       <matches pattern=".*:coverage" string="${ant.project.invoked-targets}" />
     </condition>
 
-    <property name="jruby_classpath" value="${jruby_file}:../lib/*" />
+    <property name="jruby_classpath" value="${jruby_file}:../lib/*:../common" />
     <property name="COVERAGE_REPORTS" value="false" />
   </target>
 
@@ -52,18 +52,20 @@
   </target>
 
 
-
-  <target name="bootstrap" description="Download JRuby and install all required gems">
+  <target name="bootstrap-downloads" description="Download static files used for bootstrapping">
     <delete>
       <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
     </delete>
 
-    <delete dir="gems/gems" />
-    <delete dir="gems/specifications" />
-
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${winstone_url}" dest="${winstone_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+  </target>
+
+
+  <target name="bootstrap" depends="bootstrap-downloads" description="Download JRuby and install all required gems">
+    <delete dir="gems/gems" />
+    <delete dir="gems/specifications" />
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
@@ -119,6 +121,13 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium-public/Gemfile'" />
+    </java>
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='../indexer/Gemfile'" />
     </java>
   </target>
 
@@ -241,12 +250,34 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../indexer">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options} -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/"/>
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 indexer.rb" />
     </java>
   </target>
+
+
+  <target name="indexer:war" depends="set-classpath, bootstrap" description="Deploy the indexer application as a .war file">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+          dir="../indexer">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="--1.9 ../build/gems/bin/warble war" />
+    </java>
+  </target>
+
+
+  <!-- Solr -->
+  <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
+    <copy file="${solr_file}" tofile="solr.war" />
+    <war destfile="solr.war" update="true">
+      <zipfileset dir="../solr" prefix="WEB-INF/classes"/>
+    </war>
+  </target>
+
+
 
 
   <!-- Frontend -->
@@ -300,7 +331,7 @@
   <target name="frontend:war" depends="set-classpath, bootstrap, frontend:clean" description="Deploy the frontend application as a .war file">
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
-    <delete dir="../frontend/tmp" />
+    <delete failonerror="false" dir="../frontend/tmp" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
@@ -426,36 +457,59 @@
   </target>
 
 
-  <target name="dist" depends="backend:war, frontend:war, public:war" description="Build a standalone distribution jar of frontend, backend and all components">
 
-    <mkdir dir="target" />
 
-    <javac includeAntRuntime="false" fork="true" destdir="target" srcdir="../launcher/src" failonerror="true" classpath="../launcher/libs/*:${jruby_file}" />
+  <target name="dist" 
+          depends="set-classpath, backend:war, frontend:war, public:war, solr:war, indexer:war"
+          description="Build a standalone distribution zip of all components">
+    <delete failonerror="false" dir="target" />
 
-    <jar jarfile="deps.jar">
-      <zipgroupfileset dir="../launcher/libs" includes="*.jar" />
+    <mkdir dir="target/archivesspace/config" />
+    <mkdir dir="target/archivesspace/data" />
+    <mkdir dir="target/archivesspace/wars" />
+    <mkdir dir="target/archivesspace/gems" />
+    <mkdir dir="target/archivesspace/lib" />
+    <mkdir dir="target/archivesspace/logs" />
+    <mkdir dir="target/archivesspace/launcher" />
+    <mkdir dir="target/archivesspace/scripts/rb" />
+
+    <jar jarfile="target/archivesspace/lib/common.jar">
+      <fileset dir="../common" />
     </jar>
 
-    <sleep seconds="1" />
+    <copy file="solr.war" todir="target/archivesspace/wars" />
+    <copy file="../backend/backend.war" todir="target/archivesspace/wars" />
+    <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
+    <copy file="../public/public.war" todir="target/archivesspace/wars" />
+    <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
 
-    <jar jarfile="../archivesspace.jar" basedir="target">
-      <zipfileset src="deps.jar" excludes="META-INF/*.SF" />
-      <zipfileset src="${jruby_file}" />
+    <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
 
-      <fileset dir="../" includes="config/**" />
-      <fileset dir="../solr" />
-      <fileset dir="../" includes="indexer/**" />
-      <fileset dir="../" includes="common/**" />
+    <copy todir="target/archivesspace/gems">
+      <fileset dir="gems" excludes="cache/*,doc/*" />
+    </copy>
 
-      <zipfileset src="../backend/backend.war" prefix="backend" />
-      <zipfileset src="../frontend/frontend.war" prefix="frontend" />
-      <zipfileset src="../public/public.war" prefix="public" />
-      <zipfileset src="${solr_file}" prefix="solr" />
+    <copy todir="target/archivesspace/launcher">
+      <fileset dir="../launcher" />
+    </copy>
 
-      <manifest>
-        <attribute name="Main-Class" value="org.archivesspace.Main" />
-      </manifest>
-    </jar>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <arg line="-Iapp/lib --1.9 scripts/export_config.rb target/archivesspace/config/config.rb" />
+    </java>
+
+    <zip zipfile="../archivesspace.zip" level="9">
+      <zipfileset dir="target" excludes="**/mysql-connector-java*.jar" />
+      <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
+      <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="644" />
+      <zipfileset dir="../launcher/scripts" includes="setup-database.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/scripts" includes="setup-database.bat" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/tomcat" includes="configure-tomcat.bat" prefix="archivesspace/scripts" filemode="644" />
+    </zip>
+
   </target>
 
 

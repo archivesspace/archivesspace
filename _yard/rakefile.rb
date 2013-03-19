@@ -16,7 +16,7 @@ namespace :doc do
   task :api do
     require 'erb'
     require 'sinatra'
-    require_relative '../common/jsonmodel.rb'
+    require 'jsonmodel'
     require_relative '../backend/app/lib/rest.rb'
     require_relative '../backend/app/model/backend_enum_source.rb'
     require_relative '../backend/app/lib/logging.rb'
