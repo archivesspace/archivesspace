@@ -1760,7 +1760,9 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Accession").click
 
       # click on a field label
-      $driver.find_element(:css, "label[for='accession_title_']").click
+
+      # Use JQuery to trigger the handler to avoid hovering over the element too
+      $driver.execute_script("$('label[for=\"accession_title_\"]').triggerHandler(\"click\")")
 
       $driver.find_element(:css, ".tooltip.archivesspace-help")
 
