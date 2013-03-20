@@ -72,6 +72,7 @@ class DigitalObjectsController < ApplicationController
 
   def fetch_tree
     @tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => @digital_object.id)
+    parse_tree(@tree, proc {|node| node['level'] = I18n.t("enumerations.digital_object_level.#{node['level']}", :default => node['level']) if node['level']})
   end
 
 end
