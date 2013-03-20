@@ -290,9 +290,10 @@ en:
     event_event_type:
       accession: Accession
       accumulation: Accumulation
-      acknowledgement: Acknowledgement
-      agreement received: Agreement Received
-      agreement sent: Agreement Sent
+      acknowledgement_sent: Acknowledgement Sent
+      agreement_received: Agreement Received
+      agreement_sent: Agreement Sent
+      agreement_signed: Agreement Signed
       appraisal: Appraisal
       assessment: Assessment
       capture: Capture
@@ -300,24 +301,25 @@ en:
       collection: Collection
       compression: Compression
       contribution: Contribution
-      custody transfer: Custody Transfer
+      copyright_transfer: Copyright Transfer
+      custody_transfer: Custody Transfer
       deaccession: Deaccession
       decompression: Decompression
       decryption: Decryption
       deletion: Deletion
-      digital signature validation: Digital Signature Validation
-      fixity check: Fixity Check
+      digital_signature_validation: Digital Signature Validation
+      fixity_check: Fixity Check
       ingestion: Ingestion
-      message digest calculation: Message Digest Calculation
+      message_digest_calculation: Message Digest Calculation
       migration: Migration
       normalization: Normalization
       processing: Processing
       publication: Publication
       replication: Replication
-      resource merge: Resource Merge
-      resource component transfer: Resource Component Transfer
+      resource_merge: Resource Merge
+      resource_component_transfer: Resource Component Transfer
       validation: Validation
-      virus check: Virus Check
+      virus_check: Virus Check
     resource_resource_type:
       collection: Collection
       publications: Publications
