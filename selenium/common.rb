@@ -298,7 +298,7 @@ def selenium_init(backend_fn, frontend_fn)
 
 
   if ENV['TRAVIS']
-    puts "Loading stable version of Firefox"
+    puts "Loading stable version of Firefox and nodejs"
     Dir.chdir('/var/tmp') do
       firefox_archive = "firefox-16.0.tar.bz2"
       if `uname --machine`.strip == "x86_64"
@@ -308,6 +308,16 @@ def selenium_init(backend_fn, frontend_fn)
       system('wget', "http://aspace.hudmol.com/#{firefox_archive}")
       system('tar', 'xvjf', firefox_archive)
       ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
+
+
+      arch = "x86"
+      if `uname --machine`.strip == "x86_64"
+        arch = "x64"
+      end
+
+      system('wget', "http://aspace.hudmol.com/node-v0.10.0-linux-#{arch}.tar.gz")
+      system('tar', 'xvzf', "node-v0.10.0-linux-#{arch}.tar.gz")
+      ENV['PATH'] = (File.join(Dir.getwd, "node-v0.10.0-linux-#{arch}", "bin") + ':' + ENV['PATH'])
 
       puts "Path now: #{ENV['PATH']}"
       puts "Firefox version:"
