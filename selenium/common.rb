@@ -83,6 +83,12 @@ class Selenium::WebDriver::Driver
         else
           puts "Failed to find #{selectors}"
 
+          if ENV['SCREENSHOT_ON_ERROR']
+            outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
+            puts "Saving screenshot to #{outfile}"
+            $driver.save_screenshot(outfile)
+          end
+
           raise e
         end
       end
@@ -322,14 +328,15 @@ def selenium_init(backend_fn, frontend_fn)
 end
 
 
-def assert(&block)
+def assert(times = nil, &block)
   try = 0
+  times ||= Selenium::Config.retries
 
   begin
     block.call
   rescue
     try += 1
-    if try < Selenium::Config.retries
+    if try < times
       $sleep_time += 0.1
       sleep 0.1
       retry

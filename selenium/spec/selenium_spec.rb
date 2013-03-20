@@ -529,8 +529,6 @@ describe "ArchivesSpace user interface" do
       login_as_archivist
       @accession_title = "Exciting new stuff - \u2603"
       @me = "#{$$}.#{Time.now.to_i}"
-
-
     end
 
 
@@ -547,7 +545,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
       $driver.clear_and_send_keys([:id, "accession_content_description_"], "A box containing our own universe")
       $driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       assert { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
     end
@@ -558,7 +556,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, 'accession_content_description_'], "Here is a description of this accession.")
       $driver.clear_and_send_keys([:id, 'accession_condition_description_'], "Here we note the condition of this accession.")
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       assert { $driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/) }
     end
@@ -1222,12 +1220,12 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
 
       # so the subject is here now
-      assert { $driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
+      assert(10) { $driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
 
       # refresh the page and verify that the change really stuck
       $driver.navigate.refresh
 
-      assert { $driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
+      assert(10) { $driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
     end
 
 
