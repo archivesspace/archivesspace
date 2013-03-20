@@ -893,14 +893,38 @@ en:
     language_zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
   digital_object:
     title: Title
+    title_tooltip: |
+        <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
+        <p>The title of the digital object as a whole may be the same as that of the resource or resource component record to which the digital object record is linked. However, it can be different than that expressed in the linked resource record.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Stanley Elkins, grandfather <em>(linked to a resource component record having the title "Family portraits")</em></li>
+        <li>Letter to New Atlantic <em>(linked to a resource component record having the title "Letter to New Atlantic")</em></li>
+        <li>Cedar Fire <em>(linked to a resource component record having the title "Cedar Fire")</em></li>
+        </ul>
     title_default: New Digital Object
     digital_object_id: Identifier
+    digital_object_id_tooltip: |
+        <p>A unique identifier for the digital object as a whole. May be an ARK, HANDLE, a URI, or any string that uniquely identifies the digital object. The field needs to be completed for a valid METS record to be exported.</p>
+        <p>Examples</p>
+        <ul>
+        <li>http://hdl.handle.net/1813/13524</li>
+        </ul>
     publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Digital Object will be published to public (patron) interfaces.</p>
     level: Level
+    level_tooltip: |
+        <p>Primarily for use in multi-level VRA compliant records in order to indicate description is about a collection, a work, or an image.</p>
     digital_object_type: Type
+    digital_object_type_tooltip: |
+        <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
     language: Language
+    language_tooltip: <p>The language for the digital content.</p>
     <<: *language_attributes
     restrictions: Restrictions?
+    restrictions_tooltip: |
+        <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
     _html:
       singular: Digital Object
       plural: Digital Objects
@@ -911,11 +935,27 @@ en:
         basic_information: Basic Information
   digital_object_component:
     label: Label
+    label_tooltip: |
+        <p>A term used to describe the part and its position within the digital object being described. More often used for the component parts of the digital object than the top-level digital object record.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Audio: Tape 1, Track 1, Section 1, etc.</li>
+        <li>Image: Image 1, Picture 1, etc.</li>
+        <li>Text: Page 1, Leaf 1, First leaf, Chapter 1, Section 1, etc.</li>
+        <li>Video:  Tape 1, Part 1, Section 1, etc.</li>
+        </ul>
     title: Title
+    title_tooltip: |
+        <p>A title expression for the digital object component.</p>
     title_default: New Digital Object Component
     component_id: Identifier
-    publish: Publish
+    component_id_tooltip: |
+        <p>A unique identifier for the digital object component.</p>
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Digital Object will be published to public (patron) interfaces.</p>
     language: Language
+    language_tooltip: <p>The language for the digital content.</p>
     <<: *language_attributes
     _html:
       singular: Digital Object Component
@@ -1326,20 +1366,61 @@ en:
     checksum_method: Checksum Method
   extent: &extent_attributes
     portion: Portion
+    portion_tooltip: |
+        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
+        <p>Any described aggregation or object with an extent statement must have an extent statement with Portion set to "whole".</p>
+        <p>See DACS 2.5.7</p>
     portion_whole: Whole
     portion_part: Part
     number: Number
+    number_tooltip: |
+        <p>A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
+        <p>See DACS 2.5</p>
     extent_type: Type
+    extent_type_tooltip: |
+        <p>A term indicating the type of unit used to measure the extent of a resource.  Values in this Enumeration may be modified.</p>
+        <p>See DACS 2.5</p>
     container_summary: Container Summary
+    container_summary_tooltip: |
+        <p>A list of container and container types housing the materials described in the component record.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>10 record cartons, 6 archives boxes, 3 oversize folders.</li>
+        <li>12 shoeboxes.</li>
+        <li>4 archives boxes, 32 tubes.</li>
+        </ul>
     physical_details: Physical Details
+    physical_details_tooltip: |
+        <p>Other physical details of the materials described, e.g., analog, b&w, negatives.</p>
+        <p>See DACS 2.5</p>
     dimensions: Dimensions
+    dimensions_tooltip: |
+        <p>Dimensions of the material(s) described.</p>
+        <p>See DACS 2.5</p>
+        <p>Examples:</p>
+        <ul>
+        <li>29 cm</li>
+        <li>7 1/4 x 3 1/2 in.</li>
+        <li>1/2 in. tape</li>
+        </ul>
     _html:
       plural: Extents
       singular: Extent
   external_document: &external_document_attributes
     title: Title
+    title_tooltip: |
+        <p>The title of an external document referenced from the accession record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
     location: Location
+    location_tooltip: |
+        <p>The location of the file, ideally a resolvable URI.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>http://www.archivesspace.org/membership</li>
+        <li>file:///c:/path/to/the%20file.txt</li>
+        </ul>
     publish: Publish?
+    publish_tooltip: |
+        <p>Check this if you wish to publish this External Document to the public.</p>
     _html:
       plural: External Documents
       singular: External Document
@@ -1383,6 +1464,9 @@ en:
     <<: *rights_statement_attributes
   date: &date_attributes
     label: Label
+    label_tooltip: |
+        <p>REQUIRED FIELD: Describes what the type of activity the date signifies.</p>
+        <p>See DACS 2.4 and 2.4.3</p>
     label_broadcast: Broadcast
     label_copyright: Copyright
     label_creation: Creation
@@ -1393,22 +1477,58 @@ en:
     label_publication: Publication
     label_other: Other
     date_type: Type
+    date_type_tooltip: |
+        <p>Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
     date_type_expression: Expression
     date_type_single: Single
     date_type_bulk: Bulk Dates
     date_type_inclusive: Inclusive Dates
     date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
+    expression_tooltip: |
+        <p>A natural language expression specifying the date or date range of the materials in the accession.</p>
+        <p>See DACS 2.4</p>
+        <p>Examples:</p>
+        <ul>
+        <li>1968</li>
+        <li>1979-1993</li>
+        <li>1785-1960, bulk 1916-1958</li>
+        <li>1827, 1952-1978</li>
+        <li>circa 1870-1879</li>
+        <li>1906 March 17</li>
+        <li>undated</li>
+        <li>unknown <em>(for events)</em></li>
+        </ul>
     begin: Begin
+    begin_tooltip: |
+        <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
+        <p>See DACS 2.4.7-2.4.16</p>
+        <p>A.D. years are expressed with four digits.</p>
+        <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
     begin_time: Begin Time
+    begin_time_tooltip: |
+        <p>Normalized time information (in the form HH:MM:SS) associated with a single date or the first date in a date range.</p>
     end: End
+    end_tooltip: |
+        <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the second date in a date range.</p>
+        <p>See DACS 2.4.7-2.4.16</p>
+        <p>A.D. years are expressed with four digits.</p>
+        <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
     end_time: End Time
+    end_time_tooltip: |
+        <p>Normalized time information (in the form HH:MM:SS) associated with a single date or the first date in a date range.</p>
     uncertain: Uncertainty
     uncertain_approximate: Approximate
     uncertain_inferred: Inferred
     uncertain_questionable: Questionable
     era: Era
+    era_tooltip: |
+        <p>Period during which years are numbered and dates reckoned, such as A.D. or C.E. The value "ce" is the default.</p>
+        <p>See EAD attribute "era"</p>
     calendar: Calendar
+    calendar_tooltip: |
+        <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
+        <p>See EAD attribute "calendar" and DACS 2.4.5.</p>
     _html:
       plural: Dates
       singular: Date
@@ -1454,16 +1574,62 @@ en:
         <p>The maps in box 4 are brittle and several are covered with mold.
         Inhalation guards should be worn during processing.</p>
     disposition: Disposition
+    disposition_tooltip: |
+        <p>A note to describe how a particular accession may have been assigned to different resources.</p>
+        <p>Examples:</p>
+        <p>Photographs were separated and assigned to Photographs 025.</p>
+        <p>The letters to William Colton were added to the William Colton correspondence collection, while the maps of local country streams were added to the records of the County River collection.</p>
     general_note: General Note
+    general_note_tooltip: |
+        <p>A catch all note field for any information that does not fit in any of the more specifically defined fields.</p>
     inventory: Inventory
+    inventory_tooltip: |
+        <p>A list of the containers and their contents making up an accession. In the AT, the box list may be composed in the field, copied and pasted into the field, or referenced as an external document. The reference to the external document may be recorded here or in an External Documents subrecord.</p>
+        <p>Example:</p>
+        <ul>
+        <li>Box 1:   Diaries</li>
+        <li>Box 2:   Letters to Mr. Smith's family</li>
+        <li>Box 3:   Personal records for ranch employees</li>
+        <li>Box 4:   Drafts of ranch maps</li>
+        </ul>
     provenance: Provenance
+    provenance_tooltip: |
+       <p>A note that provides provenance information about an accession, such as custodial history, detailed acquisition information, etc.</p>
+       <p>See DACS 5.1-5.2</p>
     retention_rule: Retention Rule
+    retention_rule_tooltip: |
+        <p>A note indicating the retention authority or rule for the accession.
+        <p>Examples:</p>
+        <ul>
+        <li>See the Campus Retention Schedule.</li>
+        </ul>
     restrictions_apply: Restrictions Apply?
+    restrictions_apply_tooltip: |
+        <p>Indication if restrictions apply to the accession.</p>
+        <p>See DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
     resource_type: Resource Type
+    resource_type_tooltip: |
+        <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
+        <p>The default values are:  Collection, Papers, and Records. These values may be customized.
     access_restrictions: Access Restrictions?
+    access_restrictions_tooltip: |
+        <p>A checkbox for indicating access to the materials is restricted.</p>
+        <p>See DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
     access_restrictions_note: Access Restrictions Note
+    access_restrictions_note_tooltip: |
+        <p>A statement indicating what materials in the accession have access to them restricted, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Diaries in box ten have are restricted by the donor until 2030.</li>
+        </ul>
     use_restrictions: Use Restrictions?
+    use_restrictions_tooltip: |
+        <p>A check box to indicate that there are use restrictions for materials in the accession.</p>
     use_restrictions_note: Use Restrictions Note
+    use_restrictions_note_tooltip: |
+        <p>A statement indicating which materials have use restrictions, how the materials can be used, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
+        <p>Examples:</p>
+        <p>Manuscripts in box 33 are fragile; photocopies must be used instead.</p>
     acquisition_type: Acquisition Type
     acquisition_type_tooltip: |
         <p>A categorical descriptor for the type of acquisition. Repositories
@@ -1477,8 +1643,7 @@ en:
     publish: Publish?
     publish_help: Check this if you wish to publish this accession to the public.
     publish_tooltip: |
-        <p>Determines whether this accession record will be published to
-        public (patron) interfaces.</p>
+        <p>Determines whether this Accession will be published to public (patron) interfaces.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>Indication if restrictions apply to the accession.</p>
