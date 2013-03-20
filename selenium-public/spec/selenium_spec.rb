@@ -5,7 +5,7 @@ describe "ArchivesSpace Public interface" do
 
   # Start the dev servers and Selenium
   before(:all) do
-    selenium_init
+    selenium_init($backend_start_fn, $frontend_start_fn)
     state = Object.new.instance_eval do
       @store = {}
 
@@ -25,7 +25,7 @@ describe "ArchivesSpace Public interface" do
 
 
   before(:each) do
-    $driver.navigate.to $public
+    $driver.navigate.to $frontend
   end
 
 

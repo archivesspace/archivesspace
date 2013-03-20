@@ -5,7 +5,7 @@ describe "ArchivesSpace user interface" do
 
   # Start the dev servers and Selenium
   before(:all) do
-    selenium_init
+    selenium_init($backend_start_fn, $frontend_start_fn)
     state = Object.new.instance_eval do
       @store = {}
 
