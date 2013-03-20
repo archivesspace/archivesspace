@@ -32,6 +32,9 @@ script:
   - build/run selenium:test
   - WITH_NODEJS=1 build/run dist
 
+after_failure:
+  - for file in /tmp/1*_*.png;do curl -H 'Content-Type: application/octet-stream' --data-binary "@$file" 'http://aspace.hudmol.com/cgi-bin/store.cgi'; done
+
 notifications:
   irc: "irc.freenode.org#archivesspace"
   # don't send email for now, until we know who we want to receive it
