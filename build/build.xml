@@ -69,10 +69,13 @@
     <delete dir="gems/gems" />
     <delete dir="gems/specifications" />
 
+    <property name="build.home" location="."/>
+
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 -S gem install bundler" />
     </java>
 
@@ -80,6 +83,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../backend/Gemfile'" />
     </java>
 
@@ -87,6 +91,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../frontend/Gemfile'" />
     </java>
 
@@ -94,6 +99,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium/Gemfile'" />
     </java>
 
@@ -101,6 +107,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../_yard/Gemfile'" />
     </java>
 
@@ -108,6 +115,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../migrations/Gemfile'" />
     </java>
 
@@ -115,6 +123,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../public/Gemfile'" />
     </java>
 
@@ -122,6 +131,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium-public/Gemfile'" />
     </java>
 
@@ -129,6 +139,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../indexer/Gemfile'" />
     </java>
   </target>
