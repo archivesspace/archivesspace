@@ -116,6 +116,8 @@ en:
       primary_type: Record Type
       accession_date_year: Accession Date
       creators: Creator
+      source: Source
+      rules: Rules
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
@@ -125,6 +127,9 @@ en:
     last_modified: Modified
     primary_type: Record Type
     create_time: Created
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
     save: Save Changes

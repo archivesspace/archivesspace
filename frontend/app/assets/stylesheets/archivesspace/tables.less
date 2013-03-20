@@ -5,6 +5,23 @@
 table {
   thead {
     #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
+    th {
+      white-space: nowrap;
+    }
+    .col {
+      &.primary-type {
+        width: 100px;
+      }
+      &.audit-info {
+        min-width: 150px;
+      }
+      &.actions {
+        min-width: 70px;
+      }
+      &.title {
+        min-width: 200px;
+      }
+    }
   }
   tr.deleted td {
     background-color: @errorBackground !important;
