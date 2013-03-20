@@ -29,18 +29,31 @@ $(function() {
 
         currentNodeEl.remove();
 
-        $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": {"title": $("#"+currentNodeType+"_title_", $container).val()}});
+        var data_for_new_node = {
+          title: getCurrentTitle(currentNodeType),
+          level: getCurrentLevel(currentNodeType)
+        };
+
+        $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": data_for_new_node});
         $("#"+selected_node_id, $tree).addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", child_id);
         $("#"+selected_node_id, $tree).find("a").attr("href", "#tree::"+selected_node_id).addClass("jstree-clicked");
 
         loadTreeActionsForNode($("#"+selected_node_id, $tree));
       } else {
-        // Simply rename the node (just in case the node's title has changed)
-        var new_title = $("#"+currentNodeType+"_title_", $container).val();
-        $tree.jstree("rename_node", currentNodeEl, new_title);
+        // Simply rename the node (just in case the node's title or level has changed)
+        $tree.jstree("rename_node", currentNodeEl, getCurrentTitle(currentNodeType));
+        $(" > a > .badge", currentNodeEl).html(getCurrentLevel(currentNodeType));
       }
     };
 
+    var getCurrentTitle = function(nodeType) {
+      return $("#"+nodeType+"_title_", $container).val();
+    };
+
+    var getCurrentLevel = function(nodeType) {
+      var level_val = $("#"+nodeType+"_level_", $container).val();
+      return level_val === "otherlevel" ? $("#"+nodeType+"_other_level_", $container).val() : $("#"+nodeType+"_level_", $container).find(":selected").text();
+    };
 
     var initForm = function(html) {
       $container.html(html);
@@ -117,7 +130,6 @@ $(function() {
 
       return $form;
     };
-
 
     var insertLoadingMessage = function() {
       var loadingMsgEl = $(AS.renderTemplate("tree_loading_notice_template"));

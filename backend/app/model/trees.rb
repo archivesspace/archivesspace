@@ -24,6 +24,7 @@ module Trees
       properties[node.id] = {
         :title => node.title,
         :id => node.id,
+        :level => node.level === 'otherlevel' ? node.other_level : node.level,
         :record_uri => self.class.uri_for(node_type, node.id),
         :node_type => node_type.to_s
       }
@@ -32,6 +33,7 @@ module Trees
     result = {
       :title => self.title,
       :id => self.id,
+      :level => self.level === 'otherlevel' ? self.other_level : self.level,
       :node_type => root_type.to_s,
       :children => top_nodes.sort_by(&:first).map {|position, node| self.class.assemble_tree(node, links, properties)},
       :record_uri => self.class.uri_for(root_type, self.id)

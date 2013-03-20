@@ -44,22 +44,39 @@
     &.overflow {
       .box-shadow(inset -1px 2px 3px #DDD);
     }
-  }
 
-  a > .jstree-icon {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    .ie7-restore-right-whitespace();
-    line-height: 14px;
-    vertical-align: text-top;
-    background-image: url(@iconSpritePath) !important;
-    background-position: 14px 14px;
-    background-repeat: no-repeat;
-  }
+    a {
+      padding: 2px !important;
+      border: 1px solid transparent;
+      height: 18px !important;
+      .badge {
+        .transition(opacity 0.5s);
+        .opacity(60);
+        margin-left: 5px;
+      }
+      &:hover, &.jstree-clicked {
+        .badge {
+          .transition(opacity 0.5s);
+          .opacity(100);
+        }
+      }
+    }
 
-  a > .jstree-icon {
-    background-position: -384px -120px !important;
+    a > .jstree-icon {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      .ie7-restore-right-whitespace();
+      line-height: 14px;
+      vertical-align: text-top;
+      background-image: url(@iconSpritePath) !important;
+      background-position: 14px 14px;
+      background-repeat: no-repeat;
+    }
+
+    a > .jstree-icon {
+      background-position: -384px -120px !important;
+    }
   }
 
   #archives_tree_toolbar {

@@ -59,12 +59,19 @@
   </script>
 
   <div id="tree_template"><!--
+       {macro render_node_link(node)}
+          <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
+            ${node.title}
+            {if node.level}<span class="badge">${node.level}</span>{/if}
+          </a>
+       {/macro}
+
        {macro render_children(nodes)}
         {if nodes && nodes.length > 0}
         <ul>
            {for node in nodes}
               <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}">
-                 <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+                 ${render_node_link(node)}
                  ${render_children(node.children)}
               </li>
            {/for}
@@ -74,7 +81,7 @@
 
      {macro render_parent(node)}
         <li id="${node.node_type}_${node.id}" class="${node.node_type} root" rel="${node.node_type}" data-id="${node.id}">
-           <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">${node.title}</a>
+           ${render_node_link(node)}
            {if node.children && node.children.length > 0}
             ${render_children(node.children)}
            {/if}
