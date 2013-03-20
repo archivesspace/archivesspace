@@ -310,15 +310,6 @@ def selenium_init(backend_fn, frontend_fn)
       ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
 
 
-      arch = "x86"
-      if `uname --machine`.strip == "x86_64"
-        arch = "x64"
-      end
-
-      system('wget', "http://aspace.hudmol.com/node-v0.10.0-linux-#{arch}.tar.gz")
-      system('tar', 'xvzf', "node-v0.10.0-linux-#{arch}.tar.gz")
-      ENV['PATH'] = (File.join(Dir.getwd, "node-v0.10.0-linux-#{arch}", "bin") + ':' + ENV['PATH'])
-
       puts "Path now: #{ENV['PATH']}"
       puts "Firefox version:"
       system('firefox', '--version')
