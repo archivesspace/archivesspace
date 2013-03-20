@@ -29,8 +29,8 @@ script:
   - build/run backend:test
   - build/run backend:integration
 # - build/run common:test  # https://github.com/hudmol/archivesspace/commit/193fe9a3990da74e37e98140c9eaa264ec801643#L0R106
-  - WITH_NODEJS=1 build/run dist
   - build/run selenium:test
+  - WITH_NODEJS=1 build/run dist
 
 notifications:
   irc: "irc.freenode.org#archivesspace"
