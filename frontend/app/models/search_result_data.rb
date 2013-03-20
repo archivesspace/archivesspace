@@ -72,6 +72,7 @@ class SearchResultData
   def facet_label_string(facet_group, facet)
     return I18n.t("#{facet}._html.singular", :default => facet) if facet_group === "primary_type"
     return I18n.t("enumerations.name_source.#{facet}", :default => facet) if facet_group === "source"
+    return I18n.t("enumerations.name_rule.#{facet}", :default => facet) if facet_group === "rules"
     facet
   end
 

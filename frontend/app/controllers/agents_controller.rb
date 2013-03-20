@@ -6,7 +6,7 @@ class AgentsController < ApplicationController
   before_filter :assign_types
 
   def index
-    facets = ["primary_type", "source"]
+    facets = ["primary_type", "source", "rules"]
 
     @search_data = Search.for_type(session[:repo_id], "agent", search_params.merge({"facet[]" => facets}))
   end

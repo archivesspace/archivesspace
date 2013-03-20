@@ -3,15 +3,26 @@
     <thead>
     <tr>
       <% if show_record_type? %>
-        <th width="160px" class="sortable <% if @search_data.sorted_by === "primary_type"%>sort-<%= @search_data.current_sort_direction %><% end %>">
+        <th class="col record-type sortable <% if @search_data.sorted_by === "primary_type"%>sort-<%= @search_data.current_sort_direction %><% end %>">
           <%= link_to I18n.t("search_results.result_type"), params_for_search("sort" => @search_data.sort_filter_for("primary_type")) %>
         </th>
       <% end %>
-      <th class="sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
+      <th class="col title sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
         <%= link_to I18n.t("search_results.result_title"), params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
       </th>
-      <th width="160px"></th>
-      <th width="70px"><!-- actions --></th>
+      <% if extra_columns? %>
+        <% extra_columns.each do |col| %>
+          <th class="<%= col.class %>">
+            <% if col.sortable? %>
+              <%= link_to col.label, params_for_search("sort" => @search_data.sort_filter_for(col.sort_by)) %>
+            <% else %>
+              <%= col.label %>
+            <% end %>
+          </th>
+        <% end %>
+      <% end %>
+      <th class="col audit-info"></th>
+      <th class="col actions"><!-- actions --></th>
     </tr>
     </thead>
     <tbody>
@@ -31,6 +42,11 @@
           <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
           <%=  result["title"] || result['display_string'] %>
         </td>
+        <% if extra_columns? %>
+          <% extra_columns.each do |col| %>
+            <td><%= col.value_for(result) %></td>
+          <% end %>
+        <% end %>
         <td>
           <% if result['create_time'] and result['last_modified'] %>
             <small>

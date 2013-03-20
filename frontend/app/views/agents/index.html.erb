@@ -1,5 +1,9 @@
 <%= setup_context(:title => I18n.t("agent._html.plural")) %>
-
+<%
+   add_column(I18n.t("agent_name.authority_id"), proc {|record| record['authority_id']}, :sortable => true, :sort_by => "authority_id")
+   add_column(I18n.t("agent_name.source"), proc {|record| I18n.t("enumerations.name_source.#{record['source']}", :default => record['source']) if record['source']}, :sortable => true, :sort_by => "source")
+   add_column(I18n.t("agent_name.rules"), proc {|record| I18n.t("enumerations.name_rule.#{record['rules']}", :default => record['rules']) if record['rules']}, :sortable => true, :sort_by => "rules")
+%>
 <div class="row-fluid">
   <div class="span3">
     <%= render :partial => "search/filter" %>
