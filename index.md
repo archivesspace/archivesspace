@@ -24,16 +24,18 @@ The application is divided into 2 parts. The backend application provides a REST
     
 ## Simple Install
 
-If you have the Java 1.6.0 SDK (or above) you can build and run a demo
-server with the following commands:
+You will need to have at least version 1.6.0 of the Java SDK installed to run ArchivesSpace.
 
-     git clone git://github.com/hudmol/archivesspace.git
+If you just want to try the system out, we suggest you try one of the official releases.  These are available in [the ArchivesSpace download area](https://github.com/archivesspace/archivesspace/wiki/Downloads).
+
+Once you have a release .zip file, you can run a demo instance of the
+ArchivesSpace application with the following commands:
+
+     unzip -x archivesspace.zip
 
      cd archivesspace
 
-     build/run dist
-
-     java -jar archivesspace.jar
+     ./archivesspace.sh
 
 This will start the ArchivesSpace application running on:
 
@@ -43,11 +45,8 @@ and the backend web service running on:
 
   http://localhost:8089/
 
-If you'd like to use different ports, you can run:
 
-    java -jar archivesspace.jar [frontend port] [backend port]
-
-To set up the application log in to the frontend application using the
+To set up the application, log in to the frontend application using the
 adminstrator account: 
 
 * Username: `admin`
@@ -57,4 +56,16 @@ Create a repository after logging in. Once you have created a repository, you
 can log out and register new user accounts from the link in the log-in form.
 
 
+## Building it yourself
 
+If you have a burning desire to build the code yourself, you can run a
+demo server with the following commands:
+
+     git clone git://github.com/hudmol/archivesspace.git
+
+     cd archivesspace
+
+     build/run dist
+
+This will produce a package called `archivesspace.zip`.  You can run
+this by following the instructions in the previous section.
