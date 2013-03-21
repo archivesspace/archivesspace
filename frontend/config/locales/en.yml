@@ -1575,7 +1575,7 @@ en:
         <p>See DACS 2.5</p>
     dimensions: Dimensions
     dimensions_tooltip: |
-        <p>Dimensions of the material(s) described.</p>
+        <p>Dimensions of the materials described.</p>
         <p>See DACS 2.5</p>
         <p>Examples:</p>
         <ul>
@@ -1919,14 +1919,37 @@ en:
       plural: Groups
   resource:
     title: Title
+    title_tooltip: |
+        <p>REQUIRED FIELD. The title assigned to the resource.</p>
+        <p>See DACS 2.3</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Graciany Miranda Archilla papers</li>
+        <li>Love Makes a Family records</li>
+        <li>Cameron family account book</li>
+        <li>Caroline and Erwin Swann collection of caricatures and cartoons</li>
+        </ul>
     title_default: New Resource
     id_0: Identifier
+    id_0_tooltip: |
+        <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
+        <p>See DACS 2.1.3</p>
+        <p>Examples</p>
+        <ul>
+        <li>R.001 (Two elements "R" + "001")</li>
+        <li>MSS 025 (A single element)</li>
+        <li>Archives.RSS.0333 (Three elements "Archives" + "RSS" + "0333")</li>
+        </ul>
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
     ref_id: Ref ID
     resource_type: Resource Type
-    level: Level
+    level: Level of Description
+    level_tooltip: |
+        <p>REQUIRED FIELD. Indicates. the hierarchical level of the materials being described.</p>
+        <p>See DACS Chapter 1</p>
+        <p>Values are prescribed by the EAD schema.</p>  
     level_class: Class
     level_collection: Collection
     level_file: File
@@ -1939,27 +1962,91 @@ en:
     level_subgrp: Sub-Group
     level_subseries: Sub-Series
     other_level: Other Level
+    other_level_tooltip: |
+        <p>REQUIRED FIELD if "Other Level" is the value selected for Level. Expresses the type of level outside of the values specified in the EAD schema.</p>
     container_summary: Container Summary
+    container_summary_tooltip: |
+        <p>For recording the number and type of containers comprising a resource description. This is considered a textual summary and not identical with the extent subrecords.</p>
+        <p>See DACS 2.5</p>
+        <p>Examples:</p>
+        <ul>
+        <li>10 record cartons, 6 archives boxes, 3 oversize folders.</li>
+        <li>12 shoeboxes.</li>
+        <li>4 archives boxes, 32 tubes.</li>
+        </ul>
     publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Resource will be published to public (patron) interfaces. Distinguished from "internal only," which impacts EAD export.</p>
     restrictions: Restrictions?
+    restrictions_tooltip: |
+        <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
+        <p>See DACS 4.1-4.4</p>
     repository_processing_note: Repository Processing Note
+    repository_processing_note_tooltip: |
+        <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     ead_id: EAD ID
+    ead_id_tooltip: |
+        <p>The identifier for the EAD generated from the resource description, typically a file name. Needs to be unique within the repository context.</p>
     ead_location: EAD Location
+    ead_location_tooltip: |
+        <p>The location for the EAD generated from the resource description, either a web URL or a file directory statement. The location typically terminates.</p>
     extents: Extents
-    finding_aid_title: Title
-    finding_aid_filing_title: Filing Title
-    finding_aid_date: Date
-    finding_aid_author: Author
+    finding_aid_title: Finding Aid Title
+    finding_aid_title_tooltip: |
+        <p>The (bibliographic) title for the finding aid associated with this Resource.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Register of the Collection of Jason Twirly</li>
+        <li>Inventory of the Papers of the Reese Family</li>
+        <li>List of the Drawings and Models of the Simon and Simon Architectural Firm</li>
+        </ul>
+    finding_aid_filing_title: Finding Aid Filing Title
+    finding_aid_filing_title_tooltip: |
+        <p>A modified version of the formal title of the finding aid. Designed to aid browsing and sorting of finding aid title lists.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Wayne (Bruce M.) Papers</li>
+        <li>Rooney Family Papers</li>
+        <li>Communist Party of the United States Records</li>
+        </ul>
+    finding_aid_date: Finding Aid Date
+    finding_aid_date_tooltip: |
+        <p>The date expression for when  the current finding aid was generated from the resource description.</p>
+    finding_aid_author: Finding Aid Author
+    finding_aid_author_tooltip: |
+        <p>The names(s) of the agents responsible for creating the content of the finding aid or its encoding.</p>
     finding_aid_description_rules: Description Rules
+    finding_aid_description_rules_tooltip: |
+        <p>Indicates the descriptive rules used to guide description of the Resource.</p>
+        <p>Values in this Enumeration may be modified.</p>
     finding_aid_language: Language
+    finding_aid_language_tooltip: |
+        <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
     finding_aid_sponsor: Sponsor
+    finding_aid_sponsor_tooltip: |
+        <p>Indicates any sponsors that contributed to the description of the finding aid.</p>
     finding_aid_edition_statement: Edition Statement
+    finding_aid_edition_statement_tooltip: |
+        <p>For recording information about the edition of the finding aid.</p>
     finding_aid_series_statement: Series Statement
+    finding_aid_series_statement_tooltip: |
+        <p>Indicates any bibliographic series to which the finding aid belongs.</p>
     finding_aid_revision_date: Revision Date
+    finding_aid_revision_date_tooltip: |
+        <p>Specifies the date the finding aid was last revised.</p>
     finding_aid_revision_description: Revision Description
-    finding_aid_status: Status
+    finding_aid_revision_description_tooltip: |
+        <p>A description of the last revision(s) done to the finding aid.</p>
+    finding_aid_status: Finding Aid Status
+    finding_aid_status_tooltip: |
+        <p>Indicates the status of the finding aid.</p>
     finding_aid_note: Note
+    finding_aid_note_tooltip: |
+        <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
     language: Language
+    language_tooltip: |
+        <p>The language term and code represented in the material(s) described.</p>
+        <p>See DACS 4.5</p>
     <<: *language_attributes
     _html:
       singular: Resource
@@ -1970,7 +2057,7 @@ en:
         spawned: Resource spawned from Accession
       section:
         basic_information: Basic Information
-        finding_aid: Finding Aid
+        finding_aid: Finding Aid Data
   related_accession:
     _html:
       singular: Related Accession
