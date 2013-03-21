@@ -1148,11 +1148,11 @@ en:
     source: Source
     source_tooltip: |
         <p>REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
-        <p>Values in this enumeration may be modified.</p>
+        <p>Values in this Enumeration may be modified.</p>
     rules: Rules
     rules_tooltip: |
         <p>REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
-        <p>Values in this enumeration may be modified.</p>
+        <p>Values in this Enumeration may be modified.</p>
     name_order: Name Order
     name_order_tooltip: |
         <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
@@ -1557,7 +1557,7 @@ en:
         <p>See DACS 2.5</p>
     extent_type: Type
     extent_type_tooltip: |
-        <p>A term indicating the type of unit used to measure the extent of a resource.</p>
+        <p>A term indicating the type of unit used to measure the extent of materials described.</p>
         <p>Values in this Enumeration may be modified.</p>
         <p>See DACS 2.5</p>
     container_summary: Container Summary
@@ -2064,10 +2064,42 @@ en:
       plural: Related Resources
   repository:
     repo_code: Repository Short Name
+    repo_code_tooltip: |
+        <p>REQUIRED FIELD. An abbreviation or acronym of the repository name, which can be better accommodated in the user interface.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>YNHSCL <em>(for Your Name Here Special Collections Library)</em></li>
+        <li>MSCL <em>(for Mandeville Special Collections Library)</em></li>
+        <li>Tamwag <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+        </ul>
     name: Repository Name
+    name_tooltip: |
+        <p>REQUIRED FIELD. The name of the repository which has administrative responsibility for and custody of the materials described in the accession, resource, and digital object modules of the application.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Your Name Here Special Collections Library</li>
+        <li>Mandeville Special Collections Library</li>
+        <li>Tamiment Library and Robert F. Wagner Labor Archives</li>
+        </ul>
     org_code: Organization / Agency Code
+    org_code_tooltip: |
+        <p>A code compliant with ISO/DIS 15511 Information and Documentation International Standard Identifier for Libraries and Related Organizations (ISIL). For United States institutions, this includes codes from the MARC Organization Code list.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+        <li>IU-Ar <em>(for University of Illinois Archives)</em></li>
+        </ul>
     parent_institution_name: Parent Institution Name
+    parent_institution_name_tooltip: |
+        <p>The name of the parent institution of which the repository is a part.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>University of Illinois <em>(for University of Illinois Archives)</em></li>
+        <li>New York University <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+        </ul>
     address_1: Address 1
+    address_1_tooltip: |
+        <p>The postal address or street address for the repository.</p>
     address_2: Address 2
     city: City
     district: State or Region
@@ -2080,6 +2112,8 @@ en:
     email_signature: Email Signature
     url: Home Page URL
     image_url: Branding Image URL
+    image_url_tooltip: |
+        <p>A URL or other file location identifier referencing a file that contains a branding device to be used in the repository's online finding aids. A typical branding device is a university seal or logo.</p>
     _html:
       singular: Repository
       plural: Repositories
@@ -2093,12 +2127,27 @@ en:
       action:
         select: Select Repository
   term: &term_attributes
+    # these are not loading
     term: Term
+    term_tooltip: |
+        <p>REQUIRED FIELD. A descriptor for part of a subject heading. A subject heading must have at least 1 term associated with it.</p>
     term_type: Type
+    term_type_tooltip: |
+        <p>REQUIRED FIELD. An indicator for expressing the type or category of a subject term.</p>
   subject:
     terms: Terms
     ref_id: Authority ID
+    ref_id_tooltip: |
+        <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
     source: Source
+    source_tooltip: |
+        <p>The vocabulary from which an established term is taken.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Medical Subject Headings (mesh)</li>
+        <li>Library of Congress Subject Headings (lcsh)</li>
+        </ul>
     heading: Subject Heading
     subject_preview: Subject Preview
     _html:
@@ -2111,9 +2160,17 @@ en:
         basic_information: Basic Information
   user:
     username: Username
+    username_tooltip: |
+        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application.</P>
     name: Full name
+    name_tooltip: |
+        <p>The full name of the user designated by the username.</p>
     password: Password
+    password_tooltip: |
+        <p>The password used with the username to authenticate to the application.</p>
     confirm_password: Confirm password
+    confirm_password_tooltip: |
+        <p>A second field used to confirm a match with the password entered into the first field.</p>
     _html:
       singular: User
       plural: Users
@@ -2128,16 +2185,59 @@ en:
         edit_account_submit: Update Account
   collection_management: &collection_management_attributes
     cataloged_note: Cataloged note
+    cataloged_note_tooltip: |
+        <p>A note about cataloging of the archival unit (accession, resource, digital object), including provision of catalog record identifiers.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Catalog record number: 21345672</li>
+        </ul>
     processing_hours_per_foot_estimate: Processing hrs/ft estimate
+    processing_hours_per_foot_estimate_tooltip: |
+        <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
     processing_total_extent: Processing total extent
+    processing_total_extent_tooltip: |
+        <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed.</p>
     processing_total_extent_type: Extent type
+    processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
     processing_hours_total: Total processing hours
-    processing_plan: Processing plan
+    processing_hours_total_tooltip: |
+        <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent"</p>
+    processing_plan: Processing Plan
+    processing_plan_tooltip: |
+        <p>For recording a plan for processing of the archival unit. The plan may include an outline of the arrangement for the archival unit, as well as instructions for how to treat particular objects in the archival unit.  The plan might also specify different assignments for different repository staff.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Arrange subject files alphabetically and project files chronologically.</li>
+        <li>Margaret's students will create descriptive records.</li>
+        <li>Project manager will review, output, and load the encoded finding aid.</li>
+        </ul>
     processing_priority: Priority
-    processing_status: Status
+    processing_priority_tooltip: |
+        <p>Indicates the priority assigned to processing of an archival unit.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>High</li>
+        <li>Medium</li>
+        <li>Low</li>
+        </ul>
+    processing_status: Processing Status
+    processing_status_tooltip: |
+        <p>For indicating the current status of processing for an archival unit (accession, resource, or digital object).</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>New</li>
+        <li>In Progress</li>
+        <li>Completed</li>
+        </ul>
     processors: Processors
-    rights_determined: Rights determined
+    processors_tooltip: |
+        <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>
+    rights_determined: Rights determined?
+    rights_determined_tooltip: | 
+        <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
     rights_determined_true: Yes
     rights_determined_false: No
     linked_records: Record Links
