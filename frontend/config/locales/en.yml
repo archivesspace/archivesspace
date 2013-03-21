@@ -896,7 +896,7 @@ en:
     language_zun: Zuni
     language_zxx: No linguistic content; Not applicable
     language_zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
-  digital_object:
+  digital_object: &digital_object_attributes
     title: Title
     title_tooltip: |
         <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
@@ -917,7 +917,7 @@ en:
         </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this Digital Object will be published to public (patron) interfaces.</p>
+        <p>Determines whether this Digital Object or Component will be published to public (patron) interfaces.</p>
     level: Level
     level_tooltip: |
         <p>Primarily for use in multi-level VRA compliant records in order to indicate description is about a collection, a work, or an image.</p>
@@ -939,9 +939,10 @@ en:
       section:
         basic_information: Basic Information
   digital_object_component:
+    <<: *digital_object_attributes
     label: Label
     label_tooltip: |
-        <p>A term used to describe the part and its position within the digital object being described. More often used for the component parts of the digital object than the top-level digital object record.</p>
+        <p>A term used to describe the part and its position within the Digital Object being described. More often used for the component parts of the Digital Object than the top-level Digital Object record.</p>
         <p>Examples:</p>
         <ul>
         <li>Audio: Tape 1, Track 1, Section 1, etc.</li>
@@ -949,19 +950,10 @@ en:
         <li>Text: Page 1, Leaf 1, First leaf, Chapter 1, Section 1, etc.</li>
         <li>Video:  Tape 1, Part 1, Section 1, etc.</li>
         </ul>
-    title: Title
-    title_tooltip: |
-        <p>A title expression for the digital object component.</p>
     title_default: New Digital Object Component
     component_id: Identifier
     component_id_tooltip: |
-        <p>A unique identifier for the digital object component.</p>
-    publish: Publish?
-    publish_tooltip: |
-        <p>Determines whether this Digital Object will be published to public (patron) interfaces.</p>
-    language: Language
-    language_tooltip: <p>The language for the digital content.</p>
-    <<: *language_attributes
+        <p>A unique identifier for the Digital Object Component.</p>
     _html:
       singular: Digital Object Component
       plural: Digital Object Components
