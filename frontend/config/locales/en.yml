@@ -1866,58 +1866,7 @@ en:
         basic_information: Basic Information
         name: Names
         contacts: Contact Details
-  archival_object:
-    title: Title
-    title_default: New Archival Object
-    ref_id: Ref ID
-    ref_id_auto_generation_message: "-- auto-generated upon save --"
-    component_id: Component Unique Identifier
-    level: Level
-    level_class: Class
-    level_collection: Collection
-    level_file: File
-    level_fonds: Fonds
-    level_item: Item
-    level_otherlevel: Other Level
-    level_recordgrp: Record Group
-    level_series: Series
-    level_subfonds: Sub-Fonds
-    level_subgrp: Sub-Group
-    level_subseries: Sub-Series
-    other_level: Other Level
-    language: Language
-    automate_title: Automatically generate title
-    dates: Dates
-    <<: *language_attributes
-    "[:resource_id, :ref_id]": Ref ID
-    _html:
-      singular: Archival Object
-      plural: Archival Objects
-      messages:
-        created: Archival Object Created
-        updated: Archival Object Saved
-      section:
-        basic_information: Basic Information
-  group:
-    group_code: Group code
-    description: Description
-    member_usernames: Members
-    permissions: "Members can:"
-    permission_types:
-      manage_repository: manage this repository (change groups and other settings)
-      update_location_record: create/modify/delete location records in this repository
-      update_subject_record: create/update subject records
-      update_agent_record: create/update agent records
-      update_archival_record: create/update accessions, resources, archival objects and digital objects in this repository
-      update_event_record: create/update event records in this repository
-      view_repository: view the records in this repository
-      view_suppressed: view suppressed records in this repository
-      suppress_archival_record: suppress the major record types in this repository
-      delete_archival_record: delete the major record types in this repository
-    _html:
-      singular: Group
-      plural: Groups
-  resource:
+  archival_object: &archival_object_attributes
     title: Title
     title_tooltip: |
         <p>REQUIRED FIELD. The title assigned to the resource.</p>
@@ -1928,28 +1877,29 @@ en:
         <li>Love Makes a Family records</li>
         <li>Cameron family account book</li>
         <li>Caroline and Erwin Swann collection of caricatures and cartoons</li>
+        <li>National Academy of Sciences correspondence</li>
+        <li>Audio and video recordings</li>
         </ul>
-    title_default: New Resource
-    id_0: Identifier
-    id_0_tooltip: |
-        <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
-        <p>See DACS 2.1.3</p>
-        <p>Examples</p>
-        <ul>
-        <li>R.001 (Two elements "R" + "001")</li>
-        <li>MSS 025 (A single element)</li>
-        <li>Archives.RSS.0333 (Three elements "Archives" + "RSS" + "0333")</li>
-        </ul>
-    "[:id_0, :id_1, :id_2, :id_3]": Identifier
-    "[:repo_id, :identifier]": Identifier
-    identifier: Identifier
+    title_default: New Archival Object
     ref_id: Ref ID
-    resource_type: Resource Type
+    ref_id_tooltip: |
+        <p>An automatically provided and updatable reference ID, which can be used as a target for linking, etc. The Ref ID is intended to be generated automatically or imported from an existing system and to remain persistent.</p>
+    extents: Extents
+    ref_id_auto_generation_message: "-- auto-generated upon save --"
+    component_id: Component Unique Identifier
+    component_id_tooltip: |
+        <p>Expresses a unique ID, within the context of the resource description, for the component part.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Series I</li>
+        <li>Subseries 8</li>
+        <li>Accession 2005-M-078</li>
+        </ul>
     level: Level of Description
     level_tooltip: |
         <p>REQUIRED FIELD. Indicates. the hierarchical level of the materials being described.</p>
         <p>See DACS Chapter 1</p>
-        <p>Values are prescribed by the EAD schema.</p>  
+        <p>Values are prescribed by the EAD schema.</p> 
     level_class: Class
     level_collection: Collection
     level_file: File
@@ -1981,6 +1931,58 @@ en:
     restrictions_tooltip: |
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
         <p>See DACS 4.1-4.4</p>
+    automate_title: Automatically generate title
+    dates: Dates
+    language: Language
+    language_tooltip: |
+        <p>The language term and code represented in the material(s) described.</p>
+        <p>See DACS 4.5</p>
+    <<: *language_attributes
+    "[:resource_id, :ref_id]": Ref ID
+    _html:
+      singular: Archival Object
+      plural: Archival Objects
+      messages:
+        created: Archival Object Created
+        updated: Archival Object Saved
+      section:
+        basic_information: Basic Information
+  group:
+    group_code: Group code
+    description: Description
+    member_usernames: Members
+    permissions: "Members can:"
+    permission_types:
+      manage_repository: manage this repository (change groups and other settings)
+      update_location_record: create/modify/delete location records in this repository
+      update_subject_record: create/update subject records
+      update_agent_record: create/update agent records
+      update_archival_record: create/update accessions, resources, archival objects and digital objects in this repository
+      update_event_record: create/update event records in this repository
+      view_repository: view the records in this repository
+      view_suppressed: view suppressed records in this repository
+      suppress_archival_record: suppress the major record types in this repository
+      delete_archival_record: delete the major record types in this repository
+    _html:
+      singular: Group
+      plural: Groups
+  resource:
+    <<: *archival_object_attributes
+    title_default: New Resource
+    id_0: Identifier
+    id_0_tooltip: |
+        <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
+        <p>See DACS 2.1.3</p>
+        <p>Examples</p>
+        <ul>
+        <li>R.001 (Two elements "R" + "001")</li>
+        <li>MSS 025 (A single element)</li>
+        <li>Archives.RSS.0333 (Three elements "Archives" + "RSS" + "0333")</li>
+        </ul>
+    "[:id_0, :id_1, :id_2, :id_3]": Identifier
+    "[:repo_id, :identifier]": Identifier
+    identifier: Identifier
+    resource_type: Resource Type
     repository_processing_note: Repository Processing Note
     repository_processing_note_tooltip: |
         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
@@ -1990,7 +1992,6 @@ en:
     ead_location: EAD Location
     ead_location_tooltip: |
         <p>The location for the EAD generated from the resource description, either a web URL or a file directory statement. The location typically terminates.</p>
-    extents: Extents
     finding_aid_title: Finding Aid Title
     finding_aid_title_tooltip: |
         <p>The (bibliographic) title for the finding aid associated with this Resource.</p>
@@ -2043,11 +2044,6 @@ en:
     finding_aid_note: Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
-    language: Language
-    language_tooltip: |
-        <p>The language term and code represented in the material(s) described.</p>
-        <p>See DACS 4.5</p>
-    <<: *language_attributes
     _html:
       singular: Resource
       plural: Resources
