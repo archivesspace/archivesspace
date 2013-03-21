@@ -1556,7 +1556,7 @@ en:
         <p>A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
         <p>See DACS 2.5</p>
     extent_type: Type
-    extent_type_tooltip: |
+    extent_type_tooltip: &extent_type_tooltip |
         <p>A term indicating the type of unit used to measure the extent of materials described.</p>
         <p>Values in this Enumeration may be modified.</p>
         <p>See DACS 2.5</p>
@@ -2257,8 +2257,14 @@ en:
   collection_management_record:
     <<: *collection_management_attributes
   enumeration:
+    # tooltips not displaying
     name: Name
+    name_tooltip: |
+        <p>The name of the Enumeration of to which you wish to add a value.</p>
     value: Value
+    value_tooltip: |
+        <p>The value for the Enumeration you wish to add or edit.</p>
+        <p>Whenever possible, Enumeration values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
     translation: Translation
     merge_into: Merge Into
     _html:
@@ -2275,5 +2281,7 @@ en:
         merge_error: Failed to merge Enumeration Value
         no_selection: Please select an Enumeration Name
         name_selector: Enumeration Name
+        name_selector_tooltip: |
+            <p>The enumeration to edit.</p>
         no_name_provided: Select an Enumeration Name before creating a new value
         
