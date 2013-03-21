@@ -1025,8 +1025,17 @@ en:
       plural: Record Links
   linked_agent: &linked_agent_attributes
     role: Role
+    role_tooltip: |
+        <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p>
     relator: Relator
+    relator_tooltip: |
+        <p>An indication of what role the name has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, a name may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
+        <p>See MARC Code List for Relators.</p>
     ref: Agent
+    # ref_tooltip is not being loaded
+    ref_tooltip: |
+        <p>The Agent related to the material described in the record.</p>
+        <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p> 
     _html:
       singular: Agent Link
       plural: Agent Links
@@ -1079,7 +1088,7 @@ en:
       replication: Replication
       resource_merge: Resource Merge
       resource_component_transfer: Resource Component Transfer
-      validation: Valudation
+      validation: Validation
       virus_check: Virus Check
     _html:
       singular: Event
@@ -1090,35 +1099,144 @@ en:
       section:
         basic_information: Basic Information
   deaccession:
-    scope: Scope
+    scope: Portion
+    scope_tooltip: |
+        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
     scope_whole: Whole
     scope_part: Part
     description: Description
+    description_tooltip: |
+        <p>REQUIRED FIELD: Description of the materials that have been deaccessioned.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Periodicals, newspaper clippings, and family financial records.</li>
+        <li>Trophies awarded at dog shows.</li>
+        </ul>
     reason: Reason
+    reason_tooltip: |
+        <p>The reason for deaccessioning the materials described.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Donor did not intend to transfer these materials.</li>
+        </ul>
     disposition: Disposition
+    disposition_tooltip: |
+        <p>A description indicating what was done with the deaccessioned materials.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Financial records returned to the family.</li>
+        <li>Dog show trophies returned to the donor's wife.</li>
+        </ul>
     notification: Notification Given?
+    notification_tooltip: |
+        <p>A checkbox indicating that notification of the deaccession was given.</p>
     dates: Deaccession Date
     _html:
       plural: Deaccessions
       singular: Deaccession
   agent_name: &agent_name_attributes
     authority_id: Authority ID
+    authority_id_tooltip: |
+        <p>The unique identifier for the record within the source from which it was acquired, (i.e., a MADS record identifier or EAC record identifier). The identifier may be represented as a URI.</p>
+        <p>See DACS 13.2</p>
+        <p>Examples:</p>
+        <ul>
+        <li>nr92045078 <em>for a LCNAF name heading</em></li>
+        <li>500115393 <em>for a ULAN name heading</em></li>
+        <li>http://viaf.org/viaf/134138653 <em>for a VIAF name heading</em>
+        </ul>
     source: Source
+    source_tooltip: |
+        <p>REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
+        <p>Values in this enumeration may be modified.</p>
     rules: Rules
+    rules_tooltip: |
+        <p>REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
+        <p>Values in this enumeration may be modified.</p>
     name_order: Name Order
+    name_order_tooltip: |
+        <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
     name_order_direct: Direct
     name_order_inverted: Inverted
     prefix: Prefix
+    prefix_tooltip: |
+        <p>Any term associated with a name that in normative use would precede the entire name.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Mrs.</li>
+        </ul>
     title: Title
+    title_tooltip: |
+        <p>A title that is part of the name.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Sir <em>(for Churchill, Winston, Sir, 1874-1965)</em></li>
+        <li>Chief (for Black Foot, Chief, d. 1877)</li>
+        <li>Emperor of the East <em>(for John II Comnenus. Emperor of the East.)</em></li>
+        </ul>
     primary_name: Primary Part of Name
+    primary_name_tooltip: |
+        <p>The primary part of a name form (e.g. a last name or surname of a person).</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Churchill <em>(for Churchill, Winston, Sir, 1874-1965 [person])</em></i>
+        <li>Black Foot <em>(for Black Foot, Chief, d. 1877 [person])</em></li>
+        <li>International Business Machines <em>(for International Business Machines. Microelectronics Division [corporate entity])</em></li>
+        </ul>
     rest_of_name: Rest of Name
+    rest_of_name_tooltip: |
+        <p>The first name element or forename and additional names, e.g, middle names, for the person named in the record.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Winston <em>(for Churchill, Winston, Sir, 1874-1965)</em></li>
+        <li>Humphrey <em>(for Ward, Humphrey, Mrs., 1851-1920)</em></li>
+        </ul>
     suffix: Suffix
+    suffix_tooltip: |
+        <p>A term following a name that qualifies the name but is not a title.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Jr.</li>
+        <li>fils</li>
+        </ul>
     fuller_form: Fuller Form
+    fuller_form_tooltip: |
+        <p>The fuller form of first and middle names, when abbreviated.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Hilda Doolittle <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
+        </ul>
     number: Number
+    number_tooltip: |
+        <p>A number, sometimes with a term, that qualifies the name. For personal names, often a roman numeral or a roman numeral and a subsequent part of a forename. For corporate names, the number of a part / section or meeting.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>II Comnenus <em>(for John II Comnenus, Emperor of the East</em>/li>
+        <li>II <em>(for John Paul II)</em></li>
+        <li>97th, 2nd session <em>(for United States Congress, 97th, 2nd session)</em></li>
+        </ul>
     dates: Dates
+    dates_tooltip: |
+        <p>Dates of existence for the named entity.</p>
+        <p>Examples:<p>
+        <ul>
+        <li>1886-1961 <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
+        </ul>
     qualifier: Qualifier
+    qualifier_tooltip: |
+        <p>A term or phrase for distinguishing two name forms identical in all other respects but identifying two different entities.  The term may be a date, a place, or any other suitable descriptor.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Florists <em>(for Smith family (Florists))</em>)</li>
+        <li>Bronx, New York, N.Y. <em>(for St. James Church (Bronx, New York, N.Y.))</em></li>
+        </ul>
     sort_name: Sort Name
+    sort_name_tooltip: |
+        <p>A version of the name concatenating all the parts of the name provided in a given agent record. Used for display purposes in the application and for some exports.</p>
+        <p>The sort name may be edited by unchecking the "Auto Generate Sort Name?" checkbox and then entering the form of the sort name desired.</p>
     sort_name_auto_generate: Auto Generate Sort Name?
+    sort_name_auto_generate_tooltip: |
+        <p>An option to over-ride and then edit the Sort Name.</p>
     description_type: Description Type
     description_note: Description Note
     description_citation: Description Citation
@@ -1130,15 +1248,46 @@ en:
   name_family:
     <<: *agent_name_attributes
     family_name: Family Name
+    family_name_tooltip: |
+        <p>The last name, or surname, for a family, typically supplemented with the term "family".</p>
   name_corporate_entity:
     <<: *agent_name_attributes
     subordinate_name_1: Subordinate Name 1
+    subordinate_name_1_tooltip: |
+        <p>A hierarchical unit with the corporate entity named in the Primary Name field.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Microelectronics Division <em>(for International Business Machines. Microelectronics Division)</em></li>
+        </ul>
     subordinate_name_2: Subordinate Name 2
+    subordinate_name_2_tooltip: |
+        <p>A hierarchical unit with the corporate entity named in the Primary Name field and lower than the unit named in the Subordinate Name 1 field.</p>
   name_software:
     <<: *agent_name_attributes
     software_name: Software Name
+    software_name_tooltip: |
+        <p>The name of a software package.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Photoshop <em>(for Adobe Photoshop CS3)</em></li>
+        <li>Bagger <em>(for Library of Congress Bagger 2.1.2)</em></li>
+        </ul>
     version: Version
+    version_tooltip: |
+        <p>The version number or other indicator for a specific version of a software package.</p>
+        <p>Examples</p>
+        <ul>
+        <li>CS3 <em>(for Adobe Photoshop CS3)</em></li>
+        <li>2.1.2 <em>(for Library of Congress Bagger 2.1.2)</em></li>
+        </ul>
     manufacturer: Manufacturer
+    manufacturer_tooltip: |
+        <p>The manufacturer, creator or other responsible party for a software package's distribution, development, or maintenance.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Adobe <em>(for Adobe Photoshop CS3)</em></li>
+        <li>Library of Congress <em>(for Library of Congress Bagger 2.1.2)</em></li>
+        </ul>
   name:
     _html:
       singular: Name
@@ -1160,20 +1309,45 @@ en:
       singular: Corporate Entity
       plural: Corporate Entities
   agent_contact:
-    name: Contact Description
+    name: Contact Name
+    name_tooltip: |
+        <p>Name of the person serving as contact for the entity in the main record.</p>
     salutation: Salutation
+    salutation_tooltip: |
+        <p>Salutation for the contact person.</p>
+        <p>Values in this Enumeration may be modified.</p>
     address_1: Address 1
+    address_1_tooltip: |
+        <p>Address for the contact person.</p>
     address_2: Address 2
     address_3: Address 3
     city: City
+    city_tooltip: |
+        <p>City in which the contact person is located.</p>
     region: State/Region
+    region_tooltip: |
+        <p>State or Region in which the City is located</p>
     country: Country
+    country_tooltip: |
+        <p>Country in which the contact person is located.</p>
     post_code: Post Code
+    post_code_tooltip: |
+        <p>Mail or zip code for the contact person’s address.</p>
     telephone: Telephone
+    telephone_tooltip: |
+        <p>Telephone number for the contact person.</p>
     telephone_ext: Telephone Extension
+    telephone_ext_tooltip: |
+        <p>Telephone number extension for the contact person.</p>
     fax: Fax
-    email: Email
+    fax_tooltip: |
+        <p>Fax number for the contact person.</p>
+    email: E-mail
+    email_tooltip: |
+        <p>E-mail address for the contact person.</p>
     note: Contact Notes
+    note_tooltip: |
+        <p>Additional notes or contact information for the contact person.</p>
     _html:
       singular: Contact
       plural: Contact Details
@@ -1383,7 +1557,8 @@ en:
         <p>See DACS 2.5</p>
     extent_type: Type
     extent_type_tooltip: |
-        <p>A term indicating the type of unit used to measure the extent of a resource.  Values in this Enumeration may be modified.</p>
+        <p>A term indicating the type of unit used to measure the extent of a resource.</p>
+        <p>Values in this Enumeration may be modified.</p>
         <p>See DACS 2.5</p>
     container_summary: Container Summary
     container_summary_tooltip: |
@@ -1615,7 +1790,7 @@ en:
     resource_type: Resource Type
     resource_type_tooltip: |
         <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
-        <p>The default values are:  Collection, Papers, and Records. These values may be customized.
+        <p>Values in this Enumeration may be modified.</p>
     access_restrictions: Access Restrictions?
     access_restrictions_tooltip: |
         <p>A checkbox for indicating access to the materials is restricted.</p>
