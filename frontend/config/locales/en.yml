@@ -40,7 +40,7 @@ en:
     export_ead: Download EAD
     export_mods: Download MODS
     export_mets: Download METS
-    export_marc: Download MARC-21
+    export_marc: Download MARCXML
     export_dc: Download DC
     loading: Loading...
     revert: Revert Changes
@@ -83,7 +83,9 @@ en:
   breadcrumb:
     home: Home
   content_items:
-    content: Text
+    content: Content
+    content_tooltip: |
+        <p>The content of the note.</p>
   pagination:
     first: First
     last: Last
@@ -1024,7 +1026,7 @@ en:
         <p>An indication of what role the name has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, a name may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
         <p>See MARC Code List for Relators.</p>
     ref: Agent
-    # ref_tooltip is not being loaded
+    # ref_tooltip is not displaying
     ref_tooltip: |
         <p>The Agent related to the material described in the record.</p>
         <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p> 
@@ -1045,9 +1047,21 @@ en:
     <<: *linked_agent_attributes
   event:
     event_type: Type
+    event_type_toolkit: |
+        <p>A categorization of the nature of the event.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>See PREMIS eventType</p>
     outcome: Outcome
+    outcome_tooltip: |
+        <p>A categorization of the overall result of the event in terms of success, partial success, or failure. Recommended practice is to use a controlled vocabulary that a system can act upon automatically. More detail about the outcome may be recorded in an Outcome Note. Recommended practice is to define events with sufficient granularity that each event has a single outcome.</p>
+        <p>Values in this Enumeration may be modified.</p>
     outcome_note: Outcome Note
+    outcome_note_tooltip: |
+        <p>A detailed description of the result or product of the event. This may be used to record all error and warning messages issued by a program involved in the event or to record a pointer to an error log.</p>
     date: Event Date
+    date_tooltip: |
+        <p>The single date and time, or date and time range, at or during which the event occurred.</p>
+        <p>If the single date/time or start or end date/time is unknown, enter "unknown" in the Date Expression field.</p>
     types:      
       accession: Accession
       accumulation: Accumulation
@@ -1229,9 +1243,12 @@ en:
     sort_name_auto_generate: Auto Generate Sort Name?
     sort_name_auto_generate_tooltip: |
         <p>An option to over-ride and then edit the Sort Name.</p>
+
+    # delete after #46409585 is delivered
     description_type: Description Type
     description_note: Description Note
     description_citation: Description Citation
+
     _html:
       singular: Name
       plural: Names
@@ -1343,6 +1360,28 @@ en:
     _html:
       singular: Contact
       plural: Contact Details
+  note_attributes: &note_attributes
+    label: Label
+    label_tooltip: |
+        <p>A label or heading for the specific note. If a label is not used, the note type will be used as the label wherever required.</p>
+    content: Content
+    content_tooltip: |
+        <p>The content of the note.</p>
+    items: Items
+    items_singular: Item
+    item_singular: Item
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Note to public (patron) interfaces.</p>
+    internal: Internal Only?
+    internal_tooltip: |
+        <p>Determines how this Note will display in EAD exports. Depending on the settings chosen when exporting, the Note will either not appear or will be included with the audience set to "internal".</p>
+    title: Title
+    title_tooltip: |
+      <p>An element for recording a specific label, or title, for the subnote.</p>
+    type: Type
+    type_tooltip: |
+      <p>The type of note for the content.  Note types are used for guiding export of note contents to certain elements in specific data formats.</p>
   note:
     item: Item
     note_singlepart: Single Part Note
@@ -1357,6 +1396,7 @@ en:
     note_citation: Citation
     note_abstract: Abstract
     note_outline: Outline
+    # todo: get different note types to display different tooltips or placeholders
     types:
       accessrestrict: Conditions Governing Access
       accruals: Accruals
@@ -1397,88 +1437,64 @@ en:
       singular: Note
       plural: Notes
   note_index:
+    <<: *note_attributes
     option: Index
-    label: Label
-    content: Content
-    items: Items
-    items_singular: Item
-    publish: Publish?
-    internal: Internal Only?
   index_item:
     value: Value
+    value_tooltip: The content of each entry in the bibliography. At least one is required for any index note.
     type: Type
+    type_tooltip: The type of index entry.
     reference: Reference
+    reference_tooltip: The target for the index item.
     reference_text: Reference Text
+    reference_text_tooltip: A description for the reference, if warranted.
   note_singlepart:
-    label: Label
-    publish: Publish?
-    internal: Internal Only?
-    content: Content
-    type: Type
+    <<: *note_attributes
   note_multipart:
-    label: Label
-    type: Type
-    publish: Publish?
-    internal: Internal Only?
-    content: Content
+    <<: *note_attributes
     sub_notes: Sub Notes
     sub_notes_singular: Sub Note
   note_digital_object:
-    label: Label
-    content: Content
-    type: Type
-    publish: Publish?
-    internal: Internal Only?
+    <<: *note_attributes
   note_bibliography:
+    <<: *note_attributes
     option: Bibliography
-    label: Label
-    content: Content
-    items: Items
-    items_singular: Item
-    publish: Publish?
-    internal: Internal Only?
   note_chronology:
+    <<: *note_attributes
     option: Chronology
     title: Title
-    items: Items
-    items_singular: Item
-    publish: Publish?
-    internal: Internal Only?
   chronology_item:
     event_date: Event Date
+    event_date_tooltip: |
+        <p>The date of an event in a chronology list.</p>
     events: Events
+    events_tooltip: |
+        <p>A description of an event corresponding to the chronology date item.</p>
     events_singular: Event
   note_definedlist:
+    <<: *note_attributes
     option: Defined List
-    title: Title
-    items: Items
-    items_singular: Item
-    publish: Publish?
-    internal: Internal Only?
   definedlist_item:
     label: Label
+    label_tooltip: |
+        A text string that either contextualizes or is explained by the content in the defined list note item.
     value: Value
+    value_tooltip: |
+        A defined list item in a defined list.
   note_orderedlist:
+    <<: *note_attributes
     option: Ordered List
-    title: Title
     enumeration: Enumeration
-    items: Items
-    item_singular: Item
-    publish: Publish?
-    internal: Internal Only?
+    enumeration_tooltip: |
+        <p>An attribute for indicating the type of numeration to be applied to the note items</p>
   note_bioghist:
-    label: Label
-    content: Content
-    publish: Publish?
-    internal: Internal Only?
+    <<: *note_attributes
   note_abstract:
+    <<: *note_attributes
     option: Abstract
-    publish: Publish?
-    internal: Internal Only?
   note_citation:
+    <<: *note_attributes
     option: Citation
-    publish: Publish?
-    internal: Internal Only?
     xlink: XLink
   note_citation_xlink:
     actuate: Actuate
@@ -1489,23 +1505,35 @@ en:
     title: Title
     type: Type
   note_outline:
+    <<: *note_attributes
     option: Outline
-    publish: Publish?
-    internal: Internal Only?
-    content: Content
   container: &container_attributes
-    type_1: Type 1
-    indicator_1: Indicator 1
-    barcode_1: Barcode 1
-    type_2: Type 2
+    type_1: Container 1 Type 
+    type_1_tooltip: &container_type_tooltip |
+        <p>The type of the primary container in which the described material is housed.</p>
+        <p>Values in this Enumeration may be modified.</p>
+    indicator_1: Container 1 Indicator
+    indicator_1_tooltip: &container_indicator_tooltip |
+        <p>An alphanumeric expression for indicating the place of a container in a sequence of containers.</p>
+    barcode_1: Container 1 Barcode
+    barcode_1_tooltip: |
+        <p>A barcode for identifying the primary container.  May be used instead of or in supplement to the Container 1 Type.</p>
+    type_2: Container 2 Type
+    type_2_tooltip: *container_type_tooltip
     indicator_2: Indicator 2
-    type_3: Type 3
+    indicator_2_tooltip: *container_indicator_tooltip
+    type_3: Container 3 Type
+    type_3_tooltip: *container_type_tooltip
     indicator_3: Indicator 3
+    indicator_3_tooltip: *container_indicator_tooltip
     _html:
       plural: Containers
       singular: Container
   instance: &instance_attributes
     instance_type: Type
+    instance_type_tooltip: |
+        <p>A designation of the manifestation for the described materials. The instance designation is optional, but required to open and complete a container record for the material described.</p>
+        <p>Values in this Enumeration may be modified.</p>
     digital_object: Digital Object
     _html:
       plural: Instances
@@ -1515,15 +1543,26 @@ en:
       plural: File Versions
       singular: File Version
     file_uri: File URI
-    publish: Publish
+    file_uri_tooltip: |
+        <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this External Document to public (patron) interfaces.</p>
     use_statement: Use Statement
-    xlink_actuate_attribute: Xlink Actuate Attribute
+    use_statement_tooltip: |
+        <p>A descriptor indicating the use for which the digital file is intended (e.g., a thumbnail).</p>
+        <p>Values in this Enumeration may be modified.</p>
+    xlink_actuate_attribute: XLink Actuate Attribute
+    xlink_actuate_attribute_tooltip: |
+        <p>An XLink attribute used for export for indicating how the digital object should display (e.g. whether the link occurs automatically or must be requested by the user). It is used in conjunction with the XLink Show attribute.</p>
     xlink_actuate_attribute_none: none
     xlink_actuate_attribute_other: other
     xlink_actuate_attribute_onLoad: onLoad
     xlink_actuate_attribute_onRequest: onRequest
 
-    xlink_show_attribute: Xlink Show Attribute
+    xlink_show_attribute: XLink Show Attribute
+    xlink_show_attribute_tooltip: |
+        <p>An XLink attribute used for export for indicating how the target of a link should be displayed. It is used in conjunction with the XLink Actuate attribute.</p>
     xlink_show_attribute_new: new
     xlink_show_attribute_replace: replace
     xlink_show_attribute_embed: embed
@@ -1531,10 +1570,41 @@ en:
     xlink_show_attribute_none: none
 
     file_format_name: File Format Name
+    file_format_name_tooltip: |
+        <p>The name of the format for the file type.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Audio Interchange File Format (aiff)</li>
+        <li>Audio/Video Interleaved Format (avi)</li>
+        <li>JPEG File Interchange Format (jpeg)</li>
+        <li>MPEG-Audio Layer 3 (mp3)</li>
+        <li>Portable Document Format (pdf)</li>
+        </ul>
     file_format_version: File Format Version
-    file_size_bytes: File Size Bytes
+    file_format_version_tooltip: |
+        <p>The version of the format for the file type.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>5.0 <em>(for TIFF 5.0)</em></li>
+        </ul>
+    file_size_bytes: File Size (Bytes)
+    file_size_bytes_tooltip: |
+        <p>The size (in bytes) of the digital file.</p>
     checksum: Checksum
+    checksum_tooltip: |
+        <p>A digital signature for monitoring the integrity and authenticity of a digital file.</p>
     checksum_method: Checksum Method
+    checksum_method_tooltip: |
+        <p>The algorithm used for generating checksums.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>MD5</li>
+        <li>CRC-32</li>
+        <li>SHA-1</li>
+        <li>SHA-256</li>
+        </ul>
   extent: &extent_attributes
     portion: Portion
     portion_tooltip: |
@@ -1592,37 +1662,87 @@ en:
         </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Check this if you wish to publish this External Document to the public.</p>
+        <p>Determines whether this External Document to public (patron) interfaces.</p>
     _html:
       plural: External Documents
       singular: External Document
   rights_statement: &rights_statement_attributes
     identifier: Identifier
+    identifier_tooltip: |
+        <p>Uniquely identifies the rights statement within the repository domain. Rights Statement identifiers are usually auto-generated by the application.</p>
     identifier_auto_generate_message: "-- auto-generated upon save --"
     rights_type: Rights Type
+    rights_type_tooltip: |
+        <p>The basis for the rights statement being made.Four bases are allowed: intellectual property, license, such as donor agreement, legal statutes such as Fair Use or FERPA, and institutional policy.</p>
     rights_type_intellectual_property: Intellectual Property
     rights_type_license: License
     rights_type_statute: Statute
     rights_type_institutional_policy: Institutional Policy
     rights_type_message: Please select a Rights Type
     active: Active
+    active_tooltip: |
+        <p>Indicates whether a rights record is active or inactive.</p>
     active_true: Active
     active_false: Inactive
     materials: Materials
+    materials_tooltip: |
+        <p>A term or brief phrase describing the materials in the accession, resource or collection to which the rights record applies.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Diaries by Alex Doe</li>
+        </ul>
     ip_status: IP Status
+    ip_status_tooltip: |
+        <p>A term indicating the intellectual property status of the described materials.</p>
     ip_status_copyrighted: Copyrighted
     ip_status_public_domain: Public Domain
     ip_status_unknown: Unknown
     ip_expiration_date: IP Expiration Date
+    ip_expiration_date_tooltip: |
+        <p>The date the copyright or other intellectual property status is expected to expire.</p>
     license_identifier_terms: License Identifier Terms
+    license_identifier_terms_tooltip: |
+        <p>A statement (actual text snippet or summary) of the permissions granted in the license.</p>
     statute_citation: Statute Citation
+    statute_citation_tooltip: |
+        <p>A citation, URI, or other reference to the statute related to this Rights Statement.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Freedom of Information and Protection of Privacy Act [RSBC 1996] Chapter 165</li>
+        </ul>
     jurisdiction: Jurisdiction
+    jurisdiction_tooltip: |
+        <p>The political entity authorizing the copyright or statute, e.g. country or region.</p>
     type_note: Type Note
+    type_note_tooltip: |
+        <p>Any additional information about the copyright, license, statute, or institutional policy and/or about its application to the materials described.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Constraint(s) on Use: This work may be protected by copyright law. Use of this work beyond that allowed by the applicable copyright statute requires the written permission of the copyright holder(s). Responsibility for obtaining permissions for any use and distribution of this work rests exclusively with the user and not the UC San Diego Libraries. Inquiries can be made to the Mandeville Special Collections Library (http://libraries.ucsd.edu/locations/mscl/).</li>
+        </ul>
     permissions: Permissions
+    permissions_tooltip: |
+        <p>A description of what kinds of actions are permissible to the repository and/or the end user.</p>
     restrictions: Restrictions
+    restrictions_tooltip: |
+        <p>A description of what kinds of actions are not permissible to the repository and/or the end user.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Photocopying, scanning, or photographing of materials not allowed.</li>
+        </ul>
     restriction_start_date: Restrictions Start Date
+    restriction_start_date_tooltip: |
+        <p>The date the restriction(s) go into effect.</p>
     restriction_end_date: Restrictions End Date
+    restriction_end_date_tooltip: |
+        <p>The date the restriction(s) cease to apply.</p>
     granted_note: Granted Note
+    granted_note_tooltip: |
+        <p>Any qualifying information about the permissions granted or restrictions to be enforced.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Contact donor's family if access is requested before restriction end date arrives.</li>
+        </ul>
     _html:
       plural: Rights Statements
       singular: Rights Statement
@@ -1842,6 +1962,9 @@ en:
         basic_information: Basic Information
   agent: &agent_attributes
     type: Agent Type
+    type_tooltip: |
+        <p>The type of entity represented by the Agent record.</p>
+        <p>See DACS 10.2 and PREMIS Agent entity</p>
     agent_type:
       agent_family: Family
       agent_person: Person
@@ -1941,8 +2064,19 @@ en:
         basic_information: Basic Information
   group:
     group_code: Group code
+    group_code_tooltip: |
+        <p>A short version of the name of the group.</p>
     description: Description
+    description_tooltip: |
+        <p>A brief textual description of the group.</p>
+        <p>Examples:
+        <ul>
+        <li>Summer 2013 interns</li>
+        <li>Collection management staff</li>
+        </ul>
     member_usernames: Members
+    member_usernames_tooltip: |
+        <p>The members that are part of this group.</p>
     permissions: "Members can:"
     permission_types:
       manage_repository: manage this repository (change groups and other settings)
@@ -2067,6 +2201,7 @@ en:
     name: Repository Name
     name_tooltip: |
         <p>REQUIRED FIELD. The name of the repository which has administrative responsibility for and custody of the materials described in the accession, resource, and digital object modules of the application.</p>
+        <p>See DACS 2.2</p>
         <p>Examples:</p>
         <ul>
         <li>Your Name Here Special Collections Library</li>
@@ -2090,9 +2225,10 @@ en:
         <li>New York University <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
         </ul>
     address_1: Address 1
-    address_1_tooltip: |
+    address_1_tooltip: &address_tooltip |
         <p>The postal address or street address for the repository.</p>
     address_2: Address 2
+    address_2_tooltip: *address_tooltip
     city: City
     district: State or Region
     country: Country
@@ -2119,7 +2255,7 @@ en:
       action:
         select: Select Repository
   term: &term_attributes
-    # these are not loading
+    # tooltips not displaying
     term: Term
     term_tooltip: |
         <p>REQUIRED FIELD. A descriptor for part of a subject heading. A subject heading must have at least 1 term associated with it.</p>
@@ -2176,23 +2312,23 @@ en:
         edit_account: Edit Account
         edit_account_submit: Update Account
   collection_management: &collection_management_attributes
-    cataloged_note: Cataloged note
+    cataloged_note: Cataloged Note
     cataloged_note_tooltip: |
         <p>A note about cataloging of the archival unit (accession, resource, digital object), including provision of catalog record identifiers.</p>
         <p>Examples:</p>
         <ul>
         <li>Catalog record number: 21345672</li>
         </ul>
-    processing_hours_per_foot_estimate: Processing hrs/ft estimate
+    processing_hours_per_foot_estimate: Processing hrs/ft Estimate
     processing_hours_per_foot_estimate_tooltip: |
         <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
-    processing_total_extent: Processing total extent
+    processing_total_extent: Processing Total Extent
     processing_total_extent_tooltip: |
         <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed.</p>
-    processing_total_extent_type: Extent type
+    processing_total_extent_type: Extent Type
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
-    processing_hours_total: Total processing hours
+    processing_hours_total: Total Processing Hours
     processing_hours_total_tooltip: |
         <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent"</p>
     processing_plan: Processing Plan
