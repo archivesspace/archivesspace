@@ -570,6 +570,10 @@ describe "ArchivesSpace user interface" do
       # Skip over Firefox's "you're navigating away" warning.
       $driver.switch_to.alert.accept
 
+      assert {
+        $driver.ensure_no_such_element(:link, "Cancel")
+      }
+
       assert { $driver.find_element(:css => 'body').text.should_not match(/this will be cancelled/) }
     end
 
