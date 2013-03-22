@@ -84,7 +84,7 @@ class Selenium::WebDriver::Driver
           puts "Failed to find #{selectors}"
 
           if ENV['SCREENSHOT_ON_ERROR']
-            save_screenshot
+            SeleniumTest.save_screenshot
           end
 
           raise e
@@ -516,14 +516,16 @@ end
 
 
 
-def save_screenshot
-  outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
-  puts "Saving screenshot to #{outfile}"
-  $driver.save_screenshot(outfile)
+module SeleniumTest
+  def self.save_screenshot
+    outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
+    puts "Saving screenshot to #{outfile}"
+    $driver.save_screenshot(outfile)
 
-  if ENV['TRAVIS']
-    # Send it back to the hudmol devserver
-    system('curl', '-H', 'Content-Type: application/octet-stream',
-           '--data-binary', "@#{outfile}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
+    if ENV['TRAVIS']
+      # Send it back to the hudmol devserver
+      system('curl', '-H', 'Content-Type: application/octet-stream',
+             '--data-binary', "@#{outfile}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
+    end
   end
 end

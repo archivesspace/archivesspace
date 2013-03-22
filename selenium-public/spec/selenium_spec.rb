@@ -41,7 +41,7 @@ describe "ArchivesSpace Public interface" do
 
   after(:each) do |group|
     if group.example.exception and ENV['SCREENSHOT_ON_ERROR']
-      save_screenshot
+      SeleniumTest.save_screenshot
     end
   end
 
