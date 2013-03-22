@@ -402,7 +402,7 @@ def select_repo(code)
 
   if not $driver.find_element_with_text('//span', /#{code}/, true, true)
     # Select it
-    $driver.find_element(:link_text => code).click
+    $driver.click_and_wait_until_gone(:link_text => code)
   else
     $driver.find_element(:css, '.user-container .btn').click
   end
