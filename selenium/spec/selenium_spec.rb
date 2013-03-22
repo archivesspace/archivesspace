@@ -89,7 +89,7 @@ describe "ArchivesSpace user interface" do
     it "can select either of the created repositories" do
       $driver.find_element(:css, '.user-container .btn').click
       $driver.find_element(:id, 'select_repo').click
-      $driver.execute_script("$('.nav #select_repo').focus()");
+      $driver.execute_script("$('.nav #select_repo').focus()")
       assert { $driver.find_element(:link_text => @test_repo_code_2).text.should eq @test_repo_code_2 }
       $driver.find_element(:link_text => @test_repo_code_2).click
       assert { $driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_2 }
@@ -319,7 +319,7 @@ describe "ArchivesSpace user interface" do
 
     it "reports errors and warnings when creating an invalid Person Agent" do
       $driver.find_element(:link, 'Create').click
-      $driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()");
+      $driver.execute_script("$('.nav .dropdown-submenu a:contains(Agent)').focus()")
       $driver.find_element(:link, 'Person').click
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       $driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
@@ -354,7 +354,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "agent_names__0__authority_id_"], "authid123")
       $driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "Hendrix")
 
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       $driver.find_element_with_text('//h2', /Hendrix/)
 
@@ -362,7 +362,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "agent_names__0__rest_of_name_"], "Johnny Allen")
 
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       $driver.find_element_with_text('//h2', /Hendrix, Johnny Allen/)
     end
@@ -373,7 +373,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:id => "agent_names__0__name_order_").select_option("direct")
 
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       $driver.find_element_with_text('//h2', /Johnny Allen Hendrix/)
     end
@@ -390,7 +390,7 @@ describe "ArchivesSpace user interface" do
 
     it "allows setting of a custom sort name" do
       $driver.clear_and_send_keys([:id, "agent_names__0__sort_name_"], "My Custom Sort Name")
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       $driver.find_element_with_text('//h2', /My Custom Sort Name/)
     end
@@ -416,7 +416,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "agent_agent_contacts__0__email_"], "jimi@rocknrollheaven.com")
 
       $driver.find_element(:id => "agent_names__1__source_").select_option("local")
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       assert { $driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }
     end
@@ -453,7 +453,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "agent_external_documents__0__title_"], "My URI document")
       $driver.clear_and_send_keys([:id, "agent_external_documents__0__location_"], "http://archivesspace.org")
 
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       # check external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#agent_external_documents_ .external-document')
@@ -472,7 +472,7 @@ describe "ArchivesSpace user interface" do
       $driver.execute_script("$('#agent_notes__0__content__0_').data('CodeMirror').setValue('#{biog}')")
       $driver.execute_script("$('#agent_notes__0__content__0_').data('CodeMirror').save()")
 
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       # check the readonly view
       $driver.find_element_with_text('//div[contains(@class, "subrecord-form-fields")]', /#{biog}/)
@@ -495,7 +495,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.clear_and_send_keys([:id, "agent_notes__0__subnotes__2__levels__3__items__4_"], "Woodstock")
       $driver.clear_and_send_keys([:id, "agent_notes__0__subnotes__2__levels__3__items__5_"], "Discography")
-      $driver.find_element(:css => "form .record-pane button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
       # check the readonly view
       $driver.find_element_with_text('//div[contains(@class, "subrecord-form-inline")]', /Woodstock/)
@@ -504,6 +504,8 @@ describe "ArchivesSpace user interface" do
 
 
     it "displays the agent in the agent's index page" do
+      @indexer.run_index_round
+
       $driver.find_element(:link, 'Agents').click
       expect {
         $driver.find_element_with_text('//td', /My Custom Sort Name/)
@@ -564,13 +566,13 @@ describe "ArchivesSpace user interface" do
 
     it "can edit an Accession but cancel the edit" do
       $driver.find_element(:link, 'Edit').click
-      $driver.clear_and_send_keys([:id, 'accession_content_description_'], " moo")
+      $driver.clear_and_send_keys([:id, 'accession_content_description_'], "this will be cancelled")
       $driver.find_element(:link, "Cancel").click
 
       # Skip over Firefox's "you're navigating away" warning.
       $driver.switch_to.alert.accept
 
-      assert { $driver.find_element(:css => 'body').text.should_not match(/Here is a description of this accession. moo/) }
+      assert { $driver.find_element(:css => 'body').text.should_not match(/this will be cancelled/) }
     end
 
 
@@ -600,7 +602,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn').click
       $driver.clear_and_send_keys([:id, 'accession_extents__1__number_'], "10")
 
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       assert { $driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
     end
@@ -621,7 +623,7 @@ describe "ArchivesSpace user interface" do
       $driver.blocking_find_elements(:css => '#accession_extents_ .subrecord-form-remove')[0].click
       $driver.find_element(:css => '#accession_extents_ .confirm-removal').click
 
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
       extent_headings.length.should eq (1)
@@ -668,7 +670,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2013-05-14")
 
       # save again!
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check dates
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
@@ -684,7 +686,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_dates_ .confirm-removal').click
 
       # save!
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check remaining date
       date_headings = $driver.blocking_find_elements(:css => '#accession_dates_ .accordion-heading')
@@ -718,7 +720,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_external_documents__1__location_"], "a/file/path/or/something/")
 
       # save!
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
@@ -735,7 +737,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_external_documents_ .confirm-removal').click
 
       # save!
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check remaining external documents
       external_document_sections = $driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
@@ -763,7 +765,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//div', /#{@me}AccessionTermABC/)
       $driver.find_element(:css, ".modal-footer > button.btn.btn-cancel").click
 
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       assert { $driver.find_element(:css => "#accession_subjects_ .token").text.should eq("#{@me}AccessionTermABC -- #{@me}AccessionTermDEF") }
     end
@@ -786,7 +788,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__location_"], "http://locationof.agreement.com")
 
       # save changes
-      $driver.find_element(:css => "form#accession_form button[type='submit']").click
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       # check the show page
       $driver.find_element(:id, "accession_rights_statements_")
