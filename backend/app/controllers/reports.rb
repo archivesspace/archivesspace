@@ -4,21 +4,28 @@ class ArchivesSpaceService < Sinatra::Base
     include ReportHelper::ResponseHelpers
   end
 
-  ALLOWED_REPORT_FORMATS = ["json", "csv"]
-
   Endpoint.get('/reports/unprocessed_accessions')
   .description("Report on unprocessed accessions")
-  .params(["format",
-           String,
-           "The format to render the report (one of: #{ALLOWED_REPORT_FORMATS.join(", ")})",
-           :validation => ["Must be one of #{ALLOWED_REPORT_FORMATS.join(", ")}",
-                           ->(v){ ALLOWED_REPORT_FORMATS.include?(v) }]])
+  .params(Endpoint.report_formats)
   .permissions([])
   .returns([200, "report"]) \
   do
-    report = UnprocessedAccessionsReport.new
+    report_response(UnprocessedAccessionsReport.new, params[:format])
+  end
 
-    report_response(report, params[:format])
+  Endpoint.get('/reports/created_accessions')
+  .description("Report on accessions created within a date range")
+  .params(["from",
+           DateTime,
+           "The start of report range"],
+          ["to",
+           DateTime,
+           "The start of report range"],
+          Endpoint.report_formats)
+  .permissions([])
+  .returns([200, "report"]) \
+  do
+    report_response(CreatedAccessionsReport.new(params[:from], params[:to]), params[:format])
   end
 
 end

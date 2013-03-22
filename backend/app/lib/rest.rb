@@ -92,6 +92,16 @@ module RESTHelpers
         :optional => true]]
     end
 
+    ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx"]
+
+    def self.report_formats
+      ["format",
+       String,
+       "The format to render the report (one of: #{ALLOWED_REPORT_FORMATS.join(", ")})",
+       :validation => ["Must be one of #{ALLOWED_REPORT_FORMATS.join(", ")}",
+                       ->(v){ ALLOWED_REPORT_FORMATS.include?(v) }]]
+    end
+
     def self.all
       @@endpoints.map do |e|
         e.instance_eval do
