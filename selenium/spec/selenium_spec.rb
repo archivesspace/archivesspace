@@ -36,9 +36,7 @@ describe "ArchivesSpace user interface" do
 
   after(:each) do |group|
     if group.example.exception and ENV['SCREENSHOT_ON_ERROR']
-      outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
-      puts "Saving screenshot to #{outfile}"
-      $driver.save_screenshot(outfile)
+      save_screenshot
     end
   end
 
