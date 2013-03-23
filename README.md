@@ -69,7 +69,7 @@ find it on its classpath:
 
          $ curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar
 
-         $ mv mysql-connector-java-5.1.24.jar launcher/lib
+         $ mv mysql-connector-java-5.1.24.jar lib
 
 ## Set up MySQL database
 
