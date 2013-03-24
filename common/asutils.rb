@@ -37,4 +37,15 @@ module ASUtils
     JSON.parse(s, :max_nesting => false, :create_additions => false)
   end
 
+
+  def self.to_json(obj, opts = {})
+    if obj.respond_to?(:jsonize)
+      obj.jsonize(opts.merge(:max_nesting => false))
+    else
+      obj.to_json(opts.merge(:max_nesting => false))
+    end
+  end
+
+
+
 end

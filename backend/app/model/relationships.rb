@@ -25,7 +25,7 @@ module Relationships
 
 
 
-  def update_from_json(json, opts = {})
+  def update_from_json(json, opts = {}, apply_linked_records = true)
     obj = super
     self.class.apply_relationships(obj, json, opts)
     obj
@@ -154,11 +154,9 @@ module Relationships
         # For each record reference in our JSON data
         ASUtils.as_array(json[property_name]).each_with_index do |reference, idx|
           record_type = parse_reference(reference['ref'], opts)
-          Log.debug("Record Type #{record_type.inspect}")
 
           # Find the model type of the record it refers to
           referent_model = relationship[:references].keys.find {|model|
-            Log.debug("Checking #{model.my_jsonmodel.record_type}")
             model.my_jsonmodel.record_type == record_type[:type]
           } or raise "Couldn't find model for #{record_type[:type]}"
 

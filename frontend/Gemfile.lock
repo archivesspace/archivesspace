@@ -113,6 +113,7 @@ GEM
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
     rubyzip (0.9.9)
+    rufus-lru (1.0.5)
     sass (3.2.3)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -161,6 +162,7 @@ DEPENDENCIES
   nokogiri
   rails (= 3.2.6)
   rspec-rails
+  rufus-lru
   sass-rails (~> 3.2.3)
   simplecov
   therubyrhino

@@ -36,5 +36,17 @@ module JSON
       end
     end
 
+
+    # Plus one bonus: don't use MultiJson here.
+    def serialize schema
+      # if defined?(MultiJson)
+      #   MultiJson.respond_to?(:dump) ? MultiJson.dump(schema) : MultiJson.encode(schema)
+      # else
+      #   @@serializer.call(schema)
+      # end
+
+      ASUtils.to_json(schema)
+    end
+
   end
 end

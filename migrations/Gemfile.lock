@@ -8,7 +8,9 @@ GEM
       activesupport (>= 3.0.0)
     i18n (0.6.1)
     multi_json (1.4.0)
+    nokogiri (1.5.6)
     nokogiri (1.5.6-java)
+    rufus-lru (1.0.5)
 
 PLATFORMS
   java
@@ -16,3 +18,4 @@ PLATFORMS
 DEPENDENCIES
   factory_girl
   nokogiri
+  rufus-lru

@@ -73,7 +73,7 @@ class Enumeration < Sequel::Model(:enumeration)
   end
 
 
-  def update_from_json(json, opts = {})
+  def update_from_json(json, opts = {}, apply_linked_records = true)
     self.class.apply_values(super, json, opts)
   end
 

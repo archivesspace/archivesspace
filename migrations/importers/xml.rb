@@ -1,5 +1,6 @@
 require 'psych'
 require 'nokogiri'
+require 'rufus-lru'
 
 ASpaceImport::Importer.importer :xml do
 
@@ -11,7 +12,7 @@ ASpaceImport::Importer.importer :xml do
     hack_input_file_for_nokogiri_exceptions(opts)
 
     @reader = Nokogiri::XML::Reader(IO.read(opts[:input_file]))
-    @regex_cache = {}
+    @regex_cache = Rufus::Lru::Hash.new(10000)
     @attr_selectors = []
     
     # Allow JSON Models to hold some Nokogiri info

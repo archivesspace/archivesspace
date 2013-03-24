@@ -33,7 +33,7 @@ module ExternalIDs
   end
 
 
-  def update_from_json(json, opts = {})
+  def update_from_json(json, opts = {}, apply_linked_records = true)
     obj = super
     self.class.save_external_ids(obj, json, opts)
     obj

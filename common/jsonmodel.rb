@@ -617,7 +617,7 @@ module JSONModel
       # Produce a JSON string from the values of this JSONModel.  Any values
       # that don't appear in the JSON schema will not appear in the result.
       def to_json(opts = {})
-        self.to_hash(opts[:mode]).to_json(opts.is_a?(Hash) ? opts.merge(:max_nesting => false) : {})
+        ASUtils.to_json(self.to_hash(opts[:mode]), opts.is_a?(Hash) ? opts.merge(:max_nesting => false) : {})
       end
 
 
