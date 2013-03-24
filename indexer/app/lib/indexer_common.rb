@@ -220,7 +220,7 @@ class CommonIndexer
       doc['title'] = values['title']
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
-      doc['fullrecord'] = values.to_json(:max_nesting => false)
+      doc['fullrecord'] = ASUtils.to_json(values)
       doc['suppressed'] = values['suppressed'].to_s
       doc['repository'] = get_record_scope(uri)
 

@@ -92,7 +92,7 @@ module ASpaceImport
         
       else
         JSONModel::HTTP.with_request_priority(:low) do
-          JSONModel::HTTP.post_json(url, batch_object.to_json(:max_nesting => false))
+          JSONModel::HTTP.post_json(url, ASUtils.to_json(batch_object))
         end
       end
     end
