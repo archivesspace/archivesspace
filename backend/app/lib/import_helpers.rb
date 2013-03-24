@@ -92,7 +92,7 @@ module ImportHelpers
         next if @second_pass_keys.include?(ref)
         obj = a[1].get_or_die(a[0])
 
-        obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}) 
+        obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}, false) 
         @saved_uris[ref] = @json_set[ref].uri   
       end
     end    

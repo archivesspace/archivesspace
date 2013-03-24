@@ -25,7 +25,7 @@ module Relationships
 
 
 
-  def update_from_json(json, opts = {})
+  def update_from_json(json, opts = {}, apply_linked_records = true)
     obj = super
     self.class.apply_relationships(obj, json, opts)
     obj

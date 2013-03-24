@@ -57,7 +57,7 @@ class Subject < Sequel::Model(:subject)
   end
 
 
-  def update_from_json(json, opts = {})
+  def update_from_json(json, opts = {}, apply_linked_records = true)
     self.class.set_vocabulary(json, opts)
     obj = super
 
