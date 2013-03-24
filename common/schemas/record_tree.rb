@@ -7,6 +7,7 @@
       "id" => {"type" => "integer", "ifmissing" => "error"},
       "record_uri" => {"type" => "string", "ifmissing" => "error"},
       "title" => {"type" => "string", "minLength" => 1, "required" => false},
+      "level" => {"type" => "string"},
       "node_type" => {"type" => "string"},
       "children" => {
         "type" => "array",
