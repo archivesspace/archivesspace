@@ -567,6 +567,8 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, 'accession_content_description_'], "this will be cancelled")
       $driver.find_element(:link, "Cancel").click
 
+      sleep 2
+
       # Skip over Firefox's "you're navigating away" warning.
       $driver.switch_to.alert.accept
 
