@@ -180,7 +180,9 @@ module RESTHelpers
 
       ArchivesSpaceService.send(@method, @uri, {}) do
         RequestContext.open(request_context) do
-          ensure_params(rp)
+          DB.open do |db|
+            ensure_params(rp)
+          end
 
           Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
 
