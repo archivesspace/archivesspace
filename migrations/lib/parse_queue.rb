@@ -65,8 +65,8 @@ module ASpaceImport
       repo_id = Thread.current[:selected_repo_id]
       batch = []
       
-      self.each do |obj|
-        batch << obj.to_hash(:raw)
+      while self.size > 0
+        batch << self.shift.to_hash(:raw)
       end
       batch_object.set_data({:batch => batch})
 
@@ -91,8 +91,11 @@ module ASpaceImport
         response
         
       else
+        json = ASUtils.to_json(batch_object)
+        batch_object = nil
+
         JSONModel::HTTP.with_request_priority(:low) do
-          JSONModel::HTTP.post_json(url, ASUtils.to_json(batch_object))
+          JSONModel::HTTP.post_json(url, json)
         end
       end
     end
