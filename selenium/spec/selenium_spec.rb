@@ -1614,7 +1614,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
       # The new Digital Object shows up on the tree
-      assert { $driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(digital_object_title) }
+      assert { $driver.find_element(:css => "a.jstree-clicked").text.strip.should match(/#{digital_object_title}/) }
     end
 
 
