@@ -28,6 +28,7 @@ $(function() {
           AS.confirmSubFormDelete($(this), function() {
             $subform.remove();
             $this.parents("form:first").triggerHandler("form-changed");
+            $(document).triggerHandler("deleted.subrecord", [$this]);
           });
           return false;
         });

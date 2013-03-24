@@ -1,5 +1,11 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list as-nav-list">
+    <% if @exceptions %>
+      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
+        <a href="#form_messages">Errors and Warnings  <span class="icon-chevron-right"></span></a>
+      </li>
+    <% end %>
+
     <li><a href="#basic_information"><%= I18n.t("subject._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
     <li><a href="#terms"><%= I18n.t("subject.terms") %> <span class="icon-chevron-right"></span></a></li>
 

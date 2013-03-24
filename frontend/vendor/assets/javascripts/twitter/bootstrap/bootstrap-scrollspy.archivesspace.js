@@ -31,7 +31,9 @@
       , $element = $(element).is('body') ? $(window) : $(element)
       , href
     this.options = $.extend({}, $.fn.scrollspy.defaults, options)
-    this.$scrollElement = $element.on('scroll.scroll-spy.data-api', process)
+    // *** ArchivesSpace patch: disable the event and the add it again
+    // as it can be bound twice... somehow...
+    this.$scrollElement = $element.off('scroll.scroll-spy.data-api', process).on('scroll.scroll-spy.data-api', process)
     this.selector = (this.options.target
       || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
       || '') + ' .nav li > a'
@@ -59,7 +61,9 @@
               , $href = /^#\w/.test(href) && $(href)
             return ( $href
               && $href.length
-              && [[ $href.position().top + self.$scrollElement.scrollTop(), href ]] ) || null
+              // *** ArchivesSpace patch: determine the offset of the target
+              // from the top of the document
+              && [[ $href.offset().top, href ]] ) || null
           })
           .sort(function (a, b) { return a[0] - b[0] })
           .each(function () {
