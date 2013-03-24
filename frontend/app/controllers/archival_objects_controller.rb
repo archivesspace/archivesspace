@@ -30,6 +30,10 @@ class ArchivalObjectsController < ApplicationController
                 :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
+                  if params.has_key?(:plus_one)
+                    flash[:success] = I18n.t("archival_object._html.messages.created")
+                    return render :partial => "archival_objects/edit_inline"
+                  end
                   flash.now[:success] = I18n.t("archival_object._html.messages.created")
                   render :partial => "archival_objects/edit_inline"
                 })

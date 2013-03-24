@@ -62,12 +62,14 @@ $(function() {
         $(".btn-cancel", $form).removeAttr("disabled");
       });
 
-      $("#createPlusOne", $form).click(function() {
+      $(".btn-plus-one", $form).click(function() {
         var createPlusOne = function(event, data) {
           if (data.success) {
             $(".archives-tree-container .add-sibling").trigger("click");
           }
         };
+
+        $form.data("createPlusOne", true);
 
         $container.one("submitted", createPlusOne);
         $form.triggerHandler("submit");
@@ -82,8 +84,17 @@ $(function() {
         data: {
           inline: true
         },
-        beforeSubmit: function() {
+        beforeSubmit: function(arr, $form) {
           $(".btn-primary", $form).attr("disabled","disabled");
+
+          if ($form.data("createPlusOne")) {
+            arr.push({
+              name: "plus_one",
+              value: "true",
+              required: false,
+              type: "text"
+            })
+          }
         },
         success: function(response, status, xhr) {
           var $form = initForm(response);
