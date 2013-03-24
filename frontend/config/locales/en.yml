@@ -1522,10 +1522,10 @@ en:
     end_time: End Time
     end_time_tooltip: |
         <p>Normalized time information (in the form HH:MM:SS) associated with a single date or the first date in a date range.</p>
-    uncertain: Uncertainty
-    uncertain_approximate: Approximate
-    uncertain_inferred: Inferred
-    uncertain_questionable: Questionable
+    certainty: Certainty
+    certainty_approximate: Approximate
+    certainty_inferred: Inferred
+    certainty_questionable: Questionable
     era: Era
     era_tooltip: |
         <p>Period during which years are numbered and dates reckoned, such as A.D. or C.E. The value "ce" is the default.</p>

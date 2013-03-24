@@ -7,7 +7,7 @@
       "date_type" => {"type" => "string", "enum" => ["single", "bulk", "inclusive"]},
       "label" => {"type" => "string", "enum" => ["broadcast", "copyright", "creation", "deaccession", "digitized", "issued", "modified", "publication", "other"], "ifmissing" => "error"},
 
-      "uncertain" => {"type" => "string", "enum" => ["approximate", "inferred", "questionable"]},
+      "certainty" => {"type" => "string", "enum" => ["approximate", "inferred", "questionable"]},
       "expression" => {"type" => "string"},
       "begin" => {"type" => "string", "pattern" => "\\A([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)\\z"},
       "begin_time" => {"type" => "string", "pattern" => "\\A(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?\\z"},
