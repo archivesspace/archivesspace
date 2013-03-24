@@ -33,7 +33,7 @@ export JAVA_OPTS="`echo $JAVA_OPTS | sed 's/\([#&;\`|*?~<>^(){}$\,]\)/\\\\\1/g'`
 
 
 startup_cmd="java "$JAVA_OPTS"  \
-        -Xss2m -XX:MaxPermSize=256m -Xmx256m -Dfile.encoding=UTF-8 \
+        -Xss2m -XX:MaxPermSize=256m -Xmx512m -Dfile.encoding=UTF-8 \
         -cp \"$GEM_HOME/gems/jruby-jars-1.7.0/lib/*:$GEM_HOME/gems/jruby-rack-1.1.12/lib/*:lib/*:launcher/lib/*\" \
         org.jruby.Main --1.9 \"launcher/launcher.rb\""
 
