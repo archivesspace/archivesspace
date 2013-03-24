@@ -1092,7 +1092,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       # The new Resource shows up on the tree
-      assert { $driver.find_element(:css => "a.jstree-clicked").text.strip.should eq(resource_title) }
+      assert { $driver.find_element(:css => "a.jstree-clicked").text.strip.should match(/#{resource_title}/) }
     end
 
 
