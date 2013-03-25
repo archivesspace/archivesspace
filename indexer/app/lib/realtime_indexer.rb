@@ -3,10 +3,11 @@ require 'net/http'
 
 class RealtimeIndexer < CommonIndexer
 
-  def initialize(backend_url)
-    super
+  def initialize(backend_url, should_continue)
+    super(backend_url)
 
     @backend_url = backend_url
+    @should_continue = should_continue
   end
 
   def get_updates(last_sequence = 0)
@@ -27,7 +28,7 @@ class RealtimeIndexer < CommonIndexer
   def run
     last_sequence = 0
 
-    while true
+    while @should_continue.call
       begin
         login
 
