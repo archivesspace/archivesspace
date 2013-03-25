@@ -28,7 +28,7 @@ module Trees
         :node_type => node_type.to_s
       }
 
-      properties[:level] = ((node.level === 'otherlevel') ? node.other_level : node.level) if node.respond_to?(:level)
+      properties[node.id][:level] = ((node.level === 'otherlevel') ? node.other_level : node.level) if node.respond_to?(:level)
     end
 
     result = {
