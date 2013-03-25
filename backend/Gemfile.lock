@@ -6,9 +6,9 @@ GEM
       multi_json (~> 1.0)
     atomic (1.0.1-java)
     axlsx (1.3.5)
-      htmlentities (~> 4.3.1)
-      nokogiri (>= 1.4.1)
-      rubyzip (>= 0.9.5)
+      htmlentities
+      nokogiri
+      rubyzip
     backports (2.6.5)
     bcrypt-ruby (3.0.1-java)
     diff-lcs (1.1.3)
