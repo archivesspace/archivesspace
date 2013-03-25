@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/css/report.css" />
+</head>
+<body>
+
+<%= erb :'reports/_header' %>
+
+<% if @report.respond_to? :template %>
+  <%= erb :"#{@report.template}" %>
+<% else %>
+  <%= erb :'reports/_listing' %>
+<% end %>
+
+<%= erb :'reports/_footer' %>
+
+</body>
+
+</html>
