@@ -283,6 +283,8 @@ module RESTHelpers
       def coerce_type(value, type)
         if type == Integer
           Integer(value)
+        elsif type == DateTime
+          DateTime.parse(value)
         elsif type.respond_to? :from_json
           type.from_json(value)
         elsif type.is_a? Array
@@ -296,8 +298,10 @@ module RESTHelpers
           value
         elsif type.respond_to? :value
           type.value(value)
-        else
+        elsif type == String
           value
+        else
+          raise BadParamsException.new("Type not recognized: #{type}")
         end
       end
 
