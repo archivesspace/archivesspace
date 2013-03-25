@@ -1,4 +1,47 @@
 /* ArchivesSpace Reporting Stylesheet */
 body {
-    color: blue;
+ font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+.header .logo {
+  float: right;
+}
+
+.header h1 {
+  margin-top: 1em;
+  float: left;
+  font-size: 1.8em;
+}
+
+.report-listing {
+  border: 1px solid #000000;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.report-listing th,
+.report-listing td {
+  border: 1px solid #000000;
+  padding: 4px;
+  vertical-align: top;
+}
+
+.report-listing tr:nth-child(2n) td {
+  background-color: #FaFaFa;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9em;
+}
+
+/****
+  Force table header to repeat etc.
+*/
+thead {
+  display: table-header-group;
+}
+table {
+  -fs-table-paginate: paginate;
 }
