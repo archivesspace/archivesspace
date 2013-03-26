@@ -49,11 +49,11 @@ def main
   end
 
   start_server(URI(AppConfig[:backend_url]).port, {:war => File.join('wars', 'backend.war'), :path => '/'})
-  start_server(URI(AppConfig[:frontend_url]).port, {:war => File.join('wars', 'frontend.war'), :path => '/'})
-  start_server(URI(AppConfig[:public_url]).port, {:war => File.join('wars', 'public.war'), :path => '/'})
   start_server(URI(AppConfig[:solr_url]).port,
                {:war => File.join('wars', 'solr.war'), :path => '/'},
                {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
+  start_server(URI(AppConfig[:frontend_url]).port, {:war => File.join('wars', 'frontend.war'), :path => '/'})
+  start_server(URI(AppConfig[:public_url]).port, {:war => File.join('wars', 'public.war'), :path => '/'})
 
   puts <<EOF
 ************************************************************
