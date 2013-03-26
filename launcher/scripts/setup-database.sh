@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd "`dirname $0`"
+export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/find-base.sh)"
+
+cd "$ASPACE_LAUNCHER_BASE/scripts"
 
 export GEM_HOME="../gems"
 export GEM_PATH=

@@ -20,10 +20,12 @@
 
 cd "`dirname $0`"
 
+export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/scripts/find-base.sh)"
+
+
 ARCHIVESSPACE_USER=
 
-ARCHIVESSPACE_BASE="$PWD"
-export GEM_HOME="$ARCHIVESSPACE_BASE/gems"
+export GEM_HOME="$ASPACE_LAUNCHER_BASE/gems"
 export GEM_PATH=
 
 export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS"
@@ -45,7 +47,7 @@ case "$1" in
             shellcmd="su - $ARCHIVESSPACE_USER"
         fi
 
-        $shellcmd -c "cd '$ARCHIVESSPACE_BASE';
+        $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
           (exec 0<&-; exec 1>&-; exec 2>&-; $startup_cmd &> \"logs/archivesspace.out\" & ) &
           disown $!"
 
@@ -63,6 +65,6 @@ case "$1" in
         ;;
     *)
         # Run in foreground mode
-        (cd $ARCHIVESSPACE_BASE; bash -c "$startup_cmd")
+        (cd $ASPACE_LAUNCHER_BASE; bash -c "$startup_cmd")
         ;;
 esac
