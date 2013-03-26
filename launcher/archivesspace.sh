@@ -22,8 +22,9 @@ cd "`dirname $0`"
 
 export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/scripts/find-base.sh)"
 
-
-ARCHIVESSPACE_USER=
+if [ "$ARCHIVESSPACE_USER" = "" ]; then
+    ARCHIVESSPACE_USER=
+fi
 
 export GEM_HOME="$ASPACE_LAUNCHER_BASE/gems"
 export GEM_PATH=
