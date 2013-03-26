@@ -221,7 +221,6 @@ class CommonIndexer
 
 
   def get_record_scope(uri)
-    puts "XXXXXXXXXXXXXXXXXX uri = #{uri}"
     JSONModel.parse_reference(uri)[:repository] || "global"
   end
 
