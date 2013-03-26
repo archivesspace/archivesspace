@@ -135,8 +135,8 @@ class CommonIndexer
       cm = record['record']['collection_management']
       if cm
         docs << {
-          'id' => record['record']['uri'],
-          'parent_id' => record['record']['uri'],
+          'id' => record['uri'],
+          'parent_id' => record['uri'],
           'parent_title' => record['record']['title'],
           'title' => record['record']['title'],
           'types' => ['collection_management'],
@@ -147,7 +147,7 @@ class CommonIndexer
           'processing_hours_total' => cm['processing_hours_total'],
           'processors' => cm['processors'],
           'suppressed' => record['record']['suppressed'].to_s,
-          'repository' => get_record_scope(record['record']['uri']),
+          'repository' => get_record_scope(record['uri']),
           'last_modified' => cm['last_modified'],
           'create_time' => cm['create_time'],
         }
@@ -221,6 +221,7 @@ class CommonIndexer
 
 
   def get_record_scope(uri)
+    puts "XXXXXXXXXXXXXXXXXX uri = #{uri}"
     JSONModel.parse_reference(uri)[:repository] || "global"
   end
 
