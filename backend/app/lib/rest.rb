@@ -92,7 +92,7 @@ module RESTHelpers
         :optional => true]]
     end
 
-    ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx", "html"]
+    ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx", "html", "pdf"]
 
     def self.report_formats
       ["format",

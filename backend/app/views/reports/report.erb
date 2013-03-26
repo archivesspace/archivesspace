@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <link rel="stylesheet" href="/css/report.css" media="all" type="text/css" />
-</head>
-<body>
+  <head>
+    <%= erb :'reports/_styles', :locals => {:report => report} %>
+  </head>
+  <body class="<%= params[:format] %>">
 
-<%= erb :'reports/_header' %>
+    <%= erb :'reports/_header', :locals => {:report => report} %>
+    <% if params[:format] === "pdf" %>
+      <%= erb :'reports/_footer', :locals => {:report => report} %>
+    <% end %>
 
-<% if @report.respond_to? :template %>
-  <%= erb :"#{@report.template}" %>
-<% else %>
-  <%= erb :'reports/_listing' %>
-<% end %>
+    <%= erb :"#{report.template}", :locals => {:report => report} %>
 
-<%= erb :'reports/_footer' %>
+    <% if params[:format] === "html" %>
+      <%= erb :'reports/_footer', :locals => {:report => report} %>
+    <% end %>
 
-</body>
-
+  </body>
 </html>

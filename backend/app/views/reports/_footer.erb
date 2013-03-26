@@ -1,4 +1,8 @@
-<div class="footer">
-  <% time = DateTime.now %>
-  Report Generated at <%= time.strftime("%Y-%m-%d %H:%M %Z") %>
+<% time = DateTime.now %>
+<div id="footer" class="footer" style="position: running(footer);">
+  <div class="timestamp">
+    Report Generated at <%= time.strftime("%Y-%m-%d %H:%M %Z") %>
+  </div>
+
+  <div class="pdf-page-count">Page <span class="page-number"/> of <span class="page-count"/></div>
 </div>

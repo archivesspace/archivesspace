@@ -6,6 +6,14 @@ class AbstractReport
     self.class.name
   end
 
+  def template
+    :'reports/_listing'
+  end
+
+  def orientation
+    'landscape'
+  end
+
   def processor
     {}
   end

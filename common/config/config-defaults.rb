@@ -47,3 +47,5 @@ AppConfig[:realtime_index_backlog_ms] = 60000
 AppConfig[:notifications_backlog_ms] = 60000
 AppConfig[:notifications_poll_frequency_ms] = 1000
 
+# Report Configuration
+AppConfig[:report_page_size] = "A4"

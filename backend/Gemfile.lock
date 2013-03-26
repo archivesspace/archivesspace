@@ -15,6 +15,7 @@ GEM
     eventmachine (1.0.0-java)
     factory_girl (4.1.0)
       activesupport (>= 3.0.0)
+    flying_saucer (0.8.0-java)
     htmlentities (4.3.1)
     i18n (0.6.1)
     jdbc-derby (10.6.2.1-java)
@@ -81,6 +82,7 @@ DEPENDENCIES
   axlsx
   bcrypt-ruby
   factory_girl
+  flying_saucer
   jdbc-derby
   jdbc-mysql
   jruby-jars (= 1.7.0)
