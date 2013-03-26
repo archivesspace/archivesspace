@@ -144,6 +144,7 @@ class CommonIndexer
           'fullrecord' => cm.to_json(:max_nesting => false),
           'processing_priority' => cm['processing_priority'],
           'processing_status' => cm['processing_status'],
+          'processing_hours_total' => cm['processing_hours_total'],
           'processors' => cm['processors'],
           'suppressed' => record['record']['suppressed'].to_s,
           'repository' => get_record_scope(record['record']['uri']),
