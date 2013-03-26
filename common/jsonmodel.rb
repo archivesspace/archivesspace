@@ -440,7 +440,7 @@ module JSONModel
         pattern = self.schema['uri']
         pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
 
-        if uri =~ /#{pattern}\/([0-9]+)$/
+        if uri =~ /#{pattern}\/([0-9]+)(\#.*)?$/
           return $1.to_i
         elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}([0-9]+)\/tree$/
           return $1.to_i

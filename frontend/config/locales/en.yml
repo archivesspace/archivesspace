@@ -120,6 +120,9 @@ en:
       creators: Creator
       source: Source
       rules: Rules
+      parent_type: Record Type
+      processing_priority: Priority
+      processing_status: Status
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending

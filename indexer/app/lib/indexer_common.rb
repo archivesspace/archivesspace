@@ -134,10 +134,12 @@ class CommonIndexer
 
       cm = record['record']['collection_management']
       if cm
+        parent_type = JSONModel.parse_reference(record['uri'])[:type]
         docs << {
-          'id' => record['uri'],
+          'id' => "#{record['uri']}##{parent_type}_collection_management",
           'parent_id' => record['uri'],
           'parent_title' => record['record']['title'],
+          'parent_type' => parent_type,
           'title' => record['record']['title'],
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
