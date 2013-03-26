@@ -23,12 +23,18 @@ ASpaceExport::model :eac do
     end
     
     def date_time
-      d = @event.date['begin']
-      if @event.date['begin_time']
-        d << "T#{@event.date['begin_time']}"
+      @date_time ||= nil
+
+      if @date_time.nil?
+        d = @event.date['begin']
+        if @event.date['begin_time']
+          d << "T#{@event.date['begin_time']}"
+        end
+      
+        @date_time = d
       end
       
-      d
+      @date_time
     end
     
     def agents
