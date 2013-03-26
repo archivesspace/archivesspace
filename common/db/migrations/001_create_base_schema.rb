@@ -1097,10 +1097,6 @@ Sequel.migration do
     end
 
 
-    create_enum('linked_agent_archival_record_roles',
-                ['creator', 'source', 'subject'])
-
-
     create_enum('linked_agent_archival_record_relators',
                 ['act', 'adp', 'anl', 'anm', 'ann', 'app', 'arc', 'arr', 'acp',
                  'art', 'ard', 'asg', 'asn', 'att', 'auc', 'aut', 'aqt', 'aft',
