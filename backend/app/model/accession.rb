@@ -28,9 +28,13 @@ class Accession < Sequel::Model(:accession)
 
   def set_suppressed(val)
     self.suppressed = val ? 1 : 0
-    save
+    obj = save
 
     Event.handle_suppressed(self)
+
+    RequestContext.open(:enforce_suppression => false) do
+      self.class.fire_update(self.class.to_jsonmodel(self.id), self)
+    end
 
     val
   end
