@@ -144,6 +144,15 @@ class ArchivesSpaceService < Sinatra::Base
             Log.info("Backup of embedded demo database completed!")
           end
         end
+
+        if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
+          settings.scheduler.cron(AppConfig[:solr_backup_schedule],
+                                  :tags => 'solr_backup') do
+            Log.info("Creating snapshot of Solr index and indexer state")
+            Solr.snapshot
+          end
+        end
+
       end
 
       @loaded_hooks.each do |hook|

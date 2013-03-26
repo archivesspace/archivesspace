@@ -16,6 +16,10 @@ AppConfig[:allow_unsupported_database] = false
 AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 AppConfig[:demo_db_backup_number_to_keep] = 7
 
+AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
+AppConfig[:solr_backup_schedule] = "0 * * * *"
+AppConfig[:solr_backup_number_to_keep] = 1
+
 AppConfig[:backend_url] = "http://localhost:8089"
 AppConfig[:frontend_url] = "http://localhost:8080"
 AppConfig[:solr_url] = "http://localhost:8090"
