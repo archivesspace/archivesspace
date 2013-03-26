@@ -128,6 +128,9 @@ en:
     title_sort: Title
     last_modified: Modified
     primary_type: Record Type
+    processing_priority: Priority
+    processing_status: Status
+    parent_id: Record Type
     create_time: Created
     authority_id: Authority ID
     source: Source

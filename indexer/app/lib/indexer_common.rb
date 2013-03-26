@@ -135,10 +135,10 @@ class CommonIndexer
       cm = record['record']['collection_management']
       if cm
         docs << {
-          'id' => "#{record['record']['uri']}#collection_management_record",
+          'id' => record['record']['uri'],
           'parent_id' => record['record']['uri'],
           'parent_title' => record['record']['title'],
-          'title' => "Collection management record",
+          'title' => record['record']['title'],
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'fullrecord' => cm.to_json(:max_nesting => false),
