@@ -1,4 +1,8 @@
+require_relative 'report_manager'
+
 class AbstractReport
+  include ReportManager::Mixin
+
   def initialize(*args)
   end
 
