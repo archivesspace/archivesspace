@@ -98,7 +98,7 @@ class PeriodicIndexer < CommonIndexer
           if records.kind_of? Array
             index_records(records.map {|record|
               {
-                'record' => record.to_hash,
+                'record' => record.to_hash(:trusted),
                 'uri' => record.uri
               }
             })
@@ -112,7 +112,7 @@ class PeriodicIndexer < CommonIndexer
   
             index_records(records['results'].map {|record|
                             {
-                              'record' => record.to_hash,
+                              'record' => record.to_hash(:trusted),
                               'uri' => record.uri
                             }
                           })
