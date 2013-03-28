@@ -349,7 +349,6 @@ FactoryGirl.define do
 
 
   factory :json_collection_management, class: JSONModel(:collection_management) do
-    linked_records { [{'ref' => create(:json_accession).uri}] }
   end
 
 end
