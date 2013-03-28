@@ -57,8 +57,9 @@
         <% if user_can?('manage_users') %>
           <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
         <% end %>
+        <li class="divider"></li>
+        <li><%= link_to I18n.t("navbar.list_reports"), :controller => :reports, :action => :index %></li>
         <% if ArchivesSpaceHelp.enabled? %>
-          <li class="divider"></li>
           <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
         <% end %>
         <li class="divider"></li>

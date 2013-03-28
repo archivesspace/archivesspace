@@ -24,7 +24,10 @@ class ArchivesSpaceService < Sinatra::Base
   .permissions([])
   .returns([200, "report list in json"]) \
     do
-    json_response(ReportManager.registered_reports)
+    json_response({
+                    :reports => ReportManager.registered_reports,
+                    :formats => Endpoint.allowed_report_formats
+                  })
   end
 
 end
