@@ -250,11 +250,16 @@ en:
     extent_extent_type:
       cassettes: Cassettes
       cubic_feet: Cubic Feet
+      files: Files
+      gigabytes: Gigabytes
       leaves: Leaves
       linear_feet: Linear Feet
+      megabytes: Megabytes
       photographic_prints: Photographic Prints
       photographic_slides: Photographic Slides
       reels: Reels
+      sheets: Sheets
+      terabytes: Terabytes
       volumes: Volumes
     collection_management_processing_priority:
       high: High
