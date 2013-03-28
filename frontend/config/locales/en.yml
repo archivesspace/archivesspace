@@ -2335,6 +2335,7 @@ en:
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
     processing_hours_total: Total Processing Hours
+    processing_hours_total_short: Total hours
     processing_hours_total_tooltip: |
         <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent"</p>
     processing_plan: Processing Plan
