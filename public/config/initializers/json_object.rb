@@ -2,7 +2,6 @@ require "jsonmodel"
 require "memoryleak"
 
 if not ENV['DISABLE_STARTUP']
-
   JSONModel::init(:client_mode => true,
                 :priority => :high,
                 :url => AppConfig[:backend_url])
