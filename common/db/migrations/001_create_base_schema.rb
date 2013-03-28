@@ -26,6 +26,8 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
 
       String :name, :null => false, :unique => true
+      
+      Integer :default_value
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -38,6 +40,10 @@ Sequel.migration do
       Integer :enumeration_id, :null => false, :index => true
       String :value, :null => false, :index => true
     end
+
+    alter_table(:enumeration) do
+      add_foreign_key([:default_value], :enumeration_value, :key => :id)
+    end  
 
     alter_table(:enumeration_value) do
       add_foreign_key([:enumeration_id], :enumeration, :key => :id)

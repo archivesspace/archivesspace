@@ -51,7 +51,6 @@ class Enumeration < Sequel::Model(:enumeration)
       obj.add_enumeration_value(:value => value)
     end
 
-
     removed_values.each do |value|
       DB.attempt {
         EnumerationValue.filter(:enumeration_id => obj.id,
@@ -60,27 +59,53 @@ class Enumeration < Sequel::Model(:enumeration)
         raise ConflictException.new("Can't delete a value that's in use: #{value}")
       }
     end
+    
 
     broadcast_changes
 
     obj.refresh
+    
+    existing_default = obj.default_value.nil? ? nil : obj.default_value[:value]
+    
+    if opts[:default_value] != existing_default
+      if opts[:default_value]
+        new_default = EnumerationValue[:value => opts[:default_value]]
+        return obj if new_default.nil? #just move along if the default isn't in the values table
+        obj.default_value = new_default[:id]
+      else
+        obj.default_value = nil
+      end
+      
+      obj.save
+    end
+    
+    
     obj
   end
 
 
   def self.create_from_json(json, opts = {})
-    self.apply_values(super, json, opts)
+    default_value = json['default_value']
+    json['default_value'] = nil
+    
+    self.apply_values(super, json, opts.merge({:default_value => default_value}))
   end
 
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
-    self.class.apply_values(super, json, opts)
+    default_value = json['default_value']
+    json['default_value'] = nil
+    
+    self.class.apply_values(super, json, opts.merge({:default_value => default_value}))
   end
 
 
   def self.sequel_to_jsonmodel(obj, opts = {})
     json = super
     json['values'] = obj.enumeration_value.map {|val| val[:value]}
+    if obj.default_value
+      json['default_value'] = EnumerationValue[:id => obj.default_value][:value]
+    end
     json
   end
 
