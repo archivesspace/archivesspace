@@ -252,6 +252,10 @@ module JSONModel
   def self.enum_values(name)
     @@init_args[:enum_source].values_for(name)
   end
+  
+  def self.enum_default_value(name)
+    @@init_args[:enum_source].default_value_for(name)
+  end
 
 
   def self.client_mode?

@@ -11,6 +11,7 @@
     <tr>
       <th width="30%"><%= I18n.t("enumeration.value") %></th>
       <th><%= I18n.t("enumeration.translation") %></th>
+      <th>Default</th>
       <th width="70px"><!-- actions --></th>
     </tr>
     </thead>
@@ -20,7 +21,17 @@
           <td><%= enum_value %></td>
           <td><%= I18n.t("enumerations.#{@enumeration["name"]}.#{enum_value}", :default => enum_value) %></td>
           <td>
+            <% if enum_value == @enumeration['default_value'] %>
+              &#x2713;
+            <% end%>
+          </td>
+          <td>
             <div class="btn-group">
+              <% if enum_value != @enumeration['default_value'] %>
+                <%= link_to I18n.t("actions.set_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, :method => :post, :class=> "btn btn-mini" %>
+              <% else %>
+                <%= link_to I18n.t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-mini" %>
+              <% end%>
               <%= link_to I18n.t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-warning" %>
               <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-danger" %>
             </div>

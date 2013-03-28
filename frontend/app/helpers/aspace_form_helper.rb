@@ -483,7 +483,14 @@ module AspaceFormHelper
 
     def default_for(name)
       if jsonmodel_schema_definition(name)
-        jsonmodel_schema_definition(name)['default']
+        if jsonmodel_schema_definition(name).has_key?('dynamic_enum')
+          if jsonmodel_schema_definition(name)['default']
+            Rails.logger.warn("Superfluous default value at: JSONModel(:#{@jsonmodel.jsonmodel_type}).#{name} ")
+          end
+          JSONModel.enum_default_value(jsonmodel_schema_definition(name)['dynamic_enum'])
+        else
+          jsonmodel_schema_definition(name)['default']
+        end  
       else
         nil
       end

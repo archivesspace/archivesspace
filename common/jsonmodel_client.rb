@@ -409,8 +409,10 @@ module JSONModel
 
       def self.fetch_enumerations
         enumerations = {}
+        enumerations[:defaults] = {}
         JSONModel::JSONModel(:enumeration).all.each do |enumeration|
           enumerations[enumeration.name] = enumeration.values
+          enumerations[:defaults][enumeration.name] = enumeration.default_value
         end
 
         enumerations
@@ -429,6 +431,10 @@ module JSONModel
 
       def values_for(name)
         @enumerations.fetch(name)
+      end
+      
+      def default_value_for
+        @enumerations[:defaults].fetch(name)
       end
 
     end

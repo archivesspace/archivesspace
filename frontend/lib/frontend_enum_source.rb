@@ -18,5 +18,9 @@ class FrontendEnumSource
   def values_for(name)
     MemoryLeak::Resources.get(:enumerations).fetch(name)
   end
+  
+  def default_value_for(name)
+    MemoryLeak::Resources.get(:enumerations)[:defaults].fetch(name)
+  end
 
 end
