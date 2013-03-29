@@ -204,8 +204,8 @@ Sequel.migration do
       
       TextField :general_note
 
-      String :resource_type
-      String :acquisition_type
+      Integer :resource_type_id
+      Integer :acquisition_type_id
 
       DateTime :accession_date, :null => true
 
@@ -224,6 +224,8 @@ Sequel.migration do
     end
 
     alter_table(:accession) do
+      add_foreign_key([:resource_type_id], :enumeration_value, :key => :id)
+      add_foreign_key([:acquisition_type_id], :enumeration_value, :key => :id)
       add_foreign_key([:repo_id], :repository, :key => :id)
       add_unique_constraint([:repo_id, :identifier], :name => "accession_unique_identifier")
       add_index(:suppressed)
@@ -245,7 +247,7 @@ Sequel.migration do
       String :level, :null => false
       String :other_level
 
-      String :resource_type, :null => true
+      Integer :resource_type_id, :null => true
 
       Integer :publish
       Integer :restrictions
@@ -260,14 +262,14 @@ Sequel.migration do
       TextField :finding_aid_filing_title
       String :finding_aid_date
       String :finding_aid_author
-      String :finding_aid_description_rules
+      Integer :finding_aid_description_rules_id
       String :finding_aid_language
       String :finding_aid_sponsor
       TextField :finding_aid_edition_statement
       TextField :finding_aid_series_statement
       String :finding_aid_revision_date
       TextField :finding_aid_revision_description
-      String :finding_aid_status
+      Integer :finding_aid_status_id
       TextField :finding_aid_note
 
       BlobField :notes, :null => true
@@ -277,6 +279,9 @@ Sequel.migration do
     end
 
     alter_table(:resource) do
+      add_foreign_key([:resource_type_id], :enumeration_value, :key => :id)
+      add_foreign_key([:finding_aid_status_id], :enumeration_value, :key => :id)
+      add_foreign_key([:finding_aid_description_rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:repo_id], :repository, :key => :id)
       add_foreign_key([:accession_id], :accession, :key => :id)
       add_unique_constraint([:repo_id, :identifier], :name => "resource_unique_identifier")
@@ -334,8 +339,8 @@ Sequel.migration do
       Integer :repo_id, :null => false
       String :digital_object_id, :null => false
       TextField :title
-      String :level
-      String :digital_object_type
+      Integer :level_id
+      Integer :digital_object_type_id
       String :language
 
       Integer :publish
@@ -348,6 +353,8 @@ Sequel.migration do
     end
 
     alter_table(:digital_object) do
+      add_foreign_key([:level_id], :enumeration_value, :key => :id)
+      add_foreign_key([:digital_object_type_id], :enumeration_value, :key => :id)
       add_foreign_key([:repo_id], :repository, :key => :id)
       add_index([:repo_id, :digital_object_id], :unique => true)
     end
@@ -394,7 +401,7 @@ Sequel.migration do
       Integer :resource_id
       Integer :archival_object_id
 
-      String :instance_type, :null => false
+      Integer :instance_type_id, :null => false
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -403,6 +410,7 @@ Sequel.migration do
     alter_table(:instance) do
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:instance_type_id], :enumeration_value, :key => :id)
     end
 
     # Instance relationships
@@ -433,14 +441,14 @@ Sequel.migration do
 
       Integer :instance_id
 
-      String :type_1, :null => false
+      Integer :type_1_id, :null => false
       String :indicator_1, :null => false
       String :barcode_1
 
-      String :type_2
+      Integer :type_2_id
       String :indicator_2
 
-      String :type_3
+      Integer :type_3_id
       String :indicator_3
 
       DateTime :create_time, :null => false
@@ -448,6 +456,9 @@ Sequel.migration do
     end
 
     alter_table(:container) do
+      add_foreign_key([:type_3_id], :enumeration_value, :key => :id)
+      add_foreign_key([:type_2_id], :enumeration_value, :key => :id)
+      add_foreign_key([:type_1_id], :enumeration_value, :key => :id)
       add_foreign_key([:instance_id], :instance, :key => :id)
     end
 
@@ -479,13 +490,14 @@ Sequel.migration do
       String :terms_sha1, :unique => true
       String :ref_id, :unique => true
 
-      String :source, :null => true
+      Integer :source_id, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
     end
 
     alter_table(:subject) do
+      add_foreign_key([:source_id], :enumeration_value, :key => :id)
       add_foreign_key([:vocab_id], :vocabulary, :key => :id)
     end
 
@@ -577,7 +589,7 @@ Sequel.migration do
       def apply_name_columns
         String :authority_id, :null => true
         String :dates, :null => true
-        TextField :description_type, :null => true
+        Integer :description_type_id, :null => true
         TextField :description_note, :null => true
         TextField :description_citation, :null => true
         TextField :qualifier, :null => true
@@ -586,6 +598,7 @@ Sequel.migration do
         TextField :sort_name, :null => false
         Integer :sort_name_auto_generate
       end
+
     end
 
 
@@ -628,6 +641,7 @@ Sequel.migration do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
+      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -653,6 +667,7 @@ Sequel.migration do
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
+      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -680,6 +695,7 @@ Sequel.migration do
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
+      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -706,6 +722,7 @@ Sequel.migration do
       add_foreign_key([:agent_software_id], :agent_software, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
+      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -720,7 +737,7 @@ Sequel.migration do
       Integer :agent_software_id, :null => true
 
       TextField :name, :null => false
-      TextField :salutation, :null => true
+      Integer :salutation_id, :null => true
       TextField :address_1, :null => true
       TextField :address_2, :null => true
       TextField :address_3, :null => true
@@ -739,6 +756,7 @@ Sequel.migration do
     end
 
     alter_table(:agent_contact) do
+      add_foreign_key([:salutation_id], :enumeration_value, :key => :id)
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
@@ -788,7 +806,7 @@ Sequel.migration do
 
       String :portion, :null => false
       String :number, :null => false
-      String :extent_type, :null => false
+      Integer :extent_type_id, :null => false
 
       String :container_summary, :null => true
       String :physical_details, :null => true
@@ -803,6 +821,7 @@ Sequel.migration do
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:deaccession_id], :deaccession, :key => :id)
+      add_foreign_key([:extent_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -828,8 +847,8 @@ Sequel.migration do
       String :begin_time, :null => true
       String :end, :null => true
       String :end_time, :null => true
-      String :era, :null => true
-      String :calendar, :null => true
+      Integer :era_id, :null => true
+      Integer :calendar_id, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -844,8 +863,8 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
 
-      String :event_type, :null => false
-      String :outcome, :null => true
+      Integer :event_type_id, :null => false
+      Integer :outcome_id, :null => true
       String :outcome_note, :null => true
 
       DateTime :create_time, :null => false
@@ -855,10 +874,14 @@ Sequel.migration do
     alter_table(:event) do
       add_index(:suppressed)
       add_foreign_key([:repo_id], :repository, :key => :id)
+      add_foreign_key([:event_type_id], :enumeration_value, :key => :id)
+      add_foreign_key([:outcome_id], :enumeration_value, :key => :id)
     end
 
 
     alter_table(:date) do
+      add_foreign_key([:era_id], :enumeration_value, :key => :id)
+      add_foreign_key([:calendar_id], :enumeration_value, :key => :id)
       add_foreign_key([:accession_id], :accession, :key => :id)
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
       add_foreign_key([:resource_id], :resource, :key => :id)
@@ -1004,11 +1027,11 @@ Sequel.migration do
       TextField :cataloged_note, :null => true
       String :processing_hours_per_foot_estimate, :null => true
       String :processing_total_extent, :null => true
-      String :processing_total_extent_type, :null => true
+      Integer :processing_total_extent_type_id, :null => true
       String :processing_hours_total, :null => true
       TextField :processing_plan, :null => true
-      String :processing_priority, :null => true
-      String :processing_status, :null => true
+      Integer :processing_priority_id, :null => true
+      Integer :processing_status_id, :null => true
       TextField :processors, :null => true
       Integer :rights_determined, :default => 0, :null => false
 
@@ -1016,6 +1039,12 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
+    alter_table(:collection_management) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+      add_foreign_key([:processing_total_extent_type_id], :enumeration_value, :key => :id)
+      add_foreign_key([:processing_status_id], :enumeration_value, :key => :id)
+      add_foreign_key([:processing_priority_id], :enumeration_value, :key => :id)
+    end
 
 
     create_table(:file_version) do
@@ -1031,7 +1060,6 @@ Sequel.migration do
 
       String :file_uri, :null => false
       Integer :publish
-      String :use_statement
       String :xlink_actuate_attribute
       String :xlink_show_attribute
       String :file_format_name
@@ -1045,6 +1073,7 @@ Sequel.migration do
     end
 
     alter_table(:file_version) do
+      add_foreign_key([:use_statement_id], :enumeration_value, :key => :id)
       add_foreign_key([:digital_object_id], :digital_object, :key => :id)
       add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
       add_foreign_key([:use_statement_id], :enumeration_value, :key => :id)

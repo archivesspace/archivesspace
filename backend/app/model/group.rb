@@ -1,8 +1,9 @@
 class Group < Sequel::Model(:group)
   include ASModel
+  corresponds_to JSONModel(:group)
+
 
   set_model_scope :repository
-  corresponds_to JSONModel(:group)
 
   many_to_many :user, :join_table => :group_user
   many_to_many :permission, :join_table => :group_permission

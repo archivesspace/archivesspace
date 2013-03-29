@@ -4,12 +4,13 @@ require_relative 'auto_generator'
 
 class Subject < Sequel::Model(:subject)
   include ASModel
+  corresponds_to JSONModel(:subject)
+
   include ExternalDocuments
   include ExternalIDs
   include AutoGenerator
 
   set_model_scope :global
-  corresponds_to JSONModel(:subject)
 
   many_to_many :term, :join_table => :subject_term, :order => :subject_term__id
 

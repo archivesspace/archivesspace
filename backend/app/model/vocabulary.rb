@@ -1,8 +1,8 @@
 class Vocabulary < Sequel::Model(:vocabulary)
   include ASModel
+  corresponds_to JSONModel(:vocabulary)
 
   set_model_scope :global
-  corresponds_to JSONModel(:vocabulary)
 
   one_to_many :subject
   one_to_many :term, :key => :vocab_id

@@ -2,10 +2,11 @@ require_relative 'relationships'
 
 class Container < Sequel::Model(:container)
   include ASModel
+  corresponds_to JSONModel(:container)
+
   include Relationships
 
   set_model_scope :global
-  corresponds_to JSONModel(:container)
 
   define_relationship(:name => :housed_at,
                       :json_property => 'container_locations',

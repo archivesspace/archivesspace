@@ -3,13 +3,14 @@ require_relative 'relationships'
 class Event < Sequel::Model(:event)
 
   include ASModel
+  corresponds_to JSONModel(:event)
+
   include Relationships
   include Agents
 
   agent_role_enum("linked_agent_event_roles")
 
   set_model_scope :repository
-  corresponds_to JSONModel(:event)
 
   enable_suppression
 
