@@ -27,17 +27,14 @@ module Agents
 
 
     def initialize_enum(clz)
-      if !@agent_role_enum
-        raise "You haven't called agent_role_enum to set the list of possible values for this agent's role (#{self.inspect})"
-      end
-
       role_enum = @agent_role_enum
       relator_enum = @agent_relator_enum
 
       clz.instance_eval do
         include DynamicEnums
 
-        enums = [{:property => 'role', :uses_enum => role_enum}]
+        enums = []
+        enums << {:property => 'role', :uses_enum => role_enum} if role_enum
         enums << {:property => 'relator', :uses_enum => relator_enum} if relator_enum
 
         uses_enums(*enums)

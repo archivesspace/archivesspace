@@ -13,7 +13,6 @@ class Accession < Sequel::Model(:accession)
   include Relationships
   include ExternalIDs
 
-  agent_role_enum("linked_agent_archival_record_roles")
   agent_relator_enum("linked_agent_archival_record_relators")
 
   enable_suppression
