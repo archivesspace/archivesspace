@@ -1,6 +1,7 @@
 require_relative 'spec_helper'
 require_relative '../../indexer/app/lib/periodic_indexer'
 
+
 describe "ArchivesSpace user interface" do
 
   # Start the dev servers and Selenium
@@ -504,7 +505,8 @@ describe "ArchivesSpace user interface" do
     it "displays the agent in the agent's index page" do
       @indexer.run_index_round
 
-      $driver.find_element(:link, 'Agents').click
+      $driver.get(URI.join($frontend, "/agents?&sort=create_time+desc"))
+
       expect {
         $driver.find_element_with_text('//td', /My Custom Sort Name/)
       }.to_not raise_error
