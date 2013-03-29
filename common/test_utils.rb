@@ -23,7 +23,7 @@ module TestUtils
 
 
   def self.wait_for_url(url)
-    while true
+    100.times do
       begin
         uri = URI(url)
         req = Net::HTTP::Get.new(uri.request_uri)
