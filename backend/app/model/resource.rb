@@ -2,6 +2,8 @@ require_relative 'notes'
 
 class Resource < Sequel::Model(:resource)
   include ASModel
+  corresponds_to JSONModel(:resource)
+
   include Identifiers
   include Subjects
   include Extents
@@ -21,7 +23,6 @@ class Resource < Sequel::Model(:resource)
 
   tree_of(:resource, :archival_object)
   set_model_scope :repository
-  corresponds_to JSONModel(:resource)
 
   define_relationship(:name => :spawned,
                       :json_property => 'related_accessions',

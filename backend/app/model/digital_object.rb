@@ -2,6 +2,8 @@ require_relative 'notes'
 
 class DigitalObject < Sequel::Model(:digital_object)
   include ASModel
+  corresponds_to JSONModel(:digital_object)
+
   include Subjects
   include Extents
   include Dates
@@ -18,7 +20,6 @@ class DigitalObject < Sequel::Model(:digital_object)
 
   tree_of(:digital_object, :digital_object_component)
   set_model_scope :repository
-  corresponds_to JSONModel(:digital_object)
 
   define_relationship(:name => :link,
                       :json_property => 'linked_instances',

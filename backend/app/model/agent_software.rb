@@ -6,12 +6,13 @@ require_relative 'notes'
 class AgentSoftware < Sequel::Model(:agent_software)
 
   include ASModel
+  corresponds_to JSONModel(:agent_software)
+
   include ExternalDocuments
   include AgentManager::Mixin
   include RecordableCataloging
   include Notes
 
-  corresponds_to JSONModel(:agent_software)
 
   register_agent_type(:jsonmodel => :agent_software,
                       :name_type => :name_software,

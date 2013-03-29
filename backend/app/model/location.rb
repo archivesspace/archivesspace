@@ -2,11 +2,12 @@ require_relative 'auto_generator'
 
 class Location < Sequel::Model(:location)
   include ASModel
+  corresponds_to JSONModel(:location)
+
   include ExternalIDs
   include AutoGenerator
 
   set_model_scope :repository
-  corresponds_to JSONModel(:location)
 
   auto_generate :property => :title,
                 :generator => proc  { |json|

@@ -1,9 +1,8 @@
 class Term < Sequel::Model(:term)
   include ASModel
-
-  set_model_scope :global
   corresponds_to JSONModel(:term)
 
+  set_model_scope :global
 
   def validate
     super

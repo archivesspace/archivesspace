@@ -48,20 +48,24 @@ describe 'Events controller' do
 
 
   it "can update an event" do
+    $debug = true
     e = create(:json_event, @event_opts)
 
     new_type = generate(:event_type)
     new_begin_date = generate(:yyyy_mm_dd)
 
     event = JSONModel(:event).find(e.id)
+
     event['event_type'] = new_type
     event['date']['begin'] = new_begin_date
     event['date']['end'] = new_begin_date
+
     event.save
 
     event = JSONModel(:event).find(e.id)
     event['event_type'].should eq(new_type)
     event['date']['begin'].should eq(new_begin_date)
+    $debug = false
   end
 
 

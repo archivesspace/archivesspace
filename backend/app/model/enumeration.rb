@@ -1,9 +1,9 @@
 class Enumeration < Sequel::Model(:enumeration)
 
   include ASModel
+  corresponds_to JSONModel(:enumeration)
 
   set_model_scope :global
-  corresponds_to JSONModel(:enumeration)
 
   one_to_many :enumeration_value
 

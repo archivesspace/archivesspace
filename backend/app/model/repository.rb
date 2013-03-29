@@ -4,7 +4,6 @@ class Repository < Sequel::Model(:repository)
   set_model_scope :global
   corresponds_to JSONModel(:repository)
 
-
   def validate
     super
     validates_unique(:repo_code, :message => "short name already in use")

@@ -1,22 +1,19 @@
 class User < Sequel::Model(:user)
   include ASModel
-  
-  set_model_scope :global
   corresponds_to JSONModel(:user)
+
+  set_model_scope :global
 
   @@unlisted_user_ids = nil
 
 
   def self.create_from_json(json, opts = {})
-   
     # These users are part of the software
     if json.username == self.SEARCH_USERNAME || json.username == self.PUBLIC_USERNAME
 
-      opts['agent_record_type'] = :agent_software     
+      opts['agent_record_type'] = :agent_software
       opts['agent_record_id'] = 1
-      
     else
-     
       agent = JSONModel(:agent_person).from_hash(
                 :names => [{
                   :primary_name => json.name,
@@ -25,19 +22,17 @@ class User < Sequel::Model(:user)
                   :name_order => 'direct',
                   :sort_name_auto_generate => true
               }])
-            
       agent_obj = AgentPerson.create_from_json(agent, :system_generated => true)
-    
+
       opts['agent_record_type'] = :agent_person
       opts['agent_record_id'] = agent_obj.id
-
     end
-    
+
     obj = super(json, opts)
-    
+
     obj
   end
- 
+
   def sequel_to_jsonmodel(obj, opts = {})
     json = super
 
@@ -47,8 +42,8 @@ class User < Sequel::Model(:user)
 
     json
   end
-  
-  
+
+
   def self.ADMIN_USERNAME
     "admin"
   end
@@ -63,7 +58,7 @@ class User < Sequel::Model(:user)
     AppConfig[:public_username]
   end
 
-  
+
   def self.unlisted_user_ids
     @@unlisted_user_ids if not @@unlisted_user_ids.nil?
 
@@ -71,7 +66,7 @@ class User < Sequel::Model(:user)
 
     @@unlisted_user_ids
   end
-  
+
 
   def before_save
     super
@@ -110,7 +105,7 @@ class User < Sequel::Model(:user)
                                  :permission_id => permission.id,
                                  :repo_id => [self.class.active_repository, global_repo.id].reject(&:nil?)).
                           count) >= 1)
-  end 
+  end
 
 
   def permissions

@@ -1,9 +1,10 @@
 class Instance < Sequel::Model(:instance)
   include ASModel
+  corresponds_to JSONModel(:instance)
+
   include Relationships
 
   set_model_scope :global
-  corresponds_to JSONModel(:instance)
 
   one_to_many :container
 

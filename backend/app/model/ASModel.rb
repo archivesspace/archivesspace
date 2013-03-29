@@ -1,6 +1,5 @@
 require_relative '../lib/realtime_indexing'
 
-
 module ASModel
   include JSONModel
 
@@ -361,6 +360,17 @@ module ASModel
 
       def corresponds_to(jsonmodel)
         @jsonmodel = jsonmodel
+
+        include(DynamicEnums)
+
+        enums = []
+        @jsonmodel.schema['properties'].each do |prop, defn|
+          if defn["dynamic_enum"]
+            enums << {:property => prop, :uses_enum => defn['dynamic_enum']}
+          end
+        end
+
+        uses_enums(*enums)
       end
 
 
@@ -623,3 +633,6 @@ module ASModel
   end
 
 end
+
+
+require_relative 'dynamic_enums'
