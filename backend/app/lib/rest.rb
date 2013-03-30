@@ -274,6 +274,13 @@ module RESTHelpers
         if type == Integer
           Integer(value)
         elsif type.respond_to? :from_json
+
+          # Allow the request to specify how the incoming JSON is encoded, but
+          # convert to UTF-8 for processing
+          if request.content_charset
+            value = value.force_encoding(request.content_charset).encode("UTF-8")
+          end
+
           type.from_json(value)
         elsif type.is_a? Array
           if value.is_a? Array
