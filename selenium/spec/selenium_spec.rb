@@ -1276,7 +1276,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
 
-      $driver.click_and_wait_until_gone(:link, 'Edit')
+      $driver.find_element_with_text('//tr', /#{resource_title}/).find_element(:link, 'Edit').click
 
       $driver.find_element(:css => '#resource_extents_ .subrecord-form-heading .btn').click
 
