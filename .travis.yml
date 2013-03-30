@@ -36,7 +36,7 @@ script:
   - WITH_NODEJS=1 build/run dist
 
 after_failure:
-  - /bin/bash -c "curl -H 'Content-Type: application/octet-stream' --data-binary '@/var/tmp/aspace-integration.log' 'http://aspace.hudmol.com/cgi-bin/store.cgi'"
+  - build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
 
 notifications:
   irc: "irc.freenode.org#archivesspace"
