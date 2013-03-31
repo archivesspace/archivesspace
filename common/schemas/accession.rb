@@ -104,7 +104,7 @@
           "properties" => {
             "role" => {
               "type" => "string",
-              "dynamic_enum" => "linked_agent_archival_record_roles",
+              "enum" => ['creator', 'source', 'subject'],
               "ifmissing" => "error"
             },
 

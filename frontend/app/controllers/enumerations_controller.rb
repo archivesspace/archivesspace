@@ -1,6 +1,6 @@
 class EnumerationsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:new, :create, :index, :delete, :destroy, :merge]
-  before_filter(:only => [:new, :create, :index, :delete, :destroy, :merge]) {|c| user_must_have("manage_repository")}
+  skip_before_filter :unauthorised_access, :only => [:new, :create, :index, :delete, :destroy, :merge, :set_default]
+  before_filter(:only => [:new, :create, :index, :delete, :destroy, :merge, :set_default]) {|c| user_must_have("manage_repository")}
 
   def new
     @enumeration = JSONModel(:enumeration).find(params[:id])
@@ -25,6 +25,21 @@ class EnumerationsController < ApplicationController
       render :partial => "delete"
     end
   end
+  
+  def set_default
+    @enumeration = JSONModel(:enumeration).find(params[:id])
+
+    begin
+      @enumeration['default_value'] = params[:value]
+      @enumeration.save      
+      flash[:success] = I18n.t("enumeration._html.messages.default_set")
+    rescue
+      flash.now[:error] = I18n.t("enumeration._html.messages.default_set_error")
+    end
+    
+    redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
+
+  end  
 
 
   def destroy

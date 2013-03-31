@@ -26,6 +26,8 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
 
       String :name, :null => false, :unique => true
+      
+      Integer :default_value
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -38,6 +40,7 @@ Sequel.migration do
       Integer :enumeration_id, :null => false, :index => true
       String :value, :null => false, :index => true
     end
+ 
 
     alter_table(:enumeration_value) do
       add_foreign_key([:enumeration_id], :enumeration, :key => :id)
@@ -1097,10 +1100,6 @@ Sequel.migration do
     end
 
 
-    create_enum('linked_agent_archival_record_roles',
-                ['creator', 'source', 'subject'])
-
-
     create_enum('linked_agent_archival_record_relators',
                 ['act', 'adp', 'anl', 'anm', 'ann', 'app', 'arc', 'arr', 'acp',
                  'art', 'ard', 'asg', 'asn', 'att', 'auc', 'aut', 'aqt', 'aft',
@@ -1160,7 +1159,7 @@ Sequel.migration do
 
     create_enum('digital_object_level', ["collection", "work", "image"])
 
-    create_enum('extent_extent_type', ["cassettes", "cubic_feet", "leaves", "linear_feet", "photographic_prints", "photographic_slides", "reels", "sheets", "volumes"])
+    create_enum('extent_extent_type', ["cassettes", "cubic_feet", "files", "gigabytes", "leaves", "linear_feet", "megabytes", "photographic_prints", "photographic_slides", "reels", "sheets", "terabytes", "volumes"])
 
     create_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "acknowledgement_sent", "agreement_signed", "agreement_received", "agreement_sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "copyright_transfer", "custody_transfer", "deaccession", "decompression", "decryption", "deletion", "digital_signature_validation", "fixity_check", "ingestion", "message_digest_calculation", "migration", "normalization", "processing", "publication", "replication", "resource_merge", "resource_component_transfer", "validation", "virus_check"])
 
@@ -1210,9 +1209,32 @@ Sequel.migration do
                 ["md5", "sha-1", "sha-256", "sha-384", "sha-512"])
 
 
-    # Relationship tables
-    [:accession, :archival_object, :digital_object, :digital_object_component, :event, :resource].each do |record|
-      [:agent_person, :agent_software, :agent_family, :agent_corporate_entity].each do |agent|
+    [:agent_person, :agent_software, :agent_family, :agent_corporate_entity].each do |agent|
+      # Relationship tables - static role types
+      [:accession, :archival_object, :digital_object, :digital_object_component, :resource].each do |record|
+
+        table = [MigrationUtils.shorten_table(record),
+                 MigrationUtils.shorten_table(agent)].sort.join("_linked_agents_").intern
+
+        create_table(table) do
+          primary_key :id
+          Integer "#{record}_id".intern
+          Integer "#{agent}_id".intern
+          Integer :aspace_relationship_position
+          DateTime :last_modified, :null => false
+          String :role
+          Integer :relator_id
+        end
+
+        alter_table(table) do
+          add_foreign_key(["#{record}_id".intern], record, :key => :id)
+          add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
+          add_foreign_key([:relator_id], :enumeration_value, :key => :id)
+        end
+      end
+      # Relationship tables - dynamic role types
+      [:event].each do |record|
+
         table = [MigrationUtils.shorten_table(record),
                  MigrationUtils.shorten_table(agent)].sort.join("_linked_agents_").intern
 
@@ -1234,6 +1256,8 @@ Sequel.migration do
         end
       end
     end
+
+    
 
     # Event relationships
     [:accession, :resource, :archival_object, :digital_object, :agent_person, :agent_family, :agent_corporate_entity, :agent_software].each do |record|
