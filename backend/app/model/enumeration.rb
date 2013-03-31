@@ -40,6 +40,7 @@ class Enumeration < Sequel::Model(:enumeration)
   end
 
 
+  # Update the allowable values of the current enumeration.
   def self.apply_values(obj, json, opts = {})
     incoming_values = Array(json['values'])
     existing_values = obj.enumeration_value.map {|val| val[:value]}
