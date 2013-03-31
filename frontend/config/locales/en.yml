@@ -1019,6 +1019,10 @@ en:
       plural: Record Links
   linked_agent: &linked_agent_attributes
     role: Role
+    role_creator: Creator
+    role_source: Source
+    role_subject: Subject
+
     role_tooltip: |
         <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p>
     relator: Relator

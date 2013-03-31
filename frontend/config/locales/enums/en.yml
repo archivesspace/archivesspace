@@ -1,9 +1,5 @@
 en:
   enumerations:
-    linked_agent_archival_record_roles:
-      creator: Creator
-      subject: Subject
-      source: Source
     linked_event_archival_record_roles:
       source: Source
       outcome: Outcome
