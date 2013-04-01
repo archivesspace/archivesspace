@@ -28,9 +28,12 @@ class PDFResponse
       builder = javax.xml.parsers.DocumentBuilderFactory.new_instance.new_document_builder
       builder.parse(java.io.ByteArrayInputStream.new(html.to_java_bytes))
     rescue NativeException => e
+      puts "Exception generating DOM for PDF: #{e.inspect}"
       java_e = e.cause
       if java_e.is_a?(org.xml.sax.SAXParseException)
-        context = provide_context(html, java_e.line_number)
+        puts "-- java_e: #{java_e.inspect}"
+        puts "-- line: #{java_e.line_number}"
+        puts "-- html: #{html.inspect}"
       end
       raise e
     end
