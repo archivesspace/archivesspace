@@ -24,7 +24,11 @@ ASpaceImport::Importer.importer :csv do
   
   def run
     
+    i = 0
+    
     CSV.foreach(@src) do |row|
+      
+      i = i+1
       
       if @headers.empty?
         @headers = row
@@ -34,7 +38,7 @@ ASpaceImport::Importer.importer :csv do
           raise CSVSyntaxException.new(:bad_headers, bad_headers)
         end
       else
-        parse_row(row)
+        parse_row(row) #unless i > 2
       end
     end
 
@@ -58,41 +62,44 @@ ASpaceImport::Importer.importer :csv do
 
   
   def parse_cell(header, val)
-
-    # Hacks to make things work for now
-    val = @swap[header][val] if @swap.has_key? header and @swap[header].has_key? val
-    val.sub!(/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/, '\2/\1/\3}') if header == 'accession_accession_date'    
     
     val = nil if val == 'NULL'
-    with_receivers_for header do |r|
-      r << val
-    end
-  end
-  
-  def with_receivers_for(header)
+
+    ASpaceImport.logger.debug("PARSING HEADER: #{header} VALUE: #{val}")
+    # TODO - generalize this
+    val.sub!(/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/, '\2/\1/\3}') if ['accession_accession_date', 'accession_cataloged_date'].include?(header) && val
     
-    ASpaceImport::Crosswalk.entries.each do |key, xdef|
-      next unless xdef && xdef.has_key?('properties') && !xdef['properties'].nil?
-      # rec_type = xdef.has_key?('record_type') ? xdef['record_type'] : entry
-      if (prop_def = xdef['properties'].find {|p| p[1].has_key?('header') && p[1]['header'] == header})
+    if ASpaceImport::Crosswalk.headers.has_key?(header)
 
-        prop_name = prop_def.first
-
-        json = get_queued_or_new(key)
-        yield json.receivers.by_name(prop_name)        
+      path = ASpaceImport::Crosswalk.headers[header].scan(/[^.]+/)
+      
+      json = get_queued_or_new(path.slice!(0))
+              
+      while path.length > 1
+        subjson = get_new(path.slice!(0))
+        json.receivers.for_obj(subjson) { |r| r.whitelist(subjson) } # this could be terser
+      end 
+      
+      @parse_queue.selected.receivers.by_name(path.last) do |r|
+        r << val
       end
     end 
   end
 
+  def get_new(key)
+    ASpaceImport.logger.debug "CALLING MODEL BY KEY #{key}"
+    @parse_queue.push(ASpaceImport::Crosswalk.models[key].new)
+
+    @parse_queue.selected
+  end
 
   def get_queued_or_new(key)
     if (json = @parse_queue.find {|j| j.class.model_key == key })  
-      
-      json
+      ASpaceImport.logger.debug("Got #{json.to_s}")
+      @parse_queue.select(json)
+      @parse_queue.selected
     else
-      @parse_queue.push(ASpaceImport::Crosswalk.models[key].new)
-
-      @parse_queue.last
+      get_new(key)
     end
   end
   

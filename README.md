@@ -1,3 +1,7 @@
+ArchivesSpace README
+--------------------
+<http://archivesspace.org>
+
 # Getting started
 
 The quickest way to get ArchivesSpace up and running is to download
@@ -53,7 +57,23 @@ changing things like the ports it listens on and where it puts its data.
 
 The ArchivesSpace distribution runs against an embedded database by
 default, but it's a good idea to run against MySQL for production
-use.  To do this, create an empty database in MySQL and grant access
+use.
+
+## Download MySQL Connector
+
+ArchivesSpace requires the
+[MySQL Connector for Java](http://dev.mysql.com/downloads/connector/j/),
+which must be downloaded separately because of its licensing agreement.
+Download the Connector and place it in a location where ArchivesSpace can
+find it on its classpath:
+
+         $ curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar
+
+         $ mv mysql-connector-java-5.1.24.jar lib
+
+## Set up MySQL database
+
+Next, create an empty database in MySQL and grant access
 to a dedicated ArchivesSpace user (this example uses username `as` and
 password `as123`):
 
@@ -74,6 +94,8 @@ There is a database setup script that will create all the tables that
 ArchivesSpace requires.  Run this with:
 
     scripts/setup-database.sh  # or setup-database.bat under Windows
+
+## Start ArchivesSpace
 
 Once your database is configured, start the application using
 `archivesspace.sh` (or `archivesspace.bat` under Windows).
@@ -145,4 +167,15 @@ appropriate and specify the `encryption` option:
 
 # Further documentation
 
-Latest documentation is published at [http://hudmol.github.com/archivesspace/](http://hudmol.github.com/archivesspace/)
+Additional deployment documentation can be found on the ArchivesSpace
+wiki at [https://github.com/archivesspace/archivesspace/wiki](https://github.com/archivesspace/archivesspace/wiki).
+
+The latest technical documentation, including API documentation and
+architecture notes, is published at
+[http://hudmol.github.com/archivesspace/](http://hudmol.github.com/archivesspace/).
+
+# License
+
+ArchivesSpace is released under the [Educational Community License,
+version 2.0](http://opensource.org/licenses/ecl2.php). See the
+[COPYING](COPYING) file for more information.

@@ -4,7 +4,6 @@ class Repository < Sequel::Model(:repository)
   set_model_scope :global
   corresponds_to JSONModel(:repository)
 
-
   def validate
     super
     validates_unique(:repo_code, :message => "short name already in use")
@@ -65,7 +64,7 @@ class Repository < Sequel::Model(:repository)
       end
     end
 
-    Webhooks.notify("REPOSITORY_CHANGED")
+    Notifications.notify("REPOSITORY_CHANGED")
   end
 
 end

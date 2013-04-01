@@ -4,12 +4,13 @@ require_relative 'auto_generator'
 
 class Subject < Sequel::Model(:subject)
   include ASModel
+  corresponds_to JSONModel(:subject)
+
   include ExternalDocuments
   include ExternalIDs
   include AutoGenerator
 
   set_model_scope :global
-  corresponds_to JSONModel(:subject)
 
   many_to_many :term, :join_table => :subject_term, :order => :subject_term__id
 
@@ -57,7 +58,7 @@ class Subject < Sequel::Model(:subject)
   end
 
 
-  def update_from_json(json, opts = {})
+  def update_from_json(json, opts = {}, apply_linked_records = true)
     self.class.set_vocabulary(json, opts)
     obj = super
 

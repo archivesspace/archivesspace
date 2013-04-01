@@ -27,9 +27,11 @@ en:
     save_plus_one: "+1"
     save_anyway: Save Anyway
     select: Select
+    set_default: Set as Default
     suppress: Suppress
     suppress_confirm_title: Suppress this Record?
     suppress_confirm_message: While a suppressed record will remain in the database, it will become hidden to most users and unavailable to most functions.
+    unset_default: Unset Default
     unsuppress: Unsuppress
     unsuppress_confirm_title: Unsuppress this Record?
     unsuppress_confirm_message: false
@@ -40,7 +42,7 @@ en:
     export_ead: Download EAD
     export_mods: Download MODS
     export_mets: Download METS
-    export_marc: Download MARC-21
+    export_marc: Download MARCXML
     export_dc: Download DC
     loading: Loading...
     revert: Revert Changes
@@ -77,13 +79,16 @@ en:
     login_success: Login Successful. Redirecting...
     register: Register now
     register_prefix: Need an account?
+    list_reports: Reports
   welcome:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
   breadcrumb:
     home: Home
   content_items:
-    content: Text
+    content: Content
+    content_tooltip: |
+        <p>The content of the note.</p>
   pagination:
     first: First
     last: Last
@@ -116,6 +121,11 @@ en:
       primary_type: Record Type
       accession_date_year: Accession Date
       creators: Creator
+      source: Source
+      rules: Rules
+      parent_type: Record Type
+      processing_priority: Priority
+      processing_status: Status
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
@@ -124,7 +134,13 @@ en:
     title_sort: Title
     last_modified: Modified
     primary_type: Record Type
+    processing_priority: Priority
+    processing_status: Status
+    parent_id: Record Type
     create_time: Created
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
   save_changes_modal:
     body: You have some outstanding changes.  Please save or dismiss these changes to continue.
     save: Save Changes
@@ -891,16 +907,40 @@ en:
     language_zun: Zuni
     language_zxx: No linguistic content; Not applicable
     language_zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
-  digital_object:
+  digital_object: &digital_object_attributes
     title: Title
+    title_tooltip: |
+        <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
+        <p>The title of the digital object as a whole may be the same as that of the resource or resource component record to which the digital object record is linked. However, it can be different than that expressed in the linked resource record.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Stanley Elkins, grandfather <em>(linked to a resource component record having the title "Family portraits")</em></li>
+        <li>Letter to New Atlantic <em>(linked to a resource component record having the title "Letter to New Atlantic")</em></li>
+        <li>Cedar Fire <em>(linked to a resource component record having the title "Cedar Fire")</em></li>
+        </ul>
     title_default: New Digital Object
     digital_object_id: Identifier
+    digital_object_id_tooltip: |
+        <p>A unique identifier for the digital object as a whole. May be an ARK, HANDLE, a URI, or any string that uniquely identifies the digital object. The field needs to be completed for a valid METS record to be exported.</p>
+        <p>Examples</p>
+        <ul>
+        <li>http://hdl.handle.net/1813/13524</li>
+        </ul>
     publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Digital Object or Component will be published to public (patron) interfaces.</p>
     level: Level
+    level_tooltip: |
+        <p>Primarily for use in multi-level VRA compliant records in order to indicate description is about a collection, a work, or an image.</p>
     digital_object_type: Type
+    digital_object_type_tooltip: |
+        <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
     language: Language
+    language_tooltip: <p>The language for the digital content.</p>
     <<: *language_attributes
     restrictions: Restrictions?
+    restrictions_tooltip: |
+        <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
     _html:
       singular: Digital Object
       plural: Digital Objects
@@ -910,13 +950,21 @@ en:
       section:
         basic_information: Basic Information
   digital_object_component:
+    <<: *digital_object_attributes
     label: Label
-    title: Title
+    label_tooltip: |
+        <p>A term used to describe the part and its position within the Digital Object being described. More often used for the component parts of the Digital Object than the top-level Digital Object record.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Audio: Tape 1, Track 1, Section 1, etc.</li>
+        <li>Image: Image 1, Picture 1, etc.</li>
+        <li>Text: Page 1, Leaf 1, First leaf, Chapter 1, Section 1, etc.</li>
+        <li>Video:  Tape 1, Part 1, Section 1, etc.</li>
+        </ul>
     title_default: New Digital Object Component
     component_id: Identifier
-    publish: Publish
-    language: Language
-    <<: *language_attributes
+    component_id_tooltip: |
+        <p>A unique identifier for the Digital Object Component.</p>
     _html:
       singular: Digital Object Component
       plural: Digital Object Components
@@ -980,8 +1028,21 @@ en:
       plural: Record Links
   linked_agent: &linked_agent_attributes
     role: Role
+    role_creator: Creator
+    role_source: Source
+    role_subject: Subject
+
+    role_tooltip: |
+        <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p>
     relator: Relator
+    relator_tooltip: |
+        <p>An indication of what role the name has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, a name may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
+        <p>See MARC Code List for Relators.</p>
     ref: Agent
+    # ref_tooltip is not displaying
+    ref_tooltip: |
+        <p>The Agent related to the material described in the record.</p>
+        <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p> 
     _html:
       singular: Agent Link
       plural: Agent Links
@@ -999,9 +1060,21 @@ en:
     <<: *linked_agent_attributes
   event:
     event_type: Type
+    event_type_toolkit: |
+        <p>A categorization of the nature of the event.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>See PREMIS eventType</p>
     outcome: Outcome
+    outcome_tooltip: |
+        <p>A categorization of the overall result of the event in terms of success, partial success, or failure. Recommended practice is to use a controlled vocabulary that a system can act upon automatically. More detail about the outcome may be recorded in an Outcome Note. Recommended practice is to define events with sufficient granularity that each event has a single outcome.</p>
+        <p>Values in this Enumeration may be modified.</p>
     outcome_note: Outcome Note
+    outcome_note_tooltip: |
+        <p>A detailed description of the result or product of the event. This may be used to record all error and warning messages issued by a program involved in the event or to record a pointer to an error log.</p>
     date: Event Date
+    date_tooltip: |
+        <p>The single date and time, or date and time range, at or during which the event occurred.</p>
+        <p>If the single date/time or start or end date/time is unknown, enter "unknown" in the Date Expression field.</p>
     types:      
       accession: Accession
       accumulation: Accumulation
@@ -1034,7 +1107,7 @@ en:
       replication: Replication
       resource_merge: Resource Merge
       resource_component_transfer: Resource Component Transfer
-      validation: Valudation
+      validation: Validation
       virus_check: Virus Check
     _html:
       singular: Event
@@ -1045,34 +1118,141 @@ en:
       section:
         basic_information: Basic Information
   deaccession:
-    scope: Scope
+    scope: Portion
+    scope_tooltip: |
+        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
     scope_whole: Whole
     scope_part: Part
     description: Description
+    description_tooltip: |
+        <p>REQUIRED FIELD: Description of the materials that have been deaccessioned.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Periodicals, newspaper clippings, and family financial records.</li>
+        <li>Trophies awarded at dog shows.</li>
+        </ul>
     reason: Reason
+    reason_tooltip: |
+        <p>The reason for deaccessioning the materials described.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Donor did not intend to transfer these materials.</li>
+        </ul>
     disposition: Disposition
+    disposition_tooltip: |
+        <p>A description indicating what was done with the deaccessioned materials.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Financial records returned to the family.</li>
+        <li>Dog show trophies returned to the donor's wife.</li>
+        </ul>
     notification: Notification Given?
+    notification_tooltip: |
+        <p>A checkbox indicating that notification of the deaccession was given.</p>
     dates: Deaccession Date
     _html:
       plural: Deaccessions
       singular: Deaccession
   agent_name: &agent_name_attributes
     authority_id: Authority ID
+    authority_id_tooltip: |
+        <p>The unique identifier for the record within the source from which it was acquired, (i.e., a MADS record identifier or EAC record identifier). The identifier may be represented as a URI.</p>
+        <p>See DACS 13.2</p>
+        <p>Examples:</p>
+        <ul>
+        <li>nr92045078 <em>for a LCNAF name heading</em></li>
+        <li>500115393 <em>for a ULAN name heading</em></li>
+        <li>http://viaf.org/viaf/134138653 <em>for a VIAF name heading</em>
+        </ul>
     source: Source
+    source_tooltip: |
+        <p>REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
+        <p>Values in this Enumeration may be modified.</p>
     rules: Rules
+    rules_tooltip: |
+        <p>REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
+        <p>Values in this Enumeration may be modified.</p>
     name_order: Name Order
+    name_order_tooltip: |
+        <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
     name_order_direct: Direct
     name_order_inverted: Inverted
     prefix: Prefix
+    prefix_tooltip: |
+        <p>Any term associated with a name that in normative use would precede the entire name.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Mrs.</li>
+        </ul>
     title: Title
+    title_tooltip: |
+        <p>A title that is part of the name.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Sir <em>(for Churchill, Winston, Sir, 1874-1965)</em></li>
+        <li>Chief (for Black Foot, Chief, d. 1877)</li>
+        <li>Emperor of the East <em>(for John II Comnenus. Emperor of the East.)</em></li>
+        </ul>
     primary_name: Primary Part of Name
+    primary_name_tooltip: |
+        <p>The primary part of a name form (e.g. a last name or surname of a person).</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Churchill <em>(for Churchill, Winston, Sir, 1874-1965 [person])</em></i>
+        <li>Black Foot <em>(for Black Foot, Chief, d. 1877 [person])</em></li>
+        <li>International Business Machines <em>(for International Business Machines. Microelectronics Division [corporate entity])</em></li>
+        </ul>
     rest_of_name: Rest of Name
+    rest_of_name_tooltip: |
+        <p>The first name element or forename and additional names, e.g, middle names, for the person named in the record.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Winston <em>(for Churchill, Winston, Sir, 1874-1965)</em></li>
+        <li>Humphrey <em>(for Ward, Humphrey, Mrs., 1851-1920)</em></li>
+        </ul>
     suffix: Suffix
+    suffix_tooltip: |
+        <p>A term following a name that qualifies the name but is not a title.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Jr.</li>
+        <li>fils</li>
+        </ul>
     fuller_form: Fuller Form
+    fuller_form_tooltip: |
+        <p>The fuller form of first and middle names, when abbreviated.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Hilda Doolittle <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
+        </ul>
     number: Number
+    number_tooltip: |
+        <p>A number, sometimes with a term, that qualifies the name. For personal names, often a roman numeral or a roman numeral and a subsequent part of a forename. For corporate names, the number of a part / section or meeting.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>II Comnenus <em>(for John II Comnenus, Emperor of the East</em>/li>
+        <li>II <em>(for John Paul II)</em></li>
+        <li>97th, 2nd session <em>(for United States Congress, 97th, 2nd session)</em></li>
+        </ul>
     dates: Dates
+    dates_tooltip: |
+        <p>Dates of existence for the named entity.</p>
+        <p>Examples:<p>
+        <ul>
+        <li>1886-1961 <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
+        </ul>
     qualifier: Qualifier
+    qualifier_tooltip: |
+        <p>A term or phrase for distinguishing two name forms identical in all other respects but identifying two different entities.  The term may be a date, a place, or any other suitable descriptor.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Florists <em>(for Smith family (Florists))</em>)</li>
+        <li>Bronx, New York, N.Y. <em>(for St. James Church (Bronx, New York, N.Y.))</em></li>
+        </ul>
     sort_name: Sort Name
+    sort_name_tooltip: |
+        <p>A version of the name concatenating all the parts of the name provided in a given agent record. Used for display purposes in the application and for some exports.</p>
+        <p>The sort name may be edited by unchecking the "Auto Generate Sort Name?" checkbox and then entering the form of the sort name desired.</p>
     sort_name_auto_generate: Auto Generate Sort Name?
     _html:
       singular: Name
@@ -1082,15 +1262,46 @@ en:
   name_family:
     <<: *agent_name_attributes
     family_name: Family Name
+    family_name_tooltip: |
+        <p>The last name, or surname, for a family, typically supplemented with the term "family".</p>
   name_corporate_entity:
     <<: *agent_name_attributes
     subordinate_name_1: Subordinate Name 1
+    subordinate_name_1_tooltip: |
+        <p>A hierarchical unit with the corporate entity named in the Primary Name field.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Microelectronics Division <em>(for International Business Machines. Microelectronics Division)</em></li>
+        </ul>
     subordinate_name_2: Subordinate Name 2
+    subordinate_name_2_tooltip: |
+        <p>A hierarchical unit with the corporate entity named in the Primary Name field and lower than the unit named in the Subordinate Name 1 field.</p>
   name_software:
     <<: *agent_name_attributes
     software_name: Software Name
+    software_name_tooltip: |
+        <p>The name of a software package.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Photoshop <em>(for Adobe Photoshop CS3)</em></li>
+        <li>Bagger <em>(for Library of Congress Bagger 2.1.2)</em></li>
+        </ul>
     version: Version
+    version_tooltip: |
+        <p>The version number or other indicator for a specific version of a software package.</p>
+        <p>Examples</p>
+        <ul>
+        <li>CS3 <em>(for Adobe Photoshop CS3)</em></li>
+        <li>2.1.2 <em>(for Library of Congress Bagger 2.1.2)</em></li>
+        </ul>
     manufacturer: Manufacturer
+    manufacturer_tooltip: |
+        <p>The manufacturer, creator or other responsible party for a software package's distribution, development, or maintenance.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Adobe <em>(for Adobe Photoshop CS3)</em></li>
+        <li>Library of Congress <em>(for Library of Congress Bagger 2.1.2)</em></li>
+        </ul>
   name:
     _html:
       singular: Name
@@ -1112,23 +1323,70 @@ en:
       singular: Corporate Entity
       plural: Corporate Entities
   agent_contact:
-    name: Contact Description
+    name: Contact Name
+    name_tooltip: |
+        <p>Name of the person serving as contact for the entity in the main record.</p>
     salutation: Salutation
+    salutation_tooltip: |
+        <p>Salutation for the contact person.</p>
+        <p>Values in this Enumeration may be modified.</p>
     address_1: Address 1
+    address_1_tooltip: |
+        <p>Address for the contact person.</p>
     address_2: Address 2
     address_3: Address 3
     city: City
+    city_tooltip: |
+        <p>City in which the contact person is located.</p>
     region: State/Region
+    region_tooltip: |
+        <p>State or Region in which the City is located</p>
     country: Country
+    country_tooltip: |
+        <p>Country in which the contact person is located.</p>
     post_code: Post Code
+    post_code_tooltip: |
+        <p>Mail or zip code for the contact person’s address.</p>
     telephone: Telephone
+    telephone_tooltip: |
+        <p>Telephone number for the contact person.</p>
     telephone_ext: Telephone Extension
+    telephone_ext_tooltip: |
+        <p>Telephone number extension for the contact person.</p>
     fax: Fax
-    email: Email
+    fax_tooltip: |
+        <p>Fax number for the contact person.</p>
+    email: E-mail
+    email_tooltip: |
+        <p>E-mail address for the contact person.</p>
     note: Contact Notes
+    note_tooltip: |
+        <p>Additional notes or contact information for the contact person.</p>
     _html:
       singular: Contact
       plural: Contact Details
+  note_attributes: &note_attributes
+    label: Label
+    label_tooltip: |
+        <p>A label or heading for the specific note. If a label is not used, the note type will be used as the label wherever required.</p>
+    content: Content
+    content_tooltip: |
+        <p>The content of the note.</p>
+    items: Items
+    items_singular: Item
+    item_singular: Item
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Note to public (patron) interfaces.</p>
+    internal: Internal Only?
+    internal_tooltip: |
+        <p>Determines how this Note will display in EAD exports. Depending on the settings chosen when exporting, the Note will either not appear or will be included with the audience set to "internal".</p>
+    title: Title
+    title_tooltip: |
+      <p>An element for recording a specific label, or title, for the subnote.</p>
+    type: Type
+    type_tooltip: |
+      <p>The type of note for the content.  Note types are used for guiding export of note contents to certain elements in specific data formats.</p>
   note:
     item: Item
     note_singlepart: Single Part Note
@@ -1143,6 +1401,7 @@ en:
     note_citation: Citation
     note_abstract: Abstract
     note_outline: Outline
+    # todo: get different note types to display different tooltips or placeholders
     types:
       accessrestrict: Conditions Governing Access
       accruals: Accruals
@@ -1183,88 +1442,64 @@ en:
       singular: Note
       plural: Notes
   note_index:
+    <<: *note_attributes
     option: Index
-    label: Label
-    content: Content
-    items: Items
-    items_singular: Item
-    publish: Publish?
-    internal: Internal Only?
   index_item:
     value: Value
+    value_tooltip: The content of each entry in the bibliography. At least one is required for any index note.
     type: Type
+    type_tooltip: The type of index entry.
     reference: Reference
+    reference_tooltip: The target for the index item.
     reference_text: Reference Text
+    reference_text_tooltip: A description for the reference, if warranted.
   note_singlepart:
-    label: Label
-    publish: Publish?
-    internal: Internal Only?
-    content: Content
-    type: Type
+    <<: *note_attributes
   note_multipart:
-    label: Label
-    type: Type
-    publish: Publish?
-    internal: Internal Only?
-    content: Content
+    <<: *note_attributes
     sub_notes: Sub Notes
     sub_notes_singular: Sub Note
   note_digital_object:
-    label: Label
-    content: Content
-    type: Type
-    publish: Publish?
-    internal: Internal Only?
+    <<: *note_attributes
   note_bibliography:
+    <<: *note_attributes
     option: Bibliography
-    label: Label
-    content: Content
-    items: Items
-    items_singular: Item
-    publish: Publish?
-    internal: Internal Only?
   note_chronology:
+    <<: *note_attributes
     option: Chronology
     title: Title
-    items: Items
-    items_singular: Item
-    publish: Publish?
-    internal: Internal Only?
   chronology_item:
     event_date: Event Date
+    event_date_tooltip: |
+        <p>The date of an event in a chronology list.</p>
     events: Events
+    events_tooltip: |
+        <p>A description of an event corresponding to the chronology date item.</p>
     events_singular: Event
   note_definedlist:
+    <<: *note_attributes
     option: Defined List
-    title: Title
-    items: Items
-    items_singular: Item
-    publish: Publish?
-    internal: Internal Only?
   definedlist_item:
     label: Label
+    label_tooltip: |
+        A text string that either contextualizes or is explained by the content in the defined list note item.
     value: Value
+    value_tooltip: |
+        A defined list item in a defined list.
   note_orderedlist:
+    <<: *note_attributes
     option: Ordered List
-    title: Title
     enumeration: Enumeration
-    items: Items
-    item_singular: Item
-    publish: Publish?
-    internal: Internal Only?
+    enumeration_tooltip: |
+        <p>An attribute for indicating the type of numeration to be applied to the note items</p>
   note_bioghist:
-    label: Label
-    content: Content
-    publish: Publish?
-    internal: Internal Only?
+    <<: *note_attributes
   note_abstract:
+    <<: *note_attributes
     option: Abstract
-    publish: Publish?
-    internal: Internal Only?
   note_citation:
+    <<: *note_attributes
     option: Citation
-    publish: Publish?
-    internal: Internal Only?
     xlink: XLink
   note_citation_xlink:
     actuate: Actuate
@@ -1275,23 +1510,35 @@ en:
     title: Title
     type: Type
   note_outline:
+    <<: *note_attributes
     option: Outline
-    publish: Publish?
-    internal: Internal Only?
-    content: Content
   container: &container_attributes
-    type_1: Type 1
-    indicator_1: Indicator 1
-    barcode_1: Barcode 1
-    type_2: Type 2
+    type_1: Container 1 Type 
+    type_1_tooltip: &container_type_tooltip |
+        <p>The type of the primary container in which the described material is housed.</p>
+        <p>Values in this Enumeration may be modified.</p>
+    indicator_1: Container 1 Indicator
+    indicator_1_tooltip: &container_indicator_tooltip |
+        <p>An alphanumeric expression for indicating the place of a container in a sequence of containers.</p>
+    barcode_1: Container 1 Barcode
+    barcode_1_tooltip: |
+        <p>A barcode for identifying the primary container.  May be used instead of or in supplement to the Container 1 Type.</p>
+    type_2: Container 2 Type
+    type_2_tooltip: *container_type_tooltip
     indicator_2: Indicator 2
-    type_3: Type 3
+    indicator_2_tooltip: *container_indicator_tooltip
+    type_3: Container 3 Type
+    type_3_tooltip: *container_type_tooltip
     indicator_3: Indicator 3
+    indicator_3_tooltip: *container_indicator_tooltip
     _html:
       plural: Containers
       singular: Container
   instance: &instance_attributes
     instance_type: Type
+    instance_type_tooltip: |
+        <p>A designation of the manifestation for the described materials. The instance designation is optional, but required to open and complete a container record for the material described.</p>
+        <p>Values in this Enumeration may be modified.</p>
     digital_object: Digital Object
     _html:
       plural: Instances
@@ -1301,15 +1548,26 @@ en:
       plural: File Versions
       singular: File Version
     file_uri: File URI
-    publish: Publish
+    file_uri_tooltip: |
+        <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this External Document to public (patron) interfaces.</p>
     use_statement: Use Statement
-    xlink_actuate_attribute: Xlink Actuate Attribute
+    use_statement_tooltip: |
+        <p>A descriptor indicating the use for which the digital file is intended (e.g., a thumbnail).</p>
+        <p>Values in this Enumeration may be modified.</p>
+    xlink_actuate_attribute: XLink Actuate Attribute
+    xlink_actuate_attribute_tooltip: |
+        <p>An XLink attribute used for export for indicating how the digital object should display (e.g. whether the link occurs automatically or must be requested by the user). It is used in conjunction with the XLink Show attribute.</p>
     xlink_actuate_attribute_none: none
     xlink_actuate_attribute_other: other
     xlink_actuate_attribute_onLoad: onLoad
     xlink_actuate_attribute_onRequest: onRequest
 
-    xlink_show_attribute: Xlink Show Attribute
+    xlink_show_attribute: XLink Show Attribute
+    xlink_show_attribute_tooltip: |
+        <p>An XLink attribute used for export for indicating how the target of a link should be displayed. It is used in conjunction with the XLink Actuate attribute.</p>
     xlink_show_attribute_new: new
     xlink_show_attribute_replace: replace
     xlink_show_attribute_embed: embed
@@ -1317,56 +1575,179 @@ en:
     xlink_show_attribute_none: none
 
     file_format_name: File Format Name
+    file_format_name_tooltip: |
+        <p>The name of the format for the file type.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Audio Interchange File Format (aiff)</li>
+        <li>Audio/Video Interleaved Format (avi)</li>
+        <li>JPEG File Interchange Format (jpeg)</li>
+        <li>MPEG-Audio Layer 3 (mp3)</li>
+        <li>Portable Document Format (pdf)</li>
+        </ul>
     file_format_version: File Format Version
-    file_size_bytes: File Size Bytes
+    file_format_version_tooltip: |
+        <p>The version of the format for the file type.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>5.0 <em>(for TIFF 5.0)</em></li>
+        </ul>
+    file_size_bytes: File Size (Bytes)
+    file_size_bytes_tooltip: |
+        <p>The size (in bytes) of the digital file.</p>
     checksum: Checksum
+    checksum_tooltip: |
+        <p>A digital signature for monitoring the integrity and authenticity of a digital file.</p>
     checksum_method: Checksum Method
+    checksum_method_tooltip: |
+        <p>The algorithm used for generating checksums.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>MD5</li>
+        <li>CRC-32</li>
+        <li>SHA-1</li>
+        <li>SHA-256</li>
+        </ul>
   extent: &extent_attributes
     portion: Portion
+    portion_tooltip: |
+        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
+        <p>Any described aggregation or object with an extent statement must have an extent statement with Portion set to "whole".</p>
+        <p>See DACS 2.5.7</p>
     portion_whole: Whole
     portion_part: Part
     number: Number
+    number_tooltip: |
+        <p>A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
+        <p>See DACS 2.5</p>
     extent_type: Type
+    extent_type_tooltip: &extent_type_tooltip |
+        <p>A term indicating the type of unit used to measure the extent of materials described.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>See DACS 2.5</p>
     container_summary: Container Summary
+    container_summary_tooltip: |
+        <p>A list of container and container types housing the materials described in the component record.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>10 record cartons, 6 archives boxes, 3 oversize folders.</li>
+        <li>12 shoeboxes.</li>
+        <li>4 archives boxes, 32 tubes.</li>
+        </ul>
     physical_details: Physical Details
+    physical_details_tooltip: |
+        <p>Other physical details of the materials described, e.g., analog, b&w, negatives.</p>
+        <p>See DACS 2.5</p>
     dimensions: Dimensions
+    dimensions_tooltip: |
+        <p>Dimensions of the materials described.</p>
+        <p>See DACS 2.5</p>
+        <p>Examples:</p>
+        <ul>
+        <li>29 cm</li>
+        <li>7 1/4 x 3 1/2 in.</li>
+        <li>1/2 in. tape</li>
+        </ul>
     _html:
       plural: Extents
       singular: Extent
   external_document: &external_document_attributes
     title: Title
+    title_tooltip: |
+        <p>The title of an external document referenced from the accession record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
     location: Location
+    location_tooltip: |
+        <p>The location of the file, ideally a resolvable URI.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>http://www.archivesspace.org/membership</li>
+        <li>file:///c:/path/to/the%20file.txt</li>
+        </ul>
     publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this External Document to public (patron) interfaces.</p>
     _html:
       plural: External Documents
       singular: External Document
   rights_statement: &rights_statement_attributes
     identifier: Identifier
+    identifier_tooltip: |
+        <p>Uniquely identifies the rights statement within the repository domain. Rights Statement identifiers are usually auto-generated by the application.</p>
     identifier_auto_generate_message: "-- auto-generated upon save --"
     rights_type: Rights Type
+    rights_type_tooltip: |
+        <p>The basis for the rights statement being made.Four bases are allowed: intellectual property, license, such as donor agreement, legal statutes such as Fair Use or FERPA, and institutional policy.</p>
     rights_type_intellectual_property: Intellectual Property
     rights_type_license: License
     rights_type_statute: Statute
     rights_type_institutional_policy: Institutional Policy
     rights_type_message: Please select a Rights Type
     active: Active
+    active_tooltip: |
+        <p>Indicates whether a rights record is active or inactive.</p>
     active_true: Active
     active_false: Inactive
     materials: Materials
+    materials_tooltip: |
+        <p>A term or brief phrase describing the materials in the accession, resource or collection to which the rights record applies.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Diaries by Alex Doe</li>
+        </ul>
     ip_status: IP Status
+    ip_status_tooltip: |
+        <p>A term indicating the intellectual property status of the described materials.</p>
     ip_status_copyrighted: Copyrighted
     ip_status_public_domain: Public Domain
     ip_status_unknown: Unknown
     ip_expiration_date: IP Expiration Date
+    ip_expiration_date_tooltip: |
+        <p>The date the copyright or other intellectual property status is expected to expire.</p>
     license_identifier_terms: License Identifier Terms
+    license_identifier_terms_tooltip: |
+        <p>A statement (actual text snippet or summary) of the permissions granted in the license.</p>
     statute_citation: Statute Citation
+    statute_citation_tooltip: |
+        <p>A citation, URI, or other reference to the statute related to this Rights Statement.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Freedom of Information and Protection of Privacy Act [RSBC 1996] Chapter 165</li>
+        </ul>
     jurisdiction: Jurisdiction
+    jurisdiction_tooltip: |
+        <p>The political entity authorizing the copyright or statute, e.g. country or region.</p>
     type_note: Type Note
+    type_note_tooltip: |
+        <p>Any additional information about the copyright, license, statute, or institutional policy and/or about its application to the materials described.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Constraint(s) on Use: This work may be protected by copyright law. Use of this work beyond that allowed by the applicable copyright statute requires the written permission of the copyright holder(s). Responsibility for obtaining permissions for any use and distribution of this work rests exclusively with the user and not the UC San Diego Libraries. Inquiries can be made to the Mandeville Special Collections Library (http://libraries.ucsd.edu/locations/mscl/).</li>
+        </ul>
     permissions: Permissions
+    permissions_tooltip: |
+        <p>A description of what kinds of actions are permissible to the repository and/or the end user.</p>
     restrictions: Restrictions
+    restrictions_tooltip: |
+        <p>A description of what kinds of actions are not permissible to the repository and/or the end user.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Photocopying, scanning, or photographing of materials not allowed.</li>
+        </ul>
     restriction_start_date: Restrictions Start Date
+    restriction_start_date_tooltip: |
+        <p>The date the restriction(s) go into effect.</p>
     restriction_end_date: Restrictions End Date
+    restriction_end_date_tooltip: |
+        <p>The date the restriction(s) cease to apply.</p>
     granted_note: Granted Note
+    granted_note_tooltip: |
+        <p>Any qualifying information about the permissions granted or restrictions to be enforced.</p>
+        <p>Examples</p>
+        <ul>
+        <li>Contact donor's family if access is requested before restriction end date arrives.</li>
+        </ul>
     _html:
       plural: Rights Statements
       singular: Rights Statement
@@ -1380,6 +1761,9 @@ en:
     <<: *rights_statement_attributes
   date: &date_attributes
     label: Label
+    label_tooltip: |
+        <p>REQUIRED FIELD: Describes what the type of activity the date signifies.</p>
+        <p>See DACS 2.4 and 2.4.3</p>
     label_broadcast: Broadcast
     label_copyright: Copyright
     label_creation: Creation
@@ -1390,22 +1774,58 @@ en:
     label_publication: Publication
     label_other: Other
     date_type: Type
+    date_type_tooltip: |
+        <p>Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
     date_type_expression: Expression
     date_type_single: Single
     date_type_bulk: Bulk Dates
     date_type_inclusive: Inclusive Dates
     date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
+    expression_tooltip: |
+        <p>A natural language expression specifying the date or date range of the materials in the accession.</p>
+        <p>See DACS 2.4</p>
+        <p>Examples:</p>
+        <ul>
+        <li>1968</li>
+        <li>1979-1993</li>
+        <li>1785-1960, bulk 1916-1958</li>
+        <li>1827, 1952-1978</li>
+        <li>circa 1870-1879</li>
+        <li>1906 March 17</li>
+        <li>undated</li>
+        <li>unknown <em>(for events)</em></li>
+        </ul>
     begin: Begin
+    begin_tooltip: |
+        <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
+        <p>See DACS 2.4.7-2.4.16</p>
+        <p>A.D. years are expressed with four digits.</p>
+        <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
     begin_time: Begin Time
+    begin_time_tooltip: |
+        <p>Normalized time information (in the form HH:MM:SS) associated with a single date or the first date in a date range.</p>
     end: End
+    end_tooltip: |
+        <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the second date in a date range.</p>
+        <p>See DACS 2.4.7-2.4.16</p>
+        <p>A.D. years are expressed with four digits.</p>
+        <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
     end_time: End Time
-    uncertain: Uncertainty
-    uncertain_approximate: Approximate
-    uncertain_inferred: Inferred
-    uncertain_questionable: Questionable
+    end_time_tooltip: |
+        <p>Normalized time information (in the form HH:MM:SS) associated with a single date or the first date in a date range.</p>
+    certainty: Certainty
+    certainty_approximate: Approximate
+    certainty_inferred: Inferred
+    certainty_questionable: Questionable
     era: Era
+    era_tooltip: |
+        <p>Period during which years are numbered and dates reckoned, such as A.D. or C.E. The value "ce" is the default.</p>
+        <p>See EAD attribute "era"</p>
     calendar: Calendar
+    calendar_tooltip: |
+        <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
+        <p>See EAD attribute "calendar" and DACS 2.4.5.</p>
     _html:
       plural: Dates
       singular: Date
@@ -1450,6 +1870,63 @@ en:
         <p>Examples:</p>
         <p>The maps in box 4 are brittle and several are covered with mold.
         Inhalation guards should be worn during processing.</p>
+    disposition: Disposition
+    disposition_tooltip: |
+        <p>A note to describe how a particular accession may have been assigned to different resources.</p>
+        <p>Examples:</p>
+        <p>Photographs were separated and assigned to Photographs 025.</p>
+        <p>The letters to William Colton were added to the William Colton correspondence collection, while the maps of local country streams were added to the records of the County River collection.</p>
+    general_note: General Note
+    general_note_tooltip: |
+        <p>A catch all note field for any information that does not fit in any of the more specifically defined fields.</p>
+    inventory: Inventory
+    inventory_tooltip: |
+        <p>A list of the containers and their contents making up an accession. In the AT, the box list may be composed in the field, copied and pasted into the field, or referenced as an external document. The reference to the external document may be recorded here or in an External Documents subrecord.</p>
+        <p>Example:</p>
+        <ul>
+        <li>Box 1:   Diaries</li>
+        <li>Box 2:   Letters to Mr. Smith's family</li>
+        <li>Box 3:   Personal records for ranch employees</li>
+        <li>Box 4:   Drafts of ranch maps</li>
+        </ul>
+    provenance: Provenance
+    provenance_tooltip: |
+       <p>A note that provides provenance information about an accession, such as custodial history, detailed acquisition information, etc.</p>
+       <p>See DACS 5.1-5.2</p>
+    retention_rule: Retention Rule
+    retention_rule_tooltip: |
+        <p>A note indicating the retention authority or rule for the accession.
+        <p>Examples:</p>
+        <ul>
+        <li>See the Campus Retention Schedule.</li>
+        </ul>
+    restrictions_apply: Restrictions Apply?
+    restrictions_apply_tooltip: |
+        <p>Indication if restrictions apply to the accession.</p>
+        <p>See DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
+    resource_type: Resource Type
+    resource_type_tooltip: |
+        <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
+        <p>Values in this Enumeration may be modified.</p>
+    access_restrictions: Access Restrictions?
+    access_restrictions_tooltip: |
+        <p>A checkbox for indicating access to the materials is restricted.</p>
+        <p>See DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
+    access_restrictions_note: Access Restrictions Note
+    access_restrictions_note_tooltip: |
+        <p>A statement indicating what materials in the accession have access to them restricted, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Diaries in box ten have are restricted by the donor until 2030.</li>
+        </ul>
+    use_restrictions: Use Restrictions?
+    use_restrictions_tooltip: |
+        <p>A check box to indicate that there are use restrictions for materials in the accession.</p>
+    use_restrictions_note: Use Restrictions Note
+    use_restrictions_note_tooltip: |
+        <p>A statement indicating which materials have use restrictions, how the materials can be used, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
+        <p>Examples:</p>
+        <p>Manuscripts in box 33 are fragile; photocopies must be used instead.</p>
     acquisition_type: Acquisition Type
     acquisition_type_tooltip: |
         <p>A categorical descriptor for the type of acquisition. Repositories
@@ -1463,8 +1940,7 @@ en:
     publish: Publish?
     publish_help: Check this if you wish to publish this accession to the public.
     publish_tooltip: |
-        <p>Determines whether this accession record will be published to
-        public (patron) interfaces.</p>
+        <p>Determines whether this Accession will be published to public (patron) interfaces.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>Indication if restrictions apply to the accession.</p>
@@ -1491,6 +1967,9 @@ en:
         basic_information: Basic Information
   agent: &agent_attributes
     type: Agent Type
+    type_tooltip: |
+        <p>The type of entity represented by the Agent record.</p>
+        <p>See DACS 10.2 and PREMIS Agent entity</p>
     agent_type:
       agent_family: Family
       agent_person: Person
@@ -1507,13 +1986,40 @@ en:
         basic_information: Basic Information
         name: Names
         contacts: Contact Details
-  archival_object:
+  archival_object: &archival_object_attributes
     title: Title
+    title_tooltip: |
+        <p>REQUIRED FIELD. The title assigned to the resource.</p>
+        <p>See DACS 2.3</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Graciany Miranda Archilla papers</li>
+        <li>Love Makes a Family records</li>
+        <li>Cameron family account book</li>
+        <li>Caroline and Erwin Swann collection of caricatures and cartoons</li>
+        <li>National Academy of Sciences correspondence</li>
+        <li>Audio and video recordings</li>
+        </ul>
     title_default: New Archival Object
     ref_id: Ref ID
+    ref_id_tooltip: |
+        <p>An automatically provided and updatable reference ID, which can be used as a target for linking, etc. The Ref ID is intended to be generated automatically or imported from an existing system and to remain persistent.</p>
+    extents: Extents
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     component_id: Component Unique Identifier
-    level: Level
+    component_id_tooltip: |
+        <p>Expresses a unique ID, within the context of the resource description, for the component part.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Series I</li>
+        <li>Subseries 8</li>
+        <li>Accession 2005-M-078</li>
+        </ul>
+    level: Level of Description
+    level_tooltip: |
+        <p>REQUIRED FIELD. Indicates. the hierarchical level of the materials being described.</p>
+        <p>See DACS Chapter 1</p>
+        <p>Values are prescribed by the EAD schema.</p> 
     level_class: Class
     level_collection: Collection
     level_file: File
@@ -1526,9 +2032,31 @@ en:
     level_subgrp: Sub-Group
     level_subseries: Sub-Series
     other_level: Other Level
-    language: Language
+    other_level_tooltip: |
+        <p>REQUIRED FIELD if "Other Level" is the value selected for Level. Expresses the type of level outside of the values specified in the EAD schema.</p>
+    container_summary: Container Summary
+    container_summary_tooltip: |
+        <p>For recording the number and type of containers comprising a resource description. This is considered a textual summary and not identical with the extent subrecords.</p>
+        <p>See DACS 2.5</p>
+        <p>Examples:</p>
+        <ul>
+        <li>10 record cartons, 6 archives boxes, 3 oversize folders.</li>
+        <li>12 shoeboxes.</li>
+        <li>4 archives boxes, 32 tubes.</li>
+        </ul>
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Resource will be published to public (patron) interfaces. Distinguished from "internal only," which impacts EAD export.</p>
+    restrictions: Restrictions?
+    restrictions_tooltip: |
+        <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
+        <p>See DACS 4.1-4.4</p>
     automate_title: Automatically generate title
     dates: Dates
+    language: Language
+    language_tooltip: |
+        <p>The language term and code represented in the material(s) described.</p>
+        <p>See DACS 4.5</p>
     <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
     _html:
@@ -1541,8 +2069,19 @@ en:
         basic_information: Basic Information
   group:
     group_code: Group code
+    group_code_tooltip: |
+        <p>A short version of the name of the group.</p>
     description: Description
+    description_tooltip: |
+        <p>A brief textual description of the group.</p>
+        <p>Examples:
+        <ul>
+        <li>Summer 2013 interns</li>
+        <li>Collection management staff</li>
+        </ul>
     member_usernames: Members
+    member_usernames_tooltip: |
+        <p>The members that are part of this group.</p>
     permissions: "Members can:"
     permission_types:
       manage_repository: manage this repository (change groups and other settings)
@@ -1559,49 +2098,83 @@ en:
       singular: Group
       plural: Groups
   resource:
-    title: Title
+    <<: *archival_object_attributes
     title_default: New Resource
     id_0: Identifier
+    id_0_tooltip: |
+        <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
+        <p>See DACS 2.1.3</p>
+        <p>Examples</p>
+        <ul>
+        <li>R.001 (Two elements "R" + "001")</li>
+        <li>MSS 025 (A single element)</li>
+        <li>Archives.RSS.0333 (Three elements "Archives" + "RSS" + "0333")</li>
+        </ul>
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
-    ref_id: Ref ID
     resource_type: Resource Type
-    level: Level
-    level_class: Class
-    level_collection: Collection
-    level_file: File
-    level_fonds: Fonds
-    level_item: Item
-    level_otherlevel: Other Level
-    level_recordgrp: Record Group
-    level_series: Series
-    level_subfonds: Sub-Fonds
-    level_subgrp: Sub-Group
-    level_subseries: Sub-Series
-    other_level: Other Level
-    container_summary: Container Summary
-    publish: Publish?
-    restrictions: Restrictions?
     repository_processing_note: Repository Processing Note
+    repository_processing_note_tooltip: |
+        <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     ead_id: EAD ID
+    ead_id_tooltip: |
+        <p>The identifier for the EAD generated from the resource description, typically a file name. Needs to be unique within the repository context.</p>
     ead_location: EAD Location
-    extents: Extents
-    finding_aid_title: Title
-    finding_aid_filing_title: Filing Title
-    finding_aid_date: Date
-    finding_aid_author: Author
+    ead_location_tooltip: |
+        <p>The location for the EAD generated from the resource description, either a web URL or a file directory statement. The location typically terminates.</p>
+    finding_aid_title: Finding Aid Title
+    finding_aid_title_tooltip: |
+        <p>The (bibliographic) title for the finding aid associated with this Resource.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Register of the Collection of Jason Twirly</li>
+        <li>Inventory of the Papers of the Reese Family</li>
+        <li>List of the Drawings and Models of the Simon and Simon Architectural Firm</li>
+        </ul>
+    finding_aid_filing_title: Finding Aid Filing Title
+    finding_aid_filing_title_tooltip: |
+        <p>A modified version of the formal title of the finding aid. Designed to aid browsing and sorting of finding aid title lists.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Wayne (Bruce M.) Papers</li>
+        <li>Rooney Family Papers</li>
+        <li>Communist Party of the United States Records</li>
+        </ul>
+    finding_aid_date: Finding Aid Date
+    finding_aid_date_tooltip: |
+        <p>The date expression for when  the current finding aid was generated from the resource description.</p>
+    finding_aid_author: Finding Aid Author
+    finding_aid_author_tooltip: |
+        <p>The names(s) of the agents responsible for creating the content of the finding aid or its encoding.</p>
     finding_aid_description_rules: Description Rules
+    finding_aid_description_rules_tooltip: |
+        <p>Indicates the descriptive rules used to guide description of the Resource.</p>
+        <p>Values in this Enumeration may be modified.</p>
     finding_aid_language: Language
+    finding_aid_language_tooltip: |
+        <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
     finding_aid_sponsor: Sponsor
+    finding_aid_sponsor_tooltip: |
+        <p>Indicates any sponsors that contributed to the description of the finding aid.</p>
     finding_aid_edition_statement: Edition Statement
+    finding_aid_edition_statement_tooltip: |
+        <p>For recording information about the edition of the finding aid.</p>
     finding_aid_series_statement: Series Statement
+    finding_aid_series_statement_tooltip: |
+        <p>Indicates any bibliographic series to which the finding aid belongs.</p>
     finding_aid_revision_date: Revision Date
+    finding_aid_revision_date_tooltip: |
+        <p>Specifies the date the finding aid was last revised.</p>
     finding_aid_revision_description: Revision Description
-    finding_aid_status: Status
+    finding_aid_revision_description_tooltip: |
+        <p>A description of the last revision(s) done to the finding aid.</p>
+    finding_aid_status: Finding Aid Status
+    finding_aid_status_tooltip: |
+        <p>Indicates the status of the finding aid.</p>
     finding_aid_note: Note
-    language: Language
-    <<: *language_attributes
+    finding_aid_note_tooltip: |
+        <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
     _html:
       singular: Resource
       plural: Resources
@@ -1611,7 +2184,7 @@ en:
         spawned: Resource spawned from Accession
       section:
         basic_information: Basic Information
-        finding_aid: Finding Aid
+        finding_aid: Finding Aid Data
   related_accession:
     _html:
       singular: Related Accession
@@ -1622,11 +2195,45 @@ en:
       plural: Related Resources
   repository:
     repo_code: Repository Short Name
+    repo_code_tooltip: |
+        <p>REQUIRED FIELD. An abbreviation or acronym of the repository name, which can be better accommodated in the user interface.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>YNHSCL <em>(for Your Name Here Special Collections Library)</em></li>
+        <li>MSCL <em>(for Mandeville Special Collections Library)</em></li>
+        <li>Tamwag <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+        </ul>
     name: Repository Name
+    name_tooltip: |
+        <p>REQUIRED FIELD. The name of the repository which has administrative responsibility for and custody of the materials described in the accession, resource, and digital object modules of the application.</p>
+        <p>See DACS 2.2</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Your Name Here Special Collections Library</li>
+        <li>Mandeville Special Collections Library</li>
+        <li>Tamiment Library and Robert F. Wagner Labor Archives</li>
+        </ul>
     org_code: Organization / Agency Code
+    org_code_tooltip: |
+        <p>A code compliant with ISO/DIS 15511 Information and Documentation International Standard Identifier for Libraries and Related Organizations (ISIL). For United States institutions, this includes codes from the MARC Organization Code list.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+        <li>IU-Ar <em>(for University of Illinois Archives)</em></li>
+        </ul>
     parent_institution_name: Parent Institution Name
+    parent_institution_name_tooltip: |
+        <p>The name of the parent institution of which the repository is a part.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>University of Illinois <em>(for University of Illinois Archives)</em></li>
+        <li>New York University <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+        </ul>
     address_1: Address 1
+    address_1_tooltip: &address_tooltip |
+        <p>The postal address or street address for the repository.</p>
     address_2: Address 2
+    address_2_tooltip: *address_tooltip
     city: City
     district: State or Region
     country: Country
@@ -1638,6 +2245,8 @@ en:
     email_signature: Email Signature
     url: Home Page URL
     image_url: Branding Image URL
+    image_url_tooltip: |
+        <p>A URL or other file location identifier referencing a file that contains a branding device to be used in the repository's online finding aids. A typical branding device is a university seal or logo.</p>
     _html:
       singular: Repository
       plural: Repositories
@@ -1651,12 +2260,27 @@ en:
       action:
         select: Select Repository
   term: &term_attributes
+    # tooltips not displaying
     term: Term
+    term_tooltip: |
+        <p>REQUIRED FIELD. A descriptor for part of a subject heading. A subject heading must have at least 1 term associated with it.</p>
     term_type: Type
+    term_type_tooltip: |
+        <p>REQUIRED FIELD. An indicator for expressing the type or category of a subject term.</p>
   subject:
     terms: Terms
     ref_id: Authority ID
+    ref_id_tooltip: |
+        <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
     source: Source
+    source_tooltip: |
+        <p>The vocabulary from which an established term is taken.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Medical Subject Headings (mesh)</li>
+        <li>Library of Congress Subject Headings (lcsh)</li>
+        </ul>
     heading: Subject Heading
     subject_preview: Subject Preview
     _html:
@@ -1669,9 +2293,17 @@ en:
         basic_information: Basic Information
   user:
     username: Username
+    username_tooltip: |
+        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application.</P>
     name: Full name
+    name_tooltip: |
+        <p>The full name of the user designated by the username.</p>
     password: Password
+    password_tooltip: |
+        <p>The password used with the username to authenticate to the application.</p>
     confirm_password: Confirm password
+    confirm_password_tooltip: |
+        <p>A second field used to confirm a match with the password entered into the first field.</p>
     _html:
       singular: User
       plural: Users
@@ -1685,38 +2317,77 @@ en:
         edit_account: Edit Account
         edit_account_submit: Update Account
   collection_management: &collection_management_attributes
-    cataloged_note: Cataloged note
-    processing_hours_per_foot_estimate: Processing hrs/ft estimate
-    processing_total_extent: Processing total extent
-    processing_total_extent_type: Extent type
+    cataloged_note: Cataloged Note
+    cataloged_note_tooltip: |
+        <p>A note about cataloging of the archival unit (accession, resource, digital object), including provision of catalog record identifiers.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Catalog record number: 21345672</li>
+        </ul>
+    processing_hours_per_foot_estimate: Processing hrs/ft Estimate
+    processing_hours_per_foot_estimate_tooltip: |
+        <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
+    processing_total_extent: Processing Total Extent
+    processing_total_extent_tooltip: |
+        <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed.</p>
+    processing_total_extent_type: Extent Type
+    processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
-    processing_hours_total: Total processing hours
-    processing_plan: Processing plan
+    processing_hours_total: Total Processing Hours
+    processing_hours_total_short: Total hours
+    processing_hours_total_tooltip: |
+        <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent"</p>
+    processing_plan: Processing Plan
+    processing_plan_tooltip: |
+        <p>For recording a plan for processing of the archival unit. The plan may include an outline of the arrangement for the archival unit, as well as instructions for how to treat particular objects in the archival unit.  The plan might also specify different assignments for different repository staff.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Arrange subject files alphabetically and project files chronologically.</li>
+        <li>Margaret's students will create descriptive records.</li>
+        <li>Project manager will review, output, and load the encoded finding aid.</li>
+        </ul>
     processing_priority: Priority
-    processing_status: Status
+    processing_priority_tooltip: |
+        <p>Indicates the priority assigned to processing of an archival unit.</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>High</li>
+        <li>Medium</li>
+        <li>Low</li>
+        </ul>
+    processing_status: Processing Status
+    processing_status_tooltip: |
+        <p>For indicating the current status of processing for an archival unit (accession, resource, or digital object).</p>
+        <p>Values in this Enumeration may be modified.</p>
+        <p>Examples:</p>
+        <ul>
+        <li>New</li>
+        <li>In Progress</li>
+        <li>Completed</li>
+        </ul>
     processors: Processors
-    rights_determined: Rights determined
+    processors_tooltip: |
+        <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>
+    rights_determined: Rights determined?
+    rights_determined_tooltip: | 
+        <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
     rights_determined_true: Yes
     rights_determined_false: No
-    linked_records: Record Links
+    parent: Parent
     _html:
-      singular: Collection Management Record
-      plural: Collection Management Records
+      singular: Collection Management
+      plural: Collection Management
       title_prefix: Processing 
-      messages:
-        created: Collection Management Record Created
-        updated: Collection Management Record Saved
-      section:
-        basic_information: Basic Information
-  collection_management_linked_record:
-    _html:
-      singular: Record Link
-      plural: Record Links
-  collection_management_record:
-    <<: *collection_management_attributes
   enumeration:
+    # tooltips not displaying
     name: Name
+    name_tooltip: |
+        <p>The name of the Enumeration of to which you wish to add a value.</p>
     value: Value
+    value_tooltip: |
+        <p>The value for the Enumeration you wish to add or edit.</p>
+        <p>Whenever possible, Enumeration values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
     translation: Translation
     merge_into: Merge Into
     _html:
@@ -1733,5 +2404,18 @@ en:
         merge_error: Failed to merge Enumeration Value
         no_selection: Please select an Enumeration Name
         name_selector: Enumeration Name
+        name_selector_tooltip: |
+            <p>The enumeration to edit.</p>
         no_name_provided: Select an Enumeration Name before creating a new value
-        
+  reports:
+    CreatedAccessionsReport: Created Accessions
+    UnprocessedAccessionsReport: Unprocessed Accessions
+    parameters:
+      from: From
+      to: To
+    formats:
+      json: JSON
+      csv: CSV
+      xlsx: XLSX (Excel)
+      pdf: PDF
+      html: HTML

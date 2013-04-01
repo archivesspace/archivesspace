@@ -4,12 +4,19 @@ GEM
     activesupport (3.2.9)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    atomic (1.0.1-java)
+    axlsx (1.3.5)
+      htmlentities
+      nokogiri
+      rubyzip
     backports (2.6.5)
     bcrypt-ruby (3.0.1-java)
     diff-lcs (1.1.3)
     eventmachine (1.0.0-java)
     factory_girl (4.1.0)
       activesupport (>= 3.0.0)
+    flying_saucer (0.8.0-java)
+    htmlentities (4.3.1)
     i18n (0.6.1)
     jdbc-derby (10.6.2.1-java)
     jdbc-mysql (5.1.13)
@@ -71,8 +78,11 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  atomic
+  axlsx
   bcrypt-ruby
   factory_girl
+  flying_saucer
   jdbc-derby
   jdbc-mysql
   jruby-jars (= 1.7.0)

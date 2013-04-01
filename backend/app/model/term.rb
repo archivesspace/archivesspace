@@ -1,9 +1,8 @@
 class Term < Sequel::Model(:term)
   include ASModel
-
-  set_model_scope :global
   corresponds_to JSONModel(:term)
 
+  set_model_scope :global
 
   def validate
     super
@@ -46,6 +45,6 @@ class Term < Sequel::Model(:term)
   end
 
   def self.broadcast_changes
-    Webhooks.notify("VOCABULARY_CHANGED")
+    Notifications.notify("VOCABULARY_CHANGED")
   end
 end

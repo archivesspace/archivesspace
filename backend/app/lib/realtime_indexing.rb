@@ -1,73 +1,38 @@
-require 'thread'
+require_relative 'longpolling'
 
 class RealtimeIndexing
 
-  def self.reset!
-    @lock.synchronize do
-      @updates = []
+  def self.longpolling
+    if !@longpolling
+      @longpolling = LongPolling.new(AppConfig[:realtime_index_backlog_ms])
     end
+
+    @longpolling
   end
 
 
-  def self.record_delete(uri)
-    record_update(:deleted, uri)
+  def self.reset!
+    longpolling.reset!
   end
 
 
   def self.record_update(target, uri)
-    @lock.synchronize do
-      @sequence += 1
-      now = (Time.now.to_f * 1000).to_i
-      @updates << {
-        :sequence => @sequence,
-        :uri => uri,
-        :record => target,
-        :timestamp => now
-      }
+    longpolling.record_update(:record => target, :uri => uri)
+  end
 
-      expire_older_than(now - AppConfig[:realtime_index_backlog_ms])
 
-      # Wake up any threads waiting for updates
-      @waiting_list.broadcast
-    end
+  def self.record_delete(uri)
+    longpolling.record_update(:record => :deleted, :uri => uri)
   end
 
 
   def self.updates_since(seq)
-    @lock.synchronize do
-      updates_after(seq)
-    end
+    longpolling.updates_since(seq)
   end
 
 
   def self.blocking_updates_since(seq)
-    @lock.synchronize do
-      updates = updates_after(seq)
-
-      if updates.empty?
-        # Block until an update wakes us up (or until we time out)
-        @waiting_list.wait(@lock, AppConfig[:realtime_index_backlog_ms] / 1000)
-        updates_after(seq)
-      else
-        updates
-      end
-    end
+    longpolling.blocking_updates_since(seq)
   end
 
-
-  private
-
-  def self.updates_after(seq)
-    @updates.drop_while {|entry| entry[:sequence] <= seq}
-  end
-
-  def self.expire_older_than(timestamp)
-    @updates = @updates.reject {|elt| elt[:timestamp] <= timestamp}
-  end
-
-
-  @lock = Mutex.new
-  @waiting_list = ConditionVariable.new
-  @sequence = Time.now.to_i
-  @updates = []
 end

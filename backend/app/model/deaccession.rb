@@ -1,9 +1,10 @@
 class Deaccession < Sequel::Model(:deaccession)
   include ASModel
+  corresponds_to JSONModel(:deaccession)
+
   include Extents
 
   set_model_scope :repository
-  corresponds_to JSONModel(:deaccession)
 
   one_to_one :date, :class => "ASDate"
   def_nested_record(:the_property => :date,

@@ -117,6 +117,7 @@ form .control-group {
 
 .record-pane h3 {
   background-color: #F6F6F6;
+  #gradient > .vertical(#F3F3F3, #EDEDED);
   border-bottom: 1px solid #DDD;
   padding-left: 10px;
 }
@@ -137,6 +138,7 @@ section h3 {
 
 .record-pane section section h4 {
   background-color: #F6F6F6;
+  #gradient > .vertical(#F3F3F3, #EDEDED);
   border-bottom: 1px solid #DDD;
   padding-left: 10px;
   line-height: 36px;
@@ -285,6 +287,7 @@ section h3 {
 
   .subrecord-form-heading {
     background-color: #F6F6F6;
+    #gradient > .vertical(#F3F3F3, #EDEDED);
     border-bottom: 1px solid #DDD;
     padding-left: 10px;
 
@@ -545,4 +548,68 @@ ul.subrecord-form-list {
 
 .content-list .CodeMirror {
   clear: both;
+}
+
+.nav-list {
+  > li {
+    > a {
+      padding: 5px 10px !important;
+      font-size: 12px;
+      overflow: hidden;
+      &:hover {
+        .transition(opacity 0.5s);
+        .nav-list-submenu a {
+          .opacity(100);
+        }
+      }
+    }
+  }
+
+  .nav-list-submenu {
+    list-style: none;
+    margin: 0;
+  
+    a {
+      .transition(~"opacity 0.5s, background-color 0.5s");
+      width: 6px;
+      height: 6px;
+      border: 1px solid #CCC;
+      float: left;
+      margin-right: 2px;
+      margin-top: 2px;
+      .border-radius(3px);
+      .opacity(50);
+    }
+  
+    a:hover {
+      .transition(background-color 0.5s);
+      background-color: #AAA;
+    }
+  }
+  .alert-error {
+    a {
+      background-color: #f2dede !important;
+      border-color: #eed3d7 !important;
+      color: #b94a48 !important;
+    }
+    &.active {
+       a {
+         background-color: #b94a48 !important;
+         color: #FFF !important;
+       }
+    }
+  }
+
+  .nav-list-submenu-link {
+    &.has-errors {
+      background-color: #f2dede;
+      border-color: #b94a48;
+    }
+  }
+}
+
+#reportListing {
+  .accordion-heading {
+    #gradient > .vertical(#F3F3F3, #EDEDED);
+  }
 }

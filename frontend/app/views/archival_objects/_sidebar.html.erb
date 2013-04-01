@@ -1,5 +1,11 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list as-nav-list">
+    <% if @exceptions %>
+      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
+        <a href="#form_messages">Errors and Warnings  <span class="icon-chevron-right"></span></a>
+      </li>
+    <% end %>
+
     <li><a href="#basic_information"><%= I18n.t("archival_object._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @archival_object.extents.length > 0 %>
@@ -40,7 +46,7 @@
         <% if controller.action_name === "new" or controller.action_name === "create" %>
           <div class="btn-group btn-submit-group">
             <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._html.singular") %></button>
-            <button type="button" id="createPlusOne" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
+            <button type="button" id="createPlusOne" class="btn btn-primary btn-plus-one"><%= I18n.t("actions.save_plus_one") %></button>
           </div>
         <% else %>
           <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._html.singular") %></button>

@@ -4,6 +4,8 @@ class RepositoriesController < ApplicationController
   before_filter(:only => [:select, :index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :create, :edit, :update]) {|c| user_must_have("manage_repository")}
 
+  before_filter :refresh_repo_list, :only => [:show, :new]
+
   def index
     @search_data = Search.global(search_params.merge({"facet[]" => [], "type[]" => ["repository"]}))
   end
@@ -25,7 +27,7 @@ class RepositoriesController < ApplicationController
                   return render :json => @repository.to_hash if inline?
             
                   flash[:success] = I18n.t("repository._html.messages.created")
-                  return redirect_to :controller => :repositories, :action => :new if params.has_key?(:plus_one)
+                  return redirect_to :controller => :repositories, :action => :new, :last_repo_id => id if params.has_key?(:plus_one)
             
                   redirect_to :controller => :repositories, :action => :show, :id => id
                 })
@@ -60,5 +62,15 @@ class RepositoriesController < ApplicationController
 
     redirect_to :back
   end
+
+  private
+
+    def refresh_repo_list
+      repo_uri = JSONModel(:repository).uri_for(params[:last_repo_id] || params[:id])
+      if @repositories.none?{|repo| repo["uri"] === repo_uri}
+        MemoryLeak::Resources.refresh(:repository)
+        load_repository_list
+      end
+    end
 
 end

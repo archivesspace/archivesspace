@@ -62,6 +62,7 @@
 
       "instances" => {"type" => "array", "items" => {"type" => "JSONModel(:instance) object"}},
       "deaccessions" => {"type" => "array", "items" => {"type" => "JSONModel(:deaccession) object"}},
+      "collection_management" => {"type" => "JSONModel(:collection_management) object"},
 
       "related_accessions" => {
         "type" => "array",

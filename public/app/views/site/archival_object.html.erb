@@ -60,7 +60,7 @@
                 <li class="result">
                   <h4>
                     <%= icon_for "subject" %>
-                    <%= link_to(subject['_resolved']['title'], {:controller => :site, :action => :subject, :id => JSONModel(:subject).id_for(subject['ref'])}) %>
+                    <%= link_to(subject['_resolved']['title'], {:controller => :site, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
                   </h4>
                 </li>
               <% end %>

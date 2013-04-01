@@ -208,31 +208,27 @@ class ApplicationController < ActionController::Base
 
 
   def load_repository_list
-    unless request.path == '/webhook/notify'
-      @repositories = MemoryLeak::Resources.get(:repository).find_all do |repository|
-        user_can?('view_repository', repository.uri) || user_can?('manage_repository', repository.uri)
-      end
+    @repositories = MemoryLeak::Resources.get(:repository).find_all do |repository|
+      user_can?('view_repository', repository.uri) || user_can?('manage_repository', repository.uri)
+    end
 
-      # Make sure the user's selected repository still exists.
-      if session[:repo] && !@repositories.any?{|repo| repo.uri == session[:repo]}
-        session.delete(:repo)
-        session.delete(:repo_id)
-      end
+    # Make sure the user's selected repository still exists.
+    if session[:repo] && !@repositories.any?{|repo| repo.uri == session[:repo]}
+      session.delete(:repo)
+      session.delete(:repo_id)
+    end
 
-      if not session[:repo] and not @repositories.empty?
-        session[:repo] = @repositories.first.uri
-        session[:repo_id] = @repositories.first.id
-      end
+    if not session[:repo] and not @repositories.empty?
+      session[:repo] = @repositories.first.uri
+      session[:repo_id] = @repositories.first.id
     end
   end
 
 
   def refresh_permissions
-    unless request.path == '/webhook/notify'
-      if session[:last_permission_refresh] &&
-          session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_last_modified)
-        User.refresh_permissions(session)
-      end
+    if session[:last_permission_refresh] &&
+        session[:last_permission_refresh] < MemoryLeak::Resources.get(:acl_last_modified)
+      User.refresh_permissions(session)
     end
   end
 
@@ -296,4 +292,8 @@ class ApplicationController < ActionController::Base
     params_for_search
   end
 
+  def parse_tree(node, proc)
+    node['children'].map{|child_node| parse_tree(child_node, proc)} if node['children']
+    proc.call(node)
+  end
 end

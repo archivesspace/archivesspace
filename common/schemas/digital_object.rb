@@ -38,6 +38,7 @@
             "items" => {"type" => [{"type" => "JSONModel(:note_bibliography) object"},
                                    {"type" => "JSONModel(:note_digital_object) object"}]},
           },
+      "collection_management" => {"type" => "JSONModel(:collection_management) object"},
 
       "linked_instances" => {
         "type" => "array",

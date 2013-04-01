@@ -81,6 +81,7 @@ class ResourcesController < ApplicationController
 
   def fetch_tree
     @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id)
+    parse_tree(@tree, proc {|node| node['level'] = I18n.t("#{node['node_type']}.level_#{node['level']}", :default => node['level'])})
   end
 
 end

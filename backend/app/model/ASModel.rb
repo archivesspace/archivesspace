@@ -1,6 +1,5 @@
 require_relative '../lib/realtime_indexing'
 
-
 module ASModel
   include JSONModel
 
@@ -28,7 +27,7 @@ module ASModel
 
     Sequel.extension :inflector
 
-    def update_from_json(json, extra_values = {})
+    def update_from_json(json, extra_values = {}, apply_linked_records = true)
 
       if self.values.has_key?(:suppressed)
         if self[:suppressed] == 1
@@ -60,7 +59,9 @@ module ASModel
 
       obj = self.save
 
-      self.class.apply_linked_database_records(self, json)
+      if apply_linked_records
+        self.class.apply_linked_database_records(self, json)
+      end
 
       self.class.fire_update(json, obj)
 
@@ -132,7 +133,6 @@ module ASModel
       # nested record instances that it contains.
       def create_from_json(json, extra_values = {})
         self.strict_param_setting = false
-
         values = ASUtils.keys_as_strings(extra_values)
 
         if model_scope == :repository && !values.has_key?("repo_id")
@@ -360,6 +360,17 @@ module ASModel
 
       def corresponds_to(jsonmodel)
         @jsonmodel = jsonmodel
+
+        include(DynamicEnums)
+
+        enums = []
+        @jsonmodel.schema['properties'].each do |prop, defn|
+          if defn["dynamic_enum"]
+            enums << {:property => prop, :uses_enum => defn['dynamic_enum']}
+          end
+        end
+
+        uses_enums(*enums)
       end
 
 
@@ -622,3 +633,6 @@ module ASModel
   end
 
 end
+
+
+require_relative 'dynamic_enums'

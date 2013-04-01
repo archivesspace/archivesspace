@@ -19,5 +19,6 @@ build/solr_index
 build/indexer_state
 build/archivesspace_demo_db
 build/*.tmp
+build/.gem
 backend/tests/ladle-server*
 /migrations/examples/csv/accessions-sample.csv

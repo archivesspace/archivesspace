@@ -96,5 +96,38 @@ describe "Enumeration controller" do
     record[:last_modified].should_not eq(old_time)
     record[:my_enum_id].should_not eq(value.id)
   end
+  
+  it "can have a default value" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value.should be_nil
+    
+    val = obj.values[0]
+    
+    obj.default_value = val
+    obj.save
+    
+    obj = nil
+    
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value.should eq(val)
+  end
+  
+  it "can quietly ignore a non-viable default value" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    
+    default = "banana"
+    
+    obj.values.should_not include(default)
+    
+    obj.default_value = default
+    obj.save
+    
+    obj = nil
+    
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value.should be_nil
+    
+  end
+    
 
 end

@@ -1,5 +1,11 @@
 <div id="archivesSpaceSidebar">
   <ul class="nav nav-list as-nav-list">
+    <% if @exceptions %>
+      <li class="<% if @exceptions.has_key?(:errors)%>alert-error<% end %>">
+        <a href="#form_messages">Errors and Warnings  <span class="icon-chevron-right"></span></a>
+      </li>
+    <% end %>
+
     <li><a href="#basic_information"><%= I18n.t("digital_object._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" or @digital_object.file_versions.length > 0 %>
@@ -37,6 +43,10 @@
 
     <% if not controller.action_name === "show" or @digital_object.rights_statements.length > 0 %>
       <li><a href="#digital_object_rights_statements_"><%= I18n.t("rights_statement._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if not controller.action_name === "show" or @digital_object.collection_management %>
+      <li><a href="#digital_object_collection_management_"><%= I18n.t "collection_management._html.singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>

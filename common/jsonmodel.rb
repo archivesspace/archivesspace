@@ -252,6 +252,10 @@ module JSONModel
   def self.enum_values(name)
     @@init_args[:enum_source].values_for(name)
   end
+  
+  def self.enum_default_value(name)
+    @@init_args[:enum_source].default_value_for(name)
+  end
 
 
   def self.client_mode?
@@ -440,7 +444,7 @@ module JSONModel
         pattern = self.schema['uri']
         pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
 
-        if uri =~ /#{pattern}\/([0-9]+)$/
+        if uri =~ /#{pattern}\/([0-9]+)(\#.*)?$/
           return $1.to_i
         elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}([0-9]+)\/tree$/
           return $1.to_i
@@ -617,7 +621,7 @@ module JSONModel
       # Produce a JSON string from the values of this JSONModel.  Any values
       # that don't appear in the JSON schema will not appear in the result.
       def to_json(opts = {})
-        self.to_hash(opts[:mode]).to_json(opts.is_a?(Hash) ? opts.merge(:max_nesting => false) : {})
+        ASUtils.to_json(self.to_hash(opts[:mode]), opts.is_a?(Hash) ? opts.merge(:max_nesting => false) : {})
       end
 
 

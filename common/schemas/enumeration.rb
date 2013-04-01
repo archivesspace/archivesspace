@@ -7,6 +7,7 @@
       "uri" => {"type" => "string", "required" => false},
 
       "name" => {"type" => "string", "ifmissing" => "error"},
+      "default_value" => {"type" => "string"},
       "values" => {
         "type" => "array",
         "ifmissing" => "error",

@@ -4,7 +4,7 @@ module AutoGenerator
     base.extend(ClassMethods)
   end
 
-  def update_from_json(json, opts = {})
+  def update_from_json(json, opts = {}, apply_linked_records = true)
     self.class.properties_to_auto_generate.each do |generate_opts|
       next if generate_opts[:only_if] and not generate_opts[:only_if].call(json)
 

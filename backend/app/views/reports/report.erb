@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= erb :'reports/_styles', :locals => {:report => report} %>
+  </head>
+  <body class="<%= params[:format] %>">
+
+    <%= erb :'reports/_header', :locals => {:report => report} %>
+    <% if params[:format] === "pdf" %>
+      <%= erb :'reports/_footer', :locals => {:report => report} %>
+    <% end %>
+
+    <%= erb :"#{report.template}", :locals => {:report => report} %>
+
+    <% if params[:format] === "html" %>
+      <%= erb :'reports/_footer', :locals => {:report => report} %>
+    <% end %>
+
+  </body>
+</html>

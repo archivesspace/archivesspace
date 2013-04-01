@@ -56,26 +56,38 @@ module JSONModel
   @@protected_fields << "uri"
 
 
-  module Webhooks
+  module Notification
     @@notification_handlers = []
 
     def self.add_notification_handler(code = nil, &block)
       @@notification_handlers << {:code => code, :block => block}
     end
 
-    def self.notify(notification)
-      notification.events.each do |event|
-        @@notification_handlers.each do |handler|
-          if handler[:code].nil? or handler[:code] == event["code"]
-            handler[:block].call(event["code"], event["params"])
+    def self.start_background_thread
+      Thread.new do
+        sequence = 0
+
+        while true
+          begin
+            notifications = JSONModel::HTTP::get_json('/notifications',
+                                                      :last_sequence => sequence)
+
+            notifications.each do |notification|
+              @@notification_handlers.each do |handler|
+                if handler[:code].nil? or handler[:code] == notification["code"]
+                  handler[:block].call(notification["code"], notification["params"])
+                end
+              end
+            end
+
+            sequence = notifications.last['sequence']
+          rescue
+            sleep 5
           end
         end
       end
     end
 
-    def self.webhook_register(endpoint)
-      JSONModel::HTTP::post_form('/webhooks/register', "url" => endpoint)
-    end
   end
 
 
@@ -99,6 +111,31 @@ module JSONModel
       req.form_data = params
 
       do_http_request(url, req)
+    end
+
+
+    def self.stream(uri, params = {}, &block)
+      uri = URI("#{backend_url}#{uri}")
+      uri.query = URI.encode_www_form(params)
+
+      req = Net::HTTP::Get.new(uri.request_uri)
+
+      req['X-ArchivesSpace-Session'] = current_backend_session
+
+      if high_priority?
+        req['X-ArchivesSpace-Priority'] = "high"
+      end
+
+      Net::HTTP.start(uri.host, uri.port) do |http|
+        http.request(req, nil) do |response|
+          if response.code =~ /^4/
+            JSONModel::handle_error(ASUtils.json_parse(response.body))
+            raise response.body
+          end
+
+          block.call(response)
+        end
+      end
     end
 
 
@@ -397,8 +434,10 @@ module JSONModel
 
       def self.fetch_enumerations
         enumerations = {}
+        enumerations[:defaults] = {}
         JSONModel::JSONModel(:enumeration).all.each do |enumeration|
           enumerations[enumeration.name] = enumeration.values
+          enumerations[:defaults][enumeration.name] = enumeration.default_value
         end
 
         enumerations
@@ -417,6 +456,10 @@ module JSONModel
 
       def values_for(name)
         @enumerations.fetch(name)
+      end
+      
+      def default_value_for
+        @enumerations[:defaults].fetch(name)
       end
 
     end

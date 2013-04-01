@@ -65,8 +65,8 @@ module ASpaceImport
       repo_id = Thread.current[:selected_repo_id]
       batch = []
       
-      self.each do |obj|
-        batch << obj.to_hash(:raw)
+      while self.size > 0
+        batch << self.shift.to_hash(:raw)
       end
       batch_object.set_data({:batch => batch})
 
@@ -91,8 +91,11 @@ module ASpaceImport
         response
         
       else
+        json = ASUtils.to_json(batch_object)
+        batch_object = nil
+
         JSONModel::HTTP.with_request_priority(:low) do
-          JSONModel::HTTP.post_json(url, batch_object.to_json(:max_nesting => false))
+          JSONModel::HTTP.post_json(url, json)
         end
       end
     end
@@ -155,9 +158,9 @@ module ASpaceImport
     def pop
 
       self[0...-1].reverse.each do |qdobj|
-      
+
         # Set Links FROM popped object TO other objects in the queue
-        self.last.receivers.for_obj(qdobj) do |r|  
+        self.last.receivers.for_obj(qdobj) do |r|
           r << qdobj
         end
       
@@ -185,6 +188,7 @@ module ASpaceImport
     end
     
     def push(obj)
+
       raise "Not a JSON Object" unless obj.class.record_type
       @selected = obj
       
@@ -206,6 +210,10 @@ module ASpaceImport
     
     def inspect
       "Parse Queue: " << super <<  " -- Batch: " << @batch.inspect
+    end
+    
+    def select(json)
+      @selected = json
     end
     
     def selected

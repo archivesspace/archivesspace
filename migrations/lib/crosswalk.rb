@@ -29,6 +29,14 @@ module ASpaceImport
       end                                                                               
     end 
     
+    def self.method_missing(meth)
+      if @walk.has_key?(meth.to_s)
+        @walk[meth.to_s]
+      else
+        nil
+      end
+    end
+    
     def self.entries
       @walk['entities']
     end
@@ -68,6 +76,7 @@ module ASpaceImport
         # Need to bypass some validation rules for 
         # JSON objects created by an import
         def self.validate(hash)
+          ASpaceImport.logger.debug "Validating #{hash.inspect}"
           begin
             super(hash)
           rescue JSONModel::ValidationException => e
@@ -156,7 +165,12 @@ module ASpaceImport
 
 
       def by_name(prop_name)
-        @receivers[prop_name]
+
+        if @receivers[prop_name]
+          yield @receivers[prop_name]
+        else
+          ASpaceImport.logger.warn("Unable to find a property called #{prop_name} for schema #{@json.jsonmodel_type}")
+        end
       end
 
 
@@ -164,6 +178,7 @@ module ASpaceImport
         return nil if json.done_being_received?
         
         @receivers.each do |p, r|
+          next if !r.whitelisted.empty? && !r.whitelisted.include?(json)
           yield r unless ASpaceImport::Crosswalk.link_conditions.map {|lc| lc.call(r, json) }.include?(false)          
         end
       end
@@ -176,10 +191,30 @@ module ASpaceImport
     def self.property_receivers(model)
       receivers = {}
 
-      self.entries[model.model_key]['properties'].each do |p, xdef|
-        sdef = p.match(/^_/) ? {'type' => 'string'} : model.schema['properties'][p]
+      entry = self.entries[model.model_key]
+
+      model.schema['properties'].each do |p, sdef|
+        
+        next if sdef['readonly'] == true
+        
+        xdef = {}
+        # load old style crosswalk entries
+        if entry.has_key?('properties') and entry['properties'].has_key?(p)
+          xdef.merge!(entry['properties'][p])
+        end
+        
+        if entry.has_key?('defaults') and entry['defaults'].has_key?(p)
+          xdef.merge!({'default' => entry['defaults'][p]})
+        end
+        
         receivers[p] = self.initialize_receiver(p, sdef, xdef)
       end
+        
+
+      # self.entries[model.model_key]['properties'].each do |p, xdef|
+      #   sdef = p.match(/^_/) ? {'type' => 'string'} : model.schema['properties'][p]
+      #   receivers[p] = self.initialize_receiver(p, sdef, xdef)
+      # end
      
       receivers
     end
@@ -252,20 +287,48 @@ module ASpaceImport
       end
       
       def to_s
-        "Property Receiver for #{@object.class.record_type}\##{self.class.property}"
+        "Property Receiver for #{@object.class.record_type}\##{@object.object_id}\##{self.class.property}"
+      end
+      
+      def method_missing(meth)
+        if self.class.xdef.has_key?(meth.to_s)
+          self.class.xdef[meth.to_s]
+        else
+          nil
+        end
+      end
+      
+      def attribute_hash
+        hash = {}
+        if self.attributes
+          self.attributes.each do |attr, defn|
+            hash.merge!("#{attr}" => defn['default']) if defn.has_key?('default')
+          end
+        end
+        hash
+      end
+      
+      def whitelisted
+        @whitelist ||= []
+      end
+      
+      
+      def whitelist(obj)
+        @whitelist ||= []
+        @whitelist << obj
       end
       
       # Run defined procedures, apply defaults, and clean up
       # whitespace padding for a parsed value.
       
       def pre_process(val)
+        if val == nil && self.class.xdef['default'] && (!@object.send("#{self.class.property}") || @object.send("#{self.class.property}").empty?)
+          val = self.class.xdef['default']
+        end
+
         if self.class.xdef['procedure'] && val
           proc = eval "lambda { #{self.class.xdef['procedure']} }"
           val = proc.call(val)
-        end
-        
-        if val == nil && self.class.xdef['default'] && !@object.send("#{self.class.property}")
-          val = self.class.xdef['default']
         end
         
         if val.is_a? String
@@ -275,6 +338,7 @@ module ASpaceImport
         end
         
         val
+        
       end
       
       def <<(val)
@@ -286,7 +350,7 @@ module ASpaceImport
       def receive(val = nil)
         
         val = pre_process(val)
-                
+       
         return false if val == nil
         
         case self.class.property_type
@@ -307,14 +371,32 @@ module ASpaceImport
           end
           
         when /^record_inline/
-          val.block_further_reception if val.respond_to? :block_further_reception
-          val = val.to_hash
+          if val.class.method_defined? :to_hash
+            val.block_further_reception if val.respond_to? :block_further_reception
+            # val = val.to_hash
+          end
+          
         
         when /^record_ref/
           if val.class.method_defined? :uri
-            val = {'ref' => val.uri}
+
+            val = {'ref' => val.uri}.merge(self.attribute_hash)
+
           end  
+
+        when :boolean
+          if val.to_s == '0'
+            val = false
+          elsif val.to_s == '1'
+            val = true
+          end
+        
+        when :dynamic_enum
+          val.downcase!
+          
         end
+        
+
         
         if self.class.property_type.match /list$/
           if val.is_a?(Array)
@@ -328,12 +410,24 @@ module ASpaceImport
         
         @object.send("#{self.class.property}=", val)
       end
+      
+      # def link_attributes
+      #    return {} unless self.class.xdef.has_key?('link_attributes')
+      # 
+      #    self.class.xdef['link_attributes']
+      #  end
+      
     end
+    
 
 
     def self.ref_type_list(property_ref_type)
-      if property_ref_type.is_a? Array
+
+      if property_ref_type.is_a?(Array) && property_ref_type[0].is_a?(Hash)
         property_ref_type.map { |t| t['type'].scan(/:([a-zA-Z_]*)/)[0][0] }
+        
+      elsif property_ref_type.is_a?(Array)
+        property_ref_type.map { |t| t.scan(/:([a-zA-Z_]*)/)[0][0] }
       else  
         property_ref_type.scan(/:([a-zA-Z_]*)/)[0][0]
       end
@@ -355,6 +449,12 @@ module ASpaceImport
         
         return [:record_inline, property_def['type'].map {|t| t['type'].scan(/:([a-zA-Z_]*)/)[0][0] }]
       end
+      
+      # dynamic enums
+      
+      if property_def['type'] == 'string' && property_def.has_key?('dynamic_enum')
+        return [:dynamic_enum, nil]
+      end
 
       # all other cases
 
@@ -362,6 +462,9 @@ module ASpaceImport
 
       when 'boolean'
         [:boolean, nil]
+        
+      when 'integer'
+        [:integer, nil]
       
       when 'date'
         [:string, nil]
@@ -401,6 +504,7 @@ module ASpaceImport
     # The ref_source values are evaluated by a block
     
     def self.update_record_references(json, ref_source)
+
       data = json.to_hash
       data.each do |k, v|
 

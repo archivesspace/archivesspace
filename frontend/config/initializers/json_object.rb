@@ -51,27 +51,29 @@ if not ENV['DISABLE_STARTUP']
                                :init => 0)
 
 
-  JSONModel::Webhooks::add_notification_handler("REPOSITORY_CHANGED") do |msg, params|
+  JSONModel::Notification::add_notification_handler("REPOSITORY_CHANGED") do |msg, params|
     MemoryLeak::Resources.refresh(:repository)
   end
 
 
-  JSONModel::Webhooks::add_notification_handler("VOCABULARY_CHANGED") do |msg, params|
+  JSONModel::Notification::add_notification_handler("VOCABULARY_CHANGED") do |msg, params|
     MemoryLeak::Resources.refresh(:vocabulary)
   end
 
-  JSONModel::Webhooks::add_notification_handler("BACKEND_STARTED") do |msg, params|
+  JSONModel::Notification::add_notification_handler("BACKEND_STARTED") do |msg, params|
     MemoryLeak::Resources.invalidate_all!
   end
 
-  JSONModel::Webhooks::add_notification_handler("REFRESH_ACLS") do |msg, params|
+  JSONModel::Notification::add_notification_handler("REFRESH_ACLS") do |msg, params|
     MemoryLeak::Resources.refresh(:acl_last_modified)
   end
 
-  JSONModel::Webhooks::add_notification_handler("ENUMERATION_CHANGED") do |msg, params|
+  JSONModel::Notification::add_notification_handler("ENUMERATION_CHANGED") do |msg, params|
     MemoryLeak::Resources.refresh(:enumerations)
   end
 
+
+  JSONModel::Notification.start_background_thread
 end
 
 

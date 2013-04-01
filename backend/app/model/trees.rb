@@ -27,6 +27,8 @@ module Trees
         :record_uri => self.class.uri_for(node_type, node.id),
         :node_type => node_type.to_s
       }
+
+      properties[node.id][:level] = ((node.level === 'otherlevel') ? node.other_level : node.level) if node.respond_to?(:level)
     end
 
     result = {
@@ -36,6 +38,8 @@ module Trees
       :children => top_nodes.sort_by(&:first).map {|position, node| self.class.assemble_tree(node, links, properties)},
       :record_uri => self.class.uri_for(root_type, self.id)
     }
+
+    result[:level] = ((self.level === 'otherlevel') ? self.other_level : self.level) if self.respond_to?(:level)
 
     # Assumes that the tree's JSONModel type is just the root type with '_tree'
     # stuck on.  Maybe a bit presumptuous?

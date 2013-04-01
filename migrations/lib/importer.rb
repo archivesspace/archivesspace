@@ -2,8 +2,12 @@ module ASpaceImport
   
   def self.init
     Dir.glob(File.dirname(__FILE__) + '/../importers/*', &method(:load))
+    @@log = Logger.new
   end
   
+  def self.logger
+    @@log
+  end
   
   class Importer
 
@@ -73,6 +77,11 @@ module ASpaceImport
       @import_log = []
       @error_log = []
       @import_summary
+      if opts[:debug]
+        @logger = ASpaceImport.logger.set_mode :debug
+      else
+        @logger = ASpaceImport.logger.set_mode :warn
+      end
 
       @parse_queue = ASpaceImport::ParseQueue.new(opts)
     end
@@ -162,6 +171,7 @@ module ASpaceImport
     # Empty out the parse queue and set any defaults
     def clear_parse_queue
       while !@parse_queue.empty?
+        ASpaceImport.logger.debug("SET DEFAULTS #{@parse_queue.last.to_s}")
         @parse_queue.last.receivers.each { |r| r.receive }
         @parse_queue.pop
       end
@@ -195,6 +205,23 @@ module ASpaceImport
     end
       
   end
+  
+  class Logger
+    
+    def set_mode(importer_mode)
+      @importer_mode = importer_mode
+    end
+    
+    def method_missing(meth, *args)
+      
+      if meth == @importer_mode || @importer_mode == :debug
+        puts "#{meth.to_s.upcase}: #{args.flatten.to_s}"
+      end
+    end
+  end  
+      
+      
+  
   
 end
 

@@ -14,6 +14,9 @@ jdk:
   - oraclejdk7
   - openjdk6
 
+env: INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
+
+
 before_script:
   # http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
   - "export DISPLAY=:99.0"
@@ -29,8 +32,11 @@ script:
   - build/run backend:test
   - build/run backend:integration
 # - build/run common:test  # https://github.com/hudmol/archivesspace/commit/193fe9a3990da74e37e98140c9eaa264ec801643#L0R106
-  - build/run dist
-  - build/run selenium:test
+  - SCREENSHOT_ON_ERROR=1 build/run selenium:test
+  - WITH_NODEJS=1 build/run dist
+
+after_failure:
+  - build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
 
 notifications:
   irc: "irc.freenode.org#archivesspace"

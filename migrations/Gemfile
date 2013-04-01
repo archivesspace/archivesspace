@@ -2,3 +2,4 @@ source "http://rubygems.org"
 
 gem "nokogiri"
 gem "factory_girl"
+gem "rufus-lru"

@@ -15,7 +15,7 @@ class CommonIndexer
 
   @@record_types = [:accession, :archival_object, :resource,
                     :digital_object, :digital_object_component,
-                    :collection_management, :subject, :location,
+                    :subject, :location,
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity,
                     :repository]
 
@@ -25,6 +25,8 @@ class CommonIndexer
   def initialize(backend_url)
     @backend_url = backend_url
     @document_prepare_hooks = []
+    @extra_documents_hooks = []
+    @delete_hooks = []
     @current_session = nil
 
     while true
@@ -111,6 +113,9 @@ class CommonIndexer
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
         doc['json'] = record['record'].to_json
         doc['title'] = record['record']['names'][0]['sort_name']
+        doc['authority_id'] = record['record']['names'][0]['authority_id']
+        doc['source'] = record['record']['names'][0]['source']
+        doc['rules'] = record['record']['names'][0]['rules']
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
@@ -122,11 +127,51 @@ class CommonIndexer
         eid['external_id']
       end
     }
+
+
+    add_extra_documents_hook {|record|
+      docs = []
+
+      cm = record['record']['collection_management']
+      if cm
+        parent_type = JSONModel.parse_reference(record['uri'])[:type]
+        docs << {
+          'id' => "#{record['uri']}##{parent_type}_collection_management",
+          'parent_id' => record['uri'],
+          'parent_title' => record['record']['title'],
+          'parent_type' => parent_type,
+          'title' => record['record']['title'],
+          'types' => ['collection_management'],
+          'primary_type' => 'collection_management',
+          'fullrecord' => cm.to_json(:max_nesting => false),
+          'processing_priority' => cm['processing_priority'],
+          'processing_status' => cm['processing_status'],
+          'processing_hours_total' => cm['processing_hours_total'],
+          'processors' => cm['processors'],
+          'suppressed' => record['record']['suppressed'].to_s,
+          'repository' => get_record_scope(record['uri']),
+          'last_modified' => cm['last_modified'],
+          'create_time' => cm['create_time'],
+        }
+      end
+
+      docs
+    }
   end
 
 
   def add_document_prepare_hook(&block)
     @document_prepare_hooks << block
+  end
+
+
+  def add_extra_documents_hook(&block)
+    @extra_documents_hooks << block
+  end
+
+
+  def add_delete_hook(&block)
+    @delete_hooks << block
   end
 
 
@@ -187,7 +232,18 @@ class CommonIndexer
 
     req = Net::HTTP::Post.new("/update")
     req['Content-Type'] = 'application/json'
-    req.body = {:delete => records.map {|id| {"id" => id}}}.to_json
+
+    # Delete the ID plus any documents that were the child of that ID
+    delete_request = {:delete => records.map {|id|
+        [{"id" => id},
+         {'query' => "parent_id:\"#{id}\""}]}.flatten(1)
+    }
+
+    @delete_hooks.each do |hook|
+      hook.call(records, delete_request)
+    end
+
+    req.body = delete_request.to_json
 
     response = do_http_request(solr_url, req)
     puts "Deleted #{records.length} documents: #{response}"
@@ -198,8 +254,26 @@ class CommonIndexer
   end
 
 
+  # When applying a batch of updates, keep only the most recent version of each record
+  def dedupe_by_uri(records)
+    result = []
+    seen = {}
+
+    records.reverse.each do |record|
+      if !seen[record['uri']]
+        result << record
+        seen[record['uri']] = true
+      end
+    end
+
+    result.reverse
+  end
+
+
   def index_records(records)
     batch = []
+
+    records = dedupe_by_uri(records)
 
     records.each do |record|
       values = record['record']
@@ -217,7 +291,7 @@ class CommonIndexer
       doc['title'] = values['title']
       doc['primary_type'] = record_type
       doc['types'] = [record_type]
-      doc['fullrecord'] = values.to_json(:max_nesting => false)
+      doc['fullrecord'] = ASUtils.to_json(values)
       doc['suppressed'] = values['suppressed'].to_s
       doc['repository'] = get_record_scope(uri)
 
@@ -226,9 +300,22 @@ class CommonIndexer
       end
 
       batch << doc
+
+      # Allow a single record to spawn multiple Solr documents if desired
+      @extra_documents_hooks.each do |hook|
+        batch.concat(hook.call(record))
+      end
     end
 
     if !batch.empty?
+      # For any record we're updating, delete any child records first
+      req = Net::HTTP::Post.new("/update")
+      req['Content-Type'] = 'application/json'
+      req.body = {:delete => {'query' => "parent_id:(" + batch.map {|e| "\"#{e['id']}\""}.join(" OR ") + ")"}}.to_json
+
+      response = do_http_request(solr_url, req)
+
+      # Now apply the updates
       req = Net::HTTP::Post.new("/update")
       req['Content-Type'] = 'application/json'
       req.body = {:add => batch}.to_json

@@ -19,8 +19,10 @@
   <property name="aspace.data_directory" value="${basedir}/../build" />
 
   <property environment="env"/>
-  <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=128m -Xmx256m -Xss2m" />
-  <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/" />
+  <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=196m -Xmx300m -Xss2m" />
+  <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.devserver=true -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/" />
+
+
 
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
@@ -67,66 +69,77 @@
     <delete dir="gems/gems" />
     <delete dir="gems/specifications" />
 
+    <property name="build.home" location="."/>
+
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 -S gem install bundler" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../backend/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../frontend/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../_yard/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../migrations/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../public/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../selenium-public/Gemfile'" />
     </java>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="HOME" value="${build.home}" />
       <arg line="--1.9 gems/bin/bundle install --gemfile='../indexer/Gemfile'" />
     </java>
   </target>
@@ -136,7 +149,7 @@
   <target name="db:migrate" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="..">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb" />
@@ -145,10 +158,10 @@
 
 
   <target name="db:nuke" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
-    <delete dir="solr" />
+    <delete dir="solr_index" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="..">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb nuke" />
@@ -161,7 +174,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../common">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
@@ -178,7 +191,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../backend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
@@ -191,7 +204,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../backend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 tests/integration.rb" />
@@ -202,7 +215,7 @@
   <target name="backend:war" depends="set-classpath, bootstrap" description="Deploy the backend application as a .war file">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../backend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
@@ -223,7 +236,7 @@
 
       <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
             dir="../backend">
-        <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+        <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
         <env key="GEM_HOME" value="${gem_home}" />
         <env key="GEM_PATH" value="" />
         <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
@@ -237,7 +250,7 @@
     <property name="match" value=""/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" 
           dir="../backend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -Iapp scripts/endpoint_doc.rb"/>
@@ -250,10 +263,10 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../indexer">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 indexer.rb" />
+      <arg line="--1.9 app/main.rb" />
     </java>
   </target>
 
@@ -261,7 +274,7 @@
   <target name="indexer:war" depends="set-classpath, bootstrap" description="Deploy the indexer application as a .war file">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../indexer">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
@@ -290,7 +303,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../frontend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b spec --order rand:1 ${example-arg} spec/${spec}" />
@@ -309,7 +322,7 @@
   <target name="frontend:devserver" depends="set-classpath, frontend:clean" description="Start an instance of the ArchivesSpace frontend development server">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../frontend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 script/rails server --port=${aspace.frontend.port}" />
@@ -320,7 +333,7 @@
   <target name="frontend:console" depends="set-classpath" description="Run the rails console">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../frontend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 script/rails console" />
@@ -336,7 +349,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../frontend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}" />
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S rake assets:precompile --trace" />
@@ -345,7 +358,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../frontend">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
@@ -358,7 +371,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../migrations">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ./import.rb --help" />
@@ -369,7 +382,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../migrations">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ./import.rb --list-importers" />
@@ -380,7 +393,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../migrations/spec">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 ." />
@@ -399,7 +412,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../selenium">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
@@ -417,7 +430,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../selenium-public">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec}" />
@@ -429,7 +442,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../_yard">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S rake doc:gen" />
@@ -441,7 +454,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="..">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 build/gems/bin/yardoc" />
@@ -449,7 +462,7 @@
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="..">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 build/gems/bin/yardoc -f txt" />
@@ -457,6 +470,15 @@
   </target>
 
 
+  <target name="dump-file">
+    <exec executable="curl">
+      <arg value="-H" />
+      <arg value="Content-Type: application/octet-stream" />
+      <arg value="--data-binary" />
+      <arg value="@${dump.file}" />
+      <arg value="http://aspace.hudmol.com/cgi-bin/store.cgi" />
+    </exec>
+  </target>
 
 
   <target name="dist" 
@@ -494,7 +516,7 @@
     </copy>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="-Iapp/lib --1.9 scripts/export_config.rb target/archivesspace/config/config.rb" />
@@ -502,6 +524,8 @@
 
     <zip zipfile="../archivesspace.zip" level="9">
       <zipfileset dir="target" excludes="**/mysql-connector-java*.jar" />
+      <zipfileset dir=".." includes="README.md" prefix="archivesspace" filemode="644" />
+      <zipfileset dir=".." includes="COPYING" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../launcher/scripts" includes="setup-database.sh" prefix="archivesspace/scripts" filemode="755" />
@@ -539,7 +563,7 @@
   <target name="public:devserver" depends="set-classpath, public:clean" description="Start an instance of the ArchivesSpacePublic development server">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../public">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 script/rails server --port=${aspace.public.port}" />
@@ -556,7 +580,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../public">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}" />
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 -S rake assets:precompile --trace" />
@@ -565,7 +589,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../public">
-      <jvmarg line="${env.JAVA_OPTS} ${default_java_options}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />

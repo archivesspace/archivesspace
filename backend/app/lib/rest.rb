@@ -92,6 +92,20 @@ module RESTHelpers
         :optional => true]]
     end
 
+    ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx", "html", "pdf"]
+
+    def self.allowed_report_formats
+      ALLOWED_REPORT_FORMATS
+    end
+
+    def self.report_formats
+      ["format",
+       String,
+       "The format to render the report (one of: #{ALLOWED_REPORT_FORMATS.join(", ")})",
+       :validation => ["Must be one of #{ALLOWED_REPORT_FORMATS.join(", ")}",
+                       ->(v){ ALLOWED_REPORT_FORMATS.include?(v) }]]
+    end
+
     def self.all
       @@endpoints.map do |e|
         e.instance_eval do
@@ -180,7 +194,9 @@ module RESTHelpers
 
       ArchivesSpaceService.send(@method, @uri, {}) do
         RequestContext.open(request_context) do
-          ensure_params(rp)
+          DB.open do |db|
+            ensure_params(rp)
+          end
 
           Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
 
@@ -271,7 +287,16 @@ module RESTHelpers
       def coerce_type(value, type)
         if type == Integer
           Integer(value)
+        elsif type == DateTime
+          DateTime.parse(value)
         elsif type.respond_to? :from_json
+
+          # Allow the request to specify how the incoming JSON is encoded, but
+          # convert to UTF-8 for processing
+          if request.content_charset
+            value = value.force_encoding(request.content_charset).encode("UTF-8")
+          end
+
           type.from_json(value)
         elsif type.is_a? Array
           if value.is_a? Array
@@ -284,8 +309,10 @@ module RESTHelpers
           value
         elsif type.respond_to? :value
           type.value(value)
-        else
+        elsif type == String
           value
+        else
+          raise BadParamsException.new("Type not recognized: #{type}")
         end
       end
 

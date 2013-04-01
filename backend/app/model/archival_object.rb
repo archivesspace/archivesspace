@@ -5,6 +5,8 @@ require 'securerandom'
 
 class ArchivalObject < Sequel::Model(:archival_object)
   include ASModel
+  corresponds_to JSONModel(:archival_object)
+
   include Subjects
   include Extents
   include Dates
@@ -17,13 +19,11 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Notes
   include ExternalIDs
 
-  agent_role_enum("linked_agent_archival_record_roles")
   agent_relator_enum("linked_agent_archival_record_relators")
 
   orderable_root_record_type :resource, :archival_object
 
   set_model_scope :repository
-  corresponds_to JSONModel(:archival_object)
 
   auto_generate :property => :ref_id,
                 :generator => proc { |json|

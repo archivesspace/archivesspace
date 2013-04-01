@@ -1,8 +1,9 @@
 class Group < Sequel::Model(:group)
   include ASModel
+  corresponds_to JSONModel(:group)
+
 
   set_model_scope :repository
-  corresponds_to JSONModel(:group)
 
   many_to_many :user, :join_table => :group_user
   many_to_many :permission, :join_table => :group_permission
@@ -88,7 +89,7 @@ class Group < Sequel::Model(:group)
   end
 
 
-  def update_from_json(json, opts = {})
+  def update_from_json(json, opts = {}, apply_linked_records = true)
     super
     self.class.set_members(self, json) if opts[:with_members]
     self.class.set_permissions(self, json)
@@ -131,6 +132,6 @@ class Group < Sequel::Model(:group)
 
 
   def self.broadcast_changes
-    Webhooks.notify("REFRESH_ACLS")
+    Notifications.notify("REFRESH_ACLS")
   end
 end

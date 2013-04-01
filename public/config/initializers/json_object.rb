@@ -2,7 +2,6 @@ require "jsonmodel"
 require "memoryleak"
 
 if not ENV['DISABLE_STARTUP']
-
   JSONModel::init(:client_mode => true,
                 :priority => :high,
                 :url => AppConfig[:backend_url])
@@ -10,6 +9,11 @@ if not ENV['DISABLE_STARTUP']
 
   MemoryLeak::Resources.define(:repository, proc { JSONModel(:repository).all }, 60)
 
+  JSONModel::Notification::add_notification_handler("REPOSITORY_CHANGED") do |msg, params|
+    MemoryLeak::Resources.refresh(:repository)
+  end
+
+  JSONModel::Notification.start_background_thread
 
   JSONModel::add_error_handler do |error|
     if error["code"] == "SESSION_GONE"

@@ -23,7 +23,7 @@ module TestUtils
 
 
   def self.wait_for_url(url)
-    while true
+    100.times do
       begin
         uri = URI(url)
         req = Net::HTTP::Get.new(uri.request_uri)
@@ -46,7 +46,7 @@ module TestUtils
   def self.start_backend(port, config = {}, config_file = nil)
     base = File.dirname(__FILE__)
 
-    java_opts = "-Xmx96M -XX:MaxPermSize=64M"
+    java_opts = "-Xmx256M -XX:MaxPermSize=128M"
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
@@ -69,7 +69,7 @@ module TestUtils
   def self.start_frontend(port, backend_url, config = {})
     base = File.dirname(__FILE__)
 
-    java_opts = "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}"
+    java_opts = "-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}"
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
@@ -87,7 +87,7 @@ module TestUtils
   def self.start_public(port, backend_url, config = {})
     base = File.dirname(__FILE__)
 
-    java_opts = "-Xmx128M -XX:MaxPermSize=96M -Daspace.config.backend_url=#{backend_url}"
+    java_opts = "-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}"
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
