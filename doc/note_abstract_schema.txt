@@ -1,0 +1,8 @@
+JSON Schema: Note_abstract
+
+Properties
+
+
+
+
+

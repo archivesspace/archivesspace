@@ -10,6 +10,8 @@ string	record_uri
 
 string	title
 
+string	level
+
 string	node_type
 
 array (JSONModel(:record_tree) object)	children

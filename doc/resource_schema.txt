@@ -64,6 +64,8 @@ array (JSONModel(:instance) object)	instances
 
 array (JSONModel(:deaccession) object)	deaccessions
 
+JSONModel(:collection_management) object	collection_management
+
 array (object)	related_accessions
 
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes

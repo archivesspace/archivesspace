@@ -216,22 +216,22 @@
       <pre class="lines">
 
 
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489
 490
-491</pre>
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 479</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 490</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_map_db_types_to_json identifier id'>map_db_types_to_json</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -267,27 +267,27 @@
       <pre class="lines">
 
 
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468
-469
 470
 471
 472
 473
 474
 475
-476</pre>
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 470</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_prepare_for_db identifier id'>prepare_for_db</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -328,12 +328,12 @@
       <pre class="lines">
 
 
-494
-495
-496</pre>
+505
+506
+507</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 494</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 505</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_shortname identifier id'>shortname</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;_&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_s identifier id'>s</span><span class='bitor op'>|</span> <span class='rubyid_s identifier id'>s</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='integer val'>3</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;_&quot;</span><span class='rparen token'>)</span>
@@ -349,7 +349,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:52 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:25:57 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

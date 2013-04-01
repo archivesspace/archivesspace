@@ -66,35 +66,44 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><div id='filecontents'><h1 id="getting-started">Getting started</h1>
+    <div id="content"><div id='filecontents'><h2 id="archivesspace-readme">ArchivesSpace README</h2>
+<p><a href="http://archivesspace.org">http://archivesspace.org</a></p>
 
-<p>If you have the Java 1.6.0 SDK (or above) you can build and run a demo
-server with the following commands:</p>
+<h1 id="getting-started">Getting started</h1>
 
-<pre class="code ruby"><code> <span class='rubyid_git identifier id'>git</span> <span class='rubyid_clone identifier id'>clone</span> <span class='rubyid_git identifier id'>git</span><span class='symbol val'>:/</span><span class='regexp val'>/github.com/</span><span class='rubyid_hudmol identifier id'>hudmol</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_git identifier id'>git</span>
+<p>The quickest way to get ArchivesSpace up and running is to download
+the latest distribution .zip file from the following URL:</p>
 
- <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span>
+<p>https://github.com/archivesspace/archivesspace/wiki/Downloads</p>
 
- <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_dist identifier id'>dist</span>
+<p>You will need to have Java 1.6 (or newer) installed on your machine,
+but everything else you need is included in the .zip file.  You can
+check your Java version by running the command:</p>
 
- <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span> <span class='minus op'>-</span><span class='rubyid_Xmx256m constant id'>Xmx256m</span> <span class='minus op'>-</span><span class='rubyid_Dfile constant id'>Dfile</span><span class='dot token'>.</span><span class='rubyid_encoding identifier id'>encoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span> <span class='minus op'>-</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
+<pre class="code ruby"><code> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_version identifier id'>version</span>
 </code></pre>
 
-<p>This will start the ArchivesSpace application running on:</p>
+<p>When you extract the .zip file, it will create a directory called
+<code>archivesspace</code>.  To run the system, just execute the appropriate
+startup script for your platform.  On Linux and OSX:</p>
 
-<p>http://localhost:8080/</p>
-
-<p>and the backend web service running on:</p>
-
-<p>http://localhost:8089/</p>
-
-<p>If you&#8217;d like to use different ports, you can run:</p>
-
-<pre class="code ruby"><code><span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span> <span class='minus op'>-</span><span class='rubyid_Xmx256m constant id'>Xmx256m</span> <span class='minus op'>-</span><span class='rubyid_Dfile constant id'>Dfile</span><span class='dot token'>.</span><span class='rubyid_encoding identifier id'>encoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span> <span class='minus op'>-</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span> <span class='lbrack token'>[</span><span class='rubyid_frontend identifier id'>frontend</span> <span class='rubyid_port identifier id'>port</span><span class='rbrack token'>]</span> <span class='lbrack token'>[</span><span class='rubyid_backend identifier id'>backend</span> <span class='rubyid_port identifier id'>port</span><span class='rbrack token'>]</span>
+<pre class="code ruby"><code> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
 </code></pre>
 
-<p>To set up the application, browse to http://localhost:8080/ and log in
-using the adminstrator account:</p>
+<p>and for Windows:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_cd identifier id'>cd</span> \<span class='rubyid_path identifier id'>path</span>\<span class='rubyid_to identifier id'>to</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_bat identifier id'>bat</span>
+</code></pre>
+
+<p>the system will log to the console as it starts up, and after a minute
+or so, you should be able to point your browser to
+http://localhost:3000/ and access the ArchivesSpace application.</p>
+
+<h1 id="first-steps">First steps</h1>
+
+<p>To start using the application, log in using the adminstrator account:</p>
 
 <ul>
   <li>Username: <code>admin</code></li>
@@ -106,53 +115,65 @@ repository&#8221; from the drop-down menu at the top right hand side of the
 screen.  Once you have created a repository, you can log out and
 register new user accounts from the link in the log-in form.</p>
 
-<p>Note: If you have already run the service in demo mode, you may need
-to remove the existing demo database in order to avoid a
-&#8216;java.sql.SQLException: Failed to create database&#8217; error:</p>
+<h1 id="running-archivesspace-with-a-custom-configuration-file">Running ArchivesSpace with a custom configuration file</h1>
 
-<pre class="code ruby"><code>  <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_db identifier id'>db</span><span class='symbol val'>:nuke</span>
+<p>Under your <code>archivesspace</code> directory you will see a directory called
+<code>config</code> which contains a file called <code>config.rb</code>.  By modifying this
+file, you can override the defaults that ArchivesSpace ships with:
+changing things like the ports it listens on and where it puts its data.</p>
+
+<h1 id="running-archivesspace-against-mysql">Running ArchivesSpace against MySQL</h1>
+
+<p>The ArchivesSpace distribution runs against an embedded database by
+default, but it&#8217;s a good idea to run against MySQL for production
+use.</p>
+
+<h2 id="download-mysql-connector">Download MySQL Connector</h2>
+
+<p>ArchivesSpace requires the
+<a href="http://dev.mysql.com/downloads/connector/j/">MySQL Connector for Java</a>,
+which must be downloaded separately because of its licensing agreement.
+Download the Connector and place it in a location where ArchivesSpace can
+find it on its classpath:</p>
+
+<pre class="code ruby"><code>     $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_Oq constant id'>Oq</span> <span class='rubyid_http identifier id'>http</span><span class='symbol val'>:/</span><span class='regexp val'>/repo1.maven.org/</span><span class='rubyid_maven2 identifier id'>maven2</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='div op'>/</span><span class='float val'>5.1</span><span class='integer val'>.24</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.24</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
+
+     $ <span class='rubyid_mv identifier id'>mv</span> <span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.24</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_lib identifier id'>lib</span>
 </code></pre>
 
-<h2 id="running-archivesspace-with-a-custom-configuration-file">Running ArchivesSpace with a custom configuration file</h2>
+<h2 id="set-up-mysql-database">Set up MySQL database</h2>
 
-<p>ArchivesSpace loads its configuration from a <code>config.rb</code> file, and
-will look for this file in several locations:</p>
+<p>Next, create an empty database in MySQL and grant access
+to a dedicated ArchivesSpace user (this example uses username <code>as</code> and
+password <code>as123</code>):</p>
 
-<ul>
-  <li>
-    <p>If you&#8217;re running the <code>archivesspace.jar</code> as above, it will
-attempt to load the configuration from the current user&#8217;s home
-directory: <code>$HOME/.aspace_config.rb</code> </p>
-  </li>
-  <li>
-    <p>If you&#8217;re running ArchivesSpace under Tomcat, it will attempt to
-load <code>$TOMCAT_HOME/conf/config.rb</code></p>
-  </li>
-  <li>
-    <p>If you&#8217;re running in development mode, it will attempt to load
-<code>/path/to/archivesspace/config/config.rb</code> </p>
-  </li>
-</ul>
+<pre class="code ruby"><code>     $ <span class='rubyid_mysql identifier id'>mysql</span> <span class='minus op'>-</span><span class='rubyid_uroot identifier id'>uroot</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span>
 
-<p>To explicitly specify the location of your configuration file, you can
-run the application with the &#8216;aspace.config&#8217; system property set.  For
-example:</p>
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span> <span class='rubyid_default identifier id'>default</span> <span class='rubyid_character identifier id'>character</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_utf8 identifier id'>utf8</span><span class='semicolon token'>;</span>
+     <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>1</span> <span class='rubyid_row identifier id'>row</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.08</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
 
-<pre class="code ruby"><code> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span> <span class='minus op'>-</span><span class='rubyid_Xmx256m constant id'>Xmx256m</span> <span class='minus op'>-</span><span class='rubyid_Dfile constant id'>Dfile</span><span class='dot token'>.</span><span class='rubyid_encoding identifier id'>encoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span> <span class='minus op'>-</span><span class='rubyid_Daspace constant id'>Daspace</span><span class='dot token'>.</span><span class='rubyid_config identifier id'>config</span><span class='assign token'>=</span><span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_my identifier id'>my</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'as'</span>@<span class='string val'>'localhost'</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>'as123'</span><span class='semicolon token'>;</span>
+     <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>0</span> <span class='rubyid_rows identifier id'>rows</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.21</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
 </code></pre>
 
-<p>You can also override individual configuration options by setting the
-corresponding system property.  The command line:</p>
+<p>Then, modify your <code>config/config.rb</code> file to refer to your MySQL
+database:</p>
 
-<pre class="code ruby"><code> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span> <span class='minus op'>-</span><span class='rubyid_Xmx256m constant id'>Xmx256m</span> <span class='minus op'>-</span><span class='rubyid_Dfile constant id'>Dfile</span><span class='dot token'>.</span><span class='rubyid_encoding identifier id'>encoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span> <span class='minus op'>-</span><span class='rubyid_Daspace constant id'>Daspace</span><span class='dot token'>.</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_data_directory identifier id'>data_directory</span><span class='assign token'>=</span><span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_my identifier id'>my</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span> <span class='minus op'>-</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;jdbc:mysql://localhost:3306/archivesspace?user=as&amp;password=as123&amp;useUnicode=true&amp;characterEncoding=UTF-8&quot;</span>
 </code></pre>
 
-<p>is equivalent to adding a <code>config.rb</code> entry like:</p>
+<p>There is a database setup script that will create all the tables that
+ArchivesSpace requires.  Run this with:</p>
 
-<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:data_directory</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;/path/to/my/data&quot;</span>
+<pre class="code ruby"><code><span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>  <span class='comment val'># or setup-database.bat under Windows</span>
 </code></pre>
 
-<h2 id="configuring-ldap-authentication">Configuring LDAP authentication</h2>
+<h2 id="start-archivesspace">Start ArchivesSpace</h2>
+
+<p>Once your database is configured, start the application using
+<code>archivesspace.sh</code> (or <code>archivesspace.bat</code> under Windows).</p>
+
+<h1 id="configuring-ldap-authentication">Configuring LDAP authentication</h1>
 
 <p>ArchivesSpace can be configured to authenticate against one or more
 LDAP directories by specifying them in the application&#8217;s configuration
@@ -218,11 +239,22 @@ appropriate and specify the <code>encryption</code> option:</p>
 
 <h1 id="further-documentation">Further documentation</h1>
 
-<p>Latest documentation is published at <a href="http://hudmol.github.com/archivesspace/">http://hudmol.github.com/archivesspace/</a></p>
+<p>Additional deployment documentation can be found on the ArchivesSpace
+wiki at <a href="https://github.com/archivesspace/archivesspace/wiki">https://github.com/archivesspace/archivesspace/wiki</a>.</p>
+
+<p>The latest technical documentation, including API documentation and
+architecture notes, is published at
+<a href="http://hudmol.github.com/archivesspace/">http://hudmol.github.com/archivesspace/</a>.</p>
+
+<h1 id="license">License</h1>
+
+<p>ArchivesSpace is released under the <a href="http://opensource.org/licenses/ecl2.php">Educational Community License,
+version 2.0</a>. See the
+<a href="COPYING">COPYING</a> file for more information.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:46 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:25:52 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

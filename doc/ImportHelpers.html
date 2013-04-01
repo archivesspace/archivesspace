@@ -176,12 +176,14 @@
 11
 12
 13
-14</pre>
+14
+15</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/import_helpers.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_import identifier id'>handle_import</span>
+
   <span class='rubyid_batch identifier id'>batch</span> <span class='assign token'>=</span> <span class='rubyid_Batch constant id'>Batch</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:batch_import</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_put identifier id'>put</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -202,7 +204,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:53 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:25:58 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

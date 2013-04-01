@@ -420,9 +420,6 @@ is a match for the added record.</p>
       <pre class="lines">
 
 
-102
-103
-104
 105
 106
 107
@@ -437,10 +434,13 @@ is a match for the added record.</p>
 116
 117
 118
-119</pre>
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 105</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_find_dupe identifier id'>find_dupe</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
 
@@ -607,7 +607,10 @@ is a match for the added record.</p>
 95
 96
 97
-98</pre>
+98
+99
+100
+101</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'migrations/lib/parse_queue.rb', line 60</span>
@@ -620,8 +623,8 @@ is a match for the added record.</p>
   <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:selected_repo_id</span><span class='rbrack token'>]</span>
   <span class='rubyid_batch identifier id'>batch</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
-    <span class='rubyid_batch identifier id'>batch</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:raw</span><span class='rparen token'>)</span>
+  <span class='rubyid_while while kw'>while</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_size identifier id'>size</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+    <span class='rubyid_batch identifier id'>batch</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_shift identifier id'>shift</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:raw</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_batch_object identifier id'>batch_object</span><span class='dot token'>.</span><span class='rubyid_set_data identifier id'>set_data</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:batch</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_batch identifier id'>batch</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
@@ -646,8 +649,11 @@ is a match for the added record.</p>
     <span class='rubyid_response identifier id'>response</span>
     
   <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_batch_object identifier id'>batch_object</span><span class='rparen token'>)</span>
+    <span class='rubyid_batch_object identifier id'>batch_object</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+
     <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_with_request_priority identifier id'>with_request_priority</span><span class='lparen token'>(</span><span class='symbol val'>:low</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
-      <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_json identifier id'>post_json</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='rubyid_batch_object identifier id'>batch_object</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='symbol val'>:max_nesting</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_json identifier id'>post_json</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -662,7 +668,7 @@ is a match for the added record.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:21:17 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:26:18 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

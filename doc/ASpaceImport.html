@@ -99,7 +99,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ASpaceImport/Batch.html" title="ASpaceImport::Batch (class)">Batch</a></span>, <span class='object_link'><a href="ASpaceImport/Importer.html" title="ASpaceImport::Importer (class)">Importer</a></span>, <span class='object_link'><a href="ASpaceImport/LoggableError.html" title="ASpaceImport::LoggableError (class)">LoggableError</a></span>, <span class='object_link'><a href="ASpaceImport/ParseQueue.html" title="ASpaceImport::ParseQueue (class)">ParseQueue</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ASpaceImport/Batch.html" title="ASpaceImport::Batch (class)">Batch</a></span>, <span class='object_link'><a href="ASpaceImport/Importer.html" title="ASpaceImport::Importer (class)">Importer</a></span>, <span class='object_link'><a href="ASpaceImport/LoggableError.html" title="ASpaceImport::LoggableError (class)">LoggableError</a></span>, <span class='object_link'><a href="ASpaceImport/Logger.html" title="ASpaceImport::Logger (class)">Logger</a></span>, <span class='object_link'><a href="ASpaceImport/ParseQueue.html" title="ASpaceImport::ParseQueue (class)">ParseQueue</a></span>
     
   
     
@@ -147,6 +147,29 @@
   <span class="summary_signature">
     
       <a href="#init-class_method" title="init (class method)">+ (Object) <strong>init</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#logger-class_method" title="logger (class method)">+ (Object) <strong>logger</strong> </a>
     
 
     
@@ -273,13 +296,46 @@
 
 3
 4
-5</pre>
+5
+6</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span>
   <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_glob identifier id'>glob</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>'/../importers/*'</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_method identifier id'>method</span><span class='lparen token'>(</span><span class='symbol val'>:load</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@log ivar id'>@@log</span> <span class='assign token'>=</span> <span class='rubyid_Logger constant id'>Logger</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="logger-class_method">
+  
+    + (<tt>Object</tt>) <strong>logger</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span>
+  <span class='rubyid_@@log ivar id'>@@log</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -292,7 +348,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:59 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:26:03 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

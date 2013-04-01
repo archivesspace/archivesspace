@@ -1,5 +1,5 @@
 JSON Schema: Collection_management
-/repositories/:repo_id/collection_management_records
+/repositories/:repo_id/collection_management
 Properties
 
 string	uri
@@ -25,8 +25,6 @@ string	processing_status
 string	processors
 
 boolean	rights_determined
-
-array (object)	linked_records
 
 
 

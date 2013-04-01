@@ -1,0 +1,10 @@
+JSON Schema: Note_citation
+
+Properties
+
+object	xlink
+
+
+
+
+

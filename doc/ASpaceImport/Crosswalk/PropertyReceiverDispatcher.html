@@ -311,16 +311,16 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151</pre>
+154
+155
+156
+157
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 154</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span>
@@ -357,12 +357,12 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-137
-138
-139</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 146</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
   <span class='rubyid_@receiver_classes ivar id'>@receiver_classes</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_property_receivers identifier id'>property_receivers</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
@@ -388,12 +388,12 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-141
-142
-143</pre>
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_receiver_classes identifier id'>receiver_classes</span>
   <span class='rubyid_@receiver_classes ivar id'>@receiver_classes</span>
@@ -425,15 +425,25 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-158
-159
-160</pre>
+167
+168
+169
+170
+171
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 167</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_by_name identifier id'>by_name</span><span class='lparen token'>(</span><span class='rubyid_prop_name identifier id'>prop_name</span><span class='rparen token'>)</span>
-  <span class='rubyid_@receivers ivar id'>@receivers</span><span class='lbrack token'>[</span><span class='rubyid_prop_name identifier id'>prop_name</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@receivers ivar id'>@receivers</span><span class='lbrack token'>[</span><span class='rubyid_prop_name identifier id'>prop_name</span><span class='rbrack token'>]</span>
+    <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_@receivers ivar id'>@receivers</span><span class='lbrack token'>[</span><span class='rubyid_prop_name identifier id'>prop_name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Unable to find a property called #{prop_name} for schema #{@json.jsonmodel_type}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -456,12 +466,12 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-153
-154
-155</pre>
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 162</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each identifier id'>each</span>
   <span class='rubyid_@receivers ivar id'>@receivers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_r identifier id'>r</span> <span class='rbrace token'>}</span>                  
@@ -487,21 +497,23 @@ the parsing context into which the reciever will be yielded)</p>
       <pre class="lines">
 
 
-163
-164
-165
-166
-167
-168
-169</pre>
+177
+178
+179
+180
+181
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 177</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_for_obj identifier id'>for_obj</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_done_being_received? fid id'>done_being_received?</span>
   
   <span class='rubyid_@receivers ivar id'>@receivers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_whitelisted identifier id'>whitelisted</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_whitelisted identifier id'>whitelisted</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
     <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_r identifier id'>r</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Crosswalk constant id'>Crosswalk</span><span class='dot token'>.</span><span class='rubyid_link_conditions identifier id'>link_conditions</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_lc identifier id'>lc</span><span class='bitor op'>|</span> <span class='rubyid_lc identifier id'>lc</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_r identifier id'>r</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>          
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -516,7 +528,7 @@ the parsing context into which the reciever will be yielded)</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:21:16 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:26:18 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

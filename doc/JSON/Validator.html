@@ -200,6 +200,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#serialize-instance_method" title="#serialize (instance method)">- (Object) <strong>serialize</strong>(schema) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Plus one bonus: don&#8217;t use MultiJson here.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#validate-instance_method" title="#validate (instance method)">- (Object) <strong>validate</strong> </a>
     
 
@@ -329,7 +352,60 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="validate-instance_method">
+  <h3 class="signature first" id="serialize-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serialize</strong>(schema) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Plus one bonus: don&#8217;t use MultiJson here.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/json_schema_concurrency_fix.rb', line 41</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span> <span class='rubyid_schema identifier id'>schema</span>
+  <span class='comment val'># if defined?(MultiJson)</span>
+  <span class='comment val'>#   MultiJson.respond_to?(:dump) ? MultiJson.dump(schema) : MultiJson.encode(schema)</span>
+  <span class='comment val'># else</span>
+  <span class='comment val'>#   @@serializer.call(schema)</span>
+  <span class='comment val'># end</span>
+
+  <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate-instance_method">
   
     - (<tt>Object</tt>) <strong>validate</strong> 
   
@@ -398,7 +474,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:21:14 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:26:17 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

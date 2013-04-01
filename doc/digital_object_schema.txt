@@ -18,6 +18,8 @@ object	tree
 
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])	notes
 
+JSONModel(:collection_management) object	collection_management
+
 array (object)	linked_instances
 
 

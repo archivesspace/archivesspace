@@ -280,6 +280,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#method_missing-class_method" title="method_missing (class method)">+ (Object) <strong>method_missing</strong>(meth) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#mint_id-class_method" title="mint_id (class method)">+ (Object) <strong>mint_id</strong> </a>
     
 
@@ -417,12 +440,12 @@ json model.</p>
       <pre class="lines">
 
 
-40
-41
-42</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_link_condition identifier id'>add_link_condition</span><span class='lparen token'>(</span><span class='rubyid_lamb identifier id'>lamb</span><span class='rparen token'>)</span>
   <span class='rubyid_@link_conditions ivar id'>@link_conditions</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_lamb identifier id'>lamb</span>
@@ -448,14 +471,6 @@ json model.</p>
       <pre class="lines">
 
 
-54
-55
-56
-57
-58
-59
-60
-61
 62
 63
 64
@@ -522,10 +537,19 @@ json model.</p>
 125
 126
 127
-128</pre>
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_model identifier id'>create_model</span><span class='lparen token'>(</span><span class='rubyid_model_key identifier id'>model_key</span><span class='comma token'>,</span> <span class='rubyid_json_model identifier id'>json_model</span><span class='rparen token'>)</span>
 
@@ -544,6 +568,7 @@ json model.</p>
     <span class='comment val'># Need to bypass some validation rules for </span>
     <span class='comment val'># JSON objects created by an import</span>
     <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_validate identifier id'>validate</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+      <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span> <span class='dstring node'>&quot;Validating #{hash.inspect}&quot;</span>
       <span class='rubyid_begin begin kw'>begin</span>
         <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
       <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
@@ -623,12 +648,12 @@ json model.</p>
       <pre class="lines">
 
 
-32
-33
-34</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_entries identifier id'>entries</span>
   <span class='rubyid_@walk ivar id'>@walk</span><span class='lbrack token'>[</span><span class='string val'>'entities'</span><span class='rbrack token'>]</span>
@@ -685,62 +710,71 @@ json model.</p>
       <pre class="lines">
 
 
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397</pre>
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 345</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 439</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_property_type identifier id'>get_property_type</span><span class='lparen token'>(</span><span class='rubyid_property_def identifier id'>property_def</span><span class='rparen token'>)</span>
   
@@ -755,6 +789,12 @@ json model.</p>
     
     <span class='rubyid_return return kw'>return</span> <span class='lbrack token'>[</span><span class='symbol val'>:record_inline</span><span class='comma token'>,</span> <span class='rubyid_property_def identifier id'>property_def</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/:([a-zA-Z_]*)/</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
+  
+  <span class='comment val'># dynamic enums</span>
+  
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_def identifier id'>property_def</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'string'</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_property_def identifier id'>property_def</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'dynamic_enum'</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='lbrack token'>[</span><span class='symbol val'>:dynamic_enum</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># all other cases</span>
 
@@ -762,6 +802,9 @@ json model.</p>
 
   <span class='rubyid_when when kw'>when</span> <span class='string val'>'boolean'</span>
     <span class='lbrack token'>[</span><span class='symbol val'>:boolean</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rbrack token'>]</span>
+    
+  <span class='rubyid_when when kw'>when</span> <span class='string val'>'integer'</span>
+    <span class='lbrack token'>[</span><span class='symbol val'>:integer</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rbrack token'>]</span>
   
   <span class='rubyid_when when kw'>when</span> <span class='string val'>'date'</span>
     <span class='lbrack token'>[</span><span class='symbol val'>:string</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rbrack token'>]</span>
@@ -963,35 +1006,35 @@ the property</li>
       <pre class="lines">
 
 
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217</pre>
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 227</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_initialize_receiver identifier id'>initialize_receiver</span><span class='lparen token'>(</span><span class='rubyid_property_name identifier id'>property_name</span><span class='comma token'>,</span> <span class='rubyid_def_from_schema identifier id'>def_from_schema</span><span class='comma token'>,</span> <span class='rubyid_def_from_xwalk identifier id'>def_from_xwalk</span><span class='rparen token'>)</span>
 
@@ -1040,15 +1083,54 @@ the property</li>
       <pre class="lines">
 
 
-44
-45
-46</pre>
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_link_conditions identifier id'>link_conditions</span>
   <span class='rubyid_@link_conditions ivar id'>@link_conditions</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="method_missing-class_method">
+  
+    + (<tt>Object</tt>) <strong>method_missing</strong>(meth) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34
+35
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 32</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@walk ivar id'>@walk</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+    <span class='rubyid_@walk ivar id'>@walk</span><span class='lbrack token'>[</span><span class='rubyid_meth identifier id'>meth</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1071,13 +1153,13 @@ the property</li>
       <pre class="lines">
 
 
-48
-49
-50
-51</pre>
+56
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_mint_id identifier id'>mint_id</span>
   <span class='rubyid_@counter ivar id'>@counter</span> <span class='opasgn op'>||=</span> <span class='integer val'>1000</span>
@@ -1104,12 +1186,12 @@ the property</li>
       <pre class="lines">
 
 
-36
-37
-38</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 44</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_models identifier id'>models</span>
   <span class='rubyid_@models ivar id'>@models</span>
@@ -1146,27 +1228,67 @@ json model</p>
       <pre class="lines">
 
 
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185</pre>
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 191</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_property_receivers identifier id'>property_receivers</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
   <span class='rubyid_receivers identifier id'>receivers</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_entries identifier id'>entries</span><span class='lbrack token'>[</span><span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_model_key identifier id'>model_key</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_xdef identifier id'>xdef</span><span class='bitor op'>|</span>
-    <span class='rubyid_sdef identifier id'>sdef</span> <span class='assign token'>=</span> <span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/^_/</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='lbrace token'>{</span><span class='string val'>'type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'string'</span><span class='rbrace token'>}</span> <span class='colon op'>:</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='rbrack token'>]</span>
+  <span class='rubyid_entry identifier id'>entry</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_entries identifier id'>entries</span><span class='lbrack token'>[</span><span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_model_key identifier id'>model_key</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_sdef identifier id'>sdef</span><span class='bitor op'>|</span>
+    
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_sdef identifier id'>sdef</span><span class='lbrack token'>[</span><span class='string val'>'readonly'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
+    
+    <span class='rubyid_xdef identifier id'>xdef</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+    <span class='comment val'># load old style crosswalk entries</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_entry identifier id'>entry</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'properties'</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_p identifier id'>p</span><span class='rparen token'>)</span>
+      <span class='rubyid_xdef identifier id'>xdef</span><span class='dot token'>.</span><span class='rubyid_merge! fid id'>merge!</span><span class='lparen token'>(</span><span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+    
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_entry identifier id'>entry</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'defaults'</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'defaults'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_p identifier id'>p</span><span class='rparen token'>)</span>
+      <span class='rubyid_xdef identifier id'>xdef</span><span class='dot token'>.</span><span class='rubyid_merge! fid id'>merge!</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>'default'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='string val'>'defaults'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+    
     <span class='rubyid_receivers identifier id'>receivers</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_initialize_receiver identifier id'>initialize_receiver</span><span class='lparen token'>(</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_sdef identifier id'>sdef</span><span class='comma token'>,</span> <span class='rubyid_xdef identifier id'>xdef</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+    
+
+  <span class='comment val'># self.entries[model.model_key]['properties'].each do |p, xdef|</span>
+  <span class='comment val'>#   sdef = p.match(/^_/) ? {'type' =&gt; 'string'} : model.schema['properties'][p]</span>
+  <span class='comment val'>#   receivers[p] = self.initialize_receiver(p, sdef, xdef)</span>
+  <span class='comment val'># end</span>
  
   <span class='rubyid_receivers identifier id'>receivers</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1191,20 +1313,28 @@ json model</p>
       <pre class="lines">
 
 
-334
-335
-336
-337
-338
-339
-340</pre>
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 334</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 424</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ref_type_list identifier id'>ref_type_list</span><span class='lparen token'>(</span><span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Array constant id'>Array</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
     <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/:([a-zA-Z_]*)/</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+    
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
+    <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/:([a-zA-Z_]*)/</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
   <span class='rubyid_else else kw'>else</span>  
     <span class='rubyid_property_ref_type identifier id'>property_ref_type</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/:([a-zA-Z_]*)/</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
@@ -1278,38 +1408,40 @@ json model</p>
       <pre class="lines">
 
 
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428
-429</pre>
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 403</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/crosswalk.rb', line 506</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update_record_references identifier id'>update_record_references</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_ref_source identifier id'>ref_source</span><span class='rparen token'>)</span>
+
   <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
   <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
 
@@ -1347,7 +1479,7 @@ json model</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:59 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:26:03 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

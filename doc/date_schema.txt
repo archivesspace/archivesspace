@@ -6,7 +6,7 @@ string	date_type
 
 string	label
 
-string	uncertain
+string	certainty
 
 string	expression
 

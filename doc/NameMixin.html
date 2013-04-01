@@ -157,21 +157,13 @@
 
 3
 4
-5
-6
-7
-8
-9</pre>
+5</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/name_mixin.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_set_model_scope identifier id'>set_model_scope</span> <span class='symbol val'>:global</span>
-
-  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span> <span class='rubyid_DynamicEnums constant id'>DynamicEnums</span>
-  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_uses_enums identifier id'>uses_enums</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'source'</span><span class='comma token'>,</span> <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'name_source'</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-                  <span class='lbrace token'>{</span><span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'rules'</span><span class='comma token'>,</span> <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'name_rule'</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -184,7 +176,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:53 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:25:58 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

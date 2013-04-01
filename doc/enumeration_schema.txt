@@ -6,6 +6,8 @@ string	uri
 
 string	name
 
+string	default_value
+
 array (string)	values
 
 

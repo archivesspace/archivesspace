@@ -1,0 +1,10 @@
+JSON Schema: Advanced_query
+
+Properties
+
+["JSONModel(:boolean_query) object", "JSONModel(:field_query) object"]	query
+
+
+
+
+

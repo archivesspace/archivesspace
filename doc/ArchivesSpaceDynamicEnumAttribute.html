@@ -178,16 +178,18 @@
 115
 116
 117
-118</pre>
+118
+119</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 109</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_validate identifier id'>validate</span><span class='lparen token'>(</span><span class='rubyid_current_schema identifier id'>current_schema</span><span class='comma token'>,</span> <span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_validator identifier id'>validator</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_enum_name identifier id'>enum_name</span> <span class='assign token'>=</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'dynamic_enum'</span><span class='rbrack token'>]</span>
-  <span class='rubyid_possible_values identifier id'>possible_values</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_valid? fid id'>valid?</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span>
+    <span class='rubyid_possible_values identifier id'>possible_values</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
+
     <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='dstring node'>&quot;The property '#{build_fragment(fragments)}' value #{data.inspect} &quot;</span> <span class='plus op'>+</span>
                <span class='dstring node'>&quot;did not match one of the following configurable values: #{possible_values.join(', ')}&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_validation_error identifier id'>validation_error</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:record_errors</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -204,7 +206,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:21:14 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:26:16 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

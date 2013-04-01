@@ -20,7 +20,15 @@ string	content_description
 
 string	condition_description
 
+string	disposition
+
+string	inventory
+
+string	provenance
+
 date	accession_date
+
+boolean	publish
 
 array (object)	subjects
 
@@ -34,11 +42,29 @@ array (JSONModel(:rights_statement) object)	rights_statements
 
 array (JSONModel(:deaccession) object)	deaccessions
 
+JSONModel(:collection_management) object	collection_management
+
 array (object)	related_resources
 
 boolean	suppressed
 
 string	acquisition_type
+
+string	resource_type
+
+boolean	restrictions_apply
+
+string	retention_rule
+
+string	general_note
+
+boolean	access_restrictions
+
+string	access_restrictions_note
+
+boolean	use_restrictions
+
+string	use_restrictions_note
 
 array (object)	linked_agents
 

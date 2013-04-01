@@ -83,13 +83,13 @@
   
   
     <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="ArchivesSpaceTypeAttribute.html" title="ArchivesSpaceTypeAttribute (class)">ArchivesSpaceTypeAttribute</a></span>, <span class='object_link'><a href="DBAuth.html" title="DBAuth (class)">DBAuth</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>, <span class='object_link'><a href="LDAPAuth.html" title="LDAPAuth (class)">LDAPAuth</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span>, <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span>, <span class='object_link'><a href="Webhooks.html" title="Webhooks (class)">Webhooks</a></span></dd>
+    <dd class="r1"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="ArchivesSpaceTypeAttribute.html" title="ArchivesSpaceTypeAttribute (class)">ArchivesSpaceTypeAttribute</a></span>, <span class='object_link'><a href="DBAuth.html" title="DBAuth (class)">DBAuth</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>, <span class='object_link'><a href="LDAPAuth.html" title="LDAPAuth (class)">LDAPAuth</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span>, <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span></dd>
     
   
   
     <dt class="r2 last">Defined in:</dt>
     <dd class="r2 last">common/jsonmodel.rb<span class="defines">,<br />
-  common/json_railtie.rb,<br /> common/jsonmodel_client.rb,<br /> common/jsonmodel.rb.BASE.13918.rb,<br /> common/jsonmodel.rb.LOCAL.13918.rb,<br /> common/jsonmodel.rb.BACKUP.13918.rb,<br /> common/jsonmodel.rb.REMOTE.13918.rb</span>
+  common/jsonmodel_client.rb</span>
 </dd>
   
 </dl>
@@ -99,11 +99,11 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSONModel/Client.html" title="JSONModel::Client (module)">Client</a></span>, <span class='object_link'><a href="JSONModel/HTTP.html" title="JSONModel::HTTP (module)">HTTP</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>, <span class='object_link'><a href="JSONModel/Webhooks.html" title="JSONModel::Webhooks (module)">Webhooks</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSONModel/Client.html" title="JSONModel::Client (module)">Client</a></span>, <span class='object_link'><a href="JSONModel/HTTP.html" title="JSONModel::HTTP (module)">HTTP</a></span>, <span class='object_link'><a href="JSONModel/Notification.html" title="JSONModel::Notification (module)">Notification</a></span>, <span class='object_link'><a href="JSONModel/Validations.html" title="JSONModel::Validations (module)">Validations</a></span>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSONModel/JSONModelRailtie.html" title="JSONModel::JSONModelRailtie (class)">JSONModelRailtie</a></span>, <span class='object_link'><a href="JSONModel/JSONModelType.html" title="JSONModel::JSONModelType (class)">JSONModelType</a></span>, <span class='object_link'><a href="JSONModel/ValidationException.html" title="JSONModel::ValidationException (class)">ValidationException</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSONModel/JSONModelType.html" title="JSONModel::JSONModelType (class)">JSONModelType</a></span>, <span class='object_link'><a href="JSONModel/ValidationException.html" title="JSONModel::ValidationException (class)">ValidationException</a></span>
     
   
     
@@ -327,6 +327,29 @@ property of each object to cast it into a JSONModel.</p>
   <span class="summary_signature">
     
       <a href="#destroy_model-class_method" title="destroy_model (class method)">+ (Object) <strong>destroy_model</strong>(type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enum_default_value-class_method" title="enum_default_value (class method)">+ (Object) <strong>enum_default_value</strong>(name) </a>
     
 
     
@@ -892,12 +915,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-257
-258
-259</pre>
+261
+262
+263</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 261</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_client_mode? fid id'>client_mode?</span>
   <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:client_mode</span><span class='rbrack token'>]</span>
@@ -964,20 +987,20 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-271
-272
-273
-274
 275
 276
 277
 278
 279
 280
-281</pre>
+281
+282
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 271</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 275</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_deep_merge identifier id'>deep_merge</span><span class='lparen token'>(</span><span class='rubyid_hash1 identifier id'>hash1</span><span class='comma token'>,</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='rparen token'>)</span>
   <span class='rubyid_target identifier id'>target</span> <span class='assign token'>=</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='dot token'>.</span><span class='rubyid_dup identifier id'>dup</span> 
@@ -1020,6 +1043,37 @@ property of each object to cast it into a JSONModel.</p>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_destroy_model identifier id'>destroy_model</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_@@models ivar id'>@@models</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enum_default_value-class_method">
+  
+    + (<tt>Object</tt>) <strong>enum_default_value</strong>(name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+256
+257
+258</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 256</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enum_default_value identifier id'>enum_default_value</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_default_value_for identifier id'>default_value_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1435,16 +1489,16 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-262
-263
-264
-265
 266
 267
-268</pre>
+268
+269
+270
+271
+272</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 262</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 266</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_jsonmodel_ref identifier id'>parse_jsonmodel_ref</span><span class='lparen token'>(</span><span class='rubyid_ref identifier id'>ref</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_ref identifier id'>ref</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_ref identifier id'>ref</span> <span class='match op'>=~</span> <span class='regexp val'>/JSONModel\(:([a-zA-Z_\-]+)\) (.*)/</span>
@@ -1808,7 +1862,7 @@ property of each object to cast it into a JSONModel.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Mar 18 14:20:56 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 01 13:26:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
