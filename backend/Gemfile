@@ -19,6 +19,9 @@ gem "factory_girl"
 gem "rufus-scheduler"
 gem "net-ldap"
 
+gem "axlsx"
+gem "flying_saucer"
+
 group :test do
   gem "ladle"
 end

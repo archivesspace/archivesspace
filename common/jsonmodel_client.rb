@@ -114,6 +114,31 @@ module JSONModel
     end
 
 
+    def self.stream(uri, params = {}, &block)
+      uri = URI("#{backend_url}#{uri}")
+      uri.query = URI.encode_www_form(params)
+
+      req = Net::HTTP::Get.new(uri.request_uri)
+
+      req['X-ArchivesSpace-Session'] = current_backend_session
+
+      if high_priority?
+        req['X-ArchivesSpace-Priority'] = "high"
+      end
+
+      Net::HTTP.start(uri.host, uri.port) do |http|
+        http.request(req, nil) do |response|
+          if response.code =~ /^4/
+            JSONModel::handle_error(ASUtils.json_parse(response.body))
+            raise response.body
+          end
+
+          block.call(response)
+        end
+      end
+    end
+
+
     def self.get_json(uri, params = {})
       uri = URI("#{backend_url}#{uri}")
       uri.query = URI.encode_www_form(params)

@@ -10,6 +10,7 @@ require_relative 'lib/export'
 require_relative 'lib/request_context.rb'
 require_relative 'lib/webrick_fix'
 require_relative 'lib/import_helpers'
+require_relative 'lib/reports/report_helper'
 
 require 'uri'
 require 'sinatra/base'
@@ -99,6 +100,12 @@ class ArchivesSpaceService < Sinatra::Base
         require_relative File.join("model", basename)
       end
 
+      # Load all reports
+      Dir.glob(File.join(File.dirname(__FILE__), "model", "reports", "*.rb")).sort.each do |model|
+        basename = File.basename(model, ".rb")
+        require_relative File.join("model","reports", basename)
+      end
+
       # Load all controllers
       Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).sort.each do |controller|
         load File.absolute_path(controller)
@@ -162,6 +169,8 @@ class ArchivesSpaceService < Sinatra::Base
       Notifications.notify("BACKEND_STARTED")
     end
 
+    # Setup public static file sharing
+    set :public_folder, Proc.new { File.join(File.dirname(__FILE__), "static") }
   end
 
 
