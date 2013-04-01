@@ -40,6 +40,10 @@
       <li><a href="#accession_deaccessions_"><%= I18n.t "deaccession._html.plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
+    <% if not controller.action_name === "show" or @accession.collection_management %>
+      <li><a href="#accession_collection_management_"><%= I18n.t "collection_management._html.singular" %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <% if not controller.action_name === "show" %>
       <li class="form-actions">
         <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t "accession._html.singular" %></button>

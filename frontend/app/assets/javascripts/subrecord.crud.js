@@ -27,6 +27,10 @@ $(function() {
         removeBtn.on("click", function() {
           AS.confirmSubFormDelete($(this), function() {
             $subform.remove();
+            // if cardinality is zero_to_one, disabled the button if there's already an entry
+            if ($this.data("cardinality") === "zero_to_one") {
+              $("> .subrecord-form-heading > .btn", $this).removeAttr("disabled");
+            }
             $this.parents("form:first").triggerHandler("form-changed");
             $(document).triggerHandler("deleted.subrecord", [$this]);
           });
@@ -34,6 +38,11 @@ $(function() {
         });
 
         AS.initSubRecordSorting($("ul.subrecord-form-list", $subform));
+
+        // if cardinality is zero_to_one, disabled the button if there's already an entry
+        if ($this.data("cardinality") === "zero_to_one") {
+          $("> .subrecord-form-heading > .btn", $this).attr("disabled", "disabled");
+        }
 
         $(document).triggerHandler("init.subrecord", [$subform.data("object-name") || $this.data("object-name"), $subform]);
       };

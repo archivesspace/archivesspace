@@ -122,6 +122,9 @@ en:
       creators: Creator
       source: Source
       rules: Rules
+      parent_type: Record Type
+      processing_priority: Priority
+      processing_status: Status
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
@@ -130,6 +133,9 @@ en:
     title_sort: Title
     last_modified: Modified
     primary_type: Record Type
+    processing_priority: Priority
+    processing_status: Status
+    parent_id: Record Type
     create_time: Created
     authority_id: Authority ID
     source: Source
@@ -2335,6 +2341,7 @@ en:
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
     processing_hours_total: Total Processing Hours
+    processing_hours_total_short: Total hours
     processing_hours_total_tooltip: |
         <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent"</p>
     processing_plan: Processing Plan
@@ -2374,22 +2381,11 @@ en:
         <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
     rights_determined_true: Yes
     rights_determined_false: No
-    linked_records: Record Links
+    parent: Parent
     _html:
-      singular: Collection Management Record
-      plural: Collection Management Records
+      singular: Collection Management
+      plural: Collection Management
       title_prefix: Processing 
-      messages:
-        created: Collection Management Record Created
-        updated: Collection Management Record Saved
-      section:
-        basic_information: Basic Information
-  collection_management_linked_record:
-    _html:
-      singular: Record Link
-      plural: Record Links
-  collection_management_record:
-    <<: *collection_management_attributes
   enumeration:
     # tooltips not displaying
     name: Name

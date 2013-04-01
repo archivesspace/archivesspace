@@ -59,6 +59,7 @@
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
       "rights_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:rights_statement) object"}},
       "deaccessions" => {"type" => "array", "items" => {"type" => "JSONModel(:deaccession) object"}},
+      "collection_management" => {"type" => "JSONModel(:collection_management) object"},
 
       "related_resources" => {
         "type" => "array",

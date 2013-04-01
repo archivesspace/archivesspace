@@ -1027,6 +1027,10 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
 
+      Integer :accession_id, :null => true
+      Integer :resource_id, :null => true
+      Integer :digital_object_id, :null => true
+
       TextField :cataloged_note, :null => true
       String :processing_hours_per_foot_estimate, :null => true
       String :processing_total_extent, :null => true

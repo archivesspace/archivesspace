@@ -1,32 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint.post('/repositories/:repo_id/collection_management_records')
-    .description("Create a Collection Management Record")
-    .params(["collection_management", JSONModel(:collection_management),
-             "The Collection Management record to create", :body => true],
-            ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
-    .returns([200, :created],
-             [400, :error]) \
-  do
-    handle_create(CollectionManagement, :collection_management)
-  end
-
-
-  Endpoint.post('/repositories/:repo_id/collection_management_records/:collection_management_id')
-    .description("Update a Collection Management Record")
-    .params(["collection_management_id", Integer, "The Collection Management ID to update"],
-            ["collection_management", JSONModel(:collection_management),
-             "The collection management data to update", :body => true],
-            ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
-    .returns([200, :updated]) \
-  do
-    handle_update(CollectionManagement, :collection_management_id, :collection_management)
-  end
-
-
-  Endpoint.get('/repositories/:repo_id/collection_management_records')
+  Endpoint.get('/repositories/:repo_id/collection_management')
     .description("Get a list of Collection Management Records for a Repository")
     .params(["repo_id", :repo_id],
             *Endpoint.pagination)
@@ -37,7 +11,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/collection_management_records/:collection_management_id')
+  Endpoint.get('/repositories/:repo_id/collection_management/:collection_management_id')
     .description("Get a Collection Management Record by ID")
     .params(["collection_management_id", Integer, "The Collection Management ID"],
             ["repo_id", :repo_id],

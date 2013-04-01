@@ -92,6 +92,10 @@
           <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @resource.deaccessions, :context => readonly, :section_id => "resource_deaccessions_" } %>
         <% end %>
 
+        <% if @resource.collection_management %>
+          <%= render :partial => "collection_management/show", :locals => { :collection_management => @resource.collection_management, :context => readonly, :section_id => "resource_collection_management_" } %>
+        <% end %>
+
       <% end %>
     </div>
   </div>
