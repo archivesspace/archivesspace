@@ -641,7 +641,6 @@ Sequel.migration do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
-      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -667,7 +666,6 @@ Sequel.migration do
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
-      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -695,7 +693,6 @@ Sequel.migration do
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
-      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -722,7 +719,6 @@ Sequel.migration do
       add_foreign_key([:agent_software_id], :agent_software, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
-      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
