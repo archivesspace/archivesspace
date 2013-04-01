@@ -42,7 +42,7 @@ ASpaceImport::Importer.importer :xml_dom do
     node.xpath(xpath, @document.root.namespaces).each do |node|
       obj = klass.new
       obj.receivers.each do |r|
-        if r.class.property_type.match /^record/
+        if r.class.property_type.match /^record/ and r.class.xdef.fetch('xpath', nil)
           r.class.xdef['xpath'].each do |xp|
             make_objects(node, xp, r, ASpaceImport::Crosswalk.models[r.class.xdef['record_type']])
           end
