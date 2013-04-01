@@ -62,4 +62,25 @@ describe 'Person agent controller' do
     JSONModel(:agent_person).find(id).names.first['sort_name'].should eq("Jimi Hendrix, Mr")
   end
 
+
+  it "allows agents to have a bioghist notes" do
+
+    n1 = build(:json_note_bioghist)
+
+    id = create_person({:notes => [n1]}).id
+
+    agent = JSONModel(:agent_person).find(id)
+
+    agent.notes.length.should eq(1)
+    agent.notes[0]["label"].should eq(n1.label)
+  end
+
+
+  it "throws an error if created with an invalid note type" do
+
+    n1 = build(:json_note_bibliography)
+
+    expect { create_person({:notes => [n1.to_json]}) }.to raise_error(JSONModel::ValidationException)
+
+  end
 end

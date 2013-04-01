@@ -1256,12 +1256,6 @@ en:
     sort_name_auto_generate: Auto Generate Sort Name?
     sort_name_auto_generate_tooltip: |
         <p>An option to over-ride and then edit the Sort Name.</p>
-
-    # delete after #46409585 is delivered
-    description_type: Description Type
-    description_note: Description Note
-    description_citation: Description Citation
-
     _html:
       singular: Name
       plural: Names

@@ -592,9 +592,6 @@ Sequel.migration do
       def apply_name_columns
         String :authority_id, :null => true
         String :dates, :null => true
-        Integer :description_type_id, :null => true
-        TextField :description_note, :null => true
-        TextField :description_citation, :null => true
         TextField :qualifier, :null => true
         Integer :source_id, :null => true
         Integer :rules_id, :null => true
@@ -644,7 +641,6 @@ Sequel.migration do
       add_foreign_key([:agent_person_id], :agent_person, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
-      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -670,7 +666,6 @@ Sequel.migration do
       add_foreign_key([:agent_family_id], :agent_family, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
-      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -698,7 +693,6 @@ Sequel.migration do
       add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
-      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -725,7 +719,6 @@ Sequel.migration do
       add_foreign_key([:agent_software_id], :agent_software, :key => :id)
       add_foreign_key([:rules_id], :enumeration_value, :key => :id)
       add_foreign_key([:source_id], :enumeration_value, :key => :id)
-      add_foreign_key([:description_type_id], :enumeration_value, :key => :id)
     end
 
 
@@ -1144,8 +1137,6 @@ Sequel.migration do
     create_enum('name_source', ["local", "naf", "nad", "ulan"])
 
     create_enum('name_rule', ["local", "aacr", "dacs"])
-
-    create_enum('name_description_type', ["biographical statement", "administrative history"])
 
     create_enum('accession_acquisition_type', ["deposit", "gift", "purchase", "transfer"])
     

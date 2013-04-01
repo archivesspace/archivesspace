@@ -102,16 +102,6 @@ ASpaceExport::serializer :eac do
               _name_parts(n, xml, ["primary_name", "subordinate_name_1", "subordinate_name_2", "number"])
             end   
           }
-        end  
-        
-        names_with_notes = json.names.reject {|n| n['description_note'].nil? }
-        
-        unless names_with_notes.empty?
-          xml.descriptiveNote {
-            names_with_notes.each do |n|
-              xml.p n['description_note']
-            end
-          }
         end
       }
 
@@ -126,14 +116,6 @@ ASpaceExport::serializer :eac do
         end
       }
       
-      # xml.description {        
-      #   json.names.reject{|n| n['description_type' != 'biographical statement']}.each do |n|
-      #     xml.biogHist {
-      #       xml.p n['description_note']
-      #       xml.citation n['description_citation']
-      #     }
-      #   end
-      # }
     }
   end
   
