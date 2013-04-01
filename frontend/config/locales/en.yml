@@ -1254,6 +1254,8 @@ en:
         <p>A version of the name concatenating all the parts of the name provided in a given agent record. Used for display purposes in the application and for some exports.</p>
         <p>The sort name may be edited by unchecking the "Auto Generate Sort Name?" checkbox and then entering the form of the sort name desired.</p>
     sort_name_auto_generate: Auto Generate Sort Name?
+    sort_name_auto_generate_tooltip: |
+        <p>An option to over-ride and then edit the Sort Name.</p>
     _html:
       singular: Name
       plural: Names
