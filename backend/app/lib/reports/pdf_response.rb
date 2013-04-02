@@ -42,11 +42,6 @@ class PDFResponse
   def render_pdf(dom, output)
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
 
-    font_resolver = renderer.getFontResolver()
-
-    unicode_font = File.join(File.dirname(__FILE__), "../","../","static","fonts", "unifont.ttf")
-    font_resolver.add_font(unicode_font, "Identity-H", true)
-
     renderer.set_document(dom, base_url)
     renderer.layout
 
