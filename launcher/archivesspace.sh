@@ -41,7 +41,7 @@ startup_cmd="java "$JAVA_OPTS"  \
         org.jruby.Main --1.9 \"launcher/launcher.rb\""
 
 
-export PIDFILE=$ASPACE_LAUNCHER_BASE/.archivesspace.pid
+export PIDFILE=$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid
 
 
 case "$1" in
@@ -57,7 +57,7 @@ case "$1" in
 
         shellcmd="bash"
         if [ "$ARCHIVESSPACE_USER" != "" ]; then
-            shellcmd="su - $ARCHIVESSPACE_USER"
+            shellcmd="su $ARCHIVESSPACE_USER"
         fi
 
         $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
