@@ -11,7 +11,7 @@
       <tr>
         <% report.headers.each do |heading| %>
           <td>
-            <%= CGI.escape(record[heading].to_s) %>
+            <%= CGI.escapeHTML(record[heading].to_s) %>
           </td>
         <% end %>
       </tr>

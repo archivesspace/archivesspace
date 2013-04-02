@@ -1,7 +1,15 @@
 <style media="screen,print">
     /* ArchivesSpace Reporting Stylesheet */
+  <% if params[:format] === "pdf" %>
+    @font-face {
+      src: url('<%= @base_url %>/fonts/unifont.ttf');
+      -fs-pdf-font-embed: embed;
+      -fs-pdf-font-encoding: Identity-H;
+    }
+  <% end %>
+
   body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
   .header .logo {
