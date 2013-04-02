@@ -150,10 +150,10 @@ ArchivesSpace software, we put a shared copy under
 to that copy.  To set this up, run the following commands on any one
 of the servers:
 
-  cd /aspace/archivesspace/software/
-  unzip -x /path/to/downloaded/archivesspace-x.y.z.zip
-  mv archivesspace archivesspace-x.y.z
-  ln -s archivesspace-x.y.z stable
+     cd /aspace/archivesspace/software/
+     unzip -x /path/to/downloaded/archivesspace-x.y.z.zip
+     mv archivesspace archivesspace-x.y.z
+     ln -s archivesspace-x.y.z stable
 
 Note that we unpack the distribution into a directory containing its
 version number, and then assign that version the symbolic name
