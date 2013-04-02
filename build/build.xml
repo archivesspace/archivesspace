@@ -526,6 +526,7 @@
       <zipfileset dir="target" excludes="**/mysql-connector-java*.jar" />
       <zipfileset dir=".." includes="README.md" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="COPYING" prefix="archivesspace" filemode="644" />
+      <zipfileset dir="../clustering" prefix="archivesspace/clustering" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../launcher/scripts" includes="find-base.sh" prefix="archivesspace/scripts" filemode="755" />

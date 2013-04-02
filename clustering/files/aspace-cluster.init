@@ -1,0 +1,86 @@
+#!/bin/bash
+#
+# archivesspace-cluster          Start the ArchivesSpace archival management system (clustered mode)
+#
+# chkconfig: 2345 90 5
+# description: Start the ArchivesSpace archival management system (clustered mode)
+#
+
+### BEGIN INIT INFO
+# Provides: archivesspace-cluster
+# Required-Start: $local_fs $network $syslog
+# Required-Stop: $local_fs $syslog
+# Should-Start: $syslog
+# Should-Stop: $network $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start the ArchivesSpace archival management system (clustered mode)
+# Description:       Start the ArchivesSpace archival management system (clustered mode)
+### END INIT INFO
+
+
+# If you set this, all application instances will run as this user.
+# If you leave it commented out (the default), each instance will run
+# as the user matching its tenant ID.
+#
+# RUN_AS="appuser"
+
+
+
+function start_tenant {
+    cd "/aspace/archivesspace/tenants/$1/archivesspace"
+
+    if [ "$RUN_AS" = "" ]; then
+        export ARCHIVESSPACE_USER="$1"
+    else
+        export ARCHIVESSPACE_USER="$RUN_AS"
+    fi
+
+    echo "Setting local permissions for $ARCHIVESSPACE_USER"
+
+    chown -R $ARCHIVESSPACE_USER:$ARCHIVESSPACE_USER /aspace.local/tenants/$1/
+
+    echo "Starting instance for $1 as user $ARCHIVESSPACE_USER"
+
+    ./archivesspace.sh start
+}
+
+function stop_tenant {
+    cd "/aspace/archivesspace/tenants/$1/archivesspace"
+
+    ./archivesspace.sh stop
+}
+
+
+case "$1" in
+    start)
+        /bin/ls /aspace/archivesspace/tenants/ | egrep -v '^_template$' | while read tenant; do
+            if [ -e /aspace/archivesspace/tenants/$tenant/archivesspace/config/instance_`hostname`.rb ]; then
+                start_tenant "$tenant"
+            fi
+        done
+        ;;
+    stop)
+        /bin/ls /aspace/archivesspace/tenants/ | egrep -v '^_template$' | while read tenant; do
+            if [ -e /aspace/archivesspace/tenants/$tenant/archivesspace/config/instance_`hostname`.rb ]; then
+                stop_tenant "$tenant"
+            fi
+        done
+        ;;
+    start-tenant)
+        start_tenant "$2"
+        ;;
+    stop-tenant)
+        stop_tenant "$2"
+        ;;
+    *)
+        cat <<EOF
+Usage:
+
+  $0 start -- start ALL tenants
+  $0 stop -- stop ALL tenants
+  $0 start-tenant <name> -- start a single tenant
+  $0 stop-tenant <name> -- stop a single tenant
+EOF
+    
+esac
