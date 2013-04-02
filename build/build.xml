@@ -225,11 +225,12 @@
 
   <target name="backend:devserver" depends="set-classpath, setup-solr" description="Start an instance of the ArchivesSpace backend development server">
     <delete dir="integration.tmp" />
+    <mkdir dir="${java.io.tmpdir}/winstone.${user.name}" />
     <parallel>
       <daemons>
         <java classpath="${winstone_file}:../solr"
               classname="winstone.Launcher" fork="true">
-          <jvmarg line="${solr.properties}" />
+          <jvmarg line="${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/winstone.${user.name}" />
           <arg line="--warfile=${solr_file} --httpPort=${aspace.solr.port} --ajp13Port=-1" />
         </java>
       </daemons>
