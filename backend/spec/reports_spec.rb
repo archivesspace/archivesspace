@@ -10,8 +10,6 @@ describe 'Reporting Engine' do
     
     response = get "/reports/unprocessed_accessions?format=pdf"
     
-    puts "RES" << response.inspect
-    
     response.instance_variable_get(:@status).should eq(200)
     
   end 
@@ -23,8 +21,6 @@ describe 'Reporting Engine' do
     # response = @reporter.report_response(UnprocessedAccessionsReport.new({}), 'pdf')
     
     response = get "/reports/unprocessed_accessions?format=pdf"
-    
-    puts "RES" << response.inspect
     
     response.instance_variable_get(:@status).should eq(200)
     
