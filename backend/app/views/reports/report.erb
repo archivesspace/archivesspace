@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<% if params[:format] === "pdf" %>
+  <?xml version="1.0" encoding="UTF-8"?>
+<% else %>
+  <!DOCTYPE html>
+<% end %>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
