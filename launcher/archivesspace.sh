@@ -85,8 +85,13 @@ case "$1" in
             echo "Couldn't find a running instance to stop"
         fi
         ;;
-    *)
+    "")
         # Run in foreground mode
         (cd $ASPACE_LAUNCHER_BASE; bash -c "$startup_cmd")
         ;;
+    *)
+        echo "Usage: $0 [start|stop]"
+        exit 1
+        ;;
+
 esac
