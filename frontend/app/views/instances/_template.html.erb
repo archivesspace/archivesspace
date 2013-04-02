@@ -8,6 +8,7 @@
       <% end %>
     </h4>
     <div class="subrecord-form-container">
+      <%= form.label_and_select "instance_type", form.possible_options_for('instance_type', true).reject{|option_arr| option_arr[1] === 'digital_object'} %>
       <%= form.fields_for(form["container"] || {}, "container") do |item| %>
         <% form.emit_template("container", item) %>
       <% end %>
@@ -23,6 +24,7 @@
       <% end %>
     </h4>
     <div class="subrecord-form-container">
+      <%= form.hidden_input "instance_type" %>
       <%= form.fields_for(form["digital_object"] || {}, "digital_object") do |item| %>
         <%= render :partial => "digital_objects/linker", :locals => {:form => form} %>
       <% end %>
@@ -36,13 +38,7 @@
 <% end %>
 
 
-<% define_template "instance_type", jsonmodel_definition(:instance) do |form| %>
-  <%= form.hidden_input "instance_type" %>
-<% end %>
-
-
 <% define_template "instance", jsonmodel_definition(:instance) do |form| %>
-  <% form.emit_template("instance_type", form.obj) %>
   <% if form["container"] %>
     <% form.emit_template("instance_container") %>
   <% elsif form["instance_type"] === "digital_object" %>

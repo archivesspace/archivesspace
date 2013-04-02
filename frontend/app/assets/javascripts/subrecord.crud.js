@@ -89,12 +89,22 @@ $(function() {
               index: "${index}"
             };
 
-            var selected = {
-              label: $("option:selected", $(this).parents(".dropdown-menu")).html(),
-              value: $("option:selected", $(this).parents(".dropdown-menu")).val()
-            };
+            var $dropdown = $(this).parents(".dropdown-menu");
 
-            $(document).triggerHandler("create.subrecord", [$this.data("object-name"), selected, index_data, $target_subrecord_list, addAndInitForm]);
+            if ($("option:selected", $dropdown).val() != "") {
+              var selected = {
+                label: $("option:selected", $dropdown).html(),
+                value: $("option:selected", $dropdown).val()
+              };
+
+              $(".error-messages", $dropdown).addClass("hide");
+
+              $(document).triggerHandler("create.subrecord", [$this.data("object-name"), selected, index_data, $target_subrecord_list, addAndInitForm]);
+            } else {
+              // no option selected!
+              $(".error-messages", $dropdown).removeClass("hide");
+              event.stopImmediatePropagation();
+            }
           });
         } else {
 

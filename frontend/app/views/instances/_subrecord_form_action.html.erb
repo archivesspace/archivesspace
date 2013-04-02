@@ -1,8 +1,12 @@
 <div class="btn-group pull-right custom-action">
   <button class="btn btn-small  dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.add") %> <%= I18n.t("instance._html.singular") %> <span class="caret"></span></button>
   <ul class="dropdown-menu subrecord-selector">
+    <li class="error-messages hide">
+      <div class="alert alert-error"><%= I18n.t("instance._html.messages.select_a_type") %></div>
+    </li>
     <li>
       <select>
+        <option></option>
         <% JSONModel.enum_values(JSONModel(:instance).schema["properties"]["instance_type"]["dynamic_enum"]).each do | value | %>
           <option value="<%= value %>"><%= I18n.t("enumerations.instance_instance_type.#{value}", :default => value) %></option>
         <% end %>

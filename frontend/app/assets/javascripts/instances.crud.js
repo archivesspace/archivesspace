@@ -1,9 +1,6 @@
 $(function() {
 
   $(document).bind("create.subrecord", function(event, object_name, defined_type, index_data, $target_subrecord_list, callback) {
-    var instanceTypeEl = $(AS.renderTemplate("template_instance_type", index_data));
-   instanceTypeEl.val(defined_type.value);
-
     if (object_name === "instance") {
       var formEl;
       if (defined_type.value === "digital_object") {
@@ -13,7 +10,8 @@ $(function() {
       }
       $("h4.subrecord-form-heading", formEl).html(defined_type.label);
 
-      formEl.append(instanceTypeEl);
+      // Set the instance type to be the selected value
+      $('[id$="_instance_type_"]', formEl).val(defined_type.value);
 
       callback(formEl, $target_subrecord_list);
     }

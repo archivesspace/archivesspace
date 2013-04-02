@@ -1545,6 +1545,10 @@ en:
     _html:
       plural: Instances
       singular: Instance
+      messages:
+        select_a_type: Please select an Instance Type
+  instance_container:
+    <<: *instance_attributes
   file_version:
     _html:
       plural: File Versions
