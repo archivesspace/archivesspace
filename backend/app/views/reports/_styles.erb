@@ -6,11 +6,14 @@
       -fs-pdf-font-embed: embed;
       -fs-pdf-font-encoding: Identity-H;
     }
+    body {
+      font-family: unifont, Arial, sans-serif;
+    }
+  <% else %>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
   <% end %>
-
-  body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
 
   .header .logo {
     float: right;
