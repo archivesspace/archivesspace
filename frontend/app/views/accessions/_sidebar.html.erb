@@ -36,6 +36,10 @@
       <li><a href="#accession_rights_statements_"><%= I18n.t "rights_statement._html.plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
+    <% if not controller.action_name === "show" or @accession.instances.length > 0 %>
+      <li><a href="#accession_instances_"><%= I18n.t("instance._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
     <% if not controller.action_name === "show" or @accession.deaccessions.length > 0 %>
       <li><a href="#accession_deaccessions_"><%= I18n.t "deaccession._html.plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
