@@ -238,17 +238,6 @@ describe 'JSON model' do
   end
 
 
-  it "copes with unexpected kinds of validation exception" do
-
-    ts = JSONModel(:testschema).from_hash({
-                                            "elt_0" => "helloworld",
-                                            "elt_1" => "thisisatest"
-                                          })
-    ts[:shorty] = "meep"
-    ts._exceptions[:errors].keys.should eq (['unknown'])
-
-  end
-
   it "can give a string representation of a validation exception" do
 
     begin
