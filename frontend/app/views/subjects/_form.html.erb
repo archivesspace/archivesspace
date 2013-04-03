@@ -34,6 +34,7 @@
        <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
        <%= form.label_and_textfield "ref_id" %>
        <%= form.label_and_select "source", form.possible_options_for("source", true) %>
+       <%= form.label_and_textarea "scope_note" %>
      </section>
    <% end %>
 

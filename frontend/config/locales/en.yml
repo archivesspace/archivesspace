@@ -2020,6 +2020,7 @@ en:
         <li>Subseries 8</li>
         <li>Accession 2005-M-078</li>
         </ul>
+    internal_only: Internal Only?
     level: Level of Description
     level_tooltip: |
         <p>REQUIRED FIELD. Indicates. the hierarchical level of the materials being described.</p>
@@ -2287,6 +2288,7 @@ en:
         <li>Medical Subject Headings (mesh)</li>
         <li>Library of Congress Subject Headings (lcsh)</li>
         </ul>
+    scope_note: Scope Note
     heading: Subject Heading
     subject_preview: Subject Preview
     _html:
