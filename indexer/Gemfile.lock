@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    atomic (1.0.1-java)
     rack (1.4.5)
     rack-protection (1.4.0)
       rack
@@ -14,4 +15,5 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  atomic
   sinatra

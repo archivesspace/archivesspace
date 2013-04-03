@@ -20,10 +20,13 @@
 
 cd "`dirname $0`"
 
-ARCHIVESSPACE_USER=
+export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/scripts/find-base.sh)"
 
-ARCHIVESSPACE_BASE="$PWD"
-export GEM_HOME="$ARCHIVESSPACE_BASE/gems"
+if [ "$ARCHIVESSPACE_USER" = "" ]; then
+    ARCHIVESSPACE_USER=
+fi
+
+export GEM_HOME="$ASPACE_LAUNCHER_BASE/gems"
 export GEM_PATH=
 
 export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS"
@@ -38,31 +41,57 @@ startup_cmd="java "$JAVA_OPTS"  \
         org.jruby.Main --1.9 \"launcher/launcher.rb\""
 
 
+export PIDFILE=$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid
+
+
 case "$1" in
     start)
-        shellcmd="bash"
-        if [ "$ARCHIVESSPACE_USER" != "" ]; then
-            shellcmd="su - $ARCHIVESSPACE_USER"
+        if [ -e "$PIDFILE" ]; then
+            pid=`cat $PIDFILE 2>/dev/null`
+
+            if [ "$pid" != "" ] && kill -0 $pid &>/dev/null; then
+                echo "There already seems to be an instance running (PID: $pid)"
+                exit
+            fi
         fi
 
-        $shellcmd -c "cd '$ARCHIVESSPACE_BASE';
-          (exec 0<&-; exec 1>&-; exec 2>&-; $startup_cmd &> \"logs/archivesspace.out\" & ) &
+        shellcmd="bash"
+        if [ "$ARCHIVESSPACE_USER" != "" ]; then
+            shellcmd="su $ARCHIVESSPACE_USER"
+        fi
+
+        $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
+          (
+             exec 0<&-; exec 1>&-; exec 2>&-;
+             $startup_cmd &> \"logs/archivesspace.out\" &
+             echo \$! > \"$PIDFILE\"
+          ) &
           disown $!"
 
         echo "ArchivesSpace started!  See logs/archivesspace.out for details."
         ;;
     stop)
-        pid=`ps -ef | grep 'Darchivesspace-daemon=yes' | grep -v grep | awk '{print $2}' | head -1`
+        pid=`cat $PIDFILE 2>/dev/null`
         if [ "$pid" != "" ]; then
-            echo -n "Shutting down ArchivesSpace (running as PID $pid)... "
-            kill $pid
-            echo "done"
+            kill -0 $pid &>/dev/null
+            if [ "$?" = "0" ]; then
+                echo -n "Shutting down ArchivesSpace (running as PID $pid)... "
+                kill $pid
+                echo "done"
+            fi
+
+            rm -f "$PIDFILE"
         else
             echo "Couldn't find a running instance to stop"
         fi
         ;;
-    *)
+    "")
         # Run in foreground mode
-        (cd $ARCHIVESSPACE_BASE; bash -c "$startup_cmd")
+        (cd $ASPACE_LAUNCHER_BASE; bash -c "$startup_cmd")
         ;;
+    *)
+        echo "Usage: $0 [start|stop]"
+        exit 1
+        ;;
+
 esac

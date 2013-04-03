@@ -1,3 +1,4 @@
 source "http://rubygems.org"
 
+gem "atomic"
 gem "sinatra", :require => false

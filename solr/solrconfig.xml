@@ -395,6 +395,9 @@
                   class="solr.FieldAnalysisRequestHandler" />
 
 
+  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" /> 
+
+
   <queryResponseWriter name="json" class="solr.JSONResponseWriter">
      <!-- For the purposes of the tutorial, JSON responses are written as
       plain text so that they are easy to read in *any* browser.

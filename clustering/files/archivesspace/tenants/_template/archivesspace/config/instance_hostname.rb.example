@@ -1,0 +1,6 @@
+{
+  :backend_url => "http://yourhostname:8089",
+  :frontend_url => "http://yourhostname:8080",
+  :solr_url => "http://yourhostname:8090",
+  :public_url => "http://yourhostname:8081",
+}
