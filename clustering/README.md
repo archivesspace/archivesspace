@@ -220,7 +220,7 @@ application servers (`apps1` and `apps2`):
      groupadd --gid 2000 exampletenant
      useradd --uid 2000 --gid 2000 exampletenant
 
-Note that we specific a UID and GID explicitly to ensure they match
+Note that we specify a UID and GID explicitly to ensure they match
 across machines.
 
 
