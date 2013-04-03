@@ -6,7 +6,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "name" => {"type" => "string", "ifmissing" => "error"},
+      "name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "default_value" => {"type" => "string"},
       "values" => {
         "type" => "array",

@@ -5,19 +5,19 @@
     "type" => "object",
 
     "properties" => {
-      "primary_name" => {"type" => "string", "ifmissing" => "error"},
-      "title" => {"type" => "string"},
+      "primary_name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
+      "title" => {"type" => "string", "maxLength" => 32672},
       "name_order" => {
         "type" => "string",
         "ifmissing" => "error",
         "default" => "inverted",
         "enum" => ["inverted", "direct"]
       },
-      "prefix" => {"type" => "string"},
-      "rest_of_name" => {"type" => "string"},
-      "suffix" => {"type" => "string"},
-      "fuller_form" => {"type" => "string"},
-      "number" => {"type" => "string"},
+      "prefix" => {"type" => "string", "maxLength" => 32672},
+      "rest_of_name" => {"type" => "string", "maxLength" => 32672},
+      "suffix" => {"type" => "string", "maxLength" => 32672},
+      "fuller_form" => {"type" => "string", "maxLength" => 32672},
+      "number" => {"type" => "string", "maxLength" => 255},
     },
 
     "additionalProperties" => false,

@@ -11,8 +11,8 @@
         "items" => {
           "type" => "object",
           "properties" => {
-            "external_id" => {"type" => "string"},
-            "source" => {"type" => "string"},
+            "external_id" => {"type" => "string", "maxLength" => 255},
+            "source" => {"type" => "string", "maxLength" => 255},
           }
         }
       },
@@ -25,7 +25,7 @@
 
       "date" => {"type" => "JSONModel(:date) object", "ifmissing" => "error"},
       "outcome" => {"type" => "string", "dynamic_enum" => "event_outcome"},
-      "outcome_note" => {"type" => "string"},
+      "outcome_note" => {"type" => "string", "maxLength" => 255},
 
       "suppressed" => {"type" => "boolean"},
 

@@ -11,26 +11,26 @@
         "items" => {
           "type" => "object",
           "properties" => {
-            "external_id" => {"type" => "string"},
-            "source" => {"type" => "string"},
+            "external_id" => {"type" => "string", "maxLength" => 255},
+            "source" => {"type" => "string", "maxLength" => 255},
           }
         }
       },
 
-      "title" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
+      "title" => {"type" => "string", "maxLength" => 32672, "minLength" => 1, "ifmissing" => "error"},
 
-      "id_0" => {"type" => "string", "ifmissing" => "error"},
-      "id_1" => {"type" => "string"},
-      "id_2" => {"type" => "string"},
-      "id_3" => {"type" => "string"},
+      "id_0" => {"type" => "string", "ifmissing" => "error", "maxLength" => 255},
+      "id_1" => {"type" => "string", "maxLength" => 255},
+      "id_2" => {"type" => "string", "maxLength" => 255},
+      "id_3" => {"type" => "string", "maxLength" => 255},
 
-      "content_description" => {"type" => "string"},
-      "condition_description" => {"type" => "string"},
+      "content_description" => {"type" => "string", "maxLength" => 32672},
+      "condition_description" => {"type" => "string", "maxLength" => 32672},
       
-      "disposition" => {"type" => "string"},
-      "inventory" => {"type" => "string"},
+      "disposition" => {"type" => "string", "maxLength" => 32672},
+      "inventory" => {"type" => "string", "maxLength" => 32672},
       
-      "provenance" => {"type" => "string"},
+      "provenance" => {"type" => "string", "maxLength" => 32672},
 
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
       
@@ -87,15 +87,15 @@
       
       "restrictions_apply" => {"type" => "boolean", "default" => false},
 
-      "retention_rule" => {"type" => "string"},
+      "retention_rule" => {"type" => "string", "maxLength" => 32672},
       
-      "general_note" => {"type" => "string"},
+      "general_note" => {"type" => "string", "maxLength" => 32672},
       
       "access_restrictions" => {"type" => "boolean", "default" => false},
-      "access_restrictions_note" => {"type" => "string"},
+      "access_restrictions_note" => {"type" => "string", "maxLength" => 32672},
       
       "use_restrictions" => {"type" => "boolean", "default" => false},
-      "use_restrictions_note" => {"type" => "string"},
+      "use_restrictions_note" => {"type" => "string", "maxLength" => 32672},
 
       "linked_agents" => {
         "type" => "array",

@@ -5,13 +5,13 @@
     "parent" => "abstract_archival_object",
     "uri" => "/repositories/:repo_id/archival_objects",
     "properties" => {
-      "ref_id" => {"type" => "string", "pattern" => "\\A[a-zA-Z0-9\\-_:\\.]*\\z"},
-      "component_id" => {"type" => "string", "required" => false, "default" => ""},
+      "ref_id" => {"type" => "string", "maxLength" => 255, "pattern" => "\\A[a-zA-Z0-9\\-_:\\.]*\\z"},
+      "component_id" => {"type" => "string", "maxLength" => 255, "required" => false, "default" => ""},
 
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
-      "other_level" => {"type" => "string"},
+      "other_level" => {"type" => "string", "maxLength" => 255},
 
-      "title" => {"ifmissing" => nil},
+      "title" => {"type" => "string", "maxLength" => 32672, "ifmissing" => nil},
       "title_auto_generate" => {"type" => "boolean", "default" => false},
 
       "parent" => {

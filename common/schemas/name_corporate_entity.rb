@@ -5,10 +5,10 @@
     "type" => "object",
 
     "properties" => {
-      "primary_name" => {"type" => "string", "ifmissing" => "error"},
-      "subordinate_name_1" => {"type" => "string"},
-      "subordinate_name_2" => {"type" => "string"},
-      "number" => {"type" => "string"},
+      "primary_name" => {"type" => "string", "maxLength" => 32672, "ifmissing" => "error"},
+      "subordinate_name_1" => {"type" => "string", "maxLength" => 32672},
+      "subordinate_name_2" => {"type" => "string", "maxLength" => 32672},
+      "number" => {"type" => "string", "maxLength" => 255},
     },
 
     "additionalProperties" => false,

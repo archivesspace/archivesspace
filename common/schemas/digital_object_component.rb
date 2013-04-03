@@ -6,9 +6,9 @@
     "uri" => "/repositories/:repo_id/digital_object_components",
     "properties" => {
 
-      "component_id" => {"type" => "string", "ifmissing" => "error"},
+      "component_id" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "publish" => {"type" => "boolean", "default" => true},
-      "label" => {"type" => "string"},
+      "label" => {"type" => "string", "maxLength" => 255},
 
       "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
 

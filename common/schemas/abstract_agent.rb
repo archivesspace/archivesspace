@@ -10,8 +10,8 @@
         "items" => {
           "type" => "object",
           "properties" => {
-            "external_id" => {"type" => "string"},
-            "source" => {"type" => "string"},
+            "external_id" => {"type" => "string", "maxLength" => 255},
+            "source" => {"type" => "string", "maxLength" => 255},
           }
         }
       },

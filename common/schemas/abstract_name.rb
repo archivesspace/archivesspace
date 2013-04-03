@@ -5,13 +5,13 @@
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
     "properties" => {
-      "authority_id" => {"type" => "string"},
-      "dates" => {"type" => "string"},
-      "qualifier" => {"type" => "string"},
+      "authority_id" => {"type" => "string", "maxLength" => 255},
+      "dates" => {"type" => "string", "maxLength" => 255},
+      "qualifier" => {"type" => "string", "maxLength" => 255},
       "source" => {"type" => "string", "dynamic_enum" => "name_source"},
       "rules" => {"type" => "string", "dynamic_enum" => "name_rule"},
 
-      "sort_name" => {"type" => "string"},
+      "sort_name" => {"type" => "string", "maxLength" => 255},
       "sort_name_auto_generate" => {"type" => "boolean", "default" => true},
     },
   },

@@ -5,9 +5,9 @@
     "type" => "object",
 
     "properties" => {
-      "software_name" => {"type" => "string", "ifmissing" => "error"},
-      "version" => {"type" => "string"},
-      "manufacturer" => {"type" => "string"},
+      "software_name" => {"type" => "string", "maxLength" => 32672, "ifmissing" => "error"},
+      "version" => {"type" => "string", "maxLength" => 32672},
+      "manufacturer" => {"type" => "string", "maxLength" => 32672},
     },
 
     "additionalProperties" => false,
