@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (3.2.9)
+    activesupport (3.2.13)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     atomic (1.0.1-java)
@@ -25,7 +25,7 @@ GEM
     json (1.7.7-java)
     json-schema (1.0.10)
     ladle (0.2.0-java)
-    multi_json (1.4.0)
+    multi_json (1.7.2)
     net-ldap (0.3.1)
     nokogiri (1.5.6-java)
     rack (1.4.5)
@@ -36,7 +36,7 @@ GEM
       sequel
     rack-test (0.6.2)
       rack (>= 1.0)
-    rake (10.0.2)
+    rake (10.0.4)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
@@ -67,7 +67,7 @@ GEM
     sinatra-reloader (1.0)
       sinatra-contrib
     tilt (1.3.3)
-    tzinfo (0.3.35)
+    tzinfo (0.3.37)
     warbler (1.3.6)
       jruby-jars (>= 1.4.0)
       jruby-rack (>= 1.0.0)
