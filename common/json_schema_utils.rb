@@ -68,6 +68,14 @@ module JSONSchemaUtils
      },
 
      {
+       :failed_attribute => ['MaxLength'],
+       :pattern => /The property '#\/.*?' was not of a maximum string length of ([0-9]+) in schema/,
+       :do => ->(msgs, message, path, length) {
+         msgs[:errors][fragment_join(path)] = ["Must be #{length} characters or fewer"]
+       }
+     },
+
+     {
        :failed_attribute => ['MinItems'],
        :pattern => /The property '#\/.*?' did not contain a minimum number of items ([0-9]+) in schema/,
        :do => ->(msgs, message, path, items) {
