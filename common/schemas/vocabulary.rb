@@ -5,8 +5,8 @@
     "uri" => "/vocabularies",
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
-      "ref_id" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
-      "name" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
+      "ref_id" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error"},
+      "name" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error"},
 
       "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) object"}, "readonly" => true},
     },

@@ -5,7 +5,7 @@
 
     "properties" => {
 
-      "title" => {"type" => "string", "ifmissing" => "error"},
+      "title" => {"type" => "string", "ifmissing" => "error", "maxLength" => 32672},
 
       "publish" => {"type" => "boolean", "default" => true},
       "internal" => {"type" => "boolean", "default" => false},
@@ -15,8 +15,8 @@
         "items" => {
           "type" => "object",
           "properties" => {
-            "label" => {"type" => "string", "ifmissing" => "error"},
-            "value" => {"type" => "string", "ifmissing" => "error"}
+            "label" => {"type" => "string", "ifmissing" => "error", "maxLength" => 32672},
+            "value" => {"type" => "string", "ifmissing" => "error", "maxLength" => 32672}
           }
         }
       }

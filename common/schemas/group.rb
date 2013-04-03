@@ -6,8 +6,8 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "group_code" => {"type" => "string", "ifmissing" => "error", "minLength" => 1},
-      "description" => {"type" => "string", "ifmissing" => "error", "default" => ""},
+      "group_code" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error", "minLength" => 1},
+      "description" => {"type" => "string", "maxLength" => 32672, "ifmissing" => "error", "default" => ""},
 
       "member_usernames" => {"type" => "array", "items" => {"type" => "string", "minLength" => 1}},
       "grants_permissions" => {"type" => "array", "items" => {"type" => "string", "minLength" => 1}},

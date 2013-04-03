@@ -13,8 +13,8 @@
         "items" => {
           "type" => "object",
           "properties" => {
-            "external_id" => {"type" => "string"},
-            "source" => {"type" => "string"},
+            "external_id" => {"type" => "string", "maxLength" => 255},
+            "source" => {"type" => "string", "maxLength" => 255},
           }
         }
       },
@@ -24,7 +24,7 @@
       "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri_or_object"}, "ifmissing" => "error", "minItems" => 1},
 
       "vocabulary" => {"type" => "JSONModel(:vocabulary) uri", "ifmissing" => "error"},
-      "ref_id" => {"type" => "string", "pattern" => "\\A[\\S]*\\z"},
+      "ref_id" => {"type" => "string", "maxLength" => 255, "pattern" => "\\A[\\S]*\\z"},
 
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
     },

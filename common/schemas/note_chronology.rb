@@ -5,7 +5,7 @@
 
     "properties" => {
 
-      "title" => {"type" => "string", "ifmissing" => "error"},
+      "title" => {"type" => "string", "ifmissing" => "error", "maxLength" => 32672},
 
       "publish" => {"type" => "boolean", "default" => true},
       "internal" => {"type" => "boolean", "default" => false},
@@ -18,7 +18,7 @@
             "event_date" => {"type" => "date"},
             "events" => {
               "type" => "array",
-              "items" => {"type" => "string"}
+              "items" => {"type" => "string", "maxLength" => 32672}
             }
           }
         }

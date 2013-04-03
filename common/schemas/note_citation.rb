@@ -9,13 +9,13 @@
       "xlink" => {
         "type" => "object",
         "properties" => {
-          "actuate" => {"type" => "string"},
-          "arcrole" => {"type" => "string"},
-          "href" => {"type" => "string"},
-          "role" => {"type" => "string"},
-          "show" => {"type" => "string"},
-          "title" => {"type" => "string"},
-          "type" => {"type" => "string"}, 
+          "actuate" => {"type" => "string", "maxLength" => 32672},
+          "arcrole" => {"type" => "string", "maxLength" => 32672},
+          "href" => {"type" => "string", "maxLength" => 32672},
+          "role" => {"type" => "string", "maxLength" => 32672},
+          "show" => {"type" => "string", "maxLength" => 32672},
+          "title" => {"type" => "string", "maxLength" => 32672},
+          "type" => {"type" => "string", "maxLength" => 32672},
         }
       }
 

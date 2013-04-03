@@ -6,7 +6,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "term" => {"type" => "string", "minLength" => 1, "ifmissing" => "error"},
+      "term" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error"},
       "term_type" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "enum" => ["Cultural context", "Function", "Geographic", "Genre / form", "Occupation", "Style / period", "Technique", "Temporal", "Topical", "Uniform title"]},
 
       "vocabulary" => {"type" => "JSONModel(:vocabulary) uri", "ifmissing" => "error"}

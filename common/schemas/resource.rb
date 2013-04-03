@@ -6,13 +6,13 @@
     "uri" => "/repositories/:repo_id/resources",
     "properties" => {
 
-      "id_0" => {"type" => "string", "ifmissing" => "error"},
-      "id_1" => {"type" => "string"},
-      "id_2" => {"type" => "string"},
-      "id_3" => {"type" => "string"},
+      "id_0" => {"type" => "string", "ifmissing" => "error", "maxLength" => 255},
+      "id_1" => {"type" => "string", "maxLength" => 255},
+      "id_2" => {"type" => "string", "maxLength" => 255},
+      "id_3" => {"type" => "string", "maxLength" => 255},
 
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
-      "other_level" => {"type" => "string"},
+      "other_level" => {"type" => "string", "maxLength" => 255},
 
       "language" => {"ifmissing" => "error"},
 
@@ -36,26 +36,26 @@
       "publish" => {"type" => "boolean", "default" => true},
       "restrictions" => {"type" => "boolean", "default" => false},
 
-      "repository_processing_note" => {"type" => "string"},
-      "container_summary" => {"type" => "string"},
+      "repository_processing_note" => {"type" => "string", "maxLength" => 32672},
+      "container_summary" => {"type" => "string", "maxLength" => 32672},
 
-      "ead_id" => {"type" => "string"},
-      "ead_location" => {"type" => "string"},
+      "ead_id" => {"type" => "string", "maxLength" => 255},
+      "ead_location" => {"type" => "string", "maxLength" => 255},
 
       # Finding aid
-      "finding_aid_title" => {"type" => "string"},
-      "finding_aid_filing_title" => {"type" => "string"},
-      "finding_aid_date" => {"type" => "string"},
-      "finding_aid_author" => {"type" => "string"},
+      "finding_aid_title" => {"type" => "string", "maxLength" => 32672},
+      "finding_aid_filing_title" => {"type" => "string", "maxLength" => 32672},
+      "finding_aid_date" => {"type" => "string", "maxLength" => 255},
+      "finding_aid_author" => {"type" => "string", "maxLength" => 255},
       "finding_aid_description_rules" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_description_rules"},
-      "finding_aid_language" => {"type" => "string"},
-      "finding_aid_sponsor" => {"type" => "string"},
-      "finding_aid_edition_statement" => {"type" => "string"},
-      "finding_aid_series_statement" => {"type" => "string"},
-      "finding_aid_revision_date" => {"type" => "string"},
-      "finding_aid_revision_description" => {"type" => "string"},
+      "finding_aid_language" => {"type" => "string", "maxLength" => 255},
+      "finding_aid_sponsor" => {"type" => "string", "maxLength" => 255},
+      "finding_aid_edition_statement" => {"type" => "string", "maxLength" => 32672},
+      "finding_aid_series_statement" => {"type" => "string", "maxLength" => 32672},
+      "finding_aid_revision_date" => {"type" => "string", "maxLength" => 255},
+      "finding_aid_revision_description" => {"type" => "string", "maxLength" => 32672},
       "finding_aid_status" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_status"},
-      "finding_aid_note" => {"type" => "string"},
+      "finding_aid_note" => {"type" => "string", "maxLength" => 32672},
 
       # Extents (overrides abstract schema)
       "extents" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:extent) object"}},
