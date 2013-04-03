@@ -1,8 +1,21 @@
 <style media="screen,print">
     /* ArchivesSpace Reporting Stylesheet */
-  body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
-  }
+  <% if params[:format] === "pdf" %>
+    @font-face {
+      font-family: "DejaVu Sans";
+      src: url('<%= @base_url %>/fonts/dejavu/DejaVuSans.ttf');
+      -fs-pdf-font-embed: embed;
+      -fs-pdf-font-encoding: Identity-H;
+    }
+
+    body {
+      font-family: "DejaVu Sans", sans-serif;
+    }
+  <% else %>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+  <% end %>
 
   .header .logo {
     float: right;
@@ -26,6 +39,10 @@
     border: 1px solid #AAA;
     padding: 4px;
     vertical-align: top;
+  }
+
+  .report-listing th {
+    background-color: #F1F1F1;
   }
 
   .report-listing tr:nth-child(2n-1) td {

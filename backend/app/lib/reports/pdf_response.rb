@@ -41,6 +41,7 @@ class PDFResponse
 
   def render_pdf(dom, output)
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
+
     renderer.set_document(dom, base_url)
     renderer.layout
 
