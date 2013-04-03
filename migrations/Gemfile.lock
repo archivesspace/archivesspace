@@ -1,13 +1,13 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (3.2.9)
+    activesupport (3.2.13)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     factory_girl (4.1.0)
       activesupport (>= 3.0.0)
     i18n (0.6.1)
-    multi_json (1.4.0)
+    multi_json (1.7.2)
     nokogiri (1.5.6)
     nokogiri (1.5.6-java)
     rufus-lru (1.0.5)

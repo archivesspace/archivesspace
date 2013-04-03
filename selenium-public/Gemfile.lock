@@ -9,7 +9,7 @@ GEM
     libwebsocket (0.1.7.1)
       addressable
       websocket
-    multi_json (1.4.0)
+    multi_json (1.7.2)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
