@@ -6,24 +6,4 @@
 
    <%= form.label_and_password "password", {:field_opts => {:size => 30, :class => "input-large"}} %>
    <%= form.label_and_password "confirm_password", {:field_opts => {:size => 30, :class => "input-large"}} %>
-
-   <% if user_can?('manage_users') %>
-    <section id="groups" class="subrecord-form-dummy">
-     <h3><%= I18n.t("group._html.plural") %></h3>
-      <div class="subrecord-form-container">
-        <div class="subrecord-form-fields">
-          <table class="table table-striped table-bordered table-condensed">
-          <% @groups.each do |group| %>
-            <tr>
-              <td class="span1"><%= check_box_tag("groups[]", group.uri, params.has_key?("groups") && params["groups"].include?(group.uri), :id => group.group_code) %></td>
-              <td class="span3"><%= label_tag group.group_code, group.group_code %></td>
-              <td class="span8"><%= label_tag group.group_code, group.description %></td>
-            </tr>
-          <% end %>
-          </table>
-        </div>
-      </div>
-    </section>
-   <% end %>
  </fieldset>
-

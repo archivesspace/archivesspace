@@ -110,6 +110,7 @@
                   <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                   <ul class="dropdown-menu pull-right">
                     <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
+                    <li><%= link_to I18n.t("user._html.section.manage_access"), :controller => :users, :action => :manage_access %></li>
                   </ul>
                 <% end %>
               </div>

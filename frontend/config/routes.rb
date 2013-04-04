@@ -10,7 +10,10 @@ ArchivesSpace::Application.routes.draw do
   match 'repositories/:id' => 'repositories#update', :via => [:post]
   match 'repositories/:id/select' => 'repositories#select', :via => [:post]
 
+  match 'users/manage_access' => 'users#manage_access', :via => [:get]
+  match 'users/:id/edit_groups' => 'users#edit_groups', :via => [:get]
   match 'users/:id/edit' => 'users#edit', :via => [:get]
+  match 'users/:id/update_groups' => 'users#update_groups', :via => [:post]
   match 'users/new' => 'users#new', :via => [:get]
   match 'users/:id' => 'users#show', :via => [:get]
   match 'users/:id' => 'users#update', :via => [:post]

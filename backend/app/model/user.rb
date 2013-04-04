@@ -131,7 +131,13 @@ class User < Sequel::Model(:user)
   end
 
 
-  def add_to_groups(groups)
+  def add_to_groups(groups, delete_all_for_repo_id = false)
+
+    if delete_all_for_repo_id
+      groups_ids = self.class.db[:group].where(:repo_id => delete_all_for_repo_id).select(:id)
+      self.class.db[:group_user].where(:user_id => self.id, :group_id => groups_ids).delete
+    end
+
     Array(groups).each do |group|
       group.add_user(self)
     end

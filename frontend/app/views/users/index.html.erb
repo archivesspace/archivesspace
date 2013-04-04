@@ -1,10 +1,4 @@
-<%= setup_context :title => I18n.t("user._html.plural") %>
-
-<% if flash[:success] %>
-  <div class="alert alert-success">
-    <pre><%= flash[:success] %></pre>
-  </div>
-<% end %>
+<%= setup_context :title => @manage_access ? I18n.t("user._html.section.manage_access") : I18n.t("user._html.plural") %>
 
 <div class="row-fluid">
    <div class="span3">
@@ -12,11 +6,21 @@
    </div>
    <div class="span9">
     <div class="record-pane">
-      <div class="btn-group pull-right">
-        <%= link_to "#{I18n.t("actions.create")} #{I18n.t("user._html.singular")}", {:controller => :users, :action => :new}, :class => "btn" %>
-      </div>
 
-      <h2>Users</h2>
+      <% if not @manage_access %>
+        <div class="btn-group pull-right">
+          <%= link_to "#{I18n.t("actions.create")} #{I18n.t("user._html.singular")}", {:controller => :users, :action => :new}, :class => "btn" %>
+        </div>
+      <% end %>
+
+      <h2><%= @manage_access ? I18n.t("user._html.section.manage_access") : I18n.t("user._html.plural") %></h2>
+
+      <% if flash[:success] %>
+        <div class="alert alert-success">
+          <pre><%= flash[:success] %></pre>
+        </div>
+      <% end %>
+
      <% if @search_data['results'].length %>
        <table class="table table-striped table-bordered table-condensed">
          <thead>
@@ -31,7 +35,11 @@
               <td><%= user.username %></td>
               <td>
                  <div class="btn-group" style="float: right">
-                   <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-mini" %>
+                   <% if @manage_access %>
+                    <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-mini" %>
+                   <% else %>
+                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-mini" %>
+                   <% end %>
                  </div>
               </td>
             </tr>

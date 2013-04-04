@@ -118,7 +118,9 @@ class ApplicationController < ActionController::Base
         return opts[:on_invalid].call
       end
 
-      if opts[:instance] == :user and !params['user']['password'].blank?
+      if opts.has_key?(:save_opts)
+        id = obj.save(opts[:save_opts])
+      elsif opts[:instance] == :user and !params['user']['password'].blank?
         id = obj.save(:password => params['user']['password'])
       else
         id = obj.save

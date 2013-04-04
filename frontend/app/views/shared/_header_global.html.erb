@@ -2,12 +2,6 @@
   <div class="navbar">
     <div class="navbar-inner">
       <div class="container">
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <div class="nav-collapse collapse">
           <%= link_to I18n.t("navbar.brand"), {:controller => :welcome, :action => :index}, :class => "brand" %>
           <ul class="nav pull-right">
            <%= render "shared/header_user" %>
@@ -15,7 +9,6 @@
              <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
            <% end %>
          </ul>
-        </div><!-- /.nav-collapse -->
       </div>
     </div><!-- /navbar-inner -->
   </div>
