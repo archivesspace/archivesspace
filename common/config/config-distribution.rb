@@ -67,6 +67,7 @@ class AppConfig
     possible_locations = [
                           get_preferred_config_path,
                           File.join(File.dirname(__FILE__), "config.rb"),
+                          File.join(File.dirname(__FILE__), "..", "..", "config", "config.rb"),
                          ]
 
     possible_locations.each do |config|
