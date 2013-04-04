@@ -1,27 +1,7 @@
 <% if session[:user] %>
-  <%
-    selected_repo = current_repo
-  %>
   <li class="dropdown user-container">
     <div class="input-append">
       <span class="inset-label">
-        <% if selected_repo %>
-          <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(selected_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(selected_repo.name) %>">
-            <span class="icon-hdd"></span><span class="current-repository-id"><% if selected_repo %><%= selected_repo['repo_code'] %><% end %></span>
-          </span>
-        <% else %>
-          <span class="repository-label has-popover empty"
-            data-placement="bottom"
-            data-trigger="manual"
-            data-title="false"
-            data-html="true"
-            <% if user_can?('create_repository') && @repositories.length == 0 %>
-              data-content="<%= I18n.t("navbar.create_repository_tooltip") %>"
-            <% else %>
-              data-content="<%= I18n.t("navbar.repositories_none_tooltip") %>"
-            <% end %>
-          ><span class='icon-hdd'></span></span>
-        <% end %>
         <span class="user-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title='<span class="icon-user"></span> <%= CGI::escapeHTML(session[:user]) %>'>
           <span class="icon-user"></span><%= session[:user] %>
         </span>
@@ -47,9 +27,6 @@
         <% if user_can?('create_repository') %>
           <li class="divider"></li>
           <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
-          <% if session[:repo] %>
-            <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
-          <% end %>
         <% end %>
         <% if user_can?('manage_users') %>
           <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>

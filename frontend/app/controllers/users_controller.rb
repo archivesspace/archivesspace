@@ -15,11 +15,13 @@ class UsersController < ApplicationController
 
   def new 
     @user = JSONModel(:user).new._always_valid!
+    @groups = JSONModel(:group).all if user_can?('manage_users')
     render action: "new"
   end
 
   def edit
     @user = JSONModel(:user).find(params[:id])
+    @groups = JSONModel(:group).all if user_can?('manage_users')
     render action: "edit"
   end
   
@@ -36,6 +38,7 @@ class UsersController < ApplicationController
                 },
                 :on_invalid => ->(){
                   flash[:error] = I18n.t("user._html.messages.error_update")
+                  @groups = JSONModel(:group).all if user_can?('manage_users')
                   render :action => "edit"
                 },
                 :on_valid => ->(id){
@@ -46,7 +49,7 @@ class UsersController < ApplicationController
 
 
   def create
-    
+
     handle_crud(:instance => :user,
                 :params_check => ->(obj, params){
                   
@@ -61,6 +64,7 @@ class UsersController < ApplicationController
                 },
                 :on_invalid => ->(){
                   flash[:error] = I18n.t("user._html.messages.error_create")
+                  @groups = JSONModel(:group).all if user_can?('manage_users')
                   render :action => "new"
                 },
                 :on_valid => ->(id){

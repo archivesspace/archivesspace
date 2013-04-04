@@ -1,17 +1,17 @@
+<div class="container repository-header">
 <div class="navbar">
-    <div class="navbar-inner">
-      <div class="container">
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <%= link_to I18n.t("navbar.brand"), {:controller => :welcome, :action => :index}, :class => "brand" %>
-        <div class="nav-collapse collapse">
-          <% if session[:user] and session[:repo_id] %>
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="nav-collapse collapse">
+        <% if session[:user] and session[:repo_id] %>
           <ul class="nav">
             <li <% if controller_name === "welcome" %>class="active"<% end %>>
-               <%= link_to raw('<span class="icon-home"></span>'), :controller => :welcome, :action => :index %>
+              <%= link_to raw('<span class="icon-home"></span>'), :controller => :welcome, :action => :index %>
             </li>
             <li class="dropdown browse-container">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
@@ -94,15 +94,33 @@
                 </div>
               <% end %>
             </li>
-          </ul>         
-          <% end %>
+            </ul>
+            <%
+               selected_repo = current_repo
+            %>
           <ul class="nav pull-right">
-           <%= render "shared/header_user" %>
-           <% if ArchivesSpaceHelp.enabled? %>
-             <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
-           <% end %>
-         </ul>
-        </div><!-- /.nav-collapse -->
-      </div>
-    </div><!-- /navbar-inner -->
-  </div>
+            <li class=" dropdown repo-container">
+              <div <% if user_can?('manage_repository') %>class="input-append"<% end %>>
+                <span class="inset-label">
+                    <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(selected_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(selected_repo.name) %>">
+                      <span class="icon-hdd"></span><span class="current-repository-id"><% if selected_repo %><%= selected_repo['repo_code'] %><% end %></span>
+                    </span>
+                </span>
+                <% if user_can?('manage_repository') %>
+                  <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                  <ul class="dropdown-menu pull-right">
+                    <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
+                  </ul>
+                <% end %>
+              </div>
+            </li>
+            <% if ArchivesSpaceHelp.enabled? %>
+              <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div><!-- /.nav-collapse -->
+    </div>
+  </div><!-- /navbar-inner -->
+</div>
+</div>

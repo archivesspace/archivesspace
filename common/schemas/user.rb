@@ -13,7 +13,14 @@
         "type" => "object",
         "readonly" => true,
       },
-      
+
+      "groups" => {
+        "type" => "array",
+        "items" => {
+          "type" => "JSONModel(:group) uri"
+        }
+      },
+
       "agent_record" => {
         "type" => "object",
         "readonly" => true,

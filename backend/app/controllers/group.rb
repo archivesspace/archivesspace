@@ -54,14 +54,11 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/groups')
     .description("Get a list of groups for a repository")
     .params(["repo_id", :repo_id],
-            *Endpoint.pagination,
             ["group_code", String, "Get groups by group code",
              :optional => true])
     .permissions([:manage_repository])
     .returns([200, "[(:resource)]"]) \
   do
-    handle_listing(Group, params[:page], params[:page_size],
-                   params[:modified_since],
-                   params.has_key?(:group_code) ? {:group_code => params[:group_code]} : {})
+    handle_unlimited_listing(Group, params.has_key?(:group_code) ? {:group_code => params[:group_code]} : {})
   end
 end

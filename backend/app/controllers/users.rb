@@ -79,6 +79,7 @@ class ArchivesSpaceService < Sinatra::Base
     if user
       json = User.to_jsonmodel(user)
       json.permissions = user.permissions
+
       json_response(json)
     else
       raise NotFoundException.new("User wasn't found")

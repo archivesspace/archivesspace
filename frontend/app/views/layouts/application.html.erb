@@ -19,8 +19,9 @@
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20" class="action-<%= controller.action_name %>">
 
    <header>
-     <%= render "shared/header" %>
+     <%= render "shared/header_global" %>
      <%= render "site/branding" %>
+     <% if session[:repo] %><%= render "shared/header_repository" %><% end %>
    </header>
 
    <div class="content-pane container">
