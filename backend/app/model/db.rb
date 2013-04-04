@@ -2,6 +2,9 @@ require 'fileutils'
 
 class DB
 
+  Sequel.database_timezone = :utc
+  Sequel.typecast_timezone = :utc
+
   SUPPORTED_DATABASES = [
                          {
                            :pattern => /jdbc:mysql/,
