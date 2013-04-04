@@ -24,7 +24,7 @@ GEM
     jdbc-derby (10.6.2.1)
     jdbc-derby (10.6.2.1-java)
     jdbc-mysql (5.1.13)
-    jruby-jars (1.7.0)
+    jruby-jars (1.7.3)
     jruby-rack (1.1.12)
     json (1.7.7)
     json (1.7.7-java)
@@ -94,7 +94,7 @@ DEPENDENCIES
   flying_saucer
   jdbc-derby
   jdbc-mysql
-  jruby-jars (= 1.7.0)
+  jruby-jars (= 1.7.3)
   json
   json-schema
   ladle

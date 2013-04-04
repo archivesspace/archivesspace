@@ -2,8 +2,8 @@
 
 <project name="ArchivesSpace" default="help">
 
-  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.0/jruby-complete-1.7.0.jar" />
-  <property name="jruby_file" value="jruby-complete-1.7.0.jar" />
+  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.3/jruby-complete-1.7.3.jar" />
+  <property name="jruby_file" value="jruby-complete-1.7.3.jar" />
 
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.0.0/solr-4.0.0.war" />
   <property name="solr_file" value="solr-4.0.0.war" />
