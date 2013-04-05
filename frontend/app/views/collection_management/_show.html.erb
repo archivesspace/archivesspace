@@ -12,14 +12,13 @@
             <span class="icon-chevron-right"></span>
             <span class="icon-chevron-down"></span>
           </div>
-          <div class="span2">
-            <%= I18n.t("enumerations.collection_management_processing_priority.#{collection_management['processing_priority'] || 'none'}", :default => "--") %>
+          <div class="span4">
+            <%= I18n.t("collection_management.processing_status") %>:
+            <strong><%= I18n.t("enumerations.collection_management_processing_status.#{collection_management['processing_status'] || 'none'}", :default => "--") %></strong>
           </div>
-          <div class="span2">
-            <%= I18n.t("enumerations.collection_management_processing_status.#{collection_management['processing_status'] || 'none'}", :default => "--") %>
-          </div>
-          <div class="span5">
-            <%= collection_management['processors'] %>
+          <div class="span4">
+            <%= I18n.t("collection_management.processing_priority") %>:
+            <strong><%= I18n.t("enumerations.collection_management_processing_priority.#{collection_management['processing_priority'] || 'none'}", :default => "--") %></strong>
           </div>
         </div>
       </div>
