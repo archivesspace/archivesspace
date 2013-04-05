@@ -29,7 +29,7 @@ gem 'json-schema'
 
 gem 'markaby'
 
-gem "jruby-jars", "= 1.7.0"
+gem "jruby-jars", "= 1.7.3"
 
 gem 'warbler'
 

@@ -2,8 +2,8 @@
 
 <project name="ArchivesSpace" default="help">
 
-  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.0/jruby-complete-1.7.0.jar" />
-  <property name="jruby_file" value="jruby-complete-1.7.0.jar" />
+  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.3/jruby-complete-1.7.3.jar" />
+  <property name="jruby_file" value="jruby-complete-1.7.3.jar" />
 
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.0.0/solr-4.0.0.war" />
   <property name="solr_file" value="solr-4.0.0.war" />
@@ -439,8 +439,8 @@
   </target>
 
 
-  <target name="doc:yard" description="Generate the full YARD documentation">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+  <target name="doc:yard" depends="set-classpath" description="Generate the full YARD documentation">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../_yard">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -451,8 +451,8 @@
   </target>
 
 
-  <target name="doc:yardoc" description="Run the yardoc command">
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+  <target name="doc:yardoc" depends="set-classpath" description="Run the yardoc command">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="..">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -460,7 +460,8 @@
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 build/gems/bin/yardoc" />
     </java>
-    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true"
+
+    <java classpath="${jruby_classpath}" depends="set-classpath" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="..">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
