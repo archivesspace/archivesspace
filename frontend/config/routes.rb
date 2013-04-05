@@ -6,9 +6,9 @@ ArchivesSpace::Application.routes.draw do
   match 'login' => "session#login", :via => :post
   match 'logout' => "session#logout", :via => :get
 
+  match 'repositories/select' => 'repositories#select', :via => [:post]
   resources :repositories
   match 'repositories/:id' => 'repositories#update', :via => [:post]
-  match 'repositories/:id/select' => 'repositories#select', :via => [:post]
 
   match 'users/manage_access' => 'users#manage_access', :via => [:get]
   match 'users/:id/edit_groups' => 'users#edit_groups', :via => [:get]

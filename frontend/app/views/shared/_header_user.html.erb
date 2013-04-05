@@ -1,4 +1,39 @@
 <% if session[:user] %>
+  <% if @repositories.length > 0 %>
+    <li class="dropdown select-a-repository">
+      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("repository._html.action.select") %> <b class="caret"></b></a>
+      <ul class="dropdown-menu" style="padding: 15px;">
+        <li>
+          <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
+            <fieldset>
+              <%= select_tag "id", options_for_select(@repositories.map {|repo| [repo.repo_code, repo.id]}, session[:repo_id]) %>
+            </fieldset>
+            <button class="btn btn-primary pull-left"><%= I18n.t("repository._html.action.select") %></button>
+          <% end %>
+        </li>
+      </ul>
+    </li>
+  <% end %>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.global_admin") %> <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <% if user_can?('create_repository') %>
+        <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
+      <% end %>
+      <% if user_can?('manage_users') %>
+        <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
+      <% end %>
+      <% if user_can?('manage_users') %>
+        <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
+      <% end %>
+      <li class="divider"></li>
+      <li><%= link_to I18n.t("navbar.list_reports"), :controller => :reports, :action => :index %></li>
+      <% if ArchivesSpaceHelp.enabled? %>
+        <li class="divider"></li>
+        <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
+      <% end %>
+    </ul>
+  </li>
   <li class="dropdown user-container">
     <div class="input-append">
       <span class="inset-label">
@@ -8,38 +43,6 @@
       </span>
       <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <% if @repositories.length > 0 %>
-          <li class="dropdown-submenu pull-left">
-            <a href="javascript:void(0);" id="select_repo"><%= I18n.t("navbar.repositories_select") %></a>
-            <ul class="dropdown-menu repo-selector">
-            <% for repo in @repositories %>
-              <% if session[:repo_id] === repo.id %>
-                <li class="selected has-popover"  data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.name) %>"><span class="icon-ok-circle"></span> <%= repo.repo_code %></li>
-              <% else %>
-                <li class="has-popover" data-trigger="hover" data-placement="left" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(repo.repo_code) %>" data-content="<%= CGI::escapeHTML(repo.name) %>"><%= link_to repo.repo_code, {:controller => :repositories, :action => :select, :id => repo.id}, :class => "select-repo" %></li>
-              <% end %>
-            <% end %>
-            </ul>
-          </li>
-        <% else %>
-          <li class="empty"><span class="icon-info-sign"></span> <%= I18n.t "navbar.repositories_none" %></li>
-        <% end %>
-        <% if user_can?('create_repository') %>
-          <li class="divider"></li>
-          <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
-        <% end %>
-        <% if user_can?('manage_users') %>
-          <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
-        <% end %>
-        <% if user_can?('manage_users') %>
-          <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
-        <% end %>
-        <li class="divider"></li>
-        <li><%= link_to I18n.t("navbar.list_reports"), :controller => :reports, :action => :index %></li>
-        <% if ArchivesSpaceHelp.enabled? %>
-          <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
-        <% end %>
-        <li class="divider"></li>
         <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
       </ul>
     </div>

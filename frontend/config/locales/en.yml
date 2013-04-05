@@ -82,6 +82,7 @@ en:
     register: Register now
     register_prefix: Need an account?
     list_reports: Reports
+    global_admin: System
   welcome:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
@@ -2259,6 +2260,7 @@ en:
         updated: Repository Saved
         selected: Repository is Currently Selected
         selected_short: Selected
+        changed: The repository selected is now active
       section:
         all_fields: Repository Fields
       action:
