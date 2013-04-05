@@ -236,6 +236,10 @@ module JSONModel
         enum_source.values_for(name) + ['other_unmapped']
       end
 
+      def enum_wrapper.default_value_for(name)
+        enum_source.default_value_for(name)
+      end
+
       @@init_args[:enum_source] = enum_wrapper
     end
 
