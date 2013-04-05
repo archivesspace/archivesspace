@@ -2260,7 +2260,7 @@ en:
         updated: Repository Saved
         selected: Repository is Currently Selected
         selected_short: Selected
-        changed: The repository selected is now active
+        changed: The repository '%{repo_code}' is now active
       section:
         all_fields: Repository Fields
       action:
