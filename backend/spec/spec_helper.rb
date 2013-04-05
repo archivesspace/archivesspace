@@ -15,7 +15,6 @@ if ENV['COVERAGE_REPORTS'] == 'true'
   SimpleCov.start do
     # Not useful to include these since the test suite deliberately doesn't load
     # most of these files.
-    add_filter "controllers/setup.rb"
     add_filter "lib/webrick_fix.rb"
     add_filter "lib/bootstrap.rb"
     add_filter "lib/logging.rb"

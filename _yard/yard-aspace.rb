@@ -10,7 +10,6 @@ include JSONModel
 
 JSONModel::init(:enum_source => BackendEnumSource)
 
-require_relative '../backend/app/controllers/setup.rb'
 require_relative '../backend/app/lib/rest.rb'
 
 
