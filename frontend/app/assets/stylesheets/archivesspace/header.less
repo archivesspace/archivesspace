@@ -109,9 +109,9 @@
   }
 }
 
-.repository-header.container .navbar {
-  margin: 0 -21px;
+.repository-header .navbar {
   .navbar-inner {
+    margin: 0 -21px;
     .border-radius(4px 4px 0 0);
   }
 }
@@ -128,5 +128,33 @@ header .inset-label {
 
   .btn-primary {
     width:  100%;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .global-header,
+  .repository-header {
+    padding:  0;
+    .navbar {
+      position: relative;
+      margin: 0 -20px;
+      .navbar-inner {
+        margin: 0;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .global-header,
+  .repository-header {
+    padding: 0;
+    .navbar {
+      position: relative;
+      margin: 0;
+      .navbar-inner {
+        margin: 0;
+      }
+    }
   }
 }
