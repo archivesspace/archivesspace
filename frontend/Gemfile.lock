@@ -33,6 +33,7 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     arel (3.0.2)
+    atomic (1.0.1)
     atomic (1.0.1-java)
     bouncy-castle-java (1.5.0146.1)
     builder (3.0.4)
@@ -59,6 +60,7 @@ GEM
     jruby-openssl (0.7.7)
       bouncy-castle-java (>= 1.5.0146.1)
     jruby-rack (1.1.12)
+    json (1.7.7)
     json (1.7.7-java)
     json-schema (1.0.10)
     less (2.2.2)
@@ -74,6 +76,7 @@ GEM
       builder (>= 2.0.0)
     mime-types (1.22)
     multi_json (1.7.2)
+    nokogiri (1.5.6)
     nokogiri (1.5.6-java)
     polyglot (0.3.3)
     rack (1.4.5)
@@ -128,7 +131,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    therubyrhino (2.0.1)
+    therubyrhino (2.0.2)
       therubyrhino_jar (>= 1.7.3)
     therubyrhino_jar (1.7.4)
     thor (0.18.1)
@@ -151,7 +154,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
-  atomic
+  atomic (= 1.0.1)
   coffee-rails (~> 3.2.1)
   jquery-rails
   jruby-jars (= 1.7.3)

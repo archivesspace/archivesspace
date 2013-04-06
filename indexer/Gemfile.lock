@@ -15,5 +15,5 @@ PLATFORMS
   java
 
 DEPENDENCIES
-  atomic
+  atomic (= 1.0.1)
   sinatra
