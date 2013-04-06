@@ -17,19 +17,19 @@
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.global_admin") %> <b class="caret"></b></a>
     <ul class="dropdown-menu">
-      <% if user_can?('create_repository') %>
-        <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
+      <% if user_can?('create_repository') || user_can?('manage_users') %>
+        <% if user_can?('create_repository') %>
+          <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
+        <% end %>
+        <% if user_can?('manage_users') %>
+          <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
+          <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
+        <% end %>
+        <% if ArchivesSpaceHelp.enabled? %>
+          <li class="divider"></li>
+        <% end %>
       <% end %>
-      <% if user_can?('manage_users') %>
-        <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
-      <% end %>
-      <% if user_can?('manage_users') %>
-        <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
-      <% end %>
-      <li class="divider"></li>
-      <li><%= link_to I18n.t("navbar.list_reports"), :controller => :reports, :action => :index %></li>
       <% if ArchivesSpaceHelp.enabled? %>
-        <li class="divider"></li>
         <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
       <% end %>
     </ul>

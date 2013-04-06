@@ -1,6 +1,6 @@
 class UnprocessedAccessionsReport < AbstractReport
   register_report({
-                    :uri => "/reports/unprocessed_accessions",
+                    :uri_suffix => "unprocessed_accessions",
                     :description => "Report on all unprocessed accessions",
                   })
 
@@ -16,6 +16,10 @@ class UnprocessedAccessionsReport < AbstractReport
     {
       'identifier' => proc {|record| ASUtils.json_parse(record[:identifier] || "[]").compact.join("-")}
     }
+  end
+
+  def scope_by_repo_id(dataset)
+    dataset.where(Sequel.qualify(:accession, :repo_id) => @repo_id)
   end
 
   def query(db)
@@ -59,7 +63,8 @@ class UnprocessedAccessionsReport < AbstractReport
         Sequel.qualify(:collection_management, :processors),
         Sequel.qualify(:enumvals_processing_status, :value).as(:processing_status),
         Sequel.qualify(:enumvals_processing_priority, :value).as(:processing_priority)
-      )
+      ).
+      order(:processing_priority)
   end
 
 end

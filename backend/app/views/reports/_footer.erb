@@ -1,6 +1,7 @@
 <% time = DateTime.now %>
 <div id="footer" class="footer" style="position: running(footer);">
   <div class="timestamp">
+    <% if params[:repo_id] %>Scoped for Repository: <%= params[:repo_id] %><br/><% end %>
     Report Generated at <%= time.strftime("%Y-%m-%d %H:%M %Z") %>
   </div>
 

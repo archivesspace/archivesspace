@@ -94,8 +94,9 @@
                 </div>
               <% end %>
             </li>
-            </ul>
+          </ul>
           <ul class="nav pull-right">
+            <li><%= link_to I18n.t("navbar.list_reports"), :controller => :reports, :action => :index %></li>
             <li class=" dropdown repo-container">
               <div <% if user_can?('manage_repository') %>class="input-append"<% end %>>
                 <span class="inset-label">

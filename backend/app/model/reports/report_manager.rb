@@ -5,7 +5,12 @@ module ReportManager
   def self.register_report(report_class, opts)
     opts[:model] = report_class
     opts[:params] ||= []
-    @@registered_reports[report_class] = opts
+
+    opts[:uri_suffix] ||= report_class.name.downcase
+
+    raise "Report with uri '#{opts[:uri_suffix]}' already registered" if @@registered_reports.has_key?(opts[:uri_suffix])
+
+    @@registered_reports[opts[:uri_suffix]] = opts
   end
 
 
