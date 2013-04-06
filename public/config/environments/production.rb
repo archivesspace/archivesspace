@@ -1,3 +1,5 @@
+require 'aspace-rails/compressor'
+
 ArchivesSpacePublic::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -13,6 +15,9 @@ ArchivesSpacePublic::Application.configure do
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
+  config.assets.js_compressor = ASpaceCompressor.new(:js)
+  config.assets.css_compressor = ASpaceCompressor.new(:css)
+
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false

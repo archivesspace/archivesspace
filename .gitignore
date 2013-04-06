@@ -1,4 +1,4 @@
-*.jar
+build/*.jar
 *.war
 build/gems
 derby.log
