@@ -95,19 +95,16 @@
               <% end %>
             </li>
             </ul>
-            <%
-               selected_repo = current_repo
-            %>
           <ul class="nav pull-right">
             <li class=" dropdown repo-container">
               <div <% if user_can?('manage_repository') %>class="input-append"<% end %>>
                 <span class="inset-label">
-                    <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(selected_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(selected_repo.name) %>">
-                      <span class="icon-hdd"></span><span class="current-repository-id"><% if selected_repo %><%= selected_repo['repo_code'] %><% end %></span>
+                    <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icon-hdd'></span> <%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
+                      <span class="icon-hdd"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
                     </span>
                 </span>
                 <% if user_can?('manage_repository') %>
-                  <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                  <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="icon-cog"></span> <span class="caret"></span></a>
                   <ul class="dropdown-menu pull-right">
                     <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
                     <li><%= link_to I18n.t("user._html.section.manage_access"), :controller => :users, :action => :manage_access %></li>
