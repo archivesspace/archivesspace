@@ -73,7 +73,7 @@ describe 'Group controller' do
     repo_two = create(:repo, :repo_code => 'RepoTwo')
     create(:json_group, {:group_code => "group-in-repo2"})
 
-    groups = JSONModel(:group).all({:page => 1}, {:repo_id => repo_one.id})['results']
+    groups = JSONModel(:group).all({}, {:repo_id => repo_one.id})
 
     groups.map(&:group_code).include?("group-in-repo2").should be_false
   end
@@ -95,12 +95,12 @@ describe 'Group controller' do
 
   it "restricts group-related activities to repository-managers" do
     create(:user, {:username => 'archivist'})
-    archivists = JSONModel(:group).all(:page => 1,:group_code => "repository-archivists")['results'].first
+    archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
     archivists.member_usernames = ["archivist"]
     archivists.save
 
     create(:user, {:username => 'viewer'})
-    viewers = JSONModel(:group).all(:page => 1, :group_code => "repository-viewers")['results'].first
+    viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
     viewers.member_usernames = ["viewer"]
     viewers.save
 
@@ -126,7 +126,7 @@ describe 'Group controller' do
     group = create(:json_group, {:group_code => 'groupthink'})
     group = create(:json_group, {:group_code => 'groupygroup'})
 
-    groups = JSONModel(:group).all(:page => 1)['results']
+    groups = JSONModel(:group).all
 
     groups.any? { |group| group.group_code == "supergroup" }.should be_true
     groups.any? { |group| group.group_code == "groupthink" }.should be_true
@@ -138,19 +138,19 @@ describe 'Group controller' do
     create(:user, {:username => 'newmanager'})
     create(:user, {:username => 'underling'})
     
-    managers = JSONModel(:group).all(:page => 1, :group_code => "repository-managers")['results'].first
+    managers = JSONModel(:group).all(:group_code => "repository-managers").first
     managers.member_usernames = ["newmanager"]
     managers.save
 
     expect {
       as_test_user("newmanager") do
-        JSONModel(:group).all(:page => 1)['results']
+        JSONModel(:group).all
       end
     }.to_not raise_error
     
     expect {
       as_test_user('underling') do
-        JSONModel(:group).all(:page => 1)['results']
+        JSONModel(:group).all
       end
     }.to raise_error
   end

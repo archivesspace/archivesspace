@@ -40,7 +40,7 @@ describe 'Repository controller' do
 
 
   it "creating a repository automatically creates the standard set of groups" do
-    groups = JSONModel(:group).all(:page => 1)['results'].map {|group| group.group_code}
+    groups = JSONModel(:group).all.map {|group| group.group_code}
 
     groups.include?("repository-managers").should be_true
     groups.include?("repository-archivists").should be_true
@@ -51,7 +51,7 @@ describe 'Repository controller' do
   context "project manager role" do
     let!(:user) do
       user = create(:user)
-      pms = JSONModel(:group).all(:page => 1, :group_code => "repository-project-managers")['results'].first
+      pms = JSONModel(:group).all(:group_code => "repository-project-managers").first
       pms.member_usernames = [user.username]
       pms.save
 
