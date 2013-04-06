@@ -2,13 +2,19 @@ class ASpaceCompressor
 
   def initialize(flavour)
     @flavour = flavour
+    @initialized = false
+  end
 
+
+  def do_init
     yui = Dir.glob(File.join(File.absolute_path(File.dirname(__FILE__)), "yui-compressor*jar")).first
 
     classloader = java.net.URLClassLoader.new([java.net.URL.new("file:#{yui}")].to_java(java.net.URL))
     @js_compressor = classloader.find_class("com.yahoo.platform.yui.compressor.JavaScriptCompressor")
     @css_compressor = classloader.find_class("com.yahoo.platform.yui.compressor.CssCompressor")
     @error_reporter = classloader.find_class("org.mozilla.javascript.ErrorReporter")
+
+    @initialized = true
   end
 
 
@@ -24,6 +30,8 @@ class ASpaceCompressor
 
 
   def compress(s, opts = {})
+    do_init if !@initialized
+
     output = java.io.StringWriter.new
 
     input = java.io.InputStreamReader.new(java.io.ByteArrayInputStream.new(s.to_java.get_bytes("UTF-8")))
