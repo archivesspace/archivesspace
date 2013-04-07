@@ -166,9 +166,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     if user
       json = User.to_jsonmodel(user)
-      json.groups = user.group.map do |group|
-        next if group.repo_id != params[:repo_id]
-
+      json.groups = user.group_dataset.where(:repo_id => params[:repo_id]).map do |group|
         JSONModel(:group).uri_for(group.id, :repo_id => params[:repo_id])
       end
 

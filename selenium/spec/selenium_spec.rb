@@ -247,6 +247,40 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text('//span', /#{@can_manage_repo}/)
       $driver.find_element(:link, "Create")
     end
+
+    it "can modify the user's groups for a repository via the Manage Access listing" do
+      logout
+      login("admin", "admin")
+
+      # change @can_manage_repo to a view only
+      select_repo(@can_manage_repo)
+
+      $driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+      $driver.find_element(:link, "Manage User Access").click
+
+      $driver.find_element_with_text('//tr', /#{@user}/).find_element(:link, "Edit Groups").click
+
+      # uncheck all current groups
+      $driver.find_elements(:xpath, '//input[@type="checkbox"][@checked]').each {|checkbox| checkbox.click}
+
+      # check only the viewer group
+      $driver.find_element_with_text('//tr', /repository-viewers/).find_element(:css, 'input').click
+
+      $driver.find_element(:id, "create_account").click
+
+      logout
+    end
+
+    it "can be modified via th Manage Access listing and then stick" do
+      $driver.find_element(:link, "Sign In").click
+      $driver.clear_and_send_keys([:id, 'user_username'], @user)
+      $driver.clear_and_send_keys([:id, 'user_password'], @pass)
+      $driver.find_element(:id, 'login').click
+
+      select_repo(@can_manage_repo)
+
+      $driver.ensure_no_such_element(:link, "Create")
+    end
   end
 
 
