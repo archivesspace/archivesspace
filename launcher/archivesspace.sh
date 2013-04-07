@@ -34,6 +34,17 @@ export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS"
 # Wow.  Not proud of this!
 export JAVA_OPTS="`echo $JAVA_OPTS | sed 's/\([#&;\`|*?~<>^(){}$\,]\)/\\\\\1/g'`"
 
+if [ "$ASPACE_JAVA_XMX" = "" ]; then
+    ASPACE_JAVA_XMX="-Xmx512m"
+fi
+
+if [ "$ASPACE_JAVA_XSS" = "" ]; then
+    ASPACE_JAVA_XSS="-Xss2m"
+fi
+
+if [ "$ASPACE_JAVA_MAXPERMSIZE" = "" ]; then
+    ASPACE_JAVA_MAXPERMSIZE="-XX:MaxPermSize=256m"
+fi
 
 export JRUBY=
 for dir in $GEM_HOME/gems/jruby-*; do
@@ -42,7 +53,7 @@ done
 
 
 startup_cmd="java "$JAVA_OPTS"  \
-        -Xss2m -XX:MaxPermSize=256m -Xmx512m -Dfile.encoding=UTF-8 \
+        $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MAXPERMSIZE -Dfile.encoding=UTF-8 \
         -cp \"lib/*:launcher/lib/*$JRUBY\" \
         org.jruby.Main --1.9 \"launcher/launcher.rb\""
 
