@@ -2310,6 +2310,14 @@ en:
     confirm_password: Confirm password
     confirm_password_tooltip: |
         <p>A second field used to confirm a match with the password entered into the first field.</p>
+    email: Email
+    first_name: First Name
+    last_name: Last Name
+    telephone: Phone
+    title: Title
+    department: Department
+    additional_contact: Additional Contact Information
+    
     _html:
       singular: User
       plural: Users

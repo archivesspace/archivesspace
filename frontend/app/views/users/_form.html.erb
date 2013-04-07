@@ -3,6 +3,14 @@
  <fieldset>
    <%= form.label_and_textfield "username" %>
    <%= form.label_and_textfield "name", {:field_opts => {:size => 30, :class => "input-xxlarge"}} %>
+   
+   <%= form.label_and_textfield "email", {:field_opts => {:size => 30, :class => "input-large"}} %>
+   <%= form.label_and_textfield "first_name", {:field_opts => {:size => 30, :class => "input-large"}} %>
+   <%= form.label_and_textfield "last_name", {:field_opts => {:size => 30, :class => "input-large"}} %>
+   <%= form.label_and_textfield "telephone", {:field_opts => {:size => 30, :class => "input-large"}} %>
+   <%= form.label_and_textfield "title", {:field_opts => {:size => 30, :class => "input-large"}} %>
+   <%= form.label_and_textfield "department", {:field_opts => {:size => 30, :class => "input-large"}} %>
+   <%= form.label_and_textarea "additional_contact" %>
 
    <%= form.label_and_password "password", {:field_opts => {:size => 30, :class => "input-large"}} %>
    <%= form.label_and_password "confirm_password", {:field_opts => {:size => 30, :class => "input-large"}} %>

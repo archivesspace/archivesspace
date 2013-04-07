@@ -77,6 +77,13 @@ Sequel.migration do
       Integer :agent_record_id, :null => false
       String :agent_record_type, :null => false
 
+      String :email
+      String :first_name
+      String :last_name
+      String :telephone
+      String :title
+      String :department
+      TextField :additional_contact
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
