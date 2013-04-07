@@ -67,4 +67,4 @@ module DynamicEnums
 end
 
 
-require_relative 'enumeration'
+require_relative '../enumeration'

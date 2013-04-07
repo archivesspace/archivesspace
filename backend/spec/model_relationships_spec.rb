@@ -1,6 +1,6 @@
 require 'spec_helper'
 require_relative '../app/model/ASModel'
-require_relative '../app/model/relationships'
+require_relative '../app/model/mixins/relationships'
 
 describe 'Relationships' do
 

@@ -1,6 +1,3 @@
-require_relative 'name_mixin'
-require_relative 'auto_generator'
-
 class NameSoftware < Sequel::Model(:name_software)
   include ASModel
   corresponds_to JSONModel(:name_software)

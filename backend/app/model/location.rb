@@ -1,5 +1,3 @@
-require_relative 'auto_generator'
-
 class Location < Sequel::Model(:location)
   include ASModel
   corresponds_to JSONModel(:location)

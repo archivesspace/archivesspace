@@ -70,23 +70,16 @@ class ArchivesSpaceService < Sinatra::Base
     set :logging, false
 
     if DB.connected?
-      # Load all models
-      require_relative "model/ASModel"
-      require_relative "model/dynamic_enums"
-      require_relative "model/identifiers"
-      require_relative "model/external_documents"
-      require_relative "model/external_ids"
-      require_relative "model/subjects"
-      require_relative "model/extents"
-      require_relative "model/dates"
-      require_relative "model/rights_statements"
-      require_relative "model/instances"
-      require_relative "model/deaccessions"
-      require_relative "model/agents"
-      require_relative "model/trees"
-      require_relative "model/file_versions"
-      require_relative "model/collection_managements"
 
+      require_relative "model/ASModel"
+
+      # Load all mixins
+      Dir.glob(File.join(File.dirname(__FILE__), "model", "mixins", "*.rb")).sort.each do |mixin|
+        basename = File.basename(mixin, ".rb")
+        require_relative File.join("model", "mixins", basename)
+      end
+
+      # Load all models
       Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
         basename = File.basename(model, ".rb")
         require_relative File.join("model", basename)

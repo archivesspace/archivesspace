@@ -1,6 +1,5 @@
 require_relative 'term'
 require 'digest/sha1'
-require_relative 'auto_generator'
 
 class Subject < Sequel::Model(:subject)
   include ASModel

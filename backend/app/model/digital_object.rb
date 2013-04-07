@@ -1,5 +1,3 @@
-require_relative 'notes'
-
 class DigitalObject < Sequel::Model(:digital_object)
   include ASModel
   corresponds_to JSONModel(:digital_object)

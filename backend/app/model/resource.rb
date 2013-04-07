@@ -1,5 +1,3 @@
-require_relative 'notes'
-
 class Resource < Sequel::Model(:resource)
   include ASModel
   corresponds_to JSONModel(:resource)

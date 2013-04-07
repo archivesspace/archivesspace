@@ -1,5 +1,3 @@
-require_relative 'file_version'
-
 module FileVersions
 
   def self.included(base)

@@ -1,6 +1,3 @@
-# Handling for models that require Dates
-require_relative 'ASDate'
-
 module Dates
 
   def self.included(base)

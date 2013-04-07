@@ -1,6 +1,3 @@
-# Handling for models that require Rights Statements
-require_relative 'rights_statement'
-
 module RightsStatements
 
   def self.included(base)

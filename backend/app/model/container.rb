@@ -1,5 +1,3 @@
-require_relative 'relationships'
-
 class Container < Sequel::Model(:container)
   include ASModel
   corresponds_to JSONModel(:container)

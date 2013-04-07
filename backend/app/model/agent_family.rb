@@ -1,7 +1,4 @@
-require_relative 'agent_manager'
 require_relative 'name_family'
-require_relative 'recordable_cataloging'
-require_relative 'notes'
 
 class AgentFamily < Sequel::Model(:agent_family)
 

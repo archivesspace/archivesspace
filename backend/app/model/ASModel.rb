@@ -635,4 +635,4 @@ module ASModel
 end
 
 
-require_relative 'dynamic_enums'
+require_relative 'mixins/dynamic_enums'

@@ -1,4 +1,3 @@
-require_relative 'auto_generator'
 require 'securerandom'
 
 class RightsStatement < Sequel::Model(:rights_statement)

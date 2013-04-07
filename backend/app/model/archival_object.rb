@@ -1,6 +1,3 @@
-require_relative 'notes'
-require_relative 'orderable'
-require_relative 'auto_generator'
 require 'securerandom'
 
 class ArchivalObject < Sequel::Model(:archival_object)

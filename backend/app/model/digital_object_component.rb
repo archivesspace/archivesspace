@@ -1,6 +1,3 @@
-require_relative 'orderable'
-require_relative 'notes'
-
 class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include ASModel
   corresponds_to JSONModel(:digital_object_component)

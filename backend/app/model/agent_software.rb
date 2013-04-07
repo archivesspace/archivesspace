@@ -1,7 +1,4 @@
-require_relative 'agent_manager'
 require_relative 'name_software'
-require_relative 'recordable_cataloging'
-require_relative 'notes'
 
 class AgentSoftware < Sequel::Model(:agent_software)
 
