@@ -4,6 +4,23 @@ require 'securerandom'
 require 'uri'
 
 
+$server_prepare_hooks = []
+
+
+# Add a new hook that will be called as a Jetty server is prepared.
+# Each hook will be called with:
+#
+#   hook.call(server, port, [{:war => '/path/to/app.war', :path => '/uri'}, ...])
+#
+# Nothing uses this feature by default, but you could use it for performing
+# further configuration on the Jetty server object (such as sizing thread pools)
+# by adding a hook from code in your ASPACE_LAUNCHER_BASE/launcher_rc.rb file.
+#
+def add_server_prepare_hook(callback)
+  $server_prepare_hooks << callback
+end
+
+
 def start_server(port, *webapps)
   server = org.eclipse.jetty.server.Server.new
   server.send_date_header = true
@@ -25,6 +42,11 @@ def start_server(port, *webapps)
   collection = org.eclipse.jetty.server.handler.ContextHandlerCollection.new
   collection.handlers = contexts
   server.handler = collection
+
+  $server_prepare_hooks.each do |hook|
+    hook.call(server, port, webapps)
+  end
+
   server.start
 end
 
@@ -64,5 +86,11 @@ EOF
 
 end
 
+
+launcher_rc = File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"), "launcher_rc.rb")
+
+if java.lang.System.get_property("ASPACE_LAUNCHER_BASE") && File.exists?(launcher_rc)
+  load File.absolute_path(launcher_rc)
+end
 
 main
