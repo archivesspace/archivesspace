@@ -16,7 +16,7 @@ describe 'Relationships' do
       end
     end
 
-    $testdb.create_table :app_fruit_salad_ban do
+    $testdb.create_table :fruit_salad_rlshp do
       primary_key :id
       String :sauce
       Integer :banana_id
@@ -25,7 +25,7 @@ describe 'Relationships' do
       DateTime :last_modified, :null => false
     end
 
-    $testdb.create_table :app_friends_ban do
+    $testdb.create_table :friends_rlshp do
       primary_key :id
       Integer :banana_id
       Integer :apple_id
@@ -38,8 +38,8 @@ describe 'Relationships' do
   after(:each) do
     $testdb.drop_table(:apple)
     $testdb.drop_table(:banana)
-    $testdb.drop_table(:app_fruit_salad_ban)
-    $testdb.drop_table(:app_friends_ban)
+    $testdb.drop_table(:fruit_salad_rlshp)
+    $testdb.drop_table(:friends_rlshp)
   end
 
 
@@ -212,7 +212,7 @@ describe 'Relationships' do
     time = Time.now.to_f
     banana = Banana.create_from_json(banana_json)
 
-    banana.my_relationships(:fruit_salad)[0][0][:last_modified].to_f.should be >= time
+    banana.my_relationships(:fruit_salad)[0][:last_modified].to_f.should be >= time
   end
 
 
