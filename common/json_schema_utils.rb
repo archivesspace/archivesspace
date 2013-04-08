@@ -107,7 +107,15 @@ module JSONSchemaUtils
          if actual_type !~ /JSONModel/ || message[:failed_attribute] == 'ArchivesSpaceType'
            # We'll skip JSONModels because the specific problem with the
            # document will have already been listed separately.
-           msgs[:errors][fragment_join(path)] = ["Must be a #{desired_type} (you provided a #{actual_type})"]
+
+           msgs[:state][fragment_join(path)] ||= []
+           msgs[:state][fragment_join(path)] << desired_type
+
+           if msgs[:state][fragment_join(path)].length == 1
+             msgs[:errors][fragment_join(path)] = ["Must be a #{desired_type} (you provided a #{actual_type})"]
+           else
+             msgs[:errors][fragment_join(path)] = ["Must be one of: #{msgs[:state][fragment_join(path)].join (", ")} (you provided a #{actual_type})"]
+           end
          end
 
        }
@@ -193,7 +201,8 @@ module JSONSchemaUtils
       :errors => {},
       :warnings => {},
       # to lookup e.g., msgs[:attribute_types]['extents/0/extent_type'] => 'ArchivesSpaceDynamicEnum'
-      :attribute_types => {}, 
+      :attribute_types => {},
+      :state => {}              # give the parse rules somewhere to store useful state for a run
     }
 
     messages.each do |message|
@@ -210,6 +219,7 @@ module JSONSchemaUtils
 
     end
 
+    msgs.delete(:state)
     msgs
   end
 
