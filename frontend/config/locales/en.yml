@@ -2020,6 +2020,7 @@ en:
         <li>Subseries 8</li>
         <li>Accession 2005-M-078</li>
         </ul>
+    internal_only: Internal Only?
     level: Level of Description
     level_tooltip: |
         <p>REQUIRED FIELD. Indicates. the hierarchical level of the materials being described.</p>
@@ -2287,6 +2288,7 @@ en:
         <li>Medical Subject Headings (mesh)</li>
         <li>Library of Congress Subject Headings (lcsh)</li>
         </ul>
+    scope_note: Scope Note
     heading: Subject Heading
     subject_preview: Subject Preview
     _html:
@@ -2310,6 +2312,14 @@ en:
     confirm_password: Confirm password
     confirm_password_tooltip: |
         <p>A second field used to confirm a match with the password entered into the first field.</p>
+    email: Email
+    first_name: First Name
+    last_name: Last Name
+    telephone: Phone
+    title: Title
+    department: Department
+    additional_contact: Additional Contact Information
+    
     _html:
       singular: User
       plural: Users

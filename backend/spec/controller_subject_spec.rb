@@ -9,48 +9,38 @@ describe 'Subject controller' do
     vocab.save
     @vocab_id = vocab.id
   end
-
-
-  def create_subject
-    vocab_uri = JSONModel(:vocabulary).uri_for(@vocab_id)
-    subject = JSONModel(:subject).from_hash("terms" => [{"term" => "1981 Heroes", "term_type" => "Cultural context", "vocabulary" => vocab_uri}],
-                                            "vocabulary" => vocab_uri
-                                            )
-
-    subject.save
-  end
-
+  
 
   it "lets you create a subject and get it back" do
-    id = create_subject
-    JSONModel(:subject).find(id).terms[0]["term"].should eq("1981 Heroes")
+    subject = create(:json_subject, :terms => [build(:json_term, "term" => "1981 Heroes")], :scope_note => "scopenote")
+    JSONModel(:subject).find(subject.id).terms[0]["term"].should eq("1981 Heroes")
+    JSONModel(:subject).find(subject.id).scope_note.should eq("scopenote")
   end
 
 
   it "lets you list all subjects" do
-    id = create_subject
+    create(:json_subject)
     JSONModel(:subject).all(:page => 1)['results'].count.should eq(1)
   end
 
 
   it "knows its own URI" do
-    id = create_subject
+    id = create(:json_subject).id
     JSONModel(:subject).find(id).uri.should eq("/subjects/#{id}")
   end
 
 
   it "lets you create a subject and update it" do
-    id = create_subject
-    subject = JSONModel(:subject).find(id)
+    subject = create(:json_subject)
     subject['ref_id'] = "CustomIdentifier123"
     subject.save
 
-    JSONModel(:subject).find(id).ref_id.should eq("CustomIdentifier123")
+    JSONModel(:subject).find(subject.id).ref_id.should eq("CustomIdentifier123")
   end
 
 
   it "can resolve an id from a subject uri" do
-    id = create_subject
+    id = create(:json_subject).id
     subject = JSONModel(:subject).find(id)
 
     JSONModel(:subject).id_for(subject['uri']).should eq(id)

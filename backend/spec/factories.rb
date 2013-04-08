@@ -178,6 +178,7 @@ FactoryGirl.define do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
+    internal_only true
   end
   
   factory :json_batch, class: JSONModel(:batch_import) do
@@ -343,6 +344,7 @@ FactoryGirl.define do
     terms { [build(:json_term)] }
     vocabulary { create(:json_vocab).uri }
     ref_id { generate(:url) }
+    scope_note { generate(:alphanumstr) }
   end
   
   factory :json_term, class: JSONModel(:term) do

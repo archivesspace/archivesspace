@@ -77,6 +77,13 @@ Sequel.migration do
       Integer :agent_record_id, :null => false
       String :agent_record_type, :null => false
 
+      String :email
+      String :first_name
+      String :last_name
+      String :telephone
+      String :title
+      String :department
+      TextField :additional_contact
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false
@@ -303,6 +310,8 @@ Sequel.migration do
       Integer :parent_id, :null => true
       String :parent_name, :null => true
       Integer :position, :null => true
+      
+      Integer :internal_only
 
       String :ref_id, :null => false, :unique => false
       String :component_id, :null => true
@@ -492,6 +501,7 @@ Sequel.migration do
       TextField :title
       String :terms_sha1, :unique => true
       String :ref_id, :unique => true
+      TextField :scope_note
 
       Integer :source_id, :null => true
 
@@ -804,8 +814,8 @@ Sequel.migration do
       String :number, :null => false
       Integer :extent_type_id, :null => false
 
-      String :container_summary, :null => true
-      String :physical_details, :null => true
+      TextField :container_summary, :null => true
+      TextField :physical_details, :null => true
       String :dimensions, :null => true
 
       DateTime :create_time, :null => false

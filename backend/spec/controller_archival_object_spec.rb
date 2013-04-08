@@ -3,10 +3,12 @@ require 'spec_helper'
 describe 'Archival Object controller' do
 
   it "lets you create an archival object and get it back" do
-    opts = {:title => 'The archival object title'}
+    internal_only = [true, false].sample
+    opts = {:title => 'The archival object title', :internal_only => internal_only}
     
     created = create(:json_archival_object, opts).id
     JSONModel(:archival_object).find(created).title.should eq(opts[:title])
+    JSONModel(:archival_object).find(created).internal_only.should eq(opts[:internal_only])
   end
 
   it "returns nil if the archival object is not in this repository" do
