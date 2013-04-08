@@ -49,6 +49,37 @@ class SiteController < ApplicationController
     @breadcrumbs.push([@archival_object.title, "#", "archival_object"])
   end
 
+  def digital_object
+    @digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects"])
+    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
+    @tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => @digital_object.id, :repo_id => params[:repo_id])
+
+    @breadcrumbs = [
+      [@repository['repo_code'], url_for(:controller => :site, :action => :repository, :id => @repository.id), "repository"],
+      [@digital_object.title, "#", "digital_object"]
+    ]
+  end
+
+  def digital_object_component
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects"])
+    @digital_object = JSONModel(:digital_object).find_by_uri(@digital_object_component['digital_object']['ref'], :repo_id => params[:repo_id])
+    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
+    @children = JSONModel::HTTP::get_json("/repositories/#{params[:repo_id]}/digital_object_components/#{@digital_object_component.id}/children")
+
+    @breadcrumbs = [
+      [@repository['repo_code'], url_for(:controller => :site, :action => :repository, :id => @repository.id), "repository"],
+      [@digital_object.title, url_for(:controller => :site, :action => :digital_object, :id => @digital_object.id, :repo_id => @repository.id), "digital_object"],
+    ]
+
+    ao = @digital_object_component
+    while ao['parent'] do
+      ao = JSONModel(:digital_object_component).find(JSONModel(:digital_object_component).id_for(ao['parent']['ref']), :repo_id => @repository.id)
+      @breadcrumbs.push([ao.title, url_for(:controller => :site, :action => :digital_object_component, :id => ao.id, :repo_id => @repository.id), "digital_object_component"])
+    end
+
+    @breadcrumbs.push([@digital_object_component.title, "#", "digital_object_component"])
+  end
+
   def repository
     if params[:repo_id].blank?
       return render "site/repositories"
@@ -96,9 +127,9 @@ class SiteController < ApplicationController
   
     # only allow locations, subjects, resources and archival objects in search results
     if params[:type].blank? or @criteria['type[]'].empty?
-      @criteria['type[]'] = ['resource', 'archival_object']
+      @criteria['type[]'] = ['resource', 'archival_object', 'digital_object', 'digital_object_component']
     else
-      @criteria['type[]'].keep_if {|t| ['resource', 'archival_object', 'location', 'subject'].include?(t)}
+      @criteria['type[]'].keep_if {|t| ['resource', 'archival_object', 'digital_object', 'digital_object_component' 'location', 'subject'].include?(t)}
     end
   end
 
