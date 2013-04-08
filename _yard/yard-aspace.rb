@@ -18,3 +18,34 @@ Dir[File.dirname(__FILE__) + '../backend/app/model/*.rb'].each {|file| require f
 require_relative 'handler'
 require_relative 'schema_object'
 # require_relative 'endpoint_object'
+
+# Sub READMEs
+# Silly workaround for YARD's non-support for READMEs and such
+# that live in subdirectories of the project
+
+class ASpaceYARD
+  def self.subreadmes
+    objects = []
+    Dir.glob('{frontend,backend,common,migrations}/**/*.md').each do |file|
+      objects << YARD::CodeObjects::ExtraFileObject.new(file.gsub(/\//, '_').upcase, IO.read(file))
+    end
+    objects
+  end
+end
+    
+
+module YARD
+  module Templates
+    module Engine
+      class << self
+        alias generate_old generate
+        def generate(objects, options = {})
+          options[:files] ||= []
+          options[:files].concat(ASpaceYARD.subreadmes)
+          generate_old(objects, options)
+        end
+      end
+    end
+  end
+end
+

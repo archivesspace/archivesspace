@@ -1,6 +1,7 @@
 --markup-provider=kramdown
 --markup=markdown
 --exclude build/gems
+--exclude build/target
 -e ./_yard/yard-aspace.rb
 '*.rb'
 '**/spec/*_spec.rb'
@@ -9,10 +10,11 @@
 'backend/app/**/*.rb'
 'frontend/app/**/*.rb'
 'common/*.rb'
+'common/db/*.rb'
 'common/schemas/*.rb'
 'migrations/lib/*.rb'
+'migrations/models/*.rb'
+'migrations/serializers/*.rb'
 -
 API.md
 ARCHITECTURE.md
-migrations/README.md
-frontend/README.md
