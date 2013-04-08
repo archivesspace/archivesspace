@@ -279,7 +279,9 @@ describe "ArchivesSpace user interface" do
 
       select_repo(@can_manage_repo)
 
-      $driver.ensure_no_such_element(:link, "Create")
+      assert(5) {
+        $driver.ensure_no_such_element(:link, "Create")
+      }
     end
   end
 
