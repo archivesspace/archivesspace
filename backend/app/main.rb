@@ -11,6 +11,7 @@ require_relative 'lib/request_context.rb'
 require_relative 'lib/webrick_fix'
 require_relative 'lib/import_helpers'
 require_relative 'lib/reports/report_helper'
+require_relative 'lib/component_transfer'
 
 require 'uri'
 require 'sinatra/base'
