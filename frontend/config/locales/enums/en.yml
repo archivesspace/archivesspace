@@ -338,6 +338,7 @@ en:
       under_revision: Under Revision
       unprocessed: Unprocessed
     instance_instance_type:
+      accession: Accession
       audio: Audio
       books: Books
       computer_disks: Computer Disks

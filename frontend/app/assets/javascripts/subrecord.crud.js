@@ -78,24 +78,53 @@ $(function() {
 
         // add binding for creation of subforms
         if ($this.data("custom-action")) {
-          $("> .subrecord-form-heading > .custom-action .subrecord-selector .btn", $this).on("click", function(event) {
-             event.preventDefault();
+          if ($("> .subrecord-form-heading > .custom-action .dropdown-toggle", $this).length) {
+            // Support custom actions with a popup form and subrecord-selectors
+            $("> .subrecord-form-heading > .custom-action .dropdown-toggle .subrecord-selector .btn", $this).on("click", function(event) {
+              event.preventDefault()
 
-            var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
+              var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
 
-            var index_data = {
-              path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: $this.data("form_index")}),
-              id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: $this.data("form_index")}),
-              index: "${index}"
-            };
+              var index_data = {
+                path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: $this.data("form_index")}),
+                id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: $this.data("form_index")}),
+                index: "${index}"
+              };
 
-            var selected = {
-              label: $("option:selected", $(this).parents(".dropdown-menu")).html(),
-              value: $("option:selected", $(this).parents(".dropdown-menu")).val()
-            };
+              var $dropdown = $(this).parents(".dropdown-menu");
 
-            $(document).triggerHandler("create.subrecord", [$this.data("object-name"), selected, index_data, $target_subrecord_list, addAndInitForm]);
-          });
+              if ($("option:selected", $dropdown).val() != "") {
+                var selected = {
+                  label: $("option:selected", $dropdown).html(),
+                  value: $("option:selected", $dropdown).val()
+                };
+
+                $(".error-messages", $dropdown).addClass("hide");
+
+                $(document).triggerHandler("create.subrecord", [$this.data("object-name"), selected, index_data, $target_subrecord_list, addAndInitForm]);
+              } else {
+                // no option selected!
+                $(".error-messages", $dropdown).removeClass("hide");
+                event.stopImmediatePropagation();
+              }
+            });
+          } else {
+            // Support all other custom actions - just buttons really with some data attributes
+            $("> .subrecord-form-heading > .custom-action .btn", $this).on("click", function(event) {
+              event.preventDefault();
+
+              var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
+
+              var index_data = {
+                path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: $this.data("form_index")}),
+                id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: $this.data("form_index")}),
+                index: "${index}"
+              };
+
+              $(document).triggerHandler("create.subrecord", [$this.data("object-name"), $(this).data(), index_data, $target_subrecord_list, addAndInitForm]);
+            });
+          }
+          $("> .subrecord-form-heading > .custom-action .dropdown-toggle .subrecord-selector .btn", $this)
         } else {
 
           $("> .subrecord-form-heading > .btn", $this).on("click", function() {

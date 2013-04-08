@@ -71,6 +71,10 @@
            <%= render :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements, :section_id => "accession_rights_statements_" } %>
          <% end %>
 
+        <% if @accession.instances.length > 0 %>
+          <%= render :partial => "instances/show", :locals => { :instances => @accession.instances, :section_id => "accession_instances_"  } %>
+        <% end %>
+
          <% if @accession.deaccessions.length > 0 %>
            <%= render :partial => "deaccessions/show", :locals => { :deaccessions => @accession.deaccessions, :context => readonly, :section_id => "accession_deaccessions_" } %>
          <% end %>

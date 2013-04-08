@@ -412,6 +412,7 @@ Sequel.migration do
 
       Integer :resource_id
       Integer :archival_object_id
+      Integer :accession_id
 
       Integer :instance_type_id, :null => false
 
@@ -422,6 +423,7 @@ Sequel.migration do
     alter_table(:instance) do
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:accession_id], :accession, :key => :id)
       add_foreign_key([:instance_type_id], :enumeration_value, :key => :id)
     end
 
@@ -1180,7 +1182,7 @@ Sequel.migration do
 
     create_enum('resource_finding_aid_status', ["completed", "in_progress", "under_revision", "unprocessed"])
 
-    create_enum('instance_instance_type', ["audio", "books", "computer_disks", "digital_object","graphic_materials", "maps", "microform", "mixed_materials", "moving_images", "realia", "text"])
+    create_enum('instance_instance_type', ["accession", "audio", "books", "computer_disks", "digital_object","graphic_materials", "maps", "microform", "mixed_materials", "moving_images", "realia", "text"])
 
     create_enum('subject_source', ["aat", "rbgenr", "tgn", "lcsh", "local", "mesh", "gmgpc"])
 
