@@ -1,3 +1,15 @@
+.global-header {
+  position:  relative;
+  padding:  0 20px;
+  .navbar {
+    position: absolute;
+    right:  0;
+  }
+  .navbar-inner {
+    .border-radius(0 0 4px 4px);
+  }
+}
+
 // header customisations
 
 .navbar {
@@ -52,31 +64,31 @@
 }
 
 // user logged in container
+.repo-container,
 .user-container {
+  margin-left: 5px;
+
   .dropdown-toggle, .btn {
     margin-top: 5px !important;
   }
-}
-.user-label > span,
-.repository-label > span {
-  margin-right: 5px;
-}
-.user-container .dropdown-menu {
-  min-width: 80px;
-}
-
-.user-container {
+  .dropdown-menu {
+    min-width: 80px;
+  }
   .empty, .selected {
     color: #999;
   }
 
- .dropdown-submenu.pull-left {
+  .dropdown-submenu.pull-left {
     > .dropdown-menu {
       left: -140%;
       right: auto;
       min-width: 140%;
     }
- }
+  }
+}
+.user-label > span,
+.repository-label > span {
+  margin-right: 5px;
 }
 
 .repository-label.empty {
@@ -94,5 +106,55 @@
     line-height: @baseLineHeight;
     color: @linkColor;
     white-space: normal;
+  }
+}
+
+.repository-header .navbar {
+  .navbar-inner {
+    margin: 0 -21px;
+    .border-radius(4px 4px 0 0);
+  }
+}
+
+header .inset-label {
+  min-width: 100px;
+}
+
+// select-a-repository popover
+.select-a-repository {
+  ul {
+    padding:  15px;
+  }
+
+  .btn-primary {
+    width:  100%;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .global-header,
+  .repository-header {
+    padding:  0;
+    .navbar {
+      position: relative;
+      margin: 0 -20px;
+      .navbar-inner {
+        margin: 0;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .global-header,
+  .repository-header {
+    padding: 0;
+    .navbar {
+      position: relative;
+      margin: 0;
+      .navbar-inner {
+        margin: 0;
+      }
+    }
   }
 }

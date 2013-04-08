@@ -127,12 +127,15 @@ module ApplicationHelper
 
   def current_repo
     return nil if session[:repo].blank?
+    return @current_repo if @current_repo != nil
+
+    @current_repo = false
 
     MemoryLeak::Resources.get(:repository).each do |repo|
-      return repo if repo['uri'] === session[:repo]
+       @current_repo = repo if repo['uri'] === session[:repo]
     end
 
-    nil
+    @current_repo
   end
 
 end

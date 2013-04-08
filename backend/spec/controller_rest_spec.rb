@@ -11,8 +11,8 @@ describe 'REST interface' do
     create(:user, :username => 'spongebob')
     create(:user, :username => 'mrkrabs')
 
-    viewers = JSONModel(:group).all(:page => 1, :group_code => "repository-viewers")['results'].first
-    archivists = JSONModel(:group).all(:page => 1, :group_code => "repository-archivists")['results'].first
+    viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
+    archivists = JSONModel(:group).all(:group_code => "repository-archivists").first
 
     viewers.member_usernames = ["spongebob"]
     archivists.member_usernames = ["mrkrabs"]
@@ -51,24 +51,24 @@ describe 'REST interface' do
     too_many = nice_amount + 1
 
     too_many.times {
-       create(:json_group)
+       create(:json_accession)
     }
 
     expect {
-      JSONModel(:group).all(:page => 1, :page_size => -1)
+      JSONModel(:accession).all(:page => 1, :page_size => -1)
     }.to raise_error
 
     expect {
-      JSONModel(:group).all(:page => -1)
+      JSONModel(:accession).all(:page => -1)
     }.to raise_error
 
     expect {
-      JSONModel(:group).all(:modified_since => -1)
+      JSONModel(:accession).all(:modified_since => -1)
     }.to raise_error
 
-    JSONModel(:group).all(:page => 1, :page_size => too_many)['results'].size.should eq(nice_amount)
+    JSONModel(:accession).all(:page => 1, :page_size => too_many)['results'].size.should eq(nice_amount)
 
-    JSONModel(:group).all(:page => 10, :page_size => nice_amount)['results'].size.should eq(0)
+    JSONModel(:accession).all(:page => 10, :page_size => nice_amount)['results'].size.should eq(0)
   end
 
 

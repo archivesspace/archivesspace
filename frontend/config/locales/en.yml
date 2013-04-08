@@ -10,6 +10,7 @@ en:
     container_labels: Download Container Labels
     create: Create
     edit: Edit
+    edit_groups: Edit Groups
     view: View
     spawn: Spawn
     link_to: Link To
@@ -72,6 +73,7 @@ en:
     manage_groups: Manage Groups
     manage_users: Manage Users
     manage_enumerations: Manage Enumerations
+    manage_user_access: Manage User Access
     logout: Logout
     login: Sign In
     login_expired_link: Please %{link} again.
@@ -80,6 +82,7 @@ en:
     register: Register now
     register_prefix: Need an account?
     list_reports: Reports
+    global_admin: System
   welcome:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
@@ -2257,6 +2260,7 @@ en:
         updated: Repository Saved
         selected: Repository is Currently Selected
         selected_short: Selected
+        changed: The repository '%{repo_code}' is now active
       section:
         all_fields: Repository Fields
       action:
@@ -2315,6 +2319,7 @@ en:
         error_update: User not saved
         error_create: User not created
       section:
+        manage_access: Manage User Access
         account: Account
         edit_account: Edit Account
         edit_account_submit: Update Account
@@ -2380,7 +2385,7 @@ en:
     _html:
       singular: Collection Management
       plural: Collection Management
-      title_prefix: Processing 
+      title_prefix: Processing
   enumeration:
     # tooltips not displaying
     name: Name

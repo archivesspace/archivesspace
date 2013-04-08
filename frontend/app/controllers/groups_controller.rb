@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
 
 
   def index
-    @groups = JSONModel(:group).all(:page => selected_page)
+    @groups = JSONModel(:group).all
   end
 
 

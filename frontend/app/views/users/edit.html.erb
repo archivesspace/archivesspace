@@ -2,7 +2,8 @@
 
 <div class="row-fluid">
    <div class="span12">
-      <h2><%= I18n.t("user._html.section.edit_account") %></h2>
+     <div class="record-pane">
+     <h2><%= I18n.t("user._html.section.edit_account") %></h2>
      <%= form_for @user, :as => "createuser", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
        <%= form_context :user, @user do |form| %>
          <%= render :partial => "users/form", :locals => {:form => form} %>
@@ -13,5 +14,6 @@
          </div>
        <% end %>
      <% end %>
+     </div>
    </div>
 </div>

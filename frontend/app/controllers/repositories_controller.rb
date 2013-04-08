@@ -60,7 +60,9 @@ class RepositoriesController < ApplicationController
     session[:repo] = selected.uri
     session[:repo_id] = selected.id
 
-    redirect_to :back
+    flash[:success] = I18n.t("repository._html.messages.changed", :repo_code => selected.repo_code)
+
+    redirect_to :root
   end
 
   private

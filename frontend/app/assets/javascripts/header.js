@@ -105,4 +105,10 @@ $(function() {
     $form.submit();
   });
 
+
+  $("select", ".nav .select-a-repository").click(function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  });
+
 });

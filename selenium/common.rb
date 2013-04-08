@@ -183,6 +183,18 @@ class Selenium::WebDriver::Element
   end
 
 
+  def select_option_with_text(value)
+    self.find_elements(:tag_name => "option").each do |option|
+      if option.text === value
+        option.click
+        return
+      end
+    end
+
+    raise "Couldn't select value: #{value}"
+  end
+
+
   def get_select_value
     self.find_elements(:tag_name => "option").each do |option|
       return option.attribute("value") if option.attribute("checked")
@@ -244,7 +256,6 @@ def logout
   ## Complete the logout process
   user_menu = $driver.find_elements(:css, '.user-container .dropdown-menu.pull-right').first
   if !user_menu || !user_menu.displayed?
-    $driver.find_element(:css, 'body').find_element(:css, '.user-container .btn')
     $driver.find_element(:css, 'body').find_element(:css, '.user-container .btn').click
   end
 
@@ -398,15 +409,9 @@ end
 
 
 def select_repo(code)
-  $driver.find_element(:css, '.user-container .btn').click
-  $driver.find_element(:id, 'select_repo').click
-
-  if not $driver.find_element_with_text('//span', /#{code}/, true, true)
-    # Select it
-    $driver.click_and_wait_until_gone(:link_text => code)
-  else
-    $driver.find_element(:css, '.user-container .btn').click
-  end
+  $driver.find_element(:link, 'Select Repository').click
+  $driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
+  $driver.find_element(:css, '.select-a-repository .btn-primary').click
 end
 
 
@@ -421,11 +426,11 @@ end
 
 
 def add_user_to_group(user, repo, group_code)
-  req = Net::HTTP::Get.new("#{repo}/groups?page=1")
+  req = Net::HTTP::Get.new("#{repo}/groups")
 
   groups = admin_backend_request(req)
 
-  uri = JSON.parse(groups.body)['results'].find {|group| group['group_code'] == group_code}['uri']
+  uri = JSON.parse(groups.body).find {|group| group['group_code'] == group_code}['uri']
 
   req = Net::HTTP::Get.new(uri)
   group = JSON.parse(admin_backend_request(req).body)

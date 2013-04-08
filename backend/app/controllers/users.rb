@@ -79,6 +79,7 @@ class ArchivesSpaceService < Sinatra::Base
     if user
       json = User.to_jsonmodel(user)
       json.permissions = user.permissions
+
       json_response(json)
     else
       raise NotFoundException.new("User wasn't found")
@@ -90,6 +91,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Update a user's account")
     .params(["id", Integer, "The username id to update"],
             ["password", String, "The user's password", :optional => true],
+            ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
+            ["repo_id", Integer, "The Repository groups to clear", :optional => true],
             ["user", JSONModel(:user), "The user to create", :body => true])
     .permissions([:manage_users])
     .returns([200, :updated],
@@ -102,6 +105,25 @@ class ArchivesSpaceService < Sinatra::Base
 
     if params[:password]
       DBAuth.set_password(params[:user].username, params[:password])
+    end
+
+    if params[:groups] && params[:repo_id]
+      groups = Array(params[:groups]).map {|uri|
+        group_ref = JSONModel.parse_reference(uri)
+        repo_id = JSONModel.parse_reference(group_ref[:repository])[:id]
+
+        next if repo_id != params[:repo_id]
+
+        RequestContext.open(:repo_id => repo_id) do
+          if current_user.can?(:manage_repository)
+            Group.get_or_die(group_ref[:id])
+          else
+            raise AccessDeniedException.new
+          end
+        end
+      }
+
+      obj.add_to_groups(groups, params[:repo_id])
     end
 
     updated_response(obj, params[:user])
@@ -129,6 +151,28 @@ class ArchivesSpaceService < Sinatra::Base
       json_response({:session => session.id, :user => json_user})
     else
       json_response({:error => "Login failed"}, 403)
+    end
+  end
+
+
+  Endpoint.get('/repositories/:repo_id/users/:id')
+  .description("Get a user's details including their groups for the current repository")
+  .params(["id", Integer, "The username id to fetch"],
+          ["repo_id", :repo_id])
+  .permissions([:manage_repository])
+  .returns([200, "(:user)"]) \
+  do
+    user = User[params[:id]]
+
+    if user
+      json = User.to_jsonmodel(user)
+      json.groups = user.group_dataset.where(:repo_id => params[:repo_id]).map do |group|
+        JSONModel(:group).uri_for(group.id, :repo_id => params[:repo_id])
+      end
+
+      json_response(json)
+    else
+      raise NotFoundException.new("User wasn't found")
     end
   end
 
