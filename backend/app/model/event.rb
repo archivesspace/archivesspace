@@ -1,5 +1,3 @@
-require_relative 'relationships'
-
 class Event < Sequel::Model(:event)
 
   include ASModel

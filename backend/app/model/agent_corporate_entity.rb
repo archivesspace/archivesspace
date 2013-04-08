@@ -1,7 +1,4 @@
-require_relative 'agent_manager'
 require_relative 'name_corporate_entity'
-require_relative 'recordable_cataloging'
-require_relative 'notes'
 
 class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
 

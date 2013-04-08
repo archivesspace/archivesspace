@@ -1,6 +1,6 @@
 require 'spec_helper'
 require_relative '../app/model/ASModel'
-require_relative '../app/model/external_ids'
+require_relative '../app/model/mixins/external_ids'
 
 
 describe 'External ID mixin' do

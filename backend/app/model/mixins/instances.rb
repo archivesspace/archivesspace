@@ -1,9 +1,8 @@
-# Handling for models that require Instances
-require_relative 'instance'
-
 module Instances
 
   def self.included(base)
+    require_relative '../instance'
+
     base.one_to_many :instance
     Instance.many_to_one base.table_name
 

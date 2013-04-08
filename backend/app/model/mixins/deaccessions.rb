@@ -1,6 +1,3 @@
-# Handling for models that require Deaccessions
-require_relative 'deaccession'
-
 module Deaccessions
 
   def self.included(base)

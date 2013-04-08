@@ -1,7 +1,3 @@
-# Handling for models that require Subjects
-require_relative 'subject'
-require_relative 'relationships'
-
 module Subjects
 
   def self.included(base)

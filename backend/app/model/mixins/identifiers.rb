@@ -1,5 +1,3 @@
-# Handling for models that use the 4-part identifiers
-
 module Identifiers
 
   MAX_LENGTH = 50

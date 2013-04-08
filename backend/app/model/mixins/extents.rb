@@ -1,6 +1,3 @@
-# Handling for models that require Extents
-require_relative 'extent'
-
 module Extents
 
   def self.included(base)

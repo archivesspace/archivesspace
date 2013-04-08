@@ -52,6 +52,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  def self.find_local_directories
+    [File.dirname(__FILE__),
+     java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+     java.lang.System.get_property("catalina.base")].
+          reject { |dir| !Dir.exists?(dir) }.
+          map { |dir| File.join(dir, "local") }
+  end
+
+
   configure do
 
     require_relative "model/db"
@@ -70,39 +79,33 @@ class ArchivesSpaceService < Sinatra::Base
     set :logging, false
 
     if DB.connected?
-      # Load all models
+
       require_relative "model/ASModel"
-      require_relative "model/dynamic_enums"
-      require_relative "model/identifiers"
-      require_relative "model/external_documents"
-      require_relative "model/external_ids"
-      require_relative "model/subjects"
-      require_relative "model/extents"
-      require_relative "model/dates"
-      require_relative "model/rights_statements"
-      require_relative "model/instances"
-      require_relative "model/deaccessions"
-      require_relative "model/agents"
-      require_relative "model/trees"
-      require_relative "model/file_versions"
-      require_relative "model/collection_managements"
 
-      Dir.glob(File.join(File.dirname(__FILE__), "model", "*.rb")).sort.each do |model|
-        basename = File.basename(model, ".rb")
-        require_relative File.join("model", basename)
+      [File.dirname(__FILE__), *find_local_directories].each do |prefix|
+        # Load all mixins
+        Dir.glob(File.join(prefix, "model", "mixins", "*.rb")).sort.each do |mixin|
+          basename = File.basename(mixin, ".rb")
+          require_relative File.join("model", "mixins", basename)
+        end
+
+        # Load all models
+        Dir.glob(File.join(prefix, "model", "*.rb")).sort.each do |model|
+          basename = File.basename(model, ".rb")
+          require_relative File.join("model", basename)
+        end
+
+        # Load all reports
+        Dir.glob(File.join(prefix, "model", "reports", "*.rb")).sort.each do |model|
+          basename = File.basename(model, ".rb")
+          require_relative File.join("model","reports", basename)
+        end
+
+        # Load all controllers
+        Dir.glob(File.join(prefix, "controllers", "*.rb")).sort.each do |controller|
+          load File.absolute_path(controller)
+        end
       end
-
-      # Load all reports
-      Dir.glob(File.join(File.dirname(__FILE__), "model", "reports", "*.rb")).sort.each do |model|
-        basename = File.basename(model, ".rb")
-        require_relative File.join("model","reports", basename)
-      end
-
-      # Load all controllers
-      Dir.glob(File.join(File.dirname(__FILE__), "controllers", "*.rb")).sort.each do |controller|
-        load File.absolute_path(controller)
-      end
-
 
       # Start the notifications background delivery thread
       Notifications.init if !Thread.current[:test_mode]

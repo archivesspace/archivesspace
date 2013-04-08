@@ -1,6 +1,3 @@
-# Handling for models that require External Documents
-require_relative 'external_document'
-
 module ExternalDocuments
 
   def self.included(base)
