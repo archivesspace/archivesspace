@@ -422,7 +422,7 @@ between two top-level records where the link has zero or more
 properties of its own.  For example, the `Event` model can be related
 to several different types of records:
 
-     define_relationship(:name => :link,
+     define_relationship(:name => :event_link,
                          :json_property => 'linked_records',
                          :contains_references_to_types => proc {[Accession, Resource, ArchivalObject]})
 
