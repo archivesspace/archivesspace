@@ -1,5 +1,5 @@
 source "http://rubygems.org"
 
-gem "nokogiri"
+gem "nokogiri", ">=1.5.9"
 gem "factory_girl"
 gem "rufus-lru"
