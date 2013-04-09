@@ -260,6 +260,9 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text('//tr', /#{@user}/).find_element(:link, "Edit Groups").click
 
+      # Wait for the form to load
+      $driver.find_element(:id, "create_account")
+
       # uncheck all current groups
       $driver.find_elements(:xpath, '//input[@type="checkbox"][@checked]').each {|checkbox| checkbox.click}
 
