@@ -4,7 +4,7 @@
 
     </div>
     <div class="span9">
-      <h2><%= @digital_object_component.title %></h2>
+      <h2><%= @archival_object.title %></h2>
     </div>
   </div>
 </div>
@@ -13,15 +13,15 @@
     <div class="span3">
       <div id="">
         <ul class="nav nav-list as-nav-list">
-          <li><a href="#summary"><%= I18n.t("digital_object_component._html.section.summary") %> <span class="icon-chevron-right"></span></a></li>
-          <% if @digital_object_component['extents'].length > 0 %>
+          <li><a href="#summary"><%= I18n.t("archival_object._html.section.summary") %> <span class="icon-chevron-right"></span></a></li>
+          <% if @archival_object['extents'].length > 0 %>
             <li><a href="#extents"><%= I18n.t("extent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if @digital_object_component['subjects'].length > 0 %>
+          <% if @archival_object['subjects'].length > 0 %>
             <li><a href="#subjects"><%= I18n.t("subject._html.plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @children.length > 0 %>
-            <li><a href="#components"><%= I18n.t("digital_object_component._html.section.components") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#components"><%= I18n.t("archival_object._html.section.components") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
         </ul>
       </div>
@@ -29,21 +29,21 @@
     <div class="span9">
       <fieldset class="form-horizontal">
         <section id="summary">
-          <h3><%= I18n.t("digital_object_component._html.section.summary") %></h3>
+          <h3><%= I18n.t("archival_object._html.section.summary") %></h3>
 
           <dl class="dl-horizontal">
-            <%= label_and_value I18n.t("digital_object_component.ref_id"), @digital_object_component['ref_id'] %>
-            <%= label_and_value I18n.t("digital_object_component.component_id"), @digital_object_component['component_id'] %>
-            <%= label_and_value I18n.t("digital_object_component.level"), i18n_enum(:digital_object_component, 'level', @digital_object_component['level']) %>
-            <%= label_and_value I18n.t("digital_object_component.language"), i18n_enum(:digital_object_component, 'language', @digital_object_component['language']) %>
+            <%= label_and_value I18n.t("archival_object.ref_id"), @archival_object['ref_id'] %>
+            <%= label_and_value I18n.t("archival_object.component_id"), @archival_object['component_id'] %>
+            <%= label_and_value I18n.t("archival_object.level"), i18n_enum(:archival_object, 'level', @archival_object['level']) %>
+            <%= label_and_value I18n.t("archival_object.language"), i18n_enum(:archival_object, 'language', @archival_object['language']) %>
           </dl>
         </section>
 
-        <% if @digital_object_component['extents'].length > 0 %>
+        <% if @archival_object['extents'].length > 0 %>
           <section id="extents">
             <h3><%= I18n.t("extent._html.plural") %></h3>
             <ul class="results-list">
-              <% @digital_object_component['extents'].each do |extent| %>
+              <% @archival_object['extents'].each do |extent| %>
                 <li class="result">
                   <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
                 </li>
@@ -52,15 +52,15 @@
           </section>
         <% end %>
 
-        <% if @digital_object_component['subjects'].length > 0 %>
+        <% if @archival_object['subjects'].length > 0 %>
           <section id="subjects">
             <h3><%= I18n.t("subject._html.plural") %></h3>
             <ul class="results-list">
-              <% @digital_object_component['subjects'].each do |subject| %>
+              <% @archival_object['subjects'].each do |subject| %>
                 <li class="result">
                   <h4>
                     <%= icon_for "subject" %>
-                    <%= link_to(subject['_resolved']['title'], {:controller => :site, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
+                    <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
                   </h4>
                 </li>
               <% end %>
@@ -70,14 +70,14 @@
 
         <% if @children.length > 0 %>
           <section id="components">
-            <h3><%= I18n.t("digital_object_component._html.section.components") %></h3>
+            <h3><%= I18n.t("archival_object._html.section.components") %></h3>
 
             <ul class="results-list">
               <% @children.each do |child| %>
                 <li class="result">
                   <h4>
-                    <%= icon_for "digital_object_component" %>
-                    <%= link_to child["title"], :controller => :site, :action => "digital_object_component", :id => JSONModel(:digital_object_component).id_for(child['uri']), :repo_id => @repository.id %>
+                    <%= icon_for "archival_object" %>
+                    <%= link_to child["title"], :controller => :records, :action => "archival_object", :id => JSONModel(:archival_object).id_for(child['uri']), :repo_id => @repository.id %>
                   </h4>
                 </li>
               <% end %>
@@ -99,7 +99,7 @@
           </div>
           <div id="collapseOne" class="accordion-body collapse">
             <div class="accordion-inner">
-              <%= @digital_object_component.inspect %>
+              <%= @archival_object.inspect %>
             </div>
           </div>
         </div>

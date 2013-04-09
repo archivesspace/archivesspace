@@ -1,4 +1,4 @@
-<%= form_tag(url_for(:controller => :site, :action => :search), :method => :get) do %>
+<%= form_tag(url_for(:controller => :search, :action => :search), :method => :get) do %>
   <input type="text" class="input-large" style="margin: 0; height: 34px; font-size: 1.4em; width: 75%;" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
   <button id="global-search-button" class="btn btn-large">Search</button>
 <% end %>

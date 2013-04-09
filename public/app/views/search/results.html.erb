@@ -19,7 +19,7 @@
                 <% if result["primary_type"] === "subject" %>
                   <%= link_to result["title"], params_for_search({"add_filter" => @search_data.facet_query_string("subjects", result["title"]), "type" => []}) %>
                 <% else %>
-                  <%= link_to result["title"] || result['display_string'], :controller => :site, :action => result["primary_type"], :id => id, :repo_id => repo_id %>
+                  <%= link_to result["title"] || result['display_string'], :controller => :records, :action => result["primary_type"], :id => id, :repo_id => repo_id %>
                 <% end %> 
               </h3>
               <div class="result-summary">

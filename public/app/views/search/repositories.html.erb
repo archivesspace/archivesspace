@@ -10,7 +10,7 @@
             <li class="result">
               <h3>
                 <%= icon_for "repository" %>
-                <%= link_to repository['repo_code'], :controller => :site, :action => :repository, :repo_id => repository.id %>
+                <%= link_to repository['repo_code'], :controller => :search, :action => :repository, :repo_id => repository.id %>
               </h3>
               <div class="result-summary">
                 <div class="label label-info pull-right"><%=  I18n.t("repository._html.singular") %></div>

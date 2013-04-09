@@ -69,7 +69,7 @@
                 <li class="result">
                   <h4>
                     <%= icon_for "subject" %>
-                    <%= link_to(subject['_resolved']['title'], {:controller => :site, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
+                    <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
                   </h4>
                 </li>
               <% end %>
@@ -86,7 +86,7 @@
                 <li class="result">
                   <h4>
                     <%= icon_for child["node_type"] %>
-                    <%= link_to child["title"], :controller => :site, :action => child["node_type"], :id => child['id'], :repo_id => @repository.id %>
+                    <%= link_to child["title"], :controller => :records, :action => child["node_type"], :id => child['id'], :repo_id => @repository.id %>
                   </h4>
                 </li>
               <% end %>
