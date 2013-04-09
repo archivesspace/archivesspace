@@ -47,5 +47,12 @@ module ASUtils
   end
 
 
+  def self.find_local_directories
+    [File.join(File.dirname(__FILE__), ".."),
+     java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+     java.lang.System.get_property("catalina.base")].
+      reject { |dir| !Dir.exists?(dir) }.
+      map { |dir| File.join(dir, "local") }
+  end
 
 end

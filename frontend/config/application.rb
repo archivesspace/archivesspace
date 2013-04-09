@@ -6,6 +6,7 @@ require 'sprockets/railtie'
 
 require 'java'
 require 'config/config-distribution'
+require 'asutils'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -67,6 +68,12 @@ module ArchivesSpace
 
     config.assets.precompile += %w( *.js )
 
+    # Allow overriding of templates via the local folder(s)
+    if not ASUtils.find_local_directories.blank?
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |assets_override_directory|
+        config.assets.paths.unshift(assets_override_directory)
+      end
+    end
 
     # ArchivesSpace Configuration
     AppConfig.load_into(config)

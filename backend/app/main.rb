@@ -52,15 +52,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  def self.find_local_directories
-    [File.dirname(__FILE__),
-     java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
-     java.lang.System.get_property("catalina.base")].
-          reject { |dir| !Dir.exists?(dir) }.
-          map { |dir| File.join(dir, "local") }
-  end
-
-
   configure do
 
     require_relative "model/db"
@@ -82,7 +73,7 @@ class ArchivesSpaceService < Sinatra::Base
 
       require_relative "model/ASModel"
 
-      [File.dirname(__FILE__), *find_local_directories].each do |prefix|
+      [File.dirname(__FILE__), *ASUtils.find_local_directories].each do |prefix|
         # Load all mixins
         Dir.glob(File.join(prefix, "model", "mixins", "*.rb")).sort.each do |mixin|
           basename = File.basename(mixin, ".rb")

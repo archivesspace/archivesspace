@@ -10,6 +10,13 @@ class ApplicationController < ActionController::Base
   rescue_from ArchivesSpace::SessionExpired, :with => :destroy_user_session
   rescue_from RecordNotFound, :with => :render_404
 
+  # Allow overriding of templates via the local folder(s)
+  if not ASUtils.find_local_directories.blank?
+    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'views')}.reject { |dir| !Dir.exists?(dir) }.each do |template_override_directory|
+      prepend_view_path(template_override_directory)
+    end
+  end
+
 
   # Note: This should be first!
   before_filter :store_user_session

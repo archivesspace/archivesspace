@@ -6,6 +6,13 @@ class ApplicationController < ActionController::Base
   before_filter :establish_session
   before_filter :assign_repositories
 
+  # Allow overriding of templates via the local folder(s)
+  if not ASUtils.find_local_directories.blank?
+    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'views')}.reject { |dir| !Dir.exists?(dir) }.each do |template_override_directory|
+      prepend_view_path(template_override_directory)
+    end
+  end
+
   rescue_from RecordNotFound, :with => :handle_404
   rescue_from Errno::ECONNREFUSED, :with => :handle_backend_down
   rescue_from ArchivesSpacePublic::SessionGone, :with => :reestablish_session
