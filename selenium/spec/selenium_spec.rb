@@ -271,7 +271,7 @@ describe "ArchivesSpace user interface" do
       logout
     end
 
-    it "can be modified via th Manage Access listing and then stick" do
+    it "can be modified via the Manage Access listing and then stick" do
       $driver.find_element(:link, "Sign In").click
       $driver.clear_and_send_keys([:id, 'user_username'], @user)
       $driver.clear_and_send_keys([:id, 'user_password'], @pass)
@@ -279,7 +279,7 @@ describe "ArchivesSpace user interface" do
 
       select_repo(@can_manage_repo)
 
-      assert(5) {
+      assert(100) {
         $driver.ensure_no_such_element(:link, "Create")
       }
     end
