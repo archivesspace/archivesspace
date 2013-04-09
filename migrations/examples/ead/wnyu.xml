@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE ead
+  PUBLIC "+//ISBN 1-931666-00-8//DTD ead.dtd (Encoded Archival Description (EAD) Version 2002)//EN" "http://dlib.nyu.edu/findingaids/dtd/ead/ead.dtd">
+<ead relatedencoding="MARC21">
+   <eadheader langencoding="iso639-2b" audience="internal" id="a0" findaidstatus="unverified-full-draft" repositoryencoding="iso15511" scriptencoding="iso15924" dateencoding="iso8601" countryencoding="iso3166-1">
+      <eadid countrycode="us" mainagencycode="NNU" identifier="RG 39.5">wnyu</eadid>
+      <filedesc>
+         <titlestmt>
+            <titleproper>Guide to
+WNYU (Radio Station: New York, N.Y.) Records <lb/>
+               <date type="inclusive" normal="1949/1969" era="ce" calendar="gregorian">1949- 1969</date>
+               <lb/>
+               <num>RG 39.5</num>
+            </titleproper>
+         </titlestmt>
+         <editionstmt>
+            <p>This version was
+derived from wnyu02KS.xml</p>
+         </editionstmt>
+         <publicationstmt>
+            <publisher encodinganalog="260  $a">New York
+University Libraries</publisher>
+            <address>
+               <addressline>New York University Archives<lb/>
+               </addressline>
+               <addressline>Elmer Holmes Bobst Library<lb/>
+               </addressline>
+               <addressline>70 Washington Square South<lb/>
+               </addressline>
+               <addressline>New York, NY 10012<lb/>
+                  <lb/>
+               </addressline>
+               <addressline>Phone: (212) 998-2646<lb/>
+               </addressline>
+               <addressline>Fax: (212) 995-4070<lb/>
+               </addressline>
+               <addressline>Email: university.archives@library.nyu.edu<lb/>
+                  <lb/>
+               </addressline>
+            </address>
+            <p>&#x00A9;
+               <date era="ce" calendar="gregorian">2002</date> New York
+University Libraries. All rights reserved. </p>
+         </publicationstmt>
+      </filedesc>
+      <profiledesc>
+         <creation>Electronic Finding Aid Created by Stephen Urgola <date era="ce" calendar="gregorian">March 28, 1997. </date>
+         </creation>
+         <langusage>Description is in <language>English</language>. </langusage>
+      </profiledesc>
+      <revisiondesc>
+         <change encodinganalog="583  $a">
+            <date era="ce" calendar="gregorian">2000</date>
+            <item>Electronic finding aid
+converted to EAD v.1 and transformed according to updated local guidelines, by Eric Stedfeld. </item>
+         </change>
+         <change encodinganalog="583  $a">
+            <date era="ce" calendar="gregorian">2002 </date>
+            <item>Electronic finding aid conversion
+corrections finalized by Katie Senft. </item>
+         </change>
+         <change>
+            <date>2003</date>
+            <item> wnyu converted from EAD 1.0 to 2002 by one2two.xsl.</item>
+         </change>
+      </revisiondesc>
+   </eadheader>
+   <archdesc level="collection" type="inventory">
+      <did id="a1">
+         <head>Descriptive Summary</head>
+         <unittitle label="Title" encodinganalog="24500$a">WNYU (Radio Station:
+New York, N.Y.) Records </unittitle>
+         <unitdate era="ce" calendar="gregorian">1949-1969</unitdate>
+         <unitid label="Accession number" encodinganalog="852  $l" repositorycode="NNU">RG 39.5</unitid>
+         <physdesc label="Quantity" encodinganalog="300  $a">1.75 linear feet (4 boxes)</physdesc>
+         <repository label="Repository">
+            <address>
+               <addressline>New York University Archives</addressline>
+            </address>
+         </repository>
+         <origination label="Creator">
+            <corpname encodinganalog="110bb2 $a">WNYU</corpname>
+         </origination>
+         <physloc audience="internal">12/B/7</physloc>
+         <abstract label="Abstract" encodinganalog="5203 $a">WNYU was formed in 1949 on the University Heights campus of
+New York University by a group of engineers. The records of WNYU Radio Station were
+transferred to the New York University Archives when the radio station was moved from Gould
+Memorial library at University Heights, to Loeb Student Center on Washington Square in June
+1973. Materials include correspondence, minutes, reports, drawings, and promotional material.</abstract>
+         <langmaterial label="Language">
+            <language langcode="eng">English.</language>
+         </langmaterial>
+      </did>
+      <custodhist id="a16" encodinganalog="561  $a">
+         <head>Provenance</head>
+         <p>The records
+of WNYU Radio Station were transferred to the New York University Archives when the radio
+station was moved from Gould Memorial library at University Heights, to Loeb Student Center
+on Washington Square in June 1973. The records, 16 linear inches of material, cover the years
+1949-1969 and deal with the activities of WNYU radio station and the efforts and persistence of
+WNYU's staff to build up an AM-FM radio station and maintain its broadcasting as one of the
+best educational radio stations in the New York metropolitan area. The collection is
+predominately composed of correspondence between WNYU's staff and other constituent parts
+of the University. Other correspondence relates to the broader media and metropolitan
+community.</p>
+      </custodhist>
+      <accessrestrict id="a14" encodinganalog="506  $a">
+         <head>Access Restrictions</head>
+         <p>Open
+to researchers.</p>
+      </accessrestrict>
+      <userestrict id="a15" encodinganalog="540  $a">
+         <head>Use Restrictions</head>
+         <p>There
+may be some restrictions on the use of the collection.  For more information, contact <lb/>
+            <address>
+               <addressline>New York University Archives<lb/>
+               </addressline>
+               <addressline>Elmer Holmes Bobst Library<lb/>
+               </addressline>
+               <addressline>70 Washington Square South<lb/>
+               </addressline>
+               <addressline>New York, NY 10012</addressline>
+            </address>
+         </p>
+      </userestrict>
+      <prefercite id="a18" encodinganalog="524  $a">
+         <head>Preferred Citation</head>
+         <p>Published citations should take the following form:<lb/>
+            <lb/>Identification of item, date (if
+known); WNYU (Radio Station: New York, N.Y.) Records; collection number; box number;
+folder number; <address>
+               <addressline>New York University Archives</addressline>
+            </address>
+
+, New York University Libraries.</p>
+      </prefercite>
+      <bioghist id="a2" encodinganalog="545  $a">
+         <head>Historical Note</head>
+         <p>WNYU was formed in 1949 on
+the University Heights campus of New York University by a group of engineers. Initially, the
+station only broadcast to the University Heights' cafeteria. Well established by 1956, WNYU
+became a member of the Inter-Collegiate Broadcasting System (IBS). In 1955 the radio division
+of the Television, Motion Picture and Radio Department of the Communications Arts Group
+started a closed circuit station WCAG at the Washington Square Campus. In 1963 WNYU
+(Heights Station) and WCAG (Washington Square Station) merged into one closed circuit radio
+station through the use of a telephone cable. It was decided that WCAG would broadcast to both
+campuses during the day while WNYU would take over in the evenings. This continued until
+1973 when NYU sold the Heights campus. At that time the equipment was brought to Loeb
+Student Center on Washington Square. During the period of 1965-1973 the station worked to
+acquire an FM frequency. In 1965 NYU made an agreement with the United Nations to use their
+channel, "206." NYU submitted their first application to the Federal Communication
+Commission (FCC) in 1965. After three years the FCC decided that channel "206" should be
+shared by NYU and Fairleigh Dickinson University of New Jersey. WNYU broadcast from 4
+p.m. to 1 a.m. on weekdays. </p>
+      </bioghist>
+      <scopecontent id="a3" encodinganalog="5203 $b">
+         <head>Scope and Content Note</head>
+         <p>The records include correspondence of Joseph Steinberg, the station's manager
+during the 1960s with University offices; the Inter-Colligiate Broadcasting System; and Miller,
+Montgomery &amp; Spanding concerning construction for WNYU facilities. Also correspondence of
+Larry J. Hollander, the faculty advisor to the WYNU staff, with Steinberg; correspondence of the
+staff with fellow radio stations including the Columbia University station, concerning such topics
+as the election of 1964, Ray Nelson, and a Senator Claiborne Pell interview about youth
+legislation; letters from The New York Times to Arnold Rosner, Director of Classical Music at
+NYU; letters from the Police Department of New York City; and letters from United Press
+International. Also included are minutes of meetings of the WNYU Board of Directors, budget
+reports and operating expense estimates of WNYU members, log forms, schedules, applications,
+architectural drawings, certificates from Manufacturers Hanover Trust Company, advertising
+brochures, programs, newsletters, and printed promotional material. </p>
+      </scopecontent>
+      <arrangement id="a5" encodinganalog="351  $b">
+         <head>Arrangement</head>
+         <p>Series I is arranged chronologically; series II
+is arranged alphabetically by subject; and series III is arranged alphabetically by type of material.</p>
+         <p>This collection has been organized into
+three series: </p>
+         <list>
+            <item>I. Correspondence, minutes, legal documents, memoranda</item>
+            <item>II. Drawings</item>
+            <item>III. Publications</item>
+         </list>
+      </arrangement>
+      <controlaccess id="a12">
+         <head>Access Points</head>
+         <controlaccess>
+            <head>Subject Names:</head>
+            <persname encodinganalog="60010$a" role="subject" source="lcsh">Steinberg, Joseph</persname>
+            <persname encodinganalog="60010$a" role="subject" source="lcsh">Hollander, Larry J.</persname>
+            <persname encodinganalog="60010$a" role="subject" source="lcsh">Nelson, Ray.</persname>
+            <persname encodinganalog="60010$a" role="subject" source="lcsh">Pell,
+Claiborne, 1918-</persname>
+            <persname encodinganalog="60010$a" role="subject" source="lcsh">Rosner, Arnold</persname>
+         </controlaccess>
+         <controlaccess>
+            <head>Subject Topics:</head>
+            <subject encodinganalog="650 0$a" source="lcsh">Radio--Equipment and supplies.</subject>
+            <subject encodinganalog="650 0$a" source="lcsh">Radio broadcasting--Archival resources.</subject>
+            <subject encodinganalog="650 0$a" source="lcsh">Radio
+broadcasting--History.</subject>
+            <subject encodinganalog="650 0$a" source="lcsh">Radio broadcasting&#226;Management. </subject>
+            <subject encodinganalog="650 0$a" source="lcsh">Radio broadcasting--Rules and regulations.</subject>
+            <subject encodinganalog="650 0$a" source="lcsh">Radio in education.</subject>
+         </controlaccess>
+         <controlaccess>
+            <head>Organizations:</head>
+            <corpname encodinganalog="61020$a" source="lcnaf">Inter-Collegiate Broadcasting System (U.S.)</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">Miller, Montgomery &amp;
+Spanding.</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">Columbia University--Radio broadcasting. </corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">New York University--Radio broadcasting. </corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">New York
+Times Company.</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">United Press International.</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">Manufacturers Hanover Trust Company.</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">Fairleigh
+Dickinson University (New Jersey)--Radio broadcasting.</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">United
+Nations.</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">New York (N.Y.). Police Dept.</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">New York University. Communications Arts Group.</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">WNYU (Radio
+station : New York, N.Y.)</corpname>
+            <corpname encodinganalog="61020$a" source="lcnaf">WCAG (Radio station : New York, N.Y.)</corpname>
+         </controlaccess>
+         <controlaccess>
+            <head>Document Types:</head>
+            <genreform encodinganalog="655 7$a" source="aat">Architectural drawings.</genreform>
+            <genreform encodinganalog="655 7$a" source="aat">Advertisements.</genreform>
+            <genreform encodinganalog="655 7$a" source="aat">Minutes.</genreform>
+            <genreform encodinganalog="655 7$a" source="aat">Petitions.</genreform>
+            <genreform encodinganalog="655 7$a" source="aat">Applications.</genreform>
+            <genreform encodinganalog="655 7$a" source="aat">Newsletters.</genreform>
+         </controlaccess>
+      </controlaccess>
+      <dsc id="a23" type="combined">
+         <head>Container List</head>
+         <c01 level="series">
+            <did>
+               <unittitle>Series I: Correspondence, minutes, legal documents, memoranda: 1949-1969.</unittitle>
+            </did>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">1</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Nov. 29, 1949 -April 8, 1950</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">2</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Feb.
+17, 1955 -Dec. 27, 1957</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">3</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">1955-1963</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">4</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Nov. 28, 1956 -May 7, 1962</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">5</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Dec.
+9, 1957 -Sept. 23, 1968 </unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">6</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jan. 5, 1958 -Mar. 18, 1963</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">7</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jan. 29, 1960 -Nov. 15, 1962</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">8</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Apr. 20, 1960 -Feb. 27, 1962</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">9</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jan. 8, 1962 -Nov. 12, 1963</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">10</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Mar. 1, 1963
+-Dec. 6, 1963</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">11</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Mar. 1, 1963 -Dec. 6, 1963</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">1</container>
+                  <container type="folder">12</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Apr. 3, 1963 -May 14, 1964</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">1</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Oct. 7, 1963 -Dec. 6, 1964</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">2</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Aug. 10, 1964-May 25, 1965</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">3</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Oct. 11, 1964 -May
+12, 1965</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">4</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Nov. 5, 1964 -Mar. 11, 1965</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">5</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Dec. 14, 1964 -Apr. 18, 1966</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">6</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Feb. 21, 1964 -Jun. 15, 1967</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">7</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jan. 12, 1965
+-Dec. 18, 1965</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">8</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Apr. 29, 1965 -Sept. 22, 1965</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">9</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Aug. 31, 1965 -May 16, 1966</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">10</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Oct. 14, 1965 -Oct. 19, 1967</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">11</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Nov. 18, 1965 -Apr. 19, 1966</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">12</container>
+                  <unittitle>Radio Station WFDU</unittitle>
+                  <unitdate era="ce" calendar="gregorian">1965 -1966 </unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">2</container>
+                  <container type="folder">13</container>
+                  <unittitle>Convention</unittitle>
+                  <unitdate era="ce" calendar="gregorian">1965
+-1967 </unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">1</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jan. 17, 1966-Aug. 15, 1966</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">2</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Feb. 21, 1966 -Oct. 31, 1966</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">3</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Nov. 22, 1966 -Apr. 18, 1967</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">4</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jan.
+17, 1967 -Dec. 4, 1967</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">5</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Apr. 6, 1967 -Jun. 6, 1967</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">6</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jun. 17, 1968 -Dec. 20, 1968</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">7</container>
+                  <unittitle>Correspondence, minutes, legal documents, memoranda</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jan. 6, 1969 -Feb. 6, 1969</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">8</container>
+                  <unittitle>Reports</unittitle>
+                  <unitdate era="ce" calendar="gregorian">undated</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">3</container>
+                  <container type="folder">9</container>
+                  <unittitle>WNYU log forms</unittitle>
+                  <unitdate era="ce" calendar="gregorian">undated</unitdate>
+               </did>
+            </c02>
+         </c01>
+         <c01 level="series">
+            <did>
+               <unittitle>Series II: Drawings</unittitle>
+            </did>
+            <c02>
+               <did>
+                  <container type="box">4</container>
+                  <container type="folder">1</container>
+                  <unittitle>Drawings of WNYU radio station</unittitle>
+                  <unitdate era="ce" calendar="gregorian">undated</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">4</container>
+                  <container type="folder">2</container>
+                  <unittitle>Drawings of WNYU radio station</unittitle>
+                  <unitdate era="ce" calendar="gregorian">undated</unitdate>
+               </did>
+            </c02>
+         </c01>
+         <c01 level="series">
+            <did>
+               <unittitle>Series III: Publications</unittitle>
+            </did>
+            <c02>
+               <did>
+                  <container type="box">4</container>
+                  <container type="folder">3</container>
+                  <unittitle>Newspapers </unittitle>
+                  <unitdate era="ce" calendar="gregorian">Feb. 1967 -May 1973</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">4</container>
+                  <container type="folder">4</container>
+                  <unittitle>Newspapers</unittitle>
+                  <unitdate era="ce" calendar="gregorian">Jan. 1957 -Oct. 1966</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">4</container>
+                  <container type="folder">5</container>
+                  <unittitle>Printed
+material</unittitle>
+                  <unitdate era="ce" calendar="gregorian">undated</unitdate>
+               </did>
+            </c02>
+            <c02>
+               <did>
+                  <container type="box">4</container>
+                  <container type="folder">6</container>
+                  <unittitle>Printed material</unittitle>
+                  <unitdate era="ce" calendar="gregorian">undated</unitdate>
+               </did>
+            </c02>
+         </c01>
+      </dsc>
+      <relatedmaterial id="a6" encodinganalog="5440 $n">
+         <head>Related
+Material at the New York University Archives         </head>
+         <p>Sidney Borowitz Papers, Box 58, Folder 17 (July
+1972 - August 1975)</p>
+      </relatedmaterial>
+   </archdesc>
+</ead>

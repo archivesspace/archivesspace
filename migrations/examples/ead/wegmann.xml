@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ead xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://www.w3.org/1999/xlink" xmlns="urn:isbn:1-931666-22-9">    <eadheader repositoryencoding="iso15511" countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b">
+        <eadid>wegmann</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>Edward Wegmann, Jr. Notebook
+                    <num>MC 59</num>
+                </titleproper>
+                <author>Finding aid prepared by Jackie Rider.</author>
+            </titlestmt>
+            <publicationstmt>
+                <publisher>New York University Archives</publisher>
+                <address>
+                    <addressline>Elmer Holmes Bobst Library</addressline>
+                    <addressline>70 Washington Square South</addressline>
+                    <addressline>New York, NY, 10012</addressline>
+                    <addressline>(212) 998-2641</addressline>
+                    <addressline>university.archives@library.nyu.edu</addressline>
+                </address>
+                <date>1893</date>
+            </publicationstmt>
+        </filedesc>
+        <profiledesc>
+            <creation>This finding aid was produced using the Archivists' Toolkit
+                <date>2011-02-02T10:51-0500</date>
+            </creation>
+        </profiledesc>
+    </eadheader>
+    <archdesc level="item">
+        <did>
+            <unittitle>Edward Wegmann, Jr. Notebook</unittitle>
+            <unitid>MC 59</unitid>
+            <repository>
+                <corpname>New York University Archives</corpname>
+            </repository>
+            <langmaterial>
+                <language langcode="eng"/>
+            </langmaterial>
+            <physdesc>
+                <extent>1.0 items</extent>
+            </physdesc>
+            <unitdate normal="1893/1893">1893</unitdate>
+            <physloc id="ref6" label="Location">New York University Archives.</physloc>
+        </did>
+        <bioghist id="ref1">
+            <head>Biography</head>
+            <p>Edward Wegmann Jr. was a special lecturer in the School of Engineering of the University of the City of New York (now New York University) during the 1892-1893 and 1893-1894 academic years. He received a degree in civil engineering from the University in 1871. He was born in Rio de Janeiro, Brazil, and educated in Zurich, Switzerland, and at the Brooklyn Polytechnic Institute. According to an obituary from 
+                <title render="italic">The New York Times</title> dated January 5, 1935, he helped in the construction of the New Haven and Middleton, New York and New England and the West Shore Railroads. He later worked for the elevated railroads in New York City. He was appointed assistant engineer to the New York Aqueduct Commission in 1884. He published several monographs on the design and construction of masonry dams as well as a history of New York City waterworks from 1658 to 1895. He was one of the engineers for the tunnel of the Croton Aqueduct under the Harlem River. From 1910 to 1914 he was consulting engineer to the Department of Water Supply, Gas and Electricity. He died January 4, 1935, in Yonkers, N.Y. at the age of 84.</p>
+        </bioghist>
+        <accessrestrict id="ref3">
+            <head>Conditions Governing Access</head>
+            <p>Open for research without restrictions.</p>
+        </accessrestrict>
+        <scopecontent id="ref7">
+            <head>Scope and Content</head>
+            <p>The Edward Wegmann Jr. Notebook consists of one handwritten notebook of a lecture Wegmann delivered to engineering students at New York University on March 20, 1893.</p>
+        </scopecontent>
+        <prefercite id="ref9">
+            <head>Preferred Citation</head>
+            <p>Published citations should take the form of: Identification of item, date (if known), Edward Wegmann, Jr. Notebook, MC 59, New York University Archives, New York University Libraries.</p>
+        </prefercite>
+        <controlaccess>
+            <persname source="local">Wegmann, Edward, Jr.</persname>
+            <genreform source="aat">Lecture notes.</genreform>
+            <subject source="lcsh">New York University |x Faculty |x History.</subject>
+            <subject source="local">New York University. School of Engineering.</subject>
+            <genreform source="aat">Notebooks</genreform>
+            <subject source="lcsh">University of the City of New York.</subject>
+            <subject source="lcsh">Water-supply engineering |z New York (State) |z New York |x History</subject>
+        </controlaccess>
+        <dsc>
+            <c id="ref10" level="file">
+                <did>
+                    <unittitle>Edward J. Wegmann, Jr. Notebook</unittitle>
+                    <langmaterial>
+                        <language langcode="eng"/>
+                    </langmaterial>
+                    <container id="cid10622001" type="Box" label="Mixed materials">1</container>
+                    <container parent="cid10622001" type="Folder">1</container>
+                    <unitdate normal="1893/1893">1893</unitdate>
+                </did>
+            </c>
+        </dsc>
+    </archdesc>
+</ead>
