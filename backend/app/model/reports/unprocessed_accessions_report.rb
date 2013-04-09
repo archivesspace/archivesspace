@@ -1,3 +1,4 @@
+#noinspection ALL
 class UnprocessedAccessionsReport < AbstractReport
   register_report({
                     :uri_suffix => "unprocessed_accessions",
@@ -23,8 +24,8 @@ class UnprocessedAccessionsReport < AbstractReport
   end
 
   def query(db)
-    db[:accession].
-      join(:collection_management, :accession_id => :id).
+    sql = db[:accession].
+      left_outer_join(:collection_management, :accession_id => :id).
       join(:enumeration,
            {
               :name => 'collection_management_processing_status'
@@ -39,16 +40,15 @@ class UnprocessedAccessionsReport < AbstractReport
            {
              :table_alias => :enum_processing_priority
            }).
-      join(:enumeration_value,
+      left_outer_join(:enumeration_value,
            {
-             Sequel.qualify(:enumvals_processing_status, :enumeration_id) =>  Sequel.qualify(:enum_processing_status, :id),
-             Sequel.qualify(:collection_management, :processing_status_id) => Sequel.qualify(:enumvals_processing_status, :id),
-             Sequel.qualify(:enumvals_processing_status, :value) => ['new', 'in_progress']
+            Sequel.qualify(:enumvals_processing_status, :enumeration_id) =>  Sequel.qualify(:enum_processing_status, :id),
+            Sequel.qualify(:collection_management, :processing_status_id) => Sequel.qualify(:enumvals_processing_status, :id),
            },
            {
              :table_alias => :enumvals_processing_status
            }).
-      join(:enumeration_value,
+      left_outer_join(:enumeration_value,
            {
             Sequel.qualify(:enumvals_processing_priority, :enumeration_id) =>  Sequel.qualify(:enum_processing_priority, :id),
             Sequel.qualify(:collection_management, :processing_priority_id) => Sequel.qualify(:enumvals_processing_priority, :id),
@@ -64,7 +64,9 @@ class UnprocessedAccessionsReport < AbstractReport
         Sequel.qualify(:enumvals_processing_status, :value).as(:processing_status),
         Sequel.qualify(:enumvals_processing_priority, :value).as(:processing_priority)
       ).
-      order(:processing_priority)
+      order_by(Sequel.desc(:processing_priority)).sql
+
+      db["SELECT * FROM (#{Sequel.lit(sql)}) AS `all_results` WHERE `all_results`.`processing_status` IS NULL OR `all_results`.`processing_status` != 'completed'"]
   end
 
 end

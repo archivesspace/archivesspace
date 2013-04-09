@@ -8,7 +8,7 @@ module ReportManager
 
     opts[:uri_suffix] ||= report_class.name.downcase
 
-    raise "Report with uri '#{opts[:uri_suffix]}' already registered" if @@registered_reports.has_key?(opts[:uri_suffix])
+    Log.warn("Report with uri '#{opts[:uri_suffix]}' already registered") if @@registered_reports.has_key?(opts[:uri_suffix])
 
     @@registered_reports[opts[:uri_suffix]] = opts
   end

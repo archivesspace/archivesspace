@@ -49,7 +49,7 @@
                     <div class="control-group">
                       <label class="control-label">Format</label>
                       <div class="controls">
-                        <%= report_params_form.select :format, @report_data["formats"].map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]} %>
+                        <%= report_params_form.select :format, options_for_select(@report_data["formats"].map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, params[:report_params]?params[:report_params][:format]:nil) %>
                       </div>
                     </div>
                     <div class="form-actions">
