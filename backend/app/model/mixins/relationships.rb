@@ -5,6 +5,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
     columns = if obj1.class == obj2.class
       # If our two related objects are of the same type, we'll get back multiple
       # columns here anyway
+      raise ReferenceError.new("Can't relate an object to itself") if obj1.id == obj2.id
+
       self._reference_columns_for(obj1.class)
     else
       self._reference_columns_for(obj1.class) + self._reference_columns_for(obj2.class)
@@ -72,6 +74,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
         end
       }
     }
+
+    nil
   end
 
 end

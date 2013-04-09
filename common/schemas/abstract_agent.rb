@@ -16,6 +16,31 @@
         }
       },
 
+
+      "related_agents" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => [{"type" => "JSONModel(:agent_person) uri"},
+                         {"type" => "JSONModel(:agent_family) uri"},
+                         {"type" => "JSONModel(:agent_corporate_entity) uri"},
+                         {"type" => "JSONModel(:agent_software) uri"}],
+              "ifmissing" => "error"
+            },
+
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      },
+
+
+
       "agent_type" => {
         "type" => "string",
         "required" => false,
