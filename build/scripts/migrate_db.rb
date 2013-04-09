@@ -1,4 +1,4 @@
-if $0 =~ /scripts\/rb\/migrate_db\.rb$/
+if $0 =~ /scripts[\/\\]rb[\/\\]migrate_db.rb$/
   # This script runs in two contexts: build/run as a part of development, and
   # setup-database.(sh|bat) from the distribution zip file.  Allow for both.
   require_relative '../../launcher/launcher_init'
