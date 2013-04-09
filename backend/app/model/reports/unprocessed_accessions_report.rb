@@ -20,11 +20,12 @@ class UnprocessedAccessionsReport < AbstractReport
   end
 
   def scope_by_repo_id(dataset)
-    dataset.where(Sequel.qualify(:accession, :repo_id) => @repo_id)
+    # repo scope is applied in the query below
+    dataset
   end
 
   def query(db)
-    sql = db[:accession].
+    dataset = db[:accession].
       left_outer_join(:collection_management, :accession_id => :id).
       join(:enumeration,
            {
@@ -63,10 +64,18 @@ class UnprocessedAccessionsReport < AbstractReport
         Sequel.qualify(:collection_management, :processors),
         Sequel.qualify(:enumvals_processing_status, :value).as(:processing_status),
         Sequel.qualify(:enumvals_processing_priority, :value).as(:processing_priority)
-      ).
-      order_by(Sequel.desc(:processing_priority)).sql
+      )
 
-      db["SELECT * FROM (#{Sequel.lit(sql)}) AS `all_results` WHERE `all_results`.`processing_status` IS NULL OR `all_results`.`processing_status` != 'completed'"]
+    dataset = dataset.where(Sequel.qualify(:accession, :repo_id) => @repo_id) if @repo_id
+
+    dataset.from_self(:alias => :all_results).
+      filter(Sequel.|(
+               Sequel.~(Sequel.qualify(:all_results, :processing_status) => 'completed'),
+               {
+                 Sequel.qualify(:all_results, :processing_status) => nil
+               }
+             )).
+      order_by(Sequel.asc(:processing_priority), Sequel.asc(:processing_status), Sequel.asc(:title))
   end
 
 end
