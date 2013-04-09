@@ -1373,6 +1373,34 @@ Sequel.migration do
     end
 
 
+    create_table(:related_agents_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id_0
+      Integer :agent_person_id_1
+      Integer :agent_corporate_entity_id_0
+      Integer :agent_corporate_entity_id_1
+      Integer :agent_software_id_0
+      Integer :agent_software_id_1
+      Integer :agent_family_id_0
+      Integer :agent_family_id_1
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:related_agents_rlshp) do
+      add_foreign_key([:agent_person_id_0], :agent_person, :key => :id)
+      add_foreign_key([:agent_person_id_1], :agent_person, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id_0], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id_1], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id_0], :agent_software, :key => :id)
+      add_foreign_key([:agent_software_id_1], :agent_software, :key => :id)
+      add_foreign_key([:agent_family_id_0], :agent_family, :key => :id)
+      add_foreign_key([:agent_family_id_1], :agent_family, :key => :id)
+    end
+
+
     [:subject, :accession, :archival_object, :collection_management, :digital_object,
      :digital_object_component, :event, :location, :resource].each do |record|
       table = "#{record}_ext_id".intern
