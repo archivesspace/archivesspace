@@ -1,4 +1,5 @@
 require_relative 'relationships'
+require_relative 'related_agents'
 
 module AgentManager
 
@@ -35,10 +36,7 @@ module AgentManager
       base.set_model_scope :global
 
       base.include(Relationships)
-
-      base.define_relationship(:name => :related_agents,
-                               :json_property => 'related_agents',
-                               :contains_references_to_types => proc {AgentManager.registered_agents.map {|a| a[:model]}})
+      base.include(RelatedAgents)
     end
 
 

@@ -9,7 +9,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
       self._reference_columns_for(obj1.class)
     else
-      self._reference_columns_for(obj1.class) + self._reference_columns_for(obj2.class)
+      [self._reference_columns_for(obj1.class).first, self._reference_columns_for(obj2.class).first]
     end
 
     self.create(Hash[columns.zip([obj1.id, obj2.id])].merge(properties))

@@ -1385,6 +1385,10 @@ Sequel.migration do
       Integer :agent_family_id_0
       Integer :agent_family_id_1
 
+      String :relator, :null => false
+      String :relationship_target, :null => false
+      String :jsonmodel_type, :null => false
+
       Integer :aspace_relationship_position
       DateTime :last_modified, :null => false
     end

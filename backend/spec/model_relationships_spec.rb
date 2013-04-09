@@ -27,8 +27,11 @@ describe 'Relationships' do
 
     $testdb.create_table :friends_rlshp do
       primary_key :id
-      Integer :banana_id
-      Integer :apple_id
+      Integer :banana_id_0
+      Integer :apple_id_0
+      Integer :banana_id_1
+      Integer :apple_id_1
+
       Integer :aspace_relationship_position
       DateTime :last_modified, :null => false
     end
@@ -89,7 +92,8 @@ describe 'Relationships' do
               "type" => "object",
               "subtype" => "ref",
               "properties" => {
-                "ref" => {"type" => "JSONModel(:apple) uri"}
+                "ref" => {"type" => [{"type" => "JSONModel(:apple) uri"},
+                                     {"type" => "JSONModel(:banana) uri"}]}
               }
             }
           }
@@ -122,7 +126,7 @@ describe 'Relationships' do
       # they do.
       define_relationship(:name => :friends,
                           :json_property => 'friends',
-                          :contains_references_to_types => proc {[Apple]})
+                          :contains_references_to_types => proc {[Apple, Banana]})
     end
 
 
@@ -132,6 +136,11 @@ describe 'Relationships' do
       define_relationship(:name => :fruit_salad,
                           :json_property => 'bananas',
                           :contains_references_to_types => proc {[Banana]})
+
+      define_relationship(:name => :friends,
+                          :json_property => 'friends',
+                          :contains_references_to_types => proc {[Apple, Banana]})
+
     end
   end
 
@@ -234,6 +243,14 @@ describe 'Relationships' do
     apple.delete
     banana.reload
     banana.linked_records(:friends).count.should eq(0)
+  end
+
+
+  it "obviously bananas can be friends with other bananas" do
+    banana1 = Banana.create_from_json(JSONModel(:banana).new(:name => "b1"))
+    banana2 = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => banana1.uri}]))
+
+    banana2.linked_records(:friends)[0].should eq(banana1)
   end
 
 end
