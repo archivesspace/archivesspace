@@ -37,7 +37,7 @@ module JSONSchemaUtils
   SCHEMA_PARSE_RULES =
     [
      {
-       :failed_attribute => ['Properties', 'IfMissing'],
+       :failed_attribute => ['Properties', 'IfMissing', 'ArchivesSpaceSubType'],
        :pattern => /([A-Z]+: )?The property '.*?' did not contain a required property of '(.*?)'.*/,
        :do => ->(msgs, message, path, type, property) {
 

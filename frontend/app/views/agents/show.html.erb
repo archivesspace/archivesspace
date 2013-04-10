@@ -86,6 +86,10 @@
           <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly } %>
         <% end %>
 
+        <% if @agent.related_agents.length > 0 %>
+          <%= render :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly } %>
+        <% end %>
+
         <% if @agent.external_documents.length > 0 %>
           <%= render :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "agent_external_documents_" } %>
         <% end %>

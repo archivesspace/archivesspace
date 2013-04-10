@@ -1389,6 +1389,37 @@ en:
     type: Type
     type_tooltip: |
       <p>The type of note for the content.  Note types are used for guiding export of note contents to certain elements in specific data formats.</p>
+  related_agent:
+    _html:
+      singular: Related Agent
+      plural: Related Agents
+  agent_relationship_parentchild:
+    relator: Relationship type
+    relator_is_child_of: child of related
+    relator_is_parent_of: parent of related
+    ref: Related Agent
+    _html:
+      singular: Parent/Child Relationship
+  agent_relationship_earlierlater:
+    relator: Relationship type
+    relator_is_earlier_form_of: earlier form of related
+    relator_is_later_form_of: later form of related
+    ref: Related Agent
+    _html:
+      singular: Earlier/Later Relationship
+  agent_relationship_subordinatesuperior:
+    relator: Relationship type
+    relator_is_subordinate_to: is subordinate to related
+    relator_is_superior_of: is superior of related
+    ref: Related Agent
+    _html:
+      singular: Subordinate/Superior Relationship
+  agent_relationship_associative:
+    relator: Relationship type
+    relator_is_associative_with: associative with related
+    ref: Related Agent
+    _html:
+      singular: Associative Relationship
   note:
     item: Item
     note_singlepart: Single Part Note

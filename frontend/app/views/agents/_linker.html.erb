@@ -6,7 +6,7 @@
    end
 %>
 <div class="control-group">
-  <label class="control-label"><%= I18n.t("agent._html.singular") %></label>
+  <label class="control-label"><%= defined?(linker_label) ? linker_label : I18n.t("agent._html.singular") %></label>
   <div class="controls">
     <div class="input-append linker-wrapper">
       <input type="text" class="linker"

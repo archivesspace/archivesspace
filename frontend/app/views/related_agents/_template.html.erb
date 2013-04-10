@@ -1,0 +1,19 @@
+<% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").each do |relationship_type| %>
+  <% define_template "#{relationship_type}", jsonmodel_definition(relationship_type.intern) do |form, opts = {}| %>
+    <div class="subrecord-form-fields">
+      <h4 class="subrecord-form-heading"><%= I18n.t("#{relationship_type}._html.singular") %></h4>
+      <div class="subrecord-form-container">
+        <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
+        <%= form.label_and_select("relator", form.possible_options_for("relator")) %>
+        <% if opts[:readonly] %>
+          <%= form.label_with_field(:ref, render_token(:object => form,
+                                                       :label => form["_resolved"]["names"][0]["sort_name"],
+                                                       :type => form["_resolved"]["agent_type"],
+                                                       :uri => form["_resolved"]["uri"])) %>
+        <% else %>
+          <%= render :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("#{relationship_type}.ref")} %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
