@@ -20,7 +20,12 @@
          :label =>  I18n.t("archival_object._html.singular")
        }
       },
-      :can_move => true
+      :can_move => true,
+      :can_transfer => {
+        :resource => {
+          :label =>  I18n.t("resource._html.singular")
+        }
+      }
     },
     :digital_object => {
       :can_add_child => {
@@ -185,6 +190,30 @@
                 </ul>
               </li>
             {/if}
+          </ul>
+        </div>
+      {/if}
+      {if rules.hasOwnProperty("can_transfer")}
+        <div class="btn-group dropdown">
+          <a class="btn btn-mini dropdown-toggle transfer-node" data-toggle="dropdown" href="#" title="<%= I18n.t "actions.transfer" %>">
+            <%= I18n.t "actions.transfer" %> <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu tree-transfer-form">
+            <li>
+              <%= form_tag("#{root_path}archival_objects/${node_id}/transfer") do |f| %>
+                <%= form_context :transfer, {} do |form| %>
+                <fieldset>
+                  <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
+                  <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._html.messages.please_select_a_resource_for_transfer" %></div>
+                  <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [@tree.record_uri] }%>
+                </fieldset>
+                <div class="form-actions">
+                  <button class="btn btn-primary btn-small pull-left"><%= I18n.t("actions.transfer") %></button>
+                  <a class="btn btn-small btn-cancel pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
+                </div>
+                <% end %>
+              <% end %>
+            </li>
           </ul>
         </div>
       {/if}

@@ -32,6 +32,7 @@ en:
     suppress: Suppress
     suppress_confirm_title: Suppress this Record?
     suppress_confirm_message: While a suppressed record will remain in the database, it will become hidden to most users and unavailable to most functions.
+    transfer: Transfer
     unset_default: Unset Default
     unsuppress: Unsuppress
     unsuppress_confirm_title: Unsuppress this Record?
@@ -2075,6 +2076,7 @@ en:
       messages:
         created: Archival Object Created
         updated: Archival Object Saved
+        please_select_a_resource_for_transfer: Please choose a Resource
       section:
         basic_information: Basic Information
   group:

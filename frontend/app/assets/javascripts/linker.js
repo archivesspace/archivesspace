@@ -24,7 +24,8 @@ $(function() {
         label_plural: $this.data("label_plural"),
         modal_id: $this.data("modal_id") || ($this.attr("id") + "_modal"),
         sortable: $this.data("sortable") === true,
-        types: $this.data("types")
+        types: $this.data("types"),
+        exclude_ids: $this.data("exclude") || []
       };
 
       if (config.format_template && config.format_template.substring(0,2) != "${") {
@@ -240,6 +241,7 @@ $(function() {
           caching: false,
           onCachedResult: formatResults,
           onResult: formatResults,
+          zindex: 1100,
           tokenFormatter: function(item) {
             item.name = formattedNameForJSON(item.json);
             var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
@@ -262,8 +264,8 @@ $(function() {
             $(document).triggerHandler("init.popovers");
           },
           formatQueryParam: function(q, ajax_params) {
-            if ($this.tokenInput("get").length) {
-              var currentlySelectedIds = [];
+            if ($this.tokenInput("get").length || config.exclude_ids.length) {
+              var currentlySelectedIds = $.merge([], config.exclude_ids);
               $.each($this.tokenInput("get"), function(obj) {currentlySelectedIds.push(obj.id);});
 
               ajax_params.data["exclude[]"] = currentlySelectedIds;
