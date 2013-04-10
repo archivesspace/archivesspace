@@ -510,7 +510,7 @@
   </target>
 
 
-  <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test"
+  <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test, migrations:test"
           description="Run the full suite of tests">
   </target>
 
