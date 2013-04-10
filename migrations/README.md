@@ -1,12 +1,28 @@
 # Getting started
 
-Install nokogiri, json-schema, psych
+The ArchivesSpace Import and Export tools can be run within the frontend 
+ArchivesSpace application (using the appropriate menu items) or as a stand alone
+CLI client of the backend application. (Note: There is no CLI for exporting at this time.)
 
-Basic usage of import.rb is like this:
-  
-	$ import.rb -i {importer-name} [-s {path/to/your/data/file.ext}] [-x {crosswalk-name}]
+If you wish to run the tool as a standalone CLI client, you will need to have the 'common'
+directory on your classpath. If you have the entire project checked out, you can do
+that like this:
 
-# Using the import tool
+      $ export RUBYLIB={path_to_archivesspace}/common:$RUBYLIB
+
+One you have done that, you should be able to do a 'dry-run' import using one of the
+test files:
+
+      $ cd {path_to_archivesspace}/migrations
+      $ import.rb -i xml -x ead -s examples/ead/archon-tracer.xml -n
+
+The more generalized CLI usage is as follows:
+      
+	    $ import.rb -i {importer-name} [-s {path/to/your/data/file.ext}] [-x {crosswalk-name}]
+
+You can see the full set of options by doing this:
+
+      $ import.rb -h
 
 ## Running a test import (example)
 
@@ -16,35 +32,33 @@ Step 1: Follow the steps in the global README and start the application on port 
 
 Step 2: Open the 'migrations' directory
 
-	$ cd migrations
+	    $ cd migrations
 
 Step 3: Create an empty repository and vocabulary and note their IDs
 
-	$ rake import:make_repo
-	$ rake import:make_vocab
+	    $ rake import:make_repo
 
 Step 4: Run a test import using the following options
 		
-	$./import.rb -r {REPO_ID} -v {VOCAB_ID} -i xml -x ead -s examples/ead/afcu.xml
+	    $./import.rb -r {REPO_ID} -i xml -x ead -s examples/ead/afcu.xml
 
 You can see the records that have been created using rake:
 
-	$ rake import:list_objects[{REPO_ID}]
-	$ rake import:list_subjects[{VOCAB_ID}]
+	    $ rake import:list_objects[{REPO_ID}]
 
-To see all importer flags, run
-				
-	$./import.rb -h
+## Extending and customizing import tools
 
-To find out what importers are available, and what to pass them
-	
-	$./import.rb -l
+There are two ways to extend and customize the import tools. For minor adjustments to the import logic of a particular crosswalk,
+you can copy that crosswalk and edit the copy to server your needs. Example:
 
-## Adding an Importer
+      $ cp crosswalks/ead.yml crosswalks/ead-my-way.yml
+      $ {your_favorite_text_editor} crosswalks/ead-my-way.yml
+      $ ./import.rb -r {repository_id} -i xml -x ead-my-way examples/ead/afcu.xml
 
-You can create an importer and add it to the importers directory
-	
-The first line of your file must be
+If you want to create a custom importer to handle other kinds of source data, you 
+can create your own importer and add it to the 'importers' directory. 
+
+The first line of your new file must be
 	
 	ASpaceImporter.importer :foo do # 'foo' is the unique key for this importer
 

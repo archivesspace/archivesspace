@@ -6,7 +6,7 @@ require_relative "../lib/bootstrap"
 describe "ASpaceImport::Importer" do
 
   before(:each) do
-    @repo_id = create(:json_repo).id
+    @repo_id = 2
     ASpaceImport::Importer.destroy_importers
   end
 

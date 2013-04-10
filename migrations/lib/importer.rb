@@ -41,6 +41,9 @@ module ASpaceImport
     end
     
     def self.destroy_importers
+      @@importers.each do |key, klass|
+        Object.send(:remove_const, klass.name)
+      end
       @@importers = {}
     end
 

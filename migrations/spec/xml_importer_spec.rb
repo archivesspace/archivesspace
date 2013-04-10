@@ -13,8 +13,8 @@ describe 'ASpaceImport::Importer::XmlImporter' do
             :crosswalk => 'ead', 
             :input_file => '../examples/ead/archon-tracer.xml', 
             :importer => 'xml',
-            :repo_id => rand(20),
-            :vocab_uri => make_test_vocab          
+            :repo_id => 2,
+            :vocab_uri => build(:json_vocab).class.uri_for(2, :repo_id => 2)          
             }
 
     @i = ASpaceImport::Importer.create_importer(@opts)     
@@ -47,10 +47,6 @@ describe 'ASpaceImport::Importer::XmlImporter' do
   it "should create a class for pulling an XML file through a YAML crosswalk" do      
     @i.class.name.should eq('XmlImporter')
   end
-  
-  # it "should run" do
-  #   @i.run
-  # end
 
 end
 
