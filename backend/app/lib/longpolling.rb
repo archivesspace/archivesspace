@@ -11,6 +11,12 @@ class LongPolling
   end
 
 
+  def shutdown
+    @lock.synchronize do
+      @waiting_list.broadcast
+    end
+  end
+
   def reset!
     @lock.synchronize do
       @updates = []

@@ -12,6 +12,11 @@ class Notifications
   end
 
 
+  def self.shutdown
+    @longpolling.shutdown if @longpolling
+  end
+
+
   def self.notify(code, params = {}, immediate = true)
     DB.open do |db|
       db[:notification].insert(:code => code, :params => params.to_json.to_sequel_blob,
