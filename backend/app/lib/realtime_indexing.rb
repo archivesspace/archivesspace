@@ -11,6 +11,11 @@ class RealtimeIndexing
   end
 
 
+  def self.shutdown
+    @longpolling.shutdown if @longpolling
+  end
+
+
   def self.reset!
     longpolling.reset!
   end

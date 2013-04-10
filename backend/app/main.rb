@@ -354,5 +354,14 @@ if $0 == __FILE__
     server.instance_eval do
       @config[:AccessLog] = []
     end
+
+    def server.stop
+
+      # Shutdown long polling threads that would otherwise hold up WEBrick.
+      Notifications.shutdown
+      RealtimeIndexing.shutdown
+
+      super
+    end
   end
 end
