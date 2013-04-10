@@ -2,7 +2,9 @@
    if form.obj['ref'].blank?
      selected_json = "{}"
    else
-     selected_json =  form.obj['_resolved'].to_json
+     selected = form.obj['_resolved'].clone
+     selected['uri'] ||= form.obj['ref']
+     selected_json =  selected.to_json
    end
 %>
 <div class="control-group">
