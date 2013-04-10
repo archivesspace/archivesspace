@@ -6,6 +6,9 @@
      selected['uri'] ||= form.obj['ref']
      selected_json =  selected.to_json
    end
+
+   allowed_types = defined?(allowed_types) ? allowed_types : ["agent"]
+
 %>
 <div class="control-group">
   <label class="control-label"><%= defined?(linker_label) ? linker_label : I18n.t("agent._html.singular") %></label>
@@ -21,7 +24,7 @@
              data-selected="<%= selected_json %>"
              data-multiplicity="one"
              data-format_template="names[0].sort_name"
-             data-types='["agent"]'
+             data-types='<%= allowed_types.to_json %>'
       />
       <div class="btn-group pull-right">
         <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>

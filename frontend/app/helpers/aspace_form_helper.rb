@@ -507,10 +507,13 @@ module AspaceFormHelper
 
 
     def allowable_types_for(name)
-      if jsonmodel_schema_definition(name)
-        jsonmodel_schema_definition(name)['items']['type'].
-          map {|type| type['type']}.
-          map {|ref| JSONModel.parse_jsonmodel_ref(ref).first.to_s}
+      defn = jsonmodel_schema_definition(name)
+
+      if defn
+        ASUtils.extract_nested_strings(defn).map {|s|
+          ref = JSONModel.parse_jsonmodel_ref(s)
+          ref.first.to_s if ref
+        }.compact
       else
         []
       end

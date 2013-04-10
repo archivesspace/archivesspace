@@ -55,4 +55,15 @@ module ASUtils
       map { |dir| File.join(*[dir, "local", base].compact) }
   end
 
+
+  def self.extract_nested_strings(coll)
+    if coll.is_a?(Hash)
+      coll.values.map {|v| self.extract_nested_strings(v)}.flatten.compact
+    elsif coll.is_a?(Array)
+      coll.map {|v| self.extract_nested_strings(v)}.flatten.compact
+    else
+      coll
+    end
+  end
+
 end
