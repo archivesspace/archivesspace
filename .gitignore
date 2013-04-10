@@ -1,4 +1,5 @@
 build/*.jar
+build/solr_backups/*
 *.war
 build/gems
 derby.log
