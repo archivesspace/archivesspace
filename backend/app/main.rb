@@ -73,7 +73,7 @@ class ArchivesSpaceService < Sinatra::Base
 
       require_relative "model/ASModel"
 
-      [File.dirname(__FILE__), *ASUtils.find_local_directories].each do |prefix|
+      [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
         # Load all mixins
         Dir.glob(File.join(prefix, "model", "mixins", "*.rb")).sort.each do |mixin|
           basename = File.basename(mixin, ".rb")

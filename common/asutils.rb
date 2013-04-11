@@ -47,12 +47,12 @@ module ASUtils
   end
 
 
-  def self.find_local_directories
+  def self.find_local_directories(base = nil)
     [File.join(File.dirname(__FILE__), ".."),
      java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base")].
       reject { |dir| !Dir.exists?(dir) }.
-      map { |dir| File.join(dir, "local") }
+      map { |dir| File.join(*[dir, "local", base].compact) }
   end
 
 end
