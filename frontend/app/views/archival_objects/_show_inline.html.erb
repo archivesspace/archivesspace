@@ -7,6 +7,7 @@
     <div class="record-pane">
       <%= readonly_context :archival_object, @archival_object do |readonly| %>
         <h2><%= @archival_object.title %> <span class="label label-info"><%= I18n.t("archival_object._html.singular") %></span></h2>
+        <%= render :partial => "shared/flash_messages" %>
         <section id="basic_information">
           <h3><%= I18n.t("archival_object._html.section.basic_information") %></h3>
           <%= readonly.label_and_textfield "title" %>

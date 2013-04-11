@@ -15,7 +15,6 @@ describe "Resource Component Transfer Endpoint" do
     request.set_form_data({"target_resource" => resource.uri, "component" => object.uri})
      
     response = JSONModel::HTTP.do_http_request(url, request)    
-    # puts "RESPONSE BODY #{response.body}"
     
     response
   end
@@ -26,20 +25,20 @@ describe "Resource Component Transfer Endpoint" do
     object = create(:json_archival_object, :resource => {:ref => @resource_alpha.uri})
     
     object.resource['ref'].should eq(@resource_alpha.uri)
-
+  
     response = transfer(@resource_beta, object)
-    
-    puts response.body.inspect
     
     response.code.should eq('200')
     
     refreshed_object = JSONModel(:archival_object).find(object.id)
     
     refreshed_object.resource['ref'].should eq(@resource_beta.uri)
-
+    
+    JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id).children.length.should eq(1)
+        
   end
-
-
+  
+  
   it "returns a 404 response code when asked to transfer a non-existent object" do
     
     fake_uri = JSONModel(:archival_object).uri_for(99*99)
@@ -49,8 +48,8 @@ describe "Resource Component Transfer Endpoint" do
     response.code.should eq('404')
     response.body.should match(/That which does not exist cannot be moved/)
   end
-
-
+  
+  
   it "returns a 400 response code when asked to transfer an object to a resource containing a conflicting object" do
     
     conflicting_ref_id = generate(:alphanumstr)
@@ -64,15 +63,45 @@ describe "Resource Component Transfer Endpoint" do
     response.body.should match (/unique to its resource/)
   end
   
-
+  
   it "moves children of the component it's moving" do
     
     parent = create(:json_archival_object, :resource => {:ref => @resource_alpha.uri})
     child = create(:json_archival_object, :parent => {:ref => parent.uri}, :resource => {:ref => @resource_alpha.uri})
-
+  
     transfer(@resource_beta, parent)
     
     JSONModel(:archival_object).find(child.id).resource['ref'].should eq(@resource_beta.uri)
         
-  end  
+  end
+  
+  
+  it "can move objects that aren't at the root of the tree" do
+    
+    parent = create(:json_archival_object, :resource => {:ref => @resource_alpha.uri})
+    child = create(:json_archival_object, :parent => {:ref => parent.uri}, :resource => {:ref => @resource_alpha.uri})
+  
+    transfer(@resource_beta, child)
+    
+    JSONModel(:archival_object).find(child.id).resource['ref'].should eq(@resource_beta.uri)
+    
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id)
+    
+    tree.children.length.should eq(1)
+  end
+  
+  it "can move objects to the next available spot in the tree" do
+    
+    parent = create(:json_archival_object, :resource => {:ref => @resource_alpha.uri})
+    child = create(:json_archival_object, :parent => {:ref => parent.uri}, :resource => {:ref => @resource_alpha.uri})
+
+    transfer(@resource_beta, child).code.should eq('200')
+    transfer(@resource_beta, parent).code.should eq('200')
+        
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id)
+    
+    tree.children.length.should eq(2)
+  end
+  
+  
 end
