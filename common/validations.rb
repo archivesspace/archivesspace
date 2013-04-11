@@ -200,6 +200,32 @@ module JSONModel::Validations
   end
 
 
+  def self.check_user_defined(hash)
+    errors = []
+
+    ["integer_1", "integer_2"].each do |k|
+      if !hash[k].nil? and hash[k] !~ /^\-?\d+$/
+        errors << [k, "must be an integer"]
+      end
+    end
+
+    ["real_1", "real_2"].each do |k|
+      if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}\.\d{1,2}$/
+        errors << [k, "must be a number with no more than nine digits and two decimal places"]
+      end
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:user_defined)
+    JSONModel(:user_defined).add_validation("check_user-defined") do |hash|
+      check_user_defined(hash)
+    end
+  end
+
+
   def self.check_resource(hash)
     errors = []
 

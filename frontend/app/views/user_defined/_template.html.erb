@@ -1,0 +1,15 @@
+<% define_template("user_defined", jsonmodel_definition(:user_defined)) do |form| %>
+      <%= form.label_and_boolean "boolean_1", {}, form.default_for("boolean_1") %>
+      <%= form.label_and_boolean "boolean_2", {}, form.default_for("boolean_2") %>
+      <%= form.label_and_textfield "integer_1" %>
+      <%= form.label_and_textfield "integer_2" %>
+      <%= form.label_and_textfield "real_1" %>
+      <%= form.label_and_textfield "real_2" %>
+      <%= form.label_and_textfield "string_1" %>
+      <%= form.label_and_textfield "string_2" %>
+      <%= form.label_and_textfield "string_3" %>
+      <%= form.label_and_textarea "text_1" %>
+      <%= form.label_and_textarea "text_2" %>
+      <%= form.label_and_textarea "text_3" %>
+      <%= form.label_and_textarea "text_4" %>
+<% end %>

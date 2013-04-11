@@ -2400,6 +2400,23 @@ en:
       singular: Collection Management
       plural: Collection Management
       title_prefix: Processing
+  user_defined:
+    boolean_1: Boolean 1
+    boolean_2: Boolean 2
+    integer_1: Integer 1
+    integer_2: Integer 2
+    real_1: Real 1
+    real_2: Real 2
+    string_1: String 1
+    string_2: String 2
+    string_3: String 3
+    text_1: Text 1
+    text_2: Text 2
+    text_3: Text 3
+    text_4: Text 4
+    _html:
+      singular: User Defined
+      plural: User Defined
   enumeration:
     # tooltips not displaying
     name: Name
