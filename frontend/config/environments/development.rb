@@ -32,6 +32,14 @@ ArchivesSpace::Application.configure do
   # Disable multi-threaded mode for development, so "hot code replacement" works
   # config.threadsafe!
 
+  # DEVELOPMENT ONLY - Allow overriding of the static resources via the local folder(s)
+  # N.B. that is supported by the launcher.rb when in production
+  if not ASUtils.find_local_directories.blank?
+    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |static_directory|
+      config.assets.paths.unshift(static_directory)
+    end
+  end
+
   # Do not compress assets
   config.assets.compress = false
 

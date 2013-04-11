@@ -5,8 +5,8 @@ require 'action_controller/railtie'
 require 'sprockets/railtie'
 
 require 'java'
-
 require 'config/config-distribution'
+require 'asutils'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -73,12 +73,8 @@ module ArchivesSpacePublic
 
     config.assets.precompile += %w( *.js )
 
-    # Allow overriding of assets and locales via the local folder(s)
+    # Allow overriding of the locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
-      # assets
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |assets_override_directory|
-        config.assets.paths.unshift(assets_override_directory)
-      end
       # i18n locales
       ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
         config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]

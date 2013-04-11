@@ -68,12 +68,8 @@ module ArchivesSpace
 
     config.assets.precompile += %w( *.js )
 
-    # Allow overriding of assets and locales via the local folder(s)
+    # Allow overriding of the locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
-      # assets
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |assets_override_directory|
-        config.assets.paths.unshift(assets_override_directory)
-      end
       # i18n locales
       ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
         config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]

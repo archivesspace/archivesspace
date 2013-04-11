@@ -29,13 +29,25 @@ def start_server(port, *webapps)
   connector.port = port
 
   contexts = webapps.map do |webapp|
-    context = org.eclipse.jetty.webapp.WebAppContext.new
-    context.server = server
-    context.context_path = webapp[:path]
-    context.war = webapp[:war]
-    context.class_loader = org.eclipse.jetty.webapp.WebAppClassLoader.new(JRuby.runtime.jruby_class_loader, context)
+    if webapp[:war]
+      context = org.eclipse.jetty.webapp.WebAppContext.new
+      context.server = server
+      context.context_path = webapp[:path]
+      context.war = webapp[:war]
+      context.class_loader = org.eclipse.jetty.webapp.WebAppClassLoader.new(JRuby.runtime.jruby_class_loader, context)
 
-    context
+      context
+    elsif webapp[:static_dir]
+      handler = org.eclipse.jetty.server.handler.ResourceHandler.new
+      handler.set_resource_base(webapp[:static_dir])
+
+      ctx = org.eclipse.jetty.server.handler.ContextHandler.new(webapp[:path])
+      ctx.set_handler(handler)
+
+      ctx
+    else
+      raise "Unrecognised webapp definition: #{webapp.inspect}"
+    end
   end
 
   server.add_connector(connector)
@@ -74,8 +86,21 @@ def main
   start_server(URI(AppConfig[:solr_url]).port,
                {:war => File.join('wars', 'solr.war'), :path => '/'},
                {:war => File.join('wars', 'indexer.war'), :path => '/aspace-indexer'})
-  start_server(URI(AppConfig[:frontend_url]).port, {:war => File.join('wars', 'frontend.war'), :path => '/'})
-  start_server(URI(AppConfig[:public_url]).port, {:war => File.join('wars', 'public.war'), :path => '/'})
+  start_server(URI(AppConfig[:frontend_url]).port,
+               {:war => File.join('wars', 'frontend.war'), :path => '/'},
+               {:static_dir => File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+                                         "local",
+                                         "frontend",
+                                         "assets"),
+                :path => '/assets'}
+  )
+  start_server(URI(AppConfig[:public_url]).port,
+               {:war => File.join('wars', 'public.war'), :path => '/'},
+               {:static_dir => File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+                                         "local",
+                                         "public",
+                                         "assets"),
+                :path => '/assets'})
 
   puts <<EOF
 ************************************************************

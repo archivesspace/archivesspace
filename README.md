@@ -29,7 +29,7 @@ and for Windows:
 
 the system will log to the console as it starts up, and after a minute
 or so, you should be able to point your browser to
-http://localhost:3000/ and access the ArchivesSpace application.
+http://localhost:8080/ and access the ArchivesSpace application.
 
 
 # First steps
@@ -171,16 +171,17 @@ By adding to directories under this you will be able to override the templates,
 locales, and assets (javascript, stylesheets, images) used in both the frontend
 and public applications.
 
-For example, to override the frontend branding template, create a file
-named `_branding.html.erb` in the directory `./local/frontend/views/site/`.
+To override any of the view templates, just match up the path to the target template
+under the directories `archivesspace/local/frontend/views/`.
+For example, to override the frontend branding, add your own template named `_branding.html.erb`
+in the directory `archivesspace/local/frontend/views/site/`.
 
-To override the various label and text translations, add your new locales file to the directory `./local/frontend/locales/`.
-Ensure your file is named using the code of the target language - for English use `./local/frontend/locales/en.yml`.
+To apply your own label and text translations, add your locales file to the directory `archivesspace/local/frontend/locales/`.
+Ensure your file is named using the code of the target language - for English use `archivesspace/local/frontend/locales/en.yml`.
 
-To add a new stylesheet to the asset path you can add it to the directory
-`./local/frontend/assets`. This resource will then be available via the URL
-`http://localhost:3000/assets/my_new_stylesheet.css`.
-
+To allow a document (image, stylesheet, PDF etc) to be available from your application as a static resource, you can add it to the directory
+`archivesspace/local/frontend/assets`. For example, your own logo image `archivesspace/local/frontend/assets/my_logo.png` will then be available via the URL
+`http://localhost:8080/assets/my_logo.png`.
 
 
 # Further documentation
