@@ -2077,6 +2077,8 @@ en:
         created: Archival Object Created
         updated: Archival Object Saved
         please_select_a_resource_for_transfer: Please choose a Resource
+        transfer_success: Archival Object Transferred
+        transfer_error: "Error when transferring Archival Object:<br/><br/>#{e.message}"
       section:
         basic_information: Basic Information
   group:

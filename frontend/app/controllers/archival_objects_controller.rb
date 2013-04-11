@@ -90,14 +90,14 @@ class ArchivalObjectsController < ApplicationController
       response = JSONModel::HTTP.post_form("/repositories/#{session[:repo_id]}/component_transfers", post_data)
 
       if response.code == '200'
-        flash[:success] = "Archival Object Transferred"
-        redirect_to :controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
+        flash[:success] = I18n.t("archival_object._html.messages.transfer_success")
+        redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
       else
         raise ASUtils.json_parse(response.body)['error'].to_s     
       end
 
     rescue Exception => e
-      flash[:error] = "Error when transferring Archival Object:<br/><br/>#{e.message}".html_safe
+      flash[:error] = I18n.t("archival_object._html.messages.transfer_error", :e => e).html_safe
       redirect_to :controller => :resources, :action => :edit, :id => params["transfer"]["current_resource_id"], :anchor => "tree::archival_object_#{params[:id]}"
     end
   end
