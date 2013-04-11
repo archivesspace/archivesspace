@@ -29,7 +29,7 @@ and for Windows:
 
 the system will log to the console as it starts up, and after a minute
 or so, you should be able to point your browser to
-http://localhost:3000/ and access the ArchivesSpace application.
+http://localhost:8080/ and access the ArchivesSpace application.
 
 
 # First steps
