@@ -1,3 +1,5 @@
+//= require dates.crud
+
 $(function() {
 
   $.fn.init_related_agents_form = function() {
@@ -34,6 +36,7 @@ $(function() {
         initRemoveActionForSubRecord($subsubform);
 
         $(document).triggerHandler("new.subrecord",["related_agent", $subsubform])
+        $(document).triggerHandler("monkeypatch.subrecord", [$subsubform]);
 
         index++;
       };
@@ -59,8 +62,9 @@ $(function() {
 
       $(".add-related-agent-for-type-btn", $this).click(addRelatedAgent);
 
-      if ($(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).length) {
-        $(".subrecord-form-fields", $this).each(function() {
+      var $subrecord_form_fields = $("#related-agents-container > .subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this);
+      if ($subrecord_form_fields.length > 0) {
+        $subrecord_form_fields.each(function() {
           initRemoveActionForSubRecord($(this));
         });
       }

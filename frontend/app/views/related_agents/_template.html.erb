@@ -1,3 +1,5 @@
+<% render :partial => "dates/template" %>
+
 <% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").each do |relationship_type| %>
   <% define_template "#{relationship_type}", jsonmodel_definition(relationship_type.intern) do |form, opts = {}| %>
     <div class="subrecord-form-fields">
@@ -18,6 +20,12 @@
                          :allowed_types => form.allowable_types_for("ref")
                      }
            %>
+        <% end %>
+
+        <%= form.label_and_textarea("description") %>
+
+        <% if !form.readonly? || !form['dates'].blank? %>
+          <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :cardinality => :zero_to_one} %>
         <% end %>
       </div>
     </div>

@@ -152,6 +152,7 @@ module Relationships
         clz = Class.new(AbstractRelationship) do
           table = "#{opts[:name]}_rlshp".intern
           set_dataset(table)
+          set_primary_key(:id)
 
           if !self.db.table_exists?(self.table_name)
             Log.warn("Table doesn't exist: #{self.table_name}")
@@ -213,6 +214,7 @@ module Relationships
           properties[:last_modified] = Time.now
 
           relationship_defn.relate(obj, referent, properties)
+          referent.save
         end
       end
     end

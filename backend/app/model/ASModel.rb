@@ -78,13 +78,14 @@ module ASModel
 
       self.class.prepare_for_deletion([self])
 
-      uri = self.uri
-
       super
 
-      Tombstone.create(:uri => uri)
+      uri = self.uri
 
-      RealtimeIndexing.record_delete(uri)
+      if uri
+        Tombstone.create(:uri => uri)
+        RealtimeIndexing.record_delete(uri)
+      end
     end
 
 

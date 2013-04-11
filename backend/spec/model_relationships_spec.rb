@@ -183,8 +183,9 @@ describe 'Relationships' do
     Banana.to_jsonmodel(banana).apples[0]['sauce'].should eq('yogurt')
 
     # Clear the relationship by updating the apple to remove the banana
+    apple.refresh
     apple.update_from_json(JSONModel(:apple).new(:name => "granny smith",
-                                                 :lock_version => 0))
+                                                 :lock_version => 1))
 
     # Now the banana has no apples listed
     banana.refresh
@@ -249,6 +250,7 @@ describe 'Relationships' do
   it "obviously bananas can be friends with other bananas" do
     banana1 = Banana.create_from_json(JSONModel(:banana).new(:name => "b1"))
     banana2 = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => banana1.uri}]))
+    banana1.refresh
 
     banana2.linked_records(:friends)[0].should eq(banana1)
   end

@@ -826,6 +826,39 @@ Sequel.migration do
     end
 
 
+    create_table(:related_agents_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id_0
+      Integer :agent_person_id_1
+      Integer :agent_corporate_entity_id_0
+      Integer :agent_corporate_entity_id_1
+      Integer :agent_software_id_0
+      Integer :agent_software_id_1
+      Integer :agent_family_id_0
+      Integer :agent_family_id_1
+
+      String :relator, :null => false
+      String :relationship_target, :null => false
+      String :jsonmodel_type, :null => false
+      TextField :description, :null => true
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:related_agents_rlshp) do
+      add_foreign_key([:agent_person_id_0], :agent_person, :key => :id)
+      add_foreign_key([:agent_person_id_1], :agent_person, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id_0], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id_1], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id_0], :agent_software, :key => :id)
+      add_foreign_key([:agent_software_id_1], :agent_software, :key => :id)
+      add_foreign_key([:agent_family_id_0], :agent_family, :key => :id)
+      add_foreign_key([:agent_family_id_1], :agent_family, :key => :id)
+    end
+
+
     create_table(:date) do
       primary_key :id
 
@@ -838,6 +871,7 @@ Sequel.migration do
       Integer :event_id, :null => true
       Integer :digital_object_id, :null => true
       Integer :digital_object_component_id, :null => true
+      Integer :related_agents_rlshp_id, :null => true
 
       String :date_type, :null => true
       String :label, :null => false
@@ -888,6 +922,7 @@ Sequel.migration do
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:event_id], :event, :key => :id)
       add_foreign_key([:deaccession_id], :deaccession, :key => :id)
+      add_foreign_key([:related_agents_rlshp_id], :related_agents_rlshp, :key => :id)
     end
 
 
@@ -1370,38 +1405,6 @@ Sequel.migration do
     alter_table(:housed_at_rlshp) do
       add_foreign_key([:container_id], :container, :key => :id)
       add_foreign_key([:location_id], :location, :key => :id)
-    end
-
-
-    create_table(:related_agents_rlshp) do
-      primary_key :id
-
-      Integer :agent_person_id_0
-      Integer :agent_person_id_1
-      Integer :agent_corporate_entity_id_0
-      Integer :agent_corporate_entity_id_1
-      Integer :agent_software_id_0
-      Integer :agent_software_id_1
-      Integer :agent_family_id_0
-      Integer :agent_family_id_1
-
-      String :relator, :null => false
-      String :relationship_target, :null => false
-      String :jsonmodel_type, :null => false
-
-      Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
-    end
-
-    alter_table(:related_agents_rlshp) do
-      add_foreign_key([:agent_person_id_0], :agent_person, :key => :id)
-      add_foreign_key([:agent_person_id_1], :agent_person, :key => :id)
-      add_foreign_key([:agent_corporate_entity_id_0], :agent_corporate_entity, :key => :id)
-      add_foreign_key([:agent_corporate_entity_id_1], :agent_corporate_entity, :key => :id)
-      add_foreign_key([:agent_software_id_0], :agent_software, :key => :id)
-      add_foreign_key([:agent_software_id_1], :agent_software, :key => :id)
-      add_foreign_key([:agent_family_id_0], :agent_family, :key => :id)
-      add_foreign_key([:agent_family_id_1], :agent_family, :key => :id)
     end
 
 

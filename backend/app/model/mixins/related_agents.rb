@@ -1,9 +1,54 @@
 module RelatedAgents
 
   def self.included(base)
-      base.define_relationship(:name => :related_agents,
-                               :json_property => 'related_agents',
-                               :contains_references_to_types => proc {AgentManager.registered_agents.map {|a| a[:model]}})
+    callback = proc { |clz|
+
+      clz.instance_eval do
+        extend JSONModel
+        one_to_one :relationship_date, :class => "ASDate", :key => :related_agents_rlshp_id
+
+        def self.create(values)
+          date_values = values.delete('dates')
+          obj = super
+
+          if date_values
+            date = ASDate.create_from_json(JSONModel(:date).from_hash(date_values))
+            obj.relationship_date = date
+            obj.save
+          end
+
+          obj
+        end
+
+
+        alias_method :delete_orig, :delete
+        define_method(:delete) do
+          relationship_date.delete if relationship_date
+          delete_orig
+        end
+
+
+        alias_method :values_orig, :values
+        define_method(:values) do
+          result = values_orig
+
+          if self.relationship_date
+            result['dates'] = ASDate.to_jsonmodel(self.relationship_date).to_hash
+          end
+
+          result
+        end
+      end
+
+    }
+
+
+    base.define_relationship(:name => :related_agents,
+                             :json_property => 'related_agents',
+                             :contains_references_to_types => proc {
+                               AgentManager.registered_agents.map {|a| a[:model]}
+                             },
+                             :class_callback => callback)
 
     base.extend(ClassMethods)
   end

@@ -3,6 +3,7 @@
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
     "subtype" => "ref",
+    "parent" => "abstract_agent_relationship",
     "properties" => {
       "relator" => {
         "type" => "string",

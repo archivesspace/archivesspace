@@ -17,12 +17,16 @@
 
   <<%= heading_size %> class="subrecord-form-heading">
     <%= I18n.t("#{singular}._html.plural") %>
-    <%= link_to_help :topic => help_topic %>
-    <% if custom_action_template %>
-      <%= render :partial => custom_action_template %>
-    <% else %>
-      <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._html.singular") %>"/>
+
+    <% if !form.readonly? %>
+     <%= link_to_help :topic => help_topic %>
+     <% if custom_action_template %>
+       <%= render :partial => custom_action_template %>
+     <% else %>
+       <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._html.singular") %>"/>
+     <% end %>
     <% end %>
+
   </<%= heading_size %>>
 
   <div class="subrecord-form-container">

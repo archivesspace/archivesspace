@@ -2,6 +2,7 @@
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
     "type" => "object",
+    "parent" => "abstract_agent_relationship",
     "subtype" => "ref",
     "properties" => {
       "relator" => {

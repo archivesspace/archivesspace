@@ -27,7 +27,7 @@
     </div>
   </h3>
 
-  <div class="subrecord-form-container">
+  <div id="related-agents-container" class="subrecord-form-container">
     <%= form.list_for(form["related_agents"], "related_agents[]") do |related_agent| %>
       <% form.emit_template(related_agent["jsonmodel_type"]) %>
     <% end %>
