@@ -3,6 +3,7 @@
 <head>
   <title><%= I18n.t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= favicon_link_tag %>
   <%= include_theme_css %>
   <%= csrf_meta_tags %>
   <script>
