@@ -1,0 +1,4542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ead PUBLIC "+//ISBN 1-931666-00-8//DTD ead.dtd (Encoded Archival Description (EAD) Version 2002)//EN" "http://dlib.nyu.edu/findingaids/dtd/ead/ead.dtd">
+<ead relatedencoding="MARC21">
+<eadheader langencoding="iso639-2b" repositoryencoding="iso15511" countryencoding="iso3166-1"  dateencoding="iso8601" findaidstatus="unverified-full-draft" audience="internal" id="a0">
+<eadid countrycode="us" mainagencycode="yourcodehere" identifier="youridentifierhere">voorhis</eadid>
+<filedesc>
+<titlestmt>
+<titleproper encodinganalog="24500$a">Guide to the Vice President and Secretary Administrative Records <lb/>
+<date>1925-1965 </date>
+<lb/>
+<num>RG 4.0.1 </num>
+</titleproper>
+<subtitle>Papers of Harold Oliver Voorhis</subtitle>
+<author encodinganalog="24500$c">Processed by Joe Glancey Jr. and Courtney A. Smith. </author>
+</titlestmt>
+<editionstmt>
+<p>This version was derived from five finding aids which described each series of this collection. </p>
+</editionstmt>
+<publicationstmt>
+<address>
+<addressline>New York University Archives<lb/>
+</addressline>
+<addressline>Elmer Holmes Bobst Library<lb/>
+</addressline>
+<addressline>70 Washington Square South<lb/>
+</addressline>
+<addressline>New York, NY 10012<lb/>
+<lb/>
+</addressline>
+<addressline>Phone: (212) 998-2646<lb/>
+</addressline>
+<addressline>Fax: (212) 995-4070<lb/>
+</addressline>
+<addressline>E-mail: university.archives@library.nyu.edu<lb/>
+</addressline>
+</address>
+<p>©  <date encodinganalog="260  $c" normal="2004"> 2004 </date> <address>
+<addressline>New York University Archives</addressline>
+</address>. All rights reserved. </p>
+<publisher encodinganalog="260  $b">New York University Libraries, Publisher</publisher>
+</publicationstmt>
+</filedesc>
+<profiledesc>
+<creation encodinganalog="500">Machine-readable finding aid derived from a Word processed document  dated: <date normal="1992">1992</date>. Machine-readable finding aid created by Brian Stevens. </creation>
+<langusage>Description is in <language encodinganalog="546" langcode="eng">English</language>. </langusage>
+</profiledesc>
+</eadheader>
+<archdesc level="collection" type="inventory">
+<did id="a1">
+<head>Descriptive Summary</head>
+<unittitle label="Title" encodinganalog="24500$a">Records<unitdate normal="1925/1965" encodinganalog="youranaloghere">1925-1965</unitdate>
+</unittitle>
+<unitid label="Accession number" countrycode="us" encodinganalog="852  $l" repositorycode="NNU">RG 4.0.1</unitid>
+<langmaterial>
+<language langcode="eng">
+</language>
+</langmaterial>
+<physdesc label="Quantity" encodinganalog="300  $a">19 linear feet </physdesc>
+<repository label="Repository" encodinganalog="852">
+<corpname>New York University</corpname>
+<address>
+<addressline>
+</addressline>
+</address>
+</repository>
+<origination label="Creator" encodinganalog="110">
+<corpname>New York University. Office of Vice President and Secretary.</corpname>
+</origination>
+<physloc audience="internal" encodinganalog="852  $z">New York University Archives</physloc>
+<abstract label="Abstract" encodinganalog="520  $a">The primary function of the Secretary was to assist the Chancellor in the discharge of his duties.  The Secretary conducted correspondence relating to the University, and prepared and maintained the University Council's  minutes, documentary materials, records, and correspondence.  In addition, the Secretary oversaw faculty personnel records, and supervised the publication of annual reports.  These records were mainly accumulated by the Vice President and Secretary's Office during the tenure of Harold Voorhis(1925-1945).</abstract>
+</did>
+<custodhist id="a16" encodinganalog="561  $a">
+<head>Provenance</head>
+<p>The records of the Office of Vice President and Secretary during the Voorhis administration were transferred from the Secretary's Office to the New York University Archives in March 1975 by Dr. E. Frederic Knauth. They were previously stored in Vanderbilt Hall, 40 Washington Square South, where the offices of central administration were located before moving to the Elmer Holmes Bobst Library in  1973. The records consist primarily of administrative correspondence and subject files from the Secretary's office, 1925-1963, with the bulk of the files created during the 1940s and 1950s. They were processed during the academic year 1982/83 by several students of the Archival Training Program at NYU, including: Emery E. Adoradio, Susan Meier, John P. Sokolowski, Gloria J. Walters, and T. Michael Womack. The final arrangement of the records and the construction of this Inventory, based upon preliminary work of the Archives Program students, was performed during the Summer of 1985 by Angela Chin and Elizabeth Liu of the University Archives staff.</p>
+</custodhist>
+<accessrestrict id="a14" encodinganalog="506  $a">
+<head>Access Restrictions</head>
+<p>Open for research without restrictions.</p>
+</accessrestrict>
+<userestrict id="a15" encodinganalog="540  $a">
+<head>Use Restrictions</head>
+<p>Permission to publish materials must be obtained in writing from the:<lb/>
+<address>
+<addressline>New York University Archives<lb/>
+</addressline>
+<addressline>Elmer Holmes Bobst Library<lb/>
+</addressline>
+<addressline>70 Washington Square South<lb/>
+</addressline>
+<addressline>New York, NY 10012<lb/>
+</addressline>
+<addressline>Phone: (212) 998-2646<lb/>
+</addressline>
+<addressline>Fax: (212) 995-4070<lb/>
+</addressline>
+<addressline>E-mail: university.archives@library.nyu.edu<lb/>
+</addressline>
+</address>
+</p>
+</userestrict>
+<prefercite id="a18" encodinganalog="524  $a">
+<head>Preferred Citation</head>
+<p>Published citations should take the following form:<lb/>
+<lb/>Identification of item, date (if known); The Vice President and Secretary Administrative Records; RG 4.0.1; box number; folder number;<lb/> <address>
+<addressline>New York University Archives<lb/>
+</addressline>
+<addressline>Elmer Holmes Bobst Library<lb/>
+</addressline>
+<addressline>70 Washington Square South<lb/>
+</addressline>
+<addressline>New York, NY 10012</addressline>
+</address>, New York University Libraries.</p>
+</prefercite>
+<bioghist id="a2" encodinganalog="545  $a">
+<head>Historical/Biographical Note</head>
+<p>The Office of Vice President and Secretary was first created as the Office of the Secretary of the University in 1925.  The Secretary was appointed by the Council, upon recommendation of the Chancellor, and served as the general executive assistant to the Chancellor.  The Office of Secretary became central to the administration of New York University.</p>
+<p>The primary function of the Secretary was to assist the Chancellor in the discharge of his duties.  The responsibilities delineated in 1925 included: conducting correspondence with individuals and institutions relating to the University at large; coordinating the work of secretaries of the several schools and divisions; preparing and maintaining minutes, documentary materials, records, and conducting correspondence of the Council and its committees.  The Secretary affixed the University seal, issued diplomas, certificates and maintained records of these.  He maintained personnel records of the faculty, published the University bibliography, supervised the publication of annual reports, and performed other administrative duties assigned by the Chancellor.</p>
+<p>The responsibilities of the Secretary increased in volume as the University grew and diversified. In recognition of the importance of the Secretary, the administrative title of the office was changed on July 1, 1945 to Vice Chancellor and Secretary in accordance with the duties assigned to the office by Chancellor Harry Woodburn Chase and the University Council. The title was changed again in 1955 to Vice President and Secretary as a result of a general administrative reorganization under President Henry T. Heald. Several assistant positions to the Secretary were created in 1956. The responsibilities of the Secretary increased in volume and complexity as the University grew and diversified.</p>
+<p>Part of the collection deals with the New York University and its activities during the Korean conflict. New York University fell into line with war preparations and strove to define its wartime needs through groups like the American Council on Education, the Department of Higher Education, the Association of American Colleges, the National Education Association, and the Association of American Universities. When the Korean conflict began, colleges and universities around the country joined forces to protect themselves, their students, and their faculty from being overwhelmed  by the military effort. During World War II, educational institutions had suffered from a decline in students. Chancellor Chase at New York University wrote in his report of the 1949-50 school year, that "clearly the most careful planning is imperative if we are to maintain our institutional stability. Declining registration means decreased revenue, and lower revenue presents a serious threat to the scope and quality of our services."  In accordance with the Selective Service Act of 1948, young men were drafted into the various branches as needed. The universities wanted limitations and guidelines to be set whereby students and faculty could be deferred from service when it was shown that they would better serve their country by remaining in the field of education. On March 31, 1951 a student deferment policy was finally, formally put into effect. Students were able to be deferred if they scored high on a nationally administered scholastic aptitude test, or if they were ranked in the upper part of their class.  Universities were also able to request deferments for faculty members. To do so, it was necessary to prove that the individual was of sufficient importance to the University to warrant a deferment. New York University made requests on behalf of some of their faculty. They did so by writing out requests to the local selective service boards.</p><p> The military's dilemma over how manpower should be supplied was dealt with in part by expanding their Reserve Officers Training Corps (ROTC) at colleges around the nation. A ROTC program had first been established at the University Heights campus of NYU in 1919. In the 1951-52 school year, for the first time, the Air Force branch of ROTC offered a program at the Washington Square campus of NYU. The quota for the first year of basic training was 1,100 men. </p>
+<p>Civilian institutions provided may services during war times. In a letter found in the collection to Frederick W. Nichol, from the NYU chancellor, dated December 21, 1950 (Box 1, Folder 7) the position that NYU had during previous wars was outlined. NYU was responsible for providing training for men in uniform in many fields. They also trained both men and women for jobs in the war industry. In addition, NYU was involved with a variety of government contracts. In 1949, NYU filled out a Navy questionnaire, that was aimed to discern what sort of facilities the University had in case they were needed in the event of a national emergency. NYU, in effect, took an inventory of its facilities, and its staff. </p>
+<p>The 1950 school year saw contracts for some 150 sponsored research projects, with an estimated cost of research at about 3 million dollars. Of this research, the major emphasis was placed upon projects relevant to military needs. </p>
+<p>Harold Oliver Voorhis (1896-1985) served as the first Secretary of New York University. Born on July 29, 1896 in Kokomo, Indiana, Voorhis received his B.S. Degree from Colgate University in 1919. In 1920 he studied at Columbia University Law School and in 1922 earned an M.A. degree in Economics from New York University. In 1945 he was awarded an honorary LL.D from Colgate University.</p>
+<p>From 1914 to 1915 Voorhis worked as a surveyor's assistant in Saskatchewan Canada. From 1916 to 1919 he acted as the secretary to the President of Colgate University and as secretary to the Chautauqua Institution in 1919. In 1920 Voorhis moved to New York City and took a position as secretary to the Vice President of the National Bank of Commerce. Voorhis began his administrative career at New York University as executive secretary to Chancellor Elmer Ellsworth Brown. Voorhis also taught economics at NYU during this time period. </p> <p>During Voorhis' tenure the Secretary served as the Chancellor's principal assistant. Under the leadership of five presidents, Elmer Ellsworth Brown (1911-1933), Harry Woodburn Chase (1933-51), James Loomis Madden (acting Chancellor from 1951-1952), Henry Townley Heald (1952-1956), Carroll Vincent Newsom (1956-1962), and James McNaughton Hester (1962-1975).</p>
+<p>New York University grew tremendously during this time period and the scope of responsibilities of the office of the Secretary reflected this growth. In 1945 Voorhis became the Vice Chancellor and Secretary under Chancellor Harry Woodburn Chase. In 1955 he was named Vice President and Secretary during Henry T. Heald's presidency. Over time the office supervised a wide array of functions including the administration of: Clerk of the Council/Trustees; Secretary of the Senate; Public Ceremonies; Annual; Commence; Bureau of Public Information; Student Services; Housing; Student Activities Office; University Publicity and Advertising Accreditation Regulation; University Directory; Annual Bibliography; Faculty Handbook, Public Occasions Hall of Fame; University Medal; Seal; Charter Oaths of Allegiance; Scholarship Resources; New York University Press; ROTC and the New York University Art Collection. </p>
+<p>Voorhis retired in 1962 after 42 years of service to New York University. </p>
+<p> Sources: </p>
+<p>
+<list>
+<item>"Voorhis Retires," <title render="italic">Washington Square Journal</title>, December 1961, Vol. 7, No. 35.</item>
+<item>Still, Bayrd, "Evolution of Organization of General Administrative Offices, 1880-1978," (1978). New York University Archives.</item>
+<item><title render="italic">New York University</title>, "Self-Study-Final Report." New York : New York University Press, 1956.</item>
+<item><title render="italic">Annual Reports of the Vice President and Secretary, 1951-1967</title>. New York University Archives.</item>
+<item>Charters and By-Laws of Mew York University, 1925, 1928, 1937, 1951,   1956,   1958,   1960,   1968. New York University Archives.</item>
+<item>Newsom, Carroll, "Speech in Honor of H. O. Voorhis," December 12, 1961. Bureau of Public Occasions Records (RG 4.2). New York University Archives.</item>
+<item><title render="italic">Office of the President. Records, 1951-196</title>5 (RG 3.0.6). New York University Archives.</item>
+<item><title render="italic">Reports of the Chancellor, 1944-1948</title>. New York University Archives.</item>
+</list>
+</p>
+</bioghist>
+<scopecontent id="a3" encodinganalog="520  $b">
+<head>Scope and Content Note</head>
+<p>The records of the Office of Vice President and Secretary, 1925-1963, reflect Harold Oliver Voorhis' tenure as Secretary (1925-1945), Vice Chancellor and Secretary (1945-1956), and Vice President and Secretary (1956-1962). The materials consist of correspondence, memoranda, committee minutes, reports, printed material, charts, blueprints, petitions, press releases, speeches and photographs. The records reflect the growth, diversity, and complexity of New York University, the development of higher education as a whole, and the reactions and adjustments of a major, private urban university to the changing social concerns during these several decades. They provide information concerning New York University's response to the Depression, World War II and the post-war years, the McCarthy Era, student activism, and many other social, political, economic, and academic issues. Correspondents include: Philip Badger, James Gordon Bennett, Elmer Ellsworth Brown, Marshall Stewart Brown, Harry Woodburn Chase, Walter Wheeler Cook, Frank L. Howley, Theodore Francis Jones, LeRoy Elwood Kimball, Otto Nathan, William Francklyn Paris, Rufus Daniel Smith,  and Leslie Jay Tompkins.</p>
+<p><emph render="bold">Series I:  Administrative Correspondence and Subject Files</emph></p>
+<p>The administrative correspondence and subject files of the Office of Vice President and Secretary are arranged in one alphabetical subject series filed according to name or primary subject heading. The bulk of the records consist of letters written by Voorhis or a member of his staff on behalf of the Chancellor or President. The administrative functions and offices documented in these files include; Alumni Relations; Councils and Committees; Faculty; Schools/ Colleges and Divisions; Student Affairs and Activities; Physical Facilities; World War II and Post-War Activities; Individuals and Non-University Organizations.</p>
+<p>Of particular interest are files relating to Otto Nathan, an instructor of Economics Nathan was a Jewish refugee scholar who fled Germany with the rise of Nazism. Friend and confidant of Albert Einstein, Nathan was suspected of being a Communist Files on Thomas Wolfe who served as an instructor in English in Washington Square College, 1924-1930. Materials in this series also document "Racial and Religious Statistics, 1941-1953," containing statistical data relevant to the ethnic and religious composition of the Washington Square campus. The series also contains materials related to the New York City Slum Clearance Project, chaired by Robert Moses. This project provoked considerable opposition from members of the Greenwich Village community.</p>
+<p><emph render="bold">Series II: Questionnaires and Faculty Statistics</emph></p>
+<p>The series contains questionnaires, University and Faculty Statistics and associated correspondence. The Questionnaires range from 1939-1965 inclusive and Faculty Statistics range from 1934-1945 and 1949-1957. Questionnaires were submitted to Secretary Voorhis's office by the Federal and State Governments' Offices of Education and by private firms and other universities for publication. Statistics recorded include: positions of faculty and administration, volumes in the library, gender, the average salaries by department and rank and detailed data on physical plant space usage and facilities. </p>
+<p><emph render="bold">Series III: Law Center Campaign</emph> </p>
+<p>The Series contains minutes, reports, financial statements, correspondence, petitions, press releases, speeches, photographs, printed material and memorabilia concerning the Law Center Foundation and Campaign (1944-1951).</p>
+<p><emph render="bold">Series IV: Medical Center Campaign</emph></p>
+<p>This series consists of 2.25 feet of material pertaining to the New York University Bellevue Medical Center Campaign. The bulk of the collection was created during the years 1947-1948.</p>
+<p><emph render="bold">Series V: Korean War Materials</emph></p>
+<p>This series focuses on federal policies on higher education as they related to war readiness, and national defense preparations and documenting federal policies that effected institutions of higher education. </p>
+</scopecontent>
+<arrangement id="a5" encodinganalog="351  $b">
+<head>Arrangement</head>
+<p>Folders are arranged chronologically.</p>
+<p>The files are grouped into 5 series:</p>
+<list>
+<item>I, Administrative Correspondence and Subject Files</item>
+<item>II, Questionnaires and Faculty Statistics</item>
+<item>III, Law Center Campaign</item>
+<item>IV, Medical Center Campaign</item>
+<item>V, Korean War Materials</item>
+</list>
+</arrangement>
+<controlaccess id="a12">
+<head>Access Points</head>
+<controlaccess>
+<head>Subject Names:</head>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Badger, Philip.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Bennett, James Gordon, 1841-1918.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Brown, Elmer Ellsworth, 1861-1934.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Brown, Marshall Stewart, 1870-1948.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Chase, Harry Woodburn, 1883-1955.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Cook, Walter Wheeler, 1873-1943.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Howley, Frank L 1903-  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Jones, Theodore Francis, 1885-  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Kimball, Leroy Ellwood, 1888-1962.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Nathan, Otto, 1893-  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Paris, William Francklyn, 1871-1954.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Smith, Rufus Daniel, 1884-1953.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Tompkins, Leslie J. (Leslie Jay), b. 1867.  </persname>
+<persname source="lcsh" encodinganalog="600 10$a" role="subject">Voorhis, Harold O.  </persname>
+</controlaccess>
+<controlaccess>
+<head>Subject Organizations:</head>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">United States. Army. Reserve Officers' Training Corps.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">Alumni Federation of New York University, Inc.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">American Pioneer Trails Association.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">Bellevue Hospital Medical College.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">College Entrance Examination Board.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">Gallery of Living Art.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University Press.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University --Administration.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University --Buildings.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University --Faculty.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University --Funds and scholarships.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University --History --20th century.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University --Students.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Board of Athletic Control.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Bureau of Public Information.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Center for Human Relations.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. College of Arts and Science.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. College of Dentistry.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. College of Engineering.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. College of Fine Arts.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. College of Medicine.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Commission on Graduate Work.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Committee on Labor Relations.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Division of Athletics and Physical Training.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Division of General Education.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Faculty Club.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Graduate School of Arts and Sciences.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Graduate School of Public Administration.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Hall of Fame for Great Americans.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Institute of Comparative Law.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Institute of Fine Arts.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">Loeb Student Center.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Office of the President.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. Office of the Vice President and Secretary.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. School of Commerce, Accounts, and Finance.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. School of Education.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">New York University. School of Law.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">Sailors' Snug Harbor (Institution).  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">Town Hall, Inc.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">University of the State of New York.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">Washington Square College.  </corpname>
+<corpname source="lcnaf" encodinganalog="610 20$a" role="subject">Young Men's Christian Association of the City of New York. Intercollegiate Branch. </corpname>
+</controlaccess>
+<controlaccess>
+<head>Subject Topics:</head>
+<subject source="lcsh" encodinganalog="650  $a">Universities and Colleges--Administration.</subject>
+<subject source="lcsh" encodinganalog="650  $a">Korean War, 1950-1953.</subject>
+</controlaccess>
+<controlaccess>
+<head>Document Types:</head>
+<genreform source="aat" encodinganalog="655 7$a">Correspondence.  </genreform>
+<genreform source="aat" encodinganalog="655 7$a">Financial records.  </genreform>
+<genreform source="aat" encodinganalog="655 7$a">Questionnaires. </genreform>
+</controlaccess>
+<controlaccess>
+<head>Other Names:</head>
+<name source="lcsh" encodinganalog="720  $a">Voorhis, Harold O. </name>
+</controlaccess>
+</controlaccess>
+<dsc id="a23" type="combined">
+<head>Container List</head>
+<p>[The following section contains a detailed listing of the materials in the collection.]</p> <c01 level="series">
+<did>
+<unittitle>Series I: Administrative Correspondence and Subject Files Container List</unittitle>
+</did>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">1</container>
+<unittitle>Aa - Az Miscellaneous,</unittitle>
+<unitdate normal="1935/1954" type="inclusive">1935-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">2</container>
+<unittitle>Abilities Survey,</unittitle>
+<unitdate normal="1935/1955" type="inclusive">ca.1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">3</container>
+<unittitle>Admissions, Office of,</unittitle>
+<unitdate normal="1935">1935</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">4</container>
+<unittitle>Albert Gallatin Associates,</unittitle>
+<unitdate normal="1956">1956</unitdate>
+<unitdate normal="1958">, 1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">5</container>
+<unittitle>Allenby, Viscount (Field Marshal) reception</unittitle>
+<unitdate normal="1928">1928</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">6-7</container>
+<unittitle>Alumni Federation,</unittitle>
+<unitdate normal="1928/1959" type="inclusive">1928-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">8</container>
+<unittitle>Alumni Gymnasium,</unittitle>
+<unitdate normal="1945/1952" type="inclusive">1945-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">9</container>
+<unittitle>Alumnus (Publication),</unittitle>
+<unitdate normal="1932">1932</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">10</container>
+<unittitle>American Association of University Women,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">11</container>
+<unittitle>American .Committee for a Free and United Europe,</unittitle>
+<unitdate normal="1945/1946" type="inclusive">1945-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">12</container>
+<unittitle>American Pioneer Trails Association,</unittitle>
+<unitdate normal="1937/1944" type="inclusive">1937-1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">13</container>
+<unittitle>American Society of Civil Engineers,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">14</container>
+<unittitle>Andrews, John N.,</unittitle>
+<unitdate normal="1941/1954" type="inclusive">1941-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">15</container>
+<unittitle>Annual Report,</unittitle>
+<unitdate normal="1947/1949" type="inclusive">1947-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">16</container>
+<unittitle>Architecture and Allied Arts, School of,</unittitle>
+<unitdate normal="1934/1956" type="inclusive">1934-1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">17</container>
+<unittitle>Armsey, James W. (Asst. to Chancellor for Public Relations),</unittitle>
+<unitdate normal="1952/1956" type="inclusive">1952-1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">18</container>
+<unittitle>Arnsdorf, Henry Gustav (Registrar),</unittitle>
+<unitdate normal="1926/1941" type="inclusive">1926-1941</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">19</container>
+<unittitle>Asia Institute,</unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">20</container>
+<unittitle>Association of American Colleges,</unittitle>
+<unitdate normal="1938">1938</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">21</container>
+<unittitle>Association of American Medical Colleges,</unittitle>
+<unitdate normal="1938">1938</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">1</container>
+<unittitle>Athletic Scholarship Program and Fees,</unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">2</container>
+<unittitle>Athletics, Director of,</unittitle>
+<unitdate normal="1926">1926</unitdate>
+<unitdate normal="1951">, 1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">3</container>
+<unittitle>Athletics and Physical Training, Division of,</unittitle>
+<unitdate normal="1952/1961" type="inclusive">1952-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">4</container>
+<unittitle>Axworthy, H. Harold (Director, Bureau of Community Service and Research),</unittitle>
+<unitdate normal="1936/1937" type="inclusive">1936-1937</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">5</container>
+<unittitle>Ba - Bz Miscellaneous,</unittitle>
+<unitdate normal="1926/1961" type="inclusive">1926-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">6</container>
+<unittitle>Badger, Philip 0. (Professor, School of Commerce),</unittitle>
+<unitdate normal="1925/1965" type="inclusive">undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">7</container>
+<unittitle>Baer, William B. (Dean, University College),</unittitle>
+<unitdate normal="1951/1958" type="inclusive">1951-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">8</container>
+<unittitle>Barr, Jean B. (Supervisor of Printing),</unittitle>
+<unitdate normal="1926/1953" type="inclusive">1926-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">9</container>
+<unittitle>Beekman-Downtown Hospital,</unittitle>
+<unitdate normal="1959">1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">10</container>
+<unittitle>Bellevue School of Nursing,</unittitle>
+<unitdate normal="1942/1958" type="inclusive">1942-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">11-12</container>
+<unittitle>Bennett, James Gordon:  Herald Tribune
+Clock (Minerva and the Bell Ringers),</unittitle>
+<unitdate normal="1935/1948" type="inclusive">1935-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">13</container>
+<unittitle>Bernard, L- L.,</unittitle>
+<unitdate normal="1929">1929-</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">14</container>
+<unittitle>Bernstein, Felix (Professor of Biometrics, German refugee scholar),</unittitle>
+<unitdate normal="1943/1955" type="inclusive">1943-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">1</container>
+<unittitle>Better America Federation of California,</unittitle>
+<unitdate normal="1930">1930</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">2</container>
+<unittitle>Bibliography,</unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">3-6</container>
+<unittitle>Bibliography Procedure,</unittitle>
+<unitdate normal="1943/1946" type="inclusive">1943-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">7</container>
+<unittitle>Biblioteca Belgica,</unittitle>
+<unitdate normal="1938">1938</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">8</container>
+<unittitle>Board of Athletic Control: Correspondence,</unittitle>
+<unitdate normal="1949/1950" type="inclusive">1949-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">9</container>
+<unittitle>Board of Athletic Control: Football Correspondence,</unittitle>
+<unitdate normal="1949/1950" type="inclusive">1949-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">10</container>
+<unittitle>Board of Athletic Control: James Gilloon, Appointment of,</unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">11</container>
+<unittitle>Board of Athletic Control: Special Athletic Survey Committee,</unittitle>
+<unitdate normal="1949/1950" type="inclusive">1949-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">12</container>
+<unittitle>Board of Control of All University Non-Athletic Activities,</unittitle>
+<unitdate normal="1948/1949" type="inclusive">1948-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">13</container>
+<unittitle>Bossange, E. Raymond (Dean/ School of Architecture and Allied Arts),</unittitle>
+<unitdate normal="1928/1940" type="inclusive">1928-1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">14</container>
+<unittitle>Brazilian Institute,</unittitle>
+<unitdate normal="1958">1958</unitdate>
+<unitdate normal="1961">, 1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">15</container>
+<unittitle>Bronner, Finn J. (Professor of Dentistry),</unittitle>
+<unitdate normal="1953">1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">16</container>
+<unittitle>Brown, Carleton (Professor of English),</unittitle>
+<unitdate normal="1940">1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">17</container>
+<unittitle>Brown, Elmer Ellsworth (Chancellor of NYU): A Tribute to: Correspondence and Manuscript,</unittitle>
+<unitdate normal="1943/1944" type="inclusive">1943-1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">18</container>
+<unittitle>Brown, Elmer Ellsworth, A Tribute to: Recipient's List,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+<unitdate normal="1954">, 1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">19</container>
+<unittitle>Brown, Marshall S. (Dean of Faculties),</unittitle>
+<unitdate normal="1927/1933" type="inclusive">1927-1933</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">1</container>
+<unittitle>Bureau of Public Information,</unittitle>
+<unitdate normal="1930/1945" type="inclusive">1930-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">2</container>
+<unittitle>Bureau of Public Occasions,</unittitle>
+<unitdate normal="1954">1954</unitdate>
+<unitdate normal="1925/1965" type="inclusive">, undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">3</container>
+<unittitle>Ca - Cz Miscellaneous,</unittitle>
+<unitdate normal="1929/1957" type="inclusive">1929-1957</unitdate>
+<unitdate normal="1925/1965" type="inclusive">, undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">4</container>
+<unittitle>Campus Stores,</unittitle>
+<unitdate normal="1951/1961" type="inclusive">1951-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">5</container>
+<unittitle>Carnegie Corporation,</unittitle>
+<unitdate normal="1934/1935" type="inclusive">1934-1935</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">6</container>
+<unittitle>Centennial Celebration, Committee on,</unittitle>
+<unitdate normal="1928/1931" type="inclusive">1928-1931</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">7</container>
+<unittitle>Center for Human Relations,</unittitle>
+<unitdate normal="1949/1955" type="inclusive">1949-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">8</container>
+<unittitle>Center for International Affairs and</unittitle>
+<unitdate normal="1960/1961" type="inclusive">1960-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">
+</container>
+<unittitle>Development,</unittitle>
+<unitdate normal="1925/1965" type="inclusive">undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">9-10</container>
+<unittitle>Chase, Harry Woodburn (Chancellor): Correspondence,</unittitle>
+<unitdate normal="1935/1957" type="inclusive">1935-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">11</container>
+<unittitle>Chase, Harry Woodburn (Chancellor): Biographical Material,</unittitle>
+<unitdate normal="1957/1960" type="inclusive">1957-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">12</container>
+<unittitle>Chase, Harry Woodburn (Chancellor): Committee on Nomination to Succeed,</unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">13</container>
+<unittitle>Chase, Harry Woodburn (Chancellor): Testimonial Dinner,</unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">14</container>
+<unittitle>Clinical Psychology, Graduate Program, College Entrance Examination Board:</unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">15</container>
+<unittitle>General Correspondence,</unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">1-3</container>
+<unittitle>College Entrance Examination Board: Minutes</unittitle>
+<unitdate normal="1946/1952" type="inclusive">1946-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">4</container>
+<unittitle>Commerce, Accounts, and Finance, School of,     </unittitle>
+<unitdate normal="1940/1955" type="inclusive">1940-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">5</container>
+<container type="folder">5-9</container>
+<unittitle>Commission on Graduate Work</unittitle>
+<unitdate normal="1928/13302" type="inclusive">1928-Jun-36</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">1-8</container>
+<unittitle>Commission on Graduate Work</unittitle>
+<unitdate normal="1936-10/1955" type="inclusive">Oct 1936-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">9</container>
+<unittitle>Commission on Graduate Work: Certificates,</unittitle>
+<unitdate normal="1949/1954" type="inclusive">1949-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">1</container>
+<unittitle>Committee on Plans and Operations at Washington Square,</unittitle>
+<unitdate normal="1928">1928</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">2</container>
+<unittitle>Committee on Research,</unittitle>
+<unitdate normal="1928/1929" type="inclusive">1928-1929</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">3</container>
+<unittitle>Committee on University Commons at Washington Square,</unittitle>
+<unitdate normal="1948/1951" type="inclusive">1948-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">4</container>
+<unittitle>Committee on University Publications, </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">5</container>
+<unittitle>Communication Arts Group, </unittitle>
+<unitdate normal="1954/1956" type="inclusive">1954-1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">6</container>
+<unittitle>Communications, School of: Proposal for, </unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">7</container>
+<unittitle>Community Lecture Service,</unittitle>
+<unitdate normal="1939/1940" type="inclusive">1939-1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">8</container>
+<unittitle>Cook, Walter W.S. (Director, Institute of Fine Arts),</unittitle>
+<unitdate normal="1927/1956" type="inclusive">1927-1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">9</container>
+<unittitle>Cooperative For American Remittances to Europe, -Inc. (C.A.R.E. ),</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">10</container>
+<unittitle>Cossart, Mollie,</unittitle>
+<unitdate normal="1947">1947</unitdate>
+<unitdate normal="1957">, 1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">11</container>
+<unittitle>Coudenhove - Kalergi, Count Richard N.,</unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">12</container>
+<unittitle>Council for Aid to the Visually Handicapped,</unittitle>
+<unitdate normal="1956">1956</unitdate>
+<unitdate normal="1957">, 1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">13</container>
+<unittitle>Creative Arts Center, Plans of,</unittitle>
+<unitdate normal="1959">1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">14</container>
+<unittitle>Da - Dz Miscellaneous,</unittitle>
+<unitdate normal="1927/1951" type="inclusive">1927-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">15</container>
+<unittitle>Dean of Women,</unittitle>
+<unitdate normal="1926/1927" type="inclusive">1926-1927</unitdate>
+<unitdate normal="1950">, 1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">16</container>
+<unittitle>Deans, Report of the,</unittitle>
+<unitdate normal="1928">1928</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">17</container>
+<unittitle>Dentistry, College of,</unittitle>
+<unitdate normal="1927/1957" type="inclusive">1927-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">18</container>
+<unittitle>Denistry, College of: Deanship: American Dental Association, </unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">19</container>
+<unittitle>Denistry, College of: Deanship: General Correspondence, </unittitle>
+<unitdate normal="1944/1946" type="inclusive">1944-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">20</container>
+<unittitle>Denistry, College of: Deanship: General Correspondence regarding Prospects,</unittitle>
+<unitdate normal="1944/1945" type="inclusive">1944-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">8</container>
+<container type="folder">1</container>
+<unittitle>Dentistry/ College of: Deanship (cont.): General Correspondence regarding Prospects,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">8</container>
+<container type="folder">2</container>
+<unittitle>Dentistry/ College of: Deanship: Suggestions for Deanships,</unittitle>
+<unitdate normal="1942">1942</unitdate>
+<unitdate normal="1944/1946" type="inclusive">, 1944-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">8</container>
+<container type="folder">3</container>
+<unittitle>Dentistry/ College of: Deanship: Wright, Walter H.,</unittitle>
+<unitdate normal="1942/1943" type="inclusive">1942-1943</unitdate>
+<unitdate normal="1946">, 1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">8</container>
+<container type="folder">4</container>
+<unittitle>Dentistry, College of: Religious and Racial Issue,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">8</container>
+<container type="folder">5</container>
+<unittitle>Discrimination: Allied discrimination in colleges and universities,</unittitle>
+<unitdate normal="1945/1946" type="inclusive">1945-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">8</container>
+<container type="folder">6</container>
+<unittitle>Discrimination in Admissions (N.Y. State), Division of General Education,</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">8</container>
+<container type="folder">7</container>
+<unittitle>Division of General Education,</unittitle>
+<unitdate normal="1926/1960" type="inclusive">1926-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">1</container>
+<unittitle>Ea - Ez Miscellaneous,</unittitle>
+<unitdate normal="1935/1936" type="inclusive">1935-1936</unitdate>
+<unitdate normal="1925/1965" type="inclusive">, undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">2</container>
+<unittitle>Education, School of: Correspondence,</unittitle>
+<unitdate normal="1933/1961" type="inclusive">1933-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">3</container>
+<unittitle>Education, School of: Printed material,</unittitle>
+<unitdate normal="1937/1961" type="inclusive">1937-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">4</container>
+<unittitle>Education, School of: Negotiations with Outdoor Education Inc.,</unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">5</container>
+<unittitle>Education for Defence (Bulletin),</unittitle>
+<unitdate normal="1941/1942" type="inclusive">1941-1942</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">6</container>
+<unittitle>Educational Services, Office of:  Ray F. Harvey (Director),</unittitle>
+<unitdate normal="1958/1959" type="inclusive">1958-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">7</container>
+<unittitle>Educational Television: Reports and Bulletins, </unittitle>
+<unitdate normal="1946/1954" type="inclusive">1946-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">8</container>
+<unittitle>Educational Television: Printed Material, </unittitle>
+<unitdate normal="1953">1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">9</container>
+<unittitle>Employee Remission, </unittitle>
+<unitdate normal="1946/1953" type="inclusive">1946-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">10</container>
+<unittitle>Employment, Bureau of, </unittitle>
+<unitdate normal="1942/1952" type="inclusive">1942-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">11</container>
+<unittitle>Encyclopedia Americana, </unittitle>
+<unitdate normal="1957">1957</unitdate>
+<unitdate normal="1959">, 1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">12</container>
+<unittitle>Engineering, College of, </unittitle>
+<unitdate normal="1933/1958" type="inclusive">1933-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">13</container>
+<unittitle>Engineering, College of: Correspondence and Printed Material,</unittitle>
+<unitdate normal="1935/1964" type="inclusive">1935-1964</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">9</container>
+<container type="folder">14</container>
+<unittitle>Engineering, College of: Proposal to organize an Institute of Technology,</unittitle>
+<unitdate normal="1946/1951" type="inclusive">1946-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">1</container>
+<unittitle>Exploratory Committee on Financing Higher Education and Research/</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">2</container>
+<unittitle>Fa - Fz Miscellaneous</unittitle>
+<unitdate normal="1930/1957" type="inclusive">1930-1957</unitdate>
+<unitdate normal="undated ">, undated </unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">3</container>
+<unittitle>Faculty, Miscellaneous,</unittitle>
+<unitdate normal="1940/1960" type="inclusive">1940-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">4</container>
+<unittitle>Faculty Club: Minutes of Executive Committee/ Correspondence,</unittitle>
+<unitdate normal="1933/1960" type="inclusive">1933-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">5</container>
+<unittitle>Faculty Committee on Recruitment: Memoranda, Reports, and Minutes,</unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">6</container>
+<unittitle>Faculty Directory, </unittitle>
+<unitdate normal="1946/1948" type="inclusive">1946-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">7</container>
+<unittitle>Faculty Exchange (Institute of International Education): Questionnaires,</unittitle>
+<unitdate normal="1954/1960" type="inclusive">1954-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">8</container>
+<unittitle>Faculty Health Services Committee, </unittitle>
+<unitdate normal="1959/1961" type="inclusive">1959-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">9</container>
+<unittitle>Faculty Salaries Study,</unittitle>
+<unitdate normal="1940">1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">10</container>
+<unittitle>Faculty Salaries: Correspondence regarding payment of first bonus to staff, </unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">11</container>
+<unittitle>Faculty Salaries: Correspondence regarding payment of second bonus to staff, </unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">12</container>
+<unittitle>Faculty Salaries: Correspondence regarding payment of third bonus to staff, </unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">13</container>
+<unittitle>Faculty financial position and bonus study,</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">14</container>
+<unittitle>Faculty Tenure</unittitle>
+<unitdate normal="1954">1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">15</container>
+<unittitle>Federal Aid for Education: Printed Material, </unittitle>
+<unitdate normal="1947/1950" type="inclusive">1947-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">16</container>
+<unittitle>Federal Emergency Relief Administration,</unittitle>
+<unitdate normal="1934">1934</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">17</container>
+<unittitle>Fee Structure: Administrative Committee to Study Procedures Effecting Changes,</unittitle>
+<unitdate normal="1958/1961" type="inclusive">1958-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">18</container>
+<unittitle>Fee Structure: Faculty Committee,</unittitle>
+<unitdate normal="1958/1961" type="inclusive">1958-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">10</container>
+<container type="folder">19</container>
+<unittitle>Fees: Memoranda (by Schools and misc.),</unittitle>
+<unitdate normal="1944/1959" type="inclusive">1944-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">11</container>
+<container type="folder">1</container>
+<unittitle>Fees: General Correspondence,</unittitle>
+<unitdate normal="1944/1945" type="inclusive">1944-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">11</container>
+<container type="folder">2</container>
+<unittitle>Fees: Protest,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">11</container>
+<container type="folder">3</container>
+<unittitle>Fees, General Increases,</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">11</container>
+<container type="folder">4</container>
+<unittitle>Fees, General Increases,</unittitle>
+<unitdate normal="1952/1960" type="inclusive">1952-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">11</container>
+<container type="folder">5</container>
+<unittitle>Fees, Miscellaneous,</unittitle>
+<unitdate normal="1935/1937" type="inclusive">1935-1937</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">11</container>
+<container type="folder">6</container>
+<unittitle>Fees, Miscellaneous,</unittitle>
+<unitdate normal="1938">1938</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">11</container>
+<container type="folder">7</container>
+<unittitle>Fees, Miscellaneous,</unittitle>
+<unitdate normal="1939/1943" type="inclusive">1939-1943</unitdate>
+<unitdate normal="1925/1965" type="inclusive">, undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">1</container>
+<unittitle>Fine Arts/ College of,</unittitle>
+<unitdate normal="1926/1958" type="inclusive">1926-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">2</container>
+<unittitle>Financial Campaign: Printed Material,</unittitle>
+<unitdate normal="1960/1961" type="inclusive">1960-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">3</container>
+<unittitle>Ford Foundation Report: Biographies for,</unittitle>
+<unitdate normal="1962/1963" type="inclusive">1962-1963</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">4</container>
+<unittitle>Foreign Students, University Committee for: Memoranda, Minute s,</unittitle>
+<unitdate normal="1954/1957" type="inclusive">1954-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">5</container>
+<unittitle>Ga - Gz Miscellaneous,</unittitle>
+<unitdate normal="1931/1958" type="inclusive">1931-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">6</container>
+<unittitle>Gallatin College, Proposed Establishment of: Critiques and Drafts,</unittitle>
+<unitdate normal="1961">1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">7</container>
+<unittitle>Gallery of Living Art,</unittitle>
+<unitdate normal="1931">1931</unitdate>
+<unitdate normal="1959/1960" type="inclusive">, 1959-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">8</container>
+<unittitle>Glover, John G.,</unittitle>
+<unitdate normal="1941">1941</unitdate>
+<unitdate normal="1943">, 1943</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">9</container>
+<unittitle>Gould House at Ardley: Miscellaneous,</unittitle>
+<unitdate normal="1954/1961" type="inclusive">1954-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">10</container>
+<unittitle>Gould Student Center: Annual Reports, Food Reports,</unittitle>
+<unitdate normal="1959/1960" type="inclusive">1959-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">11</container>
+<unittitle>Graduate School of Public Administration: Minutes and Memoranda,</unittitle>
+<unitdate normal="1952/1960" type="inclusive">1952-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">12</container>
+<unittitle>Greenwich House/</unittitle>
+<unitdate normal="1946">1946</unitdate>
+<unitdate normal="1948">, 1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">13</container>
+<unittitle>Grisewood, E. N. (Director of University Broadcasts),</unittitle>
+<unitdate normal="1946/1948" type="inclusive">1946-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">14</container>
+<unittitle>Grisewood, E. N.: Report,</unittitle>
+<unitdate normal="1948/1949" type="inclusive">1948-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">15</container>
+<unittitle>Ha - Hz Miscellaneous,</unittitle>
+<unitdate normal="1929/1955" type="inclusive">1929-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">16</container>
+<unittitle>Hamilton, Samual L. (Professor of Education),</unittitle>
+<unitdate normal="1929">1929</unitdate>
+<unitdate normal="1940">, 1940</unitdate>
+<unitdate normal="1953">, 1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">17</container>
+<unittitle>Hofstra College (Nassau College): Correspondence,</unittitle>
+<unitdate normal="1937/1940" type="inclusive">1937-1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">18</container>
+<unittitle>Holt, Mrs. L. Emmett Jr.: Prospectus on possible TV series,</unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">19</container>
+<unittitle>Honorary Society</unittitle>
+<unitdate normal="1961">1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">12</container>
+<container type="folder">20</container>
+<unittitle>Howley, Frank L. (Director, Office of Military Government, Berlin Sector),</unittitle>
+<unitdate normal="1945/1946" type="inclusive">1945-1946</unitdate>
+<unitdate normal="1949">, 1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">1</container>
+<unittitle>Hudson Celebration (350th Anniversary of Discovery of Hudson River): Bulletins, Mimeos, and Minutes,</unittitle>
+<unitdate normal="1959">1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">2</container>
+<unittitle>la - Iz Miscellaneous,</unittitle>
+<unitdate normal="1942/1961" type="inclusive">1942-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">3</container>
+<unittitle>Information Services, Office of,</unittitle>
+<unitdate normal="1952/1954" type="inclusive">1952-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">4</container>
+<unittitle>Institute for Inter-Atlantic Relations,       </unittitle>
+<unitdate normal="1945/1946" type="inclusive">1945-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">5</container>
+<unittitle>Institute for the Crippled and Disabled: Printed material, clippings,</unittitle>
+<unitdate normal="1950/1960" type="inclusive">1950-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">6</container>
+<unittitle>Institute for Mathematics and Mechanics: Correspondence and reports,</unittitle>
+<unitdate normal="1948/1952" type="inclusive">1948-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">7</container>
+<unittitle>Institute of Comparative Law,</unittitle>
+<unitdate normal="1953/1961" type="inclusive">1953-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">8</container>
+<unittitle>Institute of Disaster Prevention and Control: Correspondence and Reports,</unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">9</container>
+<unittitle>Institute of Fine Arts,</unittitle>
+<unitdate normal="1937">1937</unitdate>
+<unitdate normal="1939">, 1939</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">10</container>
+<unittitle>Institute of Urbanism,</unittitle>
+<unitdate normal="1937">1937</unitdate>
+<unitdate normal="1939">, 1939</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">11</container>
+<unittitle>Institutional Research, Office of: Reports and Studies,</unittitle>
+<unitdate normal="1959/1961" type="inclusive">1959-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">12</container>
+<unittitle>Inventions and Patents Committee: Minutes,      </unittitle>
+<unitdate normal="1960/1961" type="inclusive">1960-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">13</container>
+<unittitle>Israel Program (NYU's Program in Israel): Progress Reports,</unittitle>
+<unitdate normal="1957/1958" type="inclusive">1957-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">14</container>
+<unittitle>Ja - Jz Miscellaneous,</unittitle>
+<unitdate normal="1937/1948" type="inclusive">1937-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">15</container>
+<unittitle>Joint Programs of NYU with other Institutions: Correspondence,</unittitle>
+<unitdate normal="1953/1961" type="inclusive">1953-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">16</container>
+<unittitle>Jones, Theodore F.,</unittitle>
+<unitdate normal="1925/1956" type="inclusive">1925-
+1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">13</container>
+<container type="folder">17</container>
+<unittitle>Journalism Department: Accreditation Committee: Correspondence and Report,</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">1</container>
+<unittitle>Judson Dormitory,</unittitle>
+<unitdate normal="1952/1953" type="inclusive">1952-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">2</container>
+<unittitle>Judson Property,</unittitle>
+<unitdate normal="1960/1961" type="inclusive">1960-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">3</container>
+<unittitle>Ka - Kz Miscellaneous,</unittitle>
+<unitdate normal="1944/1946" type="inclusive">1944-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">4</container>
+<unittitle>Kastner, Elmer C. (Association of Colleges and University of the State of New York),</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">5</container>
+<unittitle>Keston, Albert S-,</unittitle>
+<unitdate normal="1954/1955" type="inclusive">1954-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">6</container>
+<unittitle>Kimball, Leroy E.,</unittitle>
+<unitdate normal="1928/1950" type="inclusive">1928-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">7</container>
+<unittitle>La - Lz Miscellaneous,</unittitle>
+<unitdate normal="1928/1953" type="inclusive">1928-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">8-10</container>
+<unittitle>Labor Relations, Committee on: Correspondence, Minutes and Memoranda,</unittitle>
+<unitdate normal="1937/1945" type="inclusive">1937-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">14</container>
+<container type="folder">11</container>
+<unittitle>LaGuardia Hall Mural: Correspondence, Clippings,</unittitle>
+<unitdate normal="1933/1949" type="inclusive">1933-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">1</container>
+<unittitle>Law, School of,</unittitle>
+<unitdate normal="1935/1943" type="inclusive">1935-1943</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">2</container>
+<unittitle>Lindberg, Charles A- (Committee For the Celebration of the Tenth Anniversary),</unittitle>
+<unitdate normal="1937">1937</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">3</container>
+<unittitle>Loeb Student Center: Correspondence,</unittitle>
+<unitdate normal="1955/1958" type="inclusive">1955-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">4</container>
+<unittitle>Loeb Student Center: Committee Reports,</unittitle>
+<unitdate normal="1955/1956" type="inclusive">1955-1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">5</container>
+<unittitle>Loeb Student Center: General Program Director (Amanda Caldwell),  </unittitle>
+<unitdate normal="1958">1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">6</container>
+<unittitle>Loeb Student Center: Governance of,</unittitle>
+<unitdate normal="1955/1958" type="inclusive">1955-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">7</container>
+<unittitle>Loeb Student Center: Student Union Planning Committee,</unittitle>
+<unitdate normal="1954/1956" type="inclusive">1954-1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">8</container>
+<unittitle>Ma - Mz Miscellaneous,</unittitle>
+<unitdate normal="1931/1961" type="inclusive">1931-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">9</container>
+<unittitle>Mathias, Leon L.: Proposal to establish NYU branch in Lugano, Switzerland,</unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">10</container>
+<unittitle>McGhee, Paul A. (Dean, Division of General Education): Addresses,</unittitle>
+<unitdate normal="1960">1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">11</container>
+<unittitle>Medical Care, University Senate Committee on,   </unittitle>
+<unitdate normal="1949/1950" type="inclusive">1949-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">12</container>
+<unittitle>Middle States Association of Colleges and Secondary Schools,</unittitle>
+<unitdate normal="0">
+</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">13</container>
+<unittitle>Miscellaneous Memoranda,</unittitle>
+<unitdate normal="1930/1961" type="inclusive">1930-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">14</container>
+<unittitle>Na - Nz Miscellaneous,</unittitle>
+<unitdate normal="1930/1958" type="inclusive">1930-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">15-16</container>
+<unittitle>Nathan/ Otto,</unittitle>
+<unitdate normal="1933/1959" type="inclusive">1933-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">17</container>
+<unittitle>National Academy of Design,</unittitle>
+<unitdate normal="1933">1933</unitdate>
+<unitdate normal="1936">, 1936</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">15</container>
+<container type="folder">18</container>
+<unittitle>National Arts Center,</unittitle>
+<unitdate normal="1952/1956" type="inclusive">1952-1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">1</container>
+<unittitle>National Commission for Cooperative Education,</unittitle>
+<unitdate normal="1958">1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">2</container>
+<unittitle>National Committee for Free Europe, Inc., </unittitle>
+<unitdate normal="1950/1953" type="inclusive">1950-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">3</container>
+<unittitle>National Youth Administration,</unittitle>
+<unitdate normal="1935">1935</unitdate>
+<unitdate normal="1940">, 1940</unitdate>
+<unitdate normal="1946/1947" type="inclusive">, 1946-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">4</container>
+<unittitle>Newell, James Michael (Muralist), </unittitle>
+<unitdate normal="1934">1934</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">5</container>
+<unittitle>New York Institute of Credit, </unittitle>
+<unitdate normal="1954">1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">6</container>
+<unittitle>New York Law School, </unittitle>
+<unitdate normal="1941">1941</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">7</container>
+<unittitle>New York School of Social Work,</unittitle>
+<unitdate normal="1931">1931</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">8</container>
+<unittitle>New York State Aid to Education, Proposal for (A Scholar Incentive Program),</unittitle>
+<unitdate normal="1961">1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">9</container>
+<unittitle>NYU: Plans for a Motion Picture,</unittitle>
+<unitdate normal="1950/1953" type="inclusive">1950-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">10</container>
+<unittitle>New York University Medical Center,</unittitle>
+<unitdate normal="1961">1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">11</container>
+<unittitle>New York University Press: Correspondence,</unittitle>
+<unitdate normal="1937/1950" type="inclusive">1937-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">12</container>
+<unittitle>New York University Press: Notice of Meetings and Minutes,</unittitle>
+<unitdate normal="1946/1950" type="inclusive">1946-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">13</container>
+<unittitle>New York University Social Science Field Laboratory,</unittitle>
+<unitdate normal="1940">1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">14</container>
+<unittitle>Oa - Oz Miscellaneous, </unittitle>
+<unitdate normal="1931/1961" type="inclusive">1931-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">15</container>
+<unittitle>Ochoa, Dr. Severo, </unittitle>
+<unitdate normal="1959">1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">16</container>
+<unittitle>Officer's Meetings,</unittitle>
+<unitdate normal="1959/1960" type="inclusive">1959-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">17</container>
+<unittitle>Offner, Richard (Professor, Fine Arts Graduate Center),</unittitle>
+<unitdate normal="1935">1935</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">18</container>
+<unittitle>Onderdonk, Chester D. (Director of Plant and Properties, University Heights),</unittitle>
+<unitdate normal="1928/1935" type="inclusive">1928-1935</unitdate>
+<unitdate normal="1961">, 1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">19</container>
+<unittitle>"Overseas Information Services: A New Career" Conference on,</unittitle>
+<unitdate normal="1954/1955" type="inclusive">1954-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">20</container>
+<unittitle>Pa - Pz Miscellaneous/</unittitle>
+<unitdate normal="1926/1954" type="inclusive">1926-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">16</container>
+<container type="folder">21</container>
+<unittitle>Panel of Americans,</unittitle>
+<unitdate normal="1955/1959" type="inclusive">1955-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">1</container>
+<unittitle>Paris, W. Francklyn (Founder, The Hall of American Artists, University Heights),</unittitle>
+<unitdate normal="1930/1957" type="inclusive">1930-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">2</container>
+<unittitle>Parsons School of Design,</unittitle>
+<unitdate normal="1954/1955" type="inclusive">1954-1955</unitdate>
+<unitdate normal="1961">, 1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">3</container>
+<unittitle>Personnel Directives, including Personnel Manual Material,</unittitle>
+<unitdate normal="1944/1946" type="inclusive">1944-1946</unitdate>
+<unitdate normal="1958/1959" type="inclusive">, 1958-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">4</container>
+<unittitle>Personnel Division,</unittitle>
+<unitdate normal="1943/1961" type="inclusive">1943-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">5</container>
+<unittitle>Phelps and Stokes Lectures: Program brochures,</unittitle>
+<unitdate normal="1951">1951</unitdate>
+<unitdate normal="1955">, 1955</unitdate>
+<unitdate normal="1957/1959" type="inclusive">, 1957-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">6</container>
+<unittitle>Placement Services: Mergers,</unittitle>
+<unitdate normal="1939/1941" type="inclusive">1939-1941</unitdate>
+<unitdate normal="1952">, 1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">7</container>
+<unittitle>Planning Committee: General Correspondence,</unittitle>
+<unitdate normal="1947/1950" type="inclusive">1947-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">8</container>
+<unittitle>Planning Committee: School of Education-Outdoor Education Proposal, Fund Raising,</unittitle>
+<unitdate normal="1949/1950" type="inclusive">1949-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">9</container>
+<unittitle>Planning Committee: Washington Square College-Dreyfus Foundation,</unittitle>
+<unitdate normal="1949/1950" type="inclusive">1949-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">10</container>
+<unittitle>Plants and Properties, Plant Protection, </unittitle>
+<unitdate normal="1957/1961" type="inclusive">1957-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">17</container>
+<container type="folder">11</container>
+<unittitle>Pohl, Frederick V.,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">18</container>
+<container type="folder">1</container>
+<unittitle>Political Groups at New York University: Students for America, Labor Youth League, Young Socialist league,</unittitle>
+<unitdate normal="1954">1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">18</container>
+<container type="folder">2-6</container>
+<unittitle>Post-War Reconstruction, Institute of: General Correspondence,</unittitle>
+<unitdate normal="1939/1946" type="inclusive">1939-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">18</container>
+<container type="folder">7</container>
+<unittitle>Power House and Educational Building,</unittitle>
+<unitdate normal="1935">1935</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">18</container>
+<container type="folder">8</container>
+<unittitle>Property, Supervisor of,</unittitle>
+<unitdate normal="1930/1953" type="inclusive">1930-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">18</container>
+<container type="folder">9-12</container>
+<unittitle>Protestant Center, Proposed Establishment of: Correspondence,</unittitle>
+<unitdate normal="1957/1958" type="inclusive">1957-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">1</container>
+<unittitle>Protestant Center, Proposed Establishment of: Correspondence,</unittitle>
+<unitdate normal="1958/1959" type="inclusive">1958-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">2</container>
+<unittitle>Psychological Research Center,</unittitle>
+<unitdate normal="1948/1949" type="inclusive">1948-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">3</container>
+<unittitle>Publications, Director of: Kelvin A. Arden,</unittitle>
+<unitdate normal="1954/1955" type="inclusive">1954-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">4-5</container>
+<unittitle>Publications and Printing,</unittitle>
+<unitdate normal="1930/1959" type="inclusive">1930-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">6-7</container>
+<unittitle>Public Relations: Voorhis Study of 1950:</unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">8</container>
+<unittitle>Public Relations, University Committee on,</unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">9</container>
+<unittitle>Quigley, John,</unittitle>
+<unitdate normal="1943">1943</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">10</container>
+<unittitle>Ra - Rz Miscellaneous,</unittitle>
+<unitdate normal="1932/1961" type="inclusive">1932-1961</unitdate>
+<unitdate normal="1925/1965" type="inclusive">, undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">11</container>
+<unittitle>Racial and Religious Statistics,</unittitle>
+<unitdate normal="1941/1953" type="inclusive">1941-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">12</container>
+<unittitle>Radiation Laboratory, M.I.T.,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">13</container>
+<unittitle>Radio Committee,</unittitle>
+<unitdate normal="1939/1945" type="inclusive">1939-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">14</container>
+<unittitle>Radio Station WMCA Proposal,</unittitle>
+<unitdate normal="1949">1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">19</container>
+<container type="folder">15</container>
+<unittitle>Refugee Instructors on University Staff,</unittitle>
+<unitdate normal="1940">1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">1</container>
+<unittitle>Refugee Scholarships: Correspondence with students,</unittitle>
+<unitdate normal="1939/1941" type="inclusive">1939-1941</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">2</container>
+<unittitle>Report to the Council Committee on Scholarships,</unittitle>
+<unitdate normal="1930">1930</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">3</container>
+<unittitle>Research at New York University,</unittitle>
+<unitdate normal="1931/1935" type="inclusive">1931-1935</unitdate>
+<unitdate normal="1960">, 1960</unitdate>
+<unitdate normal="Vice President and Secretary Administrative Records/1965" type="inclusive">, undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">4</container>
+<unittitle>Residence Bureau,</unittitle>
+<unitdate normal="1926/1927" type="inclusive">1926-1927</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">5-6</container>
+<unittitle>ROTC Activities,</unittitle>
+<unitdate normal="1939/1961" type="inclusive">1939-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">7</container>
+<unittitle>Sa - Sz Miscellaneous,</unittitle>
+<unitdate normal="1929/1961" type="inclusive">1929-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">8</container>
+<unittitle>Sailor's Snug Harbor Property (Washington Square North),</unittitle>
+<unitdate normal="1948/1949" type="inclusive">1948-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">9</container>
+<unittitle>Savage School,</unittitle>
+<unitdate normal="1943">1943</unitdate>
+<unitdate normal="1949">, 1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">10</container>
+<unittitle>Scholarship Memorandum,</unittitle>
+<unitdate normal="1926">1926</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">20</container>
+<container type="folder">11</container>
+<unittitle>Scholarship Correspondence,</unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">1-2</container>
+<unittitle>Scholarship Inquiry/ Committee on the,</unittitle>
+<unitdate normal="1926/1930" type="inclusive">1926-1930</unitdate>
+<unitdate normal="1925/1965" type="inclusive">, undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">3</container>
+<unittitle>Scholarship Study,</unittitle>
+<unitdate normal="1936">1936</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">4</container>
+<unittitle>Scholarships,</unittitle>
+<unitdate normal="1929/1930" type="inclusive">1929-1930</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">5</container>
+<unittitle>Scholarships,</unittitle>
+<unitdate normal="1940">1940</unitdate>
+<unitdate normal="1943">, 1943</unitdate>
+<unitdate normal="1953">, 1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">6</container>
+<unittitle>Sloan Foundation,</unittitle>
+<unitdate normal="1951/1961" type="inclusive">1951-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">7</container>
+<unittitle>Smith, Rufus D., (Provost and Dean, Washington Square College): Correspondence, </unittitle>
+<unitdate normal="1928/1949" type="inclusive">1928-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">8</container>
+<unittitle>Smith, Rufus D., (Provost and Dean, Washington Square College): Correspondence, </unittitle>
+<unitdate normal="1950/1954" type="inclusive">1950-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">9</container>
+<unittitle>Smith, Rufus D., (Provost and Dean, Washington Square College): Memorial Committee, </unittitle>
+<unitdate normal="1955">1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">10</container>
+<unittitle>Smith, Rufus D., (Provost and Dean, Washington Square College): Trends in College enrollments: Materials,</unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">11</container>
+<unittitle>Social Research Center,</unittitle>
+<unitdate normal="1959/1960" type="inclusive">1959-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">21</container>
+<container type="folder">12</container>
+<unittitle>Social Science Research Council,</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">1</container>
+<unittitle>Social Security Legislation,</unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">2</container>
+<unittitle>Social Service Program,</unittitle>
+<unitdate normal="1959/1961" type="inclusive">1959-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">3</container>
+<unittitle>Society for the Libraries of New York Uni ver.si hv.</unittitle>
+<unitdate normal="1938/1945" type="inclusive">1938-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">4</container>
+<unittitle>Society of Independent Motion Picture Producers,</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">5</container>
+<unittitle>Special Services to Business and Industry, Office of,</unittitle>
+<unitdate normal="1954/1957" type="inclusive">1954-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">6</container>
+<unittitle>Square Playhouse of NYU,</unittitle>
+<unitdate normal="1952/1958" type="inclusive">1952-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">7</container>
+<unittitle>State University of New York: General Correspondence,</unittitle>
+<unitdate normal="1948/1957" type="inclusive">1948-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">8</container>
+<unittitle>State University of New York: Expansion Plans for Long Island,</unittitle>
+<unitdate normal="1956">1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">9</container>
+<unittitle>Steiner-Prag, Hugo,</unittitle>
+<unitdate normal="1940/1947" type="inclusive">1940-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">10</container>
+<unittitle>Stessin, Lawrence: NYU-Israel Program,</unittitle>
+<unitdate normal="1957/1958" type="inclusive">1957-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">11</container>
+<unittitle>Student Affairs and Activities, Student Unions, Protest,</unittitle>
+<unitdate normal="1934/1937" type="inclusive">1934-1937</unitdate>
+<unitdate normal="1941">, 1941</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">12</container>
+<unittitle>Students, Dean of: Elwood C. Kastner, </unittitle>
+<unitdate normal="1958">1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">22</container>
+<container type="folder">13</container>
+<unittitle>Student Activities, Non-Athletic,</unittitle>
+<unitdate normal="1947/1958" type="inclusive">1947-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">1</container>
+<unittitle>Student Health (and Medical Care of Students), </unittitle>
+<unitdate normal="1934/1945" type="inclusive">1934-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">2</container>
+<unittitle>Student Orientation Programs,</unittitle>
+<unitdate normal="1957/1958" type="inclusive">1957-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">3</container>
+<unittitle>Student Service (Ghost Writing of Student Theses),</unittitle>
+<unitdate normal="1940/1941" type="inclusive">1940-1941</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">4</container>
+<unittitle>Student Service Organization,</unittitle>
+<unitdate normal="1952/1960" type="inclusive">1952-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">5</container>
+<unittitle>Student Union:  Conversion of Army Mess Hall,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">6</container>
+<unittitle>Summer Session Planning Committee,</unittitle>
+<unitdate normal="1954">1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">7</container>
+<unittitle>Summer Session in Europe,</unittitle>
+<unitdate normal="1959/1961" type="inclusive">1959-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">8</container>
+<unittitle>Ta - Tz Miscellaneous,</unittitle>
+<unitdate normal="1933/1953" type="inclusive">1933-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">9</container>
+<unittitle>Testing and Advisement Center,</unittitle>
+<unitdate normal="1945/1952" type="inclusive">1945-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">10</container>
+<unittitle>Television Committee,</unittitle>
+<unitdate normal="1945/1948" type="inclusive">1945-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">11</container>
+<unittitle>Tompkins, Leslie,</unittitle>
+<unitdate normal="1937/1946" type="inclusive">1937-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">23</container>
+<container type="folder">12</container>
+<unittitle>Town Hall,</unittitle>
+<unitdate normal="1956/1960" type="inclusive">1956-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">1</container>
+<unittitle>Tuition Remission,</unittitle>
+<unitdate normal="1959">1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">2</container>
+<unittitle>Ua - Uz Miscellaneous,</unittitle>
+<unitdate normal="1940/1958" type="inclusive">1940-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">3</container>
+<unittitle>Undergraduate Athletic Board,</unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">4</container>
+<unittitle>United States House Un-American Activities Committee,</unittitle>
+<unitdate normal="1949">1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">5</container>
+<unittitle>University Heights, Joint Program,</unittitle>
+<unitdate normal="1955">1955</unitdate>
+<unitdate normal="1957/1958" type="inclusive">, 1957-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">6</container>
+<unittitle>University of the State of New York,</unittitle>
+<unitdate normal="1931/1955" type="inclusive">1931-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">7</container>
+<unittitle>University of the State of New York: Television Courses,</unittitle>
+<unitdate normal="1957/1958" type="inclusive">1957-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">8</container>
+<unittitle>Va - Vz Miscellaneous,</unittitle>
+<unitdate normal="1937">1937</unitdate>
+<unitdate normal="1958">, 1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">9</container>
+<unittitle>Vice President for Business Affairs and Treasurer (George F. Baughman),</unittitle>
+<unitdate normal="1956/1961" type="inclusive">1956-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">10</container>
+<unittitle>Vice President for University Development, </unittitle>
+<unitdate normal="1957/1960" type="inclusive">1957-1960</unitdate>
+<unitdate normal="undated ">, undated </unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">11</container>
+<unittitle>Visiting Committee for University Heights, </unittitle>
+<unitdate normal="1951/1952" type="inclusive">1951-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">12</container>
+<unittitle>Wa - "Wz Miscellaneous,</unittitle>
+<unitdate normal="1927/1961" type="inclusive">1927-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">13</container>
+<unittitle>Wallace Clark International Management Center, </unittitle>
+<unitdate normal="1956/1957" type="inclusive">1956-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">14</container>
+<unittitle>Washington Square College,</unittitle>
+<unitdate normal="1949/1950" type="inclusive">1949-1950</unitdate>
+<unitdate normal="1957/1960" type="inclusive">, 1957-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">15</container>
+<unittitle>Washington Square Property: General,</unittitle>
+<unitdate normal="1949/1960" type="inclusive">1949-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">16</container>
+<unittitle>Washington Square Property: Community Protests, </unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">17</container>
+<unittitle>Washington Square Property: Main Building, </unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">18</container>
+<unittitle>Washington Square Property: #2 Washington Square North,</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">19</container>
+<unittitle>Washington Square Property: 61 Washington Square South ("Genius
+Row"),</unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">24</container>
+<container type="folder">20-21</container>
+<unittitle>Washington Square Property: Washington Square Southeast: Redevelopment Project (Faculty and student housing),</unittitle>
+<unitdate normal="1953/1961" type="inclusive">1953-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">1</container>
+<unittitle>Westchester Center, </unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">2</container>
+<unittitle>Who's Who, </unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">3</container>
+<unittitle>Wolfe, Thomas,</unittitle>
+<unitdate normal="1949/1958" type="inclusive">1949-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">4</container>
+<unittitle>World Cruise Project</unittitle>
+<unitdate normal="1926/1928" type="inclusive">1926-1928</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">5</container>
+<unittitle>World University -Service,</unittitle>
+<unitdate normal="1953/1959" type="inclusive">1953-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">6</container>
+<unittitle>World War II Activities: Correspondence requesting reports for history, </unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">7</container>
+<unittitle>World War II Activities: Army Specialized Training Program (ASTP), Naval Training Programs, </unittitle>
+<unitdate normal="1945/1947" type="inclusive">1945-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">8</container>
+<unittitle>World War II Activities: Reports: Alumni Office, College of Engineering, Public Occasions, Provost, and Registrar's Offices, </unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">9</container>
+<unittitle>World War II Activities: Reports:  School of Law - War Service Record, 1941-1945, </unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">10</container>
+<unittitle>World War II Activities: Reports: Center for Safety Education,</unittitle>
+<unitdate normal="1942/1946" type="inclusive">1942-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">11</container>
+<unittitle>World's Fair,</unittitle>
+<unitdate normal="1938/1940" type="inclusive">1938-1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">12</container>
+<unittitle>XYZ Miscellaneous,</unittitle>
+<unitdate normal="1941">1941</unitdate>
+<unitdate normal="1945">, 1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">25</container>
+<container type="folder">13-16</container>
+<unittitle>YMCA:  Intercollegiate Branch,</unittitle>
+<unitdate normal="1936/1940" type="inclusive">1936-1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">1-7</container>
+<unittitle>YMCA:  Intercollegiate Branch:</unittitle>
+<unitdate normal="1940/1947" type="inclusive">1940-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">8</container>
+<unittitle>YMCA:  Intercollegiate Branch, Secretaryship vacancy,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">9</container>
+<unittitle>YMCA:  World Youth Fund,</unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">10</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: General Committee Material,</unittitle>
+<unitdate normal="1939/1944" type="inclusive">1939-1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">11</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Hanford, John M.,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">12</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Minutes, </unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">13</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Questionnaires: Chancellor Chase,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">14</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Questionnaires: Columbia University,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">15</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Questionnaires: CCNY Downtown Branch,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">16</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Questionnaires: CCNY Uptown Branch,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">17</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Questionnaires: Magill, Orrin R.,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">18</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Questionnaires: Medical College,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">19</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Questionnaires: University Heights,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">20</container>
+<unittitle>YMCA Special Committee for the Study of Quarters and Equipment needs: Questionnaires: Washington Sqare,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">21</container>
+<unittitle>Reports,</unittitle>
+<unitdate normal="1942/1943" type="inclusive">1942-1943</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">26</container>
+<container type="folder">22</container>
+<unittitle>Warner, C. Ford,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+</did>
+</c02>
+</c01>
+<c01 level="series">
+<did>
+<unittitle>Series II: Questionnaires</unittitle>
+</did>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">1</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1939/1940" type="inclusive">1939-1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">2</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1940/1941" type="inclusive">1940-1941</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">3</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1941/1942" type="inclusive">1941-1942</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">4</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1942/1943" type="inclusive">1942-1943</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">5</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1943/1944" type="inclusive">1943-1944</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">6</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1944/1945" type="inclusive">1944-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">7</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1945/1946" type="inclusive">1945-1946</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">8</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">9</container>
+<unittitle>Questionnaires - State &amp; Federal Report </unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">10</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">11</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">12</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1948">1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">1</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1949">1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">2</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1949">1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">3</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02> <c02>
+<did>
+<container type="box">2</container>
+<container type="folder">4</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">5</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">1</container>
+<unittitle>Worksheets for the Statistical Sections of the Office of Education Report </unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">2</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">3</container>
+<unittitle>Office of Education Questionnaire - Military status of Instructional Staff </unittitle>
+<unitdate normal="1951-02">Feb 1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">4</container>
+<unittitle>American Council on Education Questionnaire </unittitle>
+<unitdate normal="1952">1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">5</container>
+<unittitle>Office of Education Questionnaire - Federal Security Agency: Stats re: Reduction in Full Time Faculty </unittitle>
+<unitdate normal="1951/1952" type="inclusive">1951-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">6</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1951/1952" type="inclusive">1951-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">1</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1952/1953" type="inclusive">1952-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">2</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1953/1954" type="inclusive">1953-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">3</container>
+<unittitle>Office of Education Questionnaire - Federal Security Agency Questionnaires </unittitle>
+<unitdate normal="1953/1954" type="inclusive">1953-1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">4</container>
+<container type="folder">4</container>
+<unittitle>National Science Foundation </unittitle>
+<unitdate normal="1954">1954</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">5</container>
+<container type="folder">1</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1954/1955" type="inclusive">1954-1955</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">5</container>
+<container type="folder">2</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1955/1956" type="inclusive">1955-1956</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">5</container>
+<container type="folder">3</container>
+<unittitle>Office of Education Questionnaire - Dept of Health, Education &amp; Welfare Questionnaires </unittitle>
+<unitdate normal="1955/1956" type="inclusive">1955-1956</unitdate>
+</did>
+</c02> <c02>
+<did>
+<container type="box">5</container>
+<container type="folder">4</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1956/1957" type="inclusive">1956-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">5</container>
+<container type="folder">5</container>
+<unittitle>Office of Education Questionnaire - Dept of Health, Education &amp; Welfare Questionnaires </unittitle>
+<unitdate normal="1956/1957" type="inclusive">1956-1957</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">5</container>
+<container type="folder">6</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1957/1958" type="inclusive">1957-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">5</container>
+<container type="folder">7</container>
+<unittitle>Office of Education Questionnaire - Dept of Health, Education &amp; Welfare Questionnaires </unittitle>
+<unitdate normal="1957/1958" type="inclusive">1957-1958</unitdate>
+</did>
+</c02> <c02>
+<did>
+<container type="box">6</container>
+<container type="folder">1</container>
+<unittitle>Association for Urban Universities </unittitle>
+<unitdate normal="1957/1958" type="inclusive">1957-1958</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">2</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1958/1959" type="inclusive">1958-1959</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">3</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1959/1960" type="inclusive">1959-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">4</container>
+<unittitle>Office of Education Questionnaire - Dept of health, Education &amp; Welfare Questionnaires </unittitle>
+<unitdate normal="1959/1960" type="inclusive">1959-1960</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">5</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1960/1961" type="inclusive">1960-1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">6</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1961/1962" type="inclusive">1961-1962</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">7</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1962/1963" type="inclusive">1962-1963</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">6</container>
+<container type="folder">8</container>
+<unittitle>'"The World of Learning" Questionnaires </unittitle>
+<unitdate normal="1961">1961</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">1</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1963/1964" type="inclusive">1963-1964</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">2</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1964/1965" type="inclusive">1964-1965</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">3</container>
+<unittitle>Questionnaires </unittitle>
+<unitdate normal="1965/1966" type="inclusive">1965-1966</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">4</container>
+<unittitle>Faculty Statistics </unittitle>
+<unitdate normal="1934/1940" type="inclusive">1934-1940</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">5</container>
+<unittitle>Faculty Statistics </unittitle>
+<unitdate normal="1940/1945" type="inclusive">1940-1945</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">7</container>
+<container type="folder">6</container>
+<unittitle>Faculty Statistics </unittitle>
+<unitdate normal="1949/1957" type="inclusive">1949-1957</unitdate>
+</did>
+</c02>
+</c01>
+<c01 level="series">
+<did>
+<unittitle>Series III: Law Center Campaign</unittitle>
+</did>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">1</container>
+<unittitle>Law Center Foundation </unittitle>
+<unitdate normal="1948/1950" type="inclusive">1948-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">2</container>
+<unittitle>Bylaws of the Law Center Foundation </unittitle>
+<unitdate normal="1948/1951" type="inclusive">1948-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">3</container>
+<unittitle>Trustees of the Law Center Foundation </unittitle>
+<unitdate normal="1948/1952" type="inclusive">1948-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">4</container>
+<unittitle>Law Center Dedication </unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">5</container>
+<unittitle>63rd Annual Dinner of the NYU Law Alumni Association in honor of Hon. Anthony O. Savarse at 6valdorf </unittitle>
+<unitdate normal="1951-04-05/ " type="inclusive">Apr 5, 1951  </unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">6</container>
+<unittitle>New York University Law Center Cornerstone celebration - Also Law Alumni, 62nd Annual Dinner at Waldorf and Minute presented to Vanderbilt by Council</unittitle>
+<unitdate normal="1950-01-31/ " type="inclusive">Jan 31, 1950  </unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">7</container>
+<unittitle>Law Alumni Association Dinner in honor of Arthur Vanderbilt at the Waldorf Astoria Hotel </unittitle>
+<unitdate normal="1949-02-10/ " type="inclusive">Feb 10, 1949  </unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">3</container>
+<unittitle>Judge Florence E. Allen Dinner </unittitle>
+<unitdate normal="1948-11-08">Nov 8, 1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">9</container>
+<unittitle>David Dudley Feild Centenary Dinner </unittitle>
+<unitdate normal="1948-09-30">Sep 30, 1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">10</container>
+<unittitle>Law Campaign, Ramsey Corporation </unittitle>
+<unitdate normal="1925/1965" type="inclusive">undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">11</container>
+<unittitle>Law Campaign - Davella Mills Foundation </unittitle>
+<unitdate normal="1947/1943" type="inclusive">1947-1943</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">12</container>
+<unittitle>Law Campaign - Contributions to the Campaign </unittitle>
+<unitdate normal="1945/1949" type="inclusive">1945-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">13</container>
+<unittitle>Law Campaign - Dinner, Conferment of Honorary Degrees </unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">14</container>
+<unittitle>Law Campaign - Dean Arthur Vanderbilt </unittitle>
+<unitdate normal="1945/1948" type="inclusive">1945-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">15</container>
+<unittitle>Law Campaign - Correspondence with Council </unittitle>
+<unitdate normal="1946/1948" type="inclusive">1946-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">16</container>
+<unittitle>Law Campaign - Publicity </unittitle>
+<unitdate normal="1946/1948" type="inclusive">1946-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">1</container>
+<unittitle>Law Campaign - Publicity </unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">2</container>
+<unittitle>Law Campaign - Publicity </unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">3</container>
+<unittitle>Law Campaign - General Correspondence </unittitle>
+<unitdate normal="1946/1950" type="inclusive">1946-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">4</container>
+<unittitle>Law Campaign - Save Washington Square Movement </unittitle>
+<unitdate normal="1947/1949" type="inclusive">1947-1949</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">5</container>
+<unittitle>Law Campaign - Law Building Site </unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">6</container>
+<unittitle>File Copies of Law Building </unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">7</container>
+<unittitle>Files copies of Law Campaign Printed Matter </unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">8</container>
+<unittitle>Files copies of Law Campaign Printed Matter </unittitle>
+<unitdate normal="1945/1950" type="inclusive">1945-1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">9</container>
+<unittitle>Save Washington Square (Petitions) </unittitle>
+<unitdate normal="1925/1965" type="inclusive">undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">10</container>
+<unittitle>Plan for Law Center</unittitle>
+<unitdate normal="1925/1965" type="inclusive">undated</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">11</container>
+<unittitle>Clippings</unittitle>
+<unitdate normal="1925/1965" type="inclusive">undated</unitdate>
+</did>
+</c02>
+</c01>
+<c01 level="series">
+<did>
+<unittitle>Series IV: New York University; Bellevue Medical Center Campaign</unittitle>
+</did>
+<c02 level="subseries">
+<did>
+<unittitle>Administrative Series</unittitle>
+</did>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">1</container>
+<unittitle>Bellevue Medical Center: General Correspondence </unittitle>
+<unitdate normal="1948/1950" type="inclusive">1948-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">2</container>
+<unittitle>Bellevue Medical Center: Organization of,</unittitle>
+<unitdate normal="1949">1949</unitdate>
+<unitdate normal="1953">, 1953</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">3</container>
+<unittitle>Bellevue Medical Center: Salmon, Edwin A., Director of,</unittitle>
+<unitdate normal="1944/1950" type="inclusive">1944-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">4</container>
+<unittitle>Blueprints,</unittitle>
+<unitdate normal="1944/1948" type="inclusive">1944-1948</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">5</container>
+<unittitle>Completed Phases: Hall of Residence Thank You Notes,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">6</container>
+<unittitle>Construction Program,</unittitle>
+<unitdate normal="1949">1949</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">7</container>
+<unittitle>Dentistry: Relation to Medical Center Plans,</unittitle>
+<unitdate normal="1944/1947" type="inclusive">1944-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">8</container>
+<unittitle>Direction: Medical Center Campaign,</unittitle>
+<unitdate normal="1946/1949" type="inclusive">1946-1949</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">9</container>
+<unittitle>Director, Campaign: Correspondence with,</unittitle>
+<unitdate normal="1949/1950" type="inclusive">1949-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">10-11</container>
+<unittitle>General Correspondence,</unittitle>
+<unitdate normal="1944/1948" type="inclusive">1944-1948</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">12</container>
+<unittitle>H.I.P.: Relation to Medical Center,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">13</container>
+<unittitle>Hospital Administrator, Search for,</unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">14</container>
+<unittitle>To HOV from POB, Certain material for files in view of current developments,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">15</container>
+<unittitle>Land Acquisition,</unittitle>
+<unitdate normal="1944/1947" type="inclusive">1944-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">1</container>
+<container type="folder">16</container>
+<unittitle>Land Acquisition; Condemnation Proceedings,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">1</container>
+<unittitle>Medical Center Campaign: Early Meetings and Correspondence,</unittitle>
+<unitdate normal="1944/1945" type="inclusive">1944-1945</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">2</container>
+<unittitle>Meetings and Events, Calendars of,</unittitle>
+<unitdate normal="1946/1948" type="inclusive">1946-1948</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">3</container>
+<unittitle>Miscellaneous,</unittitle>
+<unitdate normal="1948/1950" type="inclusive">1948-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">4</container>
+<unittitle>Mission of A Medical School,</unittitle>
+<unitdate normal="1945/1947" type="inclusive">1945-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">5</container>
+<unittitle>0'Dwyer, William, Mayor. Correspondence with,</unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">6</container>
+<unittitle>Operating Plans and Goals,</unittitle>
+<unitdate normal="1945/1948" type="inclusive">1945-1948</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">7</container>
+<unittitle>Organization Charts,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">8</container>
+<unittitle>Pathology Agreement,</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">9</container>
+<unittitle>Publicity,</unittitle>
+<unitdate normal="1948/1950" type="inclusive">1948-1950</unitdate>
+</did>
+</c03>
+</c02>
+<c02 level="subseries">
+<did>
+<unittitle>Subseries B: Fundraising</unittitle>
+</did>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">10</container>
+<unittitle>Alumni Hall Fund,</unittitle>
+<unitdate normal="1945/1946" type="inclusive">1945-1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">11-13</container>
+<unittitle>Contributions: Medical Center Campaign,</unittitle>
+<unitdate normal="1945/1949" type="inclusive">1945-1949</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">2</container>
+<container type="folder">14</container>
+<unittitle>Dinner; First,October 21, 1946</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">1</container>
+<unittitle>Dinner: Medicine's New Role in Industry, Sept. 30, 1947</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">2</container>
+<unittitle>Dinner: Mr. R. H. Kress April 30, 1947</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">3</container>
+<unittitle>Dinner: Mr. Richard L. Lawrence Sept. 27, 1945</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">4</container>
+<unittitle>Dinners,</unittitle>
+<unitdate normal="1945/1946" type="inclusive">1945-1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">5</container>
+<unittitle>Doctors Orchestral Society Benefit, May 16, 1947</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">6</container>
+<unittitle>Firms contacted by Campaign,</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">7</container>
+<unittitle>The Forgotten Causality,</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">8</container>
+<unittitle>Foundations,</unittitle>
+<unitdate normal="1944/1950" type="inclusive">1944-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">9</container>
+<unittitle>General Fundraising,</unittitle>
+<unitdate normal="1948/1950" type="inclusive">1948-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">10-11</container>
+<unittitle>Institute of Cardiovascular-Renal Disease: Fundraising,</unittitle>
+<unitdate normal="1945/1950" type="inclusive">1945-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">12</container>
+<unittitle>Investment of
+Business (pamphlet),</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">3</container>
+<container type="folder">13</container>
+<unittitle>Luncheon: Mr. Richard L. Lawrence, October 17, 1945</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">1-2</container>
+<unittitle>Luncheons and Dinners,</unittitle>
+<unitdate normal="1944">1944</unitdate>
+<unitdate normal="1947/1950" type="inclusive">, 1947-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">3</container>
+<unittitle>Medical Residence Hall,</unittitle>
+<unitdate normal="1945">1945</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">4</container>
+<unittitle>Show of Shows, October 20, 1947</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">5</container>
+<unittitle>Weekly Reports,</unittitle>
+<unitdate normal="1945/1950" type="inclusive">1945-1950</unitdate>
+</did>
+</c03>
+</c02>
+<c02 level="subseries">
+<did>
+<unittitle>Subseries C: Committees and Divisions</unittitle>
+</did>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">7</container>
+<unittitle>Advisory Committee on Public Information,</unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">8</container>
+<unittitle>Central Committee,</unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">9</container>
+<unittitle>Campaign Leaders: Agendas and Minutes,</unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">10</container>
+<unittitle>Commerce and Industry Division,</unittitle>
+<unitdate normal="1946/1948" type="inclusive">1946-1948</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">4</container>
+<container type="folder">11</container>
+<unittitle>Committee of Seventy-Five: Declinations,</unittitle>
+<unitdate normal="1945/1946" type="inclusive">1945-1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">1</container>
+<unittitle>Committee of Seventy-Five: First Meeting, May 21, 1946</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">2</container>
+<unittitle>Committee of Seventy-Five: Membership Drive,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">3</container>
+<unittitle>Committee of Seventy-Five-Foundation,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">4</container>
+<unittitle>Committees and Divisions Personal,</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">5</container>
+<unittitle>Correspondence and Lists of Individuals asked to become Members of the Various Committees,</unittitle>
+<unitdate normal="1945/1947" type="inclusive">1945-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">6</container>
+<unittitle>Executive Committee Meetings, Notices,</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">7</container>
+<unittitle>Medical Alumni Division,</unittitle>
+<unitdate normal="1946/1948" type="inclusive">1946-1948</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">8</container>
+<unittitle>Operating Committee,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">9</container>
+<unittitle>Parents Association Division,</unittitle>
+<unitdate normal="1947">1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">10</container>
+<unittitle>Planning Committee,</unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">11</container>
+<unittitle>Special Projects Committee,</unittitle>
+<unitdate normal="1947/1950" type="inclusive">1947-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">12</container>
+<unittitle>Strategy Group: Meeting Notices,</unittitle>
+<unitdate normal="1947/1948" type="inclusive">1947-1948</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">13</container>
+<unittitle>Steering Committee: Faculty Planning Committee,</unittitle>
+<unitdate normal="1946">1946</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">14</container>
+<unittitle>Steering Committee: Minutes, Agendas, Notices,</unittitle>
+<unitdate normal="1945/1950" type="inclusive">1945-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">15</container>
+<unittitle>Top Gifts Committee,</unittitle>
+<unitdate normal="1947/1950" type="inclusive">1947-1950</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">16</container>
+<unittitle>University Council,</unittitle>
+<unitdate normal="1944/1947" type="inclusive">1944-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">17</container>
+<unittitle>University Council on Medicine and Dentistry, Sub-committee of, </unittitle>
+<unitdate normal="1946/1947" type="inclusive">1946-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">5</container>
+<container type="folder">18</container>
+<unittitle>Women's Division: Correspondence with,</unittitle>
+<unitdate normal="1945/1947" type="inclusive">1945-1947</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">6</container>
+<container type="folder">1</container>
+<unittitle>Photocopied Originals (newspaper clippings)</unittitle>
+<unitdate normal="1925/1965" type="inclusive">undated</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">6</container>
+<container type="folder">2</container>
+<unittitle>Duplicates</unittitle>
+<unitdate normal="1925/1965" type="inclusive">undated</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">6</container>
+<container type="folder">3</container>
+<unittitle>Post-Graduate Medical School</unittitle>
+<unitdate normal="1947/1949" type="inclusive">1947-1949</unitdate>
+</did>
+</c03>
+<c03>
+<did>
+<container type="box">6</container>
+<container type="folder">4</container>
+<unittitle>School of Medicine</unittitle>
+<unitdate normal="1935">1935</unitdate>
+<unitdate normal="1942">, 1942</unitdate>
+<unitdate normal="1953">, 1953</unitdate>
+</did>
+</c03>
+</c02>
+</c01>
+<c01 level="series">
+<did>
+<unittitle>Series V: Korean War Materials</unittitle>
+</did>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">1</container>
+<unittitle>Questionnaires requesting inventory of human resources </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">2</container>
+<unittitle>Questionnaires requesting inventory of facilities </unittitle>
+<unitdate normal="1949/1952" type="inclusive">1949-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">3</container>
+<unittitle>Association of American Colleges </unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">4</container>
+<unittitle>Association of Colleges and Universities of the State of New York </unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">5</container>
+<unittitle>Office of Education </unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">6</container>
+<unittitle>The University of the State of New York, State Education Department </unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">7</container>
+<unittitle>Philadelphia Forum Bulletin </unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">8</container>
+<unittitle>Correspondence </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">1</container>
+<container type="folder">9</container>
+<unittitle>Form Letters, Copies of questionnaires, Memorandums on procedure </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">1</container>
+<unittitle>Army Advisory Committee </unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">2</container>
+<unittitle>Department of Defense Office of Public Information </unittitle>
+<unitdate normal="1950/1953" type="inclusive">1950-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">3</container>
+<unittitle>Secretary of Defense </unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">4</container>
+<unittitle>Federal Security Agency, Defense Information Bulletin </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">5</container>
+<unittitle>National Education Association </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">6</container>
+<unittitle>The Naval Reservist </unittitle>
+<unitdate normal="1950/1952" type="inclusive">1950-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">7</container>
+<unittitle>Reserve Officers Training Corps, Air Force Branch at Washington Square </unittitle>
+<unitdate normal="1951/1952" type="inclusive">1951-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">8</container>
+<unittitle>Reserve Officers Training Corps, Program and Policies </unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">9</container>
+<unittitle>Selective Service System, Memorandums and correspondence </unittitle>
+<unitdate normal="1950/1953" type="inclusive">1950-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">10</container>
+<unittitle>Committee on Selective Service </unittitle>
+<unitdate normal="1948/1952" type="inclusive">1948-1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">11</container>
+<unittitle>Articles on the draft and recall of reserves </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">12</container>
+<unittitle>New York University Faculty Deferments </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">2</container>
+<container type="folder">13</container>
+<unittitle>Veterans Readjustment Assistance Act </unittitle>
+<unitdate normal="1952">1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">1</container>
+<unittitle>Colonel John N. Andrews </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">2</container>
+<unittitle>American Council on Education </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">3</container>
+<unittitle>American Council on Education, Higher Education and National Affairs </unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">4</container>
+<unittitle>American Council on Education, Higher Education and National Affairs </unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">5</container>
+<unittitle>American Council on Education, Higher Education and National Affairs </unittitle>
+<unitdate normal="1952">1952</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">6</container>
+<unittitle>Committee on Air Raid Precautions </unittitle>
+<unitdate normal="1950/1953" type="inclusive">1950-1953</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">7</container>
+<unittitle>Civilian Defense Lecture Program at New York University </unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">8</container>
+<unittitle>Association of Colleges and Universities of the State of New York, Committees on Manpower and Acceleration </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">9</container>
+<unittitle>Statements on Manpower </unittitle>
+<unitdate normal="1950/1951" type="inclusive">1950-1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">10</container>
+<unittitle>Educational Acceleration, Manpower and Mobilization </unittitle>
+<unitdate normal="1951">1951</unitdate>
+</did>
+</c02>
+<c02>
+<did>
+<container type="box">3</container>
+<container type="folder">11</container>
+<unittitle>Mobilization Planning and the National Defense (Senate Document) </unittitle>
+<unitdate normal="1950">1950</unitdate>
+</did>
+</c02>
+</c01>
+</dsc>
+<relatedmaterial id="a6" encodinganalog="544 1$n">
+<head>Related Material at the New York University Archives</head>
+<p>
+<archref linktype="simple">
+<extref href="http://dlib.nyu.edu/eadapp/transform?source=archives/chancrec.xml&amp;style=archives/archives.xsl" linktype="simple">(RG 3.0) Office of the Chancellor/President</extref>
+</archref>
+</p>
+<p>
+<archref linktype="simple">
+<extref href="http://dlib.nyu.edu/eadapp/transform?source=archives/brownadmin.xml&amp;style=archives/archives.xsl" linktype="simple">(RG 3.0.4) Elmer Ellsworth Brown Administrative Records</extref>
+</archref>
+</p>
+<p>
+<archref linktype="simple">
+<extref href="http://dlib.nyu.edu/eadapp/transform?source=archives/chase.xml&amp;style=archives/archives.xsl" linktype="simple">(RG 3.0.5) Harry Woodburn Chase Administrative Reocrds</extref>
+</archref>
+</p>
+<p>(RG 3.0.6) Presidential Administrative Subject File, 1951-1965</p>
+</relatedmaterial>
+<separatedmaterial id="a7" encodinganalog="544 0$n">
+<head>Separated Material</head>
+<p>There is no information about materials that are associated by provenance to the described materials that have been physically separated or removed.</p>
+</separatedmaterial>
+</archdesc>
+</ead> 

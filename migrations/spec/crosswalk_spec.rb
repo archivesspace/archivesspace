@@ -7,6 +7,9 @@ describe ASpaceImport::Crosswalk do
     @dummy_class = Class.new do
       extend(ASpaceImport::Crosswalk)
     end
+    
+    @vocab = build(:json_vocab)
+    @vocab.uri = @vocab.class.uri_for(1, :repo_id => 2)
   end
   
 
@@ -36,7 +39,7 @@ describe ASpaceImport::Crosswalk do
       a1 = build(:json_archival_object)
       a2 = build(:json_archival_object)
       
-      a_parent.uri = a_parent.class.uri_for(ASpaceImport::Crosswalk.mint_id) 
+      a_parent.uri = a_parent.class.uri_for(ASpaceImport::Crosswalk.mint_id, :repo_id => 2) 
       old_uri = a_parent.uri
       
       a1.parent = a2.parent = {"ref" => a_parent.uri}
@@ -44,7 +47,7 @@ describe ASpaceImport::Crosswalk do
       expect(a1.parent['ref']).to eq(a_parent.uri)
       expect(a2.parent['ref']).to eq(a_parent.uri)
       
-      a_parent.uri = a_parent.class.uri_for(ASpaceImport::Crosswalk.mint_id) 
+      a_parent.uri = a_parent.class.uri_for(ASpaceImport::Crosswalk.mint_id, :repo_id => 2) 
       expect(a_parent.uri).to_not eq(old_uri)
       
       ASpaceImport::Crosswalk.update_record_references(a1, {old_uri => a_parent}) {|json| json.uri}
@@ -62,7 +65,7 @@ describe ASpaceImport::Crosswalk do
       xdef = {'xpath' => ["//subject"]}
       receiver_class = ASpaceImport::Crosswalk.initialize_receiver('subjects', a.class.schema['properties']['subjects'], xdef)
       receiver = receiver_class.new(a)
-      receiver.to_s.should eq("Property Receiver for archival_object#subjects")
+      receiver.to_s.should match(/^Property Receiver for archival_object#[0-9]*#subjects$/)
     end
   end
   
@@ -85,7 +88,9 @@ describe ASpaceImport::Crosswalk do
     
     it "can set a subrecord property on a json object" do
       a = JSONModel::JSONModel(:archival_object).new
-      s = create(:json_subject)
+      t = build(:json_term, :vocabulary => @vocab.uri)
+      s = build(:json_subject, :terms => [t], :vocabulary => @vocab.uri)
+      s.uri = s.class.uri_for(ASpaceImport::Crosswalk.mint_id)
       
       xdef = {}
       

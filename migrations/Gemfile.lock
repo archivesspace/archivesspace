@@ -7,9 +7,12 @@ GEM
     factory_girl (4.1.0)
       activesupport (>= 3.0.0)
     i18n (0.6.1)
+    metaclass (0.0.1)
+    mocha (0.13.3)
+      metaclass (~> 0.0.1)
     multi_json (1.7.2)
-    nokogiri (1.5.6)
-    nokogiri (1.5.6-java)
+    nokogiri (1.5.9)
+    nokogiri (1.5.9-java)
     rufus-lru (1.0.5)
 
 PLATFORMS
@@ -17,5 +20,6 @@ PLATFORMS
 
 DEPENDENCIES
   factory_girl
-  nokogiri
+  mocha
+  nokogiri (>= 1.5.9)
   rufus-lru

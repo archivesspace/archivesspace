@@ -27,7 +27,7 @@ GEM
     ladle (0.2.0-java)
     multi_json (1.7.2)
     net-ldap (0.3.1)
-    nokogiri (1.5.6-java)
+    nokogiri (1.5.9-java)
     rack (1.4.5)
     rack-protection (1.5.0)
       rack
