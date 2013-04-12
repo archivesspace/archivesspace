@@ -9,13 +9,13 @@ class ReportsController < ApplicationController
 
   def download
     @report_data = JSONModel::HTTP::get_json("/reports")
-    report = @report_data['reports'][params['model']]
+    report = @report_data['reports'][params['report_key']]
 
     queue = Queue.new
 
     Thread.new do
       begin
-        JSONModel::HTTP::stream(report['uri'], params['report_params']) do |report_response|
+        JSONModel::HTTP::stream("/repositories/#{session[:repo_id]}/reports/#{report['uri_suffix']}", params['report_params']) do |report_response|
           response.headers['Content-Disposition'] = report_response['Content-Disposition']
           response.headers['Content-Type'] = report_response['Content-Type']
           queue << :ok

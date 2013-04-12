@@ -1,6 +1,6 @@
 class CreatedAccessionsReport < AbstractReport
   register_report({
-                    :uri => "/reports/created_accessions",
+                    :uri_suffix => "created_accessions",
                     :description => "Report on accessions created within a date range",
                     :params => [["from", DateTime, "The start of report range"],
                                 ["to", DateTime, "The start of report range"]]
