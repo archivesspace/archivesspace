@@ -143,7 +143,7 @@ module ASModel
         obj = self.create(prepare_for_db(json.class.schema,
                                          json.to_hash.merge(values)))
 
-        self.apply_linked_database_records(obj, json)
+        self.apply_linked_database_records(obj, json, true)
 
         fire_update(json, obj)
 
@@ -236,11 +236,11 @@ module ASModel
       # sense for a one-to-one or one-to-many relationship, where we want to
       # delete the object once it becomes unreferenced.
       #
-      def apply_linked_database_records(obj, json)
+      def apply_linked_database_records(obj, json, new_record = false)
         (linked_records[self] or []).each do |linked_record|
 
           # Remove the existing linked records
-          remove_existing_linked_records(obj, linked_record)
+          remove_existing_linked_records(obj, linked_record) if !new_record
 
           # Read the subrecords from our JSON blob and fetch or create
           # the corresponding subrecord from the database.
