@@ -184,8 +184,8 @@ module Relationships
 
 
     # Create set of relationships for a given update
-    def apply_relationships(obj, json, opts)
-      delete_existing_relationships(obj)
+    def apply_relationships(obj, json, opts, new_record = false)
+      delete_existing_relationships(obj) if !new_record
 
       @relationships.values.each do |relationship_defn|
         property_name = relationship_defn.json_property
@@ -222,7 +222,7 @@ module Relationships
 
     def create_from_json(json, opts = {})
       obj = super
-      apply_relationships(obj, json, opts)
+      apply_relationships(obj, json, opts, true)
       obj
     end
 
