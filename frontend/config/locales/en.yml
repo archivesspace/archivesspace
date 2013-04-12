@@ -2078,7 +2078,7 @@ en:
         updated: Archival Object Saved
         please_select_a_resource_for_transfer: Please choose a Resource
         transfer_success: Archival Object Transferred
-        transfer_error: "Error when transferring Archival Object:<br/><br/>#{e.message}"
+        transfer_error: Unable to transfer Archival Object due to a conflict.  Please ensure no conflicting Ref IDs exist before transfer.
       section:
         basic_information: Basic Information
   group:

@@ -93,11 +93,11 @@ class ArchivalObjectsController < ApplicationController
         flash[:success] = I18n.t("archival_object._html.messages.transfer_success")
         redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
       else
-        raise ASUtils.json_parse(response.body)['error'].to_s     
+        raise ASUtils.json_parse(response.body)['error'].to_s
       end
 
     rescue Exception => e
-      flash[:error] = I18n.t("archival_object._html.messages.transfer_error", :e => e).html_safe
+      flash[:error] = I18n.t("archival_object._html.messages.transfer_error").html_safe
       redirect_to :controller => :resources, :action => :edit, :id => params["transfer"]["current_resource_id"], :anchor => "tree::archival_object_#{params[:id]}"
     end
   end
