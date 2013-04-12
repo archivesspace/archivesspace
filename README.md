@@ -164,6 +164,25 @@ appropriate and specify the `encryption` option:
                                              :encryption => :simple_tls,
      }]
 
+# Overriding Frontend and Public templates/assets
+
+Under your `archivesspace` directory there will be a directory called `local`.
+By adding to directories under this you will be able to override the templates,
+locales, and assets (javascript, stylesheets, images) used in both the frontend
+and public applications.
+
+To override any of the view templates, just match up the path to the target template
+under the directories `archivesspace/local/frontend/views/`.
+For example, to override the frontend branding, add your own template named `_branding.html.erb`
+in the directory `archivesspace/local/frontend/views/site/`.
+
+To apply your own label and text translations, add your locales file to the directory `archivesspace/local/frontend/locales/`.
+Ensure your file is named using the code of the target language - for English use `archivesspace/local/frontend/locales/en.yml`.
+
+To allow a document (image, stylesheet, PDF etc) to be available from your application as a static resource, you can add it to the directory
+`archivesspace/local/frontend/assets`. For example, your own logo image `archivesspace/local/frontend/assets/my_logo.png` will then be available via the URL
+`http://localhost:8080/assets/my_logo.png`.
+
 
 # Further documentation
 

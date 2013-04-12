@@ -6,6 +6,7 @@ require 'sprockets/railtie'
 
 require 'java'
 require 'config/config-distribution'
+require 'asutils'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -67,6 +68,13 @@ module ArchivesSpace
 
     config.assets.precompile += %w( *.js )
 
+    # Allow overriding of the locales via the local folder(s)
+    if not ASUtils.find_local_directories.blank?
+      # i18n locales
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
+        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+      end
+    end
 
     # ArchivesSpace Configuration
     AppConfig.load_into(config)
