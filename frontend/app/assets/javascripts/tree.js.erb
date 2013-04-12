@@ -249,7 +249,9 @@ $(function() {
         var data_for_toolbar = {
           config: config,
           rules: config.rules[nodeEl.attr("rel")],
-          node: nodeEl
+          node: nodeEl,
+          node_id: nodeEl.data('id'),
+          root_object_id: config.root_object_id
         };
         if (nodeEl.parents("li").length) {
           data_for_toolbar.parent = nodeEl.parents("li:first");
@@ -406,6 +408,41 @@ $(function() {
 
         $("a:first", $selected).focus();
       });
+
+      // TRANSFER STUFF
+      $(".archives-tree-container").on("click", ".transfer-node", function(event) {
+        if ($(".tree-transfer-form", ".archives-tree-container")[0].style.display === "block") {
+          $(".tree-transfer-form", ".archives-tree-container").css("display", "");
+          $(".missing-ref-message", ".archives-tree-container .tree-transfer-form form").hide();
+          $(".token-input-dropdown").hide();
+        } else {
+          $(".tree-transfer-form", ".archives-tree-container").css("display", "block");
+          $(".tree-transfer-form form", ".archives-tree-container").submit(function(event) {
+            if ($(this).serializeObject()['transfer[ref]']) {
+              // continue with the POST
+              return;
+            } else {
+              event.stopPropagation();
+              event.preventDefault();
+
+              $(".missing-ref-message", ".archives-tree-container .tree-transfer-form form").show();
+              return true;
+            }
+          });
+        }
+      });
+      $(".archives-tree-container").on("click", ".tree-transfer-form :input", function(event) {
+        event.stopPropagation();
+      });
+      $(".archives-tree-container").on("click", ".tree-transfer-form .dropdown-toggle", function(event) {
+        event.stopPropagation();
+        $(this).parent().toggleClass("open");
+      });
+      $(".archives-tree-container").on("click", ".tree-transfer-form .btn-cancel", function(event) {
+        $(".tree-transfer-form", ".archives-tree-container").css("display", "");
+        $(".transfer-node", ".archives-tree-container").parent().removeClass("open");
+      })
+
 
       $(window).hashchange(onHashChange);
 

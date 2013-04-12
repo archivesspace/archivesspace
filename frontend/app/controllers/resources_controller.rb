@@ -15,7 +15,7 @@ class ResourcesController < ApplicationController
     if params[:inline]
       return render :partial => "resources/show_inline"
     end
-
+    flash.keep
     fetch_tree
   end
 

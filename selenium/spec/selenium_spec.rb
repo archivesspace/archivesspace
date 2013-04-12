@@ -1215,7 +1215,7 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
 
       # so the subject is here now
-      assert(5) { $driver.find_element(:css, "ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
+      assert(5) { $driver.find_element(:css, "#archival_object_subjects_ ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
     end
 
 

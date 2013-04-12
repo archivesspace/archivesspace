@@ -4,9 +4,11 @@
    else
      selected_json = "{}"
    end
+
+   exclude_ids = [] if exclude_ids.blank?
 %>
 <div class="control-group">
-   <label class="control-label"><%= I18n.t("resource._html.plural") %></label>
+   <label class="control-label"><%= I18n.t("resource._html.singular") %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
@@ -15,12 +17,19 @@
             data-label_plural="<%= I18n.t("resource._html.plural") %>"
             data-path="<%= form.path %>"
             data-name="ref"
-            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json, :exclude => exclude_ids %>"
             data-selected="<%= selected_json %>"
             data-format_property="title"
             data-multiplicity="one"
             data-types='["resource"]'
+            data-exclude='<%= exclude_ids.to_json %>'
           />
+         <div class="btn-group dropdown pull-right">
+           <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+           <ul class="dropdown-menu">
+             <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+           </ul>
+         </div>
        </div>
    </div>
 </div>
