@@ -41,6 +41,10 @@ module RecordableCataloging
         event_obj = Event.create_from_json(event)
       end
 
+      # Refresh the object from the database here because creating the event
+      # that links to it will have incremented its version number.
+      obj.refresh
+
       obj
     end
     
