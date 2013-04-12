@@ -526,21 +526,20 @@ module JSONModel
 
         exceptions = {}
         if not @always_valid
-          exceptions = self.class.validate(@data, false).reject{|k, v| v.empty?}
+          exceptions = self.validate(@data, false)
         end
 
         if @errors
           exceptions[:errors] = (exceptions[:errors] or {}).merge(@errors)
         end
 
-        @validated = exceptions
         exceptions
       end
 
 
       def add_error(attribute, message)
         # reset validation
-        @validated = nil
+        @validated = false
 
         super
       end
@@ -610,15 +609,19 @@ module JSONModel
 
         return @data if mode == :raw
 
+        if @validated and @cleaned_data
+          @cleaned_data
+        end
+
         cleaned = JSONSchemaUtils.drop_unknown_properties(@data, self.class.schema)
         cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
 
         if mode == :validated
           @validated = false
-          self.class.validate(cleaned)
+          self.validate(cleaned)
         end
 
-        cleaned
+        @cleaned_data = cleaned
       end
 
 
@@ -638,6 +641,11 @@ module JSONModel
         else
           nil
         end
+      end
+
+
+      def validate(data, raise_errors = true)
+        @validated = self.class.validate(data, raise_errors)
       end
 
 
@@ -663,7 +671,7 @@ module JSONModel
                                         :attribute_types => exceptions[:attribute_types])
         end
 
-        exceptions
+        exceptions.reject{|k, v| v.empty?}
       end
 
 
