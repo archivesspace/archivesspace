@@ -28,6 +28,8 @@ GEM
     multi_json (1.7.2)
     net-ldap (0.3.1)
     nokogiri (1.5.9-java)
+    puma (1.6.3-java)
+      rack (~> 1.2)
     rack (1.4.5)
     rack-protection (1.5.0)
       rack
@@ -91,6 +93,7 @@ DEPENDENCIES
   ladle
   net-ldap
   nokogiri
+  puma
   rack-session-sequel
   rspec
   rufus-scheduler

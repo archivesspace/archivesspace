@@ -285,7 +285,7 @@
       <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 script/rails server --port=${aspace.frontend.port}" />
+      <arg line="--1.9 script/rails s Puma --port=${aspace.frontend.port}" />
     </java>
   </target>
 
@@ -532,7 +532,7 @@
       <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 script/rails server --port=${aspace.public.port}" />
+      <arg line="--1.9 script/rails s Puma --port=${aspace.public.port}" />
     </java>
   </target>
 

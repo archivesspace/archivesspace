@@ -18,6 +18,7 @@ gem "nokogiri"
 gem "factory_girl"
 gem "rufus-scheduler"
 gem "net-ldap"
+gem "puma"
 
 gem "axlsx"
 gem "flying_saucer"

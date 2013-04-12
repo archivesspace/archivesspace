@@ -50,6 +50,8 @@ class ArchivesSpaceService < Sinatra::Base
     config.dont_reload File.join("**", "spec", "*.rb")
     config.also_reload File.join("../", "migrations", "lib", "exporter.rb")
     config.also_reload File.join("../", "migrations", "serializers", "*.rb")
+
+    set :server, :puma
   end
 
 
@@ -342,13 +344,8 @@ if $0 == __FILE__
   Log.info("Dev server starting up...")
 
   ArchivesSpaceService.run!(:port => (ARGV[0] or 4567)) do |server|
-    server.instance_eval do
-      @config[:AccessLog] = []
-    end
-
     def server.stop
-
-      # Shutdown long polling threads that would otherwise hold up WEBrick.
+      # Shutdown long polling threads that would otherwise hold things up.
       Notifications.shutdown
       RealtimeIndexing.shutdown
 
