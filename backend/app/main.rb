@@ -142,15 +142,14 @@ class ArchivesSpaceService < Sinatra::Base
 
       end
 
+      ANONYMOUS_USER = AnonymousUser.new
+
+      require_relative "lib/bootstrap_access_control"
+
       @loaded_hooks.each do |hook|
         hook.call
       end
       @archivesspace_loaded = true
-
-
-      ANONYMOUS_USER = AnonymousUser.new
-
-      require_relative "lib/bootstrap_access_control"
 
       Notifications.notify("BACKEND_STARTED")
 
