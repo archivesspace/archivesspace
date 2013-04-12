@@ -1,5 +1,15 @@
 <%
-   section_id = "user_defined" if section_id.blank?
+  section_id = "user_defined" if section_id.blank?
+
+  collapsed_vals = []
+  ["integer_1", "integer_2", "real_1", "real_2", "string_1", "string_2", "string_3", "text_1", "text_2", "text_3", "text_4"].each do |k|
+    if collapsed_vals.size < 3
+      if !user_defined[k].nil?
+        collapsed_vals << I18n.t("user_defined.#{k}") + ":  #{user_defined[k][0,20]}"
+      end
+    end
+  end
+ 
 %>
 
 <section id="<%= section_id %>">
@@ -12,8 +22,11 @@
             <span class="icon-chevron-right"></span>
             <span class="icon-chevron-down"></span>
           </div>
-          <div class="span8">
-          </div>
+          <% collapsed_vals.each do |cval| %>
+            <div class="span3">
+              <%= cval %>
+            </div>
+          <% end %>
         </div>
       </div>
       <div id="<%= section_id %>_user_defined" class="accordion-body collapse">
