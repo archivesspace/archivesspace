@@ -13,7 +13,7 @@ Sequel.migration do
     create_table(:session) do
       primary_key :id
       String :session_id, :unique => true, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
       Integer :expirable, :default => 1
 
       TextBlobField :session_data, :null => true
@@ -30,7 +30,7 @@ Sequel.migration do
       Integer :default_value
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -53,7 +53,7 @@ Sequel.migration do
       primary_key :id
       String :username, :unique => true, :null => false
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
       String :pwhash, :null => false
     end
 
@@ -86,7 +86,7 @@ Sequel.migration do
       TextField :additional_contact
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -116,7 +116,7 @@ Sequel.migration do
       Integer :hidden, :default => 0
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -132,7 +132,7 @@ Sequel.migration do
       TextField :description, :null => false
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -167,7 +167,7 @@ Sequel.migration do
       String :level, :default => "repository"
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -230,7 +230,7 @@ Sequel.migration do
       TextField :use_restrictions_note
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:accession) do
@@ -285,7 +285,7 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:resource) do
@@ -327,7 +327,7 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:archival_object) do
@@ -361,7 +361,7 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:digital_object) do
@@ -391,7 +391,7 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:digital_object_component) do
@@ -417,7 +417,7 @@ Sequel.migration do
       Integer :instance_type_id, :null => false
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:instance) do
@@ -432,7 +432,7 @@ Sequel.migration do
       Integer :digital_object_id
       Integer :instance_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:instance_do_link_rlshp) do
@@ -459,7 +459,7 @@ Sequel.migration do
       String :indicator_3
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:container) do
@@ -479,7 +479,7 @@ Sequel.migration do
       String :ref_id, :null => false, :unique => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     self[:vocabulary].insert(:name => "global", :ref_id => "global",
@@ -501,7 +501,7 @@ Sequel.migration do
       Integer :source_id, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:subject) do
@@ -521,7 +521,7 @@ Sequel.migration do
       String :term_type, :null => false
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:term) do
@@ -553,7 +553,7 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -565,7 +565,7 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -577,7 +577,7 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -589,7 +589,7 @@ Sequel.migration do
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -638,7 +638,7 @@ Sequel.migration do
       apply_name_columns
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -663,7 +663,7 @@ Sequel.migration do
       apply_name_columns
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -690,7 +690,7 @@ Sequel.migration do
       apply_name_columns
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -716,7 +716,7 @@ Sequel.migration do
       apply_name_columns
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -753,7 +753,7 @@ Sequel.migration do
       TextField :note, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:agent_contact) do
@@ -782,7 +782,7 @@ Sequel.migration do
       Integer :notification
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -814,7 +814,7 @@ Sequel.migration do
       String :dimensions, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:extent) do
@@ -844,7 +844,7 @@ Sequel.migration do
       TextField :description, :null => true
 
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:related_agents_rlshp) do
@@ -886,7 +886,7 @@ Sequel.migration do
       Integer :calendar_id, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -903,7 +903,7 @@ Sequel.migration do
       String :outcome_note, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:event) do
@@ -963,7 +963,7 @@ Sequel.migration do
       String :granted_note, :null => true
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -990,7 +990,7 @@ Sequel.migration do
       Integer :publish
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
 
@@ -1045,7 +1045,7 @@ Sequel.migration do
       String :temporary
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:location) do
@@ -1076,7 +1076,7 @@ Sequel.migration do
       Integer :rights_determined, :default => 0, :null => false
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:collection_management) do
@@ -1147,7 +1147,7 @@ Sequel.migration do
       String :checksum_method
 
       DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:file_version) do
@@ -1299,7 +1299,7 @@ Sequel.migration do
       Integer :resource_id
 
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
       String :role
       Integer :role_id
       Integer :relator_id
@@ -1334,7 +1334,7 @@ Sequel.migration do
       Integer :agent_software_id
       Integer :event_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
       Integer :role_id
     end
 
@@ -1358,7 +1358,7 @@ Sequel.migration do
       Integer :accession_id
       Integer :resource_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:spawned_rlshp) do
@@ -1376,7 +1376,7 @@ Sequel.migration do
       Integer :digital_object_component_id
       Integer :subject_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
     end
 
     alter_table(:subject_rlshp) do
@@ -1394,7 +1394,7 @@ Sequel.migration do
       Integer :container_id
       Integer :location_id
       Integer :aspace_relationship_position
-      DateTime :last_modified, :null => false
+      DateTime :last_modified, :null => false, :index => true
 
       String :status
       String :start_date
