@@ -1059,6 +1059,44 @@ Sequel.migration do
     end
 
 
+    create_table(:user_defined) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      Integer :repo_id, :null => false
+
+      Integer :accession_id, :null => true
+      Integer :resource_id, :null => true
+      Integer :digital_object_id, :null => true
+
+      Integer :boolean_1
+      Integer :boolean_2
+
+      String :integer_1, :null => true
+      String :integer_2, :null => true
+
+      String :real_1, :null => true
+      String :real_2, :null => true
+
+      String :string_1, :null => true
+      String :string_2, :null => true
+      String :string_3, :null => true
+
+      TextField :text_1, :null => true
+      TextField :text_2, :null => true
+      TextField :text_3, :null => true
+      TextField :text_4, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:collection_management) do
+      add_foreign_key([:repo_id], :repository, :key => :id)
+    end
+
+
     create_table(:file_version) do
       primary_key :id
 

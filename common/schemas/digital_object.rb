@@ -39,6 +39,7 @@
                                    {"type" => "JSONModel(:note_digital_object) object"}]},
           },
       "collection_management" => {"type" => "JSONModel(:collection_management) object"},
+      "user_defined" => {"type" => "JSONModel(:user_defined) object"},
 
       "linked_instances" => {
         "type" => "array",
