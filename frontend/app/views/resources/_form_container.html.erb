@@ -66,5 +66,6 @@
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
 </fieldset>

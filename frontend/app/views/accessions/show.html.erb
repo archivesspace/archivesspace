@@ -82,6 +82,10 @@
          <% if @accession.collection_management %>
            <%= render :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
          <% end %>
+
+         <% if @accession.user_defined %>
+           <%= render :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
+         <% end %>
        <% end %>
      </div>
    </div>

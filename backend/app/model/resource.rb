@@ -16,6 +16,7 @@ class Resource < Sequel::Model(:resource)
   include Relationships
   include ExternalIDs
   include CollectionManagements
+  include UserDefineds
 
   agent_relator_enum("linked_agent_archival_record_relators")
 
