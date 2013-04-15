@@ -99,6 +99,9 @@ class TomcatSetup
 AppConfig[:search_user_secret] = "#{SecureRandom.hex}"
 AppConfig[:public_user_secret] = "#{SecureRandom.hex}"
 
+AppConfig[:frontend_cookie_secret] = "#{SecureRandom.hex}"
+AppConfig[:public_cookie_secret] = "#{SecureRandom.hex}"
+
 EOF
 
     if File.exists?(AppConfig.get_preferred_config_path)

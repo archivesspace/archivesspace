@@ -63,6 +63,28 @@ def start_server(port, *webapps)
 end
 
 
+def generate_secret_for(secret)
+  file = File.join(AppConfig[:data_directory], "#{secret}_cookie_secret.dat")
+
+  if !File.exists?(file)
+    File.write(file, SecureRandom.hex)
+
+    puts "****"
+    puts "**** INFO: Generated a secret key for AppConfig[:#{secret}]"
+    puts "****       and stored it in #{file}."
+    puts "****"
+    puts "**** If you're running ArchivesSpace in a clustered setup, you will"
+    puts "**** need to make sure that all instances share the same value for this"
+    puts "**** setting.  You can do that by setting a value for AppConfig[:#{secret}]"
+    puts "**** in your config.rb file."
+    puts "****"
+    puts ""
+  end
+
+  File.read(file)
+end
+
+
 def main
   java.lang.System.set_property("org.eclipse.jetty.webapp.LEVEL", "WARN")
   java.lang.System.set_property("org.eclipse.jetty.server.handler.LEVEL", "WARN")
@@ -76,9 +98,16 @@ def main
   java.lang.System.set_property("solr.data.dir", AppConfig[:solr_index_directory])
   java.lang.System.set_property("solr.solr.home", AppConfig[:solr_home_directory])
 
-  [:search_user_secret, :public_user_secret].each do |secret|
-    if !AppConfig.has_key?(secret)
-      java.lang.System.set_property("aspace.config.#{secret}", SecureRandom.hex)
+  [:search_user_secret, :public_user_secret].each do |property|
+    if !AppConfig.has_key?(property)
+      java.lang.System.set_property("aspace.config.#{property}", SecureRandom.hex)
+    end
+  end
+
+  cookie_secrets = [:frontend_cookie_secret, :public_cookie_secret].each do |secret|
+    if !AppConfig.has_key?("#{secret}_cookie_secret".intern)
+      java.lang.System.set_property("aspace.config.#{secret}",
+                                    generate_secret_for(secret))
     end
   end
 

@@ -62,4 +62,3 @@ class RealtimeIndexer < CommonIndexer
   end
 
 end
-
