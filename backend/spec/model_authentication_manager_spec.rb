@@ -52,6 +52,17 @@ describe 'Authentication manager' do
 
 
     it "handles lots of simultaneous logins for the same user with grace" do
+
+      # Create the user initially since we're not worried about user creation
+      # here.
+      #
+      # Funny thread trickery here to give us a separate DB connection.
+      # Otherwise we end up creating and locking the user row in the DB, which
+      # cauess the tests to deadlock.
+      Thread.new do
+        AuthenticationManager.authenticate("hello", "world")
+      end.join
+
       threads = (0...4).map do
         Thread.new do
           50.times.map { AuthenticationManager.authenticate("hello", "world") }
