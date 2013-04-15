@@ -8,6 +8,8 @@ require 'net/http'
 require 'test_utils'
 require_relative '../../indexer/app/lib/periodic_indexer.rb'
 require 'ladle'
+require 'simplecov'
+
 
 Dir.chdir(File.dirname(__FILE__))
 $solr_port = 2999

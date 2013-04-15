@@ -5,25 +5,8 @@ require 'sinatra'
 require 'java'
 
 if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'tmpdir'
-  require 'pp'
-  require 'simplecov'
-
-  SimpleCov.root(File.join(File.dirname(__FILE__), "../../"))
-  SimpleCov.coverage_dir("backend/coverage")
-
-  SimpleCov.start do
-    # Not useful to include these since the test suite deliberately doesn't load
-    # most of these files.
-    add_filter "lib/webrick_fix.rb"
-    add_filter "lib/bootstrap.rb"
-    add_filter "lib/logging.rb"
-    add_filter "config/"
-    add_filter "model/db.rb"    # Overriden below
-
-    # Leave gems out too
-    add_filter "build/gems"
-  end
+  require 'aspace_coverage'
+  ASpaceCoverage.start('backend:test')
 end
 
 require_relative "../app/model/db"

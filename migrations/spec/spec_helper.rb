@@ -54,28 +54,6 @@ require_relative 'factories'
 include FactoryGirl::Syntax::Methods
 
 
-if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'tmpdir'
-  require 'pp'
-  require 'simplecov'
-
-  SimpleCov.root(File.join(File.dirname(__FILE__), "../../"))
-  SimpleCov.coverage_dir("migrations/coverage")
-
-  # SimpleCov.start do
-  #   # Exclude everything but the Import code
-  # 
-  # end
-  
-  env_coverage_reports_tmp = ENV['COVERAGE_REPORTS'].clone
-  
-  ENV['COVERAGE_REPORTS'] = nil
-  
-end
-
-
-
-
 def make_test_vocab
   vocab = JSONModel(:vocabulary).from_hash("ref_id" => 'test_vocab',
                                           "name" => "Test Vocabulary")
@@ -83,19 +61,3 @@ def make_test_vocab
   
   vocab.uri
 end
-
-if env_coverage_reports_tmp
-  ENV['COVERAGE_REPORTS'] = env_coverage_reports_tmp
-end
-
-
-
-
-
-
-
-
-
-
-
-
