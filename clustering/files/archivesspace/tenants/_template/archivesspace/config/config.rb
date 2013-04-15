@@ -7,3 +7,7 @@ AppConfig[:db_url] = "<FILL THIS IN>"
 # A random string (the password for the user account used by search indexing)
 AppConfig[:search_user_secret] = "<FILL THIS IN>"
 AppConfig[:public_user_secret] = "<FILL THIS IN>"
+
+# Secrets used for securing cookies
+AppConfig[:frontend_cookie_secret] = "<FILL THIS IN>"
+AppConfig[:public_cookie_secret] = "<FILL THIS IN>"
