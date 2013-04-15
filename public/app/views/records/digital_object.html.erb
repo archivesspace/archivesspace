@@ -1,0 +1,151 @@
+<div class="title-pane">
+  <div class="row-fluid">
+    <div class="span3">
+
+    </div>
+    <div class="span9">
+      <h2>
+        <%= @digital_object.title %></h2>
+    </div>
+  </div>
+</div>
+<div class="content-pane">
+  <div class="row-fluid">
+    <div class="span3">
+      <div id="">
+        <ul class="nav nav-list as-nav-list" data-spy="affix">
+          <li><a href="#summary"><%= I18n.t("archival_object._html.section.summary") %> <span class="icon-chevron-right"></span></a></li>
+          <% if @digital_object['file_versions'].length > 0 %>
+            <li><a href="#file_versions"><%= I18n.t("file_version._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @digital_object['extents'].length > 0 %>
+            <li><a href="#extents"><%= I18n.t("extent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @digital_object['subjects'].length > 0 %>
+            <li><a href="#subjects"><%= I18n.t("subject._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @digital_object['linked_instances'].length > 0 %>
+            <li><a href="#linked_instances"><%= I18n.t("linked_instance._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @tree['children'].length %>
+            <li><a href="#components"><%= I18n.t("digital_object._html.section.components") %> <span class="icon-chevron-right"></span></a></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <div class="span9">
+      <fieldset class="form-horizontal">
+        <section id="summary">
+          <h3><%= I18n.t("digital_object._html.section.summary") %></h3>
+          <dl class="dl-horizontal">
+            <dt><%= I18n.t("digital_object.digital_object_id") %></dt>
+            <dd class="identifier-display">
+              <span class="identifier-display-part"><%= @digital_object['digital_object_id'] %></span>
+            </dd>
+          </dl>
+        </section>
+
+        <% if @digital_object['file_versions'].length > 0 %>
+          <section id="file_versions">
+            <h3><%= I18n.t("file_version._html.plural") %></h3>
+            <ul class="results-list">
+              <% @digital_object['file_versions'].each do |file| %>
+                <%
+                   uri = URI(file['file_uri'])
+                %>
+                <li class="result">
+                  <% if uri.scheme === "http" %>
+                    <%= link_to file['file_uri'], file['file_uri'] %>
+                  <% else %>
+                    <%= file['file_uri'] %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+        <% if @digital_object['extents'].length > 0 %>
+          <section id="extents">
+            <h3><%= I18n.t("extent._html.plural") %></h3>
+            <ul class="results-list">
+              <% @digital_object['extents'].each do |extent| %>
+                <li class="result">
+                  <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+        <% if @digital_object['subjects'].length > 0 %>
+          <section id="subjects">
+            <h3><%= I18n.t("subject._html.plural") %></h3>
+            <ul class="results-list">
+              <% @digital_object['subjects'].each do |subject| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for "subject" %>
+                    <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+        <% if @digital_object['linked_instances'].length > 0 %>
+          <section id="linked_instances">
+            <h3><%= I18n.t("linked_instance._html.plural") %></h3>
+            <ul class="results-list">
+              <% @digital_object['linked_instances'].each do |record| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for record['_resolved']['jsonmodel_type'] %>
+                    <%= link_to(record['_resolved']['title'], {:controller => :records, :action => record['_resolved']['jsonmodel_type'].intern, :id => JSONModel(record['_resolved']['jsonmodel_type'].intern).id_for(record['ref'])}) %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+
+        <% if @tree['children'].length %>
+          <section id="components">
+            <h3><%= I18n.t("digital_object._html.section.components") %></h3>
+
+            <ul class="results-list">
+              <% @tree['children'].each do |child| %>
+                <li class="result">
+                  <h4>
+                    <%= icon_for child["node_type"] %>
+                    <%= link_to child["title"], :controller => :records, :action => child["node_type"], :id => child['id'], :repo_id => @repository.id %>
+                  </h4>
+                </li>
+              <% end %>
+            </ul>
+          </section>
+        <% end %>
+      </fieldset>
+
+      <br/>
+      <br/>
+
+      <div class="accordion" id="source">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#source" href="#collapseOne">
+              Debugging
+            </a>
+          </div>
+          <div id="collapseOne" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <%= @digital_object.inspect %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

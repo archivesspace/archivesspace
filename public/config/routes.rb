@@ -1,11 +1,13 @@
 ArchivesSpacePublic::Application.routes.draw do
-  match 'search' => 'site#search', :via => [:get]
-  match 'advanced_search' => 'site#advanced_search', :via => [:get]
-  match 'repositories/:repo_id/resources/:id' => 'site#resource', :via => [:get]
-  match 'repositories/:repo_id/archival_objects/:id' => 'site#archival_object', :via => [:get]
-  match 'repositories/:repo_id' => 'site#repository', :via => [:get]
-  match 'repositories' => 'site#repository', :via => [:get]
-  match 'subjects/:id' => 'site#subject', :via => [:get]
-  match 'locations/:id' => 'site#location', :via => [:get]
+  match 'search' => 'search#search', :via => [:get]
+  match 'advanced_search' => 'search#advanced_search', :via => [:get]
+  match 'repositories/:repo_id/resources/:id' => 'records#resource', :via => [:get]
+  match 'repositories/:repo_id/digital_objects/:id' => 'records#digital_object', :via => [:get]
+  match 'repositories/:repo_id/archival_objects/:id' => 'records#archival_object', :via => [:get]
+  match 'repositories/:repo_id/digital_object_components/:id' => 'records#digital_object_component', :via => [:get]
+  match 'repositories/:repo_id' => 'search#repository', :via => [:get]
+  match 'repositories' => 'search#repository', :via => [:get]
+  match 'subjects/:id' => 'search#subject', :via => [:get]
+  match 'locations/:id' => 'search#location', :via => [:get]
   root :to => "site#index"
 end

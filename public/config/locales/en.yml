@@ -898,3 +898,37 @@ en:
     _html:
       plural: Repositories
       singular: Repository
+  digital_object: &digital_object_attributes
+    title: Title
+    digital_object_id: Identifier
+    publish: Publish?
+    level: Level
+    digital_object_type: Type
+    language: Language
+    language_tooltip: <p>The language for the digital content.</p>
+    <<: *language_attributes
+    restrictions: Restrictions?
+    _html:
+      singular: Digital Object
+      plural: Digital Objects
+      section:
+        components: Components
+        summary: Summary
+  digital_object_component:
+    <<: *digital_object_attributes
+    label: Label
+    component_id: Identifier
+    _html:
+      singular: Digital Object Component
+      plural: Digital Object Components
+      section:
+        components: Components
+        summary: Summary
+  file_version:
+    _html:
+      plural: File Versions
+      singular: File Version
+  linked_instance:
+    _html:
+      plural: Instance Of
+      singular: Instance Of

@@ -13,16 +13,17 @@
               <%= link_to raw('<span class="icon-home"></span>'), :controller => :site, :action => :index %>
             </li>
             <li class="divider-vertical"></li>
-            <li><%= link_to "Repositories", {:controller => :site, :action => :repository, :repo_id => nil} %></li>
-            <li><%= link_to "Collections", {:controller => :site, :action => :search, :type => "resource"} %></li>
-            <li><%= link_to "Subjects",  {:controller => :site, :action => :search, :type => "subject"} %></li>
+            <li><%= link_to "Repositories", {:controller => :search, :action => :repository, :repo_id => nil} %></li>
+            <li><%= link_to "Collections", {:controller => :search, :action => :search, :type => "resource"} %></li>
+            <li><%= link_to "Digital Objects", {:controller => :search, :action => :search, :type => "digital_object"} %></li>
+            <li><%= link_to "Subjects",  {:controller => :search, :action => :search, :type => "subject"} %></li>
             <% if not current_page?(root_url) %>
               <li class="pull-right search-switcher">
                   <%= link_to "Hide Advanced", { :advanced => nil }, { :class => params["advanced"]?"":"hide" } %>
                   <%= link_to "Show Advanced", { :advanced => true }, { :class => params["advanced"]?"hide":"" } %>
               </li>
             <li class="pull-right">
-              <%= form_tag(url_for(:controller => :site, :action => :search), :method => :get, :class => "navbar-form pull-left") do %>
+              <%= form_tag(url_for(:controller => :search, :action => :search), :method => :get, :class => "navbar-form pull-left") do %>
                   <div class="input-append">
                     <input id="global-search-box" type="text" class="span2" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
                     <div class="btn-group">

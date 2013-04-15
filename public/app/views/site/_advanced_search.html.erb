@@ -2,7 +2,7 @@
   values_for_operator = JSONModel(:boolean_query).schema['properties']['op']['enum'].collect {|v| [I18n.t("advanced_search.operator.#{v}", :default => v), v]}
   values_for_scope = JSONModel(:field_query).schema['properties']['field']['enum'].collect {|v| [I18n.t("search_results.filter.#{v}", :default => v), v]}
 %>
-<%= form_tag(url_for(:controller => :site, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
+<%= form_tag(url_for(:controller => :search, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
   <%= hidden_field_tag "advanced", true %>
   <div class="span12">
     <div class="span2">
@@ -50,7 +50,7 @@
       <% else %>
         <div class="btn-group">
           <button class="btn btn-primary"><%= I18n.t("advanced_search.button_text") %></button>
-          <%= link_to I18n.t("advanced_search.reset"), {:controller => :site, :action => :search}, :class => "btn reset-advanced-search" %>
+          <%= link_to I18n.t("advanced_search.reset"), {:controller => :search, :action => :search}, :class => "btn reset-advanced-search" %>
         </div>
       <% end %>
     </div>
