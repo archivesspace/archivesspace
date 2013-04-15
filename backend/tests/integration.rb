@@ -103,13 +103,13 @@ def run_tests(opts)
                 :title => "integration test accession #{$$}",
                 :accession_date => "2011-01-01"
               }.to_json,
-              url("/repositories/#{repo_id}/accessions"));
+              url("/repositories/#{repo_id}/accessions"))
 
   acc_id = r[:body]["id"] or fail("Accession creation", r)
 
 
   puts "Request the accession"
-  r = do_get(url("/repositories/#{repo_id}/accessions/#{acc_id}"));
+  r = do_get(url("/repositories/#{repo_id}/accessions/#{acc_id}"))
 
   r[:body]["title"] =~ /integration test accession/ or
     fail("Accession fetch", r)
@@ -123,7 +123,7 @@ def run_tests(opts)
                 :external_ids => [{'source' => 'mark', 'external_id' => 'rhubarb'}],
                 :accession_date => "2011-01-01"
               }.to_json,
-              url("/repositories/#{second_repo_id}/accessions"));
+              url("/repositories/#{second_repo_id}/accessions"))
 
   r[:body]["id"] or fail("Second accession creation", r)
 
@@ -239,6 +239,18 @@ def run_tests(opts)
   puts "Records can be queried by their external ID"
   r = do_get(url("/by-external-id?eid=rhubarb"), true)
   r.code == '303' or fail("fetch by external ID", r)
+
+
+  puts "It can generate accession reports"
+  r = do_post({
+                :id_0 => "thisthat#{$me}",
+                :title => "This & That (#{$$})",
+                :accession_date => "2011-01-01"
+              }.to_json,
+              url("/repositories/#{repo_id}/accessions"))
+
+  r = do_get(url("/repositories/#{repo_id}/reports/unprocessed_accessions?format=pdf"), true)
+  r.code == '200' or fail("Accession report", r)
 
 
   puts "Create an expiring admin session"

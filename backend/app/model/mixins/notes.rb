@@ -6,15 +6,7 @@ module Notes
 
 
   def update_from_json(json, opts = {}, apply_linked_records = true)
-    notes_blob = JSON(json.notes)
-    json.notes = nil
-
-    obj = super
-
-    ps = self.class.dataset.where(:id => self.id).prepare(:update, :update_notes, :notes => :$notes)
-    ps.call(:notes => notes_blob.to_sequel_blob)
-
-    obj
+    super(json, opts.merge('notes' => JSON(json.notes)), apply_linked_records)
   end
 
 
@@ -22,20 +14,12 @@ module Notes
   module ClassMethods
 
     def create_from_json(json, opts = {})
-      notes_blob = JSON(json.notes)
-      json.notes = nil
-
-      obj = super
-
-      ps = self.dataset.where(:id => obj.id).prepare(:update, :update_notes, :notes => :$notes)
-      ps.call(:notes => notes_blob.to_sequel_blob)
-
-      obj
+      super(json, opts.merge('notes' => JSON(json.notes)))
     end
 
 
     def sequel_to_jsonmodel(obj, opts = {})
-      notes = ASUtils.json_parse(DB.deblob(obj.notes) || "[]")
+      notes = ASUtils.json_parse(obj.notes || "[]")
       obj[:notes] = nil
       json = super
       json.notes = notes

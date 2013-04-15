@@ -9,7 +9,7 @@ describe "Batch Import Controller" do
 
       # Need to bypass some validation rules for 
       # JSON objects created by an import
-      def self.validate(hash)
+      def self.validate(hash, raise_errors = true)
         begin
           super(hash)
         rescue JSONModel::ValidationException => e

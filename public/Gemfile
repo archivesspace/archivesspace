@@ -19,3 +19,4 @@ gem 'json-schema'
 gem "jruby-jars", "= 1.7.3"
 
 gem 'atomic', '= 1.0.1'
+gem "puma"
