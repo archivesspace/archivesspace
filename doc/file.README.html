@@ -66,63 +66,214 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><div id='filecontents'><h1 id="getting-started">Getting started</h1>
+    <div id="content"><div id='filecontents'><h2 id="archivesspace-readme">ArchivesSpace README</h2>
+<p><a href="http://archivesspace.org">http://archivesspace.org</a></p>
 
-<h2 id="if-using-rvm-httpsrvmio">If using RVM (https://rvm.io//)</h2>
+<h1 id="getting-started">Getting started</h1>
+
+<p>The quickest way to get ArchivesSpace up and running is to download
+the latest distribution .zip file from the following URL:</p>
+
+<p>https://github.com/archivesspace/archivesspace/wiki/Downloads</p>
+
+<p>You will need to have Java 1.6 (or newer) installed on your machine,
+but everything else you need is included in the .zip file.  You can
+check your Java version by running the command:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_version identifier id'>version</span>
+</code></pre>
+
+<p>When you extract the .zip file, it will create a directory called
+<code>archivesspace</code>.  To run the system, just execute the appropriate
+startup script for your platform.  On Linux and OSX:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
+</code></pre>
+
+<p>and for Windows:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_cd identifier id'>cd</span> \<span class='rubyid_path identifier id'>path</span>\<span class='rubyid_to identifier id'>to</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_bat identifier id'>bat</span>
+</code></pre>
+
+<p>the system will log to the console as it starts up, and after a minute
+or so, you should be able to point your browser to
+http://localhost:8080/ and access the ArchivesSpace application.</p>
+
+<h1 id="first-steps">First steps</h1>
+
+<p>To start using the application, log in using the adminstrator account:</p>
 
 <ul>
-  <li>
-    <p>Install jruby (~&gt; 1.6.7)
-     $ rvm install jruby-1.6.7</p>
-  </li>
-  <li>
-    <p>Create a new gemset</p>
-
-    <pre class="code ruby"><code> $ <span class='rubyid_rvm identifier id'>rvm</span> <span class='rubyid_gemset identifier id'>gemset</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_archivespace identifier id'>archivespace</span><span class='minus op'>-</span><span class='rubyid_frontend identifier id'>frontend</span>
-     
- $ <span class='rubyid_rvm identifier id'>rvm</span> <span class='rubyid_gemset identifier id'>gemset</span> <span class='rubyid_use identifier id'>use</span> <span class='rubyid_archivespace identifier id'>archivespace</span><span class='minus op'>-</span><span class='rubyid_frontend identifier id'>frontend</span>
-</code></pre>
-  </li>
-  <li>
-    <p>Install the bundler gem</p>
-
-    <pre class="code ruby"><code> $ <span class='rubyid_gem identifier id'>gem</span> <span class='rubyid_install identifier id'>install</span> <span class='rubyid_bundler identifier id'>bundler</span>
-</code></pre>
-  </li>
-  <li>
-    <p>Run bundler to install all application gems</p>
-
-    <pre class="code ruby"><code> $ <span class='rubyid_bundle identifier id'>bundle</span> <span class='rubyid_install identifier id'>install</span>
-</code></pre>
-  </li>
-  <li>
-    <p>Run the Rails app</p>
-
-    <pre class="code ruby"><code> $ <span class='rubyid_rails identifier id'>rails</span> <span class='rubyid_server identifier id'>server</span>
-</code></pre>
-  </li>
+  <li>Username: <code>admin</code></li>
+  <li>Password: <code>admin</code></li>
 </ul>
 
-<h2 id="without-rvm">Without RVM</h2>
+<p>Once logged in, you can create a new repository by selecting &#8220;Create a
+repository&#8221; from the drop-down menu at the top right hand side of the
+screen.  Once you have created a repository, you can log out and
+register new user accounts from the link in the log-in form.</p>
 
-<ul>
-  <li>
-    <p>Grab jruby and the gem dependencies:</p>
+<h1 id="running-archivesspace-with-a-custom-configuration-file">Running ArchivesSpace with a custom configuration file</h1>
 
-    <pre class="code ruby"><code> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_bootstrap identifier id'>bootstrap</span>
+<p>Under your <code>archivesspace</code> directory you will see a directory called
+<code>config</code> which contains a file called <code>config.rb</code>.  By modifying this
+file, you can override the defaults that ArchivesSpace ships with:
+changing things like the ports it listens on and where it puts its data.</p>
+
+<h1 id="running-archivesspace-against-mysql">Running ArchivesSpace against MySQL</h1>
+
+<p>The ArchivesSpace distribution runs against an embedded database by
+default, but it&#8217;s a good idea to run against MySQL for production
+use.</p>
+
+<h2 id="download-mysql-connector">Download MySQL Connector</h2>
+
+<p>ArchivesSpace requires the
+<a href="http://dev.mysql.com/downloads/connector/j/">MySQL Connector for Java</a>,
+which must be downloaded separately because of its licensing agreement.
+Download the Connector and place it in a location where ArchivesSpace can
+find it on its classpath:</p>
+
+<pre class="code ruby"><code>     $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_Oq constant id'>Oq</span> <span class='rubyid_http identifier id'>http</span><span class='symbol val'>:/</span><span class='regexp val'>/repo1.maven.org/</span><span class='rubyid_maven2 identifier id'>maven2</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='div op'>/</span><span class='float val'>5.1</span><span class='integer val'>.24</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.24</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
+
+     $ <span class='rubyid_mv identifier id'>mv</span> <span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.24</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_lib identifier id'>lib</span>
 </code></pre>
-  </li>
-  <li>
-    <p>Run the Rails app:</p>
 
-    <pre class="code ruby"><code> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_frontend identifier id'>frontend</span><span class='symbol val'>:devserver</span>
+<h2 id="set-up-mysql-database">Set up MySQL database</h2>
+
+<p>Next, create an empty database in MySQL and grant access
+to a dedicated ArchivesSpace user (this example uses username <code>as</code> and
+password <code>as123</code>):</p>
+
+<pre class="code ruby"><code>     $ <span class='rubyid_mysql identifier id'>mysql</span> <span class='minus op'>-</span><span class='rubyid_uroot identifier id'>uroot</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span>
+
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span> <span class='rubyid_default identifier id'>default</span> <span class='rubyid_character identifier id'>character</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_utf8 identifier id'>utf8</span><span class='semicolon token'>;</span>
+     <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>1</span> <span class='rubyid_row identifier id'>row</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.08</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
+
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'as'</span>@<span class='string val'>'localhost'</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>'as123'</span><span class='semicolon token'>;</span>
+     <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>0</span> <span class='rubyid_rows identifier id'>rows</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.21</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
 </code></pre>
-  </li>
-</ul>
+
+<p>Then, modify your <code>config/config.rb</code> file to refer to your MySQL
+database:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;jdbc:mysql://localhost:3306/archivesspace?user=as&amp;password=as123&amp;useUnicode=true&amp;characterEncoding=UTF-8&quot;</span>
+</code></pre>
+
+<p>There is a database setup script that will create all the tables that
+ArchivesSpace requires.  Run this with:</p>
+
+<pre class="code ruby"><code><span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>  <span class='comment val'># or setup-database.bat under Windows</span>
+</code></pre>
+
+<h2 id="start-archivesspace">Start ArchivesSpace</h2>
+
+<p>Once your database is configured, start the application using
+<code>archivesspace.sh</code> (or <code>archivesspace.bat</code> under Windows).</p>
+
+<h1 id="configuring-ldap-authentication">Configuring LDAP authentication</h1>
+
+<p>ArchivesSpace can be configured to authenticate against one or more
+LDAP directories by specifying them in the application&#8217;s configuration
+file.  When a user logs in, each authentication source is tried in
+order until one matches or all sources are exhausted.</p>
+
+<p>Here&#8217;s a minimal example of LDAP authentication:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>389</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<p>With this configuration, ArchivesSpace performs authentication by
+connecting to <code>ldap://ldap.example.com:389/</code>, binding anonymously,
+searching the <code>ou=people,dc=example,dc=com</code> tree for <code>uid = &lt;username&gt;</code>. </p>
+
+<p>If the user is found, ArchivesSpace authenticates them by
+binding using the password specified.  Finally, the <code>:attribute_map</code>
+entry specifies how LDAP attributes should be mapped to ArchivesSpace
+user attributes (mapping LDAP&#8217;s <code>cn</code> to ArchivesSpace&#8217;s <code>name</code> in the
+above example).</p>
+
+<p>Many LDAP directories don&#8217;t support anonymous binding.  To integrate
+with such a directory, you will need to specify the username and
+password of a user with permission to connect to the directory and
+search for other users.  Modifying the previous example for this case
+looks like this:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>389</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid=archivesspace_auth,ou=system,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'secretsquirrel'</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<p>Finally, some LDAP directories enforce the use of SSL encryption.  To
+configure ArchivesSpace to connect via LDAPS, change the port as
+appropriate and specify the <code>encryption</code> option:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>636</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid=archivesspace_auth,ou=system,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'secretsquirrel'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:encryption</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:simple_tls</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<h1 id="overriding-frontend-and-public-templatesassets">Overriding Frontend and Public templates/assets</h1>
+
+<p>Under your <code>archivesspace</code> directory there will be a directory called <code>local</code>.
+By adding to directories under this you will be able to override the templates,
+locales, and assets (javascript, stylesheets, images) used in both the frontend
+and public applications.</p>
+
+<p>To override any of the view templates, just match up the path to the target template
+under the directories <code>archivesspace/local/frontend/views/</code>.
+For example, to override the frontend branding, add your own template named <code>_branding.html.erb</code>
+in the directory <code>archivesspace/local/frontend/views/site/</code>.</p>
+
+<p>To apply your own label and text translations, add your locales file to the directory <code>archivesspace/local/frontend/locales/</code>.
+Ensure your file is named using the code of the target language - for English use <code>archivesspace/local/frontend/locales/en.yml</code>.</p>
+
+<p>To allow a document (image, stylesheet, PDF etc) to be available from your application as a static resource, you can add it to the directory
+<code>archivesspace/local/frontend/assets</code>. For example, your own logo image <code>archivesspace/local/frontend/assets/my_logo.png</code> will then be available via the URL
+<code>http://localhost:8080/assets/my_logo.png</code>.</p>
+
+<h1 id="further-documentation">Further documentation</h1>
+
+<p>Additional deployment documentation can be found on the ArchivesSpace
+wiki at <a href="https://github.com/archivesspace/archivesspace/wiki">https://github.com/archivesspace/archivesspace/wiki</a>.</p>
+
+<p>The latest technical documentation, including API documentation and
+architecture notes, is published at
+<a href="http://hudmol.github.com/archivesspace/">http://hudmol.github.com/archivesspace/</a>.</p>
+
+<h1 id="license">License</h1>
+
+<p>ArchivesSpace is released under the <a href="http://opensource.org/licenses/ecl2.php">Educational Community License,
+version 2.0</a>. See the
+<a href="COPYING">COPYING</a> file for more information.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:25:54 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:23 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
