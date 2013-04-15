@@ -924,3 +924,11 @@ en:
       section:
         components: Components
         summary: Summary
+  file_version:
+    _html:
+      plural: File Versions
+      singular: File Version
+  linked_instance:
+    _html:
+      plural: Instance Of
+      singular: Instance Of
