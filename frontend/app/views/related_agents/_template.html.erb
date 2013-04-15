@@ -8,10 +8,12 @@
         <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
         <%= form.label_and_select("relator", form.possible_options_for("relator")) %>
         <% if opts[:readonly] %>
-          <%= form.label_with_field(:ref, render_token(:object => form,
-                                                       :label => form["_resolved"]["names"][0]["sort_name"],
-                                                       :type => form["_resolved"]["agent_type"],
-                                                       :uri => form["_resolved"]["uri"])) %>
+          <div class="token-list <%= form['_resolved']['agent_type'] %>">
+            <%= form.label_with_field(:ref, render_token(:object => form,
+                                                         :label => form["_resolved"]["names"][0]["sort_name"],
+                                                         :type => form["_resolved"]["agent_type"],
+                                                         :uri => form["_resolved"]["uri"])) %>
+          </div>
         <% else %>
           <%= render :partial => "agents/linker",
                      :locals => {
