@@ -20,7 +20,7 @@
         "type" => "array",
         "items" => {
           "type" => "string",
-          "maxLength" => 32672
+          "maxLength" => 65000
         }
       }
     },

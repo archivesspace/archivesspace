@@ -8,14 +8,14 @@
 
       "content" => {
         "type" => "array",
-        "items" => {"type" => "string", "maxLength" => 32672},
+        "items" => {"type" => "string", "maxLength" => 65000},
         "minItems" => 0,
         "ifmissing" => nil,
       },
 
       "items" => {
         "type" => "array",
-        "items" => {"type" => "string", "maxLength" => 32672}
+        "items" => {"type" => "string", "maxLength" => 65000}
       },
     },
 

@@ -18,7 +18,7 @@
             "event_date" => {"type" => "date"},
             "events" => {
               "type" => "array",
-              "items" => {"type" => "string", "maxLength" => 32672}
+              "items" => {"type" => "string", "maxLength" => 65000}
             }
           }
         }

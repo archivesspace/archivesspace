@@ -13,10 +13,10 @@
         "default" => "inverted",
         "enum" => ["inverted", "direct"]
       },
-      "prefix" => {"type" => "string", "maxLength" => 32672},
-      "rest_of_name" => {"type" => "string", "maxLength" => 32672},
-      "suffix" => {"type" => "string", "maxLength" => 32672},
-      "fuller_form" => {"type" => "string", "maxLength" => 32672},
+      "prefix" => {"type" => "string", "maxLength" => 65000},
+      "rest_of_name" => {"type" => "string", "maxLength" => 65000},
+      "suffix" => {"type" => "string", "maxLength" => 65000},
+      "fuller_form" => {"type" => "string", "maxLength" => 65000},
       "number" => {"type" => "string", "maxLength" => 255},
     },
 

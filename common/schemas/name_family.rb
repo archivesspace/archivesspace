@@ -5,8 +5,8 @@
     "type" => "object",
 
     "properties" => {
-      "family_name" => {"type" => "string", "maxLength" => 32672, "ifmissing" => "error"},
-      "prefix" => {"type" => "string", "maxLength" => 32672},
+      "family_name" => {"type" => "string", "maxLength" => 65000, "ifmissing" => "error"},
+      "prefix" => {"type" => "string", "maxLength" => 65000},
     },
 
     "additionalProperties" => false,

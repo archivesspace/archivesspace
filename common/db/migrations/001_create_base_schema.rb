@@ -200,7 +200,7 @@ Sequel.migration do
 
       String :identifier, :null => false
 
-      TextField :title, :null => true
+      LongString :title, :null => true
       
       Integer :publish
       
@@ -248,7 +248,7 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
       Integer :accession_id, :null => true
-      TextField :title, :null => false
+      LongString :title, :null => false
 
       String :identifier
 
@@ -316,7 +316,7 @@ Sequel.migration do
       String :ref_id, :null => false, :unique => false
       String :component_id, :null => true
 
-      TextField :title, :null => true
+      LongString :title, :null => true
       Integer :title_auto_generate
 
       String :level, :null => false
@@ -350,7 +350,7 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
       String :digital_object_id, :null => false
-      TextField :title
+      LongString :title
       Integer :level_id
       Integer :digital_object_type_id
       String :language
@@ -384,7 +384,7 @@ Sequel.migration do
       String :parent_name, :null => true
 
       String :component_id, :null => false
-      TextField :title
+      LongString :title
       String :label
       String :language
 
@@ -493,7 +493,7 @@ Sequel.migration do
 
       Integer :vocab_id, :null => false
 
-      TextField :title
+      LongString :title
       String :terms_sha1, :unique => true
       String :ref_id, :unique => true
       TextField :scope_note
@@ -628,7 +628,7 @@ Sequel.migration do
       String :primary_name, :null => false
       String :name_order, :null => false
 
-      TextField :title, :null => true
+      LongString :title, :null => true
       TextField :prefix, :null => true
       TextField :rest_of_name, :null => true
       TextField :suffix, :null => true
@@ -984,7 +984,7 @@ Sequel.migration do
 
       Integer :lock_version, :default => 0, :null => false
 
-      TextField :title, :null => false
+      LongString :title, :null => false
       String :location, :null => false
 
       Integer :publish
@@ -1029,7 +1029,7 @@ Sequel.migration do
 
       String :building, :null => false
 
-      TextField :title
+      LongString :title
 
       String :floor
       String :room

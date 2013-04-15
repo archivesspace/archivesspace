@@ -36,26 +36,26 @@
       "publish" => {"type" => "boolean", "default" => true},
       "restrictions" => {"type" => "boolean", "default" => false},
 
-      "repository_processing_note" => {"type" => "string", "maxLength" => 32672},
-      "container_summary" => {"type" => "string", "maxLength" => 32672},
+      "repository_processing_note" => {"type" => "string", "maxLength" => 65000},
+      "container_summary" => {"type" => "string", "maxLength" => 65000},
 
       "ead_id" => {"type" => "string", "maxLength" => 255},
       "ead_location" => {"type" => "string", "maxLength" => 255},
 
       # Finding aid
-      "finding_aid_title" => {"type" => "string", "maxLength" => 32672},
-      "finding_aid_filing_title" => {"type" => "string", "maxLength" => 32672},
+      "finding_aid_title" => {"type" => "string", "maxLength" => 65000},
+      "finding_aid_filing_title" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_date" => {"type" => "string", "maxLength" => 255},
       "finding_aid_author" => {"type" => "string", "maxLength" => 255},
       "finding_aid_description_rules" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_description_rules"},
       "finding_aid_language" => {"type" => "string", "maxLength" => 255},
       "finding_aid_sponsor" => {"type" => "string", "maxLength" => 255},
-      "finding_aid_edition_statement" => {"type" => "string", "maxLength" => 32672},
-      "finding_aid_series_statement" => {"type" => "string", "maxLength" => 32672},
+      "finding_aid_edition_statement" => {"type" => "string", "maxLength" => 65000},
+      "finding_aid_series_statement" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_revision_date" => {"type" => "string", "maxLength" => 255},
-      "finding_aid_revision_description" => {"type" => "string", "maxLength" => 32672},
+      "finding_aid_revision_description" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_status" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_status"},
-      "finding_aid_note" => {"type" => "string", "maxLength" => 32672},
+      "finding_aid_note" => {"type" => "string", "maxLength" => 65000},
 
       # Extents (overrides abstract schema)
       "extents" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:extent) object"}},

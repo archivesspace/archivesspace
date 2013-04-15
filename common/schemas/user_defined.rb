@@ -18,10 +18,10 @@
       "string_2" => {"type" => "string", "maxLength" => 255, "required" => false},
       "string_3" => {"type" => "string", "maxLength" => 255, "required" => false},
 
-      "text_1" => {"type" => "string", "maxLength" => 32672, "required" => false},
-      "text_2" => {"type" => "string", "maxLength" => 32672, "required" => false},
-      "text_3" => {"type" => "string", "maxLength" => 32672, "required" => false},
-      "text_4" => {"type" => "string", "maxLength" => 32672, "required" => false},
+      "text_1" => {"type" => "string", "maxLength" => 65000, "required" => false},
+      "text_2" => {"type" => "string", "maxLength" => 65000, "required" => false},
+      "text_3" => {"type" => "string", "maxLength" => 65000, "required" => false},
+      "text_4" => {"type" => "string", "maxLength" => 65000, "required" => false},
     },
 
     "additionalProperties" => false,
