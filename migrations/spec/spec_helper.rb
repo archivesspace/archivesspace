@@ -30,6 +30,11 @@ def stop_backend
 end
 
 
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('migrations:test')
+end
+
 require_relative "../lib/bootstrap"
 require_relative "../../backend/app/lib/request_context"
 
@@ -45,6 +50,7 @@ class MockEnumSource
   end
 
 end
+
 
 JSONModel::init( { :strict_mode => true, :enum_source => MockEnumSource, :client_mode => true, :url => $backend_url} )
 
