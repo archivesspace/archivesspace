@@ -20,7 +20,18 @@
 
 cd "`dirname $0`"
 
-export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/scripts/find-base.sh)"
+if [ ! -e "scripts/find-base.sh" ]; then
+    cd "$(dirname `readlink $0`)"
+fi
+
+export ASPACE_LAUNCHER_BASE="$(scripts/find-base.sh)"
+
+if [ "$ASPACE_LAUNCHER_BASE" = "" ]; then
+    echo "Couldn't find launcher base directory!  Aborting."
+    exit
+fi
+
+echo "Starting ArchivesSpace from directory $ASPACE_LAUNCHER_BASE"
 
 if [ "$ARCHIVESSPACE_USER" = "" ]; then
     ARCHIVESSPACE_USER=
