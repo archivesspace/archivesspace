@@ -2,11 +2,16 @@
    if form.obj['ref'].blank?
      selected_json = "{}"
    else
-     selected_json =  form.obj['_resolved'].to_json
+     selected = form.obj['_resolved'].clone
+     selected['uri'] ||= form.obj['ref']
+     selected_json =  selected.to_json
    end
+
+   linkable_types = defined?(allowed_types) ? allowed_types : ["agent"]
+   creatable_types = defined?(allowed_types) ? allowed_types : ["agent_person", "agent_family", "agent_corporate_entity", "agent_software"]
 %>
 <div class="control-group">
-  <label class="control-label"><%= I18n.t("agent._html.singular") %></label>
+  <label class="control-label"><%= defined?(linker_label) ? linker_label : I18n.t("agent._html.singular") %></label>
   <div class="controls">
     <div class="input-append linker-wrapper">
       <input type="text" class="linker"
@@ -19,7 +24,7 @@
              data-selected="<%= selected_json %>"
              data-multiplicity="one"
              data-format_template="names[0].sort_name"
-             data-types='["agent"]'
+             data-types='<%= linkable_types.to_json %>'
       />
       <div class="btn-group pull-right">
         <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
@@ -29,10 +34,9 @@
             <li class="dropdown-submenu pull-left">
               <a href="javascript:void(0);"><%= I18n.t("actions.create") %></a>
               <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :type => :agent_person, :inline => true %>" class="linker-create-btn"><%= I18n.t("agent_person._html.singular") %></a></li>
-                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :type => :agent_family, :inline => true %>" class="linker-create-btn"><%= I18n.t("agent_family._html.singular") %></a></li>
-                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :type => :agent_corporate_entity, :inline => true %>" class="linker-create-btn"><%= I18n.t("agent_corporate_entity._html.singular") %></a></li>
-                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :type => :agent_software, :inline => true %>" class="linker-create-btn"><%= I18n.t("agent_software._html.singular") %></a></li>
+                <% creatable_types.each do |agent_type| %>
+                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :type => agent_type.intern, :inline => true %>" class="linker-create-btn"><%= I18n.t("#{agent_type}._html.singular") %></a></li>
+                <% end %>
               </ul>
             </li>
           <% end %>

@@ -35,12 +35,15 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/agents/people/:id')
     .description("Get a person by ID")
-    .params(["id", Integer, "ID of the person agent"])
+    .params(["id", Integer, "ID of the person agent"],
+            ["resolve", [String], "A list of references to resolve and embed in the response",
+             :optional => true])
     .nopermissionsyet
     .returns([200, "(:agent)"],
              [404, '{"error":"Agent not found"}']) \
   do
-    json_response(AgentPerson.to_jsonmodel(AgentPerson.get_or_die(params[:id])))
+    json_response(resolve_references(AgentPerson.to_jsonmodel(AgentPerson.get_or_die(params[:id])),
+                                     params[:resolve]))
   end
 
 end

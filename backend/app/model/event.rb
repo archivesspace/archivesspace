@@ -19,7 +19,7 @@ class Event < Sequel::Model(:event)
                     :is_array => false,
                     :always_resolve => true)
 
-  define_relationship(:name => :link,
+  define_relationship(:name => :event_link,
                       :json_property => 'linked_records',
                       :contains_references_to_types => proc {[Accession, Resource, ArchivalObject, DigitalObject, AgentPerson, AgentCorporateEntity, AgentFamily, AgentSoftware]},
                       :class_callback => proc { |clz|
@@ -35,7 +35,7 @@ class Event < Sequel::Model(:event)
 
 
   def has_active_linked_records?
-    linked_records(:link).each do |linked_record|
+    linked_records(:event_link).each do |linked_record|
       if linked_record.values.has_key?(:suppressed) && linked_record[:suppressed] == 0
         return true
       end

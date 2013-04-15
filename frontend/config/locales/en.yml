@@ -1389,6 +1389,45 @@ en:
     type: Type
     type_tooltip: |
       <p>The type of note for the content.  Note types are used for guiding export of note contents to certain elements in specific data formats.</p>
+  related_agent:
+    _html:
+      singular: Related Agent
+      plural: Related Agents
+  agent_relationship_parentchild:
+    relator: Relationship type
+    relator_is_child_of: child of related
+    relator_is_parent_of: parent of related
+    description: Description
+    ref: Related Agent
+    date: Date
+    _html:
+      singular: Parent/Child Relationship
+  agent_relationship_earlierlater:
+    relator: Relationship type
+    relator_is_earlier_form_of: earlier form of related
+    relator_is_later_form_of: later form of related
+    description: Description
+    ref: Related Agent
+    date: Date
+    _html:
+      singular: Earlier/Later Relationship
+  agent_relationship_subordinatesuperior:
+    relator: Relationship type
+    relator_is_subordinate_to: is subordinate to related
+    relator_is_superior_of: is superior of related
+    description: Description
+    ref: Related Agent
+    date: Date
+    _html:
+      singular: Subordinate/Superior Relationship
+  agent_relationship_associative:
+    relator: Relationship type
+    relator_is_associative_with: associative with related
+    description: Description
+    date: Date
+    ref: Related Agent
+    _html:
+      singular: Associative Relationship
   note:
     item: Item
     note_singlepart: Single Part Note
@@ -1774,6 +1813,7 @@ en:
     label_copyright: Copyright
     label_creation: Creation
     label_deaccession: Deaccession
+    label_agent_relation: Agent Relation
     label_digitized: Digitized
     label_issued: Issued
     label_modified: Modified

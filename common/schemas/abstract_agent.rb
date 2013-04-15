@@ -16,6 +16,7 @@
         }
       },
 
+
       "agent_type" => {
         "type" => "string",
         "required" => false,

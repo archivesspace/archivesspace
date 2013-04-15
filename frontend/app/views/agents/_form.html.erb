@@ -6,17 +6,18 @@
   <section id="agent_details">
     <h3><%= I18n.t("agent._html.section.basic_information") %></h3>
     <div class="control-group">
-       <label class="control-label"><%= I18n.t("agent.type") %></label>
-       <div class="controls label-only">
-          <%= form.hidden_input "agent_type", @agent.agent_type %>
-          <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
-       </div>
+      <label class="control-label"><%= I18n.t("agent.type") %></label>
+      <div class="controls label-only">
+        <%= form.hidden_input "agent_type", @agent.agent_type %>
+        <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
+      </div>
     </div>
   </section>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "names", :template_erb => "agents/name_forms/#{@agent.agent_type}", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}" } %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "contacts", :template_erb => "agents/contact_details", :template => "agent_contact" } %>
   <%= render :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type'])} %>
+  <%= render :partial => "related_agents/form", :locals => {:form => form} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "agent_external_documents_"} %>
 
 </fieldset>

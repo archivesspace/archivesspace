@@ -14,7 +14,7 @@ class Instance < Sequel::Model(:instance)
                     :corresponding_to_association => :container,
                     :always_resolve => true)
 
-  define_relationship(:name => :link,
+  define_relationship(:name => :instance_do_link,
                       :json_property => 'digital_object',
                       :contains_references_to_types => proc {[DigitalObject]},
                       :is_array => false)

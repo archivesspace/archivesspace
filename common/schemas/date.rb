@@ -5,7 +5,7 @@
 
     "properties" => {
       "date_type" => {"type" => "string", "enum" => ["single", "bulk", "inclusive"]},
-      "label" => {"type" => "string", "enum" => ["broadcast", "copyright", "creation", "deaccession", "digitized", "issued", "modified", "publication", "other"], "ifmissing" => "error"},
+      "label" => {"type" => "string", "enum" => ["broadcast", "copyright", "creation", "deaccession", "digitized", "issued", "modified", "publication", "agent_relation", "other"], "ifmissing" => "error"},
 
       "certainty" => {"type" => "string", "enum" => ["approximate", "inferred", "questionable"]},
       "expression" => {"type" => "string", "maxLength" => 255},

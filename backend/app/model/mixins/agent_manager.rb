@@ -1,3 +1,6 @@
+require_relative 'relationships'
+require_relative 'related_agents'
+
 module AgentManager
 
   @@registered_agents ||= {}
@@ -31,6 +34,9 @@ module AgentManager
     def self.included(base)
       base.extend(ClassMethods)
       base.set_model_scope :global
+
+      base.include(Relationships)
+      base.include(RelatedAgents)
     end
 
 

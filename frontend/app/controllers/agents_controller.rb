@@ -12,7 +12,7 @@ class AgentsController < ApplicationController
   end
 
   def show
-    @agent = JSONModel(@agent_type).find(params[:id])
+    @agent = JSONModel(@agent_type).find(params[:id], "resolve[]" => "related_agents")
   end
 
   def new
@@ -23,7 +23,7 @@ class AgentsController < ApplicationController
   end
 
   def edit
-    @agent = JSONModel(@agent_type).find(params[:id])
+    @agent = JSONModel(@agent_type).find(params[:id], "resolve[]" => "related_agents")
   end
 
   def create

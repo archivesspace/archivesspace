@@ -427,24 +427,17 @@ Sequel.migration do
       add_foreign_key([:instance_type_id], :enumeration_value, :key => :id)
     end
 
-    # Instance relationships
-    [:digital_object].each do |record|
-      table = [MigrationUtils.shorten_table("instance"),
-               MigrationUtils.shorten_table(record)].sort.join("_link_").intern
+    create_table(:instance_do_link_rlshp) do
+      primary_key :id
+      Integer :digital_object_id
+      Integer :instance_id
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
+    end
 
-
-      create_table(table) do
-        primary_key :id
-        Integer "#{record}_id".intern
-        Integer :instance_id
-        Integer :aspace_relationship_position
-        DateTime :last_modified, :null => false
-      end
-
-      alter_table(table) do
-        add_foreign_key(["#{record}_id".intern], record, :key => :id)
-        add_foreign_key([:instance_id], :instance, :key => :id)
-      end
+    alter_table(:instance_do_link_rlshp) do
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:instance_id], :instance, :key => :id)
     end
 
 
@@ -833,6 +826,39 @@ Sequel.migration do
     end
 
 
+    create_table(:related_agents_rlshp) do
+      primary_key :id
+
+      Integer :agent_person_id_0
+      Integer :agent_person_id_1
+      Integer :agent_corporate_entity_id_0
+      Integer :agent_corporate_entity_id_1
+      Integer :agent_software_id_0
+      Integer :agent_software_id_1
+      Integer :agent_family_id_0
+      Integer :agent_family_id_1
+
+      String :relator, :null => false
+      String :relationship_target, :null => false
+      String :jsonmodel_type, :null => false
+      TextField :description, :null => true
+
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
+    end
+
+    alter_table(:related_agents_rlshp) do
+      add_foreign_key([:agent_person_id_0], :agent_person, :key => :id)
+      add_foreign_key([:agent_person_id_1], :agent_person, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id_0], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id_1], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id_0], :agent_software, :key => :id)
+      add_foreign_key([:agent_software_id_1], :agent_software, :key => :id)
+      add_foreign_key([:agent_family_id_0], :agent_family, :key => :id)
+      add_foreign_key([:agent_family_id_1], :agent_family, :key => :id)
+    end
+
+
     create_table(:date) do
       primary_key :id
 
@@ -845,6 +871,7 @@ Sequel.migration do
       Integer :event_id, :null => true
       Integer :digital_object_id, :null => true
       Integer :digital_object_component_id, :null => true
+      Integer :related_agents_rlshp_id, :null => true
 
       String :date_type, :null => true
       String :label, :null => false
@@ -895,6 +922,7 @@ Sequel.migration do
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:event_id], :event, :key => :id)
       add_foreign_key([:deaccession_id], :deaccession, :key => :id)
+      add_foreign_key([:related_agents_rlshp_id], :related_agents_rlshp, :key => :id)
     end
 
 
@@ -1254,104 +1282,78 @@ Sequel.migration do
                 ["md5", "sha-1", "sha-256", "sha-384", "sha-512"])
 
 
-    [:agent_person, :agent_software, :agent_family, :agent_corporate_entity].each do |agent|
-      # Relationship tables - static role types
-      [:accession, :archival_object, :digital_object, :digital_object_component, :resource].each do |record|
 
-        table = [MigrationUtils.shorten_table(record),
-                 MigrationUtils.shorten_table(agent)].sort.join("_linked_agents_").intern
+    create_table(:linked_agents_rlshp) do
+      primary_key :id
 
-        create_table(table) do
-          primary_key :id
-          Integer "#{record}_id".intern
-          Integer "#{agent}_id".intern
-          Integer :aspace_relationship_position
-          DateTime :last_modified, :null => false
-          String :role
-          Integer :relator_id
-        end
+      Integer :agent_person_id
+      Integer :agent_software_id
+      Integer :agent_family_id
+      Integer :agent_corporate_entity_id
 
-        alter_table(table) do
-          add_foreign_key(["#{record}_id".intern], record, :key => :id)
-          add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
-          add_foreign_key([:relator_id], :enumeration_value, :key => :id)
-        end
-      end
-      # Relationship tables - dynamic role types
-      [:event].each do |record|
+      Integer :accession_id
+      Integer :archival_object_id
+      Integer :digital_object_id
+      Integer :digital_object_component_id
+      Integer :event_id
+      Integer :resource_id
 
-        table = [MigrationUtils.shorten_table(record),
-                 MigrationUtils.shorten_table(agent)].sort.join("_linked_agents_").intern
-
-        create_table(table) do
-          primary_key :id
-          Integer "#{record}_id".intern
-          Integer "#{agent}_id".intern
-          Integer :aspace_relationship_position
-          DateTime :last_modified, :null => false
-          Integer :role_id
-          Integer :relator_id
-        end
-
-        alter_table(table) do
-          add_foreign_key(["#{record}_id".intern], record, :key => :id)
-          add_foreign_key(["#{agent}_id".intern], agent, :key => :id)
-          add_foreign_key([:role_id], :enumeration_value, :key => :id)
-          add_foreign_key([:relator_id], :enumeration_value, :key => :id)
-        end
-      end
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
+      String :role
+      Integer :role_id
+      Integer :relator_id
     end
 
-    
+    alter_table(:linked_agents_rlshp) do
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
+      add_foreign_key([:event_id], :event, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:relator_id], :enumeration_value, :key => :id)
+    end
+
 
     # Event relationships
-    [:accession, :resource, :archival_object, :digital_object, :agent_person, :agent_family, :agent_corporate_entity, :agent_software].each do |record|
-      table = [MigrationUtils.shorten_table("event"),
-               MigrationUtils.shorten_table(record)].sort.join("_link_").intern
+    create_table(:event_link_rlshp) do
+      primary_key :id
 
-      create_table(table) do
-        primary_key :id
-        Integer "#{record}_id".intern
-        Integer :event_id
-        Integer :aspace_relationship_position
-        DateTime :last_modified, :null => false
-        Integer :role_id
-      end
-
-      alter_table(table) do
-        add_foreign_key(["#{record}_id".intern], record, :key => :id)
-        add_foreign_key([:event_id], :event, :key => :id)
-        add_foreign_key(["role_id".intern], :enumeration_value, :key => :id)
-      end
+      Integer :accession_id
+      Integer :resource_id
+      Integer :archival_object_id
+      Integer :digital_object_id
+      Integer :agent_person_id
+      Integer :agent_family_id
+      Integer :agent_corporate_entity_id
+      Integer :agent_software_id
+      Integer :event_id
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
+      Integer :role_id
     end
 
-
-    # Collection management relationships
-    [:accession, :resource, :digital_object].each do |record|
-      table = [MigrationUtils.shorten_table("collection_management"),
-               MigrationUtils.shorten_table(record)].sort.join("_link_").intern
-
-
-      create_table(table) do
-        primary_key :id
-        Integer "#{record}_id".intern
-        Integer :collection_management_id
-        Integer :aspace_relationship_position
-        DateTime :last_modified, :null => false
-      end
-
-      alter_table(table) do
-        add_foreign_key(["#{record}_id".intern], record, :key => :id)
-        add_foreign_key([:collection_management_id], :collection_management, :key => :id)
-      end
+    alter_table(:event_link_rlshp) do
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+      add_foreign_key([:agent_family_id], :agent_family, :key => :id)
+      add_foreign_key([:agent_corporate_entity_id], :agent_corporate_entity, :key => :id)
+      add_foreign_key([:agent_software_id], :agent_software, :key => :id)
+      add_foreign_key([:event_id], :event, :key => :id)
+      add_foreign_key([:role_id], :enumeration_value, :key => :id)
     end
 
 
     # Accession/resource "spawned from" relationships
-    table = [MigrationUtils.shorten_table("accession"),
-             MigrationUtils.shorten_table("resource")].sort.join("_spawned_").intern
-
-    create_table(table) do
+    create_table(:spawned_rlshp) do
       primary_key :id
       Integer :accession_id
       Integer :resource_id
@@ -1359,37 +1361,35 @@ Sequel.migration do
       DateTime :last_modified, :null => false
     end
 
-    alter_table(table) do
+    alter_table(:spawned_rlshp) do
       add_foreign_key([:accession_id], :accession, :key => :id)
       add_foreign_key([:resource_id], :resource, :key => :id)
     end
 
 
-    # Subject relationships
-    [:accession, :archival_object, :resource, :digital_object, :digital_object_component].each do |record|
-      table = [MigrationUtils.shorten_table("subject"),
-               MigrationUtils.shorten_table(record)].sort.join("_subject_").intern
-
-
-      create_table(table) do
-        primary_key :id
-        Integer "#{record}_id".intern
-        Integer :subject_id
-        Integer :aspace_relationship_position
-        DateTime :last_modified, :null => false
-      end
-
-      alter_table(table) do
-        add_foreign_key(["#{record}_id".intern], record, :key => :id)
-        add_foreign_key([:subject_id], :subject, :key => :id)
-      end
+    create_table(:subject_rlshp) do
+      primary_key :id
+      Integer :accession_id
+      Integer :archival_object_id
+      Integer :resource_id
+      Integer :digital_object_id
+      Integer :digital_object_component_id
+      Integer :subject_id
+      Integer :aspace_relationship_position
+      DateTime :last_modified, :null => false
     end
 
-    # Container/location relationships
-    table = [MigrationUtils.shorten_table("location"),
-             MigrationUtils.shorten_table("container")].sort.join("_housed_at_").intern
+    alter_table(:subject_rlshp) do
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
+      add_foreign_key([:subject_id], :subject, :key => :id)
+    end
 
-    create_table(table) do
+
+    create_table(:housed_at_rlshp) do
       primary_key :id
       Integer :container_id
       Integer :location_id
@@ -1402,7 +1402,7 @@ Sequel.migration do
       String :note
     end
 
-    alter_table(table) do
+    alter_table(:housed_at_rlshp) do
       add_foreign_key([:container_id], :container, :key => :id)
       add_foreign_key([:location_id], :location, :key => :id)
     end

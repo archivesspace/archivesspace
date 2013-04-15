@@ -16,7 +16,7 @@ describe 'Relationships' do
       end
     end
 
-    $testdb.create_table :app_fruit_salad_ban do
+    $testdb.create_table :fruit_salad_rlshp do
       primary_key :id
       String :sauce
       Integer :banana_id
@@ -25,10 +25,13 @@ describe 'Relationships' do
       DateTime :last_modified, :null => false
     end
 
-    $testdb.create_table :app_friends_ban do
+    $testdb.create_table :friends_rlshp do
       primary_key :id
-      Integer :banana_id
-      Integer :apple_id
+      Integer :banana_id_0
+      Integer :apple_id_0
+      Integer :banana_id_1
+      Integer :apple_id_1
+
       Integer :aspace_relationship_position
       DateTime :last_modified, :null => false
     end
@@ -38,8 +41,8 @@ describe 'Relationships' do
   after(:each) do
     $testdb.drop_table(:apple)
     $testdb.drop_table(:banana)
-    $testdb.drop_table(:app_fruit_salad_ban)
-    $testdb.drop_table(:app_friends_ban)
+    $testdb.drop_table(:fruit_salad_rlshp)
+    $testdb.drop_table(:friends_rlshp)
   end
 
 
@@ -89,7 +92,8 @@ describe 'Relationships' do
               "type" => "object",
               "subtype" => "ref",
               "properties" => {
-                "ref" => {"type" => "JSONModel(:apple) uri"}
+                "ref" => {"type" => [{"type" => "JSONModel(:apple) uri"},
+                                     {"type" => "JSONModel(:banana) uri"}]}
               }
             }
           }
@@ -122,7 +126,7 @@ describe 'Relationships' do
       # they do.
       define_relationship(:name => :friends,
                           :json_property => 'friends',
-                          :contains_references_to_types => proc {[Apple]})
+                          :contains_references_to_types => proc {[Apple, Banana]})
     end
 
 
@@ -132,6 +136,11 @@ describe 'Relationships' do
       define_relationship(:name => :fruit_salad,
                           :json_property => 'bananas',
                           :contains_references_to_types => proc {[Banana]})
+
+      define_relationship(:name => :friends,
+                          :json_property => 'friends',
+                          :contains_references_to_types => proc {[Apple, Banana]})
+
     end
   end
 
@@ -174,8 +183,9 @@ describe 'Relationships' do
     Banana.to_jsonmodel(banana).apples[0]['sauce'].should eq('yogurt')
 
     # Clear the relationship by updating the apple to remove the banana
+    apple.refresh
     apple.update_from_json(JSONModel(:apple).new(:name => "granny smith",
-                                                 :lock_version => 0))
+                                                 :lock_version => 1))
 
     # Now the banana has no apples listed
     banana.refresh
@@ -212,7 +222,7 @@ describe 'Relationships' do
     time = Time.now.to_f
     banana = Banana.create_from_json(banana_json)
 
-    banana.my_relationships(:fruit_salad)[0][0][:last_modified].to_f.should be >= time
+    banana.my_relationships(:fruit_salad)[0][:last_modified].to_f.should be >= time
   end
 
 
@@ -234,6 +244,15 @@ describe 'Relationships' do
     apple.delete
     banana.reload
     banana.linked_records(:friends).count.should eq(0)
+  end
+
+
+  it "obviously bananas can be friends with other bananas" do
+    banana1 = Banana.create_from_json(JSONModel(:banana).new(:name => "b1"))
+    banana2 = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => banana1.uri}]))
+    banana1.refresh
+
+    banana2.linked_records(:friends)[0].should eq(banana1)
   end
 
 end

@@ -6,7 +6,7 @@ module URIResolver
     value = value.to_hash(:trusted) if value.is_a?(JSONModelType)
 
     # If ASPACE_REENTRANT is set, don't resolve anything or we risk creating loops.
-    return value if (properties_to_resolve.nil? || (respond_to?(:env) && env['ASPACE_REENTRANT']))
+    return value if (properties_to_resolve.nil? || env['ASPACE_REENTRANT'])
 
     if value.is_a? Hash
       if value.has_key?('ref') && properties_to_resolve == :all

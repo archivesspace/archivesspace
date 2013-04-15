@@ -12,8 +12,8 @@ class Container < Sequel::Model(:container)
 
 
   def validate
-    my_relationships(:housed_at).each_with_index do |(relationship_properties, related_location), idx|
-      if relationship_properties[:status] === "previous" && !related_location.temporary
+    my_relationships(:housed_at).each_with_index do |relationship, idx|
+      if relationship.properties[:status] === "previous" && !relationship.other_referent_than(self).temporary
         errors.add("container_locations/#{idx}/status", "cannot be previous if Location is not temporary")
         break
       end

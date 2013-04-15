@@ -356,6 +356,7 @@ describe 'Accession controller' do
                                                :extents => [build(:json_extent)])],
                        :related_resources => [{'ref' => resource.uri}])
 
+    resource = JSONModel(:resource).find(resource.id)
     resource.related_accessions = [{'ref' => accession.uri}]
     resource.save
 

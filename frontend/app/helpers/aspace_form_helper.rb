@@ -348,6 +348,15 @@ module AspaceFormHelper
     end
 
 
+    def allowable_types_for(name)
+      if @active_template && @parent.templates[@active_template]
+        @parent.templates[@active_template][:definition].allowable_types_for(name)
+      else
+        []
+      end
+    end
+
+
     def possible_options_for(name, add_empty_options = false, opts = {})
       if @active_template && @parent.templates[@active_template]
         @parent.templates[@active_template][:definition].options_for(self, name, add_empty_options, opts)
@@ -493,6 +502,20 @@ module AspaceFormHelper
         end  
       else
         nil
+      end
+    end
+
+
+    def allowable_types_for(name)
+      defn = jsonmodel_schema_definition(name)
+
+      if defn
+        ASUtils.extract_nested_strings(defn).map {|s|
+          ref = JSONModel.parse_jsonmodel_ref(s)
+          ref.first.to_s if ref
+        }.compact
+      else
+        []
       end
     end
 

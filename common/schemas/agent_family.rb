@@ -11,6 +11,13 @@
         "ifmissing" => "error",
         "minItems" => 1
       },
+
+      "related_agents" => {
+        "type" => "array",
+        "items" => {"type" => [{"type" => "JSONModel(:agent_relationship_earlierlater) object"},
+                               {"type" => "JSONModel(:agent_relationship_associative) object"}]},
+      }
+
     },
   },
 }

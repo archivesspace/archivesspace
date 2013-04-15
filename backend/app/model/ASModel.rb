@@ -78,13 +78,14 @@ module ASModel
 
       self.class.prepare_for_deletion([self])
 
-      uri = self.uri
-
       super
 
-      Tombstone.create(:uri => uri)
+      uri = self.uri
 
-      RealtimeIndexing.record_delete(uri)
+      if uri
+        Tombstone.create(:uri => uri)
+        RealtimeIndexing.record_delete(uri)
+      end
     end
 
 
@@ -261,6 +262,7 @@ module ASModel
             records = [records]
           end
 
+          updated_records = []
           (records or []).each_with_index do |json_or_uri, i|
             next if json_or_uri.nil?
 
@@ -269,10 +271,16 @@ module ASModel
             begin
               if json_or_uri.kind_of? String
                 # A URI.  Just grab its database ID and look it up.
-                        db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
+                db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
+                updated_records << json_or_uri
               else
                 # Create a database record for the JSON blob and return its ID
                 subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri)
+
+                # The value of subrecord_json can be mutated by the various
+                # transformations performed by the model layer.  Make sure we
+                # keep the modified version of the JSON here.
+                updated_records << subrecord_json
 
                 if model.respond_to? :ensure_exists
                   # Give our classes an opportunity to provide their own logic here
@@ -314,6 +322,8 @@ module ASModel
               raise e
             end
           end
+
+          json[linked_record[:json_property]] = is_array ? updated_records : updated_records[0]
         end
       end
 
