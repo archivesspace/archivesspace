@@ -1394,35 +1394,35 @@ en:
       singular: Related Agent
       plural: Related Agents
   agent_relationship_parentchild:
-    relator: Relationship type
-    relator_is_child_of: child of related
-    relator_is_parent_of: parent of related
+    relator: Relationship Type
+    relator_is_child_of: Child of Related
+    relator_is_parent_of: Parent of Related
     description: Description
     ref: Related Agent
     date: Date
     _html:
       singular: Parent/Child Relationship
   agent_relationship_earlierlater:
-    relator: Relationship type
-    relator_is_earlier_form_of: earlier form of related
-    relator_is_later_form_of: later form of related
+    relator: Relationship Type
+    relator_is_earlier_form_of: Earlier Form of Related
+    relator_is_later_form_of: Later Form of Related
     description: Description
     ref: Related Agent
     date: Date
     _html:
       singular: Earlier/Later Relationship
   agent_relationship_subordinatesuperior:
-    relator: Relationship type
-    relator_is_subordinate_to: is subordinate to related
-    relator_is_superior_of: is superior of related
+    relator: Relationship Type
+    relator_is_subordinate_to: Is Subordinate to Related
+    relator_is_superior_of: Is Superior of Related
     description: Description
     ref: Related Agent
     date: Date
     _html:
       singular: Subordinate/Superior Relationship
   agent_relationship_associative:
-    relator: Relationship type
-    relator_is_associative_with: associative with related
+    relator: Relationship Type
+    relator_is_associative_with: Associative with Related
     description: Description
     date: Date
     ref: Related Agent
