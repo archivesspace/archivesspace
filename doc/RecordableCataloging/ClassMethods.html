@@ -84,7 +84,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/recordable_cataloging.rb</dd>
+    <dd class="r1 last">backend/app/model/mixins/recordable_cataloging.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -186,10 +186,14 @@
 42
 43
 44
-45</pre>
+45
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/recordable_cataloging.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/recordable_cataloging.rb', line 10</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   
@@ -225,6 +229,10 @@
     <span class='rubyid_event_obj identifier id'>event_obj</span> <span class='assign token'>=</span> <span class='rubyid_Event constant id'>Event</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_event identifier id'>event</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
+  <span class='comment val'># Refresh the object from the database here because creating the event</span>
+  <span class='comment val'># that links to it will have incremented its version number.</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span>
+
   <span class='rubyid_obj identifier id'>obj</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -238,7 +246,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:26:00 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:33 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

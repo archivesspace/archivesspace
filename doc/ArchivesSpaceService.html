@@ -106,7 +106,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">backend/app/main.rb<span class="defines">,<br />
-  backend/app/controllers/agent.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/setup.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
+  backend/app/controllers/agent.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
 </dd>
   
 </dl>
@@ -128,14 +128,6 @@
   <h2>Constant Summary</h2>
   
     <dl class="constants">
-      
-        <dt id="URL_FORMATS-constant" class="">URL_FORMATS =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span>
-  <span class='string val'>'mysql'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;jdbc:mysql://{:hostname}:{:port}/{:database}?user={:username}&amp;password={:password}&quot;</span>
-<span class='rbrace token'>}</span>
-</pre></dd>
       
         <dt id="ALLOWED_PERMISSION_LEVELS-constant" class="">ALLOWED_PERMISSION_LEVELS =
           
@@ -287,53 +279,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#build_jdbc_url-instance_method" title="#build_jdbc_url (instance method)">- (Object) <strong>build_jdbc_url</strong>(settings) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#current_user-instance_method" title="#current_user (instance method)">- (Object) <strong>current_user</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#extract_settings-instance_method" title="#extract_settings (instance method)">- (Object) <strong>extract_settings</strong>(params) </a>
     
 
     
@@ -402,99 +348,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_state-instance_method" title="#load_state (instance method)">- (Object) <strong>load_state</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#parse_jdbc_url-instance_method" title="#parse_jdbc_url (instance method)">- (Object) <strong>parse_jdbc_url</strong>(url) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#save_settings-instance_method" title="#save_settings (instance method)">- (Object) <strong>save_settings</strong>(settings, path) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#session-instance_method" title="#session (instance method)">- (Object) <strong>session</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#test_database-instance_method" title="#test_database (instance method)">- (Object) <strong>test_database</strong>(url) </a>
     
 
     
@@ -766,16 +620,16 @@
       <pre class="lines">
 
 
-34
 35
 36
 37
 38
 39
-40</pre>
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_loaded_hook identifier id'>loaded_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@archivesspace_loaded ivar id'>@archivesspace_loaded</span>
@@ -1095,49 +949,6 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="build_jdbc_url-instance_method">
-  
-    - (<tt>Object</tt>) <strong>build_jdbc_url</strong>(settings) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-28
-29
-30
-31
-32
-33
-34
-35
-36</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/controllers/setup.rb', line 28</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_build_jdbc_url identifier id'>build_jdbc_url</span><span class='lparen token'>(</span><span class='rubyid_settings identifier id'>settings</span><span class='rparen token'>)</span>
-  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_URL_FORMATS constant id'>URL_FORMATS</span><span class='lbrack token'>[</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:db_type</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
-
-  <span class='rubyid_settings identifier id'>settings</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
-    <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='dregexp node'>/{:#{p}}/</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_url identifier id'>url</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="current_user-instance_method">
   
     - (<tt>Object</tt>) <strong>current_user</strong> 
@@ -1152,58 +963,15 @@
       <pre class="lines">
 
 
-255
-256
-257</pre>
+248
+249
+250</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 248</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_user identifier id'>current_user</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_user</span><span class='rbrack token'>]</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="extract_settings-instance_method">
-  
-    - (<tt>Object</tt>) <strong>extract_settings</strong>(params) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-69
-70
-71
-72
-73
-74
-75
-76
-77</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/controllers/setup.rb', line 69</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_settings identifier id'>extract_settings</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
-  <span class='rubyid_settings identifier id'>settings</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-
-  <span class='lbrack token'>[</span><span class='symbol val'>:db_type</span><span class='comma token'>,</span> <span class='symbol val'>:hostname</span><span class='comma token'>,</span> <span class='symbol val'>:port</span><span class='comma token'>,</span> <span class='symbol val'>:database</span><span class='comma token'>,</span> <span class='symbol val'>:username</span><span class='comma token'>,</span> <span class='symbol val'>:password</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span>
-    <span class='rubyid_settings identifier id'>settings</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='rbrack token'>]</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_settings identifier id'>settings</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1226,23 +994,23 @@
       <pre class="lines">
 
 
+170
+171
+172
+173
+174
+175
+176
 177
 178
 179
 180
 181
 182
-183
-184
-185
-186
-187
-188
-189
-190</pre>
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 170</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_exception! fid id'>handle_exception!</span><span class='lparen token'>(</span><span class='rubyid_boom identifier id'>boom</span><span class='rparen token'>)</span>
   <span class='rubyid_@env ivar id'>@env</span><span class='lbrack token'>[</span><span class='string val'>'sinatra.error'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_boom identifier id'>boom</span>
@@ -1302,190 +1070,15 @@
       <pre class="lines">
 
 
-260
-261
-262</pre>
+253
+254
+255</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 253</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_high_priority_request? fid id'>high_priority_request?</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span> <span class='eq op'>==</span> <span class='string val'>&quot;high&quot;</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="load_state-instance_method">
-  
-    - (<tt>Object</tt>) <strong>load_state</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/controllers/setup.rb', line 8</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_load_state identifier id'>load_state</span>
-  <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='dot token'>.</span><span class='rubyid_reload identifier id'>reload</span>
-
-  <span class='rubyid_@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:errors</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-  <span class='rubyid_@state ivar id'>@state</span><span class='lbrack token'>[</span><span class='symbol val'>:using_demo_db</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='dot token'>.</span><span class='rubyid_demo_db_url identifier id'>demo_db_url</span><span class='rparen token'>)</span>
-  <span class='rubyid_@state ivar id'>@state</span><span class='lbrack token'>[</span><span class='symbol val'>:config_path</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='dot token'>.</span><span class='rubyid_get_preferred_config_path identifier id'>get_preferred_config_path</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_@state ivar id'>@state</span><span class='lbrack token'>[</span><span class='symbol val'>:using_demo_db</span><span class='rbrack token'>]</span>
-    <span class='rubyid_@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='rubyid_@state ivar id'>@state</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_parse_jdbc_url identifier id'>parse_jdbc_url</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_test_database identifier id'>test_database</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:ok</span><span class='rbrack token'>]</span>
-    <span class='rubyid_db identifier id'>db</span> <span class='assign token'>=</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_connect identifier id'>connect</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_@state ivar id'>@state</span><span class='lbrack token'>[</span><span class='symbol val'>:needs_migration</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_DBMigrator constant id'>DBMigrator</span><span class='dot token'>.</span><span class='rubyid_needs_updating? fid id'>needs_updating?</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@state ivar id'>@state</span><span class='lbrack token'>[</span><span class='symbol val'>:connection_failed</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="parse_jdbc_url-instance_method">
-  
-    - (<tt>Object</tt>) <strong>parse_jdbc_url</strong>(url) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/controllers/setup.rb', line 39</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_jdbc_url identifier id'>parse_jdbc_url</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
-  <span class='rubyid_URL_FORMATS constant id'>URL_FORMATS</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_template identifier id'>template</span><span class='bitor op'>|</span>
-    <span class='rubyid_keys identifier id'>keys</span> <span class='assign token'>=</span> <span class='rubyid_template identifier id'>template</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/{:(\w+?)}/</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span>
-
-    <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_Regexp constant id'>Regexp</span><span class='dot token'>.</span><span class='rubyid_quote identifier id'>quote</span><span class='lparen token'>(</span><span class='rubyid_template identifier id'>template</span><span class='rparen token'>)</span>
-    <span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span>
-      <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_pattern identifier id'>pattern</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='dregexp node'>/\\{:#{p}\\}/</span><span class='comma token'>,</span> <span class='string val'>'(.+)'</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-
-    <span class='rubyid_vals identifier id'>vals</span> <span class='assign token'>=</span> <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='rubyid_Regexp constant id'>Regexp</span><span class='dot token'>.</span><span class='rubyid_compile identifier id'>compile</span><span class='lparen token'>(</span><span class='rubyid_pattern identifier id'>pattern</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_v identifier id'>v</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span>
-
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='rubyid_vals identifier id'>vals</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
-      <span class='rubyid_return return kw'>return</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_vals identifier id'>vals</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="save_settings-instance_method">
-  
-    - (<tt>Object</tt>) <strong>save_settings</strong>(settings, path) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/controllers/setup.rb', line 80</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_save_settings identifier id'>save_settings</span><span class='lparen token'>(</span><span class='rubyid_settings identifier id'>settings</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
-    <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_copy identifier id'>copy</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{path}.tmp&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span> <span class='plus op'>+</span> <span class='string val'>&quot;.tmp&quot;</span><span class='comma token'>,</span> <span class='string val'>'a'</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span>
-    <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;\n# These lines automatically added by the setup program&quot;</span>
-    <span class='rubyid_settings identifier id'>settings</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_config identifier id'>config</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-      <span class='rubyid_f identifier id'>f</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;AppConfig[:#{config}] = \&quot;#{val}\&quot;&quot;</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_mv identifier id'>mv</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{path}.tmp&quot;</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1508,56 +1101,15 @@
       <pre class="lines">
 
 
-250
-251
-252</pre>
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 243</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_session identifier id'>session</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_session</span><span class='rbrack token'>]</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="test_database-instance_method">
-  
-    - (<tt>Object</tt>) <strong>test_database</strong>(url) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-59
-60
-61
-62
-63
-64
-65
-66</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/controllers/setup.rb', line 59</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_test_database identifier id'>test_database</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
-  <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_connect identifier id'>connect</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='symbol val'>:test</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
-    <span class='rubyid_return return kw'>return</span> <span class='lbrace token'>{</span><span class='symbol val'>:ok</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span>
-  <span class='rubyid_rescue rescue kw'>rescue</span>
-    <span class='rubyid_return return kw'>return</span> <span class='lbrace token'>{</span><span class='symbol val'>:ok</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='symbol val'>:msg</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{$!}&quot;</span><span class='rbrace token'>}</span>
-  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1570,7 +1122,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:26:04 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:37 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

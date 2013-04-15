@@ -99,7 +99,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/db_migrator.rb</dd>
+    <dd class="r2 last">common/db/db_migrator.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -223,7 +223,7 @@
 44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db_migrator.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_BlobField constant id'>BlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:postgres</span>
@@ -264,7 +264,7 @@
 33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db_migrator.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_TextBlobField constant id'>TextBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:derby</span>
@@ -303,11 +303,11 @@
 24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/db_migrator.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_TextField constant id'>TextField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:derby</span>
-    <span class='rubyid_String constant id'>String</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>2048</span><span class='rparen token'>)</span>
+    <span class='rubyid_String constant id'>String</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>32672</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_Text constant id'>Text</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span>
   <span class='rubyid_end end kw'>end</span>
@@ -323,7 +323,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Mar 18 14:21:05 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:52 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

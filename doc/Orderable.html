@@ -88,7 +88,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/orderable.rb</dd>
+    <dd class="r2 last">backend/app/model/mixins/orderable.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -284,7 +284,7 @@ objects, digital object components)</p>
 8</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_ClassMethods constant id'>ClassMethods</span><span class='rparen token'>)</span>
@@ -321,7 +321,7 @@ objects, digital object components)</p>
 80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 78</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_children identifier id'>children</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
@@ -375,7 +375,7 @@ objects, digital object components)</p>
 85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 83</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_has_children? fid id'>has_children?</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
@@ -448,7 +448,7 @@ objects, digital object components)</p>
 55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_target_position identifier id'>target_position</span><span class='rparen token'>)</span>
   <span class='rubyid_siblings_ds identifier id'>siblings_ds</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span>
@@ -536,7 +536,7 @@ objects, digital object components)</p>
 75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_linked_records identifier id'>apply_linked_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 
@@ -567,7 +567,7 @@ objects, digital object components)</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:25:58 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:30 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

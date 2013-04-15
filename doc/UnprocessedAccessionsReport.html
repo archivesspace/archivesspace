@@ -106,7 +106,17 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>noinspection ALL</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -172,7 +182,53 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#processor-instance_method" title="#processor (instance method)">- (Object) <strong>processor</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#query-instance_method" title="#query (instance method)">- (Object) <strong>query</strong>(db) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scope_by_repo_id-instance_method" title="#scope_by_repo_id (instance method)">- (Object) <strong>scope_by_repo_id</strong>(dataset) </a>
     
 
     
@@ -205,7 +261,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="AbstractReport.html" title="AbstractReport (class)">AbstractReport</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="AbstractReport.html#each-instance_method" title="AbstractReport#each (method)">#each</a></span>, <span class='object_link'><a href="AbstractReport.html#orientation-instance_method" title="AbstractReport#orientation (method)">#orientation</a></span>, <span class='object_link'><a href="AbstractReport.html#processor-instance_method" title="AbstractReport#processor (method)">#processor</a></span>, <span class='object_link'><a href="AbstractReport.html#template-instance_method" title="AbstractReport#template (method)">#template</a></span>, <span class='object_link'><a href="AbstractReport.html#title-instance_method" title="AbstractReport#title (method)">#title</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="AbstractReport.html#each-instance_method" title="AbstractReport#each (method)">#each</a></span>, <span class='object_link'><a href="AbstractReport.html#orientation-instance_method" title="AbstractReport#orientation (method)">#orientation</a></span>, <span class='object_link'><a href="AbstractReport.html#template-instance_method" title="AbstractReport#template (method)">#template</a></span>, <span class='object_link'><a href="AbstractReport.html#title-instance_method" title="AbstractReport#title (method)">#title</a></span></p>
 
   
   
@@ -245,12 +301,12 @@
       <pre class="lines">
 
 
-7
 8
-9</pre>
+9
+10</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/unprocessed_accessions_report.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/unprocessed_accessions_report.rb', line 8</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -283,15 +339,50 @@
       <pre class="lines">
 
 
-11
 12
-13</pre>
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/unprocessed_accessions_report.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/unprocessed_accessions_report.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_headers identifier id'>headers</span>
-  <span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='comma token'>,</span> <span class='string val'>'title'</span><span class='rbrack token'>]</span>
+  <span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='comma token'>,</span> <span class='string val'>'identifier'</span><span class='comma token'>,</span> <span class='string val'>'title'</span><span class='comma token'>,</span> <span class='string val'>&quot;processing_priority&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;processing_status&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;processors&quot;</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="processor-instance_method">
+  
+    - (<tt>Object</tt>) <strong>processor</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/unprocessed_accessions_report.rb', line 16</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_processor identifier id'>processor</span>
+  <span class='lbrace token'>{</span>
+    <span class='string val'>'identifier'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_record identifier id'>record</span><span class='bitor op'>|</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='symbol val'>:identifier</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;[]&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;-&quot;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -314,15 +405,148 @@
       <pre class="lines">
 
 
-15
-16
-17</pre>
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/unprocessed_accessions_report.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/unprocessed_accessions_report.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_query identifier id'>query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
-  <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:accession</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
+  <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:accession</span><span class='rbrack token'>]</span><span class='dot token'>.</span>
+    <span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:collection_management</span><span class='comma token'>,</span> <span class='symbol val'>:accession_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+    <span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='comma token'>,</span>
+         <span class='lbrace token'>{</span>
+            <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management_processing_status'</span>
+         <span class='rbrace token'>}</span><span class='comma token'>,</span>
+         <span class='lbrace token'>{</span>
+           <span class='symbol val'>:table_alias</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:enum_processing_status</span>
+         <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+    <span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='comma token'>,</span>
+         <span class='lbrace token'>{</span>
+           <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management_processing_priority'</span>
+         <span class='rbrace token'>}</span><span class='comma token'>,</span>
+         <span class='lbrace token'>{</span>
+           <span class='symbol val'>:table_alias</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:enum_processing_priority</span>
+         <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+    <span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration_value</span><span class='comma token'>,</span>
+         <span class='lbrace token'>{</span>
+          <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:enumvals_processing_status</span><span class='comma token'>,</span> <span class='symbol val'>:enumeration_id</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:enum_processing_status</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+          <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:collection_management</span><span class='comma token'>,</span> <span class='symbol val'>:processing_status_id</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:enumvals_processing_status</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+         <span class='rbrace token'>}</span><span class='comma token'>,</span>
+         <span class='lbrace token'>{</span>
+           <span class='symbol val'>:table_alias</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:enumvals_processing_status</span>
+         <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+    <span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration_value</span><span class='comma token'>,</span>
+         <span class='lbrace token'>{</span>
+          <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:enumvals_processing_priority</span><span class='comma token'>,</span> <span class='symbol val'>:enumeration_id</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:enum_processing_priority</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+          <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:collection_management</span><span class='comma token'>,</span> <span class='symbol val'>:processing_priority_id</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:enumvals_processing_priority</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+         <span class='rbrace token'>}</span><span class='comma token'>,</span>
+         <span class='lbrace token'>{</span>
+           <span class='symbol val'>:table_alias</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:enumvals_processing_priority</span>
+         <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+    <span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span>
+      <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='comma token'>,</span> <span class='symbol val'>:identifier</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='comma token'>,</span> <span class='symbol val'>:title</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:collection_management</span><span class='comma token'>,</span> <span class='symbol val'>:processors</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:enumvals_processing_status</span><span class='comma token'>,</span> <span class='symbol val'>:value</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:processing_status</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:enumvals_processing_priority</span><span class='comma token'>,</span> <span class='symbol val'>:value</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:processing_priority</span><span class='rparen token'>)</span>
+    <span class='rparen token'>)</span>
+
+  <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span>
+
+  <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_from_self identifier id'>from_self</span><span class='lparen token'>(</span><span class='symbol val'>:alias</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:all_results</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+    <span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='bitor op'>|</span><span class='lparen token'>(</span>
+             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='bitnot op'>~</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:all_results</span><span class='comma token'>,</span> <span class='symbol val'>:processing_status</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'completed'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+             <span class='lbrace token'>{</span>
+               <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:all_results</span><span class='comma token'>,</span> <span class='symbol val'>:processing_status</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span>
+             <span class='rbrace token'>}</span>
+           <span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+    <span class='rubyid_order_by identifier id'>order_by</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_asc identifier id'>asc</span><span class='lparen token'>(</span><span class='symbol val'>:processing_priority</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_asc identifier id'>asc</span><span class='lparen token'>(</span><span class='symbol val'>:processing_status</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_asc identifier id'>asc</span><span class='lparen token'>(</span><span class='symbol val'>:title</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="scope_by_repo_id-instance_method">
+  
+    - (<tt>Object</tt>) <strong>scope_by_repo_id</strong>(dataset) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/unprocessed_accessions_report.rb', line 22</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_scope_by_repo_id identifier id'>scope_by_repo_id</span><span class='lparen token'>(</span><span class='rubyid_dataset identifier id'>dataset</span><span class='rparen token'>)</span>
+  <span class='comment val'># repo scope is applied in the query below</span>
+  <span class='rubyid_dataset identifier id'>dataset</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -335,7 +559,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:26:11 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:46 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

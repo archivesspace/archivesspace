@@ -190,7 +190,12 @@
 6
 7
 8
-9</pre>
+9
+10
+11
+12
+13
+14</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/reports/report_manager.rb', line 5</span>
@@ -198,7 +203,12 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_report identifier id'>register_report</span><span class='lparen token'>(</span><span class='rubyid_report_class identifier id'>report_class</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_report_class identifier id'>report_class</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:params</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@@registered_reports ivar id'>@@registered_reports</span><span class='lbrack token'>[</span><span class='rubyid_report_class identifier id'>report_class</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span>
+
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:uri_suffix</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_report_class identifier id'>report_class</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span>
+
+  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Report with uri '#{opts[:uri_suffix]}' already registered&quot;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@@registered_reports ivar id'>@@registered_reports</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:uri_suffix</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@@registered_reports ivar id'>@@registered_reports</span><span class='lbrack token'>[</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:uri_suffix</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -221,12 +231,12 @@
       <pre class="lines">
 
 
-12
-13
-14</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/report_manager.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/report_manager.rb', line 17</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_reports identifier id'>registered_reports</span>
   <span class='rubyid_@@registered_reports ivar id'>@@registered_reports</span>
@@ -242,7 +252,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:26:00 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:32 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

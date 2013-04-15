@@ -237,6 +237,25 @@ appropriate and specify the <code>encryption</code> option:</p>
  <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
 
+<h1 id="overriding-frontend-and-public-templatesassets">Overriding Frontend and Public templates/assets</h1>
+
+<p>Under your <code>archivesspace</code> directory there will be a directory called <code>local</code>.
+By adding to directories under this you will be able to override the templates,
+locales, and assets (javascript, stylesheets, images) used in both the frontend
+and public applications.</p>
+
+<p>To override any of the view templates, just match up the path to the target template
+under the directories <code>archivesspace/local/frontend/views/</code>.
+For example, to override the frontend branding, add your own template named <code>_branding.html.erb</code>
+in the directory <code>archivesspace/local/frontend/views/site/</code>.</p>
+
+<p>To apply your own label and text translations, add your locales file to the directory <code>archivesspace/local/frontend/locales/</code>.
+Ensure your file is named using the code of the target language - for English use <code>archivesspace/local/frontend/locales/en.yml</code>.</p>
+
+<p>To allow a document (image, stylesheet, PDF etc) to be available from your application as a static resource, you can add it to the directory
+<code>archivesspace/local/frontend/assets</code>. For example, your own logo image <code>archivesspace/local/frontend/assets/my_logo.png</code> will then be available via the URL
+<code>http://localhost:8080/assets/my_logo.png</code>.</p>
+
 <h1 id="further-documentation">Further documentation</h1>
 
 <p>Additional deployment documentation can be found on the ArchivesSpace
@@ -254,7 +273,7 @@ version 2.0</a>. See the
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:25:52 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:23 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -83,12 +83,12 @@
   
   
     <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span></dd>
+    <dd class="r1"><span class='object_link'><a href="Accession.html" title="Accession (class)">Accession</a></span>, <span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span></dd>
     
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/instances.rb</dd>
+    <dd class="r2 last">backend/app/model/mixins/instances.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -155,6 +155,9 @@
       <pre class="lines">
 
 
+3
+4
+5
 6
 7
 8
@@ -162,13 +165,14 @@
 10
 11
 12
-13
-14</pre>
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/instances.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/instances.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
+  <span class='rubyid_require_relative identifier id'>require_relative</span> <span class='string val'>'../instance'</span>
+
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_one_to_many identifier id'>one_to_many</span> <span class='symbol val'>:instance</span>
   <span class='rubyid_Instance constant id'>Instance</span><span class='dot token'>.</span><span class='rubyid_many_to_one identifier id'>many_to_one</span> <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span>
 
@@ -188,7 +192,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:25:57 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:30 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

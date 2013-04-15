@@ -84,7 +84,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/notes.rb</dd>
+    <dd class="r1 last">backend/app/model/mixins/notes.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -174,31 +174,15 @@
       <pre class="lines">
 
 
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34</pre>
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/notes.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 16</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='rubyid_notes_blob identifier id'>notes_blob</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
-  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-
-  <span class='rubyid_ps identifier id'>ps</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_prepare identifier id'>prepare</span><span class='lparen token'>(</span><span class='symbol val'>:update</span><span class='comma token'>,</span> <span class='symbol val'>:update_notes</span><span class='comma token'>,</span> <span class='symbol val'>:notes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:$notes</span><span class='rparen token'>)</span>
-  <span class='rubyid_ps identifier id'>ps</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='symbol val'>:notes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_notes_blob identifier id'>notes_blob</span><span class='dot token'>.</span><span class='rubyid_to_sequel_blob identifier id'>to_sequel_blob</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_obj identifier id'>obj</span>
+  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>'notes'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSON constant id'>JSON</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -221,20 +205,20 @@
       <pre class="lines">
 
 
-37
-38
-39
-40
-41
-42
-43
-44</pre>
+21
+22
+23
+24
+25
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/notes.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_deblob identifier id'>deblob</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='string val'>&quot;[]&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='orop op'>||</span> <span class='string val'>&quot;[]&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='symbol val'>:notes</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
   <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_notes identifier id'>notes</span>
@@ -252,7 +236,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:25:55 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:30 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

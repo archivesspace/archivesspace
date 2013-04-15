@@ -561,9 +561,6 @@ out to the user.</p>
       <pre class="lines">
 
 
-68
-69
-70
 71
 72
 73
@@ -580,10 +577,13 @@ out to the user.</p>
 84
 85
 86
-87</pre>
+87
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 71</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
   
@@ -879,12 +879,18 @@ out to the user.</p>
 
 43
 44
-45</pre>
+45
+46
+47
+48</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_destroy_importers identifier id'>destroy_importers</span>
+  <span class='rubyid_@@importers ivar id'>@@importers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span>
+    <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:remove_const</span><span class='comma token'>,</span> <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_@@importers ivar id'>@@importers</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -982,9 +988,6 @@ out to the user.</p>
       <pre class="lines">
 
 
-52
-53
-54
 55
 56
 57
@@ -992,10 +995,13 @@ out to the user.</p>
 59
 60
 61
-62</pre>
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 55</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_importer identifier id'>importer</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_superclass identifier id'>superclass</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_Importer constant id'>Importer</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@@importers ivar id'>@@importers</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span> <span class='rubyid_name identifier id'>name</span>
@@ -1068,12 +1074,12 @@ out to the user.</p>
       <pre class="lines">
 
 
-64
-65
-66</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_usable identifier id'>usable</span>
   <span class='rubyid_true true kw'>true</span>
@@ -1115,16 +1121,16 @@ out to the user.</p>
       <pre class="lines">
 
 
-172
-173
-174
 175
 176
 177
-178</pre>
+178
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 175</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_clear_parse_queue identifier id'>clear_parse_queue</span>
   <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -1154,9 +1160,6 @@ out to the user.</p>
       <pre class="lines">
 
 
-89
-90
-91
 92
 93
 94
@@ -1183,10 +1186,13 @@ out to the user.</p>
 115
 116
 117
-118</pre>
+118
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 92</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_log_save_result identifier id'>log_save_result</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='eq op'>==</span> <span class='string val'>'200'</span>
@@ -1239,9 +1245,6 @@ out to the user.</p>
       <pre class="lines">
 
 
-128
-129
-130
 131
 132
 133
@@ -1250,10 +1253,13 @@ out to the user.</p>
 136
 137
 138
-139</pre>
+139
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 131</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_report identifier id'>report</span>
   <span class='rubyid_report identifier id'>report</span> <span class='assign token'>=</span> <span class='string val'>&quot;Aspace Import Report\n&quot;</span>
@@ -1288,12 +1294,12 @@ out to the user.</p>
       <pre class="lines">
 
 
-124
-125
-126</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 127</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_report_summary identifier id'>report_summary</span>
   <span class='rubyid_@import_summary ivar id'>@import_summary</span>
@@ -1342,12 +1348,12 @@ out to the user.</p>
       <pre class="lines">
 
 
-165
-166
-167</pre>
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 168</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_StandardError constant id'>StandardError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Unexpected error: run method must be defined by a subclass&quot;</span><span class='rparen token'>)</span>
@@ -1385,9 +1391,6 @@ as they arise.</p>
       <pre class="lines">
 
 
-145
-146
-147
 148
 149
 150
@@ -1403,10 +1406,13 @@ as they arise.</p>
 160
 161
 162
-163</pre>
+163
+164
+165
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 148</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run_safe identifier id'>run_safe</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -1448,12 +1454,12 @@ as they arise.</p>
       <pre class="lines">
 
 
-120
-121
-122</pre>
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'migrations/lib/importer.rb', line 123</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save_all identifier id'>save_all</span>
   <span class='rubyid_log_save_result identifier id'>log_save_result</span><span class='lparen token'>(</span><span class='rubyid_@parse_queue ivar id'>@parse_queue</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span><span class='rparen token'>)</span>
@@ -1469,7 +1475,7 @@ as they arise.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:26:17 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:53 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -84,7 +84,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/orderable.rb</dd>
+    <dd class="r1 last">backend/app/model/mixins/orderable.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -278,7 +278,7 @@
 114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 105</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -316,7 +316,7 @@
 102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 100</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node_record_type identifier id'>node_record_type</span>
   <span class='rubyid_@node_record_type ivar id'>@node_record_type</span>
@@ -348,7 +348,7 @@
 94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 91</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_orderable_root_record_type identifier id'>orderable_root_record_type</span><span class='lparen token'>(</span><span class='rubyid_root identifier id'>root</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
   <span class='rubyid_@root_record_type ivar id'>@root_record_type</span> <span class='assign token'>=</span> <span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -380,7 +380,7 @@
 98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 96</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_root_record_type identifier id'>root_record_type</span>
   <span class='rubyid_@root_record_type ivar id'>@root_record_type</span>
@@ -421,7 +421,7 @@
 157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 145</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -485,7 +485,7 @@
 142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/orderable.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/orderable.rb', line 117</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;root_record_id&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -524,7 +524,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:25:58 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:31 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

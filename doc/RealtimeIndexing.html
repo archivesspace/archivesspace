@@ -237,6 +237,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#shutdown-class_method" title="shutdown (class method)">+ (Object) <strong>shutdown</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#updates_since-class_method" title="updates_since (class method)">+ (Object) <strong>updates_since</strong>(seq) </a>
     
 
@@ -281,12 +304,12 @@
       <pre class="lines">
 
 
-34
-35
-36</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blocking_updates_since identifier id'>blocking_updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
   <span class='rubyid_longpolling identifier id'>longpolling</span><span class='dot token'>.</span><span class='rubyid_blocking_updates_since identifier id'>blocking_updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
@@ -351,12 +374,12 @@
       <pre class="lines">
 
 
-24
-25
-26</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_delete identifier id'>record_delete</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_longpolling identifier id'>longpolling</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='symbol val'>:record</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:deleted</span><span class='comma token'>,</span> <span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
@@ -382,12 +405,12 @@
       <pre class="lines">
 
 
-19
-20
-21</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_longpolling identifier id'>longpolling</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='symbol val'>:record</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
@@ -413,6 +436,37 @@
       <pre class="lines">
 
 
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 19</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reset! fid id'>reset!</span>
+  <span class='rubyid_longpolling identifier id'>longpolling</span><span class='dot token'>.</span><span class='rubyid_reset! fid id'>reset!</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="shutdown-class_method">
+  
+    + (<tt>Object</tt>) <strong>shutdown</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 14
 15
 16</pre>
@@ -420,8 +474,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 14</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reset! fid id'>reset!</span>
-  <span class='rubyid_longpolling identifier id'>longpolling</span><span class='dot token'>.</span><span class='rubyid_reset! fid id'>reset!</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_shutdown identifier id'>shutdown</span>
+  <span class='rubyid_@longpolling ivar id'>@longpolling</span><span class='dot token'>.</span><span class='rubyid_shutdown identifier id'>shutdown</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@longpolling ivar id'>@longpolling</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -444,12 +498,12 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/realtime_indexing.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_updates_since identifier id'>updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
   <span class='rubyid_longpolling identifier id'>longpolling</span><span class='dot token'>.</span><span class='rubyid_updates_since identifier id'>updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
@@ -465,7 +519,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:26:10 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:44 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

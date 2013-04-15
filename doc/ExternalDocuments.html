@@ -88,7 +88,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/external_documents.rb</dd>
+    <dd class="r2 last">backend/app/model/mixins/external_documents.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -155,6 +155,9 @@
       <pre class="lines">
 
 
+3
+4
+5
 6
 7
 8
@@ -168,13 +171,10 @@
 16
 17
 18
-19
-20
-21
-22</pre>
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/external_documents.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/external_documents.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_many_to_many identifier id'>many_to_many</span><span class='lparen token'>(</span><span class='symbol val'>:external_document</span><span class='comma token'>,</span>
@@ -204,7 +204,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:26:00 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:32 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

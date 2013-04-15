@@ -88,7 +88,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/subjects.rb</dd>
+    <dd class="r2 last">backend/app/model/mixins/subjects.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -155,18 +155,18 @@
       <pre class="lines">
 
 
+3
+4
+5
+6
 7
 8
 9
 10
-11
-12
-13
-14
-15</pre>
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subjects.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/subjects.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_many_to_many identifier id'>many_to_many</span> <span class='symbol val'>:subject</span><span class='comma token'>,</span> <span class='symbol val'>:join_table</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;subject_#{base.table_name}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:order</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;subject_#{base.table_name}__id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span>
@@ -188,7 +188,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:25:57 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:30 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

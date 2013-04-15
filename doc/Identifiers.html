@@ -88,22 +88,12 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/identifiers.rb</dd>
+    <dd class="r2 last">backend/app/model/mixins/identifiers.rb</dd>
   
 </dl>
 <div class="clear"></div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    <p>Handling for models that use the 4-part identifiers</p>
 
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
   <h2>Constant Summary</h2>
   
     <dl class="constants">
@@ -316,6 +306,8 @@
       <pre class="lines">
 
 
+11
+12
 13
 14
 15
@@ -330,12 +322,10 @@
 24
 25
 26
-27
-28
-29</pre>
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_after_initialize identifier id'>after_initialize</span>
   <span class='comment val'># Split the identifier into its components and add the individual pieces as</span>
@@ -375,6 +365,8 @@
       <pre class="lines">
 
 
+29
+30
 31
 32
 33
@@ -391,12 +383,10 @@
 44
 45
 46
-47
-48
-49</pre>
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_validation identifier id'>before_validation</span>
   <span class='comment val'># Combine the identifier into a single string and remove the instance variables we added previously.</span>
@@ -438,10 +428,10 @@
       <pre class="lines">
 
 
-7</pre>
+5</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id_0= identifier id'>id_0=</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rubyid_@id_0 ivar id'>@id_0</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='semicolon token'>;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_modified! fid id'>modified!</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -465,10 +455,10 @@
       <pre class="lines">
 
 
-8</pre>
+6</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id_1= identifier id'>id_1=</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rubyid_@id_1 ivar id'>@id_1</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='semicolon token'>;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_modified! fid id'>modified!</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -492,10 +482,10 @@
       <pre class="lines">
 
 
-9</pre>
+7</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 7</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id_2= identifier id'>id_2=</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rubyid_@id_2 ivar id'>@id_2</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='semicolon token'>;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_modified! fid id'>modified!</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -519,10 +509,10 @@
       <pre class="lines">
 
 
-10</pre>
+8</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 8</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id_3= identifier id'>id_3=</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span> <span class='rubyid_@id_3 ivar id'>@id_3</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='semicolon token'>;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_modified! fid id'>modified!</span> <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -546,6 +536,8 @@
       <pre class="lines">
 
 
+50
+51
 52
 53
 54
@@ -555,12 +547,10 @@
 58
 59
 60
-61
-62
-63</pre>
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/identifiers.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/identifiers.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_super super kw'>super</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span> <span class='eqq op'>===</span> <span class='symbol val'>:resource</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -585,7 +575,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.4.x Documentation Generated on Mon Apr 01 13:25:58 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:31 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
