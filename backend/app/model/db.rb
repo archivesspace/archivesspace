@@ -236,18 +236,4 @@ eof
     expire_backups
   end
 
-
-  def self.deblob(s)
-    if s
-      if @pool.database_type == :h2
-        # Interestingy, the H2 database seems to be returning hex-encoded
-        # strings for blobs.  Working around for now, but should look into
-        # what's really happening here later.
-        [s].pack("H*")
-      else
-        s
-      end
-    end
-  end
-
 end
