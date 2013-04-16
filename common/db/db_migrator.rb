@@ -17,10 +17,15 @@ module Sequel
 
       def TextField(field, opts = {})
         if $db_type == :derby
-          String field, opts.merge(:size => 32672)
+          Clob field, opts
         else
           Text field, opts
         end
+      end
+
+
+      def LongString(field, opts = {})
+        String field, opts.merge(:size => 32672)
       end
 
 

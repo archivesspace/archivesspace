@@ -15,8 +15,8 @@
         "items" => {
           "type" => "object",
           "properties" => {
-            "label" => {"type" => "string", "ifmissing" => "error", "maxLength" => 32672},
-            "value" => {"type" => "string", "ifmissing" => "error", "maxLength" => 32672}
+            "label" => {"type" => "string", "ifmissing" => "error", "maxLength" => 65000},
+            "value" => {"type" => "string", "ifmissing" => "error", "maxLength" => 65000}
           }
         }
       }
