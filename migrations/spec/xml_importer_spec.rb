@@ -50,9 +50,13 @@ describe 'ASpaceImport::Importer::XmlImporter' do
     @i.instance_eval do
       def @parse_queue.save
         OpenStruct.new(:code => '200',
-                       :body => {'saved' => ['123' => '/garbage/url/123']}.to_json)
+                       :body => {'saved' => {'123' => '/garbage/url/123'}}.to_json)
       end
+
+      set_up_tracer
     end
+
+    def @i.debugging?; true; end
 
     @i.run
   end

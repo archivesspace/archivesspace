@@ -4,6 +4,11 @@ require 'rufus-lru'
 
 ASpaceImport::Importer.importer :xml do
 
+  def debugging?
+    $DEBUG
+  end
+
+
   def initialize(opts)
 
     # TODO:
@@ -61,7 +66,7 @@ ASpaceImport::Importer.importer :xml do
       end
     })
     
-    set_up_tracer if $DEBUG   
+    set_up_tracer if debugging?
       
     super
 
@@ -79,7 +84,7 @@ ASpaceImport::Importer.importer :xml do
 
       add_xpath(node)
 
-      node.start_trace if $DEBUG
+      node.start_trace if debugging?
 
       case node.node_type
 
@@ -192,7 +197,7 @@ ASpaceImport::Importer.importer :xml do
 
           json.xpath, json.depth = node.xpath, node.depth
 
-          $tracer.trace(:aspace_data, json, nil) if $DEBUG
+          $tracer.trace(:aspace_data, json, nil) if debugging?
 
           parse_queue.push_and_raise(json)
         end
