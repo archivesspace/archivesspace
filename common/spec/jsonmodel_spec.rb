@@ -1,3 +1,8 @@
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('common:test')
+end
+
 require_relative "../jsonmodel"
 require_relative "../jsonmodel_client"
 require 'net/http'

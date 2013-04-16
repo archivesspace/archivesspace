@@ -135,8 +135,13 @@
           dir="../common">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
+  </target>
+
+  <target name="common:test:coverage" depends="set-classpath, common:test" description="Generate coverage reports for the common unit tests">
   </target>
 
 
@@ -579,7 +584,7 @@
     <delete dir="../coverage" />
   </target>
 
-  <target name="coverage" depends="clean-coverage, backend:coverage, backend:integration:coverage, migrations:test:coverage, frontend:coverage" description="Run all coverage reports">
+  <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, migrations:test:coverage, frontend:coverage" description="Run all coverage reports">
   </target>
 
 </project>
