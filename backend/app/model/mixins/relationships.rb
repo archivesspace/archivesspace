@@ -214,7 +214,8 @@ module Relationships
           properties[:last_modified] = Time.now
 
           relationship_defn.relate(obj, referent, properties)
-          referent.save
+
+          DB.increase_lock_version_or_fail(referent)
         end
       end
     end
