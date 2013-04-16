@@ -58,6 +58,10 @@ class ArchivesSpaceService < Sinatra::Base
     set :server, :puma
   end
 
+  configure :test do |config|
+    set :server, :puma
+  end
+
 
   configure do
 
