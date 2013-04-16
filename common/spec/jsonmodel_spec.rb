@@ -2,6 +2,7 @@ require_relative "../jsonmodel"
 require_relative "../jsonmodel_client"
 require 'net/http'
 require 'json'
+require 'ostruct'
 
 describe JSONModel do
 
@@ -10,8 +11,9 @@ describe JSONModel do
     BACKEND_SERVICE_URL = 'http://example.com'
 
     class StubHTTP
-      def request (req)
-        StubResponse.new
+      def request (req, body = nil, &block)
+        response = OpenStruct.new(:code => '200')
+        block ? yield(self) : self
       end
       def code
         "200"
@@ -95,7 +97,13 @@ describe JSONModel do
 
 
 
-    Net::HTTP.stub(:start){ StubHTTP.new }
+    Net::HTTP.stub(:start) { |host, port, &block|
+      if block
+        block.call(StubHTTP.new)
+      else
+        StubHTTP.new
+      end
+    }
 
     @klass = Klass.new
   end
@@ -157,4 +165,11 @@ describe JSONModel do
     jo.names.length.should eq(0)
   end
 
+
+  it "should support streaming" do
+    JSONModel::HTTP::stream('/anything', {}) do |response|
+      # response
+      response.should_not be(nil)
+    end
+  end
 end
