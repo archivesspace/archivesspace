@@ -5,13 +5,11 @@ require_relative '../app/model/enumeration'
 describe 'Enumerations model' do
 
   before(:all) do
-    @enum = Enumeration.create(:name => 'test_role_enum')
-    @enum2 = Enumeration.create(:name => 'second_test_role_enum')
+    @enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'test_role_enum',
+                                                                           :values => ['battlemage', 'warrior']))
 
-    @enum.add_enumeration_value(:value => 'battlemage')
-    @enum.add_enumeration_value(:value => 'warrior')
-
-    @enum2.add_enumeration_value(:value => 'mushroom')
+    @enum2 = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'second_test_role_enum',
+                                                                            :values => ['mushroom']))
   end
 
 

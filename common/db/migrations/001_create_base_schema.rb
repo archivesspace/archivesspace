@@ -24,6 +24,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       String :name, :null => false, :unique => true
       
@@ -70,7 +71,9 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
+      Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -82,7 +85,9 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
+      Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -94,7 +99,9 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
+      Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -106,7 +113,9 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
+      Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -118,6 +127,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       String :username, :null => false, :unique => true
       String :name, :null => false
@@ -146,6 +156,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       String :repo_code, :null => false, :unique => true
       String :name, :null => false
@@ -176,6 +187,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
 
@@ -246,6 +258,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
       Integer :suppressed, :default => 0, :null => false
@@ -297,6 +310,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
       Integer :accession_id, :null => true
@@ -334,6 +348,7 @@ Sequel.migration do
       Integer :finding_aid_status_id
       TextField :finding_aid_note
 
+      Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -355,6 +370,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
 
@@ -376,6 +392,7 @@ Sequel.migration do
 
       String :language, :null => true
 
+      Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -399,6 +416,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
       String :digital_object_id, :null => false
@@ -410,6 +428,7 @@ Sequel.migration do
       Integer :publish
       Integer :restrictions
 
+      Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -428,6 +447,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
       Integer :root_record_id, :null => true
@@ -440,6 +460,7 @@ Sequel.migration do
       String :label
       String :language
 
+      Integer :notes_json_schema_version, :null => false
       BlobField :notes, :null => true
 
       DateTime :create_time, :null => false
@@ -461,6 +482,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :resource_id
       Integer :archival_object_id
@@ -497,6 +519,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :instance_id
 
@@ -535,13 +558,14 @@ Sequel.migration do
     end
 
     self[:vocabulary].insert(:name => "global", :ref_id => "global",
-                               :create_time => Time.now, :last_modified => Time.now)
+                             :create_time => Time.now, :last_modified => Time.now)
 
 
     create_table(:subject) do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :vocab_id, :null => false
 
@@ -566,6 +590,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :vocab_id, :null => false
 
@@ -599,6 +624,7 @@ Sequel.migration do
 
     def create_enum(name, values)
       id = self[:enumeration].insert(:name => name,
+                                     :json_schema_version => 1,
                                      :create_time => Time.now,
                                      :last_modified => Time.now)
 
@@ -626,6 +652,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :agent_person_id, :null => false
 
@@ -657,6 +684,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :agent_family_id, :null => false
 
@@ -682,6 +710,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :agent_corporate_entity_id, :null => false
 
@@ -709,6 +738,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :agent_software_id, :null => false
 
@@ -735,6 +765,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :agent_person_id, :null => true
       Integer :agent_family_id, :null => true
@@ -773,6 +804,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :accession_id, :null => true
       Integer :resource_id, :null => true
@@ -800,6 +832,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :accession_id, :null => true
       Integer :deaccession_id, :null => true
@@ -869,6 +902,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :accession_id, :null => true
       Integer :deaccession_id, :null => true
@@ -900,6 +934,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
       Integer :suppressed, :default => 0, :null => false
 
       Integer :repo_id, :null => false
@@ -939,6 +974,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :accession_id, :null => true
       Integer :archival_object_id, :null => true
@@ -992,6 +1028,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       LongString :title, :null => false
       String :location, :null => false
@@ -1033,6 +1070,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
 
@@ -1066,6 +1104,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
 
@@ -1104,6 +1143,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :repo_id, :null => false
 
@@ -1142,6 +1182,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :lock_version, :default => 0, :null => false
+      Integer :json_schema_version, :null => false
 
       Integer :digital_object_id, :null => true
       Integer :digital_object_component_id, :null => true
