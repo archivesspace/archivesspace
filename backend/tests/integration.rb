@@ -8,6 +8,8 @@ require 'net/http'
 require 'test_utils'
 require_relative '../../indexer/app/lib/periodic_indexer.rb'
 require 'ladle'
+require 'simplecov'
+
 
 Dir.chdir(File.dirname(__FILE__))
 $solr_port = 2999
@@ -249,9 +251,10 @@ def run_tests(opts)
               }.to_json,
               url("/repositories/#{repo_id}/accessions"))
 
-  r = do_get(url("/repositories/#{repo_id}/reports/unprocessed_accessions?format=pdf"), true)
-  r.code == '200' or fail("Accession report", r)
-
+  ["pdf", "json", "xlsx", "csv"].each do |fmt|
+    r = do_get(url("/repositories/#{repo_id}/reports/unprocessed_accessions?format=#{fmt}"), true)
+    r.code == '200' or fail("Accession report (#{fmt})", r)
+  end
 
   puts "Create an expiring admin session"
   r = do_post(URI.encode_www_form(:password => "admin"),

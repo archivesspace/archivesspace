@@ -1,14 +1,11 @@
 require_relative "spec_helper.rb"
-
+require 'ostruct'
 
 describe 'ASpaceImport::Importer::XmlImporter' do
   
   
   before(:each) do    
-    ASpaceImport::Importer.destroy_importers
-   
-    load "../importers/xml.rb"
-    
+
     @opts = {
             :crosswalk => 'ead', 
             :input_file => '../examples/ead/archon-tracer.xml', 
@@ -48,5 +45,16 @@ describe 'ASpaceImport::Importer::XmlImporter' do
     @i.class.name.should eq('XmlImporter')
   end
 
+
+  it "should run" do
+    @i.instance_eval do
+      def @parse_queue.save
+        OpenStruct.new(:code => '200',
+                       :body => {'saved' => ['123' => '/garbage/url/123']}.to_json)
+      end
+    end
+
+    @i.run
+  end
 end
 

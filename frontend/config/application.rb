@@ -93,11 +93,7 @@ end
 
 
 if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'tmpdir'
-  require 'pp'
-  require 'simplecov'
-
-  SimpleCov.command_name 'Frontend tests'
-  SimpleCov.start 'rails'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('frontend:test', 'rails')
 end
 

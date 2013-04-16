@@ -1,6 +1,11 @@
 require 'bundler'
 Bundler.require
 
+if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
+  require 'aspace_coverage'
+  ASpaceCoverage.start('backend_integration')
+end
+
 require_relative 'lib/bootstrap'
 require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
@@ -8,7 +13,6 @@ require_relative 'lib/crud_helpers'
 require_relative 'lib/notifications'
 require_relative 'lib/export'
 require_relative 'lib/request_context.rb'
-require_relative 'lib/webrick_fix'
 require_relative 'lib/import_helpers'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'

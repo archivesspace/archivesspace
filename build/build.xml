@@ -37,7 +37,7 @@
   <!-- Configure our classpath. -->
   <target name="set-classpath" description="Set JRuby classpath">
     <condition property="COVERAGE_REPORTS" value="true">
-      <matches pattern=".*:coverage" string="${ant.project.invoked-targets}" />
+      <matches pattern=".*coverage" string="${ant.project.invoked-targets}" />
     </condition>
 
     <property name="jruby_classpath" value="${jruby_file}:../lib/*:../common" />
@@ -159,6 +159,11 @@
   </target>
 
 
+  <target name="backend:integration:coverage" depends="set-classpath, backend:integration" description="Generate coverage reports for the backend's integration tests">
+  </target>
+
+
+
   <target name="backend:integration" depends="set-classpath" description="Run the integration test suite">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
@@ -166,6 +171,7 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="--1.9 tests/integration.rb" />
     </java>
   </target>
@@ -357,8 +363,14 @@
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
-      <arg line="--1.9 ../../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 ." />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <arg line="--1.9 --debug -X-C ../../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 ." />
     </java>
+  </target>
+
+
+  <target name="migrations:test:coverage" depends="set-classpath, migrations:test"
+          description="Generate coverage reports for the migrations">
   </target>
 
 
@@ -560,6 +572,14 @@
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
+  </target>
+
+
+  <target name="clean-coverage">
+    <delete dir="../coverage" />
+  </target>
+
+  <target name="coverage" depends="clean-coverage, backend:coverage, backend:integration:coverage, migrations:test:coverage, frontend:coverage" description="Run all coverage reports">
   </target>
 
 </project>
