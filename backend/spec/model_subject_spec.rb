@@ -7,7 +7,7 @@ describe 'Subject model' do
     Term.create_from_json(JSONModel(:term).
                           from_hash({
                                       "term" => "test#{Time.now.to_i}_#{@count}",
-                                      "term_type" => "Cultural context",
+                                      "term_type" => "cultural_context",
                                       "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                     }))
   end

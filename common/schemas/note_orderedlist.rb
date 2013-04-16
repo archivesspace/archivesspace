@@ -14,7 +14,7 @@
       "enumeration" => {
         "type" => "string",
         "ifmissing" => "error",
-        "enum" => ["arabic", "loweralpha", "upperalpha", "lowerroman", "upperroman", "null"]
+        "dynamic_enum" => "note_orderedlist_enumeration"
       },
 
       "items" => {

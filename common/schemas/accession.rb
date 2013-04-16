@@ -107,7 +107,7 @@
           "properties" => {
             "role" => {
               "type" => "string",
-              "enum" => ['creator', 'source', 'subject'],
+              "dynamic_enum" => "linked_agent_role",
               "ifmissing" => "error"
             },
 

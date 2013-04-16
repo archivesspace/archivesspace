@@ -8,7 +8,7 @@
     "properties" => {
       "relator" => {
         "type" => "string",
-        "enum" => ["is_associative_with"],
+        "dynamic_enum" => "agent_relationship_associative_relator",
         "ifmissing" => "error"
       },
 

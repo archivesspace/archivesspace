@@ -12,7 +12,7 @@
       "id_2" => {"type" => "string", "maxLength" => 255},
       "id_3" => {"type" => "string", "maxLength" => 255},
 
-      "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
+      "level" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "archival_record_level"},
       "other_level" => {"type" => "string", "maxLength" => 255},
 
       "language" => {"ifmissing" => "error"},

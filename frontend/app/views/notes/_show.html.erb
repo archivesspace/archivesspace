@@ -1,12 +1,16 @@
 <%
    all_note_types = {}
 
-   JSONModel(:note_singlepart).schema['properties']['type']['enum'].each do |type|
+   JSONModel.enum_values(JSONModel(:note_singlepart).schema['properties']['type']['dynamic_enum']).each do |type|
      all_note_types[type] = :note_singlepart
    end
 
-   JSONModel(:note_multipart).schema['properties']['type']['enum'].each do |type|
+   JSONModel.enum_values(JSONModel(:note_multipart).schema['properties']['type']['dynamic_enum']).each do |type|
      all_note_types[type] = :note_multipart
+   end
+
+   JSONModel.enum_values(JSONModel(:note_digital_object).schema['properties']['type']['dynamic_enum']).each do |type|
+     all_note_types[type] = :note_digital_object
    end
 
    all_note_types["Index"] = :note_index

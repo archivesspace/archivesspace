@@ -5,7 +5,7 @@
     "type" => "object",
     "subtype" => "ref",
     "properties" => {
-      "status" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "enum" => ["current", "previous"]},
+      "status" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "dynamic_enum" => "container_location_status"},
       "start_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
       "end_date" => {"type" => "date"},
       "note" => {"type" => "string"},

@@ -9,18 +9,12 @@
       "publish" => {"type" => "boolean", "default" => true},
       "use_statement" => {"type" => "string", "dynamic_enum" => "file_version_use_statement"},
 
-      "xlink_actuate_attribute" => {
-        "type" => "string",
-        "enum" => ["none", "other", "onLoad", "onRequest"]
-      },
+      "xlink_actuate_attribute" => {"type" => "string", "dynamic_enum" => "file_version_xlink_actuate_attribute"},
 
-      "xlink_show_attribute" => {
-        "type" => "string",
-        "enum" => ["new", "replace", "embed", "other", "none"]
-      },
+      "xlink_show_attribute" => {"type" => "string", "dynamic_enum" => "file_version_xlink_show_attribute"},
 
 
-      "file_format_name" => {"type" => "string", "maxLength" => 255},
+      "file_format_name" => {"type" => "string", "dynamic_enum" => "file_version_file_format_name"},
       "file_format_version" => {"type" => "string", "maxLength" => 255},
       "file_size_bytes" => {"type" => "integer"},
 

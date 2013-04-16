@@ -1,14 +1,6 @@
 <%
-   singlepart_note_types = {}
-   multipart_note_types = {}
-
-   JSONModel(:note_singlepart).schema['properties']['type']['enum'].each do |type|
-     singlepart_note_types[type] = :note_singlepart
-   end
-
-   JSONModel(:note_multipart).schema['properties']['type']['enum'].each do |type|
-     multipart_note_types[type] = :note_multipart
-   end
+   singlepart_note_types = note_types_for(:note_singlepart)
+   multipart_note_types = note_types_for(:note_multipart)
 %>
 
 <% define_template "content_item" do |form, item| %>
@@ -35,7 +27,7 @@
   <div class="subrecord-form-fields" data-type="note_singlepart">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= I18n.t("enumerations.note_singlepart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_singlepart") %>
       <% end %>
@@ -44,7 +36,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_singlepart") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_select("type",
-          singlepart_note_types.keys.map {|type| [I18n.t("note.types.#{type}"), type]},
+          singlepart_note_types.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
       <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
@@ -95,7 +87,7 @@
   <div class="subrecord-form-fields" data-type="note_multipart">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= I18n.t("enumerations.note_multipart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_multipart") %>
       <% end %>
@@ -104,7 +96,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_multipart") %>
       <%= form.label_and_textfield("label") %>
       <%= form.label_and_select("type",
-          multipart_note_types.keys.map {|type| [I18n.t("note.types.#{type}"), type]},
+          multipart_note_types.map {|value, hash| [hash[:i18n], value]},
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
       <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
@@ -444,17 +436,14 @@
 
 
 <%
-   digital_object_note_types = {}
-   JSONModel(:note_digital_object).schema['properties']['type']['enum'].each do |type|
-     digital_object_note_types[type] = :note_digital_object
-   end
+   digital_object_note_types = note_types_for(:note_digital_object)
 %>
 
 <% define_template "note_digital_object", jsonmodel_definition(:note_digital_object) do |form| %>
   <div class="subrecord-form-fields" data-type="note_digital_object">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("note.types.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= I18n.t("enumerations.note_digital_object_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_digital_object") %>
       <% end %>
@@ -462,9 +451,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_digital_object") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_select("type",
-          digital_object_note_types.keys.map {|type| [I18n.t("note.types.#{type}"), type]},
-          :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_select("type", digital_object_note_types.map {|value, hash| [hash[:i18n], value]}, :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, form.default_for("publish")) %>
       <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 

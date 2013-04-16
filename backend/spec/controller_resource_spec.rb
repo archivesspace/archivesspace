@@ -177,7 +177,7 @@ describe 'Resources controller' do
 
     # create the resource with all the instance/container etc
     location = create(:json_location, :temporary => generate(:temporary_location_type))
-    status = generate(:container_location_status)
+    status = 'current'
 
     resource = create(:json_resource, {
                         :instances => [build(:json_instance, {
@@ -199,13 +199,12 @@ describe 'Resources controller' do
 
   it "lets you create a resource with an instance/container/location, and then update the location" do
     location = create(:json_location, :temporary => generate(:temporary_location_type))
-    status = generate(:container_location_status)
 
     resource = create(:json_resource, {
                         :instances => [build(:json_instance, {
                           :container => build(:json_container, {
                             :container_locations => [{'ref' => location.uri,
-                                                      'status' => status,
+                                                      'status' => 'current',
                                                       'start_date' => generate(:yyyy_mm_dd),
                                                       'end_date' => generate(:yyyy_mm_dd)}]
                             })

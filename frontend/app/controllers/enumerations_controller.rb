@@ -9,7 +9,7 @@ class EnumerationsController < ApplicationController
 
 
   def index
-    @enumerations = JSONModel(:enumeration).all
+    @enumerations = JSONModel(:enumeration).all.select{|enum| enum['editable']}
     @enumeration = JSONModel(:enumeration).find(params[:id]) if params[:id] and not params[:id].blank?
   end
 

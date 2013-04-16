@@ -1,4 +1,5 @@
 module RelatedAgents
+  extend JSONModel
 
   def self.included(base)
     callback = proc { |clz|
@@ -80,7 +81,7 @@ module RelatedAgents
         #
         # So we want to invert the relator for this case.
 
-        relator_values = JSONModel.JSONModel(relationship['jsonmodel_type'].intern).schema['properties']['relator']['enum']
+        relator_values = JSONModel.enum_values(JSONModel(relationship['jsonmodel_type'].intern).schema['properties']['relator']['dynamic_enum'])
         relator_values -= ['other_unmapped'] # grumble.
 
         if relator_values.length == 2

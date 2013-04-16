@@ -8,8 +8,8 @@
       <ul class="dropdown-menu subrecord-selector">
         <li>
           <select>
-            <% all_note_types.keys.sort_by {|type| I18n.t("note.types.#{type}")}.each do |type| %>
-              <option value="<%= all_note_types[type] %>"><%= I18n.t("note.types.#{type}") %></option>
+            <% all_note_types.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
             <% end %>
           </select>
         </li>

@@ -8,7 +8,7 @@
     "properties" => {
       "relator" => {
         "type" => "string",
-        "enum" => ["is_subordinate_to", "is_superior_of"],
+        "dynamic_enum" => "agent_relationship_subordinatesuperior_relator",
         "ifmissing" => "error"
       },
 

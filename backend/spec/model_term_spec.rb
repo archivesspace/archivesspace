@@ -16,12 +16,12 @@ describe 'Term model' do
     term = Term.create_from_json(JSONModel(:term).
                                  from_hash({
                                              "term" => "a test term",
-                                             "term_type" => "Cultural context",
+                                             "term_type" => "cultural_context",
                                              "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                            }))
 
     Term[term[:id]].term.should eq("a test term")
-    Term[term[:id]].term_type.should eq("Cultural context")
+    Term[term[:id]].term_type.should eq("cultural_context")
   end
 
 
@@ -31,7 +31,7 @@ describe 'Term model' do
         Term.create_from_json(JSONModel(:term).
                               from_hash({
                                           "term" => "a test term",
-                                          "term_type" => "Cultural context",
+                                          "term_type" => "cultural_context",
                                           "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                         }))
       end

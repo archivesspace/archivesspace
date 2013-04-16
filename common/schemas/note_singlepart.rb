@@ -9,7 +9,7 @@
       "type" => {
         "type" => "string",
         "ifmissing" => "error",
-        "enum" => ["abstract", "physdesc", "langmaterial", "physloc", "materialspec", "physfacet"]
+        "dynamic_enum" => "note_singlepart_type"
 
       },
     },

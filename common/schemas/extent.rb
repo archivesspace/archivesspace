@@ -5,7 +5,7 @@
     "type" => "object",
 
     "properties" => {
-      "portion" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "default" => "whole", "enum" => ["whole", "part"]},
+      "portion" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "dynamic_enum" => "extent_portion"},
       "number" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error"},
       "extent_type" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "dynamic_enum" => "extent_extent_type"},
 
