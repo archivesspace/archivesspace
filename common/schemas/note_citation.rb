@@ -14,7 +14,7 @@
           "href" => {"type" => "string", "maxLength" => 65000},
           "role" => {"type" => "string", "maxLength" => 65000},
           "show" => {"type" => "string", "maxLength" => 65000},
-          "title" => {"type" => "string", "maxLength" => 32672},
+          "title" => {"type" => "string", "maxLength" => 16384},
           "type" => {"type" => "string", "maxLength" => 65000},
         }
       }

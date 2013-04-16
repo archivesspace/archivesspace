@@ -11,7 +11,7 @@
       "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
       "other_level" => {"type" => "string", "maxLength" => 255},
 
-      "title" => {"type" => "string", "maxLength" => 32672, "ifmissing" => nil},
+      "title" => {"type" => "string", "maxLength" => 16384, "ifmissing" => nil},
       "title_auto_generate" => {"type" => "boolean", "default" => false},
       
       "internal_only" => {"type" => "boolean", "default" => false},

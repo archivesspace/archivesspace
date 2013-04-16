@@ -6,7 +6,7 @@
 
     "properties" => {
       "primary_name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
-      "title" => {"type" => "string", "maxLength" => 32672},
+      "title" => {"type" => "string", "maxLength" => 16384},
       "name_order" => {
         "type" => "string",
         "ifmissing" => "error",

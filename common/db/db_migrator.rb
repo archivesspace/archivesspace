@@ -25,7 +25,7 @@ module Sequel
 
 
       def LongString(field, opts = {})
-        String field, opts.merge(:size => 32672)
+        String field, opts.merge(:size => 17408)
       end
 
 
