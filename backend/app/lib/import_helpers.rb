@@ -27,7 +27,6 @@ module ImportHelpers
       
     end
       
-    # 0. Add new enums till everything validates  
     # 1. Create ASModel objects from the JSONModel objects minus the references
     # 2. Update the nonce URIs of the JSONModel objects using their DB IDs
     # 3. Update JSONModel links using the real URIs
@@ -63,19 +62,19 @@ module ImportHelpers
 
       @second_pass_keys.each do |ref|
         begin
-        json = @json_set[ref]
-        # Update the references in json
-        ASpaceImport::Crosswalk.update_record_references(json, @json_set.select{|k, v| 
-          !@second_pass_keys.include?(k) 
-          }) {|referenced| referenced.uri}
+          json = @json_set[ref]
+          # Update the references in json
+          ASpaceImport::Crosswalk.update_record_references(json, @json_set.select{|k, v| 
+            !@second_pass_keys.include?(k) 
+            }) {|referenced| referenced.uri}
         
-        obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(json)
-        @as_set[json.uri] = [obj.id, obj.class]
+          obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(json)
+          @as_set[json.uri] = [obj.id, obj.class]
         
-        # Now update the URI with the real ID
-        json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
-        @saved_uris[ref] = @json_set[ref].uri
-        ASpaceImport::Crosswalk.update_record_references(json, @json_set) {|referenced| referenced.uri}
+          # Now update the URI with the real ID
+          json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
+          @saved_uris[ref] = @json_set[ref].uri
+          ASpaceImport::Crosswalk.update_record_references(json, @json_set) {|referenced| referenced.uri}
         rescue Exception => e
           raise ImportException.new({:invalid_object => json, :error => e})
         end
@@ -90,10 +89,15 @@ module ImportHelpers
 
       @as_set.each do |ref, a|
         next if @second_pass_keys.include?(ref)
-        obj = a[1].get_or_die(a[0])
-
-        obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}, false) 
-        @saved_uris[ref] = @json_set[ref].uri   
+        begin
+          obj = a[1].get_or_die(a[0])
+        
+          obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}, false) 
+          @saved_uris[ref] = @json_set[ref].uri 
+        rescue Exception => e
+          raise ImportException.new({:invalid_object => @json_set[ref], :error => e})
+        end
+          
       end
     end    
     
@@ -126,7 +130,6 @@ module ImportHelpers
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
       @error = opts[:error]
-      @message = @error.message
     end
     
     def to_hash
@@ -136,8 +139,9 @@ module ImportHelpers
       
       if @error.respond_to?(:errors)
         @error.errors.each {|e| hsh['errors'] << e}
+      else
+        hsh['errors'] = @error.inspect
       end
-      
       hsh
     end
 
