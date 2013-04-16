@@ -1,3 +1,5 @@
+require 'rufus/lru'
+
 class BackendEnumSource
 
   def self.valid?(enum_name, value)
@@ -38,12 +40,25 @@ class BackendEnumSource
   end
 
 
+  @@enum_value_cache = Rufus::Lru::SynchronizedHash.new(1024)
+  @@max_cache_ms = 5000
+
   def self.values_for(enum_name)
-    DB.open(true) do |db|
-      id = db[:enumeration].join(:enumeration_value, :enumeration_id => :id).
-                            filter(:name => enum_name).
-                            select(:value).all.map {|row| row[:value]}
+    cached = @@enum_value_cache[enum_name]
+    now = java.lang.System.currentTimeMillis
+
+    if !cached || ((now - cached[:time]) > @@max_cache_ms)
+      @@enum_value_cache[enum_name] = {
+        :time => now,
+        :value => DB.open(true) do |db|
+          @@enum_value_cache[enum_name] = db[:enumeration].join(:enumeration_value, :enumeration_id => :id).
+                                                           filter(:name => enum_name).
+                                                           select(:value).all.map {|row| row[:value]}
+        end
+      }
     end
+
+    @@enum_value_cache[enum_name][:value]
   end
 
 end
