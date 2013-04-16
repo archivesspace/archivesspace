@@ -66,6 +66,54 @@ Sequel.migration do
     end
 
 
+    create_table(:agent_person) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      BlobField :notes, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+
+    create_table(:agent_family) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      BlobField :notes, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+
+    create_table(:agent_corporate_entity) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      BlobField :notes, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+
+    create_table(:agent_software) do
+      primary_key :id
+
+      Integer :lock_version, :default => 0, :null => false
+
+      BlobField :notes, :null => true
+
+      DateTime :create_time, :null => false
+      DateTime :last_modified, :null => false, :index => true
+    end
+
+
     create_table(:user) do
       primary_key :id
 
@@ -89,6 +137,10 @@ Sequel.migration do
       DateTime :last_modified, :null => false, :index => true
     end
 
+
+    alter_table(:user) do
+      add_foreign_key([:agent_record_id], :agent_person, :key => :id)
+    end
 
     create_table(:repository) do
       primary_key :id
@@ -545,51 +597,14 @@ Sequel.migration do
     end
 
 
-    create_table(:agent_person) do
-      primary_key :id
+    def create_enum(name, values)
+      id = self[:enumeration].insert(:name => name,
+                                     :create_time => Time.now,
+                                     :last_modified => Time.now)
 
-      Integer :lock_version, :default => 0, :null => false
-
-      BlobField :notes, :null => true
-
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
-    end
-
-
-    create_table(:agent_family) do
-      primary_key :id
-
-      Integer :lock_version, :default => 0, :null => false
-
-      BlobField :notes, :null => true
-
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
-    end
-
-
-    create_table(:agent_corporate_entity) do
-      primary_key :id
-
-      Integer :lock_version, :default => 0, :null => false
-
-      BlobField :notes, :null => true
-
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
-    end
-
-
-    create_table(:agent_software) do
-      primary_key :id
-
-      Integer :lock_version, :default => 0, :null => false
-
-      BlobField :notes, :null => true
-
-      DateTime :create_time, :null => false
-      DateTime :last_modified, :null => false, :index => true
+      values.each do |value|
+        self[:enumeration_value].insert(:enumeration_id => id, :value => value)
+      end
     end
 
 
@@ -604,17 +619,6 @@ Sequel.migration do
         Integer :sort_name_auto_generate
       end
 
-    end
-
-
-    def create_enum(name, values)
-      id = self[:enumeration].insert(:name => name,
-                                     :create_time => Time.now,
-                                     :last_modified => Time.now)
-
-      values.each do |value|
-        self[:enumeration_value].insert(:enumeration_id => id, :value => value)
-      end
     end
 
 
@@ -823,6 +827,8 @@ Sequel.migration do
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:deaccession_id], :deaccession, :key => :id)
       add_foreign_key([:extent_type_id], :enumeration_value, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
     end
 
 
@@ -923,6 +929,9 @@ Sequel.migration do
       add_foreign_key([:event_id], :event, :key => :id)
       add_foreign_key([:deaccession_id], :deaccession, :key => :id)
       add_foreign_key([:related_agents_rlshp_id], :related_agents_rlshp, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
+
     end
 
 
@@ -1084,6 +1093,10 @@ Sequel.migration do
       add_foreign_key([:processing_total_extent_type_id], :enumeration_value, :key => :id)
       add_foreign_key([:processing_status_id], :enumeration_value, :key => :id)
       add_foreign_key([:processing_priority_id], :enumeration_value, :key => :id)
+
+      add_foreign_key([:accession_id], :accession, :key => :id)
+      add_foreign_key([:resource_id], :resource, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
     end
 
 
