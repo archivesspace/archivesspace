@@ -147,6 +147,14 @@ module JSONModel
         base = @@models[parent].schema["properties"].clone
         properties = self.deep_merge(base, entry[:schema]["properties"])
 
+        # Maybe we'll eventually want the version of a schema to be
+        # automatically set to max(my_version, parent_version), but for now...
+        if entry[:schema]["version"] < @@models[parent].schema_version
+          raise ("Can't inherit from a JSON schema whose version is newer than ours " +
+                 "(our (#{schema_name}) version: #{entry[:schema]['version']}; " +
+                 "parent (#{parent}) version: #{@@models[parent].schema_version})")
+        end
+
         entry[:schema]["properties"] = properties
       end
 
@@ -327,6 +335,12 @@ module JSONModel
       # Return the JSON schema that defines this JSONModel class
       def self.schema
         find_ancestor_class_instance(:@schema)
+      end
+
+
+      # Return the version number of this JSONModel's schema
+      def self.schema_version
+        self.schema['version']
       end
 
 

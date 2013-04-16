@@ -8,6 +8,7 @@ class ArchivesSpaceService
       begin
         Repository.create(:repo_code => Group.GLOBAL,
                           :name => "Global repository",
+                          :json_schema_version => JSONModel(:repository).schema_version,
                           :hidden => 1)
       ensure
         Repository.restrict_primary_key

@@ -1,6 +1,7 @@
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
+    "version" => 1,
     "type" => "object",
     "properties" => {
       "instance_type" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "dynamic_enum" => "instance_instance_type"},

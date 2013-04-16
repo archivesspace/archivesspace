@@ -79,6 +79,7 @@ FactoryGirl.define do
   # AS Models
   
   factory :repo, class: Repository do
+    json_schema_version { 1 }
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     after(:create) do |r|
@@ -90,7 +91,7 @@ FactoryGirl.define do
   end
   
   factory :user, class: User do
-    
+    json_schema_version { 1 }
     # before(:create) { agent = create(:json_agent_person) }  
       
     username { generate(:username) }
@@ -101,6 +102,7 @@ FactoryGirl.define do
   end
   
   factory :accession do
+    json_schema_version { 1 }
     id_0 { generate(:alphanumstr) }
     id_1 { generate(:alphanumstr) }
     id_2 { generate(:alphanumstr) }
@@ -112,6 +114,8 @@ FactoryGirl.define do
   end
   
   factory :resource do
+    json_schema_version { 1 }
+    notes_json_schema_version { 1 }
     title { generate(:generic_title) }
     id_0 { generate(:alphanumstr) }
     id_1 { generate(:alphanumstr) }
@@ -120,6 +124,7 @@ FactoryGirl.define do
   end
   
   factory :extent do
+    json_schema_version { 1 }
     portion { generate(:portion) }
     number { generate(:number) }
     extent_type { generate(:extent_type) }
@@ -128,6 +133,8 @@ FactoryGirl.define do
   end
   
   factory :archival_object do
+    json_schema_version { 1 }
+    notes_json_schema_version { 1 }
     title { generate(:generic_title) }
     repo_id nil
     ref_id { generate(:alphanumstr) }

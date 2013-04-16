@@ -1,6 +1,7 @@
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
+    "version" => 1,
     "type" => "object",
     "uri" => "/agents/:agent_id/name_forms",
     "properties" => {

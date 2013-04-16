@@ -55,7 +55,7 @@ module ASModel
 
       self.class.strict_param_setting = false
 
-      self.update(self.class.prepare_for_db(json.class.schema, updated))
+      self.update(self.class.prepare_for_db(json.class, updated))
 
       obj = self.save
 
@@ -140,7 +140,7 @@ module ASModel
           values["repo_id"] = active_repository
         end
 
-        obj = self.create(prepare_for_db(json.class.schema,
+        obj = self.create(prepare_for_db(json.class,
                                          json.to_hash.merge(values)))
 
         self.apply_linked_database_records(obj, json, true)
@@ -477,7 +477,8 @@ module ASModel
       }
 
 
-      def prepare_for_db(schema, hash)
+      def prepare_for_db(jsonmodel_class, hash)
+        schema = jsonmodel_class.schema
         hash = hash.clone
         schema['properties'].each do |property, definition|
           mapping = JSON_TO_DB_MAPPINGS[definition['type']]
@@ -492,6 +493,8 @@ module ASModel
           # database.
           hash.delete(linked_record[:json_property].to_s)
         end
+
+        hash['json_schema_version'] = jsonmodel_class.schema_version
 
         hash
       end
