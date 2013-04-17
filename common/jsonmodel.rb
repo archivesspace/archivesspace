@@ -7,23 +7,47 @@ require_relative 'asutils'
 
 class ValidatorCache
 
-  def self.get_validator_for(jsonmodel, data)
+  def self.create_validator(jsonmodel, data)
+    JSON::Validator.new(jsonmodel.schema,
+                        data,
+                        :errors_as_objects => true,
+                        :record_errors => true)
+  end
+
+  def self.with_validator_for(jsonmodel, data)
     Thread.current[:validator_cache] ||= {}
 
+    created = false
     if Thread.current[:validator_cache][jsonmodel]
-      # Reuse this validator by setting its data
-      validator = Thread.current[:validator_cache][jsonmodel]
+
+      # If we have a cache entry but it's in use, just return a newly allocated
+      # validator.
+      if Thread.current[:validator_cache][jsonmodel][:in_use]
+        return self.create_validator(jsonmodel, data)
+      end
+
+    else
+      # If there's no entry, add one
+      Thread.current[:validator_cache][jsonmodel] = {}
+      Thread.current[:validator_cache][jsonmodel][:validator] = self.create_validator(jsonmodel, data)
+      created = true
+    end
+
+    validator = Thread.current[:validator_cache][jsonmodel][:validator]
+
+    # Reuse this existing validator by setting its data
+    if !created
       validator.instance_eval do
         @data = data
       end
+    end
 
-      validator
-    else
-      # Create a new one and cache it
-      Thread.current[:validator_cache][jsonmodel] = JSON::Validator.new(jsonmodel.schema,
-                                                                        data,
-                                                                        :errors_as_objects => true,
-                                                                        :record_errors => true)
+    Thread.current[:validator_cache][jsonmodel][:in_use] = true
+
+    begin
+      yield(validator)
+    ensure
+      Thread.current[:validator_cache][jsonmodel][:in_use] = false
     end
   end
 
@@ -692,19 +716,22 @@ module JSONModel
       # a ValidationException if there are any fatal validation problems, or if
       # strict mode is enabled and warnings were produced.
       def self.validate(hash, raise_errors = true)
-        validator = ValidatorCache.get_validator_for(self, JSONSchemaUtils.drop_unknown_properties(hash, self.schema))
 
-        messages = validator.validate
-        exceptions = JSONSchemaUtils.parse_schema_messages(messages, validator)
+        properties = JSONSchemaUtils.drop_unknown_properties(hash, self.schema)
+        ValidatorCache.with_validator_for(self, properties) do |validator|
 
-        if raise_errors && (!exceptions[:errors].empty? || (@@strict_mode && !exceptions[:warnings].empty?))
-          raise ValidationException.new(:invalid_object => self.new(hash),
-                                        :warnings => exceptions[:warnings],
-                                        :errors => exceptions[:errors],
-                                        :attribute_types => exceptions[:attribute_types])
+          messages = validator.validate
+          exceptions = JSONSchemaUtils.parse_schema_messages(messages, validator)
+
+          if raise_errors && (!exceptions[:errors].empty? || (@@strict_mode && !exceptions[:warnings].empty?))
+            raise ValidationException.new(:invalid_object => self.new(hash),
+                                          :warnings => exceptions[:warnings],
+                                          :errors => exceptions[:errors],
+                                          :attribute_types => exceptions[:attribute_types])
+          end
+
+          exceptions.reject{|k, v| v.empty?}
         end
-
-        exceptions.reject{|k, v| v.empty?}
       end
 
 
