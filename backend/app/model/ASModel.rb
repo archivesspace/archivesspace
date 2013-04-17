@@ -269,6 +269,8 @@ module ASModel
             db_record = nil
 
             begin
+              needs_linking = true
+
               if json_or_uri.kind_of? String
                 # A URI.  Just grab its database ID and look it up.
                 db_record = model[JSONModel(linked_record[:jsonmodel]).id_for(json_or_uri)]
@@ -290,6 +292,10 @@ module ASModel
 
                   if linked_record[:association][:key]
                     extra_opts[linked_record[:association][:key]] = obj.id
+
+                    # We'll skip the call to the .add method because this step
+                    # will have already linked the nested record to this one.
+                    needs_linking = false
                   end
 
                   db_record = model.create_from_json(subrecord_json, extra_opts)
@@ -302,7 +308,7 @@ module ASModel
                 obj.mark_as_system_modified
               end
 
-              obj.send(add_record_method, db_record) if db_record
+              obj.send(add_record_method, db_record) if (db_record && needs_linking)
             rescue Sequel::ValidationFailed => e
               # Modify the exception keys by prefixing each with the path up until this point.
               e.instance_eval do
