@@ -78,4 +78,28 @@ describe "ArchivesSpace Public interface" do
 
   end
 
+
+  describe "Resources" do
+
+    it "offers pagination when there are more than 10" do
+      11.times.each do |i|
+        create_resource("Test Resource #{i}", "id#{i}")
+      end
+
+      @indexer.run_index_round
+
+      $driver.find_element(:link, "Collections").click
+
+      $driver.find_element(:css, '.pagination .active a').text.should eq('1')
+
+      $driver.find_element(:link, '2').click
+      $driver.find_element(:css, '.pagination .active a').text.should eq('2')
+
+      $driver.find_element(:link, '1').click
+      $driver.find_element(:css, '.pagination .active a').text.should eq('1')
+      $driver.find_element(:link, '2')
+    end
+
+  end
+
 end
