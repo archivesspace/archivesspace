@@ -393,18 +393,24 @@ module JSONModel
 
 
       # Create an instance of this JSONModel from the data contained in 'hash'.
-      def self.from_hash(hash, raise_errors = true)
+      def self.from_hash(hash, raise_errors = true, trusted = false)
         hash["jsonmodel_type"] = self.record_type.to_s
 
         # If we're running in client mode, leave 'readonly' properties in place,
         # since they're intended for use by clients.  Otherwise, we drop them.
         drop_system_properties = !JSONModel.client_mode?
 
-        cleaned = JSONSchemaUtils.drop_unknown_properties(hash, self.schema, drop_system_properties)
-        cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
-        validate(cleaned, raise_errors)
+        if trusted
+          # We got this data from a trusted source (such as another JSONModel
+          # that had already been validated itself).  No need to double up
+          self.new(hash, [], true)
+        else
+          cleaned = JSONSchemaUtils.drop_unknown_properties(hash, self.schema, drop_system_properties)
+          cleaned = ASUtils.jsonmodels_to_hashes(cleaned)
+          validate(cleaned, raise_errors)
 
-        self.new(cleaned)
+          self.new(cleaned)
+        end
       end
 
 
@@ -502,7 +508,7 @@ module JSONModel
       end
 
 
-      def initialize(params = {}, warnings = [])
+      def initialize(params = {}, warnings = [], trusted = false)
         set_data(params)
         @warnings = warnings
 
@@ -510,6 +516,12 @@ module JSONModel
         @instance_data = {}
 
         self.class.define_accessors(@data.keys)
+
+        if trusted
+          @validated = {}
+          @cleaned_data = @data
+        end
+
       end
 
 

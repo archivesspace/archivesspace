@@ -277,7 +277,7 @@ module ASModel
                 updated_records << json_or_uri
               else
                 # Create a database record for the JSON blob and return its ID
-                subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri)
+                subrecord_json = JSONModel(linked_record[:jsonmodel]).from_hash(json_or_uri, true, true)
 
                 # The value of subrecord_json can be mutated by the various
                 # transformations performed by the model layer.  Make sure we
