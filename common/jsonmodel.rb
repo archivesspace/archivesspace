@@ -5,6 +5,31 @@ require_relative 'json_schema_utils'
 require_relative 'asutils'
 
 
+class ValidatorCache
+
+  def self.get_validator_for(jsonmodel, data)
+    Thread.current[:validator_cache] ||= {}
+
+    if Thread.current[:validator_cache][jsonmodel]
+      # Reuse this validator by setting its data
+      validator = Thread.current[:validator_cache][jsonmodel]
+      validator.instance_eval do
+        @data = data
+      end
+
+      validator
+    else
+      # Create a new one and cache it
+      Thread.current[:validator_cache][jsonmodel] = JSON::Validator.new(jsonmodel.schema,
+                                                                        data,
+                                                                        :errors_as_objects => true,
+                                                                        :record_errors => true)
+    end
+  end
+
+end
+
+
 module JSONModel
 
   @@models = {}
@@ -667,13 +692,7 @@ module JSONModel
       # a ValidationException if there are any fatal validation problems, or if
       # strict mode is enabled and warnings were produced.
       def self.validate(hash, raise_errors = true)
-
-        JSON::Validator.cache_schemas = true
-
-        validator = JSON::Validator.new(self.schema,
-                                        JSONSchemaUtils.drop_unknown_properties(hash, self.schema),
-                                        :errors_as_objects => true,
-                                        :record_errors => true)
+        validator = ValidatorCache.get_validator_for(self, JSONSchemaUtils.drop_unknown_properties(hash, self.schema))
 
         messages = validator.validate
         exceptions = JSONSchemaUtils.parse_schema_messages(messages, validator)
