@@ -390,6 +390,12 @@ module ASModel
       end
 
 
+      # Does this model have a corresponding JSONModel?
+      def has_jsonmodel?
+        !@jsonmodel.nil?
+      end
+
+
       # Return the JSONModel class that maps to this backend model
       def my_jsonmodel
         @jsonmodel or raise "No corresponding JSONModel set for model #{self.inspect}"
@@ -452,6 +458,16 @@ module ASModel
 
   # Hooks for firing behaviour on Sequel::Model events
   module SequelHooks
+
+    # We can save quite a lot of database chatter by only refreshing our
+    # top-level records upon save.  Pure-nested records don't need refreshing,
+    # so skip them.
+    def _save_refresh
+      if self.class.has_jsonmodel? && self.class.my_jsonmodel.schema['uri']
+        _refresh(this.opts[:server] ? this : this.server(:default))
+      end
+    end
+
     def before_create
       self.create_time = Time.now
       self.last_modified = Time.now
