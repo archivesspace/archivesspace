@@ -1,4 +1,5 @@
 require 'json-schema'
+require 'atomic'
 require 'uri'
 require_relative 'json_schema_concurrency_fix'
 require_relative 'json_schema_utils'
@@ -324,12 +325,19 @@ module JSONModel
       # If this class is subclassed, we won't be able to see our class instance
       # variables unless we explicitly look up the inheritance chain.
       def self.find_ancestor_class_instance(variable)
-        self.ancestors.each do |clz|
-          val = clz.instance_variable_get(variable)
-          return val if val
+        @ancestor_instance_variables ||= Atomic.new({})
+
+        if !@ancestor_instance_variables.value[variable]
+          self.ancestors.each do |clz|
+            val = clz.instance_variable_get(variable)
+            if val
+              @ancestor_instance_variables.update {|vs| vs.merge({variable => val})}
+              break
+            end
+          end
         end
 
-        nil
+        @ancestor_instance_variables.value[variable]
       end
 
 
