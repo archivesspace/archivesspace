@@ -46,6 +46,7 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
       Thread.current[:json_validation_cached_errors][expected_type] = JSON::Schema::ValidationError.new(msg, fragments, self, current_schema)
     end
 
+    Thread.current[:json_validation_cached_errors][expected_type].fragments = fragments
     Thread.current[:json_validation_cached_errors][expected_type]
   end
 
