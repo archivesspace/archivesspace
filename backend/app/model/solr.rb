@@ -10,7 +10,7 @@ class Solr
 
 
   def self.search(query, page, page_size, repo_id,
-                  record_types = nil, show_suppressed = false,
+                  record_types = nil, show_suppressed = false, show_published_only = false,
                   excluded_ids = [], extra_solr_params = {})
     url = solr_url
 
@@ -42,6 +42,10 @@ class Solr
       opts << [:fq, "suppressed:false"]
     end
 
+    if show_published_only
+      opts << [:fq, "publish:true"]
+    end
+
     if excluded_ids && !excluded_ids.empty?
       query = excluded_ids.map { |id| "\"#{id}\"" }.join(' OR ')
       opts << [:fq, "-id:(#{query})"]
@@ -61,7 +65,7 @@ class Solr
         result = {}
 
         result['first_page'] = 1
-        result['last_page'] = (json['response']['numFound'] / page_size.to_f).floor + 1
+        result['last_page'] = (json['response']['numFound'] / page_size.to_f).ceil
         result['this_page'] = (json['response']['start'] / page_size) + 1
 
         result['offset_first'] = json['response']['start'] + 1

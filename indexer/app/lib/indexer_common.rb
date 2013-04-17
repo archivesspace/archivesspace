@@ -294,6 +294,7 @@ class CommonIndexer
       doc['types'] = [record_type]
       doc['fullrecord'] = ASUtils.to_json(values)
       doc['suppressed'] = values['suppressed'].to_s
+      doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
       doc['repository'] = get_record_scope(uri)
 
       @document_prepare_hooks.each do |hook|

@@ -81,9 +81,22 @@ describe "ArchivesSpace Public interface" do
 
   describe "Resources" do
 
+    it "doesn't list an un-published records in the list" do
+      $unpublished_uri, unpublished = create_resource(:title => "Unpublished Resource", :publish => false, :id_0 => "unpublished")
+      $published_uri, published = create_resource(:title => "Published Resource", :publish => true, :id_0 => "published")
+
+      @indexer.run_index_round
+
+      $driver.find_element(:link, "Collections").click
+
+      $driver.find_element(:link, published)
+      $driver.ensure_no_such_element(:link, unpublished)
+    end
+
+
     it "offers pagination when there are more than 10" do
       11.times.each do |i|
-        create_resource("Test Resource #{i}", "id#{i}")
+        create_resource(:title => "Test Resource #{i}", :id_0 => "id#{i}")
       end
 
       @indexer.run_index_round

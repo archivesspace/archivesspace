@@ -455,22 +455,24 @@ def create_accession(title)
 end
 
 
-def create_resource(title = nil, id_0 = nil)
+def create_resource(values = {})
   if !$test_repo
     ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
   end
 
-  title = title || "Test Resource #{Time.now.to_i}#{$$}"
-  id_0 = id_0 || "#{Time.now.to_i}#{$$}"
+  default_values = {:title => "Test Resource #{Time.now.to_i}#{$$}", :id_0 => "#{Time.now.to_i}#{$$}", :level => "collection", :language => "eng", :extents => [{:portion => "whole", :number => "1", :extent_type => "files"}]}
+  values_to_post = default_values.merge(values)
 
   req = Net::HTTP::Post.new("#{$test_repo_uri}/resources")
-  req.body = {:title => title, :id_0 => id_0, :level => "collection", :language => "eng", :extents => [{:portion => "whole", :number => "1", :extent_type => "files"}]}.to_json
+  req.body = values_to_post.to_json
 
   response = admin_backend_request(req)
 
   raise response.body if response.code != '200'
 
-  title
+  uri = JSON.parse(response.body)['uri']
+
+  [uri, values_to_post[:title]]
 end
 
 

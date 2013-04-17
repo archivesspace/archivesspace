@@ -54,6 +54,9 @@ en:
     suppressed: Suppressed
     deleted: Deleted
     auto_generated: System generates when saved
+  boolean:
+    "true": "True"
+    "false": "False"
   navbar:
     brand: ArchivesSpace
     create: Create
@@ -126,6 +129,7 @@ en:
       parent_type: Record Type
       processing_priority: Priority
       processing_status: Status
+      publish: Published
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
