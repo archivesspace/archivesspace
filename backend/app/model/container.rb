@@ -8,17 +8,22 @@ class Container < Sequel::Model(:container)
 
   define_relationship(:name => :housed_at,
                       :json_property => 'container_locations',
-                      :contains_references_to_types => proc {[Location]})
+                      :contains_references_to_types => proc {[Location]},
+                      :class_callback => proc { |clz|
+                        clz.instance_eval do
+                          plugin :validation_helpers
 
+                          define_method(:validate) do
 
-  def validate
-    my_relationships(:housed_at).each_with_index do |relationship, idx|
-      if relationship.properties[:status] === "previous" && !relationship.other_referent_than(self).temporary
-        errors.add("container_locations/#{idx}/status", "cannot be previous if Location is not temporary")
-        break
-      end
-    end
+                            if self[:status] === "previous" && !Location[self[:location_id]].temporary
+                              errors.add("container_locations/#{self[:aspace_relationship_position]}/status",
+                                         "cannot be previous if Location is not temporary")
+                            end
 
-    super
-  end
+                            super
+                          end
+
+                        end
+                      })
+
 end

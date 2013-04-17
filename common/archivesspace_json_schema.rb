@@ -32,6 +32,25 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
   extend JSONModel
 
 
+  # This reuse business is a bit of a pain.  The story here: JRuby backtraces
+  # are relatively expensive to create (relative to MRI Ruby), and JSON Schema
+  # validation is using exceptions as control flow here (sigh).  During imports,
+  # these validation error are hit a *lot*, and calculating a backtrace every
+  # time is expensive.
+  #
+  # So, we recycle.
+  def self.validation_error_for(expected_type, fragments, current_schema)
+    Thread.current[:json_validation_cached_errors] ||= {}
+    if !Thread.current[:json_validation_cached_errors][expected_type]
+      msg = "ERROR: Schema type mismatch.  Expected type: #{expected_type}"
+      Thread.current[:json_validation_cached_errors][expected_type] = JSON::Schema::ValidationError.new(msg, fragments, self, current_schema)
+    end
+
+    Thread.current[:json_validation_cached_errors][expected_type].fragments = fragments
+    Thread.current[:json_validation_cached_errors][expected_type]
+  end
+
+
   def self.validate(current_schema, data, fragments, validator, options = {})
     types = current_schema.schema['type']
 
@@ -48,12 +67,7 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
          "#{current_schema.schema["type"]}".include?("JSONModel") &&
          !"#{current_schema.schema["type"]}".include?("JSONModel(:#{data['jsonmodel_type']})"))
 
-      # Blow up
-      msg = "ERROR: Schema type mismatch."
-      msg += " The passed in data has 'jsonmodel_type' set to '#{data["jsonmodel_type"]}'"
-      msg += " but the current schema only supports types: #{current_schema.schema["type"].inspect}."
-
-      validation_error(msg, fragments, current_schema, self, false)
+      raise validation_error_for(data['jsonmodel_type'], fragments, current_schema)
     end
 
     if JSONModel.parse_jsonmodel_ref(types)
@@ -69,16 +83,15 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
       elsif qualifier == 'uri_or_object' || qualifier == 'object'
         if data.is_a?(Hash)
           data["jsonmodel_type"] ||= model.to_s
-          subvalidator = JSON::Validator.new(JSONModel(model).schema,
-                                             data,
-                                             :errors_as_objects => true,
-                                             :record_errors => true)
 
-          # Urk.  Validate the subrecord but pass in the fragments of the point
-          # we're at in the parent record.
-          subvalidator.instance_eval do
-            @base_schema.validate(@data, fragments, @validation_options)
+          ValidatorCache.with_validator_for(JSONModel(model), data) do |subvalidator|
+            # Urk.  Validate the subrecord but pass in the fragments of the point
+            # we're at in the parent record.
+            subvalidator.instance_eval do
+              @base_schema.validate(@data, fragments, @validation_options)
+            end
           end
+
         else
           validation_error("The property '#{build_fragment(fragments)}' of type " +
                            "#{data.class} did not match the following type: #{types} in schema",

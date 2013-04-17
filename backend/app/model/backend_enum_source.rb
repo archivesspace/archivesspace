@@ -1,3 +1,5 @@
+require 'rufus/lru'
+
 class BackendEnumSource
 
   def self.valid?(enum_name, value)
@@ -20,6 +22,7 @@ class BackendEnumSource
           DB.attempt {
             db[:enumeration_value].insert(:enumeration_id => enum_id,
                                           :value => value)
+            @@enum_value_cache.delete(enum_name)
             Enumeration.broadcast_changes
           }.and_if_constraint_fails do
             # Must already be there.  No problem.
@@ -38,12 +41,42 @@ class BackendEnumSource
   end
 
 
-  def self.values_for(enum_name)
-    DB.open(true) do |db|
-      id = db[:enumeration].join(:enumeration_value, :enumeration_id => :id).
-                            filter(:name => enum_name).
-                            select(:value).all.map {|row| row[:value]}
+  @@enum_value_cache = Rufus::Lru::SynchronizedHash.new(1024)
+  @@max_cache_ms = 5000
+
+
+  def self.cache_entry_for(enum_name)
+    cached = @@enum_value_cache[enum_name]
+    now = java.lang.System.currentTimeMillis
+
+    if !cached || ((now - cached[:time]) > @@max_cache_ms)
+      @@enum_value_cache[enum_name] = {
+        :time => now,
+        :entry => DB.open(true) do |db|
+
+          values = {}
+          db[:enumeration].join(:enumeration_value, :enumeration_id => :id).
+                           filter(:name => enum_name).
+                           select(:value, Sequel.qualify(:enumeration_value, :id)).
+                           all.each do |row|
+            values[row[:value]] = row[:id]
+          end
+
+          {:values => values.keys, :value_to_id_map => values}
+        end
+      }
     end
+
+    @@enum_value_cache[enum_name][:entry]
   end
 
+
+  def self.values_for(enum_name)
+    self.cache_entry_for(enum_name)[:values]
+  end
+
+
+  def self.id_for_value(enum_name, value)
+    self.cache_entry_for(enum_name)[:value_to_id_map][value]
+  end
 end

@@ -3,6 +3,7 @@ require 'uri'
 require_relative 'json_schema_concurrency_fix'
 require_relative 'json_schema_utils'
 require_relative 'asutils'
+require_relative 'validator_cache'
 
 
 module JSONModel
@@ -668,24 +669,21 @@ module JSONModel
       # strict mode is enabled and warnings were produced.
       def self.validate(hash, raise_errors = true)
 
-        JSON::Validator.cache_schemas = true
+        properties = JSONSchemaUtils.drop_unknown_properties(hash, self.schema)
+        ValidatorCache.with_validator_for(self, properties) do |validator|
 
-        validator = JSON::Validator.new(self.schema,
-                                        JSONSchemaUtils.drop_unknown_properties(hash, self.schema),
-                                        :errors_as_objects => true,
-                                        :record_errors => true)
+          messages = validator.validate
+          exceptions = JSONSchemaUtils.parse_schema_messages(messages, validator)
 
-        messages = validator.validate
-        exceptions = JSONSchemaUtils.parse_schema_messages(messages, validator)
+          if raise_errors && (!exceptions[:errors].empty? || (@@strict_mode && !exceptions[:warnings].empty?))
+            raise ValidationException.new(:invalid_object => self.new(hash),
+                                          :warnings => exceptions[:warnings],
+                                          :errors => exceptions[:errors],
+                                          :attribute_types => exceptions[:attribute_types])
+          end
 
-        if raise_errors && (!exceptions[:errors].empty? || (@@strict_mode && !exceptions[:warnings].empty?))
-          raise ValidationException.new(:invalid_object => self.new(hash),
-                                        :warnings => exceptions[:warnings],
-                                        :errors => exceptions[:errors],
-                                        :attribute_types => exceptions[:attribute_types])
+          exceptions.reject{|k, v| v.empty?}
         end
-
-        exceptions.reject{|k, v| v.empty?}
       end
 
 

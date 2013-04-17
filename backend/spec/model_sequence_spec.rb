@@ -9,9 +9,8 @@ describe 'Sequence model' do
 
 
   it "Lets you initialise a sequence to a number" do
-    Sequence.init("new_sequence", 5)
-
-    Sequence.get("new_sequence").should eq(6)
+    Sequence.init("another_sequence", 5)
+    Sequence.get("another_sequence").should eq(6)
   end
 
 
