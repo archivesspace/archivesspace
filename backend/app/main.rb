@@ -146,7 +146,7 @@ class ArchivesSpaceService < Sinatra::Base
           settings.scheduler.cron(AppConfig[:solr_backup_schedule],
                                   :tags => 'solr_backup') do
             Log.info("Creating snapshot of Solr index and indexer state")
-            Solr.snapshot
+            SolrSnapshotter.snapshot
           end
         end
 
