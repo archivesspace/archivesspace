@@ -3,6 +3,9 @@ en:
     title: Archives Space Public
   actions:
     browse: Browse
+  errors:
+    error_404: Record Not Found
+    error_404_message: "The record you've tried to access does not exist or may have been removed."
   navbar:
     search_placeholder: Search the Archive
     search_all: All Records

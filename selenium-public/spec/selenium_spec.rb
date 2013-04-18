@@ -94,6 +94,13 @@ describe "ArchivesSpace Public interface" do
     end
 
 
+    it "throws a 404 when trying to access an un-processed resource" do
+      $driver.get(URI.join($frontend, $unpublished_uri))
+
+      $driver.find_element_with_text('//h2', /Record Not Found/)
+    end
+
+
     it "offers pagination when there are more than 10" do
       11.times.each do |i|
         create_resource(:title => "Test Resource #{i}", :id_0 => "id#{i}")
@@ -112,6 +119,38 @@ describe "ArchivesSpace Public interface" do
       $driver.find_element(:css, '.pagination .active a').text.should eq('1')
       $driver.find_element(:link, '2')
     end
+
+  end
+
+
+  describe "Archival Objects" do
+
+    before(:all) do
+      $unpublished_resource_uri, unpublished = create_resource(:title => "Unpublished Resource", :publish => false, :id_0 => "unpublished2")
+      $published_resource_uri, published = create_resource(:title => "Published Resource", :publish => true, :id_0 => "published2")
+
+      $published_archival_object, $published_archival_object_title = create_archival_object(:title => "Published Top Level AO", :publish => true, :resource => {:ref => $published_resource_uri})
+      $unpublished_archival_object, $unpublished_archival_object_title = create_archival_object(:title => "Unpublished Top Level AO", :publish => false, :resource => {:ref => $unpublished_resource_uri})
+
+      @indexer.run_index_round
+    end
+
+
+    it "is visible in the published resource children list and can be viewed" do
+      $driver.get(URI.join($frontend, $published_resource_uri))
+
+      $driver.find_element(:link, $published_archival_object_title)
+
+      $driver.get(URI.join($frontend, $published_archival_object))
+      $driver.find_element_with_text('//h2', /#{$published_archival_object_title}/)
+    end
+
+
+    it "doesn't allow viewing of an unpublished archival object" do
+      $driver.get(URI.join($frontend, $unpublished_archival_object))
+      $driver.find_element_with_text('//h2', /Record Not Found/)
+    end
+
 
   end
 

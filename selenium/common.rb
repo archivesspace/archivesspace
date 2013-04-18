@@ -476,6 +476,34 @@ def create_resource(values = {})
 end
 
 
+def create_archival_object(values = {})
+
+  if !$test_repo
+    ($test_repo, $test_repo_uri) = create_test_repo("repo_#{Time.now.to_i}_#{$$}", "description")
+  end
+
+  if not values.has_key?(:resource)
+    # need to create a resource
+    resource_uri, resource_title = create_resource
+    values[:resource] = {:ref => resource_uri}
+  end
+
+  default_values = {:title => "Test Archival Object #{Time.now.to_i}#{$$}", :level => "item"}
+  values_to_post = default_values.merge(values)
+
+  req = Net::HTTP::Post.new("#{$test_repo_uri}/archival_objects")
+  req.body = values_to_post.to_json
+
+  response = admin_backend_request(req)
+
+  raise response.body if response.code != '200'
+
+  uri = JSON.parse(response.body)['uri']
+
+  [uri, values_to_post[:title]]
+end
+
+
 def create_agent(name)
   req = Net::HTTP::Post.new("/agents/people")
   req.body = {
