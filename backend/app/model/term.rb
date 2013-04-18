@@ -38,18 +38,11 @@ class Term < Sequel::Model(:term)
     begin
       self.create_from_json(json)
     rescue Sequel::ValidationFailed
-      term_type = db[:enumeration_value].
-        join(:enumeration,
-          {
-            Sequel.qualify(:enumeration_value, :enumeration_id) => Sequel.qualify(:enumeration, :id),
-            Sequel.qualify(:enumeration, :name) => "subject_term_type"
-          }).
-          where(Sequel.qualify(:enumeration_value, :value) => json.term_type).
-          select(Sequel.qualify(:enumeration_value, :id))
+      term_type_id = BackendEnumSource.id_for_value("subject_term_type", json.term_type)
 
       Term.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
                 :term => json.term,
-                :term_type_id => term_type)
+                :term_type_id => term_type_id)
     end
   end
 
