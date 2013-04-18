@@ -1585,6 +1585,7 @@ en:
         <li>In Progress</li>
         <li>Completed</li>
         </ul>
+    processing_funding_source: Funding Source
     processors: Processors
     processors_tooltip: |
         <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>

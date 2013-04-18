@@ -7,6 +7,7 @@
       <%= form.label_and_textarea "processing_plan" %>
       <%= form.label_and_select "processing_priority", form.possible_options_for("processing_priority", true) %>
       <%= form.label_and_select "processing_status", form.possible_options_for("processing_status", true) %>
+      <%= form.label_and_textarea "processing_funding_source" %>
       <%= form.label_and_textarea "processors" %>
       <%= form.label_and_boolean "rights_determined", {}, form.default_for("rights_determined") %>
 <% end %>

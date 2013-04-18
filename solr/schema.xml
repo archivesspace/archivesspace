@@ -81,6 +81,7 @@
    <field name="processing_status" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="processing_hours_total" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="processors" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="processing_funding_source" type="text_general" indexed="true" stored="true" multiValued="false" />
 
    <!-- Sort fields -->
    <field name="title_sort" type="string" indexed="true" stored="false" multiValued="false"/>

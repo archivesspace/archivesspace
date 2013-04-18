@@ -26,6 +26,7 @@
       "processing_plan" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "processing_priority" => {"type" => "string", "required" => false, "dynamic_enum" => "collection_management_processing_priority"},
       "processing_status" => {"type" => "string", "required" => false, "dynamic_enum" => "collection_management_processing_status"},
+      "processing_funding_source" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "processors" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "rights_determined" => {"type" => "boolean", "default" => false},
 
