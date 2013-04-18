@@ -24,6 +24,7 @@
  *   objects as items
  * - allow native events to propagate on keyup
  * - add patch for long clicks bluring menu before click event triggers
+ * - add patch for char 40 '(' vs down-arrow bug
  * ============================================================ */
 
 
@@ -220,9 +221,12 @@
           break
 
         case 40: // down arrow
-          e.preventDefault()
-          this.next()
-          break
+          // ArchivesSpace patch for char 40 '(' vs down-arrow bug
+          if (!e.shiftKey) {
+            e.preventDefault()
+            this.next()
+            break
+          }
       }
 
       e.stopPropagation()
