@@ -1,4 +1,5 @@
 require_relative 'indexer_common'
+require 'time'
 
 class IndexState
 
@@ -95,18 +96,22 @@ class PeriodicIndexer < CommonIndexer
         start = Time.now
         page = 1
         while true
+          modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
           records = JSONModel(type).all(:page => page,
                                         'resolve[]' => @@resolved_attributes,
-                                        :modified_since => [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max)
+                                        :modified_since => modified_since)
 
           # unlimited results return an array
           if records.kind_of? Array
             index_records(records.map {|record|
-              {
-                'record' => record.to_hash(:trusted),
-                'uri' => record.uri
-              }
-            })
+                            if !record['last_modified'] ||
+                                (Time.parse(record['last_modified']).to_i >= modified_since)
+                              {
+                                'record' => record.to_hash(:trusted),
+                                'uri' => record.uri
+                              }
+                            end
+                          }.compact)
             break
 
           # paginated results return an object
