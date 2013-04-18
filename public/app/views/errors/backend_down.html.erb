@@ -1,2 +1,7 @@
-<h2>Eep... we're having problems.</h2>
-<p>The database is down.</p>
+<%=
+    @breadcrumbs = []
+    setup_context :title => I18n.t("errors.backend_down"), :suppress_breadcrumb => true
+%>
+
+<h2><%= I18n.t("errors.backend_down") %></h2>
+<p><%= I18n.t("errors.backend_down_message") %></p>

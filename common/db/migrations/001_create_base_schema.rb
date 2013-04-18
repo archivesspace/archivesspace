@@ -450,6 +450,8 @@ Sequel.migration do
       Integer :position, :null => true
       String :parent_name, :null => true
 
+      Integer :publish
+
       String :component_id, :null => false
       LongString :title
       String :label

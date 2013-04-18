@@ -6,7 +6,9 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if not @resource.publish
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-    @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id, :repo_id => params[:repo_id])
+
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id, :repo_id => params[:repo_id])
+    @children = tree['children']
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -43,7 +45,8 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if not @digital_object.publish
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-    @tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => @digital_object.id, :repo_id => params[:repo_id])
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => @digital_object.id, :repo_id => params[:repo_id])
+    @children = tree['children'].select{|doc| doc['publish']}
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -53,12 +56,13 @@ class RecordsController < ApplicationController
 
   def digital_object_component
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects"])
-    @digital_object = JSONModel(:digital_object).find_by_uri(@digital_object_component['digital_object']['ref'], :repo_id => params[:repo_id])
+    raise RecordNotFound.new if not @digital_object_component.publish
 
+    @digital_object = JSONModel(:digital_object).find_by_uri(@digital_object_component['digital_object']['ref'], :repo_id => params[:repo_id])
     raise RecordNotFound.new if not @digital_object.publish
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-    @children = JSONModel::HTTP::get_json("/repositories/#{params[:repo_id]}/digital_object_components/#{@digital_object_component.id}/children")
+    @children = JSONModel::HTTP::get_json("/repositories/#{params[:repo_id]}/digital_object_components/#{@digital_object_component.id}/children").select{|doc| doc['publish']}
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -68,6 +72,9 @@ class RecordsController < ApplicationController
     doc = @digital_object_component
     while doc['parent'] do
       doc = JSONModel(:digital_object_component).find(JSONModel(:digital_object_component).id_for(doc['parent']['ref']), :repo_id => @repository.id)
+
+      raise RecordNotFound.new if not doc.publish
+
       @breadcrumbs.push([doc.title, url_for(:controller => :records, :action => :digital_object_component, :id => doc.id, :repo_id => @repository.id), "digital_object_component"])
     end
 

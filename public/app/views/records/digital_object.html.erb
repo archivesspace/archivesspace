@@ -27,7 +27,7 @@
           <% if @digital_object['linked_instances'].length > 0 %>
             <li><a href="#linked_instances"><%= I18n.t("linked_instance._html.plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if @tree['children'].length %>
+          <% if @children.length %>
             <li><a href="#components"><%= I18n.t("digital_object._html.section.components") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
         </ul>
@@ -110,12 +110,12 @@
           </section>
         <% end %>
 
-        <% if @tree['children'].length %>
+        <% if @children.length %>
           <section id="components">
             <h3><%= I18n.t("digital_object._html.section.components") %></h3>
 
             <ul class="results-list">
-              <% @tree['children'].each do |child| %>
+              <% @children.each do |child| %>
                 <li class="result">
                   <h4>
                     <%= icon_for child["node_type"] %>
