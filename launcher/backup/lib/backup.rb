@@ -80,7 +80,7 @@ class ArchivesSpaceBackup
       SolrSnapshotter.snapshot(solr_snapshot_id)
     rescue
       puts "Solr snapshot failed (#{$!}).  Aborting!"
-      return
+      return 1
     end
 
     solr_snapshot = File.join(AppConfig[:solr_backup_directory], "solr.#{solr_snapshot_id}")
@@ -122,11 +122,11 @@ def main
 
   if opts[:output].nil?
     puts "You must specify an output file with the --output option"
-    return
+    return 0
   end
 
   ArchivesSpaceBackup.new.backup(opts[:output], opts[:mysqldump])
 end
 
 
-main
+exit(main || 0)
