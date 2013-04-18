@@ -8,7 +8,7 @@
     "properties" => {
       "relator" => {
         "type" => "string",
-        "enum" => ["is_earlier_form_of", "is_later_form_of"],
+        "dynamic_enum" => "agent_relationship_earlierlater_relator",
         "ifmissing" => "error"
       },
 

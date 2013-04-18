@@ -35,9 +35,9 @@ describe ASpaceImport::Crosswalk do
   describe :update_record_references do
     
     it "updates the references in a json object by mapping them to the references provided in a source set" do
-      a_parent = build(:json_archival_object)
-      a1 = build(:json_archival_object)
-      a2 = build(:json_archival_object)
+      a_parent = build(:json_archival_object, :level => "alpha")
+      a1 = build(:json_archival_object, :level => "beta")
+      a2 = build(:json_archival_object, :level => "epsilon")
       
       a_parent.uri = a_parent.class.uri_for(ASpaceImport::Crosswalk.mint_id, :repo_id => 2) 
       old_uri = a_parent.uri
@@ -88,7 +88,7 @@ describe ASpaceImport::Crosswalk do
     
     it "can set a subrecord property on a json object" do
       a = JSONModel::JSONModel(:archival_object).new
-      t = build(:json_term, :vocabulary => @vocab.uri)
+      t = build(:json_term, :vocabulary => @vocab.uri, :term_type => "cultural_context")
       s = build(:json_subject, :terms => [t], :vocabulary => @vocab.uri)
       s.uri = s.class.uri_for(ASpaceImport::Crosswalk.mint_id)
       

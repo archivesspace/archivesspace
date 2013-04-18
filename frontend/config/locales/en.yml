@@ -171,742 +171,6 @@ en:
     error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
     error_404: Record Not Found
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
-  iso_3166:
-    AF: AFGHANISTAN (AF)
-    AX: ÅLAND ISLANDS (AX)
-    AL: ALBANIA (AL)
-    DZ: ALGERIA (DZ)
-    AS: AMERICAN SAMOA (AS)
-    AD: ANDORRA (AD)
-    AO: ANGOLA (AO)
-    AI: ANGUILLA (AI)
-    AQ: ANTARCTICA (AQ)
-    AG: ANTIGUA AND BARBUDA (AG)
-    AR: ARGENTINA (AR)
-    AM: ARMENIA (AM)
-    AW: ARUBA (AW)
-    AU: AUSTRALIA (AU)
-    AT: AUSTRIA (AT)
-    AZ: AZERBAIJAN (AZ)
-    BS: BAHAMAS (BS)
-    BH: BAHRAIN (BH)
-    BD: BANGLADESH (BD)
-    BB: BARBADOS (BB)
-    BY: BELARUS (BY)
-    BE: BELGIUM (BE)
-    BZ: BELIZE (BZ)
-    BJ: BENIN (BJ)
-    BM: BERMUDA (BM)
-    BT: BHUTAN (BT)
-    BO: BOLIVIA, PLURINATIONAL STATE OF (BO)
-    BQ: BONAIRE, SINT EUSTATIUS AND SABA (BQ)
-    BA: BOSNIA AND HERZEGOVINA (BA)
-    BW: BOTSWANA (BW)
-    BV: BOUVET ISLAND (BV)
-    BR: BRAZIL (BR)
-    IO: BRITISH INDIAN OCEAN TERRITORY (IO)
-    BN: BRUNEI DARUSSALAM (BN)
-    BG: BULGARIA (BG)
-    BF: BURKINA FASO (BF)
-    BI: BURUNDI (BI)
-    KH: CAMBODIA (KH)
-    CM: CAMEROON (CM)
-    CA: CANADA (CA)
-    CV: CAPE VERDE (CV)
-    KY: CAYMAN ISLANDS (KY)
-    CF: CENTRAL AFRICAN REPUBLIC (CF)
-    TD: CHAD (TD)
-    CL: CHILE (CL)
-    CN: CHINA (CN)
-    CX: CHRISTMAS ISLAND (CX)
-    CC: COCOS (KEELING) ISLANDS (CC)
-    CO: COLOMBIA (CO)
-    KM: COMOROS (KM)
-    CG: CONGO (CG)
-    CD: CONGO, THE DEMOCRATIC REPUBLIC OF THE (CD)
-    CK: COOK ISLANDS (CK)
-    CR: COSTA RICA (CR)
-    CI: CÔTE D'IVOIRE (CI)
-    HR: CROATIA (HR)
-    CU: CUBA (CU)
-    CW: CURAÇAO (CW)
-    CY: CYPRUS (CY)
-    CZ: CZECH REPUBLIC (CZ)
-    DK: DENMARK (DK)
-    DJ: DJIBOUTI (DJ)
-    DM: DOMINICA (DM)
-    DO: DOMINICAN REPUBLIC (DO)
-    EC: ECUADOR (EC)
-    EG: EGYPT (EG)
-    SV: EL SALVADOR (SV)
-    GQ: EQUATORIAL GUINEA (GQ)
-    ER: ERITREA (ER)
-    EE: ESTONIA (EE)
-    ET: ETHIOPIA (ET)
-    FK: FALKLAND ISLANDS (MALVINAS) (FK)
-    FO: FAROE ISLANDS (FO)
-    FJ: FIJI (FJ)
-    FI: FINLAND (FI)
-    FR: FRANCE (FR)
-    GF: FRENCH GUIANA (GF)
-    PF: FRENCH POLYNESIA (PF)
-    TF: FRENCH SOUTHERN TERRITORIES (TF)
-    GA: GABON (GA)
-    GM: GAMBIA (GM)
-    GE: GEORGIA (GE)
-    DE: GERMANY (DE)
-    GH: GHANA (GH)
-    GI: GIBRALTAR (GI)
-    GR: GREECE (GR)
-    GL: GREENLAND (GL)
-    GD: GRENADA (GD)
-    GP: GUADELOUPE (GP)
-    GU: GUAM (GU)
-    GT: GUATEMALA (GT)
-    GG: GUERNSEY (GG)
-    GN: GUINEA (GN)
-    GW: GUINEA-BISSAU (GW)
-    GY: GUYANA (GY)
-    HT: HAITI (HT)
-    HM: HEARD ISLAND AND MCDONALD ISLANDS (HM)
-    VA: HOLY SEE (VATICAN CITY STATE) (VA)
-    HN: HONDURAS (HN)
-    HK: HONG KONG (HK)
-    HU: HUNGARY (HU)
-    IS: ICELAND (IS)
-    IN: INDIA (IN)
-    ID: INDONESIA (ID)
-    IR: IRAN, ISLAMIC REPUBLIC OF (IR)
-    IQ: IRAQ (IQ)
-    IE: IRELAND (IE)
-    IM: ISLE OF MAN (IM)
-    IL: ISRAEL (IL)
-    IT: ITALY (IT)
-    JM: JAMAICA (JM)
-    JP: JAPAN (JP)
-    JE: JERSEY (JE)
-    JO: JORDAN (JO)
-    KZ: KAZAKHSTAN (KZ)
-    KE: KENYA (KE)
-    KI: KIRIBATI (KI)
-    KP: KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF (KP)
-    KR: KOREA, REPUBLIC OF (KR)
-    KW: KUWAIT (KW)
-    KG: KYRGYZSTAN (KG)
-    LA: LAO PEOPLE'S DEMOCRATIC REPUBLIC (LA)
-    LV: LATVIA (LV)
-    LB: LEBANON (LB)
-    LS: LESOTHO (LS)
-    LR: LIBERIA (LR)
-    LY: LIBYA (LY)
-    LI: LIECHTENSTEIN (LI)
-    LT: LITHUANIA (LT)
-    LU: LUXEMBOURG (LU)
-    MO: MACAO (MO)
-    MK: MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF (MK)
-    MG: MADAGASCAR (MG)
-    MW: MALAWI (MW)
-    MY: MALAYSIA (MY)
-    MV: MALDIVES (MV)
-    ML: MALI (ML)
-    MT: MALTA (MT)
-    MH: MARSHALL ISLANDS (MH)
-    MQ: MARTINIQUE (MQ)
-    MR: MAURITANIA (MR)
-    MU: MAURITIUS (MU)
-    YT: MAYOTTE (YT)
-    MX: MEXICO (MX)
-    FM: MICRONESIA, FEDERATED STATES OF (FM)
-    MD: MOLDOVA, REPUBLIC OF (MD)
-    MC: MONACO (MC)
-    MN: MONGOLIA (MN)
-    ME: MONTENEGRO (ME)
-    MS: MONTSERRAT (MS)
-    MA: MOROCCO (MA)
-    MZ: MOZAMBIQUE (MZ)
-    MM: MYANMAR (MM)
-    NA: NAMIBIA (NA)
-    NR: NAURU (NR)
-    NP: NEPAL (NP)
-    NL: NETHERLANDS (NL)
-    NC: NEW CALEDONIA (NC)
-    NZ: NEW ZEALAND (NZ)
-    NI: NICARAGUA (NI)
-    NE: NIGER (NE)
-    NG: NIGERIA (NG)
-    NU: NIUE (NU)
-    NF: NORFOLK ISLAND (NF)
-    MP: NORTHERN MARIANA ISLANDS (MP)
-    NO: NORWAY (NO)
-    OM: OMAN (OM)
-    PK: PAKISTAN (PK)
-    PW: PALAU (PW)
-    PS: PALESTINIAN TERRITORY, OCCUPIED (PS)
-    PA: PANAMA (PA)
-    PG: PAPUA NEW GUINEA (PG)
-    PY: PARAGUAY (PY)
-    PE: PERU (PE)
-    PH: PHILIPPINES (PH)
-    PN: PITCAIRN (PN)
-    PL: POLAND (PL)
-    PT: PORTUGAL (PT)
-    PR: PUERTO RICO (PR)
-    QA: QATAR (QA)
-    RE: RÉUNION (RE)
-    RO: ROMANIA (RO)
-    RU: RUSSIAN FEDERATION (RU)
-    RW: RWANDA (RW)
-    BL: SAINT BARTHÉLEMY (BL)
-    SH: SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA (SH)
-    KN: SAINT KITTS AND NEVIS (KN)
-    LC: SAINT LUCIA (LC)
-    MF: SAINT MARTIN (FRENCH PART) (MF)
-    PM: SAINT PIERRE AND MIQUELON (PM)
-    VC: SAINT VINCENT AND THE GRENADINES (VC)
-    WS: SAMOA (WS)
-    SM: SAN MARINO (SM)
-    ST: SAO TOME AND PRINCIPE (ST)
-    SA: SAUDI ARABIA (SA)
-    SN: SENEGAL (SN)
-    RS: SERBIA (RS)
-    SC: SEYCHELLES (SC)
-    SL: SIERRA LEONE (SL)
-    SG: SINGAPORE (SG)
-    SX: SINT MAARTEN (DUTCH PART) (SX)
-    SK: SLOVAKIA (SK)
-    SI: SLOVENIA (SI)
-    SB: SOLOMON ISLANDS (SB)
-    SO: SOMALIA (SO)
-    ZA: SOUTH AFRICA (ZA)
-    GS: SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS (GS)
-    SS: SOUTH SUDAN (SS)
-    ES: SPAIN (ES)
-    LK: SRI LANKA (LK)
-    SD: SUDAN (SD)
-    SR: SURINAME (SR)
-    SJ: SVALBARD AND JAN MAYEN (SJ)
-    SZ: SWAZILAND (SZ)
-    SE: SWEDEN (SE)
-    CH: SWITZERLAND (CH)
-    SY: SYRIAN ARAB REPUBLIC (SY)
-    TW: TAIWAN, PROVINCE OF CHINA (TW)
-    TJ: TAJIKISTAN (TJ)
-    TZ: TANZANIA, UNITED REPUBLIC OF (TZ)
-    TH: THAILAND (TH)
-    TL: TIMOR-LESTE (TL)
-    TG: TOGO (TG)
-    TK: TOKELAU (TK)
-    TO: TONGA (TO)
-    TT: TRINIDAD AND TOBAGO (TT)
-    TN: TUNISIA (TN)
-    TR: TURKEY (TR)
-    TM: TURKMENISTAN (TM)
-    TC: TURKS AND CAICOS ISLANDS (TC)
-    TV: TUVALU (TV)
-    UG: UGANDA (UG)
-    UA: UKRAINE (UA)
-    AE: UNITED ARAB EMIRATES (AE)
-    GB: UNITED KINGDOM (GB)
-    US: UNITED STATES (US)
-    UM: UNITED STATES MINOR OUTLYING ISLANDS (UM)
-    UY: URUGUAY (UY)
-    UZ: UZBEKISTAN (UZ)
-    VU: VANUATU (VU)
-    VE: VENEZUELA, BOLIVARIAN REPUBLIC OF (VE)
-    VN: VIET NAM (VN)
-    VG: VIRGIN ISLANDS, BRITISH (VG)
-    VI: VIRGIN ISLANDS, U.S. (VI)
-    WF: WALLIS AND FUTUNA (WF)
-    EH: WESTERN SAHARA (EH)
-    YE: YEMEN (YE)
-    ZM: ZAMBIA (ZM)
-    ZW: ZIMBABWE (ZW)
-  language: &language_attributes
-    language_aar: Afar
-    language_abk: Abkhazian
-    language_ace: Achinese
-    language_ach: Acoli
-    language_ada: Adangme
-    language_ady: Adyghe; Adygei
-    language_afa: Afro-Asiatic languages
-    language_afh: Afrihili
-    language_afr: Afrikaans
-    language_ain: Ainu
-    language_aka: Akan
-    language_akk: Akkadian
-    language_alb: Albanian
-    language_ale: Aleut
-    language_alg: Algonquian languages
-    language_alt: Southern Altai
-    language_amh: Amharic
-    language_ang: English, Old (ca.450-1100)
-    language_anp: Angika
-    language_apa: Apache languages
-    language_ara: Arabic
-    language_arc: Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)
-    language_arg: Aragonese
-    language_arm: Armenian
-    language_arn: Mapudungun; Mapuche
-    language_arp: Arapaho
-    language_art: Artificial languages
-    language_arw: Arawak
-    language_asm: Assamese
-    language_ast: Asturian; Bable; Leonese; Asturleonese
-    language_ath: Athapascan languages
-    language_aus: Australian languages
-    language_ava: Avaric
-    language_ave: Avestan
-    language_awa: Awadhi
-    language_aym: Aymara
-    language_aze: Azerbaijani
-    language_bad: Banda languages
-    language_bai: Bamileke languages
-    language_bak: Bashkir
-    language_bal: Baluchi
-    language_bam: Bambara
-    language_ban: Balinese
-    language_baq: Basque
-    language_bas: Basa
-    language_bat: Baltic languages
-    language_bej: Beja; Bedawiyet
-    language_bel: Belarusian
-    language_bem: Bemba
-    language_ben: Bengali
-    language_ber: Berber languages
-    language_bho: Bhojpuri
-    language_bih: Bihari languages
-    language_bik: Bikol
-    language_bin: Bini; Edo
-    language_bis: Bislama
-    language_bla: Siksika
-    language_bnt: Bantu (Other)
-    language_bos: Bosnian
-    language_bra: Braj
-    language_bre: Breton
-    language_btk: Batak languages
-    language_bua: Buriat
-    language_bug: Buginese
-    language_bul: Bulgarian
-    language_bur: Burmese
-    language_byn: Blin; Bilin
-    language_cad: Caddo
-    language_cai: Central American Indian languages
-    language_car: Galibi Carib
-    language_cat: Catalan; Valencian
-    language_cau: Caucasian languages
-    language_ceb: Cebuano
-    language_cel: Celtic languages
-    language_cha: Chamorro
-    language_chb: Chibcha
-    language_che: Chechen
-    language_chg: Chagatai
-    language_chi: Chinese
-    language_chk: Chuukese
-    language_chm: Mari
-    language_chn: Chinook jargon
-    language_cho: Choctaw
-    language_chp: Chipewyan; Dene Suline
-    language_chr: Cherokee
-    language_chu: Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic
-    language_chv: Chuvash
-    language_chy: Cheyenne
-    language_cmc: Chamic languages
-    language_cop: Coptic
-    language_cor: Cornish
-    language_cos: Corsican
-    language_cpe: Creoles and pidgins, English based
-    language_cpf: Creoles and pidgins, French-based
-    language_cpp: Creoles and pidgins, Portuguese-based
-    language_cre: Cree
-    language_crh: Crimean Tatar; Crimean Turkish
-    language_crp: Creoles and pidgins
-    language_csb: Kashubian
-    language_cus: Cushitic languages
-    language_cze: Czech
-    language_dak: Dakota
-    language_dan: Danish
-    language_dar: Dargwa
-    language_day: Land Dayak languages
-    language_del: Delaware
-    language_den: Slave (Athapascan)
-    language_dgr: Dogrib
-    language_din: Dinka
-    language_div: Divehi; Dhivehi; Maldivian
-    language_doi: Dogri
-    language_dra: Dravidian languages
-    language_dsb: Lower Sorbian
-    language_dua: Duala
-    language_dum: Dutch, Middle (ca.1050-1350)
-    language_dut: Dutch; Flemish
-    language_dyu: Dyula
-    language_dzo: Dzongkha
-    language_efi: Efik
-    language_egy: Egyptian (Ancient)
-    language_eka: Ekajuk
-    language_elx: Elamite
-    language_eng: English
-    language_enm: English, Middle (1100-1500)
-    language_epo: Esperanto
-    language_est: Estonian
-    language_ewe: Ewe
-    language_ewo: Ewondo
-    language_fan: Fang
-    language_fao: Faroese
-    language_fat: Fanti
-    language_fij: Fijian
-    language_fil: Filipino; Pilipino
-    language_fin: Finnish
-    language_fiu: Finno-Ugrian languages
-    language_fon: Fon
-    language_fre: French
-    language_frm: French, Middle (ca.1400-1600)
-    language_fro: French, Old (842-ca.1400)
-    language_frr: Northern Frisian
-    language_frs: Eastern Frisian
-    language_fry: Western Frisian
-    language_ful: Fulah
-    language_fur: Friulian
-    language_gaa: Ga
-    language_gay: Gayo
-    language_gba: Gbaya
-    language_gem: Germanic languages
-    language_geo: Georgian
-    language_ger: German
-    language_gez: Geez
-    language_gil: Gilbertese
-    language_gla: Gaelic; Scottish Gaelic
-    language_gle: Irish
-    language_glg: Galician
-    language_glv: Manx
-    language_gmh: German, Middle High (ca.1050-1500)
-    language_goh: German, Old High (ca.750-1050)
-    language_gon: Gondi
-    language_gor: Gorontalo
-    language_got: Gothic
-    language_grb: Grebo
-    language_grc: Greek, Ancient (to 1453)
-    language_gre: Greek, Modern (1453-)
-    language_grn: Guarani
-    language_gsw: Swiss German; Alemannic; Alsatian
-    language_guj: Gujarati
-    language_gwi: Gwich'in
-    language_hai: Haida
-    language_hat: Haitian; Haitian Creole
-    language_hau: Hausa
-    language_haw: Hawaiian
-    language_heb: Hebrew
-    language_her: Herero
-    language_hil: Hiligaynon
-    language_him: Himachali languages; Western Pahari languages
-    language_hin: Hindi
-    language_hit: Hittite
-    language_hmn: Hmong; Mong
-    language_hmo: Hiri Motu
-    language_hrv: Croatian
-    language_hsb: Upper Sorbian
-    language_hun: Hungarian
-    language_hup: Hupa
-    language_iba: Iban
-    language_ibo: Igbo
-    language_ice: Icelandic
-    language_ido: Ido
-    language_iii: Sichuan Yi; Nuosu
-    language_ijo: Ijo languages
-    language_iku: Inuktitut
-    language_ile: Interlingue; Occidental
-    language_ilo: Iloko
-    language_ina: Interlingua (International Auxiliary Language Association)
-    language_inc: Indic languages
-    language_ind: Indonesian
-    language_ine: Indo-European languages
-    language_inh: Ingush
-    language_ipk: Inupiaq
-    language_ira: Iranian languages
-    language_iro: Iroquoian languages
-    language_ita: Italian
-    language_jav: Javanese
-    language_jbo: Lojban
-    language_jpn: Japanese
-    language_jpr: Judeo-Persian
-    language_jrb: Judeo-Arabic
-    language_kaa: Kara-Kalpak
-    language_kab: Kabyle
-    language_kac: Kachin; Jingpho
-    language_kal: Kalaallisut; Greenlandic
-    language_kam: Kamba
-    language_kan: Kannada
-    language_kar: Karen languages
-    language_kas: Kashmiri
-    language_kau: Kanuri
-    language_kaw: Kawi
-    language_kaz: Kazakh
-    language_kbd: Kabardian
-    language_kha: Khasi
-    language_khi: Khoisan languages
-    language_khm: Central Khmer
-    language_kho: Khotanese; Sakan
-    language_kik: Kikuyu; Gikuyu
-    language_kin: Kinyarwanda
-    language_kir: Kirghiz; Kyrgyz
-    language_kmb: Kimbundu
-    language_kok: Konkani
-    language_kom: Komi
-    language_kon: Kongo
-    language_kor: Korean
-    language_kos: Kosraean
-    language_kpe: Kpelle
-    language_krc: Karachay-Balkar
-    language_krl: Karelian
-    language_kro: Kru languages
-    language_kru: Kurukh
-    language_kua: Kuanyama; Kwanyama
-    language_kum: Kumyk
-    language_kur: Kurdish
-    language_kut: Kutenai
-    language_lad: Ladino
-    language_lah: Lahnda
-    language_lam: Lamba
-    language_lao: Lao
-    language_lat: Latin
-    language_lav: Latvian
-    language_lez: Lezghian
-    language_lim: Limburgan; Limburger; Limburgish
-    language_lin: Lingala
-    language_lit: Lithuanian
-    language_lol: Mongo
-    language_loz: Lozi
-    language_ltz: Luxembourgish; Letzeburgesch
-    language_lua: Luba-Lulua
-    language_lub: Luba-Katanga
-    language_lug: Ganda
-    language_lui: Luiseno
-    language_lun: Lunda
-    language_luo: Luo (Kenya and Tanzania)
-    language_lus: Lushai
-    language_mac: Macedonian
-    language_mad: Madurese
-    language_mag: Magahi
-    language_mah: Marshallese
-    language_mai: Maithili
-    language_mak: Makasar
-    language_mal: Malayalam
-    language_man: Mandingo
-    language_mao: Maori
-    language_map: Austronesian languages
-    language_mar: Marathi
-    language_mas: Masai
-    language_may: Malay
-    language_mdf: Moksha
-    language_mdr: Mandar
-    language_men: Mende
-    language_mga: Irish, Middle (900-1200)
-    language_mic: Mi'kmaq; Micmac
-    language_min: Minangkabau
-    language_mis: Uncoded languages
-    language_mkh: Mon-Khmer languages
-    language_mlg: Malagasy
-    language_mlt: Maltese
-    language_mnc: Manchu
-    language_mni: Manipuri
-    language_mno: Manobo languages
-    language_moh: Mohawk
-    language_mon: Mongolian
-    language_mos: Mossi
-    language_mul: Multiple languages
-    language_mun: Munda languages
-    language_mus: Creek
-    language_mwl: Mirandese
-    language_mwr: Marwari
-    language_myn: Mayan languages
-    language_myv: Erzya
-    language_nah: Nahuatl languages
-    language_nai: North American Indian languages
-    language_nap: Neapolitan
-    language_nau: Nauru
-    language_nav: Navajo; Navaho
-    language_nbl: Ndebele, South; South Ndebele
-    language_nde: Ndebele, North; North Ndebele
-    language_ndo: Ndonga
-    language_nds: Low German; Low Saxon; German, Low; Saxon, Low
-    language_nep: Nepali
-    language_new: Nepal Bhasa; Newari
-    language_nia: Nias
-    language_nic: Niger-Kordofanian languages
-    language_niu: Niuean
-    language_nno: Norwegian Nynorsk; Nynorsk, Norwegian
-    language_nob: Bokm'e5l, Norwegian; Norwegian Bokm'e5l
-    language_nog: Nogai
-    language_non: Norse, Old
-    language_nor: Norwegian
-    language_nqo: N'Ko
-    language_nso: Pedi; Sepedi; Northern Sotho
-    language_nub: Nubian languages
-    language_nwc: Classical Newari; Old Newari; Classical Nepal Bhasa
-    language_nya: Chichewa; Chewa; Nyanja
-    language_nym: Nyamwezi
-    language_nyn: Nyankole
-    language_nyo: Nyoro
-    language_nzi: Nzima
-    language_oci: Occitan (post 1500); Proven'e7al
-    language_oji: Ojibwa
-    language_ori: Oriya
-    language_orm: Oromo
-    language_osa: Osage
-    language_oss: Ossetian; Ossetic
-    language_ota: Turkish, Ottoman (1500-1928)
-    language_oto: Otomian languages
-    language_paa: Papuan languages
-    language_pag: Pangasinan
-    language_pal: Pahlavi
-    language_pam: Pampanga; Kapampangan
-    language_pan: Panjabi; Punjabi
-    language_pap: Papiamento
-    language_pau: Palauan
-    language_peo: Persian, Old (ca.600-400 B.C.)
-    language_per: Persian
-    language_phi: Philippine languages
-    language_phn: Phoenician
-    language_pli: Pali
-    language_pol: Polish
-    language_pon: Pohnpeian
-    language_por: Portuguese
-    language_pra: Prakrit languages
-    language_pro: Proven'e7al, Old (to 1500)
-    language_pus: Pushto; Pashto
-    language_qaa-qtz: Reserved for local use
-    language_que: Quechua
-    language_raj: Rajasthani
-    language_rap: Rapanui
-    language_rar: Rarotongan; Cook Islands Maori
-    language_roa: Romance languages
-    language_roh: Romansh
-    language_rom: Romany
-    language_rum: Romanian; Moldavian; Moldovan
-    language_run: Rundi
-    language_rup: Aromanian; Arumanian; Macedo-Romanian
-    language_rus: Russian
-    language_sad: Sandawe
-    language_sag: Sango
-    language_sah: Yakut
-    language_sai: South American Indian (Other)
-    language_sal: Salishan languages
-    language_sam: Samaritan Aramaic
-    language_san: Sanskrit
-    language_sas: Sasak
-    language_sat: Santali
-    language_scn: Sicilian
-    language_sco: Scots
-    language_sel: Selkup
-    language_sem: Semitic languages
-    language_sga: Irish, Old (to 900)
-    language_sgn: Sign Languages
-    language_shn: Shan
-    language_sid: Sidamo
-    language_sin: Sinhala; Sinhalese
-    language_sio: Siouan languages
-    language_sit: Sino-Tibetan languages
-    language_sla: Slavic languages
-    language_slo: Slovak
-    language_slv: Slovenian
-    language_sma: Southern Sami
-    language_sme: Northern Sami
-    language_smi: Sami languages
-    language_smj: Lule Sami
-    language_smn: Inari Sami
-    language_smo: Samoan
-    language_sms: Skolt Sami
-    language_sna: Shona
-    language_snd: Sindhi
-    language_snk: Soninke
-    language_sog: Sogdian
-    language_som: Somali
-    language_son: Songhai languages
-    language_sot: Sotho, Southern
-    language_spa: Spanish; Castilian
-    language_srd: Sardinian
-    language_srn: Sranan Tongo
-    language_srp: Serbian
-    language_srr: Serer
-    language_ssa: Nilo-Saharan languages
-    language_ssw: Swati
-    language_suk: Sukuma
-    language_sun: Sundanese
-    language_sus: Susu
-    language_sux: Sumerian
-    language_swa: Swahili
-    language_swe: Swedish
-    language_syc: Classical Syriac
-    language_syr: Syriac
-    language_tah: Tahitian
-    language_tai: Tai languages
-    language_tam: Tamil
-    language_tat: Tatar
-    language_tel: Telugu
-    language_tem: Timne
-    language_ter: Tereno
-    language_tet: Tetum
-    language_tgk: Tajik
-    language_tgl: Tagalog
-    language_tha: Thai
-    language_tib: Tibetan
-    language_tig: Tigre
-    language_tir: Tigrinya
-    language_tiv: Tiv
-    language_tkl: Tokelau
-    language_tlh: Klingon; tlhIngan-Hol
-    language_tli: Tlingit
-    language_tmh: Tamashek
-    language_tog: Tonga (Nyasa)
-    language_ton: Tonga (Tonga Islands)
-    language_tpi: Tok Pisin
-    language_tsi: Tsimshian
-    language_tsn: Tswana
-    language_tso: Tsonga
-    language_tuk: Turkmen
-    language_tum: Tumbuka
-    language_tup: Tupi languages
-    language_tur: Turkish
-    language_tut: Altaic languages
-    language_tvl: Tuvalu
-    language_twi: Twi
-    language_tyv: Tuvinian
-    language_udm: Udmurt
-    language_uga: Ugaritic
-    language_uig: Uighur; Uyghur
-    language_ukr: Ukrainian
-    language_umb: Umbundu
-    language_und: Undetermined
-    language_urd: Urdu
-    language_uzb: Uzbek
-    language_vai: Vai
-    language_ven: Venda
-    language_vie: Vietnamese
-    language_vol: Volap'fck
-    language_vot: Votic
-    language_wak: Wakashan languages
-    language_wal: Walamo
-    language_war: Waray
-    language_was: Washo
-    language_wel: Welsh
-    language_wen: Sorbian languages
-    language_wln: Walloon
-    language_wol: Wolof
-    language_xal: Kalmyk; Oirat
-    language_xho: Xhosa
-    language_yao: Yao
-    language_yap: Yapese
-    language_yid: Yiddish
-    language_yor: Yoruba
-    language_ypk: Yupik languages
-    language_zap: Zapotec
-    language_zbl: Blissymbols; Blissymbolics; Bliss
-    language_zen: Zenaga
-    language_zha: Zhuang; Chuang
-    language_znd: Zande languages
-    language_zul: Zulu
-    language_zun: Zuni
-    language_zxx: No linguistic content; Not applicable
-    language_zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
   digital_object: &digital_object_attributes
     title: Title
     title_tooltip: |
@@ -937,7 +201,6 @@ en:
         <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
     language: Language
     language_tooltip: <p>The language for the digital content.</p>
-    <<: *language_attributes
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
@@ -976,10 +239,6 @@ en:
   location:
     title: Title
     temporary: Temporary
-    temporary_conservation: Conservation
-    temporary_exhibit: Exhibit
-    temporary_loan: Loan
-    temporary_reading_room: Reading Room
     building: Building
     floor: Floor
     room: Room
@@ -1010,8 +269,6 @@ en:
 
   container_location:
     status: Status
-    status_current: Current
-    status_previous: Previous
     start_date: Start Date
     end_date: End Date
     note: Note
@@ -1028,10 +285,6 @@ en:
       plural: Record Links
   linked_agent: &linked_agent_attributes
     role: Role
-    role_creator: Creator
-    role_source: Source
-    role_subject: Subject
-
     role_tooltip: |
         <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p>
     relator: Relator
@@ -1121,8 +374,6 @@ en:
     scope: Portion
     scope_tooltip: |
         <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
-    scope_whole: Whole
-    scope_part: Part
     description: Description
     description_tooltip: |
         <p>REQUIRED FIELD: Description of the materials that have been deaccessioned.</p>
@@ -1175,8 +426,6 @@ en:
     name_order: Name Order
     name_order_tooltip: |
         <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
-    name_order_direct: Direct
-    name_order_inverted: Inverted
     prefix: Prefix
     prefix_tooltip: |
         <p>Any term associated with a name that in normative use would precede the entire name.</p>
@@ -1395,8 +644,6 @@ en:
       plural: Related Agents
   agent_relationship_parentchild:
     relator: Relationship Type
-    relator_is_child_of: Child of Related
-    relator_is_parent_of: Parent of Related
     description: Description
     ref: Related Agent
     date: Date
@@ -1404,8 +651,6 @@ en:
       singular: Parent/Child Relationship
   agent_relationship_earlierlater:
     relator: Relationship Type
-    relator_is_earlier_form_of: Earlier Form of Related
-    relator_is_later_form_of: Later Form of Related
     description: Description
     ref: Related Agent
     date: Date
@@ -1413,8 +658,6 @@ en:
       singular: Earlier/Later Relationship
   agent_relationship_subordinatesuperior:
     relator: Relationship Type
-    relator_is_subordinate_to: Is Subordinate to Related
-    relator_is_superior_of: Is Superior of Related
     description: Description
     ref: Related Agent
     date: Date
@@ -1422,7 +665,6 @@ en:
       singular: Subordinate/Superior Relationship
   agent_relationship_associative:
     relator: Relationship Type
-    relator_is_associative_with: Associative with Related
     description: Description
     date: Date
     ref: Related Agent
@@ -1442,43 +684,6 @@ en:
     note_citation: Citation
     note_abstract: Abstract
     note_outline: Outline
-    # todo: get different note types to display different tooltips or placeholders
-    types:
-      accessrestrict: Conditions Governing Access
-      accruals: Accruals
-      acqinfo: Immediate Source of Acquisition
-      altformavail: Existence and Location of Copies
-      appraisal: Appraisal
-      arrangement: Arrangement
-      bibliography: Bibliography
-      bioghist: Biographical / Historical
-      custodhist: Custodial History
-      fileplan: File Plan
-      index: Index
-      odd: General
-      otherfindaid: Other Finding Aids
-      originalsloc: Existence and Location of Originals
-      phystech: Physical Characteristics and Technical Requirements
-      prefercite: Preferred Citation
-      processinfo: Processing Information
-      relatedmaterial: Related Archival Materials
-      scopecontent: Scope and Contents
-      separatedmaterial: Separated Materials
-      userestrict: Conditions Governing Use
-      dimensions: Dimensions
-      legalstatus: Legal Status
-      summary: Summary
-      edition: Edition
-      extent: Extent
-      note: General Note
-      inscription: Inscription
-      langmaterial: Language of Materials
-      physdesc: Physical Description
-      relatedmaterial: Related Materials
-      abstract: Abstract
-      physloc: Physical Location
-      materialspec: Materials Specific Details
-      physfacet: Physical Facet
     _html:
       singular: Note
       plural: Notes
@@ -1605,20 +810,9 @@ en:
     xlink_actuate_attribute: XLink Actuate Attribute
     xlink_actuate_attribute_tooltip: |
         <p>An XLink attribute used for export for indicating how the digital object should display (e.g. whether the link occurs automatically or must be requested by the user). It is used in conjunction with the XLink Show attribute.</p>
-    xlink_actuate_attribute_none: none
-    xlink_actuate_attribute_other: other
-    xlink_actuate_attribute_onLoad: onLoad
-    xlink_actuate_attribute_onRequest: onRequest
-
     xlink_show_attribute: XLink Show Attribute
     xlink_show_attribute_tooltip: |
         <p>An XLink attribute used for export for indicating how the target of a link should be displayed. It is used in conjunction with the XLink Actuate attribute.</p>
-    xlink_show_attribute_new: new
-    xlink_show_attribute_replace: replace
-    xlink_show_attribute_embed: embed
-    xlink_show_attribute_other: other
-    xlink_show_attribute_none: none
-
     file_format_name: File Format Name
     file_format_name_tooltip: |
         <p>The name of the format for the file type.</p>
@@ -1661,8 +855,6 @@ en:
         <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
         <p>Any described aggregation or object with an extent statement must have an extent statement with Portion set to "whole".</p>
         <p>See DACS 2.5.7</p>
-    portion_whole: Whole
-    portion_part: Part
     number: Number
     number_tooltip: |
         <p>A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
@@ -1724,10 +916,6 @@ en:
     rights_type: Rights Type
     rights_type_tooltip: |
         <p>The basis for the rights statement being made.Four bases are allowed: intellectual property, license, such as donor agreement, legal statutes such as Fair Use or FERPA, and institutional policy.</p>
-    rights_type_intellectual_property: Intellectual Property
-    rights_type_license: License
-    rights_type_statute: Statute
-    rights_type_institutional_policy: Institutional Policy
     rights_type_message: Please select a Rights Type
     active: Active
     active_tooltip: |
@@ -1744,9 +932,6 @@ en:
     ip_status: IP Status
     ip_status_tooltip: |
         <p>A term indicating the intellectual property status of the described materials.</p>
-    ip_status_copyrighted: Copyrighted
-    ip_status_public_domain: Public Domain
-    ip_status_unknown: Unknown
     ip_expiration_date: IP Expiration Date
     ip_expiration_date_tooltip: |
         <p>The date the copyright or other intellectual property status is expected to expire.</p>
@@ -1809,23 +994,9 @@ en:
     label_tooltip: |
         <p>REQUIRED FIELD: Describes what the type of activity the date signifies.</p>
         <p>See DACS 2.4 and 2.4.3</p>
-    label_broadcast: Broadcast
-    label_copyright: Copyright
-    label_creation: Creation
-    label_deaccession: Deaccession
-    label_agent_relation: Agent Relation
-    label_digitized: Digitized
-    label_issued: Issued
-    label_modified: Modified
-    label_publication: Publication
-    label_other: Other
     date_type: Type
     date_type_tooltip: |
         <p>Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
-    date_type_expression: Expression
-    date_type_single: Single
-    date_type_bulk: Bulk Dates
-    date_type_inclusive: Inclusive Dates
     date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
     expression_tooltip: |
@@ -1861,9 +1032,6 @@ en:
     end_time_tooltip: |
         <p>Normalized time information (in the form HH:MM:SS) associated with a single date or the first date in a date range.</p>
     certainty: Certainty
-    certainty_approximate: Approximate
-    certainty_inferred: Inferred
-    certainty_questionable: Questionable
     era: Era
     era_tooltip: |
         <p>Period during which years are numbered and dates reckoned, such as A.D. or C.E. The value "ce" is the default.</p>
@@ -2066,18 +1234,7 @@ en:
     level_tooltip: |
         <p>REQUIRED FIELD. Indicates. the hierarchical level of the materials being described.</p>
         <p>See DACS Chapter 1</p>
-        <p>Values are prescribed by the EAD schema.</p> 
-    level_class: Class
-    level_collection: Collection
-    level_file: File
-    level_fonds: Fonds
-    level_item: Item
-    level_otherlevel: Other Level
-    level_recordgrp: Record Group
-    level_series: Series
-    level_subfonds: Sub-Fonds
-    level_subgrp: Sub-Group
-    level_subseries: Sub-Series
+        <p>Values are prescribed by the EAD schema.</p>
     other_level: Other Level
     other_level_tooltip: |
         <p>REQUIRED FIELD if "Other Level" is the value selected for Level. Expresses the type of level outside of the values specified in the EAD schema.</p>
@@ -2104,7 +1261,6 @@ en:
     language_tooltip: |
         <p>The language term and code represented in the material(s) described.</p>
         <p>See DACS 4.5</p>
-    <<: *language_attributes
     "[:resource_id, :ref_id]": Ref ID
     _html:
       singular: Archival Object

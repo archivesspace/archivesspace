@@ -155,7 +155,7 @@ entities:
     properties:
       terms: 
         xpath: ["self"]
-        procedure: "|value| {'term' => value, 'term_type' => 'Cultural context', 'vocabulary' => '/vocabularies/1'}"
+        procedure: "|value| {'term' => value, 'term_type' => 'cultural_context', 'vocabulary' => '/vocabularies/1'}"
       vocabulary:
         default: "/vocabularies/1"
         

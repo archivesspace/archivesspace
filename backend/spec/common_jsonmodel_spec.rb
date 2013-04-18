@@ -308,7 +308,7 @@ describe 'JSON model' do
       JSONModel(:subject).from_hash({"vocabulary" => "/vocabularies/1",
                                       "terms" => [{
                                                     "term" => "",
-                                                    "term_type" => "Cultural context",
+                                                    "term_type" => "cultural_context",
                                                     "vocabulary" => "/vocabularies/1"
                                                   }]})
     rescue JSONModel::ValidationException => e

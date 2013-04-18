@@ -9,7 +9,7 @@
       "ref_id" => {"type" => "string", "maxLength" => 255, "pattern" => "\\A[a-zA-Z0-9\\-_:\\.]*\\z"},
       "component_id" => {"type" => "string", "maxLength" => 255, "required" => false, "default" => ""},
 
-      "level" => {"type" => "string", "ifmissing" => "error", "enum" => ["class", "collection", "file", "fonds", "item", "otherlevel", "recordgrp", "series", "subfonds", "subgrp", "subseries"]},
+      "level" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "archival_record_level"},
       "other_level" => {"type" => "string", "maxLength" => 255},
 
       "title" => {"type" => "string", "maxLength" => 16384, "ifmissing" => nil},

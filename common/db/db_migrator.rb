@@ -48,6 +48,12 @@ module Sequel
         end
       end
 
+
+      def DynamicEnum(field, opts = {})
+        Integer field, opts
+        foreign_key([field], :enumeration_value, :key => :id)
+      end
+
     end
   end
 end

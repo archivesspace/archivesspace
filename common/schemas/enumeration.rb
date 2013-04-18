@@ -9,6 +9,7 @@
 
       "name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "default_value" => {"type" => "string"},
+      "editable" => {"type" => "boolean", "readonly" => true},
       "values" => {
         "type" => "array",
         "ifmissing" => "error",

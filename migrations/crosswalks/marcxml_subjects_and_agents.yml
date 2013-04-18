@@ -133,7 +133,7 @@ entities:
       
       terms:
         xpath: ["subfield[@code='a']"]
-        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Uniform title', 'vocabulary' => '/vocabularies/1'}}"
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'uniform_title', 'vocabulary' => '/vocabularies/1'}}"
  
   subject_topical:
     record_type: subject
@@ -149,7 +149,7 @@ entities:
 
       terms:
         xpath: ["subfield[@code='a']"]
-        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Topical', 'vocabulary' => '/vocabularies/1'}}"
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'topical', 'vocabulary' => '/vocabularies/1'}}"
 
   subject_geo:
     record_type: subject
@@ -165,7 +165,7 @@ entities:
 
       terms:
         xpath: ["subfield[@code='a']"]
-        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Geographic', 'vocabulary' => '/vocabularies/1'}}"
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'geographic', 'vocabulary' => '/vocabularies/1'}}"
 
   subject_genre:
     record_type: subject
@@ -181,7 +181,7 @@ entities:
 
       terms:
         xpath: ["subfield[@code='a']"]
-        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Genre / form', 'vocabulary' => '/vocabularies/1'}}"
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'genre_form', 'vocabulary' => '/vocabularies/1'}}"
 
   subject_occupation:
     record_type: subject
@@ -197,7 +197,7 @@ entities:
 
       terms:
         xpath: ["subfield[@code='a']"]
-        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Occupation', 'vocabulary' => '/vocabularies/1'}}"
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'occupation', 'vocabulary' => '/vocabularies/1'}}"
 
   subject_function:
     record_type: subject
@@ -213,7 +213,7 @@ entities:
 
       terms:
         xpath: ["subfield[@code='a']"]
-        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'Function', 'vocabulary' => '/vocabularies/1'}}"
+        procedure: "|val| val.split(/--/).map {|t| {'term' => t, 'term_type' => 'function', 'vocabulary' => '/vocabularies/1'}}"
 
 # Additional Agent / Name Records From 7** Fields:
   

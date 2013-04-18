@@ -64,14 +64,16 @@ FactoryGirl.define do
   sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
   sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']) }
   sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']) }
-  
-  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']) }
+
   sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']) }
   
   sequence(:use_statement) { sample(JSONModel(:file_version).schema['properties']['use_statement']) }
   sequence(:checksum_method) { sample(JSONModel(:file_version).schema['properties']['checksum_method']) }
   sequence(:xlink_actuate_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_actuate_attribute']) }
   sequence(:xlink_show_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_show_attribute']) }
+  sequence(:file_format_name) { sample(JSONModel(:file_version).schema['properties']['file_format_name']) }
+  sequence(:language) { sample(JSONModel(:resource).schema['properties']['language']) }
+  sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
 
 
 
@@ -119,8 +121,8 @@ FactoryGirl.define do
     title { generate(:generic_title) }
     id_0 { generate(:alphanumstr) }
     id_1 { generate(:alphanumstr) }
-    level 'collection'
-    language 'eng'
+    level { generate(:archival_record_level) }
+    language { generate(:language) }
   end
   
   factory :extent do
@@ -138,7 +140,7 @@ FactoryGirl.define do
     title { generate(:generic_title) }
     repo_id nil
     ref_id { generate(:alphanumstr) }
-    level 'item'
+    level { generate(:archival_record_level) }
     root_record_id nil
     parent_id nil
   end
@@ -262,7 +264,7 @@ FactoryGirl.define do
     use_statement { generate(:use_statement) }
     xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
     xlink_show_attribute { generate(:xlink_show_attribute) }
-    file_format_name { generate(:alphanumstr) }
+    file_format_name { generate(:file_format_name) }
     file_format_version { generate(:alphanumstr) }
     file_size_bytes { generate(:number).to_i }
     checksum { generate(:alphanumstr) }
@@ -330,8 +332,8 @@ FactoryGirl.define do
     title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
-    level 'collection'
-    language 'eng'
+    level { generate(:archival_record_level) }
+    language { generate(:language) }
   end
   
   factory :json_repo, class: JSONModel(:repository) do

@@ -42,7 +42,7 @@ require_relative "../../backend/app/lib/request_context"
 class MockEnumSource
 
   def self.valid?(enum_name, value)
-    [true, false].sample
+    values_for(enum_name).include?(value)
   end
 
   def self.values_for(enum_name)

@@ -8,7 +8,7 @@
     "properties" => {
       "relator" => {
         "type" => "string",
-        "enum" => ["is_parent_of", "is_child_of"],
+        "dynamic_enum" => "agent_relationship_parentchild_relator",
         "ifmissing" => "error"
       },
 

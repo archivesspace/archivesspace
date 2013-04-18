@@ -6,8 +6,8 @@ class Term < Sequel::Model(:term)
 
   def validate
     super
-    validates_unique([:vocab_id, :term, :term_type], :message => "Term must be unique")
-    map_validation_to_json_property([:vocab_id, :term, :term_type], :term)
+    validates_unique([:vocab_id, :term, :term_type_id], :message => "Term must be unique")
+    map_validation_to_json_property([:vocab_id, :term, :term_type_id], :term)
   end
 
   def self.set_vocabulary(json, opts)
@@ -38,9 +38,11 @@ class Term < Sequel::Model(:term)
     begin
       self.create_from_json(json)
     rescue Sequel::ValidationFailed
+      term_type_id = BackendEnumSource.id_for_value("subject_term_type", json.term_type)
+
       Term.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
                 :term => json.term,
-                :term_type => json.term_type)
+                :term_type_id => term_type_id)
     end
   end
 

@@ -143,7 +143,7 @@ def run_tests(opts)
   r = do_post({
                 :terms => [
                            :term => "Some term #{$me}",
-                           :term_type => "Function",
+                           :term_type => "function",
                            :vocabulary => "/vocabularies/1"
                           ],
                 :vocabulary => "/vocabularies/1"

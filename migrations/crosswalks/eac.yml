@@ -28,7 +28,10 @@ entities:
     properties:
       primary_name: 
         xpath: ["descendant::xmlns:part/text()"]
-      
+
+      name_order:
+        default: "inverted"
+
       source:
         default: local
         
