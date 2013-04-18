@@ -803,10 +803,6 @@ en:
     language_zun: Zuni
     language_zxx: No linguistic content; Not applicable
     language_zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
-  location:
-    _html:
-      singular: Location
-      plural: Locations
   extent: &extent_attributes
     _html:
       plural: Extents

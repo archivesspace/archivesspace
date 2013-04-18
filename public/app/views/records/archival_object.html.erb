@@ -1,16 +1,10 @@
 <%
-   locations = {}
    digital_objects = {}
 
    if not @archival_object['instances'].blank?
      @archival_object['instances'].each do |instance|
        if instance['instance_type'] === "digital_object"
          digital_objects[instance['digital_object']['ref']] = instance['digital_object']['_resolved']
-       else
-         instance['container']['container_locations'].each do |cl|
-           next if cl['status'] === 'previous'
-           locations[cl['ref']] = cl['_resolved']
-         end
        end
      end
    end
@@ -52,7 +46,6 @@
           <h3><%= I18n.t("archival_object._html.section.summary") %></h3>
 
           <dl class="dl-horizontal">
-            <%= label_and_value I18n.t("archival_object.ref_id"), @archival_object['ref_id'] %>
             <%= label_and_value I18n.t("archival_object.component_id"), @archival_object['component_id'] %>
             <%= label_and_value I18n.t("archival_object.level"), i18n_enum(:archival_object, 'level', @archival_object['level']) %>
             <%= label_and_value I18n.t("archival_object.language"), i18n_enum(:archival_object, 'language', @archival_object['language']) %>
@@ -81,22 +74,6 @@
                   <h4>
                     <%= icon_for "subject" %>
                     <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if not locations.empty? %>
-          <section id="locations">
-            <h3><%= I18n.t("location._html.plural") %></h3>
-            <ul class="results-list">
-              <% locations.each do |uri, location| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "location" %>
-                    <%= link_to location['title'], {:controller => :search, :action => :location, :id => JSONModel(:location).id_for(uri)} %>
                   </h4>
                 </li>
               <% end %>

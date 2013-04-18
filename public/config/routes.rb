@@ -8,6 +8,5 @@ ArchivesSpacePublic::Application.routes.draw do
   match 'repositories/:repo_id' => 'search#repository', :via => [:get]
   match 'repositories' => 'search#repository', :via => [:get]
   match 'subjects/:id' => 'search#subject', :via => [:get]
-  match 'locations/:id' => 'search#location', :via => [:get]
   root :to => "site#index"
 end

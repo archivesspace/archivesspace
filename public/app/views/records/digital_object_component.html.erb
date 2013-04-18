@@ -35,7 +35,6 @@
           <h3><%= I18n.t("digital_object_component._html.section.summary") %></h3>
 
           <dl class="dl-horizontal">
-            <%= label_and_value I18n.t("digital_object_component.ref_id"), @digital_object_component['ref_id'] %>
             <%= label_and_value I18n.t("digital_object_component.component_id"), @digital_object_component['component_id'] %>
             <%= label_and_value I18n.t("digital_object_component.level"), i18n_enum(:digital_object_component, 'level', @digital_object_component['level']) %>
             <%= label_and_value I18n.t("digital_object_component.language"), i18n_enum(:digital_object_component, 'language', @digital_object_component['language']) %>
