@@ -1,6 +1,15 @@
 require_relative "../../../migrations/lib/utils"
 
 module ImportHelpers
+  
+  def handle_import(batch, progress_ticker)
+
+    begin
+      batch.process(progress_ticker)
+      json_response({:saved => batch.saved_uris}, 200)
+    end
+  end
+  
 
   class ImportException < StandardError
     attr_accessor :invalid_object

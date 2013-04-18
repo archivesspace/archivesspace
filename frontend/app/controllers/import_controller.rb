@@ -32,7 +32,7 @@ class ImportController < ApplicationController
         source_file.delete
 
         if results[0].match /200/
-          flash.now[:success] = results[0]
+          flash.now[:success] = I18n.t("import.messages.complete")
         else
           flash.now[:error] = I18n.t("import.messages.error_prefix") 
         end

@@ -118,8 +118,17 @@ module ASpaceImport
       if response.code.to_s == '200'
         response_body = JSON.parse(response.body)
         @import_summary = "Response Code 200: #{response_body['saved'].length} records saved."
+        # saved_record_count = 0
+        # 
+        # body = response.body.chomp
+        # 
+        # if body
+        #   last_tick = JSON.parse(body[(body.rindex("\n") + 1)..-1])
+        #   saved_record_count = last_tick[:total] || 0
+        # end
 
-        @import_log = response_body['saved'].map {|k,u| "Saved: #{u}"}
+        @import_summary = "Response Code 200: #{saved_record_count} records saved."
+        @import_log = ""
       else
         @import_summary = "Import failed due to server error #{response.code}"
         err_data = JSON.parse(response.body)['error']

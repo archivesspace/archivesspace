@@ -173,6 +173,7 @@ en:
       missing_repo: You need to select a repository before importing
       missing_file: Please select an EAD file to upload
       error_prefix: Error importing file
+      complete: Import Complete
   errors:
     error_403: Unable to Access Page
     error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."

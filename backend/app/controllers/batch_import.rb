@@ -20,6 +20,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error],
              [409, :error]) \
   do
+
     mapping = StreamingImport.new(params[:batch_import]).process
 
     json_response(:status => "OK",
