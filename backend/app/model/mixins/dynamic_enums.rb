@@ -24,6 +24,7 @@ module DynamicEnums
 
               if !enum_value_id && value == 'other_unmapped' && AppConfig[:allow_other_unmapped]
                 # Ensure this value exists for this enumeration
+                enum = Enumeration[:name => definition[:uses_enum]]
                 enum_value_id = EnumerationValue.create(:enumeration_id => enum.id, :value => 'other_unmapped').id
               end
 
