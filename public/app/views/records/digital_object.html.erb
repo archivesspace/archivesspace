@@ -1,3 +1,6 @@
+<%
+   file_versions = @digital_object['file_versions'].select{|fv| fv['publish']}
+%>
 <div class="title-pane">
   <div class="row-fluid">
     <div class="span3">
@@ -15,7 +18,7 @@
       <div id="">
         <ul class="nav nav-list as-nav-list" data-spy="affix">
           <li><a href="#summary"><%= I18n.t("archival_object._html.section.summary") %> <span class="icon-chevron-right"></span></a></li>
-          <% if @digital_object['file_versions'].length > 0 %>
+          <% if file_versions.length > 0 %>
             <li><a href="#file_versions"><%= I18n.t("file_version._html.plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @digital_object['extents'].length > 0 %>
@@ -45,11 +48,11 @@
           </dl>
         </section>
 
-        <% if @digital_object['file_versions'].length > 0 %>
+        <% if file_versions.length > 0 %>
           <section id="file_versions">
             <h3><%= I18n.t("file_version._html.plural") %></h3>
             <ul class="results-list">
-              <% @digital_object['file_versions'].each do |file| %>
+              <% file_versions.each do |file| %>
                 <%
                    uri = URI(file['file_uri'])
                 %>
