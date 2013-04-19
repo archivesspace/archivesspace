@@ -33,8 +33,6 @@
           }
       },
 
-
-      "publish" => {"type" => "boolean", "default" => true},
       "restrictions" => {"type" => "boolean", "default" => false},
 
       "repository_processing_note" => {"type" => "string", "maxLength" => 65000},

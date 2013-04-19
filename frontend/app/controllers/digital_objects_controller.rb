@@ -6,7 +6,9 @@ class DigitalObjectsController < ApplicationController
   FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
 
   def index
-    @search_data = JSONModel(:digital_object).all(:page => selected_page)
+    facets = ["subjects", "publish"]
+
+    @search_data = Search.for_type(session[:repo_id], "digital_object", search_params.merge({"facet[]" => facets}))
   end
 
   def show

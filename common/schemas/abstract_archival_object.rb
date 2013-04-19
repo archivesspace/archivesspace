@@ -21,6 +21,8 @@
       "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
       "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
 
+      "publish" => {"type" => "boolean", "default" => true},
+
       "subjects" => {
         "type" => "array",
         "items" => {

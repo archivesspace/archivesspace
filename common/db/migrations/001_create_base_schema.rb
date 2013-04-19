@@ -377,6 +377,7 @@ Sequel.migration do
       Integer :position, :null => true
       
       Integer :internal_only
+      Integer :publish
 
       String :ref_id, :null => false, :unique => false
       String :component_id, :null => true

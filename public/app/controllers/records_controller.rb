@@ -1,5 +1,10 @@
 class RecordsController < ApplicationController
 
+  # NOTE:  Until a SOLR index is available that delivers all the record data
+  #        required to render a page, these handlers currently brute-force
+  #        their way to gathering the record data required by hitting the
+  #        endpoints for each record.
+
   def resource
     @resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object"])
 
@@ -8,7 +13,7 @@ class RecordsController < ApplicationController
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id, :repo_id => params[:repo_id])
-    @children = tree['children']
+    @children = tree['children'].select{|doc| doc['publish']}
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -18,12 +23,13 @@ class RecordsController < ApplicationController
 
   def archival_object
     @archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object"])
-    @resource = JSONModel(:resource).find_by_uri(@archival_object['resource']['ref'], :repo_id => params[:repo_id])
+    raise RecordNotFound.new if not @archival_object.publish
 
+    @resource = JSONModel(:resource).find_by_uri(@archival_object['resource']['ref'], :repo_id => params[:repo_id])
     raise RecordNotFound.new if not @resource.publish
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-    @children = JSONModel::HTTP::get_json("/repositories/#{params[:repo_id]}/archival_objects/#{@archival_object.id}/children")
+    @children = JSONModel::HTTP::get_json("/repositories/#{params[:repo_id]}/archival_objects/#{@archival_object.id}/children").select{|doc| doc['publish']}
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
@@ -33,6 +39,9 @@ class RecordsController < ApplicationController
     ao = @archival_object
     while ao['parent'] do
       ao = JSONModel(:archival_object).find(JSONModel(:archival_object).id_for(ao['parent']['ref']), :repo_id => @repository.id)
+
+      raise RecordNotFound.new if not ao.publish
+
       @breadcrumbs.push([ao.title, url_for(:controller => :records, :action => :archival_object, :id => ao.id, :repo_id => @repository.id), "archival_object"])
     end
 
