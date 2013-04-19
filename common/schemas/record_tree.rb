@@ -10,6 +10,7 @@
       "title" => {"type" => "string", "minLength" => 1, "required" => false, "maxLength" => 16384},
       "level" => {"type" => "string", "maxLength" => 255},
       "node_type" => {"type" => "string", "maxLength" => 255},
+      "publish" => {"type" => "boolean", "default" => true},
       "children" => {
         "type" => "array",
         "additionalItems" => false,

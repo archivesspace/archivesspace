@@ -6,7 +6,9 @@ class ResourcesController < ApplicationController
   FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object"]
 
   def index
-    @search_data = JSONModel(:resource).all(:page => selected_page)
+    facets = ["subjects", "publish"]
+
+    @search_data = Search.for_type(session[:repo_id], "resource", search_params.merge({"facet[]" => facets}))
   end
 
   def show

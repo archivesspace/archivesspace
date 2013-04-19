@@ -3,6 +3,11 @@ en:
     title: Archives Space Public
   actions:
     browse: Browse
+  errors:
+    error_404: Record Not Found
+    error_404_message: "The record you've tried to access does not exist or may have been removed."
+    backend_down: Unable to Connect to Database
+    backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We apologise for the inconvenience. Please try again later.
   navbar:
     search_placeholder: Search the Archive
     search_all: All Records
@@ -798,10 +803,6 @@ en:
     language_zun: Zuni
     language_zxx: No linguistic content; Not applicable
     language_zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
-  location:
-    _html:
-      singular: Location
-      plural: Locations
   extent: &extent_attributes
     _html:
       plural: Extents

@@ -32,6 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:location)]"]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
+    show_published_only = current_user.username === User.SEARCH_USERNAME
 
     query = params[:q] || "*:*"
 
@@ -39,7 +40,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response(Solr.search(query, params[:page], params[:page_size],
                               params[:repo_id],
-                              params[:type], show_suppressed, params[:exclude],
+                              params[:type], show_suppressed, show_published_only, params[:exclude],
                               {
                                 "facet.field" => Array(params[:facet]),
                                 "fq" => Array(params[:filter]),
@@ -78,6 +79,7 @@ class ArchivesSpaceService < Sinatra::Base
   .returns([200, "[(:location)]"]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
+    show_published_only = current_user.username === User.SEARCH_USERNAME
 
     query = params[:q] || "*:*"
 
@@ -85,7 +87,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response(Solr.search(query, params[:page], params[:page_size],
                               nil,
-                              params[:type], show_suppressed, params[:exclude],
+                              params[:type], show_suppressed, show_published_only, params[:exclude],
                               {
                                 "facet.field" => Array(params[:facet]),
                                 "fq" => Array(params[:filter]),

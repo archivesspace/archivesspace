@@ -73,6 +73,7 @@ class SearchResultData
     return I18n.t("#{facet}._html.singular", :default => facet) if facet_group === "primary_type"
     return I18n.t("enumerations.name_source.#{facet}", :default => facet) if facet_group === "source"
     return I18n.t("enumerations.name_rule.#{facet}", :default => facet) if facet_group === "rules"
+    return I18n.t("boolean.#{facet.to_s}", :default => facet) if facet_group === "publish"
 
     # labels for collection management groups
     return I18n.t("#{facet}._html.singular", :default => facet) if facet_group === "parent_type"

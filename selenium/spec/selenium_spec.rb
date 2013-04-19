@@ -114,6 +114,29 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, 'Select Repository').click
       assert(5) { $driver.find_element(:css, '.select-a-repository').select_option_with_text(new_repo_code) }
     end
+
+
+    it "paginates the list when more than 10 repositories" do
+      10.times.each do |i|
+        create_test_repo("quickrepofortesting#{i}", "quickrepofortesting#{i}")
+      end
+
+      # update the indexer
+      @indexer.run_index_round
+
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Repositories").click
+
+      $driver.find_element(:css, '.pagination .active a').text.should eq('1')
+
+      $driver.find_element(:link, '2').click
+      $driver.find_element(:css, '.pagination .active a').text.should eq('2')
+
+      $driver.find_element(:link, '1').click
+      $driver.find_element(:css, '.pagination .active a').text.should eq('1')
+      $driver.find_element(:link, '2')
+    end
+
   end
 
 

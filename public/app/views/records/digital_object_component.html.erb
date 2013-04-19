@@ -1,3 +1,6 @@
+<%
+  file_versions = @digital_object_component['file_versions'].select{|fv| fv['publish']}
+%>
 <div class="title-pane">
   <div class="row-fluid">
     <div class="span3">
@@ -14,7 +17,7 @@
       <div id="">
         <ul class="nav nav-list as-nav-list">
           <li><a href="#summary"><%= I18n.t("digital_object_component._html.section.summary") %> <span class="icon-chevron-right"></span></a></li>
-          <% if @digital_object_component['file_versions'].length > 0 %>
+          <% if file_versions.length > 0 %>
             <li><a href="#file_versions"><%= I18n.t("file_version._html.plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @digital_object_component['extents'].length > 0 %>
@@ -35,18 +38,17 @@
           <h3><%= I18n.t("digital_object_component._html.section.summary") %></h3>
 
           <dl class="dl-horizontal">
-            <%= label_and_value I18n.t("digital_object_component.ref_id"), @digital_object_component['ref_id'] %>
             <%= label_and_value I18n.t("digital_object_component.component_id"), @digital_object_component['component_id'] %>
             <%= label_and_value I18n.t("digital_object_component.level"), i18n_enum(:digital_object_component, 'level', @digital_object_component['level']) %>
             <%= label_and_value I18n.t("digital_object_component.language"), i18n_enum(:digital_object_component, 'language', @digital_object_component['language']) %>
           </dl>
         </section>
 
-        <% if @digital_object_component['file_versions'].length > 0 %>
+        <% if file_versions.length > 0 %>
           <section id="file_versions">
             <h3><%= I18n.t("file_version._html.plural") %></h3>
             <ul class="results-list">
-              <% @digital_object_component['file_versions'].each do |file| %>
+              <% file_versions.each do |file| %>
                 <%
                   uri = URI(file['file_uri'])
                 %>

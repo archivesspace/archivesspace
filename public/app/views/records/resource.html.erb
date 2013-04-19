@@ -1,16 +1,10 @@
 <%
-   locations = {}
    digital_objects = {}
 
    if not @resource['instances'].blank?
      @resource['instances'].each do |instance|
        if instance['instance_type'] === "digital_object"
          digital_objects[instance['digital_object']['ref']] = instance['digital_object']['_resolved']
-       else
-         instance['container']['container_locations'].each do |cl|
-           next if cl['status'] === 'previous'
-           locations[cl['ref']] = cl['_resolved']
-         end
        end
      end
    end
@@ -38,13 +32,10 @@
           <% if @resource['subjects'].length > 0 %>
             <li><a href="#subjects"><%= I18n.t("subject._html.plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if locations.length > 0 %>
-            <li><a href="#locations"><%= I18n.t("location._html.plural") %> <span class="icon-chevron-right"></span></a></li>
-          <% end %>
           <% if digital_objects.length > 0 %>
             <li><a href="#digital_objects"><%= I18n.t("digital_object._html.plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
-          <% if @tree['children'].length %>
+          <% if not @children.empty? %>
             <li><a href="#components"><%= I18n.t("resource._html.section.components") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
         </ul>
@@ -102,22 +93,6 @@
           </section>
         <% end %>
 
-        <% if not locations.empty? %>
-          <section id="locations">
-            <h3><%= I18n.t("location._html.plural") %></h3>
-            <ul class="results-list">
-              <% locations.each do |uri, location| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "location" %>
-                    <%= link_to location['title'], {:controller => :search, :action => :location, :id => JSONModel(:location).id_for(uri)} %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
         <% if not digital_objects.empty? %>
           <section id="digital_objects">
             <h3><%= I18n.t("digital_object._html.plural") %></h3>
@@ -134,12 +109,12 @@
           </section>
         <% end %>
 
-        <% if @tree['children'].length %>
+        <% if not @children.empty? %>
           <section id="components">
             <h3><%= I18n.t("resource._html.section.components") %></h3>
 
             <ul class="results-list">
-              <% @tree['children'].each do |child| %>
+              <% @children.each do |child| %>
                 <li class="result">
                   <h4>
                     <%= icon_for child["node_type"] %>

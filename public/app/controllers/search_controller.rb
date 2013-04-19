@@ -35,10 +35,6 @@ class SearchController < ApplicationController
   end
 
 
-  def location
-    render "site/todo"
-  end
-
   private
 
   def set_search_criteria
