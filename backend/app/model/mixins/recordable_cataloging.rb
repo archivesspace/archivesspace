@@ -37,8 +37,7 @@ module RecordableCataloging
 
       # Use the global repository to capture events about global records
       RequestContext.open(:repo_id => 1) do
-
-        event_obj = Event.create_from_json(event)
+        event_obj = Event.create_from_json(event, :system_generated => true)
       end
 
       # Refresh the object from the database here because creating the event

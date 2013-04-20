@@ -215,7 +215,7 @@ module Relationships
 
           relationship_defn.relate(obj, referent, properties)
 
-          DB.increase_lock_version_or_fail(referent)
+          DB.increase_lock_version_or_fail(referent) unless opts[:system_generated]
         end
       end
     end
