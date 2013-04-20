@@ -118,7 +118,8 @@ describe "ArchivesSpace user interface" do
 
     it "paginates the list when more than 10 repositories" do
       10.times.each do |i|
-        create_test_repo("quickrepofortesting#{i}", "quickrepofortesting#{i}")
+        create_test_repo("quickrepofortesting#{i}_{Time.now.to_i}_#{$$}",
+                         "quickrepofortesting#{i}_{Time.now.to_i}_#{$$}")
       end
 
       # update the indexer
