@@ -291,6 +291,7 @@ en:
     event_event_type:
       accession: Accession
       accumulation: Accumulation
+      acknowledgement: Acknowledgement
       acknowledgement_sent: Acknowledgement Sent
       agreement_received: Agreement Received
       agreement_sent: Agreement Sent
@@ -302,6 +303,7 @@ en:
       collection: Collection
       compression: Compression
       contribution: Contribution
+      component_transfer: Component Transfer
       copyright_transfer: Copyright Transfer
       custody_transfer: Custody Transfer
       deaccession: Deaccession
