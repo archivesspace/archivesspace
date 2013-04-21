@@ -20,17 +20,10 @@ module RecordableCataloging
                   end
                   
 
-      date = JSONModel(:date).from_hash(
-                :label => 'creation', 
-                :date_type => 'single', 
-                :begin => obj.create_time.strftime("%Y-%m-%d"), 
-                :begin_time => obj.create_time.strftime("%H:%M:%S"),
-                )
-
       event = JSONModel(:event).from_hash(
                 :linked_agents => [{:ref => agent_uri, :role => 'implementer'}], 
                 :event_type => 'cataloging', 
-                :date => date, 
+                :timestamp => Time.now.utc.iso8601, 
                 :linked_records => [{:ref => obj.uri, :role => 'outcome'}]
                 )
 

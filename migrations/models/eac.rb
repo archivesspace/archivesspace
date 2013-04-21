@@ -26,12 +26,11 @@ ASpaceExport::model :eac do
       @date_time ||= nil
 
       if @date_time.nil?
-        d = @event.date['begin']
-        if @event.date['begin_time']
-          d << "T#{@event.date['begin_time']}"
+        if @event.date
+          @date_time = @event.date['begin']
+        else
+          @date_time = @event.timestamp.gsub(/Z.*/, '')
         end
-      
-        @date_time = d
       end
       
       @date_time

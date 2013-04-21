@@ -915,9 +915,7 @@ Sequel.migration do
       DynamicEnum :certainty_id, :null => true
       String :expression, :null => true
       String :begin, :null => true
-      String :begin_time, :null => true
       String :end, :null => true
-      String :end_time, :null => true
       DynamicEnum :era_id, :null => true
       DynamicEnum :calendar_id, :null => true
 

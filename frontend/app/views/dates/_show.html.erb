@@ -22,9 +22,9 @@
               <% if date['expression'] %>
                 <%= date['expression']%>
               <% elsif date['date_type'] === "single" %>
-                <%= date['begin'] %> <%= date['begin_time'] %>
+                <%= date['begin'] %>
               <% elsif date['date_type'] %>
-                <%= date['begin'] %> <%= date['begin_time'] %> &ndash; <%= date['end'] %> <%= date['end_time'] %>
+                <%= date['begin'] %> &ndash; <%= date['end'] %>
               <% end %>
             </div>
             <div class="span3">
