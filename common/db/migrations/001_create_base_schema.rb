@@ -1334,7 +1334,7 @@ Sequel.migration do
     create_enum("container_location_status", ["current", "previous"], "current")
 
     create_enum("date_type", ["single", "bulk", "inclusive"])
-    create_enum("date_label", ["broadcast", "copyright", "creation", "deaccession", "digitized", "issued", "modified", "publication", "agent_relation", "other"])
+    create_enum("date_label", ["broadcast", "copyright", "creation", "deaccession", "digitized", "event", "issued", "modified", "publication", "agent_relation", "other"])
     create_enum("date_certainty", ["approximate", "inferred", "questionable"])
 
     create_enum("deaccession_scope", ["whole", "part"], "whole")
