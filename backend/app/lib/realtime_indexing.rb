@@ -4,7 +4,7 @@ class RealtimeIndexing
 
   def self.longpolling
     if !@longpolling
-      @longpolling = LongPolling.new(AppConfig[:realtime_index_backlog_ms])
+      @longpolling = LongPolling.new(AppConfig[:realtime_index_backlog_ms].to_i)
     end
 
     @longpolling

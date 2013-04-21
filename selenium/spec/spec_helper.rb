@@ -11,7 +11,8 @@ $backend_start_fn = proc {
   TestUtils::start_backend($backend_port,
                            {
                              :frontend_url => $frontend,
-                             :session_expire_after_seconds => $expire
+                             :session_expire_after_seconds => $expire,
+                             :realtime_index_backlog_ms => 600000
                            })
 }
 
