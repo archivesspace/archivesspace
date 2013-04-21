@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
-require_relative '../../indexer/app/lib/periodic_indexer'
+require_relative '../../indexer/app/lib/realtime_indexer'
+
 
 
 describe "ArchivesSpace user interface" do
@@ -7,21 +8,13 @@ describe "ArchivesSpace user interface" do
   # Start the dev servers and Selenium
   before(:all) do
     selenium_init($backend_start_fn, $frontend_start_fn)
-    state = Object.new.instance_eval do
-      @store = {}
+    @indexer = RealtimeIndexer.new($backend, nil)
+  end
 
-      def get_last_mtime(repo_id, record_type)
-        @store[[repo_id, record_type]].to_i || 0
-      end
 
-      def set_last_mtime(repo_id, record_type, time)
-        @store[[repo_id, record_type]] = time
-      end
-
-      self
-    end
-
-    @indexer = PeriodicIndexer.get_indexer(state)
+  def run_index_round
+    @last_sequence ||= 0
+    @last_sequence = @indexer.run_index_round(@last_sequence)
   end
 
 
@@ -119,11 +112,11 @@ describe "ArchivesSpace user interface" do
     it "paginates the list when more than 10 repositories" do
       10.times.each do |i|
         create_test_repo("quickrepofortesting#{i}_{Time.now.to_i}_#{$$}",
-                         "quickrepofortesting#{i}_{Time.now.to_i}_#{$$}")
+                         "quickrepofortesting#{i}_{Time.now.to_i}_#{$$}",
+                         false)
       end
 
-      # update the indexer
-      @indexer.run_index_round
+      run_index_round
 
       $driver.find_element(:link, 'System').click
       $driver.find_element(:link, "Manage Repositories").click
@@ -559,7 +552,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "displays the agent in the agent's index page" do
-      @indexer.run_index_round
+      run_index_round
 
       $driver.get(URI.join($frontend, "/agents?&sort=create_time+desc"))
 
@@ -570,7 +563,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "returns agents in search results and shows their types correctly" do
-      @indexer.run_index_round
+      run_index_round
 
       $driver.clear_and_send_keys([:id, "global-search-box"], "Hendrix")
       $driver.find_element(:id => 'global-search-button').click
@@ -859,7 +852,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can show a browse list of Accessions" do
-      @indexer.run_index_round
+      run_index_round
       
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Accessions").click
@@ -875,7 +868,7 @@ describe "ArchivesSpace user interface" do
     before(:all) do
       login_as_repo_manager
       @accession_title = create_accession("My accession to test the record lifecycle")
-      @indexer.run_index_round
+      run_index_round
     end
 
 
@@ -899,7 +892,7 @@ describe "ArchivesSpace user interface" do
       assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Suppressed') }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
 
-      @indexer.run_index_round
+      run_index_round
 
       # Try to navigate to the edit form
       $driver.get("#{$accession_url}/edit")
@@ -951,7 +944,7 @@ describe "ArchivesSpace user interface" do
       #Ensure Accession no longer exists
       assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Deleted') }
 
-      @indexer.run_index_round
+      run_index_round
 
       # hmm boo.. refresh the page now that the indexer is refreshed
       $driver.navigate.refresh
@@ -976,7 +969,7 @@ describe "ArchivesSpace user interface" do
       login_as_archivist
       @accession_title = create_accession("Events link to this accession")
       @agent_name = create_agent("Geddy Lee")
-      @indexer.run_index_round
+      run_index_round
     end
 
 
@@ -1231,7 +1224,7 @@ describe "ArchivesSpace user interface" do
 
       # search for the created subject
       assert(5) {
-        @indexer.run_index_round
+        run_index_round
         $driver.clear_and_send_keys([:id, "token-input-archival_object_subjects__0__ref_"], "#{$$}TestTerm123")
         $driver.find_element(:css, "li.token-input-dropdown-item2").click
       }

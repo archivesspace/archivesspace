@@ -363,6 +363,7 @@ def admin_backend_request(req)
   admin_session = JSON(res.body)["session"]
 
   req["X-ARCHIVESSPACE-SESSION"] = admin_session
+  req["X-ARCHIVESSPACE-PRIORITY"] = "high"
 
   uri = URI("#{$backend}")
 
