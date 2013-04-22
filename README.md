@@ -164,6 +164,7 @@ appropriate and specify the `encryption` option:
                                              :encryption => :simple_tls,
      }]
 
+
 # Overriding Frontend and Public templates/assets
 
 Under your `archivesspace` directory there will be a directory called `local`.
@@ -182,6 +183,62 @@ Ensure your file is named using the code of the target language - for English us
 To allow a document (image, stylesheet, PDF etc) to be available from your application as a static resource, you can add it to the directory
 `archivesspace/local/frontend/assets`. For example, your own logo image `archivesspace/local/frontend/assets/my_logo.png` will then be available via the URL
 `http://localhost:8080/assets/my_logo.png`.
+
+
+# Creating backups
+
+## Using the provided script
+
+ArchivesSpace provides some simple scripts for backing up a single
+instance to a `.zip` file.  You can run:
+
+     scripts/backup.sh --output /path/to/backup-yyyymmdd.zip
+
+and the script will generate a file containing:
+
+  * A snapshot of the Solr index and related indexer files
+  * A snapshot of the demo database (if you're using the demo
+    database)
+
+If you're running against MySQL and have `mysqldump` installed, you
+can also provide the `--mysqldump` option.  This will read the
+database settings from your configuration file and add a dump of your
+database to the resulting `.zip` file.
+
+
+## Managing your own backups
+
+If you want more control over your backups, there's nothing stopping
+you from developing your own scripts.  ArchivesSpace stores all
+persistent data in the database, so as long as you have backups of
+your database then you can always recover.
+
+If you're running MySQL, the `mysqldump` utility can dump the database
+schema and data to a file.  It's a good idea to run this with the
+`--single-transaction` option to avoid locking your database tables
+while your backups run.
+
+If you're running with the demo database, you can create periodic
+database snapshots using the following configuration settings:
+
+     # In this example, we create a snapshot at 4am each day and keep
+     # 7 days' worth of backups
+     #
+     # Database snapshots are written to 'data/demo_db_backups' by
+     # default.
+     AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
+     AppConfig[:demo_db_backup_number_to_keep] = 7
+
+Solr indexes can always be recreated from the contents of the
+database, but backing them up can reduce your recovery time if
+disaster strikes.  You can create periodic Solr snapshots using the
+following configuration settings:
+
+     # Create one snapshot per hour and keep only one.
+     #
+     # Solr snapshots are written to 'data/solr_backups' by default.
+     AppConfig[:solr_backup_schedule] = "0 * * * *"
+     AppConfig[:solr_backup_number_to_keep] = 1
 
 
 # Further documentation

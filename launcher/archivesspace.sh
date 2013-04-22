@@ -31,7 +31,7 @@ if [ "$ASPACE_LAUNCHER_BASE" = "" ]; then
     exit
 fi
 
-echo "Starting ArchivesSpace from directory $ASPACE_LAUNCHER_BASE"
+echo "ArchivesSpace base directory: $ASPACE_LAUNCHER_BASE"
 
 if [ "$ARCHIVESSPACE_USER" = "" ]; then
     ARCHIVESSPACE_USER=

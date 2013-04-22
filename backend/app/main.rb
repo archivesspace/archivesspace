@@ -17,6 +17,8 @@ require_relative 'lib/import_helpers'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 
+require 'solr_snapshotter'
+
 require 'uri'
 require 'sinatra/base'
 
@@ -146,7 +148,7 @@ class ArchivesSpaceService < Sinatra::Base
           settings.scheduler.cron(AppConfig[:solr_backup_schedule],
                                   :tags => 'solr_backup') do
             Log.info("Creating snapshot of Solr index and indexer state")
-            Solr.snapshot
+            SolrSnapshotter.snapshot
           end
         end
 
