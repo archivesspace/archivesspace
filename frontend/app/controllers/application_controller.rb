@@ -194,6 +194,7 @@ class ApplicationController < ActionController::Base
     MemoryLeak::Resources.get(:vocabulary).first.to_hash
   end
 
+
   private
 
   def destroy_user_session(exception)

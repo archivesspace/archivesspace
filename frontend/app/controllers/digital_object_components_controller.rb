@@ -5,7 +5,7 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   FIND_OPTS = {
-    "resolve[]" => ["subjects","linked_agents"]
+    "resolve[]" => ["subjects", "linked_agents", "digital_object", "parent"]
   }
 
 
@@ -32,22 +32,41 @@ class DigitalObjectComponentsController < ApplicationController
                 :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
+                  # Refetch the record to ensure all sub records are resolved
+                  # (this object isn't marked as stale upon create like Archival Objects,
+                  # so need to do it manually)
+                  @digital_object_component = JSONModel(:digital_object_component).find(id, FIND_OPTS)
+
+                  success_message = @digital_object_component.parent ?
+                    I18n.t("digital_object_component._html.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved'])) :
+                    I18n.t("digital_object_component._html.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']))
+
                   if params.has_key?(:plus_one)
-                    flash[:success] = I18n.t("digital_object_component._html.messages.created")
+                    flash[:success] = success_message
+
                     return render :partial => "digital_object_components/edit_inline"
                   end
-                  flash.now[:success] = I18n.t("digital_object_component._html.messages.created")
+
+                  flash.now[:success] = success_message
                   render :partial => "digital_object_components/edit_inline"
                 })
   end
 
 
   def update
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], FIND_OPTS)
+    digital_object = @digital_object_component['digital_object']['_resolved']
+    parent = @digital_object_component['parent'] ? @digital_object_component['parent']['_resolved'] : false
+
     handle_crud(:instance => :digital_object_component,
-                :obj => JSONModel(:digital_object_component).find(params[:id], FIND_OPTS),
+                :obj => @digital_object_component,
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  flash.now[:success] = I18n.t("digital_object_component._html.messages.updated")
+                  success_message = parent ?
+                    I18n.t("digital_object_component._html.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent)) :
+                    I18n.t("digital_object_component._html.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object))
+                  flash.now[:success] = success_message
+
                   render :partial => "edit_inline"
                 })
   end

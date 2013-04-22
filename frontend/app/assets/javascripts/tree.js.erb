@@ -417,7 +417,7 @@ $(function() {
           $(".token-input-dropdown").hide();
         } else {
           $(".tree-transfer-form", ".archives-tree-container").css("display", "block");
-          $(".tree-transfer-form form", ".archives-tree-container").submit(function(event) {
+          $(".tree-transfer-form form", ".archives-tree-container").unbind("submit").submit(function(event) {
             if ($(this).serializeObject()['transfer[ref]']) {
               // continue with the POST
               return;
@@ -429,6 +429,9 @@ $(function() {
               return true;
             }
           });
+          setTimeout(function() {
+            $("#token-input-transfer_ref_", ".archives-tree-container").focus();
+          })
         }
       });
       $(".archives-tree-container").on("click", ".tree-transfer-form :input", function(event) {

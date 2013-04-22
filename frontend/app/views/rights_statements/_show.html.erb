@@ -14,11 +14,11 @@
               <span class="icon-chevron-down"></span>
             </div>
             <div class="span3">
-              <%= I18n.t("rights_statement.rights_type_#{rights_statement['rights_type']}") %>
+              <%= I18n.t("enumerations.rights_statement_rights_type.#{rights_statement['rights_type']}", :default => rights_statement['rights_type']) %>
             </div>
             <div class="span4">
               <% if rights_statement['ip_status'] %>
-                <%= I18n.t("rights_statement.ip_status_#{rights_statement['ip_status']}") %>
+                <%= I18n.t("enumerations.rights_statement_ip_status.#{rights_statement['ip_status']}", :default => rights_statement['ip_status']) %>
               <% end %>
             </div>
             <div class="span1">

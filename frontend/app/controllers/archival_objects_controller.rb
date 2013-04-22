@@ -4,7 +4,7 @@ class ArchivalObjectsController < ApplicationController
   before_filter(:only => [:new, :edit, :create, :update, :parent, :transfer]) {|c| user_must_have("update_archival_record")}
 
   FIND_OPTS = {
-    "resolve[]" => ["subjects", "location", "linked_agents", "digital_object"]
+    "resolve[]" => ["subjects", "location", "linked_agents", "digital_object", "resource", "parent"]
   }
 
   def new
@@ -30,22 +30,38 @@ class ArchivalObjectsController < ApplicationController
                 :find_opts => FIND_OPTS,
                 :on_invalid => ->(){ render :partial => "new_inline" },
                 :on_valid => ->(id){
+
+                  success_message = @archival_object.parent ?
+                                      I18n.t("archival_object._html.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved'])) :
+                                      I18n.t("archival_object._html.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
+
                   if params.has_key?(:plus_one)
-                    flash[:success] = I18n.t("archival_object._html.messages.created")
+                    flash[:success] = success_message
+
                     return render :partial => "archival_objects/edit_inline"
                   end
-                  flash.now[:success] = I18n.t("archival_object._html.messages.created")
+
+                  flash.now[:success] = success_message
                   render :partial => "archival_objects/edit_inline"
+
                 })
   end
 
 
   def update
+    @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
+    resource = @archival_object['resource']['_resolved']
+    parent = @archival_object['parent'] ? @archival_object['parent']['_resolved'] : false
+
     handle_crud(:instance => :archival_object,
-                :obj => JSONModel(:archival_object).find(params[:id], FIND_OPTS),
+                :obj => @archival_object,
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  flash.now[:success] = I18n.t("archival_object._html.messages.updated")
+                  success_message = parent ?
+                    I18n.t("archival_object._html.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent)) :
+                    I18n.t("archival_object._html.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
+                  flash.now[:success] = success_message
+
                   render :partial => "edit_inline"
                 })
   end
@@ -90,14 +106,16 @@ class ArchivalObjectsController < ApplicationController
       response = JSONModel::HTTP.post_form("/repositories/#{session[:repo_id]}/component_transfers", post_data)
 
       if response.code == '200'
-        flash[:success] = I18n.t("archival_object._html.messages.transfer_success")
+        @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
+
+        flash[:success] = I18n.t("archival_object._html.messages.transfer_success", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
         redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
       else
         raise ASUtils.json_parse(response.body)['error'].to_s
       end
 
     rescue Exception => e
-      flash[:error] = I18n.t("archival_object._html.messages.transfer_error").html_safe
+      flash[:error] = I18n.t("archival_object._html.messages.transfer_error", :exception => e)
       redirect_to :controller => :resources, :action => :edit, :id => params["transfer"]["current_resource_id"], :anchor => "tree::archival_object_#{params[:id]}"
     end
   end

@@ -43,7 +43,7 @@
 
     <% if not controller.action_name === "show" %>
       <div class="form-actions">
-        <% if controller.action_name === "new" or controller.action_name === "create" %>
+        <% if @archival_object.id.blank? %>
           <div class="btn-group btn-submit-group">
             <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._html.singular") %></button>
             <button type="button" id="createPlusOne" class="btn btn-primary btn-plus-one"><%= I18n.t("actions.save_plus_one") %></button>

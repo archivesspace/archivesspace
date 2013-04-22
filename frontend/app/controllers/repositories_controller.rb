@@ -26,7 +26,7 @@ class RepositoriesController < ApplicationController
 
                   return render :json => @repository.to_hash if inline?
             
-                  flash[:success] = I18n.t("repository._html.messages.created")
+                  flash[:success] = I18n.t("repository._html.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
                   return redirect_to :controller => :repositories, :action => :new, :last_repo_id => id if params.has_key?(:plus_one)
             
                   redirect_to :controller => :repositories, :action => :show, :id => id
@@ -45,7 +45,7 @@ class RepositoriesController < ApplicationController
                 :on_valid => ->(id){
                   MemoryLeak::Resources.refresh(:repository)
 
-                  flash[:success] = I18n.t("repository._html.messages.updated")
+                  flash[:success] = I18n.t("repository._html.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
                   redirect_to :controller => :repositories, :action => :show, :id => id
                 })
   end
@@ -60,7 +60,7 @@ class RepositoriesController < ApplicationController
     session[:repo] = selected.uri
     session[:repo_id] = selected.id
 
-    flash[:success] = I18n.t("repository._html.messages.changed", :repo_code => selected.repo_code)
+    flash[:success] = I18n.t("repository._html.messages.changed", JSONModelI18nWrapper.new(:repository => selected))
 
     redirect_to :root
   end

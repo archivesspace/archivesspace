@@ -60,13 +60,13 @@
   ></div>
 
   <script>
-    AS.tree_data = <%= @tree.to_json.html_safe %>;
+    AS.tree_data = $.parseJSON('<%= j(@tree.to_json.html_safe) %>');
   </script>
 
   <div id="tree_template"><!--
        {macro render_node_link(node)}
           <a href="#tree::${node.node_type}_${node.id}" title="${AS.encodeForAttribute(node.title)}">
-            ${node.title}
+            ${node.title|h}
             {if node.level}<span class="badge">${node.level}</span>{/if}
           </a>
        {/macro}

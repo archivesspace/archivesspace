@@ -39,7 +39,15 @@
             <% if @accession.suppressed %>
               <div class="btn-group">
                 <div class="btn btn-small btn-inline-form">
-                  <%= button_to I18n.t("actions.unsuppress"), {:controller => :accessions, :action => :unsuppress, :id => @accession.id}, :method => :post, :class => "btn btn-small btn-primary unsuppress-record",  :"data-confirmation" => true, :"data-title" => I18n.t("actions.unsuppress_confirm_title"), :"data-message" => I18n.t("actions.unsuppress_confirm_message"), :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}" %>
+                  <%= button_to I18n.t("actions.unsuppress"),
+                       {:controller => :accessions, :action => :unsuppress, :id => @accession.id},
+                       :method => :post,
+                       :class => "btn btn-small btn-primary unsuppress-record",
+                       :"data-confirmation" => true,
+                       :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
+                       :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
+                       :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
+                  %>
                 </div>
               </div>
             <% else %>
