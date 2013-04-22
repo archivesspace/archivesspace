@@ -261,6 +261,11 @@ module AspaceFormHelper
         value << "</small></label>".html_safe
       end
 
+      inline_help = I18n.t("#{i18n_for(name)}_inline_help", :default => '')
+      if !inline_help.empty?
+        value << "<span class=\"help-inline\">#{inline_help}</span>".html_safe
+      end
+
       value
     end
 

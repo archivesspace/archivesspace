@@ -328,7 +328,14 @@ en:
     outcome_note: Outcome Note
     outcome_note_tooltip: |
         <p>A detailed description of the result or product of the event. This may be used to record all error and warning messages issued by a program involved in the event or to record a pointer to an error log.</p>
-    date: Event Date
+    date: Event Date/Time
+    date_type: Event type
+    timestamp: UTC Timestamp
+    timestamp_inline_help: YYYY-MM-DD HH:MM:SS
+    chronotype_label: Date/Time specifier
+    chronotype:
+      subrecord: Date Subrecord
+      timestamp: UTC Timestamp
     date_tooltip: |
         <p>The single date and time, or date and time range, at or during which the event occurred.</p>
         <p>If the single date/time or start or end date/time is unknown, enter "unknown" in the Date Expression field.</p>

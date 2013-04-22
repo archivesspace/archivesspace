@@ -15,10 +15,16 @@
 
 <section id="event_date">
   <h3><%= I18n.t("event.date") %></h3>
-  <%= form.fields_for(@event.date || {}, "date") do | date | %>
-    <% render :partial => "dates/template", :locals => {:form => form} %>
-    <% form.emit_template("date") %>
-  <% end %>
+  <%= form.label_and_select "chronotype_label", ['subrecord', 'timestamp'].map{|t| [I18n.t("event.chronotype.#{t}"), t]}, 'required' => true %>
+  <div id="chronotype_timestamp" class="chronotype_form">
+    <%= form.label_and_textfield "timestamp" %>
+  </div>
+  <div id="chronotype_subrecord" class="chronotype_form">
+    <%= form.fields_for(@event.date || {}, "date") do | date | %>
+      <% render :partial => "dates/template", :locals => {:form => form} %>
+      <% form.emit_template("date") %>
+    <% end %>
+  </div>
 </section>
 
 
