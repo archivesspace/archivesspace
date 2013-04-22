@@ -82,7 +82,7 @@ module JSONModel::Validations
       et << '-31' if et !~ /\-\d\d\-\d\d/
       et << "T23:59:59+00:00"
 
-      errors << ["end", "must not be before begin"] if et < bt
+      errors << ["end", "must not be before begin"] if Time.parse(et) < Time.parse(bt)
     end
 
     errors
