@@ -16,6 +16,31 @@ if defined?(Bundler)
 end
 
 module ArchivesSpace
+
+  if Rails::VERSION::STRING == "3.2.13"
+    class Rails::Application < Rails::Engine
+      # Workaround for bug:
+      #
+      #   https://github.com/rails/rails/issues/4652
+      #
+      # This has been fixed upstream, so this workaround can go once this lands
+      # in a Rails release:
+      #
+      #   https://github.com/rails/rails/issues/4652
+      #
+      def env_config
+        @app_env_config ||= super.merge({
+                                          "action_dispatch.parameter_filter" => config.filter_parameters,
+                                          "action_dispatch.secret_token" => config.secret_token,
+                                          "action_dispatch.show_exceptions" => config.action_dispatch.show_exceptions,
+                                          "action_dispatch.show_detailed_exceptions" => config.consider_all_requests_local,
+                                          "action_dispatch.logger" => Rails.logger,
+                                          "action_dispatch.backtrace_cleaner" => Rails.backtrace_cleaner
+                                        })
+      end
+    end
+  end
+
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
