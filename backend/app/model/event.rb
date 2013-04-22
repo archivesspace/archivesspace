@@ -77,4 +77,31 @@ class Event < Sequel::Model(:event)
     json
   end
 
+
+  def self.for_component_transfer(source_resource_uri, target_resource_uri)
+    # first get the current user
+    user = User[:username => RequestContext.get(:current_username)]
+
+    # build event
+    event = JSONModel(:event).from_hash({
+                                          "event_type" => "component_transfer",
+                                          "date" => {
+                                            "label" => "modified",
+                                            "date_type" => "single",
+                                            "begin" => Time.now.strftime("%Y-%m-%d"),
+                                            "begin_time" => Time.now.strftime("%H:%M:%S"),
+                                          },
+                                          "linked_records" => [
+                                            {"role" => "source", "ref" => source_resource_uri},
+                                            {"role" => "outcome", "ref" => target_resource_uri},
+                                          ],
+                                          "linked_agents" => [
+                                            {"role" => "implementer", "ref" => JSONModel(:agent_person).uri_for(user.agent_record_id)}
+                                          ]
+                                        })
+
+    # save the event to the DB in the global context
+    self.create_from_json(event, :system_generated => true)
+  end
+
 end

@@ -45,27 +45,11 @@ module ComponentTransfer
     obj.update_from_json(json, {}, false)
 
     # generate an event to mark this component transfer
-    # first get the current user
-    user = User[:username => RequestContext.get(:current_username)]
-    # build the event
-    event = JSONModel(:event).from_hash({
-      "event_type" => "component_transfer",
-      "date" => {
-        "label" => "modified",
-        "date_type" => "single",
-        "begin" => Time.now.strftime("%Y-%m-%d"),
-        "begin_time" => Time.now.strftime("%H:%M:%S"),
-      },
-      "linked_records" => [
-        {"role" => "source", "ref" => source_resource_uri},
-        {"role" => "outcome", "ref" => target_resource_uri},
-      ],
-      "linked_agents" => [
-        {"role" => "implementer", "ref" => JSONModel(:agent_person).uri_for(user.agent_record_id)}
-      ]
-    })
-    # save the event to the DB in the global context
-    Event.create_from_json(event)
+    Event.for_component_transfer(source_resource_uri, target_resource_uri)
+
+    # refresh obj as lock version would have been incremented
+    # after the event was created
+    obj.refresh
 
     obj
   end
