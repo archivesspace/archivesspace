@@ -70,7 +70,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
     self.class.participating_models.each {|model|
       self.class._reference_columns_for(model).each {|column|
         if self[column] && (model != obj.class || self[column] != obj.id)
-          return model[self[column]]
+          return model.respond_to?(:any_repo) ? model.any_repo[self[column]] : model[self[column]]
         end
       }
     }

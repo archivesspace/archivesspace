@@ -23,7 +23,7 @@ class ExportsController < ApplicationController
         self.response_body = Enumerator.new do |y|
           xml_response(request_uri) do |chunk, percent|
             Rails.logger.debug("#{percent} complete")
-            y << chunk
+            y << chunk if !chunk.blank?
           end
         end  
       }
