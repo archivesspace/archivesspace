@@ -1454,6 +1454,7 @@ en:
     email: Email
     email_signature: Email Signature
     url: Home Page URL
+    contact_persons: Contact Persons
     image_url: Branding Image URL
     image_url_tooltip: |
         <p>A URL or other file location identifier referencing a file that contains a branding device to be used in the repository's online finding aids. A typical branding device is a university seal or logo.</p>
