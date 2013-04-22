@@ -247,4 +247,7 @@ eof
   end
 
 
+  def self.blobify(s)
+    (@pool.database_type == :derby) ? s.to_sequel_blob : s
+  end
 end

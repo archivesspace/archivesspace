@@ -202,10 +202,10 @@ describe 'Archival Object controller' do
   end
 
 
-  it "can store some notes and get them back" do
+  it "can store some (really long!) notes and get them back" do
     archival_object = create(:json_archival_object)
 
-    notes = build(:json_note_bibliography)
+    notes = build(:json_note_bibliography, 'content' => ["x" * 40000])
 
     archival_object.notes = [notes]
     archival_object.save
