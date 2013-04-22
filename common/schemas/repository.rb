@@ -23,7 +23,7 @@
       "email_signature" => {"type" => "string", "maxLength" => 255},
       "url" => {"type" => "string", "maxLength" => 255, "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
       "image_url" => {"type" => "string", "maxLength" => 255, "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
-      
+      "contact_persons" => {"type" => "string", "maxLength" => 65000},
       
     },
 

@@ -177,6 +177,7 @@ Sequel.migration do
       String :email_signature
       String :url
       String :image_url
+      TextField :contact_persons
 
       Integer :hidden, :default => 0
 
