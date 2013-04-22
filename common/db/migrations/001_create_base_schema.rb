@@ -937,6 +937,8 @@ Sequel.migration do
       DynamicEnum :outcome_id, :null => true
       String :outcome_note, :null => true
 
+      DateTime :timestamp, :null => true
+
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
     end

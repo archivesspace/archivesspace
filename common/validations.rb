@@ -1,3 +1,5 @@
+require 'time'
+
 module JSONModel::Validations
   extend JSONModel
 
@@ -268,6 +270,32 @@ module JSONModel::Validations
     JSONModel(:archival_object).add_validation("check_archival_object") do |hash|
       check_archival_object(hash)
     end
+  end
+
+
+  JSONModel(:event).add_validation("check_event") do |hash|
+    errors = []
+
+    if hash.has_key?("date") && hash.has_key?("timestamp")
+      errors << ["date", "Can't specify both a date and a timestamp"]
+      errors << ["timestamp", "Can't specify both a date and a timestamp"]
+    end
+
+    if !hash.has_key?("date") && !hash.has_key?("timestamp")
+      errors << ["date", "Must specify either a date or a timestamp"]
+      errors << ["timestamp", "Must specify either a date or a timestamp"]
+    end
+
+    if hash["timestamp"]
+      # Make sure we can parse it
+      begin
+        Time.parse(hash["timestamp"])
+      rescue ArgumentError
+        errors << ["timestamp", "Must be an ISO8601-formatted string"]
+      end
+    end
+
+    errors
   end
 
 end
