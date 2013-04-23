@@ -71,6 +71,23 @@ end
 
 def run_tests(opts)
 
+  test_user = "testuser_#{Time.now.to_i}_#{$$}"
+
+  puts "Create a test user"
+  r = do_post({:username => test_user, :name => test_user}.to_json,
+              url("/users?password=testuser"))
+  r[:body]['status'] == 'Created' or fail("Test user creation", r)
+
+
+  puts "Check local username completion"
+  r = do_get(url("/users/complete?query=#{test_user}"))
+  r[:body].first == test_user or fail("Local username completion", r)
+
+  puts "Check local username completion excludes system users"
+  r = do_get(url("/users/complete?query=admin"))
+  !r[:body].include?("admin") or fail("Local username completion excludes system users", r)
+
+
   puts "Create an admin session"
   r = do_post(URI.encode_www_form(:password => "admin"),
               url("/users/admin/login?expiring=false"))
@@ -208,6 +225,11 @@ def run_tests(opts)
 
     r = do_get(url(r[:body]["user"]["uri"]))
     (r[:body]['name'] == 'Mark Triggs') or fail("User attributes from LDAP", r)
+
+
+    puts "Check username completion"
+    r = do_get(url("/users/complete?query=mark"))
+    r[:body].first == "marktriggs" or fail("LDAP username completion", r)
   end
 
 

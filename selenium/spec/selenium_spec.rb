@@ -232,6 +232,12 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "can get a list of usernames matching a string" do
+      $driver.get(URI.join($frontend, "/users/complete?query=#{URI.escape(@user)}"))
+      $driver.page_source.should match(/#{@user}/)
+      $driver.get(URI.join($frontend))
+    end
+
     it "can log out of the admin account" do
       logout
     end

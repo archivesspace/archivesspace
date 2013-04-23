@@ -62,6 +62,13 @@ class AuthenticationManager
   end
 
 
+  def self.matching_usernames(query)
+    authentication_sources.map {|source|
+      source.matching_usernames(query)
+    }.flatten(1).sort.uniq
+  end
+
+
   ArchivesSpaceService.loaded_hook do
     # Fire this at load time to sanity check our source definitions
     self.authentication_sources

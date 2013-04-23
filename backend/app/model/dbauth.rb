@@ -42,4 +42,19 @@ class DBAuth
       end
     end
   end
+
+
+  def self.matching_usernames(query)
+    DB.open do |db|
+      query = query.gsub(/[%]/, '').downcase
+      db[:auth_db].left_outer_join(:user, :username => :username).
+                   filter(Sequel.~(:is_system_user => 1)).
+                   filter(Sequel.like(Sequel.function(:lower, :auth_db__username),
+                                      "#{query}%")).
+        select(:auth_db__username).
+        limit(AppConfig[:max_usernames_per_source].to_i).
+        map {|row| row[:username]}
+    end
+  end
+
 end

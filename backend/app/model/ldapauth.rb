@@ -78,6 +78,17 @@ class LDAPAuth
 
       JSONModel(:user).from_hash(attributes.merge(:username => username))
     end
-
   end
+
+
+  def matching_usernames(query)
+    bind
+
+    filter = Net::LDAP::Filter.begins(@username_attribute, query)
+
+    @connection.search(:base => @base_dn, :filter => filter).map {|entry|
+      entry[@username_attribute].first
+    }[0..AppConfig[:max_usernames_per_source].to_i]
+  end
+
 end

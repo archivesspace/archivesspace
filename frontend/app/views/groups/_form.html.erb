@@ -1,21 +1,20 @@
 <%= form.label_and_textfield "description" %>
 
-<div class="control-group">
+<div class="control-group group-member-control-group">
   <label for="group_member_usernames_" class="control-label"><%= I18n.t("group.member_usernames") %></label>
   <div class="controls">
+    <div class="member-toolbar">
+      <div class="input-append">
+        <input id="new-member" class="input-medium" type="text" autocomplete="off" placeholder="Username" />
+        <button id="add-new-member" class="btn btn-small"><%= I18n.t("actions.add") %></button>
+      </div>
+      <button id="remove-member" class="btn btn-small" disabled="disabled"><%= I18n.t("actions.remove") %></button>
+    </div>
     <select id="<%= form.id_for("member_usernames") %>" multiple="multiple">
       <% (@group.member_usernames or []).each do |username| %>
       <option class="group-member" value="<%= username %>"><%= username %></option>
       <% end %>
     </select>
-    <button id="remove-member" style="display: none;" class="btn btn-small"><%= I18n.t("actions.remove") %></button>
-  </div>
-</div>
-
-<div class="control-group">
-  <div class="controls">
-    <input id="new-member" class="input-medium" type="text" placeholder="Username" />
-    <button id="add-new-member" class="btn btn-small"><%= I18n.t("actions.add") %></button>
   </div>
 </div>
 

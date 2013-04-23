@@ -17,8 +17,11 @@ $(function() {
 
   var addNewMember = function(e) {
     // Only interested in events on the input box if they've hit enter.
+    // If the typeahead is visible, then select that item rather than
+    // add what is typed.  User can 'esc' to close the typeahead, and then
+    // hit return/tab to the button to add the custom userid.
     if ($(e.target).attr("id") == "new-member") {
-      if ((e.keyCode || e.which) != 13) {
+      if (((e.keyCode || e.which) != 13) || $(".typeahead.dropdown-menu", ".member-toolbar").length) {
         return;
       }
     }
@@ -42,6 +45,7 @@ $(function() {
     e.preventDefault();
 
     $(':selected', "#group_member_usernames_").remove();
+    $("#remove-member").attr("disabled","disabled");
   };
 
 
@@ -73,10 +77,57 @@ $(function() {
 
   $("#group_member_usernames_").change(function (e) {
     if ($(':selected', e.target).length > 0) {
-      $("#remove-member").show();
+      $("#remove-member").removeAttr("disabled");
     } else {
-      $("#remove-member").hide();
+      $("#remove-member").attr("disabled","disabled");
     }
   });
+
+
+
+  // Don't fire a request for *every* keystroke.  Wait until they stop
+  // typing for a moment.
+  var username_typeahead = (function () {
+    var queued_requests = [];
+    var timer = undefined;
+
+    var startTimer = function () {
+      if (timer) {
+        clearTimeout(timer);
+      }
+
+      timer = setTimeout(function () {
+        var last_request = queued_requests.pop();
+        queued_requests = [];
+
+        $.ajax({
+          url: APP_PATH + "users/complete",
+          data: {query: last_request.query},
+          type: "GET",
+          success: function(usernames) {
+            last_request.process(usernames)
+          },
+          error: function() {
+            last_request.process([])
+          }
+        });
+
+      }, 200);
+    };
+
+
+    return {
+      handle: function (query, process) {
+        queued_requests.push({query: query, process: process});
+        startTimer();
+      }
+    };
+  }());
+
+  $("#new-member").typeahead({
+          source: function(query, process) {
+            username_typeahead.handle(query, process);
+          }
+        });
 
 });

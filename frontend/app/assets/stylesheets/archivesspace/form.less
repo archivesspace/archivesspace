@@ -616,3 +616,26 @@ ul.subrecord-form-list {
     #gradient > .vertical(#F3F3F3, #EDEDED);
   }
 }
+
+.group-member-control-group {
+  .member-toolbar {
+    float: left;
+    background-color: #F3F3F3;
+    padding: 4px;
+    width: 300px;
+    .border-radius(@inputBorderRadius @inputBorderRadius 0 0);
+    border: 1px solid @inputBorder;
+    border-bottom: none;
+
+
+    #new-member {
+      padding: 2px 4px;
+    }
+  }
+  #group_member_usernames_ {
+    clear: both;
+    display: block;
+    width: 310px;
+    .border-radius(0 0 @inputBorderRadius @inputBorderRadius);
+  }
+}
