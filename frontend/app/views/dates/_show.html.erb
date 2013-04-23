@@ -15,20 +15,20 @@
               <span class="icon-chevron-down"></span>
             </div>
             <div class="span2">
-              <%= I18n.t("date.label_#{date['label']}") %>
+              <%= I18n.t("enumerations.date_label.#{date['label']}") %>
             </div>
             <div class="span6">
               <!--https://www.pivotaltracker.com/story/show/41527633 -->
               <% if date['expression'] %>
                 <%= date['expression']%>
               <% elsif date['date_type'] === "single" %>
-                <%= date['begin'] %> <%= date['begin_time'] %>
+                <%= date['begin'] %>
               <% elsif date['date_type'] %>
-                <%= date['begin'] %> <%= date['begin_time'] %> &ndash; <%= date['end'] %> <%= date['end_time'] %>
+                <%= date['begin'] %> &ndash; <%= date['end'] %>
               <% end %>
             </div>
             <div class="span3">
-              <% if date['certainty']%><%= I18n.t("date.certainty#{date['certainty']}") %><% end %>
+              <% if date['certainty']%><%= I18n.t("enumerations.date_certainty.#{date['certainty']}") %><% end %>
             </div>
           </div>
         </div>

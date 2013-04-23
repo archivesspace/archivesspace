@@ -1,3 +1,5 @@
+require 'time'
+
 class Event < Sequel::Model(:event)
 
   include ASModel
@@ -62,6 +64,17 @@ class Event < Sequel::Model(:event)
     save
 
     suppress
+  end
+
+
+  def self.sequel_to_jsonmodel(obj, opts = {})
+    json = super
+
+    if json['timestamp']
+      json['timestamp'] = json['timestamp'].iso8601
+    end
+
+    json
   end
 
 end

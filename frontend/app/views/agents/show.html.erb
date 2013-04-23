@@ -86,7 +86,7 @@
           <%= render :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly } %>
         <% end %>
 
-        <% if @agent.related_agents.length > 0 %>
+        <% if !@agent['related_agents'].blank? %>
           <%= render :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly } %>
         <% end %>
 

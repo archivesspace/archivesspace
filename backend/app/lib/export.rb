@@ -86,8 +86,10 @@ module ExportHelpers
     # Events related to the 'maintenance history' of this agent record
     RequestContext.open(:repo_id => 1) do
       Event.instances_relating_to(obj).each do |e|
-        res = resolve_references(Event.to_jsonmodel(e), ['linked_agents'])
-        events << JSONModel(:event).new(res)
+        if obj[:repo_id] == RequestContext.get(:repo_id)
+          res = resolve_references(Event.to_jsonmodel(e), ['linked_agents'])
+          events << JSONModel(:event).new(res)
+        end
       end
     end
     

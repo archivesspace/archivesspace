@@ -915,9 +915,7 @@ Sequel.migration do
       DynamicEnum :certainty_id, :null => true
       String :expression, :null => true
       String :begin, :null => true
-      String :begin_time, :null => true
       String :end, :null => true
-      String :end_time, :null => true
       DynamicEnum :era_id, :null => true
       DynamicEnum :calendar_id, :null => true
 
@@ -938,6 +936,8 @@ Sequel.migration do
       DynamicEnum :event_type_id, :null => false
       DynamicEnum :outcome_id, :null => true
       String :outcome_note, :null => true
+
+      DateTime :timestamp, :null => true
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
@@ -1336,7 +1336,7 @@ Sequel.migration do
     create_enum("container_location_status", ["current", "previous"], "current")
 
     create_enum("date_type", ["single", "bulk", "inclusive"])
-    create_enum("date_label", ["broadcast", "copyright", "creation", "deaccession", "digitized", "issued", "modified", "publication", "agent_relation", "other"])
+    create_enum("date_label", ["broadcast", "copyright", "creation", "deaccession", "digitized", "event", "issued", "modified", "publication", "agent_relation", "other"])
     create_enum("date_certainty", ["approximate", "inferred", "questionable"])
 
     create_enum("deaccession_scope", ["whole", "part"], "whole")

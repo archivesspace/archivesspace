@@ -22,9 +22,9 @@
               <% if deaccession["date"]['date_type'] === "expression" %>
                 <%= deaccession["date"]['expression'] %>
               <% elsif deaccession["date"]['date_type'] === "single" %>
-                <%= deaccession["date"]['begin'] %> <%= deaccession["date"]['begin_time'] %>
+                <%= deaccession["date"]['begin'] %>
               <% else %>
-                <%= deaccession["date"]['begin'] %> <%= deaccession["date"]['begin_time'] %> &ndash; <%= deaccession["date"]['end'] %> <%= deaccession["date"]['end_time'] %>
+                <%= deaccession["date"]['begin'] %> &ndash; <%= deaccession["date"]['end'] %>
               <% end %>
             </div>
             <div class="span7">

@@ -328,7 +328,14 @@ en:
     outcome_note: Outcome Note
     outcome_note_tooltip: |
         <p>A detailed description of the result or product of the event. This may be used to record all error and warning messages issued by a program involved in the event or to record a pointer to an error log.</p>
-    date: Event Date
+    date: Event Date/Time
+    date_type: Event type
+    timestamp: UTC Timestamp
+    timestamp_inline_help: YYYY-MM-DD HH:MM:SS
+    chronotype_label: Date/Time specifier
+    chronotype:
+      subrecord: Date Subrecord
+      timestamp: UTC Timestamp
     date_tooltip: |
         <p>The single date and time, or date and time range, at or during which the event occurred.</p>
         <p>If the single date/time or start or end date/time is unknown, enter "unknown" in the Date Expression field.</p>
@@ -1023,18 +1030,12 @@ en:
         <p>See DACS 2.4.7-2.4.16</p>
         <p>A.D. years are expressed with four digits.</p>
         <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
-    begin_time: Begin Time
-    begin_time_tooltip: |
-        <p>Normalized time information (in the form HH:MM:SS) associated with a single date or the first date in a date range.</p>
     end: End
     end_tooltip: |
         <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the second date in a date range.</p>
         <p>See DACS 2.4.7-2.4.16</p>
         <p>A.D. years are expressed with four digits.</p>
         <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
-    end_time: End Time
-    end_time_tooltip: |
-        <p>Normalized time information (in the form HH:MM:SS) associated with a single date or the first date in a date range.</p>
     certainty: Certainty
     era: Era
     era_tooltip: |

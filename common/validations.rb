@@ -1,3 +1,5 @@
+require 'time'
+
 module JSONModel::Validations
   extend JSONModel
 
@@ -68,21 +70,19 @@ module JSONModel::Validations
     elsif hash["date_type"] === "inclusive" || hash["date_type"] === "bulk"
       errors << ["begin", "is required"] if hash["begin"].nil?
       errors << ["end", "is required"] if hash["end"].nil?
-      errors << ["begin_time", "is required"] if not hash["end_time"].nil? and hash["begin_time"].nil?
-      errors << ["end_time", "is required"] if not hash["begin_time"].nil? and hash["end_time"].nil?
 
       # check that end isn't before begin
       # need to expand to full date+time - choosing to use rfc3339, though just doing a string compare
       bt = "#{hash["begin"]}"
       2.times { bt << '-01' if bt !~ /\-\d\d\-\d\d/ }
-      bt << "T#{hash["begin_time"] || '00:00:00'}+00:00"
+      bt << "T00:00:00+00:00"
 
       et = "#{hash["end"]}"
       et << '-12' if et !~ /\-\d\d/
       et << '-31' if et !~ /\-\d\d\-\d\d/
-      et << "T#{hash["end_time"] || '23:59:59'}+00:00"
+      et << "T23:59:59+00:00"
 
-      errors << ["end", "must not be before begin"] if et < bt
+      errors << ["end", "must not be before begin"] if Time.parse(et) < Time.parse(bt)
     end
 
     errors
@@ -270,6 +270,32 @@ module JSONModel::Validations
     JSONModel(:archival_object).add_validation("check_archival_object") do |hash|
       check_archival_object(hash)
     end
+  end
+
+
+  JSONModel(:event).add_validation("check_event") do |hash|
+    errors = []
+
+    if hash.has_key?("date") && hash.has_key?("timestamp")
+      errors << ["date", "Can't specify both a date and a timestamp"]
+      errors << ["timestamp", "Can't specify both a date and a timestamp"]
+    end
+
+    if !hash.has_key?("date") && !hash.has_key?("timestamp")
+      errors << ["date", "Must specify either a date or a timestamp"]
+      errors << ["timestamp", "Must specify either a date or a timestamp"]
+    end
+
+    if hash["timestamp"]
+      # Make sure we can parse it
+      begin
+        Time.parse(hash["timestamp"])
+      rescue ArgumentError
+        errors << ["timestamp", "Must be an ISO8601-formatted string"]
+      end
+    end
+
+    errors
   end
 
 end
