@@ -68,6 +68,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/users/complete')
+    .description("Get a list of system users")
+    .params(["query", String, "A prefix to search for"])
+    .permissions([])
+    .returns([200, "A list of usernames"]) \
+  do
+    usernames = AuthenticationManager.matching_usernames(params[:query])
+
+    json_response(usernames)
+  end
+
+
   Endpoint.get('/users/:id')
     .description("Get a user's details (including their current permissions)")
     .params(["id", Integer, "The username id to fetch"])
