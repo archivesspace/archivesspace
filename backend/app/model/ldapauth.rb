@@ -88,7 +88,7 @@ class LDAPAuth
 
     @connection.search(:base => @base_dn, :filter => filter).map {|entry|
       entry[@username_attribute].first
-    }
+    }[0..AppConfig[:max_usernames_per_source].to_i]
   end
 
 end

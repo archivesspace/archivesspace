@@ -51,7 +51,9 @@ class DBAuth
                    filter(Sequel.~(:is_system_user => 1)).
                    filter(Sequel.like(Sequel.function(:lower, :auth_db__username),
                                       "#{query}%")).
-        select(:auth_db__username).all.map {|row| row[:username]}
+        select(:auth_db__username).
+        limit(AppConfig[:max_usernames_per_source].to_i).
+        map {|row| row[:username]}
     end
   end
 

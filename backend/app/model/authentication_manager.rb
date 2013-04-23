@@ -65,7 +65,7 @@ class AuthenticationManager
   def self.matching_usernames(query)
     authentication_sources.map {|source|
       source.matching_usernames(query)
-    }.flatten(1)
+    }.flatten(1).sort
   end
 
 

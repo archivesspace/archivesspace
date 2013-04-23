@@ -51,5 +51,7 @@ AppConfig[:realtime_index_backlog_ms] = 60000
 AppConfig[:notifications_backlog_ms] = 60000
 AppConfig[:notifications_poll_frequency_ms] = 1000
 
+AppConfig[:max_usernames_per_source] = 50
+
 # Report Configuration
 AppConfig[:report_page_size] = "A4"
