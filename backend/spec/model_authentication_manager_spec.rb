@@ -16,6 +16,12 @@ class MockAuthenticationSource
     end
   end
 
+
+  def matching_usernames(query)
+    @opts[:users].keys.select {|username| username =~ /^#{query}/}
+  end
+
+
   def name
     "MockAuthenticationSource"
   end
@@ -72,6 +78,22 @@ describe 'Authentication manager' do
       threads.map(&:value).flatten.find_all(&:nil?).count.should eq(0)
     end
 
+  end
+
+
+  context "Search" do
+    before(:each) do
+      AppConfig[:authentication_sources] = [auth_source]
+    end
+
+
+    it "can find a matching user" do
+      AuthenticationManager.matching_usernames("hel").should eq(["hello"])
+    end
+
+    it "can handle no matches" do
+      AuthenticationManager.matching_usernames("garbage").should eq([])
+    end
   end
 
 
