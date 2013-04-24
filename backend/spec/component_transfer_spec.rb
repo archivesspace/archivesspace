@@ -102,6 +102,23 @@ describe "Resource Component Transfer Endpoint" do
     
     tree.children.length.should eq(2)
   end
+
+
+  it "creates an Event to mark the transfer" do
+    archival_object = create(:json_archival_object, :resource => {:ref => @resource_alpha.uri})
+
+    response = transfer(@resource_beta, archival_object)
+    transfer_result = ASUtils.json_parse(response.body)
+
+    event = JSONModel(:event).find_by_uri(transfer_result['event'])
+
+    event.event_type.should eq("component_transfer")
+    event.linked_records.length.should eq(3)
+    event.linked_records.select{|link| link["role"] === "source"}.first["ref"].should eq(@resource_alpha.uri)
+    event.linked_records.select{|link| link["role"] === "outcome"}.first["ref"].should eq(@resource_beta.uri)
+    event.linked_records.select{|link| link["role"] === "transfer"}.first["ref"].should eq(archival_object.uri)
+    event.date["label"].should eq("event")
+  end
   
   
 end

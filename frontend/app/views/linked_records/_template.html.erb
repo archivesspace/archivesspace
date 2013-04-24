@@ -8,7 +8,7 @@
 <% define_template "linked_record", jsonmodel_definition(:event) do |form| %>
   <div class="subrecord-form-fields">
     <% if target_object_type === "event" %>
-      <%= form.label_and_select("role", form.possible_options_for(["linked_records", "role"], true)) %>
+      <%= form.label_and_select("role", form.possible_options_for(["linked_records", "role"], true), 'required' => true) %>
     <% end %>
     <%= render :partial => "#{target_object_type.pluralize}/record_linker", :locals => {:form => form} %>
   </div>

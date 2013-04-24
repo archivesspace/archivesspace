@@ -1005,6 +1005,8 @@ describe "ArchivesSpace user interface" do
       token_input.send_keys("Geddy")
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
+      $driver.find_element(:id, "event_linked_records__0__role_").select_option('source')
+
       record_subform = $driver.find_element(:id, "event_linked_records__0__role_").
                                nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
@@ -1015,6 +1017,11 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
       $driver.find_element(:css => "form#new_event button[type='submit']").click
+
+      # Success!
+      assert(5) {
+        $driver.find_element_with_text('//div', /Event Created/).should_not be_nil
+      }
     end
   end
 

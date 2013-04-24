@@ -12,8 +12,8 @@ module ComponentTransfer
     def component_transfer_response(resource_uri, archival_object_uri)
 
       begin
-        ComponentTransfer.transfer(resource_uri, archival_object_uri)
-        json_response({:component => archival_object_uri, :resource => resource_uri}, 200)
+        (ao, event) = ComponentTransfer.transfer(resource_uri, archival_object_uri)
+        json_response({:component => archival_object_uri, :resource => resource_uri, :event => event.uri}, 200)
 
       end
     end
@@ -45,13 +45,14 @@ module ComponentTransfer
     obj.update_from_json(json, {}, false)
 
     # generate an event to mark this component transfer
-    Event.for_component_transfer(source_resource_uri, target_resource_uri)
+    event = Event.for_component_transfer(archival_object_uri, source_resource_uri, target_resource_uri)
 
     # refresh obj as lock version would have been incremented
     # after the event was created
     obj.refresh
 
-    obj
+    # let's return the transferred object and the event
+    [obj, event]
   end
     
     

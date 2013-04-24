@@ -78,7 +78,11 @@ class Event < Sequel::Model(:event)
   end
 
 
-  def self.for_component_transfer(source_resource_uri, target_resource_uri)
+  #
+  # Some canned creators for system generated events
+  #
+
+  def self.for_component_transfer(archival_object_uri, source_resource_uri, target_resource_uri)
     # first get the current user
     user = User[:username => RequestContext.get(:current_username)]
 
@@ -86,7 +90,7 @@ class Event < Sequel::Model(:event)
     event = JSONModel(:event).from_hash({
                                           "event_type" => "component_transfer",
                                           "date" => {
-                                            "label" => "modified",
+                                            "label" => "event",
                                             "date_type" => "single",
                                             "begin" => Time.now.strftime("%Y-%m-%d"),
                                             "begin_time" => Time.now.strftime("%H:%M:%S"),
@@ -94,6 +98,7 @@ class Event < Sequel::Model(:event)
                                           "linked_records" => [
                                             {"role" => "source", "ref" => source_resource_uri},
                                             {"role" => "outcome", "ref" => target_resource_uri},
+                                            {"role" => "transfer", "ref" => archival_object_uri},
                                           ],
                                           "linked_agents" => [
                                             {"role" => "implementer", "ref" => JSONModel(:agent_person).uri_for(user.agent_record_id)}
