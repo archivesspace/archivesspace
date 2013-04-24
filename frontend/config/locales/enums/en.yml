@@ -319,8 +319,6 @@ en:
       processing: Processing
       publication: Publication
       replication: Replication
-      resource_merge: Resource Merge
-      resource_component_transfer: Resource Component Transfer
       validation: Validation
       virus_check: Virus Check
     resource_resource_type:
