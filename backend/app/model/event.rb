@@ -89,12 +89,7 @@ class Event < Sequel::Model(:event)
     # build event
     event = JSONModel(:event).from_hash({
                                           "event_type" => "component_transfer",
-                                          "date" => {
-                                            "label" => "event",
-                                            "date_type" => "single",
-                                            "begin" => Time.now.strftime("%Y-%m-%d"),
-                                            "begin_time" => Time.now.strftime("%H:%M:%S"),
-                                          },
+                                          "timestamp" => Time.now.utc.iso8601,
                                           "linked_records" => [
                                             {"role" => "source", "ref" => source_resource_uri},
                                             {"role" => "outcome", "ref" => target_resource_uri},
@@ -107,6 +102,23 @@ class Event < Sequel::Model(:event)
 
     # save the event to the DB in the global context
     self.create_from_json(event, :system_generated => true)
+  end
+
+
+  def self.for_cataloging(agent_uri, record_uri)
+    #build event
+    event = JSONModel(:event).from_hash(
+      :linked_agents => [{:ref => agent_uri, :role => 'implementer'}],
+      :event_type => 'cataloging',
+      :timestamp => Time.now.utc.iso8601,
+      :linked_records => [{:ref => record_uri, :role => 'outcome'}]
+    )
+
+
+    # Use the global repository to capture events about global records
+    RequestContext.open(:repo_id => 1) do
+      Event.create_from_json(event, :system_generated => true)
+    end
   end
 
 end

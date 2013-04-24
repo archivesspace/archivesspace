@@ -117,7 +117,6 @@ describe "Resource Component Transfer Endpoint" do
     event.linked_records.select{|link| link["role"] === "source"}.first["ref"].should eq(@resource_alpha.uri)
     event.linked_records.select{|link| link["role"] === "outcome"}.first["ref"].should eq(@resource_beta.uri)
     event.linked_records.select{|link| link["role"] === "transfer"}.first["ref"].should eq(archival_object.uri)
-    event.date["label"].should eq("event")
   end
   
   
