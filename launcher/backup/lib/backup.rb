@@ -7,6 +7,9 @@ require_relative '../../launcher_init'
 require_relative 'trollop'
 require 'zip/zip'
 require 'tempfile'
+require 'uri'
+require 'net/http'
+
 
 class ArchivesSpaceBackup
 
@@ -61,6 +64,14 @@ class ArchivesSpaceBackup
   end
 
 
+  def create_demodb_snapshot
+    if AppConfig[:db_url] == AppConfig.demo_db_url
+      File.write(AppConfig[:demodb_snapshot_flag], "")
+      Net::HTTP.post_form(URI(URI.join(AppConfig[:backend_url], "/system/demo_db_snapshot")), {})
+    end
+  end
+
+
   def backup(output_file, do_mysqldump = false)
     output_file = File.absolute_path(output_file, ENV['ORIG_PWD'])
 
@@ -89,6 +100,7 @@ class ArchivesSpaceBackup
 
     begin
       mysql_dump = create_mysql_dump(mysql_tempfile) if do_mysqldump
+      create_demodb_snapshot
 
       Zip::ZipFile.open(output_file, Zip::ZipFile::CREATE) do |zipfile|
         add_whole_directory(solr_snapshot, zipfile)
