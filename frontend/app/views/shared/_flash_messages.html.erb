@@ -1,20 +1,20 @@
 <% if flash[:success] %>
   <div class="alert alert-success">
-    <%= flash[:success] %>
+    <%= flash[:success].force_encoding("UTF-8") %>
   </div>
 <% end %>
 <% if flash[:warning] %>
   <div class="alert alert-warning">
-    <%= flash[:warning] %>
+    <%= flash[:warning].force_encoding("UTF-8") %>
   </div>
 <% end %>
 <% if flash[:error] %>
   <div class="alert alert-error">
-    <%= flash[:error] %>
+    <%= flash[:error].force_encoding("UTF-8") %>
   </div>
 <% end %>
 <% if flash[:info] %>
   <div class="alert alert-info">
-    <%= flash[:info] %>
+    <%= flash[:info].force_encoding("UTF-8") %>
   </div>
 <% end %>

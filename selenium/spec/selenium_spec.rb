@@ -895,7 +895,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".suppress-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Suppressed') }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} suppressed") }
       assert(5) { $driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
 
       run_index_round
@@ -938,7 +938,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, ".unsuppress-record.btn").click
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Unsuppressed') }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} unsuppressed") }
     end
 
 
@@ -948,7 +948,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
       #Ensure Accession no longer exists
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Accession Deleted') }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession_title} deleted") }
 
       run_index_round
 
@@ -1071,7 +1071,7 @@ describe "ArchivesSpace user interface" do
 
       # Success!
       assert(5) {
-        $driver.find_element_with_text('//div', /Resource Created/).should_not be_nil
+        $driver.find_element_with_text('//div', /Resource A box of enraged guinea pigs created/).should_not be_nil
       }
     end
 
@@ -1201,7 +1201,7 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
       assert(5) { $driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
-      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object Saved') }
+      assert(5) { $driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object save this please updated') }
       $driver.clear_and_send_keys([:id, "archival_object_title_"], aotitle)
       $driver.find_element(:css => "form .record-pane button[type='submit']").click
     end
@@ -1277,6 +1277,7 @@ describe "ArchivesSpace user interface" do
     it "shows our newly added Resource in the browse list" do
       $driver.find_element(:link, "Browse").click
       $driver.find_element(:link, "Resources").click
+
       $driver.find_element_with_text('//td', /#{resource_title}/)
     end
 
@@ -1298,7 +1299,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
-      $driver.find_element_with_text('//div', /Resource Saved/).should_not be_nil
+      $driver.find_element_with_text('//div', /Resource #{resource_title} updated/).should_not be_nil
 
       $driver.find_element(:link, 'Finish Editing').click
     end

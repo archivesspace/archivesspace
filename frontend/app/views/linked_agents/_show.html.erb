@@ -15,7 +15,7 @@
       <% linked_agents.each_with_index do | link, index | %>
         <div class="row-fluid">
           <div class="span3 pull1">
-            <%= I18n.t("linked_agent.role_#{link["role"]}", :default => link["role"]) %>
+            <%= I18n.t("enumerations.linked_agent_role.#{link["role"]}", :default => link["role"]) %>
           </div>
           <div class="span3 pull1">
             <% if link["relator"] %>

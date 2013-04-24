@@ -313,7 +313,7 @@ module AspaceFormHelper
     def label(name, opts = {})
       options = {:class => "control-label", :for => id_for(name)}
 
-      tooltip = I18n.t("#{i18n_for(name)}_tooltip", :default => '')
+      tooltip = I18n.t_raw("#{i18n_for(name)}_tooltip", :default => '')
       if not tooltip.empty?
         options[:title] = tooltip
         options["data-placement"] = "bottom"
@@ -374,7 +374,7 @@ module AspaceFormHelper
 
     def label_with_field(name, field_html, opts = {})
       control_group_classes = "control-group"
-      control_group_classes << " required" if opts["required"] or required?(name)
+      control_group_classes << " required" if opts["required"] or opts[:required] or required?(name)
       control_group_classes << " #{opts[:control_class]}" if opts.has_key? :control_class
 
       controls_classes = "controls"

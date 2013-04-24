@@ -2,7 +2,7 @@
    <div class="modal hide" id="${id}">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>${title}</h3>
+        <h3>${title|h}</h3>
       </div>
       ${content}
    </div>
@@ -87,7 +87,7 @@
                 {else}
                   {var token_title =  AS.quickTemplate(config.format_template, json)}
                 {/if}
-               <%= render_token :label => "${token_title}",
+               <%= render_token :label => "${token_title|h}",
                                 :type => "${item.primary_type}",
                                 :uri => "${item.uri}",
                                 :inside_linker_browse => true %>
@@ -111,7 +111,7 @@
    <li id="${item.id.replace(/\//g,'_')}">
       <input type="hidden" name="${config.path}[_resolved]{if config.multiplicity != 'one'}[]{/if}" />
       <input type="hidden" name="${config.path}[${config.name}]{if config.multiplicity != 'one'}[]{/if}" value="${item.id}" />
-      <%= render_token :label => "${item.name}",
+      <%= render_token :label => "${item.name|h}",
                        :type => "${item.json.jsonmodel_type}",
                        :uri => "${item.id}",
                        :inside_token_editor => true %>

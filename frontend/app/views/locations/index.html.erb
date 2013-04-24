@@ -37,7 +37,7 @@
                 <% if location.coordinate_2_label %><div><%= location.coordinate_2_label %>: <%= location.coordinate_2_indicator %></div><% end %>
                 <% if location.coordinate_3_label %><div><%= location.coordinate_3_label %>: <%= location.coordinate_3_indicator %></div><% end %>
               </td>
-              <td> <% if location.temporary %><%= I18n.t("location.temporary_#{location.temporary}") %><% end %></td>
+              <td> <% if location.temporary %><%= I18n.t("enumerations.location_temporary.#{location.temporary}", :default => location.temporary) %><% end %></td>
               <td>
                  <div class="btn-group" style="float: right">
                    <%= link_to I18n.t("actions.view"), {:controller => :locations, :action => :show, :id => location.id}, :class => "btn btn-mini" %>
