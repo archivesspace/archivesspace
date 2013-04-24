@@ -77,4 +77,48 @@ class Event < Sequel::Model(:event)
     json
   end
 
+
+  #
+  # Some canned creators for system generated events
+  #
+
+  def self.for_component_transfer(archival_object_uri, source_resource_uri, target_resource_uri)
+    # first get the current user
+    user = User[:username => RequestContext.get(:current_username)]
+
+    # build event
+    event = JSONModel(:event).from_hash({
+                                          "event_type" => "component_transfer",
+                                          "timestamp" => Time.now.utc.iso8601,
+                                          "linked_records" => [
+                                            {"role" => "source", "ref" => source_resource_uri},
+                                            {"role" => "outcome", "ref" => target_resource_uri},
+                                            {"role" => "transfer", "ref" => archival_object_uri},
+                                          ],
+                                          "linked_agents" => [
+                                            {"role" => "implementer", "ref" => JSONModel(:agent_person).uri_for(user.agent_record_id)}
+                                          ]
+                                        })
+
+    # save the event to the DB in the global context
+    self.create_from_json(event, :system_generated => true)
+  end
+
+
+  def self.for_cataloging(agent_uri, record_uri)
+    #build event
+    event = JSONModel(:event).from_hash(
+      :linked_agents => [{:ref => agent_uri, :role => 'implementer'}],
+      :event_type => 'cataloging',
+      :timestamp => Time.now.utc.iso8601,
+      :linked_records => [{:ref => record_uri, :role => 'outcome'}]
+    )
+
+
+    # Use the global repository to capture events about global records
+    RequestContext.open(:repo_id => 1) do
+      Event.create_from_json(event, :system_generated => true)
+    end
+  end
+
 end

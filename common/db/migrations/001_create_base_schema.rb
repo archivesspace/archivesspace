@@ -1277,7 +1277,7 @@ Sequel.migration do
 
     create_editable_enum('extent_extent_type', ["cassettes", "cubic_feet", "files", "gigabytes", "leaves", "linear_feet", "megabytes", "photographic_prints", "photographic_slides", "reels", "sheets", "terabytes", "volumes"])
 
-    create_editable_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "acknowledgement_sent", "agreement_signed", "agreement_received", "agreement_sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "copyright_transfer", "custody_transfer", "deaccession", "decompression", "decryption", "deletion", "digital_signature_validation", "fixity_check", "ingestion", "message_digest_calculation", "migration", "normalization", "processing", "publication", "replication", "resource_merge", "resource_component_transfer", "validation", "virus_check"])
+    create_editable_enum('event_event_type', ["accession", "accumulation", "acknowledgement", "acknowledgement_sent", "agreement_signed", "agreement_received", "agreement_sent", "appraisal", "assessment", "capture", "cataloging", "collection", "compression", "contribution", "component_transfer", "copyright_transfer", "custody_transfer", "deaccession", "decompression", "decryption", "deletion", "digital_signature_validation", "fixity_check", "ingestion", "message_digest_calculation", "migration", "normalization", "processing", "publication", "replication", "resource_merge", "resource_component_transfer", "validation", "virus_check"])
 
     create_editable_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "page", "reel", "volume"])
 
