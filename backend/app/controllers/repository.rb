@@ -1,5 +1,94 @@
 class ArchivesSpaceService < Sinatra::Base
 
+
+  # Repositories with their agent representations
+  Endpoint.get('/repositories/with_agent/:id')
+    .description("Get a Repository by ID, including its agent representation")
+    .params(["id", Integer, "ID of the repository"])
+    .permissions([])
+    .returns([200, "(:repository_with_agent)"],
+             [404, '{"error":"Repository not found"}']) \
+  do
+    repo = Repository.to_jsonmodel(params[:id])
+    agent = nil
+
+    if repo.agent_representation_id
+      agent = AgentCorporateEntity.to_jsonmodel(repo.agent_representation_id)
+    end
+
+    json_response(JSONModel(:repository_with_agent).
+                  from_hash(:repository => repo,
+                            :agent_representation => agent,
+                            :uri => JSONModel(:repository_with_agent).uri_for(params[:id])))
+  end
+
+
+  Endpoint.post('/repositories/with_agent')
+    .description("Create a Repository with an agent representation")
+    .params(["repository_with_agent",
+             JSONModel(:repository_with_agent),
+             "The repository with agent to create",
+             :body => true])
+    .permissions([:create_repository])
+    .returns([200, :created],
+             [400, :error],
+             [403, :access_denied]) \
+  do
+    rwa = params[:repository_with_agent]
+    agent_id = nil
+
+    if rwa.agent_representation
+      agent_id = AgentCorporateEntity.create_from_json(JSONModel(:agent_corporate_entity).
+                                                       from_hash(rwa.agent_representation)).id
+    end
+
+    repo = Repository.create_from_json(JSONModel(:repository).from_hash(rwa.repository),
+                                       :agent_representation_id => agent_id)
+
+    created_response(repo, rwa)
+  end
+
+
+  Endpoint.post('/repositories/with_agent/:id')
+    .description("Update a repository with an agent representation")
+    .params(["id", Integer, "The ID of the repository to update"],
+            ["repository_with_agent",
+             JSONModel(:repository_with_agent),
+             "The repository with agent to update",
+             :body => true])
+    .permissions([:create_repository])
+    .returns([200, :updated]) \
+  do
+    rwa = params[:repository_with_agent]
+
+    repo = Repository.get_or_die(params[:id])
+    agent_representation_id = repo.agent_representation_id
+
+    if rwa.agent_representation
+      if agent_representation_id
+        # Update the existing agent
+        agent = AgentCorporateEntity.get_or_die(agent_representation_id)
+        agent.update_from_json(JSONModel(:agent_corporate_entity).
+                               from_hash(rwa.agent_representation))
+      else
+        # Create a new agent
+        agent = AgentCorporateEntity.create_from_json(JSONModel(:agent_corporate_entity).
+                                              from_hash(rwa.agent_representation))
+        agent_representation_id = agent.id
+      end
+    else
+      # Unlink the agent (if there is one)
+      agent_representation_id = nil
+    end
+
+    repo.update_from_json(JSONModel(:repository).from_hash(rwa.repository),
+                          :agent_representation_id => agent_representation_id)
+
+    updated_response(repo, rwa)
+  end
+
+
+  # Regular (unadorned) repositories
   Endpoint.post('/repositories/:id')
   .description("Update a repository")
   .params(["id", Integer, "The ID of the repository to update"],
@@ -41,5 +130,6 @@ class ArchivesSpaceService < Sinatra::Base
   do
     handle_unlimited_listing(Repository, :hidden => 0)
   end
+
 
 end
