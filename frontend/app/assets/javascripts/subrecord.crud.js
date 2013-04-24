@@ -13,42 +13,73 @@ $(function() {
 
       $this.data("form_index", $("> .subrecord-form-container .subrecord-form-fields", $this).length);
 
-      var init_subform = function() {
-        var $subform = $(this);
 
-        if ($subform.hasClass("initialised")) {
-          return;
-        }
-
-        $subform.addClass("initialised");
-
-        var removeBtn = $("<a href='javascript:void(0)' class='btn btn-mini pull-right subrecord-form-remove'><span class='icon-remove'></span></a>");
-        $subform.prepend(removeBtn);
-        removeBtn.on("click", function() {
-          AS.confirmSubFormDelete($(this), function() {
-            $subform.remove();
-            // if cardinality is zero_to_one, disabled the button if there's already an entry
-            if ($this.data("cardinality") === "zero_to_one") {
-              $("> .subrecord-form-heading > .btn", $this).removeAttr("disabled");
-            }
-            $this.parents("form:first").triggerHandler("form-changed");
-            $(document).triggerHandler("deleted.subrecord", [$this]);
-          });
-          return false;
-        });
-
-        AS.initSubRecordSorting($("ul.subrecord-form-list", $subform));
-
-        // if cardinality is zero_to_one, disabled the button if there's already an entry
-        if ($this.data("cardinality") === "zero_to_one") {
-          $("> .subrecord-form-heading > .btn", $this).attr("disabled", "disabled");
-        }
-
-        $(document).triggerHandler("init.subrecord", [$subform.data("object-name") || $this.data("object-name"), $subform]);
+      var numberOfSubRecords = function() {
+        return $(".subrecord-form-list:first li", $this).length;
       };
 
-
       var init = function() {
+
+        var init_subform = function() {
+          var $subform = $(this);
+
+          if ($subform.hasClass("initialised")) {
+            return;
+          }
+
+          $subform.addClass("initialised");
+
+          var removeBtn = $("<a href='javascript:void(0)' class='btn btn-mini pull-right subrecord-form-remove'><span class='icon-remove'></span></a>");
+          $subform.prepend(removeBtn);
+          removeBtn.on("click", function() {
+            AS.confirmSubFormDelete($(this), function() {
+              $subform.remove();
+              // if cardinality is zero_to_one, disabled the button if there's already an entry
+              if ($this.data("cardinality") === "zero_to_one") {
+                $("> .subrecord-form-heading > .btn", $this).removeAttr("disabled");
+              }
+              if (numberOfSubRecords() === 0) {
+                $asYouGo.hide();
+              }
+              $this.parents("form:first").triggerHandler("form-changed");
+              $(document).triggerHandler("deleted.subrecord", [$this]);
+            });
+            return false;
+          });
+
+          AS.initSubRecordSorting($("ul.subrecord-form-list", $subform));
+
+          // if cardinality is zero_to_one, disabled the button if there's already an entry
+          if ($this.data("cardinality") === "zero_to_one") {
+            $("> .subrecord-form-heading > .btn", $this).attr("disabled", "disabled");
+          }
+
+          $(document).triggerHandler("init.subrecord", [$subform.data("object-name") || $this.data("object-name"), $subform]);
+        };
+
+        var $asYouGo = $(".subrecord-add-as-you-go-actions", $this);
+        var initAddAsYouGoActions = function() {
+
+          if (numberOfSubRecords() === 0) {
+            $asYouGo.hide();
+          }
+
+          var btnsToReplicate = $("> .subrecord-form-heading > .btn, > .subrecord-form-heading > .custom-action > .btn", $this);
+          var fillToPercentage = 80; // fill to 80%
+
+          btnsToReplicate.each(function() {
+            var $btn = $(this);
+            var $a = $("<a href='#' class='btn btn-mini'>");
+            $a.text($btn.val().length ? $btn.val() : $btn.text());
+            $a.css("width", Math.floor(fillToPercentage / btnsToReplicate.length) + "%");
+            $a.click(function(e) {
+              e.preventDefault();
+
+              $btn.triggerHandler("click");
+            });
+            $asYouGo.append($a);
+          });
+        };
 
         var addAndInitForm = function(formHtml, $target_subrecord_list) {
           var formEl = $("<li>").append(formHtml);
@@ -70,6 +101,8 @@ $(function() {
           $(".subrecord-form:not(.initialised)",formEl).init_subrecord_form();
 
           $(document).triggerHandler("new.subrecord", [$this.data("object-name"), formEl]);
+
+          $asYouGo.fadeIn();
 
           $(":input:visible:first", formEl).focus();
 
@@ -141,6 +174,8 @@ $(function() {
             addAndInitForm(formEl, $target_subrecord_list);
           });
         };
+
+        initAddAsYouGoActions();
 
         AS.initSubRecordSorting($("ul.subrecord-form-list:first", $this));
 

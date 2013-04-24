@@ -3,6 +3,38 @@
    multipart_note_types = note_types_for(:note_multipart)
 %>
 
+<% define_template "note_type_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="control-group">
+        <label class="control-label">Note Type</label>
+        <div class="controls">
+          <select class="top-level-note-type">
+            <option></option>
+            <% note_types_for(form['jsonmodel_type']).sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="note-form-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% define_template "note_type_nil" do |form | %>
+  <div class="inline-subform">
+    <div class="control-group">
+      <div class="control-label"></div>
+      <div class="controls"><em>Please select a Note Type</em></div>
+    </div>
+  </div>
+<% end %>
+
 <% define_template "content_item" do |form, item| %>
   <div class="subrecord-form-fields"><%= form.textarea(nil, item, :class => "mixed-content") %></div>
 <% end %>
@@ -16,7 +48,7 @@
         <% form.emit_template("content_item", item) %>
       <% end %>
       <% if not form.readonly? %>
-        <button class="btn btn-mini add-content-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note.item") %></button>
+        <button class="btn btn-mini add-content-item-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note.content_item") %></button>
       <% end %>
     </div>
   </div>
@@ -76,12 +108,29 @@
   <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
 <% end %>
 
-<%
-   multipart_subnote_types = []
-   JSONModel(:note_multipart).schema['properties']['subnotes']['items']['type'].each do |item_def|
-     multipart_subnote_types.push(JSONModel.parse_jsonmodel_ref(item_def['type'])[0].to_s)
-   end
-%>
+
+<% define_template "note_multipart_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="control-group">
+        <label class="control-label">Note Type</label>
+        <div class="controls">
+          <select class="multipart-note-type">
+            <option></option>
+            <% multipart_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="note-form-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
 
 <% define_template "note_multipart", jsonmodel_definition(:note_multipart) do |form| %>
   <div class="subrecord-form-fields" data-type="note_multipart">
@@ -107,21 +156,7 @@
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <div class="btn-group pull-right">
-              <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %> <span class="caret"></span></button>
-              <ul class="dropdown-menu subrecord-selector">
-                <li>
-                  <select>
-                    <% multipart_subnote_types.sort.each do |type| %>
-                      <option value="<%= type %>"><%= I18n.t("#{type}.option") %></option>
-                    <% end %>
-                  </select>
-                </li>
-                <li class="form-actions">
-                  <button class="btn btn-small add-sub-note-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %></button>
-                </li>
-              </ul>
-            </div>
+            <button class="btn btn-small add-sub-note-btn pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -417,6 +452,8 @@
       <%= form.label_and_boolean("internal", {}, form.default_for("internal")) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
+
+      <hr/>
 
       <div class="control-group">
         <label class="control-label"><%= I18n.t("note_bibliography.items") %></label>

@@ -685,6 +685,7 @@ en:
       singular: Associative Relationship
   note:
     item: Item
+    content_item: Content Item
     note_singlepart: Single Part Note
     note_orderedlist: Ordered List
     note_multipart: Multipart Note

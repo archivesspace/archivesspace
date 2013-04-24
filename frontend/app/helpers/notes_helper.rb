@@ -60,4 +60,19 @@ module NotesHelper
 
     note_types
   end
+
+
+  def multipart_subnotes
+    note_types = {}
+
+    JSONModel(:note_multipart).schema['properties']['subnotes']['items']['type'].each do |item_def|
+      type = JSONModel.parse_jsonmodel_ref(item_def['type'])[0].to_s
+      note_types[type] = {
+        :value => type,
+        :i18n => I18n.t("#{type}.option", :default => type)
+      }
+    end
+
+    note_types
+  end
 end

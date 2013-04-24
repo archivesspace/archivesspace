@@ -3,21 +3,7 @@
 <section id="notes" class="subrecord-form">
   <h3 class="subrecord-form-heading">
     <%= I18n.t("note._html.plural") %>
-    <div class="btn-group pull-right">
-      <button class="btn btn-small  dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.add") %> <%= I18n.t("note._html.singular") %> <span class="caret"></span></button>
-      <ul class="dropdown-menu subrecord-selector">
-        <li>
-          <select>
-            <% all_note_types.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
-              <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
-            <% end %>
-          </select>
-        </li>
-        <li class="form-actions">
-          <button class="btn btn-small add-note-for-type-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note._html.singular") %></button>
-        </li>
-      </ul>
-    </div>
+    <button class="btn btn-small pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("note._html.singular") %></button>
   </h3>
   <div class="subrecord-form-container">
     <%= form.list_for(form["notes"], "notes[]") do |note| %>
