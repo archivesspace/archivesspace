@@ -36,7 +36,7 @@ $(function() {
 
         $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": data_for_new_node});
         $("#"+selected_node_id, $tree).addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", child_id);
-        $("#"+selected_node_id, $tree).find("a").attr("href", "#tree::"+selected_node_id).addClass("jstree-clicked");
+        $("#"+selected_node_id, $tree).find("a").attr("href", "#tree::"+selected_node_id).addClass("jstree-clicked").attr("title", data_for_new_node.title);
 
         loadTreeActionsForNode($("#"+selected_node_id, $tree));
       } else {
@@ -254,8 +254,13 @@ $(function() {
           root_object_id: config.root_object_id
         };
         if (nodeEl.parents("li").length) {
-          data_for_toolbar.parent = nodeEl.parents("li:first");
-          data_for_toolbar.sibling_ids = nodeEl.siblings("li").map(function(e) { return $(this).attr("id"); }).toArray();
+          data_for_toolbar.parent = nodeEl.parent().closest("li");
+          data_for_toolbar.siblings = nodeEl.siblings("li").map(function(e) {
+            return {
+              id: $(this).attr("id"),
+              title: $("a:first", this).attr("title")
+            };
+          }).toArray();
         }
         var toolbar_actions = $(AS.renderTemplate("tree_nodeactions_toolbar_template", data_for_toolbar));
         $(".btn-toolbar > .btn-group:first", "#archives_tree_toolbar").append(toolbar_actions);
@@ -348,7 +353,7 @@ $(function() {
           return;
         }
 
-        addnewNode($selected, $(this).attr("rel"), config.rules[$(".selected", $tree).attr("rel")]["can_add_child"][$(this).attr("rel")]);
+        addnewNode($selected, $(this).attr("rel"), config.rules[$(".selected", $tree).attr("rel")]["can_add_child"]);
       });
 
       $(".archives-tree-container").on("click", ".add-sibling", function() {
@@ -357,7 +362,7 @@ $(function() {
           return;
         }
 
-        addnewNode($selected.parents("li:first"), $(this).attr("rel"), config.rules[$selected.parents("li:first").attr("rel")]["can_add_child"][$(this).attr("rel")]);
+        addnewNode($selected.parents("li:first"), $(this).attr("rel"), config.rules[$selected.parents("li:first").attr("rel")]["can_add_child"]);
       });
 
       $container.on("click", ".btn-cancel", function(event) {

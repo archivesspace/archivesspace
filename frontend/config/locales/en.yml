@@ -15,7 +15,7 @@ en:
     spawn: Spawn
     link_to: Link To
     add_child: Add Child
-    add_sibling: "+1"
+    add_sibling: Add Sibling
     add_prefix: Add
     move: Move
     move_up_a_level: Up a Level
