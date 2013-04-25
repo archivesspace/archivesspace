@@ -9,7 +9,6 @@ require 'config/config-distribution'
 require 'asutils'
 
 require "rails_config_bug_workaround"
-RailsConfigBugWorkaround.use_secret(:frontend_cookie_secret)
 
 
 if defined?(Bundler)
