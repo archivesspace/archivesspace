@@ -12,12 +12,12 @@
       <li><a href="#digital_object_component_file_versions_"><%= I18n.t("file_version._html.singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if controller.action_name != "show" || @digital_object_component.extents.length > 0 %>
-      <li><a href="#digital_object_component_extents_"><%= I18n.t("extent._html.singular") %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
     <% if controller.action_name != "show" || @digital_object_component.dates.length > 0 %>
       <li><a href="#digital_object_component_dates_"><%= I18n.t("date._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if controller.action_name != "show" || @digital_object_component.extents.length > 0 %>
+      <li><a href="#digital_object_component_extents_"><%= I18n.t("extent._html.singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @digital_object_component.linked_agents.length > 0 %>

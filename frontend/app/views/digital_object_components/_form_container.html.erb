@@ -25,8 +25,9 @@
   <% form.emit_template("digital_object_component") %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
+
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "digital_object_component_linked_agent"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>

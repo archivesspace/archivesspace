@@ -8,20 +8,20 @@
 
     <li><a href="#basic_information"><%= I18n.t "accession._html.section.basic_information" %> <span class="icon-chevron-right"></span></a></li>
 
-    <% if controller.action_name != "show" || @accession.extents.length > 0 %>
-      <li><a href="#accession_extents_"><%= I18n.t "extent._html.plural" %> <span class="icon-chevron-right"></span></a></li>
-    <% end %>
-
     <% if not controller.action_name === "show" or @accession.dates.length > 0 %>
       <li><a href="#accession_dates_"><%= I18n.t "date._html.plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
-    <% if controller.action_name != "show" || @accession.related_resources.length > 0 %>
-      <li><a href="#accession_related_resources_"><%= I18n.t "related_resource._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+    <% if controller.action_name != "show" || @accession.extents.length > 0 %>
+      <li><a href="#accession_extents_"><%= I18n.t "extent._html.plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @accession.linked_agents.length > 0 %>
       <li><a href="#accession_linked_agents_"><%= I18n.t "linked_agent._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+    <% end %>
+
+    <% if controller.action_name != "show" || @accession.related_resources.length > 0 %>
+      <li><a href="#accession_related_resources_"><%= I18n.t "related_resource._html.plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @accession.subjects.length > 0 %>

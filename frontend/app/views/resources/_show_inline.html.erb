@@ -22,24 +22,23 @@
             <%= form.label_and_boolean "publish" %>
             <%= form.label_and_boolean "restrictions" %>
             <%= form.label_and_textarea "repository_processing_note" %>
-    
-            <% if resource.ead_id or resource.ead_location %>
-              <hr/>
-              <%= form.label_and_textfield "ead_id" %>
-              <%= form.label_and_textfield "ead_location" %>
-            <% end %>
           </section>
-
-          <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
 
           <% if @resource.dates.length > 0 %>
             <%= render :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
           <% end %>
 
+          <%= render :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
+
           <section id="finding_aid" class="subrecord-form-dummy">
             <h3><%= I18n.t("resource._html.section.finding_aid") %></h3>
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
+                <% if resource.ead_id or resource.ead_location %>
+                  <%= form.label_and_textfield "ead_id" %>
+                  <%= form.label_and_textfield "ead_location" %>
+                  <hr/>
+                <% end %>
                 <%= form.label_and_textfield "finding_aid_title" %>
                 <%= form.label_and_textfield "finding_aid_filing_title" %>
                 <%= form.label_and_textfield "finding_aid_date" %>

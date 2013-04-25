@@ -22,12 +22,12 @@
           <%= render :partial => "file_versions/show", :locals => { :file_versions => @digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_" } %>
         <% end %>
 
-        <% if @digital_object_component.extents.length > 0 %>
-          <%= render :partial => "extents/show", :locals => { :extents => @digital_object_component.extents, :section_id => "digital_object_component_extents_" } %>
-        <% end %>
-
         <% if @digital_object_component.dates.length > 0 %>
           <%= render :partial => "dates/show", :locals => { :dates => @digital_object_component.dates, :section_id => "digital_object_component_dates_" } %>
+        <% end %>
+
+        <% if @digital_object_component.extents.length > 0 %>
+          <%= render :partial => "extents/show", :locals => { :extents => @digital_object_component.extents, :section_id => "digital_object_component_extents_" } %>
         <% end %>
 
         <% if @digital_object_component.linked_agents.length > 0 %>
