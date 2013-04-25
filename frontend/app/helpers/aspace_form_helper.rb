@@ -457,7 +457,7 @@ module AspaceFormHelper
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << context.hidden_input("lock_version", values_from["lock_version"])
     s << capture(context, &body)
-    s << templates_for_js
+    s << templates_for_js(values_from["jsonmodel_type"])
     s << "</div>".html_safe
 
     s
@@ -600,13 +600,16 @@ module AspaceFormHelper
   end
 
 
-  def templates_for_js
+  def templates_for_js(jsonmodel_type = nil)
     result = ""
 
     return result if @templates.blank?
 
+    obj = {}
+    obj['jsonmodel_type'] = jsonmodel_type if jsonmodel_type
+
     @templates.each do |name, template|
-      context = FormContext.new("${path}", {}, self)
+      context = FormContext.new("${path}", obj, self)
 
       def context.id_for(name, qualify = true)
         name = path(name) if qualify

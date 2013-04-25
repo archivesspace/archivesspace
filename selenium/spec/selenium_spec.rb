@@ -519,8 +519,10 @@ describe "ArchivesSpace user interface" do
     it "can add a Biog/Hist note to an Agent" do
       $driver.find_element(:link, 'Edit').click
       $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
-      $driver.blocking_find_elements(:css => '#notes .subrecord-selector select')[0].select_option("note_bioghist")
-      $driver.find_element(:css => '#notes .subrecord-selector .btn').click
+      $driver.blocking_find_elements(:css => '#notes .top-level-note-type')[0].select_option("note_bioghist")
+
+      # ensure note form displayed
+      $driver.find_element(:id, "agent_notes__0__label_")
 
       biog = "Jimi was an American musician and songwriter; and one of the most influential electric guitarists in the history of popular music."
       $driver.execute_script("$('#agent_notes__0__content__0_').data('CodeMirror').setValue('#{biog}')")
@@ -540,8 +542,10 @@ describe "ArchivesSpace user interface" do
 
       # Add a sub note
       notes[0].find_element(:css => '.subrecord-form-heading .btn').click
-      notes[0].find_element(:css => '.subrecord-selector select').select_option('note_outline')
-      notes[0].find_element(:css => '.add-sub-note-btn').click
+      notes[0].find_element(:css => 'select.bioghist-note-type').select_option('note_outline')
+
+      # ensure sub note form displayed
+      $driver.find_element(:id, "agent_notes__0__subnotes__2__publish_")
 
       notes[0].find_element(:css => ".add-level-btn").click
       notes[0].find_element(:css => ".add-sub-item-btn").click
@@ -1128,7 +1132,6 @@ describe "ArchivesSpace user interface" do
 
     it "reports errors if adding an empty child to a Resource" do
       $driver.find_element(:link, "Add Child").click
-      $driver.find_element(:link, "Archival Object").click
 
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
 
@@ -1216,7 +1219,7 @@ describe "ArchivesSpace user interface" do
 
     it "can add a child to an existing node and assign a Subject" do
       $driver.find_element(:link, "Add Child").click
-      $driver.find_element(:link, "Archival Object").click
+
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Christmas cards")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
@@ -1361,8 +1364,7 @@ describe "ArchivesSpace user interface" do
 
       add_note = proc do |type|
         $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
-        $driver.blocking_find_elements(:css => '#notes .subrecord-selector select')[0].select_option(type)
-        $driver.find_element(:css => '#notes .subrecord-selector .btn').click
+        $driver.find_last_element(:css => '#notes select.top-level-note-type:last-of-type').select_option(type)
       end
 
       3.times do
@@ -1418,16 +1420,14 @@ describe "ArchivesSpace user interface" do
 
       # Add a sub note
       notes[0].find_element(:css => '.subrecord-form-heading .btn').click
-      notes[0].find_element(:css => '.subrecord-selector select').select_option('note_chronology')
-      notes[0].find_element(:css => '.add-sub-note-btn').click
+      notes[0].find_last_element(:css => 'select.multipart-note-type').select_option('note_chronology')
 
       $driver.find_element(:id => 'resource_notes__0__subnotes__2__title_')
       $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__2__title_'], "Chronology title")
 
 
       notes[0].find_element(:css => '.subrecord-form-heading .btn').click
-      notes[0].find_element(:css => '.subrecord-selector select').select_option('note_definedlist')
-      notes[0].find_element(:css => '.add-sub-note-btn').click
+      notes[0].find_last_element(:css => 'select.multipart-note-type').select_option('note_definedlist')
 
       $driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__3__title_'], "Defined list")
 
@@ -1458,9 +1458,8 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:link, 'Edit').click
 
-      add_note_button = $driver.find_element(:css => '#notes > .subrecord-form-heading .btn').click
-      $driver.find_element(:css => '#notes > .subrecord-form-heading select').select_option("note_bibliography")
-      $driver.find_element(:css => '#notes > .subrecord-form-heading .subrecord-selector .btn').click
+      $driver.find_element(:css => '#notes > .subrecord-form-heading .btn').click
+      $driver.find_last_element(:css => 'select.top-level-note-type').select_option("note_bibliography")
 
       $driver.clear_and_send_keys([:id, 'resource_notes__6__label_'], "Top-level bibliography label")
       $driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').setValue('#{bibliography_content}')")
@@ -1533,7 +1532,7 @@ describe "ArchivesSpace user interface" do
 
       # Give it a child AO
       $driver.find_element(:link, "Add Child").click
-      $driver.find_element(:link, "Archival Object").click
+
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "An Archival Object with notes")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
@@ -1541,8 +1540,7 @@ describe "ArchivesSpace user interface" do
       # Add some notes to it
       add_note = proc do |type|
         $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
-        $driver.blocking_find_elements(:css => '#notes .subrecord-selector select')[0].select_option(type)
-        $driver.find_element(:css => '#notes .subrecord-selector .btn').click
+        $driver.find_last_element(:css => '#notes select.top-level-note-type').select_option(type)
       end
 
       3.times do
@@ -1567,14 +1565,7 @@ describe "ArchivesSpace user interface" do
 
       # Add a Summary note
       $driver.find_element(:css => '#notes .subrecord-form-heading .btn').click
-      select = $driver.blocking_find_elements(:css => '#notes .subrecord-selector select')[0]
-      select.find_elements(:tag_name => "option").each do |option|
-        if option.text == "Summary"
-          option.click
-          break
-        end
-      end
-      $driver.find_element(:css => '#notes .subrecord-selector .btn').click
+      $driver.find_last_element(:css => '#notes select.top-level-note-type').select_option_with_text("Summary")
 
       $driver.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")
       $driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').setValue('Summary content')")
@@ -1635,7 +1626,6 @@ describe "ArchivesSpace user interface" do
 
     it "reports errors if adding an empty child to a Digital Object" do
       $driver.find_element(:link, "Add Child").click
-      $driver.find_element(:link, "Digital Object Component").click
 
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
@@ -1685,7 +1675,6 @@ describe "ArchivesSpace user interface" do
     it "can drag and drop reorder a Digital Object" do
       # create grand child
       $driver.find_element(:link, "Add Child").click
-      $driver.find_element(:link, "Digital Object Component").click
 
       $driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
       $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))

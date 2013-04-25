@@ -147,11 +147,6 @@ $(function() {
 
       initialisers.note_multipart = function($subform) {
 
-        var template_name = function (self) {
-          var selected = $("option:selected", self.parents(".dropdown-menu"));
-          return "template_"+selected.val();
-        }
-
         var callback = function($subform) {
           var $topLevelNoteTypeSelector = $("select.multipart-note-type", $subform);
           $topLevelNoteTypeSelector.change(changeNoteTemplate);
@@ -163,12 +158,13 @@ $(function() {
 
       initialisers.note_bioghist = function($subform) {
 
-        var template_name = function (self) {
-          var selected = $("option:selected", self.parents(".dropdown-menu"));
-          return "template_"+selected.val();
+        var callback = function($subform) {
+          var $topLevelNoteTypeSelector = $("select.bioghist-note-type", $subform);
+          $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
         }
 
-        initNoteType($subform, template_name, true, '.add-sub-note-btn');
+        initNoteType($subform, 'template_note_bioghist_selector', true, '.add-sub-note-btn', callback);
       };
 
       var initNoteForm = function($noteform, for_a_new_form) {

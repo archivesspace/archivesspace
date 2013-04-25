@@ -95,6 +95,13 @@ class Selenium::WebDriver::Driver
   end
 
 
+  def find_last_element(*selectors)
+    result = blocking_find_elements(*selectors)
+
+    result[result.length - 1]
+  end
+
+
   def blocking_find_elements(*selectors)
     # Hit with find_element first to invoke our usual retry logic
     find_element(*selectors)
@@ -210,6 +217,13 @@ class Selenium::WebDriver::Element
 
   def containing_subform
     nearest_ancestor('div[contains(@class, "subrecord-form-fields")]')
+  end
+
+
+  def find_last_element(*selectors)
+    result = find_elements(*selectors)
+
+    result[result.length - 1]
   end
 
 

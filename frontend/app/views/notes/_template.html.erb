@@ -170,12 +170,29 @@
 <% end %>
 
 
-<%
-   bioghist_subnote_types = []
-   JSONModel(:note_bioghist).schema['properties']['subnotes']['items']['type'].each do |item_def|
-     bioghist_subnote_types.push(JSONModel.parse_jsonmodel_ref(item_def['type'])[0].to_s)
-   end
-%>
+<% define_template "note_bioghist_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="control-group">
+        <label class="control-label">Note Type</label>
+        <div class="controls">
+          <select class="bioghist-note-type">
+            <option></option>
+            <% bioghist_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="note-form-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
 
 <% define_template "note_bioghist", jsonmodel_definition(:note_bioghist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_bioghist">
@@ -195,19 +212,7 @@
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group pull-right">
-              <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %> <span class="caret"></span></button>
-              <ul class="dropdown-menu subrecord-selector">
-                <li>
-                  <select>
-                    <% bioghist_subnote_types.sort.each do |type| %>
-                      <option value="<%= type %>"><%= I18n.t("#{type}.option") %></option>
-                    <% end %>
-                  </select>
-                </li>
-                <li class="form-actions">
-                  <button class="btn btn-small add-sub-note-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %></button>
-                </li>
-              </ul>
+              <button class="btn btn-small add-sub-note-btn"><%= I18n.t("actions.add") %> <%= I18n.t("note_multipart.sub_notes_singular") %></button>
             </div>
           <% end %>
         </h5>
