@@ -374,12 +374,6 @@ AS.addControlGroupHighlighting = function(parent) {
   });
 };
 
-// add control-group :input focus/blur behaviour
-//$(function() {
-//  $(document).ready(function() {
-//    AS.addControlGroupHighlighting($(document.body))
-//  });
-//});
 
 // confirmation behaviour for subform-remove actions
 AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
@@ -409,6 +403,58 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
 
   return false;
 };
+
+// extra add button plugin for subrecord forms
+AS.initAddAsYouGoActions = function($form, $list) {
+  // delete any existing subrecord-add-as-you-go-actions
+  $(".subrecord-add-as-you-go-actions", $form).remove();
+
+  var $asYouGo = $("<div class='subrecord-add-as-you-go-actions'></div>");
+  $form.append($asYouGo);
+
+  var numberOfSubRecords = function() {
+    return $("> li", $list).length;
+  };
+
+  var bindEvents = function() {
+    $form.off("new.subrecord").on("new.subrecord", function() {
+      $asYouGo.fadeIn()
+    });
+
+    $form.off("deleted.subrecord").on("deleted.subrecord", function() {
+      if (numberOfSubRecords() === 0) {
+        $asYouGo.hide()
+      }
+    });
+  }
+
+  var init = function() {
+    if (numberOfSubRecords() === 0) {
+      $asYouGo.hide();
+    }
+
+    var btnsToReplicate = $(".subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn", $form);
+    var fillToPercentage = 80; // fill to 80%
+
+    btnsToReplicate.each(function() {
+      var $btn = $(this);
+      var $a = $("<a href='#' class='btn btn-mini'>");
+      $a.text($btn.val().length ? $btn.val() : $btn.text());
+      $a.css("width", Math.floor(fillToPercentage / btnsToReplicate.length) + "%");
+      $a.click(function(e) {
+        e.preventDefault();
+
+        $btn.triggerHandler("click");
+      });
+      $asYouGo.append($a);
+    });
+
+    bindEvents();
+  }
+
+  init();
+};
+
 
 // Used by all tree layouts -- sets the initial height for the tree pane... but can
 // be overridden by a user's cookie value
@@ -523,4 +569,12 @@ $(function() {
 
     $(".btn[data-confirmation]:not(.initialised)").initConfirmationAction();
   });
+});
+
+// Set up some subrecord specific event bindings
+$(document).bind("new.subrecord", function(event, object_name, newFormEl) {
+  newFormEl.parents(".subrecord-form:first").triggerHandler("new.subrecord");
+});
+$(document).bind("deleted.subrecord", function(event, formEl) {
+  formEl.triggerHandler("deleted.subrecord");
 });

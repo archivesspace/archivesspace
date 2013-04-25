@@ -11,6 +11,12 @@ $(function() {
       onFormElementChange();
     }
   });
+  $("#object_container").live("focusin", ":input", function(event) {
+    $(event.target).parents(".subrecord-form").addClass("focus");
+  });
+  $("#object_container").live("focusout", ":input", function(event) {
+    $(event.target).parents(".subrecord-form").removeClass("focus");
+  });
   $("#object_container form :radio, .object-container form :checkbox").live("click", onFormElementChange);
 
   var initFormChangeDetection = function() {

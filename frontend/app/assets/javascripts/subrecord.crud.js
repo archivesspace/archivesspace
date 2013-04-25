@@ -20,6 +20,10 @@ $(function() {
 
       var init = function() {
 
+        $(document).bind("new.subrecord", function(e, object_name, formel) {
+          formel.triggerHandler(e);
+        });
+
         var init_subform = function() {
           var $subform = $(this);
 
@@ -38,9 +42,6 @@ $(function() {
               if ($this.data("cardinality") === "zero_to_one") {
                 $("> .subrecord-form-heading > .btn", $this).removeAttr("disabled");
               }
-              if (numberOfSubRecords() === 0) {
-                $asYouGo.hide();
-              }
               $this.parents("form:first").triggerHandler("form-changed");
               $(document).triggerHandler("deleted.subrecord", [$this]);
             });
@@ -55,30 +56,6 @@ $(function() {
           }
 
           $(document).triggerHandler("init.subrecord", [$subform.data("object-name") || $this.data("object-name"), $subform]);
-        };
-
-        var $asYouGo = $(".subrecord-add-as-you-go-actions", $this);
-        var initAddAsYouGoActions = function() {
-
-          if (numberOfSubRecords() === 0) {
-            $asYouGo.hide();
-          }
-
-          var btnsToReplicate = $("> .subrecord-form-heading > .btn, > .subrecord-form-heading > .custom-action > .btn", $this);
-          var fillToPercentage = 80; // fill to 80%
-
-          btnsToReplicate.each(function() {
-            var $btn = $(this);
-            var $a = $("<a href='#' class='btn btn-mini'>");
-            $a.text($btn.val().length ? $btn.val() : $btn.text());
-            $a.css("width", Math.floor(fillToPercentage / btnsToReplicate.length) + "%");
-            $a.click(function(e) {
-              e.preventDefault();
-
-              $btn.triggerHandler("click");
-            });
-            $asYouGo.append($a);
-          });
         };
 
         var addAndInitForm = function(formHtml, $target_subrecord_list) {
@@ -101,8 +78,6 @@ $(function() {
           $(".subrecord-form:not(.initialised)",formEl).init_subrecord_form();
 
           $(document).triggerHandler("new.subrecord", [$this.data("object-name"), formEl]);
-
-          $asYouGo.fadeIn();
 
           $(":input:visible:first", formEl).focus();
 
@@ -175,9 +150,10 @@ $(function() {
           });
         };
 
-        initAddAsYouGoActions();
+        var $list = $("ul.subrecord-form-list:first", $this);
 
-        AS.initSubRecordSorting($("ul.subrecord-form-list:first", $this));
+        AS.initAddAsYouGoActions($this, $list);
+        AS.initSubRecordSorting($list);
 
         // init any existing subforms
         $("> .subrecord-form-container .subrecord-form-list > .subrecord-form-wrapper", $this).each(init_subform);

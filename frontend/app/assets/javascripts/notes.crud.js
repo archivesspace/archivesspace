@@ -155,6 +155,7 @@ $(function() {
         var callback = function($subform) {
           var $topLevelNoteTypeSelector = $("select.multipart-note-type", $subform);
           $topLevelNoteTypeSelector.change(changeNoteTemplate);
+          initRemoveActionForSubRecord($subform);
         }
 
         initNoteType($subform, 'template_note_multipart_selector', true, '.add-sub-note-btn', callback);
@@ -181,7 +182,9 @@ $(function() {
 
         dropdownFocusFix($noteform);
 
-        AS.initSubRecordSorting($("ul.subrecord-form-list:first", $noteform));
+        var $list = $("ul.subrecord-form-list:first", $noteform);
+
+        AS.initSubRecordSorting($list);
 
         var note_type = $noteform.data("type");
         if (initialisers[note_type]) {
@@ -222,6 +225,7 @@ $(function() {
         $(":input:visible:first", $note_form).focus();
 
         $subform.parents("form:first").triggerHandler("form-changed");
+        $(document).triggerHandler("init.subrecord", ["note", $note_form]);
       };
 
       var createTopLevelNote = function(event) {
@@ -238,7 +242,7 @@ $(function() {
 
         AS.initSubRecordSorting($target_subrecord_list);
 
-        $(document).triggerHandler("init.subrecord", ["note", $subform]);
+        $(document).triggerHandler("new.subrecord", ["note", $subform]);
 
         $(":input:visible:first", $subform).focus();
 
@@ -255,7 +259,10 @@ $(function() {
       $(".subrecord-form-heading:first .btn", $this).click(createTopLevelNote);
 
       // initialising forms
-      AS.initSubRecordSorting($("ul.subrecord-form-list:first", $this));
+      var $list = $("ul.subrecord-form-list:first", $this)
+      AS.initSubRecordSorting($list);
+      AS.initAddAsYouGoActions($this, $list);
+
       if ($(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).length) {
         $(".subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this).each(function() {
           initNoteForm($(this));
