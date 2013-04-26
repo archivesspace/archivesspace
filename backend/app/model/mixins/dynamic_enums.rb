@@ -25,7 +25,11 @@ module DynamicEnums
               if !enum_value_id && value == 'other_unmapped' && AppConfig[:allow_other_unmapped]
                 # Ensure this value exists for this enumeration
                 enum = Enumeration[:name => definition[:uses_enum]]
-                enum_value_id = EnumerationValue.create(:enumeration_id => enum.id, :value => 'other_unmapped').id
+                enum_value_id = DB.attempt {
+                  EnumerationValue.create(:enumeration_id => enum.id, :value => 'other_unmapped').id
+                }.and_if_constraint_fails do
+                  BackendEnumSource.id_for_value(definition[:uses_enum], value)
+                end
               end
 
               raise "Invalid value: #{value}" if !enum_value_id
