@@ -5,39 +5,41 @@
     :resource => {
       :can_add_child => {
         :type => :archival_object,
-        :label =>  I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("resource._html.action.add_child"),
+        :record_label => I18n.t("archival_object._html.singular")
       }
     },
     :archival_object => {
       :can_add_child => {
         :type => :archival_object,
-        :label =>  I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("archival_object._html.action.add_child"),
+        :record_label => I18n.t("archival_object._html.singular")
       },
       :can_add_sibling => {
         :type => :archival_object,
-        :label =>  I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("archival_object._html.action.add_sibling"),
+        :record_label => I18n.t("archival_object._html.singular")
       },
       :can_move => true,
-      :can_transfer => {
-        :resource => {
-          :label =>  I18n.t("resource._html.singular")
-        }
-      }
+      :can_transfer => :resource
     },
     :digital_object => {
       :can_add_child => {
         :type => :digital_object_component,
-        :label =>  I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object._html.action.add_child"),
+        :record_label => I18n.t("digital_object_component._html.singular")
       }
     },
     :digital_object_component => {
       :can_add_child => {
         :type => :digital_object_component,
-        :label =>  I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object_component._html.action.add_child"),
+        :record_label => I18n.t("digital_object_component._html.singular")
       },
       :can_add_sibling => {
         :type => :digital_object_component,
-        :label =>  I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object_component._html.action.add_child"),
+        :record_label => I18n.t("digital_object_component._html.singular")
       },
       :can_move => true
    }
@@ -122,13 +124,13 @@
       <div class="btn-group">
         <div class="btn-group">
           {if rules.hasOwnProperty("can_add_child")}
-            <a class="btn btn-mini add-child" rel="${rules.can_add_child.type}" href="javascript:void(0);" title="<%= I18n.t "actions.add_child" %>">
-              <%= I18n.t "actions.add_child" %>
+            <a class="btn btn-mini add-child" rel="${rules.can_add_child.type}" href="javascript:void(0);" data-record-label="${rules.can_add_child.record_label}" title="${rules.can_add_child.action_label}">
+              ${rules.can_add_child.action_label}
             </a>
           {/if}
           {if rules.hasOwnProperty("can_add_sibling")}
-            <a class="btn btn-mini add-sibling" rel="${rules.can_add_sibling.type}" href="javascript:void(0);" title="<%= I18n.t "actions.add_sibling" %>">
-              <%= I18n.t "actions.add_sibling" %>
+            <a class="btn btn-mini add-sibling" rel="${rules.can_add_sibling.type}" href="javascript:void(0);" data-record-label="${rules.can_add_child.record_label}" title="${rules.can_add_sibling.action_label}">
+              ${rules.can_add_sibling.action_label}
             </a>
           {/if}
         </div>

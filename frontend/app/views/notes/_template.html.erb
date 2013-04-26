@@ -9,7 +9,7 @@
   <% else %>
     <div class="subrecord-form-fields">
       <div class="control-group">
-        <label class="control-label">Note Type</label>
+        <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="top-level-note-type">
             <option></option>
@@ -19,7 +19,7 @@
           </select>
         </div>
       </div>
-      <div class="note-form-container">
+      <div class="selected-container">
         <% form.emit_template("note_type_nil") %>
       </div>
     </div>
@@ -30,7 +30,7 @@
   <div class="inline-subform">
     <div class="control-group">
       <div class="control-label"></div>
-      <div class="controls"><em>Please select a Note Type</em></div>
+      <div class="controls"><%= I18n.t("note._html.messages.select_a_note_type") %></div>
     </div>
   </div>
 <% end %>
@@ -125,7 +125,7 @@
           </select>
         </div>
       </div>
-      <div class="note-form-container">
+      <div class="selected-container">
         <% form.emit_template("note_type_nil") %>
       </div>
     </div>
@@ -176,7 +176,7 @@
   <% else %>
     <div class="subrecord-form-fields">
       <div class="control-group">
-        <label class="control-label">Note Type</label>
+        <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="bioghist-note-type">
             <option></option>
@@ -186,7 +186,7 @@
           </select>
         </div>
       </div>
-      <div class="note-form-container">
+      <div class="selected-container">
         <% form.emit_template("note_type_nil") %>
       </div>
     </div>

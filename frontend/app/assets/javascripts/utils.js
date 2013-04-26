@@ -406,6 +406,11 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
 
 // extra add button plugin for subrecord forms
 AS.initAddAsYouGoActions = function($form, $list) {
+  if ($form.data("cardinality") === "zero_to_one") {
+    // nothing to do here
+    return;
+  }
+
   // delete any existing subrecord-add-as-you-go-actions
   $(".subrecord-add-as-you-go-actions", $form).remove();
 
@@ -434,13 +439,23 @@ AS.initAddAsYouGoActions = function($form, $list) {
     }
 
     var btnsToReplicate = $(".subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn", $form);
-    var fillToPercentage = 80; // fill to 80%
+    var fillToPercentage = 100; // full width
 
     btnsToReplicate.each(function() {
       var $btn = $(this);
-      var $a = $("<a href='#' class='btn btn-mini'>");
-      $a.text($btn.val().length ? $btn.val() : $btn.text());
+      var $a = $("<a href='#'>+</a>");
+      var btnText = $btn.val().length ? $btn.val() : $btn.text();
       $a.css("width", Math.floor(fillToPercentage / btnsToReplicate.length) + "%");
+
+      if (btnsToReplicate.length > 1) {
+        // we need to differentiate the links
+        $a.text(btnText);
+        $a.addClass("has-label");
+      } else {
+        // just add a title and we'll have a '+'
+        $a.attr("title", btnText);
+      }
+
       $a.click(function(e) {
         e.preventDefault();
 
@@ -472,6 +487,11 @@ AS.resetScrollSpy = function() {
 
 // Sub Record Sorting
 AS.initSubRecordSorting = function($list) {
+  if ($list.closest(".subrecord-form").data("cardinality") === "zero_to_one") {
+    // nothing to do here
+    return;
+  }
+
   if ($list.length) {
     $list.children("li").each(function() {
       var $child = $(this);

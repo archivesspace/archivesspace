@@ -338,7 +338,7 @@ $(function() {
 
 
     var addnewNode = function(parentNode, newNodeType,  newNodeConfig, new_object_params) {
-      $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "new"}, "data": {"title": "New "+newNodeConfig.label}});
+      $tree.jstree("create_node", parentNode, "last", {"attr":{"id": "new"}, "data": {"title": newNodeConfig.record_label}});
       $("#new", $tree).addClass("new").attr("rel", newNodeType).data("params", new_object_params || {});
       $("#new", $tree).find("a").attr("href", "#new");
       setHashForNode("new");

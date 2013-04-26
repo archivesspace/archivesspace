@@ -193,7 +193,7 @@ $(function() {
       var changeNoteTemplate = function() {
         var $subform = $(this).parents("[data-index]:first");
 
-        var $noteFormContainer = $(".note-form-container", $subform);
+        var $noteFormContainer = $(".selected-container", $subform);
 
         var $parent_subrecord_list = $subform.parents(".subrecord-form-list:first");
 
@@ -208,7 +208,7 @@ $(function() {
           index: "${index}"
         }));
 
-        $note_form = $("<li>").data("type", $note_form.data("type")).append($note_form);
+        $note_form.data("type");
         $note_form.attr("data-index", $subform.data("index"));
 
         var matchingNoteType = $(".note-type option:contains('"+$(":selected", this).text()+"')", $note_form);
