@@ -14,7 +14,10 @@ Warbler::Config.new do |config|
   config.dirs = %w(app config lib log vendor tmp)
 
   # Additional files/directories to include, above those in config.dirs
-  config.includes = FileList["Gemfile"]
+  #
+  # config.ru is needed here because Rails looks for it when trying to determine
+  # its root directory.
+  config.includes = FileList["Gemfile", "config.ru"]
 
   # Additional files/directories to exclude
   # config.excludes = FileList["lib/tasks/*"]
