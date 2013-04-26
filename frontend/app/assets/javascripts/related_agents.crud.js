@@ -29,7 +29,7 @@ $(function() {
 
         $(".selected-container", $(this).closest(".subrecord-form-fields")).html($subsubform);
 
-        $(document).triggerHandler("new.subrecord",["related_agent", $subsubform])
+        $(document).triggerHandler("subrecordcreated.aspace",["related_agent", $subsubform])
         $(document).triggerHandler("monkeypatch.subrecord", [$subsubform]);
 
         index++;
@@ -73,7 +73,7 @@ $(function() {
 
         initRemoveActionForSubRecord($subsubform);
 
-        $(document).triggerHandler("new.subrecord",["related_agent", $subsubform])
+        $(document).triggerHandler("subrecordcreated.aspace",["related_agent", $subsubform])
         $(document).triggerHandler("monkeypatch.subrecord", [$subsubform]);
 
         $("select.related-agent-type", $subsubform).change(changeRelatedAgentForm);

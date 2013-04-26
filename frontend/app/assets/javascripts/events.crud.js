@@ -18,5 +18,5 @@ $(document).ready(function() {
   }
 
   $('#event_chronotype_label_').triggerHandler("change");
-  $(document).triggerHandler("init.subrecord", ["date", $("#event_date .subrecord-form-fields")]);
+  $(document).triggerHandler("subrecordcreated.aspace", ["date", $("#event_date .subrecord-form-fields")]);
 });

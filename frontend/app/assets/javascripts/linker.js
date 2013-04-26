@@ -307,7 +307,7 @@ $(document).ready(function() {
 
   $(".linker:not(.initialised)").linker();
 
-  $(document).bind("new.subrecord", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     $(".linker:not(.initialised)", subform).linker();
   });
 });

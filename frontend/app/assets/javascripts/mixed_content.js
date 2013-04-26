@@ -113,7 +113,7 @@ $(function() {
 
   generateXMLHints();
 
-  $(document).bind("new.subrecord, init.subrecord", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     $("textarea.mixed-content:not(.initialised)", subform).mixedContent();
   });
 

@@ -140,7 +140,7 @@ $(function() {
     initSidebar();
   });
 
-  $(document).bind("new.subrecord init.subrecord deleted.subrecord formErrorsReady", function() {
+  $(document).bind("subrecordcreated.aspace deleted.subrecord formErrorsReady", function() {
     if ($("#archivesSpaceSidebar .nav-list.initialised").length > 0) {
       refreshSidebarSubMenus();
       // refresh scrollspy offsets.. as they are probably wrong now that things have changed in the form
@@ -169,7 +169,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initDateFields();
   });
-  $(document).bind("new.subrecord init.subrecord", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initDateFields(subform)
   });
 });
@@ -193,7 +193,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initPopovers();
   });
-  $(document).bind("new.subrecord init.subrecord init.popovers", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace init.popovers", function(event, object_name, subform) {
     initPopovers(subform)
   });
 });
@@ -261,7 +261,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initTooltips();
   });
-  $(document).bind("new.subrecord init.subrecord init.tooltips", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace init.tooltips", function(event, object_name, subform) {
     initTooltips(subform)
   });
 });
@@ -281,7 +281,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initSubmenuLink();
   });
-  $(document).bind("new.subrecord init.subrecord init.popovers", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace init.popovers", function(event, object_name, subform) {
     initSubmenuLink(subform)
   });
 });
@@ -422,7 +422,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
   };
 
   var bindEvents = function() {
-    $form.off("new.subrecord").on("new.subrecord", function() {
+    $form.off("subrecordcreated.aspace").on("subrecordcreated.aspace", function() {
       $asYouGo.fadeIn()
     });
 
@@ -592,8 +592,8 @@ $(function() {
 });
 
 // Set up some subrecord specific event bindings
-$(document).bind("new.subrecord", function(event, object_name, newFormEl) {
-  newFormEl.parents(".subrecord-form:first").triggerHandler("new.subrecord");
+$(document).bind("subrecordcreated.aspace", function(event, object_name, newFormEl) {
+  newFormEl.parents(".subrecord-form:first").triggerHandler("subrecordcreated.aspace");
 });
 $(document).bind("deleted.subrecord", function(event, formEl) {
   formEl.triggerHandler("deleted.subrecord");

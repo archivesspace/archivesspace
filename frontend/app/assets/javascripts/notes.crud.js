@@ -52,7 +52,7 @@ $(function() {
           }
 
           if (is_subrecord) {
-            $(document).triggerHandler("init.subrecord", ["note", $subsubform]);
+            $(document).triggerHandler("subrecordcreated.aspace", ["note", $subsubform]);
           }
 
           $this.parents("form:first").triggerHandler("form-changed");
@@ -221,7 +221,7 @@ $(function() {
         $(":input:visible:first", $note_form).focus();
 
         $subform.parents("form:first").triggerHandler("form-changed");
-        $(document).triggerHandler("init.subrecord", ["note", $note_form]);
+        $(document).triggerHandler("subrecordcreated.aspace", ["note", $note_form]);
       };
 
       var createTopLevelNote = function(event) {
@@ -238,7 +238,7 @@ $(function() {
 
         AS.initSubRecordSorting($target_subrecord_list);
 
-        $(document).triggerHandler("new.subrecord", ["note", $subform]);
+        $(document).triggerHandler("subrecordcreated.aspace", ["note", $subform]);
 
         $(":input:visible:first", $subform).focus();
 
