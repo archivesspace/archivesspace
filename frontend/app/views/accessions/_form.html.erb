@@ -31,11 +31,11 @@
 
 <% form.emit_template("accession") %>
 
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
+<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
-<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_resources", :template => "accession_related_resource"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "accession_linked_agent"} %>
+<%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_resources", :template => "accession_related_resource"} %>
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
 <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>

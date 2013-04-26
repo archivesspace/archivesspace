@@ -19,13 +19,13 @@
           <%= readonly.label_and_boolean "internal_only" %>
   
         </section>
+
+        <% if @archival_object.dates.length > 0 %>
+          <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates, :section_id => "archival_object_dates_" } %>
+        <% end %>
         
         <% if @archival_object.extents.length > 0 %>
           <%= render :partial => "extents/show", :locals => { :extents => @archival_object.extents, :section_id => "archival_object_extents_" } %>
-        <% end %>
-  
-        <% if @archival_object.dates.length > 0 %>
-          <%= render :partial => "dates/show", :locals => { :dates => @archival_object.dates, :section_id => "archival_object_dates_" } %>
         <% end %>
   
         <% if @archival_object.linked_agents.length > 0 %>

@@ -42,23 +42,22 @@
 
           <% readonly.emit_template("accession") %>
 
+          <% if @accession.dates.length > 0 %>
+            <%= render :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
+          <% end %>
 
           <% if @accession.extents.length > 0 %>
             <%= render :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>
           <% end %>
 
-           <% if @accession.dates.length > 0 %>
-             <%= render :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
-           <% end %>
+         <% if @accession.linked_agents.length > 0 %>
+           <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
+         <% end %>
 
          <% if @accession.related_resources.length > 0 %>
            <%= render :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
          <% end %>
-  
-         <% if @accession.linked_agents.length > 0 %>
-           <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
-         <% end %>
-         
+           
          <% if not @accession.subjects.blank? %>
            <%= render :partial => "subjects/show_inline", :locals => {:subjects => @accession.subjects, :section_id => "accession_subjects_"} %>
          <% end %>

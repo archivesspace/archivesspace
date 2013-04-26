@@ -23,14 +23,13 @@
           <%= render :partial => "file_versions/show", :locals => { :file_versions => @digital_object.file_versions, :section_id => "digital_object_file_versions_" } %>
         <% end %>
 
-        <% if @digital_object.extents.length > 0 %>
-          <%= render :partial => "extents/show", :locals => { :extents => @digital_object.extents, :section_id => "digital_object_extents_" } %>
-        <% end %>
-
         <% if @digital_object.dates.length > 0 %>
           <%= render :partial => "dates/show", :locals => { :dates => @digital_object.dates, :section_id => "digital_object_dates_" } %>
         <% end %>
 
+        <% if @digital_object.extents.length > 0 %>
+          <%= render :partial => "extents/show", :locals => { :extents => @digital_object.extents, :section_id => "digital_object_extents_" } %>
+        <% end %>
 
         <% if @digital_object.linked_agents.length > 0 %>
           <%= render :partial => "linked_agents/show", :locals => { :linked_agents => @digital_object.linked_agents, :section_id => "digital_object_linked_agents_" } %>

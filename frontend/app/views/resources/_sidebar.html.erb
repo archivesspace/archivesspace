@@ -7,12 +7,12 @@
     <% end %>
 
     <li><a href="#basic_information"><%= I18n.t("resource._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
-    
-    <li><a href="#resource_extents_"><%= I18n.t("extent._html.plural") %>  <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @resource.dates.length > 0 %>
       <li><a href="#resource_dates_"><%= I18n.t("date._html.plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
+      
+    <li><a href="#resource_extents_"><%= I18n.t("extent._html.plural") %>  <span class="icon-chevron-right"></span></a></li>
 
     <li><a href="#finding_aid"><%= I18n.t("resource._html.section.finding_aid") %> <span class="icon-chevron-right"></span></a></li>
 
