@@ -45,11 +45,11 @@ class BackendEnumSource
   @@max_cache_ms = 5000
 
 
-  def self.cache_entry_for(enum_name)
+  def self.cache_entry_for(enum_name, force_refresh = false)
     cached = @@enum_value_cache[enum_name]
     now = java.lang.System.currentTimeMillis
 
-    if !cached || ((now - cached[:time]) > @@max_cache_ms)
+    if force_refresh || !cached || ((now - cached[:time]) > @@max_cache_ms)
       @@enum_value_cache[enum_name] = {
         :time => now,
         :entry => DB.open(true) do |db|
@@ -77,6 +77,13 @@ class BackendEnumSource
 
 
   def self.id_for_value(enum_name, value)
-    self.cache_entry_for(enum_name)[:value_to_id_map][value]
+    result = self.cache_entry_for(enum_name)[:value_to_id_map][value]
+
+    if !result
+      # skip the cache
+      self.cache_entry_for(enum_name, true)[:value_to_id_map][value]
+    end
+
+    result
   end
 end
