@@ -140,7 +140,7 @@ $(function() {
     initSidebar();
   });
 
-  $(document).bind("subrecordcreated.aspace deleted.subrecord formErrorsReady", function() {
+  $(document).bind("subrecordcreated.aspace subrecorddeleted.aspace formErrorsReady", function() {
     if ($("#archivesSpaceSidebar .nav-list.initialised").length > 0) {
       refreshSidebarSubMenus();
       // refresh scrollspy offsets.. as they are probably wrong now that things have changed in the form
@@ -426,7 +426,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
       $asYouGo.fadeIn()
     });
 
-    $form.off("deleted.subrecord").on("deleted.subrecord", function() {
+    $form.off("subrecorddeleted.aspace").on("subrecorddeleted.aspace", function() {
       if (numberOfSubRecords() === 0) {
         $asYouGo.hide()
       }
@@ -595,6 +595,6 @@ $(function() {
 $(document).bind("subrecordcreated.aspace", function(event, object_name, newFormEl) {
   newFormEl.parents(".subrecord-form:first").triggerHandler("subrecordcreated.aspace");
 });
-$(document).bind("deleted.subrecord", function(event, formEl) {
-  formEl.triggerHandler("deleted.subrecord");
+$(document).bind("subrecorddeleted.aspace", function(event, formEl) {
+  formEl.triggerHandler("subrecorddeleted.aspace");
 });

@@ -43,7 +43,7 @@ $(function() {
                 $("> .subrecord-form-heading > .btn", $this).removeAttr("disabled");
               }
               $this.parents("form:first").triggerHandler("form-changed");
-              $(document).triggerHandler("deleted.subrecord", [$this]);
+              $(document).triggerHandler("subrecorddeleted.aspace", [$this]);
             });
             return false;
           });
