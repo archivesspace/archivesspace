@@ -24,23 +24,7 @@
 
       <%= readonly.emit_template "subject" %>
 
-      <section id="terms" class="subrecord-form-dummy">
-        <h3><%= I18n.t("subject.terms") %></h3>
-        <div class="subrecord-form-container">
-          <div class="subrecord-form-fields">
-            <div class="row-fluid">
-              <div class="span6"><strong><%= I18n.t("term.term") %></strong></div>
-              <div class="span6"><strong><%= I18n.t("term.term_type") %></strong></div>
-            </div>
-            <% @subject.terms.each do | term | %>
-             <div class="row-fluid">
-                 <div class="span6"><%= term["term"] %></div>
-                 <div class="span6"><%= term["term_type"] %></div>
-             </div>
-            <% end %>
-          </div>
-        </div>
-      </section>
+      <%= render :partial => "terms/show", :locals => { :terms => @subject.terms} %>
 
       <% if @subject.external_documents.length > 0 %>
         <%= render :partial => "external_documents/show", :locals => { :external_documents => @subject.external_documents, :section_id => "subject_external_documents_" } %>

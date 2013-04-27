@@ -1,78 +1,25 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
-
-<% define_template "term", jsonmodel_definition(:term) do |form| %>
-  <div class="row-fluid inputs-fill-it-up term-row">
-    <div class="span5">
-      <div class="control-group">
-        <%= form.textfield "term", form.obj["term"], :autocomplete => "off" %>
-      </div>
-    </div>
-    <div class="span5">
-      <div class="control-group">
-        <%= form.select "term_type", form.possible_options_for("term_type") %>
-      </div>
-    </div>
-    <div class="span2">
-      <div class="btn-group">
-        <button type="button" class="btn btn-small add-term-btn"><%= I18n.t("actions.add") %></button>
-        <button type="button" class="btn btn-small remove-term-btn"><span class="icon-remove-sign"></span></button>
-      </div>
-      <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
-    </div>
-  </div>
-<% end %>
+<%= render :partial => "terms/template", :locals => {:form => form, :show_preview => true} %>
 
 <script>
   AS.AVAILABLE_TERMS = <%= current_vocabulary['terms'].to_json.html_safe %>;
 </script>
 
 <fieldset>
-   <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
+  <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
 
-   <% define_template "subject", jsonmodel_definition(:subject) do |form| %>
-     <section id="basic_information">
-       <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
-       <%= form.label_and_textfield "ref_id" %>
-       <%= form.label_and_select "source", form.possible_options_for("source", true) %>
-       <%= form.label_and_textarea "scope_note" %>
-     </section>
-   <% end %>
+  <% define_template "subject", jsonmodel_definition(:subject) do |form| %>
+    <section id="basic_information">
+      <h3><%= I18n.t("subject._html.section.basic_information") %></h3>
+      <%= form.label_and_textfield "ref_id" %>
+      <%= form.label_and_select "source", form.possible_options_for("source", true) %>
+      <%= form.label_and_textarea "scope_note" %>
+    </section>
+  <% end %>
 
-   <% form.emit_template("subject") %>
-   
-
-   <section id="terms" class="subrecord-form">
-     <h3><%= I18n.t("subject.terms") %></h3>
-     <div class="subrecord-form-container">
-       <div class="subrecord-form-fields">
-         <div class="row-fluid">
-            <div class="span5"><%= I18n.t("term.term") %></div>
-            <div class="span5"><%= I18n.t("term.term_type") %></div>
-            <div class="span2"></div>
-         </div>
-         <div class="terms-container">
-           <%= form.list_for(form["terms"], "terms[]") do |term| %>
-             <% form.emit_template("term") %>
-           <% end %>
-         </div>
-
-         <hr/>
-
-         <div class="well">
-           <div class="subject-preview"><em><%= I18n.t("subject.subject_preview") %></em></div>
-         </div>
-        </div>
-      </div>
-     
-   </section>
+  <% form.emit_template("subject") %>
+  <% form.emit_template("terms") %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 
 </fieldset>
-
-<div id="subjects_preview_template"><!--
-  {for t in terms}
-   <span class="term">${t.term}</span>
-   {if t_index < terms.length-1}<span class="term-separator">--</span>{/if}
-  {/for}
---></div>

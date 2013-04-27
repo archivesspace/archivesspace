@@ -1,0 +1,63 @@
+<%
+  show_preview = false if show_preview.blank?
+%>
+
+<% define_template "term", jsonmodel_definition(:term) do |form| %>
+  <div class="row-fluid inputs-fill-it-up term-row">
+    <div class="span5">
+      <div class="control-group">
+        <%= form.textfield "term", form.obj["term"], :autocomplete => "off" %>
+      </div>
+    </div>
+    <div class="span5">
+      <div class="control-group">
+        <%= form.select "term_type", form.possible_options_for("term_type") %>
+      </div>
+    </div>
+    <div class="span2">
+      <div class="btn-group">
+        <button type="button" class="btn btn-small add-term-btn"><%= I18n.t("actions.add") %></button>
+        <button type="button" class="btn btn-small remove-term-btn"><span class="icon-remove-sign"></span></button>
+      </div>
+      <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "terms" do |form| %>
+  <section id="terms" class="subrecord-form" data-preview='false'>
+    <h3><%= I18n.t("term._html.plural") %></h3>
+    <div class="subrecord-form-container">
+      <div class="subrecord-form-fields">
+        <div class="row-fluid">
+          <div class="span5"><%= I18n.t("term.term") %></div>
+          <div class="span5"><%= I18n.t("term.term_type") %></div>
+          <div class="span2"></div>
+        </div>
+
+        <div class="terms-container">
+          <%= form.list_for(form["terms"], "terms[]") do |term| %>
+            <% form.emit_template("term") %>
+          <% end %>
+        </div>
+
+        <% if show_preview %>
+          <hr/>
+
+          <div class="well">
+            <div class="terms-preview"><em><%= I18n.t("term._html.messages.preview_pending") %></em></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<% if show_preview %>
+  <div id="template_terms_preview"><!--
+      {for t in terms}
+       <span class="term">${t.term}</span>
+       {if t_index < terms.length-1}<span class="term-separator">--</span>{/if}
+      {/for}
+  --></div>
+<% end %>
