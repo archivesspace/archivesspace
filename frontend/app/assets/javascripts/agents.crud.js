@@ -39,7 +39,7 @@ $(function() {
 	
 
 
-  $(document).bind("new.subrecord, init.subrecord", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     if (object_name === "name") {
       init_name_form($(subform));
     }

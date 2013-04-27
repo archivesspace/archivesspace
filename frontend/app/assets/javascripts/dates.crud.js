@@ -31,12 +31,12 @@ $(function() {
 
       $date_type_subform.setValuesFromObject(values);
 
-      $(document).triggerHandler("init.subrecord", ["date_type", $date_type_subform]);
+      $(document).triggerHandler("subrecordcreated.aspace", ["date_type", $date_type_subform]);
     });
 
   };
 
-  $(document).bind("new.subrecord, init.subrecord", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     if (object_name === "date") {
       initDateForm($(subform));
     }

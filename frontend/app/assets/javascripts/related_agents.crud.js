@@ -16,12 +16,10 @@ $(function() {
       var index = $(".subrecord-form-fields", $this).length;
 
 
-      var addRelatedAgent = function(event) {
-        event.preventDefault();
-
+      var changeRelatedAgentForm = function(event) {
         var $target_subrecord_list = $(".subrecord-form-list:first", $this);
-        var selected = $("option:selected", $(this).parents(".dropdown-menu"));
-        var template = "template_" + selected.val();
+
+        var template = "template_" + $(this).val();
 
         var $subsubform = $(AS.renderTemplate(template, {
           path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
@@ -29,13 +27,9 @@ $(function() {
           index: "${index}"
         }));
 
-        $subsubform = $("<li>").data("type", $subsubform.data("type")).append($subsubform);
-        $subsubform.attr("data-index", index);
-        $target_subrecord_list.append($subsubform);
+        $(".selected-container", $(this).closest(".subrecord-form-fields")).html($subsubform);
 
-        initRemoveActionForSubRecord($subsubform);
-
-        $(document).triggerHandler("new.subrecord",["related_agent", $subsubform])
+        $(document).triggerHandler("subrecordcreated.aspace",["related_agent", $subsubform])
         $(document).triggerHandler("monkeypatch.subrecord", [$subsubform]);
 
         index++;
@@ -60,14 +54,46 @@ $(function() {
       };
 
 
-      $(".add-related-agent-for-type-btn", $this).click(addRelatedAgent);
+      var addRelatedAgentSelector = function() {
+        event.preventDefault();
 
-      var $subrecord_form_fields = $("#related-agents-container > .subrecord-form-list > .subrecord-form-wrapper > .subrecord-form-fields", $this);
+        var $target_subrecord_list = $(".subrecord-form-list:first", $this);
+        var selected = $("option:selected", $(this).parents(".dropdown-menu"));
+        var template = "template_" + selected.val();
+
+        var $subsubform = $(AS.renderTemplate("template_related_agents_selector", {
+          path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
+          id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
+          index: "${index}"
+        }));
+
+        $subsubform = $("<li>").data("type", $subsubform.data("type")).append($subsubform);
+        $subsubform.attr("data-index", index);
+        $target_subrecord_list.append($subsubform);
+
+        initRemoveActionForSubRecord($subsubform);
+
+        $(document).triggerHandler("subrecordcreated.aspace",["related_agent", $subsubform])
+        $(document).triggerHandler("monkeypatch.subrecord", [$subsubform]);
+
+        $("select.related-agent-type", $subsubform).change(changeRelatedAgentForm);
+
+        index++;
+      }
+
+
+      $(".add-related-agent-for-type-btn", $this).click(addRelatedAgentSelector);
+
+      var $list = $("#related-agents-container > .subrecord-form-list");
+
+      var $subrecord_form_fields = $("> .subrecord-form-wrapper > .subrecord-form-fields", $list);
       if ($subrecord_form_fields.length > 0) {
         $subrecord_form_fields.each(function() {
           initRemoveActionForSubRecord($(this));
         });
       }
+
+      AS.initAddAsYouGoActions($this, $list);
 
     });
   };

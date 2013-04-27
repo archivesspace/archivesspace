@@ -3,28 +3,10 @@
 <% @agent_type = form['agent_type'] %>
 <% define_template "related_agents_#{@agent_type}", jsonmodel_definition(@agent_type.intern) do |form|  %>
 
-<%
-   @related_agent_types = form.allowable_types_for("related_agents")
-%>
-
 <section id="related_agents" class="subrecord-form">
   <h3 class="subrecord-form-heading">
     <%= I18n.t("related_agent._html.plural") %>
-    <div class="btn-group pull-right">
-      <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.add") %> <%= I18n.t("related_agent._html.singular") %> <span class="caret"></span></button>
-      <ul class="dropdown-menu subrecord-selector">
-        <li>
-          <select>
-            <% @related_agent_types.sort_by {|type| I18n.t("#{type}._html.singular")}.each do |type| %>
-              <option value="<%= type %>"><%= I18n.t("#{type}._html.singular") %></option>
-            <% end %>
-          </select>
-        </li>
-        <li class="form-actions">
-          <button class="btn btn-small add-related-agent-for-type-btn"><%= I18n.t("actions.add") %> <%= I18n.t("related_agent._html.singular") %></button>
-        </li>
-      </ul>
-    </div>
+    <button class="btn btn-small add-related-agent-for-type-btn pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("related_agent._html.singular") %></button>
   </h3>
 
   <div id="related-agents-container" class="subrecord-form-container">

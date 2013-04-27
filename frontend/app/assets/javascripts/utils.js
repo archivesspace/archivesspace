@@ -140,7 +140,7 @@ $(function() {
     initSidebar();
   });
 
-  $(document).bind("new.subrecord init.subrecord deleted.subrecord formErrorsReady", function() {
+  $(document).bind("subrecordcreated.aspace deleted.subrecord formErrorsReady", function() {
     if ($("#archivesSpaceSidebar .nav-list.initialised").length > 0) {
       refreshSidebarSubMenus();
       // refresh scrollspy offsets.. as they are probably wrong now that things have changed in the form
@@ -169,7 +169,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initDateFields();
   });
-  $(document).bind("new.subrecord init.subrecord", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initDateFields(subform)
   });
 });
@@ -193,7 +193,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initPopovers();
   });
-  $(document).bind("new.subrecord init.subrecord init.popovers", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace init.popovers", function(event, object_name, subform) {
     initPopovers(subform)
   });
 });
@@ -261,7 +261,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initTooltips();
   });
-  $(document).bind("new.subrecord init.subrecord init.tooltips", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace init.tooltips", function(event, object_name, subform) {
     initTooltips(subform)
   });
 });
@@ -281,7 +281,7 @@ $(function() {
   $(document).ajaxComplete(function() {
     initSubmenuLink();
   });
-  $(document).bind("new.subrecord init.subrecord init.popovers", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace init.popovers", function(event, object_name, subform) {
     initSubmenuLink(subform)
   });
 });
@@ -374,12 +374,6 @@ AS.addControlGroupHighlighting = function(parent) {
   });
 };
 
-// add control-group :input focus/blur behaviour
-//$(function() {
-//  $(document).ready(function() {
-//    AS.addControlGroupHighlighting($(document.body))
-//  });
-//});
 
 // confirmation behaviour for subform-remove actions
 AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
@@ -410,6 +404,73 @@ AS.confirmSubFormDelete = function(subformRemoveButtonEl, onConfirmCallback) {
   return false;
 };
 
+// extra add button plugin for subrecord forms
+AS.initAddAsYouGoActions = function($form, $list) {
+  if ($form.data("cardinality") === "zero_to_one") {
+    // nothing to do here
+    return;
+  }
+
+  // delete any existing subrecord-add-as-you-go-actions
+  $(".subrecord-add-as-you-go-actions", $form).remove();
+
+  var $asYouGo = $("<div class='subrecord-add-as-you-go-actions'></div>");
+  $form.append($asYouGo);
+
+  var numberOfSubRecords = function() {
+    return $("> li", $list).length;
+  };
+
+  var bindEvents = function() {
+    $form.off("subrecordcreated.aspace").on("subrecordcreated.aspace", function() {
+      $asYouGo.fadeIn()
+    });
+
+    $form.off("deleted.subrecord").on("deleted.subrecord", function() {
+      if (numberOfSubRecords() === 0) {
+        $asYouGo.hide()
+      }
+    });
+  }
+
+  var init = function() {
+    if (numberOfSubRecords() === 0) {
+      $asYouGo.hide();
+    }
+
+    var btnsToReplicate = $(".subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn", $form);
+    var fillToPercentage = 100; // full width
+
+    btnsToReplicate.each(function() {
+      var $btn = $(this);
+      var $a = $("<a href='#'>+</a>");
+      var btnText = $btn.val().length ? $btn.val() : $btn.text();
+      $a.css("width", Math.floor(fillToPercentage / btnsToReplicate.length) + "%");
+
+      if (btnsToReplicate.length > 1) {
+        // we need to differentiate the links
+        $a.text(btnText);
+        $a.addClass("has-label");
+      } else {
+        // just add a title and we'll have a '+'
+        $a.attr("title", btnText);
+      }
+
+      $a.click(function(e) {
+        e.preventDefault();
+
+        $btn.triggerHandler("click");
+      });
+      $asYouGo.append($a);
+    });
+
+    bindEvents();
+  }
+
+  init();
+};
+
+
 // Used by all tree layouts -- sets the initial height for the tree pane... but can
 // be overridden by a user's cookie value
 AS.DEFAULT_TREE_PANE_HEIGHT = 100;
@@ -426,6 +487,11 @@ AS.resetScrollSpy = function() {
 
 // Sub Record Sorting
 AS.initSubRecordSorting = function($list) {
+  if ($list.closest(".subrecord-form").data("cardinality") === "zero_to_one") {
+    // nothing to do here
+    return;
+  }
+
   if ($list.length) {
     $list.children("li").each(function() {
       var $child = $(this);
@@ -523,4 +589,12 @@ $(function() {
 
     $(".btn[data-confirmation]:not(.initialised)").initConfirmationAction();
   });
+});
+
+// Set up some subrecord specific event bindings
+$(document).bind("subrecordcreated.aspace", function(event, object_name, newFormEl) {
+  newFormEl.parents(".subrecord-form:first").triggerHandler("subrecordcreated.aspace");
+});
+$(document).bind("deleted.subrecord", function(event, formEl) {
+  formEl.triggerHandler("deleted.subrecord");
 });

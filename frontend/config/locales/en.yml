@@ -14,8 +14,6 @@ en:
     view: View
     spawn: Spawn
     link_to: Link To
-    add_child: Add Child
-    add_sibling: "+1"
     add_prefix: Add
     move: Move
     move_up_a_level: Up a Level
@@ -216,6 +214,8 @@ en:
         updated: "Digital Object <strong>%{digital_object.title}</strong> Updated"
       section:
         basic_information: Basic Information
+      action:
+        add_child: Add Component
   digital_object_component:
     <<: *digital_object_attributes
     label: Label
@@ -242,6 +242,9 @@ en:
         updated: Digital Object Component <strong>%{digital_object_component.title}</strong> updated
       section:
         basic_information: Basic Information
+      action:
+        add_child: Add Component
+        add_sibling: Add Sibling
   location:
     title: Title
     temporary: Temporary
@@ -259,11 +262,8 @@ en:
     coordinate_3_label: Coordinate Label 3
     coordinate_3_indicator: Coordinate Indicator 3
     display_string: Display String
-
     location_fields_error: >
       You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
-
-
     _html:
       singular: Location
       plural: Locations
@@ -272,7 +272,9 @@ en:
         updated: Location Saved
       section:
         basic_information: Basic Information
-
+      action:
+        add_child: Add Subcomponent
+        add_sibling: Add Sibling
   container_location:
     status: Status
     start_date: Start Date
@@ -652,9 +654,12 @@ en:
     type_tooltip: |
       <p>The type of note for the content.  Note types are used for guiding export of note contents to certain elements in specific data formats.</p>
   related_agent:
+    relationship_type: Relationship Type
     _html:
       singular: Related Agent
       plural: Related Agents
+      messages:
+        select_a_type: "<em>Please select a Relationship Type</em>"
   agent_relationship_parentchild:
     relator: Relationship Type
     description: Description
@@ -685,6 +690,7 @@ en:
       singular: Associative Relationship
   note:
     item: Item
+    content_item: Content Item
     note_singlepart: Single Part Note
     note_orderedlist: Ordered List
     note_multipart: Multipart Note
@@ -697,9 +703,12 @@ en:
     note_citation: Citation
     note_abstract: Abstract
     note_outline: Outline
+    note_type: Note Type
     _html:
       singular: Note
       plural: Notes
+      messages:
+        select_a_note_type: "<em>Please select a Note Type</em>"
   note_index:
     <<: *note_attributes
     option: Index
@@ -1282,6 +1291,9 @@ en:
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
       section:
         basic_information: Basic Information
+      action:
+        add_child: Add Component
+        add_sibling: Add Sibling
   group:
     group_code: Group code
     group_code_tooltip: |
@@ -1400,6 +1412,8 @@ en:
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid Data
+      action:
+        add_child: Add Component
   related_accession:
     _html:
       singular: Related Accession

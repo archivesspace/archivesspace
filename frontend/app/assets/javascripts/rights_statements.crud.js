@@ -32,13 +32,13 @@ $(function() {
 
       $rights_type_subform.setValuesFromObject(values);
 
-      $(document).triggerHandler("init.subrecord", ["rights_type", $rights_type_subform]);
+      $(document).triggerHandler("subrecordcreated.aspace", ["rights_type", $rights_type_subform]);
     });
 
   };
 
 
-  $(document).bind("new.subrecord, init.subrecord", function(event, object_name, subform) {
+  $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     if (object_name === "rights_statement") {
       init_rights_statements_form($(subform));
     }

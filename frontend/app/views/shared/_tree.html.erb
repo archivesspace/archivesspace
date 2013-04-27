@@ -4,47 +4,44 @@
    hierarchy_rules = {
     :resource => {
       :can_add_child => {
-        :archival_object => {
-          :label =>  I18n.t("archival_object._html.singular")
-        }
+        :type => :archival_object,
+        :action_label =>  I18n.t("resource._html.action.add_child"),
+        :record_label => I18n.t("archival_object._html.singular")
       }
     },
     :archival_object => {
       :can_add_child => {
-        :archival_object => {
-          :label =>  I18n.t("archival_object._html.singular")
-        }
+        :type => :archival_object,
+        :action_label =>  I18n.t("archival_object._html.action.add_child"),
+        :record_label => I18n.t("archival_object._html.singular")
       },
       :can_add_sibling => {
-       :archival_object => {
-         :label =>  I18n.t("archival_object._html.singular")
-       }
+        :type => :archival_object,
+        :action_label =>  I18n.t("archival_object._html.action.add_sibling"),
+        :record_label => I18n.t("archival_object._html.singular")
       },
       :can_move => true,
-      :can_transfer => {
-        :resource => {
-          :label =>  I18n.t("resource._html.singular")
-        }
-      }
+      :can_transfer => :resource
     },
     :digital_object => {
       :can_add_child => {
-       :digital_object_component => {
-         :label =>  I18n.t("digital_object_component._html.singular")
-       }
-     }
+        :type => :digital_object_component,
+        :action_label =>  I18n.t("digital_object._html.action.add_child"),
+        :record_label => I18n.t("digital_object_component._html.singular")
+      }
     },
     :digital_object_component => {
       :can_add_child => {
-        :digital_object_component => {
-          :label =>  I18n.t("digital_object_component._html.singular")
-        },
+        :type => :digital_object_component,
+        :action_label =>  I18n.t("digital_object_component._html.action.add_child"),
+        :record_label => I18n.t("digital_object_component._html.singular")
       },
       :can_add_sibling => {
-        :digital_object_component => {
-          :label =>  I18n.t("digital_object_component._html.singular")
-        }
-      }
+        :type => :digital_object_component,
+        :action_label =>  I18n.t("digital_object_component._html.action.add_child"),
+        :record_label => I18n.t("digital_object_component._html.singular")
+      },
+      :can_move => true
    }
  }
 
@@ -125,40 +122,18 @@
 
     <div id="tree_nodeactions_toolbar_template"><!--
       <div class="btn-group">
-      {if rules.hasOwnProperty("can_add_child")}
-        <div class="btn-group dropdown">
-          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Child">
-            <%= I18n.t "actions.add_child" %>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            {for obj in rules.can_add_child}
-            <li>
-              <a href="javascript:void(0);" class="add-child" rel="${obj_index}">
-                <span class='icon-${obj_index}'></span> ${obj.label}
-              </a>
-            </li>
-            {/for}
-          </ul>
+        <div class="btn-group">
+          {if rules.hasOwnProperty("can_add_child")}
+            <a class="btn btn-mini add-child" rel="${rules.can_add_child.type}" href="javascript:void(0);" data-record-label="${rules.can_add_child.record_label}" title="${rules.can_add_child.action_label}">
+              ${rules.can_add_child.action_label}
+            </a>
+          {/if}
+          {if rules.hasOwnProperty("can_add_sibling")}
+            <a class="btn btn-mini add-sibling" rel="${rules.can_add_sibling.type}" href="javascript:void(0);" data-record-label="${rules.can_add_child.record_label}" title="${rules.can_add_sibling.action_label}">
+              ${rules.can_add_sibling.action_label}
+            </a>
+          {/if}
         </div>
-      {/if}
-      {if rules.hasOwnProperty("can_add_sibling")}
-        <div class="btn-group dropdown">
-          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Add Sibling">
-            <%= I18n.t "actions.add_sibling" %>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            {for obj in rules.can_add_sibling}
-            <li>
-              <a href="javascript:void(0);" class="add-sibling" rel="${obj_index}">
-                <span class='icon-${obj_index}'></span> ${obj.label}
-              </a>
-            </li>
-            {/for}
-          </ul>
-        </div>
-      {/if}
       {if rules.hasOwnProperty("can_move")}
         <div class="btn-group dropdown move-node-menu">
           <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" title="Move">
@@ -180,12 +155,12 @@
               {/if}
             {/if}
 
-            {if defined('sibling_ids') && sibling_ids.length > 0}
+            {if defined('siblings') && siblings.length > 0}
               <li class="dropdown-submenu">
                 <a href="javascript:void(0);"><span class="icon-arrow-right"></span> <%= I18n.t "actions.move_down_into" %></a>
                 <ul class="dropdown-menu">
-                {for sibling_id in sibling_ids}
-                  <li><a href="javascript:void(0);" class="move-node move-node-down-into" data-target-node-id="${sibling_id}">${$("a:first", "#"+sibling_id).attr("title")}</a></li>
+                {for sibling in siblings}
+                  <li><a href="javascript:void(0);" class="move-node move-node-down-into" data-target-node-id="${sibling.id}">${sibling.title}</a></li>
                 {/for}
                 </ul>
               </li>

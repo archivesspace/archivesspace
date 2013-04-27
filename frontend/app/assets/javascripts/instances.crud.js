@@ -1,6 +1,6 @@
 $(function() {
 
-  $(document).bind("create.subrecord", function(event, object_name, add_button_data, index_data, $target_subrecord_list, callback) {
+  $(document).bind("subrecordcreaterequest.aspace", function(event, object_name, add_button_data, index_data, $target_subrecord_list, callback) {
     if (object_name === "instance") {
       var formEl;
       if (add_button_data.instanceType === "digital-instance") {
