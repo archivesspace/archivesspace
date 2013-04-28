@@ -76,8 +76,12 @@ GEM
       builder (>= 2.0.0)
     mime-types (1.22)
     multi_json (1.7.2)
+    net-http-persistent (2.8)
+    nokogiri (1.5.9)
     nokogiri (1.5.9-java)
     polyglot (0.3.3)
+    puma (1.6.3)
+      rack (~> 1.2)
     puma (1.6.3-java)
       rack (~> 1.2)
     rack (1.4.5)
@@ -164,6 +168,7 @@ DEPENDENCIES
   json-schema
   less-rails
   markaby
+  net-http-persistent
   nokogiri
   puma
   rails (= 3.2.13)

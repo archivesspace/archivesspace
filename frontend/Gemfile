@@ -65,3 +65,5 @@ end
 
 gem "json"
 gem "puma"
+
+gem "net-http-persistent"

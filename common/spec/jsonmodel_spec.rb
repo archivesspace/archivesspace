@@ -16,7 +16,7 @@ describe JSONModel do
     BACKEND_SERVICE_URL = 'http://example.com'
 
     class StubHTTP
-      def request (req, body = nil, &block)
+      def request (uri, req, body = nil, &block)
         response = OpenStruct.new(:code => '200')
         block ? yield(self) : self
       end
@@ -102,13 +102,9 @@ describe JSONModel do
 
 
 
-    Net::HTTP.stub(:start) { |host, port, &block|
-      if block
-        block.call(StubHTTP.new)
-      else
-        StubHTTP.new
-      end
-    }
+    Net::HTTP::Persistent.stub(:new) do
+      StubHTTP.new
+    end
 
     @klass = Klass.new
   end

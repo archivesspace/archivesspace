@@ -62,6 +62,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.22)
     multi_json (1.7.2)
+    net-http-persistent (2.8)
     polyglot (0.3.3)
     puma (1.6.3-java)
       rack (~> 1.2)
@@ -123,6 +124,7 @@ DEPENDENCIES
   jruby-jars (= 1.7.3)
   json-schema
   less-rails
+  net-http-persistent
   puma
   rails (= 3.2.13)
   sass-rails (~> 3.2.3)

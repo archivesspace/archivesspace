@@ -1,4 +1,4 @@
-require 'net/http'
+require 'net/http/persistent'
 require 'json'
 require_relative 'exceptions'
 
@@ -175,6 +175,11 @@ module JSONModel
     end
 
 
+    def self.http_conn
+      @http ||= Net::HTTP::Persistent.new 'jsonmodel_client'
+    end
+
+
     def self.do_http_request(url, req)
       req['X-ArchivesSpace-Session'] = current_backend_session
 
@@ -182,15 +187,13 @@ module JSONModel
         req['X-ArchivesSpace-Priority'] = "high"
       end
 
-      Net::HTTP.start(url.host, url.port) do |http|
-        response = http.request(req)
+      response = http_conn.request(url, req)
 
-        if response.code =~ /^4/
-          JSONModel::handle_error(ASUtils.json_parse(response.body))
-        end
-
-        response
+      if response.code =~ /^4/
+        JSONModel::handle_error(ASUtils.json_parse(response.body))
       end
+
+      response
     end
 
 
@@ -279,7 +282,7 @@ module JSONModel
         raise ValidationException.new(:invalid_object => self,
                                       :errors => err["error"])
       else
-        raise Exception.new("Unknown response: #{response}")
+        raise Exception.new("Unknown response: #{response.to_hash} (code: #{response.code})")
       end
     end
 

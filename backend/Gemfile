@@ -27,3 +27,5 @@ gem "flying_saucer"
 group :test do
   gem "ladle"
 end
+
+gem "net-http-persistent"

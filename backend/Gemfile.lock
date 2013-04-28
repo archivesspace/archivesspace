@@ -26,6 +26,7 @@ GEM
     json-schema (1.0.10)
     ladle (0.2.0-java)
     multi_json (1.7.2)
+    net-http-persistent (2.8)
     net-ldap (0.3.1)
     nokogiri (1.5.9-java)
     puma (1.6.3-java)
@@ -92,6 +93,7 @@ DEPENDENCIES
   json
   json-schema
   ladle
+  net-http-persistent
   net-ldap
   nokogiri
   puma
