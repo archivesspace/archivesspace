@@ -6,7 +6,7 @@ describe 'Relationships' do
 
   before(:each) do
     ## Database setup
-    [:apple, :banana].each do |table|
+    [:apple, :banana, :cherry].each do |table|
       $testdb.create_table table do
         primary_key :id
         String :name
@@ -31,6 +31,7 @@ describe 'Relationships' do
       Integer :apple_id_0
       Integer :banana_id_1
       Integer :apple_id_1
+      Integer :cherry_id
 
       Integer :aspace_relationship_position
       DateTime :last_modified, :null => false
@@ -41,6 +42,7 @@ describe 'Relationships' do
   after(:each) do
     $testdb.drop_table(:apple)
     $testdb.drop_table(:banana)
+    $testdb.drop_table(:cherry)
     $testdb.drop_table(:fruit_salad_rlshp)
     $testdb.drop_table(:friends_rlshp)
   end
@@ -93,13 +95,33 @@ describe 'Relationships' do
               "subtype" => "ref",
               "properties" => {
                 "ref" => {"type" => [{"type" => "JSONModel(:apple) uri"},
-                                     {"type" => "JSONModel(:banana) uri"}]}
+                                     {"type" => "JSONModel(:banana) uri"},
+                                     {"type" => "JSONModel(:cherry) uri"}]}
               }
             }
           }
         },
       },
     }')
+
+
+    JSONModel.stub(:schema_src).with('cherry').and_return('{
+      :schema => {
+        "$schema" => "http://www.archivesspace.org/archivesspace.json",
+        "type" => "object",
+        "uri" => "/cherries",
+        "properties" => {
+          "uri" => {"type" => "string", "required" => false},
+        },
+      },
+    }')
+
+
+    class Cherry < Sequel::Model(:cherry)
+      include ASModel
+      set_model_scope :global
+      corresponds_to JSONModel(:cherry)
+    end
 
 
     class Apple < Sequel::Model(:apple)
@@ -126,7 +148,7 @@ describe 'Relationships' do
       # they do.
       define_relationship(:name => :friends,
                           :json_property => 'friends',
-                          :contains_references_to_types => proc {[Apple, Banana]})
+                          :contains_references_to_types => proc {[Apple, Banana, Cherry]})
     end
 
 
@@ -142,6 +164,7 @@ describe 'Relationships' do
                           :contains_references_to_types => proc {[Apple, Banana]})
 
     end
+
   end
 
 
@@ -253,6 +276,37 @@ describe 'Relationships' do
     banana1.refresh
 
     banana2.linked_records(:friends)[0].should eq(banana1)
+  end
+
+
+  it "stops two updates from inadvertently overwriting each other's relationship changes" do
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
+    banana_json = JSONModel(:banana).new(:apples => [{
+                                                       :ref => apple.uri,
+                                                       :sauce => "yogurt"
+                                                     }])
+    banana = Banana.create_from_json(banana_json)
+
+    apple.name = "modified"
+
+    expect {
+      apple.save
+    }.to raise_error(Sequel::Plugins::OptimisticLocking::Error)
+  end
+
+
+  it "doesn't worry about relationship changes conflicting unless the involved classes have a reciprocal relationships" do
+    cherry = Cherry.create_from_json(JSONModel(:cherry).new)
+
+    banana_json = JSONModel(:banana).from_hash(:friends => [{
+                                                              :ref => cherry.uri
+                                                            }])
+
+    banana = Banana.create_from_json(banana_json)
+
+    expect {
+      cherry.save
+    }.to_not raise_error(Sequel::Plugins::OptimisticLocking::Error)
   end
 
 end

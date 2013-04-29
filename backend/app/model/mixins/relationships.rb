@@ -125,8 +125,8 @@ module Relationships
     end
 
 
-    def find_relationship(name)
-      @relationships[name] or raise "Couldn't find #{name} in #{@relationships.inspect}"
+    def find_relationship(name, noerror = false)
+      @relationships[name] or (noerror ? nil : raise("Couldn't find #{name} in #{@relationships.inspect}"))
     end
 
     # Define a new relationship.
@@ -187,7 +187,7 @@ module Relationships
     def apply_relationships(obj, json, opts, new_record = false)
       delete_existing_relationships(obj) if !new_record
 
-      @relationships.values.each do |relationship_defn|
+      @relationships.each do |relationship_name, relationship_defn|
         property_name = relationship_defn.json_property
 
         # For each record reference in our JSON data
@@ -215,7 +215,13 @@ module Relationships
 
           relationship_defn.relate(obj, referent, properties)
 
-          DB.increase_lock_version_or_fail(referent) unless opts[:system_generated]
+          # If this is a reciprocal relationship (defined on both participating
+          # models), update the referent's lock version to ensure that a
+          # concurrent update to that object won't clobber our changes.
+
+          if referent_model.find_relationship(relationship_name, true) && !opts[:system_generated]
+            DB.increase_lock_version_or_fail(referent)
+          end
         end
       end
     end
