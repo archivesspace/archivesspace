@@ -47,7 +47,7 @@ describe 'User controller' do
     otheruser.username.should_not eq(new_username)
     
     updated = build(:json_user, {:username => new_username})
-    otheruser.update(updated)
+    otheruser.update(updated.to_hash)
     otheruser.username.should eq(new_username)
     otheruser.save(:password => '456')
     user = JSONModel(:user).find(otheruser.id)

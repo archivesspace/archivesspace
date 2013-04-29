@@ -166,25 +166,22 @@ Sequel.migration do
       String :name, :null => false
       String :org_code
       String :parent_institution_name
-      String :address_1
-      String :address_2
-      String :city
-      String :district
-      DynamicEnum :country_id
-      String :post_code
-      String :telephone
-      String :telephone_ext
-      String :fax
-      String :email
-      String :email_signature
       String :url
       String :image_url
       TextField :contact_persons
+      DynamicEnum :country_id
+
+      Integer :agent_representation_id, :null => true
 
       Integer :hidden, :default => 0
 
       DateTime :create_time, :null => false
       DateTime :last_modified, :null => false, :index => true
+    end
+
+
+    alter_table(:repository) do
+      add_foreign_key([:agent_representation_id], :agent_corporate_entity, :key => :id)
     end
 
 
@@ -785,6 +782,7 @@ Sequel.migration do
       TextField :telephone_ext, :null => true
       TextField :fax, :null => true
       TextField :email, :null => true
+      TextField :email_signature, :null => true
       TextField :note, :null => true
 
       DateTime :create_time, :null => false

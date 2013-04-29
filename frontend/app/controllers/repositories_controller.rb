@@ -11,12 +11,30 @@ class RepositoriesController < ApplicationController
   end
 
   def new
-    @repository = JSONModel(:repository).new._always_valid!
+    @repository = JSONModel(:repository_with_agent).new('repository' => {},
+                                                        'agent_representation' => {
+                                                          'agent_contacts' => [{}]
+                                                        })._always_valid!
   end
 
+
+  def generate_names(repository_with_agent)
+    name = JSONModel(:name_corporate_entity).new
+    name['primary_name'] = repository_with_agent['repository']['name'].blank? ? '<generated>' : repository_with_agent['repository']['name']
+    name['source'] = 'local'
+    name['sort_name'] = name['primary_name']
+
+    repository_with_agent['agent_representation']['names'] = [name]
+    if repository_with_agent['agent_representation']['agent_contacts']['0']['name'].blank?
+      repository_with_agent['agent_representation']['agent_contacts']['0']['name'] = name['primary_name']
+    end
+  end
+
+
   def create
+    generate_names(params[:repository])
     handle_crud(:instance => :repository,
-                :model => JSONModel(:repository),
+                :model => JSONModel(:repository_with_agent),
                 :on_invalid => ->(){
                   return render :partial => "repositories/new" if inline?
                   return render :action => :new
@@ -34,13 +52,15 @@ class RepositoriesController < ApplicationController
   end
 
   def edit
-    @repository = JSONModel(:repository).find(params[:id])
+    @repository = JSONModel(:repository_with_agent).find(params[:id])
   end
 
   def update
+    generate_names(params[:repository])
     handle_crud(:instance => :repository,
-                :model => JSONModel(:repository),
-                :obj => JSONModel(:repository).find(params[:id]),
+                :model => JSONModel(:repository_with_agent),
+                :replace => false,
+                :obj => JSONModel(:repository_with_agent).find(params[:id]),
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
                   MemoryLeak::Resources.refresh(:repository)
@@ -51,7 +71,7 @@ class RepositoriesController < ApplicationController
   end
 
   def show
-    @repository = JSONModel(:repository).find(params[:id])
+    @repository = JSONModel(:repository_with_agent).find(params[:id])
     flash.now[:info] = I18n.t("repository._html.messages.selected") if @repository.id === session[:repo_id]
   end
 

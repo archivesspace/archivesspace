@@ -171,7 +171,7 @@ module JSONModel
       entry[:schema]["properties"]["create_time"] = {"type" => "date-time", "readonly" => true}
 
       # Records may include a reference to the repository that contains them
-      entry[:schema]["properties"]["repository"] = {
+      entry[:schema]["properties"]["repository"] ||= {
         "type" => "object",
         "subtype" => "ref",
         "readonly" => "true",
@@ -604,7 +604,7 @@ module JSONModel
       # 'params', validating before accepting the update.
       def update(params)
         @validated = false
-        replace(@data.merge(params))
+        replace(JSONModel.deep_merge(@data, params))
       end
 
 
