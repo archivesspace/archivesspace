@@ -247,6 +247,7 @@ en:
       local: Local rules
       aacr: Anglo-American Cataloging Rules
       dacs: "Describing Archives: A Content Standard"
+      rda: "Resource Description and Access"
     extent_extent_type:
       cassettes: Cassettes
       cubic_feet: Cubic Feet
