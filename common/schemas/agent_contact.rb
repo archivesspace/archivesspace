@@ -18,6 +18,7 @@
       "telephone_ext" => {"type" => "string", "maxLength" => 65000},
       "fax" => {"type" => "string", "maxLength" => 65000},
       "email" => {"type" => "string", "maxLength" => 65000},
+      "email_signature" => {"type" => "string", "maxLength" => 65000},
       "note" => {"type" => "string", "maxLength" => 65000},
     },
 
