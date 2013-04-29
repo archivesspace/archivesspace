@@ -102,9 +102,6 @@
    <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'Properties'</span><span class='comma token'>,</span> <span class='string val'>'IfMissing'</span><span class='comma token'>,</span> <span class='string val'>'ArchivesSpaceSubType'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
    <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/([A-Z]+: )?The property '.*?' did not contain a required property of '(.*?)'.*/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-
-     <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_Validator constant id'>Validator</span><span class='dot token'>.</span><span class='rubyid_schemas identifier id'>schemas</span><span class='lbrack token'>[</span><span class='rubyid_message identifier id'>message</span><span class='lbrack token'>[</span><span class='symbol val'>:schema</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span>
-
      <span class='rubyid_if if kw'>if</span> <span class='rubyid_type identifier id'>type</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_type identifier id'>type</span> <span class='match op'>=~</span> <span class='regexp val'>/ERROR/</span>
        <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&quot;Property is required but was missing&quot;</span><span class='rbrack token'>]</span>
      <span class='rubyid_else else kw'>else</span>
@@ -481,6 +478,9 @@ them into a structured format like:.</p>
       <pre class="lines">
 
 
+351
+352
+353
 354
 355
 356
@@ -497,13 +497,10 @@ them into a structured format like:.</p>
 367
 368
 369
-370
-371
-372
-373</pre>
+370</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 354</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 351</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_apply_schema_defaults identifier id'>apply_schema_defaults</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
   <span class='rubyid_fn identifier id'>fn</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
@@ -546,6 +543,9 @@ them into a structured format like:.</p>
       <pre class="lines">
 
 
+313
+314
+315
 316
 317
 318
@@ -554,13 +554,10 @@ them into a structured format like:.</p>
 321
 322
 323
-324
-325
-326
-327</pre>
+324</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 313</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_drop_empty_elements identifier id'>drop_empty_elements</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
@@ -609,6 +606,9 @@ client, but are not part of the data model.</p>
       <pre class="lines">
 
 
+333
+334
+335
 336
 337
 338
@@ -621,13 +621,10 @@ client, but are not part of the data model.</p>
 345
 346
 347
-348
-349
-350
-351</pre>
+348</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 336</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 333</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_drop_unknown_properties identifier id'>drop_unknown_properties</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_drop_readonly identifier id'>drop_readonly</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_fn identifier id'>fn</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
@@ -676,6 +673,9 @@ client, but are not part of the data model.</p>
       <pre class="lines">
 
 
+170
+171
+172
 173
 174
 175
@@ -685,13 +685,10 @@ client, but are not part of the data model.</p>
 179
 180
 181
-182
-183
-184
-185</pre>
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 170</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extract_suberrors identifier id'>extract_suberrors</span><span class='lparen token'>(</span><span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lbrack token'>[</span><span class='rubyid_errors identifier id'>errors</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span>
@@ -795,12 +792,12 @@ client, but are not part of the data model.</p>
       <pre class="lines">
 
 
-311
-312
-313</pre>
+308
+309
+310</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 311</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 308</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_blank? fid id'>is_blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='string val'>&quot;&quot;</span>
@@ -842,6 +839,9 @@ the node in the record tree.</p>
       <pre class="lines">
 
 
+232
+233
+234
 235
 236
 237
@@ -911,13 +911,10 @@ the node in the record tree.</p>
 301
 302
 303
-304
-305
-306
-307</pre>
+304</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 232</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_transformations identifier id'>transformations</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
@@ -1029,6 +1026,9 @@ them into a structured format like:</p>
       <pre class="lines">
 
 
+193
+194
+195
 196
 197
 198
@@ -1054,13 +1054,10 @@ them into a structured format like:</p>
 218
 219
 220
-221
-222
-223
-224</pre>
+221</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 193</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_schema_messages identifier id'>parse_schema_messages</span><span class='lparen token'>(</span><span class='rubyid_messages identifier id'>messages</span><span class='comma token'>,</span> <span class='rubyid_validator identifier id'>validator</span><span class='rparen token'>)</span>
 
@@ -1165,7 +1162,7 @@ them into a structured format like:</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:36 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:55 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -4,8 +4,6 @@ Properties
 
 string	digital_object_id
 
-boolean	publish
-
 string	level
 
 string	digital_object_type
@@ -19,6 +17,8 @@ object	tree
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}])	notes
 
 JSONModel(:collection_management) object	collection_management
+
+JSONModel(:user_defined) object	user_defined
 
 array (object)	linked_instances
 

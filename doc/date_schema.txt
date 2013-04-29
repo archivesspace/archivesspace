@@ -12,11 +12,7 @@ string	expression
 
 string	begin
 
-string	begin_time
-
 string	end
-
-string	end_time
 
 string	era
 

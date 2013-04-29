@@ -256,6 +256,65 @@ Ensure your file is named using the code of the target language - for English us
 <code>archivesspace/local/frontend/assets</code>. For example, your own logo image <code>archivesspace/local/frontend/assets/my_logo.png</code> will then be available via the URL
 <code>http://localhost:8080/assets/my_logo.png</code>.</p>
 
+<h1 id="creating-backups">Creating backups</h1>
+
+<h2 id="using-the-provided-script">Using the provided script</h2>
+
+<p>ArchivesSpace provides some simple scripts for backing up a single
+instance to a <code>.zip</code> file.  You can run:</p>
+
+<pre class="code ruby"><code> <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_backup identifier id'>backup</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_output identifier id'>output</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='rubyid_yyyymmdd identifier id'>yyyymmdd</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+</code></pre>
+
+<p>and the script will generate a file containing:</p>
+
+<ul>
+  <li>A snapshot of the Solr index and related indexer files</li>
+  <li>A snapshot of the demo database (if you&#8217;re using the demo
+database)</li>
+</ul>
+
+<p>If you&#8217;re running against MySQL and have <code>mysqldump</code> installed, you
+can also provide the <code>--mysqldump</code> option.  This will read the
+database settings from your configuration file and add a dump of your
+database to the resulting <code>.zip</code> file.</p>
+
+<h2 id="managing-your-own-backups">Managing your own backups</h2>
+
+<p>If you want more control over your backups, there&#8217;s nothing stopping
+you from developing your own scripts.  ArchivesSpace stores all
+persistent data in the database, so as long as you have backups of
+your database then you can always recover.</p>
+
+<p>If you&#8217;re running MySQL, the <code>mysqldump</code> utility can dump the database
+schema and data to a file.  It&#8217;s a good idea to run this with the
+<code>--single-transaction</code> option to avoid locking your database tables
+while your backups run.</p>
+
+<p>If you&#8217;re running with the demo database, you can create periodic
+database snapshots using the following configuration settings:</p>
+
+<pre class="code ruby"><code> <span class='comment val'># In this example, we create a snapshot at 4am each day and keep</span>
+ <span class='comment val'># 7 days' worth of backups</span>
+ <span class='comment val'>#</span>
+ <span class='comment val'># Database snapshots are written to 'data/demo_db_backups' by</span>
+ <span class='comment val'># default.</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:demo_db_backup_schedule</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0 4 * * *&quot;</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:demo_db_backup_number_to_keep</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>7</span>
+</code></pre>
+
+<p>Solr indexes can always be recreated from the contents of the
+database, but backing them up can reduce your recovery time if
+disaster strikes.  You can create periodic Solr snapshots using the
+following configuration settings:</p>
+
+<pre class="code ruby"><code> <span class='comment val'># Create one snapshot per hour and keep only one.</span>
+ <span class='comment val'>#</span>
+ <span class='comment val'># Solr snapshots are written to 'data/solr_backups' by default.</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_schedule</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0 * * * *&quot;</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_number_to_keep</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+</code></pre>
+
 <h1 id="further-documentation">Further documentation</h1>
 
 <p>Additional deployment documentation can be found on the ArchivesSpace
@@ -273,7 +332,7 @@ version 2.0</a>. See the
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:23 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:43 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

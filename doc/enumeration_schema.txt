@@ -8,6 +8,8 @@ string	name
 
 string	default_value
 
+boolean	editable
+
 array (string)	values
 
 

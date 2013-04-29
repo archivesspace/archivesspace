@@ -148,6 +148,29 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validation_error_for-class_method" title="validation_error_for (class method)">+ (Object) <strong>validation_error_for</strong>(expected_type, fragments, current_schema) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This reuse business is a bit of a pain.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -184,25 +207,6 @@
       <pre class="lines">
 
 
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
 54
 55
 56
@@ -240,10 +244,23 @@
 88
 89
 90
-91</pre>
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 54</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_validate identifier id'>validate</span><span class='lparen token'>(</span><span class='rubyid_current_schema identifier id'>current_schema</span><span class='comma token'>,</span> <span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_validator identifier id'>validator</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_types identifier id'>types</span> <span class='assign token'>=</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span>
@@ -261,12 +278,7 @@
        <span class='dstring node'>&quot;#{current_schema.schema[&quot;type&quot;]}&quot;</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;JSONModel&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
        <span class='notop op'>!</span><span class='dstring node'>&quot;#{current_schema.schema[&quot;type&quot;]}&quot;</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='dstring node'>&quot;JSONModel(:#{data['jsonmodel_type']})&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 
-    <span class='comment val'># Blow up</span>
-    <span class='rubyid_msg identifier id'>msg</span> <span class='assign token'>=</span> <span class='string val'>&quot;ERROR: Schema type mismatch.&quot;</span>
-    <span class='rubyid_msg identifier id'>msg</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; The passed in data has 'jsonmodel_type' set to '#{data[&quot;jsonmodel_type&quot;]}'&quot;</span>
-    <span class='rubyid_msg identifier id'>msg</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; but the current schema only supports types: #{current_schema.schema[&quot;type&quot;].inspect}.&quot;</span>
-
-    <span class='rubyid_validation_error identifier id'>validation_error</span><span class='lparen token'>(</span><span class='rubyid_msg identifier id'>msg</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_validation_error_for identifier id'>validation_error_for</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_jsonmodel_ref identifier id'>parse_jsonmodel_ref</span><span class='lparen token'>(</span><span class='rubyid_types identifier id'>types</span><span class='rparen token'>)</span>
@@ -282,16 +294,15 @@
     <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_qualifier identifier id'>qualifier</span> <span class='eq op'>==</span> <span class='string val'>'uri_or_object'</span> <span class='orop op'>||</span> <span class='rubyid_qualifier identifier id'>qualifier</span> <span class='eq op'>==</span> <span class='string val'>'object'</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
         <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-        <span class='rubyid_subvalidator identifier id'>subvalidator</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_Validator constant id'>Validator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span>
-                                           <span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span>
-                                           <span class='symbol val'>:errors_as_objects</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
-                                           <span class='symbol val'>:record_errors</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 
-        <span class='comment val'># Urk.  Validate the subrecord but pass in the fragments of the point</span>
-        <span class='comment val'># we're at in the parent record.</span>
-        <span class='rubyid_subvalidator identifier id'>subvalidator</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
-          <span class='rubyid_@base_schema ivar id'>@base_schema</span><span class='dot token'>.</span><span class='rubyid_validate identifier id'>validate</span><span class='lparen token'>(</span><span class='rubyid_@data ivar id'>@data</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_@validation_options ivar id'>@validation_options</span><span class='rparen token'>)</span>
+        <span class='rubyid_ValidatorCache constant id'>ValidatorCache</span><span class='dot token'>.</span><span class='rubyid_with_validator_for identifier id'>with_validator_for</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subvalidator identifier id'>subvalidator</span><span class='bitor op'>|</span>
+          <span class='comment val'># Urk.  Validate the subrecord but pass in the fragments of the point</span>
+          <span class='comment val'># we're at in the parent record.</span>
+          <span class='rubyid_subvalidator identifier id'>subvalidator</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
+            <span class='rubyid_@base_schema ivar id'>@base_schema</span><span class='dot token'>.</span><span class='rubyid_validate identifier id'>validate</span><span class='lparen token'>(</span><span class='rubyid_@data ivar id'>@data</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_@validation_options ivar id'>@validation_options</span><span class='rparen token'>)</span>
+          <span class='rubyid_end end kw'>end</span>
         <span class='rubyid_end end kw'>end</span>
+
       <span class='rubyid_else else kw'>else</span>
         <span class='rubyid_validation_error identifier id'>validation_error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;The property '#{build_fragment(fragments)}' of type &quot;</span> <span class='plus op'>+</span>
                          <span class='dstring node'>&quot;#{data.class} did not match the following type: #{types} in schema&quot;</span><span class='comma token'>,</span>
@@ -308,12 +319,73 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="validation_error_for-class_method">
+  
+    + (<tt>Object</tt>) <strong>validation_error_for</strong>(expected_type, fragments, current_schema) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>This reuse business is a bit of a pain.  The story here: JRuby backtraces
+are relatively expensive to create (relative to MRI Ruby), and JSON Schema
+validation is using exceptions as control flow here (sigh).  During imports,
+these validation error are hit a <em>lot</em>, and calculating a backtrace every
+time is expensive.</p>
+
+<p>So, we recycle.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 42</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_validation_error_for identifier id'>validation_error_for</span><span class='lparen token'>(</span><span class='rubyid_expected_type identifier id'>expected_type</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='rparen token'>)</span>
+  <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:json_validation_cached_errors</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:json_validation_cached_errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_expected_type identifier id'>expected_type</span><span class='rbrack token'>]</span>
+    <span class='rubyid_msg identifier id'>msg</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;ERROR: Schema type mismatch.  Expected type: #{expected_type}&quot;</span>
+    <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:json_validation_cached_errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_expected_type identifier id'>expected_type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_Schema constant id'>Schema</span><span class='colon2 op'>::</span><span class='rubyid_ValidationError constant id'>ValidationError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_msg identifier id'>msg</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:json_validation_cached_errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_expected_type identifier id'>expected_type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_fragments identifier id'>fragments</span> <span class='assign token'>=</span> <span class='rubyid_fragments identifier id'>fragments</span>
+  <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:json_validation_cached_errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_expected_type identifier id'>expected_type</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:51 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:08 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

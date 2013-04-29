@@ -1,0 +1,14 @@
+JSON Schema: Agent_relationship_parentchild
+
+Properties
+
+string	relator
+
+[{"type"=>"JSONModel(:agent_person) uri"}]	ref
+
+object	_resolved
+
+
+
+
+

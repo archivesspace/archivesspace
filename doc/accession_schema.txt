@@ -44,6 +44,8 @@ array (JSONModel(:deaccession) object)	deaccessions
 
 JSONModel(:collection_management) object	collection_management
 
+JSONModel(:user_defined) object	user_defined
+
 array (object)	related_resources
 
 boolean	suppressed
@@ -67,6 +69,8 @@ boolean	use_restrictions
 string	use_restrictions_note
 
 array (object)	linked_agents
+
+array (JSONModel(:instance) object)	instances
 
 
 

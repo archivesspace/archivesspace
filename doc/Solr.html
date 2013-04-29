@@ -122,53 +122,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#expire_snapshots-class_method" title="expire_snapshots (class method)">+ (Object) <strong>expire_snapshots</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, excluded_ids = [], extra_solr_params = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#snapshot-class_method" title="snapshot (class method)">+ (Object) <strong>snapshot</strong> </a>
+      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, excluded_ids = [], extra_solr_params = {}) </a>
     
 
     
@@ -221,80 +175,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="expire_snapshots-class_method">
+  <h3 class="signature first" id="search-class_method">
   
-    + (<tt>Object</tt>) <strong>expire_snapshots</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 87</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expire_snapshots identifier id'>expire_snapshots</span>
-  <span class='rubyid_backups identifier id'>backups</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_backups_dir identifier id'>backups_dir</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_directory</span><span class='rbrack token'>]</span>
-
-  <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_foreach identifier id'>foreach</span><span class='lparen token'>(</span><span class='rubyid_backups_dir identifier id'>backups_dir</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_filename identifier id'>filename</span><span class='bitor op'>|</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_filename identifier id'>filename</span> <span class='match op'>=~</span> <span class='regexp val'>/^solr\.[0-9]+$/</span>
-      <span class='rubyid_backups identifier id'>backups</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_backups_dir identifier id'>backups_dir</span><span class='comma token'>,</span> <span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_victims identifier id'>victims</span> <span class='assign token'>=</span> <span class='rubyid_backups identifier id'>backups</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_drop identifier id'>drop</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_number_to_keep</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_victims identifier id'>victims</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_backup_dir identifier id'>backup_dir</span><span class='bitor op'>|</span>
-
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_backup_dir identifier id'>backup_dir</span><span class='comma token'>,</span> <span class='string val'>&quot;indexer_state&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Expiring old Solr snapshot: #{backup_dir}&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_rm_rf identifier id'>rm_rf</span><span class='lparen token'>(</span><span class='rubyid_backup_dir identifier id'>backup_dir</span><span class='rparen token'>)</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Too cowardly to delete: #{backup_dir}&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="search-class_method">
-  
-    + (<tt>Object</tt>) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, excluded_ids = [], extra_solr_params = {}) 
+    + (<tt>Object</tt>) <strong>search</strong>(query, page, page_size, repo_id, record_types = nil, show_suppressed = false, show_published_only = false, excluded_ids = [], extra_solr_params = {}) 
   
 
   
@@ -378,13 +261,17 @@
 81
 82
 83
-84</pre>
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span>
-                <span class='rubyid_record_types identifier id'>record_types</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
+                <span class='rubyid_record_types identifier id'>record_types</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_show_published_only identifier id'>show_published_only</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
                 <span class='rubyid_excluded_ids identifier id'>excluded_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_extra_solr_params identifier id'>extra_solr_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_solr_url identifier id'>solr_url</span>
 
@@ -416,6 +303,10 @@
     <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='string val'>&quot;suppressed:false&quot;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_show_published_only identifier id'>show_published_only</span>
+    <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='string val'>&quot;publish:true&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_excluded_ids identifier id'>excluded_ids</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_excluded_ids identifier id'>excluded_ids</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_excluded_ids identifier id'>excluded_ids</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;\&quot;#{id}\&quot;&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' OR '</span><span class='rparen token'>)</span>
     <span class='rubyid_opts identifier id'>opts</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;-id:(#{query})&quot;</span><span class='rbrack token'>]</span>
@@ -435,7 +326,7 @@
       <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
       <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'first_page'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
-      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'last_page'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'numFound'</span><span class='rbrack token'>]</span> <span class='div op'>/</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='dot token'>.</span><span class='rubyid_to_f identifier id'>to_f</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_floor identifier id'>floor</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'last_page'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'numFound'</span><span class='rbrack token'>]</span> <span class='div op'>/</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='dot token'>.</span><span class='rubyid_to_f identifier id'>to_f</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_ceil identifier id'>ceil</span>
       <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'this_page'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'start'</span><span class='rbrack token'>]</span> <span class='div op'>/</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
 
       <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'offset_first'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'response'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'start'</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
@@ -454,73 +345,6 @@
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Solr search failed: #{solr_response.body}&quot;</span>
     <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="snapshot-class_method">
-  
-    + (<tt>Object</tt>) <strong>snapshot</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 113</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_snapshot identifier id'>snapshot</span>
-  <span class='rubyid_timestamp identifier id'>timestamp</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
-
-  <span class='rubyid_target identifier id'>target</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_directory</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='dstring node'>&quot;solr.#{timestamp}&quot;</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_mkdir_p identifier id'>mkdir_p</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_cp_r identifier id'>cp_r</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:data_directory</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;indexer_state&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                 <span class='rubyid_target identifier id'>target</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_response identifier id'>get_response</span><span class='lparen token'>(</span><span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_url</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                                             <span class='string val'>&quot;/replication?command=backup&amp;numberToKeep=1&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='eq op'>==</span> <span class='string val'>'200'</span>
-    <span class='rubyid_latest identifier id'>latest</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_glob identifier id'>glob</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_index_directory</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;snapshot.*&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
-
-    <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_mv identifier id'>mv</span><span class='lparen token'>(</span><span class='rubyid_latest identifier id'>latest</span><span class='comma token'>,</span> <span class='rubyid_target identifier id'>target</span><span class='rparen token'>)</span>
-
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expire_snapshots identifier id'>expire_snapshots</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -565,7 +389,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:38 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:57 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

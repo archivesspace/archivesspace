@@ -254,23 +254,23 @@ URL of the backend).</p>
       <pre class="lines">
 
 
-345
-346
-347
-348
-349
-350
-351
 352
 353
 354
 355
 356
 357
-358</pre>
+358
+359
+360
+361
+362
+363
+364
+365</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 345</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 352</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extended identifier id'>extended</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_class class kw'>class</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_base identifier id'>base</span>
@@ -323,13 +323,6 @@ URL of the backend).</p>
       <pre class="lines">
 
 
-406
-407
-408
-409
-410
-411
-412
 413
 414
 415
@@ -345,10 +338,17 @@ URL of the backend).</p>
 425
 426
 427
-428</pre>
+428
+429
+430
+431
+432
+433
+434
+435</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 406</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 413</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='rubyid_my_url identifier id'>my_url</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -405,13 +405,6 @@ backend.</p>
       <pre class="lines">
 
 
-382
-383
-384
-385
-386
-387
-388
 389
 390
 391
@@ -420,10 +413,17 @@ backend.</p>
 394
 395
 396
-397</pre>
+397
+398
+399
+400
+401
+402
+403
+404</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 382</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 389</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_response identifier id'>get_response</span><span class='lparen token'>(</span><span class='rubyid_my_url identifier id'>my_url</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -462,12 +462,12 @@ backend.</p>
       <pre class="lines">
 
 
-400
-401
-402</pre>
+407
+408
+409</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 400</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 407</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find_by_uri identifier id'>find_by_uri</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -504,13 +504,6 @@ URL of the backend)</p>
       <pre class="lines">
 
 
-363
-364
-365
-366
-367
-368
-369
 370
 371
 372
@@ -518,10 +511,17 @@ URL of the backend)</p>
 374
 375
 376
-377</pre>
+377
+378
+379
+380
+381
+382
+383
+384</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 363</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_client.rb', line 370</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_my_url identifier id'>my_url</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_remaining_opts identifier id'>remaining_opts</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri_and_remaining_options_for identifier id'>uri_and_remaining_options_for</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -549,7 +549,7 @@ URL of the backend)</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:35 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:54 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

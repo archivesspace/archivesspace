@@ -348,7 +348,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_longpolling identifier id'>longpolling</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@longpolling ivar id'>@longpolling</span>
-    <span class='rubyid_@longpolling ivar id'>@longpolling</span> <span class='assign token'>=</span> <span class='rubyid_LongPolling constant id'>LongPolling</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:realtime_index_backlog_ms</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_@longpolling ivar id'>@longpolling</span> <span class='assign token'>=</span> <span class='rubyid_LongPolling constant id'>LongPolling</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:realtime_index_backlog_ms</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_@longpolling ivar id'>@longpolling</span>
@@ -519,7 +519,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:44 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:02 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

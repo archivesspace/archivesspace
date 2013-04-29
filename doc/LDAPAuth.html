@@ -243,6 +243,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#matching_usernames-instance_method" title="#matching_usernames (instance method)">- (Object) <strong>matching_usernames</strong>(query) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#name-instance_method" title="#name (instance method)">- (Object) <strong>name</strong> </a>
     
 
@@ -375,8 +398,7 @@
 78
 79
 80
-81
-82</pre>
+81</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ldapauth.rb', line 69</span>
@@ -393,7 +415,6 @@
 
     <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_attributes identifier id'>attributes</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -541,6 +562,49 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="matching_usernames-instance_method">
+  
+    - (<tt>Object</tt>) <strong>matching_usernames</strong>(query) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ldapauth.rb', line 84</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_matching_usernames identifier id'>matching_usernames</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
+  <span class='rubyid_bind identifier id'>bind</span>
+
+  <span class='rubyid_filter identifier id'>filter</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_LDAP constant id'>LDAP</span><span class='colon2 op'>::</span><span class='rubyid_Filter constant id'>Filter</span><span class='dot token'>.</span><span class='rubyid_begins identifier id'>begins</span><span class='lparen token'>(</span><span class='rubyid_@username_attribute ivar id'>@username_attribute</span><span class='comma token'>,</span> <span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@connection ivar id'>@connection</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='symbol val'>:base</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@base_dn ivar id'>@base_dn</span><span class='comma token'>,</span> <span class='symbol val'>:filter</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_filter identifier id'>filter</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_entry identifier id'>entry</span><span class='bitor op'>|</span>
+    <span class='rubyid_entry identifier id'>entry</span><span class='lbrack token'>[</span><span class='rubyid_@username_attribute ivar id'>@username_attribute</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+  <span class='rbrace token'>}</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:max_usernames_per_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="name-instance_method">
   
     - (<tt>Object</tt>) <strong>name</strong> 
@@ -576,7 +640,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:41 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:59 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

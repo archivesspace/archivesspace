@@ -22,6 +22,8 @@ string	processing_priority
 
 string	processing_status
 
+string	processing_funding_source
+
 string	processors
 
 boolean	rights_determined

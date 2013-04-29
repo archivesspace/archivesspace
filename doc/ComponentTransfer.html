@@ -173,7 +173,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#transfer-class_method" title="transfer (class method)">+ (Object) <strong>transfer</strong>(resource_uri, archival_object_uri) </a>
+      <a href="#transfer-class_method" title="transfer (class method)">+ (Object) <strong>transfer</strong>(target_resource_uri, archival_object_uri) </a>
     
 
     
@@ -228,16 +228,16 @@
       <pre class="lines">
 
 
-47
-48
-49
-50
-51
-52
-53</pre>
+59
+60
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/component_transfer.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/component_transfer.rb', line 59</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_deep_transfer identifier id'>deep_transfer</span><span class='lparen token'>(</span><span class='rubyid_new_resource_id identifier id'>new_resource_id</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span> <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='bitor op'>|</span>
@@ -286,7 +286,7 @@
       <div class="method_details ">
   <h3 class="signature " id="transfer-class_method">
   
-    + (<tt>Object</tt>) <strong>transfer</strong>(resource_uri, archival_object_uri) 
+    + (<tt>Object</tt>) <strong>transfer</strong>(target_resource_uri, archival_object_uri) 
   
 
   
@@ -319,12 +319,24 @@
 41
 42
 43
-44</pre>
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/component_transfer.rb', line 23</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_transfer identifier id'>transfer</span><span class='lparen token'>(</span><span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_transfer identifier id'>transfer</span><span class='lparen token'>(</span><span class='rubyid_target_resource_uri identifier id'>target_resource_uri</span><span class='comma token'>,</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
   <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
 
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
@@ -334,17 +346,29 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># Move the children first</span>
-  <span class='rubyid_deep_transfer identifier id'>deep_transfer</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_deep_transfer identifier id'>deep_transfer</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_target_resource_uri identifier id'>target_resource_uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
   <span class='comment val'># Now move the main object to the next </span>
   <span class='comment val'># available top-level slot in the target</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-  
-  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_resource identifier id'>resource</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_resource_uri identifier id'>resource_uri</span>
+
+  <span class='rubyid_source_resource_uri identifier id'>source_resource_uri</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'resource'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:ref</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_resource identifier id'>resource</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_target_resource_uri identifier id'>target_resource_uri</span>
   
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># generate an event to mark this component transfer</span>
+  <span class='rubyid_event identifier id'>event</span> <span class='assign token'>=</span> <span class='rubyid_Event constant id'>Event</span><span class='dot token'>.</span><span class='rubyid_for_component_transfer identifier id'>for_component_transfer</span><span class='lparen token'>(</span><span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='comma token'>,</span> <span class='rubyid_source_resource_uri identifier id'>source_resource_uri</span><span class='comma token'>,</span> <span class='rubyid_target_resource_uri identifier id'>target_resource_uri</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># refresh obj as lock version would have been incremented</span>
+  <span class='comment val'># after the event was created</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span>
+
+  <span class='comment val'># let's return the transferred object and the event</span>
+  <span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_event identifier id'>event</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -357,7 +381,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:30 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:50 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

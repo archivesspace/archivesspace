@@ -301,7 +301,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/models/search.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_global identifier id'>global</span><span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span>
-  <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:page</span><span class='rparen token'>)</span>
+  <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;page&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;page&quot;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_search_data identifier id'>search_data</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/search&quot;</span><span class='comma token'>,</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span>
   <span class='rubyid_search_data identifier id'>search_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_criteria identifier id'>criteria</span>
@@ -319,7 +319,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:46 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:03 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -10,31 +10,17 @@ string	name
 
 string	org_code
 
-string	parent_institution_name
-
-string	address_1
-
-string	address_2
-
-string	city
-
-string	district
-
 string	country
 
-string	post_code
-
-string	telephone
-
-string	fax
-
-string	email
-
-string	email_signature
+string	parent_institution_name
 
 string	url
 
 string	image_url
+
+string	contact_persons
+
+object	agent_representation
 
 
 

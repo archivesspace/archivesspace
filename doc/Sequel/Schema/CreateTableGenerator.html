@@ -145,6 +145,52 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#DynamicEnum-instance_method" title="#DynamicEnum (instance method)">- (Object) <strong>DynamicEnum</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#LongString-instance_method" title="#LongString (instance method)">- (Object) <strong>LongString</strong>(field, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#TextBlobField-instance_method" title="#TextBlobField (instance method)">- (Object) <strong>TextBlobField</strong>(field, opts = {}) </a>
     
 
@@ -212,27 +258,91 @@
       <pre class="lines">
 
 
-36
-37
-38
-39
-40
 41
 42
 43
-44</pre>
+44
+45
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_BlobField constant id'>BlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:postgres</span>
     <span class='rubyid_Bytea constant id'>Bytea</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:h2</span>
-    <span class='rubyid_String constant id'>String</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10240</span><span class='rparen token'>)</span>
+    <span class='rubyid_String constant id'>String</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>128000</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_Blob constant id'>Blob</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="DynamicEnum-instance_method">
+  
+    - (<tt>Object</tt>) <strong>DynamicEnum</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 52</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_DynamicEnum constant id'>DynamicEnum</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span>
+  <span class='rubyid_foreign_key identifier id'>foreign_key</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:enumeration_value</span><span class='comma token'>,</span> <span class='symbol val'>:key</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="LongString-instance_method">
+  
+    - (<tt>Object</tt>) <strong>LongString</strong>(field, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 27</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_LongString constant id'>LongString</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_String constant id'>String</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>17408</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -255,16 +365,16 @@
       <pre class="lines">
 
 
-27
-28
-29
-30
-31
 32
-33</pre>
+33
+34
+35
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 32</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_TextBlobField constant id'>TextBlobField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:derby</span>
@@ -307,7 +417,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_TextField constant id'>TextField</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:derby</span>
-    <span class='rubyid_String constant id'>String</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>32672</span><span class='rparen token'>)</span>
+    <span class='rubyid_Clob constant id'>Clob</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_Text constant id'>Text</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span>
   <span class='rubyid_end end kw'>end</span>
@@ -323,7 +433,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:52 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:09 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

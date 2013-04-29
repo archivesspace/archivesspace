@@ -28,6 +28,8 @@ string	fax
 
 string	email
 
+string	email_signature
+
 string	note
 
 

@@ -14,6 +14,8 @@ string	level
 
 string	node_type
 
+boolean	publish
+
 array (JSONModel(:record_tree) object)	children
 
 

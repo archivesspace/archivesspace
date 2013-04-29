@@ -10,6 +10,22 @@ string	name
 
 object	permissions
 
+array (JSONModel(:group) uri)	groups
+
+string	email
+
+string	first_name
+
+string	last_name
+
+string	telephone
+
+string	title
+
+string	department
+
+string	additional_contact
+
 object	agent_record
 
 

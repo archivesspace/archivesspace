@@ -20,8 +20,6 @@ string	resource_type
 
 object	tree
 
-boolean	publish
-
 boolean	restrictions
 
 string	repository_processing_note
@@ -65,6 +63,8 @@ array (JSONModel(:instance) object)	instances
 array (JSONModel(:deaccession) object)	deaccessions
 
 JSONModel(:collection_management) object	collection_management
+
+JSONModel(:user_defined) object	user_defined
 
 array (object)	related_accessions
 

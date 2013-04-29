@@ -10,6 +10,8 @@ string	event_type
 
 JSONModel(:date) object	date
 
+string	timestamp
+
 string	outcome
 
 string	outcome_note

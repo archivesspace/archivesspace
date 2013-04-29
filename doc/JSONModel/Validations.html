@@ -567,8 +567,6 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-61
-62
 63
 64
 65
@@ -598,7 +596,7 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
 89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 63</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_date identifier id'>check_date</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -610,21 +608,19 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;date_type&quot;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;inclusive&quot;</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;date_type&quot;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;bulk&quot;</span>
     <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;begin&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;begin&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;begin_time&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;end_time&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;begin_time&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end_time&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;begin_time&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;end_time&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
     <span class='comment val'># check that end isn't before begin</span>
     <span class='comment val'># need to expand to full date+time - choosing to use rfc3339, though just doing a string compare</span>
     <span class='rubyid_bt identifier id'>bt</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{hash[&quot;begin&quot;]}&quot;</span>
     <span class='float val'>2</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='lbrace token'>{</span> <span class='rubyid_bt identifier id'>bt</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-01'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_bt identifier id'>bt</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d\-\d\d/</span> <span class='rbrace token'>}</span>
-    <span class='rubyid_bt identifier id'>bt</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;T#{hash[&quot;begin_time&quot;] || '00:00:00'}+00:00&quot;</span>
+    <span class='rubyid_bt identifier id'>bt</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;T00:00:00+00:00&quot;</span>
 
     <span class='rubyid_et identifier id'>et</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{hash[&quot;end&quot;]}&quot;</span>
     <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-12'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_et identifier id'>et</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d/</span>
     <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-31'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_et identifier id'>et</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d\-\d\d/</span>
-    <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;T#{hash[&quot;end_time&quot;] || '23:59:59'}+00:00&quot;</span>
+    <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;T23:59:59+00:00&quot;</span>
 
-    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be before begin&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_et identifier id'>et</span> <span class='lt op'>&lt;</span> <span class='rubyid_bt identifier id'>bt</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be before begin&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_et identifier id'>et</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_bt identifier id'>bt</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_errors identifier id'>errors</span>
@@ -650,8 +646,6 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-5
-6
 7
 8
 9
@@ -660,10 +654,12 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
 12
 13
 14
-15</pre>
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 7</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_identifier identifier id'>check_identifier</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_ids identifier id'>ids</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='integer val'>4</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;id_#{i}&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -803,14 +799,14 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-43
-44
 45
 46
-47</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 45</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_name identifier id'>check_name</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -947,8 +943,6 @@ https://www.pivotaltracker.com/story/show/41430143</p>
       <pre class="lines">
 
 
-28
-29
 30
 31
 32
@@ -960,10 +954,12 @@ https://www.pivotaltracker.com/story/show/41430143</p>
 38
 39
 40
-41</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_source identifier id'>check_source</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1049,7 +1045,7 @@ https://www.pivotaltracker.com/story/show/41430143</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:35 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:53 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

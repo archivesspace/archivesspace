@@ -1,0 +1,14 @@
+JSON Schema: Agent_relationship_earlierlater
+
+Properties
+
+string	relator
+
+[{"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_family) uri"}]	ref
+
+object	_resolved
+
+
+
+
+

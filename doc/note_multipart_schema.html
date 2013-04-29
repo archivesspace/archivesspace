@@ -114,26 +114,7 @@
 23
 24
 25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45</pre>
+26</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/note_multipart.rb', line 1</span>
@@ -141,6 +122,7 @@
 <span class='lbrace token'>{</span>
   <span class='symbol val'>:schema</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
     <span class='string val'>&quot;$schema&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://www.archivesspace.org/archivesspace.json&quot;</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span>
     <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;object&quot;</span><span class='comma token'>,</span>
     <span class='string val'>&quot;parent&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;abstract_note&quot;</span><span class='comma token'>,</span>
 
@@ -149,27 +131,7 @@
       <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='comma token'>,</span>
-        <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;accruals&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;appraisal&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;arrangement&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;bioghist&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;accessrestrict&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;userestrict&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;custodhist&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;dimensions&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;altformavail&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;originalsloc&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;fileplan&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;odd&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;acqinfo&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;legalstatus&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;otherfindaid&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;phystech&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;prefercite&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;processinfo&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;relatedmaterial&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;scopecontent&quot;</span><span class='comma token'>,</span>
-                   <span class='string val'>&quot;separatedmaterial&quot;</span><span class='rbrack token'>]</span>
+        <span class='string val'>&quot;dynamic_enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;note_multipart_type&quot;</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;subnotes&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
@@ -196,7 +158,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:55 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:12 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

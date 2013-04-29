@@ -10,9 +10,11 @@ string	level
 
 string	other_level
 
-	title
+string	title
 
 boolean	title_auto_generate
+
+boolean	internal_only
 
 object	parent
 

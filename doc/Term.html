@@ -319,12 +319,12 @@
       <pre class="lines">
 
 
-47
-48
-49</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_broadcast_changes identifier id'>broadcast_changes</span>
   <span class='rubyid_Notifications constant id'>Notifications</span><span class='dot token'>.</span><span class='rubyid_notify identifier id'>notify</span><span class='lparen token'>(</span><span class='string val'>&quot;VOCABULARY_CHANGED&quot;</span><span class='rparen token'>)</span>
@@ -397,7 +397,9 @@
 42
 43
 44
-45</pre>
+45
+46
+47</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/term.rb', line 37</span>
@@ -406,9 +408,11 @@
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span>
+    <span class='rubyid_term_type_id identifier id'>term_type_id</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='string val'>&quot;subject_term_type&quot;</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_term_type identifier id'>term_type</span><span class='rparen token'>)</span>
+
     <span class='rubyid_Term constant id'>Term</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:vocab_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:vocabulary</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_vocabulary identifier id'>vocabulary</span><span class='rparen token'>)</span><span class='comma token'>,</span>
               <span class='symbol val'>:term</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_term identifier id'>term</span><span class='comma token'>,</span>
-              <span class='symbol val'>:term_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_term_type identifier id'>term_type</span><span class='rparen token'>)</span>
+              <span class='symbol val'>:term_type_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_term_type_id identifier id'>term_type_id</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -525,8 +529,8 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:term</span><span class='comma token'>,</span> <span class='symbol val'>:term_type</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Term must be unique&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:term</span><span class='comma token'>,</span> <span class='symbol val'>:term_type</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:term</span><span class='rparen token'>)</span>
+  <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:term</span><span class='comma token'>,</span> <span class='symbol val'>:term_type_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Term must be unique&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:term</span><span class='comma token'>,</span> <span class='symbol val'>:term_type_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:term</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -539,7 +543,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:39 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:57 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

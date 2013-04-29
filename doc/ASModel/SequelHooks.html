@@ -117,6 +117,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#_save_refresh-instance_method" title="#_save_refresh (instance method)">- (Object) <strong>_save_refresh</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>We can save quite a lot of database chatter by only refreshing our
+top-level records upon save.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#before_create-instance_method" title="#before_create (instance method)">- (Object) <strong>before_create</strong> </a>
     
 
@@ -170,7 +194,54 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="before_create-instance_method">
+  <h3 class="signature first" id="_save_refresh-instance_method">
+  
+    - (<tt>Object</tt>) <strong>_save_refresh</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>We can save quite a lot of database chatter by only refreshing our
+top-level records upon save.  Pure-nested records don&#8217;t need refreshing,
+so skip them.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+465
+466
+467
+468
+469</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 465</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid__save_refresh identifier id'>_save_refresh</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_has_jsonmodel? fid id'>has_jsonmodel?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
+    <span class='rubyid__refresh identifier id'>_refresh</span><span class='lparen token'>(</span><span class='rubyid_this identifier id'>this</span><span class='dot token'>.</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:server</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_this identifier id'>this</span> <span class='colon op'>:</span> <span class='rubyid_this identifier id'>this</span><span class='dot token'>.</span><span class='rubyid_server identifier id'>server</span><span class='lparen token'>(</span><span class='symbol val'>:default</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="before_create-instance_method">
   
     - (<tt>Object</tt>) <strong>before_create</strong> 
   
@@ -184,14 +255,14 @@
       <pre class="lines">
 
 
-449
-450
-451
-452
-453</pre>
+471
+472
+473
+474
+475</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 449</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 471</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_create identifier id'>before_create</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_time identifier id'>create_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -219,13 +290,13 @@
       <pre class="lines">
 
 
-456
-457
-458
-459</pre>
+478
+479
+480
+481</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 456</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 478</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_update identifier id'>before_update</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last_modified identifier id'>last_modified</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -242,7 +313,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:29 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:48 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

@@ -732,7 +732,6 @@
       <pre class="lines">
 
 
-106
 107
 108
 109
@@ -740,10 +739,11 @@
 111
 112
 113
-114</pre>
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_sort_direction identifier id'>current_sort_direction</span>
   <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;desc&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_sorted? fid id'>sorted?</span>
@@ -853,12 +853,12 @@
       <pre class="lines">
 
 
-136
 137
-138</pre>
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 137</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_facet_label_for_query identifier id'>facet_label_for_query</span>
   <span class='dstring node'>&quot;#{I18n.t(&quot;search_results.filter.query&quot;)}: #{@search_data[:criteria][&quot;q&quot;]}&quot;</span>
@@ -894,7 +894,8 @@
 79
 80
 81
-82</pre>
+82
+83</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 72</span>
@@ -903,6 +904,7 @@
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{facet}._html.singular&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_facet identifier id'>facet</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_facet_group identifier id'>facet_group</span> <span class='eqq op'>===</span> <span class='string val'>&quot;primary_type&quot;</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.name_source.#{facet}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_facet identifier id'>facet</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_facet_group identifier id'>facet_group</span> <span class='eqq op'>===</span> <span class='string val'>&quot;source&quot;</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.name_rule.#{facet}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_facet identifier id'>facet</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_facet_group identifier id'>facet_group</span> <span class='eqq op'>===</span> <span class='string val'>&quot;rules&quot;</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;boolean.#{facet.to_s}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_facet identifier id'>facet</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_facet_group identifier id'>facet_group</span> <span class='eqq op'>===</span> <span class='string val'>&quot;publish&quot;</span>
 
   <span class='comment val'># labels for collection management groups</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{facet}._html.singular&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_facet identifier id'>facet</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_facet_group identifier id'>facet_group</span> <span class='eqq op'>===</span> <span class='string val'>&quot;parent_type&quot;</span>
@@ -1108,12 +1110,12 @@
       <pre class="lines">
 
 
-132
 133
-134</pre>
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 133</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_query? fid id'>query?</span>
   <span class='rubyid_not not kw'>not</span> <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;q&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
@@ -1162,12 +1164,12 @@
       <pre class="lines">
 
 
-84
 85
-86</pre>
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 85</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_results? fid id'>results?</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'results'</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='string val'>'results'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -1216,12 +1218,12 @@
       <pre class="lines">
 
 
-88
 89
-90</pre>
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 89</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_single_type? fid id'>single_type?</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;type[]&quot;</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type[]&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;type[]&quot;</span><span class='rparen token'>)</span>
@@ -1247,16 +1249,16 @@
       <pre class="lines">
 
 
-116
 117
 118
 119
 120
 121
-122</pre>
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 117</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sort_filter_for identifier id'>sort_filter_for</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='string val'>&quot;asc&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;#{field} #{default}&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_field identifier id'>field</span> <span class='neq op'>!=</span> <span class='rubyid_sorted_by identifier id'>sorted_by</span>
@@ -1309,12 +1311,12 @@
       <pre class="lines">
 
 
-92
 93
-94</pre>
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 93</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sorted? fid id'>sorted?</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;sort&quot;</span><span class='rparen token'>)</span>
@@ -1340,7 +1342,6 @@
       <pre class="lines">
 
 
-96
 97
 98
 99
@@ -1348,10 +1349,11 @@
 101
 102
 103
-104</pre>
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 97</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sorted_by identifier id'>sorted_by</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_sorted? fid id'>sorted?</span>
@@ -1383,16 +1385,16 @@
       <pre class="lines">
 
 
-124
 125
 126
 127
 128
 129
-130</pre>
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sorted_by_label identifier id'>sorted_by_label</span>
   <span class='rubyid__sorted_by identifier id'>_sorted_by</span> <span class='assign token'>=</span> <span class='rubyid_sorted_by identifier id'>sorted_by</span>
@@ -1412,7 +1414,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:47 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:04 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

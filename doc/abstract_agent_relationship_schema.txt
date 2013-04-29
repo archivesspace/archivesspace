@@ -1,0 +1,12 @@
+JSON Schema: Abstract_agent_relationship
+
+Properties
+
+string	description
+
+JSONModel(:date) object	dates
+
+
+
+
+

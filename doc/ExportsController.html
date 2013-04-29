@@ -535,7 +535,7 @@
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
         <span class='rubyid_xml_response identifier id'>xml_response</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_chunk identifier id'>chunk</span><span class='comma token'>,</span> <span class='rubyid_percent identifier id'>percent</span><span class='bitor op'>|</span>
           <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{percent} complete&quot;</span><span class='rparen token'>)</span>
-          <span class='rubyid_y identifier id'>y</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_chunk identifier id'>chunk</span>
+          <span class='rubyid_y identifier id'>y</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_chunk identifier id'>chunk</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_chunk identifier id'>chunk</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>  
     <span class='rbrace token'>}</span>
@@ -651,7 +651,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:49 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:06 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

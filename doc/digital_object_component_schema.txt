@@ -4,8 +4,6 @@ Properties
 
 string	component_id
 
-boolean	publish
-
 string	label
 
 array (JSONModel(:file_version) object)	file_versions

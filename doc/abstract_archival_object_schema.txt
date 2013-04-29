@@ -10,6 +10,8 @@ string	title
 
 string	language
 
+boolean	publish
+
 array (object)	subjects
 
 array (JSONModel(:extent) object)	extents

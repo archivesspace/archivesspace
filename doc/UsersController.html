@@ -126,6 +126,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#complete-instance_method" title="#complete (instance method)">- (Object) <strong>complete</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#create-instance_method" title="#create (instance method)">- (Object) <strong>create</strong> </a>
     
 
@@ -347,7 +370,56 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="create-instance_method">
+  <h3 class="signature first" id="complete-instance_method">
+  
+    - (<tt>Object</tt>) <strong>complete</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 28</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_complete identifier id'>complete</span>
+  <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:query</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/users/complete&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:query</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:query</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
   
     - (<tt>Object</tt>) <strong>create</strong> 
   
@@ -361,19 +433,6 @@
       <pre class="lines">
 
 
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
 95
 96
 97
@@ -395,10 +454,23 @@
 113
 114
 115
-116</pre>
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
 
@@ -456,13 +528,13 @@
       <pre class="lines">
 
 
-28
-29
-30
-31</pre>
+41
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_@user ivar id'>@user</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -489,14 +561,14 @@
       <pre class="lines">
 
 
-33
-34
-35
-36
-37</pre>
+46
+47
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit_groups identifier id'>edit_groups</span>
   <span class='rubyid_@user ivar id'>@user</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/repositories/#{session[:repo_id]}/users/#{params[:id]}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -598,7 +670,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 23</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span> 
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@user ivar id'>@user</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
   <span class='rubyid_render identifier id'>render</span> <span class='rubyid_action identifier id'>action</span><span class='colon op'>:</span> <span class='string val'>&quot;new&quot;</span>
 <span class='rubyid_end end kw'>end</span>
@@ -631,7 +703,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 18</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span> 
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@user ivar id'>@user</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_render identifier id'>render</span> <span class='rubyid_action identifier id'>action</span><span class='colon op'>:</span> <span class='string val'>&quot;show&quot;</span>
 <span class='rubyid_end end kw'>end</span>
@@ -656,29 +728,29 @@
       <pre class="lines">
 
 
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
 52
 53
 54
 55
 56
 57
-58</pre>
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
 
@@ -721,29 +793,29 @@
       <pre class="lines">
 
 
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
 73
 74
 75
 76
 77
 78
-79</pre>
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_groups identifier id'>update_groups</span>
 
@@ -776,7 +848,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:48 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:05 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

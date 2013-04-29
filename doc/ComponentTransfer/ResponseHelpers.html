@@ -166,8 +166,8 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_component_transfer_response identifier id'>component_transfer_response</span><span class='lparen token'>(</span><span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
 
   <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_ComponentTransfer constant id'>ComponentTransfer</span><span class='dot token'>.</span><span class='rubyid_transfer identifier id'>transfer</span><span class='lparen token'>(</span><span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
-    <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='comma token'>,</span> <span class='symbol val'>:resource</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>200</span><span class='rparen token'>)</span>
+    <span class='lparen token'>(</span><span class='rubyid_ao identifier id'>ao</span><span class='comma token'>,</span> <span class='rubyid_event identifier id'>event</span><span class='rparen token'>)</span> <span class='assign token'>=</span> <span class='rubyid_ComponentTransfer constant id'>ComponentTransfer</span><span class='dot token'>.</span><span class='rubyid_transfer identifier id'>transfer</span><span class='lparen token'>(</span><span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='rparen token'>)</span>
+    <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_archival_object_uri identifier id'>archival_object_uri</span><span class='comma token'>,</span> <span class='symbol val'>:resource</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_resource_uri identifier id'>resource_uri</span><span class='comma token'>,</span> <span class='symbol val'>:event</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event identifier id'>event</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>200</span><span class='rparen token'>)</span>
 
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -182,7 +182,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:30 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:50 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

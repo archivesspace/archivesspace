@@ -275,7 +275,9 @@
 44
 45
 46
-47</pre>
+47
+48
+49</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/trees.rb', line 8</span>
@@ -300,6 +302,7 @@
       <span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
       <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
       <span class='symbol val'>:record_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_node_type identifier id'>node_type</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:publish</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span><span class='eqq op'>===</span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
       <span class='symbol val'>:node_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_type identifier id'>node_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
     <span class='rbrace token'>}</span>
 
@@ -310,6 +313,7 @@
     <span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
     <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
     <span class='symbol val'>:node_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_root_type identifier id'>root_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span>
+    <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:publish</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span><span class='eqq op'>===</span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
     <span class='symbol val'>:children</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_top_nodes identifier id'>top_nodes</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:first</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_assemble_tree identifier id'>assemble_tree</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_links identifier id'>links</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='symbol val'>:record_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_root_type identifier id'>root_type</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span>
@@ -331,7 +335,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 15 10:38:30 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:49 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>
