@@ -1157,7 +1157,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports errors if adding an empty child to a Resource" do
-      $driver.find_element(:link, "Add Component").click
+      $driver.find_element(:link, "Add Child").click
 
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
 
@@ -1244,7 +1244,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can add a child to an existing node and assign a Subject" do
-      $driver.find_element(:link, "Add Component").click
+      $driver.find_element(:link, "Add Child").click
 
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Christmas cards")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
@@ -1280,7 +1280,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can view a read only Archival Object" do
-      $driver.find_element(:link, 'Finish Editing').click
+      $driver.find_element(:link, 'Close Record').click
 
       assert(5) { $driver.find_element(:css, ".record-pane h2").text.should eq("Christmas cards Archival Object") }
 
@@ -1338,7 +1338,7 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element_with_text('//div', /Resource #{resource_title} updated/).should_not be_nil
 
-      $driver.find_element(:link, 'Finish Editing').click
+      $driver.find_element(:link, 'Close Record').click
     end
 
 
@@ -1358,7 +1358,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#resource_extents_ .confirm-removal').click
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
-      $driver.find_element(:link, 'Finish Editing').click
+      $driver.find_element(:link, 'Close Record').click
 
       extent_headings = $driver.blocking_find_elements(:css => '#resource_extents_ .accordion-heading')
 
@@ -1436,7 +1436,7 @@ describe "ArchivesSpace user interface" do
 
       # Save the resource
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
-      $driver.find_element(:link, 'Finish Editing').click
+      $driver.find_element(:link, 'Close Record').click
     end
 
 
@@ -1474,7 +1474,7 @@ describe "ArchivesSpace user interface" do
 
       # Save the resource
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
-      $driver.find_element(:link, 'Finish Editing').click
+      $driver.find_element(:link, 'Close Record').click
 
       $driver.find_element_with_text("//div", /pogo/)
     end
@@ -1520,7 +1520,7 @@ describe "ArchivesSpace user interface" do
 
       # Save the resource
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
-      $driver.find_element(:link, 'Finish Editing').click
+      $driver.find_element(:link, 'Close Record').click
     end
 
 
@@ -1538,7 +1538,7 @@ describe "ArchivesSpace user interface" do
 
       # Save the resource
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
-      $driver.find_element(:link, 'Finish Editing').click
+      $driver.find_element(:link, 'Close Record').click
 
       $driver.blocking_find_elements(:css => '#resource_deaccessions_').length.should eq(1)
     end
@@ -1558,7 +1558,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "form#resource_form button[type='submit']").click
 
       # Give it a child AO
-      $driver.find_element(:link, "Add Component").click
+      $driver.find_element(:link, "Add Child").click
 
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "An Archival Object with notes")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
@@ -1652,7 +1652,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "reports errors if adding an empty child to a Digital Object" do
-      $driver.find_element(:link, "Add Component").click
+      $driver.find_element(:link, "Add Child").click
 
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
@@ -1701,7 +1701,7 @@ describe "ArchivesSpace user interface" do
 
     it "can drag and drop reorder a Digital Object" do
       # create grand child
-      $driver.find_element(:link, "Add Component").click
+      $driver.find_element(:link, "Add Child").click
 
       $driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
       $driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))

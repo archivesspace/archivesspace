@@ -46,7 +46,7 @@ en:
     export_dc: Download DC
     loading: Loading...
     revert: Revert Changes
-    finish_editing: Finish Editing
+    finish_editing: Close Record
     merge: Merge
   states:
     suppressed: Suppressed
@@ -215,7 +215,7 @@ en:
       section:
         basic_information: Basic Information
       action:
-        add_child: Add Component
+        add_child: Add Child
   digital_object_component:
     <<: *digital_object_attributes
     label: Label
@@ -243,7 +243,7 @@ en:
       section:
         basic_information: Basic Information
       action:
-        add_child: Add Component
+        add_child: Add Child
         add_sibling: Add Sibling
   location:
     title: Title
@@ -1296,7 +1296,7 @@ en:
       section:
         basic_information: Basic Information
       action:
-        add_child: Add Component
+        add_child: Add Child
         add_sibling: Add Sibling
   group:
     group_code: Group code
@@ -1417,7 +1417,7 @@ en:
         basic_information: Basic Information
         finding_aid: Finding Aid Data
       action:
-        add_child: Add Component
+        add_child: Add Child
   related_accession:
     _html:
       singular: Related Accession
