@@ -1,4 +1,4 @@
-<%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
+<%= render :partial => "shared/form_messages", :locals => {:object => @repository, :form => form} %>
 
 <fieldset>
   <% define_template("repository", jsonmodel_definition(:repository)) do |form| %>
@@ -8,25 +8,44 @@
       <hr/>
       <%= form.label_and_textfield "org_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textfield "parent_institution_name" %>
-      <%= form.label_and_textfield "address_1" %>
-      <%= form.label_and_textfield "address_2" %>
-      <%= form.label_and_textfield "city" %>
-      <%= form.label_and_textfield "district" %>
       <%= form.label_and_select "country",  form.possible_options_for("country", true) %>
-      <%= form.label_and_textfield "post_code" %>
-      <%= form.label_and_textfield "telephone" %>
-      <%= form.label_and_textfield "telephone_ext" %>
-      <%= form.label_and_textfield "fax" %>
-      <%= form.label_and_textfield "email" %>
-      <%= form.label_and_textfield "email_signature" %>
-      <hr/>
-      <%= form.label_and_textarea "contact_persons" %>
       <hr/>
       <%= form.label_and_textfield "url" %>
       <%= form.label_and_textfield "image_url" %>
     </section>
   <% end %>
   
-  <% form.emit_template("repository") %>
-  
+
+  <% define_template("agent_contact", jsonmodel_definition(:agent_contact)) do |item| %>
+    <section id="agent_contact">
+      <%= form.label_and_textfield "name", :required => false %>
+      <%= form.label_and_textfield "address_1" %>
+      <%= form.label_and_textfield "address_2" %>
+      <%= form.label_and_textfield "address_3" %>
+      <%= form.label_and_textfield "city" %>
+      <%= form.label_and_textfield "region" %>
+      <%= form.label_and_textfield "country" %>
+      <%= form.label_and_textfield "post_code" %>
+      <%= form.label_and_textfield "telephone" %>
+      <%= form.label_and_textfield "telephone_ext" %>
+      <%= form.label_and_textfield "fax" %>
+      <%= form.label_and_textfield "email" %>
+      <%= form.label_and_textfield "email_signature" %>
+      <%= form.label_and_textarea "note" %>
+    </section>
+  <% end %>
+
+  <h3><%= I18n.t("repository._html.section.all_fields") %></h3>
+  <% form.push("repository", form['repository']) do |form| %>
+    <% form.emit_template("repository") %>
+  <% end %>
+
+  <h3><%= I18n.t("agent_contact._html.plural") %></h3>
+  <% form.push("agent_representation", form['agent_representation']) do |form| %>
+    <%= form.list_for(form['agent_contacts'], "agent_contacts[]") do |item| %>
+      <% form.emit_template("agent_contact", item) %>
+    <% end %>
+  <% end %>
+
+
 </fieldset>

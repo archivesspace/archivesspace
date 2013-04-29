@@ -169,6 +169,7 @@ Sequel.migration do
       String :url
       String :image_url
       TextField :contact_persons
+      DynamicEnum :country_id
 
       Integer :agent_representation_id, :null => true
 

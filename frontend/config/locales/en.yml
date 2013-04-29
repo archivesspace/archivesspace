@@ -625,6 +625,9 @@ en:
     email: E-mail
     email_tooltip: |
         <p>E-mail address for the contact person.</p>
+    email_signature: E-mail Signature
+    email_signature_tooltip: |
+        <p>E-mail signature for the contact person.</p>
     note: Contact Notes
     note_tooltip: |
         <p>Additional notes or contact information for the contact person.</p>

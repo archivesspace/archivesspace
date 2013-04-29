@@ -374,7 +374,17 @@ module AspaceFormHelper
 
     def label_with_field(name, field_html, opts = {})
       control_group_classes = "control-group"
-      control_group_classes << " required" if opts["required"] or opts[:required] or required?(name)
+
+      # There must be a better way to say this...
+      # The value of the 'required' option wins out if set to either true or false
+      # if not specified, we take the value of required?
+      required = [:required, 'required'].map {|r| opts[r]}.compact.first
+      if required.nil?
+        required = required?(name)
+      end
+
+      control_group_classes << " required" if required
+
       control_group_classes << " #{opts[:control_class]}" if opts.has_key? :control_class
 
       controls_classes = "controls"

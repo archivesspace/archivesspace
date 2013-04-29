@@ -10,6 +10,7 @@
       "repo_code" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error", "minLength" => 1},
       "name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error", "default" => ""},
       "org_code" => {"type" => "string", "maxLength" => 255},
+      "country" => {"type" => "string", "required" => false, "dynamic_enum" => "country_iso_3166"},
       "parent_institution_name" => {"type" => "string", "maxLength" => 255},
       "url" => {"type" => "string", "maxLength" => 255, "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
       "image_url" => {"type" => "string", "maxLength" => 255, "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
