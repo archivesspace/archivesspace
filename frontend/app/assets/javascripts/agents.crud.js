@@ -36,12 +36,40 @@ $(function() {
     });
   };
 
-	
+
+
+  var init_linked_agent = function($subform) {
+    if ($subform.hasClass("linked_agent_initialised")) {
+      return;
+    } else {
+      $subform.addClass("linked_agent_initialised");
+    }
+
+    $subform.find('select.linked_agent_role').on('change', function () {
+      var form = $subform.find('.agent-terms');
+      if ($(this).val() == 'subject') {
+        form.find(':input').removeAttr('disabled');
+        form.show();
+      } else {
+        form.find(':input').attr('disabled', 'disabled');
+        form.hide();
+      }
+    });
+
+    $(document).triggerHandler("subrecordcreated.aspace", ["term", $("#terms", $subform)]);
+  };
+
 
 
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     if (object_name === "name") {
       init_name_form($(subform));
+    }
+
+    if (object_name === "linked_agent") {
+      var $subform = $(subform);
+      init_linked_agent($subform);
+      $subform.find('select.linked_agent_role').triggerHandler('change');
     }
   });
 

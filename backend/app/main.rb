@@ -198,7 +198,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   error NotFoundException do
-    json_response({:error => request.env['sinatra.error']}, 404)
+    json_response({:error => {"group_id" => [request.env['sinatra.error']]}}, 404)
   end
 
   error BadParamsException do

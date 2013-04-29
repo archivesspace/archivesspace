@@ -80,7 +80,7 @@ module ASModel
 
       super
 
-      uri = self.uri
+      uri = self.class.my_jsonmodel(true) && self.uri
 
       if uri
         Tombstone.create(:uri => uri)
@@ -397,8 +397,8 @@ module ASModel
 
 
       # Return the JSONModel class that maps to this backend model
-      def my_jsonmodel
-        @jsonmodel or raise "No corresponding JSONModel set for model #{self.inspect}"
+      def my_jsonmodel(ok_if_missing = false)
+        @jsonmodel or (ok_if_missing ? nil : raise("No corresponding JSONModel set for model #{self.inspect}"))
       end
 
 

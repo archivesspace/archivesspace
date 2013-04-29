@@ -7,7 +7,7 @@
     <% end %>
 
     <li><a href="#basic_information"><%= I18n.t("subject._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
-    <li><a href="#terms"><%= I18n.t("subject.terms") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#terms"><%= I18n.t("term._html.plural") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" or @subject.external_documents.length > 0 %>
       <li><a href="#subject_external_documents_"><%= I18n.t("external_document._html.plural") %> <span class="icon-chevron-right"></span></a></li>

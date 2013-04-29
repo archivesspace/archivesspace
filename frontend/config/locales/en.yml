@@ -304,6 +304,7 @@ en:
     ref_tooltip: |
         <p>The Agent related to the material described in the record.</p>
         <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p> 
+    terms: Terms
     _html:
       singular: Agent Link
       plural: Agent Links
@@ -1503,8 +1504,12 @@ en:
     term_type: Type
     term_type_tooltip: |
         <p>REQUIRED FIELD. An indicator for expressing the type or category of a subject term.</p>
+    _html:
+      singular: Term
+      plural: Terms
+      messages:
+        preview_pending: Subject Preview
   subject:
-    terms: Terms
     ref_id: Authority ID
     ref_id_tooltip: |
         <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
@@ -1519,7 +1524,6 @@ en:
         </ul>
     scope_note: Scope Note
     heading: Subject Heading
-    subject_preview: Subject Preview
     _html:
       singular: Subject
       plural: Subjects

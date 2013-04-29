@@ -57,6 +57,8 @@
               "ifmissing" => "error",
             },
 
+            "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri_or_object"}},
+
             "relator" => {
               "type" => "string",
               "dynamic_enum" => "linked_agent_archival_record_relators",

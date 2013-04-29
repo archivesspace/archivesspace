@@ -115,7 +115,7 @@ $(function() {
             }
 
             $this.parents("form:first").triggerHandler("form-changed");
-            $(document).triggerHandler("deleted.subrecord", [$this]);
+            $(document).triggerHandler("subrecorddeleted.aspace", [$this]);
           });
         });
       };

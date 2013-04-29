@@ -245,7 +245,7 @@ module JSONModel
     # update to the backend.
     def save(opts = {})
 
-      @errors = nil
+      clear_errors
 
       type = self.class.record_type
       response = JSONModel::HTTP.post_json(self.class.my_url(self.id, opts),
@@ -277,7 +277,11 @@ module JSONModel
       elsif response.code =~ /^4/
         err = ASUtils.json_parse(response.body)
 
-        @errors = err["error"]
+        err["error"].each do |field, errors|
+          errors.each do |msg|
+            add_error(field, msg)
+          end
+        end
 
         raise ValidationException.new(:invalid_object => self,
                                       :errors => err["error"])
