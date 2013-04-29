@@ -680,6 +680,32 @@ describe "ArchivesSpace user interface" do
     end
 
 
+    it "can link an accession to an agent as a subject" do
+      run_index_round
+
+      $driver.find_element(:link, 'Edit').click
+
+      $driver.find_element(:css => '#accession_linked_agents_ .subrecord-form-heading .btn').click
+
+      $driver.find_element(:id => "accession_linked_agents__0__role_").select_option("subject")
+
+      token_input = $driver.find_element(:id, "token-input-accession_linked_agents__0__ref_")
+      token_input.clear
+      token_input.click
+      token_input.send_keys("archivesspace")
+      $driver.find_element(:css, "li.token-input-dropdown-item2").click
+
+      $driver.clear_and_send_keys([:id => "accession_linked_agents__0__terms__0__term_"], "#{@me}LinkedAgentTerm1")
+      $driver.find_element(:css, ".agent-terms .add-term-btn").click
+      $driver.clear_and_send_keys([:id => "accession_linked_agents__0__terms__1__term_"], "#{@me}LinkedAgentTerm2")
+      $driver.find_element(:id, "createAndLinkButton").click
+
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+      $driver.find_element(:id => 'accession_linked_agents_').text.should match(/LinkedAgentTerm/)
+    end
+
+
     it "shows an error if you try to reuse an identifier" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
