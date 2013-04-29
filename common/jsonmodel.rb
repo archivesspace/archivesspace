@@ -572,10 +572,18 @@ module JSONModel
       end
 
 
+      def clear_errors
+        # reset validation
+        @validated = false
+        @errors = nil
+      end
+
+
       def add_error(attribute, message)
         # reset validation
         @validated = false
 
+        # call JSONModel::Client's version
         super
       end
 
