@@ -604,7 +604,7 @@ module JSONModel
       # 'params', validating before accepting the update.
       def update(params)
         @validated = false
-        replace(@data.merge(params))
+        replace(JSONModel.deep_merge(@data, params))
       end
 
 
