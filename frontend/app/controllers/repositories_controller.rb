@@ -25,7 +25,9 @@ class RepositoriesController < ApplicationController
     name['sort_name'] = name['primary_name']
 
     repository_with_agent['agent_representation']['names'] = [name]
-    repository_with_agent['agent_representation']['agent_contacts']['0']['name'] ||= name['primary_name']
+    if repository_with_agent['agent_representation']['agent_contacts']['0']['name'].blank?
+      repository_with_agent['agent_representation']['agent_contacts']['0']['name'] = name['primary_name']
+    end
   end
 
 
