@@ -1255,7 +1255,7 @@ Sequel.migration do
 
     create_editable_enum('name_source', ["local", "naf", "nad", "ulan"])
 
-    create_editable_enum('name_rule', ["local", "aacr", "dacs"])
+    create_editable_enum('name_rule', ["local", "aacr", "dacs", "rda"])
 
     create_editable_enum('accession_acquisition_type', ["deposit", "gift", "purchase", "transfer"])
 
