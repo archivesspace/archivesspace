@@ -698,7 +698,6 @@ describe "ArchivesSpace user interface" do
       $driver.clear_and_send_keys([:id => "accession_linked_agents__0__terms__0__term_"], "#{@me}LinkedAgentTerm1")
       $driver.find_element(:css, ".agent-terms .add-term-btn").click
       $driver.clear_and_send_keys([:id => "accession_linked_agents__0__terms__1__term_"], "#{@me}LinkedAgentTerm2")
-      $driver.find_element(:id, "createAndLinkButton").click
 
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
