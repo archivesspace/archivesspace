@@ -590,6 +590,8 @@ describe "ArchivesSpace user interface" do
       login_as_archivist
       @accession_title = "Exciting new stuff - \u2603"
       @me = "#{$$}.#{Time.now.to_i}"
+
+      @shared_4partid = $driver.generate_4part_id
     end
 
 
@@ -602,7 +604,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
       $driver.clear_and_send_keys([:id, "accession_title_"], @accession_title)
-      $driver.complete_4part_id("accession_id_%d_")
+      $driver.complete_4part_id("accession_id_%d_", @shared_4partid)
       $driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
       $driver.clear_and_send_keys([:id, "accession_content_description_"], "A box containing our own universe")
       $driver.clear_and_send_keys([:id, "accession_condition_description_"], "Slightly squashed")
@@ -620,24 +622,6 @@ describe "ArchivesSpace user interface" do
       $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
       assert(5) { $driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/) }
-    end
-
-
-    it "can edit an Accession but cancel the edit" do
-      $driver.find_element(:link, 'Edit').click
-      $driver.clear_and_send_keys([:id, 'accession_content_description_'], "this will be cancelled")
-      $driver.find_element(:link, "Cancel").click
-
-      sleep 2
-
-      # Skip over Firefox's "you're navigating away" warning.
-      $driver.switch_to.alert.accept
-
-      assert(5) {
-        $driver.ensure_no_such_element(:link, "Cancel")
-      }
-
-      assert(5) { $driver.find_element(:css => 'body').text.should_not match(/this will be cancelled/) }
     end
 
 
@@ -693,6 +677,22 @@ describe "ArchivesSpace user interface" do
       extent_headings = $driver.blocking_find_elements(:css => '#accession_extents_ .accordion-heading')
       extent_headings.length.should eq (1)
       assert(5) { extent_headings[0].text.should eq ("10 Cassettes") }
+    end
+
+
+    it "shows an error if you try to reuse an identifier" do
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+      $driver.clear_and_send_keys([:id, "accession_title_"], @accession_title)
+      $driver.complete_4part_id("accession_id_%d_", @shared_4partid)
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+      expect {
+        $driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - That ID is already in use/)
+      }.to_not raise_error
+
+      $driver.click_and_wait_until_gone(:link => "Cancel")
+      $driver.click_and_wait_until_gone(:link => "Cancel")
     end
 
 
@@ -819,9 +819,10 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
 
       $driver.find_element(:css, "a.linker-create-btn").click
-      $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "#{@me}AccessionTermABC")
+
+      $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{@me}AccessionTermABC")
       $driver.find_element(:css, "form#new_subject .row-fluid:first-child .add-term-btn").click
-      $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:last-child input"], "#{@me}AccessionTermDEF")
+      $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{@me}AccessionTermDEF")
       $driver.find_element(:id, "createAndLinkButton").click
 
       # Browse works too
@@ -1227,9 +1228,10 @@ describe "ArchivesSpace user interface" do
 
       $driver.find_element(:css, ".linker-wrapper a.btn").click
       $driver.find_element(:css, "a.linker-create-btn").click
-      $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:first-child input"], "#{$$}TestTerm123")
+      $driver.clear_and_send_keys([:id => "subject_terms__0__term_"], "#{$$}TestTerm123")
       $driver.find_element(:css, "form#new_subject .row-fluid:first-child .add-term-btn").click
-      $driver.clear_and_send_keys([:css, "form#new_subject .row-fluid:last-child input"], "#{$$}FooTerm456")
+      $driver.clear_and_send_keys([:id => "subject_terms__1__term_"], "#{$$}FooTerm456")
+
       $driver.find_element(:id, "createAndLinkButton").click
     end
 

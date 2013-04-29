@@ -144,12 +144,18 @@ class Selenium::WebDriver::Driver
   end
 
 
-  def complete_4part_id(pattern)
+  def generate_4part_id
+    Digest::MD5.hexdigest("#{Time.now}#{$$}").scan(/.{6}/)[0...1]
+  end
+
+  def complete_4part_id(pattern, accession_id = nil)
     # Was 4, but now that the input boxes are disabled this wasn't filling out the last 3.
-    accession_id = Digest::MD5.hexdigest("#{Time.now}#{$$}").scan(/.{6}/)[0...1]
+    accession_id ||= generate_4part_id
     accession_id.each_with_index do |elt, i|
       self.clear_and_send_keys([:id, sprintf(pattern, i)], elt)
     end
+
+    accession_id
   end
 
 
