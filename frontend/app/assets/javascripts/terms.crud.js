@@ -66,6 +66,11 @@ $(function() {
 
 
     var renderTermsPreview = function() {
+      if ($('#template_terms_preview').length == 0) {
+        // Don't render a preview if :show_preview is false.
+        return;
+      }
+
       var term_data = {
         terms: []
       };

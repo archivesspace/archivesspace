@@ -304,6 +304,7 @@ en:
     ref_tooltip: |
         <p>The Agent related to the material described in the record.</p>
         <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p> 
+    terms: Terms
     _html:
       singular: Agent Link
       plural: Agent Links

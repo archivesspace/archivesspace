@@ -8,25 +8,31 @@
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
       <div class="row-fluid">
-        <div class="span3"><strong><%= I18n.t("linked_agent.role") %></strong></div>
-        <div class="span3"><strong><%= I18n.t("linked_agent.relator") %></strong></div>
-        <div class="span5"><strong><%= I18n.t("linked_agent.ref") %></strong></div>
+        <div class="span1"><strong><%= I18n.t("linked_agent.role") %></strong></div>
+        <div class="span2"><strong><%= I18n.t("linked_agent.relator") %></strong></div>
+        <div class="span4"><strong><%= I18n.t("linked_agent.ref") %></strong></div>
+        <div class="span4"><strong><%= I18n.t("linked_agent.terms") %></strong></div>
       </div>
       <% linked_agents.each_with_index do | link, index | %>
         <div class="row-fluid">
-          <div class="span3 pull1">
+          <div class="span1 pull1">
             <%= I18n.t("enumerations.linked_agent_role.#{link["role"]}", :default => link["role"]) %>
           </div>
-          <div class="span3 pull1">
+          <div class="span2 pull1">
             <% if link["relator"] %>
             <%= I18n.t("enumerations.#{relator_enumeration}.#{link["relator"]}", :default => link["relator"]) %>
             <% end %>
           </div>
-          <div class="span5 token-list">
+          <div class="span4 token-list">
             <%= render_token :object => link, 
                              :label => link["_resolved"]["names"][0]["sort_name"], 
                              :type => link["_resolved"]["agent_type"], 
                              :uri => link["_resolved"]["uri"] %>
+          </div>
+          <div class="span4">
+            <% link['terms'].each do |term| %>
+              <span class="label label-info" title="<%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}") %>"><%= term['term'] %></span>
+            <% end %>
           </div>
         </div>
       <% end %>

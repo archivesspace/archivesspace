@@ -1380,6 +1380,7 @@ Sequel.migration do
 
       Integer :aspace_relationship_position
       DateTime :last_modified, :null => false, :index => true
+      DateTime :create_time, :index => true
 
       String :role
       DynamicEnum :role_id
@@ -1397,6 +1398,20 @@ Sequel.migration do
       add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
       add_foreign_key([:event_id], :event, :key => :id)
       add_foreign_key([:resource_id], :resource, :key => :id)
+    end
+
+
+    create_table(:linked_agent_term) do
+        primary_key :id
+
+        Integer :linked_agents_rlshp_id, :null => false
+        Integer :term_id, :null => false
+      end
+
+    alter_table(:linked_agent_term) do
+      add_foreign_key([:linked_agents_rlshp_id], :linked_agents_rlshp, :key => :id)
+      add_foreign_key([:term_id], :term, :key => :id)
+      add_index([:linked_agents_rlshp_id, :term_id], :name => "linked_agent_term_idx")
     end
 
 
