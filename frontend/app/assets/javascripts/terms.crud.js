@@ -20,7 +20,7 @@ $(function() {
       };
       var $row = $(AS.renderTemplate("template_term", template_data));
 
-      $target_subrecord_list.append($row);
+      $target_subrecord_list.append($("<li>").append($row));
 
       var typeahead_data = AS.AVAILABLE_TERMS;
 
@@ -55,8 +55,7 @@ $(function() {
 
 
     var removeTermRow = function() {
-      $(this).parents(".subrecord-form-wrapper:first").remove();
-      $(this).parents(".row-fluid:first").remove();
+      $(this).closest("li").remove();
       renderTermsPreview();
       if ($(".terms-container .row-fluid", $form).length === 1) {
         $(".remove-term-btn", $form).css("visibility", "hidden");
@@ -104,7 +103,7 @@ $(function() {
 
 
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
-    if (object_name === "term") {
+    if (object_name === "term" && subform.is(".subrecord-form")) {
       initTermForm($(subform));
     }
   });

@@ -487,7 +487,9 @@ AS.resetScrollSpy = function() {
 
 // Sub Record Sorting
 AS.initSubRecordSorting = function($list) {
-  if ($list.closest(".subrecord-form").data("cardinality") === "zero_to_one") {
+  var $subform = $list.closest(".subrecord-form");
+  if ($subform.data("cardinality") === "zero_to_one"
+        || $subform.data("sorting") === "disabled") {
     // nothing to do here
     return;
   }
