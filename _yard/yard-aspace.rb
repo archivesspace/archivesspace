@@ -1,5 +1,6 @@
 YARD::Templates::Engine.register_template_path File.dirname(__FILE__) + '/templates'
 require 'sinatra'
+require 'config/config-distribution'
 
 require 'jsonmodel'
 require_relative '../backend/app/model/backend_enum_source.rb'
@@ -20,9 +21,6 @@ require_relative 'schema_object'
 # require_relative 'endpoint_object'
 
 # Sub READMEs
-# Silly workaround for YARD's non-support for READMEs and such
-# that live in subdirectories of the project
-
 class ASpaceYARD
   def self.subreadmes
     objects = []

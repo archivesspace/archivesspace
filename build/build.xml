@@ -438,7 +438,7 @@
       <arg line="--1.9 build/gems/bin/yardoc" />
     </java>
 
-    <java classpath="${jruby_classpath}" depends="set-classpath" classname="org.jruby.Main" fork="true"
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="..">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>

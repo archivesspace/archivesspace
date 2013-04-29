@@ -5,12 +5,7 @@ namespace :doc do
     puts "Generating YARD documentation"
     system(File.join("..", "build", "run"), "doc:yardoc")
   end
-  
-  # desc "Generate the supplementary txt files"
-  # task :yard do
-  #   puts "Generating txt versions of the schemas"
-  #   system(File.join("..", "build", "run"), "doc:yardoc -f txt")
-  # end
+
 
   desc "Create the API.md file"
   task :api do
@@ -39,7 +34,7 @@ namespace :doc do
 
     require_relative '../backend/app/lib/export'
 
-    Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file}
+    Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file unless file =~ /system/}
 
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
 
