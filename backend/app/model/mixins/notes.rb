@@ -25,16 +25,18 @@ module Notes
     def apply_notes(json, super_callback, opts)
       notes_blob = JSON(json.notes)
 
-      if notes_blob.length >= 32000
-        # We need to use prepared statement to store the notes blob once it hits
-        # around 32KB.  This is because Sequel uses string literals and some
-        # databases have an upper limit on how long they're allowed to be.
+      if notes_blob.length >= 8000
+        # We need to use prepared statement to store the notes blob once it gets
+        # large.  This is because Sequel uses string literals and some databases
+        # have an upper limit on how long they're allowed to be.
 
         obj = super_callback.call(json, opts.merge('notes' => nil,
                                                    'notes_json_schema_version' => json.class.schema_version))
 
         ps = self.dataset.where(:id => obj.id).prepare(:update, :update_notes, :notes => :$notes)
         ps.call(:notes => DB.blobify(notes_blob))
+
+        obj
       else
         # Use the standard method for saving the notes (and avoid the extra update)
         super_callback.call(json, opts.merge('notes' => notes_blob,

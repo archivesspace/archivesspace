@@ -126,6 +126,7 @@ module ImportHelpers
   class ImportException < StandardError
     attr_accessor :invalid_object
     attr_accessor :message
+    attr_accessor :error
 
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
