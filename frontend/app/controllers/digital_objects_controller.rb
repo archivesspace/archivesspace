@@ -64,6 +64,7 @@ class DigitalObjectsController < ApplicationController
                   render :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
+                  @refresh_tree_node = true
                   flash.now[:success] = I18n.t("digital_object._html.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object))
                   render :partial => "edit_inline"
                 })

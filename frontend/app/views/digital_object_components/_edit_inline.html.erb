@@ -14,5 +14,18 @@
         </div>
       </div>
     </div>
+    <% if @refresh_tree_node
+         node_data = {
+           'id' => @digital_object_component.id,
+           'title' => @digital_object_component.title,
+           'level' => false,
+           'jsonmodel_type' => @digital_object_component.jsonmodel_type,
+           'replace_new_node' => controller.action_name === 'create'
+         }
+    %>
+      <script>
+        AS.refreshTreeNode(<%= node_data.to_json.html_safe %>);
+      </script>
+    <% end %>
   <% end %>
 <% end %>

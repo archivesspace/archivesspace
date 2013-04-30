@@ -15,37 +15,6 @@ $(function() {
       rules: $(".archives-tree").data("rules")
     };
 
-    var refreshSelectedNode = function() {
-      var currentNodeEl = $(".selected", $tree);
-      var currentNodeType = currentNodeEl.attr("rel");
-
-      if (currentNodeEl.attr("id") === "new") {
-        // replace the new node with a real AO node
-
-        var parentNode = currentNodeEl.parents("li:first");
-        var child_id = $("#id", $container).val();
-
-        var selected_node_id = currentNodeType + "_" + child_id;
-
-        currentNodeEl.remove();
-
-        var data_for_new_node = {
-          title: getCurrentTitle(currentNodeType),
-          level: getCurrentLevel(currentNodeType)
-        };
-
-        $tree.jstree("create_node", parentNode, "last", {"attr":{"id": selected_node_id}, "data": data_for_new_node});
-        $("#"+selected_node_id, $tree).addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", child_id);
-        $("#"+selected_node_id, $tree).find("a").attr("href", "#tree::"+selected_node_id).addClass("jstree-clicked").attr("title", data_for_new_node.title);
-
-        loadTreeActionsForNode($("#"+selected_node_id, $tree));
-      } else {
-        // Simply rename the node (just in case the node's title or level has changed)
-        $tree.jstree("rename_node", currentNodeEl, getCurrentTitle(currentNodeType));
-        $(" > a > .badge", currentNodeEl).html(getCurrentLevel(currentNodeType));
-      }
-    };
-
     var getCurrentTitle = function(nodeType) {
       return $("#"+nodeType+"_title_", $container).val();
     };
@@ -117,11 +86,8 @@ $(function() {
             $form.data("form_changed", true);
             $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
           } else {
-            if (location.hash === "#tree::new") {
-              changeHashSilently("#"+$(".selected", $tree).attr("rel")+"_" + $(response).find("#id").val());
-              $form.data("form_changed", false);
-            }
-            refreshSelectedNode();
+            $form.data("form_changed", false);
+
             $container.triggerHandler("submitted", {success: true});
           }
 
@@ -669,6 +635,40 @@ $(function() {
           }
         }).bind("move_node.jstree", function(event, data) {
           moveNode(data.rslt.o, data.rslt.cr, data.rslt.o.index());
+        }).bind("refreshtreenode.aspace", function(event, data) {
+
+          var nodeId = data.jsonmodel_type+"_"+data.id;
+
+          if (data.replace_new_node) {
+            // drop the 'new' node and replace with a record node
+            var nodeEl = $("#new", $tree);
+            var currentNodeType = nodeEl.attr("rel");
+
+            var parentNode = nodeEl.parents("li:first");
+
+            nodeEl.remove();
+
+            $tree.jstree("create_node", parentNode, "last", {"attr":{"id": nodeId}, "data": data});
+
+            nodeEl = $("#"+nodeId, $tree);
+
+            if (data.level) {
+              nodeEl.find("a").append($('<span class="badge"></span>').text(data.level));
+            }
+
+            nodeEl.addClass(currentNodeType).addClass("selected").attr("rel", currentNodeType).data("id", data.id);
+            var newHash = "#tree::"+nodeId;
+            nodeEl.find("a").attr("href", newHash).addClass("jstree-clicked").attr("title", data.title);
+            changeHashSilently(newHash);
+
+            loadTreeActionsForNode(nodeEl);
+          } else {
+            // rename the existing node
+
+            var nodeEl = $("#" + nodeId, $tree);
+            $tree.jstree("rename_node", nodeEl, data.title);
+            $(" > a > .badge", nodeEl).html(data.level);
+          }
         });
     };
 
@@ -677,5 +677,10 @@ $(function() {
       loadPaneForNode($(".selected", $tree));
     });
     addTreeEventBindings();
+
+    AS.refreshTreeNode = function(data) {
+      $tree.triggerHandler("refreshtreenode.aspace", [data])
+    };
+
   }
 });

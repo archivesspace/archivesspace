@@ -74,6 +74,7 @@ class ResourcesController < ApplicationController
                   render :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
+                  @refresh_tree_node = true
                   flash.now[:success] = I18n.t("resource._html.messages.updated", JSONModelI18nWrapper.new(:resource => @resource))
                   render :partial => "edit_inline"
                 })
@@ -84,7 +85,7 @@ class ResourcesController < ApplicationController
 
   def fetch_tree
     @tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id)
-    parse_tree(@tree, proc {|node| node['level'] = I18n.t("#{node['node_type']}.level_#{node['level']}", :default => node['level'])})
+    parse_tree(@tree, proc {|node| node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])})
   end
 
 end

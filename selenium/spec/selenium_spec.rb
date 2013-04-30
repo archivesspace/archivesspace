@@ -1216,8 +1216,8 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text("//div[@id='archives_tree']//a", /December/).click
       $driver.find_element(:id, "dismissChangesButton").click
 
-      # Last added node now selected
-      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('December') }
+      # Last added node now selected (text will include the 'level' badge)
+      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('DecemberItem') }
     end
 
 
