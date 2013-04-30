@@ -75,6 +75,7 @@ module AgentManager
       def sequel_to_jsonmodel(obj, opts = {})
         json = super
         json.agent_type = my_agent_type[:jsonmodel].to_s
+        json.title = json['names'][0]['sort_name']
         json
       end
     end

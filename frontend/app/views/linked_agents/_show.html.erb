@@ -25,7 +25,7 @@
           </div>
           <div class="span4 token-list">
             <%= render_token :object => link, 
-                             :label => link["_resolved"]["names"][0]["sort_name"], 
+                             :label => link["_resolved"]["title"],
                              :type => link["_resolved"]["agent_type"], 
                              :uri => link["_resolved"]["uri"] %>
           </div>

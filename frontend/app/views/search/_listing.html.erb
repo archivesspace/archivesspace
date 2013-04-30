@@ -2,6 +2,9 @@
   <table class="table table-striped table-bordered table-condensed table-hover table-sortable">
     <thead>
     <tr>
+      <% if params[:linker] %>
+        <th></th>
+      <% end %>
       <% if show_record_type? %>
         <th class="col record-type sortable <% if @search_data.sorted_by === "primary_type"%>sort-<%= @search_data.current_sort_direction %><% end %>">
           <%= link_to I18n.t("search_results.result_type"), params_for_search("sort" => @search_data.sort_filter_for("primary_type")) %>
@@ -22,7 +25,9 @@
         <% end %>
       <% end %>
       <th class="col audit-info"></th>
-      <th class="col actions"><!-- actions --></th>
+      <% if !params[:linker] %>
+        <th class="col actions"><!-- actions --></th>
+      <% end %>
     </tr>
     </thead>
     <tbody>
@@ -31,6 +36,11 @@
       deleted = (params.has_key?("deleted_uri") and params["deleted_uri"] === result["id"]) || false
     %>
       <tr class="<%= "deleted" if deleted %>">
+        <% if params[:linker] %>
+          <td>
+            <%= radio_button_tag "linker-item", result["id"], false, :"data-object" => result.to_json %>
+          </td>
+        <% end %>
         <% if show_record_type? %>
           <td>
             <%=  I18n.t("#{result["primary_type"]}._html.singular") %>
@@ -59,27 +69,29 @@
             </small>
           <% end %>
         </td>
-        <td class="table-record-actions">
-          <% if not deleted %>
-            <div class="btn-group" style="float: right">
-              <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-mini" %>
-              <%
-                can_edit = result['primary_type'] === "repository" ? user_can?('manage_repository', result['id']) : user_can?('update_archival_record')
-              %>
-              <% if can_edit %>
-                <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini" %>
-              <% end %>
-            </div>
-            <% if result['primary_type'] === "repository" and @repositories.any?{|r| r['uri'] === result['id']} %>
-              
-              <% if current_repo['uri'] != result['id'] %>
-                <%= form_tag({:action => :select, :id => JSONModel(:repository).id_for(result['id'])}, {:style => "display: inline;"}) do |f| %>
-                  <button type="submit" class="btn btn-mini btn-success"><%= I18n.t("repository._html.action.select") %></button>
+        <% if !params[:linker] %>
+          <td class="table-record-actions">
+            <% if not deleted %>
+              <div class="btn-group" style="float: right">
+                <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => result["id"]}, :class => "btn btn-mini" %>
+                <%
+                  can_edit = result['primary_type'] === "repository" ? user_can?('manage_repository', result['id']) : user_can?('update_archival_record')
+                %>
+                <% if can_edit %>
+                  <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini" %>
+                <% end %>
+              </div>
+              <% if result['primary_type'] === "repository" and @repositories.any?{|r| r['uri'] === result['id']} %>
+
+                <% if current_repo['uri'] != result['id'] %>
+                  <%= form_tag({:action => :select, :id => JSONModel(:repository).id_for(result['id'])}, {:style => "display: inline;"}) do |f| %>
+                    <button type="submit" class="btn btn-mini btn-success"><%= I18n.t("repository._html.action.select") %></button>
+                  <% end %>
                 <% end %>
               <% end %>
             <% end %>
-          <% end %>
-        </td>
+          </td>
+        <% end %>
       </tr>
     <% end %>
     </tbody>

@@ -17,6 +17,10 @@
         }
       },
 
+      "title" => {
+        "type" => "string",
+        "readonly" => true
+      },
 
       "agent_type" => {
         "type" => "string",

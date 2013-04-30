@@ -5,12 +5,10 @@ class AccessionsController < ApplicationController
   before_filter(:only => [:suppress, :unsuppress]) {|c| user_must_have("suppress_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
-  FIND_OPTS = ["subjects", "related_resources", "linked_agents", "container_locations"]
+  FIND_OPTS = ["subjects", "related_resources", "linked_agents", "container_locations", "digital_object"]
 
   def index
-    facets = ["subjects", "accession_date_year", "creators"]
-
-    @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => facets}))
+    @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))
   end
 
   def show

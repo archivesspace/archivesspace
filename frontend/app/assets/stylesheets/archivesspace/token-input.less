@@ -187,6 +187,10 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   min-height: 28px;
 }
 
+.token-input-input-token > input {
+  width: 100% !important;
+}
+
 .linker-list {
   max-height: 240px;
 
@@ -294,5 +298,21 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
     list-style: none;
     margin-bottom: 4px;
     float: left;
+  }
+}
+
+.linker-container {
+  .record-pane table td {
+    cursor: pointer;
+  }
+
+  .linker-wrapper {
+    .token-input-list {
+      .border-radius(@inputBorderRadius);
+    }
+
+    > .btn-group {
+      display: none;
+    }
   }
 }
