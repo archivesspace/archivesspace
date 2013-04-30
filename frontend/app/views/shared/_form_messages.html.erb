@@ -9,6 +9,9 @@
          if ($("#" + elt).length) {
            $matched = $("#" + elt);
            $matched.parents(".control-group:first").addClass(type);
+           if ($("#" + elt).is("section")) {
+             $("#" + elt).addClass(type);
+           }
          } else if ($("[data-real-id=" + elt + "]").length) {
            $("[data-real-id=" + elt + "]").each(function() {
              $(this).parents(".control-group:first").addClass(type);
@@ -49,7 +52,7 @@
        };
 
        var _errors = <%= form.exceptions_for_js(@exceptions) %>;
-
+        console.log(_errors);
        var callback = function () {
          if (_errors.errors) {
            $(_errors.errors).each(function (idx, elt) {

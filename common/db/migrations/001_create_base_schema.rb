@@ -383,7 +383,7 @@ Sequel.migration do
       String :component_id, :null => true
 
       LongString :title, :null => true
-      Integer :title_auto_generate
+      LongString :label, :null => true
 
       DynamicEnum :level_id, :null => false
       String :other_level

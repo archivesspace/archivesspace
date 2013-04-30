@@ -28,19 +28,26 @@ class ArchivalObject < Sequel::Model(:archival_object)
                 },
                 :only_on_create => true
                 
-  auto_generate :property => :title,
+  auto_generate :property => :label,
                 :generator => proc { |json|
-                  lambda {|date|
-                    if date['expression']
-                      date['expression']
-                    elsif date['begin'] and date['end']
-                      "#{date['begin']} -- #{date['end']}"
-                    else
-                      date['begin']
-                    end
-                  }.call(json[:dates].first)
-                },
-                :only_if => proc { |json| json.title_auto_generate }
+                  label = json['title'] || ""
+
+                  date_label = json.has_key?('dates') && json['dates'].length > 0 ?
+                                lambda {|date|
+                                  if date['expression']
+                                    date['expression']
+                                  elsif date['begin'] and date['end']
+                                    "#{date['begin']} - #{date['end']}"
+                                  else
+                                    date['begin']
+                                  end
+                                }.call(json['dates'].first) : false
+
+                  label += ", " if json['title'] && date_label
+                  label += date_label if date_label
+
+                  label
+                }
 
 
   def validate

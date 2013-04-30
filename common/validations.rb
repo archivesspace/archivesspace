@@ -251,15 +251,9 @@ module JSONModel::Validations
       errors << ["other_level", "is required"] if hash["other_level"].nil?
     end
 
-    if hash.has_key?("title_auto_generate") && hash["title_auto_generate"]
-
-      if !hash.has_key?("dates") || hash["dates"].empty?
-        errors << ["dates", "one or more are required in order to generate a title"]
-      end
-    else
-      if !hash.has_key?("title") || hash["title"].empty?
-        errors << ["title", "must not be an empty string"]
-      end
+    if (!hash.has_key?("dates") || hash["dates"].empty?) && (!hash.has_key?("title") || hash["title"].empty?)
+      errors << ["dates", "one or more required (or enter a Title)"]
+      errors << ["title", "must not be an empty string (or enter a Date)"]
     end
 
     errors

@@ -1234,7 +1234,6 @@ en:
         <li>National Academy of Sciences correspondence</li>
         <li>Audio and video recordings</li>
         </ul>
-    title_default: New Archival Object
     ref_id: Ref ID
     ref_id_tooltip: |
         <p>An automatically provided and updatable reference ID, which can be used as a target for linking, etc. The Ref ID is intended to be generated automatically or imported from an existing system and to remain persistent.</p>
@@ -1286,12 +1285,12 @@ en:
       singular: Archival Object
       plural: Archival Objects
       messages:
-        created: Archival Object <strong>%{archival_object.title}</strong> on Resource <strong>%{resource.title}</strong> created
-        created_with_parent: Archival Object <strong>%{archival_object.title}</strong> created as child of <strong>%{parent.title}</strong> on Resource <strong>%{resource.title}</strong>
-        updated: Archival Object <strong>%{archival_object.title}</strong> updated
-        updated_with_parent: Archival Object <strong>%{archival_object.title}</strong> updated
+        created: Archival Object <strong>%{archival_object.label}</strong> on Resource <strong>%{resource.title}</strong> created
+        created_with_parent: Archival Object <strong>%{archival_object.label}</strong> created as child of <strong>%{parent.label}</strong> on Resource <strong>%{resource.title}</strong>
+        updated: Archival Object <strong>%{archival_object.label}</strong> updated
+        updated_with_parent: Archival Object <strong>%{archival_object.label}</strong> updated
         please_select_a_resource_for_transfer: Please choose a Resource
-        transfer_success: Successfully transferred Archival Object <strong>%{archival_object.title}</strong> to Resource <strong>%{resource.title}</strong>
+        transfer_success: Successfully transferred Archival Object <strong>%{archival_object.label}</strong> to Resource <strong>%{resource.title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
       section:
         basic_information: Basic Information

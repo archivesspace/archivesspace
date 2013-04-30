@@ -13,7 +13,7 @@
       "other_level" => {"type" => "string", "maxLength" => 255},
 
       "title" => {"type" => "string", "maxLength" => 16384, "ifmissing" => nil},
-      "title_auto_generate" => {"type" => "boolean", "default" => false},
+      "label" => {"type" => "string", "maxLength" => 16384, "readonly" => true},
       
       "internal_only" => {"type" => "boolean", "default" => false},
 
