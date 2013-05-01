@@ -54,7 +54,13 @@ class SubjectsController < ApplicationController
 
     if !query.empty?
       begin
-        return render :json => JSONModel::HTTP::get_json("/terms", :q => params[:query])['results']
+        results = JSONModel::HTTP::get_json("/terms", :q => params[:query])['results']
+
+        return render :json => results.map{|term|
+          term["_translated"] = {}
+          term["_translated"]["term_type"] = I18n.t("enumerations.subject_term_type.#{term["term_type"]}")
+          term
+        }
       rescue
       end
     end
