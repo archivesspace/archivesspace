@@ -38,7 +38,11 @@ $(function() {
       $target_subrecord_list.append($("<li>").append($row));
 
       var itemDisplayString = function(item) {
-        return  item.term + " ["+item.term_type+"]"
+        var term_type = item.term_type
+        if (item["_translated"] && item["_translated"]["term_type"]) {
+          term_type = item["_translated"]["term_type"]
+        }
+        return  item.term + " ["+term_type+"]"
       };
 
       $(".terms-container .row-fluid:last :text:first", $form)
