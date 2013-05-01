@@ -16,7 +16,7 @@
       <%= render :partial => "agents/linker", :locals => {:form => form} %>
 
       <div class="agent-terms" style="display: none">
-        <% form.emit_template("terms") %>
+        <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms"} %>
       </div>
 
     </div>

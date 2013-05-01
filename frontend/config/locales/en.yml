@@ -1527,6 +1527,7 @@ en:
         <li>Library of Congress Subject Headings (lcsh)</li>
         </ul>
     scope_note: Scope Note
+    terms: Terms
     heading: Subject Heading
     _html:
       singular: Subject

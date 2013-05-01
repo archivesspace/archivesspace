@@ -14,8 +14,8 @@
   <% end %>
 
   <% form.emit_template("subject") %>
-  <% form.emit_template("terms") %>
 
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms"} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 
 </fieldset>

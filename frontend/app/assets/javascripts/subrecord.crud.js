@@ -1,3 +1,5 @@
+//= require detect_form_changes
+
 $(function() {
 
   $.fn.init_subrecord_form = function() {
