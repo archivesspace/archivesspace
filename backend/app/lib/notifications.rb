@@ -18,15 +18,17 @@ class Notifications
 
 
   def self.notify(code, params = {}, immediate = true)
-    DB.open do |db|
-      db[:notification].insert(:code => code, :params => DB.blobify(params.to_json),
-                               :time => Time.now)
-    end
+    DB.after_commit do
+      DB.open do |db|
+        db[:notification].insert(:code => code, :params => DB.blobify(params.to_json),
+                                 :time => Time.now)
+      end
 
-    if immediate
-      # Fire it out straight away.  This will cause duplicates when the same
-      # notification is read from the database, but that's OK.
-      @longpolling.record_update(:code => code, :params => params)
+      if immediate
+        # Fire it out straight away.  This will cause duplicates when the same
+        # notification is read from the database, but that's OK.
+        @longpolling.record_update(:code => code, :params => params)
+      end
     end
   end
 

@@ -53,6 +53,18 @@ class DB
     end
   end
 
+
+  def self.after_commit(&block)
+    if @pool.in_transaction?
+      @pool.after_commit do
+        block.call
+      end
+    else
+      block.call
+    end
+  end
+
+
   def self.open(transaction = true)
     last_err = false
 
