@@ -681,6 +681,7 @@ describe "ArchivesSpace user interface" do
 
 
     it "can link an accession to an agent as a subject" do
+      create_agent("Subject Agent #{@me}")
       run_index_round
 
       $driver.find_element(:link, 'Edit').click
@@ -692,7 +693,7 @@ describe "ArchivesSpace user interface" do
       token_input = $driver.find_element(:id, "token-input-accession_linked_agents__0__ref_")
       token_input.clear
       token_input.click
-      token_input.send_keys("archivesspace")
+      token_input.send_keys("Subject Agent")
       $driver.find_element(:css, "li.token-input-dropdown-item2").click
 
       $driver.clear_and_send_keys([:id => "accession_linked_agents__0__terms__0__term_"], "#{@me}LinkedAgentTerm1")
