@@ -1169,21 +1169,21 @@ describe "ArchivesSpace user interface" do
     end
 
 
-    it "reports error if title is to auto generate and no date is provided" do
+    it "reports error if title is empty and no date is provided" do
       $driver.find_element(:id, "archival_object_level_").select_option("item")
-      $driver.find_element(:id, "archival_object_title_auto_generate_").click
+      $driver.clear_and_send_keys([:id, "archival_object_title_"], "")
 
       # False start: create an object without filling it out
       $driver.click_and_wait_until_gone(:id => "createPlusOne")
 
-      $driver.find_element_with_text('//div[contains(@class, "error")]', /Dates - one or more are required in order to generate a title/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Dates - one or more required \(or enter a Title\)/)
+      $driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string \(or enter a Date\)/)
     end
 
 
     # Archival Object Trees
 
     it "can populate the archival object tree" do
-      $driver.find_element(:id, "archival_object_title_auto_generate_").click
       $driver.clear_and_send_keys([:id, "archival_object_title_"], "Lost mail")
       $driver.find_element(:id, "archival_object_level_").select_option("item")
 
@@ -1194,7 +1194,7 @@ describe "ArchivesSpace user interface" do
         # Wait for the new empty form to be populated.  There's a tricky race
         # condition here that I can't quite track down, so here's my blunt
         # instrument fix.
-        $driver.find_element(:xpath, "//input[@value='New Archival Object']")
+        $driver.find_element(:xpath, "//input[@id='archival_object_title_'][@value='']")
 
         $driver.clear_and_send_keys([:id, "archival_object_title_"],(month))
         $driver.find_element(:id, "archival_object_level_").select_option("item")
@@ -1217,8 +1217,8 @@ describe "ArchivesSpace user interface" do
       $driver.find_element_with_text("//div[@id='archives_tree']//a", /December/).click
       $driver.find_element(:id, "dismissChangesButton").click
 
-      # Last added node now selected
-      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('December') }
+      # Last added node now selected (text will include the 'level' badge)
+      assert(5) { $driver.find_element(:css => "a.jstree-clicked").text.strip.should eq('DecemberItem') }
     end
 
 

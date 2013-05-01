@@ -9,6 +9,9 @@
          if ($("#" + elt).length) {
            $matched = $("#" + elt);
            $matched.parents(".control-group:first").addClass(type);
+           if ($("#" + elt).is("section")) {
+             $("#" + elt).addClass(type);
+           }
          } else if ($("[data-real-id=" + elt + "]").length) {
            $("[data-real-id=" + elt + "]").each(function() {
              $(this).parents(".control-group:first").addClass(type);

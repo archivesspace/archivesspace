@@ -1,5 +1,5 @@
 <h2>
-  <%= @archival_object.title %> <span class="label label-info"><%= I18n.t("archival_object._html.singular") %></span>
+  <%= @archival_object.label %> <span class="label label-info"><%= I18n.t("archival_object._html.singular") %></span>
 </h2>
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -14,7 +14,7 @@
     <section id="basic_information">
       <h3><%= I18n.t("archival_object._html.section.basic_information") %></h3>
 
-      <%= form.label_and_textfield("title", :field_opts => {:automatable => true}, :required => true)%>
+      <%= form.label_and_textfield("title")%>
     
       <% if form.obj["ref_id"].blank? %>
         <%= form.label_and_readonly "ref_id", "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>

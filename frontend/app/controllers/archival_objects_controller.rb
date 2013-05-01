@@ -9,7 +9,6 @@ class ArchivalObjectsController < ApplicationController
 
   def new
     @archival_object = JSONModel(:archival_object).new._always_valid!
-    @archival_object.title = I18n.t("archival_object.title_default")
     @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
     @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
 
@@ -35,13 +34,14 @@ class ArchivalObjectsController < ApplicationController
                                       I18n.t("archival_object._html.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved'])) :
                                       I18n.t("archival_object._html.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
 
+                  @refresh_tree_node = true
+
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
-
-                    return render :partial => "archival_objects/edit_inline"
+                  else
+                    flash.now[:success] = success_message
                   end
 
-                  flash.now[:success] = success_message
                   render :partial => "archival_objects/edit_inline"
 
                 })
@@ -61,6 +61,8 @@ class ArchivalObjectsController < ApplicationController
                     I18n.t("archival_object._html.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent)) :
                     I18n.t("archival_object._html.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
                   flash.now[:success] = success_message
+
+                  @refresh_tree_node = true
 
                   render :partial => "edit_inline"
                 })

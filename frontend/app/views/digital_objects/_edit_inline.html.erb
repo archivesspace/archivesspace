@@ -17,5 +17,18 @@
          </div>
       </div>
     </div>
+    <% if @refresh_tree_node
+         node_data = {
+           'id' => @digital_object.id,
+           'title' => @digital_object.title,
+           'level' => I18n.t("enumerations.digital_object_level.#{@digital_object.level}", :default => @digital_object.level),
+           'jsonmodel_type' => @digital_object.jsonmodel_type,
+           'replace_new_node' => false
+         }
+    %>
+      <script>
+        AS.refreshTreeNode(<%= node_data.to_json.html_safe %>);
+      </script>
+    <% end %>
   <% end %>
 <% end %>
