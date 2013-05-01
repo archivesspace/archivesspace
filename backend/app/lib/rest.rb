@@ -120,6 +120,24 @@ module RESTHelpers
       end
     end
 
+
+    def self.use_transaction?(params)
+      if !params.has_key?(:use_transaction)
+        # Always use a transaction if the endpoint doesn't support choosing.
+        return true
+      end
+
+      if params[:use_transaction] == 'auto'
+        # The user didn't specify whether to use a transaction or not.
+        # Go with what seems best for their given database.
+        AppConfig[:db_url] !~ /jdbc:(derby|h2)/
+      else
+        # The user knows best!
+        params[:use_transaction] == 'true'
+      end
+    end
+
+
     def self.get(uri); self.method(:get).uri(uri); end
     def self.post(uri); self.method(:post).uri(uri); end
     def self.delete(uri); self.method(:delete).uri(uri); end
@@ -209,7 +227,7 @@ module RESTHelpers
             end
           end
 
-          result = DB.open do
+          result = DB.open(Endpoint.use_transaction?(params)) do
 
             RequestContext.put(:current_username, current_user.username)
 
@@ -385,7 +403,7 @@ module RESTHelpers
           end
 
           errors[:failed_validation].each do |failed|
-            result[failed[:name]] = ["Failed validation -- #{failed[:validation]}'"]
+            result[failed[:name]] = ["Failed validation -- #{failed[:validation]}"]
           end
 
           raise BadParamsException.new(result)
