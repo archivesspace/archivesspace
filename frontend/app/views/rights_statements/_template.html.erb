@@ -73,11 +73,14 @@
 
     <%= form.label_and_select "rights_type", form.possible_options_for("rights_type", true) %>
 
-    <% if form.obj["rights_type"].blank? %>
-      <% form.emit_template("rights_type_nil") %>
-    <% else %>
+    <% if !form.obj["rights_type"].blank? %>
       <% form.emit_template("rights_type_#{form.obj["rights_type"]}", form.obj) %>
+    <% elsif form.default_for("rights_type") %>
+      <% form.emit_template("rights_type_#{form.default_for("rights_type")}") %>
+    <% else %>
+      <% form.emit_template("rights_type_nil") %>
     <% end %>
+
 
     <div class="subrecord-form-container">
       <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :heading_size => "h4", :help_topic => "rights_statement_external_documents"} %>
