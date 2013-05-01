@@ -8,6 +8,21 @@ $(function() {
 
     $form.data("terms", "initialised");
 
+    var termTypeAhead = AS.delayedTypeAhead(function (query, callback) {
+      $.ajax({
+        url: APP_PATH + "subjects/terms/complete",
+        data: {query: query},
+        type: "GET",
+        success: function(terms) {
+          callback(terms);
+        },
+        error: function() {
+          callback([]);
+        }
+      });
+    });
+
+
     var renderTermRow = function() {
       $(".add-term-btn", $form).css("visibility", "hidden");
       $(".remove-term-btn", $form).css("visibility", "visible");
@@ -22,17 +37,13 @@ $(function() {
 
       $target_subrecord_list.append($("<li>").append($row));
 
-      var typeahead_data = AS.AVAILABLE_TERMS;
-
       var itemDisplayString = function(item) {
         return  item.term + " ["+item.term_type+"]"
       };
 
       $(".terms-container .row-fluid:last :text:first", $form)
         .typeahead({
-          source: function(query, process) {
-            return typeahead_data;
-          },
+          source: termTypeAhead.handle,
           matcher: function(item) {
             return item.term && itemDisplayString(item).toLowerCase().indexOf(this.query.toLowerCase()) >= 0;
           },

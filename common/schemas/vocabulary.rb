@@ -9,7 +9,7 @@
       "ref_id" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error"},
       "name" => {"type" => "string", "maxLength" => 255, "minLength" => 1, "ifmissing" => "error"},
 
-      "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) object"}, "readonly" => true},
+      "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri"}, "readonly" => true},
     },
 
     "additionalProperties" => false,

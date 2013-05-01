@@ -10,7 +10,7 @@ class Vocabulary < Sequel::Model(:vocabulary)
   def_nested_record(:the_property => :terms,
                     :contains_records_of_type => :term,
                     :corresponding_to_association  => :term,
-                    :always_resolve => true)
+                    :always_resolve => false)
 
   def self.set(params)
     self.where(params)

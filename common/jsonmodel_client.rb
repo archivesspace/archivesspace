@@ -75,7 +75,11 @@ module JSONModel
             notifications.each do |notification|
               @@notification_handlers.each do |handler|
                 if handler[:code].nil? or handler[:code] == notification["code"]
-                  handler[:block].call(notification["code"], notification["params"])
+                  begin
+                    handler[:block].call(notification["code"], notification["params"])
+                  rescue
+                    $stderr.puts("ERROR: Failed to handle notification #{notification.inspect}: #{$!}")
+                  end
                 end
               end
             end

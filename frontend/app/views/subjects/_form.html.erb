@@ -1,10 +1,6 @@
 <%= render :partial => "shared/form_messages", :locals => {:object => @subject, :form => form} %>
 <%= render :partial => "terms/template", :locals => {:form => form, :show_preview => true} %>
 
-<script>
-  AS.AVAILABLE_TERMS = <%= current_vocabulary['terms'].to_json.html_safe %>;
-</script>
-
 <fieldset>
   <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
 
