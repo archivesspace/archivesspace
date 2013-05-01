@@ -92,6 +92,7 @@ class DB
 
       rescue Sequel::DatabaseError => e
         if is_retriable_exception(e)
+          Log.info("Retrying transaction after retriable exception")
           sleep 1
         else
           raise e
@@ -150,7 +151,7 @@ class DB
 
   def self.is_retriable_exception(exception)
     # Transaction was rolled back, but we can retry
-    (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^40/
+    (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^(40|41)/
   end
 
 
