@@ -8,7 +8,9 @@
   </div>
   <div class="span9">
     <div class="record-pane">
-      <h2><%= title %></h2>
+      <% if !params[:linker] %>
+        <h2><%= title %></h2>
+      <% end %>
 
       <%= render :partial => "listing" %>
 

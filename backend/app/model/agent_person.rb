@@ -14,6 +14,5 @@ class AgentPerson < Sequel::Model(:agent_person)
   register_agent_type(:jsonmodel => :agent_person,
                       :name_type => :name_person,
                       :name_model => NamePerson)
-  
 
 end

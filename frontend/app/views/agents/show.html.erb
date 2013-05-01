@@ -1,4 +1,4 @@
-<%= setup_context :object => @agent, :controller => :agents, :type => @agent.agent_type, :title => @agent.names[0]["sort_name"] %>
+<%= setup_context :object => @agent, :controller => :agents, :type => @agent.agent_type, :title => @agent.title %>
 
 <div class="row-fluid">
    <div class="span3">
@@ -8,7 +8,7 @@
     <%= render :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
-        <h2><%= @agent.names[0]['sort_name'] %>  <span class="label label-info"><%= I18n.t("agent._html.singular") %></span></h2>
+        <h2><%= @agent.title %>  <span class="label label-info"><%= I18n.t("agent._html.singular") %></span></h2>
 
         <%= render :partial => "shared/flash_messages" %>
 

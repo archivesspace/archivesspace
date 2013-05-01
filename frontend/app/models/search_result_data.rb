@@ -138,4 +138,33 @@ class SearchResultData
     "#{I18n.t("search_results.filter.query")}: #{@search_data[:criteria]["q"]}"
   end
 
+
+  def self.BASE_FACETS
+    ["primary_type","creators","subjects"]
+  end
+
+  def self.AGENT_FACETS
+    ["primary_type", "source", "rules"]
+  end
+
+  def self.ACCESSION_FACETS
+    ["subjects", "accession_date_year", "creators"]
+  end
+
+  def self.RESOURCE_FACETS
+    ["subjects", "publish"]
+  end
+
+  def self.DIGITAL_OBJECT_FACETS
+    ["subjects", "publish"]
+  end
+
+  def self.LOCATION_FACETS
+    []
+  end
+
+  def self.SUBJECT_FACETS
+    []
+  end
+
 end

@@ -1,5 +1,5 @@
 <div id="modal_custom_template"><!--
-   <div class="modal hide" id="${id}">
+   <div class="modal hide {if fill} container{/if}" id="${id}">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3>${title|h}</h3>
@@ -117,6 +117,17 @@
                        :inside_token_editor => true %>
    </li>
 --></div>
+
+<script>
+  AS.linker_locales = {
+    hintText: "<%= j(I18n.t("linker.hint_text")) %>",
+    noResultsText: "<%= j(I18n.t("linker.no_results")) %>",
+    searchingText: "<%= j(I18n.t("linker.searching")) %>",
+    deleteText: "<%= j(I18n.t("linker.delete")) %>"
+  }
+</script>
+
+
 
 <div id="subform_remove_confirmation_template"><!--
    <div class="pull-right subrecord-form-removal-confirmation">

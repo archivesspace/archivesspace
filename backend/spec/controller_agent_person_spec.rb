@@ -83,4 +83,13 @@ describe 'Person agent controller' do
     expect { create_person({:notes => [n1.to_json]}) }.to raise_error(JSONModel::ValidationException)
 
   end
+
+
+  it "offers a readonly 'title' of the first name's sort_name" do
+    id = create_person({:names => [build(:json_name_person,{:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true})]}).id
+
+    agent = JSONModel(:agent_person).find(id)
+
+    agent.title.should eq("Jimi Hendrix, Mr")
+  end
 end

@@ -6,9 +6,7 @@ class DigitalObjectsController < ApplicationController
   FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
 
   def index
-    facets = ["subjects", "publish"]
-
-    @search_data = Search.for_type(session[:repo_id], "digital_object", search_params.merge({"facet[]" => facets}))
+    @search_data = Search.for_type(session[:repo_id], "digital_object", search_params.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
   end
 
   def show

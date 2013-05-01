@@ -108,7 +108,7 @@ module ApplicationHelper
   def params_for_search(opts = {})
     search_params = {}
 
-    search_params["filter"] = Array(params["filter"]).clone
+    search_params["filter"] = Array(opts["filter"] || params["filter"]).clone
 
     if opts["add_filter"]
       search_params["filter"].concat(Array(opts["add_filter"]))
@@ -119,6 +119,11 @@ module ApplicationHelper
     end
 
     search_params["sort"] = opts["sort"] || params["sort"]
+    search_params["format"] = opts["format"] || params["format"]
+    search_params["linker"] = opts["linker"] || params["linker"] || false
+    search_params["type"] = opts["type"] || params["type"]
+    search_params["facets"] = opts["facets"] || params["facets"]
+    search_params["exclude"] = opts["exclude"] || params["exclude"]
 
     search_params["q"] = opts["q"] || params["q"]
 

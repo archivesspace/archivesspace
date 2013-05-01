@@ -5,14 +5,16 @@ class AgentsController < ApplicationController
 
   before_filter :assign_types
 
-  def index
-    facets = ["primary_type", "source", "rules"]
+  FIND_OPTS = {
+    "resolve[]" => ["related_agents"]
+  }
 
-    @search_data = Search.for_type(session[:repo_id], "agent", search_params.merge({"facet[]" => facets}))
+  def index
+    @search_data = Search.for_type(session[:repo_id], "agent", search_params.merge({"facet[]" => SearchResultData.AGENT_FACETS}))
   end
 
   def show
-    @agent = JSONModel(@agent_type).find(params[:id], "resolve[]" => "related_agents")
+    @agent = JSONModel(@agent_type).find(params[:id], FIND_OPTS)
   end
 
   def new
@@ -23,12 +25,13 @@ class AgentsController < ApplicationController
   end
 
   def edit
-    @agent = JSONModel(@agent_type).find(params[:id], "resolve[]" => "related_agents")
+    @agent = JSONModel(@agent_type).find(params[:id], FIND_OPTS)
   end
 
   def create
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
+                :find_opts => FIND_OPTS,
                 :on_invalid => ->(){
                   return render :partial => "agents/new" if inline?
                   return render :action => :new
@@ -43,7 +46,7 @@ class AgentsController < ApplicationController
   def update
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
-                :obj => JSONModel(@agent_type).find(params[:id]),
+                :obj => JSONModel(@agent_type).find(params[:id], FIND_OPTS),
                 :on_invalid => ->(){
 
                   if @agent.names.empty?

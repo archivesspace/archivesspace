@@ -47,7 +47,8 @@
                      :locals => {
                          :form => form,
                          :linker_label => I18n.t("#{relationship_type}.ref"),
-                         :allowed_types => form.allowable_types_for("ref")
+                         :allowed_types => form.allowable_types_for("ref"),
+                         :exclude_ids => @agent.uri ? [@agent.uri] : []
                      }
            %>
         <% end %>

@@ -6,9 +6,7 @@ class ResourcesController < ApplicationController
   FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object"]
 
   def index
-    facets = ["subjects", "publish"]
-
-    @search_data = Search.for_type(session[:repo_id], "resource", search_params.merge({"facet[]" => facets}))
+    @search_data = Search.for_type(session[:repo_id], "resource", search_params.merge({"facet[]" => SearchResultData.RESOURCE_FACETS}))
   end
 
   def show

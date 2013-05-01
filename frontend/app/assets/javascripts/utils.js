@@ -324,11 +324,25 @@ AS.encodeForAttribute = function(string) {
 };
 
 
-AS.openCustomModal = function(id, title, contents) {
-  $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: ""}));
-  $("#"+id).append(contents).on("hidden", function() {
-    $(this).remove();
+AS.openCustomModal = function(id, title, contents, fillScreen) {
+  $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: "", fill: fillScreen||false}));
+  var $modal = $("#"+id);
+  $modal.append(contents);
+  $modal.on("hidden", function() {
+    $modal.remove();
+    $(window).unbind("resize", resizeModal);
   }).modal('show');
+
+  var resizeModal = function() {
+    $modal.height($(window).height() - ($(window).height() * 0.2)); // -20% for 10% top and bottom margins
+    var modalBodyHeight = $modal.height() - $(".modal-header", $modal).height() - $(".modal-footer", $modal).height() - 80;
+    $(".modal-body", $modal).height(modalBodyHeight);
+  }
+
+  if (fillScreen) {
+    resizeModal();
+    $(window).resize(resizeModal);
+  }
 };
 
 

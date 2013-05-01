@@ -14,6 +14,7 @@ $(function() {
 
       var config = {
         url: $this.data("url"),
+        browse_url: $this.data("browse-url"),
         format_template: $this.data("format_template"),
         format_template_id: $this.data("format_template_id"),
         format_property: $this.data("format_property"),
@@ -33,37 +34,71 @@ $(function() {
       }
 
       var renderItemsInModal = function(page) {
-        page = page || 1;
-
         var currentlySelectedIds = [];
-        $.each($this.tokenInput("get"), function(obj) {currentlySelectedIds.push(obj.id);});
+        $.each($this.tokenInput("get"), function() {currentlySelectedIds.push(this.id);});
 
         $.ajax({
-          url: config.url,
+          url: config.browse_url,
           data: {
-            page: page,
+            page: 1,
             type: config.types,
-            q: "*"
+            linker: true,
+            exclude: config.exclude_ids
           },
           type: "GET",
-          dataType: "json",
-          success: function(json) {
-            $("#"+config.modal_id).find(".linker-list").html(AS.renderTemplate("linker_browse_template", {search_data: json.search_data, config: config, selected: currentlySelectedIds}));
+          dataType: "html",
+          success: function(html) {
+            var $linkerBrowseContainer = $(".linker-container", "#"+config.modal_id);
+
+            var initBrowseFormInputs = function() {
+              // add some click handlers to allow clicking of the row
+              $(":input[name=linker-item]", $linkerBrowseContainer).each(function() {
+                var $input = $(this);
+                $input.click(function(event) {
+                  event.stopPropagation();
+
+                  // reset the currentlySelectedIds so pagination stays in sync
+                  currentlySelectedIds = [$input.val()];
+
+                  $("tr.selected", $input.closest("table")).removeClass("selected");
+                  $input.closest("tr").addClass("selected");
+                });
+
+                $("td", $input.closest("tr")).click(function(event) {
+                  event.preventDefault();
+
+                  $input.trigger("click");
+                });
+              });
+
+              // select a radio is it's currently a selected record
+              if (currentlySelectedIds.length > 0) {
+                $.each(currentlySelectedIds, function() {
+                  $(":input[value='"+this+"']", $linkerBrowseContainer).trigger("click");
+                });
+              }
+            };
+
+            $linkerBrowseContainer.html(html);
+            $($linkerBrowseContainer).on("click", "a", function(event) {
+              event.preventDefault();
+
+              $linkerBrowseContainer.load(event.target.href, initBrowseFormInputs);
+            });
+
+            $($linkerBrowseContainer).on("submit", "form", function(event) {
+              event.preventDefault();
+
+              var $form = $(event.target);
+
+              $linkerBrowseContainer.load($form.attr("action")+".js?" + $(event.target).serialize(), initBrowseFormInputs);
+            });
+
+            initBrowseFormInputs();
           }
         });
       };
 
-
-      var formattedNameForJSON = function(json) {
-        if (config.format_template) {
-          return AS.quickTemplate(config.format_template, json);
-        } else if (config.format_template_id) {
-          return $(AS.renderTemplate(config.format_template_id, json)).html();
-        } else if (config.format_property) {
-          return json[config.format_property];
-        }
-        return "ERROR: no format for name (formattedNameForJSON)"
-      };
 
       var renderCreateFormForObject = function(form_uri) {
         var $modal = $("#"+config.modal_id);
@@ -88,7 +123,7 @@ $(function() {
 
                 $this.tokenInput("add", {
                   id: response.uri,
-                  name: formattedNameForJSON(response),
+                  name: response.title,
                   json: response
                 });
                 $this.parents("form:first").triggerHandler("form-changed");
@@ -112,7 +147,7 @@ $(function() {
 
 
       var showLinkerCreateModal = function() {
-        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config));
+        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), true);
         if ($(this).hasClass("linker-create-btn")) {
           renderCreateFormForObject($(this).data("target"));
         } else {
@@ -127,11 +162,11 @@ $(function() {
         $(".token-input-delete-token", $linkerWrapper).each(function() {
           $(this).triggerHandler("click");
         });
-        $(".linker-list :input:checked", "#"+config.modal_id).each(function() {
+        $(".linker-container :input:checked", "#"+config.modal_id).each(function() {
           var item = $(this).data("object");
           $this.tokenInput("add", {
             id: $(this).val(),
-            name: formattedNameForJSON(item),
+            name: item.title,
             json: item
           });
         });
@@ -141,7 +176,7 @@ $(function() {
 
 
       var showLinkerBrowseModal = function() {
-        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config));
+        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), true);
         renderItemsInModal();
         $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
         $("#"+config.modal_id).on("click", ".linker-list .pagination .navigation a", function() {
@@ -160,14 +195,10 @@ $(function() {
         $.each(searchData.search_data.results, function(index, obj) {
           // only allow selection of unselected items
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
-            var json = obj;
-            if (obj.hasOwnProperty("json")) {
-              json = JSON.parse(obj.json);
-            }
             formattedResults.push({
-              name: formattedNameForJSON(json),
+              name: obj.title,
               id: obj.id,
-              json: json
+              json: obj
             });
           }
         });
@@ -213,7 +244,7 @@ $(function() {
           }
           return [{
               id: $this.data("selected").uri,
-              name: formattedNameForJSON($this.data("selected")),
+              name: $this.data("selected").title,
               json: $this.data("selected")
           }];
         } else {
@@ -224,7 +255,7 @@ $(function() {
           return $this.data("selected").map(function(item) {
             return {
               id: item.uri,
-              name: formattedNameForJSON(item),
+              name: item.title,
               json: item
             };
           });
@@ -233,7 +264,7 @@ $(function() {
 
 
       var init = function() {
-        $this.tokenInput(config.url, {
+        var tokenInputConfig = $.extend({}, AS.linker_locales, {
           animateDropdown: false,
           preventDuplicates: true,
           allowFreeTagging: false,
@@ -243,7 +274,6 @@ $(function() {
           onResult: formatResults,
           zindex: 1100,
           tokenFormatter: function(item) {
-            item.name = formattedNameForJSON(item.json);
             var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
             $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
             return tokenEl;
@@ -282,6 +312,11 @@ $(function() {
             return (q+"*").toLowerCase();
           }
         });
+
+
+        $this.tokenInput(config.url, tokenInputConfig);
+
+        $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText);
 
         $this.parent().addClass("multiplicity-"+config.multiplicity);
 
