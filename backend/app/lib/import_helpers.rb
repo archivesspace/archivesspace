@@ -46,12 +46,13 @@ module ImportHelpers
           begin
           unlinked = self.class.unlink(json)
 
-          obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
-          @as_set[json.uri] = [obj.id, obj.class]
-        
-          # Now update the URI with the real ID
-          json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
-
+            DB.open do
+              obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(unlinked)
+              @as_set[json.uri] = [obj.id, obj.class]
+              
+              # Now update the URI with the real ID
+              json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
+            end
           rescue Exception => e
             Log.debug("Import error #{e.inspect}")
             raise ImportException.new({:invalid_object => json, :error => e})
@@ -68,13 +69,15 @@ module ImportHelpers
             !@second_pass_keys.include?(k) 
             }) {|referenced| referenced.uri}
         
-          obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(json)
-          @as_set[json.uri] = [obj.id, obj.class]
-        
-          # Now update the URI with the real ID
-          json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
-          @saved_uris[ref] = @json_set[ref].uri
-          ASpaceImport::Utils.update_record_references(json, @json_set) {|referenced| referenced.uri}
+          DB.open do
+            obj = Kernel.const_get(json.class.record_type.camelize).create_from_json(json)
+            @as_set[json.uri] = [obj.id, obj.class]
+            
+            # Now update the URI with the real ID
+            json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
+            @saved_uris[ref] = @json_set[ref].uri
+            ASpaceImport::Utils.update_record_references(json, @json_set) {|referenced| referenced.uri}
+          end
         rescue Exception => e
           raise ImportException.new({:invalid_object => json, :error => e})
         end
@@ -90,10 +93,12 @@ module ImportHelpers
       @as_set.each do |ref, a|
         next if @second_pass_keys.include?(ref)
         begin
-          obj = a[1].get_or_die(a[0])
-        
-          obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}, false) 
-          @saved_uris[ref] = @json_set[ref].uri 
+          DB.open do
+            obj = a[1].get_or_die(a[0])
+            
+            obj.update_from_json(@json_set[ref], {:lock_version => obj.lock_version}, false) 
+            @saved_uris[ref] = @json_set[ref].uri 
+          end
         rescue Exception => e
           raise ImportException.new({:invalid_object => @json_set[ref], :error => e})
         end
