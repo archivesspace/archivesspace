@@ -84,50 +84,24 @@ $(function() {
   });
 
 
-
   // Don't fire a request for *every* keystroke.  Wait until they stop
   // typing for a moment.
-  var username_typeahead = (function () {
-    var queued_requests = [];
-    var timer = undefined;
-
-    var startTimer = function () {
-      if (timer) {
-        clearTimeout(timer);
-      }
-
-      timer = setTimeout(function () {
-        var last_request = queued_requests.pop();
-        queued_requests = [];
-
-        $.ajax({
+  var username_typeahead = AS.delayedTypeAhead(function (query, callback) {
+    $.ajax({
           url: APP_PATH + "users/complete",
-          data: {query: last_request.query},
+          data: {query: query},
           type: "GET",
           success: function(usernames) {
-            last_request.process(usernames)
+            callback(usernames);
           },
           error: function() {
-            last_request.process([])
+            callback([]);
           }
         });
-
-      }, 200);
-    };
-
-
-    return {
-      handle: function (query, process) {
-        queued_requests.push({query: query, process: process});
-        startTimer();
-      }
-    };
-  }());
+  });
 
   $("#new-member").typeahead({
-          source: function(query, process) {
-            username_typeahead.handle(query, process);
-          }
+          source: username_typeahead.handle
         });
 
 });

@@ -485,6 +485,39 @@ AS.resetScrollSpy = function() {
   });
 }
 
+AS.delayedTypeAhead = function (source, delay) {
+  if (!delay) {
+    delay = 200;
+  }
+
+  return (function () {
+    var queued_requests = [];
+    var timer = undefined;
+
+    var startTimer = function () {
+      if (timer) {
+        clearTimeout(timer);
+      }
+
+      timer = setTimeout(function () {
+        var last_request = queued_requests.pop();
+        queued_requests = [];
+
+        source(last_request.query, last_request.process);
+      }, delay);
+    };
+
+    return {
+      handle: function (query, callback) {
+        queued_requests.push({query: query, process: callback});
+        startTimer();
+      }
+    };
+  }());
+};
+
+
+
 // Sub Record Sorting
 AS.initSubRecordSorting = function($list) {
   var $subform = $list.closest(".subrecord-form");

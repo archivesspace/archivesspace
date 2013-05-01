@@ -52,6 +52,7 @@ ArchivesSpace::Application.routes.draw do
 
   resources :subjects
   match 'subjects/:id' => 'subjects#update', :via => [:post]
+  match 'subjects/terms/complete' => 'subjects#terms_complete', :via => [:get]
 
   resources :locations
   match 'locations/:id' => 'locations#update', :via => [:post]

@@ -1,5 +1,5 @@
 class SubjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :terms_complete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_subject_record")}
 
@@ -47,6 +47,19 @@ class SubjectsController < ApplicationController
                   flash[:success] = I18n.t("subject._html.messages.updated")
                   redirect_to :controller => :subjects, :action => :show, :id => id
                 })
+  end
+
+  def terms_complete
+    query = "#{params[:query]}".strip
+
+    if !query.empty?
+      begin
+        return render :json => JSONModel::HTTP::get_json("/terms", :q => params[:query])['results']
+      rescue
+      end
+    end
+
+    render :json => []
   end
 
 end
