@@ -2,13 +2,23 @@
   <div class="row-fluid">
     <div class="span12">
       <div class="record-toolbar">
-        <div class="pull-right">
-          <div class="btn-group">
-            <% if @resource_id %>
-              <%= link_to I18n.t("actions.edit"), {:controller => :resources, :action => :edit, :id => @resource_id, :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
-            <% end %>
+        <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
+          <div class="btn-group pull-left">
+            <%= link_to I18n.t("actions.edit"), {:controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(@archival_object.resource["ref"]), :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small btn-primary" %>
           </div>
-        </div>
+        <% end %>
+        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+          <div class="pull-left save-changes">
+            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
+          </div>
+        <% end %>
+        <% if ['edit', 'update'].include?(controller.action_name) %>
+          <div class="pull-left revert-changes">
+            &#180;
+            <%= link_to I18n.t("actions.revert"), {:controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(@archival_object.resource["ref"]), :anchor => "archival_object_#{@archival_object.id}"}, :class => "btn btn-small" %>
+            <%= I18n.t("actions.form_changes_message") %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

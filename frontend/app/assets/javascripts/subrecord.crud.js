@@ -45,7 +45,7 @@ $(function() {
                 if ($this.data("cardinality") === "zero_to_one") {
                   $("> .subrecord-form-heading > .btn", $this).removeAttr("disabled");
                 }
-                $this.parents("form:first").triggerHandler("form-changed");
+                $this.parents("form:first").triggerHandler("formchanged.aspace");
                 $(document).triggerHandler("subrecorddeleted.aspace", [$this]);
               });
               return false;
@@ -78,7 +78,7 @@ $(function() {
           // re-init the sortable behaviour
           AS.initSubRecordSorting($target_subrecord_list);
 
-          $this.parents("form:first").triggerHandler("form-changed");
+          $this.parents("form:first").triggerHandler("formchanged.aspace");
 
           $.proxy(init_subform, formEl)();
 
@@ -110,7 +110,8 @@ $(function() {
           });
         } else {
 
-          $("> .subrecord-form-heading > .btn", $this).on("click", function() {
+          $("> .subrecord-form-heading > .btn", $this).on("click", function(event) {
+            event.preventDefault();
 
             var $target_subrecord_list = $(".subrecord-form-list:first", $(this).parents(".subrecord-form:first"));
 

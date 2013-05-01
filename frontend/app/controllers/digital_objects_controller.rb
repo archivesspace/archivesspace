@@ -20,7 +20,7 @@ class DigitalObjectsController < ApplicationController
   end
 
   def new
-    @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default")})._always_valid!
+    @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default", :default => "")})._always_valid!
 
     return render :partial => "digital_objects/new" if params[:inline]
   end

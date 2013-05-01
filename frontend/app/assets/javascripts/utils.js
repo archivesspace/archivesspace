@@ -572,7 +572,7 @@ AS.initSubRecordSorting = function($list) {
     });
 
     $list.off("sortupdate").on("sortupdate", function() {
-      $("#object_container form").triggerHandler("form-changed");
+      $("#object_container form").triggerHandler("formchanged.aspace");
     });
   }
 }

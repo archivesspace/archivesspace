@@ -1,5 +1,6 @@
 <h2>
-  <%= @digital_object_component.title %> <span class="label label-info"><%= I18n.t("digital_object_component._html.singular") %></span>
+  <%= @digital_object_component.title.blank? ? I18n.t("digital_object_component._html.singular") : @digital_object_component.title %>
+  <span class="label label-info"><%= I18n.t("digital_object_component._html.singular") %></span>
 </h2>
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>

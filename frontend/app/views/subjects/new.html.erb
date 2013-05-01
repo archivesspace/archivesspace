@@ -7,6 +7,7 @@
         <%= render :partial => "sidebar" %>
       </div>
       <div class="span9">
+        <%= render :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("subject._html.singular") %>  <span class="label label-info"><%= I18n.t("subject._html.singular") %></span></h2>
           <br/>

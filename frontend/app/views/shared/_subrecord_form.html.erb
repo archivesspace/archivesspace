@@ -23,7 +23,7 @@
      <% if custom_action_template %>
        <%= render :partial => custom_action_template %>
      <% else %>
-       <input type="button" class="btn btn-small pull-right" value="<%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._html.singular") %>"/>
+       <a href="#" class="btn btn-small pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._html.singular") %></a>
      <% end %>
     <% end %>
 

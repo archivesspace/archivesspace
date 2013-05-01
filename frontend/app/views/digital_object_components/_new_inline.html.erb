@@ -5,6 +5,7 @@
         <%= render :partial => "sidebar" %>
       </div>
       <div class="span9">
+        <%= render :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= render :partial => "digital_object_components/form_container", :locals => {:form => form} %>
           <div class="form-actions">

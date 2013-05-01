@@ -130,7 +130,7 @@ $(function() {
                   name: response.title,
                   json: response
                 });
-                $this.parents("form:first").triggerHandler("form-changed");
+                $this.parents("form:first").triggerHandler("formchanged.aspace");
                 $modal.modal("hide");
               }
             }, 
@@ -176,7 +176,7 @@ $(function() {
           });
         });
         $("#"+config.modal_id).modal('hide');
-        $this.parents("form:first").triggerHandler("form-changed");
+        $this.parents("form:first").triggerHandler("formchanged.aspace");
       };
 
 
@@ -238,7 +238,7 @@ $(function() {
           items: 'li.token-input-token'
         });
         $(".token-input-list", $linkerWrapper).off("sortupdate").on("sortupdate", function() {
-          $this.parents("form:first").triggerHandler("form-changed");
+          $this.parents("form:first").triggerHandler("formchanged.aspace");
         });
       };
 
@@ -294,13 +294,13 @@ $(function() {
           },
           prePopulate: tokensForPrepopulation(),
           onDelete: function() {
-            $this.parents("form:first").triggerHandler("form-changed");
+            $this.parents("form:first").triggerHandler("formchanged.aspace");
           },
           onAdd:  function(item) {
             if (config.sortable && config.multiplicity == "many") {
               enableSorting();
             }
-            $this.parents("form:first").triggerHandler("form-changed");
+            $this.parents("form:first").triggerHandler("formchanged.aspace");
             $(document).triggerHandler("init.popovers");
           },
           formatQueryParam: function(q, ajax_params) {

@@ -47,7 +47,7 @@ $(function() {
               $subform.remove();
             }
 
-            $this.parents("form:first").triggerHandler("form-changed");
+            $this.parents("form:first").triggerHandler("formchanged.aspace");
             $(document).triggerHandler("subrecorddeleted.aspace", [$this]);
           });
         });

@@ -2,18 +2,34 @@
   <div class="row-fluid">
     <div class="span12">
       <div class="record-toolbar">
-        <div class="pull-right">
-          <div class="btn-group">
-            <%= link_to I18n.t("actions.edit"), {:controller => :digital_objects, :action => :edit, :id => @digital_object.id, :anchor => "digital_object_#{@digital_object.id}"}, :class => "btn btn-small" %>
+        <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
+          <div class="btn-group pull-left">
+            <%= link_to I18n.t("actions.edit"), {:controller => :digital_objects, :action => :edit, :id => @digital_object.id, :anchor => "digital_object_#{@digital_object.id}"}, :class => "btn btn-small btn-primary" %>
           </div>
-          <div class="btn-group">
-            <%= link_to I18n.t("actions.export_mods"), {:controller => :exports, :action => :download_mods, :id => @digital_object.id}, :class => "btn btn-small" %>
+        <% end %>
+        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+          <div class="pull-left save-changes">
+            <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
           </div>
-          <div class="btn-group">
-            <%= link_to I18n.t("actions.export_mets"), {:controller => :exports, :action => :download_mets, :id => @digital_object.id}, :class => "btn btn-small" %>
+        <% end %>
+        <% if ['edit', 'update'].include?(controller.action_name) %>
+          <div class="pull-left revert-changes">
+            &#180;
+            <%= link_to I18n.t("actions.revert"), {:controller => :digital_objects, :action => :edit, :id => @digital_object.id}, :class => "btn btn-small" %>
+            <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>
+        <% end %>
+        <div class="btn-toolbar pull-right">
           <div class="btn-group">
-            <%= link_to I18n.t("actions.export_dc"), {:controller => :exports, :action => :download_dc, :id => @digital_object.id}, :class => "btn btn-small" %>
+            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+              <%= I18n.t("actions.export") %>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to I18n.t("actions.export_mods"), {:controller => :exports, :action => :download_mods, :id => @digital_object.id} %></li>
+              <li><%= link_to I18n.t("actions.export_mets"), {:controller => :exports, :action => :download_mets, :id => @digital_object.id} %></li>
+              <li><%= link_to I18n.t("actions.export_dc"), {:controller => :exports, :action => :download_dc, :id => @digital_object.id} %></li>
+            </ul>
           </div>
         </div>
       </div>
