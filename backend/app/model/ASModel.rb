@@ -165,7 +165,11 @@ module ASModel
           json["create_time"] = sequel_obj[:create_time].getutc.iso8601
           json["last_modified"] = sequel_obj[:last_modified].getutc.iso8601
 
-          RealtimeIndexing.record_update(json.to_hash, sequel_obj.uri)
+          hash = json.to_hash
+          uri = sequel_obj.uri
+          DB.after_commit do
+            RealtimeIndexing.record_update(hash, uri)
+          end
         end
       end
 

@@ -39,6 +39,13 @@ class DB
       DBMigrator.setup_database(@pool)
     end
   end
+
+
+  # For the sake of unit tests, just fire these straight away (since the entire
+  # test always runs in a transaction)
+  def self.after_commit(&block)
+    block.call
+  end
 end
 
 
