@@ -1200,7 +1200,7 @@ describe "ArchivesSpace user interface" do
         # Wait for the new empty form to be populated.  There's a tricky race
         # condition here that I can't quite track down, so here's my blunt
         # instrument fix.
-        $driver.find_element(:xpath, "//textarea[@id='archival_object_title_']")
+        $driver.find_element(:xpath, "//textarea[@id='archival_object_title_' and not(text())]")
 
         $driver.clear_and_send_keys([:id, "archival_object_title_"],(month))
         $driver.find_element(:id, "archival_object_level_").select_option("item")
@@ -1684,7 +1684,7 @@ describe "ArchivesSpace user interface" do
         # Wait for the new empty form to be populated.  There's a tricky race
         # condition here that I can't quite track down, so here's my blunt
         # instrument fix.
-        $driver.find_element(:xpath, "//input[@value='New Digital Object Component']")
+        $driver.find_element(:xpath, "//textarea[text()='New Digital Object Component']")
 
         $driver.clear_and_send_keys([:id, "digital_object_component_title_"],(thing))
         $driver.clear_and_send_keys([:id, "digital_object_component_label_"],(thing))
