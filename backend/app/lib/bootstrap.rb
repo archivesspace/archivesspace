@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'java'
 require 'sequel'
 require 'sequel/plugins/optimistic_locking'
 Sequel.extension :pagination
@@ -22,6 +23,7 @@ if not Thread.current[:test_mode]
   FileUtils.mkdir_p(AppConfig[:data_directory])
 
   if AppConfig[:db_url] =~ /aspacedemo=true/
+    java.lang.System.set_property("derby.locks.escalationThreshold", "2147483647")
     puts "Running database migrations for demo database"
 
     Sequel.connect(AppConfig[:db_url]) do |db|
