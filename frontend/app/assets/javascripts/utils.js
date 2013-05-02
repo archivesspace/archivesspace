@@ -331,18 +331,21 @@ AS.openCustomModal = function(id, title, contents, fillScreen) {
   $modal.on("hidden", function() {
     $modal.remove();
     $(window).unbind("resize", resizeModal);
-  }).modal('show');
+  });
 
   var resizeModal = function() {
     $modal.height($(window).height() - ($(window).height() * 0.2)); // -20% for 10% top and bottom margins
     var modalBodyHeight = $modal.height() - $(".modal-header", $modal).height() - $(".modal-footer", $modal).height() - 80;
     $(".modal-body", $modal).height(modalBodyHeight);
+    $modal.css("marginLeft", -$modal.width() / 2);
   }
 
   if (fillScreen) {
-    resizeModal();
+    $modal.on("shown resize", resizeModal);
     $(window).resize(resizeModal);
   }
+
+  $modal.modal('show');
 };
 
 

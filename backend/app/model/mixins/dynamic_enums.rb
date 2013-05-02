@@ -43,8 +43,8 @@ module DynamicEnums
 
           define_method("#{property}".intern) do
             if self[property_id]
-              enum = EnumerationValue[self[property_id]] or raise "Couldn't find enum for #{self[property_id]}"
-              enum[:value]
+              BackendEnumSource.value_for_id(definition[:uses_enum], self[property_id]) or
+                raise "Couldn't find enum for #{self[property_id]}"
             else
               nil
             end

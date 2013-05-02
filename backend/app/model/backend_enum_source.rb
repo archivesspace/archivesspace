@@ -54,15 +54,21 @@ class BackendEnumSource
         :time => now,
         :entry => DB.open(true) do |db|
 
-          values = {}
+          value_to_id_map = {}
+          id_to_value_map = {}
           db[:enumeration].join(:enumeration_value, :enumeration_id => :id).
                            filter(:name => enum_name).
                            select(:value, Sequel.qualify(:enumeration_value, :id)).
                            all.each do |row|
-            values[row[:value]] = row[:id]
+            value_to_id_map[row[:value]] = row[:id]
+            id_to_value_map[row[:id]] = row[:value]
           end
 
-          {:values => values.keys, :value_to_id_map => values}
+          {
+            :values => value_to_id_map.keys,
+            :value_to_id_map => value_to_id_map,
+            :id_to_value_map => id_to_value_map
+          }
         end
       }
     end
@@ -86,4 +92,17 @@ class BackendEnumSource
 
     result
   end
+
+
+  def self.value_for_id(enum_name, id)
+    result = self.cache_entry_for(enum_name)[:id_to_value_map][id]
+
+    if !result
+      # skip the cache
+      self.cache_entry_for(enum_name, true)[:id_to_value_map][id]
+    end
+
+    result
+  end
+
 end

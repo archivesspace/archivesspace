@@ -13,9 +13,15 @@ def schema
   @schema[:properties].each do |p, defn|    
 
     next unless defn["type"]
-    if defn["type"] == 'array' and defn["items"]["type"]
+    if defn["type"] == 'array' and defn["items"]["type"] == 'object'
+      defn["type"] += " (Object (#{defn["items"]["properties"].keys.join(', ')}))"
+    elsif defn["type"] == 'array' and defn["items"]["type"]
       defn["type"] += " (#{defn["items"]["type"]})"
     end
+    
+    if defn["maxLength"]
+      defn["type"] += " (max length: #{defn["maxLength"]})"
+    end   
   end
   
   erb(:schema)
