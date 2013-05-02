@@ -1,6 +1,8 @@
 <hr/>
 <div class="btn-group pull-right">
-  <%= link_to "#{I18n.t("actions.create")} #{I18n.t("enumeration.value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn" %>
+  <% if @enumeration['editable']%>
+    <%= link_to "#{I18n.t("actions.create")} #{I18n.t("enumeration.value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn" %>
+  <% end %>
 </div>
 
 <h2><%= I18n.t("enumeration._html.singular") %>: <%= @enumeration["name"] %></h2>
@@ -32,8 +34,10 @@
               <% else %>
                 <%= link_to I18n.t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-mini" %>
               <% end%>
-              <%= link_to I18n.t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-warning" %>
-              <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-danger" %>
+              <% if @enumeration['editable']%>
+                <%= link_to I18n.t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-warning" %>
+                <%= link_to I18n.t("actions.delete"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value}, "data-toggle" => "modal-ajax", :class=> "btn btn-mini btn-danger" %>
+              <% end %>
             </div>
           </td>
         </tr>

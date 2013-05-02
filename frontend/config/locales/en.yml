@@ -1673,6 +1673,7 @@ en:
         deleted: Enumeration Value Deleted
         delete_error: Failed to delete Enumeration Value
         delete_conflict: "Unable to delete Enumeration as it's currently being referenced by a record"
+        default_set: Enumeration Default Set
         created: Enumeration Value Created
         create_error: Failed to create Enumeration Value
         merged: Enumeration Value Merged

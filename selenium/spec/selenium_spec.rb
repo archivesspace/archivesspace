@@ -1862,5 +1862,43 @@ describe "ArchivesSpace user interface" do
     end
 
   end
+  
+  describe "Enumeration Management" do
+    before(:all) do
+      login("admin", "admin")
+    end
+
+
+    after(:all) do
+      logout
+    end
+    
+    it "lets you set a default enumeration (date_type)" do
+      $driver.find_element(:link, 'System').click
+      $driver.find_element(:link, "Manage Enumerations").click
+      
+      enum_select = $driver.find_element(:id => "enum_selector")
+      enum_select.select_option_with_text("date_type")
+      
+      inclusive_dates = $driver.find_element_with_text('//tr', /Inclusive Dates/)
+      inclusive_dates.find_element(:link, 'Set as Default').click
+      
+      $driver.find_element(:link, "Create").click
+      $driver.find_element(:link, "Accession").click
+      
+      $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn').click
+      
+      date_type_select = $driver.find_element(:id => "accession_dates__0__date_type_")
+      selected_type = date_type_select.get_select_value
+      
+      selected_type.should eq 'inclusive'
+      
+      # ensure that the correct subform is loading:
+      subform = $driver.find_element(:css => '.date-type-subform')
+      subform.find_element_with_text('//label', /Begin/)
+      subform.find_element_with_text('//label', /End/)
+      
+    end
+  end
 
 end

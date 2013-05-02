@@ -55,10 +55,12 @@
 
       <%= form.label_and_select "date_type", form.possible_options_for("date_type", true) %>
 
-      <% if form.obj["date_type"].blank? %>
-        <% form.emit_template("date_type_nil") %>
-      <% else %>
+      <% if !form.obj["date_type"].blank? %>
         <% form.emit_template("date_type_#{form.obj["date_type"]}", form.obj) %>
+      <% elsif form.default_for("date_type") %>
+        <% form.emit_template("date_type_#{form.default_for("date_type")}") %>
+      <% else %>
+        <% form.emit_template("date_type_nil") %>
       <% end %>
 
       <%= form.label_and_select("certainty", form.possible_options_for("certainty", true)) %>
