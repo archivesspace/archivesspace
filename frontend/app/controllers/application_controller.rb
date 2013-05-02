@@ -119,9 +119,8 @@ class ApplicationController < ActionController::Base
                                                       model.schema,
                                                       [fix_arrays,
                                                        set_false_for_checkboxes,
-                                                       deserialise_resolved_json_blobs])
-                                                       
-                                                       # coerce_integers])
+                                                       deserialise_resolved_json_blobs,
+                                                       coerce_integers])
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)

@@ -26,7 +26,6 @@ module ExportHelpers
   def generate_dc(id)
     
     obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects'])
-    # obj = DigitalObject.get_or_die(id)
     
     dc = ASpaceExport.model(:dc).from_digital_object(JSONModel(:digital_object).new(obj))
     
@@ -37,7 +36,6 @@ module ExportHelpers
   def generate_mets(id)
     
     obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree'])
-    # obj = DigitalObject.get_or_die(id)
     
     mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj))
     
@@ -48,7 +46,6 @@ module ExportHelpers
   def generate_mods(id)
     
     obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree'])
-    # obj = DigitalObject.get_or_die(id)
     
     mods = ASpaceExport.model(:mods).from_digital_object(JSONModel(:digital_object).new(obj))
     
