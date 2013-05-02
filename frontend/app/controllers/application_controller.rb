@@ -84,6 +84,22 @@ class ApplicationController < ActionController::Base
 
         result
       end
+      
+      
+      coerce_integers = proc do |hash, schema|
+
+        schema['properties'].each do |property, definition|
+          if definition['type'] == 'integer'
+            if hash.has_key?(property) && hash[property].is_a?(String)
+              if (i = hash[property].to_i) && i > 0
+                hash[property] = i
+              end
+            end
+          end
+        end
+
+        hash
+      end
 
 
       deserialise_resolved_json_blobs = proc do |hash, schema|
@@ -104,6 +120,8 @@ class ApplicationController < ActionController::Base
                                                       [fix_arrays,
                                                        set_false_for_checkboxes,
                                                        deserialise_resolved_json_blobs])
+                                                       
+                                                       # coerce_integers])
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)

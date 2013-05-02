@@ -1643,7 +1643,7 @@ describe "ArchivesSpace user interface" do
 
     digital_object_title = "Pony Express Digital Image"
 
-    it "can create a digital_object" do
+    it "can create a digital_object with one file version" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Digital Object").click
 
@@ -1653,7 +1653,8 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:css => "section#digital_object_file_versions_ > h3 > input.btn").click
 
       $driver.clear_and_send_keys([:id, "digital_object_file_versions__0__file_uri_"], "/uri/for/this/file/version")
-
+      $driver.clear_and_send_keys([:id , "digital_object_file_versions__0__file_size_bytes_"], '100')
+      
       $driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
       # The new Digital Object shows up on the tree
