@@ -12,8 +12,8 @@
       "level" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "archival_record_level"},
       "other_level" => {"type" => "string", "maxLength" => 255},
 
-      "title" => {"type" => "string", "maxLength" => 16384, "ifmissing" => nil},
-      "label" => {"type" => "string", "maxLength" => 16384, "readonly" => true},
+      "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
+      "label" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
       
       "internal_only" => {"type" => "boolean", "default" => false},
 

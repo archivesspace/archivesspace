@@ -382,8 +382,8 @@ Sequel.migration do
       String :ref_id, :null => false, :unique => false
       String :component_id, :null => true
 
-      LongString :title, :null => true
-      LongString :label, :null => true
+      HalfLongString :title, :null => true
+      HalfLongString :label, :null => true
 
       DynamicEnum :level_id, :null => false
       String :other_level
