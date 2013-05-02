@@ -2,17 +2,17 @@ JSON Schema: Resource
 /repositories/:repo_id/resources
 Properties
 
-string	id_0
+string (max length: 255)	id_0
 
-string	id_1
+string (max length: 255)	id_1
 
-string	id_2
+string (max length: 255)	id_2
 
-string	id_3
+string (max length: 255)	id_3
 
 string	level
 
-string	other_level
+string (max length: 255)	other_level
 
 	language
 
@@ -22,39 +22,39 @@ object	tree
 
 boolean	restrictions
 
-string	repository_processing_note
+string (max length: 65000)	repository_processing_note
 
-string	container_summary
+string (max length: 65000)	container_summary
 
-string	ead_id
+string (max length: 255)	ead_id
 
-string	ead_location
+string (max length: 255)	ead_location
 
-string	finding_aid_title
+string (max length: 65000)	finding_aid_title
 
-string	finding_aid_filing_title
+string (max length: 65000)	finding_aid_filing_title
 
-string	finding_aid_date
+string (max length: 255)	finding_aid_date
 
-string	finding_aid_author
+string (max length: 255)	finding_aid_author
 
 string	finding_aid_description_rules
 
-string	finding_aid_language
+string (max length: 255)	finding_aid_language
 
-string	finding_aid_sponsor
+string (max length: 255)	finding_aid_sponsor
 
-string	finding_aid_edition_statement
+string (max length: 65000)	finding_aid_edition_statement
 
-string	finding_aid_series_statement
+string (max length: 65000)	finding_aid_series_statement
 
-string	finding_aid_revision_date
+string (max length: 255)	finding_aid_revision_date
 
-string	finding_aid_revision_description
+string (max length: 65000)	finding_aid_revision_description
 
 string	finding_aid_status
 
-string	finding_aid_note
+string (max length: 65000)	finding_aid_note
 
 array (JSONModel(:extent) object)	extents
 
@@ -66,7 +66,7 @@ JSONModel(:collection_management) object	collection_management
 
 JSONModel(:user_defined) object	user_defined
 
-array (object)	related_accessions
+array (Object (ref, _resolved))	related_accessions
 
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
 

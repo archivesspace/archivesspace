@@ -4,27 +4,27 @@ Properties
 
 string	uri
 
-array (object)	external_ids
+array (Object (external_id, source))	external_ids
 
-string	cataloged_note
+string (max length: 65000)	cataloged_note
 
-string	processing_hours_per_foot_estimate
+string (max length: 255)	processing_hours_per_foot_estimate
 
-string	processing_total_extent
+string (max length: 255)	processing_total_extent
 
 string	processing_total_extent_type
 
-string	processing_hours_total
+string (max length: 255)	processing_hours_total
 
-string	processing_plan
+string (max length: 65000)	processing_plan
 
 string	processing_priority
 
 string	processing_status
 
-string	processing_funding_source
+string (max length: 65000)	processing_funding_source
 
-string	processors
+string (max length: 65000)	processors
 
 boolean	rights_determined
 

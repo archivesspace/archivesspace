@@ -4,7 +4,7 @@ Properties
 
 array (string)	content
 
-array (object)	items
+array (Object (value, type, reference, reference_text))	items
 
 
 

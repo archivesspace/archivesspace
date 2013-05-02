@@ -4,21 +4,21 @@ Properties
 
 string	uri
 
-string	repo_code
+string (max length: 255)	repo_code
 
-string	name
+string (max length: 255)	name
 
-string	org_code
+string (max length: 255)	org_code
 
 string	country
 
-string	parent_institution_name
+string (max length: 255)	parent_institution_name
 
-string	url
+string (max length: 255)	url
 
-string	image_url
+string (max length: 255)	image_url
 
-string	contact_persons
+string (max length: 65000)	contact_persons
 
 object	agent_representation
 

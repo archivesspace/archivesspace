@@ -4,9 +4,9 @@ Properties
 
 string	uri
 
-string	permission_code
+string (max length: 255)	permission_code
 
-string	description
+string (max length: 65000)	description
 
 string	level
 

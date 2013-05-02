@@ -14,19 +14,19 @@ string	real_1
 
 string	real_2
 
-string	string_1
+string (max length: 255)	string_1
 
-string	string_2
+string (max length: 255)	string_2
 
-string	string_3
+string (max length: 255)	string_3
 
-string	text_1
+string (max length: 65000)	text_1
 
-string	text_2
+string (max length: 65000)	text_2
 
-string	text_3
+string (max length: 65000)	text_3
 
-string	text_4
+string (max length: 65000)	text_4
 
 
 

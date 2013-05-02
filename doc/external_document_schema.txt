@@ -2,9 +2,9 @@ JSON Schema: External_document
 
 Properties
 
-string	title
+string (max length: 16384)	title
 
-string	location
+string (max length: 255)	location
 
 boolean	publish
 

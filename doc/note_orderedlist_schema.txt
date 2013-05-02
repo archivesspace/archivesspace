@@ -2,7 +2,7 @@ JSON Schema: Note_orderedlist
 
 Properties
 
-string	title
+string (max length: 16384)	title
 
 boolean	publish
 

@@ -4,33 +4,33 @@ Properties
 
 string	rights_type
 
-string	identifier
+string (max length: 255)	identifier
 
 boolean	active
 
-string	materials
+string (max length: 255)	materials
 
 string	ip_status
 
 date	ip_expiration_date
 
-string	license_identifier_terms
+string (max length: 255)	license_identifier_terms
 
-string	statute_citation
+string (max length: 255)	statute_citation
 
 string	jurisdiction
 
-string	type_note
+string (max length: 255)	type_note
 
-string	permissions
+string (max length: 65000)	permissions
 
-string	restrictions
+string (max length: 65000)	restrictions
 
 date	restriction_start_date
 
 date	restriction_end_date
 
-string	granted_note
+string (max length: 255)	granted_note
 
 array (JSONModel(:external_document) object)	external_documents
 

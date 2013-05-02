@@ -4,27 +4,27 @@ Properties
 
 string	uri
 
-string	username
+string (max length: 255)	username
 
-string	name
+string (max length: 255)	name
 
 object	permissions
 
 array (JSONModel(:group) uri)	groups
 
-string	email
+string (max length: 255)	email
 
-string	first_name
+string (max length: 255)	first_name
 
-string	last_name
+string (max length: 255)	last_name
 
-string	telephone
+string (max length: 255)	telephone
 
-string	title
+string (max length: 255)	title
 
-string	department
+string (max length: 255)	department
 
-string	additional_contact
+string (max length: 65000)	additional_contact
 
 object	agent_record
 

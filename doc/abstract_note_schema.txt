@@ -2,7 +2,7 @@ JSON Schema: Abstract_note
 
 Properties
 
-string	label
+string (max length: 65000)	label
 
 array (string)	content
 
@@ -10,7 +10,7 @@ boolean	publish
 
 boolean	internal
 
-string	persistent_id
+string (max length: 255)	persistent_id
 
 
 

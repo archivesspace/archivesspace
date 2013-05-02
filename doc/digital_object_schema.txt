@@ -2,7 +2,7 @@ JSON Schema: Digital_object
 /repositories/:repo_id/digital_objects
 Properties
 
-string	digital_object_id
+string (max length: 255)	digital_object_id
 
 string	level
 
@@ -20,7 +20,7 @@ JSONModel(:collection_management) object	collection_management
 
 JSONModel(:user_defined) object	user_defined
 
-array (object)	linked_instances
+array (Object (ref, _resolved))	linked_instances
 
 
 

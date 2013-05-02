@@ -4,7 +4,7 @@ Properties
 
 string	uri
 
-string	name
+string (max length: 255)	name
 
 string	default_value
 

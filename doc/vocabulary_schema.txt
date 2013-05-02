@@ -4,9 +4,9 @@ Properties
 
 string	uri
 
-string	ref_id
+string (max length: 255)	ref_id
 
-string	name
+string (max length: 255)	name
 
 array (JSONModel(:term) object)	terms
 

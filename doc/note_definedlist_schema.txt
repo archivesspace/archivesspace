@@ -2,13 +2,13 @@ JSON Schema: Note_definedlist
 
 Properties
 
-string	title
+string (max length: 16384)	title
 
 boolean	publish
 
 boolean	internal
 
-array (object)	items
+array (Object (label, value))	items
 
 
 

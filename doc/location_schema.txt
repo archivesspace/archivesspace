@@ -6,31 +6,31 @@ string	uri
 
 string	title
 
-array (object)	external_ids
+array (Object (external_id, source))	external_ids
 
-string	building
+string (max length: 255)	building
 
-string	floor
+string (max length: 255)	floor
 
-string	room
+string (max length: 255)	room
 
-string	area
+string (max length: 255)	area
 
-string	barcode
+string (max length: 255)	barcode
 
-string	classification
+string (max length: 255)	classification
 
-string	coordinate_1_label
+string (max length: 255)	coordinate_1_label
 
-string	coordinate_1_indicator
+string (max length: 255)	coordinate_1_indicator
 
-string	coordinate_2_label
+string (max length: 255)	coordinate_2_label
 
-string	coordinate_2_indicator
+string (max length: 255)	coordinate_2_indicator
 
-string	coordinate_3_label
+string (max length: 255)	coordinate_3_label
 
-string	coordinate_3_indicator
+string (max length: 255)	coordinate_3_indicator
 
 string	temporary
 

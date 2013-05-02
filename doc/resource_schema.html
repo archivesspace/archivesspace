@@ -77,17 +77,17 @@
 
 			<h2>Properties</h2>
 			
-				<h3 class="signature"> - (string) <strong>id_0</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>id_0</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>id_1</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>id_1</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>id_2</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>id_2</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>id_3</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>id_3</strong></h3>
 			
 				<h3 class="signature"> - (string) <strong>level</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>other_level</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>other_level</strong></h3>
 			
 				<h3 class="signature"> - () <strong>language</strong></h3>
 			
@@ -97,39 +97,39 @@
 			
 				<h3 class="signature"> - (boolean) <strong>restrictions</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>repository_processing_note</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>repository_processing_note</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>container_summary</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>container_summary</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>ead_id</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>ead_id</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>ead_location</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>ead_location</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_title</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>finding_aid_title</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_filing_title</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>finding_aid_filing_title</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_date</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>finding_aid_date</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_author</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>finding_aid_author</strong></h3>
 			
 				<h3 class="signature"> - (string) <strong>finding_aid_description_rules</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_language</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>finding_aid_language</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_sponsor</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>finding_aid_sponsor</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_edition_statement</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>finding_aid_edition_statement</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_series_statement</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>finding_aid_series_statement</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_revision_date</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>finding_aid_revision_date</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_revision_description</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>finding_aid_revision_description</strong></h3>
 			
 				<h3 class="signature"> - (string) <strong>finding_aid_status</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>finding_aid_note</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>finding_aid_note</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:extent) object)) <strong>extents</strong></h3>
 			
@@ -141,7 +141,7 @@
 			
 				<h3 class="signature"> - (JSONModel(:user_defined) object) <strong>user_defined</strong></h3>
 			
-				<h3 class="signature"> - (array (object)) <strong>related_accessions</strong></h3>
+				<h3 class="signature"> - (array (Object (ref, _resolved))) <strong>related_accessions</strong></h3>
 			
 				<h3 class="signature"> - (array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])) <strong>notes</strong></h3>
 			
@@ -362,7 +362,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:12 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Thu May 02 09:49:51 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

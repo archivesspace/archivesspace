@@ -4,11 +4,11 @@ Properties
 
 string	scope
 
-string	description
+string (max length: 255)	description
 
-string	reason
+string (max length: 255)	reason
 
-string	disposition
+string (max length: 255)	disposition
 
 boolean	notification
 

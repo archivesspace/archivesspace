@@ -6,7 +6,7 @@ string	uri
 
 string	title
 
-array (object)	external_ids
+array (Object (external_id, source))	external_ids
 
 string	source
 
@@ -16,7 +16,7 @@ array (JSONModel(:term) uri_or_object)	terms
 
 JSONModel(:vocabulary) uri	vocabulary
 
-string	ref_id
+string (max length: 255)	ref_id
 
 array (JSONModel(:external_document) object)	external_documents
 

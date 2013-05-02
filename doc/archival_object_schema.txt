@@ -2,15 +2,15 @@ JSON Schema: Archival_object
 /repositories/:repo_id/archival_objects
 Properties
 
-string	ref_id
+string (max length: 255)	ref_id
 
-string	component_id
+string (max length: 255)	component_id
 
 string	level
 
-string	other_level
+string (max length: 255)	other_level
 
-string	title
+string (max length: 16384)	title
 
 boolean	title_auto_generate
 

@@ -4,33 +4,33 @@ Properties
 
 string	uri
 
-array (object)	external_ids
+array (Object (external_id, source))	external_ids
 
-string	title
+string (max length: 16384)	title
 
-string	id_0
+string (max length: 255)	id_0
 
-string	id_1
+string (max length: 255)	id_1
 
-string	id_2
+string (max length: 255)	id_2
 
-string	id_3
+string (max length: 255)	id_3
 
-string	content_description
+string (max length: 65000)	content_description
 
-string	condition_description
+string (max length: 65000)	condition_description
 
-string	disposition
+string (max length: 65000)	disposition
 
-string	inventory
+string (max length: 65000)	inventory
 
-string	provenance
+string (max length: 65000)	provenance
 
 date	accession_date
 
 boolean	publish
 
-array (object)	subjects
+array (Object (ref, _resolved))	subjects
 
 array (JSONModel(:extent) object)	extents
 
@@ -46,7 +46,7 @@ JSONModel(:collection_management) object	collection_management
 
 JSONModel(:user_defined) object	user_defined
 
-array (object)	related_resources
+array (Object (ref, _resolved))	related_resources
 
 boolean	suppressed
 
@@ -56,19 +56,19 @@ string	resource_type
 
 boolean	restrictions_apply
 
-string	retention_rule
+string (max length: 65000)	retention_rule
 
-string	general_note
+string (max length: 65000)	general_note
 
 boolean	access_restrictions
 
-string	access_restrictions_note
+string (max length: 65000)	access_restrictions_note
 
 boolean	use_restrictions
 
-string	use_restrictions_note
+string (max length: 65000)	use_restrictions_note
 
-array (object)	linked_agents
+array (Object (role, terms, relator, ref, _resolved))	linked_agents
 
 array (JSONModel(:instance) object)	instances
 

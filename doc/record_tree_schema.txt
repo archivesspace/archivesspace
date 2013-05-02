@@ -8,11 +8,11 @@ integer	id
 
 string	record_uri
 
-string	title
+string (max length: 16384)	title
 
-string	level
+string (max length: 255)	level
 
-string	node_type
+string (max length: 255)	node_type
 
 boolean	publish
 

@@ -79,7 +79,7 @@
 			
 				<h3 class="signature"> - (string) <strong>uri</strong></h3>
 			
-				<h3 class="signature"> - (array (object)) <strong>external_ids</strong></h3>
+				<h3 class="signature"> - (array (Object (external_id, source))) <strong>external_ids</strong></h3>
 			
 				<h3 class="signature"> - (string) <strong>event_type</strong></h3>
 			
@@ -89,13 +89,13 @@
 			
 				<h3 class="signature"> - (string) <strong>outcome</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>outcome_note</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>outcome_note</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>suppressed</strong></h3>
 			
-				<h3 class="signature"> - (array (object)) <strong>linked_agents</strong></h3>
+				<h3 class="signature"> - (array (Object (role, ref, _resolved))) <strong>linked_agents</strong></h3>
 			
-				<h3 class="signature"> - (array (object)) <strong>linked_records</strong></h3>
+				<h3 class="signature"> - (array (Object (role, ref, _resolved))) <strong>linked_records</strong></h3>
 			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -314,7 +314,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:12 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Thu May 02 09:49:51 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

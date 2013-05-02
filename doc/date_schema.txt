@@ -8,11 +8,11 @@ string	label
 
 string	certainty
 
-string	expression
+string (max length: 255)	expression
 
-string	begin
+string (max length: 255)	begin
 
-string	end
+string (max length: 255)	end
 
 string	era
 

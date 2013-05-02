@@ -2,7 +2,7 @@ JSON Schema: File_version
 
 Properties
 
-string	file_uri
+string (max length: 255)	file_uri
 
 boolean	publish
 
@@ -14,11 +14,11 @@ string	xlink_show_attribute
 
 string	file_format_name
 
-string	file_format_version
+string (max length: 255)	file_format_version
 
 integer	file_size_bytes
 
-string	checksum
+string (max length: 255)	checksum
 
 string	checksum_method
 

@@ -2,7 +2,7 @@ JSON Schema: Webhook_notification
 
 Properties
 
-array (object)	events
+array (Object (code, params))	events
 
 
 

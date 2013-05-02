@@ -79,33 +79,33 @@
 			
 				<h3 class="signature"> - (string) <strong>uri</strong></h3>
 			
-				<h3 class="signature"> - (array (object)) <strong>external_ids</strong></h3>
+				<h3 class="signature"> - (array (Object (external_id, source))) <strong>external_ids</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>title</strong></h3>
+				<h3 class="signature"> - (string (max length: 16384)) <strong>title</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>id_0</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>id_0</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>id_1</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>id_1</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>id_2</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>id_2</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>id_3</strong></h3>
+				<h3 class="signature"> - (string (max length: 255)) <strong>id_3</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>content_description</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>content_description</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>condition_description</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>condition_description</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>disposition</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>disposition</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>inventory</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>inventory</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>provenance</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>provenance</strong></h3>
 			
 				<h3 class="signature"> - (date) <strong>accession_date</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>publish</strong></h3>
 			
-				<h3 class="signature"> - (array (object)) <strong>subjects</strong></h3>
+				<h3 class="signature"> - (array (Object (ref, _resolved))) <strong>subjects</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:extent) object)) <strong>extents</strong></h3>
 			
@@ -121,7 +121,7 @@
 			
 				<h3 class="signature"> - (JSONModel(:user_defined) object) <strong>user_defined</strong></h3>
 			
-				<h3 class="signature"> - (array (object)) <strong>related_resources</strong></h3>
+				<h3 class="signature"> - (array (Object (ref, _resolved))) <strong>related_resources</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>suppressed</strong></h3>
 			
@@ -131,19 +131,19 @@
 			
 				<h3 class="signature"> - (boolean) <strong>restrictions_apply</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>retention_rule</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>retention_rule</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>general_note</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>general_note</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>access_restrictions</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>access_restrictions_note</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>access_restrictions_note</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>use_restrictions</strong></h3>
 			
-				<h3 class="signature"> - (string) <strong>use_restrictions_note</strong></h3>
+				<h3 class="signature"> - (string (max length: 65000)) <strong>use_restrictions_note</strong></h3>
 			
-				<h3 class="signature"> - (array (object)) <strong>linked_agents</strong></h3>
+				<h3 class="signature"> - (array (Object (role, terms, relator, ref, _resolved))) <strong>linked_agents</strong></h3>
 			
 				<h3 class="signature"> - (array (JSONModel(:instance) object)) <strong>instances</strong></h3>
 			
@@ -452,7 +452,7 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:12 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Thu May 02 09:49:51 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

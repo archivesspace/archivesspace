@@ -4,7 +4,7 @@ Properties
 
 string	uri
 
-array (object)	external_ids
+array (Object (external_id, source))	external_ids
 
 string	event_type
 
@@ -14,13 +14,13 @@ string	timestamp
 
 string	outcome
 
-string	outcome_note
+string (max length: 255)	outcome_note
 
 boolean	suppressed
 
-array (object)	linked_agents
+array (Object (role, ref, _resolved))	linked_agents
 
-array (object)	linked_records
+array (Object (role, ref, _resolved))	linked_records
 
 
 

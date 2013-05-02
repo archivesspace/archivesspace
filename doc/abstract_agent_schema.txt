@@ -4,7 +4,7 @@ Properties
 
 string	uri
 
-array (object)	external_ids
+array (Object (external_id, source))	external_ids
 
 string	agent_type
 

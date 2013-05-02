@@ -2,9 +2,9 @@ JSON Schema: Digital_object_component
 /repositories/:repo_id/digital_object_components
 Properties
 
-string	component_id
+string (max length: 255)	component_id
 
-string	label
+string (max length: 255)	label
 
 array (JSONModel(:file_version) object)	file_versions
 
