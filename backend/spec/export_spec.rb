@@ -72,8 +72,14 @@ describe 'ASpaceExport' do
   end  
   
   it "can export a digital object record as METS" do
+
+    file_versions = []
+    3.times { file_versions << build(:json_file_version)}
         
-    d = create(:json_digital_object)
+    d = create(:json_digital_object, :file_versions => file_versions)
+    
+    c1 = create(:json_digital_object_component, :file_versions => file_versions, :digital_object => {'ref' => d.uri})
+    c2 = create(:json_digital_object_component, :file_versions => file_versions, :digital_object => {'ref' => d.uri}, :parent => {'ref' => c1.uri})
     
     obj = JSONModel(:digital_object).find(d.id, "resolve[]" => ['repository', 'linked_agents', 'subjects', 'tree'])
     
@@ -84,6 +90,7 @@ describe 'ASpaceExport' do
     doc = Nokogiri::XML(xml)
     
     doc.xpath('//xmlns:agent/@ROLE', doc.root.namespaces).first.text.should eq('CREATOR')
+    doc.xpath('//xmlns:file', doc.root.namespaces).length.should eq (9)
   end
   
   it "can export a Resource record as MARC21" do

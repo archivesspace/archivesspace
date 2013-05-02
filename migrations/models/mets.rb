@@ -43,9 +43,32 @@ ASpaceExport::model :mets do
     'family_name' => 'family',
     'prefix' => 'termsOfAddress'
   }
+  
+  @doc = Class.new do
     
+    def initialize(tree)
+      obj = DigitalObjectComponent.to_jsonmodel(tree['id'])
+      @json = JSONModel::JSONModel(:digital_object_component).new(obj)
+      @tree = tree
+    end
+    
+    def method_missing(meth)
+      if @json.respond_to?(meth)
+        @json.send(meth)
+      else
+        nil
+      end
+    end
+    
+    def children
+      return nil unless @tree['children']
+      @tree['children'].map { |subtree| self.class.new(subtree) }
+    end
+  end
+  
 
-  def initialize
+  def initialize(obj)
+    @json = obj
     @wrapped_dmd = []
     
     @extents = []
@@ -58,7 +81,7 @@ ASpaceExport::model :mets do
   # Some things are universal
   def self.from_aspace_object(obj)
   
-    mets = self.new
+    mets = self.new(obj)
     
     if obj.respond_to?(:repo_id)
       repo_id = RequestContext.get(:repo_id)
@@ -121,5 +144,24 @@ ASpaceExport::model :mets do
   def dmd_wrap(mdtype, callback, data)
     self.wrapped_dmd << {'type' => mdtype,'callback' => callback, 'data' => data}
   end
+  
+  def method_missing(meth)
+    if @json.respond_to?(meth)
+      @json.send(meth)
+    else
+      nil
+    end
+  end
+  
+  def children
+    return nil unless @json.tree['_resolved']['children']
+    
+    ao_class = self.class.instance_variable_get(:@doc)
+    
+    children = @json.tree['_resolved']['children'].map { |subtree| ao_class.new(subtree) }
+    
+    children
+  end
+  
   
 end

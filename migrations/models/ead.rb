@@ -36,10 +36,6 @@ ASpaceExport::model :ead do
   
     ead = self.new(obj)
     
-    # if obj.class.model_scope == :repository
-    #   ead.apply_map(Repository.get_or_die(obj.repo_id), @repository_map)
-    # end
-    
     ead
   end
     
