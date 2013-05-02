@@ -329,6 +329,8 @@ module RESTHelpers
           type.value(value)
         elsif type == String
           value
+        elsif type == :body_stream
+          value
         else
           raise BadParamsException.new("Type not recognized: #{type}")
         end
@@ -354,6 +356,8 @@ module RESTHelpers
 
           if opts[:body]
             params[name] = request.body.read
+          elsif type == :body_stream
+            params[name] = request.body
           end
 
           if not params[name] and not opts[:optional] and not opts[:default]

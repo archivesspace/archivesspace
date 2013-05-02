@@ -29,3 +29,4 @@ group :test do
 end
 
 gem "net-http-persistent"
+gem "rjack-jackson"

@@ -389,8 +389,8 @@ module JSONSchemaUtils
     jsonmodel_type = elt["jsonmodel_type"]
 
     if !jsonmodel_type
-      raise("Can't unambiguously match #{elt.inspect} against schema types: #{schema_types.inspect}. " +
-            "Resolve this by adding a 'jsonmodel_type' property to #{elt.inspect}")
+      raise JSONModel::ValidationException.new(:errors => {"record" => ["Can't unambiguously match #{elt.inspect} against schema types: #{schema_types.inspect}. " +
+                                                             "Resolve this by adding a 'jsonmodel_type' property to #{elt.inspect}"]})
     end
 
     next_schema = schema_types.find {|type|

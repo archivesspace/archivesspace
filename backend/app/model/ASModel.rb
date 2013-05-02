@@ -456,6 +456,15 @@ module ASModel
         # Provide a hook for models to do something in response to a dataset being deleted.
         # We won't do anything here, but mixins can add to this.
       end
+
+
+      def update_mtime_for_ids(ids)
+        now = Time.now
+        ids.each_slice(50) do |subset|
+          self.dataset.filter(:id => subset).update(:last_modified => now)
+        end
+      end
+
     end
   end
 
