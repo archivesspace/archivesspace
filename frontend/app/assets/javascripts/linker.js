@@ -48,7 +48,9 @@ $(function() {
           type: "GET",
           dataType: "html",
           success: function(html) {
-            var $linkerBrowseContainer = $(".linker-container", "#"+config.modal_id);
+            var $modal = $("#"+config.modal_id);
+
+            var $linkerBrowseContainer = $(".linker-container", $modal);
 
             var initBrowseFormInputs = function() {
               // add some click handlers to allow clicking of the row
@@ -77,6 +79,8 @@ $(function() {
                   $(":input[value='"+this+"']", $linkerBrowseContainer).trigger("click");
                 });
               }
+
+              $modal.trigger("resize");
             };
 
             $linkerBrowseContainer.html(html);
@@ -134,6 +138,7 @@ $(function() {
               $("#createAndLinkButton", $modal).removeAttr("disabled");
             }
           });
+          $modal.trigger("resize");
         };
 
         $.ajax({
