@@ -200,9 +200,9 @@ en:
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this Digital Object or Component will be published to public (patron) interfaces.</p>
-    level: Level
+    level: VRA Core Level
     level_tooltip: |
-        <p>Primarily for use in multi-level VRA compliant records in order to indicate description is about a collection, a work, or an image.</p>
+        <p>Primarily for use in multi-level VRA Core compliant records in order to indicate description is about a collection, a work, or an image.</p>
     digital_object_type: Type
     digital_object_type_tooltip: |
         <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
@@ -1057,10 +1057,13 @@ en:
         <p>A.D. years are expressed with four digits.</p>
         <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
     certainty: Certainty
+    certainty_tooltip: |
+        <p>The level of confidence for the information given in a date statement. This information is optional and should only be added when qualifying date information as potentially uncertain based upon the description or cataloging rules in use.</p>
+        <p>See EAD attribute "certainty".</p>
     era: Era
     era_tooltip: |
-        <p>Period during which years are numbered and dates reckoned, such as A.D. or C.E. The value "ce" is the default.</p>
-        <p>See EAD attribute "era"</p>
+        <p>Period during which years are numbered and dates reckoned, such as B.C. or C.E. The value "ce" is the default.</p>
+        <p>See EAD attribute "era".</p>
     calendar: Calendar
     calendar_tooltip: |
         <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>

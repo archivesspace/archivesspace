@@ -14,7 +14,7 @@
     <section id="basic_information">
       <h3><%= I18n.t("resource._html.section.basic_information") %></h3>
 
-      <%= form.label_and_textfield "title" %>
+      <%= form.label_and_textarea "title" %>
       <%= form.label_and_fourpartid %>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level" %>

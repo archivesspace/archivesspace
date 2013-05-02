@@ -7,7 +7,7 @@
       <%= link_to_help :topic => "accession_basic_information" %>
     </h3>
     <fieldset>
-       <%= form.label_and_textfield "title" %>
+       <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
        <%= form.label_and_date "accession_date", {:field_opts => {:value => (@accession.accession_date.blank? ? "" : Date.strptime(@accession.accession_date, "%Y-%m-%d"))}} %>
        <%= form.label_and_textarea "content_description" %>

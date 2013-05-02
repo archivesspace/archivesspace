@@ -4,8 +4,8 @@
     <%= form.label_and_textfield("number") %>
     <%= form.label_and_select("extent_type", form.possible_options_for("extent_type")) %>
     <hr/>
-    <%= form.label_and_textfield("container_summary") %>
-    <%= form.label_and_textfield("physical_details") %>
-    <%= form.label_and_textfield("dimensions") %>
+    <%= form.label_and_textarea("container_summary") %>
+    <%= form.label_and_textarea("physical_details") %>
+    <%= form.label_and_textarea("dimensions") %>
   </div>
 <% end %>
