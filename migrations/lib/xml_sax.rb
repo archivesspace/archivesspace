@@ -29,14 +29,25 @@ module ASpaceImport
       end
 
 
+      # Get a hold of Nokogiri's internal nodeQueue for the sake of being able
+      # to clear it.  This might not be necessary in new versions of Nokogiri.
+      def node_queue_for(reader)
+        obj = reader.to_java
+        nodeQueueField = obj.get_class.get_declared_field("nodeQueue")
+        nodeQueueField.setAccessible(true)
+        nodeQueueField.get(obj)
+      end
+
+
       def run
         @reader = Nokogiri::XML::Reader(IO.read(@input_file))
+        node_queue = node_queue_for(@reader)
         @context = []
         @context_nodes = {}
 
         self.class.ensure_configuration
 
-        @reader.each do |node|
+        @reader.each_with_index do |node, i|
 
           case node.node_type
 
@@ -47,6 +58,10 @@ module ASpaceImport
           when 15
             handle_closer(node)
           end
+
+          # A gross hack.  Use Java Reflection to clear Nokogiri's node queue,
+          # since otherwise we end up accumulating all nodes in memory.
+          node_queue.set(i, nil)
         end
 
         @log.debug("Parse Queue State: #{parse_queue.inspect}")
