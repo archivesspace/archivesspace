@@ -221,6 +221,18 @@ module JSONModel
     end
 
 
+    def self.post_json_file(url, path)
+      File.open(path) do |fh|
+        req = Net::HTTP::Post.new(url.request_uri)
+        req['Content-Type'] = 'text/json'
+        req['Content-Length'] = File.size(path)
+        req.body_stream = fh
+
+        do_http_request(url, req)
+      end
+    end
+
+
     def self.delete_request(url)
       req = Net::HTTP::Delete.new(url.request_uri)
 

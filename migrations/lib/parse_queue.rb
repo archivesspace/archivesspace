@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module ASpaceImport
   
 
@@ -14,8 +16,11 @@ module ASpaceImport
 
       @uri_remapping = {}
       @seen_records = {}
+
+      @backing_file = Tempfile.new("import_batch")
     end
      
+
     def push(obj)
       hash = obj.to_hash(:raw)
 
@@ -24,37 +29,55 @@ module ASpaceImport
 
         if @seen_records[hash_code]
           # Duplicate detected.  Map this record's URI back to the first instance we saw.
-          $stderr.puts("FOUND A DUPE")
           @uri_remapping[hash['uri']] = @seen_records[hash_code]
+          return
         else
           @seen_records[hash_code] = hash['uri']
         end
       end
 
-      super(hash)
+      @backing_file.write(ASUtils.to_json(hash))
+      @backing_file.write("\n")
     end
 
     
     def save
+      @backing_file.close
+
       repo_id = Thread.current[:selected_repo_id]
-      batch = []
+      batch = Tempfile.new("import_batch")
       
-      while self.size > 0
-        rec = self.shift
-        batch << ASpaceImport::Utils.update_record_references(rec, @uri_remapping)
+      batch.write("[")
+
+      uris = []
+      File.open(@backing_file.path).each_with_index do |line, i|
+        batch.write(",") unless i == 0
+
+        rec = ASUtils.json_parse(line)
+        rec = ASpaceImport::Utils.update_record_references(rec, @uri_remapping)
+
+        uris << rec['uri']
+
+        batch.write(ASUtils.to_json(rec))
       end
+
+      @backing_file.unlink
+
+      batch.write("]")
+      batch.close
 
       uri = "/repositories/#{repo_id}/batch_imports"
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       
       if @opts[:dry]        
-        
+        batch.unlink
+
         response = mock('Net::HTTPResponse')
         
         res_body = "{\"saved\":{"
-        batch.each_with_index do |hsh, i|
+        uris.each_with_index do |uri, i|
           res_body << "," unless i == 0
-          res_body << "\"#{hsh['uri']}\":\"#{hsh['uri']}\""
+          res_body << "\"#{uri}\":\"#{uri}\""
         end
         res_body << "}}"
         
@@ -65,10 +88,12 @@ module ASpaceImport
         response
         
       else
-        json = ASUtils.to_json(batch)
-
-        JSONModel::HTTP.with_request_priority(:low) do
-          JSONModel::HTTP.post_json(url, json)
+        begin
+          JSONModel::HTTP.with_request_priority(:low) do
+            JSONModel::HTTP.post_json_file(url, batch.path)
+          end
+        ensure
+          batch.unlink
         end
       end
     end
