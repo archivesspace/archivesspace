@@ -2,7 +2,6 @@ require_relative '../lib/streaming_import'
 
 class ArchivesSpaceService < Sinatra::Base
 
-    #.permissions([:update_archival_record])
   Endpoint.post('/repositories/:repo_id/batch_imports')
     .description("Import a batch of records")
     .params(["batch_import", :body_stream, "The batch of records"],
@@ -16,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
                              ->(v){ ['true', 'false', 'auto'].include?(v) }],
              :default => 'auto'])
     .request_context(:create_enums => true)
-    .permissions([])
+    .permissions([:update_archival_record])
     .returns([200, :created],
              [400, :error],
              [409, :error]) \
