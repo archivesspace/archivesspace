@@ -14,14 +14,16 @@ jdk:
   - oraclejdk7
   - openjdk6
 
-env: INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
-
+env:
+  - DB=derby INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
+  - DB=mysql INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root"
 
 before_script:
   # http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database archivesspace default character set utf8;'; fi"
 
 branches:
   only:
@@ -29,6 +31,7 @@ branches:
 
 script:
   - build/run bootstrap
+  - build/run db:migrate
   - build/run backend:test
   - build/run backend:integration
 # - build/run common:test  # https://github.com/hudmol/archivesspace/commit/193fe9a3990da74e37e98140c9eaa264ec801643#L0R106
