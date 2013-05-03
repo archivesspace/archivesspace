@@ -43,14 +43,31 @@ module TestUtils
   end
 
 
-  def self.start_backend(port, config = {}, config_file = nil)
-    base = File.dirname(__FILE__)
-
-    java_opts = "-Xmx256M -XX:MaxPermSize=128M"
+  def self.build_config_string(config)
+    java_opts = ""
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
 
+    # Pass through any system properties from the parent JVM too
+    java.lang.System.getProperties.each do |property, value|
+      if property =~ /aspace.config.(.*)/
+        key = $1
+        if !config.has_key?(key)
+          java_opts += " -Daspace.config.#{key}=#{value}"
+        end
+      end
+    end
+
+    java_opts
+  end
+
+
+  def self.start_backend(port, config = {}, config_file = nil)
+    base = File.dirname(__FILE__)
+
+    java_opts = "-Xmx256M -XX:MaxPermSize=128M"
+    java_opts += build_config_string(config)
     if config_file
       java_opts += " -Daspace.config=#{config_file}"
     end
@@ -70,9 +87,7 @@ module TestUtils
     base = File.dirname(__FILE__)
 
     java_opts = "-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}"
-    config.each do |key, value|
-      java_opts += " -Daspace.config.#{key}=#{value}"
-    end
+    java_opts += build_config_string(config)
 
     pid = Process.spawn({:JAVA_OPTS => java_opts},
                         "#{base}/../build/run", "frontend:devserver:integration",
