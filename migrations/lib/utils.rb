@@ -1,10 +1,11 @@
+require 'securerandom'
+
 module ASpaceImport
   module Utils
     
     # Fake an ID to create URIs
     def self.mint_id
-      @counter ||= 1000000
-      @counter += 1
+      "import_#{SecureRandom.uuid}"
     end
 
     def self.get_property_type(property_def)

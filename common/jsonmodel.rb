@@ -459,6 +459,15 @@ module JSONModel
       end
 
 
+      def self.id_to_int(id)
+        if id =~ /^import_/
+          id
+        else
+          id.to_i
+        end
+      end
+
+
       # The inverse of uri_for:
       #
       #     JSONModel(:archival_object).id_for("/repositories/123/archival_objects/500", :repo_id => 123)
@@ -477,10 +486,13 @@ module JSONModel
         pattern = self.schema['uri']
         pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
 
-        if uri =~ /#{pattern}\/([0-9]+)(\#.*)?$/
-          return $1.to_i
-        elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}([0-9]+)\/tree$/
-          return $1.to_i
+        # IDs are either positive integers, or importer-provided logical IDs
+        id_regexp = /([0-9]+|import_[a-f0-9-]+)/
+
+        if uri =~ /#{pattern}\/#{id_regexp}(\#.*)?$/
+          return id_to_int($1)
+        elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{id_regexp}\/tree$/
+          return id_to_int($1)
         else
           if noerror
             nil
