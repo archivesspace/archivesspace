@@ -109,6 +109,8 @@ class StreamingImport
     cleanup
 
     $stderr.puts "Finished in #{round} rounds"
+
+    @logical_urls
   end
 
 

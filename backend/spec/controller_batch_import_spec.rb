@@ -40,13 +40,10 @@ describe "Batch Import Controller" do
       batch_array << obj.to_hash(:raw)
     end
     
-    batch = JSONModel(:batch_import).new
-    batch.set_data({:batch => batch_array})
-        
     uri = "/repositories/#{$repo_id}/batch_imports"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
   
-    response = JSONModel::HTTP.post_json(url, batch.to_json)
+    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
     
     response.code.should eq('200')
     
@@ -75,13 +72,10 @@ describe "Batch Import Controller" do
       
       batch_array << obj.to_hash(:raw)
       
-      batch = @batch_cls.new
-      batch.set_data({:batch => batch_array})
-      
       uri = "/repositories/#{$repo_id}/batch_imports"
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       
-      response = JSONModel::HTTP.post_json(url, batch.to_json)
+      response = JSONModel::HTTP.post_json(url, batch_array.to_json)
       
       response.code.should eq('200')
       
@@ -113,19 +107,18 @@ describe "Batch Import Controller" do
     
     batch_array = [resource.to_hash(:raw)]
   
-    batch = JSONModel(:batch_import).new
-    batch.set_data({:batch => batch_array})
         
     uri = "/repositories/#{$repo_id}/batch_imports"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
   
-    response = JSONModel::HTTP.post_json(url, batch.to_json)
+    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
     response.code.should eq('200')
     
     body = ASUtils.json_parse(response.body)
     body['saved'].length.should eq(1)
     
     real_id = body['saved'][resource.uri][-1]
+
     resource_reloaded = JSONModel(:resource).find(real_id, "resolve[]" => ['subjects', 'related_accessions'])
   
     resource_reloaded.subjects[0]['ref'].should eq(subject.uri)
@@ -142,13 +135,10 @@ describe "Batch Import Controller" do
   
     batch_array = [resource.to_hash(:raw)]
   
-    batch = JSONModel(:batch_import).new
-    batch.set_data({:batch => batch_array})
-        
     uri = "/repositories/#{$repo_id}/batch_imports"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
   
-    response = JSONModel::HTTP.post_json(url, batch.to_json)
+    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
     response.code.should eq('200')
     
     body = ASUtils.json_parse(response.body)
