@@ -104,7 +104,7 @@ class StreamingImport
 
     cleanup
 
-    $stderr.puts "Finished in #{round} rounds"
+    Log.debug("Finished in #{round} rounds")
 
     @logical_urls
   end
@@ -148,7 +148,7 @@ class StreamingImport
 
       RequestContext.open(:current_username => "admin") do
         obj = model_for(record['jsonmodel_type']).create_from_json(json)
-        $stderr.puts "migrated: #{record['uri']}"
+        Log.debug("Created: #{record['uri']}")
 
         obj.uri
       end

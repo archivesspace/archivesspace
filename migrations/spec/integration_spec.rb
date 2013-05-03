@@ -44,7 +44,7 @@ describe 'ASpaceImport' do
   #   result = @i.report.split(/\n/)
   #   result.shift.should match(/Aspace Import Report/)
   #   result.each do |r|
-  #     r.should match(/^Saved: .*[0-9]$/)
+  #     r.should match(/^Saved: .*[0-9]\]$/)
   #   end
   #   
   # end
@@ -63,7 +63,7 @@ describe 'ASpaceImport' do
     result = @i.report.split(/\n/)
     result.shift.should match(/Aspace Import Report/)
     result.each do |r|
-      r.should match(/^Saved: .*[0-9]$/)
+      r.should match(/^Saved: .*[0-9]\]$/)
     end
     
   end
@@ -83,7 +83,7 @@ describe 'ASpaceImport' do
     result = @i.report.split(/\n/)
     result.shift.should match(/Aspace Import Report/)
     result.each do |r|
-      r.should match(/^Saved: .*[0-9]$/)
+      r.should match(/^Saved: .*[0-9]\]$/)
     end
     
   end
@@ -103,7 +103,7 @@ describe 'ASpaceImport' do
     result = @i.report.split(/\n/)
     result.shift.should match(/Aspace Import Report/)
     result.each do |r|
-      r.should match(/^Saved: .*[0-9]$/)
+      r.should match(/^Saved: .*[0-9]\]$/)
     end
     result.count.should eq(10)
     

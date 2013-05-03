@@ -49,10 +49,10 @@ describe ASpaceImport::Utils do
       a_parent.uri = a_parent.class.uri_for(ASpaceImport::Utils.mint_id, :repo_id => 2) 
       expect(a_parent.uri).to_not eq(old_uri)
       
-      ASpaceImport::Utils.update_record_references(a1, {old_uri => a_parent}) {|json| json.uri}
+      a1 = ASpaceImport::Utils.update_record_references(a1.to_hash(:raw), {old_uri => a_parent.uri})
 
-      expect(a1.parent['ref']).to eq(a_parent.uri)
-      expect(a2.parent['ref']).to_not eq(a_parent.uri)
+      expect(a1['parent']['ref']).to eq(a_parent.uri)
+      expect(a2['parent']['ref']).to_not eq(a_parent.uri)
     end
   end
 end
