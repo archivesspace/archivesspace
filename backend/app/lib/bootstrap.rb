@@ -15,9 +15,10 @@ require 'config/config-distribution'
 require_relative 'username'
 
 
-if ENV["ASPACE_INTEGRATION"] == "true"
+if ENV["ASPACE_INTEGRATION"] == "true" && AppConfig[:db_url] =~ /aspacedemo=true/
   AppConfig[:db_url] = "jdbc:derby:memory:integrationdb;create=true;aspacedemo=true"
 end
+
 
 if not Thread.current[:test_mode]
   FileUtils.mkdir_p(AppConfig[:data_directory])
