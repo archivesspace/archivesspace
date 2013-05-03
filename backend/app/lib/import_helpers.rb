@@ -2,19 +2,6 @@ require_relative "../../../migrations/lib/utils"
 
 module ImportHelpers
   
-  def handle_import
-
-    batch = Batch.new(params[:batch_import])
-    
-    RequestContext.put(:repo_id, params[:repo_id])
-
-    begin
-      batch.process
-      json_response({:saved => batch.saved_uris}, 200)
-    end
-  end
-  
-
   class Batch
     attr_accessor :saved_uris
     

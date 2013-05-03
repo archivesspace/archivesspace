@@ -2,28 +2,6 @@ require 'spec_helper'
 
 describe "Batch Import Controller" do
 
-  before(:all) do
-    @batch_cls = Class.new(JSONModel::JSONModel(:batch_import)) do
-
-      # Need to bypass some validation rules for 
-      # JSON objects created by an import
-      def self.validate(hash, raise_errors = true)
-        begin
-          super(hash)
-        rescue JSONModel::ValidationException => e
-
-          e.errors.reject! {|path, mssg| 
-                            e.attribute_types.has_key?(path) && 
-                            e.attribute_types[path] == 'ArchivesSpaceDynamicEnum'}
-
-          raise e unless e.errors.empty?
-
-        end
-      end
-    end
-  end
-
-
   before(:each) do
     create(:repo)
   end

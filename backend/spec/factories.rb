@@ -190,10 +190,6 @@ FactoryGirl.define do
     internal_only true
   end
   
-  factory :json_batch, class: JSONModel(:batch_import) do
-    batch { [build(:json_resource, :uri => JSONModel(:resource).uri_for(rand(1000)))] }
-  end
-
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
     label { generate(:alphanumstr) }
     content { [generate(:alphanumstr)] }
