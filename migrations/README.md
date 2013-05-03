@@ -5,7 +5,7 @@ ArchivesSpace application (using the appropriate menu items) or as a stand alone
 CLI client of the backend application. (Note: There is no CLI for exporting at this time.)
 
 If you wish to run the tool as a standalone CLI client, you will need to have the 'common'
-directory on your classpath. If you have the entire project checked out, you can do
+directory on your classpath. If you have the entire project source checked out, you can do
 that like this:
 
       $ export RUBYLIB={path_to_archivesspace}/common:$RUBYLIB
@@ -14,11 +14,11 @@ One you have done that, you should be able to do a 'dry-run' import using one of
 test files:
 
       $ cd {path_to_archivesspace}/migrations
-      $ import.rb -i xml -x ead -s examples/ead/archon-tracer.xml -n
+      $ import.rb -i ead -s examples/ead/archon-tracer.xml -n
 
 The more generalized CLI usage is as follows:
       
-	    $ import.rb -i {importer-name} [-s {path/to/your/data/file.ext}] [-x {crosswalk-name}]
+	    $ import.rb -i {importer-name} [-s {path/to/your/data/file.ext}]
 
 You can see the full set of options by doing this:
 
@@ -34,13 +34,13 @@ Step 2: Open the 'migrations' directory
 
 	    $ cd migrations
 
-Step 3: Create an empty repository and vocabulary and note their IDs
+Step 3: Create an empty repository and note the ID
 
 	    $ rake import:make_repo
 
 Step 4: Run a test import using the following options
 		
-	    $./import.rb -r {REPO_ID} -i xml -x ead -s examples/ead/afcu.xml
+	    $./import.rb -r {REPO_ID} -i ead -s examples/ead/afcu.xml
 
 You can see the records that have been created using rake:
 
@@ -48,21 +48,23 @@ You can see the records that have been created using rake:
 
 ## Extending and customizing import tools
 
-There are two ways to extend and customize the import tools. For minor adjustments to the import logic of a particular crosswalk,
-you can copy that crosswalk and edit the copy to server your needs. Example:
+If you want to adjust the behavior of one of distributed importers, make a copy and assign a new key in the first line:
 
-      $ cp crosswalks/ead.yml crosswalks/ead-my-way.yml
-      $ {your_favorite_text_editor} crosswalks/ead-my-way.yml
-      $ ./import.rb -r {repository_id} -i xml -x ead-my-way examples/ead/afcu.xml
+      $ ASpaceImporter.importer :foo do # 'foo' is the unique key for this importer
 
-If you want to create a custom importer to handle other kinds of source data, you 
-can create your own importer and add it to the 'importers' directory. 
+Then make any adjustments to the logic in the 'self.configure' method. 
 
-The first line of your new file must be
-	
-	ASpaceImporter.importer :foo do # 'foo' is the unique key for this importer
+You can also create a new importer from scratch, using one of the three mixins or not.
 
-You must define two methods, self.profile and run. See examples or contact the development team for more info.
-	
+The three distributed mixins are:
 
+* XML::DOM
+
+* XML::SAX
+
+* CSV
+
+Each mixin expects any class that includes it to have a 'self.configure' method that conforms to the syntax used in the examples. 
+
+If you are writing an importer without using one of the mixins, you need to define the 'run' method in the importer.
 

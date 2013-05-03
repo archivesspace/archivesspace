@@ -27,6 +27,7 @@ describe "Batch Import Controller" do
   before(:each) do
     create(:repo)
   end
+
   
   it "can import a batch of JSON objects" do
     
@@ -61,39 +62,42 @@ describe "Batch Import Controller" do
     old_enum_source = JSONModel.init_args[:enum_source]
     JSONModel.init_args[:enum_source] = BackendEnumSource
     
-            
-    batch_array = []
-  
-    enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
-  
-    enum.values.should_not include('spaghetti')
-  
-    obj = build(:json_resource, :resource_type => 'spaghetti')
-    obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
-  
-    batch_array << obj.to_hash(:raw)
     
-    batch = @batch_cls.new
-    batch.set_data({:batch => batch_array})
-        
-    uri = "/repositories/#{$repo_id}/batch_imports"
-    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
-  
-    response = JSONModel::HTTP.post_json(url, batch.to_json)
-    
-    response.code.should eq('200')
-    
-    body = ASUtils.json_parse(response.body)
-    body['saved'].length.should eq(1)
-    
-    enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
-    
-    enum.values.should include('spaghetti')
-    
-    # set things back as they were enum source-wise
-    JSONModel.init_args[:enum_source] = old_enum_source
-    
+    begin
+      batch_array = []
+      
+      enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
+      
+      enum.values.should_not include('spaghetti')
+      
+      obj = build(:json_resource, :resource_type => 'spaghetti')
+      obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
+      
+      batch_array << obj.to_hash(:raw)
+      
+      batch = @batch_cls.new
+      batch.set_data({:batch => batch_array})
+      
+      uri = "/repositories/#{$repo_id}/batch_imports"
+      url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+      
+      response = JSONModel::HTTP.post_json(url, batch.to_json)
+      
+      response.code.should eq('200')
+      
+      body = ASUtils.json_parse(response.body)
+      body['saved'].length.should eq(1)
+      
+      enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
+      
+      enum.values.should include('spaghetti')
+    ensure
+      # set things back as they were enum source-wise
+      JSONModel.init_args[:enum_source] = old_enum_source
+    end
   end
+
+
   it "can import a batch containing a record with a reference to already existing records" do
     
     subject = create(:json_subject)

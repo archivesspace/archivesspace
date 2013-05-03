@@ -8,9 +8,9 @@ namespace :export do
     
     Rake::Task["import:bootstrap"].invoke
 
-    args.with_defaults(:repo_id => ASpaceImportConfig::DEFAULT_REPO_ID, :resource_id=>1)
+    args.with_defaults(:repo_id => 2, :resource_id=>1)
     
-    url = URI("#{ASpaceImportConfig::ASPACE_BASE}/repositories/#{args[:repo_id]}/resource_descriptions/#{args[:resource_id]}.xml")
+    url = URI("#{AppConfig[:backend_url]}/repositories/#{args[:repo_id]}/resource_descriptions/#{args[:resource_id]}.xml")
     
     req = Net::HTTP::Get.new(url.request_uri)
     
@@ -56,62 +56,27 @@ namespace :import do
     puts "CREATED: #{repo.uri}"
   end
   
-  desc "Create a vocabulary"
-  task :make_vocab, :vocab_ref, :repo_id do |t, args|
-    
-    Rake::Task["import:bootstrap"].invoke
-    
-    args.with_defaults(:vocab_ref => "v#{rand(10000)}", :repo_id => ASpaceImportConfig::DEFAULT_REPO_ID)
-    
-    vocab = JSONModel(:vocabulary).from_hash("ref_id" => args[:vocab_ref],
-                                              "name" => rand(100000).floor.to_s(36))
-    vocab.save
-    puts "CREATED: #{vocab.uri}"
-  end
   
   desc "List all repositories"
   task :list_repos do
         
     Rake::Task["import:bootstrap"].invoke
     
-    res = JSON.parse(`curl #{ASpaceImportConfig::ASPACE_BASE}/repositories`)
+    res = JSON.parse(`curl #{AppConfig[:backend_url]}/repositories`)
     
     puts "\n\nURI\t\tCODE\t\tDESC"  
     res.each {|r| puts "#{r['uri']}\t#{r['repo_code']}\t#{r['description']}"}   
   end
-  
-  desc "List all vocabularies"
-  task :list_vocabs do
-        
-    Rake::Task["import:bootstrap"].invoke
-    
-    res = JSON.parse(`curl #{ASpaceImportConfig::ASPACE_BASE}/vocabularies`)
-  
-    puts "\n\nURI\t\tREF_ID\t\tNAME"
-    res.each {|r| puts "#{r['uri']}\t#{r['ref_id']}\t#{r['name']}"} 
-  end
-    
-  desc "List all subjects in a vocabulary"
-  task :list_subjects, :vocab_id do |t, args|
-    
-    Rake::Task["import:bootstrap"].invoke
 
-    args.with_defaults(:vocab_id => ASpaceImportConfig::DEFAULT_VOCAB_ID)
-    
-    res = JSON.parse(`curl #{ASpaceImportConfig::ASPACE_BASE}/subjects`)
-    
-    puts "\n\nURI\t\tTERM(s)"  
-    res.each {|r| o = "#{r['uri']}\t"; r['terms'].each {|t| o << "#{t['term']} "}; puts o }
-  end
   
   desc "List all archival objects in a repository"
-  task :list_objects, :repo_id do |t, args|
+  task :list_objects, :repo_id, :page do |t, args|
 
     Rake::Task["import:bootstrap"].invoke    
 
-    args.with_defaults(:repo_id => ASpaceImportConfig::DEFAULT_REPO_ID)
+    args.with_defaults(:repo_id => 2, :page => 1)
     
-    url = URI("#{ASpaceImportConfig::ASPACE_BASE}/repositories/#{args[:repo_id]}/archival_objects")
+    url = URI("#{AppConfig[:backend_url]}/repositories/#{args[:repo_id]}/archival_objects?page=#{args[:page]}")
     
     req = Net::HTTP::Get.new(url.request_uri)
     
@@ -126,29 +91,9 @@ namespace :import do
 
       res = JSON.parse(response.body)
 
-      puts "\n\nURI\t\t\t\t\tTITLE(s)"  
-      res.each {|r| puts "#{r['uri']}\t#{r['title']}"}
+      puts "\n\nURI\t\t\t\t\tTITLE(s)"        
+      res['results'].each {|r| puts "#{r['uri']}\t#{r['title']}"}
       
     end
-    
-
-  end 
-    
-
-
-
-  # desc "List things of a given type"
-  # task :list, :type, :repo_id do |t, args|
-  #   
-  #   Rake::Task["import:bootstrap"].invoke
-  #   
-  #   args.with_defaults(:type => 'archival_objects', :repo_id => ASpaceImportConfig::DEFAULT_REPO_ID)
-  #   
-  #   res = JSON.parse(`curl #{ASpaceImportConfig::ASPACE_BASE}/repositories/#{args[:repo_id]}/#{args[:type]}`)
-  #   
-  #   puts "\n\nURI\t\tTITLE"  
-  #   res.each {|r| puts "#{r['uri']}\t#{r['title']}"}
-  # end
-  
-  
+  end
 end

@@ -1,5 +1,6 @@
+require 'csv'
 require_relative '../../../migrations/lib/importer'
-require_relative '../../../migrations/lib/crosswalk'
+require_relative '../../../migrations/lib/utils'
 require_relative '../../../migrations/lib/parse_queue'
 
 if ENV['DISABLE_STARTUP'] != 'true'

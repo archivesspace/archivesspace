@@ -1,4 +1,4 @@
-require_relative "../../../migrations/lib/crosswalk"
+require_relative "../../../migrations/lib/utils"
 
 module ImportHelpers
   
@@ -38,9 +38,9 @@ module ImportHelpers
 
       @json_set.each do |ref, json|
               
-        # TODO: add a method to say whether a json is de-linkable
-
-        if ['collection_management', 'event'].include?(json.jsonmodel_type)
+        # TODO: add a method to ASpaceImport::Utils to say whether a record requires
+        # references in order to be saved:
+        if ['collection_management', 'event', 'subject'].include?(json.jsonmodel_type)
           @second_pass_keys << ref
         else
           begin
@@ -64,7 +64,7 @@ module ImportHelpers
         begin
           json = @json_set[ref]
           # Update the references in json
-          ASpaceImport::Crosswalk.update_record_references(json, @json_set.select{|k, v| 
+          ASpaceImport::Utils.update_record_references(json, @json_set.select{|k, v| 
             !@second_pass_keys.include?(k) 
             }) {|referenced| referenced.uri}
         
@@ -74,7 +74,7 @@ module ImportHelpers
           # Now update the URI with the real ID
           json.uri.sub!(/\/[0-9]+$/, "/#{@as_set[json.uri][0].to_s}")
           @saved_uris[ref] = @json_set[ref].uri
-          ASpaceImport::Crosswalk.update_record_references(json, @json_set) {|referenced| referenced.uri}
+          ASpaceImport::Utils.update_record_references(json, @json_set) {|referenced| referenced.uri}
         rescue Exception => e
           raise ImportException.new({:invalid_object => json, :error => e})
         end
@@ -83,7 +83,7 @@ module ImportHelpers
       # Update the linked record pointers in the json set
       @json_set.each do |ref, json|
         next if @second_pass_keys.include?(ref)
-        ASpaceImport::Crosswalk.update_record_references(json, @json_set) {|referenced| referenced.uri}
+        ASpaceImport::Utils.update_record_references(json, @json_set) {|referenced| referenced.uri}
       end
       
 
@@ -103,7 +103,7 @@ module ImportHelpers
     
     
     def self.unlink_key?(kdef, v)
-      key_type = ASpaceImport::Crosswalk.get_property_type(kdef)[0]
+      key_type = ASpaceImport::Utils.get_property_type(kdef)[0]
       return true if key_type == :record_uri && v.is_a?(String) && !v.match(/\/vocabularies\/[0-9]+$/)
       return true if key_type == :record_uri_or_record_inline && v.is_a?(String)
       return true if key_type == :record_uri_or_record_inline_list && v[0].is_a?(String)
@@ -134,7 +134,7 @@ module ImportHelpers
     
     def to_hash
       hsh = {'record_title' => nil, 'record_type' => nil, 'error_class' => self.class.name, 'errors' => []}
-      hsh['record_title'] = @invalid_object.title ? @invalid_object.title : "unknown or untitled"
+      hsh['record_title'] = @invalid_object[:title] ? @invalid_object[:title] : "unknown or untitled"
       hsh['record_type'] = @invalid_object.jsonmodel_type ? @invalid_object.jsonmodel_type : "unknown type"
       
       if @error.respond_to?(:errors)

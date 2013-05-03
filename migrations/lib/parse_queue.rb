@@ -1,6 +1,5 @@
 module ASpaceImport
   
-  
   # Wrap the batch model so dynamic enums don't raise errors
   def self.BatchModel
     
@@ -8,6 +7,10 @@ module ASpaceImport
   
       # Need to bypass some validation rules for 
       # JSON objects created by an import
+
+      # TODO: Speed things up by fixing this in ASpaceImport::JSONModel 
+      # ..or, perhaps validation can be turned off altogether here
+      
       def self.validate(hash, raise_errors = true)
         begin
           super(hash)
@@ -47,21 +50,23 @@ module ASpaceImport
     def dedupe
       #1. Remove objects that duplicate earlier objects
       @dupes.each do |uri2drop, uri2keep|
+        @opts[:log].warn("Dropping dupe: #{uri2drop}")
         self.reject! {|obj| obj.uri == uri2drop}
       end
       
       #2. Update links in the remaining set
       self.each do |json|
-        ASpaceImport::Crosswalk.update_record_references(json, @dupes) {|uri| uri}
+        ASpaceImport::Utils.update_record_references(json, @dupes) {|uri| uri}
       end
       
     end
     
     def save
 
+      # TODO - making a flag for this could make things faster for some
       self.dedupe
       
-      batch_object = ASpaceImport.BatchModel.new #BatchModel.new
+      batch_object = ASpaceImport.BatchModel.new 
       repo_id = Thread.current[:selected_repo_id]
       batch = []
       
@@ -125,111 +130,46 @@ module ASpaceImport
   class ParseQueue < Array
 
     def initialize(opts)
-      @repo_id = opts[:repo_id] if opts[:repo_id]
       @batch = Batch.new(opts) 
       @dupes = {}
-    end
-    
-    def select_each_and(&dothis)
-      self.reverse.each do |obj|
-        self.selected=obj
-        dothis.call
-      end
-      self.selected = self.last
-    end
-    
-    def with_raised(&dothis)
-      if self.raised.length
-        self.raised.each do |auf|
-          self.selected=auf
-          dothis.call
-        end
-        self.selected = self.last
-      end
-    end
-    
-    def iterate
-      self.reverse.each_with_index do |json, i|
-        self.selected=self[i]
-        yield json
-      end
+      @opts = opts
     end
     
     def pop
 
-      self[0...-1].reverse.each do |qdobj|
-
-        # Set Links FROM popped object TO other objects in the queue
-        self.last.receivers.for_obj(qdobj) do |r|
-          r << qdobj
-        end
-      
-        # Set Links TO the popped object FROM others in the queue
-      
-        qdobj.receivers.for_obj(self.last) do |r|
-          r << self.last
-        end
-         
-      end
-      
-      # If the object has a uri, send it to the POST batch; otherwise
-      # it's an inline record.
       if self.last.class.method_defined? :uri and !self.last.uri.nil?
         @batch.push(self.last) unless self.last.uri.nil?
       end      
       
       super
       
-      @selected = self.last
     end
+    
     
     def <<(obj)
       push(obj)
     end
     
+    
     def push(obj)
-
-      raise "Not a JSON Object" unless obj.class.record_type
-      @selected = obj
-      
+      @selected = obj      
       super 
     end
-    
-    def push_and_raise(obj)
-      self.push(obj)
-      self.raised.push(self.last)
-    end
-    
-    def unraise_all
-      @raised = []
-    end
+
 
     def save
+      while self.length > 0
+        @opts[:log].warn("Pushing a queued object to the batch before saving")
+        self.pop
+      end
       @batch.save
     end
+
     
     def inspect
       "Parse Queue: " << super <<  " -- Batch: " << @batch.inspect
     end
     
-    def select(json)
-      @selected = json
-    end
-    
-    def selected
-      @selected ||= self.last
-    end
-    
-    def raised
-      @raised ||= []
-    end
-    
-    protected
-    
-    def selected=(json)
-      @selected = json
-    end
-        
   end
 end
 

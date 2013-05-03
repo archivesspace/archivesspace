@@ -60,35 +60,31 @@ class ImportController < ApplicationController
   
   def run_import(source_file, importer_key)
     
+    flags = []
+    
     case importer_key
     when 'eac'
-      importer = 'xml_dom'
-      crosswalk = 'eac'
+      importer = :eac
     when 'ead'
-      importer = 'xml'
-      crosswalk = 'ead'
+      importer = :ead
     when 'accession_csv'
-      importer = 'csv'
-      crosswalk = 'accession_csv'
+      importer = :accessions
     when 'digital_object_csv'
-      importer = 'csv'
-      crosswalk = 'digital_object_csv'
+      importer = :digital_objects
     when 'marcxml'
-      importer = 'xml'
-      crosswalk = 'marcxml'
+      importer = :marcxml
     when 'marcxml_subjects_and_agents'
-      importer = 'xml'
-      crosswalk = 'marcxml_subjects_and_agents'
+      importer = :marcxml
+      flags << 'subjects_and_agents_only'
     end
 
         
     options = {:dry => false, 
-               :relaxed => false, 
-               :verbose => false, #verbose report will overflow the cookie 
                :repo_id => session[:repo_id], 
                :vocab_id => '1',
                :importer => importer,
-               :crosswalk => crosswalk,
+               :importer_flags => flags,
+               :quiet => true,
                :input_file => source_file.path}
 
       i = ASpaceImport::Importer.create_importer(options)    
