@@ -139,41 +139,25 @@ module ASpaceImport
          property_ref_type.scan(/:([a-zA-Z_]*)/)[0][0]
        end
      end
-   
-     # @param json - JSON Object to be modified
-     # @param ref_source - a hash mapping old uris to new uris
-     # The ref_source values are evaluated by a block
-   
-     def self.update_record_references(json, ref_source)
 
-       data = json.to_hash
-       data.each do |k, v|
 
-         property_type = get_property_type(json.class.schema["properties"][k])[0]
+     def self.update_record_references(record, ref_source)
+       if record.is_a?(Array) || record.respond_to?(:to_array)
+         record.map {|e| update_record_references(e, ref_source)}
+       elsif record.is_a?(Hash) || record.respond_to?(:each)
+         fixed = {}
 
-         if property_type == :record_ref && ref_source.has_key?(v['ref'])
-           data[k]['ref'] = yield ref_source[v['ref']]
-         
-         elsif property_type == :record_ref_list
+         record.each do |k, v|
+           fixed[k] = update_record_references(v, ref_source)
+         end
 
-           v.each {|li| li['ref'] = yield ref_source[li['ref']] if ref_source.has_key?(li['ref'])}
-                
-         elsif property_type.match(/^record_uri(_or_record_inline)?$/) \
-           and v.is_a? String \
-           and !v.match(/\/vocabularies\/[0-9]+$/) \
-           and ref_source.has_key?(v)
-
-           data[k] = yield ref_source[v]
-         
-         elsif property_type.match(/^record_uri(_or_record_inline)?_list$/) && v[0].is_a?(String)
-           data[k] = v.map { |vn| (vn.is_a?(String) && vn.match(/\/.*[0-9]$/)) && ref_source.has_key?(vn) ? (yield ref_source[vn]) : vn }
-         end    
+         fixed
+       else
+         ref_source[record] || record
        end
-     
-       json.set_data(data)
      end
-   
-   
+
+
      class ASpaceImportException < StandardError
        attr_accessor :property
        attr_accessor :val_type

@@ -81,10 +81,6 @@ class StreamingImport
           # migrate it
           @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
 
-          if !@logical_urls[uri]
-            raise "Unexpected failure in #{uri}.  Aborting!"
-          end
-
           progressed = true
         end
 
@@ -146,9 +142,9 @@ class StreamingImport
   end
 
 
-  def do_create(record, validate = true)
+  def do_create(record, noerror = false)
     begin
-      json = to_jsonmodel(record, validate)
+      json = to_jsonmodel(record, true)
 
       RequestContext.open(:current_username => "admin") do
         obj = model_for(record['jsonmodel_type']).create_from_json(json)
@@ -157,25 +153,17 @@ class StreamingImport
         obj.uri
       end
     rescue
-      nil
+      if noerror
+        nil
+      else
+        raise $!
+      end
     end
   end
 
 
   def rewrite(record, logical_urls)
-    if record.respond_to?(:to_array)
-      record.map {|e| rewrite(e, logical_urls)}
-    elsif record.respond_to?(:each)
-      fixed = {}
-
-      record.each do |k, v|
-        fixed[k] = rewrite(v, logical_urls)
-      end
-
-      fixed
-    else
-      logical_urls[record] || record
-    end
+    ASpaceImport::Utils.update_record_references(record, logical_urls)
   end
 
 
@@ -200,7 +188,7 @@ class StreamingImport
       end
 
       # Create the cut down record (which might fail)
-      created_uri = do_create(rewrite(rec, @logical_urls))
+      created_uri = do_create(rewrite(rec, @logical_urls), true)
 
       if created_uri
         # It worked!

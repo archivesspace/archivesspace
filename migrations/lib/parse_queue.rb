@@ -5,43 +5,43 @@ module ASpaceImport
   
   class Batch < Array
     attr_accessor :links
-    @must_be_unique = ['subject']
-
 
     def initialize(opts)
       @opts = opts
       @dupes = {}
+
+      @must_be_unique = ['subject']
+
+      @uri_remapping = {}
+      @seen_records = {}
     end
      
     def push(obj)
-      @dupes.merge!(self.class.find_dupe(obj, self) || {})
-      super
-    end
-    
-    def dedupe
-      #1. Remove objects that duplicate earlier objects
-      @dupes.each do |uri2drop, uri2keep|
-        @opts[:log].warn("Dropping dupe: #{uri2drop}")
-        self.reject! {|obj| obj.uri == uri2drop}
+      hash = obj.to_hash(:raw)
+
+      if @must_be_unique.include?(hash['jsonmodel_type'])
+        hash_code = hash.clone.tap {|h| h.delete("uri")}.hash
+
+        if @seen_records[hash_code]
+          # Duplicate detected.  Map this record's URI back to the first instance we saw.
+          $stderr.puts("FOUND A DUPE")
+          @uri_remapping[hash['uri']] = @seen_records[hash_code]
+        else
+          @seen_records[hash_code] = hash['uri']
+        end
       end
-      
-      #2. Update links in the remaining set
-      self.each do |json|
-        ASpaceImport::Utils.update_record_references(json, @dupes) {|uri| uri}
-      end
-      
+
+      super(hash)
     end
+
     
     def save
-
-      # TODO - making a flag for this could make things faster for some
-      self.dedupe
-      
       repo_id = Thread.current[:selected_repo_id]
       batch = []
       
       while self.size > 0
-        batch << self.shift.to_hash(:raw)
+        rec = self.shift
+        batch << ASpaceImport::Utils.update_record_references(rec, @uri_remapping)
       end
 
       uri = "/repositories/#{repo_id}/batch_imports"
@@ -73,27 +73,8 @@ module ASpaceImport
       end
     end
     
-    # Check the batch to see if any record
-    # is a match for the added record.   
-    def self.find_dupe(json, batch)
-
-      return nil unless @must_be_unique.include?(json.jsonmodel_type.to_s)
-      
-      batch.each do |bjson|
-
-        next unless json.jsonmodel_type == bjson.jsonmodel_type
-      
-        next unless json.to_hash.size == bjson.to_hash.size
-      
-        diff = bjson.to_hash.to_a - json.to_hash.to_a
-        if diff.length == 1
-          raise "Unanticipated Hash Difference" unless diff[0][0] == 'uri'
-          return {json.uri => bjson.uri}
-        end
-      end
-      nil
-    end
   end
+
   
   class ParseQueue < Array
 

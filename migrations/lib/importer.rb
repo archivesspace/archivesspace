@@ -124,26 +124,30 @@ module ASpaceImport
         @import_summary = "Import failed due to server error #{response.code}"
         err_data = JSON.parse(response.body)['error']
         error = LoggableError.new
-        if err_data.has_key?('error_class') 
-          error.header = "Response #{response.code}" << ": #{err_data['error_class']}"
-        end
-        if err_data.has_key?('record_title')
-          error.record_info[:title] = err_data['record_title']
-        end
-        if err_data.has_key?('record_type')
-          error.record_info[:type] = err_data['record_type']
-        end
-        if err_data.has_key?('errors')
-          if err_data['errors'].is_a?(Array)
-            err_data['errors'].each {|e| error.messages << "#{e[0]}: #{e[1].join(': ')}\n" }
-          else
-            error.messages << err_data['errors'] << "\n"
+        if err_data.is_a?(Hash)
+          if err_data.has_key?('error_class') 
+            error.header = "Response #{response.code}" << ": #{err_data['error_class']}"
           end
+          if err_data.has_key?('record_title')
+            error.record_info[:title] = err_data['record_title']
+          end
+          if err_data.has_key?('record_type')
+            error.record_info[:type] = err_data['record_type']
+          end
+          if err_data.has_key?('errors')
+            if err_data['errors'].is_a?(Array)
+              err_data['errors'].each {|e| error.messages << "#{e[0]}: #{e[1].join(': ')}\n" }
+            else
+              error.messages << err_data['errors'] << "\n"
+            end
+          end
+          if err_data.has_key?('other')
+            error.messages << err_data['other']
+          end
+        else
+          error.messages << err_data
         end
-        if err_data.has_key?('other')
-          error.messages << err_data['other']
-        end
-        
+
         @error_log << error
       end
     end
