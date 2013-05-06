@@ -32,10 +32,10 @@ describe 'Subject controller' do
 
   it "lets you create a subject and update it" do
     subject = create(:json_subject)
-    subject['ref_id'] = "CustomIdentifier123"
+    subject['authority_id'] = "CustomIdentifier123"
     subject.save
 
-    JSONModel(:subject).find(subject.id).ref_id.should eq("CustomIdentifier123")
+    JSONModel(:subject).find(subject.id).authority_id.should eq("CustomIdentifier123")
   end
 
 

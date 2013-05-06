@@ -72,6 +72,7 @@ describe 'Subject model' do
                                                        JSONModel(:term).uri_for(term_id_0),
                                                        JSONModel(:term).uri_for(term_id_1),
                                                      ],
+                                                     "source" => "local",
                                                      "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                                    }))
     expect {
@@ -81,24 +82,26 @@ describe 'Subject model' do
                                                          JSONModel(:term).uri_for(term_id_0),
                                                          JSONModel(:term).uri_for(term_id_1),
                                                        ],
+                                                       "source" => "local",
                                                        "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                                      }))
      }.to raise_error(Sequel::ValidationFailed)
+
   end
   
-  it "ensures subject heading identifiers are unique within a vocab" do
+  it "ensures subject heading identifiers are unique within a source" do
     vocab = create(:json_vocab)
     
-    heading_id = 1 == rand(2) ? "http://example.com/example" : "12aBCD12"
+    heading_id = "12aBCD12"
     
-    subject_a = create(:json_subject, {:vocabulary => vocab.uri, :ref_id => heading_id})
+    subject_a = create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => heading_id})
    
    expect {
       create(:json_subject, {:vocabulary => vocab.uri})
     }.to_not raise_error(JSONModel::ValidationException)
     
     expect {
-      create(:json_subject, {:vocabulary => vocab.uri, :ref_id => heading_id})
+      create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => heading_id})
     }.to raise_error(JSONModel::ValidationException)
     
     

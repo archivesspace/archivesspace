@@ -27,7 +27,7 @@
       "terms" => {"type" => "array", "items" => {"type" => "JSONModel(:term) uri_or_object"}, "ifmissing" => "error", "minItems" => 1},
 
       "vocabulary" => {"type" => "JSONModel(:vocabulary) uri", "ifmissing" => "error"},
-      "ref_id" => {"type" => "string", "maxLength" => 255, "pattern" => "\\A[\\S]*\\z"},
+      "authority_id" => {"type" => "string", "maxLength" => 255, "pattern" => "\\A[\\S]*\\z"},
 
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
     },

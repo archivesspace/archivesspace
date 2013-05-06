@@ -564,8 +564,8 @@ Sequel.migration do
       Integer :vocab_id, :null => false
 
       LongString :title
-      String :terms_sha1, :unique => true
-      String :ref_id, :unique => true
+      String :terms_sha1, :index => true
+      String :authority_id
       TextField :scope_note
 
       DynamicEnum :source_id, :null => true
@@ -576,6 +576,8 @@ Sequel.migration do
 
     alter_table(:subject) do
       add_foreign_key([:vocab_id], :vocabulary, :key => :id)
+      add_unique_constraint([:vocab_id, :authority_id, :source_id], :name => "subj_auth_source_uniq")
+      add_unique_constraint([:vocab_id, :terms_sha1, :source_id], :name => "subj_terms_uniq")
     end
 
 

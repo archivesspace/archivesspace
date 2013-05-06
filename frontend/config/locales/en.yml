@@ -1517,8 +1517,8 @@ en:
       messages:
         preview_pending: Subject Preview
   subject:
-    ref_id: Authority ID
-    ref_id_tooltip: |
+    authority_id: Authority ID
+    authority_id_tooltip: |
         <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
     source: Source
     source_tooltip: |
