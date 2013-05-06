@@ -5,9 +5,11 @@
         <%= render :partial => "digital_objects/sidebar" %>
       </div>
       <div class="span9">
+        <%= render :partial => "toolbar" %>
         <div class="record-pane">
           <h2>
-            <%= @digital_object.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("digital_object._html.singular")}" : @digital_object.title %>  <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span>
+            <%= @digital_object.title.blank? ? I18n.t("digital_object._html.singular") : @digital_object.title %>
+            <span class="label label-info"><%= I18n.t("digital_object._html.singular") %></span>
           </h2>
           <%= render :partial => "digital_objects/form_container", :locals => {:form => form} %>
            <div class="form-actions">

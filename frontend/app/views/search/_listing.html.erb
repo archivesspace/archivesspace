@@ -78,7 +78,7 @@
                   can_edit = result['primary_type'] === "repository" ? user_can?('manage_repository', result['id']) : user_can?('update_archival_record')
                 %>
                 <% if can_edit %>
-                  <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini" %>
+                  <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => result["id"]}, :class => "btn btn-mini btn-primary" %>
                 <% end %>
               </div>
               <% if result['primary_type'] === "repository" and @repositories.any?{|r| r['uri'] === result['id']} %>

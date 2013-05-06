@@ -11,6 +11,7 @@ en:
     create: Create
     edit: Edit
     edit_groups: Edit Groups
+    export: Export
     view: View
     spawn: Spawn
     link_to: Link To
@@ -48,6 +49,8 @@ en:
     revert: Revert Changes
     finish_editing: Close Record
     merge: Merge
+    form_changes_message: "<small><span class='muted'>You have unsaved changes</span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>You have unsaved changes - Save or Revert to access toolbar</span></small>"
   states:
     suppressed: Suppressed
     deleted: Deleted
@@ -189,7 +192,6 @@ en:
         <li>Letter to New Atlantic <em>(linked to a resource component record having the title "Letter to New Atlantic")</em></li>
         <li>Cedar Fire <em>(linked to a resource component record having the title "Cedar Fire")</em></li>
         </ul>
-    title_default: New Digital Object
     digital_object_id: Identifier
     digital_object_id_tooltip: |
         <p>A unique identifier for the digital object as a whole. May be an ARK, HANDLE, a URI, or any string that uniquely identifies the digital object. The field needs to be completed for a valid METS record to be exported.</p>
@@ -233,7 +235,6 @@ en:
         <li>Text: Page 1, Leaf 1, First leaf, Chapter 1, Section 1, etc.</li>
         <li>Video:  Tape 1, Part 1, Section 1, etc.</li>
         </ul>
-    title_default: New Digital Object Component
     component_id: Identifier
     component_id_tooltip: |
         <p>A unique identifier for the Digital Object Component.</p>
@@ -1337,7 +1338,6 @@ en:
       plural: Groups
   resource:
     <<: *archival_object_attributes
-    title_default: New Resource
     id_0: Identifier
     id_0_tooltip: |
         <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>

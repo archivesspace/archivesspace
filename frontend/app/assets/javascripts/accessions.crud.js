@@ -24,7 +24,7 @@ $(function() {
 
 
       var addEventBindings = function() {
-        $this.bind("form-changed", function() {
+        $this.bind("formchanged.aspace", function() {
           form_changed = true;
         });
 

@@ -9,6 +9,7 @@
         </div>
 
         <div class="span9">
+          <%= render :partial => "accessions/toolbar" %>
           <div class="record-pane">
             <%= link_to_help :topic => "accession" %>
             <h2><%= @accession.title%> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>

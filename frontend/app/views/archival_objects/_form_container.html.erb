@@ -1,5 +1,6 @@
 <h2>
-  <%= @archival_object.label %> <span class="label label-info"><%= I18n.t("archival_object._html.singular") %></span>
+  <%= @archival_object.label.blank? ? I18n.t("archival_object._html.singular") : @archival_object.label %>
+  <span class="label label-info"><%= I18n.t("archival_object._html.singular") %></span>
 </h2>
 
 <%= render :partial => "shared/form_messages", :locals => {:form => form} %>

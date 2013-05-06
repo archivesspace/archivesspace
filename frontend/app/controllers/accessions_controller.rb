@@ -5,7 +5,9 @@ class AccessionsController < ApplicationController
   before_filter(:only => [:suppress, :unsuppress]) {|c| user_must_have("suppress_archival_record")}
   before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
-  FIND_OPTS = ["subjects", "related_resources", "linked_agents", "container_locations", "digital_object"]
+  before_filter :set_event_types,  :only => [:show, :edit, :update]
+
+    FIND_OPTS = ["subjects", "related_resources", "linked_agents", "container_locations", "digital_object"]
 
   def index
     @search_data = Search.for_type(session[:repo_id], "accession", search_params.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))
@@ -13,8 +15,6 @@ class AccessionsController < ApplicationController
 
   def show
     @accession = Accession.find(params[:id], "resolve[]" => FIND_OPTS)
-
-    @accession_event_types = ['acknowledgement_sent', 'agreement_sent', 'agreement_signed', 'copyright_transfer']
 
     flash[:info] = I18n.t("accession._html.messages.suppressed_info", JSONModelI18nWrapper.new(:accession => @accession)) if @accession.suppressed
   end
@@ -94,5 +94,9 @@ class AccessionsController < ApplicationController
     @tree = JSONModel(:accession_tree).find(nil, :accession_id => @accession.id)
   end
 
+
+  def set_event_types
+    @accession_event_types = ['acknowledgement_sent', 'agreement_sent', 'agreement_signed', 'copyright_transfer']
+  end
 
 end

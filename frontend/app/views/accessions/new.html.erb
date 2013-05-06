@@ -1,18 +1,21 @@
 <%= setup_context(:object => @accession) %>
 
-<%= form_for @accession, :as => "accession", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "accession_form"} do |f| %>
-  <%= form_context :accession, @accession do |form| %>
-    <div class="row-fluid">
-      <div class="span3">
-        <%= render :partial => "sidebar" %>
-      </div>
-      <div class="span9">
-        <div class="record-pane">
-          <%= link_to_help :topic => "accession" %>
-          <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("accession._html.singular") %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
-          <%= render :partial => "accessions/form", :locals => {:form => form} %>
+<div id="object_container">
+  <%= form_for @accession, :as => "accession", :url => {:action => :create}, :html => {:class => 'form-horizontal', :id => "accession_form"} do |f| %>
+    <%= form_context :accession, @accession do |form| %>
+      <div class="row-fluid">
+        <div class="span3">
+          <%= render :partial => "sidebar" %>
+        </div>
+        <div class="span9">
+          <%= render :partial => "shared/toolbar_new_records" %>
+          <div class="record-pane">
+            <%= link_to_help :topic => "accession" %>
+            <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("accession._html.singular") %> <span class="label label-info"><%= I18n.t("accession._html.singular") %></span></h2>
+            <%= render :partial => "accessions/form", :locals => {:form => form} %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>

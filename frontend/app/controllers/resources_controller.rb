@@ -20,7 +20,7 @@ class ResourcesController < ApplicationController
   end
 
   def new
-    @resource = Resource.new(:title => I18n.t("resource.title_default"))._always_valid!
+    @resource = Resource.new(:title => I18n.t("resource.title_default", :default => ""))._always_valid!
 
     if params[:accession_id]
       acc = Accession.find(params[:accession_id],
