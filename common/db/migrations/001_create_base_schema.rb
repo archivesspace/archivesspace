@@ -564,7 +564,7 @@ Sequel.migration do
       Integer :vocab_id, :null => false
 
       LongString :title
-      String :terms_sha1
+      String :terms_sha1, :index => true
       String :authority_id
       TextField :scope_note
 

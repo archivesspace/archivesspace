@@ -57,6 +57,19 @@ class Subject < Sequel::Model(:subject)
   end
 
 
+  def self.ensure_exists(json, referrer)
+    begin
+      self.create_from_json(json)
+    rescue Sequel::ValidationFailed
+      source_id = BackendEnumSource.id_for_value("subject_source", json.source)
+
+      Subject.find(:vocab_id => JSONModel(:vocabulary).id_for(json.vocabulary),
+                   :terms_sha1 => generate_terms_sha1(json),
+                   :source_id => source_id)
+    end
+  end
+
+
   def update_from_json(json, opts = {}, apply_linked_records = true)
     self.class.set_vocabulary(json, opts)
     self[:terms_sha1] = self.class.generate_terms_sha1(json) # add a terms sha1 hash to allow for uniqueness test
