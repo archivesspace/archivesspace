@@ -565,7 +565,7 @@ Sequel.migration do
 
       LongString :title
       String :terms_sha1, :unique => true
-      String :ref_id, :unique => true
+      String :authority_id, :unique => true
       TextField :scope_note
 
       DynamicEnum :source_id, :null => true

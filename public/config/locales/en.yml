@@ -889,7 +889,7 @@ en:
         summary: Summary
   subject:
     terms: Terms
-    ref_id: Authority ID
+    authority_id: Authority ID
     source: Source
     heading: Subject Heading
     _html:

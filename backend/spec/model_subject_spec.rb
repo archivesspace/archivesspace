@@ -91,14 +91,14 @@ describe 'Subject model' do
     
     heading_id = 1 == rand(2) ? "http://example.com/example" : "12aBCD12"
     
-    subject_a = create(:json_subject, {:vocabulary => vocab.uri, :ref_id => heading_id})
+    subject_a = create(:json_subject, {:vocabulary => vocab.uri, :authority_id => heading_id})
    
    expect {
       create(:json_subject, {:vocabulary => vocab.uri})
     }.to_not raise_error(JSONModel::ValidationException)
     
     expect {
-      create(:json_subject, {:vocabulary => vocab.uri, :ref_id => heading_id})
+      create(:json_subject, {:vocabulary => vocab.uri, :authority_id => heading_id})
     }.to raise_error(JSONModel::ValidationException)
     
     

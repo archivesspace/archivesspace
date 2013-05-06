@@ -348,7 +348,7 @@ FactoryGirl.define do
   factory :json_subject, class: JSONModel(:subject) do
     terms { [build(:json_term)] }
     vocabulary { create(:json_vocab).uri }
-    ref_id { generate(:url) }
+    authority_id { generate(:url) }
     scope_note { generate(:alphanumstr) }
   end
   
