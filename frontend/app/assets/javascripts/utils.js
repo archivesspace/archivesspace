@@ -208,7 +208,7 @@ $(function() {
       $this.tooltip().addClass("initialised");
 
       // for manual ArchiveSpace help tooltips
-      if ($this.data("trigger") === "manual" && $this.is("label.control-label")) {
+      if ($this.data("trigger") === "manual" && ($this.is("label.control-label") || $this.is(".subrecord-form-heading-label"))) {
         var openedViaClick = false;
         var showTimeout, hideTimeout;
 

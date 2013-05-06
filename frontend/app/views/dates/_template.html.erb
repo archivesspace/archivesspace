@@ -3,7 +3,8 @@
     <%= form.label_and_date "begin", {
       :field_opts => {
         :placeholder => "YYYY-MM-DD"
-      }
+      },
+      :required => true
     } %>
   </div>
 <% end %>
@@ -13,12 +14,14 @@
     <%= form.label_and_date "begin", {
       :field_opts => {
         :placeholder => "YYYY-MM-DD"
-      }
+      },
+      :required => true
     } %>
     <%= form.label_and_date "end", {
       :field_opts => {
         :placeholder => "HH:MM:SS"
-      }
+      },
+      :required => true
     } %>
   </div>
 <% end %>
@@ -28,12 +31,14 @@
     <%= form.label_and_date "begin", {
       :field_opts => {
         :placeholder => "YYYY-MM-DD"
-      }
+      },
+      :required => true
     } %>
     <%= form.label_and_date "end", {
       :field_opts => {
         :placeholder => "HH:MM:SS"
-      }
+      },
+      :required => true
     } %>
   </div>
 <% end %>
@@ -51,9 +56,9 @@
   <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_select "label", form.possible_options_for("label") %>
-      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => "Describe the date or date range"}} %>
+      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => "Describe the date or date range"}, :required => :conditionally} %>
 
-      <%= form.label_and_select "date_type", form.possible_options_for("date_type", true) %>
+      <%= form.label_and_select "date_type", form.possible_options_for("date_type", true), :required => :conditionally %>
 
       <% if !form.obj["date_type"].blank? %>
         <% form.emit_template("date_type_#{form.obj["date_type"]}", form.obj) %>

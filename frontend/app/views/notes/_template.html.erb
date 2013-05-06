@@ -8,7 +8,7 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group">
+      <div class="control-group required">
         <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="top-level-note-type">
@@ -114,8 +114,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group">
-        <label class="control-label">Note Type</label>
+      <div class="control-group required">
+        <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="multipart-note-type">
             <option></option>
@@ -175,7 +175,7 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group">
+      <div class="control-group required">
         <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="bioghist-note-type">

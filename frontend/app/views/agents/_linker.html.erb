@@ -10,7 +10,7 @@
    linkable_types = defined?(allowed_types) ? allowed_types : ["agent"]
    creatable_types = defined?(allowed_types) ? allowed_types : ["agent_person", "agent_family", "agent_corporate_entity", "agent_software"]
 %>
-<div class="control-group">
+<div class="control-group required">
   <label class="control-label"><%= defined?(linker_label) ? linker_label : I18n.t("agent._html.singular") %></label>
   <div class="controls">
     <div class="input-append linker-wrapper">

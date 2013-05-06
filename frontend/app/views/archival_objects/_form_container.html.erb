@@ -15,7 +15,7 @@
     <section id="basic_information">
       <h3><%= I18n.t("archival_object._html.section.basic_information") %></h3>
 
-      <%= form.label_and_textarea("title")%>
+      <%= form.label_and_textarea("title", :required => :conditionally)%>
     
       <% if form.obj["ref_id"].blank? %>
         <%= form.label_and_readonly "ref_id", "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
@@ -25,7 +25,7 @@
       <%= form.hidden_input "ref_id" %>
       <%= form.label_and_textfield("component_id")%>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
-      <%= form.label_and_textfield "other_level" %>
+      <%= form.label_and_textfield "other_level", :required => true %>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>
       <%= form.label_and_boolean "internal_only" %>
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
@@ -34,7 +34,7 @@
 
   <% form.emit_template("archival_object") %>
   
-  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates"} %>
+  <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :required => :conditionally} %>
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
   <%= render :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "archival_object_linked_agent"} %>
