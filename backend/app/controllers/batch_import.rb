@@ -21,11 +21,29 @@ class ArchivesSpaceService < Sinatra::Base
              [409, :error]) \
   do
 
-    mapping = StreamingImport.new(params[:batch_import]).process
+    posted_batch = params[:batch_import]
 
-    json_response(:status => "OK",
-                  :saved => Hash[mapping.map {|logical, real_uri|
-                                   [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}])
+    progressive_response = ProgressTicker.new(:frequency_seconds => 2) do |progress_ticker|
+
+      batch = StreamingImport.new(posted_batch, progress_ticker)
+
+      begin
+        mapping = batch.process
+        response_hash = {:saved => Hash[mapping.map {|logical, real_uri|
+                         [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]}
+      rescue ImportException => e
+        Log.error(e)
+        response_hash = {:saved => [], :errors => [e.to_s]}
+      ensure
+        response_hash = {:saved => [], :errors => ["Server error"]} unless response_hash
+        progress_ticker.finished(response_hash)
+      end
+    end
+
+
+    [200, {"Content-Type" => "text/plain"}, progressive_response]
+                      
+
   end
 
 end

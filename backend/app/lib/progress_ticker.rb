@@ -8,6 +8,7 @@ class ProgressTicker
     @ticks = 0
 
     @last_tick = Atomic.new(nil)
+    @status_updates = Atomic.new([])
     @finished = Atomic.new(false)
 
     context = RequestContext.dump
@@ -21,6 +22,7 @@ class ProgressTicker
 
   def tick_estimate=(val)
     @estimated_total_ticks = val
+    @ticks = 0
   end
 
 
@@ -30,9 +32,27 @@ class ProgressTicker
   end
 
 
+  def status_update(neu, alt = nil)
+    if alt
+      @status_updates.update{|val| val.reject {|i| i == alt } + [neu]}
+    else
+      @status_updates.update{|val| val + [neu] }
+    end
+  end
+
+
   def finished(args)
     @finished.update {|val| {:finished => args}}
     @tick_to_client_thread.join if @tick_to_client_thread
+  end
+
+
+  def flush_statuses(client)
+    updates = @status_updates.swap([])
+
+    unless updates.empty?
+      client.call(ASUtils.to_json(:status => updates))
+    end
   end
 
 
@@ -41,12 +61,16 @@ class ProgressTicker
       while !@finished.value
         tick_for_client = @last_tick.value
 
+        flush_statuses(client)
+
         if tick_for_client
           client.call(ASUtils.to_json(tick_for_client) + "\n")
         end
 
         sleep @frequency
       end
+
+      flush_statuses(client)
 
       client.call(ASUtils.to_json(@finished.value))
     end
@@ -55,7 +79,7 @@ class ProgressTicker
     begin
       @block.call(self)
     ensure
-      finished if !@finished.value
+      finished(:finished => 'Unknown') if !@finished.value
       @tick_to_client_thread.join
     end
   end

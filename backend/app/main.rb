@@ -195,7 +195,6 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   error ImportException do
-    Log.exception(request.env['sinatra.error'].error)
     json_response({:error => request.env['sinatra.error'].to_hash}, 400)
   end
 
