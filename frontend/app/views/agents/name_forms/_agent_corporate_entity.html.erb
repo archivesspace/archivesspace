@@ -1,8 +1,8 @@
 <% define_template "name_corporate_entity", jsonmodel_definition(:name_corporate_entity) do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_textfield "authority_id" %>
-    <%= form.label_and_select "source", form.possible_options_for('source', true) %>
-    <%= form.label_and_select "rules", form.possible_options_for('rules', true) %>
+    <%= form.label_and_select "source", form.possible_options_for('source', true), :required => :conditionally %>
+    <%= form.label_and_select "rules", form.possible_options_for('rules', true), :required => :conditionally %>
     <hr/>
     <%= form.label_and_textfield "primary_name" %>
     <%= form.label_and_textfield "subordinate_name_1" %>
@@ -11,6 +11,6 @@
     <%= form.label_and_textfield "dates" %>
     <hr/>
     <%= form.label_and_textfield "qualifier" %>
-    <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}}%>
+    <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}, :required => :conditionally}%>
   </div>
 <% end %>

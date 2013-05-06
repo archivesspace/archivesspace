@@ -189,7 +189,7 @@ module AspaceFormHelper
         :"data-date-format" => "yyyy-mm-dd",
         :"data-date" => Date.today.strftime('%Y-%m-%d')
       })
-      label_with_field(name, textfield(name, obj[name], field_opts))
+      label_with_field(name, textfield(name, obj[name], field_opts), opts)
     end
 
     def label_and_textarea(name, opts = {})
@@ -204,7 +204,7 @@ module AspaceFormHelper
 
 
     def label_and_password(name, opts = {})
-      label_with_field(name, password(name, obj[name], opts[:field_opts] || {}))
+      label_with_field(name, password(name, obj[name], opts[:field_opts] || {}), opts)
     end
 
 
@@ -383,7 +383,8 @@ module AspaceFormHelper
         required = required?(name)
       end
 
-      control_group_classes << " required" if required
+      control_group_classes << " required" if required == true
+      control_group_classes << " conditionally-required" if required == :conditionally
 
       control_group_classes << " #{opts[:control_class]}" if opts.has_key? :control_class
 
