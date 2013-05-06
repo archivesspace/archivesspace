@@ -145,20 +145,17 @@ class StreamingImport
   def do_create(record, noerror = false)
     begin
       json = to_jsonmodel(record, true)
+      model = model_for(record['jsonmodel_type'])
 
-      RequestContext.open(:current_username => "admin") do
-        model = model_for(record['jsonmodel_type'])
+      obj = if model.respond_to?(:ensure_exists)
+              model.ensure_exists(json, nil)
+            else
+              model_for(record['jsonmodel_type']).create_from_json(json)
+            end
 
-        obj = if model.respond_to?(:ensure_exists)
-                model.ensure_exists(json, nil)
-              else
-                model_for(record['jsonmodel_type']).create_from_json(json)
-              end
+      Log.debug("Created: #{record['uri']}")
 
-        Log.debug("Created: #{record['uri']}")
-
-        obj.uri
-      end
+      obj.uri
     rescue
       if noerror
         nil
