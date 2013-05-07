@@ -597,20 +597,23 @@ $(function() {
         confirm_class: $this.data("confirm-btn-class") || false
       };
 
-      var confirmInlineFormAction = function() {
-        $this.parents("form").submit();
-      };
-
-
-      var confirmCustomAction = function() {
+      var confirmAction = function() {
         $.ajax({
-          url: $this.data("target"),
+          url: $this.data("target") || $this.attr("href"),
           data: $this.data("params"),
           type: $this.data("method"),
-          complete: function() {
-            $("#confirmChangesModal").modal("hide").remove();
-            if ($this.data("refresh")) {
-              document.location.reload;
+          dataType: $this.data("dataType") || "html",
+          success: function(result) {
+            if ($this.data("dataType") === "json") {
+              var msg = $("<div class='alert-success alert'>");
+              msg.html(result['message']);
+              $("#confirmChangesModal .modal-body").html(msg);
+              $(".btn", "#confirmChangesModal").attr("disabled", "disabled");
+              setTimeout(function() {
+                document.location.href = result['redirect_to'];
+              }, 500);
+            } else {
+              document.location.reload(true);
             }
           }
         });
@@ -622,11 +625,7 @@ $(function() {
 
         AS.openCustomModal("confirmChangesModal", template_data.title , AS.renderTemplate("confirmation_modal_template", template_data));
         $("#confirmButton", "#confirmChangesModal").click(function() {
-          if ($this.parents(".btn-inline-form:first").length) {
-            confirmInlineFormAction();
-          } else {
-            confirmCustomAction
-          }
+          confirmAction();
         });
       }
 
