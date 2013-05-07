@@ -104,6 +104,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'subject'
         doc['source'] = record['record']['source']
+        doc['first_term_type'] = record['record']['terms'][0]['term_type']
       end
     }
 

@@ -99,6 +99,7 @@ en:
       temporary: Temporary
       outcome: Outcome
       event_type: Type
+      first_term_type: Term Type (First)
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending

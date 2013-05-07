@@ -80,6 +80,7 @@
 
    <!-- Subjects store all the terms as a display_string -->
    <field name="display_string" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="first_term_type" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Resource stores some Finding Aid data -->
    <field name="finding_aid_title" type="string" indexed="true" stored="true" multiValued="false" />

@@ -78,6 +78,7 @@ class SearchResultData
     return I18n.t("enumerations.location_temporary.#{facet.to_s}", :default => facet) if facet_group === "temporary"
     return I18n.t("enumerations.event_event_type.#{facet.to_s}", :default => facet) if facet_group === "event_type"
     return I18n.t("enumerations.event_outcome.#{facet.to_s}", :default => facet) if facet_group === "outcome"
+    return I18n.t("enumerations.subject_term_type.#{facet.to_s}", :default => facet) if facet_group === "first_term_type"
 
     if facet_group === "source"
       if single_type? and types[0] === "subject"
@@ -188,7 +189,7 @@ class SearchResultData
   end
 
   def self.SUBJECT_FACETS
-    ["source"]
+    ["source", "first_term_type"]
   end
 
   def self.EVENT_FACETS
