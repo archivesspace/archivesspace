@@ -70,7 +70,7 @@ class AgentsController < ApplicationController
       agent.delete
     rescue ConflictException => e
       flash[:error] = e.conflicts
-    redirect_to(:controller => :agents, :action => :show, :id => params[:id])
+      redirect_to(:controller => :agents, :action => :show, :id => params[:id])
       return
     end
 

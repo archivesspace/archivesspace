@@ -597,35 +597,28 @@ $(function() {
         confirm_class: $this.data("confirm-btn-class") || false
       };
 
-      var confirmAction = function() {
-        $.ajax({
-          url: $this.data("target") || $this.attr("href"),
-          data: $this.data("params"),
-          type: $this.data("method"),
-          dataType: $this.data("dataType") || "html",
-          success: function(result) {
-            if ($this.data("dataType") === "json") {
-              var msg = $("<div class='alert-success alert'>");
-              msg.html(result['message']);
-              $("#confirmChangesModal .modal-body").html(msg);
-              $(".btn", "#confirmChangesModal").attr("disabled", "disabled");
-              setTimeout(function() {
-                document.location.href = result['redirect_to'];
-              }, 500);
-            } else {
-              document.location.reload(true);
-            }
-          }
-        });
-      };
-
       var onClick = function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
         AS.openCustomModal("confirmChangesModal", template_data.title , AS.renderTemplate("confirmation_modal_template", template_data));
         $("#confirmButton", "#confirmChangesModal").click(function() {
-          confirmAction();
+          $(".btn", "#confirmChangesModal").attr("disabled", "disabled");
+
+          var $form = $("<form>")
+            .attr("action", $this.data("target") || $this.attr("href"))
+            .attr("accept-charset", "UTF-8")
+            .attr("method", $this.data("method") || "post");
+
+          if ($this.data("authenticity_token")) {
+            var $h = $("<input type='hidden'>");
+            $h.attr("name", "authenticity_token").val($this.data("authenticity_token"));
+            $form.append($h);
+          }
+
+          $(document.body).append($form);
+
+          $form.submit();
         });
       }
 

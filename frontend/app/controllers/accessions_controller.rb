@@ -65,14 +65,8 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(true)
 
-    respond_to do |format|
-      format.json {
-        render :json => {
-          :message => I18n.t("accession._html.messages.suppressed", JSONModelI18nWrapper.new(:accession => accession)),
-          :redirect_to => url_for(:controller => :accessions, :action => :show, :id => params[:id])
-        }
-      }
-    end
+    flash[:success] = I18n.t("accession._html.messages.suppressed", JSONModelI18nWrapper.new(:accession => accession))
+    redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
 
@@ -80,14 +74,8 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(false)
 
-    respond_to do |format|
-      format.json {
-        render :json => {
-          :message => I18n.t("accession._html.messages.unsuppressed", JSONModelI18nWrapper.new(:accession => accession)),
-          :redirect_to => url_for(:controller => :accessions, :action => :show, :id => params[:id])
-        }
-      }
-    end
+    flash[:success] = I18n.t("accession._html.messages.unsuppressed", JSONModelI18nWrapper.new(:accession => accession))
+    redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
 
@@ -95,14 +83,8 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.delete
 
-    respond_to do |format|
-      format.json {
-        render :json => {
-          :message => I18n.t("accession._html.messages.deleted", JSONModelI18nWrapper.new(:accession => accession)),
-          :redirect_to => url_for(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
-        }
-      }
-    end
+    flash[:success] = I18n.t("accession._html.messages.deleted", JSONModelI18nWrapper.new(:accession => accession))
+    redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
   end
 
 
