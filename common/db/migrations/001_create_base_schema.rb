@@ -801,6 +801,8 @@ Sequel.migration do
     create_table(:deaccession) do
       primary_key :id
 
+      Integer :repo_id, :null => false
+
       Integer :lock_version, :default => 0, :null => false
       Integer :json_schema_version, :null => false
 
