@@ -10,9 +10,11 @@
           <%= link_to I18n.t("search_results.result_type"), params_for_search("sort" => @search_data.sort_filter_for("primary_type")) %>
         </th>
       <% end %>
-      <th class="col title sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
-        <%= link_to I18n.t("search_results.result_title"), params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
-      </th>
+      <% if @show_title_column %>
+        <th class="col title sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
+          <%= link_to I18n.t("search_results.result_title"), params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
+        </th>
+      <% end %>
       <% if extra_columns? %>
         <% extra_columns.each do |col| %>
           <th class="<%= col.class %>">
@@ -46,12 +48,14 @@
             <%=  I18n.t("#{result["primary_type"]}._singular") %>
           </td>
         <% end %>
-        <td>
-          <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._frontend.messages.selected_short") %></span><% end %>
-          <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
-          <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
-          <%=  result["title"] || result['display_string'] %>
-        </td>
+        <% if @show_title_column %>
+          <td>
+            <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._html.messages.selected_short") %></span><% end %>
+            <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
+            <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
+            <%=  result["title"] || result['display_string'] %>
+          </td>
+        <% end %>
         <% if extra_columns? %>
           <% extra_columns.each do |col| %>
             <td><%= col.value_for(result) %></td>

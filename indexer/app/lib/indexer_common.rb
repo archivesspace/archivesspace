@@ -16,10 +16,11 @@ class CommonIndexer
   @@record_types = [:accession, :archival_object, :resource,
                     :digital_object, :digital_object_component,
                     :subject, :location,
+                    :event,
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity,
                     :repository]
 
-  @@resolved_attributes = ['subjects', 'linked_agents']
+  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records']
 
 
   def initialize(backend_url)
@@ -141,6 +142,15 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'repository'
         doc['repository'] = doc["id"]
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'event'
+        doc['json'] = record['record'].to_json
+        doc['event_type'] = record['record']['event_type']
+        doc['outcome'] = record['record']['outcome']
+        doc['title'] = "#{JSONModel(:event).id_for(record['record']["uri"])}: #{record['record']['event_type']}"
       end
     }
 

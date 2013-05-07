@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
 
   def index
-    @events = JSONModel(:event).all(:page => selected_page)
+    @search_data = Search.for_type(session[:repo_id], "event", search_params.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
   end
 
   def show

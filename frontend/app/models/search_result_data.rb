@@ -76,6 +76,8 @@ class SearchResultData
     return I18n.t("boolean.#{facet.to_s}", :default => facet) if facet_group === "publish"
     return I18n.t("enumerations.digital_object_digital_object_type.#{facet.to_s}", :default => facet) if facet_group === "digital_object_type"
     return I18n.t("enumerations.location_temporary.#{facet.to_s}", :default => facet) if facet_group === "temporary"
+    return I18n.t("enumerations.event_event_type.#{facet.to_s}", :default => facet) if facet_group === "event_type"
+    return I18n.t("enumerations.event_outcome.#{facet.to_s}", :default => facet) if facet_group === "outcome"
 
     if facet_group === "source"
       if single_type? and types[0] === "subject"
@@ -187,6 +189,10 @@ class SearchResultData
 
   def self.SUBJECT_FACETS
     ["source"]
+  end
+
+  def self.EVENT_FACETS
+    ["event_type", "outcome"]
   end
 
 end

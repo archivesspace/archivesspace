@@ -11,13 +11,15 @@
       </a>
       <ul class="dropdown-menu pull-right">
         <li><%= link_to I18n.t("search_sorting.relevance"), params_for_search("sort" => "") %></li>
-        <li class="dropdown-submenu pull-left">
-          <%= link_to I18n.t("search_sorting.title_sort"), params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
-          <ul class="dropdown-menu">
-            <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "title_sort asc") %></li>
-            <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "title_sort desc") %></li>
-          </ul>
-        </li>
+        <% if @show_title_column %>
+          <li class="dropdown-submenu pull-left">
+            <%= link_to I18n.t("search_sorting.title_sort"), params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
+            <ul class="dropdown-menu">
+              <li><%= link_to I18n.t("search_sorting.asc"), params_for_search("sort" => "title_sort asc") %></li>
+              <li><%= link_to I18n.t("search_sorting.desc"), params_for_search("sort" => "title_sort desc") %></li>
+            </ul>
+          </li>
+        <% end %>
         <li class="dropdown-submenu pull-left">
           <%= link_to I18n.t("search_sorting.create_time"), params_for_search("sort" => @search_data.sort_filter_for("create_time", "desc")) %>
           <ul class="dropdown-menu">

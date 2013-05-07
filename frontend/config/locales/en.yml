@@ -97,6 +97,8 @@ en:
       processing_status: Status
       publish: Published
       temporary: Temporary
+      outcome: Outcome
+      event_type: Type
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
@@ -112,6 +114,8 @@ en:
     authority_id: Authority ID
     source: Source
     rules: Rules
+    outcome: Outcome
+    event_type: Type
 
   navbar:
     brand: ArchivesSpace
