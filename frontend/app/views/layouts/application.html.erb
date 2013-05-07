@@ -22,7 +22,7 @@
    <header>
      <%= render "shared/header_global" %>
      <%= render "site/branding" %>
-     <% if session[:repo] %><%= render "shared/header_repository" %><% end %>
+     <% if current_repo %><%= render "shared/header_repository" %><% end %>
    </header>
 
    <div class="content-pane container">

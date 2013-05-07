@@ -1,7 +1,8 @@
 class SubjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :terms_complete]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :terms_complete, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_subject_record")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   def index
     @search_data = Search.global(search_params.merge({"facet[]" => SearchResultData.SUBJECT_FACETS, "type[]" => ["subject"]}))
@@ -67,5 +68,14 @@ class SubjectsController < ApplicationController
 
     render :json => []
   end
+
+  def delete
+    subject = JSONModel(:subject).find(params[:id])
+    subject.delete
+
+    flash[:success] = I18n.t("subject._html.messages.deleted", JSONModelI18nWrapper.new(:subject => subject))
+    redirect_to(:controller => :subjects, :action => :index, :deleted_uri => subject.uri)
+  end
+
 
 end

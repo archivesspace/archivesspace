@@ -1,7 +1,8 @@
 class ArchivalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :transfer]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :transfer, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update, :parent, :transfer]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = {
     "resolve[]" => ["subjects", "location", "linked_agents", "digital_object", "resource", "parent"]
@@ -121,4 +122,17 @@ class ArchivalObjectsController < ApplicationController
       redirect_to :controller => :resources, :action => :edit, :id => params["transfer"]["current_resource_id"], :anchor => "tree::archival_object_#{params[:id]}"
     end
   end
+
+
+  def delete
+    archival_object = JSONModel(:archival_object).find(params[:id])
+    archival_object.delete
+
+    flash[:success] = I18n.t("archival_object._html.messages.deleted", JSONModelI18nWrapper.new(:archival_object => archival_object))
+
+    resolver = Resolver.new(archival_object['resource']['ref'])
+    redirect_to resolver.view_uri
+  end
+
+
 end

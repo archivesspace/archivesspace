@@ -66,4 +66,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.delete('/repositories/:repo_id/events/:event_id')
+    .description("Delete an event record")
+    .params(["event_id", Integer, "The event ID to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_event_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(Event, params[:event_id])
+  end
+
+
 end

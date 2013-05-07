@@ -9,6 +9,7 @@ ArchivesSpace::Application.routes.draw do
   match 'repositories/select' => 'repositories#select', :via => [:post]
   resources :repositories
   match 'repositories/:id' => 'repositories#update', :via => [:post]
+  match 'repositories/:id/delete' => 'repositories#delete', :via => [:post]
 
   match 'users/manage_access' => 'users#manage_access', :via => [:get]
   match 'users/:id/edit_groups' => 'users#edit_groups', :via => [:get]
@@ -32,6 +33,7 @@ ArchivesSpace::Application.routes.draw do
   match 'archival_objects/:id/transfer' => 'archival_objects#transfer', :via => [:post]
   resources :archival_objects
   match 'archival_objects/:id' => 'archival_objects#update', :via => [:post]
+  match 'archival_objects/:id/delete' => 'archival_objects#delete', :via => [:post]
   match 'archival_objects/:id/parent' => 'archival_objects#parent', :via => [:post]
 
   resources :digital_objects
@@ -39,26 +41,31 @@ ArchivesSpace::Application.routes.draw do
   match 'digital_objects/:id/download_mets' => 'exports#download_mets', :via => [:get]
   match 'digital_objects/:id/download_mods' => 'exports#download_mods', :via => [:get]
   match 'digital_objects/:id' => 'digital_objects#update', :via => [:post]
+  match 'digital_objects/:id/delete' => 'digital_objects#delete', :via => [:post]
 
   resources :digital_object_components
   match 'digital_object_components/:id' => 'digital_object_components#update', :via => [:post]
   match 'digital_object_components/:id/parent' => 'digital_object_components#parent', :via => [:post]
+  match 'digital_object_components/:id/delete' => 'digital_object_components#delete', :via => [:post]
 
   resources :resources
   match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
   match 'resources/:id/download_marc' => 'exports#download_marc', :via => [:get]
   match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
   match 'resources/:id' => 'resources#update', :via => [:post]
+  match 'resources/:id/delete' => 'resources#delete', :via => [:post]
 
   resources :subjects
   match 'subjects/:id' => 'subjects#update', :via => [:post]
   match 'subjects/terms/complete' => 'subjects#terms_complete', :via => [:get]
+  match 'subjects/:id/delete' => 'subjects#delete', :via => [:post]
 
   resources :locations
   match 'locations/:id' => 'locations#update', :via => [:post]
 
   resources :events
   match 'events/:id' => 'events#update', :via => [:post]
+  match 'events/:id/delete' => 'events#delete', :via => [:post]
 
   match 'agents/contact_form' => 'agents#contact_form', :via => [:get]
   match 'agents/:type/name_form' => 'agents#name_form', :via => [:get]
@@ -69,6 +76,7 @@ ArchivesSpace::Application.routes.draw do
   match 'agents/:type/:id/download_eac' => 'exports#download_eac', :via => [:get]
   match 'agents/:type/:id' => 'agents#show', :via => [:get]
   match 'agents' => 'agents#index', :via => [:get]
+  match 'agents/:type/:id/delete' => 'agents#delete', :via => [:post]
 
 
   resources :collection_management
