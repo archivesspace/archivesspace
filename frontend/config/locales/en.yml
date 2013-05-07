@@ -86,6 +86,8 @@ en:
       query: Text
       subjects: Subject
       primary_type: Record Type
+      digital_object_type: Type
+      level: Level
       accession_date_year: Accession Date
       creators: Creator
       source: Source

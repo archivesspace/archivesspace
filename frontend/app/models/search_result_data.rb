@@ -74,11 +74,20 @@ class SearchResultData
     return I18n.t("enumerations.name_source.#{facet}", :default => facet) if facet_group === "source"
     return I18n.t("enumerations.name_rule.#{facet}", :default => facet) if facet_group === "rules"
     return I18n.t("boolean.#{facet.to_s}", :default => facet) if facet_group === "publish"
+    return I18n.t("enumerations.digital_object_digital_object_type.#{facet.to_s}", :default => facet) if facet_group === "digital_object_type"
+    if facet_group === "level"
+        if single_type? and types[0] === "digital_object"
+          return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
+        else
+          return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
+        end
+    end
 
     # labels for collection management groups
     return I18n.t("#{facet}._singular", :default => facet) if facet_group === "parent_type"
     return I18n.t("enumerations.collection_management_processing_priority.#{facet}", :default => facet) if facet_group === "processing_priority"
     return I18n.t("enumerations.collection_management_processing_status.#{facet}", :default => facet) if facet_group === "processing_status"
+
     facet
   end
 
@@ -87,7 +96,11 @@ class SearchResultData
   end
 
   def single_type?
-    @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length > 1 or not @search_data[:criteria].has_key?("type[]")
+    @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length === 1 or not @search_data[:criteria].has_key?("type[]")
+  end
+
+  def types
+    @search_data[:criteria]["type[]"]
   end
 
   def sorted?
@@ -152,11 +165,11 @@ class SearchResultData
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish"]
+    ["subjects", "publish", "level"]
   end
 
   def self.DIGITAL_OBJECT_FACETS
-    ["subjects", "publish"]
+    ["subjects", "publish", "digital_object_type", "level"]
   end
 
   def self.LOCATION_FACETS

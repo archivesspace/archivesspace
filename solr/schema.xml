@@ -63,11 +63,17 @@
 
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
 
+   <!-- Archival Record properties required for facets -->
+   <field name="level" type="string" indexed="true" stored="true" multiValued="false"/>
+
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
-   <field name="resource" type="string" indexed="true" stored="true" multiValued="false" /> 
+   <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Digital Object properties required for facets -->
+   <field name="digital_object_type" type="string" indexed="true" stored="true" multiValued="false"/>
 
    <!-- Digital Object Components store the URI of the Digital Object they belong to (if any) -->
    <field name="digital_object" type="string" indexed="true" stored="true" multiValued="false" />

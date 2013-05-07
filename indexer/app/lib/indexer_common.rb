@@ -70,6 +70,14 @@ class CommonIndexer
   end
 
 
+  def add_level(doc, record)
+    if record['record'].has_key? 'level'
+      doc['level'] = (record['record']['level'] === 'otherlevel') ? record['record']['other_level'] : record['record']['level']
+    end
+  end
+
+
+
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
@@ -83,6 +91,7 @@ class CommonIndexer
       add_agents(doc, record)
       add_audit_info(doc, record)
       add_notes(doc, record)
+      add_level(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
@@ -107,8 +116,19 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
+
       if doc['primary_type'] == 'resource'
         doc['finding_aid_title'] = record['record']['finding_aid_title'] if record['record']['finding_aid_status'] === 'completed'
+      end
+
+      if doc['primary_type'] == 'digital_object'
+        doc['digital_object_type'] = record['record']['digital_object_type']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'repository'
+        doc['repository'] = doc["id"]
       end
     }
 
