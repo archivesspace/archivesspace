@@ -96,7 +96,7 @@
    <!-- Sort fields -->
    <field name="title_sort" type="string" indexed="true" stored="false" multiValued="false"/>
 
-   <!-- Agent fields -->
+   <!-- Agent and Subject fields -->
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="source" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="rules" type="string" indexed="true" stored="true" multiValued="false" />

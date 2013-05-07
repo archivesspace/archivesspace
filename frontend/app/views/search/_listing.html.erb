@@ -2,7 +2,7 @@
   <table class="table table-striped table-bordered table-condensed table-hover table-sortable">
     <thead>
     <tr>
-      <% if params[:linker] %>
+      <% if params[:linker]==='true' %>
         <th></th>
       <% end %>
       <% if show_record_type? %>
@@ -25,7 +25,7 @@
         <% end %>
       <% end %>
       <th class="col audit-info"></th>
-      <% if !params[:linker] %>
+      <% if !params[:linker] || params[:linker] === 'false' %>
         <th class="col actions"><!-- actions --></th>
       <% end %>
     </tr>
@@ -36,7 +36,7 @@
       deleted = (params.has_key?("deleted_uri") and params["deleted_uri"] === result["id"]) || false
     %>
       <tr class="<%= "deleted" if deleted %>">
-        <% if params[:linker] %>
+        <% if params[:linker] === 'true' %>
           <td>
             <%= radio_button_tag "linker-item", result["id"], false, :"data-object" => result.to_json %>
           </td>
@@ -69,7 +69,7 @@
             </small>
           <% end %>
         </td>
-        <% if !params[:linker] %>
+        <% if !params[:linker] || params[:linker] === 'false' %>
           <td class="table-record-actions">
             <% if not deleted %>
               <div class="btn-group" style="float: right">
