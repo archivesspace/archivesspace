@@ -151,7 +151,6 @@ class CommonIndexer
         doc['json'] = record['record'].to_json
         doc['event_type'] = record['record']['event_type']
         doc['outcome'] = record['record']['outcome']
-        doc['title'] = "#{JSONModel(:event).id_for(record['record']["uri"])}: #{record['record']['event_type']}"
       end
     }
 
