@@ -10,7 +10,7 @@
           <%= link_to I18n.t("search_results.result_type"), params_for_search("sort" => @search_data.sort_filter_for("primary_type")) %>
         </th>
       <% end %>
-      <% if @show_title_column %>
+      <% if show_title_column? %>
         <th class="col title sortable <% if @search_data.sorted_by === "title_sort"%>sort-<%= @search_data.current_sort_direction %><% end %>">
           <%= link_to I18n.t("search_results.result_title"), params_for_search("sort" => @search_data.sort_filter_for("title_sort")) %>
         </th>
@@ -48,7 +48,7 @@
             <%=  I18n.t("#{result["primary_type"]}._singular") %>
           </td>
         <% end %>
-        <% if @show_title_column %>
+        <% if show_title_column? %>
           <td>
             <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._html.messages.selected_short") %></span><% end %>
             <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
