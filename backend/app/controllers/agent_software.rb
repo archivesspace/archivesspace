@@ -34,7 +34,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/agents/software/:id')
-    .description("Get a software by ID")
+    .description("Get a software agent by ID")
     .params(["id", Integer, "ID of the software agent"],
             ["resolve", [String], "A list of references to resolve and embed in the response",
              :optional => true])
@@ -44,6 +44,15 @@ class ArchivesSpaceService < Sinatra::Base
   do
     json_response(resolve_references(AgentSoftware.to_jsonmodel(AgentSoftware.get_or_die(params[:id])),
                                      params[:resolve]))
+  end
+
+  Endpoint.delete('/agents/software/:id')
+    .description("Delete a software agent")
+    .params(["id", Integer, "ID of the software agent"])
+     .nopermissionsyet
+    .returns([200, :deleted]) \
+  do
+    handle_delete(AgentSoftware, params[:id])
   end
 
 end

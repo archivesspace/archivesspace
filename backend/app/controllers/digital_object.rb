@@ -63,4 +63,15 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(digital_object.tree)
   end
 
+
+  Endpoint.delete('/repositories/:repo_id/digital_objects/:digital_object_id')
+    .description("Delete a Digital Object")
+    .params(["digital_object_id", Integer, "The Digital Object to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_archival_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(DigitalObject, params[:digital_object_id])
+  end
+
 end

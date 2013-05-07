@@ -132,4 +132,14 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.delete('/repositories/:repo_id')
+    .description("Delete a Repository")
+    .params(["repo_id", :repo_id])
+    .permissions([:create_repository])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(Repository, params[:repo_id])
+  end
+
+
 end

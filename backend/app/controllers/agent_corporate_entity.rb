@@ -46,4 +46,13 @@ class ArchivesSpaceService < Sinatra::Base
                                      params[:resolve]))
   end
 
+  Endpoint.delete('/agents/corporate_entities/:id')
+    .description("Delete a corporate entity agent")
+    .params(["id", Integer, "ID of the corporate entity agent"])
+    .nopermissionsyet
+    .returns([200, :deleted]) \
+  do
+    handle_delete(AgentCorporateEntity, params[:id])
+  end
+
 end

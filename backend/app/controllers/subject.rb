@@ -40,4 +40,15 @@ class ArchivesSpaceService < Sinatra::Base
   do
     json_response(Subject.to_jsonmodel(params[:subject_id]))
   end
+
+
+  Endpoint.delete('/subjects/:subject_id')
+    .description("Delete a Subject")
+    .params(["subject_id", Integer, "The subject ID to delete"])
+    .nopermissionsyet
+    .returns([200, :deleted]) \
+  do
+    handle_delete(Subject, params[:subject_id])
+  end
+
 end
