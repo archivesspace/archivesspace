@@ -37,6 +37,10 @@ class RepositoriesController < ApplicationController
     handle_crud(:instance => :repository,
                 :model => JSONModel(:repository_with_agent),
                 :on_invalid => ->(){
+                  if @exceptions[:errors]["repo_code"]
+                    @exceptions[:errors]["repository/repo_code"] = @exceptions[:errors].delete("repo_code")
+                  end
+
                   return render :partial => "repositories/new" if inline?
                   return render :action => :new
                 },
