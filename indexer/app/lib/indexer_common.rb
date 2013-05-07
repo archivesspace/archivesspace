@@ -116,6 +116,12 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'location' and record['record'].has_key? 'temporary'
+        doc['temporary'] = record['record']['temporary']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']
       end

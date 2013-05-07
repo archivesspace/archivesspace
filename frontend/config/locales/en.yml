@@ -96,7 +96,7 @@ en:
       processing_priority: Priority
       processing_status: Status
       publish: Published
-
+      temporary: Temporary
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
