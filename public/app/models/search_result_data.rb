@@ -95,7 +95,7 @@ class SearchResultData
   end
 
   def single_type?
-    @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length > 1 or not @search_data[:criteria].has_key?("type[]")
+    @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length === 1
   end
 
   def sorted?

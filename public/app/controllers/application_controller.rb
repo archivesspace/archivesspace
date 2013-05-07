@@ -35,8 +35,8 @@ class ApplicationController < ActionController::Base
       return session[:session]
     end
 
-    username = AppConfig[:search_username]
-    password = AppConfig[:search_user_secret]
+    username = AppConfig[:public_username]
+    password = AppConfig[:public_user_secret]
 
     url = URI.parse(AppConfig[:backend_url] + "/users/#{username}/login")
 

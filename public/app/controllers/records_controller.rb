@@ -17,7 +17,7 @@ class RecordsController < ApplicationController
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
-      [@resource.title, "#", "resource"]
+      [@resource.finding_aid_status === 'completed' ? @resource.finding_aid_title : @resource.title, "#", "resource"]
     ]
   end
 
@@ -33,7 +33,7 @@ class RecordsController < ApplicationController
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
-      [@resource.title, url_for(:controller => :records, :action => :resource, :id => @resource.id, :repo_id => @repository.id), "resource"],
+      [@resource.finding_aid_status === 'completed' ? @resource.finding_aid_title : @resource.title, url_for(:controller => :records, :action => :resource, :id => @resource.id, :repo_id => @repository.id), "resource"],
     ]
 
     ao = @archival_object

@@ -93,7 +93,9 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'repository'
+        doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
+        doc['json'] = record['record'].to_json
       end
     }
 
@@ -104,11 +106,10 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
-      if doc['primary_type'] == 'repository'
-        doc['repository'] = doc["id"]
+      if doc['primary_type'] == 'resource'
+        doc['finding_aid_title'] = record['record']['finding_aid_title'] if record['record']['finding_aid_status'] === 'completed'
       end
     }
-
 
     add_document_prepare_hook {|doc, record|
       if ['agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity'].include?(doc['primary_type'])
