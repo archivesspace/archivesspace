@@ -6,15 +6,15 @@
       </li>
     <% end %>
 
-    <li><a href="#basic_information"><%= I18n.t("event._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#basic_information"><%= I18n.t("event._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
     <li><a href="#event_date"><%= I18n.t("event.date") %> <span class="icon-chevron-right"></span></a></li>
-    <li><a href="#event_linked_agents_"><%= I18n.t("linked_agent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
-    <li><a href="#event_linked_records_"><%= I18n.t("linked_record._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#event_linked_agents_"><%= I18n.t("linked_agent._plural") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#event_linked_records_"><%= I18n.t("linked_record._plural") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" %>
       <li class="form-actions">
         <div class="btn-group <% if ["new", "create"].include?(controller.action_name) %>btn-submit-group<% end %>">
-          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("event._html.singular") %></button>
+          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("event._singular") %></button>
           <% if ["new", "create"].include?(controller.action_name) %>
             <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary"><%= I18n.t("actions.save_plus_one") %></button>
           <% end %>

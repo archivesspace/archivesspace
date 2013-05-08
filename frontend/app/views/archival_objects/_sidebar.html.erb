@@ -6,38 +6,38 @@
       </li>
     <% end %>
 
-    <li><a href="#basic_information"><%= I18n.t("archival_object._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#basic_information"><%= I18n.t("archival_object._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @archival_object.dates.length > 0 %>
-      <li><a href="#archival_object_dates_"><%= I18n.t("date._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#archival_object_dates_"><%= I18n.t("date._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @archival_object.extents.length > 0 %>
-      <li><a href="#archival_object_extents_"><%= I18n.t("extent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#archival_object_extents_"><%= I18n.t("extent._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @archival_object.linked_agents.length > 0 %>
-      <li><a href="#archival_object_linked_agents_"><%= I18n.t("linked_agent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#archival_object_linked_agents_"><%= I18n.t("linked_agent._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
     
     <% if controller.action_name != "show" || @archival_object.subjects.length > 0 %>
-      <li><a href="#archival_object_subjects_"><%= I18n.t("subject._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#archival_object_subjects_"><%= I18n.t("subject._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
     
     <% if not controller.action_name === "show" or @archival_object.notes.length > 0 %>
-      <li><a href="#notes"><%= I18n.t("note._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @archival_object.external_documents.length > 0 %>
-      <li><a href="#archival_object_external_documents_"><%= I18n.t("external_document._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#archival_object_external_documents_"><%= I18n.t("external_document._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @archival_object.rights_statements.length > 0 %>
-      <li><a href="#archival_object_rights_statements_"><%= I18n.t("rights_statement._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#archival_object_rights_statements_"><%= I18n.t("rights_statement._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @archival_object.instances.length > 0 %>
-      <li><a href="#archival_object_instances_"><%= I18n.t("instance._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#archival_object_instances_"><%= I18n.t("instance._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
 
@@ -45,11 +45,11 @@
       <div class="form-actions">
         <% if @archival_object.id.blank? %>
           <div class="btn-group btn-submit-group">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._html.singular") %></button>
+            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._singular") %></button>
             <button type="button" id="createPlusOne" class="btn btn-primary btn-plus-one"><%= I18n.t("actions.save_plus_one") %></button>
           </div>
         <% else %>
-          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._html.singular") %></button>
+          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("archival_object._singular") %></button>
         <% end %>
       </div>
     <% end %>

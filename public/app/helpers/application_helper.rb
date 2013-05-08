@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def icon_for(type)
-    "<span class='icon-#{type}' title='#{I18n.t("#{type}._html.singular")}'></span>".html_safe
+    "<span class='icon-#{type}' title='#{I18n.t("#{type}._singular")}'></span>".html_safe
   end
 
   def label_and_value(label, value)

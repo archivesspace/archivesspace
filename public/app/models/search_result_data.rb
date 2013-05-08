@@ -71,7 +71,7 @@ class SearchResultData
   end
 
   def facet_label_string(facet_group, facet)
-    return I18n.t("#{facet}._html.singular", :default => facet) if facet_group === "primary_type"
+    return I18n.t("#{facet}._singular", :default => facet) if facet_group === "primary_type"
 
     if facet_group === "repository"
       match = @repositories.select{|repo| repo['uri'] === facet}

@@ -2,7 +2,7 @@
 
 <% define_template("event", jsonmodel_definition(:event)) do |form| %>
   <section id="basic_information">
-    <h3><%= I18n.t("event._html.section.basic_information") %></h3>
+    <h3><%= I18n.t("event._frontend.section.basic_information") %></h3>
     <fieldset>
       <%= form.label_and_select "event_type", form.possible_options_for("event_type") %>
       <%= form.label_and_select "outcome", form.possible_options_for('outcome', true) %>

@@ -4,13 +4,13 @@
    <div class="span12">
      <%= render :partial => "shared/toolbar_new_records" %>
      <div class="record-pane">
-       <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("user._html.section.account") %></h2>
+       <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("user._frontend.section.account") %></h2>
        <%= form_for @user, :as => "createuser", :url => {:action => :create}, :html => {:class => 'form-horizontal'} do |f| %>
          <%= form_context :user, @user do |form| %>
            <%= render :partial => "users/form", :locals => {:form => form} %>
 
            <div class="form-actions">
-             <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("actions.create") %> <%= I18n.t("user._html.section.account") %></button>
+             <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("actions.create") %> <%= I18n.t("user._frontend.section.account") %></button>
              <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel" %>
            </div>
          <% end %>

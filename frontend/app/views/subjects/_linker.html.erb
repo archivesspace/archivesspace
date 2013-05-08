@@ -10,13 +10,13 @@
 %>
 
 <div class="control-group required">
-   <label class="control-label"><%= I18n.t("subject._html.singular") %></label>
+   <label class="control-label"><%= I18n.t("subject._singular") %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for(data_name) %>"
-            data-label="<%= I18n.t("subject._html.singular") %>"
-            data-label_plural="<%= I18n.t("subject._html.plural") %>"
+            data-label="<%= I18n.t("subject._singular") %>"
+            data-label_plural="<%= I18n.t("subject._plural") %>"
             data-path="<%= data_path %>"
             data-name="<%= data_name %>"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"

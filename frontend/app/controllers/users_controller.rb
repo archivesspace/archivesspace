@@ -61,11 +61,11 @@ class UsersController < ApplicationController
                   end
                 },
                 :on_invalid => ->(){
-                  flash[:error] = I18n.t("user._html.messages.error_update")
+                  flash[:error] = I18n.t("user._frontend.messages.error_update")
                   render :action => "edit"
                 },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("user._html.messages.updated")
+                  flash[:success] = I18n.t("user._frontend.messages.updated")
                   redirect_to :action => :index
                 })
   end
@@ -80,13 +80,13 @@ class UsersController < ApplicationController
                 },
                 :replace => false,
                 :on_invalid => ->(){
-                  flash[:error] = I18n.t("user._html.messages.error_update")
+                  flash[:error] = I18n.t("user._frontend.messages.error_update")
                   @groups = JSONModel(:group).all if user_can?('manage_users')
 
                   render :action => :edit_groups
                 },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("user._html.messages.updated")
+                  flash[:success] = I18n.t("user._frontend.messages.updated")
                   redirect_to :action => :manage_access
                 })
   end
@@ -107,13 +107,13 @@ class UsersController < ApplicationController
                   end
                 },
                 :on_invalid => ->(){
-                  flash[:error] = I18n.t("user._html.messages.error_create")
+                  flash[:error] = I18n.t("user._frontend.messages.error_create")
                   render :action => "new"
                 },
                 :on_valid => ->(id){
                   
                   if session[:user]
-                    flash[:success] = "#{I18n.t("user._html.messages.created")}: #{params['user']['username']}"
+                    flash[:success] = "#{I18n.t("user._frontend.messages.created")}: #{params['user']['username']}"
                     redirect_to :controller => :users, :action => :index
                   else
                     backend_session = User.login(params['user']['username'],

@@ -1,38 +1,11 @@
 # ArchivesSpace Frontend Internationalization
 
-ArchivesSpace has abstracted all the labels, messages and tooltips out of the application into the locale files found in this directory. In summary:
+Please see /common/locales/README.md to view the base locales this application extends upon.
 
-  * The top most file "en.yml" contains the translations for all the record labels, messages and tooltips
-  * "enums/en.yml" contains the entries for the dynamic enumeration codes - add your translations to this file after importing your enumeration codes 
+Any translations defined in this directory apply to the 'frontend' application only.
 
-For a guide on managing these "i18n" files, please visit http://guides.rubyonrails.org/i18n.html
+To help distinguish 'frontend' translations on a particular record type, the prefix '_frontend' has been used.
 
-## Tooltips
+## Help-related Translations
 
-To add a tooltip to a record label, simply add a new entry with "_tooltip" appended to the label's code.  For example, to add a tooltip for the Accession's Title field:
-
-```
-en:
-  accession:
-    title: Title
-    title_tooltip: |
-        <p>The title assigned to an accession or resource. The accession title
-        need not be the same as the resource title. Moreover, a title need not
-        be expressed for the accession record, as it can be implicitly 
-        inherited from the resource record to which the accession is
-        linked.</p>
-```
-
-## Placeholders
-
-For text fields or textareas, you may like to have some placeholder text to be displayed when the field is empty (for more details see http://www.w3.org/html/wg/drafts/html/master/forms.html#the-placeholder-attribute).  Please note while most modern browser releases support this feature, older version will not.
-
-To add a placeholder to a record's text field, add a new entry of the label's code appened with "_placeholder". For example:
-
-
-```
-en:
-  accession:
-    title: Title
-    title_placeholder: See DACS 2.3.18-2.3.22
-```
+The Archives Space help content is surfaced by the 'frontend' application.  To modify the translations of any help related labels and topics, please add to 'help/en.yml'.

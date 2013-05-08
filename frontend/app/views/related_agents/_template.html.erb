@@ -7,8 +7,8 @@
       <div class="controls">
         <select class="related-agent-type">
           <option value="related_agents_type_nil"></option>
-          <% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").sort_by {|type| I18n.t("#{type}._html.singular")}.each do |type| %>
-            <option value="<%= type %>"><%= I18n.t("#{type}._html.singular") %></option>
+          <% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").sort_by {|type| I18n.t("#{type}._singular")}.each do |type| %>
+            <option value="<%= type %>"><%= I18n.t("#{type}._singular") %></option>
           <% end %>
         </select>
       </div>
@@ -23,7 +23,7 @@
   <div class="inline-subform">
     <div class="control-group">
       <div class="control-label"></div>
-      <div class="controls"><%= I18n.t("related_agent._html.messages.select_a_type") %></div>
+      <div class="controls"><%= I18n.t("related_agent._frontend.messages.select_a_type") %></div>
     </div>
   </div>
 <% end %>
@@ -31,7 +31,7 @@
 <% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").each do |relationship_type| %>
   <% define_template "#{relationship_type}", jsonmodel_definition(relationship_type.intern) do |form, opts = {}| %>
     <div class="subrecord-form-fields">
-      <h4 class="subrecord-form-heading"><%= I18n.t("#{relationship_type}._html.singular") %></h4>
+      <h4 class="subrecord-form-heading"><%= I18n.t("#{relationship_type}._singular") %></h4>
       <div class="subrecord-form-container">
         <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
         <%= form.label_and_select("relator", form.possible_options_for("relator")) %>

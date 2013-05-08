@@ -31,8 +31,8 @@ class ArchivalObjectsController < ApplicationController
                 :on_valid => ->(id){
 
                   success_message = @archival_object.parent ?
-                                      I18n.t("archival_object._html.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved'])) :
-                                      I18n.t("archival_object._html.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
+                                      I18n.t("archival_object._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved'])) :
+                                      I18n.t("archival_object._frontend.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
 
                   @refresh_tree_node = true
 
@@ -58,8 +58,8 @@ class ArchivalObjectsController < ApplicationController
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
                   success_message = parent ?
-                    I18n.t("archival_object._html.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent)) :
-                    I18n.t("archival_object._html.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
+                    I18n.t("archival_object._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent)) :
+                    I18n.t("archival_object._frontend.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
                   flash.now[:success] = success_message
 
                   @refresh_tree_node = true
@@ -110,14 +110,14 @@ class ArchivalObjectsController < ApplicationController
       if response.code == '200'
         @archival_object = JSONModel(:archival_object).find(params[:id], FIND_OPTS)
 
-        flash[:success] = I18n.t("archival_object._html.messages.transfer_success", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
+        flash[:success] = I18n.t("archival_object._frontend.messages.transfer_success", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
         redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
       else
         raise ASUtils.json_parse(response.body)['error'].to_s
       end
 
     rescue Exception => e
-      flash[:error] = I18n.t("archival_object._html.messages.transfer_error", :exception => e)
+      flash[:error] = I18n.t("archival_object._frontend.messages.transfer_error", :exception => e)
       redirect_to :controller => :resources, :action => :edit, :id => params["transfer"]["current_resource_id"], :anchor => "tree::archival_object_#{params[:id]}"
     end
   end

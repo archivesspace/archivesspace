@@ -38,8 +38,8 @@ class DigitalObjectComponentsController < ApplicationController
                   @digital_object_component = JSONModel(:digital_object_component).find(id, FIND_OPTS)
 
                   success_message = @digital_object_component.parent ?
-                    I18n.t("digital_object_component._html.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved'])) :
-                    I18n.t("digital_object_component._html.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']))
+                    I18n.t("digital_object_component._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved'])) :
+                    I18n.t("digital_object_component._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']))
 
                   @refresh_tree_node = true
 
@@ -64,8 +64,8 @@ class DigitalObjectComponentsController < ApplicationController
                 :on_invalid => ->(){ return render :partial => "edit_inline" },
                 :on_valid => ->(id){
                   success_message = parent ?
-                    I18n.t("digital_object_component._html.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent)) :
-                    I18n.t("digital_object_component._html.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object))
+                    I18n.t("digital_object_component._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent)) :
+                    I18n.t("digital_object_component._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object))
                   flash.now[:success] = success_message
 
                   @refresh_tree_node = true

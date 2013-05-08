@@ -1,4 +1,4 @@
-<%= setup_context :object => @group, :title => (!@group.description.empty? ? @group.description : "#{I18n.t("actions.edit")} #{I18n.t("group._html.singular")}") %>
+<%= setup_context :object => @group, :title => (!@group.description.empty? ? @group.description : "#{I18n.t("actions.edit")} #{I18n.t("group._singular")}") %>
 
 <div class="row-fluid">
   <div class="span3">
@@ -6,7 +6,7 @@
 
   <div class="span9">
     <div class="record-pane">
-      <h2><%= !@group.description.empty? ? @group.description : "#{I18n.t("actions.edit")} #{I18n.t("group._html.singular")}" %> <span class="label label-info"><%= I18n.t("group._html.singular") %></span></h2>
+      <h2><%= !@group.description.empty? ? @group.description : "#{I18n.t("actions.edit")} #{I18n.t("group._singular")}" %> <span class="label label-info"><%= I18n.t("group._singular") %></span></h2>
 
       <%= form_for @group, :as => "group", :url => {:action => :update, :id => @group.id}, :html => {:class => 'form-horizontal'} do |f| %>
         <%= form_context :group, @group do |form| %>

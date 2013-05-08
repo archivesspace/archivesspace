@@ -3,13 +3,13 @@
 <div class="row-fluid">
    <div class="span12">
      <div class="record-pane">
-     <h2><%= I18n.t("user._html.section.edit_account") %></h2>
+     <h2><%= I18n.t("user._frontend.section.edit_account") %></h2>
      <%= form_for @user, :as => "createuser", :url => {:action => :update}, :html => {:class => 'form-horizontal'} do |f| %>
        <%= form_context :user, @user do |form| %>
          <%= render :partial => "users/form", :locals => {:form => form} %>
 
          <div class="form-actions">
-           <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("user._html.section.edit_account_submit") %></button>
+           <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("user._frontend.section.edit_account_submit") %></button>
            <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel" %>
          </div>
        <% end %>

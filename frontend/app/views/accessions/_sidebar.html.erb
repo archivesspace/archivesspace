@@ -6,55 +6,55 @@
       </li>
     <% end %>
 
-    <li><a href="#basic_information"><%= I18n.t "accession._html.section.basic_information" %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#basic_information"><%= I18n.t "accession._frontend.section.basic_information" %> <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" or @accession.dates.length > 0 %>
-      <li><a href="#accession_dates_"><%= I18n.t "date._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_dates_"><%= I18n.t "date._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @accession.extents.length > 0 %>
-      <li><a href="#accession_extents_"><%= I18n.t "extent._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_extents_"><%= I18n.t "extent._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @accession.linked_agents.length > 0 %>
-      <li><a href="#accession_linked_agents_"><%= I18n.t "linked_agent._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_linked_agents_"><%= I18n.t "linked_agent._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @accession.related_resources.length > 0 %>
-      <li><a href="#accession_related_resources_"><%= I18n.t "related_resource._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_related_resources_"><%= I18n.t "related_resource._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @accession.subjects.length > 0 %>
-      <li><a href="#accession_subjects_"><%= I18n.t "subject._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_subjects_"><%= I18n.t "subject._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.external_documents.length > 0 %>
-      <li><a href="#accession_external_documents_"><%= I18n.t "external_document._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_external_documents_"><%= I18n.t "external_document._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.rights_statements.length > 0 %>
-      <li><a href="#accession_rights_statements_"><%= I18n.t "rights_statement._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_rights_statements_"><%= I18n.t "rights_statement._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.instances.length > 0 %>
-      <li><a href="#accession_instances_"><%= I18n.t("instance._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_instances_"><%= I18n.t("instance._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.deaccessions.length > 0 %>
-      <li><a href="#accession_deaccessions_"><%= I18n.t "deaccession._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_deaccessions_"><%= I18n.t "deaccession._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.collection_management %>
-      <li><a href="#accession_collection_management_"><%= I18n.t "collection_management._html.singular" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_collection_management_"><%= I18n.t "collection_management._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @accession.user_defined %>
-      <li><a href="#accession_user_defined_"><%= I18n.t "user_defined._html.singular" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#accession_user_defined_"><%= I18n.t "user_defined._singular" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>
       <li class="form-actions">
-        <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t "accession._html.singular" %></button>
+        <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t "accession._singular" %></button>
       </li>
     <% end %>
   </ul>

@@ -5,7 +5,7 @@
 <%= render :partial => "deaccessions/template" %>
 
 <section id="<%= section_id %>">
-  <h3><%= I18n.t("deaccession._html.plural") %></h3>
+  <h3><%= I18n.t("deaccession._plural") %></h3>
   <div class="accordion details" id="deaccessions_accordion">
     <%= context.list_for(context["deaccessions"], "deaccessions[]") do |deaccession, index| %>
       <div class="accordion-group">

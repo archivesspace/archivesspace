@@ -37,7 +37,7 @@ module ApplicationHelper
 
       title = options[:title] || object["title"] || object["username"]
 
-      breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._html.plural")}", {:controller => controller, :action => :index}])
+      breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._plural")}", {:controller => controller, :action => :index}])
 
       if object.id
         breadcrumb_trail.push([title, {:controller => controller, :action => :show}])
@@ -45,13 +45,13 @@ module ApplicationHelper
 
         if ["edit", "update"].include? action_name
           breadcrumb_trail.push([I18n.t("actions.edit")])
-          set_title("#{I18n.t("#{type}._html.plural")} | #{title} | #{I18n.t("actions.edit")}")
+          set_title("#{I18n.t("#{type}._plural")} | #{title} | #{I18n.t("actions.edit")}")
         else
-          set_title("#{I18n.t("#{type}._html.plural")} | #{title}")
+          set_title("#{I18n.t("#{type}._plural")} | #{title}")
         end
       else # new object
-        breadcrumb_trail.push([options[:title] || "#{I18n.t("actions.new_prefix")} #{I18n.t("#{type}._html.singular")}"])
-        set_title("#{I18n.t("#{controller.to_s.singularize}._html.plural")} | #{options[:title] || I18n.t("actions.new_prefix")}")
+        breadcrumb_trail.push([options[:title] || "#{I18n.t("actions.new_prefix")} #{I18n.t("#{type}._singular")}"])
+        set_title("#{I18n.t("#{controller.to_s.singularize}._plural")} | #{options[:title] || I18n.t("actions.new_prefix")}")
       end
     elsif options.has_key? :title
         set_title(options[:title])
