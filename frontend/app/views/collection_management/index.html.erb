@@ -1,6 +1,6 @@
-<%= setup_context(:title => I18n.t("collection_management._html.plural")) %>
+<%= setup_context(:title => I18n.t("collection_management._plural")) %>
 <%
-add_column(I18n.t("search_results.result_type"), proc {|record| I18n.t("#{JSONModel.parse_reference(record['parent_id'])[:type]}._html.singular")}, :sortable => true, :sort_by => "parent_id")
+add_column(I18n.t("search_results.result_type"), proc {|record| I18n.t("#{JSONModel.parse_reference(record['parent_id'])[:type]}._singular")}, :sortable => true, :sort_by => "parent_id")
 add_column(I18n.t("collection_management.processing_priority"), proc {|record| I18n.t("enumerations.collection_management_processing_priority.#{record['processing_priority'] || 'none'}", :default => '--')}, :sortable => true, :sort_by => "processing_priority")
 add_column(I18n.t("collection_management.processing_status"), proc {|record| I18n.t("enumerations.collection_management_processing_status.#{record['processing_status'] || 'none'}", :default => '--')}, :sortable => true, :sort_by => "processing_status")
 add_column(I18n.t("collection_management.processing_hours_total_short"), proc {|record| record['processing_hours_total']}, :sortable => true, :sort_by => "processing_hours_total")
@@ -12,7 +12,7 @@ add_column(I18n.t("collection_management.processing_hours_total_short"), proc {|
   <div class="span9">
     <div class="record-pane">
 
-      <h2><%= I18n.t("collection_management._html.plural") %></h2>
+      <h2><%= I18n.t("collection_management._plural") %></h2>
 
       <%= render :partial => "shared/flash_messages" %>
 

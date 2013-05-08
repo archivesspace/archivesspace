@@ -49,7 +49,7 @@ class DigitalObjectsController < ApplicationController
                                 :action => :edit,
                                 :id => id
                               },
-                              :flash => {:success => I18n.t("digital_object._html.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object))})
+                              :flash => {:success => I18n.t("digital_object._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object))})
                 })
   end
 
@@ -63,7 +63,7 @@ class DigitalObjectsController < ApplicationController
                 },
                 :on_valid => ->(id){
                   @refresh_tree_node = true
-                  flash.now[:success] = I18n.t("digital_object._html.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object))
+                  flash.now[:success] = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object))
                   render :partial => "edit_inline"
                 })
   end

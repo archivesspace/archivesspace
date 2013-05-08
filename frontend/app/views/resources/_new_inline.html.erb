@@ -8,7 +8,7 @@
         <div class="record-pane">
           <%= render :partial => "resources/form_container", :locals => {:form => form} %>
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("resource._html.singular") %></button>
+            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("resource._singular") %></button>
             <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
           </div>
         </div>

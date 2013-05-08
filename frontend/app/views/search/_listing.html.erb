@@ -43,11 +43,11 @@
         <% end %>
         <% if show_record_type? %>
           <td>
-            <%=  I18n.t("#{result["primary_type"]}._html.singular") %>
+            <%=  I18n.t("#{result["primary_type"]}._singular") %>
           </td>
         <% end %>
         <td>
-          <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._html.messages.selected_short") %></span><% end %>
+          <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._frontend.messages.selected_short") %></span><% end %>
           <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
           <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
           <%=  result["title"] || result['display_string'] %>
@@ -85,7 +85,7 @@
 
                 <% if current_repo['uri'] != result['id'] %>
                   <%= form_tag({:action => :select, :id => JSONModel(:repository).id_for(result['id'])}, {:style => "display: inline;"}) do |f| %>
-                    <button type="submit" class="btn btn-mini btn-success"><%= I18n.t("repository._html.action.select") %></button>
+                    <button type="submit" class="btn btn-mini btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
                   <% end %>
                 <% end %>
               <% end %>

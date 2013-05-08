@@ -5,20 +5,20 @@
     :resource => {
       :can_add_child => {
         :type => :archival_object,
-        :action_label =>  I18n.t("resource._html.action.add_child"),
-        :record_label => I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("resource._frontend.action.add_child"),
+        :record_label => I18n.t("archival_object._singular")
       }
     },
     :archival_object => {
       :can_add_child => {
         :type => :archival_object,
-        :action_label =>  I18n.t("archival_object._html.action.add_child"),
-        :record_label => I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("archival_object._frontend.action.add_child"),
+        :record_label => I18n.t("archival_object._singular")
       },
       :can_add_sibling => {
         :type => :archival_object,
-        :action_label =>  I18n.t("archival_object._html.action.add_sibling"),
-        :record_label => I18n.t("archival_object._html.singular")
+        :action_label =>  I18n.t("archival_object._frontend.action.add_sibling"),
+        :record_label => I18n.t("archival_object._singular")
       },
       :can_move => true,
       :can_transfer => :resource
@@ -26,20 +26,20 @@
     :digital_object => {
       :can_add_child => {
         :type => :digital_object_component,
-        :action_label =>  I18n.t("digital_object._html.action.add_child"),
-        :record_label => I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object._frontend.action.add_child"),
+        :record_label => I18n.t("digital_object_component._singular")
       }
     },
     :digital_object_component => {
       :can_add_child => {
         :type => :digital_object_component,
-        :action_label =>  I18n.t("digital_object_component._html.action.add_child"),
-        :record_label => I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object_component._frontend.action.add_child"),
+        :record_label => I18n.t("digital_object_component._singular")
       },
       :can_add_sibling => {
         :type => :digital_object_component,
-        :action_label =>  I18n.t("digital_object_component._html.action.add_sibling"),
-        :record_label => I18n.t("digital_object_component._html.singular")
+        :action_label =>  I18n.t("digital_object_component._frontend.action.add_sibling"),
+        :record_label => I18n.t("digital_object_component._singular")
       },
       :can_move => true
    }
@@ -179,7 +179,7 @@
                 <%= form_context :transfer, {} do |form| %>
                 <fieldset>
                   <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
-                  <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._html.messages.please_select_a_resource_for_transfer" %></div>
+                  <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
                   <%= render :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [@tree.record_uri] }%>
                 </fieldset>
                 <div class="form-actions">

@@ -1,4 +1,4 @@
-<%= setup_context :title => I18n.t("digital_object._html.plural") %>
+<%= setup_context :title => I18n.t("digital_object._plural") %>
 
 <div class="row-fluid">
   <div class="span3">
@@ -10,7 +10,7 @@
         <div class="span12">
           <div class="record-toolbar">
             <div class="btn-group pull-right">
-              <%= link_to "#{I18n.t("actions.create")} #{I18n.t("digital_object._html.singular")}", {:controller => :digital_objects, :action => :new}, :class => "btn btn-small" %>
+              <%= link_to "#{I18n.t("actions.create")} #{I18n.t("digital_object._singular")}", {:controller => :digital_objects, :action => :new}, :class => "btn btn-small" %>
             </div>
           </div>
         </div>
@@ -18,7 +18,7 @@
     <% end %>
 
     <div class="record-pane">
-      <h2><%= I18n.t("digital_object._html.plural") %></h2>
+      <h2><%= I18n.t("digital_object._plural") %></h2>
 
       <%= render :partial => "shared/flash_messages" %>
 

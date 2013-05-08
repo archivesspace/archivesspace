@@ -475,6 +475,7 @@
     <mkdir dir="target/archivesspace/scripts/rb" />
     <mkdir dir="target/archivesspace/local/frontend" />
     <mkdir dir="target/archivesspace/local/public" />
+    <mkdir dir="target/archivesspace/locales" />
 
     <jar jarfile="target/archivesspace/lib/common.jar">
       <fileset dir="../common" />
@@ -494,6 +495,10 @@
 
     <copy todir="target/archivesspace/launcher">
       <fileset dir="../launcher" excludes="backup/*" />
+    </copy>
+
+    <copy todir="target/archivesspace/locales">
+      <fileset dir="../common/locales" />
     </copy>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">

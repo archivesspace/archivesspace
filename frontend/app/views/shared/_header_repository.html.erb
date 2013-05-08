@@ -16,15 +16,15 @@
             <li class="dropdown browse-container">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><%= link_to I18n.t("accession._html.plural"), :controller => :accessions, :action => :index %></li>
-                <li><%= link_to I18n.t("resource._html.plural"), :controller => :resources, :action => :index %></li>
-                <li><%= link_to I18n.t("digital_object._html.plural"), :controller => :digital_objects, :action => :index %></li>
+                <li><%= link_to I18n.t("accession._plural"), :controller => :accessions, :action => :index %></li>
+                <li><%= link_to I18n.t("resource._plural"), :controller => :resources, :action => :index %></li>
+                <li><%= link_to I18n.t("digital_object._plural"), :controller => :digital_objects, :action => :index %></li>
                 <li class="divider"></li>
-                <li><%= link_to I18n.t("subject._html.plural"), :controller => :subjects, :action => :index %></li>
-                <li><%= link_to I18n.t("agent._html.plural"), :controller => :agents, :action => :index %></li>
-                <li><%= link_to I18n.t("location._html.plural"), :controller => :locations, :action => :index %></li>
-                <li><%= link_to I18n.t("event._html.plural"), :controller => :events, :action => :index %></li>
-                <li><%= link_to I18n.t("collection_management._html.plural"), :controller => :collection_management, :action => :index %></li>
+                <li><%= link_to I18n.t("subject._plural"), :controller => :subjects, :action => :index %></li>
+                <li><%= link_to I18n.t("agent._plural"), :controller => :agents, :action => :index %></li>
+                <li><%= link_to I18n.t("location._plural"), :controller => :locations, :action => :index %></li>
+                <li><%= link_to I18n.t("event._plural"), :controller => :events, :action => :index %></li>
+                <li><%= link_to I18n.t("collection_management._plural"), :controller => :collection_management, :action => :index %></li>
               </ul>
             </li>
             <% if ['update_archival_record', 'update_subject_record', 'update_event_record',
@@ -33,30 +33,30 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <% if user_can?('update_archival_record') %>
-                    <li><%= link_to I18n.t("accession._html.singular"), :controller => :accessions, :action => :new %></li>
-                    <li><%= link_to I18n.t("resource._html.singular"), :controller => :resources, :action => :new %></li>
-                    <li><%= link_to I18n.t("digital_object._html.singular"), :controller => :digital_objects, :action => :new %></li>
+                    <li><%= link_to I18n.t("accession._singular"), :controller => :accessions, :action => :new %></li>
+                    <li><%= link_to I18n.t("resource._singular"), :controller => :resources, :action => :new %></li>
+                    <li><%= link_to I18n.t("digital_object._singular"), :controller => :digital_objects, :action => :new %></li>
                     <li class="divider"></li>
                   <% end %>
                   <% if user_can?('update_subject_record') %>
-                    <li><%= link_to I18n.t("subject._html.singular"), :controller => :subjects, :action => :new %></li>
+                    <li><%= link_to I18n.t("subject._singular"), :controller => :subjects, :action => :new %></li>
                   <% end %>
                   <% if user_can?('update_agent_record') %>
                     <li class="dropdown-submenu">
-                      <a href="javascript:void(0);"><%= I18n.t("agent._html.singular") %></a>
+                      <a href="javascript:void(0);"><%= I18n.t("agent._singular") %></a>
                       <ul class="dropdown-menu">
-                        <li><%= link_to I18n.t("agent_person._html.singular"), :controller => :agents, :action => :new, :type => :agent_person %></li>
-                        <li><%= link_to I18n.t("agent_family._html.singular"), :controller => :agents, :action => :new, :type => :agent_family %></li>
-                        <li><%= link_to I18n.t("agent_corporate_entity._html.singular"), :controller => :agents, :action => :new, :type => :agent_corporate_entity %></li>
-                        <li><%= link_to I18n.t("agent_software._html.singular"), :controller => :agents, :action => :new, :type => :agent_software %></li>
+                        <li><%= link_to I18n.t("agent_person._singular"), :controller => :agents, :action => :new, :type => :agent_person %></li>
+                        <li><%= link_to I18n.t("agent_family._singular"), :controller => :agents, :action => :new, :type => :agent_family %></li>
+                        <li><%= link_to I18n.t("agent_corporate_entity._singular"), :controller => :agents, :action => :new, :type => :agent_corporate_entity %></li>
+                        <li><%= link_to I18n.t("agent_software._singular"), :controller => :agents, :action => :new, :type => :agent_software %></li>
                       </ul>
                     </li>
                   <% end %>
                   <% if user_can?('update_location_record') %>
-                    <li><%= link_to I18n.t("location._html.singular"), :controller => :locations, :action => :new %></li>
+                    <li><%= link_to I18n.t("location._singular"), :controller => :locations, :action => :new %></li>
                   <% end %>
                   <% if user_can?('update_event_record') %>
-                    <li><%= link_to I18n.t("event._html.singular"), :controller => :events, :action => :new %></li>
+                    <li><%= link_to I18n.t("event._singular"), :controller => :events, :action => :new %></li>
                   <% end %>
                 </ul>
               </li>
@@ -85,10 +85,10 @@
                     <ul class="dropdown-menu scoped-search-options">
                       <li><a href="#" data-type=""><%= I18n.t("navbar.search_all") %></a></li>
                       <li class="divider"></li>
-                      <li><a href="#" data-type="accession"><%= I18n.t("accession._html.plural") %></a></li>
-                      <li><a href="#" data-type="resource"><%= I18n.t("resource._html.plural") %></a></li>
-                      <li><a href="#" data-type="archival_object"><%= I18n.t("archival_object._html.plural") %></a></li>
-                      <li><a href="#" data-type="digital_object"><%= I18n.t("digital_object._html.plural") %></a></li>
+                      <li><a href="#" data-type="accession"><%= I18n.t("accession._plural") %></a></li>
+                      <li><a href="#" data-type="resource"><%= I18n.t("resource._plural") %></a></li>
+                      <li><a href="#" data-type="archival_object"><%= I18n.t("archival_object._plural") %></a></li>
+                      <li><a href="#" data-type="digital_object"><%= I18n.t("digital_object._plural") %></a></li>
                     </ul>
                   </div>
                 </div>
@@ -108,7 +108,7 @@
                   <a class="btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="icon-cog"></span> <span class="caret"></span></a>
                   <ul class="dropdown-menu pull-right">
                     <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
-                    <li><%= link_to I18n.t("user._html.section.manage_access"), :controller => :users, :action => :manage_access %></li>
+                    <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
                   </ul>
                 <% end %>
               </div>

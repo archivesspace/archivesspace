@@ -8,11 +8,11 @@
       </div>
       <div class="span9">
         <div class="record-pane">
-          <h2><%= @location.id %>  <span class="label label-info"><%= I18n.t("location._html.singular") %></span></h2>
+          <h2><%= @location.id %>  <span class="label label-info"><%= I18n.t("location._singular") %></span></h2>
           <br/>
           <%= render :partial => "locations/form", :locals => {:form => form} %>
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("location._html.singular") %></button>
+            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("location._singular") %></button>
             <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
           </div>
         </div>

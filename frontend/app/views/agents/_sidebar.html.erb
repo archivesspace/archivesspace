@@ -6,26 +6,26 @@
       </li>
     <% end %>
 
-    <li><a href="#agent_details"><%= I18n.t("agent._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#agent_details"><%= I18n.t("agent._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if not controller.action_name === "show" or @agent.names.length > 0 %>
-      <li><a href="#names"><%= I18n.t("agent_name._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#names"><%= I18n.t("agent_name._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @agent.agent_contacts.length > 0 %>
-      <li><a href="#contacts"><%= I18n.t("agent_contact._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#contacts"><%= I18n.t("agent_contact._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @agent.notes.length > 0 %>
-      <li><a href="#notes"><%= I18n.t("note._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or !@agent['related_agents'].blank? %>
-      <li><a href="#related_agents"><%= I18n.t("related_agent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#related_agents"><%= I18n.t("related_agent._plural") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @agent.external_documents.length > 0 %>
-      <li><a href="#agent_external_documents_"><%= I18n.t "external_document._html.plural" %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#agent_external_documents_"><%= I18n.t "external_document._plural" %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>

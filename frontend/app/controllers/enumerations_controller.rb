@@ -33,9 +33,9 @@ class EnumerationsController < ApplicationController
     begin
       @enumeration['default_value'] = params[:value]
       @enumeration.save      
-      flash[:success] = I18n.t("enumeration._html.messages.default_set")
+      flash[:success] = I18n.t("enumeration._frontend.messages.default_set")
     rescue
-      flash.now[:error] = I18n.t("enumeration._html.messages.default_set_error")
+      flash.now[:error] = I18n.t("enumeration._frontend.messages.default_set_error")
     end
     
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
@@ -51,15 +51,15 @@ class EnumerationsController < ApplicationController
       @enumeration.values -= [@value]
       @enumeration.save
 
-      flash[:success] = I18n.t("enumeration._html.messages.deleted")
+      flash[:success] = I18n.t("enumeration._frontend.messages.deleted")
       render :text => "Success"
     rescue ConflictException
-      flash.now[:error] = I18n.t("enumeration._html.messages.delete_conflict")
-      flash.now[:info] = I18n.t("enumeration._html.messages.merge_tip")
+      flash.now[:error] = I18n.t("enumeration._frontend.messages.delete_conflict")
+      flash.now[:info] = I18n.t("enumeration._frontend.messages.merge_tip")
 
       render :partial => "merge"
     rescue
-      flash.now[:error] = I18n.t("enumeration._html.messages.delete_error")
+      flash.now[:error] = I18n.t("enumeration._frontend.messages.delete_error")
       render :partial => "delete"
     end
   end
@@ -84,10 +84,10 @@ class EnumerationsController < ApplicationController
                                                             :to => @merge)
       request.save
 
-      flash[:success] = I18n.t("enumeration._html.messages.merged")
+      flash[:success] = I18n.t("enumeration._frontend.messages.merged")
       render :text => "Success"
     rescue
-      flash.now[:error] = I18n.t("enumeration._html.messages.merge_error")
+      flash.now[:error] = I18n.t("enumeration._frontend.messages.merge_error")
       render :partial => "merge"
     end
   end
@@ -104,10 +104,10 @@ class EnumerationsController < ApplicationController
       @enumeration.values += [params[:enumeration][:value]]
       @enumeration.save
 
-      flash[:success] = I18n.t("enumeration._html.messages.created")
+      flash[:success] = I18n.t("enumeration._frontend.messages.created")
       render :text => "Success"
     rescue
-      flash.now[:error] = I18n.t("enumeration._html.messages.create_error")
+      flash.now[:error] = I18n.t("enumeration._frontend.messages.create_error")
       render :partial => "new"
     end
 

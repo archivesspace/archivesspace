@@ -70,13 +70,13 @@ class SearchResultData
   end
 
   def facet_label_string(facet_group, facet)
-    return I18n.t("#{facet}._html.singular", :default => facet) if facet_group === "primary_type"
+    return I18n.t("#{facet}._singular", :default => facet) if facet_group === "primary_type"
     return I18n.t("enumerations.name_source.#{facet}", :default => facet) if facet_group === "source"
     return I18n.t("enumerations.name_rule.#{facet}", :default => facet) if facet_group === "rules"
     return I18n.t("boolean.#{facet.to_s}", :default => facet) if facet_group === "publish"
 
     # labels for collection management groups
-    return I18n.t("#{facet}._html.singular", :default => facet) if facet_group === "parent_type"
+    return I18n.t("#{facet}._singular", :default => facet) if facet_group === "parent_type"
     return I18n.t("enumerations.collection_management_processing_priority.#{facet}", :default => facet) if facet_group === "processing_priority"
     return I18n.t("enumerations.collection_management_processing_status.#{facet}", :default => facet) if facet_group === "processing_status"
     facet

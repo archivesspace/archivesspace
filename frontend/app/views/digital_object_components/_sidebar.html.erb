@@ -6,49 +6,49 @@
       </li>
     <% end %>
 
-    <li><a href="#basic_information"><%= I18n.t("digital_object_component._html.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
+    <li><a href="#basic_information"><%= I18n.t("digital_object_component._frontend.section.basic_information") %> <span class="icon-chevron-right"></span></a></li>
 
     <% if controller.action_name != "show" || @digital_object_component.file_versions.length > 0 %>
-      <li><a href="#digital_object_component_file_versions_"><%= I18n.t("file_version._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#digital_object_component_file_versions_"><%= I18n.t("file_version._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @digital_object_component.dates.length > 0 %>
-      <li><a href="#digital_object_component_dates_"><%= I18n.t("date._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#digital_object_component_dates_"><%= I18n.t("date._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @digital_object_component.extents.length > 0 %>
-      <li><a href="#digital_object_component_extents_"><%= I18n.t("extent._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#digital_object_component_extents_"><%= I18n.t("extent._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @digital_object_component.linked_agents.length > 0 %>
-      <li><a href="#digital_object_component_linked_agents_"><%= I18n.t("linked_agent._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#digital_object_component_linked_agents_"><%= I18n.t("linked_agent._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if controller.action_name != "show" || @digital_object_component.subjects.length > 0 %>
-      <li><a href="#digital_object_component_subjects_"><%= I18n.t("subject._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#digital_object_component_subjects_"><%= I18n.t("subject._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @digital_object_component.notes.length > 0 %>
-      <li><a href="#notes"><%= I18n.t("note._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#notes"><%= I18n.t("note._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @digital_object_component.external_documents.length > 0 %>
-      <li><a href="#digital_object_component_external_documents_"><%= I18n.t("external_document._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#digital_object_component_external_documents_"><%= I18n.t("external_document._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" or @digital_object_component.rights_statements.length > 0 %>
-      <li><a href="#digital_object_component_rights_statements_"><%= I18n.t("rights_statement._html.singular") %> <span class="icon-chevron-right"></span></a></li>
+      <li><a href="#digital_object_component_rights_statements_"><%= I18n.t("rights_statement._singular") %> <span class="icon-chevron-right"></span></a></li>
     <% end %>
 
     <% if not controller.action_name === "show" %>
       <div class="form-actions">
         <% if @digital_object_component.id.blank? %>
           <div class="btn-group btn-submit-group">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object_component._html.singular") %></button>
+            <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object_component._singular") %></button>
             <button type="button" id="createPlusOne" class="btn btn-primary btn-plus-one"><%= I18n.t("actions.save_plus_one") %></button>
           </div>
         <% else %>
-          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object_component._html.singular") %></button>
+          <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("digital_object_component._singular") %></button>
         <% end %>
       </div>
     <% end %>

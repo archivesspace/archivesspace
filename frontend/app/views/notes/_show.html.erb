@@ -20,7 +20,7 @@
 <%= render :partial => "notes/template" %>
 
 <section id="notes" class="subrecord-form">
-  <h3 class="subrecord-form-heading"><%= I18n.t("note._html.plural") %></h3>
+  <h3 class="subrecord-form-heading"><%= I18n.t("note._plural") %></h3>
   <div class="subrecord-form-container">
     <%= context.list_for(context["notes"], "notes[]") do |note| %>
       <% context.emit_template(note["jsonmodel_type"]) %>

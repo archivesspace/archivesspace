@@ -7,7 +7,7 @@
   <div class="span9">
     <%= render :partial => "repositories/toolbar" %>
     <div class="record-pane">
-      <h2><%= @repository.id %>  <span class="label label-info"><%= I18n.t("repository._html.singular") %></span></h2>
+      <h2><%= @repository.id %>  <span class="label label-info"><%= I18n.t("repository._singular") %></span></h2>
 
       <%= readonly_context :repository, @repository do |readonly| %>
         <%= render :partial => "repositories/form_container", :locals => {:form => readonly} %>

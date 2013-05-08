@@ -55,5 +55,7 @@ AppConfig[:max_usernames_per_source] = 50
 
 AppConfig[:demodb_snapshot_flag] = proc { File.join(AppConfig[:data_directory], "create_demodb_snapshot.txt") }
 
+AppConfig[:locale] = :en
+
 # Report Configuration
 AppConfig[:report_page_size] = "A4"

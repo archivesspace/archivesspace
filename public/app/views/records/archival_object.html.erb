@@ -24,18 +24,18 @@
     <div class="span3">
       <div id="">
         <ul class="nav nav-list as-nav-list">
-          <li><a href="#summary"><%= I18n.t("archival_object._html.section.summary") %> <span class="icon-chevron-right"></span></a></li>
+          <li><a href="#summary"><%= I18n.t("archival_object._public.section.summary") %> <span class="icon-chevron-right"></span></a></li>
           <% if @archival_object['extents'].length > 0 %>
-            <li><a href="#extents"><%= I18n.t("extent._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @archival_object['subjects'].length > 0 %>
-            <li><a href="#subjects"><%= I18n.t("subject._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if digital_objects.length > 0 %>
-            <li><a href="#digital_objects"><%= I18n.t("digital_object._html.plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#digital_objects"><%= I18n.t("digital_object._plural") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @children.length > 0 %>
-            <li><a href="#components"><%= I18n.t("archival_object._html.section.components") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#components"><%= I18n.t("archival_object._public.section.components") %> <span class="icon-chevron-right"></span></a></li>
           <% end %>
         </ul>
       </div>
@@ -43,7 +43,7 @@
     <div class="span9">
       <fieldset class="form-horizontal">
         <section id="summary">
-          <h3><%= I18n.t("archival_object._html.section.summary") %></h3>
+          <h3><%= I18n.t("archival_object._public.section.summary") %></h3>
 
           <dl class="dl-horizontal">
             <%= label_and_value I18n.t("archival_object.component_id"), @archival_object['component_id'] %>
@@ -54,7 +54,7 @@
 
         <% if @archival_object['extents'].length > 0 %>
           <section id="extents">
-            <h3><%= I18n.t("extent._html.plural") %></h3>
+            <h3><%= I18n.t("extent._plural") %></h3>
             <ul class="results-list">
               <% @archival_object['extents'].each do |extent| %>
                 <li class="result">
@@ -67,7 +67,7 @@
 
         <% if @archival_object['subjects'].length > 0 %>
           <section id="subjects">
-            <h3><%= I18n.t("subject._html.plural") %></h3>
+            <h3><%= I18n.t("subject._plural") %></h3>
             <ul class="results-list">
               <% @archival_object['subjects'].each do |subject| %>
                 <li class="result">
@@ -83,7 +83,7 @@
 
         <% if not digital_objects.empty? %>
           <section id="digital_objects">
-            <h3><%= I18n.t("digital_object._html.plural") %></h3>
+            <h3><%= I18n.t("digital_object._plural") %></h3>
             <ul class="results-list">
               <% digital_objects.each do |uri, digital_object| %>
                 <li class="result">
@@ -99,7 +99,7 @@
 
         <% if @children.length > 0 %>
           <section id="components">
-            <h3><%= I18n.t("archival_object._html.section.components") %></h3>
+            <h3><%= I18n.t("archival_object._public.section.components") %></h3>
 
             <ul class="results-list">
               <% @children.each do |child| %>

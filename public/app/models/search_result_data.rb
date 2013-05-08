@@ -71,7 +71,7 @@ class SearchResultData
   end
 
   def facet_label_string(facet_group, facet)
-    return I18n.t("#{facet}._html.singular", :default => facet) if facet_group === "primary_type"
+    return I18n.t("#{facet}._singular", :default => facet) if facet_group === "primary_type"
 
     if facet_group === "repository"
       match = @repositories.select{|repo| repo['uri'] === facet}
@@ -95,7 +95,7 @@ class SearchResultData
   end
 
   def single_type?
-    @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length > 1 or not @search_data[:criteria].has_key?("type[]")
+    @search_data[:criteria].has_key?("type[]") and @search_data[:criteria]["type[]"].length === 1
   end
 
   def sorted?

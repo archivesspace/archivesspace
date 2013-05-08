@@ -2,7 +2,7 @@
    id = "container_subrecord" if id.blank?
 %>
 <section id="<%= id %>">
-  <h4><%= I18n.t("container._html.singular") %></h4>
+  <h4><%= I18n.t("container._singular") %></h4>
 
   <div class="container-subrecord">
     <%= read_only_view(container, :label_css => "span4") %>

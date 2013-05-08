@@ -1,6 +1,5 @@
-<%=
-  @breadcrumbs = []
-  setup_context :title => I18n.t("errors.error_404"), :suppress_breadcrumb => true
+<%
+  set_title I18n.t("errors.error_404")
 %>
 
 <div class="alert alert-error">

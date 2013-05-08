@@ -18,14 +18,14 @@
 <section id="<%= section_id %>" class="subrecord-form <% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
 
   <<%= heading_size %> class="subrecord-form-heading">
-    <%= wrap_with_tooltip(I18n.t("#{singular}._html.plural"), "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
+    <%= wrap_with_tooltip(I18n.t("#{singular}._plural"), "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
 
     <% if !form.readonly? %>
      <%= link_to_help :topic => help_topic %>
      <% if custom_action_template %>
        <%= render :partial => custom_action_template %>
      <% else %>
-       <a href="#" class="btn btn-small pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._html.singular") %></a>
+       <a href="#" class="btn btn-small pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("#{singular}._singular") %></a>
      <% end %>
     <% end %>
 

@@ -10,7 +10,7 @@
         <div class="span9">
           <%= render :partial => "toolbar" %>
           <div class="record-pane">
-            <h2><%= @agent.names[0]["sort_name"] %>  <span class="label label-info"><%= I18n.t("agent._html.singular") %></span></h2>
+            <h2><%= @agent.names[0]["sort_name"] %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
             <%= render :partial => "agents/form", :locals => {:form => form} %>
             <div class="form-actions">
               <button type="submit" class="btn btn-primary"><%= I18n.t "actions.save_prefix" %> <%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></button>

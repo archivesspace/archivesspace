@@ -56,6 +56,17 @@ module ASUtils
   end
 
 
+  def self.find_locales_directories(base = nil)
+    [File.join(File.dirname(__FILE__), "..", "common"),
+           java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+           java.lang.System.get_property("catalina.base")].
+        reject { |dir| !Dir.exists?(dir) }.
+        map { |dir| File.join(*[dir, "locales", base].compact) }
+  end
+
+
+
+
   def self.extract_nested_strings(coll)
     if coll.is_a?(Hash)
       coll.values.map {|v| self.extract_nested_strings(v)}.flatten.compact

@@ -7,13 +7,13 @@
 %>
 <hr/>
 <div class="control-group">
-   <label class="control-label"><%= I18n.t("location._html.singular") %></label>
+   <label class="control-label"><%= I18n.t("location._singular") %></label>
    <div class="controls">
        <div class="input-append linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for("ref") %>"
-            data-label="<%= I18n.t("location._html.singular") %>"
-            data-label_plural="<%= I18n.t("location._html.plural") %>"
+            data-label="<%= I18n.t("location._singular") %>"
+            data-label_plural="<%= I18n.t("location._plural") %>"
             data-name="ref"
             data-path="<%= form.path %>"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"

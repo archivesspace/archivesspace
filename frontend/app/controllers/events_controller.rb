@@ -40,7 +40,7 @@ class EventsController < ApplicationController
                   render :action => :new
                 },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("event._html.messages.created")
+                  flash[:success] = I18n.t("event._frontend.messages.created")
                   return redirect_to :controller => :events, :action => :new if params.has_key?(:plus_one)
 
                   redirect_to :controller => :events, :action => :index, :id => id
@@ -53,7 +53,7 @@ class EventsController < ApplicationController
                 :obj => JSONModel(:event).find(params[:id]),
                 :on_invalid => ->(){ render :action => :edit },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("event._html.messages.updated")
+                  flash[:success] = I18n.t("event._frontend.messages.updated")
                   redirect_to :controller => :events, :action => :index
                 })
   end

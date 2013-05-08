@@ -6,13 +6,13 @@
    end
 %>
 <div class="control-group required">
-  <label class="control-label"><%= I18n.t("digital_object._html.singular") %></label>
+  <label class="control-label"><%= I18n.t("digital_object._singular") %></label>
   <div class="controls">
     <div class="input-append linker-wrapper">
       <input type="text" class="linker"
              id="<%= form.id_for("ref") %>"
-             data-label="<%= I18n.t("digital_object._html.singular") %>"
-             data-label_plural="<%= I18n.t("digital_object._html.plural") %>"
+             data-label="<%= I18n.t("digital_object._singular") %>"
+             data-label_plural="<%= I18n.t("digital_object._plural") %>"
              data-path="<%= form.path %>"
              data-name="ref"
              data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
