@@ -78,8 +78,8 @@ module URIResolver
 
 
   def self._resolve_reference(reference, env)
-    if !reference.is_a? Hash
-      raise "Argument must be a {'ref' => '/uri'} hash (not: #{reference})"
+    if !reference.is_a?(Hash) || !reference.has_key?('ref')
+      return reference
     end
 
     if JSONModel.parse_reference(reference['ref'])
