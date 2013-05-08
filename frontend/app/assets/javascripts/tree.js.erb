@@ -465,6 +465,17 @@ $(function() {
         data: {
           parent: parent_id,
           index: newIndex
+        },
+        success: function() {
+          console.warn("NEED TO FIX THIS AS LOCK_VERSION, POSITION, PARENT MAR BECOME OUT OF SYNC WITH FORM")
+//          var currentNodeEl = $(".selected", $tree);
+//          if (nodeEl.attr("id") == currentNodeEl.attr("id")) {
+//            // we need to update the hidden input 'position' in the form
+//            $("#"+nodeEl.attr("rel")+"_position_", $container).val(parseInt(newIndex));
+//            if (parent_id != "") {
+//              $("#"+nodeEl.attr("rel")+"_parent_", $container).val(targetNodelEl.data("uri"));
+//            }
+//          }
         }
       });
     }

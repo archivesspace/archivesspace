@@ -9,6 +9,7 @@
 
   <%= form.hidden_input "parent" %>
   <%= form.hidden_input "digital_object" %>
+  <%= form.hidden_input "position" %>
   <%= hidden_field_tag "id", @digital_object_component.id %>
 
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>

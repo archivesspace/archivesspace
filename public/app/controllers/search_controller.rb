@@ -22,7 +22,7 @@ class SearchController < ApplicationController
     if params[:repo_id].blank?
       @search_data = Search.all(@criteria.merge({"facet[]" => [], "type[]" => ["repository"]}), {})
 
-      return render "search/repositories"
+      return render "search/results"
     end
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first

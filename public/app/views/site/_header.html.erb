@@ -13,10 +13,10 @@
               <%= link_to raw('<span class="icon-home"></span>'), :controller => :site, :action => :index %>
             </li>
             <li class="divider-vertical"></li>
-            <li><%= link_to "Repositories", {:controller => :search, :action => :repository, :repo_id => nil} %></li>
-            <li><%= link_to "Collections", {:controller => :search, :action => :search, :type => "resource"} %></li>
-            <li><%= link_to "Digital Objects", {:controller => :search, :action => :search, :type => "digital_object"} %></li>
-            <li><%= link_to "Subjects",  {:controller => :search, :action => :search, :type => "subject"} %></li>
+            <li <% if params["type"]==="repository"%> class="active" <% end%>><%= link_to "Repositories", {:controller => :search, :action => :search, :type => "repository"} %></li>
+            <li <% if params["type"]==="resource"%> class="active" <% end%>><%= link_to "Collections", {:controller => :search, :action => :search, :type => "resource"} %></li>
+            <li <% if params["type"]==="digital_object"%> class="active" <% end%>><%= link_to "Digital Objects", {:controller => :search, :action => :search, :type => "digital_object"} %></li>
+            <li <% if params["type"]==="subject"%> class="active" <% end%>><%= link_to "Subjects",  {:controller => :search, :action => :search, :type => "subject"} %></li>
             <% if not current_page?(root_url) %>
               <li class="pull-right search-switcher">
                   <%= link_to "Hide Advanced", { :advanced => nil }, { :class => params["advanced"]?"":"hide" } %>

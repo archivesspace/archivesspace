@@ -72,7 +72,7 @@
         {if nodes && nodes.length > 0}
         <ul>
            {for node in nodes}
-              <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}">
+              <li id="${node.node_type}_${node.id}" class="${node.node_type} {if node.has_children} jstree-closed{/if}" rel="${node.node_type}" data-id="${node.id}" data-uri="${node.record_uri}">
                  ${render_node_link(node)}
                  ${render_children(node.children)}
               </li>

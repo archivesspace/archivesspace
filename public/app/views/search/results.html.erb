@@ -18,6 +18,8 @@
                 <%= icon_for result["primary_type"] %>
                 <% if result["primary_type"] === "subject" %>
                   <%= link_to result["title"], params_for_search({"add_filter" => @search_data.facet_query_string("subjects", result["title"]), "type" => []}) %>
+                <% elsif result["primary_type"] === "repository" %>
+                  <%= link_to result['title'], :controller => :search, :action => :repository, :repo_id => id %>
                 <% else %>
                   <%= link_to result['finding_aid_title'] || result["title"] || result['display_string'], :controller => :records, :action => result["primary_type"], :id => id, :repo_id => repo_id %>
                 <% end %> 
