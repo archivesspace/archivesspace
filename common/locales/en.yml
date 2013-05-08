@@ -461,8 +461,8 @@ en:
     content_tooltip: |
         <p>The content of the note.</p>
     items: Items
-    items__singular: Item
-    item__singular: Item
+    items_singular: Item
+    item_singular: Item
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this Note to public (patron) interfaces.</p>
@@ -548,7 +548,7 @@ en:
   note_multipart:
     <<: *note_attributes
     sub_notes: Sub Notes
-    sub_notes__singular: Sub Note
+    sub_notes_singular: Sub Note
 
   note_digital_object:
     <<: *note_attributes
@@ -569,7 +569,7 @@ en:
     events: Events
     events_tooltip: |
         <p>A description of an event corresponding to the chronology date item.</p>
-    events__singular: Event
+    events_singular: Event
 
   note_definedlist:
     <<: *note_attributes
