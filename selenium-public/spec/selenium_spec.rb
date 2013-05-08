@@ -65,6 +65,8 @@ describe "ArchivesSpace Public interface" do
 
       create_test_repo(@test_repo_code_1, @test_repo_name_1)
       create_test_repo(@test_repo_code_2, @test_repo_name_2)
+
+      @indexer.run_index_round
     end
 
 

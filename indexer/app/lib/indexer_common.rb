@@ -95,6 +95,7 @@ class CommonIndexer
       if doc['primary_type'] == 'repository'
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
+        doc['publish'] = true
         doc['json'] = record['record'].to_json
       end
     }

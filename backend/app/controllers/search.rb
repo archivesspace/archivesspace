@@ -32,7 +32,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "[(:location)]"]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
-    show_published_only = current_user.username === User.SEARCH_USERNAME
+    show_published_only = current_user.username === User.PUBLIC_USERNAME
 
     query = params[:q] || "*:*"
 
@@ -79,7 +79,7 @@ class ArchivesSpaceService < Sinatra::Base
   .returns([200, "[(:location)]"]) \
   do
     show_suppressed = !RequestContext.get(:enforce_suppression)
-    show_published_only = current_user.username === User.SEARCH_USERNAME
+    show_published_only = current_user.username === User.PUBLIC_USERNAME
 
     query = params[:q] || "*:*"
 
