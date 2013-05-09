@@ -9,7 +9,6 @@
       "title" => {"type" => "string", "ifmissing" => "error", "maxLength" => 16384},
 
       "publish" => {"type" => "boolean", "default" => true},
-      "internal" => {"type" => "boolean", "default" => false},
 
       "enumeration" => {
         "type" => "string",

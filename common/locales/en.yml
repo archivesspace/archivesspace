@@ -466,9 +466,6 @@ en:
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this Note to public (patron) interfaces.</p>
-    internal: Internal Only?
-    internal_tooltip: |
-        <p>Determines how this Note will display in EAD exports. Depending on the settings chosen when exporting, the Note will either not appear or will be included with the audience set to "internal".</p>
     title: Title
     title_tooltip: |
       <p>An element for recording a specific label, or title, for the subnote.</p>
@@ -1072,7 +1069,6 @@ en:
         <li>Subseries 8</li>
         <li>Accession 2005-M-078</li>
         </ul>
-    internal_only: Internal Only?
     level: Level of Description
     level_tooltip: |
         <p>REQUIRED FIELD. Indicates. the hierarchical level of the materials being described.</p>
@@ -1093,7 +1089,7 @@ en:
         </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this Resource will be published to public (patron) interfaces. Distinguished from "internal only," which impacts EAD export.</p>
+        <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>

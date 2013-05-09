@@ -376,7 +376,6 @@ Sequel.migration do
       String :parent_name, :null => true
       Integer :position, :null => true
       
-      Integer :internal_only
       Integer :publish
 
       String :ref_id, :null => false, :unique => false

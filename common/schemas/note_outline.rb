@@ -7,7 +7,6 @@
     "properties" => {
 
       "publish" => {"type" => "boolean", "default" => true},
-      "internal" => {"type" => "boolean", "default" => false},
 
       "levels" => {
         "type" => "array",

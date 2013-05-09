@@ -117,7 +117,6 @@ FactoryGirl.define do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
-    internal_only true
   end
   
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
