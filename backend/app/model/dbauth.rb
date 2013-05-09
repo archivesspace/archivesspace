@@ -57,4 +57,11 @@ class DBAuth
     end
   end
 
+
+  def self.delete_user(username)
+    DB.open do |db|
+      db[:auth_db].filter(:username => username).delete
+    end
+  end
+
 end

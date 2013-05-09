@@ -149,6 +149,12 @@ module ApplicationHelper
     @current_repo
   end
 
+
+  def current_user
+    session[:user]
+  end
+
+
   def wrap_with_tooltip(text, i18n_path, classes)
     tooltip = I18n.t_raw(i18n_path, :default => '')
     if tooltip.empty?

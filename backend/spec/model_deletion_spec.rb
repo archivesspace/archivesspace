@@ -146,4 +146,23 @@ describe "Deletion of Archival Records" do
     Notifications.last_notification.should_not eq(last_notification)
   end
 
+
+  it "can delete a user (and their corresponding agent)" do
+    user = create_nobody_user
+
+    AgentPerson[user.agent_record_id].should_not be(nil)
+
+    user.delete
+
+    User[user.id].should be(nil)
+    AgentPerson[user.agent_record_id].should be(nil)
+  end
+
+
+  it "won't delete a system user" do
+    expect {
+      User[:username => "admin"].delete
+    }.to raise_error
+  end
+
 end

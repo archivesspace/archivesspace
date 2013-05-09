@@ -173,11 +173,13 @@ end
 
 
 def create_nobody_user
-  create(:user, :username => 'nobody')
+  user = create(:user, :username => 'nobody')
 
   viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
   viewers.member_usernames = ['nobody']
   viewers.save
+
+  user
 end
 
 

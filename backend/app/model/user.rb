@@ -33,6 +33,7 @@ class User < Sequel::Model(:user)
     obj
   end
 
+
   def sequel_to_jsonmodel(obj, opts = {})
     json = super
 
@@ -140,6 +141,21 @@ class User < Sequel::Model(:user)
 
     Array(groups).each do |group|
       group.add_user(self)
+    end
+  end
+
+
+  def delete
+    raise AccessDeniedException.new("Can't delete system user") if self.is_system_user == 1
+
+    DBAuth.delete_user(self.username)
+
+    self.remove_all_group
+
+    super
+
+    if self.agent_record_id
+      AgentPerson[self.agent_record_id].delete
     end
   end
 
