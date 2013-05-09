@@ -122,7 +122,7 @@ describe "Deletion of Archival Records" do
   end
 
 
-  it "can delete a repository" do
+  xit "can delete a repository" do
     acc = Accession.where(:title => "A test accession").first
     resource = Resource.where(:title => "A test resource").first
 
