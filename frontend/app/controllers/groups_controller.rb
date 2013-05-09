@@ -1,6 +1,8 @@
 class GroupsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:new, :index, :edit, :create, :update, :show]
+  skip_before_filter :unauthorised_access, :only => [:new, :index, :edit, :create, :update, :show, :delete]
   before_filter(:only => [:new, :index, :edit, :create, :update, :show]) {|c| user_must_have("manage_repository")}
+  before_filter(:only => [:delete]) {|c| user_must_have("manage_repository")}
+
 
   def new
     @group = JSONModel(:group).new._always_valid!
@@ -43,6 +45,15 @@ class GroupsController < ApplicationController
                 :on_valid => ->(id){
                   redirect_to(:controller => :groups, :action => :index)
                 })
+  end
+
+
+  def delete
+    group = JSONModel(:group).find(params[:id])
+    group.delete
+
+    flash[:success] = I18n.t("group._html.messages.deleted", JSONModelI18nWrapper.new(:group => group))
+    redirect_to(:controller => :groups, :action => :index, :deleted_uri => group.uri)
   end
 
 end

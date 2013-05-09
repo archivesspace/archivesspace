@@ -141,6 +141,7 @@ class Group < Sequel::Model(:group)
     remove_all_user
 
     super
+    self.class.broadcast_changes
   end
 
 end

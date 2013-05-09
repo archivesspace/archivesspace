@@ -133,4 +133,17 @@ describe "Deletion of Archival Records" do
     Resource.where(:title => "A test resource").first.should be(nil)
   end
 
+
+  it "can delete a group" do
+    group = Group.create_from_json(build(:json_group,
+                                         :member_usernames => ["admin"]),
+                                   :repo_id => $repo_id)
+
+    last_notification = Notifications.last_notification
+    Group[group.id].should_not be(nil)
+    group.delete
+    Group[group.id].should be(nil)
+    Notifications.last_notification.should_not eq(last_notification)
+  end
+
 end
