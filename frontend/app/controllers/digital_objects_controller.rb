@@ -75,7 +75,7 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.delete
 
-    flash[:success] = I18n.t("digital_object._html.messages.deleted", JSONModelI18nWrapper.new(:digital_object => digital_object))
+    flash[:success] = I18n.t("digital_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object => digital_object))
     redirect_to(:controller => :digital_objects, :action => :index, :deleted_uri => digital_object.uri)
   end
 

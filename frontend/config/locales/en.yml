@@ -340,6 +340,7 @@ en:
       messages:
         created: User Created
         updated: User Saved
+        deleted: User Deleted
         error_update: User not saved
         error_create: User not created
       section:

@@ -52,7 +52,6 @@ class GroupsController < ApplicationController
     group = JSONModel(:group).find(params[:id])
     group.delete
 
-    flash[:success] = I18n.t("group._html.messages.deleted", JSONModelI18nWrapper.new(:group => group))
     redirect_to(:controller => :groups, :action => :index, :deleted_uri => group.uri)
   end
 

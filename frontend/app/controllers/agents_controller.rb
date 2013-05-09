@@ -74,7 +74,7 @@ class AgentsController < ApplicationController
       return
     end
 
-    flash[:success] = I18n.t("agent._html.messages.deleted", JSONModelI18nWrapper.new(:agent => agent))
+    flash[:success] = I18n.t("agent._frontend.messages.deleted", JSONModelI18nWrapper.new(:agent => agent))
     redirect_to(:controller => :agents, :action => :index, :deleted_uri => agent.uri)
   end
 

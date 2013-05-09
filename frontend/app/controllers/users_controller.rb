@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     user = JSONModel(:user).find(params[:id])
     user.delete
 
-    flash[:success] = I18n.t("user._html.messages.deleted", JSONModelI18nWrapper.new(:user => user))
+    flash[:success] = I18n.t("user._frontend.messages.deleted", JSONModelI18nWrapper.new(:user => user))
     redirect_to(:controller => :users, :action => :index, :deleted_uri => user.uri)
   end
 

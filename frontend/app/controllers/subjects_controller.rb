@@ -73,7 +73,7 @@ class SubjectsController < ApplicationController
     subject = JSONModel(:subject).find(params[:id])
     subject.delete
 
-    flash[:success] = I18n.t("subject._html.messages.deleted", JSONModelI18nWrapper.new(:subject => subject))
+    flash[:success] = I18n.t("subject._frontend.messages.deleted", JSONModelI18nWrapper.new(:subject => subject))
     redirect_to(:controller => :subjects, :action => :index, :deleted_uri => subject.uri)
   end
 

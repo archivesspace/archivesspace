@@ -65,7 +65,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(true)
 
-    flash[:success] = I18n.t("accession._html.messages.suppressed", JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = I18n.t("accession._frontend.messages.suppressed", JSONModelI18nWrapper.new(:accession => accession))
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -74,7 +74,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(false)
 
-    flash[:success] = I18n.t("accession._html.messages.unsuppressed", JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = I18n.t("accession._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:accession => accession))
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -83,7 +83,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.delete
 
-    flash[:success] = I18n.t("accession._html.messages.deleted", JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = I18n.t("accession._frontend.messages.deleted", JSONModelI18nWrapper.new(:accession => accession))
     redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
   end
 

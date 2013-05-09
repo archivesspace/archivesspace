@@ -84,7 +84,7 @@ class ResourcesController < ApplicationController
     resource = Resource.find(params[:id])
     resource.delete
 
-    flash[:success] = I18n.t("resource._html.messages.deleted", JSONModelI18nWrapper.new(:resource => resource))
+    flash[:success] = I18n.t("resource._frontend.messages.deleted", JSONModelI18nWrapper.new(:resource => resource))
     redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
   end
 

@@ -96,7 +96,7 @@ class RepositoriesController < ApplicationController
 
     MemoryLeak::Resources.refresh(:repository)
 
-    flash[:success] = I18n.t("repository._html.messages.deleted", JSONModelI18nWrapper.new(:repository => repository))
+    flash[:success] = I18n.t("repository._frontend.messages.deleted", JSONModelI18nWrapper.new(:repository => repository))
     redirect_to(:controller => :repositories, :action => :index, :deleted_uri => repository.uri)
   end
 

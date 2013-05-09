@@ -106,7 +106,7 @@ class DigitalObjectComponentsController < ApplicationController
     digital_object_component = JSONModel(:digital_object_component).find(params[:id])
     digital_object_component.delete
 
-    flash[:success] = I18n.t("digital_object_component._html.messages.deleted", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component))
+    flash[:success] = I18n.t("digital_object_component._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component))
 
     resolver = Resolver.new(digital_object_component['digital_object']['ref'])
     redirect_to resolver.view_uri

@@ -128,7 +128,7 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
     archival_object.delete
 
-    flash[:success] = I18n.t("archival_object._html.messages.deleted", JSONModelI18nWrapper.new(:archival_object => archival_object))
+    flash[:success] = I18n.t("archival_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:archival_object => archival_object))
 
     resolver = Resolver.new(archival_object['resource']['ref'])
     redirect_to resolver.view_uri
