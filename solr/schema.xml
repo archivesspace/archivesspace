@@ -89,6 +89,18 @@
    <!-- Location properties required for facets -->
    <field name="temporary" type="string" indexed="true" stored="true" multiValued="false" />
 
+   <!-- Trees store the URI of their root record -->
+   <field name="root_uri" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- A hint to the standard search that this isn't the record it's looking for -->
+   <field name="exclude_by_default" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <!-- The URI of the tree_view node -->
+   <field name="node_uri" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- A JSON blob representing the tree_view -->
+   <field name="tree_json" type="string" indexed="false" stored="true" multiValued="false" />
+
    <!-- Event properties required for facets -->
    <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="outcome" type="string" indexed="true" stored="true" multiValued="false" />
