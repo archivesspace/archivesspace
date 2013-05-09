@@ -4,7 +4,7 @@ class LocationsController < ApplicationController
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_location_record")}
 
   def index
-    @search_data = JSONModel(:location).all(:page => selected_page)
+    @search_data = Search.for_type(session[:repo_id], "location", search_params.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
   end
 
   def show

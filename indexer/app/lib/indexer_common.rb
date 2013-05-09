@@ -16,10 +16,11 @@ class CommonIndexer
   @@record_types = [:accession, :archival_object, :resource,
                     :digital_object, :digital_object_component,
                     :subject, :location,
+                    :event,
                     :agent_person, :agent_software, :agent_family, :agent_corporate_entity,
                     :repository]
 
-  @@resolved_attributes = ['subjects', 'linked_agents']
+  @@resolved_attributes = ['subjects', 'linked_agents', 'linked_records']
 
 
   def initialize(backend_url)
@@ -70,6 +71,14 @@ class CommonIndexer
   end
 
 
+  def add_level(doc, record)
+    if record['record'].has_key? 'level'
+      doc['level'] = (record['record']['level'] === 'otherlevel') ? record['record']['other_level'] : record['record']['level']
+    end
+  end
+
+
+
   def configure_doc_rules
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
@@ -83,11 +92,19 @@ class CommonIndexer
       add_agents(doc, record)
       add_audit_info(doc, record)
       add_notes(doc, record)
+      add_level(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'accession'
         doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'subject'
+        doc['source'] = record['record']['source']
+        doc['first_term_type'] = record['record']['terms'][0]['term_type']
       end
     }
 
@@ -101,14 +118,39 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'location' and record['record'].has_key? 'temporary'
+        doc['temporary'] = record['record']['temporary']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']
       end
     }
 
     add_document_prepare_hook {|doc, record|
+
       if doc['primary_type'] == 'resource'
         doc['finding_aid_title'] = record['record']['finding_aid_title'] if record['record']['finding_aid_status'] === 'completed'
+      end
+
+      if doc['primary_type'] == 'digital_object'
+        doc['digital_object_type'] = record['record']['digital_object_type']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'repository'
+        doc['repository'] = doc["id"]
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'event'
+        doc['json'] = record['record'].to_json
+        doc['event_type'] = record['record']['event_type']
+        doc['outcome'] = record['record']['outcome']
       end
     }
 

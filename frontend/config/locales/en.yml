@@ -86,6 +86,8 @@ en:
       query: Text
       subjects: Subject
       primary_type: Record Type
+      digital_object_type: Type
+      level: Level
       accession_date_year: Accession Date
       creators: Creator
       source: Source
@@ -94,7 +96,10 @@ en:
       processing_priority: Priority
       processing_status: Status
       publish: Published
-
+      temporary: Temporary
+      outcome: Outcome
+      event_type: Type
+      first_term_type: Term Type (First)
   search_sorting:
     sort_by: "Sort by:"
     asc: Ascending
@@ -110,6 +115,8 @@ en:
     authority_id: Authority ID
     source: Source
     rules: Rules
+    outcome: Outcome
+    event_type: Type
 
   navbar:
     brand: ArchivesSpace

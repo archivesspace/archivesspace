@@ -350,6 +350,8 @@ describe "ArchivesSpace user interface" do
 
 
     it "can present a browse list of Subjects" do
+      run_index_round
+
       $driver.find_element(:link => 'Browse').click
       $driver.find_element(:link => 'Subjects').click
 

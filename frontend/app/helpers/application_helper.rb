@@ -119,7 +119,13 @@ module ApplicationHelper
     end
 
     search_params["sort"] = opts["sort"] || params["sort"]
-    search_params["format"] = opts["format"] || params["format"]
+
+    if (opts["format"] || params["format"]).blank?
+      search_params.delete("format")
+    else
+      search_params["format"] =  opts["format"] || params["format"]
+    end
+
     search_params["linker"] = opts["linker"] || params["linker"] || false
     search_params["type"] = opts["type"] || params["type"]
     search_params["facets"] = opts["facets"] || params["facets"]

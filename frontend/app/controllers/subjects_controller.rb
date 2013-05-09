@@ -4,7 +4,7 @@ class SubjectsController < ApplicationController
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_subject_record")}
 
   def index
-    @search_data = JSONModel(:subject).all(:page => selected_page)
+    @search_data = Search.global(search_params.merge({"facet[]" => SearchResultData.SUBJECT_FACETS, "type[]" => ["subject"]}))
   end
 
   def show
