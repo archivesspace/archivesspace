@@ -136,6 +136,20 @@ class PeriodicIndexer < CommonIndexer
                             }
                           })
           end
+
+          if !records['results'].empty?
+            did_something = true
+          end
+
+          index_records(records['results'].map {|record|
+                          {
+                            'record' => record.to_hash(:trusted),
+                            'uri' => record.uri
+                          }
+                        })
+
+          break if records['last_page'] <= page
+          page += 1
         end
 
         checkpoints << [repository, type, start]
