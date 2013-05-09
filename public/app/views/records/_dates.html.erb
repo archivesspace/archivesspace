@@ -1,0 +1,19 @@
+<% if dates.length > 0 %>
+  <section id="dates">
+    <h3><%= I18n.t("date._plural") %></h3>
+    <ul class="results-list">
+      <% dates.each do |date| %>
+        <li class="result">
+          <% if date['expression'] %>
+            <%= date['expression']%>
+          <% elsif date['date_type'] === "single" %>
+            <%= date['begin'] %>
+          <% elsif date['date_type'] %>
+            <%= date['begin'] %> &ndash; <%= date['end'] %>
+          <% end %>
+          (<%= I18n.t("enumerations.date_label.#{date['label']}", :default => 'label') %>)
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

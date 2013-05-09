@@ -141,7 +141,12 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'subject'
+        doc['publish'] = true
+      end
+    }
 
+    add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'resource'
         doc['finding_aid_title'] = record['record']['finding_aid_title'] if record['record']['finding_aid_status'] === 'completed'
       end
@@ -172,6 +177,7 @@ class CommonIndexer
         doc['authority_id'] = record['record']['names'][0]['authority_id']
         doc['source'] = record['record']['names'][0]['source']
         doc['rules'] = record['record']['names'][0]['rules']
+        doc['publish'] = true
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'

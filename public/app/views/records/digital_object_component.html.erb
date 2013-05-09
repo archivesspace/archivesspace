@@ -1,5 +1,12 @@
 <%
   file_versions = @digital_object_component['file_versions'].select{|fv| fv['publish']}
+
+  published_external_documents = []
+  if @digital_object_component['external_documents'].length > 0
+    @digital_object_component['external_documents'].each do |exdoc|
+      published_external_documents.push(exdoc) if exdoc['publish'] === true
+    end
+  end
 %>
 <div class="title-pane">
   <div class="row-fluid">
@@ -18,16 +25,25 @@
         <ul class="nav nav-list as-nav-list">
           <li><a href="#summary"><%= I18n.t("digital_object_component._public.section.summary") %> <span class="icon-chevron-right"></span></a></li>
           <% if file_versions.length > 0 %>
-            <li><a href="#file_versions"><%= I18n.t("file_version._plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#file_versions"><%= I18n.t("file_version._plural") %> <span class="badge badge-info"><%= file_versions.length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @digital_object_component['dates'].length > 0 %>
+            <li><a href="#dates"><%= I18n.t("date._plural") %> <span class="badge badge-info"><%= @digital_object_component['dates'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @digital_object_component['extents'].length > 0 %>
-            <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="badge badge-info"><%= @digital_object_component['extents'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @digital_object_component['subjects'].length > 0 %>
-            <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="badge badge-info"><%= @digital_object_component['subjects'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if @digital_object_component['notes'].length > 0 %>
+            <li><a href="#notes"><%= I18n.t("note._plural") %> <span class="badge badge-info"><%= @digital_object_component['notes'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
+          <% if published_external_documents.length > 0 %>
+            <li><a href="#external_documents"><%= I18n.t("external_document._plural") %> <span class="badge badge-info"><%= published_external_documents.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
           <% if @children.length > 0 %>
-            <li><a href="#components"><%= I18n.t("digital_object_component._public.section.components") %> <span class="icon-chevron-right"></span></a></li>
+            <li><a href="#components"><%= I18n.t("digital_object_component._public.section.components") %> <span class="badge badge-info"><%= @children.length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
         </ul>
       </div>
@@ -44,91 +60,18 @@
           </dl>
         </section>
 
-        <% if file_versions.length > 0 %>
-          <section id="file_versions">
-            <h3><%= I18n.t("file_version._plural") %></h3>
-            <ul class="results-list">
-              <% file_versions.each do |file| %>
-                <%
-                  uri = URI(file['file_uri'])
-                %>
-                <li class="result">
-                  <% if uri.scheme === "http" %>
-                    <%= link_to file['file_uri'], file['file_uri'] %>
-                  <% else %>
-                    <%= file['file_uri'] %>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @digital_object_component['extents'].length > 0 %>
-          <section id="extents">
-            <h3><%= I18n.t("extent._plural") %></h3>
-            <ul class="results-list">
-              <% @digital_object_component['extents'].each do |extent| %>
-                <li class="result">
-                  <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @digital_object_component['subjects'].length > 0 %>
-          <section id="subjects">
-            <h3><%= I18n.t("subject._plural") %></h3>
-            <ul class="results-list">
-              <% @digital_object_component['subjects'].each do |subject| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "subject" %>
-                    <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @children.length > 0 %>
-          <section id="components">
-            <h3><%= I18n.t("digital_object_component._public.section.components") %></h3>
-
-            <ul class="results-list">
-              <% @children.each do |child| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "digital_object_component" %>
-                    <%= link_to child["title"], :controller => :records, :action => "digital_object_component", :id => JSONModel(:digital_object_component).id_for(child['uri']), :repo_id => @repository.id %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
+        <%= render :partial => "file_versions", :locals => {:file_versions => file_versions} %>
+        <%= render :partial => "dates", :locals => {:dates => @digital_object_component['dates']} %>
+        <%= render :partial => "extents", :locals => {:extents => @digital_object_component['extents']} %>
+        <%= render :partial => "subjects", :locals => {:subjects => @digital_object_component['subjects']} %>
+        <%= render :partial => "notes", :locals => {:notes => @digital_object_component['notes']} %>
+        <%= render :partial => "external_documents", :locals => {:external_documents => published_external_documents} %>
+        <%= render :partial => "components", :locals => {:record_type => "digital_object_component"} %>
 
       </fieldset>
 
       <br/>
       <br/>
-
-      <div class="accordion" id="source">
-        <div class="accordion-group">
-          <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#source" href="#collapseOne">
-              Debugging
-            </a>
-          </div>
-          <div id="collapseOne" class="accordion-body collapse">
-            <div class="accordion-inner">
-              <%= @digital_object_component.inspect %>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>

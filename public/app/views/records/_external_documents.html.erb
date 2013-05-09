@@ -1,0 +1,15 @@
+<% if not external_documents.empty? %>
+  <section id="external_documents">
+    <h3><%= I18n.t("external_document._plural") %></h3>
+    <ul class="results-list">
+      <% external_documents.each do |exdoc| %>
+        <li class="result">
+          <div class="row-fluid">
+            <div class="span6"><%= exdoc['title'] %></div>
+            <div class="span6"><%= (exdoc["location"] =~ URI::regexp).nil? ? exdoc["location"] : link_to(exdoc["location"], exdoc["location"]) %></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

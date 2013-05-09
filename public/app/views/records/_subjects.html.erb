@@ -1,0 +1,15 @@
+<% if subjects.length > 0 %>
+  <section id="subjects">
+    <h3><%= I18n.t("subject._plural") %></h3>
+    <ul class="results-list">
+      <% subjects.each do |subject| %>
+        <li class="result">
+          <h4>
+            <%= icon_for "subject" %>
+            <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
+          </h4>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

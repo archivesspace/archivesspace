@@ -1,0 +1,16 @@
+<% if not @children.empty? %>
+  <section id="components">
+    <h3><%= I18n.t("#{record_type}._public.section.components") %></h3>
+
+    <ul class="results-list">
+      <% @children.each do |child| %>
+        <li class="result">
+          <h4>
+            <%= icon_for child["node_type"] %>
+            <%= link_to child["title"], :controller => :records, :action => child["node_type"], :id => child['id'], :repo_id => @repository.id %>
+          </h4>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

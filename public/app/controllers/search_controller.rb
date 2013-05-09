@@ -57,14 +57,15 @@ class SearchController < ApplicationController
 
     @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-    @criteria['facet[]'] = ["repository", "primary_type", "creators", "subjects"]
+    @criteria['facet[]'] = ["repository", "primary_type", "subjects", "source"]
 
     # only allow locations, subjects, resources and archival objects in search results
-    if params[:type].blank? or @criteria['type[]'].empty?
+    if params["type"].blank? or @criteria['type[]'].empty?
       @criteria['type[]'] = ['resource', 'archival_object', 'digital_object', 'digital_object_component']
     else
-      @criteria['type[]'].keep_if {|t| ['resource', 'archival_object', 'digital_object', 'digital_object_component' 'location', 'subject'].include?(t)}
+      @criteria['type[]'].keep_if {|t| ['repository', 'resource', 'archival_object', 'digital_object', 'digital_object_component', 'subject'].include?(t)}
     end
+
   end
 
   def set_advanced_search_criteria

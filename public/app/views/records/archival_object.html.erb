@@ -68,118 +68,13 @@
           </dl>
         </section>
 
-        <% if @archival_object['dates'].length > 0 %>
-          <section id="dates">
-            <h3><%= I18n.t("date._plural") %></h3>
-            <ul class="results-list">
-              <% @archival_object['dates'].each do |date| %>
-                <li class="result">
-                  <% if date['expression'] %>
-                    <%= date['expression']%>
-                  <% elsif date['date_type'] === "single" %>
-                    <%= date['begin'] %>
-                  <% elsif date['date_type'] %>
-                    <%= date['begin'] %> &ndash; <%= date['end'] %>
-                  <% end %>
-                  (<%= I18n.t("enumerations.date_label.#{date['label']}", :default => 'label') %>)
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @archival_object['extents'].length > 0 %>
-          <section id="extents">
-            <h3><%= I18n.t("extent._plural") %></h3>
-            <ul class="results-list">
-              <% @archival_object['extents'].each do |extent| %>
-                <li class="result">
-                  <%= extent['number'] %> <%= i18n_enum(:extent, 'extent_type', extent['extent_type']) %> (<%= i18n_enum(:extent, 'portion', extent['portion']) %>)
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @archival_object['subjects'].length > 0 %>
-          <section id="subjects">
-            <h3><%= I18n.t("subject._plural") %></h3>
-            <ul class="results-list">
-              <% @archival_object['subjects'].each do |subject| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "subject" %>
-                    <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @archival_object['notes'].length > 0 %>
-          <section id="notes">
-            <h3><%= I18n.t("note._plural") %></h3>
-            <ul class="results-list">
-              <% @archival_object['notes'].each do |note| %>
-                <li class="result">
-<pre><% note['content'].each do |note_content| %>
-<%= note_content.strip %>
-<% end %></pre>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if not published_external_documents.empty? %>
-          <section id="external_documents">
-            <h3><%= I18n.t("external_document._plural") %></h3>
-            <ul class="results-list">
-              <% published_external_documents.each do |exdoc| %>
-                <li class="result">
-                  <div class="row-fluid">
-                    <div class="span6"><%= exdoc['title'] %></div>
-                    <div class="span6"><%= (exdoc["location"] =~ URI::regexp).nil? ? exdoc["location"] : link_to(exdoc["location"], exdoc["location"]) %></div>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if not digital_objects.empty? %>
-          <section id="digital_objects">
-            <h3><%= I18n.t("digital_object._plural") %></h3>
-            <ul class="results-list">
-              <% digital_objects.each do |uri, digital_object| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "digital_object" %>
-                    <%= link_to digital_object['title'], {:controller => :records, :action => :digital_object, :id => JSONModel(:digital_object).id_for(uri)} %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
-
-        <% if @children.length > 0 %>
-          <section id="components">
-            <h3><%= I18n.t("archival_object._public.section.components") %></h3>
-
-            <ul class="results-list">
-              <% @children.each do |child| %>
-                <li class="result">
-                  <h4>
-                    <%= icon_for "archival_object" %>
-                    <%= link_to child["title"], :controller => :records, :action => "archival_object", :id => JSONModel(:archival_object).id_for(child['uri']), :repo_id => @repository.id %>
-                  </h4>
-                </li>
-              <% end %>
-            </ul>
-          </section>
-        <% end %>
+        <%= render :partial => "dates", :locals => {:dates => @archival_object['dates']} %>
+        <%= render :partial => "extents", :locals => {:extents => @archival_object['extents']} %>
+        <%= render :partial => "subjects", :locals => {:subjects => @archival_object['subjects']} %>
+        <%= render :partial => "notes", :locals => {:notes => @archival_object['notes']} %>
+        <%= render :partial => "external_documents", :locals => {:external_documents => published_external_documents} %>
+        <%= render :partial => "instances", :locals => {:digital_objects => digital_objects} %>
+        <%= render :partial => "components", :locals => {:record_type => "archival_object"} %>
 
       </fieldset>
 

@@ -1,0 +1,14 @@
+<% if notes.length > 0 %>
+  <section id="notes">
+    <h3><%= I18n.t("note._plural") %></h3>
+    <ul class="results-list">
+      <% notes.each do |note| %>
+        <li class="result">
+<pre><% note['content'].each do |note_content| %>
+<%= note_content.strip %>
+<% end %></pre>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
