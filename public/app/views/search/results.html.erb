@@ -17,7 +17,9 @@
               <h3>
                 <%= icon_for result["primary_type"] %>
                 <% if result["primary_type"] === "subject" %>
-                  <%= link_to result["title"], params_for_search({"add_filter" => @search_data.facet_query_string("subjects", result["title"]), "type" => []}) %>
+                  <%= link_to result["title"], {"filter_term" => @search_data.facet_query_string("subjects", result["title"])} %>
+                <% elsif ["agent_person", "agent_software", "agent_family", "agent_corporate_entity"].include?(result["primary_type"]) %>
+                  <%= link_to result["title"], {"filter_term" => @search_data.facet_query_string("agents", result["title"])} %>
                 <% elsif result["primary_type"] === "repository" %>
                   <%= link_to result['title'], :controller => :search, :action => :repository, :repo_id => id %>
                 <% else %>

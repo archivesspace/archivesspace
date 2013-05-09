@@ -4,10 +4,11 @@
 
     <ul class="results-list">
       <% @children.each do |child| %>
+        <%  puts "** chikd: #{child.inspect}" %>
         <li class="result">
           <h4>
             <%= icon_for child["node_type"] %>
-            <%= link_to child["title"], :controller => :records, :action => child["node_type"], :id => child['id'], :repo_id => @repository.id %>
+            <%= link_to child["title"], :controller => :records, :action => child["node_type"] || child["jsonmodel_type"], :id => child['id'] || JSONModel(child["jsonmodel_type"].intern).id_for(child['uri']), :repo_id => @repository.id %>
           </h4>
         </li>
       <% end %>

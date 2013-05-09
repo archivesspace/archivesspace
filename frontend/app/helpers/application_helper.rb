@@ -108,15 +108,13 @@ module ApplicationHelper
   def params_for_search(opts = {})
     search_params = {}
 
-    search_params["filter"] = Array(opts["filter"] || params["filter"]).clone
+    search_params["filter"] = Array(params["filter"]).clone
+    search_params["filter"].concat(Array(opts["add_filter"])) if opts["add_filter"]
+    search_params["filter"] = search_params["filter"].reject{|f| Array(opts["remove_filter"]).include?(f)} if opts["remove_filter"]
 
-    if opts["add_filter"]
-      search_params["filter"].concat(Array(opts["add_filter"]))
-    end
-
-    if opts["remove_filter"]
-      search_params["filter"] = search_params["filter"].reject{|f| Array(opts["remove_filter"]).include?(f)}
-    end
+    search_params["filter_term"] = Array(params["filter_term"]).clone
+    search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
+    search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
 
     search_params["sort"] = opts["sort"] || params["sort"]
 
@@ -133,7 +131,7 @@ module ApplicationHelper
 
     search_params["q"] = opts["q"] || params["q"]
 
-    search_params
+    search_params.reject{|k,v| k.blank? or v.blank?}
   end
 
   def current_repo

@@ -56,6 +56,9 @@ class CommonIndexer
 
   def add_agents(doc, record)
     if record['record']['linked_agents']
+      # index all linked agents first
+      doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['names'][0]['sort_name']}
+
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
       doc['creators'] = creators.collect{|link| link['_resolved']['names'][0]['sort_name']} if not creators.empty?
@@ -339,6 +342,19 @@ class CommonIndexer
   end
 
 
+  def clean_whitespace(doc)
+    if doc.is_a?(String)
+      doc.strip
+    elsif doc.is_a?(Hash)
+      Hash[doc.map {|k, v| [k, clean_whitespace(v)]}]
+    elsif doc.is_a?(Array)
+      doc.map{|elt| clean_whitespace(elt)}
+    else
+      doc
+    end
+  end
+
+
   def index_records(records)
     batch = []
 
@@ -369,7 +385,7 @@ class CommonIndexer
         hook.call(doc, record)
       end
 
-      batch << doc
+      batch << clean_whitespace(doc)
 
       # Allow a single record to spawn multiple Solr documents if desired
       @extra_documents_hooks.each do |hook|

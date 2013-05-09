@@ -1,23 +1,23 @@
-<% if @search_data.filtered? or @search_data.query? %>
+<% if @search_data.filtered? or @search_data.filtered_terms? or @search_data.query? %>
   <div class="well">
     <h5>
       <%= I18n.t "search_results.filtered_by" %>
       <%= link_to I18n.t("search_results.clear_all"), params_for_search({"q" => "", "filter" => []}), :class => "btn btn-mini pull-right" %>
     </h5>
     <ul>
-    <% if @search_data.query? %>
-      <li>
-        <%= link_to @search_data.facet_label_for_query, params_for_search({"q" => ""}) %>
-        <%= link_to '<span class="icon icon-remove"></span>'.html_safe, params_for_search({"q" => ""}) %>
-      </li>
-    <% end %>
-    <% if @search_data.filtered? %>
-      <% @search_data[:criteria]["filter[]"].each do | filter | %>
+      <% if @search_data.query? %>
         <li>
-          <%= link_to "#{@search_data.facet_label_for_filter(filter)} <span class='icon icon-remove'></span>".html_safe, params_for_search({"remove_filter" => filter}) %>
+          <%= link_to @search_data.facet_label_for_query, params_for_search({"q" => ""}) %>
+          <%= link_to '<span class="icon icon-remove"></span>'.html_safe, params_for_search({"q" => ""}) %>
         </li>
       <% end %>
-    <% end %>
+      <% if @search_data.filtered_terms? %>
+        <% @search_data[:criteria]["filter_term[]"].each do | filter_term | %>
+          <li>
+            <%= link_to "#{@search_data.facet_label_for_filter(filter_term)} <span class='icon icon-remove'></span>".html_safe, params_for_search({"remove_filter_term" => filter_term}) %>
+          </li>
+        <% end %>
+      <% end %>
     </ul>
   </div>
 <% end %>
@@ -43,10 +43,10 @@
 <% @search_data.facets_for_filter.each do |facet_group, facets| %>
   <h5><%= I18n.t("search_results.filter.#{facet_group}", :default => facet_group) %></h5>
   <ul>
-  <% facets.each do |facet, facet_map| %>
-    <li>
-      <%= link_to facet_map[:label], params_for_search({"add_filter" => facet_map[:query_string]}) %> <span class="badge badge-info"><%= facet_map[:count] %></span>
-    </li>
-  <% end %>
+    <% facets.each do |facet, facet_map| %>
+      <li>
+        <%= link_to facet_map[:label], params_for_search({"add_filter_term" => facet_map[:filter_term]}) %> <span class="badge badge-info"><%= facet_map[:count] %></span>
+      </li>
+    <% end %>
   </ul>
 <% end %>

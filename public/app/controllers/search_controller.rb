@@ -40,7 +40,7 @@ class SearchController < ApplicationController
   private
 
   def set_search_criteria
-    @criteria = params.select{|k,v| ["page", "q", "type", "filter", "sort"].include?(k) and not v.blank?}
+    @criteria = params.select{|k,v| ["page", "q", "type", "filter", "sort", "filter_term"].include?(k) and not v.blank?}
 
     @criteria["page"] ||= 1
 
@@ -54,6 +54,10 @@ class SearchController < ApplicationController
       @criteria.delete("filter")
     end
 
+    if @criteria["filter_term"]
+      @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}
+      @criteria.delete("filter_term")
+    end
 
     @criteria['type[]'] = Array(params[:type]) if not params[:type].blank?
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
@@ -63,7 +67,7 @@ class SearchController < ApplicationController
     if params["type"].blank? or @criteria['type[]'].empty?
       @criteria['type[]'] = ['resource', 'archival_object', 'digital_object', 'digital_object_component']
     else
-      @criteria['type[]'].keep_if {|t| ['repository', 'resource', 'archival_object', 'digital_object', 'digital_object_component', 'subject'].include?(t)}
+      @criteria['type[]'].keep_if {|t| ['agent', 'repository', 'resource', 'archival_object', 'digital_object', 'digital_object_component', 'subject'].include?(t)}
     end
 
   end

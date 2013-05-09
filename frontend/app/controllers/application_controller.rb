@@ -302,7 +302,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def search_params
-    params_for_search = params.select{|k,v| ["page", "q", "type", "filter", "sort", "exclude"].include?(k) and not v.blank?}
+    params_for_search = params.select{|k,v| ["page", "q", "type", "filter", "sort", "exclude", "filter_term"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
 
@@ -314,6 +314,11 @@ class ApplicationController < ActionController::Base
     if params_for_search["filter"]
       params_for_search["filter[]"] = Array(params_for_search["filter"]).reject{|v| v.blank?}
       params_for_search.delete("filter")
+    end
+
+    if params_for_search["filter_term"]
+      params_for_search["filter_term[]"] = Array(params_for_search["filter_term"]).reject{|v| v.blank?}
+      params_for_search.delete("filter_term")
     end
 
     if params_for_search["exclude"]

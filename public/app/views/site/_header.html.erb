@@ -13,10 +13,11 @@
               <%= link_to raw('<span class="icon-home"></span>'), :controller => :site, :action => :index %>
             </li>
             <li class="divider-vertical"></li>
-            <li <% if params["type"]==="repository"%> class="active" <% end%>><%= link_to "Repositories", {:controller => :search, :action => :search, :type => "repository"} %></li>
-            <li <% if params["type"]==="resource"%> class="active" <% end%>><%= link_to "Collections", {:controller => :search, :action => :search, :type => "resource"} %></li>
-            <li <% if params["type"]==="digital_object"%> class="active" <% end%>><%= link_to "Digital Objects", {:controller => :search, :action => :search, :type => "digital_object"} %></li>
-            <li <% if params["type"]==="subject"%> class="active" <% end%>><%= link_to "Subjects",  {:controller => :search, :action => :search, :type => "subject"} %></li>
+            <li <% if params["type"]==="repository"%> class="active" <% end%>><%= link_to I18n.t("repository._plural"), {:controller => :search, :action => :search, :type => "repository"} %></li>
+            <li <% if params["type"]==="resource"%> class="active" <% end%>><%= link_to I18n.t("resource._plural"), {:controller => :search, :action => :search, :type => "resource"} %></li>
+            <li <% if params["type"]==="digital_object"%> class="active" <% end%>><%= link_to I18n.t("digital_object._plural"), {:controller => :search, :action => :search, :type => "digital_object"} %></li>
+            <li <% if params["type"]==="subject"%> class="active" <% end%>><%= link_to I18n.t("subject._plural"),  {:controller => :search, :action => :search, :type => "subject"} %></li>
+            <li <% if params["type"]==="agent"%> class="active" <% end%>><%= link_to I18n.t("agent._plural"),  {:controller => :search, :action => :search, :type => "agent"} %></li>
             <% if not current_page?(root_url) %>
               <li class="pull-right search-switcher">
                   <%= link_to "Hide Advanced", { :advanced => nil }, { :class => params["advanced"]?"":"hide" } %>

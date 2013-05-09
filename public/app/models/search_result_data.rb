@@ -18,8 +18,8 @@ class SearchResultData
         @facet_data[facet_group][facet_and_count[0]] = {
           :label => facet_label_string(facet_group, facet_and_count[0]),
           :count => facet_and_count[1],
-          :query_string => facet_query_string(facet_group, facet_and_count[0]),
-          :display_string => facet_display_string(facet_group, facet_and_count[0])
+          :display_string => facet_display_string(facet_group, facet_and_count[0]),
+          :filter_term => {facet_group => facet_and_count[0]}.to_json
         }
       }
     }
@@ -43,15 +43,19 @@ class SearchResultData
     @search_data[:criteria].has_key?("filter[]") and @search_data[:criteria]["filter[]"].reject{|f| f.empty?}.length > 0
   end
 
+  def filtered_terms?
+    @search_data[:criteria].has_key?("filter_term[]") and @search_data[:criteria]["filter_term[]"].reject{|f| f.empty?}.length > 0
+  end
+
   def facet_label_for_filter(filter)
-    filter_bits = filter.match(/{!term f=(.*)}(.*)/)
+    filter_json = JSON.parse(filter)
+    facet = filter_json.keys[0]
+    term = filter_json[facet]
 
-    return filter if (filter_bits.length != 3)
-
-    if @facet_data.has_key?(filter_bits[1]) and @facet_data[filter_bits[1]].has_key?([filter_bits[2]])
-      @facet_data[filter_bits[1]][filter_bits[2]][:display_string]
+    if @facet_data.has_key?(facet) and @facet_data[facet].has_key?(term)
+      @facet_data[facet][term][:display_string]
     else
-      facet_display_string(filter_bits[1], filter_bits[2])
+      facet_display_string(facet, term)
     end 
   end
 
@@ -72,6 +76,7 @@ class SearchResultData
 
   def facet_label_string(facet_group, facet)
     return I18n.t("#{facet}._singular", :default => facet) if facet_group === "primary_type"
+    return I18n.t("enumerations.name_source.#{facet}", :default => I18n.t("enumerations.subject_source.#{facet}", :default => facet)) if facet_group === "source"
 
     if facet_group === "repository"
       match = @repositories.select{|repo| repo['uri'] === facet}
@@ -87,7 +92,7 @@ class SearchResultData
   end
 
   def facet_query_string(facet_group, facet)
-    "{!term f=#{facet_group}}#{facet}"
+    {facet_group => facet}.to_json
   end
 
   def results?

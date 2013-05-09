@@ -41,6 +41,8 @@ en:
       creator: Creator
       scope: Scope
       notes: Notes
+      source: Source
+      agents: Agents
 
   search_sorting:
     sort_by: "Sort by:"
@@ -82,6 +84,8 @@ en:
         summary: Summary
 
   resource:
+    _singular: Collection
+    _plural: Collections
     _public:
       section:
         components: Components
@@ -98,3 +102,6 @@ en:
       section:
         components: Components
         summary: Summary
+  agent:
+    _singular: Name
+    _plural: Names

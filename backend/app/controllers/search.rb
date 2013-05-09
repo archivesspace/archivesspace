@@ -23,6 +23,8 @@ class ArchivesSpaceService < Sinatra::Base
              [String],
              "The list of the facets to filter on",
              :optional => true],
+            ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
+             :optional => true],
             ["exclude",
              [String],
              "A list of document IDs that should be excluded from results",
@@ -39,7 +41,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response(Solr.search(query, params[:page], params[:page_size],
                               params[:repo_id],
-                              params[:type], show_suppressed, show_published_only, params[:exclude],
+                              params[:type], show_suppressed, show_published_only, params[:exclude], params[:filter_term],
                               {
                                 "facet.field" => Array(params[:facet]),
                                 "fq" => Array(params[:filter]),
@@ -69,6 +71,8 @@ class ArchivesSpaceService < Sinatra::Base
            [String],
            "The list of the facets to filter on",
            :optional => true],
+          ["filter_term", [String], "A json string containing the term/value pairs to be applied to the filter",
+           :optional => true],
           ["exclude",
            [String],
            "A list of document IDs that should be excluded from results",
@@ -86,7 +90,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     json_response(Solr.search(query, params[:page], params[:page_size],
                               nil,
-                              params[:type], show_suppressed, show_published_only, params[:exclude],
+                              params[:type], show_suppressed, show_published_only, params[:exclude], params[:filter_term],
                               {
                                 "facet.field" => Array(params[:facet]),
                                 "fq" => Array(params[:filter]),

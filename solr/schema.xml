@@ -59,6 +59,7 @@
 
    <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="notes" type="text_general" indexed="true" stored="false" multiValued="false"/>
 
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
@@ -102,7 +103,7 @@
    <field name="processing_funding_source" type="text_general" indexed="true" stored="true" multiValued="false" />
 
    <!-- Sort fields -->
-   <field name="title_sort" type="string" indexed="true" stored="false" multiValued="false"/>
+   <field name="title_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
 
    <!-- Agent and Subject fields -->
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
@@ -224,6 +225,13 @@
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
         <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
 
