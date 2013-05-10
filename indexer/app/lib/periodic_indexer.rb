@@ -49,6 +49,8 @@ class PeriodicIndexer < CommonIndexer
   # prior to the check.
   WINDOW_SECONDS = 30
 
+  PAGE_SIZE = 50
+
   def initialize(state = nil)
     super(AppConfig[:backend_url])
     @state = state || IndexState.new
@@ -62,7 +64,7 @@ class PeriodicIndexer < CommonIndexer
 
     page = 1
     while true
-      deletes = JSONModel::HTTP.get_json("/delete-feed", :modified_since => [last_mtime - WINDOW_SECONDS, 0].max, :page => page)
+      deletes = JSONModel::HTTP.get_json("/delete-feed", :modified_since => [last_mtime - WINDOW_SECONDS, 0].max, :page => page, :page_size => PAGE_SIZE)
 
       if !deletes['results'].empty?
         did_something = true
@@ -98,6 +100,7 @@ class PeriodicIndexer < CommonIndexer
         while true
           modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
           records = JSONModel(type).all(:page => page,
+                                        :page_size => PAGE_SIZE,
                                         'resolve[]' => @@resolved_attributes,
                                         :modified_since => modified_since)
 

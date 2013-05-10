@@ -1,7 +1,8 @@
 class AgentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_agent_record")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   before_filter :assign_types
 
@@ -59,6 +60,22 @@ class AgentsController < ApplicationController
                   flash[:success] = I18n.t("agent._frontend.messages.updated")
                   redirect_to :controller => :agents, :action => :show, :id => id, :type => @agent_type
                 })
+  end
+
+
+  def delete
+    agent = JSONModel(@agent_type).find(params[:id])
+
+    begin
+      agent.delete
+    rescue ConflictException => e
+      flash[:error] = e.conflicts
+      redirect_to(:controller => :agents, :action => :show, :id => params[:id])
+      return
+    end
+
+    flash[:success] = I18n.t("agent._frontend.messages.deleted", JSONModelI18nWrapper.new(:agent => agent))
+    redirect_to(:controller => :agents, :action => :index, :deleted_uri => agent.uri)
   end
 
 

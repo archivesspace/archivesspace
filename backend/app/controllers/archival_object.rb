@@ -67,4 +67,14 @@ class ArchivesSpaceService < Sinatra::Base
     handle_listing(ArchivalObject, params[:page], params[:page_size], params[:modified_since])
   end
 
+  Endpoint.delete('/repositories/:repo_id/archival_objects/:archival_object_id')
+    .description("Delete an Archival Object")
+    .params(["archival_object_id", Integer, "The Archival Object to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_archival_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(ArchivalObject, params[:archival_object_id])
+  end
+
 end

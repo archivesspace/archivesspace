@@ -1,7 +1,8 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = ["subjects", "container_locations", "related_accessions", "linked_agents", "digital_object"]
 
@@ -78,6 +79,14 @@ class ResourcesController < ApplicationController
                 })
   end
 
+
+  def delete
+    resource = Resource.find(params[:id])
+    resource.delete
+
+    flash[:success] = I18n.t("resource._frontend.messages.deleted", JSONModelI18nWrapper.new(:resource => resource))
+    redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
+  end
 
   private
 

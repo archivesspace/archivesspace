@@ -222,7 +222,8 @@ class StreamingImport
         json[k.to_s] = rewrite(v, @logical_urls)
       end
 
-      obj.update_from_json(json)
+      cleaned = JSONModel(json.class.record_type).from_hash(json.to_hash)
+      obj.update_from_json(cleaned)
     end
   end
 

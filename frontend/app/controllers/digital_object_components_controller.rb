@@ -1,8 +1,8 @@
 class DigitalObjectComponentsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :parent, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update, :parent]) {|c| user_must_have("update_archival_record")}
-
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
 
   FIND_OPTS = {
     "resolve[]" => ["subjects", "linked_agents", "digital_object", "parent"]
@@ -99,6 +99,17 @@ class DigitalObjectComponentsController < ApplicationController
                 :replace => false,
                 :on_invalid => ->(){ raise "Error setting parent of digital object component" },
                 :on_valid => ->(id){ return render :text => "success"})
+  end
+
+
+  def delete
+    digital_object_component = JSONModel(:digital_object_component).find(params[:id])
+    digital_object_component.delete
+
+    flash[:success] = I18n.t("digital_object_component._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object_component => digital_object_component))
+
+    resolver = Resolver.new(digital_object_component['digital_object']['ref'])
+    redirect_to resolver.view_uri
   end
 
 end

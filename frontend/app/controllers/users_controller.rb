@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:new, :complete, :edit, :index, :create, :update, :show, :manage_access, :edit_groups, :update_groups]
-  before_filter(:only => [:index, :edit, :update]) {|c| user_must_have("manage_users")}
+  skip_before_filter :unauthorised_access, :only => [:new, :complete, :edit, :index, :create, :update, :show, :manage_access, :edit_groups, :update_groups, :delete]
+  before_filter(:only => [:index, :edit, :update, :delete]) {|c| user_must_have("manage_users")}
   before_filter(:only => [:manage_access, :edit_groups, :update_groups, :complete]) {|c| user_must_have("manage_repository")}
   before_filter :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
   before_filter :user_needs_to_be_a_user, :only => [:show]
@@ -49,6 +49,14 @@ class UsersController < ApplicationController
     render action: "edit_groups"
   end
   
+  def delete
+    user = JSONModel(:user).find(params[:id])
+    user.delete
+
+    flash[:success] = I18n.t("user._frontend.messages.deleted", JSONModelI18nWrapper.new(:user => user))
+    redirect_to(:controller => :users, :action => :index, :deleted_uri => user.uri)
+  end
+
   def update
 
     handle_crud(:instance => :user,

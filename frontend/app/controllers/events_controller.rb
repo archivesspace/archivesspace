@@ -1,7 +1,8 @@
 class EventsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :new, :edit, :create, :update, :delete]
   before_filter(:only => [:index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_event_record")}
 
   def index
     @search_data = Search.for_type(session[:repo_id], "event", search_params.merge({"facet[]" => SearchResultData.EVENT_FACETS}))
@@ -57,5 +58,16 @@ class EventsController < ApplicationController
                   redirect_to :controller => :events, :action => :index
                 })
   end
+
+
+  def delete
+    event = JSONModel(:event).find(params[:id])
+    event.delete
+
+    flash[:success] = I18n.t("event._frontend.messages.deleted", JSONModelI18nWrapper.new(:event => event))
+    redirect_to(:controller => :events, :action => :index, :deleted_uri => event.uri)
+  end
+
+
 
 end

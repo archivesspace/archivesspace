@@ -597,36 +597,28 @@ $(function() {
         confirm_class: $this.data("confirm-btn-class") || false
       };
 
-      var confirmInlineFormAction = function() {
-        $this.parents("form").submit();
-      };
-
-
-      var confirmCustomAction = function() {
-        $.ajax({
-          url: $this.data("target"),
-          data: $this.data("params"),
-          type: $this.data("method"),
-          complete: function() {
-            $("#confirmChangesModal").modal("hide").remove();
-            if ($this.data("refresh")) {
-              document.location.reload;
-            }
-          }
-        });
-      };
-
       var onClick = function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
         AS.openCustomModal("confirmChangesModal", template_data.title , AS.renderTemplate("confirmation_modal_template", template_data));
         $("#confirmButton", "#confirmChangesModal").click(function() {
-          if ($this.parents(".btn-inline-form:first").length) {
-            confirmInlineFormAction();
-          } else {
-            confirmCustomAction
+          $(".btn", "#confirmChangesModal").attr("disabled", "disabled");
+
+          var $form = $("<form>")
+            .attr("action", $this.data("target") || $this.attr("href"))
+            .attr("accept-charset", "UTF-8")
+            .attr("method", $this.data("method") || "post");
+
+          if ($this.data("authenticity_token")) {
+            var $h = $("<input type='hidden'>");
+            $h.attr("name", "authenticity_token").val($this.data("authenticity_token"));
+            $form.append($h);
           }
+
+          $(document.body).append($form);
+
+          $form.submit();
         });
       }
 

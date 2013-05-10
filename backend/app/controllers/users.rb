@@ -188,4 +188,16 @@ class ArchivesSpaceService < Sinatra::Base
     end
   end
 
+
+
+  Endpoint.delete('/users/:id')
+    .description("Delete a user")
+    .params(["id", Integer, "The user to delete"])
+    .permissions([:manage_users])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(User, params[:id])
+  end
+
+
 end

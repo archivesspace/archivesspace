@@ -1,7 +1,9 @@
 class DigitalObjectsController < ApplicationController
-  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update]
+  skip_before_filter :unauthorised_access, :only => [:index, :show, :tree, :new, :edit, :create, :update, :delete]
   before_filter(:only => [:index, :show, :tree]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :edit, :create, :update]) {|c| user_must_have("update_archival_record")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_archival_record")}
+
 
   FIND_OPTS = ["subjects", "linked_agents", "linked_instances"]
 
@@ -66,6 +68,15 @@ class DigitalObjectsController < ApplicationController
                   flash.now[:success] = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object))
                   render :partial => "edit_inline"
                 })
+  end
+
+
+  def delete
+    digital_object = JSONModel(:digital_object).find(params[:id])
+    digital_object.delete
+
+    flash[:success] = I18n.t("digital_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object => digital_object))
+    redirect_to(:controller => :digital_objects, :action => :index, :deleted_uri => digital_object.uri)
   end
 
 

@@ -176,9 +176,24 @@ module Relationships
 
 
     # Delete all existing relationships for 'obj'.
-    def delete_existing_relationships(obj)
+    def delete_existing_relationships(obj, bump_lock_version_on_referent = false)
       @relationships.values.each do |relationship_defn|
-        relationship_defn.find_by_participant(obj).each(&:delete)
+        relationship_defn.find_by_participant(obj).each do |relationship|
+
+          # If we're deleting a relationship without replacing it, bump the lock
+          # version on the referent object so it doesn't accidentally get
+          # re-added.
+          #
+          # This will also encourage the indexer to pick up changes on deletion
+          # (e.g. a subject gets deleted and we want to reindex the records that
+          # reference it)
+          if bump_lock_version_on_referent
+            referent = relationship.other_referent_than(obj)
+            DB.increase_lock_version_or_fail(referent) if referent
+          end
+
+          relationship.delete
+        end
       end
     end
 
@@ -276,11 +291,11 @@ module Relationships
 
 
     def prepare_for_deletion(dataset)
-      dataset.each do |obj|
+      dataset.select(:id).each do |obj|
         # Delete all the relationships created against this object
-        delete_existing_relationships(obj)
+        delete_existing_relationships(obj, true)
         @relationship_dependencies.each do |model|
-          model.delete_existing_relationships(obj) if model != self
+          model.delete_existing_relationships(obj, true) if model != self
         end
       end
 

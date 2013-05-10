@@ -3,6 +3,12 @@ require_relative '../lib/realtime_indexing'
 module ASModel
   include JSONModel
 
+  @@all_models = []
+
+  def self.all_models
+    @@all_models
+  end
+
   def self.included(base)
     base.instance_eval do
       plugin :optimistic_locking
@@ -15,6 +21,8 @@ module ASModel
     base.include(DatabaseMapping)
     base.include(SequelHooks)
     base.include(ModelScoping)
+
+    @@all_models << base
   end
 
 
@@ -76,7 +84,7 @@ module ASModel
         self.class.remove_existing_linked_records(self, linked_record)
       end
 
-      self.class.prepare_for_deletion([self])
+      self.class.prepare_for_deletion(self.class.where(:id => self.id))
 
       super
 
@@ -639,9 +647,13 @@ module ASModel
       end
 
 
-      def model_scope
+      def model_scope(noerror = false)
         @model_scope or
-          raise "set_model_scope definition missing for model #{self}"
+          if noerror
+            nil
+          else
+            raise "set_model_scope definition missing for model #{self}"
+          end
       end
 
 

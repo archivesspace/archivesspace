@@ -65,4 +65,15 @@ class ArchivesSpaceService < Sinatra::Base
     handle_listing(DigitalObjectComponent, params[:page], params[:page_size], params[:modified_since])
   end
 
+
+  Endpoint.delete('/repositories/:repo_id/digital_object_components/:digital_object_component_id')
+    .description("Delete a Digital Object Component")
+    .params(["digital_object_component_id", Integer, "The Digital Object Component to delete"],
+            ["repo_id", :repo_id])
+    .permissions([:delete_archival_record])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(DigitalObjectComponent, params[:digital_object_component_id])
+  end
+
 end

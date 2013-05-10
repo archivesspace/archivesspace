@@ -87,8 +87,15 @@ include JSONModel
 # Switch off notifications for the tests
 require_relative '../app/lib/notifications'
 class Notifications
+
   def self.notify(*ignored)
+    @last_notification = "#{(Time.now.to_f * 1000)}_#{rand}"
   end
+
+  def self.last_notification
+    @last_notification
+  end
+
 end
 
 
@@ -166,11 +173,13 @@ end
 
 
 def create_nobody_user
-  create(:user, :username => 'nobody')
+  user = create(:user, :username => 'nobody')
 
   viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
   viewers.member_usernames = ['nobody']
   viewers.save
+
+  user
 end
 
 

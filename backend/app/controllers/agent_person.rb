@@ -46,4 +46,15 @@ class ArchivesSpaceService < Sinatra::Base
                                      params[:resolve]))
   end
 
+
+  Endpoint.delete('/agents/people/:id')
+    .description("Delete an agent person")
+    .params(["id", Integer, "ID of the person agent"])
+    .nopermissionsyet
+    .returns([200, :deleted]) \
+  do
+    handle_delete(AgentPerson, params[:id])
+  end
+
+
 end

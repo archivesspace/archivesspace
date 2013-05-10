@@ -134,4 +134,14 @@ class Group < Sequel::Model(:group)
   def self.broadcast_changes
     Notifications.notify("REFRESH_ACLS")
   end
+
+
+  def delete
+    remove_all_permission
+    remove_all_user
+
+    super
+    self.class.broadcast_changes
+  end
+
 end

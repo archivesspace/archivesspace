@@ -1,8 +1,9 @@
 class RepositoriesController < ApplicationController
 
-  skip_before_filter :unauthorised_access, :only => [:new, :create, :select, :index, :show, :edit, :update]
+  skip_before_filter :unauthorised_access, :only => [:new, :create, :select, :index, :show, :edit, :update, :delete]
   before_filter(:only => [:select, :index, :show]) {|c| user_must_have("view_repository")}
   before_filter(:only => [:new, :create, :edit, :update]) {|c| user_must_have("manage_repository")}
+  before_filter(:only => [:delete]) {|c| user_must_have("delete_repository")}
 
   before_filter :refresh_repo_list, :only => [:show, :new]
 
@@ -36,6 +37,10 @@ class RepositoriesController < ApplicationController
     handle_crud(:instance => :repository,
                 :model => JSONModel(:repository_with_agent),
                 :on_invalid => ->(){
+                  if @exceptions[:errors]["repo_code"]
+                    @exceptions[:errors]["repository/repo_code"] = @exceptions[:errors].delete("repo_code")
+                  end
+
                   return render :partial => "repositories/new" if inline?
                   return render :action => :new
                 },
@@ -84,6 +89,17 @@ class RepositoriesController < ApplicationController
 
     redirect_to :root
   end
+
+  def delete
+    repository = JSONModel(:repository).find(params[:id])
+    repository.delete
+
+    MemoryLeak::Resources.refresh(:repository)
+
+    flash[:success] = I18n.t("repository._frontend.messages.deleted", JSONModelI18nWrapper.new(:repository => repository))
+    redirect_to(:controller => :repositories, :action => :index, :deleted_uri => repository.uri)
+  end
+
 
   private
 

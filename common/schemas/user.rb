@@ -10,6 +10,8 @@
       "username" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error", "minLength" => 1},
       "name" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error", "minLength" => 1},
 
+      "is_system_user" => {"type" => "boolean", "readonly" => true},
+
       "permissions" => {
         "type" => "object",
         "readonly" => true,

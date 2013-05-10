@@ -157,6 +157,16 @@ module Orderable
     end
 
 
+    def prepare_for_deletion(dataset)
+      dataset.select(:id).each do |record|
+        self.filter(:parent_id => record.id).select(:id).each do |victim|
+          victim.delete
+        end
+      end
+
+      super
+    end
+
   end
 
 end
