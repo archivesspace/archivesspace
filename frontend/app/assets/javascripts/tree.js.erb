@@ -652,7 +652,7 @@ $(function() {
 
             nodeEl = $("#"+nodeId, $tree);
 
-            if (data.level) {
+            if (data.level && data.level.length > 0) {
               nodeEl.find("a").append($('<span class="badge"></span>').text(data.level));
             }
 
@@ -667,7 +667,14 @@ $(function() {
 
             var nodeEl = $("#" + nodeId, $tree);
             $tree.jstree("rename_node", nodeEl, data.title);
-            $(" > a > .badge", nodeEl).html(data.level);
+
+            if (data.level.length > 0 && $(" > a > .badge", nodeEl).length > 0) {
+              $(" > a > .badge", nodeEl).html(data.level);
+            } else if (data.level.length > 0) {
+              nodeEl.find("a").append($('<span class="badge"></span>').text(data.level));
+            } else {
+              $(" > a > .badge", nodeEl).remove();
+            }
           }
         });
     };
