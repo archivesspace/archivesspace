@@ -6,7 +6,7 @@
 <title>
   Module: ASModel::SequelHooks
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../alpha_index.html">Index (S)</a> &raquo;
+    <a href="../_index.html">Index (S)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../ASModel.html" title="ASModel (module)">ASModel</a></span></span>
      &raquo; 
     <span class="title">SequelHooks</span>
@@ -220,14 +220,14 @@ so skip them.</p>
       <pre class="lines">
 
 
-465
-466
-467
-468
-469</pre>
+486
+487
+488
+489
+490</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 465</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 486</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid__save_refresh identifier id'>_save_refresh</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_has_jsonmodel? fid id'>has_jsonmodel?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
@@ -255,14 +255,14 @@ so skip them.</p>
       <pre class="lines">
 
 
-471
-472
-473
-474
-475</pre>
+492
+493
+494
+495
+496</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 471</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 492</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_create identifier id'>before_create</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_time identifier id'>create_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -290,13 +290,13 @@ so skip them.</p>
       <pre class="lines">
 
 
-478
-479
-480
-481</pre>
+499
+500
+501
+502</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 478</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 499</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_update identifier id'>before_update</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_last_modified identifier id'>last_modified</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -313,9 +313,9 @@ so skip them.</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:48 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:48 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

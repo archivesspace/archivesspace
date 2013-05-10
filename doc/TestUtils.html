@@ -6,7 +6,7 @@
 <title>
   Module: TestUtils
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (T)</a> &raquo;
+    <a href="_index.html">Index (T)</a> &raquo;
     
     
     <span class="title">TestUtils</span>
@@ -103,6 +103,29 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_config_string-class_method" title="build_config_string (class method)">+ (Object) <strong>build_config_string</strong>(config) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -275,7 +298,68 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="free_port_from-class_method">
+  <h3 class="signature first" id="build_config_string-class_method">
+  
+    + (<tt>Object</tt>) <strong>build_config_string</strong>(config) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 46</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_config_string identifier id'>build_config_string</span><span class='lparen token'>(</span><span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
+  <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
+  <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
+    <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; -Daspace.config.#{key}=#{value}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Pass through any system properties from the parent JVM too</span>
+  <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_getProperties identifier id'>getProperties</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_property identifier id'>property</span> <span class='match op'>=~</span> <span class='regexp val'>/aspace.config.(.*)/</span>
+      <span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='rubyid_$1 nth_ref id'>$1</span>
+      <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
+        <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; -Daspace.config.#{key}=#{value}&quot;</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_java_opts identifier id'>java_opts</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="free_port_from-class_method">
   
     + (<tt>Object</tt>) <strong>free_port_from</strong>(port) 
   
@@ -289,20 +373,20 @@
       <pre class="lines">
 
 
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115</pre>
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 120</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_free_port_from identifier id'>free_port_from</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -416,39 +500,33 @@
       <pre class="lines">
 
 
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66</pre>
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 66</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_backend identifier id'>start_backend</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_config_file identifier id'>config_file</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span>
 
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='string val'>&quot;-Xmx256M -XX:MaxPermSize=128M&quot;</span>
-  <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
-    <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; -Daspace.config.#{key}=#{value}&quot;</span>
-  <span class='rubyid_end end kw'>end</span>
-
+  <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='rubyid_build_config_string identifier id'>build_config_string</span><span class='lparen token'>(</span><span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_config_file identifier id'>config_file</span>
     <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; -Daspace.config=#{config_file}&quot;</span>
   <span class='rubyid_end end kw'>end</span>
@@ -483,33 +561,29 @@
       <pre class="lines">
 
 
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84</pre>
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 86</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_frontend identifier id'>start_frontend</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span>
 
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}&quot;</span>
-  <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
-    <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; -Daspace.config.#{key}=#{value}&quot;</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='rubyid_build_config_string identifier id'>build_config_string</span><span class='lparen token'>(</span><span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
 
   <span class='rubyid_pid identifier id'>pid</span> <span class='assign token'>=</span> <span class='rubyid_Process constant id'>Process</span><span class='dot token'>.</span><span class='rubyid_spawn identifier id'>spawn</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:JAVA_OPTS</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_java_opts identifier id'>java_opts</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
                       <span class='dstring node'>&quot;#{base}/../build/run&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;frontend:devserver:integration&quot;</span><span class='comma token'>,</span>
@@ -540,25 +614,25 @@
       <pre class="lines">
 
 
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102</pre>
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_public identifier id'>start_public</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span>
@@ -650,9 +724,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:53 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:54 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

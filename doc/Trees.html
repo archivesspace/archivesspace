@@ -6,7 +6,7 @@
 <title>
   Module: Trees
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (T)</a> &raquo;
+    <a href="_index.html">Index (T)</a> &raquo;
     
     
     <span class="title">Trees</span>
@@ -290,7 +290,7 @@
   <span class='rubyid_node_type identifier id'>node_type</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_type identifier id'>node_type</span>
 
   <span class='rubyid_top_nodes identifier id'>top_nodes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_node_type identifier id'>node_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='string val'>&quot;root_record_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
+  <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_node_type identifier id'>node_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span>
       <span class='rubyid_links identifier id'>links</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
       <span class='rubyid_links identifier id'>links</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
@@ -299,7 +299,7 @@
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
-      <span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
+      <span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_type identifier id'>node_type</span> <span class='eqq op'>===</span> <span class='symbol val'>:archival_object</span> <span class='question op'>?</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_label identifier id'>label</span> <span class='colon op'>:</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
       <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
       <span class='symbol val'>:record_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_node_type identifier id'>node_type</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
       <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:publish</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span><span class='eqq op'>===</span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
@@ -335,9 +335,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:49 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:49 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

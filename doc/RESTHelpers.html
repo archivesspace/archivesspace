@@ -6,7 +6,7 @@
 <title>
   Module: RESTHelpers
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (R)</a> &raquo;
+    <a href="_index.html">Index (R)</a> &raquo;
     
     
     <span class="title">RESTHelpers</span>
@@ -184,24 +184,6 @@
       <pre class="lines">
 
 
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
 299
 300
 301
@@ -298,10 +280,32 @@
 392
 393
 394
-395</pre>
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 281</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 299</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
 
@@ -336,6 +340,8 @@
         <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
       <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_type identifier id'>type</span> <span class='eq op'>==</span> <span class='rubyid_String constant id'>String</span>
         <span class='rubyid_value identifier id'>value</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_type identifier id'>type</span> <span class='eq op'>==</span> <span class='symbol val'>:body_stream</span>
+        <span class='rubyid_value identifier id'>value</span>
       <span class='rubyid_else else kw'>else</span>
         <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BadParamsException constant id'>BadParamsException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Type not recognized: #{type}&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
@@ -361,6 +367,8 @@
 
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:body</span><span class='rbrack token'>]</span>
           <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span>
+        <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_type identifier id'>type</span> <span class='eq op'>==</span> <span class='symbol val'>:body_stream</span>
+          <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span>
         <span class='rubyid_end end kw'>end</span>
 
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:optional</span><span class='rbrack token'>]</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:default</span><span class='rbrack token'>]</span>
@@ -410,7 +418,7 @@
         <span class='rubyid_end end kw'>end</span>
 
         <span class='rubyid_errors identifier id'>errors</span><span class='lbrack token'>[</span><span class='symbol val'>:failed_validation</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_failed identifier id'>failed</span><span class='bitor op'>|</span>
-          <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_failed identifier id'>failed</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Failed validation -- #{failed[:validation]}'&quot;</span><span class='rbrack token'>]</span>
+          <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_failed identifier id'>failed</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Failed validation -- #{failed[:validation]}&quot;</span><span class='rbrack token'>]</span>
         <span class='rubyid_end end kw'>end</span>
 
         <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BadParamsException constant id'>BadParamsException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
@@ -429,9 +437,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:46 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:46 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

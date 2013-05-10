@@ -6,7 +6,7 @@
 <title>
   Class: Notifications
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (N)</a> &raquo;
+    <a href="_index.html">Index (N)</a> &raquo;
     
     
     <span class="title">Notifications</span>
@@ -304,12 +304,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blocking_since identifier id'>blocking_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
   <span class='rubyid_@longpolling ivar id'>@longpolling</span><span class='dot token'>.</span><span class='rubyid_blocking_updates_since identifier id'>blocking_updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
@@ -335,14 +335,14 @@
       <pre class="lines">
 
 
-44
-45
 46
 47
-48</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expire_old_notifications identifier id'>expire_old_notifications</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
@@ -420,21 +420,25 @@
 28
 29
 30
-31</pre>
+31
+32
+33</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_notify identifier id'>notify</span><span class='lparen token'>(</span><span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_immediate identifier id'>immediate</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
-  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
-    <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:notification</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span><span class='lparen token'>(</span><span class='symbol val'>:code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='symbol val'>:params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_blobify identifier id'>blobify</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                             <span class='symbol val'>:time</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_after_commit identifier id'>after_commit</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+      <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:notification</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span><span class='lparen token'>(</span><span class='symbol val'>:code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='symbol val'>:params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_blobify identifier id'>blobify</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                               <span class='symbol val'>:time</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_immediate identifier id'>immediate</span>
-    <span class='comment val'># Fire it out straight away.  This will cause duplicates when the same</span>
-    <span class='comment val'># notification is read from the database, but that's OK.</span>
-    <span class='rubyid_@longpolling ivar id'>@longpolling</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='symbol val'>:code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='symbol val'>:params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_immediate identifier id'>immediate</span>
+      <span class='comment val'># Fire it out straight away.  This will cause duplicates when the same</span>
+      <span class='comment val'># notification is read from the database, but that's OK.</span>
+      <span class='rubyid_@longpolling ivar id'>@longpolling</span><span class='dot token'>.</span><span class='rubyid_record_update identifier id'>record_update</span><span class='lparen token'>(</span><span class='symbol val'>:code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='symbol val'>:params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -489,12 +493,12 @@
       <pre class="lines">
 
 
-34
-35
-36</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_since identifier id'>since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
   <span class='rubyid_@longpolling ivar id'>@longpolling</span><span class='dot token'>.</span><span class='rubyid_updates_since identifier id'>updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
@@ -520,8 +524,6 @@
       <pre class="lines">
 
 
-51
-52
 53
 54
 55
@@ -540,10 +542,12 @@
 68
 69
 70
-71</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 53</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_background_thread identifier id'>start_background_thread</span>
   <span class='rubyid_frequency identifier id'>frequency</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:notifications_poll_frequency_ms</span><span class='rbrack token'>]</span> <span class='div op'>/</span> <span class='float val'>1000.0</span>
@@ -577,9 +581,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:00 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:56:03 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
 <title>
   Class: Subject
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (S)</a> &raquo;
+    <a href="_index.html">Index (S)</a> &raquo;
     
     
     <span class="title">Subject</span>
@@ -129,6 +129,29 @@
   <span class="summary_signature">
     
       <a href="#create_from_json-class_method" title="create_from_json (class method)">+ (Object) <strong>create_from_json</strong>(json, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ensure_exists-class_method" title="ensure_exists (class method)">+ (Object) <strong>ensure_exists</strong>(json, referrer) </a>
     
 
     
@@ -318,7 +341,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="ASModel.html#all_models-class_method" title="ASModel.all_models (method)">all_models</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span></p>
 
   
   
@@ -352,7 +375,6 @@
       <pre class="lines">
 
 
-48
 49
 50
 51
@@ -364,7 +386,7 @@
 57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_set_vocabulary identifier id'>set_vocabulary</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -373,8 +395,54 @@
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_terms_sha1 identifier id'>terms_sha1</span> <span class='assign token'>=</span> <span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span> <span class='comment val'># add a terms sha1 hash to allow for uniqueness test</span>
 
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
-
   <span class='rubyid_obj identifier id'>obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ensure_exists-class_method">
+  
+    + (<tt>Object</tt>) <strong>ensure_exists</strong>(json, referrer) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 60</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_exists identifier id'>ensure_exists</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_referrer identifier id'>referrer</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span>
+    <span class='rubyid_source_id identifier id'>source_id</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='string val'>&quot;subject_source&quot;</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_Subject constant id'>Subject</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:vocab_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:vocabulary</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_vocabulary identifier id'>vocabulary</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                 <span class='symbol val'>:terms_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                 <span class='symbol val'>:source_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_source_id identifier id'>source_id</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -400,14 +468,16 @@
 42
 43
 44
-45</pre>
+45
+46</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_terms identifier id'>terms</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-  <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_terms identifier id'>terms</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_terms identifier id'>terms</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_term identifier id'>term</span><span class='lbrack token'>[</span><span class='string val'>'term'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='lbrack token'>[</span><span class='string val'>'term_type'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -430,16 +500,16 @@
       <pre class="lines">
 
 
-72
-73
-74
-75
-76
-77
-78</pre>
+80
+81
+82
+83
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -514,29 +584,19 @@
       <pre class="lines">
 
 
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69</pre>
+73
+74
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_linked_records identifier id'>apply_linked_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_set_vocabulary identifier id'>set_vocabulary</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-
-  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_terms_sha1 identifier id'>terms_sha1</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span> <span class='comment val'># add a terms sha1 hash to allow for uniqueness test</span>
-
-  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
-
-  <span class='rubyid_obj identifier id'>obj</span>
+  <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:terms_sha1</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span> <span class='comment val'># add a terms sha1 hash to allow for uniqueness test</span>
+  <span class='rubyid_super super kw'>super</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -559,21 +619,37 @@
       <pre class="lines">
 
 
-81
-82
-83
-84
-85
-86</pre>
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 89</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:terms_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Subject must be unique&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:ref_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Subject heading identifier must be unique&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:source_id</span><span class='rbrack token'>]</span>
+    <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:source_id</span><span class='comma token'>,</span> <span class='symbol val'>:terms_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Subject must be unique&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:terms_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Subject must be unique&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:source_id</span><span class='comma token'>,</span> <span class='symbol val'>:authority_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Subject heading identifier must be unique within source&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:source_id</span><span class='comma token'>,</span> <span class='symbol val'>:authority_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:authority_id</span><span class='rparen token'>)</span>
   <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:terms_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:terms</span><span class='rparen token'>)</span>
+  <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:vocab_id</span><span class='comma token'>,</span> <span class='symbol val'>:source_id</span><span class='comma token'>,</span> <span class='symbol val'>:terms_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:terms</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -586,9 +662,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:59 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:56:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

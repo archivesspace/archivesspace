@@ -6,7 +6,7 @@
 <title>
   Module: JSONModel::Validations
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../alpha_index.html">Index (V)</a> &raquo;
+    <a href="../_index.html">Index (V)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../JSONModel.html" title="JSONModel (module)">JSONModel</a></span></span>
      &raquo; 
     <span class="title">Validations</span>
@@ -420,9 +420,6 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-247
-248
-249
 250
 251
 252
@@ -436,13 +433,10 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
 260
 261
 262
-263
-264
-265
-266</pre>
+263</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 247</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 250</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_archival_object identifier id'>check_archival_object</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -451,15 +445,9 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
     <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;other_level&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;other_level&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;title_auto_generate&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;title_auto_generate&quot;</span><span class='rbrack token'>]</span>
-
-    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;dates&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;one or more are required in order to generate a title&quot;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;title&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;title&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be an empty string&quot;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;dates&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;title&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;title&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;one or more required (or enter a Title)&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be an empty string (or enter a Date)&quot;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_errors identifier id'>errors</span>
@@ -485,18 +473,18 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-185
-186
-187
 188
 189
 190
 191
 192
-193</pre>
+193
+194
+195
+196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 188</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_collection_management identifier id'>check_collection_management</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -528,16 +516,16 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-149
-150
-151
 152
 153
 154
-155</pre>
+155
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_container_location identifier id'>check_container_location</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -593,7 +581,10 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
 86
 87
 88
-89</pre>
+89
+90
+91
+92</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/validations.rb', line 63</span>
@@ -611,16 +602,19 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
 
     <span class='comment val'># check that end isn't before begin</span>
     <span class='comment val'># need to expand to full date+time - choosing to use rfc3339, though just doing a string compare</span>
-    <span class='rubyid_bt identifier id'>bt</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{hash[&quot;begin&quot;]}&quot;</span>
-    <span class='float val'>2</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='lbrace token'>{</span> <span class='rubyid_bt identifier id'>bt</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-01'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_bt identifier id'>bt</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d\-\d\d/</span> <span class='rbrace token'>}</span>
-    <span class='rubyid_bt identifier id'>bt</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;T00:00:00+00:00&quot;</span>
 
-    <span class='rubyid_et identifier id'>et</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{hash[&quot;end&quot;]}&quot;</span>
-    <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-12'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_et identifier id'>et</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d/</span>
-    <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-31'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_et identifier id'>et</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d\-\d\d/</span>
-    <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;T23:59:59+00:00&quot;</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;begin&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_bt identifier id'>bt</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{hash[&quot;begin&quot;]}&quot;</span>
+      <span class='float val'>2</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='lbrace token'>{</span> <span class='rubyid_bt identifier id'>bt</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-01'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_bt identifier id'>bt</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d\-\d\d/</span> <span class='rbrace token'>}</span>
+      <span class='rubyid_bt identifier id'>bt</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;T00:00:00+00:00&quot;</span>
 
-    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be before begin&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_et identifier id'>et</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_bt identifier id'>bt</span><span class='rparen token'>)</span>
+      <span class='rubyid_et identifier id'>et</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{hash[&quot;end&quot;]}&quot;</span>
+      <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-12'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_et identifier id'>et</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d/</span>
+      <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'-31'</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_et identifier id'>et</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\-\d\d\-\d\d/</span>
+      <span class='rubyid_et identifier id'>et</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;T23:59:59+00:00&quot;</span>
+
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be before begin&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_et identifier id'>et</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_bt identifier id'>bt</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_errors identifier id'>errors</span>
@@ -693,9 +687,6 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-165
-166
-167
 168
 169
 170
@@ -703,10 +694,13 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
 172
 173
 174
-175</pre>
+175
+176
+177
+178</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 168</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_instance identifier id'>check_instance</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -740,9 +734,6 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-123
-124
-125
 126
 127
 128
@@ -756,10 +747,13 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
 136
 137
 138
-139</pre>
+139
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 126</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_location identifier id'>check_location</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -834,18 +828,18 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-229
-230
-231
 232
 233
 234
 235
 236
-237</pre>
+237
+238
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 232</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_resource identifier id'>check_resource</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -877,9 +871,6 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
       <pre class="lines">
 
 
-99
-100
-101
 102
 103
 104
@@ -891,10 +882,13 @@ https://www.pivotaltracker.com/story/show/41430143.</p>
 110
 111
 112
-113</pre>
+113
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_rights_statement identifier id'>check_rights_statement</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -996,9 +990,6 @@ https://www.pivotaltracker.com/story/show/41430143</p>
       <pre class="lines">
 
 
-203
-204
-205
 206
 207
 208
@@ -1012,10 +1003,13 @@ https://www.pivotaltracker.com/story/show/41430143</p>
 216
 217
 218
-219</pre>
+219
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/validations.rb', line 203</span>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 206</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_user_defined identifier id'>check_user_defined</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1045,9 +1039,9 @@ https://www.pivotaltracker.com/story/show/41430143</p>
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:53 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:55 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

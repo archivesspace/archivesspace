@@ -6,7 +6,7 @@
 <title>
   File: MIGRATIONS_README
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index</a> &raquo; 
+    <a href="_index.html">Index</a> &raquo; 
     <span class="title">File: MIGRATIONS_README</span>
   
 
@@ -73,27 +73,27 @@ ArchivesSpace application (using the appropriate menu items) or as a stand alone
 CLI client of the backend application. (Note: There is no CLI for exporting at this time.)</p>
 
 <p>If you wish to run the tool as a standalone CLI client, you will need to have the &#8216;common&#8217;
-directory on your classpath. If you have the entire project checked out, you can do
+directory on your classpath. If you have the entire project source checked out, you can do
 that like this:</p>
 
-<pre class="code ruby"><code>  $ <span class='rubyid_export identifier id'>export</span> <span class='rubyid_RUBYLIB constant id'>RUBYLIB</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rubyid_path_to_archivesspace identifier id'>path_to_archivesspace</span><span class='rbrace token'>}</span><span class='div op'>/</span><span class='rubyid_common identifier id'>common</span><span class='symbol val'>:$RUBYLIB</span>
+<pre class="code ruby"><code class="ruby">  $ <span class='rubyid_export identifier id'>export</span> <span class='rubyid_RUBYLIB constant id'>RUBYLIB</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rubyid_path_to_archivesspace identifier id'>path_to_archivesspace</span><span class='rbrace token'>}</span><span class='div op'>/</span><span class='rubyid_common identifier id'>common</span><span class='symbol val'>:$RUBYLIB</span>
 </code></pre>
 
 <p>One you have done that, you should be able to do a &#8216;dry-run&#8217; import using one of the
 test files:</p>
 
-<pre class="code ruby"><code>  $ <span class='rubyid_cd identifier id'>cd</span> <span class='lbrace token'>{</span><span class='rubyid_path_to_archivesspace identifier id'>path_to_archivesspace</span><span class='rbrace token'>}</span><span class='div op'>/</span><span class='rubyid_migrations identifier id'>migrations</span>
-  $ <span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_i identifier id'>i</span> <span class='rubyid_xml identifier id'>xml</span> <span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='rubyid_ead identifier id'>ead</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_examples identifier id'>examples</span><span class='div op'>/</span><span class='rubyid_ead identifier id'>ead</span><span class='div op'>/</span><span class='rubyid_archon identifier id'>archon</span><span class='minus op'>-</span><span class='rubyid_tracer identifier id'>tracer</span><span class='dot token'>.</span><span class='rubyid_xml identifier id'>xml</span> <span class='minus op'>-</span><span class='rubyid_n identifier id'>n</span>
+<pre class="code ruby"><code class="ruby">  $ <span class='rubyid_cd identifier id'>cd</span> <span class='lbrace token'>{</span><span class='rubyid_path_to_archivesspace identifier id'>path_to_archivesspace</span><span class='rbrace token'>}</span><span class='div op'>/</span><span class='rubyid_migrations identifier id'>migrations</span>
+  $ <span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_i identifier id'>i</span> <span class='rubyid_ead identifier id'>ead</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_examples identifier id'>examples</span><span class='div op'>/</span><span class='rubyid_ead identifier id'>ead</span><span class='div op'>/</span><span class='rubyid_archon identifier id'>archon</span><span class='minus op'>-</span><span class='rubyid_tracer identifier id'>tracer</span><span class='dot token'>.</span><span class='rubyid_xml identifier id'>xml</span> <span class='minus op'>-</span><span class='rubyid_n identifier id'>n</span>
 </code></pre>
 
 <p>The more generalized CLI usage is as follows:</p>
 
-<pre class="code ruby"><code>    $ <span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_i identifier id'>i</span> <span class='lbrace token'>{</span><span class='rubyid_importer identifier id'>importer</span><span class='minus op'>-</span><span class='rubyid_name identifier id'>name</span><span class='rbrace token'>}</span> <span class='lbrack token'>[</span><span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='lbrace token'>{</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_your identifier id'>your</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_ext identifier id'>ext</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span> <span class='lbrack token'>[</span><span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='lbrace token'>{</span><span class='rubyid_crosswalk identifier id'>crosswalk</span><span class='minus op'>-</span><span class='rubyid_name identifier id'>name</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+<pre class="code ruby"><code class="ruby">    $ <span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_i identifier id'>i</span> <span class='lbrace token'>{</span><span class='rubyid_importer identifier id'>importer</span><span class='minus op'>-</span><span class='rubyid_name identifier id'>name</span><span class='rbrace token'>}</span> <span class='lbrack token'>[</span><span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='lbrace token'>{</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_your identifier id'>your</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_ext identifier id'>ext</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
 
 <p>You can see the full set of options by doing this:</p>
 
-<pre class="code ruby"><code>  $ <span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_h identifier id'>h</span>
+<pre class="code ruby"><code class="ruby">  $ <span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_h identifier id'>h</span>
 </code></pre>
 
 <h2 id="running-a-test-import-example">Running a test import (example)</h2>
@@ -104,50 +104,58 @@ test files:</p>
 
 <p>Step 2: Open the &#8216;migrations&#8217; directory</p>
 
-<pre class="code ruby"><code>    $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_migrations identifier id'>migrations</span>
+<pre class="code ruby"><code class="ruby">    $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_migrations identifier id'>migrations</span>
 </code></pre>
 
-<p>Step 3: Create an empty repository and vocabulary and note their IDs</p>
+<p>Step 3: Create an empty repository and note the ID</p>
 
-<pre class="code ruby"><code>    $ <span class='rubyid_rake identifier id'>rake</span> <span class='rubyid_import identifier id'>import</span><span class='symbol val'>:make_repo</span>
+<pre class="code ruby"><code class="ruby">    $ <span class='rubyid_rake identifier id'>rake</span> <span class='rubyid_import identifier id'>import</span><span class='symbol val'>:make_repo</span>
 </code></pre>
 
 <p>Step 4: Run a test import using the following options</p>
 
-<pre class="code ruby"><code>    <span class='rubyid_$. gvar id'>$.</span><span class='div op'>/</span><span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_r identifier id'>r</span> <span class='lbrace token'>{</span><span class='rubyid_REPO_ID constant id'>REPO_ID</span><span class='rbrace token'>}</span> <span class='minus op'>-</span><span class='rubyid_i identifier id'>i</span> <span class='rubyid_xml identifier id'>xml</span> <span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='rubyid_ead identifier id'>ead</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_examples identifier id'>examples</span><span class='div op'>/</span><span class='rubyid_ead identifier id'>ead</span><span class='div op'>/</span><span class='rubyid_afcu identifier id'>afcu</span><span class='dot token'>.</span><span class='rubyid_xml identifier id'>xml</span>
+<pre class="code ruby"><code class="ruby">    <span class='rubyid_$. gvar id'>$.</span><span class='div op'>/</span><span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_r identifier id'>r</span> <span class='lbrace token'>{</span><span class='rubyid_REPO_ID constant id'>REPO_ID</span><span class='rbrace token'>}</span> <span class='minus op'>-</span><span class='rubyid_i identifier id'>i</span> <span class='rubyid_ead identifier id'>ead</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_examples identifier id'>examples</span><span class='div op'>/</span><span class='rubyid_ead identifier id'>ead</span><span class='div op'>/</span><span class='rubyid_afcu identifier id'>afcu</span><span class='dot token'>.</span><span class='rubyid_xml identifier id'>xml</span>
 </code></pre>
 
 <p>You can see the records that have been created using rake:</p>
 
-<pre class="code ruby"><code>    $ <span class='rubyid_rake identifier id'>rake</span> <span class='rubyid_import identifier id'>import</span><span class='symbol val'>:list_objects</span><span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='rubyid_REPO_ID constant id'>REPO_ID</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+<pre class="code ruby"><code class="ruby">    $ <span class='rubyid_rake identifier id'>rake</span> <span class='rubyid_import identifier id'>import</span><span class='symbol val'>:list_objects</span><span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='rubyid_REPO_ID constant id'>REPO_ID</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
 
 <h2 id="extending-and-customizing-import-tools">Extending and customizing import tools</h2>
 
-<p>There are two ways to extend and customize the import tools. For minor adjustments to the import logic of a particular crosswalk,
-you can copy that crosswalk and edit the copy to server your needs. Example:</p>
+<p>If you want to adjust the behavior of one of distributed importers, make a copy and assign a new key in the first line:</p>
 
-<pre class="code ruby"><code>  $ <span class='rubyid_cp identifier id'>cp</span> <span class='rubyid_crosswalks identifier id'>crosswalks</span><span class='div op'>/</span><span class='rubyid_ead identifier id'>ead</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span> <span class='rubyid_crosswalks identifier id'>crosswalks</span><span class='div op'>/</span><span class='rubyid_ead identifier id'>ead</span><span class='minus op'>-</span><span class='rubyid_my identifier id'>my</span><span class='minus op'>-</span><span class='rubyid_way identifier id'>way</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span>
-  $ <span class='lbrace token'>{</span><span class='rubyid_your_favorite_text_editor identifier id'>your_favorite_text_editor</span><span class='rbrace token'>}</span> <span class='rubyid_crosswalks identifier id'>crosswalks</span><span class='div op'>/</span><span class='rubyid_ead identifier id'>ead</span><span class='minus op'>-</span><span class='rubyid_my identifier id'>my</span><span class='minus op'>-</span><span class='rubyid_way identifier id'>way</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span>
-  $ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_import identifier id'>import</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='minus op'>-</span><span class='rubyid_r identifier id'>r</span> <span class='lbrace token'>{</span><span class='rubyid_repository_id identifier id'>repository_id</span><span class='rbrace token'>}</span> <span class='minus op'>-</span><span class='rubyid_i identifier id'>i</span> <span class='rubyid_xml identifier id'>xml</span> <span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='rubyid_ead identifier id'>ead</span><span class='minus op'>-</span><span class='rubyid_my identifier id'>my</span><span class='minus op'>-</span><span class='rubyid_way identifier id'>way</span> <span class='rubyid_examples identifier id'>examples</span><span class='div op'>/</span><span class='rubyid_ead identifier id'>ead</span><span class='div op'>/</span><span class='rubyid_afcu identifier id'>afcu</span><span class='dot token'>.</span><span class='rubyid_xml identifier id'>xml</span>
+<pre class="code ruby"><code class="ruby">  $ <span class='rubyid_ASpaceImporter constant id'>ASpaceImporter</span><span class='dot token'>.</span><span class='rubyid_importer identifier id'>importer</span> <span class='symbol val'>:foo</span> <span class='rubyid_do do kw'>do</span> <span class='comment val'># 'foo' is the unique key for this importer</span>
 </code></pre>
 
-<p>If you want to create a custom importer to handle other kinds of source data, you 
-can create your own importer and add it to the &#8216;importers&#8217; directory. </p>
+<p>Then make any adjustments to the logic in the &#8216;self.configure&#8217; method. </p>
 
-<p>The first line of your new file must be</p>
+<p>You can also create a new importer from scratch, using one of the three mixins or not.</p>
 
-<pre class="code ruby"><code><span class='rubyid_ASpaceImporter constant id'>ASpaceImporter</span><span class='dot token'>.</span><span class='rubyid_importer identifier id'>importer</span> <span class='symbol val'>:foo</span> <span class='rubyid_do do kw'>do</span> <span class='comment val'># 'foo' is the unique key for this importer</span>
-</code></pre>
+<p>The three distributed mixins are:</p>
 
-<p>You must define two methods, self.profile and run. See examples or contact the development team for more info.</p>
+<ul>
+  <li>
+    <p>XML::DOM</p>
+  </li>
+  <li>
+    <p>XML::SAX</p>
+  </li>
+  <li>
+    <p>CSV</p>
+  </li>
+</ul>
 
+<p>Each mixin expects any class that includes it to have a &#8216;self.configure&#8217; method that conforms to the syntax used in the examples. </p>
+
+<p>If you are writing an importer without using one of the mixins, you need to define the &#8216;run&#8217; method in the importer.</p>
 </div></div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:05:45 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:55:45 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

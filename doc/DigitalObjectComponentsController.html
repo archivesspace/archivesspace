@@ -6,7 +6,7 @@
 <title>
   Class: DigitalObjectComponentsController
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (D)</a> &raquo;
+    <a href="_index.html">Index (D)</a> &raquo;
     
     
     <span class="title">DigitalObjectComponentsController</span>
@@ -142,6 +142,29 @@
   <span class="summary_signature">
     
       <a href="#create-instance_method" title="#create (instance method)">- (Object) <strong>create</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">- (Object) <strong>delete</strong> </a>
     
 
     
@@ -330,7 +353,8 @@
 50
 51
 52
-53</pre>
+53
+54</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 30</span>
@@ -346,18 +370,62 @@
                 <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_FIND_OPTS constant id'>FIND_OPTS</span><span class='rparen token'>)</span>
 
                 <span class='rubyid_success_message identifier id'>success_message</span> <span class='assign token'>=</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='integer val'>?
-</span>                  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._html.messages.created_with_parent&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='lbrack token'>[</span><span class='string val'>'digital_object'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:parent</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='lbrack token'>[</span><span class='string val'>'parent'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='colon op'>:</span>
-                  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._html.messages.created&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='lbrack token'>[</span><span class='string val'>'digital_object'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+</span>                  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._frontend.messages.created_with_parent&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='lbrack token'>[</span><span class='string val'>'digital_object'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:parent</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='lbrack token'>[</span><span class='string val'>'parent'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='colon op'>:</span>
+                  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._frontend.messages.created&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='lbrack token'>[</span><span class='string val'>'digital_object'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'_resolved'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+                <span class='rubyid_@refresh_tree_node ivar id'>@refresh_tree_node</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 
                 <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:plus_one</span><span class='rparen token'>)</span>
                   <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_success_message identifier id'>success_message</span>
-
-                  <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;digital_object_components/edit_inline&quot;</span>
+                <span class='rubyid_else else kw'>else</span>
+                  <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_success_message identifier id'>success_message</span>
                 <span class='rubyid_end end kw'>end</span>
 
-                <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_success_message identifier id'>success_message</span>
                 <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;digital_object_components/edit_inline&quot;</span>
               <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 105</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
+  <span class='rubyid_digital_object_component identifier id'>digital_object_component</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_digital_object_component identifier id'>digital_object_component</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+
+  <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._frontend.messages.deleted&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_digital_object_component identifier id'>digital_object_component</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_resolver identifier id'>resolver</span> <span class='assign token'>=</span> <span class='rubyid_Resolver constant id'>Resolver</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_digital_object_component identifier id'>digital_object_component</span><span class='lbrack token'>[</span><span class='string val'>'digital_object'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='rubyid_resolver identifier id'>resolver</span><span class='dot token'>.</span><span class='rubyid_view_uri identifier id'>view_uri</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -430,7 +498,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
-  <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component.title_default&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component.title_default&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:digital_object_component_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component_id</span><span class='rparen token'>)</span>
   <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='dot token'>.</span><span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:digital_object_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_id</span><span class='rparen token'>)</span>
 
@@ -460,9 +528,6 @@
       <pre class="lines">
 
 
-82
-83
-84
 85
 86
 87
@@ -477,10 +542,13 @@
 96
 97
 98
-99</pre>
+99
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 85</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parent identifier id'>parent</span>
   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:digital_object_component</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -521,14 +589,14 @@
       <pre class="lines">
 
 
-75
-76
-77
 78
-79</pre>
+79
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 78</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@digital_object_id ivar id'>@digital_object_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'digital_object_id'</span><span class='rbrack token'>]</span>
@@ -556,7 +624,6 @@
       <pre class="lines">
 
 
-56
 57
 58
 59
@@ -572,10 +639,13 @@
 69
 70
 71
-72</pre>
+72
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_FIND_OPTS constant id'>FIND_OPTS</span><span class='rparen token'>)</span>
@@ -587,9 +657,11 @@
               <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span> <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;edit_inline&quot;</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
                 <span class='rubyid_success_message identifier id'>success_message</span> <span class='assign token'>=</span> <span class='rubyid_parent identifier id'>parent</span> <span class='integer val'>?
-</span>                  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._html.messages.updated_with_parent&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_digital_object identifier id'>digital_object</span><span class='comma token'>,</span> <span class='symbol val'>:parent</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent identifier id'>parent</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='colon op'>:</span>
-                  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._html.messages.updated&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_digital_object identifier id'>digital_object</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+</span>                  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._frontend.messages.updated_with_parent&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_digital_object identifier id'>digital_object</span><span class='comma token'>,</span> <span class='symbol val'>:parent</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent identifier id'>parent</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='colon op'>:</span>
+                  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_component._frontend.messages.updated&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@digital_object_component ivar id'>@digital_object_component</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_digital_object identifier id'>digital_object</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
                 <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_success_message identifier id'>success_message</span>
+
+                <span class='rubyid_@refresh_tree_node ivar id'>@refresh_tree_node</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 
                 <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;edit_inline&quot;</span>
               <span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -605,9 +677,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:08 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:56:14 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>

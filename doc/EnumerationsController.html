@@ -6,7 +6,7 @@
 <title>
   Class: EnumerationsController
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.5.2
   
 </title>
 
@@ -31,7 +31,7 @@
     <div id="header">
       <div id="menu">
   
-    <a href="alpha_index.html">Index (E)</a> &raquo;
+    <a href="_index.html">Index (E)</a> &raquo;
     
     
     <span class="title">EnumerationsController</span>
@@ -315,7 +315,6 @@
       <pre class="lines">
 
 
-94
 95
 96
 97
@@ -334,10 +333,11 @@
 110
 111
 112
-113</pre>
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_@enumeration ivar id'>@enumeration</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -351,10 +351,10 @@
     <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span> <span class='opasgn op'>+=</span> <span class='lbrack token'>[</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:enumeration</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
     <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.created&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.created&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Success&quot;</span>
   <span class='rubyid_rescue rescue kw'>rescue</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.create_error&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.create_error&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;new&quot;</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -380,7 +380,6 @@
       <pre class="lines">
 
 
-17
 18
 19
 20
@@ -390,10 +389,11 @@
 24
 25
 26
-27</pre>
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_@merge ivar id'>@merge</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;merge&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
@@ -427,7 +427,6 @@
       <pre class="lines">
 
 
-45
 46
 47
 48
@@ -446,10 +445,11 @@
 61
 62
 63
-64</pre>
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_destroy identifier id'>destroy</span>
   <span class='rubyid_@enumeration ivar id'>@enumeration</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -459,15 +459,15 @@
     <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span> <span class='opasgn op'>-=</span> <span class='lbrack token'>[</span><span class='rubyid_@value ivar id'>@value</span><span class='rbrack token'>]</span>
     <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.deleted&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.deleted&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Success&quot;</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ConflictException constant id'>ConflictException</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.delete_conflict&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.merge_tip&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.delete_conflict&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.merge_tip&quot;</span><span class='rparen token'>)</span>
 
     <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;merge&quot;</span>
   <span class='rubyid_rescue rescue kw'>rescue</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.delete_error&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.delete_error&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;delete&quot;</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -495,13 +495,15 @@
 11
 12
 13
-14</pre>
+14
+15</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
-  <span class='rubyid_@enumerations ivar id'>@enumerations</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_enum identifier id'>enum</span><span class='bitor op'>|</span> <span class='rubyid_enum identifier id'>enum</span><span class='lbrack token'>[</span><span class='string val'>'editable'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='comment val'># @enumerations = JSONModel(:enumeration).all.select{|enum| enum['editable']}</span>
+  <span class='rubyid_@enumerations ivar id'>@enumerations</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
   <span class='rubyid_@enumeration ivar id'>@enumeration</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -525,7 +527,6 @@
       <pre class="lines">
 
 
-67
 68
 69
 70
@@ -550,10 +551,11 @@
 89
 90
 91
-92</pre>
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_merge identifier id'>merge</span>
   <span class='rubyid_@enumeration ivar id'>@enumeration</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -574,10 +576,10 @@
                                                           <span class='symbol val'>:to</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@merge ivar id'>@merge</span><span class='rparen token'>)</span>
     <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.merged&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.merged&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Success&quot;</span>
   <span class='rubyid_rescue rescue kw'>rescue</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.merge_error&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.merge_error&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;merge&quot;</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -635,7 +637,6 @@
       <pre class="lines">
 
 
-29
 30
 31
 32
@@ -648,10 +649,11 @@
 39
 40
 41
-42</pre>
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_default identifier id'>set_default</span>
   <span class='rubyid_@enumeration ivar id'>@enumeration</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -659,9 +661,9 @@
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='lbrack token'>[</span><span class='string val'>'default_value'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
     <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>      
-    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.default_set&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.default_set&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span>
-    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._html.messages.default_set_error&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.default_set_error&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
   
   <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:enumerations</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:index</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -678,9 +680,9 @@
 </div>
 
     <div id="footer">
-  ArchivesSpace Version 0.3.x Documentation Generated on Mon Apr 29 10:06:07 2013 by
+  ArchivesSpace Version 0.3.x Documentation Generated on Fri May 10 10:56:12 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.5.2 (ruby-1.9.3).
 </div>
   </body>
 </html>
