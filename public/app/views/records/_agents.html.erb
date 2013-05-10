@@ -1,0 +1,18 @@
+<% if linked_agents.length > 0 %>
+  <section id="linked_agents">
+    <h3><%= I18n.t("agent._plural") %></h3>
+    <ul class="results-list">
+      <% linked_agents.each do |linked_agent| %>
+        <li class="result row-fluid">
+          <h4 class="span10">
+            <%= icon_for linked_agent['_resolved']['jsonmodel_type'] %>
+            <%= link_to(linked_agent['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter_term" => {"agents" => linked_agent['_resolved']['title']}.to_json}))) %>
+          </h4>
+          <h4 class="span2">
+            <% if linked_agent['relator'] %>&#160;<%= I18n.t("enumerations.linked_agent_archival_record_relators.#{linked_agent['relator']}") %><% end %>
+          </h4>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

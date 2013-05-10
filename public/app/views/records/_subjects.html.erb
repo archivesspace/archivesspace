@@ -6,7 +6,7 @@
         <li class="result">
           <h4>
             <%= icon_for "subject" %>
-            <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter" => "{!term f=subjects}#{subject['_resolved']['title']}"}))) %>
+            <%= link_to(subject['_resolved']['title'], {:controller => :search, :action => :search}.merge(params_for_search({"add_filter_term" => {"subjects" => subject["_resolved"]["title"]}.to_json}))) %>
           </h4>
         </li>
       <% end %>

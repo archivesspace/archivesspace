@@ -6,8 +6,7 @@ class RecordsController < ApplicationController
   #        endpoints for each record.
 
   def resource
-    @resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object"])
-
+    @resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
     raise RecordNotFound.new if not @resource.publish
 
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
@@ -22,7 +21,7 @@ class RecordsController < ApplicationController
   end
 
   def archival_object
-    @archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object"])
+    @archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
     raise RecordNotFound.new if not @archival_object.publish
 
     @resource = JSONModel(:resource).find_by_uri(@archival_object['resource']['ref'], :repo_id => params[:repo_id])
@@ -49,7 +48,7 @@ class RecordsController < ApplicationController
   end
 
   def digital_object
-    @digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances"])
+    @digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents"])
 
     raise RecordNotFound.new if not @digital_object.publish
 
@@ -64,7 +63,7 @@ class RecordsController < ApplicationController
   end
 
   def digital_object_component
-    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects"])
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
     raise RecordNotFound.new if not @digital_object_component.publish
 
     @digital_object = JSONModel(:digital_object).find_by_uri(@digital_object_component['digital_object']['ref'], :repo_id => params[:repo_id])

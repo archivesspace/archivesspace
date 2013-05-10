@@ -38,6 +38,9 @@
           <% if @archival_object['extents'].length > 0 %>
             <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="badge badge-info"><%= @archival_object['extents'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
+          <% if @archival_object['linked_agents'].length > 0 %>
+            <li><a href="#linked_agents"><%= I18n.t("agent._plural") %> <span class="badge badge-info"><%= @archival_object['linked_agents'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
           <% if @archival_object['subjects'].length > 0 %>
             <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="badge badge-info"><%= @archival_object['subjects'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
@@ -70,6 +73,7 @@
 
         <%= render :partial => "dates", :locals => {:dates => @archival_object['dates']} %>
         <%= render :partial => "extents", :locals => {:extents => @archival_object['extents']} %>
+        <%= render :partial => "agents", :locals => {:linked_agents => @archival_object['linked_agents']} %>
         <%= render :partial => "subjects", :locals => {:subjects => @archival_object['subjects']} %>
         <%= render :partial => "notes", :locals => {:notes => @archival_object['notes']} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => published_external_documents} %>

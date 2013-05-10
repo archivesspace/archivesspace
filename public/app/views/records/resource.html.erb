@@ -39,6 +39,9 @@
           <% if @resource['extents'].length > 0 %>
             <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="badge badge-info"><%= @resource['extents'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
+          <% if @resource['linked_agents'].length > 0 %>
+            <li><a href="#linked_agents"><%= I18n.t("agent._plural") %> <span class="badge badge-info"><%= @resource['linked_agents'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
           <% if @resource['subjects'].length > 0 %>
             <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="badge badge-info"><%= @resource['subjects'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
@@ -84,6 +87,7 @@
 
         <%= render :partial => "dates", :locals => {:dates => @resource['dates']} %>
         <%= render :partial => "extents", :locals => {:extents => @resource['extents']} %>
+        <%= render :partial => "agents", :locals => {:linked_agents => @resource['linked_agents']} %>
         <%= render :partial => "subjects", :locals => {:subjects => @resource['subjects']} %>
         <%= render :partial => "notes", :locals => {:notes => @resource['notes']} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => published_external_documents} %>

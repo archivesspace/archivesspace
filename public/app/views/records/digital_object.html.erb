@@ -34,6 +34,9 @@
           <% if @digital_object['extents'].length > 0 %>
             <li><a href="#extents"><%= I18n.t("extent._plural") %> <span class="badge badge-info"><%= @digital_object['extents'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
+          <% if @digital_object['linked_agents'].length > 0 %>
+            <li><a href="#linked_agents"><%= I18n.t("agent._plural") %> <span class="badge badge-info"><%= @digital_object['linked_agents'].length %></span><span class="icon-chevron-right"></span></a></li>
+          <% end %>
           <% if @digital_object['subjects'].length > 0 %>
             <li><a href="#subjects"><%= I18n.t("subject._plural") %> <span class="badge badge-info"><%= @digital_object['subjects'].length %></span><span class="icon-chevron-right"></span></a></li>
           <% end %>
@@ -64,6 +67,7 @@
         <%= render :partial => "file_versions", :locals => {:file_versions => file_versions} %>
         <%= render :partial => "dates", :locals => {:dates => @digital_object['dates']} %>
         <%= render :partial => "extents", :locals => {:extents => @digital_object['extents']} %>
+        <%= render :partial => "agents", :locals => {:linked_agents => @digital_object['linked_agents']} %>
         <%= render :partial => "subjects", :locals => {:subjects => @digital_object['subjects']} %>
         <%= render :partial => "notes", :locals => {:notes => @digital_object['notes']} %>
         <%= render :partial => "external_documents", :locals => {:external_documents => published_external_documents} %>
