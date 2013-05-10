@@ -30,7 +30,7 @@
                  checked="checked"
                  <% end %>
                  value="<%= permission.permission_code %>" />
-          <%= I18n.t("group.permission_types.#{permission.permission_code}") %>
+          <%= I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>
         </label>
       <% end %>
     </div>
