@@ -4,7 +4,6 @@
 
     <ul class="results-list">
       <% @children.each do |child| %>
-        <%  puts "** chikd: #{child.inspect}" %>
         <li class="result">
           <h4>
             <%= icon_for child["node_type"] %>

@@ -58,7 +58,6 @@ class Solr
     end
 
     if filter_terms && !filter_terms.empty?
-      puts "filter_terms: #{filter_terms.inspect}"
       filter_terms.map{|str| JSON.parse(str)}.each{|json|
         json.each {|facet, term|
           opts << [:fq, "{!term f=#{facet}}#{term}"]
