@@ -13,7 +13,34 @@ en:
     content_tooltip: |
         <p>The content of the note.</p>
 
+  section_tooltips: &section_tooltips
+    dates_tooltip: |
+        <p>Identifies and records the date(s) that pertain to the creation, assembly, accumulation, and/or maintenance and use of the materials being described.</p>
+        <p>See DACS 2.4</p>
+    extents_tooltip: |
+        <p>Indicates the extent and the physical nature of the materials being described.</p>
+        <p>See DACS 2.5</p>
+    linked_agents_tooltip: |
+        <p>Associates agents as a creator, source, or subject of the materials described to provide information about their context.</p>
+    subjects_tooltip: |
+        <p>Used for linking Subjects with the materials described.</p>
+    notes_tooltip: |
+        <p>Additional descriptive information about the materials described, usually in the form of text or structured lists.</p>
+    external_documents_tooltip: |
+        <p>Links to information in other description or management systems, such as donor files, processing plans, etc.</p>
+    rights_statements_tooltip: |
+        <p>Information about the rights status of the materials described and whether there are specific restictions or permissions that have been indicated.</p>
+    instances_tooltip: |
+        <p>Links description to information about physical or digital instantiations of material.</p>
+    deaccessions_tooltip: |
+        <p>Records information about materials that may have been separated and discarded, returned to a donor, or transferred to another institution.</p>
+    collection_management_tooltip: |
+        <p>Additional, internal-only information about how the materials described will be or have been processed.</p>
+    user_defined_tooltip: |
+        <p>User defined fields for recording additional information not captured in other sections of the application.</p>
+
   digital_object: &digital_object_attributes
+    <<: *section_tooltips
     title: Title
     title_tooltip: |
         <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
@@ -45,6 +72,8 @@ en:
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
+    file_versions_tooltip: |
+        <p>Links a digital object or digital object component to an associated content file, addressable by URI.</p>
     _singular: Digital Object
     _plural: Digital Objects
 
@@ -100,7 +129,7 @@ en:
   linked_record:
     role: Role
     ref: Record
-    ref__plural: Records
+    ref_plural: Records
     _singular: Record Link
     _plural: Record Links
 
@@ -140,6 +169,7 @@ en:
     <<: *linked_agent_attributes
 
   event:
+    <<: *section_tooltips
     event_type: Type
     event_type_toolkit: |
         <p>A categorization of the nature of the event.</p>
@@ -156,13 +186,21 @@ en:
     date_type: Event type
     timestamp: UTC Timestamp
     timestamp_inline_help: YYYY-MM-DD HH:MM:SS
+    timestamp_tooltip: |
+        <p>A specific timestamp, with full date and time information, about when the event occured. By default, the application assumes that the timestamp is in UTC.</p>
     chronotype_label: Date/Time specifier
+    chronotype_tooltip: |
+        <p>Indicates what type of date is associated with this event.</p>
     chronotype:
       subrecord: Date Subrecord
       timestamp: UTC Timestamp
     date_tooltip: |
         <p>The single date and time, or date and time range, at or during which the event occurred.</p>
         <p>If the single date/time or start or end date/time is unknown, enter "unknown" in the Date Expression field.</p>
+    linked_agents_tooltip: |
+        <p>REQUIRED SUBRECORD: Associates one or more Agents as a participant in this Event.</p>
+    linked_records_tooltip: |
+        <p>REQUIRED SUBRECORD: Associates Accessions, Digital Objects, or Resources with this Event.</p>
     types:      
       accession: Accession
       accumulation: Accumulation
@@ -201,6 +239,7 @@ en:
     _plural: Events
 
   deaccession:
+    <<: *section_tooltips
     scope: Portion
     scope_tooltip: |
         <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
@@ -247,11 +286,11 @@ en:
         </ul>
     source: Source
     source_tooltip: |
-        <p>REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
+        <p>CONDITIONALLY REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
         <p>Values in this Enumeration may be modified.</p>
     rules: Rules
     rules_tooltip: |
-        <p>REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
+        <p>CONDITIONALLY REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
         <p>Values in this Enumeration may be modified.</p>
     name_order: Name Order
     name_order_tooltip: |
@@ -331,10 +370,7 @@ en:
     sort_name: Sort Name
     sort_name_tooltip: |
         <p>A version of the name concatenating all the parts of the name provided in a given agent record. Used for display purposes in the application and for some exports.</p>
-        <p>The sort name may be edited by unchecking the "Auto Generate Sort Name?" checkbox and then entering the form of the sort name desired.</p>
-    sort_name_auto_generate: Auto Generate Sort Name?
-    sort_name_auto_generate_tooltip: |
-        <p>An option to over-ride and then edit the Sort Name.</p>
+        <p>The sort name may be edited by unchecking the "Automatically generate" checkbox and then entering the form of the sort name desired.</p>
     _singular: Name
     _plural: Names
 
@@ -654,7 +690,7 @@ en:
         <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this External Document to public (patron) interfaces.</p>
+        <p>Determines whether this File Version is published to public (patron) interfaces.</p>
     use_statement: Use Statement
     use_statement_tooltip: |
         <p>A descriptor indicating the use for which the digital file is intended (e.g., a thumbnail).</p>
@@ -757,7 +793,7 @@ en:
         </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this External Document to public (patron) interfaces.</p>
+        <p>Determines whether this External Document is published to public (patron) interfaces.</p>
     _plural: External Documents
     _singular: External Document
 
@@ -857,7 +893,7 @@ en:
     date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
     expression_tooltip: |
-        <p>A natural language expression specifying the date or date range of the materials in the accession.</p>
+        <p>CONDITIONALLY REQUIRED FIELD. A natural language expression specifying the date or date range of the materials in the accession. Required when a normalized date is not recorded.</p>
         <p>See DACS 2.4</p>
         <p>Examples:</p>
         <ul>
@@ -907,6 +943,7 @@ en:
     <<: *date_attributes
 
   accession:
+    <<: *section_tooltips
     accession_date: Accession Date
     accession_date_tooltip: |
         <p>REQUIRED FIELD: The date the accession took place. It is not 
@@ -1024,6 +1061,8 @@ en:
         inherited from the resource record to which the accession is
         linked.</p>
         <p>See DACS 2.3.18-2.3.22</p>
+    related_resources_tooltip: |
+        <p>Used for linking associated Resources with this Accession.</p>
     _singular: Accession
     _plural: Accessions
 
@@ -1038,13 +1077,23 @@ en:
       agent_corporate_entity: Corporate Entity
       agent_software: Software
     names: Names
+    names_tooltip: |
+        <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name subrecord.</p>
+    contact_details_tooltip: |
+        <p>Records contact information about a particular Agent.</p>
+    notes_tooltip: |
+        <p>Records additional descriptive information about an Agent, such as a biographical note or an administrative history.</p>
+    related_agents_tooltip: |
+        <p>Allows links from this Agent record to another in associative, hierarchical, or parent/child relationships.</p>
+    external_documents_tooltip: |
+        <p>Allows links to external documentation, e.g. biographical files, reference works, etc. about this Agent.</p>
     _singular: Agent
     _plural: Agents
 
   archival_object: &archival_object_attributes
     title: Title
     title_tooltip: |
-        <p>REQUIRED FIELD. The title assigned to the resource.</p>
+        <p>CONDITIONALLY REQUIRED FIELD. The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
         <p>See DACS 2.3</p>
         <p>Examples:</p>
         <ul>
@@ -1058,6 +1107,9 @@ en:
     ref_id: Ref ID
     ref_id_tooltip: |
         <p>An automatically provided and updatable reference ID, which can be used as a target for linking, etc. The Ref ID is intended to be generated automatically or imported from an existing system and to remain persistent.</p>
+    dates: Dates
+    dates_tooltip: |
+        <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p> 
     extents: Extents
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     component_id: Component Unique Identifier
@@ -1095,7 +1147,6 @@ en:
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
         <p>See DACS 4.1-4.4</p>
     automate_title: Automatically generate title
-    dates: Dates
     language: Language
     language_tooltip: |
         <p>The language term and code represented in the material(s) described.</p>
@@ -1137,6 +1188,7 @@ en:
 
   resource:
     <<: *archival_object_attributes
+    <<: *section_tooltips
     id_0: Identifier
     id_0_tooltip: |
         <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
@@ -1150,8 +1202,25 @@ en:
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
+    title_tooltip: |
+        <p>REQUIRED FIELD. The title assigned to the resource.</p>
+        <p>See DACS 2.3</p>
+        <p>Examples:</p>
+        <ul>
+        <li>Graciany Miranda Archilla papers</li>
+        <li>Love Makes a Family records</li>
+        <li>Cameron family account book</li>
+        <li>Caroline and Erwin Swann collection of caricatures and cartoons</li>
+        <li>National Academy of Sciences correspondence</li>
+        <li>Audio and video recordings</li>
+        </ul>
     resource_type: Resource Type
     repository_processing_note: Repository Processing Note
+    extents_tooltip: |
+        <p>REQUIRED SUBRECORD: Used for recording the size of the described materials.</p>
+        <p>See DACS 2.5</p>
+    related_accessions_tooltip: |
+        <p>Used for linking associated Accessions with this Resource.</p>
     repository_processing_note_tooltip: |
         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     ead_id: EAD ID
@@ -1160,6 +1229,8 @@ en:
     ead_location: EAD Location
     ead_location_tooltip: |
         <p>The location for the EAD generated from the resource description, either a web URL or a file directory statement. The location typically terminates.</p>
+    finding_aid_tooltip: |
+        <p>Used to record administrative data about the archival description instance, usually for when the description is exported into Encoded Archival Description (EAD).</p>
     finding_aid_title: Finding Aid Title
     finding_aid_title_tooltip: |
         <p>The (bibliographic) title for the finding aid associated with this Resource.</p>
@@ -1307,6 +1378,10 @@ en:
         </ul>
     scope_note: Scope Note
     terms: Terms
+    terms_tooltip: |
+        <p>REQUIRED SUBRECORD. Used to manage each term or subdivision within a given subject heading. Each subject record must have at least one term associated with it.</p>
+    external_documents_tooltip: |
+        <p>Allows links to external documentation, e.g. how a particular heading is to be used.</p>
     heading: Subject Heading
     _singular: Subject
     _plural: Subjects
