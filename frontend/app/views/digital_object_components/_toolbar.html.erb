@@ -16,26 +16,27 @@
           <div class="pull-left revert-changes">
             &#180;
             <%= link_to I18n.t("actions.revert"), {:controller => :digital_objects, :action => :edit, :id => JSONModel(:digital_object).id_for(@digital_object_component.digital_object["ref"]), :anchor => "digital_object_component_#{@digital_object_component.id}"}, :class => "btn btn-small" %>
-            <%= I18n.t("actions.form_changes_message") %>
+            <%= I18n.t("actions.toolbar_disabled_message") %>
           </div>
         <% end %>
-        <% if user_can?('delete_archival_record') %>
-          <div class="btn-group pull-right">
-            <div class="btn btn-inline-form">
-              <%= link_to I18n.t("actions.delete"),
-                          {:controller => :digital_object_components, :action => :delete, :id => @digital_object_component.id},
-                          :method => :post,
-                          :class => "btn btn-small btn-danger delete-record",
-                          :"data-confirmation" => true,
-                          :"data-title" => I18n.t("actions.delete_confirm_title"),
-                          :"data-message" => I18n.t("actions.delete_confirm_message"),
-                          :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
-                          :"data-confirm-btn-class" => "btn-danger",
-                          :"data-authenticity_token" => form_authenticity_token %>
+        <div class="btn-toolbar pull-right">
+          <% if user_can?('delete_archival_record') %>
+            <div class="btn-group">
+              <div class="btn btn-inline-form">
+                <%= link_to I18n.t("actions.delete"),
+                            {:controller => :digital_object_components, :action => :delete, :id => @digital_object_component.id},
+                            :method => :post,
+                            :class => "btn btn-small btn-danger delete-record",
+                            :"data-confirmation" => true,
+                            :"data-title" => I18n.t("actions.delete_confirm_title"),
+                            :"data-message" => I18n.t("actions.delete_confirm_message"),
+                            :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
+                            :"data-confirm-btn-class" => "btn-danger",
+                            :"data-authenticity_token" => form_authenticity_token %>
+              </div>
             </div>
-          </div>
-        <% end %>
-
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
