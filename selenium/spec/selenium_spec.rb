@@ -1027,7 +1027,7 @@ describe "ArchivesSpace user interface" do
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Event").click
       $driver.find_element(:id, "event_event_type_").select_option('virus_check')
-      $driver.clear_and_send_keys([:id, "event_outcome_"], "A good outcome")
+      $driver.find_element(:id, "event_outcome_").select_option("pass")
       $driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's a lie: all test subjects perished.")
 
       $driver.find_element(:id, "event_date__date_type_").select_option("single")
