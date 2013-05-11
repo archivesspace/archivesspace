@@ -1885,26 +1885,37 @@ describe "ArchivesSpace user interface" do
       enum_select = $driver.find_element(:id => "enum_selector")
       enum_select.select_option_with_text("date_type")
       
-      inclusive_dates = $driver.find_element_with_text('//tr', /Inclusive Dates/)
-      inclusive_dates.find_element(:link, 'Set as Default').click
-      
+      # Wait for the table of enumerations to load
+      $driver.find_element(:css, '.enumeration-list')
+
+      while true
+        inclusive_dates = $driver.find_element_with_text('//tr', /Inclusive Dates/)
+        default_btn = inclusive_dates.find_elements(:link, 'Set as Default')
+
+        if default_btn[0]
+          default_btn[0].click
+          # Keep looping until the 'Set as Default' button is gone
+          sleep 0.1
+        else
+          break
+        end
+      end
+
       $driver.find_element(:link, "Create").click
       $driver.find_element(:link, "Accession").click
-      
+
       $driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn').click
-      
+
       date_type_select = $driver.find_element(:id => "accession_dates__0__date_type_")
       selected_type = date_type_select.get_select_value
-      
       selected_type.should eq 'inclusive'
-      
+
       # ensure that the correct subform is loading:
       subform = $driver.find_element(:css => '.date-type-subform')
       subform.find_element_with_text('//label', /Begin/)
       subform.find_element_with_text('//label', /End/)
 
-      $driver.find_element(:css, '.btn-cancel').click
-      $driver.switch_to().alert().accept()
+      $driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
     end
   end
 
