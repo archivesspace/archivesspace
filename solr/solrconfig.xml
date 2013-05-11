@@ -40,8 +40,12 @@
 
 
   <!-- The default high-performance update handler -->
-  <updateHandler class="solr.DirectUpdateHandler2" />
-  
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <autoCommit> 
+      <maxTime>60000</maxTime> 
+      <openSearcher>false</openSearcher> 
+    </autoCommit>
+  </updateHandler>
 
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        Query section - these settings control query time things like caches
