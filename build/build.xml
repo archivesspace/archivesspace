@@ -23,7 +23,6 @@
   <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}/" />
 
 
-
   <target name="help" description="This help">
     <java classname="org.apache.tools.ant.Main">
       <arg value="-projecthelp" />
@@ -390,7 +389,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" 
           failonerror="true"
           dir="../selenium">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
@@ -408,7 +407,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../selenium-public">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx64m -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec}" />
